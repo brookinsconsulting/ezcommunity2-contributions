@@ -34,6 +34,11 @@ $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
 $Locale = new eZLocale( $Language );
 //$iso = $Locale->languageISO();
+
+$SiteURL =& $ini->read_var( "site", "SiteURL" );
+$AdminSiteURL =& $ini->read_var( "site", "AdminSiteURL" );
+$AdminSiteProtocol =& $ini->read_var( "site", "AdminSiteProtocol" );
+
 //$site_modules = $ini->read_array( "site", "EnabledModules" );
 $site_modules = eZModuleHandler::all();
 include_once( "ezmodule/classes/ezmodulehandler.php" );
@@ -119,7 +124,6 @@ $t = new eZTemplate( "design/admin/templates/" . $SiteStyle,
 
 $t->set_file( "header_tpl", "header.tpl" );
 
-
 $t->set_block( "header_tpl", "module_list_tpl", "module_list" );
 $t->set_block( "module_list_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "module_list_tpl", "module_control_tpl", "module_control" );
@@ -127,8 +131,6 @@ $t->set_block( "header_tpl", "menu_tpl", "menu_item" );
 $t->set_block( "header_tpl", "charset_switch_tpl", "charset_switch" );
 $t->set_block( "charset_switch_tpl", "charset_switch_item_tpl", "charset_switch_item" ); 
 
-
-$SiteURL =& $ini->read_var( "site", "SiteURL" );
 
 $user =& eZUser::currentUser();
 
@@ -234,7 +236,12 @@ $t->setAllStrings();
 
 $t->set_var( "module_count", count ( $modules ) );
 $t->set_var( "ezpublish_version", eZPublish::version() );
+$t->set_var( "ezpublish_installation_version", eZPublish::installationVersion() );
+
 $t->set_var( "ip_address", $GLOBALS["REMOTE_ADDR"]);
+$t->set_var( "admin_site_protocol", $AdminSiteProtocol);
+$t->set_var( "admin_site_host", $AdminSiteURL);
+$t->set_var( "user_site_host", $SiteURL);
 
 $t->set_var( "menu_item", "" );
 
