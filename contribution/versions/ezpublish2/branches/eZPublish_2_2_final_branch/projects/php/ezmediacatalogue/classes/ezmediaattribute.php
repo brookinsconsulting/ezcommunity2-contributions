@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediaattribute.php,v 1.2 2001/07/26 10:43:30 ce Exp $
+// $Id: ezmediaattribute.php,v 1.2.2.1 2001/11/01 08:31:40 ce Exp $
 //
 // Definition of eZMediaAttribute class
 //
@@ -24,6 +24,22 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+//!! eZMediaAttribute
+//! eZMediaAttribute handles the attributes for a media.
+/*!
+  Example code:
+  \code
+  // create a new country type and set some variables.
+  $attribute = new eZMediaAttribute();
+  $attribute->setName( "autoplay" );
+  $attribute->setValue( true );
+  $attribute->setType( $type ); 
+  $attribute->store();
+  \endcode
+  \sa eZMedia eZMediaType eZMediaCategory
+
+*/
 
 include_once( "classes/ezdb.php" );
 include_once( "ezmediacatalogue/classes/ezmediatype.php" );
@@ -180,7 +196,7 @@ class eZMediaAttribute
     /*!
       Returns the name of the attribute.
     */
-    function name()
+    function &name()
     {
         return $this->Name;
     }
@@ -188,7 +204,7 @@ class eZMediaAttribute
     /*!
       Returns the devault value of the attribute.
     */
-    function defaultValue()
+    function &defaultValue()
     {
         return $this->DefaultValue;
     }
@@ -196,7 +212,7 @@ class eZMediaAttribute
     /*!
       Returns the measuring unit of the attribute.
     */
-    function unit()
+    function &unit()
     {
         return $this->Unit;
     }
@@ -204,7 +220,7 @@ class eZMediaAttribute
     /*!
       Returns the type of the attribute.
     */
-    function type()
+    function &type()
     {
         $type = new eZMediaType( $this->TypeID );
         return $type;
@@ -222,7 +238,7 @@ class eZMediaAttribute
     /*!
       Sets the default value of the attribute.
     */
-    function setDefaultValue( $value )
+    function setDefaultValue( &$value )
     {
         $this->DefaultValue = $value;
     }
@@ -230,7 +246,7 @@ class eZMediaAttribute
     /*!
       Sets the measuring unit of the attribute.
     */
-    function setUnit( $value )
+    function setUnit( &$value )
     {
         $this->Unit = $value;
     }
@@ -238,7 +254,7 @@ class eZMediaAttribute
     /*!
       Sets the type of the attribute.
     */
-    function setType( $type )
+    function setType( &$type )
     {
         if ( get_class( $type ) == "ezmediatype" )
         {
@@ -249,7 +265,7 @@ class eZMediaAttribute
     /*!
       Sets the attribute value for the given media.
     */
-    function setValue( $media, $value )
+    function setValue( &$media, &$value )
     {
         $db =& eZDB::globalDatabase();
         
@@ -293,7 +309,7 @@ class eZMediaAttribute
     /*!
       Returns the attribute value to the given media.
     */
-    function value( $media )
+    function &value( &$media )
     {
         $db =& eZDB::globalDatabase();
         $ret = "";

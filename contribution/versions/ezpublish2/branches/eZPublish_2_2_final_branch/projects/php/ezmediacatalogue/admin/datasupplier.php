@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.4 2001/08/17 13:36:00 jhe Exp $
+// $Id: datasupplier.php,v 1.4.2.1 2001/11/01 08:31:40 ce Exp $
 //
 // Created on: <24-Jul-2001 10:59:19 ce>
 //
@@ -233,6 +233,7 @@ switch ( $url_array[2] )
             {
                 writeAtAll();
                 $Action = "Insert";
+                $CategoryID = $url_array[4];
                 include( "ezmediacatalogue/admin/categoryedit.php" );
             }
             break;

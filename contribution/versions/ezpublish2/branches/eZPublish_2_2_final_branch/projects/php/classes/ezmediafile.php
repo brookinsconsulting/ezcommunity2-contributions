@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediafile.php,v 1.2 2001/08/20 09:35:57 nca Exp $
+// $Id: ezmediafile.php,v 1.2.2.1 2001/11/01 08:31:39 ce Exp $
 //
 // Definition of eZMediaFile class
 //
@@ -117,7 +117,8 @@ class eZMediaFile extends eZFile
                               "avi" => array( ".avi", "video/avi" ),
                               "mov" => array( ".mov", "video/mov" ),
                               "swf" => array( ".swf", "application/x-shockwave-flash-" ),
-		              "wmv" => array( ".wmv", "application/x-mplayer2" ),
+                              "wmv" => array( ".wmv", "application/x-mplayer2" ),
+                              "asf" => array( ".asf", "application/x-mplayer2" ),
                               "rm" => array( ".rm", "video/realaudio" ) );
         
         $postfix = $suffix_list[$suffix];

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediatype.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: ezmediatype.php,v 1.1.2.1 2001/11/01 08:31:40 ce Exp $
 //
 // Definition of eZMediaType class
 //
@@ -136,7 +136,7 @@ class eZMediaType
             $attribute->delete();
         }
 
-        $db->query( "DELETE FROM eZMediaCatalogue_TypeMedia WHERE TypeID='$this->ID'" );
+        $db->query( "DELETE FROM eZMediaCatalogue_TypeLink WHERE TypeID='$this->ID'" );
         $db->query( "DELETE FROM eZMediaCatalogue_Type WHERE ID='$this->ID'" );
     }
 
