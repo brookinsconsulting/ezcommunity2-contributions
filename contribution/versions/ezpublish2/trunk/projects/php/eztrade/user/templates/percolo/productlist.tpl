@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
-            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">{intl-productlist}</h1></td>
+            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">Butikk</h1></td>
         </tr>
         <tr>
             <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
@@ -15,7 +15,6 @@
 		<tr>
 		    <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td colspan="2">
-			
 	
 <!-- BEGIN path_tpl -->
 
