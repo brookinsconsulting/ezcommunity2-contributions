@@ -1,11 +1,11 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.38 2001/05/03 07:49:54 jb Exp $
+// $Id: ezdb.php,v 1.39 2001/06/19 13:55:42 bf Exp $
 //
 // Definition of eZDB class
 //
 // Bård Farstad <bf@ez.no>
-// Created on: Created on: <14-Jul-2000 13:01:15 bf>
+// Created on: <14-Jul-2000 13:01:15 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -29,8 +29,7 @@
 //! The eZDB class provides database functions.
 /*!
   The eZDB class hanles database connections and is a wrapper
-  to query functions.
-
+  to query functions for the selected database.
    
 */
 
@@ -54,18 +53,7 @@ class eZDB
     */
     function eZDB( $iniFile, $category )
     {
-        $ini =& INIFile::globalINI();
-
-        $this->Server =& $ini->read_var( "site", "Server" );
-        $this->DB =& $ini->read_var( "site", "Database" );
-        $this->User =& $ini->read_var( "site", "User" );
-        $this->Password =& $ini->read_var( "site", "Password" );
-        
-        mysql_pconnect( $this->Server, $this->User, $this->Password )
-            or print( "Error: could not connect to the database." );
-        
-        mysql_select_db( $this->DB )
-            or print( "Error: could not connect to the database." );;
+        print( "This object should not be created use eZDB::globalDatabase();" );
     }
 
     /*!
@@ -74,29 +62,7 @@ class eZDB
     */
     function &query( $sql, $print=false )
     {
-        $result = mysql_query( $sql );
-
-//          eZLog::writeNotice( $sql );
-
-        if ( $print )
-        {
-            print( $sql . "<br>");
-        }
-        
-        if ( $result )
-        {
-            return $result;
-        }
-        else
-        {
-            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
-            if ( $GLOBALS["DEBUG"] )
-            {
-                print( $this->Error );
-                exit();
-            }
-            return false;
-        }
+        print( "Obsolete function.. Do NOT USE!" );
     }
 
     /*!
@@ -111,8 +77,7 @@ class eZDB
     */
     function array_query( &$array, $sql, $min = 0, $max = -1, $column = false )
     {
-        $array = array();
-        return $this->array_query_append( $array, $sql, $min, $max, $column );
+        print( "Obsolete function.. Do NOT USE!" );
     }
 
     /*!
@@ -121,10 +86,7 @@ class eZDB
     */
     function query_single( &$row, $sql, $column = false )
     {
-        $array = array();
-        $ret = $this->array_query_append( $array, $sql, 1, 1, $column );
-        $row = $array[0];
-        return $ret;
+        print( "Obsolete function.. Do NOT USE!" );
     }
 
     /*!
@@ -133,50 +95,7 @@ class eZDB
      */    
     function array_query_append( &$array, $sql, $min = 0, $max = -1, $column = false )
     {
-        $result =& $this->query( $sql );
-
-        if ( $result == false )
-        {
-            print( $this->Error );
-            eZLog::writeWarning( $this->Error );
-            return false;
-        }
-
-        $offset = count( $array );
-//          if ( count( $result ) > 0 )
-        
-        if ( mysql_num_rows( $result ) > 0 )
-        { 
-            if ( !is_string( $column ) )
-            {
-                for($i = 0; $i < mysql_num_rows($result); $i++)
-                {
-                    $array[$i + $offset] =& mysql_fetch_array($result);
-                }
-            }
-            else
-            {
-                for($i = 0; $i < mysql_num_rows($result); $i++)
-                {
-                    $tmp_row =& mysql_fetch_array($result);
-                    $array[$i + $offset] =& $tmp_row[$column];
-                }
-            }
-        }
-
-        if ( count( $array ) < $min )
-        {
-            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" .
-                                      htmlentities( "Received " . count( $array ) . " rows, minimum is $min" ) . "</b>\n" ;
-        }
-        if ( $max >= 0 )
-        {
-            if ( count( $array ) > $max )
-            {
-                $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" .
-                                          htmlentities( "Received " . count( $array ) . " rows, maximum is $max" ) . "</b>\n" ;
-            }
-        }
+        print( "Obsolete function.. Do NOT USE!" );
     }
 
     /*!
@@ -184,7 +103,7 @@ class eZDB
     */
     function error()
     {
-        return $this->Error;
+        print( "Obsolete function.. Do NOT USE!" );
     }
 
     /*!
@@ -192,7 +111,7 @@ class eZDB
     */
     function insertID()
     {
-        return mysql_insert_id();
+        print( "Obsolete function.. Do NOT USE!" );
     }
 
     /*!
@@ -202,15 +121,10 @@ class eZDB
     */
     function close()
     {
-        mysql_close();
+        print( "Obsolete function.. Do NOT USE!" );
     }
     
-
-    /*!
-      \static
-      Returns a reference to the global database object, if it doesn't exists it is initialized.
-      This is safe to call without an object since it does not access member variables.
-    */
+/*
     function &globalDatabase()
     {
         $eZDB =& $GLOBALS["eZDB"];
@@ -221,6 +135,64 @@ class eZDB
         }
         return $eZDB;
     }
+*/
+
+    /*!
+      \static
+      Returns a reference to the global database object, if it doesn't exists it is initialized.
+      This is safe to call without an object since it does not access member variables.
+    */
+    function &globalDatabase( $implementation="mysql" )
+    {
+        $impl =& $GLOBALS["eZDB"];
+                
+        if ( get_class( $eZDB ) != "ezdb" )
+        {
+            $ini =& INIFile::globalINI();
+
+            $server =& $ini->read_var( "site", "Server" );
+            $db =& $ini->read_var( "site", "Database" );
+            $user =& $ini->read_var( "site", "User" );
+            $password =& $ini->read_var( "site", "Password" );
+        
+            switch ( $implementation )
+            {
+                case "mysql" :
+                {
+                    include_once( "classes/ezmysqldb.php" );
+
+                    $impl = new eZMySQLDB( $server, $db, $user, $password );
+                }
+                break;
+
+                case "postgresql" :
+                {
+                    include_once( "classes/ezpostgresqldb.php" );
+                
+                    $impl = new eZPostgreSQLDB( $server, $db, $user, $password );
+                }
+                break;
+
+                case "informix" :
+                {
+                    include_once( "classes/ezinformixdb.php" );
+                
+                    $impl = new eZInformixDB( $server, $db, $user, $password );
+                }
+                break;
+            
+                default :
+                {
+                    print( "Database error: have no support for $implementation" );
+                }
+                break;
+            }
+        }
+        
+
+        return $impl;
+    }
+
 
     /// the server to connect to
     var $Server;
