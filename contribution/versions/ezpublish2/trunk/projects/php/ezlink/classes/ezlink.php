@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.42 2001/02/23 15:23:56 ce Exp $
+// $Id: ezlink.php,v 1.43 2001/03/05 08:01:19 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -93,16 +93,20 @@ class eZLink
     */
     function store()
     {
+        $name =& addslashes( $this->Title );
+        $description =& addslashes( $this->Description );
+        $keywords =& addslashes( $this->KeyWords );
 
+        
         $this->dbInit();
        // Sets the created to the system clock
         $this->Created = date( "Y-m-d G:i:s" );        
         $this->Database->query( "INSERT INTO eZLink_Link SET
                 ID='$this->ID',
-                Title='$this->Title',
-                Description='$this->Description',
+                Title='$name',
+                Description='$description',
                 LinkGroup='$this->LinkGroupID',
-                KeyWords='$this->KeyWords',
+                KeyWords='$keywords',
                 Created='$this->Created',
                 Url='$this->Url',
                 ImageID='$this->ImageID',

@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.14 2001/01/26 12:00:42 ce Exp $
+// $Id: todoedit.php,v 1.15 2001/03/05 08:01:19 ce Exp $
 //
 // Definition of todo list.
 //
@@ -308,6 +308,7 @@ if ( $Action == "new" || $error )
     $day = "";
     $hour = "";
     $min = "";
+    $t->set_var( "text", "" );
 }
 
 // default user

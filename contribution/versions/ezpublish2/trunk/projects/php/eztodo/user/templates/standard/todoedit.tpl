@@ -3,6 +3,32 @@
 
 <hr noshade size="4"/>
 
+<!-- BEGIN errors_tpl -->
+<h3 class="error">{intl-error_headline}</h3>
+<ul>
+    <!-- BEGIN error_name_tpl -->
+    <li>{intl-error_name}
+    <!-- END error_name_tpl -->
+
+    <!-- BEGIN error_permission_tpl -->
+    <li>{intl-error_permission}
+    <!-- END error_permission_tpl -->
+
+    <!-- BEGIN error_description_tpl -->
+    <li>{intl-error_description}
+    <!-- END error_description_tpl -->
+
+    <!-- BEGIN error_user_tpl -->
+    <li>{intl-error_user}
+    <!-- END error_user_tpl -->
+
+</ul>
+
+<hr noshade size="4"/>
+
+<br />
+<!-- END errors_tpl -->
+
 <br>
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
