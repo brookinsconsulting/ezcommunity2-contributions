@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediaattribute.php,v 1.4 2001/11/01 17:20:32 ce Exp $
+// $Id: ezmediaattribute.php,v 1.5 2001/11/01 17:26:50 ce Exp $
 //
 // Definition of eZMediaAttribute class
 //

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediatype.php,v 1.2 2001/11/01 17:20:32 ce Exp $
+// $Id: ezmediatype.php,v 1.3 2001/11/01 17:26:51 ce Exp $
 //
 // Definition of eZMediaType class
 //

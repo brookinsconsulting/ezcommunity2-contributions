@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmedia.php,v 1.5 2001/11/01 17:20:32 ce Exp $
+// $Id: ezmedia.php,v 1.6 2001/11/01 17:26:50 ce Exp $
 //
 // Definition of eZMedia class
 //
@@ -91,7 +91,7 @@ class eZMedia
         $filename =& $db->escapeString( $this->FileName );
         $originalfilename =& $db->fieldName( $this->OriginalFileName );
         
-        if ( !isset( $this->ID ) )
+        if ( $this->ID == "" )
         {
             $db->lock( "eZMediaCatalogue_Media" );
 
