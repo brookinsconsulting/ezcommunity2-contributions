@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.23 2001/09/21 07:56:43 jhe Exp $
+// $Id: datasupplier.php,v 1.24 2001/10/22 12:55:54 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztemplate.php" );
 
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "eZForumMain", "DefaultSection" );
