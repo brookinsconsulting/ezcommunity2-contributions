@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.1 2001/06/08 11:49:00 bf Exp $
+// $Id: search.php,v 1.2 2001/06/08 11:54:28 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jun-2001 13:10:36 bf>
@@ -71,7 +71,7 @@ foreach ( $moduleArray as $module )
             
             $t->set_var( "search_link", $DetailViewPath . $res->id() );
             $t->set_var( "search_name", $res->name() );
-            
+            $t->set_var( "icon_src", $IconPath );            
             $t->parse( "search_item", "search_item_tpl", true );
             $i++;
         }
@@ -79,7 +79,6 @@ foreach ( $moduleArray as $module )
         $t->set_var( "search_more_link", $DetailedSearchPath ."?" . $DetailedSearchVariable . "=". urlencode( $SearchText ) );
 
         $t->set_var( "search_count", $SearchCount );
-        $t->set_var( "icon_src", $IconPath );
 
         $t->parse( "search_type", "search_type_tpl", true );
     }
