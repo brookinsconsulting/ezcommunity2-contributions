@@ -1503,3 +1503,25 @@ Maintainer(s) : ce@ez.no
       user/templates/mygold/vouchermain.tpl
       user/voucher.php: Added mygold design
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-23  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezwishlist.php
+      classes/ezwishlistitem.php
+      classes/ezwishlistoptionvalue.php
+      user/wishlist.php: Added the VAT functionally to wishlist
+
+    * classes/ezwishlist.php
+      classes/ezwishlistitem.php
+      classes/ezwishlistoptionvalue.php
+      user/intl/en_GB/wishlist.php.ini
+      user/templates/standard/wishlist.tpl
+      user/wishlist.php: Added the new VAT functionally to the wishlist
+
+2001-10-23  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezpreorder.php: Added the Value Verified, to verify orders.
+

@@ -372,3 +372,12 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/personsearch.php.ini
       user/intl/no_NO/search.php.ini: updated no_NO
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-23  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezperson.php
+      classes/ezcompany.php: fixed several bugs
+

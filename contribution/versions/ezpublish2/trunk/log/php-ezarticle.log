@@ -1565,3 +1565,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezarticlecategory.php: small bugfix
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-23  Thomas Hellstroem  <th@ez.no>
+
+    * user/smallarticlelist.php: Fixed "read more" text
+
