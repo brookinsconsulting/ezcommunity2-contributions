@@ -30,9 +30,6 @@
 //-->
 </SCRIPT> 
 
-<!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.8 2000/11/12 20:06:59 bf-cvs Exp $ -->
-
 <h1>{intl-cart}</h1>
 
 <hr noshade="noshade" size="4" />

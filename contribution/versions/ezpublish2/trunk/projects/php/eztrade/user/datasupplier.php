@@ -80,19 +80,18 @@ switch ( $url_array[2] )
         break;
 
     case "wishlist" :
+        
         if ( $url_array[3] == "movetocart" )
         {
             $Action = "MoveToCart";
             $WishListItemID = $url_array[4];
         }
 
-        // SF
         if ( $url_array[3] == "remove" )
         {
             $Action = "RemoveFromWishlist";
             $WishListItemID = $url_array[4];
         }
-        // SF End
 
         include( "eztrade/user/wishlist.php" );
     break;
