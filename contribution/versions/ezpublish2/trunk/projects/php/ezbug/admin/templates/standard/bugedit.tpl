@@ -88,7 +88,7 @@
 	</td>
 	<td>
 	<input type="checkbox" name="IsPrivate" {is_private} />
-	<span class="check">{intl-is_private}</span><br />
+	<span class="boxtext">{intl-is_private}</span><br />
 	</td>
 </tr>
 </table>
@@ -169,7 +169,7 @@
 <br />
 
 <input type="checkbox" name="IsClosed" {is_closed} />
-<span class="check">{intl-is_closed}</span><br />
+<span class="boxtext">{intl-is_closed}</span><br />
 
 <br />
 
