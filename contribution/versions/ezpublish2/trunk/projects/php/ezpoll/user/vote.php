@@ -1,10 +1,6 @@
 <?php
 //
-// $Id: vote.php,v 1.20 2001/08/17 13:36:00 jhe Exp $
-//
-// $Id: vote.php,v 1.20 2001/08/17 13:36:00 jhe Exp $
-//
-// $Id: vote.php,v 1.20 2001/08/17 13:36:00 jhe Exp $
+// $Id: vote.php,v 1.21 2001/08/31 13:13:42 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -37,6 +33,7 @@ $Language = $ini->read_var( "eZPollMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 if ( $ini->read_var( "eZPollMain", "AllowDoubleVotes" ) == "enabled" )
    $AllowDoubleVotes = true;
+
 
 include_once( "ezpoll/classes/ezpoll.php" );
 include_once( "ezpoll/classes/ezvote.php" );
@@ -75,15 +72,36 @@ else
 
     if ( $AllowDoubleVotes )
     {
-       $Voted = false;
-    }
-    elseif ( $vote->ipHasVoted( $REMOTE_ADDR, $PollID ) == true )
-    {
-       $Voted = true;
+        $Voted = false;
     }
     else
     {
-       $Voted = false;
+        if ( $ini->read_var( "eZPollMain", "DoubleVoteCheck" ) == "ip" )
+        {
+            if ( $vote->ipHasVoted( $REMOTE_ADDR, $PollID ) == true )
+            {
+                $Voted = true;
+            }
+            else
+            {
+                $Voted = false;
+            }
+        }
+        else
+        {
+            if ( $GLOBALS["eZPollVote$PollID"] == "voted" )
+            {
+                $Voted = true;                
+            }
+            else
+            {
+                $Voted = false;
+            }
+
+            setcookie ( "eZPollVote$PollID", "voted", 0, "/",  "", 0 )
+                or print( "Error: could not set cookie." );
+        }
+
     }
 
 }
