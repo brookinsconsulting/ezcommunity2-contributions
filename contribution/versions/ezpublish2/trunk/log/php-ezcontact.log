@@ -463,3 +463,21 @@ Maintainer(s) : jhe@ez.no
       user/intl/es_MX/urlsupplier.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-31  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/companystats.php
+      admin/companytypeedit.php
+      admin/companytypelist.php
+      admin/companyview.php
+      admin/consultationedit.php
+      admin/consultationlist.php
+      admin/consultationview.php
+      admin/personlist.php
+      admin/persontypeedit.php
+      admin/personview.php
+      user/consultationlist.php: fixed ini pointer
+

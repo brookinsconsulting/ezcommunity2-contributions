@@ -348,3 +348,17 @@ Maintainer(s) : fh@ez.no
       admin/intl/es_MX/userlist.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-10-31  fh  <fh@zev.ez.no>
+
+    * user/intl/en_GB/usermessages.php.ini
+      user/singlelist.php
+      classes/ezbulkmailforgot.php: Fixes for single list.
+
+    * admin/intl/en_GB/masssubscribe.php.ini
+      user/intl/en_GB/bulklist.php.ini
+      user/intl/en_GB/usermessages.php.ini: Language fixes.
+

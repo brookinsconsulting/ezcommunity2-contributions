@@ -84,3 +84,14 @@ Maintainer(s) : pkej@ez.no
       user/intl/es_MX/menubox.php.ini
       user/intl/es_MX/quiz.php.ini: updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-10-31  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/quizlist.php:
+    fixed bug with $Language variable used before declared
+
+    * user/quizlist.php: fixed small bug
+

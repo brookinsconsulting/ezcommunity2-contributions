@@ -596,3 +596,23 @@ Maintainer(s) : jhe@ez.no
       user/intl/es_MX/userlogin.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-31  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/menubox.php: fixed ini pointer
+
+    * user/messageedit.php: fixed wrong link in moderator e-mail
+
+    * user/messageedit.php: fixed wrong link in e-mail
+
+    * classes/ezforummessage.php
+      user/messageedit.php
+      user/messageform.php: fixed bug with $user object
+
+    * classes/ezforummessage.php
+      user/messageedit.php
+      user/messageform.php: fixed bug with user object
+

@@ -325,3 +325,24 @@ Maintainer(s) : br@ez.no
       user/intl/es_MX/suggestlink.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-31  Bjoern Reiten  <br@ez.no>
+
+    * admin/categoryedit.php:
+    set category_id to "" when adding a new category.
+
+    * admin/categoryedit.php
+      admin/templates/standard/categoryedit.tpl:
+    Fixed bug with edit categories.
+
+2001-10-31  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezmeta.php
+      user/suggestlink.php: fixed bug with suggesting links
+
+    * classes/ezmeta.php
+      user/suggestlink.php: fixed bug with suggestion of links
+

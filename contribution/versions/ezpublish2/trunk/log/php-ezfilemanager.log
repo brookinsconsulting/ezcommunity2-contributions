@@ -423,3 +423,15 @@ Maintainer(s) : jhe@ez.no
       user/intl/es_MX/folderedit.php.ini
       user/intl/es_MX/search.php.ini: updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-31  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/en_GB/search.php.ini: en_GB fix
+
+2001-10-31  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php: fixed $user variable to avoid mixups
+

@@ -1768,3 +1768,39 @@ Maintainer(s) : bf@ez.no
       user/intl/es_MX/urlsupplier.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-31  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/datasupplier.php
+      user/mailtofriend.php
+      user/templates/standard/mailtofriend.tpl: section patch
+
+2001-10-31  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/articletags.tpl: Fixed cosmetic HTML bug.
+
+    * user/templates/standard/articletags.tpl: Fixed a template bug.
+
+    * user/datasupplier.php
+      user/intl/en_GB/articlerate.php.ini
+      user/intl/en_GB/articleview.php.ini
+      user/intl/en_GB/ratingmail.php.ini
+      user/templates/standard/articlerate.tpl
+      user/templates/standard/articleview.tpl
+      user/templates/standard/ratingmail.tpl
+      admin/datasupplier.php
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/ratinglist.php.ini
+      admin/menubox.php
+      admin/ratinglist.php
+      admin/templates/standard/ratinglist.tpl
+      classes/ezarticlerate.php
+      user/articlerate.php
+      user/articleview.php: added article ratings.
+
+    * classes/ezarticle.php:
+    Fixed SQL bug when an article does not have any keywords.
+

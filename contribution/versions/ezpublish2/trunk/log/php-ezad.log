@@ -180,3 +180,11 @@ Maintainer(s) : br@ez.no
 
     * user/adlist.php: Fixed some formating of code.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-31  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/categoryedit.php.ini: en_GB fix
+

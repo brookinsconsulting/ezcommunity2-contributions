@@ -275,3 +275,11 @@ Maintainer(s) : pkej@ez.no
       user/intl/es_MX/errors.php.ini
       user/intl/es_MX/form.php.ini: updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-31  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/en_GB/form.php.ini: en_GB fix
+

@@ -1740,3 +1740,14 @@ Maintainer(s) : ce@ez.no
       user/intl/es_MX/wishlist.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-31  Christoffer Elo  <ce@ez.no>
+
+    * admin/optionedit.php
+      admin/templates/standard/optionedit.tpl
+      user/voucherinformation.php: Fixed a bug in the option edit
+    Fixed a product type bug in the data SQL
+

@@ -316,3 +316,19 @@ Maintainer(s) : vl@ez.no
       user/intl/es_MX/unhandledbugs.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-31  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php: fixed small bug in cron job
+
+    * admin/intl/en_GB/confirmationmail.php.ini
+      admin/intl/en_GB/supportlist.php.ini
+      admin/supportedit.php
+      admin/templates/standard/supportlist.tpl
+      admin/bugedit.php
+      admin/cron.php
+      admin/datasupplier.php: fixed support cronjob
+
