@@ -91,6 +91,9 @@
 
 <h2>Stillingsinformasjon</h2>
 
+<p class="boxtext">{intl-reference}:</p>
+{classified_reference}
+
 <p class="boxtext">{intl-title}:</p>
 {classified_title}
 
@@ -106,8 +109,25 @@
 <p class="boxtext">{intl-description}:</p>
 {classified_description}
 
-<p class="boxtext">{intl-contact_person}:</p>
-<!-- {classified_contact_person} -->
+<p class="boxtext">{intl-contact_persons}:</p>
+<!-- BEGIN person_item_tpl -->
+<p>
+Name: {person_name}<br />
+Title: {person_title}<br />
+<!-- BEGIN person_mail_item_tpl -->
+Mail: <a href="mailto:{person_mail}">{person_mail}</a><br />
+<!-- END person_mail_item_tpl -->
+<!-- BEGIN person_phone_item_tpl -->
+Phone: {person_phone}<br />
+<!-- END person_phone_item_tpl -->
+<!-- BEGIN person_fax_item_tpl -->
+Fax: {person_fax}<br />
+<!-- END person_fax_item_tpl -->
+</p>
+<!-- END person_item_tpl -->
+<!-- BEGIN no_person_item_tpl -->
+{intl-no_persons}
+<!-- END no_person_item_tpl -->
 
 <p class="boxtext">{intl-pay}:</p>
 {classified_pay}
