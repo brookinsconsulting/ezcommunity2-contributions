@@ -12,6 +12,7 @@ Changes from 2.2.3 to 2.2.4
 * Fixed bug with deleting of contacts after a search
 * Fixed problem with redirecting on nVH setup n eZ bug
 * Fixed bug where file tag did not appear inside factbox and bold
+* Fixed bug where image edit was shown without the correct permissions
 
 Changes from 2.2.2 to 2.2.3
 ---------------------------
