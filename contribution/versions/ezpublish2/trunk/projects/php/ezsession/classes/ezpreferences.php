@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.9 2001/05/04 12:53:09 jb Exp $
+// $Id: ezpreferences.php,v 1.10 2001/05/04 15:34:19 jb Exp $
 //
 // Definition of eZPreferences class
 //
@@ -152,11 +152,15 @@ class eZPreferences
             }
             else
             {
+                if ( is_bool( $group ) )
+                    $group = "NULL";
+                else
+                    $group = "'$group'";
                 $db->query( "INSERT INTO eZSession_Preferences SET
 		                         UserID='$userID',
 		                         Name='$name',
 		                         Value='$value',
-                                 GroupName='$group'
+                                 GroupName=$group
                                  " );
                 $ret = true;                
             }

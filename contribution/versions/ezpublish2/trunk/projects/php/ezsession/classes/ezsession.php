@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.38 2001/05/04 15:12:54 ce Exp $
+// $Id: ezsession.php,v 1.39 2001/05/04 15:34:19 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -410,6 +410,7 @@ class eZSession
     */
     function setVariable( $name, $value, $group = false )
     {
+//          print( "setvar: " . (is_bool( $group ) ? ($group ? "true" : "false") : $group ) . "<br>" );
         $db =& eZDB::globalDatabase();
 
         if ( isset( $this->StoredVariables[$group][$name] ) )
@@ -422,7 +423,6 @@ class eZSession
         else
         {
             $group_sql = "GroupName IS NULL";
-            $group = "NULL";
         }
         $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'
@@ -436,11 +436,15 @@ class eZSession
         }
         else
         {
+            if ( is_bool( $group ) )
+                $group_sql = "NULL";
+            else
+                $group_sql = "'$group'";
             $db->query( "INSERT INTO eZSession_SessionVariable SET
 		                         SessionID='$this->ID',
 		                         Name='$name',
 		                         Value='$value',
-                                 GroupName='$group'
+                                 GroupName=$group_sql
                                  " );
         }       
     }
