@@ -329,6 +329,67 @@ switch ( $url_array[2] )
         }
         break;
     }
+    
+    case "onlinetype":
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                $OnlineTypeID = $url_array[4];
+                $Action = "list";
+                include( "ezcontact/admin/onlinetypelist.php" );
+                break;
+            }
+            case "new":
+            {
+                $Action = "new";
+                include( "ezcontact/admin/onlinetypeedit.php" );
+                break;
+            }
+            case "insert":
+            {
+                $OnlineTypeID = $url_array[4];
+                $Action = "insert";
+                include( "ezcontact/admin/onlinetypeedit.php" );
+                break;
+            }
+            case "view":
+            {
+                $OnlineTypeID = $url_array[4];
+                $Action = "view";
+                include( "ezcontact/admin/onlinetypeview.php" );
+                break;
+            }
+            case "edit":
+            {
+                $OnlineTypeID = $url_array[4];
+                $Action = "edit";
+                include( "ezcontact/admin/onlinetypeedit.php" );
+                break;
+            }
+            case "update":
+            {
+                $OnlineTypeID = $url_array[4];
+                $Action = "update";
+                include( "ezcontact/admin/onlinetypeedit.php" );
+                break;
+            }
+            case "delete":
+            {
+                $OnlineTypeID = $url_array[4];
+                $Action = "delete";
+                include( "ezcontact/admin/onlinetypeedit.php" );
+                break;
+            }
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
 
     case "error":
     {
