@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfile.php,v 1.8 2001/02/21 11:25:00 ce Exp $
+// $Id: ezfile.php,v 1.9 2001/03/07 14:52:53 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -124,6 +124,8 @@ class eZFile
         {
             $ret = false;            
         }
+        else
+            chmod( $dest, 0644 );
         
         return $ret;
     }
