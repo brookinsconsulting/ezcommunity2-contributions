@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.14 2001/02/19 12:29:19 gl Exp $
+// $Id: ezappointment.php,v 1.15 2001/02/20 13:38:53 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -324,8 +324,8 @@ class eZAppointment
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Description;
+
+       return $this->Description;
     }
 
     /*!
@@ -335,7 +335,7 @@ class eZAppointment
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-       
+
        $date = new eZDateTime();
        $date->setMySQLTimeStamp( $this->Date );
 
@@ -343,19 +343,19 @@ class eZAppointment
     }
 
     /*!
-      Returns the duration of the appointment as a eZTime object.
+      Returns the duration of the appointment as an eZTime object.
     */
     function duration()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-       
+
        $time = new eZTime();
        $time->setMySQLTime( $this->Duration );
 
        return $time;
     }
-    
+
     /*!
       Returns the start time of the appointment.
     */
@@ -371,7 +371,7 @@ class eZAppointment
        $time->setHour( $date->hour() );
        $time->setMinute( $date->minute() );
        $time->setSecond( 0 );
-       
+
        return $time;
     }
 
