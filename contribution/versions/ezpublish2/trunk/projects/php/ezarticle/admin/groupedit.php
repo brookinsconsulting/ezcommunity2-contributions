@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.1 2000/10/19 15:28:29 ce-cvs Exp $
+// $Id: groupedit.php,v 1.2 2000/10/21 19:59:15 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -66,7 +66,7 @@ if ( $Action == "delete" )
     exit();
 }
 
-$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "categoryedit.php" );
 
 $t->setAllStrings();
