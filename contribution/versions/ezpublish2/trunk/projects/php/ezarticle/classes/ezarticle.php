@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.90 2001/06/06 08:30:46 bf Exp $
+// $Id: ezarticle.php,v 1.91 2001/06/06 11:30:08 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -68,6 +68,9 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
+include_once( "ezarticle/classes/ezarticlecategory.php" );
+include_once( "ezarticle/classes/ezarticleattribute.php" );
+include_once( "ezarticle/classes/ezarticletype.php" );
 
 class eZArticle
 {
@@ -258,6 +261,7 @@ class eZArticle
             $db->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
             $db->query( "DELETE FROM eZArticle_ArticlePermission WHERE ObjectID='$this->ID'" );
             $db->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID'" );
         }
         
         return true;
@@ -1061,7 +1065,133 @@ class eZArticle
     }
     
     
+    
     /*!
+      Deletes an attribute from an article.
+    */
+    function deleteAttribute( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezarticleattribute" )
+        {
+            $this->dbInit();
+
+            $attributeID = $value->id();
+            
+            $this->Database->query( "DELETE FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID' AND AttributeID='$attributeID'" );
+        }
+    }
+
+    /*!
+      Returns every attribute belonging to an article as an array of eZArticleAttribute objects.
+    */
+    function attributes()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+       
+        $return_array = array();
+        $attribute_array = array();
+       
+        $this->Database->array_query( $attribute_array, "SELECT AttributeID FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID'" );
+       
+        for ( $i=0; $i < count( $attribute_array ); $i++ )
+        {
+            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i]["AttributeID"], false );
+        }
+       
+        return $return_array;
+    }
+    
+    
+    /*!
+        Deletes all attributes defined for this article which belongs to a certain type.
+     */
+    function deleteAttributesByType( $type )
+    {
+        $ret = false;
+
+
+        if ( get_class( $type ) == "ezarticletype" )
+        {
+            if ( $this->State_ == "Dirty" )
+                $this->get( $this->ID );
+
+            $this->dbInit();
+            
+            $typeID = $type->id();
+            
+            $return_array = array();
+            $attribute_array = array();
+
+            $this->Database->array_query( $attribute_array, "SELECT Value.ID FROM eZArticle_AttributeValue AS Value, eZArticle_Attribute AS Attr WHERE Value.ArticleID='$this->ID' AND Value.AttributeID=Attr.ID AND Attr.TypeID='$typeID'" );
+
+            for ( $i=0; $i < count( $attribute_array ); $i++ )
+            {
+               $valueID =  $attribute_array[$i]["ID"];
+               $this->Database->query( "DELETE FROM eZArticle_AttributeValue WHERE ID='$valueID'" );
+            }
+            
+            $ret = true;
+        }
+        return $ret;
+    }
+    
+    /*!
+      Returns every attribute type belonging to an article as an array of eZArticleType objects.
+    */
+    function types()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+       
+        $return_array = array();
+        $type_array = array();
+       
+        $this->Database->array_query( $type_array, "SELECT Attr.TypeID AS TypeID FROM eZArticle_Attribute AS Attr, eZArticle_AttributeValue AS Value WHERE Value.ArticleID='$this->ID' AND Attr.ID = Value.AttributeID GROUP BY Attr.TypeID" );
+       
+        for ( $i=0; $i < count( $type_array ); $i++ )
+        {
+            $return_array[$i] = new eZArticleType( $type_array[$i]["TypeID"], false );
+        }
+       
+        return $return_array;
+    }
+    
+     /*!
+      Returns true if the type given exists for this article.
+    */
+    function hasType( $type )
+    {
+        $ret = false;
+        if ( get_class( $value ) == "ezarticletype" )
+        {
+            $typeID = $value->id();
+            if ( $this->State_ == "Dirty" )
+                $this->get( $this->ID );
+
+            $this->dbInit();
+
+            $return_array = array();
+            $type_array = array();
+
+            $this->Database->array_query( $type_array, "SELECT Attr.TypeID AS TypeID FROM eZArticle_Attribute AS Attr, eZArticle_AttributeValue AS Value WHERE Value.ArticleID='$this->ID' AND Attr.ID = Value.AttributeID AND Attr.TypeID='$typeID'" );
+
+            if( count( $type_array ) > 0 )
+            {
+                $ret = true;
+            }
+        }
+        return $ret;
+    }
+    
+   /*!
       Returns true if the article is assigned to the category given
       as argument. False if not.
      */

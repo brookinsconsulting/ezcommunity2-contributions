@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.86 2001/06/05 12:40:48 bf Exp $
+// $Id: articleedit.php,v 1.87 2001/06/06 11:30:08 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -208,6 +208,14 @@ if ( $Action == "Insert" )
             eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
             exit();
         }
+        
+        // add attributes
+        if ( isset( $Attribute ) )
+        {
+            eZHTTPTool::header( "Location: /article/articleedit/attributelist/$articleID/" );
+            exit();
+        }
+        
         
         // preview
         if ( isset( $Preview ) )
@@ -417,6 +425,13 @@ if ( $Action == "Update" )
         if ( isset( $File ) )
         {
             eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
+            exit();
+        }
+
+        // add attributes
+        if ( isset( $Attribute ) )
+        {
+            eZHTTPTool::header( "Location: /article/articleedit/attributelist/$ArticleID/" );
             exit();
         }
 

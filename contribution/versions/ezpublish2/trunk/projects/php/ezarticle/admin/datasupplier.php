@@ -7,6 +7,9 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
+#echo " " . $url_array[2] . " " . $url_array[3] . " " . $url_array[4] . " " . $url_array[5];
+#exit();
+
 $user = eZUser::currentUser();
 if( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
 {
@@ -176,6 +179,26 @@ switch ( $url_array[2] )
                 if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
                     || eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/filelist.php" );
+            }
+            break;
+            
+            case "attributelist" :
+            {
+                $ArticleID = $url_array[4];
+                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
+                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                    include( "ezarticle/admin/attributelist.php" );
+            }
+            break;
+
+            case "attributeedit" :
+            {
+                $Action = $url_array[4];
+                if( !isset( $TypeID ) ) 
+                    $TypeID = $url_array[5];
+                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
+                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                    include( "ezarticle/admin/attributeedit.php" );
             }
             break;
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticleattribute.php,v 1.1 2001/06/01 14:01:57 pkej Exp $
+// $Id: ezarticleattribute.php,v 1.2 2001/06/06 11:30:08 pkej Exp $
 //
 // Definition of eZArticleAttribute class
 //
@@ -91,7 +91,7 @@ class eZArticleAttribute
             }
             
             $this->Database->query( "INSERT INTO eZArticle_Attribute SET
-		                         Name='$this->Name',
+		                         Name='" . addslashes( $this->Name )  . "',
 		                         TypeID='$this->TypeID',
 		                         Placement='$place',
 		                         Created=now()" );
@@ -102,7 +102,7 @@ class eZArticleAttribute
         else
         {
             $this->Database->query( "UPDATE eZArticle_Attribute SET
-		                         Name='$this->Name',
+		                         Name='" . addslashes( $this->Name ) . "',
 		                         Created=Created,
 		                         TypeID='$this->TypeID' WHERE ID='$this->ID'" );
 
@@ -258,7 +258,7 @@ class eZArticleAttribute
                $valueID = $value_array[0]["ID"];
                
                $this->Database->query( "UPDATE eZArticle_AttributeValue SET
-                                 Value='$value'
+                                 Value='" . addslashes( $value ) . "'
                                  WHERE ID='$valueID'" );
            }
            else
@@ -266,7 +266,7 @@ class eZArticleAttribute
                $this->Database->query( "INSERT INTO eZArticle_AttributeValue SET
 		                         ArticleID='$articleID',
                                  AttributeID='$this->ID',
-                                 Value='$value'" );
+                                 Value='" . addslashes( $value ) . "'" );
            }
        }
     }

@@ -1,10 +1,10 @@
 <?
 // 
-// $Id: ezarticletype.php,v 1.1 2001/06/01 14:01:57 pkej Exp $
+// $Id: ezarticletype.php,v 1.2 2001/06/06 11:30:08 pkej Exp $
 //
 // Definition of eZArticleType class
 //
-// Bård Farstad <bf@ez.no>
+// Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <01-Jun-2001 13:43:02 pkej>
 //
 // This source file is part of eZ publish, publishing software.
@@ -78,7 +78,7 @@ class eZArticleType
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZArticle_Type SET
-		                         Name='$this->Name'" );
+		                         Name='" . addslashes( $this->Name ) . "'" );
         
 			$this->ID = $this->Database->insertID();
             $this->State_ = "Coherent";
@@ -86,7 +86,7 @@ class eZArticleType
         else
         {
             $this->Database->query( "UPDATE eZArticle_Type SET
-		                         Name='$this->Name' WHERE ID='$this->ID'" );
+		                         Name='" . addslashes( $this->Name ) . "' WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
         

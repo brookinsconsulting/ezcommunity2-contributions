@@ -11,6 +11,13 @@
 
 <p>{article_body}</p>
 
+<!-- BEGIN attributes_list_tpl -->
+<!-- BEGIN attributes_item_tpl -->
+{attribute_name} {attribute_content}
+<!-- END attributes_item_tpl -->
+<!-- END attributes_list_tpl -->
+
+
 <!-- BEGIN attached_file_list_tpl -->
 <p class="boxtext">{intl-attached_files}:</p>
 <!-- BEGIN attached_file_tpl -->

@@ -133,6 +133,7 @@
 
 <input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
 <input class="stdbutton" type="submit" name="File" value="{intl-files}" />
+<input class="stdbutton" type="submit" name="Attribute" value="{intl-attributes}" />
 <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
 &nbsp;
 <input class="stdbutton" type="submit" name="Log" value="{intl-log_history}" />
