@@ -107,3 +107,14 @@ Maintainer(s) : fh@ez.no
     * sql/mysql/ezbulkmail.sql
       sql/postgresql/ezbulkmail.sql: Added missing SQL tables/fields.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-09-28  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezbulkmail.sql: SQL update.
+
+    * sql/Attic/ezbulkmail.sql
+      sql/mysql/ezbulkmail.sql: SQL updates.
+

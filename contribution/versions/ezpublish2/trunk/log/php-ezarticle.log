@@ -1023,3 +1023,11 @@ Maintainer(s) : bf@ez.no
 
     * user/fileedit.php: small bug fix
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-28  Baard Farstad  <bf@ez.no>
+
+    * user/topiclist.php: Fixed language variable.
+

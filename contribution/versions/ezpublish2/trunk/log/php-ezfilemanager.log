@@ -204,3 +204,34 @@ Maintainer(s) : jhe@ez.no
     * admin/unassigned.php
       user/fileupload.php: small bugfixes and code standardization
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-28  Christoffer Elo  <ce@ez.no>
+
+    * user/folderedit.php
+      sql/mysql/ezfilemanager.sql
+      sql/postgresql/ezfilemanager.sql: added fix
+
+2001-09-28  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/templates/standard/fileview.tpl: searching uses get instead of post
+
+    * classes/ezvirtualfile.php
+      user/filelist.php
+      user/search.php
+      user/templates/standard/filelist.tpl
+      user/templates/standard/search.tpl: fixed bugs in searching
+
+    * user/filelist.php
+      user/fileupload.php:
+    fixed bug for setting permissions when uploading files
+
+    * user/intl/no_NO/folderedit.php.ini
+      user/filedownload.php
+      user/filelist.php
+      user/fileupload.php
+      user/folderedit.php
+      user/intl/en_GB/folderedit.php.ini: bug in editing of folders
+

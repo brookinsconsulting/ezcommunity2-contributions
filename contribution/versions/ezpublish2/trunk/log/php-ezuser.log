@@ -226,3 +226,15 @@ Maintainer(s) : bf@ez.no
 
     * user/intl/de_MG/userbox.php.ini: Added mygold design
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-28  Christoffer Elo  <ce@ez.no>
+
+    * sql/ezuser.sql: Added missing permission fields
+
+2001-09-28  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezobjectpermission.php: fixed small bug
+

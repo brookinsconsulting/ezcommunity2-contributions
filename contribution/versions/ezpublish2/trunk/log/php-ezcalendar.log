@@ -150,3 +150,15 @@ Maintainer(s) : jhe@ez.no
 
     * user/monthview.php: fixed bug listing days outside of current month
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-09-28  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/monthview.php
+      user/templates/standard/monthview.tpl:
+    fixed problem with year no in december
+
+    * user/trustees.php: fixed bug
+

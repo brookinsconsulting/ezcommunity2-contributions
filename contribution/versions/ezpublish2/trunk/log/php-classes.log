@@ -138,3 +138,13 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: Changed version.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-28  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * ezdate.php
+      ezdatetime.php
+      ezlocale.php: bugfix when using sunday as first day of week
+

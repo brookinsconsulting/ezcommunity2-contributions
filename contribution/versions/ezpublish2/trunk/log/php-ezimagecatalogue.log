@@ -340,3 +340,32 @@ Maintainer(s) : br@ez.no
     Bugfix: If no previous parent is present (for instance for new categories)
     the id 0 is used.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-28  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezimagecatalogue.sql: SQL fix.
+
+2001-09-28  Bjoern Reiten  <br@ez.no>
+
+    * admin/datasupplier.php
+      admin/unassigned.php: fixed bugs.
+    * datasupplier: added break after case: unassigned
+    * unassigned.php: moved $imageCount=0 up to under else in "if( $Offset > 0 )
+
+2001-09-28  Baard Farstad  <bf@ez.no>
+
+    * sql/Attic/ezimagecatalogue.sql: SQL updates.
+
+2001-09-28  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezimagecategory.php
+      classes/ezimage.php
+      admin/categoryedit.php:
+    fixed permission bug at line 119 (function was not called with right
+    parameters.
+
+    Removed absolete permission functions in classes.
+

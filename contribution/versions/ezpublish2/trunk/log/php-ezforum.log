@@ -297,3 +297,17 @@ Maintainer(s) : jhe@ez.no
       admin/messageedit.php
       admin/search.php: small code fixes
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-28  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/latestmessages.php:
+    fixed template bug if we have no messages in any forums
+
+    * classes/ezforum.php
+      user/templates/standard/message.tpl
+      user/templates/standard/messagelist.tpl
+      user/templates/standard/search.tpl: small fixes in search
+

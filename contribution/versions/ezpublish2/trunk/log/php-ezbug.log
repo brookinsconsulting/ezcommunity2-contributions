@@ -58,3 +58,13 @@ Maintainer(s) : vl@ez.no
     * sql/mysql/ezbug.sql
       sql/postgresql/ezbug.sql: Added missing SQL tables/fields.
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-09-28  Vidar Langseid  <vl@ez.no>
+
+    * sql/mysql/ezbug.sql
+      sql/postgresql/ezbug.sql:
+    Removed auto_increment statement from eZBug_ModulePermission
+

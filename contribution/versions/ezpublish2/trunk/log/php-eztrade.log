@@ -765,3 +765,43 @@ Maintainer(s) : ce@ez.no
       classes/ezvoucherinformation.php
       user/productview.php: Fixed some voucher bugs.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-28  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql
+      classes/ezproduct.php: FIxed a image bug
+
+    * classes/ezvoucherinformation.php
+      user/intl/en_GB/productview.php.ini
+      user/payment.php
+      user/voucherinformation.php: bugfix
+
+    * admin/productedit.php: fi
+
+    * admin/productedit.php
+      sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql: fixed
+
+2001-09-28  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/eztrade.sql: SQL fix.
+
+2001-09-28  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcheckoutsupplier.php
+      classes/ezorder.php
+      classes/ezvoucherused.php
+      sql/mysql/eztrade.sql
+      user/checkout.php
+      user/intl/en_GB/ordersendt.php.ini
+      user/ordersendt.php
+      user/payment.php
+      user/productview.php
+      user/templates/standard/checkout.tpl
+      user/templates/standard/ordersendt.tpl: Added voucher to payment method
+    Added voucherview on ordersent
+
