@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><html>
+<head>
+<title>Generated PHP documentation &copy; eZ systems as 2000</title>
+<style type="text/css">
+<!--
+
+td.header {
+    color : #eeeeee;
+    background-color : #446688;
+}
+
+td.tableHeader {
+    color : #eeeeee;
+    background-color : #7799aa;
+}
+
+td.classLinkLight {
+    background-color : #eeeeee;
+}
+
+td.classLinkDark {
+    background-color : #dddddd;
+}
+
+td.classDescription {
+    background-color : #eeeeee;
+}
+
+td.sourceListing {
+    background-color : #416141;
+    color : #de9562;
+    font-family: courier, monospace;
+}
+
+p.functionName {
+    background-color : #ffffff;
+    font-size : 14pt;	
+    font-weight : bold;
+    font-face : verdana, arial, helvetica;
+}
+
+p.functionAbs {
+    background-color : #ddeeee;
+}
+
+span.comment {
+    background-color : #315031;
+    color : #ffce20;
+    font-weight : none;
+}
+
+span.reservedWord {
+    background-color : #416141;
+    color : #83b6de;
+}
+
+span.specialChar {
+    background-color : #416141;
+    color : #e6be52;
+}
+
+span.variable {
+    background-color : #416141;
+    color : #00ffff;
+}
+
+p.functionDesc {
+    background-color : #eeeeee;
+}
+
+p.functionIndex
+{
+    background-color : #ffffff;
+}
+
+.light
+{
+    color : #eeeeee;
+}
+
+
+h3.fn, span.fn 
+{ 
+    margin-left: 1cm; 
+    text-indent: -1cm; 
+}
+
+a:link 
+{ 
+text-decoration: none; 
+}
+
+body 
+{ 
+  font-face: verdana, arial, helvetica; 
+  background: white; 
+  color: black; 
+}
+-->
+</style>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+<tr>
+	<td class="header">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+		<h1>eZ phpdoc - Class reference</h1>
+		</td>
+		<td valign="top" align="right">
+		<a class="light" href="index.html">Class list</a> | 
+		<a class="light" href="annotated.html">Annotated class list</a> |
+		<a class="light" href="function.html">Function list</a> |
+		<a class="light" href="structure.html">Structure</a>
+		</td>
+	</tr>
+	</table>
+	</td>
+</tr><tr><td><center><h1>eZTodo::eZPriority class reference</h1></center></td></tr><tr><td> The eZPriority handles the priority informasjon. <a href="#999999">[more]</a></td></tr><tr><td>The source file: <a href="ezpriority.src.html">[view the source]</a></td></tr><tr><td><h1>Members</h1><ul><li><a href="#0">eZPriority()
+</a></li><li><a href="#1">store()
+</a></li><li><a href="#2">delete()
+</a></li><li><a href="#3">update()
+</a></li><li><a href="#4">get( $id )
+</a></li><li><a href="#5">getAll()
+</a></li><li><a href="#6">title()
+</a></li><li><a href="#7">setTitle( $value )
+</a></li><li><a href="#8">id()
+</a></li><li><a href="#9">dbInit()
+</a></li></tr></td></ul><tr><td><hr noshade size="2"><a name="#999999"></a><h2>Detailed Description</h2></td></tr><tr><td class="classDescription">Handles the priority informasjon stored in the database. All the todo's have a priority status.
+</td></tr><tr><td><hr noshade size="2"><h2>Member Function Documentation</h2></td></tr><tr><td><a name="0"></a><p class="functionName">eZPriority::eZPriority()
+</p></td></tr><tr><td><p class="functionAbs">     eZPriority</p></td></tr><tr><td><p class="functionDesc">eZPriority Constructor.
+</p></td></tr><tr><td><a name="1"></a><p class="functionName">eZPriority::store()
+</p></td></tr><tr><td><p class="functionAbs">     store</p></td></tr><tr><td><p class="functionDesc">Stores the priority object to the database.
+Returnes the ID to the eZPriority object if the store is a success.
+</p></td></tr><tr><td><a name="2"></a><p class="functionName">eZPriority::delete()
+</p></td></tr><tr><td><p class="functionAbs">     delete</p></td></tr><tr><td><p class="functionDesc">Deletes the priority object in the database.
+</p></td></tr><tr><td><a name="3"></a><p class="functionName">eZPriority::update()
+</p></td></tr><tr><td><p class="functionAbs">     update</p></td></tr><tr><td><p class="functionDesc">Update the priority object in the database.
+</p></td></tr><tr><td><a name="4"></a><p class="functionName">eZPriority::get( $id )
+</p></td></tr><tr><td><p class="functionAbs">     get</p></td></tr><tr><td><p class="functionDesc">Gets a priority object from the database, where ID == $id
+</p></td></tr><tr><td><a name="5"></a><p class="functionName">eZPriority::getAll()
+</p></td></tr><tr><td><p class="functionAbs">     getAll</p></td></tr><tr><td><p class="functionDesc">Gets all the priority informasjon from the database.
+Returns the array in $priority_array ordered by title.
+</p></td></tr><tr><td><a name="6"></a><p class="functionName">eZPriority::title()
+</p></td></tr><tr><td><p class="functionAbs">      title</p></td></tr><tr><td><p class="functionDesc">Tilte of the priority.
+Returns the title of the priority as a string.
+</p></td></tr><tr><td><a name="7"></a><p class="functionName">eZPriority::setTitle( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setTitle</p></td></tr><tr><td><p class="functionDesc">Sets the title of the priority.
+The new title of the priority is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="8"></a><p class="functionName">eZPriority::id()
+</p></td></tr><tr><td><p class="functionAbs">     id</p></td></tr><tr><td><p class="functionDesc">Id of the priority.
+Returns the id of the priority as a string.
+</p></td></tr><tr><td><a name="9"></a><p class="functionName">eZPriority::dbInit()
+</p></td></tr><tr><td><p class="functionAbs">     dbInit</p></td></tr><tr><td><p class="functionDesc">Private function.
+Open the database for read and write. Gets all the database informasjon from site.ini.
+</p></td></tr></table></body>
+</html>
