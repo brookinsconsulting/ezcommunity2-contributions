@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.64 2001/03/06 19:17:01 jb Exp $
+// $Id: ezcompany.php,v 1.65 2001/03/09 11:17:30 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -157,6 +157,8 @@ class eZCompany
 
             $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
             $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
+
+            $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE CompanyID='$id'" );
         }
         eZCompany::removePersons( $id );
         return true;

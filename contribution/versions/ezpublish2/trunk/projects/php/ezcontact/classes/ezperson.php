@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.48 2001/03/06 19:17:01 jb Exp $
+// $Id: ezperson.php,v 1.49 2001/03/09 11:17:31 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -146,6 +146,8 @@ class eZPerson
                 $db->query( "DELETE FROM eZAddress_Online WHERE ID='$onlineDictID'" );
             }
             $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$id'" );
+
+            $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE PersonID='$id'" );
 
             $db->query( "DELETE FROM eZContact_Person WHERE ID='$id'" );
         }

@@ -5,17 +5,17 @@
 	<td rowspan="2" valign="bottom">
 	    <h1>{intl-headline_list}</h1>
 	</td>
-	<td align="right">
-	    	<input type="text" name="SearchText" size="12" />
-			<input class="stdbutton" type="submit" value="{intl-search}" />
-	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
-	        </td>
-	    </tr>
-	    <tr>
-	        <td align="right">
-		<input type="checkbox" name="CurrentCategory" checked />
-		<span class="small">{intl-only_current_category}</span>
-	</td>
+<!--  	<td align="right"> -->
+<!--  	    	<input type="text" name="SearchText" size="12" /> -->
+<!--  			<input class="stdbutton" type="submit" value="{intl-search}" /> -->
+<!--  	    	<input type="hidden" name="SearchCategory" value="{current_id}" /> -->
+<!--  	        </td> -->
+<!--  	    </tr> -->
+<!--  	    <tr> -->
+<!--  	        <td align="right"> -->
+<!--  		<input type="checkbox" name="CurrentCategory" checked /> -->
+<!--  		<span class="small">{intl-only_current_category}</span> -->
+<!--  	</td> -->
 </tr>
 </table>
 </form>

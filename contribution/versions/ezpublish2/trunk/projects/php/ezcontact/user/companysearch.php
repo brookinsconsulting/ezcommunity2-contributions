@@ -7,7 +7,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& INIFIle::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $errorIni = new INIFIle( "ezcontact/user/intl/" . $Language . "/search.php.ini", false );
 

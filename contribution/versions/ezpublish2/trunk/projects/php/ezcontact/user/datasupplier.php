@@ -67,19 +67,19 @@ switch ( $url_array[2] )
         break;
     }
 
-    case "search":
-    {
-        switch( $url_array[3] )
-        {
-            case "company":
-            {
-                $SearchObject = "company";
-                include( "ezcontact/user/companysearch.php" );
-                break;
-            }
-        }
-        break;
-    }
+//      case "search":
+//      {
+//          switch( $url_array[3] )
+//          {
+//              case "company":
+//              {
+//                  $SearchObject = "company";
+//                  include( "ezcontact/user/companysearch.php" );
+//                  break;
+//              }
+//          }
+//          break;
+//      }
 
     case "person":
     {
