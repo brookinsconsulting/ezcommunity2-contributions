@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmessage.php,v 1.5 2001/07/20 11:19:37 jakobn Exp $
+// $Id: ezmessage.php,v 1.6 2001/08/27 10:22:53 br Exp $
 //
 // Definition of eZMessage class
 //
@@ -54,25 +54,37 @@ class eZMessage
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
-        $subject = addslashes( $this->Subject );
-        $description = addslashes( $this->Description );
+        $subject = $db->escapeString( $this->Subject );
+        $description = $db->escapeString( $this->Description );
+        $timeStamp =& eZDateTime::timeStamp( true );
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZMessage_Message SET
-		                 Subject='$subject',
-                         Created=now(),
-                         Description='$description',
-                         FromUserID='$this->FromUserID',
-                         ToUserID='$this->ToUserID',
-                         IsRead='$this->IsRead'
-                       " );
-			$this->ID = $db->insertID();
+            $db->lock( "eZMessage_Message" );
+            $nextID = $db->nextID( "eZMessage_Message", "ID" );
+            $res[] = $db->query( "INSERT INTO eZMessage_Message
+                       ( ID,
+		                 Subject,
+                         Created,
+                         Description,
+                         FromUserID,
+                         ToUserID,
+                         IsRead )
+                       VALUES
+                       ( '$nextID',
+		                 '$subject',
+                         '$timeStamp',
+                         '$description',
+                         '$this->FromUserID',
+                         '$this->ToUserID',
+                         '$this->IsRead' )" );
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZMessage_Message SET
+            $res[] = $db->query( "UPDATE eZMessage_Message SET
 		                 Subject='$subject',
                          Created=Created, 
                          Description='$description',
@@ -82,6 +94,7 @@ class eZMessage
                          WHERE ID='$this->ID'" );
         }
 
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -91,12 +104,14 @@ class eZMessage
     function delete()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
         if ( isset( $this->ID ) )
         {
-            $db->query( "DELETE FROM eZMessage_Message WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZMessage_Message WHERE ID='$this->ID'" );
         }
-        
+
+        eZDB::finish( $res, $db );
         return true;
     }
     
@@ -115,13 +130,13 @@ class eZMessage
             $db->array_query( $author_array, "SELECT * FROM eZMessage_Message WHERE ID='$id'" );
             if( count( $author_array ) == 1 )
             {
-                $this->ID =& $author_array[0][ "ID" ];
-                $this->Subject =& $author_array[0][ "Subject" ];
-                $this->Description =& $author_array[0][ "Description" ];
-                $this->Created =& $author_array[0][ "Created" ];
-                $this->FromUserID =& $author_array[0][ "FromUserID" ];
-                $this->ToUserID =& $author_array[0][ "ToUserID" ];
-                $this->IsRead =& $author_array[0][ "IsRead" ];
+                $this->ID =& $author_array[0][$db->fieldName( "ID" )];
+                $this->Subject =& $author_array[0][$db->fieldName( "Subject" )];
+                $this->Description =& $author_array[0][$db->fieldName( "Description" )];
+                $this->Created =& $author_array[0][$db->fieldName( "Created" )];
+                $this->FromUserID =& $author_array[0][$db->fieldName( "FromUserID" )];
+                $this->ToUserID =& $author_array[0][$db->fieldName( "ToUserID" )];
+                $this->IsRead =& $author_array[0][$db->fieldName( "IsRead" )];
                 $ret = true;
             }
             elseif( count( $author_array ) == 1 )
@@ -265,7 +280,7 @@ class eZMessage
     function &created()
     {
         $dateTime = new eZDateTime();    
-        $dateTime->setMySQLTimeStamp( $this->Created );
+        $dateTime->setTimeStamp( $this->Created );
 
         return $dateTime;
     }
