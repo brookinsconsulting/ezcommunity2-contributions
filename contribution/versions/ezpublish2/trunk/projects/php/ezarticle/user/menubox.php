@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.6 2001/02/23 09:57:20 gl Exp $
+// $Id: menubox.php,v 1.7 2001/02/23 14:13:08 gl Exp $
 //
 // 
 //
@@ -92,10 +92,9 @@ function createArticleMenu()
     {
         foreach( $articleCategory_array as $categoryItem )
         {
-            $article_category_id = $categoryItem->id();
-            $t->set_var( "articlecategory_id", $article_category_id );
+            $t->set_var( "articlecategory_id", $categoryItem->id() );
             $t->set_var( "articlecategory_title", $categoryItem->name() );
-            
+
             $t->parse( "article_category", "article_category_tpl", true );
         }
     }

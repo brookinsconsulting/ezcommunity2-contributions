@@ -17,7 +17,7 @@
 <input type="text" name="AuthorText" size="40" value="{author_text}" />
 
 <p class="boxtext">{intl-category}:</p>
-<select name="CategoryID">
+<select name="CategoryIDSelect">
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->

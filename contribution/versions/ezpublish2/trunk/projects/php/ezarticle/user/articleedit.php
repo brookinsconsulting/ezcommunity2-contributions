@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.7 2001/02/23 12:39:00 gl Exp $
+// $Id: articleedit.php,v 1.8 2001/02/23 14:13:08 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -49,7 +49,7 @@ if ( $Action == "Insert" )
 {
     $user = eZUser::currentUser();
         
-    $article = new eZArticle( );
+    $article = new eZArticle();
     $article->setName( $Name );
     
     $article->setAuthor( $user );
@@ -97,7 +97,7 @@ if ( $Action == "Insert" )
     
 
         // add to categories
-        $category = new eZArticleCategory( $CategoryID );
+        $category = new eZArticleCategory( $CategoryIDSelect );
         $category->addArticle( $article );
 
         $article->setCategoryDefinition( $category );
@@ -148,6 +148,7 @@ $t->set_file( array(
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 
+
 if ( $ErrorParsing == true )
 {
     $t->parse( "error_message", "error_message_tpl" );
@@ -173,10 +174,6 @@ if ( $Action == "New" )
 }
 
 
-$article = new eZArticle( $ArticleID );
-$t->set_var( "article_id", $article->id() );
-
-
 // category select
 $tree = new eZArticleCategory();
 $treeArray = $tree->getTree();
@@ -185,22 +182,10 @@ foreach ( $treeArray as $catItem )
 {
     $t->set_var( "selected", "" );
 
-    if ( $CategoryID == $catItem[0]->id() )
+    if ( $CategoryIDSelect == $catItem[0]->id() )
     {
         $t->set_var( "selected", "selected" );
     }
-
-//      if ( $ArticleID )
-//      {
-//          $defCat = $article->categoryDefinition();
-//          if ( get_class( $defCat ) == "ezarticlecategory" )
-//          {
-//              if ( $defCat->id() == $catItem[0]->id() )
-//              {
-//                  $t->set_var( "selected", "selected" );
-//              }
-//          }
-//      }
 
     $t->set_var( "option_value", $catItem[0]->id() );
     $t->set_var( "option_name", $catItem[0]->name() );
