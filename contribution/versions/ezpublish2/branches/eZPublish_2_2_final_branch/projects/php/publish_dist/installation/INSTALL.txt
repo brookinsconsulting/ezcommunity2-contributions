@@ -73,7 +73,7 @@ Chapter 2 Installing eZ publish (standard method)
         2.8.5 phpMyAdmin
         2.8.6 ImageMagick
         2.8.7 Determing and publishing your host names
-        2.8.8 ezPublish 2.1
+        2.8.8 ezPublish 2.2.x
         2.8.9 Creating the database
         2.8.10 Virtual hosts and rewrite rules
         2.8.11 Sample data
@@ -1955,13 +1955,14 @@ browser should show the apache welcome screen. Repeat this
 for every host name you just entered (ez.my.intranet and
 ezadmin.my.intranet) and for every client.
 
-2.8.8 ezPublish 2.1
+2.8.8 ezPublish 2.2.x
 
  Unpacking the files
 
 Extract the ezpublish file to C:\Apache\htdocs\ , using folder
-names. This will give you all files in C:\Apache\htdocs\ezpublish_2_1.
-Put createdirs.bat in C:\Apache\htdocs\ezpublish_2_1 and run
+names. This will give you all files in C:\Apache\htdocs\ezpublish_2_2_x
+(x is replaced with the current eZ publish version). Put
+createdirs.bat in C:\Apache\htdocs\ezpublish_2_2_x and run
 it. This creates the cache directories. If your did not
 uses publish/publish as your MySQL user/password settings,
 open site.ini, and just change the user and password lines
@@ -1969,7 +1970,7 @@ to match your settings.
 
  Error Checking:
 
-While apache and MySQL servers are running, open http://localhost/ezpublish_2_1
+While apache and MySQL servers are running, open http://localhost/ezpublish_2_2_x
 in your webbrowser. This should give you an "could not connect
 to database ... no database selected".
 
@@ -1986,14 +1987,14 @@ Create a new database named "publish".
 
 
 Run a SQL query and choose to load it from a textfile. Browse
-to C:\apache\htdocs\ezpublish_2_1\sql\publish.sql and confirm
+to C:\apache\htdocs\ezpublish_2_2_x\sql\publish.sql and confirm
 with "Go". This should take a while as the tables are created
 and some data is inserted. Check the first line, if the
 execution of the SQL query was successful.
 
  Error Checking:
 
-In your webbrowser, open http://apache.my.intranet/ezpublish_2_1.
+In your webbrowser, open http://apache.my.intranet/ezpublish_2_2_x.
 This should give you nearly the known ezPublish screen.
 
 Note that you cannot access the admin site yet and the user
@@ -2058,7 +2059,7 @@ ServerName apache.my.intranet
 
 <VirtualHost ez.my.intranet>
 
-<Directory C:/Apache/htdocs/ezpublish_2_1>
+<Directory C:/Apache/htdocs/ezpublish_2_2_x>
 
   Options FollowSymLinks Indexes ExecCGI
 
@@ -2093,7 +2094,7 @@ RewriteRule !\.(gif|css|jpg|png)$ /index.php
 
  
 
-DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+DocumentRoot C:/Apache/htdocs/ezpublish_2_2_x
 
 ServerName ez.my.intranet
 
@@ -2107,7 +2108,7 @@ ServerName ez.my.intranet
 
 <VirtualHost ezadmin.my.intranet>
 
-<Directory C:/Apache/htdocs/ezpublish_2_1>
+<Directory C:/Apache/htdocs/ezpublish_2_2_x>
 
   Options FollowSymLinks Indexes ExecCGI
 
@@ -2130,7 +2131,7 @@ RewriteRule !\.(gif|css|jpg|png)$ /index_admin.php
 
  
 
-DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+DocumentRoot C:/Apache/htdocs/ezpublish_2_2_x
 
 ServerName ezadmin.my.intranet
 
@@ -2161,7 +2162,7 @@ In order to have something to play with, you may want to
 insert some sample data.
 
 
-Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish_2_1,
+Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish_2_2_x,
 using folder names. This will create some image files and
 some downloads for the sample data. 
 
@@ -2171,9 +2172,9 @@ Therefore open http://apache.my.intranet/phpMyAdmin, select
 the database "publish" by clicking on it in the left frame,
 scroll down past the list of tables in the right frame and
 run a SQL query. Choose to load it from a textfile. Browse
-to C:\apache\htdocs\ezpublish_2_1\sql\data.sql and confirm with
-"Go". Again check the first line, if the execution of the
-SQL query was successful.
+to C:\apache\htdocs\ezpublish_2_2_x\sql\data.sql and confirm
+with "Go". Again check the first line, if the execution
+of the SQL query was successful.
 
 
 This is just the same procedure like the first-time-creating

@@ -1907,14 +1907,15 @@ name you just entered (ez.my.intranet and ezadmin.my.intranet) and
 for every client.
 
 
-\subsection{ezPublish 2.1}
+\subsection{ezPublish 2.2.x}
 
 
 \subsubsection*{Unpacking the files}
 
 Extract the ezpublish file to C:\textbackslash{}Apache\textbackslash{}htdocs\textbackslash{}
-, using folder names. This will give you all files in C:\textbackslash{}Apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_1.
-Put createdirs.bat in C:\textbackslash{}Apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_1
+, using folder names. This will give you all files in C:\textbackslash{}Apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_2\_x
+(x is replaced with the current eZ publish version). Put createdirs.bat
+in C:\textbackslash{}Apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_2\_x
 and run it. This creates the cache directories. If your did not uses
 publish/publish as your MySQL user/password settings, open site.ini,
 and just change the user and password lines to match your settings.
@@ -1922,7 +1923,7 @@ and just change the user and password lines to match your settings.
 
 \subsubsection*{Error Checking:}
 
-While apache and MySQL servers are running, open http://localhost/ezpublish\_2\_1
+While apache and MySQL servers are running, open http://localhost/ezpublish\_2\_2\_x
 in your webbrowser. This should give you an \char`\"{}could not connect
 to database ... no database selected\char`\"{}.\\
 
@@ -1939,7 +1940,7 @@ Open http://apache.my.intranet/phpMyAdmin in your webbrowser. Create
 a new database named \char`\"{}publish\char`\"{}.\\
 
 
-Run a SQL query and choose to load it from a textfile. Browse to C:\textbackslash{}apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_1\textbackslash{}sql\textbackslash{}publish.sql
+Run a SQL query and choose to load it from a textfile. Browse to C:\textbackslash{}apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_2\_x\textbackslash{}sql\textbackslash{}publish.sql
 and confirm with \char`\"{}Go\char`\"{}. This should take a while
 as the tables are created and some data is inserted. Check the first
 line, if the execution of the SQL query was successful.
@@ -1947,7 +1948,7 @@ line, if the execution of the SQL query was successful.
 
 \subsubsection*{Error Checking:}
 
-In your webbrowser, open http://apache.my.intranet/ezpublish\_2\_1.
+In your webbrowser, open http://apache.my.intranet/ezpublish\_2\_2\_x.
 This should give you nearly the known ezPublish screen.
 
 Note that you cannot access the admin site yet and the user site will
@@ -2010,7 +2011,7 @@ need to make the appropriate changes here.
 
 \texttt{\footnotesize <VirtualHost ez.my.intranet>}{\footnotesize \par}
 
-\texttt{\footnotesize <Directory C:/Apache/htdocs/ezpublish\_2\_1>}{\footnotesize \par}
+\texttt{\footnotesize <Directory C:/Apache/htdocs/ezpublish\_2\_2\_x>}{\footnotesize \par}
 
 \texttt{\footnotesize ~ Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
 
@@ -2046,7 +2047,7 @@ line in your configuration file!}{\footnotesize \par}
 
 \texttt{\footnotesize ~}{\footnotesize \par}
 
-\texttt{\footnotesize DocumentRoot C:/Apache/htdocs/ezpublish\_2\_1}{\footnotesize \par}
+\texttt{\footnotesize DocumentRoot C:/Apache/htdocs/ezpublish\_2\_2\_x}{\footnotesize \par}
 
 \texttt{\footnotesize ServerName ez.my.intranet}{\footnotesize \par}
 
@@ -2060,7 +2061,7 @@ line in your configuration file!}{\footnotesize \par}
 
 \texttt{\footnotesize <VirtualHost ezadmin.my.intranet>}{\footnotesize \par}
 
-\texttt{\footnotesize <Directory C:/Apache/htdocs/ezpublish\_2\_1>}{\footnotesize \par}
+\texttt{\footnotesize <Directory C:/Apache/htdocs/ezpublish\_2\_2\_x>}{\footnotesize \par}
 
 \texttt{\footnotesize ~ Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
 
@@ -2084,7 +2085,7 @@ line in your configuration file!}{\footnotesize \par}
 
 \texttt{\footnotesize ~}{\footnotesize \par}
 
-\texttt{\footnotesize DocumentRoot C:/Apache/htdocs/ezpublish\_2\_1}{\footnotesize \par}
+\texttt{\footnotesize DocumentRoot C:/Apache/htdocs/ezpublish\_2\_2\_x}{\footnotesize \par}
 
 \texttt{\footnotesize ServerName ezadmin.my.intranet}{\footnotesize \par}
 
@@ -2116,8 +2117,8 @@ In order to have something to play with, you may want to insert some
 sample data.\\
 
 
-Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish\_2\_1, using
-folder names. This will create some image files and some downloads
+Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish\_2\_2\_x,
+using folder names. This will create some image files and some downloads
 for the sample data. \\
 
 
@@ -2125,7 +2126,7 @@ Now we need to insert the data itself into the database. Therefore
 open http://apache.my.intranet/phpMyAdmin, select the database \char`\"{}publish\char`\"{}
 by clicking on it in the left frame, scroll down past the list of
 tables in the right frame and run a SQL query. Choose to load it from
-a textfile. Browse to C:\textbackslash{}apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_1\textbackslash{}sql\textbackslash{}data.sql
+a textfile. Browse to C:\textbackslash{}apache\textbackslash{}htdocs\textbackslash{}ezpublish\_2\_2\_x\textbackslash{}sql\textbackslash{}data.sql
 and confirm with \char`\"{}Go\char`\"{}. Again check the first line,
 if the execution of the SQL query was successful.\\
 

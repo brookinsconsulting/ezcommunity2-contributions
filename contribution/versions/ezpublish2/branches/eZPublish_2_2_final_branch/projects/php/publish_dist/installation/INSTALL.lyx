@@ -5164,7 +5164,7 @@ Open you webbrowser and load http://apache.my.intranet.
 ranet) and for every client.
 \layout Subsection
 
-ezPublish 2.1
+ezPublish 2.2.x
 \layout Subsubsection*
 
 Unpacking the files
@@ -5183,14 +5183,14 @@ Apache
 \backslash 
 htdocs
 \backslash 
-ezpublish_2_1.
+ezpublish_2_2_x (x is replaced with the current eZ publish version).
  Put createdirs.bat in C:
 \backslash 
 Apache
 \backslash 
 htdocs
 \backslash 
-ezpublish_2_1 and run it.
+ezpublish_2_2_x and run it.
  This creates the cache directories.
  If your did not uses publish/publish as your MySQL user/password settings,
  open site.ini, and just change the user and password lines to match your
@@ -5200,8 +5200,8 @@ ezpublish_2_1 and run it.
 Error Checking:
 \layout Standard
 
-While apache and MySQL servers are running, open http://localhost/ezpublish_2_1
- in your webbrowser.
+While apache and MySQL servers are running, open http://localhost/ezpublish_2_2_
+x in your webbrowser.
  This should give you an "could not connect to database ...
  no database selected".
 \newline 
@@ -5231,7 +5231,7 @@ apache
 \backslash 
 htdocs
 \backslash 
-ezpublish_2_1
+ezpublish_2_2_x
 \backslash 
 sql
 \backslash 
@@ -5243,7 +5243,7 @@ publish.sql and confirm with "Go".
 Error Checking:
 \layout Standard
 
-In your webbrowser, open http://apache.my.intranet/ezpublish_2_1.
+In your webbrowser, open http://apache.my.intranet/ezpublish_2_2_x.
  This should give you nearly the known ezPublish screen.
 \layout Standard
 
@@ -5385,7 +5385,7 @@ ServerName apache.my.intranet
 
 \family typewriter 
 \size footnotesize 
-<Directory C:/Apache/htdocs/ezpublish_2_1>
+<Directory C:/Apache/htdocs/ezpublish_2_2_x>
 \layout Standard
 
 
@@ -5485,7 +5485,7 @@ RewriteRule !
 
 \family typewriter 
 \size footnotesize 
-DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+DocumentRoot C:/Apache/htdocs/ezpublish_2_2_x
 \layout Standard
 
 
@@ -5529,7 +5529,7 @@ ServerName ez.my.intranet
 
 \family typewriter 
 \size footnotesize 
-<Directory C:/Apache/htdocs/ezpublish_2_1>
+<Directory C:/Apache/htdocs/ezpublish_2_2_x>
 \layout Standard
 
 
@@ -5603,7 +5603,7 @@ RewriteRule !
 
 \family typewriter 
 \size footnotesize 
-DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+DocumentRoot C:/Apache/htdocs/ezpublish_2_2_x
 \layout Standard
 
 
@@ -5656,7 +5656,7 @@ In order to have something to play with, you may want to insert some sample
 
 \layout Standard
 
-Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish_2_1, using folder
+Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish_2_2_x, using folder
  names.
  This will create some image files and some downloads for the sample data.
  
@@ -5675,7 +5675,7 @@ apache
 \backslash 
 htdocs
 \backslash 
-ezpublish_2_1
+ezpublish_2_2_x
 \backslash 
 sql
 \backslash 
