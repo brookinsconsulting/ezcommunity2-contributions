@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.44 2001/10/09 16:06:21 fh Exp $
+// $Id: fileupload.php,v 1.45 2001/11/05 07:07:11 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -70,7 +70,7 @@ if ( isSet( $Download ) )
     $file = new eZVirtualFile( $FileID );
     $fileName = $file->originalFileName();
 
-    eZHTTPTool::header( "Location: /filemanager/download/$FileID/$fileName/" );
+    eZHTTPTool::header( "Location: /filemanager/download/$FileID/$fileName" );
     exit();
 }
 
