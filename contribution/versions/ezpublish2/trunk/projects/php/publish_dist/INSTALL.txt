@@ -29,7 +29,9 @@ eZ publish installation guide
 
 2.3 Compile and install the PHP package 
 
-# make # make install
+# make 
+
+# make install
 
 3 Apache config
 
@@ -39,16 +41,16 @@ The rewrite and php modules needs to be active to use publish.
 
 3.2 Apache configuration
 
-This is an example of a httpd.conf virtalhost (change publish.org to
-your own domain).
+This is an example of a httpd.conf virtalhost. Remember to change ipaddress,
+domainname mailaddress nad path to refelct your system.
 
-NameVirtaulHost publish.org:80
+NameVirtaulHost[yourIPaddress]:80
 
 # User site 
 
-<VirtualHost publish.org> 
+<VirtualHost yourdomain.org> 
 
-  <Directory /home/publish/www> 
+  <Directory /your/apache/documentroot/> 
 
          Options FollowSymLinks Indexes ExecCGI 
 
@@ -58,23 +60,23 @@ NameVirtaulHost publish.org:80
 
 RewriteEngine On 
 
-RewriteRule !\.(gif|css|jpg|png) /home/publish/www/index.php 
+RewriteRule !\.(gif|css|jpg|png) /your/apache/documentroot/index.php 
 
 ServerAdmin your_mail@domain.no 
 
-DocumentRoot /home/publish/www
+DocumentRoot /your/apache/documentroot/
 
-ServerName publish.org 
+ServerName yourdomain.org
 
-ServerAlias www.publish.org 
+ServerAlias www.yourdomain.org 
 
 </VirtualHost>
 
 # Admin site 
 
-<VirtualHost admin.publish.org> 
+<VirtualHost admin.yourdomain.org> 
 
-  <Directory /home/publish/www/admin> 
+  <Directory /your/apache/documentroot/admin> 
 
          Options FollowSymLinks Indexes ExecCGI 
 
@@ -84,15 +86,15 @@ ServerAlias www.publish.org
 
 RewriteEngine On 
 
-RewriteRule !\.(gif|css|jpg|png) /home/publish/www/admin/index.php 
+RewriteRule !\.(gif|css|jpg|png) /your/apache/documentroot/admin/index.php 
 
 ServerAdmin your_mail@domain.no 
 
-DocumentRoot /home/publish/www/admin 
+DocumentRoot /your/apache/documentroot/admin
 
-ServerName admin.publish.org 
+ServerName admin.yourdomain.org
 
-ServerAlias admin.publish.org 
+ServerAlias admin.yourdomain.org
 
 </VirtualHost>
 
@@ -104,7 +106,7 @@ ServerAlias admin.publish.org
 
 # mysqladmin -uroot -p create publish
 
-* Add a publish user in MySQL, to add a user you can use the MySQL
+* Add a publish user in MySQL. To add a user you can use the MySQL
   client
 
 mysql>grant all on publish.* to publish@localhost identified by "secret";
@@ -116,11 +118,13 @@ mysql>grant all on publish.* to publish@localhost identified by "secret";
 
 4.2 Install the php files
 
-* Put all the publish files in your apache documentroot.
+* Put all the publish files in your apache documentroot. 
 
-# cd /path/to/apache/documentroot/ 
+# cd /tmp/
 
 # tar zxvf /path/to/ezpublish-1.0.tar.gz
+
+# mv /tmp/publish_dist /your/apache/documentroot
 
 * Edit site.ini and add all the modules you need, and set the username
   and password.
@@ -132,7 +136,7 @@ mysql>grant all on publish.* to publish@localhost identified by "secret";
 
 * Start konqueror and have fun!
 
-# konqueror http://yoursite.com
+# konqueror http://yourdomain.org
 
 * NOTE!: The default admin username and password will be admin/publish.
   Remember to change the password!! 
