@@ -135,13 +135,16 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     }
     else
     {
-        print ( "du har ikke rettiheter" );
+        $message = ( "Du har ikke rettiheter" );
+        include( "common/error.php" );
     }
 
 }
 else
 {
-    Header( "Location: index.php?page=common/error.php" );
+    $message = "Du må logge deg inn.";
+    include( "common/error.php" );
+    // Header( "Location: index.php?page=common/error.php" );
 }
 
 ?>
