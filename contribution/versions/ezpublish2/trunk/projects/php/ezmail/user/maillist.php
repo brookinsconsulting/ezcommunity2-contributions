@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.12 2001/03/27 18:15:25 fh Exp $
+// $Id: maillist.php,v 1.13 2001/03/27 18:32:51 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -74,7 +74,7 @@ $i = 0;
 foreach( $mail as $mailItem )
 {
     $t->set_var( "mail_id", $mailItem->id() );
-    $t->set_var( "mail_subject", htmlspecialchars( $mailItem->subject() ) );
+    $t->set_var( "mail_subject", htmlspecialchars( $mailItem->subject() ), "-" );
     $t->set_var( "mail_sender", htmlspecialchars( $mailItem->sender() ) );
 
     switch( $mailItem->status() )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.13 2001/03/27 18:15:25 fh Exp $
+// $Id: ezmailaccount.php,v 1.14 2001/03/27 18:32:51 fh Exp $
 //
 // eZMailAccount class
 //
@@ -107,7 +107,8 @@ class eZMailAccount
                                  Server='$this->Server',
                                  DeleteFromServer='$this->DeleteFromServer',
                                  IsActive='$this->IsActive',
-                                 ServerType='$this->ServerType'
+                                 ServerType='$this->ServerType',
+                                 ServerPort='$this->ServerPort'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -124,7 +125,8 @@ class eZMailAccount
                                  Server='$this->Server',
                                  DeleteFromServer='$this->DeleteFromServer',
                                  IsActive='$this->IsActive',
-                                 ServerType='$this->ServerType'
+                                 ServerType='$this->ServerType',
+                                 ServerPort='$this->ServerPort'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -152,15 +154,16 @@ class eZMailAccount
             else if( count( $account_array ) == 1 )
             {
 
-                $this->ID = $account_array[0][ "ID" ];
-                $this->UserID = $account_array[0][ "UserID" ];
-                $this->Name = $account_array[0][ "Name" ];
-                $this->LoginName = $account_array[0][ "LoginName" ];
-                $this->Password = $account_array[0][ "Password" ];
-                $this->Server = $account_array[0][ "Server" ];
-                $this->DeleteFromServer = $account_array[0][ "DeleteFromServer" ];
-                $this->IsActive = $account_array[0][ "IsActive" ];
-                $this->ServerType = $account_array[0][ "ServerType" ];
+                $this->ID =& $account_array[0][ "ID" ];
+                $this->UserID =& $account_array[0][ "UserID" ];
+                $this->Name =& $account_array[0][ "Name" ];
+                $this->LoginName =& $account_array[0][ "LoginName" ];
+                $this->Password =& $account_array[0][ "Password" ];
+                $this->Server =& $account_array[0][ "Server" ];
+                $this->DeleteFromServer =& $account_array[0][ "DeleteFromServer" ];
+                $this->IsActive =& $account_array[0][ "IsActive" ];
+                $this->ServerType =& $account_array[0][ "ServerType" ];
+                $this->ServerPort =& $account_array[0][ "ServerPort" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -294,6 +297,26 @@ class eZMailAccount
         $this->Server = $value;
     }
 
+    /*!
+     */
+    function serverPort()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ServerPort;
+    }
+
+    /*!
+     */
+    function setServerPort( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->ServerPort = $value;
+    }
+    
   /*!
     */
     function deleteFromServer()
@@ -405,7 +428,7 @@ class eZMailAccount
     function checkMail()
     {
         $user = eZUser::currentUser();
-        $server = "{" . $this->Server . "/pop3:110}";
+        $server = "{" . $this->Server . "/pop3:" .$this->ServerPort ."}";
         $mbox = imap_open( $server, $this->LoginName, $this->Password, OP_HALFOPEN)
              or die("can't connect: ".imap_last_error());
 
@@ -471,6 +494,7 @@ class eZMailAccount
     var $LoginName;
     var $Password;
     var $Server;
+    var $ServerPort;
     var $DeleteFromServer;
     var $IsActive;
     var $ServerType;

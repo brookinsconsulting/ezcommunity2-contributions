@@ -32,6 +32,7 @@ CREATE TABLE eZMail_Account (
   LoginName varchar(100),
   Password varchar(50),
   Server varchar(150),
+  ServerPort int(5) defaul '0',
   DeleteFromServer int(1) default '1',
   ServerType int(2), 
   IsActive int(1) default '0' NOT NULL,

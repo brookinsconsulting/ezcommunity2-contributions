@@ -27,6 +27,7 @@ if( isset( $Ok ) )
     $account->setPassword( $Password );
     $account->setLoginName( $Login );
     $account->setServer( $Server );
+    $account->setServerPort( $Port );
     if( isset( $DelFromServer ) )
         $account->setDeleteFromServer( true );
     else
@@ -70,6 +71,7 @@ if( $AccountID != 0 ) // TODO: check that user really is the owner of the accoun
     $t->set_var( "login_value", htmlspecialchars( $account->loginName() ) );
     $t->set_var( "password_value", htmlspecialchars( $account->password() ) );
     $t->set_var( "server_value", htmlspecialchars( $account->server() ) );
+    $t->set_var( "port_value", $account->serverPort() );
     if( $account->deleteFromServer() )
         $t->set_var( "delete_from_server_checked", "checked" );
 }
