@@ -21,18 +21,18 @@
 <!-- END no_logo_tpl -->
 <!-- BEGIN logo_view_tpl -->
 
-<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" />
+<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" /><br />
 
 <!-- END logo_view_tpl -->
 
 <p class="boxtext">{intl-company_no}:</p>
-{company_no}:
+<div class="p">{company_no}:</div>
 
 <!-- BEGIN address_item_tpl -->
 <p class="boxtext">{intl-address}:</p>
-{street1}<br/>
-{street2}<br />
-{zip} {place}<br />
+<div class="p">{street1}</div>
+<div class="p">{street2}</div>
+<div class="p">{zip} {place}</div>
 <!-- END address_item_tpl -->
 
 <br clear="all" />
@@ -42,13 +42,13 @@
 
 
 <!-- BEGIN phone_item_tpl -->
-<p class="boxtext">{intl-telephone_headline}:</p>
+<h2>{intl-telephone_headline}:</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN phone_line_tpl -->
     <td width="{phone_width}%">
-        <span class="boxtext">{phone_type_name}:</span>
-        <span>{phone}</span>
+        <p class="boxtext">{phone_type_name}:</p>
+        {phone}
     </td>
     <!-- END phone_line_tpl -->
 </tr>
@@ -61,12 +61,12 @@
 <!-- END no_phone_item_tpl -->
 
 <!-- BEGIN online_item_tpl -->
-<p class="boxtext">{intl-online_headline}:</p>
+<h2>{intl-online_headline}:</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN online_line_tpl -->
     <td width="{online_width}%">
-        <span class="boxtext">{online_type_name}:</span>
+        <p class="boxtext">{online_type_name}:</p>
         <!-- BEGIN email_line_tpl -->
         <a href="{online_url_type}:{online}">{online}</a>
         <!-- END email_line_tpl -->

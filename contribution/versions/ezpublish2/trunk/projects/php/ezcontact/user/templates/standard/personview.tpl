@@ -5,78 +5,90 @@
 <p class="boxtext">{intl-name_headline}:</p>
 <span class="p">{firstname} {lastname}</span>
 
+<p class="boxtext">{intl-birthday_headline}: </p>
+<span class="p">{birthyear} {birthmonth} {birthday} {personno}</span>
+
 <!-- BEGIN address_item_tpl -->
-<p class="boxtext">{intl-addresses_headline}:</p>
-<table>
+<h2>{intl-addresses_headline}</h2>
+<br />
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+<tr>
 <!-- BEGIN address_line_tpl -->
-<tr>
-	<th>{address_type_name}</th>
-	<td>{street1}</td>
-</tr>
-<tr>
-	<td>{street2}</td>
-</tr>
-<tr>
-	<td>{zip} {place}</td>
-</tr>
+	<td>
+	<p class="boxtext">{address_type_name}:</p>
+	<div class="p">{street1}</div>
+	<div class="p">{street2}</div>
+	<div class="p">{zip} {place}</div>
+	</td>
 <!-- END address_line_tpl -->
+</tr>
 </table>
 <!-- END address_item_tpl -->
 
 <!-- BEGIN no_address_item_tpl -->
-<p class="boxtext">{intl-addresses_headline}:</p>
+<h2>{intl-addresses_headline}</h2>
 <p>{intl-error_no_addresses}</p>
 <!-- END no_address_item_tpl -->
 
 
-<p class="boxtext">{intl-telephone_headline}:</p>
+<h2>{intl-telephone_headline}</h2>
 
 <!-- BEGIN phone_item_tpl -->
-<table>
-<!-- BEGIN phone_line_tpl -->
+<br />
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
-<td>{phone_id}</td>
-<td>{phone_type_id}{phone_type_name}</td>
-<td>{phone}</td>
-</tr>
+<!-- BEGIN phone_line_tpl -->
+	<td valign="top">
+	<p class="boxtext">{phone_type_name}:</p>
+	{phone}
+	</td>
 <!-- END phone_line_tpl -->
+</tr>
 </table>
 <!-- END phone_item_tpl -->
 
 <!-- BEGIN no_phone_item_tpl -->
-<p class="boxtext">{intl-telephone_headline}:</p>
+<h2>{intl-telephone_headline}</h2>
 <p>{intl-error_no_phones}</p>
 <!-- END no_phone_item_tpl -->
 
-<p class="boxtext">{intl-online_headline}:</p>
+<h2>{intl-online_headline}</h2>
 <!-- BEGIN online_item_tpl -->
-<table>
-<!-- BEGIN online_line_tpl -->
+<br />
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
-<td>{online_id}</td>
-<td>{online_type_id} {online_type_name}</td>
-<td>{online}</td>
-</tr>
+<!-- BEGIN online_line_tpl -->
+	<td>
+	<p class="boxtext">{online_type_name}:</p>
+	{online}
+	</td>
 <!-- END online_line_tpl -->
+</tr>
 </table>
 <!-- END online_item_tpl -->
 <!-- BEGIN no_online_item_tpl -->
-<p class="boxtext">{intl-online_headline}:</p>
+<h2>{intl-online_headline}:</h2>
 <p>{intl-error_no_onlines}</p>
 <!-- END no_online_item_tpl -->
 
-<p class="boxtext">{intl-birthday_headline}: </p>
-<p>{birthyear} {birthmonth} {birthday} {personno}</p>
-<p class="boxtext">{intl-comment_headline}:</p>
+<h2>{intl-comment_headline}</h2>
 <p>{comment}</p>
 
 <hr noshade size="4"/>
 
-<form method="post" action="/contact/person/edit/{person_id}/" enctype="multipart/form-data">
-<input class="okbutton" type="submit" value="{intl-edit}" />
-</form>
-
-<form method="post" action="/contact/person/list/">
-<input class="okbutton" type="submit" name="Back" value="{intl-back}">
-</form>
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<form method="post" action="/contact/person/edit/{person_id}/" enctype="multipart/form-data">
+	<input class="okbutton" type="submit" value="{intl-edit}" />
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form method="post" action="/contact/person/list/">
+	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
+	</form>
+	</td>
+</tr>
+</table>
 

@@ -5,7 +5,7 @@
 
 <br />
 <!-- BEGIN company_view_tpl -->
-<h2>Stilling annonse til firma: {company_name}</h2>
+<h2>Firma: {company_name}</h2>
 <!-- <p class="boxtext">{intl-logo}:</p> -->
 <!-- BEGIN no_logo_tpl -->
 <!-- <p>{intl-no_logo}</p> -->
@@ -63,7 +63,7 @@
 
 <!-- END company_view_tpl -->
 
-<h2>Stilling annonse informasjon</h2>
+<h2>Stillingsinformasjon</h2>
 
 <p class="boxtext">{intl-name}:</p>
 {classified_name}

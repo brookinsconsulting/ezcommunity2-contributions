@@ -64,7 +64,7 @@
  
 <!-- BEGIN person_item_tpl -->
 <h2>{intl-personal_headline}</h2>
-
+<br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
 	    <td width="50%">
@@ -85,17 +85,17 @@
         <table cellpadding="0" cellspacing="0" border="0">
         <tr valign="bottom">
             <td>
-                <p class="boxtext">{intl-year}:</p>
+                <div class="small">{intl-year}:</div>
                 <input type="text" size="4" name="BirthYear" value="{birthyear}"/>
             </td>
 			<td>&nbsp;</td>
             <td>
-                <p class="boxtext">{intl-month}: </p>
+                <div class="small">{intl-month}:</div>
                 <input type="text" size="4" name="BirthMonth" value="{birthmonth}"/>
             </td>
 			<td>&nbsp;</td>
             <td>
-                <p class="boxtext">{intl-day}: </p>
+                <div class="small">{intl-day}:</div>
                 <input type="text" size="4" name="BirthDay" value="{birthday}"/>
             </td>
         </tr>
@@ -194,11 +194,13 @@
 
 <!-- BEGIN password_item_tpl -->
 <h2>{intl-password_headline}</h2>
+<br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="50%">
         <p class="boxtext">{intl-user_name}:</p>
         <input type="text" size="20" name="LoginName" value="{user_name}"/>
+		<br /><br />
     </td>
     <td width="50%">
         &nbsp;
