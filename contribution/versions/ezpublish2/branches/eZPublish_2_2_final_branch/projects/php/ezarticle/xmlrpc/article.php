@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.11 2002/08/01 13:38:29 gl Exp $
+// $Id: article.php,v 1.20.2.12 2002/08/13 16:12:28 gl Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -487,6 +487,16 @@ else if ( $Command == "search" )
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
     handleSearchData( $ret );
     $ReturnData = new eZXMLRPCStruct( $ret );
+}
+else if ( $Command == "weburl" )
+{
+    $path = "/article/articleview/" .
+         $Data["ArticleID"]->value() . "/" .
+         $Data["ArticlePage"]->value() . "/" .
+         $Data["ArticleCategory"]->value() . "/";
+    $ReturnData = new eZXMLRPCStruct(
+        array( "WebURL" => new eZXMLRPCString( rewriteWebURL( $path ) ) )
+        );
 }
 
 ?>

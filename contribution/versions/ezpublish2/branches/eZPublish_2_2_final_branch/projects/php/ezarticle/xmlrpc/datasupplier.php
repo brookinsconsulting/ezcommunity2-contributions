@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.16.2.1 2002/04/25 13:30:51 jb Exp $
+// $Id: datasupplier.php,v 1.16.2.2 2002/08/13 16:12:28 gl Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -112,6 +112,7 @@ switch ( $RequestType )
             case "delete":
             case "permission":
             case "info":
+            case "weburl":
             {
                 include( "ezarticle/xmlrpc/article.php" );
                 break;
@@ -120,7 +121,7 @@ switch ( $RequestType )
                 $Error = true;
         }
     } break;
-        
+
     default :
     {
         switch( $Command )
