@@ -1,5 +1,19 @@
 <?
 
+/*
+  This code can be reused for simple type lists. It requires an object with the following functions:
+  name(): Used for reading the name of the type.
+  id(): Used for retrieving the id of the type in the database
+
+  The object list must be initialized in the $item_type_array variable.
+  Also these following variables must be set properly.
+  $language_file: The file used for reading language translations, for example: consultationtype.php
+  $page_path: The base name of the url, for example: /contact/consultationtype
+  You can also enable item placement by setting the $move_item variable to true, to make sure an
+  item can be moved it must implement the moveUp() and moveDown() functions.
+  If the $SortPage variable is set all items will have hyperlinked names linked to the variable content.
+*/
+
 $ini =& $GlobalSiteIni;
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
@@ -41,6 +55,8 @@ $t->set_block( "list_page", "list_item_tpl", "list_item" );
 $t->set_block( "list_item_tpl", "line_item_tpl", "line_item" );
 $t->set_block( "list_page", "no_line_item_tpl", "no_line_item" );
 
+$t->set_block( "line_item_tpl", "item_plain_tpl", "item_plain" );
+$t->set_block( "line_item_tpl", "item_linked_tpl", "item_linked" );
 $t->set_block( "line_item_tpl", "item_move_up_tpl", "item_move_up" );
 $t->set_block( "line_item_tpl", "item_separator_tpl", "item_separator" );
 $t->set_block( "line_item_tpl", "item_move_down_tpl", "item_move_down" );
@@ -66,6 +82,7 @@ $t->set_var( "item_back_command", $back_command );
 
 $count = count( $item_type_array );
 
+
 $i = 0;
 foreach( $item_type_array as $item )
 {
@@ -76,6 +93,9 @@ foreach( $item_type_array as $item )
     $t->set_var( "item_separator", "" );
     $t->set_var( "no_item_separator", "" );
 
+    $t->set_var( "item_plain", "" );
+    $t->set_var( "item_linked", "" );
+
     if ( ( $i %2 ) == 0 )
         $t->set_var( "bg_color", "bglight" );
     else
@@ -83,6 +103,16 @@ foreach( $item_type_array as $item )
 
     $t->set_var( "item_id", $item->id() );
     $t->set_var( "item_name", $item->name() );
+
+    if ( isset( $SortPage ) )
+    {
+        $t->set_var( "item_sort_command", $SortPage );
+        $t->parse( "item_linked", "item_linked_tpl" );
+    }
+    else
+    {
+        $t->parse( "item_plain", "item_plain_tpl" );
+    }
 
     if ( $i > 0 && isset( $move_item ) )
     {
