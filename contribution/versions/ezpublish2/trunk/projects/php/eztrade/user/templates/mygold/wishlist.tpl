@@ -29,20 +29,24 @@
 		  <th>&nbsp;{intl-product_image}:</th>
 		  <th>{intl-product_name}:</th>
 		  <th>{intl-product_options}:</th>
-		  <th>{intl-move_to_cart}:</th>
+		  <th>{intl-action}:</th>
 		  <th>{intl-someone_has_bought_this}:</th>
 		  <th>{intl-product_qty}:</th>
 		  <th align="right">{intl-product_price}:</th>
 		  <th>&nbsp;</th>
 		</tr>
 		<!-- BEGIN wishlist_item_tpl --> 
-		<tr> 
+		<tr valign="middle"> 
 		  <td class="{td_class}"> <!-- BEGIN wishlist_image_tpl --> <img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
 			<!-- END wishlist_image_tpl --> </td>
 		  <td class="{td_class}"> <a href="/trade/productview/{product_id}/">{product_name}</a> 
 		  </td>
-		  <td class="{td_class}"> <!-- BEGIN wishlist_item_option_tpl --> <div class="small">{option_name}: {option_value}</div>
-			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
+		  <td class="{td_class}"> 
+		    <!-- BEGIN wishlist_item_option_tpl -->
+		    {option_value}	
+		    <!-- END wishlist_item_option_tpl -->
+		    &nbsp;
+		  </td>
 		  <td class="{td_class}"> <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
 			{intl-move_to_cart} </a> 
                   </td>

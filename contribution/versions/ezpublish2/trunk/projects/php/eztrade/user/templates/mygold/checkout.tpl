@@ -2,7 +2,7 @@
 
 <h1>{intl-confirm_order}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <h2>{intl-products_about_to_order}:</h2>
 
@@ -29,7 +29,7 @@
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
 	{option_name}:
-	{option_value}<br>
+	{option_value}<br />
         <!-- END cart_item_option_tpl -->
 	&nbsp;
 	</td>
