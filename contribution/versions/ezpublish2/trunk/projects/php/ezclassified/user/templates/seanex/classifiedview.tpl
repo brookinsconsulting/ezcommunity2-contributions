@@ -94,6 +94,9 @@
 <p class="boxtext">{intl-title}:</p>
 {classified_title}
 
+<p class="boxtext">{intl-duedate}:</p>
+{classified_duedate}
+
 <p class="boxtext">{intl-position_type}:</p>
 {classified_position_type}
 
