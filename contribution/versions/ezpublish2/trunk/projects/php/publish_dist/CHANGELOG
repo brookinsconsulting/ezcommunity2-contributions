@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.1 to
 -----------------
+* Added new module eZ mediacatalogue; handles flash, movies etc..
 * Added override system for article list and article view templates.
 * Added discussion to polls
 * Moved preamble/header/footer to one file.
@@ -12,7 +13,7 @@ Changes from 2.1 to
 * Added custom php/html file upload/edit in sistemanager
 * Added possibility to override sender info when sending bulkmails with settings in site.ini
 * Added mail to friend script
-* Added time publising on eZ article
+* Added time un/publising on eZ article
 * Added site map and special front page in eZ article (user site)
 * Added dynamic generation of site title and meta information.
 * Added internal messaging with the module eZ message.
