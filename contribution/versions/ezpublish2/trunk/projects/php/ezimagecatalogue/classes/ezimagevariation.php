@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.6 2000/11/01 09:32:55 ce-cvs Exp $
+// $Id: ezimagevariation.php,v 1.7 2000/11/02 18:14:15 bf-cvs Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -177,19 +177,52 @@ class eZImageVariation
                 $imageFile->getFile( $image->filePath( true ) );
                 $imageFile->setType( "image/jpeg" );
 
-                $postfix = ".jpg";
-                if ( ereg( "gif$", $image->originalFileName() ) )
+                $suffix = "";
+                if ( ereg( "\\.([a-z]+)$", $image->originalFileName(), $regs ) )
+                {
+                    // We got a suffix, make it lowercase and store it
+                    $suffix = strtolower( $regs[1] );
+                }
+
+                $postfix = "";
+                // Preserve jpg's
+                if ( $suffix == "jpg" || $suffix == "jpeg" )
+                {
+                    $postfix = ".jpg";
+                    $imageFile->setType( "image/jpeg" );
+                }
+                // Preserve gif's
+                else if ( $suffix == "gif" )
                 {
                     $postfix = ".gif";
                     $imageFile->setType( "image/gif" );
                 }
+                // Preserve png's
+                else if ( $suffix == "png" )
+                {
+                    $postfix = ".png";
+                    $imageFile->setType( "image/png" );
+                }
+                else
+                {
+                    // Unkown, use jpeg
+                    $postfix = ".jpg";
+                    $imageFile->setType( "image/jpeg" );
+                }
+
+//                  $postfix = ".jpg";
+//                  if ( ereg( "gif$", $image->originalFileName() ) )
+//                  {
+//                      $postfix = ".gif";
+//                      $imageFile->setType( "image/gif" );
+//                  }
 
 //                if ( ereg( "png$", $image->originalFileName() ) )
 //                {
 //                    $postfix = ".png";
 //                    $imageFile->setType( "image/png" );
 //                }
-                
+
                 $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . $postfix;
 
                 $imageFile->scaleCopy( $dest, $variationGroup->width(), $variationGroup->height() );

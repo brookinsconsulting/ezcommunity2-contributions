@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.15 2000/11/01 09:32:55 ce-cvs Exp $
+// $Id: ezimage.php,v 1.16 2000/11/02 18:14:11 bf-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -367,26 +367,48 @@ class eZImage
 
            $this->OriginalFileName = $file->name();
 
-           $postfix = ".jpg";
-           if ( ereg( "gif$", $this->OriginalFileName ) )
+           $suffix = "";
+           if ( ereg( "\\.([a-z]+)$", $this->OriginalFileName, $regs ) )
+           {
+               // We got a suffix, make it lowercase and store it
+               $suffix = strtolower( $regs[1] );
+           }
+
+           $postfix = "";
+           // Preserve jpg's
+           if ( $suffix == "jpg" || $suffix == "jpeg" )
+           {
+               $postfix = ".jpg";
+           }
+           // Preserve gif's
+           else if ( $suffix == "gif" )
            {
                $postfix = ".gif";
            }
+           // Preserve png's
+           else if ( $suffix == "png" )
+           {
+               $postfix = ".png";
+           }
 
-//           if ( ereg( "png$", $this->OriginalFileName ) )
-//           {
-//               $postfix = ".png";
-//           }
+//             if ( ereg( "\\.png$", $this->OriginalFileName ) )
+//             {
+//                 $postfix = ".png";
+//             }
            
            // the path to the catalogue
 
-           if ( ( ereg( "jpg$", $this->OriginalFileName ) || ereg( "jpeg$", $this->OriginalFileName )) )
-           {               
+//           ( ereg( "\\.jpg$", $this->OriginalFileName ) || ereg( "\\.jpeg$", $this->OriginalFileName ));
+           if ( $postfix != "" )
+           {
+               // Copy the file since we support it directly
                $file->copy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . $postfix );
            }
            else
            {
-               $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . $postfix );
+               // Convert it to jpg.
+               $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . ".jpg" );
+               $postfix = ".jpg";
            }
 
            $this->FileName = basename( $file->tmpName() ) . $postfix;
