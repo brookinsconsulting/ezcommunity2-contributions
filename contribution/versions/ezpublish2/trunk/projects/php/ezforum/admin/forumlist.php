@@ -1,5 +1,5 @@
 <?
-// $Id: forumlist.php,v 1.7 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: forumlist.php,v 1.8 2000/11/23 10:57:59 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -33,7 +33,7 @@ include_once( "ezforum/classes/ezforum.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
 "ezforum/admin/" . "/intl", $Language, "forumlist.php" );
 
 $t->setAllStrings();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.3 2000/11/02 16:45:28 bf-cvs Exp $
+// $Id: categorylist.php,v 1.4 2000/11/23 10:57:59 bf-cvs Exp $
 //
 // Christoffer A. Elo
 // Created on: <17-Oct-2000 13:50:26 ce>
@@ -26,7 +26,6 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );

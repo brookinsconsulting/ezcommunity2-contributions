@@ -1,5 +1,5 @@
 <?
-// $Id: categorylist.php,v 1.13 2000/11/01 10:11:45 bf-cvs Exp $
+// $Id: categorylist.php,v 1.14 2000/11/23 10:57:59 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -36,7 +36,7 @@ require( "ezuser/admin/admincheck.php" );
   
 $cat = new eZForumCategory();
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
 "ezforum//admin/" . "/intl", $Language, "categorylist.php" );
 $t->setAllStrings();
 

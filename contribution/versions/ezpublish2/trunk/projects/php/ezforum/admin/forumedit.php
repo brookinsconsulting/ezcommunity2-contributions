@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.9 2000/11/22 16:46:26 bf-cvs Exp $
+// $Id: forumedit.php,v 1.10 2000/11/23 10:57:59 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -135,7 +135,7 @@ if ( $Action == "delete" )
     }
 }
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
 "ezforum//admin/" . "/intl", $Language, "forumedit.php" );
 $t->setAllStrings();
 
