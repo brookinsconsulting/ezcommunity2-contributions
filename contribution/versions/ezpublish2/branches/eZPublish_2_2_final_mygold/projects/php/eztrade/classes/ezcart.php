@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.36.4.4 2001/12/18 14:08:08 sascha Exp $
+// $Id: ezcart.php,v 1.36.4.5 2002/04/16 10:30:48 ce Exp $
 //
 // Definition of eZCart class
 //

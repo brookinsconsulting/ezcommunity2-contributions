@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayreport.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
+// $Id: dayreport.php,v 1.7.4.1 2002/04/16 10:30:45 ce Exp $
 //
 // Created on: <07-Jan-2001 14:47:04 bf>
 //

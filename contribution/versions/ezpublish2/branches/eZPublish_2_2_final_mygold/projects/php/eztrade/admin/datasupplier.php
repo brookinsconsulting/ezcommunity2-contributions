@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.42.4.1 2001/12/18 14:08:07 sascha Exp $
+// $Id: datasupplier.php,v 1.42.4.2 2002/04/16 10:30:46 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -73,7 +73,23 @@ switch ( $url_array[2] )
         include( "eztrade/admin/customerview.php" );
     }
     break;
-    
+
+    case "productspecialslist" :
+    {
+        include( "eztrade/admin/productspecialslist.php" );
+    }
+    break;    
+
+    case "productspecialsedit" :
+    {
+	if ( isset( $url_array[3] ) )
+	{
+	    $SpecialID = $url_array[3];
+	}
+        include( "eztrade/admin/productspecialsedit.php" );
+    }
+    break;    
+
 
     case "categorylist" :
 
@@ -98,10 +114,20 @@ switch ( $url_array[2] )
 
     case "voucherlist" :
     {
+	if ( $url_array[3] != "" )
+            $Offset = $url_array[3];
+        else
+            $Offset = 0;
         include( "eztrade/admin/voucherlist.php" );
     }
     break;
     
+    case "orderstats" :
+    {
+        include( "eztrade/admin/orderstats.php" );
+    }
+    break;
+        
     case "typeedit" :
     {
         if ( $url_array[3] == "edit" )

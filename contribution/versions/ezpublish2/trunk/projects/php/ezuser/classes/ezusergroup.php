@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezusergroup.php,v 1.32 2001/12/07 17:09:35 br Exp $
+// $Id: ezusergroup.php,v 1.33 2002/04/16 10:30:55 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -354,7 +354,7 @@ class eZUserGroup
                                                                eZUser_User AS U
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
                                                    AND ( " . $query->buildQuery() . " )
-                                                   GROUP BY UGL.UserID, U.Login
+                                                   GROUP BY UGL.UserID
                                                    ORDER By $orderBy" );
         }
         else
@@ -362,7 +362,7 @@ class eZUserGroup
             $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
-                                                   GROUP BY UGL.UserID, U.Login
+                                                   GROUP BY UGL.UserID
                                                    ORDER By $orderBy" );
 
         }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.4.7 2001/12/18 14:08:08 sascha Exp $
+// $Id: checkout.php,v 1.96.4.8 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -738,7 +738,7 @@ if ( $total["inctax"] )
     
     foreach ( $paymentMethods as $paymentMethod )
     {
-	if ( !( ( $paymentMethod["Text"] == "Bankeinzug" ) AND ( $total["inctax"] >= 400 ) ) ) // limits ELV payment to a max of 400 DM
+	if ( !( ( $paymentMethod["Text"] == "Bankeinzug" ) AND ( $total["inctax"] >= 200 ) ) ) // limits ELV payment to a max of 400 DM
 	{
 	    $t->set_var( "payment_method_id", $paymentMethod["ID"] );
     	    $t->set_var( "payment_method_text", $paymentMethod["Text"] );

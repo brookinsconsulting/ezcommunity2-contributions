@@ -17,16 +17,17 @@
 		<tr> 
 			<th>{intl-type}:</th>
 			<th>{intl-order_id}:</th>
-			<th>{intl-id}:</th>
 			<th>{intl-date}:</th>
 			<th>{intl-time}:</th>
 			<th>{intl-amount}:</th>
-			<th>{intl-rc_code}:</th>
+			<th>{intl-blz}:</th>			
+			<th>{intl-account}:</th>
 			<th>{intl-rc_text}:</th>
 			<th>{intl-action}:</th>
 		</tr>
 		<!-- BEGIN log_item_tpl -->
 		<tr> 
+			<td>
 			<input type="hidden" name="CardType[]" value="{log_type}" />
 			<input type="hidden" name="PreOrderID[]" value="{log_order}" />
 			<input type="hidden" name="TA_ID[]" value="{log_id}" />
@@ -38,16 +39,19 @@
 			<input type="hidden" name="CardTypeID[]" value="{card_type}" />
 			<input type="hidden" name="RefID[]" value="{log_id}" />
 			<input type="hidden" name="Amount[]" value="{amount}" />
-			<td>{log_type}</td>
+			{log_type}</td>
 			<td>{log_order}</td>
-			<td>{log_id}</td>
 			<td>{log_date}</td>
 			<td>{log_time}</td>
 			<td>{log_amount}</td>
-			<td>{log_rc_code}</td>
+			<td>{log_blz}</td>			
+			<td>{log_accountnr}</td>			
 			<td>{log_rc_text}</td>
 			<td>
-				<input type="submit" name="CancelButton{cancel_id}" value="{intl-cancel}" />
+			  <!-- BEGIN button_item_tpl -->
+			  <input type="submit" name="CancelButton{cancel_id}" value="{intl-cancel}" />
+			  <!-- END button_item_tpl -->
+			  &nbsp;
 			</td>
 		</tr>
 		<!-- END log_item_tpl -->
@@ -80,8 +84,6 @@
 <!-- END cancel_success_tpl -->
 </table>
 <!-- END message_list_tpl -->
-
-<input type="submit" name="Cutover" value="{intl-start_cutover}" />
 
 </form>
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1 2001/09/24 07:43:29 jhe Exp $
+// $Id: cron.php,v 1.1.4.1 2002/04/16 10:30:45 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,7 +26,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
-
+include_once( "classes/ezbenchmark.php" );
 $db =& eZDB::globalDatabase();
 
 $db->begin();
@@ -39,15 +39,15 @@ $timestamp = eZDateTime::timeStamp( true );
 $newelements = array();
 $oldelements = array();
 $res = array();
-
+/*
 $db->array_query( $newelements, "SELECT COUNT(*), BrowserTypeID FROM eZStats_PageView WHERE Date < " . $timestamp . " GROUP BY BrowserTypeID" );
+
 foreach ( $newelements as $element )
 {
     $browser = array();
     $db->array_query( $browser, "SELECT BrowserType FROM eZStats_BrowserType WHERE ID='" . $element[$db->fieldName("BrowserTypeID")] . "'" );
     $browsername = $browser[0][$db->fieldName("BrowserType")];
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_BrowserType WHERE Browser='" . $browsername . "'");
-
     if ( count( $oldelements ) == 0 )
     {
         $db->lock( "eZStats_Archive_BrowserType" );
@@ -60,11 +60,15 @@ foreach ( $newelements as $element )
         $count = $oldelements[0][$db->fieldName("Count")] + $element[0];
         $res[] = $db->query( "UPDATE eZStats_Archive_BrowserType SET Count='$count' WHERE BrowserType='$browsername'" );
     }
+
 }
+*/
 
 // RequestPage archive
 
 $db->array_query( $newelements, "SELECT Date, RequestPageID FROM eZStats_PageView WHERE Date < " . $timestamp . " ORDER BY Date" );
+
+print( count ( $newelements ) );
 
 foreach ( $newelements as $element )
 {
@@ -89,7 +93,7 @@ foreach ( $newelements as $element )
         $res[] = $db->query( "UPDATE eZStats_Archive_RequestedPage SET Count='$count' WHERE URI='$requestname' AND Month='" . $month->timeStamp() . "'" );
     }
 }
-
+exit();
 // ReferURL archive
 
 $db->array_query( $newelements, "SELECT Date, RefererURLID FROM eZStats_PageView WHERE Date < " . $timestamp . " ORDER BY Date" );

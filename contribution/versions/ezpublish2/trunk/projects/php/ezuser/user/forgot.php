@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forgot.php,v 1.21 2002/03/18 17:31:23 br Exp $
+// $Id: forgot.php,v 1.22 2002/04/16 10:30:55 ce Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -118,9 +118,9 @@ if ( $Action == "change" )
         // Cleanup
         $change->get( $change->check( $Hash ) );
         $change->delete();
+
+        eZHTTPTool::header( "Location: /user/generated/" );
     }
-    eZHTTPTool::header( "Location: /user/generated/" );
-    exit();
 }
 
 // Template

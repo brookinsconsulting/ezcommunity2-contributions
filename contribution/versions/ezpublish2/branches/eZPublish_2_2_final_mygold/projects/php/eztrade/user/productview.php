@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.9 2001/12/18 14:08:08 sascha Exp $
+// $Id: productview.php,v 1.77.4.10 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -89,7 +89,7 @@ $SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
 
-$GlobalSectionID = eZProductCategory::sectionIDStatic( $category->id() );
+    $GlobalSectionID = eZProductCategory::sectionIDStatic( $category->id() );
 
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
@@ -324,6 +324,7 @@ if ( !$RequireUserLogin or get_class( $user ) == "ezuser"  )
 $can_checkout = true;
 
 $currency_locale = new eZLocale( $Language );
+
 foreach ( $options as $option )
 {
     $values = $option->values();
@@ -362,7 +363,8 @@ $ok = true;
             {
                 $validOption = true;
             }
-            $t->set_var( "value_td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+            
+	    $t->set_var( "value_td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
             $id = $value->id();
 
             $descriptions = $value->descriptions();
@@ -455,16 +457,15 @@ if ( $ok )
     }
 }
 
-if ( $GLOBALS["REMOTE_ADDR"] == "194.248.148.67" )
+$ok = true;
+if ( ( count ( $options ) == 0 ) and ( $product->price() == false ) )
 {
-   print( "-->" . $product->hasQuantity( $RequireQuantity ) . "<---" );
+   $ok = false;
 }
-
-
-if ( !$product->hasQuantity( $RequireQuantity ) )
+if ( !$product->hasQuantity( $RequireQuantity ) or !$ok )        
+{
     $can_checkout = false;
-// $can_checkout = $product->showPrice();
-
+}
 
 // link list
 $module_link = new eZModuleLink( "eZTrade", "Product", $product->id() );

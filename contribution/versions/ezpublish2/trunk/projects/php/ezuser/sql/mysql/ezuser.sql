@@ -33,19 +33,6 @@ CREATE TABLE eZUser_Author (
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE eZUser_Title (
-  ID int NOT NULL,
-  Name varchar(255) default NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZUser_UserTitleLink (
-  ID int NOT NULL,
-  UserID int NOT NULL,
-  TitleID int NOT NULL,
-  PRIMARY KEY (ID)
-);
-
 CREATE TABLE eZUser_Cookie (
   ID int NOT NULL,
   UserID int default '0',

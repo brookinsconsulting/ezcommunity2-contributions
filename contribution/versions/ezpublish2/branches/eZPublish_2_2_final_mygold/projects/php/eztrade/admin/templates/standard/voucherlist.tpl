@@ -1,15 +1,25 @@
-<h1>{intl-voucher_list}</h1>
-
+<form method="post" action="{www_dir}{index}/trade/voucherlist/">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td><h1>{intl-voucher_list}</h1></td>
+    <td align="right">
+      <input type="text" name="QueryText" value="{search}" />
+      <input class="stdbutton" type="submit" value="{intl-search}" />
+    </td>
+  </tr>
+</table>
+				 
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN voucher_list_tpl -->
-<form method="post" action="{www_dir}{index}/trade/voucherlist/">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<tr>
-	<th>{intl-created}:</th>
+	<th>{intl-key}:</th>
+	<th>{intl-receiver}:</th>
 	<th>{intl-price}:</th>
 	<th>{intl-available}:</th>
+	<th>{intl-created}:</th>	
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -17,7 +27,10 @@
 <!-- BEGIN voucher_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="{www_dir}{index}/trade/voucheredit/edit/{voucher_id}/">{voucher_created}&nbsp;</a>
+	<a href="{www_dir}{index}/trade/voucheredit/edit/{voucher_id}/">{voucher_key}&nbsp;</a>
+	</td>
+	<td class="{td_class}">
+	{voucher_receiver}&nbsp;
 	</td>
 	<td class="{td_class}">
 	{voucher_price}&nbsp;
@@ -29,6 +42,9 @@
 	<!-- BEGIN voucher_is_not_available_tpl -->
 	{intl-is_not_available}&nbsp;
 	<!-- END voucher_is_not_available_tpl -->
+	</td>
+	<td class="{td_class}">
+	{voucher_created}
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="{www_dir}{index}/trade/voucheredit/edit/{voucher_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{voucher_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{voucher_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlogin.php,v 1.20.4.1 2001/12/18 14:08:08 sascha Exp $
+// $Id: customerlogin.php,v 1.20.4.2 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <03-Oct-2000 16:45:30 bf>
 //

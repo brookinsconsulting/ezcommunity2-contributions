@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: eztime.php,v 1.15.4.1 2001/11/23 11:48:54 ce Exp $
+// $Id: eztime.php,v 1.15.4.2 2002/04/16 10:30:42 ce Exp $
 //
-// Definition of eZTime class
+// Definition of eZCompany class
 //
 // Created on: <08-Sep-2000 13:54:17 bf>
 //
@@ -43,8 +43,8 @@ class eZTime
         if ( ( $hour == -1 )  && ( $minute == -1 ) && ( $second == -1 ) )
         {
             $this->SecondsElapsed = 0;
-//            $now = getdate();
-//            $this->setSecondsElapsedHMS( $now["hours"], $now["minutes"], $now["seconds"] );
+            $now = getdate();
+            $this->setSecondsElapsedHMS( $now["hours"], $now["minutes"], $now["seconds"] );
         }
         else
         {

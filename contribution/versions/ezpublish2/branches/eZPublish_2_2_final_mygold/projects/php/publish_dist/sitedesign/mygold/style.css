@@ -309,7 +309,6 @@ hr
 }
 
 .pris
-
 {
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -331,4 +330,15 @@ a:link.SiteMapLnkOne, a:active.SiteMapLnkOne, a:visited.SiteMapLnkOne, a:hover.S
         font-size: 10px;
 }
 
-					
+.blue
+{
+	color: #003366;
+}
+
+.valentine
+{
+        color: #94171A;
+        margin: 0px;
+}
+		
+							

@@ -37,11 +37,22 @@ $server->registerFunction( "assignToCategoies" );
 $server->registerFunction( "passiv", array( new eZXMLRPCStruct() ) );
 // $server->registerFunction( "passiv", new eZXMLRPCArray() );
 $server->registerFunction( "unavailable", array( new eZXMLRPCArray() ) );
+$server->registerFunction( "unavailableOptions", array( new eZXMLRPCArray() ) );    
 $server->registerFunction( "clearcache" );
 $server->registerFunction( "uploadImage", array( new eZXMLRPCStruct() ) ); 
 $server->registerFunction( "productExists", array( new eZXMLRPCString() ) );     
+$server->registerFunction( "getUnavailableProducts" );
 
 $server->processRequest();
+
+function getUnavailableProducts()
+{
+    $db =& eZDB::globalDatabase();
+
+    $db->array_query( $product_array, "SELECT RemoteID FROM eZTrade_Product, eZTrade_ProductQuantityDict, eZTrade_Quantity where eZTrade_ProductQuantityDict.ProductID=eZTrade_Product.ID AND eZTrade_ProductQuantityDict.QuantityID=eZTrade_Quantity.ID AND eZTrade_Quantity.Quantity='0'" );
+    
+    return new eZXMLRPCArray( $product_array ); 
+}
 
 function productExists( $id )
 {
@@ -120,27 +131,6 @@ function uploadImage( $args )
     return new eZXMLRPCInt( $productID );
 }
 
-/*
-function unavailable( $value )
-{
-    $value = $value[0];
-    $remoteIDObjects = $value->value();
-    $count = 0;
-    foreach( $remoteIDObjects as $remoteObj )
-    {
-        $remoteID = $remoteObj->value();
-        $product = new eZProduct( );
-        $product = $product->getByRemoteID( $remoteID );
-        if ( is_object ( $product ) )
-        {
-            $product->setTotalQuantity( 0 );
-            $product->store();
-            $count++;
-        }
-    }
-    return new eZXMLRPCInt( $count );    
-}
-*/
 
 function unavailable( $value )
 {
@@ -161,6 +151,16 @@ function unavailable( $value )
             $product->store();
             $productCount++;
         }
+	$options = eZOptionValue::getByRemoteIDs( $remoteID );
+	if ( count ( $options ) > 0 )
+	{
+	    foreach( $options as $value )
+	    {
+		$value->setTotalQuantity( 0 );
+		$value->store();
+		$productCount++; 
+	    }
+	}
     }
     return new eZXMLRPCInt( $productCount );
 }
@@ -741,8 +741,6 @@ function addToCategory ( $categoryID, $product )
 // Insert the product.
 function insert( $args )
 {
-//          print_r ( $args );
-//          return new eZXMLRPCInt( $productID );
     $data =&$args[0];
 
     $struct = $data->value();
@@ -814,6 +812,15 @@ function insert( $args )
         $product = "";
         $product = $remoteProduct;
     }
+   
+    if ( $productShortDescription == "" )
+    {
+        $productShortDescription = "Attraktiver Schmuck von My Gold.";
+    }
+    if ( $productDescription == "" )
+    {
+        $productDescription = "Formschönes Schmuckstück aus der umfangreichen Geschenk Kollektion.";
+    }
 
     $contents[0] = $productShortDescription;
     $contents[1] = $productDescription;
@@ -858,7 +865,7 @@ function insert( $args )
         $product->setPrice( $productPrice );
         $product->store();
     }
-
+$db =& eZDB::globalDatabase();      
     // Add options for this product
     if ( count ( $options ) > 0 )
     {
@@ -874,7 +881,6 @@ function insert( $args )
         $option->setDescription( $productDescription );
         $option->store();
         $product->addOption( $option );
-
         $checkOptionPriceStruct = $options[0]->value();
         $checkOptionPrice = $checkOptionPriceStruct["VKbrutto"]->value();
         // Add the options values.
@@ -923,11 +929,11 @@ function insert( $args )
             if ( $optionStruct["TotalQuentity"]->value() > 0 )
             {
                 $value->setTotalQuantity( $optionStruct["TotalQuentity"]->value() );
-                $product->setTotalQuantity( -1 );
+                $product->setTotalQuantity( 1 );
             }
             else
             {
-                $value->setTotalQuantity( -1 );
+                $value->setTotalQuantity( 1 );
             }
         }
     }

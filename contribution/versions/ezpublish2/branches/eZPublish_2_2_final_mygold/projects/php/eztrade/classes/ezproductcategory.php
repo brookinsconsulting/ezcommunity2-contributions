@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.52.4.1 2001/12/18 14:08:08 sascha Exp $
+// $Id: ezproductcategory.php,v 1.52.4.2 2002/04/16 10:30:48 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -644,6 +644,7 @@ class eZProductCategory
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
     AND eZTrade_Quantity.ID=eZTrade_ProductQuantityDict.QuantityID
                         AND eZTrade_Product.ID=eZTrade_ProductQuantityDict.ProductID
+AND eZTrade_Quantity.Quantity <> '0'
                 AND
                 $nonActiveCode
                 $discontinuedCode
@@ -740,7 +741,8 @@ class eZProductCategory
                 eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
                 AND
                 eZTrade_Category.ID='$catID'
-                ORDER BY eZTrade_Quantity.Quantity , $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+                AND eZTrade_Quantity.Quantity <> '0'
+                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
 
        for ( $i = 0; $i < count( $product_array ); $i++ )
        {

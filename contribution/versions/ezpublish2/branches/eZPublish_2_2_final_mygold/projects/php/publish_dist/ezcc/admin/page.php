@@ -5,8 +5,8 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezcc/classes/ezcclog.php" );
 include_once( "classes/INIFile.php" );
-
-$logFile = "checkout/log/checkout.log";
+include_once( "classes/ezlist.php" );
+include_once( "classes/ezcurrency.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -28,37 +28,63 @@ $t->set_block( "page_tpl", "message_list_tpl", "message_list" );
 $t->set_block( "message_list_tpl", "error_msg_tpl", "error_msg" );
 $t->set_block( "message_list_tpl", "cutover_success_tpl", "cutover_success" );
 $t->set_block( "message_list_tpl", "cancel_success_tpl", "cancel_success" );
-$t->set_block( "log_item_tpl", "button_item_tpl", "button_item" ); // SF
-$t->set_block( "page_tpl", "action_item_tpl", "action_item" ); // SF
-$t->set_var( "button_item", "" ); // SF
-$t->set_var( "action_item", "" ); // SF
+$t->set_block( "log_item_tpl", "button_item_tpl", "button_item" );
+$t->set_block( "page_tpl", "action_item_tpl", "action_item" ); 
+$t->set_block( "page_tpl", "select_item_tpl", "select_item" ); 
+
+// next previous
+$t->set_block( "page_tpl", "previous_tpl", "previous" );
+$t->set_block( "page_tpl", "next_tpl", "next" );
+
+$t->set_var( "button_item", "" ); 
+$t->set_var( "action_item", "" ); 
 $t->set_var( "cancel_success", "" );
 $t->set_var( "cutover_success", "" );
 $t->set_var( "error_msg", "" );
 $t->set_var( "message_list", "" );
+$t->set_var( "previous", "" );
+$t->set_var( "next", "" );
+$t->set_var( "log_select", $LogSelect );
+
+
+// Start make the Select selected
+$languageIni = new INIFile( "ezcc/admin/" . "intl/" . $Language . "/page.php.ini", false );
+
+$log_select_array = array( "unhandled" => $languageIni->read_var( "strings", "unhandled" ),
+                           "cutover" => $languageIni->read_var( "strings", "cutovered" ),
+                           "cancel" => $languageIni->read_var( "strings", "canceled" ),
+                           "invalid" => $languageIni->read_var( "strings", "invalid" )
+                         );
+												                             
+$selected = "";
+foreach ( $log_select_array as $key => $value )
+{
+    if ( $key == $LogSelect )
+	$t->set_var( "selected", " selected" );
+    else
+	$t->set_var( "selected", "" );
+																 
+    $t->set_var( "select_value", $key );
+    $t->set_var( "select_name", $value );
+    $t->parse( "select_item", "select_item_tpl", true );
+}
+
+// End
+if ( !isSet( $Offset ) )
+    $Offset = 0;
+	    
+if ( !isSet( $Limit ) )
+    $Limit = 15;
+
+		
+$t->set_var( "current_offset", $Offset );
+	
 
 if ( $LogSelect == "unhandled" )
     $t->parse( "action_item", "action_item_tpl" );
 
 
-// Somebody please make a better version of this, if possible
-//$fd = fopen( "checkout/log/checkout.log", "r" );
-$logitems = array();
-if ( $fd )
-{
-    while( !feof( $fd ) )
-    {
-        $line = fgets( $fd, 4096 );
-        if ( strlen( $line ) > 0 and $line[0] != "#" )
-        {
-            $logitems[] = $line;
-            if ( count( $logitems ) > $MaxItems )
-                $logitems = array_slice( $logitems, count( $logitems ) - $MaxItems, $MaxItems );
-        }
-    }
-}
-
-$t->set_var( "log_item", "" );
+$t->set_var( "log_item", "" ); // ?
 
 
 
@@ -85,7 +111,7 @@ if ( count ( $CheckCancelArray ) > 0 )
         {
             $RefID = $TA_ID[$i];
             $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <ICMessage IC_TA_ID_REF=\"$RefID\" IC_SHOP_ID=\"65 019\" IC_SHOP_TA_ID=\"$taID\" IC_TA_TYPE=\"119\" IC_DATE=\"$date\" IC_TIME=\"$time\" IC_AMOUNT=\"$Amount[$i]\" IC_PROCESSING_CODE=\"1\" />";
-            print( "Sending XML: " . htmlspecialchars($xml) . "<br><br>" );
+            //print( "Sending XML: " . htmlspecialchars($xml) . "<br><br>" );
             $execString = "checkout/socket.pl " . EscapeShellArg( $xml);
             $ret = system( $execString, $ret_var );
             $cancel_done = true;
@@ -101,7 +127,7 @@ if ( isset ( $Cutover ) )
 
     $execString = "checkout/socket.pl " . EscapeShellArg( $xml);
     $ret = system( $execString, $ret_var );
-    print( "Sending XML: " . htmlspecialchars($xml) . "<br><br>" );
+    //  print( "Sending XML: " . htmlspecialchars($xml) . "<br><br>" );
     $cutover_done = true;
 }
 
@@ -186,10 +212,9 @@ if ( $xml )
 }
 
 // List all the entries.
-if ( $Show )
-    $logList = eZCCLog::getAll( $LogSelect );
-else
-$logList = eZCCLog::getAll( );
+$logList = eZCCLog::getAll( $LogSelect, $limit=$Limit, $offset=$Offset );
+$total_count = eZCCLog::count( $LogSelect );
+
 
 $elvCount = array();
 $masterCount = array();
@@ -227,7 +252,11 @@ foreach( $logList as $log )
     $t->set_var( "log_id", $log->taID() );
     $t->set_var( "log_date", $locale->format( $log->date() ) );
     $t->set_var( "log_time", $locale->format( $log->time() ) );
-    $t->set_var( "log_amount", $log->amount() );
+    
+    $currency = new eZCurrency();
+    $currency->setValue( $log->amount() / 100 );
+    $t->set_var( "log_amount", $locale->format( $currency ) );
+
     $t->set_var( "log_rc_code", $log->rcCode() );
     $t->set_var( "log_rc_text", $log->rcText() );
     $t->set_var( "log_blz", $log->blz() );
@@ -282,6 +311,7 @@ $length = strlen( $arrayCount );
 $arrayCount = substr( $arrayCount, 0, $length-1 );
 $t->set_var( "check_cancel_array", $arrayCount );
 
+eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "page_tpl" );
 
 $t->pparse( "output", "page_tpl" );
 

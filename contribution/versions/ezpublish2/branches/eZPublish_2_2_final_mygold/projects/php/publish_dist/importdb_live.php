@@ -32,15 +32,12 @@ $onlyDelete = $argv[2] == "true";
 $import = new eZMygoldImport( "mygoldtest.ez.no", "test", "mygold", $all, $onlyDelete, 5 );
 
 // Do the magic
-$existingProducts = $import->existingProducts();
-$importedProducts = $import->importProducts();
+$existingProducts =& $import->existingProducts();
+$importedProducts =& $import->importProducts();
 
-$deleteProducts = array_diff( $existingProducts, $importedProducts );
+$deleteProducts =& array_diff( $existingProducts, $importedProducts );
 
-foreach( $deleteProducts as $product )
-{
-    $import->unavailable( $product );
-}
+$import->unavailable( $deleteProducts );
 
 $import->updateImages();
 

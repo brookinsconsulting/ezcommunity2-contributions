@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: entryexitpages.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
+// $Id: entryexitpages.php,v 1.7.4.1 2002/04/16 10:30:45 ce Exp $
 //
 // Created on: <12-Jan-2001 16:31:41 bf>
 //

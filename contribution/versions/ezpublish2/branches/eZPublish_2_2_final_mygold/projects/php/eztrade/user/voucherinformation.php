@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.11 2001/11/21 14:08:34 sascha Exp $
+// $Id: voucherinformation.php,v 1.12.4.12 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -73,7 +73,11 @@ $GLOBALS["DEBUG"] = true;
 
 setType( $PriceRange, "integer" );
 
-$t->set_var( "price_range", "$PriceRange" );
+if ( $PriceRange == 0 )
+    $t->set_var( "price_range", "" );
+else
+    $t->set_var( "price_range", "$PriceRange" );
+    
 $t->set_var( "to_email", "$Email" );
 $t->set_var( "to_name", "$ToName" );
 $t->set_var( "from_name", "$FromName" );

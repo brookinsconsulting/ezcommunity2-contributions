@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.103 2001/12/04 13:44:31 jhe Exp $
+// $Id: ezuser.php,v 1.104 2002/04/16 10:30:55 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -79,7 +79,7 @@ class eZUser
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZUser( $id = -1 )
+    function eZUser( $id=-1 )
     {
         $this->InfoSubscription = 0;
         $this->SimultaneousLogins = 0;
@@ -102,15 +102,13 @@ class eZUser
         $db =& eZDB::globalDatabase();
 
         $dbError = false;
-        $db->begin();
+        $db->begin( );
 
         $email = $db->escapeString( $this->Email );
         $firstname = $db->escapeString( $this->FirstName );
         $lastname = $db->escapeString( $this->LastName );
         $signature = $db->escapeString( $this->Signature );
         $login = $db->escapeString( $this->Login );
-        $expiry = $this->ExpiryDate;
-        
 
         if ( !isSet( $this->ID ) )
         {
@@ -131,9 +129,7 @@ class eZUser
                                  LastName='$lastname',
                                  Signature='$signature',
                                  CookieLogin='$this->CookieLogin',
-                                 SimultaneousLogins='$this->SimultaneousLogins',
-                                 ExpiryDate='$expiry',
-                                 IsActive='$this->IsActive'" );
+                                 SimultaneousLogins='$this->SimultaneousLogins'" );
                 $this->ID = $nextID;
             }
             else
@@ -141,7 +137,7 @@ class eZUser
                 $password = md5( $this->Password );
 
                 $db->query( "INSERT INTO eZUser_User
-                ( ID, Login, Password, Email, InfoSubscription, FirstName, LastName, Signature, CookieLogin, SimultaneousLogins, ExpiryDate, IsActive )
+                ( ID, Login, Password, Email, InfoSubscription, FirstName, LastName, Signature, CookieLogin, SimultaneousLogins )
                 VALUES
                 ( '$nextID',
                   '$login',
@@ -152,9 +148,7 @@ class eZUser
                   '$lastname',
                   '$signature',
                   '$this->CookieLogin',
-                  '$this->SimultaneousLogins',
-                  '$expiry',
-                  '$this->IsActive')" );
+                  '$this->SimultaneousLogins')" );
                 
                 $this->ID = $nextID;
             }
@@ -170,9 +164,7 @@ class eZUser
                                  Signature='$signature',
                                  LastName='$lastname',
                                  CookieLogin='$this->CookieLogin',
-                                 SimultaneousLogins='$this->SimultaneousLogins',
-                                 ExpiryDate='$expiry',
-                                 IsActive='$this->IsActive'
+                                 SimultaneousLogins='$this->SimultaneousLogins'
                                  WHERE ID='$this->ID'" );
 
             // update password if set.
@@ -193,13 +185,13 @@ class eZUser
                                  Password='$password'
                                  WHERE ID='$this->ID'" );
                 }
-            }
+            }            
         }
 
         $db->unlock();
     
         if ( $dbError == true )
-            $db->rollback();
+            $db->rollback( );
         else
             $db->commit();
 
@@ -231,7 +223,7 @@ class eZUser
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id = -1 )
+    function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -260,17 +252,15 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
 
-        $this->ID =& $user_array[$db->fieldName( "ID" )];
-        $this->Login =& $user_array[$db->fieldName( "Login" )];
-        $this->Email =& $user_array[$db->fieldName( "Email" )];
-        $this->InfoSubscription =& $user_array[$db->fieldName( "InfoSubscription" )];
-        $this->FirstName =& $user_array[$db->fieldName( "FirstName" )];
-        $this->LastName =& $user_array[$db->fieldName( "LastName" )];
-        $this->Signature =& $user_array[$db->fieldName( "Signature" )];
-        $this->CookieLogin =& $user_array[$db->fieldName( "CookieLogin" )];
-        $this->SimultaneousLogins =& $user_array[$db->fieldName( "SimultaneousLogins" )];
-        $this->ExpiryDate =& $user_array[$db->fieldName( "ExpiryDate" )];
-        $this->IsActive =& $user_array[$db->fieldName( "IsActive" )];
+        $this->ID =& $user_array[$db->fieldName("ID")];
+        $this->Login =& $user_array[$db->fieldName("Login")];
+        $this->Email =& $user_array[$db->fieldName("Email")];
+        $this->InfoSubscription =& $user_array[$db->fieldName("InfoSubscription")];
+        $this->FirstName =& $user_array[$db->fieldName("FirstName")];
+        $this->LastName =& $user_array[$db->fieldName("LastName")];
+        $this->Signature =& $user_array[$db->fieldName("Signature")];
+        $this->CookieLogin =& $user_array[$db->fieldName("CookieLogin")];
+        $this->SimultaneousLogins =& $user_array[$db->fieldName("SimultaneousLogins")];
     }
 
     /*!
@@ -565,30 +555,6 @@ class eZUser
     {
         return htmlspecialchars( $this->SimultaneousLogins );
     }
-
-    /*!
-      Returns the expiry date for this user
-    */
-    function expiryDate()
-    {
-        $exp = new eZDateTime();
-        $exp->setTimeStamp( $this->ExpiryDate );
-        return $exp;
-    }
-
-    /*!
-      Returns true if this is an active account
-    */
-    function isActive()
-    {
-        if ( $this->ExpiryDate < eZDateTime::timeStamp( true ) &&
-             $this->ExpiryDate > 0 )
-            $this->IsActive == 0;
-        if ( $this->IsActive == 1 )
-            return true;
-        else
-            return false;
-    }
     
     /*!
       Sets the signature.
@@ -665,25 +631,6 @@ class eZUser
         $this->SimultaneousLogins = $value;
         
         setType( $this->SimultaneousLogins, "integer" );
-    }
-
-    /*!
-      Sets the expiry date for this user
-    */
-    function setExpiryDate( $value )
-    {
-        if ( get_class( $value ) == "ezdatetime" )
-            $this->ExpiryDate = $value->timeStamp();
-        else
-            $this->ExpiryDate = $value;            
-    }
-
-    function setIsActive( $value )
-    {
-        if ( $value )
-            $this->IsActive = 1;
-        else
-            $this->IsActive = 0;
     }
 
     /*!
@@ -813,7 +760,7 @@ class eZUser
     {
         $user =& $GLOBALS["eZCurrentUserObject"];
 
-        if ( ( get_class( $user ) == "ezuser" ) && is_numeric( $user->id() ) && $user->isActive() )
+        if ( ( get_class( $user ) == "ezuser" ) and ( is_numeric( $user->id() ) ) )
         {
             return $user;
         }
@@ -825,7 +772,7 @@ class eZUser
 
         if ( $session->fetch( false ) )
         {
-            $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
+            $user = new eZUser( $session->variable("AuthenticatedUser" ) );
             
 //            $val =& $session->variable( "AuthenticatedUser" );
 //            $user = new eZUser( $val );
@@ -834,7 +781,7 @@ class eZUser
 
             $idle = $session->idle();
             $idle = $idle / 60;
-
+       
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
                 $user->logout();
@@ -844,18 +791,10 @@ class eZUser
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
                 {
-                    $session->refresh();
-                    if ( !$user->isActive() )
-                    {
-                        $user->logout();
-                        $user = false;
-                    }
-                    else
-                    {
-                        $returnValue = $user;
-                    }
+                    $session->refresh( );
+                    $returnValue = $user;
                 }
-            }
+            }            
         }
 
         return $returnValue;
@@ -897,30 +836,6 @@ class eZUser
         }
         
         return $ret;
-    }
-
-    /*!
-      Returns a list of expired users
-      if expiryTime is set, that date will be used to determine if the account is dissabled
-    */
-    function getExpiredUsers( $expiryTime = false )
-    {
-        $dateString = "";
-        if ( $expiryTime )
-            $dateString = "OR ( ExpiryDate < $expiryTime AND ExpiryDate > 0 )";
-        
-        $db =& eZDB::globalDatabase();
-
-        $db->array_query( $expiredUsers, "SELECT * FROM eZUser_User WHERE IsActive='0' $dateString" );
-
-        $userList = array();
-        
-        foreach ( $expiredUsers as $userItem )
-        {
-            $userList[] = new eZUser( $userItem );
-        }
-
-        return $userList;
     }
 
     /*!
@@ -1040,7 +955,6 @@ class eZUser
             $addressID = $address->id();
             $db->begin( );
 
-            print( "delete" );
             $res = $db->query( "DELETE FROM eZUser_UserAddressLink
                                 WHERE AddressID='$addressID'" );
 
@@ -1118,6 +1032,8 @@ class eZUser
         if ( !$id )
             $id = $this->ID;
 
+$ret = false;
+
         $db->array_query( $address_array, "SELECT AddressID FROM eZAddress_AddressDefinition
                                 WHERE UserID='$id' ORDER BY AddressID" );
 
@@ -1128,9 +1044,9 @@ class eZUser
         }
         else
         {
+ if ( $address_array[0][$db->fieldName( "AddressID" )] != 0 )
             $ret = $address_array[0][$db->fieldName( "AddressID" )];
         }
-
         return $ret;
     }
 
@@ -1310,74 +1226,7 @@ class eZUser
         }
         return $return_array;
     }
-
-    /*!
-      Sets the title for the current user.
-     */
-    function setTitle( $title )
-    {
-        if ( get_class( $title ) == "eztitle" )
-        {
-            $db =& eZDB::globalDatabase();
-            
-            $titleID = $title->id();
-            
-            $db->begin( );
-
-            $db->lock( "eZUser_UserTitleLink" );
-            
-            $res[] = $db->query( "DELETE FROM eZUser_UserTitleLink
-                                     WHERE UserID='$this->ID'" );
-            
-
-            $nextID = $db->nextID( "eZUser_UserTitleLink", "ID" );
-
-            $query = "INSERT INTO
-                           eZUser_UserTitleLink
-                           ( ID, TitleID, UserID )
-                      VALUES
-                           ( '$nextID', 
-                             '$titleID',
-                             '$this->ID' )";
-            
-            
-            $res[] = $db->query( $query );
-
-            $db->unlock();
     
-            if ( in_array( false, $res ) )
-                $db->rollback( );
-            else
-                $db->commit();            
-        }
-    }
-
-    /*!
-      Returns the title object for the current user.
-      false is returned if no title is found.
-    */
-    function title( $as_object = true )
-    {
-        $db =& eZDB::globalDatabase();        
-
-        $db->array_query( $res, "SELECT TitleID FROM
-                                 eZUser_UserTitleLink
-                                 WHERE UserID='$this->ID'" );
-
-        $title = false;        
-        if ( count( $res ) == 1 )
-        {
-            $id = $res[0][$db->fieldName("TitleID")];
-            $title = $as_object ? new eZTitle( $id ) : $id;
-        }
-        else
-        {
-            // no title defined, it is a legal situation so no error
-        }
-
-        return $title;
-    }
-   
     var $ID;
     var $Login;
     var $Password;
@@ -1388,8 +1237,6 @@ class eZUser
     var $Signature;
     var $CookieLogin;
     var $SimultaneousLogins;
-    var $ExpiryDate;
-    var $IsActive;
     var $StoredTimeout;
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcclog.php,v 1.1.2.2 2001/12/18 14:08:07 sascha Exp $
+// $Id: ezcclog.php,v 1.1.2.3 2002/04/16 10:30:44 ce Exp $
 //
 // ezcclog class
 //
@@ -148,6 +148,82 @@ class eZCCLog
 
     /*!
     */
+    function &getAll( $status="unhandled", $limit=20, $offset=0 )
+    {
+        $db =& eZDB::globalDatabase();
+	
+        $returnArray = array();
+        $cclog_array = array();
+	
+        switch( $status )
+        {
+            case "cutover":
+                $where = " WHERE Status='1' ";
+                break;
+            case "cancel":
+                $where = " WHERE Status='2' ";
+                break;
+            case "invalid":
+                $where = " WHERE Status='3' ";
+                break;
+	    case "unhandled":
+                $where = " WHERE Status='0' ";		
+		break;
+	}
+																		
+        if ( $limit == false )
+        {
+            $db->array_query( $cclog_array, "SELECT ID
+                                              FROM eZCC_Log
+					      $where" );
+        }
+        else
+	{
+	      $db->array_query( $cclog_array, "SELECT ID
+				                FROM eZCC_Log
+						$where
+						ORDER BY ID DESC",
+						array( "Limit" => $limit, "Offset" => $offset ) );
+        }
+
+        for ( $i=0; $i < count($cclog_array); $i++ )
+        {
+            $returnArray[$i] = new eZCCLog( $cclog_array[$i]["ID"], 0 );
+        }
+	
+        return $returnArray;
+    }
+    
+    function count( $status="unhandled" )
+    {
+        switch( $status )
+        {
+            case "cutover":
+                $where = " WHERE Status='1' ";
+                break;
+            case "cancel":
+                $where = " WHERE Status='2' ";
+                break;
+            case "invalid":
+                $where = " WHERE Status='3' ";
+                break;
+	    case "unhandled":
+                $where = " WHERE Status='0' ";		
+		break;
+	}
+
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+			
+        $db->query_single( $result, "SELECT COUNT(ID) as Count
+                                     FROM eZCC_Log
+				     $where" );
+	$ret = $result[$db->fieldName( "Count" )];
+	return $ret;
+    }
+											     
+
+/*
     function getAll( $status="unhandled" )
     {
         $db =& eZDB::globalDatabase();
@@ -180,7 +256,7 @@ class eZCCLog
         
         return $return_array;
     }
-
+*/
     function getAllELV()
     {
         $db =& eZDB::globalDatabase();

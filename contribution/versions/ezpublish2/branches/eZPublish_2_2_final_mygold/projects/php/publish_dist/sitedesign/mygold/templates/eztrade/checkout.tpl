@@ -198,37 +198,25 @@ function checkForm()
         <!-- END payment_method_tpl -->
       </select>
       <p class="small">
-        Um per Gutschein zu bezahlen hier &quot;Gutschein&quot; ausw&auml;hlen.
+        Um per Gutschein zu bezahlen hier &quot;Gutschein&quot; ausw&auml;hlen.&nbsp;&nbsp;&nbsp;&nbsp;<br />
 	Sie ben&ouml;tigen <a class="small" href="/article/articlestatic/45/#zahlung" target="new">Hilfe</a>?
       </p>
     </td>
     <td>
        <table cellspacing="10">
          <tr>
-           <td class="small" valign="top" width="25%">
+           <td class="small" valign="top">
              <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="/sitedesign/mygold/images/paybox_logo.gif" border="0" width="53" height=40"" alt="" /></a>
              <br />paybox - bezahlen Sie mit Ihrem Handy
-	   </td>
-	   <td class="small" valign="top" width="25%">  
-	     <a href="http://www.visa.de" target="new"><img src="/sitedesign/mygold/images/visa_logo.gif" alt="" width="63" height="40" border="0" /></a>
-	     <br />Visa
-	   </td>	  
-	   <td class="small" valign="top" width="25%">
-	     <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="53" height="40" border="0" /></a>
-	     <br />Euro- Mastercard
-	   </td>
-	   <td class="small" valign="top" width="25%">
-	     <img src="/sitedesign/mygold/images/elv_logo.gif" alt="" width="40" height="40" border="0" />
-	     <br />Bankeinzug (ELV)
 	   </td>
 	 </tr>
        </table>
     </td>
 </table>
 <!-- END show_payment_tpl -->
-<br /><br />
+<br />
 <ul>
-  <li>Bezahlung per Bankeinzug nur bis zu einem Betrag von 400,- DM!</li>
+  <li>Bezahlung per Bankeinzug nur bis zu einem Betrag von 200,- EU!</li>
   <li>Auf Grund von Pr&uuml;fmechanismen k&ouml;nnen per Bankeinzug (ELV) bezahlte Bestellungen nicht per Express verschickt werden!</li>
   <li>Nachnahmelieferung per Express bietet die Post leider nicht an und ist daher nicht m&ouml;glich!</li>
 </ul>

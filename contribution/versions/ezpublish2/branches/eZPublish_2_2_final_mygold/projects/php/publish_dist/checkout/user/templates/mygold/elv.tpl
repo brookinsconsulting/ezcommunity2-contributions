@@ -12,8 +12,8 @@
 
 Hiermit ermächtige ich die Impetex GmbH - MyGold.com bzw. die beauftragte
 InterCard den
-Zahlungsbetrag in Höhe von DEM {charge_total} von meinem durch Konto-Nummer
-{account_nr} und Bankleitzahl {blz_code} bezeichneten Konto durch Lastschrift
+Zahlungsbetrag in Höhe von <b class="blue">{charge_total}</b> von meinem durch <b class="blue">Konto-Nummer
+{account_nr}</b> und <b class="blue">Bankleitzahl {blz_code}</b> bezeichneten Konto durch Lastschrift
 einzuziehen.
 <br />
 Für den Fall der Nichteinlösung der Lastschrift stimme ich bereits
@@ -22,26 +22,26 @@ Anforderung meinen Namen und meine Anschrift vollständig mitteilt.
 Ich willige ein, dass die obengenannten Daten an die InterCard zum
 Zweck der Lastschriftbearbeitung übermittelt und dort bis zur Erledigung
 der Forderung gespeichert werden.
-<br />
-<br />
-
-<input type="hidden" name="AccountNR" value="{account_nr}" /><br />
-<input type="hidden" name="BlzCode" value="{blz_code}" /><br />
-
-<input type="hidden" name="Ammount" value="{charge_total}" /><br />
-
+<input type="hidden" name="AccountNR" value="{account_nr}" />
+<input type="hidden" name="BlzCode" value="{blz_code}" />
+<input type="hidden" name="Ammount" value="{charge_total}" />
 <hr noshade="noshade" size="1" />
 <input class="okbutton" type="submit" name="ConfirmCharge" value="&nbsp;{intl-ok}&nbsp;" />
 
 <!-- END confirm_tpl -->
 
 <!-- BEGIN input_tpl -->
-
 {intl-account_number}: <br />
 <input type="text" name="AccountNR" /> <br />
 
 {intl-blz_code}: <br />
 <input type="text" size="8" maxlength="8" name="BlzCode" /><br />
+
+Karten-Nr: <br />
+<input type="text" size="8" maxlength="8" name="CardNr" /><br />
+<br />
+Zahlung per Bankeinzug (ELV) ist nur von einem deutschen Konto m&ouml;glich!<br />
+<br />
 
 
 <hr noshade="noshade" size="1" />

@@ -1,6 +1,6 @@
 <?php
-//
-// $Id: userbox.php,v 1.35 2001/11/14 14:02:54 chrism Exp $
+// 
+// $Id: userbox.php,v 1.36 2002/04/16 10:30:56 ce Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -41,7 +41,7 @@ include_once( "ezsession/classes/ezsession.php" );
 
 $user =& eZUser::currentUser();
 
-if ( !$user )
+if ( !$user ) 
 {
     if ( !isset( $IntlDir ) )
         $IntlDir = "ezuser/user/intl";
@@ -76,7 +76,7 @@ if ( !$user )
     $t->set_var( "standard_creation", "" );
     $t->set_var( "extra_creation", "" );
     $t->set_var( "no_address", $no_address );
-
+    
     if ( isset( $type_list ) )
     {
         $t->parse( "extra_creation", "extra_creation_tpl" );
@@ -100,19 +100,19 @@ if ( !$user )
          preg_match( "#^/user/forgot.*#", $RedirectURL) )
     {
         $t->set_var( "redirect_url", "/" );
-
+        
     }
     else
     {
         $t->set_var( "redirect_url", $RedirectURL );
     }
-
+   
     $t->set_var( "action_value", "login" );
 
-   $t->set_var( "sitedesign", $GlobalSiteDesign );
+	$t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $t->pparse( "output", "login" );
-
+    
 }
 else
 {
@@ -125,20 +125,20 @@ else
         ) );
 
     $t->set_var( "section_id", $GlobalSectionID );
-
+    
     $t->set_var( "first_name", $user->firstName() );
     $t->set_var( "last_name", $user->lastName() );
     $t->set_var( "user_id", $user->id() );
     $t->set_var( "style", $SiteStyle );
-
+    
     $t->set_var( "no_address", $no_address );
-
-    if ( !isset( $RedirectURL ) or !$RedirectURL )
+    
+    if ( !$RedirectURL )
         $RedirectURL = $REQUEST_URI;
     if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) )
     {
         $t->set_var( "redirect_url", "/" );
-
+        
     }
     else
     {
@@ -153,11 +153,11 @@ else
     {
         $t->set_var( "user_edit_url", "/user/user/edit/" );
     }
+    
 
-
-   $t->set_var( "sitedesign", $GlobalSiteDesign );
-
-   $t->pparse( "output", "userbox" );
-}
+	$t->set_var( "sitedesign", $GlobalSiteDesign );
+    
+	$t->pparse( "output", "userbox" );
+} 
 
 ?>

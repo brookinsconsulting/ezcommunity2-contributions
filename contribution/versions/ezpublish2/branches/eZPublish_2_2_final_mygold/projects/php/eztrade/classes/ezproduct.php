@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.11 2001/12/18 14:08:08 sascha Exp $
+// $Id: ezproduct.php,v 1.119.4.12 2002/04/16 10:30:48 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1076,7 +1076,7 @@ class eZProduct
        {
            $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "OptionID" )], true );
        }
-       
+      
        return $return_array;
     }
 
@@ -1768,7 +1768,8 @@ class eZProduct
        }
        else
        {
-           print( "<br><b>Failed to fetch product category definition for ID $this->ID</b><br>" );
+	   eZHTTPTool::header( "Location: /article/view/48/" ); 
+	   exit();
        }
        
        return $category;

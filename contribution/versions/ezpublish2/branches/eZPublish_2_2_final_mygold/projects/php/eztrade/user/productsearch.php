@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20 2001/09/27 12:00:00 ce Exp $
+// $Id: productsearch.php,v 1.20.4.1 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -117,23 +117,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
 {
     foreach ( $productList as $product )
     {
-        // preview image
-        $thumbnailImage = $product->thumbnailImage();
-        if ( $thumbnailImage )
-        {
-            $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
-    
-            $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
-            $t->set_var( "thumbnail_image_width", $variation->width() );
-            $t->set_var( "thumbnail_image_height", $variation->height() );
-            $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
 
-            $t->parse( "image", "image_tpl" );
-        }
-        else
-        {
-            $t->set_var( "image", "" );    
-        }
 
         $t->set_var( "product_name", $product->name() );
 
@@ -197,6 +181,25 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
         else
         {
             $t->set_var( "td_class", "bgdark" );
+        }
+
+
+        // preview image
+        $thumbnailImage = $product->thumbnailImage();
+        if ( $thumbnailImage )
+        {
+            $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
+    
+            $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+            $t->set_var( "thumbnail_image_width", $variation->width() );
+            $t->set_var( "thumbnail_image_height", $variation->height() );
+            $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+
+            $t->parse( "image", "image_tpl" );
+        }
+        else
+        {
+            $t->set_var( "image", "" );    
         }
 
         $t->parse( "product", "product_tpl", true );

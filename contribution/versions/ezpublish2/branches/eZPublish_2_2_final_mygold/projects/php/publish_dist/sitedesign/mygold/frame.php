@@ -101,9 +101,9 @@ print( $SiteDescription );
               <tr> 
                 <td align="left" valign="bottom"><a href="/"><img src="/sitedesign/mygold/images/mygold.gif" alt="MyGold.com - Gold is our Business!" width="218" height="58" border="0" /></a></td>
                 <td align="center" valign="middle" bgcolor="#FFFFFF" class="bgshim"> 
-                  <h1 class="head">Ein MyGold Geschenkgutschein 
-                    <br />
-                    das ideale Weihnachtsgeschenk!</h1>
+                  <h1 class="head valentine">Ein MyGold Gutschein 
+		  <br />
+                    das ideale Geschenk!</h1>
                 </td>
               </tr>
               <tr> 
@@ -210,6 +210,7 @@ if ( isset( $Design ) and $Design == 3 )
     <td bgcolor="#DDDDDD" valign="top">
       <?php
 	include( "ezuser/user/userbox.php" );
+//        include( "sitedesign/mygold/uptodate.php" );
 	include( "eztrade/user/hotdealslist.php" );
 	include( "eztrade/user/smallcart.php" );
 	include( "sitedesign/mygold/user.php" );
@@ -227,7 +228,7 @@ if ( isset( $Design ) and $Design == 3 )
   </tr>
   <tr>
     <td class="spacer" align="center" valign="middle" bgcolor="#DDDDDD">
-      <a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="/sitedesign/mygold/images/stampger_s.gif" width="100" height="63" border="0" alt="Sicheres Bezahlen per SSL" /></a>
+      <a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1-1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1-1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="/sitedesign/mygold/images/stampger_s.gif" width="100" height="63" border="0" alt="Sicheres Bezahlen per SSL" /></a>
     </td>  
     <td class="spacer" bgcolor="#DDDDDD">&nbsp;</td>
     <td valign="top" class="bg1000">

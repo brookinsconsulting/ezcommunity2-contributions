@@ -4,6 +4,11 @@ switch ( $url_array[2] )
 {
     case "log":
     {
+        if ( $url_array[3] != "" )
+            $Offset = $url_array[3];
+        else
+            $Offset = 0;
+
         include( "ezcc/admin/page.php" );
     }
     break;
@@ -17,6 +22,12 @@ switch ( $url_array[2] )
     case "mastercard":
     {
         include( "ezcc/admin/mastercard.php" );
+    }
+    break;
+
+    case "elv":
+    {
+        include( "ezcc/admin/elv.php" );
     }
     break;
 

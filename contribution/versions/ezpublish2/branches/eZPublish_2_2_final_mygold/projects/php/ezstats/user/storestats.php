@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: storestats.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
+// $Id: storestats.php,v 1.3.4.1 2002/04/16 10:30:46 ce Exp $
 //
 // Created on: <26-Apr-2001 10:39:18 bf>
 //

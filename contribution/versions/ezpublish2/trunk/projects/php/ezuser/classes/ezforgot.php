@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforgot.php,v 1.12 2001/07/20 11:45:40 jakobn Exp $
+// $Id: ezforgot.php,v 1.13 2002/04/16 10:30:55 ce Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -82,8 +82,6 @@ class eZForgot
         $dbError = false;
         $db->begin( );        
         
-        if ( !isset( $this->ID ) )
-        {
             $db->lock( "eZUser_Forgot" );
 
             $nextID = $db->nextID( "eZUser_Forgot", "ID" );
@@ -97,16 +95,12 @@ class eZForgot
                                           '$this->Hash',
                                           '$timeStamp' )" );
             
-			$this->ID = $nextID;
-        }
-
         $db->unlock();
         
         if ( $res == false )
             $db->rollback();
         else
             $db->commit();
-        
         return true;
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.4.5 2001/12/18 14:08:08 sascha Exp $
+// $Id: cart.php,v 1.71.4.6 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //

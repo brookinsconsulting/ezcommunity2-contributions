@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherview.php,v 1.1.4.3 2001/12/18 14:08:08 sascha Exp $
+// $Id: voucherview.php,v 1.1.4.4 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //

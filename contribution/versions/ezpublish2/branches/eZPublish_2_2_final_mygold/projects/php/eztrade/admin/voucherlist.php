@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherlist.php,v 1.2.4.1 2001/12/18 14:08:07 sascha Exp $
+// $Id: voucherlist.php,v 1.2.4.2 2002/04/16 10:30:46 ce Exp $
 //
 // Created on: <20-Dec-2000 18:18:28 bf>
 //
@@ -66,13 +66,15 @@ $t->set_block( "voucher_list_tpl", "previous_tpl", "previous" );
 $t->set_block( "voucher_list_tpl", "next_tpl", "next" );
 
 $t->set_var( "site_style", $SiteStyle );
+$t->set_var( "search",  $QueryText );
 
 if ( isSet( $URLQueryText ) )
 {
     $QueryText = urldecode( $URLQueryText );
 }
+
     
-$t->set_var( "query_string", $QueryText );
+$t->set_var( "url_query_string", $QueryText );
     
 $t->set_var( "previous", "" );
 $t->set_var( "next", "" );
@@ -91,7 +93,16 @@ $t->set_var( "current_offset", $Offset );
 
 $t->set_var( "site_style", $SiteStyle );
 
-$voucherlist = eZVoucher::getAll( $Limit, $Offset );
+if ( isSet( $QueryText ) )
+{
+    $voucherlist = eZVoucher::search( $QueryText, $Offset, $Limit );
+    $total_count = eZVoucher::getSearchCount( $QueryText );
+}
+else
+{
+    $voucherlist = eZVoucher::getAll( $Limit, $Offset );
+    $total_count = eZVoucher::count();
+}
 
 // categories
 $i=0;
@@ -102,6 +113,9 @@ $currency = new eZCurrency();
 
 foreach ( $voucherlist as $voucherItem )
 {
+    $voucherInfo =& $voucherItem->information();
+    $t->set_var( "voucher_key", $voucherItem->keyNumber() );
+    $t->set_var( "voucher_receiver", $voucherInfo->toName() );
     $t->set_var( "voucher_id", $voucherItem->id() );
 
     $t->set_var( "voucher_created", $locale->format( $voucherItem->created() ) );
@@ -137,7 +151,7 @@ if ( count( $voucherlist ) > 0 )
 else
     $t->set_var( "voucher_list", "" );
 
-$total_count = eZVoucher::count();
+
 eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "voucher_list_page_tpl" );
 
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.30 2001/12/04 13:44:30 jhe Exp $
+// $Id: datasupplier.php,v 1.31 2002/04/16 10:30:51 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -159,13 +159,6 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         }
         break;
 
-        case "expiredusers" :
-        {
-            $Action = $url_array[3];
-            include( "ezuser/admin/expireduserlist.php" );
-        }
-        break;
-        
         case "login" :
         {
             $Action = $url_array[3];
@@ -198,36 +191,6 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         {
             $Action = $url_array[3];
             include( "ezuser/admin/settings.php" );
-        }
-        break;
-
-        case "titlelist" :
-        {
-            include( "ezuser/admin/titlelist.php" );
-        }
-        break;
-
-        case "additional" :
-        {
-            if ( $url_array[3] == "fixedvalues" )
-            {
-                $AdditionalID = $url_array[4];
-                include( "ezuser/admin/fixedvalues.php" );
-            }
-            else
-            {
-                if ( $url_array[3] == "up" )
-                {
-                    $AdditionalID = $url_array[4];
-                    $Action = "up";
-                }
-                if ( $url_array[3] == "down" )
-                {
-                    $AdditionalID = $url_array[4];
-                    $Action = "down";
-                }
-                include( "ezuser/admin/additionallist.php" );
-            }
         }
         break;
 

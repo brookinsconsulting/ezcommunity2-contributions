@@ -30,7 +30,7 @@
                 <input name=city type=hidden value="{billing_place}" />
                 <input name=country type=hidden value="{billing_country}" />
                 <input name=amount type=hidden value="{order_sum_wo_cncy}" />
-                <input name=curr type=hidden value="DEM" />
+                <input name=curr type=hidden value="EUR" />
                 Als Trusted Shops Mitglied bieten wir Ihnen als zus&auml;tzlichen
                 Service die Geld-Zur&uuml;ck-Garantie von Gerling an. Wir &uuml;bernehmen
                 alle Kosten dieser Garantie, Sie m&uuml;ssen sich lediglich anmelden.

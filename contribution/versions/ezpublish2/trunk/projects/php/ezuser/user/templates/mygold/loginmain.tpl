@@ -15,7 +15,7 @@
 	      <tr>
 	        <td>
 		  <form action="{www_dir}{index}/user/login/?RedirectURL={redirect_url}" method="post">
-	            <input class="okbutton" type="submit" name="{intl-login}" value="{intl-login}">
+	            <input class="okbutton" type="submit" name="{intl-login}" value="{intl-login}" />
 	          </form>
 		</td>
               </tr>

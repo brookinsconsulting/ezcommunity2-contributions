@@ -27,14 +27,14 @@
         <td>
 	    <select name="PriceRange">
 		<option value="-">{intl-all_range}</option>
-		<option value="0-50">0-50 DM</option>
-		<option value="50-100">50-100 DM</option>
-		<option value="100-150">100-150 DM</option>
-		<option value="150-200">150-200 DM</option>		
-		<option value="200-300">200-300 DM</option>
-		<option value="300-500">300-500 DM</option>
-		<option value="500-1000">500-1000 DM</option>
-		<option value="1000-100000">&gt; 1000 DM</option>		
+		<option value="0-25">0-25 EU</option>
+		<option value="25-50">25-50 EU</option>
+		<option value="50-100">50-100 EU</option>
+		<option value="100-200">100-200 EU</option>		
+		<option value="200-300">200-300 EU</option>
+		<option value="300-500">300-500 EU</option>
+		<option value="500-1000">500-1000 EU</option>
+		<option value="1000-100000">&gt; 1000 EU</option>		
 	    </select>
 	</td>
     </tr>
@@ -89,7 +89,7 @@
     <td colspan="2" class="spacer5">&nbsp;</td>
   </tr>
   <tr> 
-    <td valign="top" width="99%"> {product_intro_text} </td>
+    <td valign="top" width="99%">{product_intro_text}</td>
     <td valign="top"> 
       <!-- BEGIN image_tpl -->
       <table>

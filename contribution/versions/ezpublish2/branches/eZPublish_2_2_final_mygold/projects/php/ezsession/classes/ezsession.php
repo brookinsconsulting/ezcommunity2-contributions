@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.67.4.4 2001/11/19 12:10:07 ce Exp $
+// $Id: ezsession.php,v 1.67.4.5 2002/04/16 10:30:44 ce Exp $
 //
 // Definition of eZSession class
 //

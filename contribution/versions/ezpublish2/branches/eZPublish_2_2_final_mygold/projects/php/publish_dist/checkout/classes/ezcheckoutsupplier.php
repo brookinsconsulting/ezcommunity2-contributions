@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcheckoutsupplier.php,v 1.1.2.3 2001/11/22 10:12:29 sascha Exp $
+// $Id: ezcheckoutsupplier.php,v 1.1.2.4 2002/04/16 10:30:41 ce Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -41,12 +41,9 @@ class eZCheckoutSupplier
         $this->PaymentMethods = array( array( "ID" => 1, "Text" => "VISA", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
                                        array( "ID" => 2, "Text" => "Euro- / Mastercard", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
                                        array( "ID" => 3, "Text" => "Bankeinzug", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
-                                       array( "ID" => 4, "Text" => "Nachnahme", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
+                                       array( "ID" => 4, "Text" => "Nachnahme", "RequireSSL" => "disabled", "WorkWithVoucher" => false ),
                                        array( "ID" => 5, "Text" => "Paybox", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
                                        array( "ID" => 6, "Text" => "Gutschein", "RequireSSL" => "disabled", "WorkWithVoucher" => true ) );
-        
-//        $this->PaymentMethods = array( array( "ID" => 4, "Text" => "Nachnahme" )
-//                                       );
     }
 
     /*!
@@ -62,7 +59,8 @@ class eZCheckoutSupplier
     {
         for( $i=0; $i < count ( $this->PaymentMethods ); $i++ )
         {
-            if ( ( $GLOBALS["SERVER_PORT"] != "443" ) and ( $this->PaymentMethods[$i]["RequireSSL"] == "disabled" )  )
+//            if ( ( $GLOBALS["SERVER_PORT"] != "443" ) and ( $this->PaymentMethods[$i]["RequireSSL"] == "disabled" )  )
+            if (  $this->PaymentMethods[$i]["RequireSSL"] == "disabled" )  
             {
                 if ( $useVoucher == true and $this->PaymentMethods[$i]["WorkWithVoucher"] == true )
                     $tmp[] = $this->PaymentMethods[$i];

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: elv.php,v 1.1.2.1 2001/11/22 09:52:40 ce Exp $
+// $Id: elv.php,v 1.1.2.2 2002/04/16 10:30:41 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Feb-2001 13:49:48 bf>
@@ -31,6 +31,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlog.php" );
 include_once( "ezcc/classes/ezcclog.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -62,7 +63,7 @@ if ( $Action == "Verify" )
 //    if ( $Ammount > 0 )
 //        $ammount = $Ammount;
 
-    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <ICMessage IC_SHOP_ID=\"65 019\" IC_SHOP_TA_ID=\"$taID\" IC_BLZ=\"$BlzCode\" IC_KTO_NR=\"$AccountNR\" IC_TA_TYPE=\"110\" IC_DATE=\"$date\" IC_TIME=\"$time\" IC_AMOUNT=\"$ammount\" IC_CURRENCY=\"280\" IC_PROCESSING_CODE=\"1\" IC_SHOP_CUSTOM1=\"\" />";
+    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <ICMessage IC_SHOP_ID=\"65 019\" IC_SHOP_TA_ID=\"$taID\" IC_BLZ=\"$BlzCode\" IC_KTO_NR=\"$AccountNR\" IC_TA_TYPE=\"110\" IC_DATE=\"$date\" IC_TIME=\"$time\" IC_AMOUNT=\"$ammount\" IC_CURRENCY=\"978\" IC_PROCESSING_CODE=\"1\" IC_SHOP_CUSTOM1=\"$PreOrderID\" />";
 
     $execString = "checkout/socket.pl " . EscapeShellArg( $xml);
 
@@ -127,6 +128,8 @@ if ( $Action == "Verify" )
         $log->setStatus( 0 );
     $log->setRcCode( $RC_CODE );
     $log->setRcText( $RC_TEXT );
+    $log->setBLZ( $BlzCode );
+    $log->setAcctNR( $AccountNR );
     $log->store();
 
 
@@ -144,6 +147,16 @@ if ( $Action == "Verify" )
         {
             $session->setVariable( "PaymentTry", $tryNr + 1 );
         }
+	if( $RC_CODE == "" )
+	{
+	    $mail = new eZMail();
+	    $mail->setTo( "sf-mygold@t-d1-sms.de" );
+	    $mail->setFrom( "apache@mygoldf.com" );
+	    $mail->setSubject( "Fehler bei Zahlung ".date("d:m:Y H:i:m") );
+	    $mail->setBody( "keine Verbindung!" );
+	    $mail->send();
+	    $RC_TEXT = "Es ist zur Zeit keine Verbindung zum Clearingserver m&ouml;glich. Bitte versuchen Sie es sp&auml;ter nochmal.";
+	}
     }
     
 //      print( $RC_CODE );
@@ -183,7 +196,10 @@ $t->set_var( "payment_type", $PaymentType );
 
 $t->set_var( "account_nr", $AccountNR );
 $t->set_var( "blz_code", $BlzCode );
-$t->set_var( "charge_total", $ChargeTotal );
+
+$currency = new eZCurrency();
+$currency->setValue( $ChargeTotal );
+$t->set_var( "charge_total", $locale->format( $currency ) );
 
 $t->set_var( "action_value", "Confirm" );
 

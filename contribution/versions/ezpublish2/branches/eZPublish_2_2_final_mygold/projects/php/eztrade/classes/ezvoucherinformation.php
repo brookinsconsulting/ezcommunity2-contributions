@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.11 2001/12/18 14:08:08 sascha Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.12 2002/04/16 10:30:48 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -613,7 +613,7 @@ class eZVoucherInformation
         $currency->setValue( $voucher->price() );
         $t->set_var( "voucher_value", $locale->format( $currency, true, false ) );
 
-        $this->setIsBought( false ); // Dummy Value
+        $this->setIsBought( true ); // Dummy Value
         
         if ( $this->IsBought == true )
         {

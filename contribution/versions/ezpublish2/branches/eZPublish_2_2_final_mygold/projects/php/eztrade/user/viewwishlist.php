@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.8.4.1 2001/12/18 14:08:08 sascha Exp $
+// $Id: viewwishlist.php,v 1.8.4.2 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //

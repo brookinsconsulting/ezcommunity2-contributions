@@ -6,9 +6,10 @@
 	Grosse Auswahl zu fairen Preisen.<br />
 	Geniessen Sie Ihren Einkauf bei uns.<br /><br />
 	Ihr My Gold Team!
-        <div align="center">
-         <img src="/sitedesign/mygold/images/zirkonia.jpg" width="300" height="352" alt="Collier mit Zirkonia - von MyGold.com" /><br />
-        </div>
+	<br /><br /><br />
+	<div align="center">
+          <img src="/sitedesign/mygold/images/valentine.jpg" width="340" height="247" border="0" alt="Herzanh&auml;nger - die besondere Geschenkidee von MyGold.com" />
+	</div>
     </td>
   </tr>
 </table>

@@ -90,14 +90,6 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td width="100%" colspan="2">
-	<p class="boxtext">{intl-title}:</p>
-        <!-- BEGIN title_item_tpl -->
-	<input type="radio" name="TitleID" {title_checked} value="{title_id}"/>{title_name}
-        <!-- END title_item_tpl -->
-	</td>
-</tr>
-<tr>
 	<td>
 	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
@@ -134,42 +126,6 @@
 	</td>
 </tr>
 </table>
-
-<br /><br />
-
-<!-- BEGIN additional_text_item_tpl -->
-<tr>
-	<td>
-	<p class="boxtext">{additional_name}:</p>
-	<input type="text" size="20" name="AdditionalValue[{index}]" value="{additional_value}"/>
-	<input type="hidden"name="AdditionalArrayID[{index}]" value="{additional_id}"/>
-	</td>
-</tr>
-<tr>
-        <td>&nbsp;</td>
-</tr>
-<!-- END additional_text_item_tpl -->
-<!-- BEGIN additional_radio_item_tpl -->
-<tr>
-	<td>
-	<p class="boxtext">{additional_name}:</p>
-	<!-- BEGIN fixed_values_tpl -->
-	{value}: <input {radio_checked} type="radio" size="20" name="AdditionalValue[{index}]" value="{value_id}"/>&nbsp;
-	<!-- END fixed_values_tpl -->
-	<input type="hidden"name="AdditionalArrayID[{index}]" value="{additional_id}"/>
-	</td>
-</tr>
-<tr>
-        <td>&nbsp;</td>
-</tr>
-<!-- END additional_radio_item_tpl -->
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<!-- BEGIN additional_item_tpl -->
-
-<!-- END additional_item_tpl -->
-</table>
-
 
 
 <!-- BEGIN address_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41.4.1 2001/12/18 14:08:08 sascha Exp $
+// $Id: productlist.php,v 1.41.4.2 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -192,11 +192,8 @@ foreach ( $productList as $product )
     $SiteDescriptionOverride .= $product->name() . " ";
 
     $t->set_var( "product_name", $product->name() );
-    
-    $product_intro_text = $product->brief();
-    if ( empty( $product_intro_text ) ) $product_intro_text = "MyGold Schmuck";
-    
-    $t->set_var( "product_intro_text", eZTextTool::nl2br(  $product_intro_text ) );
+
+    $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
 
     if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {

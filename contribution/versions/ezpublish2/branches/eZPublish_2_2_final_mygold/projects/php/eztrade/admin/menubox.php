@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.28.4.1 2001/12/18 14:08:07 sascha Exp $
+// $Id: menubox.php,v 1.28.4.2 2002/04/16 10:30:46 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,6 +33,7 @@ $menuItems = array(
     array( "/trade/vattypes/", "{intl-vattypes}" ),
     array( "/trade/shippingtypes/", "{intl-shippingtypes}" ),
     array( "/trade/currency/", "{intl-currency}" ),
+    array( "/trade/orderstats/", "{intl-orderstats}" ),
     array( "/trade/pricegroups/list", "{intl-pricegroups}" ),
     array( "/trade/categoryedit/", "{intl-newcategory}" ),
     array( "/trade/typeedit/", "{intl-newtype}" ),
@@ -41,7 +42,9 @@ $menuItems = array(
     array( "/trade/voucherlist/", "{intl-voucher_list}" ),
     array( "/trade/vouchercreate/", "{intl-vouchercreate}" ),
     array( "/trade/vouchercreatebyemail/", "{intl-vouchercreatebyemail}" ),
-    array( "/trade/vouchercreatesnail/", "{intl-vouchercreatesnail}" )
+    array( "/trade/vouchercreatesnail/", "{intl-vouchercreatesnail}" ),
+    array( "/trade/productspecialslist/", "{intl-specialslist}" ),
+    array( "/trade/productspecialsedit/", "{intl-specialsedit}" ),        
     );
 
 ?>

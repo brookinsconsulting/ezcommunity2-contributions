@@ -23,7 +23,7 @@
   <tr>
     <td style="font-size: 10px; width="50%">
       Ist Ihnen das Ergebnis zu umfangreich oder wollen Sie weitere Suchoptionen nutzen Sie bitte unsere 
-      <a href="{www_dir}{index}/trade/extendedsearch/">erweitert Suche</a>.
+      <a href="{www_dir}{index}/trade/extendedsearch/">erweiterte Suche</a>.
     </td>
   </tr>
 </table>
@@ -51,7 +51,7 @@
           <td>
             <table border="0" cellspacing="1" cellpadding="0" bgcolor="#003366">
               <tr>
-	        <td><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></td>
+	        <td><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a></td>
 	      </tr>
 	    </table>  
 	  </td>

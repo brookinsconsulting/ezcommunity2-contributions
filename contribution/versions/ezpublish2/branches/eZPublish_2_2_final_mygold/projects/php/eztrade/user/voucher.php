@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucher.php,v 1.4.4.1 2001/12/18 14:08:08 sascha Exp $
+// $Id: voucher.php,v 1.4.4.2 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -54,8 +54,9 @@ $t->setAllStrings();
 $t->set_block( "voucher_tpl", "error_tpl", "error" );
 $t->set_var( "error", "" );
 
+/*
 if ( $Action == "Verify" )
-{
+    {
     $voucher = eZVoucher::getFromKeyNumber( $KeyNumber );
 
     // if ( get_class ( $voucher ) == "ezvoucher" )    
@@ -80,7 +81,50 @@ if ( $Action == "Verify" )
     $t->parse( "error", "error_tpl" );
     $PaymentSuccess = "false";
 }
+*/
 
+if ( $Action == "Verify" )
+{
+    $voucher = eZVoucher::getFromKeyNumber( $KeyNumber );
+    $languageIni = new INIFile( "eztrade/user/" . "intl/" . $Language . "/voucher.php.ini", false );
+	
+    // if Voucherkey exists
+    if ( get_class( $voucher ) == "ezvoucher" )
+    {
+        // if Voucher has been used at the same payment
+        if ( in_array( $voucher->id(), $session->arrayValue( "PayWithVoucher" ) ) )
+        {
+    	    $t->set_var( "intl-error_message", $languageIni->read_var( "strings", "voucher_used" ) );
+            $t->parse( "error", "error_tpl" );
+	    $PaymentSuccess = "false";
+    	}
+        // if Voucher's Valid Until < now
+	elseif ( !$voucher->isValid() )
+	{
+	    $t->set_var( "intl-error_message", $languageIni->read_var( "strings", "voucher_invalid" ) );
+    	    $t->parse( "error", "error_tpl" );
+	    $PaymentSuccess = "false";
+	}
+        // if no problems -> use voucher for payment	
+	else  
+	{
+	    $array[] = $voucher->id();
+    	    $append = $session->arrayValue( "PayWithVoucher" );
+	    $array = array_merge( $array, $append );
+    	    $session->setArray( "PayWithVoucher", $array );
+	    $session->arrayValue( "PayWithVoucher" );
+    	    eZHTTPTool::header( "Location: /trade/checkout/" );
+	    exit();
+	}
+    }
+    // if Voucherkey does not exist
+    else
+    {
+	$t->set_var( "intl-error_message", $languageIni->read_var( "strings", "voucher_number_wrong" ) );
+        $t->parse( "error", "error_tpl" );
+	$PaymentSuccess = "false";
+    }            
+}
 
 // $ChargeTotal is the value to charge the customer with
 

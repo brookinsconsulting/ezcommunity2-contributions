@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: mastercard.php,v 1.1.2.1 2001/11/22 09:52:40 ce Exp $
+// $Id: mastercard.php,v 1.1.2.2 2002/04/16 10:30:41 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Feb-2001 13:49:48 bf>
@@ -38,7 +38,7 @@ if ( $Action == "Verify" )
 {
     $ValidThru = $ExpireMonth . $ExpireYear;
     
-    //   $xmlSpecifics = "IC_BLZ=\"$BlzCode\" IC_KTO_NR=\"$AccountNR\"";
+    $CCNumber = str_replace( " ", "", $CCNumber );
     $xmlSpecifics = "IC_PAN=\"$CCNumber\" IC_VALID_THRU=\"$ValidThru\"";
     $cardType = "MCARD";
     include( "checkout/user/card.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlist.php,v 1.11.4.2 2001/12/18 14:08:08 sascha Exp $
+// $Id: ezwishlist.php,v 1.11.4.3 2002/04/16 10:30:48 ce Exp $
 //
 // Definition of eZWishList class
 //
@@ -322,7 +322,7 @@ class eZWishList
        $ret = array();
        
        $db =& eZDB::globalDatabase();
-       
+
        $db->array_query( $wishlist_array,
        "SELECT eZTrade_WishList.ID AS ID FROM eZTrade_WishList, eZUser_User
         WHERE eZTrade_WishList.UserID=eZUser_User.ID

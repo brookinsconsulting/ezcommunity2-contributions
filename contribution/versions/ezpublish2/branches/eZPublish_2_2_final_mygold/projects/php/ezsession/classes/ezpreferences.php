@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpreferences.php,v 1.14 2001/09/04 10:48:49 fh Exp $
+// $Id: ezpreferences.php,v 1.14.4.1 2002/04/16 10:30:44 ce Exp $
 //
 // Definition of eZPreferences class
 //

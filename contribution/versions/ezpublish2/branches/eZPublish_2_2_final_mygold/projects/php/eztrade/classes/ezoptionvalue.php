@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.39.4.1 2001/12/18 14:08:08 sascha Exp $
+// $Id: ezoptionvalue.php,v 1.39.4.2 2002/04/16 10:30:48 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -387,6 +387,26 @@ class eZOptionValue
             $value = new eZOptionValue( $res[0][$db->fieldName("ID")] );
         }
         
+        return $value;
+    }
+
+    function getByRemoteIDs( $id )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $value = array();
+
+        $db->array_query( $res, "SELECT ID FROM
+                                            eZTrade_OptionValue
+                                            WHERE RemoteID='$id'" );
+        if ( count ( $res ) > 0 )
+        {
+            foreach( $res as $item )
+            {
+                $value[] = new eZOptionValue( $item[$db->fieldName("ID")] );
+            }
+        }
+
         return $value;
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browserlist.php,v 1.5 2001/09/24 17:58:18 br Exp $
+// $Id: browserlist.php,v 1.5.4.1 2002/04/16 10:30:45 ce Exp $
 //
 // Created on: <07-Jan-2001 16:13:21 bf>
 //

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.9 2001/07/20 11:28:54 jakobn Exp $
+// $Id: menubox.php,v 1.9.4.1 2002/04/16 10:30:45 ce Exp $
 //
 // Created on: <05-Jan-2001 11:18:10 bf>
 //

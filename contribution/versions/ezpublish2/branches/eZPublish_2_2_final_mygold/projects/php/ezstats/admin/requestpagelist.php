@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: requestpagelist.php,v 1.9 2001/09/24 17:42:25 br Exp $
+// $Id: requestpagelist.php,v 1.9.4.1 2002/04/16 10:30:45 ce Exp $
 //
 // Created on: <07-Jan-2001 16:25:31 bf>
 //

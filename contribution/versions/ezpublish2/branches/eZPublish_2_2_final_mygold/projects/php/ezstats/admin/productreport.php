@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productreport.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
+// $Id: productreport.php,v 1.7.4.1 2002/04/16 10:30:45 ce Exp $
 //
 // Created on: <11-Jan-2001 14:47:56 bf>
 //

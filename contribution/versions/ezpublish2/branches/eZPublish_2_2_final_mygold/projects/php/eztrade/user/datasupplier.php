@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.4.4 2001/11/19 12:34:29 ce Exp $
+// $Id: datasupplier.php,v 1.54.4.5 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -25,7 +25,6 @@
 
 
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
-
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
@@ -83,6 +82,13 @@ switch ( $url_array[2] )
         {
             include( "eztrade/user/productlist.php" );
         }
+        break;
+    }
+
+    case "productspecials" :
+    {
+	$SpecialID = $url_array[3];
+        include( "eztrade/user/productspecials.php" );
         break;
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: card.php,v 1.1.2.1 2001/11/22 09:52:40 ce Exp $
+// $Id: card.php,v 1.1.2.2 2002/04/16 10:30:41 ce Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <17-Apr-2001 14:11:54 amos>
@@ -53,17 +53,17 @@ $ammount = $ChargeTotal * 100;
 
 $ValidThru = $ExpireMonth . $ExpireYear;
 
-$xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <ICMessage IC_SHOP_ID=\"65 019\" IC_CVC2=\"$CVC2Value\" IC_SHOP_TA_ID=\"$taID\" $xmlSpecifics IC_TA_TYPE=\"110\" IC_DATE=\"$date\" IC_TIME=\"$time\" IC_AMOUNT=\"$ammount\" IC_CURRENCY=\"280\" IC_PROCESSING_CODE=\"1\" IC_SHOP_CUSTOM1=\"$PreOrderID\" />";
+$xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <ICMessage IC_SHOP_ID=\"65 019\" IC_CVC2=\"$CVC2Value\" IC_SHOP_TA_ID=\"$taID\" $xmlSpecifics IC_TA_TYPE=\"110\" IC_DATE=\"$date\" IC_TIME=\"$time\" IC_AMOUNT=\"$ammount\" IC_CURRENCY=\"978\" IC_PROCESSING_CODE=\"1\" IC_SHOP_CUSTOM1=\"$PreOrderID\" />";
 
 $execString = "checkout/socket.pl " . EscapeShellArg( $xml);
 
-print( "<b>Sending: </b><br>" . htmlspecialchars( $xml ) . "<br><br>" );
-    
+// print( "<b>Sending: </b><br>" . htmlspecialchars( $xml ) . "<br><br>" );
+
 $ret = system( $execString );
     
 print( "<br />" );
     
-print(  "<b>Receiving: </b><br>" . htmlspecialchars( $ret ) );
+// print(  "<b>Receiving: </b><br>" . htmlspecialchars( $ret ) );
 
 
 $domtree =& qdom_tree( $ret );
@@ -114,9 +114,14 @@ if ( $RC_CODE != "00" )
     $log->setStatus( 3 );
 else
 $log->setStatus( 0 );
+
+$log->setBLZ( 00000000 );
+$log->setAcctNR( 000000000 );
+
 $log->setRcCode( $RC_CODE );
 $log->setRcText( $RC_TEXT );
 $log->store();
+
 
 
 if ( $RC_CODE == "00" )
@@ -132,7 +137,16 @@ else
     {
         $session->setVariable( "PaymentTry", $tryNr + 1 );
     }
-
+    if( $RC_CODE == "" )
+    {
+        $mail = new eZMail();
+        $mail->setTo( "sf-mygold@t-d1-sms.de" );
+        $mail->setFrom( "apache@mygoldf.com" );
+        $mail->setSubject( "Fehler bei Zahlung ".date("d:m:Y H:i:m") );
+        $mail->setBody( "keine Verbindung!" );
+        $mail->send();
+	$RC_TEXT = "Es ist zur Zeit keine Verbindung zum Clearingserver m&ouml;glich. Bitte versuchen Sie es sp&auml;ter nochmal.";
+    }
 }
     
 //      print( $RC_CODE );

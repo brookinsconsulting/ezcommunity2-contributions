@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.13.4.2 2001/12/18 14:08:08 sascha Exp $
+// $Id: ezvoucher.php,v 1.13.4.3 2002/04/16 10:30:48 ce Exp $
 //
 // eZVoucher class
 //
@@ -190,6 +190,44 @@ class eZVoucher
         $this->ValidUntil =& $voucherArray[$db->fieldName( "ValidUntil" )];
     }
 
+    function &search( $queryText, $offset=0, $limit=20 )
+    {
+        $db =& eZDB::globalDatabase();
+		
+        $return_array = array();
+        $voucher_array = array();
+				
+        $db->array_query( $voucher_array, "SELECT eZTrade_Voucher.ID as ID
+                                           FROM eZTrade_Voucher, eZTrade_VoucherInformation
+                                           WHERE ( eZTrade_Voucher.KeyNumber LIKE '%$queryText%' 
+                                           OR   eZTrade_VoucherInformation.ToName LIKE '%$queryText%' )
+                                           AND eZTrade_Voucher.ID = eZTrade_VoucherInformation.VoucherID ",
+                                           array( "Limit" => $limit, "Offset" => $offset ) );
+
+       for ( $i = 0; $i < count( $voucher_array ); $i++ )
+       {
+           $return_array[$i] = new eZVoucher( $voucher_array[$i][$db->fieldName("ID")], 0 );
+       }
+       return $return_array;
+   }
+																																					       
+   function &getSearchCount( $queryText )
+   {
+       $db =& eZDB::globalDatabase();
+
+       $db->array_query( $voucher_array, "SELECT count(eZTrade_Voucher.ID) as Count
+				          FROM eZTrade_Voucher, eZTrade_VoucherInformation
+				          WHERE ( eZTrade_Voucher.KeyNumber LIKE '%$queryText%' 
+				          OR     eZTrade_VoucherInformation.ToName LIKE '%$queryText%' )
+				          AND eZTrade_Voucher.ID = eZTrade_VoucherInformation.VoucherID" );
+       $ret = 0;
+       if ( count( $voucher_array ) == 1 )
+       {
+           $ret = $voucher_array[0][$db->fieldName("Count")];
+       }
+       return $ret;
+    }
+
     /*!
       Returns all the categories found in the database.
 
@@ -277,10 +315,8 @@ class eZVoucher
 	if ( is_object( $this->validUntil() ) )
 	{
 	    $valid_until = $this->validUntil();
-	    if ( $valid_until->timeStamp() < time() )
-	    {
+	    if ( $valid_until->timeStamp() > mktime() )
 	        return true;
-	    }
 	    else
 		return false;
 	}

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.1.2.1 2001/11/15 16:25:01 ce Exp $
+// $Id: cron.php,v 1.1.2.2 2002/04/16 10:30:43 ce Exp $
 //
 // cron class
 //
@@ -10,7 +10,7 @@
 // Copyright (C) Christoffer A. Elo.  All rights reserved.
 //
 
-chdir( "/home/ce/projects/php/mygold/" );
+chdir( "/var/www/mygold/" );
 include_once( "ezcc/classes/ezcclog.php" );
 
 eZCCLog::setAsCutovered();

@@ -21,24 +21,20 @@ ezimagecatalogue
 ezsitemanager
 ezquiz
 classes
-ezurltranslator
-ezbulkmail
-ezform
-ezmediacatalogue
-ezsysinfo
 "
 
 for dir in $dirs
 do
     if [ -d $dir ]; then
 	    echo "Clearing $dir"
-        rm -f $dir/cache/*.cache
-	rm -f $dir/cache/*.php
+	if [ $dir = "eztrade" ]
+	then find eztrade/cache/ -type f | xargs rm -f
+	else
+	        rm -f $dir/cache/*.cache
+		rm -f $dir/cache/*.php
+	fi
 	if [ -d $dir/admin/cache/ ]; then
 	    rm -f $dir/admin/cache/*.cache
-	fi
-	if [ -d $dir/user/cache/ ]; then
-	    rm -f $dir/user/cache/*.cache
 	fi
     else
         echo "Creating $dir"

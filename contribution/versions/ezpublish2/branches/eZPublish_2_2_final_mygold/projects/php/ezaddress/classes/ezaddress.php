@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.19 2001/10/15 06:22:26 ce Exp $
+// $Id: ezaddress.php,v 1.19.4.1 2002/04/16 10:30:42 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -301,7 +301,10 @@ class eZAddress
 
         if ( count( $addressArray ) == 1 )
         {
+if ( $addressArray[0][$db->fieldName( "AddressID" )] != 0 )
             return new eZAddress( $addressArray[0][$db->fieldName( "AddressID" )] );
+else
+return false;
         }
         else
         {

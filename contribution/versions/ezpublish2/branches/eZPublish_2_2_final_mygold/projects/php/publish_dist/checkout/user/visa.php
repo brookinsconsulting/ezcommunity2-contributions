@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: visa.php,v 1.1.2.1 2001/11/22 09:52:40 ce Exp $
+// $Id: visa.php,v 1.1.2.2 2002/04/16 10:30:41 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 19:59:14 bf>
@@ -37,7 +37,8 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 if ( $Action == "Verify" )
 {
     $ValidThru = $ExpireMonth . $ExpireYear;
-    
+
+    $CCNumber = str_replace( " ", "", $CCNumber );    
     $xmlSpecifics = "IC_PAN=\"$CCNumber\" IC_VALID_THRU=\"$ValidThru\"";
     $cardType = "VISA";
     include( "checkout/user/card.php" );

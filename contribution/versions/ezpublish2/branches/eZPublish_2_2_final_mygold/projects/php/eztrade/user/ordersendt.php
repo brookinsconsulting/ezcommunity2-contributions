@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.49.4.2 2001/12/18 14:08:08 sascha Exp $
+// $Id: ordersendt.php,v 1.49.4.3 2002/04/16 10:30:49 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //

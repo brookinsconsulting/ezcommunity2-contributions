@@ -12,6 +12,18 @@ include_once( "classes/ezbenchmark.php" );
 
 $GLOBALS["DEBUG"] = true;
 
+if ( $GLOBALS["REMOTE_ADDR"] == "217.65.231.18" or
+     $GLOBALS["REMOTE_ADDR"] == "212.14.66.172" or
+     $GLOBALS["REMOTE_ADDR"] == "212.14.66.37" or
+     $GLOBALS["REMOTE_ADDR"] == "193.217.242.208"
+   )
+{
+}
+else
+{
+// include( "venteindex.php" );
+// exit();
+}
 // Check for bots and disable cookieless Session if they show up
 
 $UsePHPSessions = 2;
@@ -48,7 +60,7 @@ ob_start();
 if ( $UsePHPSessions == true )
 {
 //    // start session handling
-//    session_start();
+    session_start();
 }
 
 // settings for sessions
