@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.11 2001/01/18 18:52:44 bf Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.12 2001/01/30 11:15:59 pkej Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -103,7 +103,7 @@
 </table>
 <!-- END order_item_list_tpl -->
 
-<h2>{intl-order_status}Ordrestatus</h2>
+<h2>{intl-order_status}</h2>
 
 <table width="100%">
 <tr>
