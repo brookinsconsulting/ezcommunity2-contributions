@@ -41,6 +41,20 @@
 
 <hr size="4" noshade="noshade" />
 
-<input class="okbutton" type="submit" name="Back" value="{intl-back}" />
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td width="1%">
+       <input class="okbutton" type="submit" name="Back" value="{intl-back}" />&nbsp;
+       </form>
+</td>
+<td width="99%">
+       <form action="/message/edit/" method="post">
+       <input type="hidden" name="Subject" value="{message_subject}" />
+       <input type="hidden" name="Message" value="{message_message}" />
+       <input type="hidden" name="FromUserID" value="{message_user_id}" />
+       <input class="okbutton" type="submit" name="Reply" value="{intl-reply}" />
+       </form>
+</td>
+</tr>
+</table>
 
-</form>

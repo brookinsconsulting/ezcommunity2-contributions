@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.2 2001/06/06 11:19:23 bf Exp $
+// $Id: messageedit.php,v 1.3 2001/06/08 12:59:13 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jun-2001 17:19:01 bf>
@@ -27,6 +27,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -95,6 +96,13 @@ $t->set_var( "description", $Description );
 
 $t->set_var( "error", "" );
 
+if ( isSet ( $Reply ) )
+{
+    $fromUser = new eZUser ( $FromUserID );
+    $t->set_var( "description", eZTextTool::addPre( $Message ), ">" );
+    $t->set_var( "receiver", $fromUser->login()  );
+}
+
 if ( $MessageSent == true )
 {
     $t->parse( "message_sent", "message_sent_tpl" );
@@ -150,7 +158,6 @@ else
 
     }
 }
-
 
 $t->pparse( "output", "message_page_tpl" );
 

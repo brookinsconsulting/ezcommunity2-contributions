@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageview.php,v 1.1 2001/06/06 09:52:43 bf Exp $
+// $Id: messageview.php,v 1.2 2001/06/08 12:59:13 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Jun-2001 10:27:02 bf>
@@ -57,8 +57,6 @@ if ( $message->get( $MessageID ) )
     $message->setIsRead( true );
     $message->store();
 
-    
-
     $messageArray =& $message->messagesToUser( $user );
 
     $created = $message->created();
@@ -68,7 +66,8 @@ if ( $message->get( $MessageID ) )
 
     $t->set_var( "from_user_first_name", $fromUser->firstName() );
     $t->set_var( "from_user_last_name", $fromUser->lastName() );
-
+    $t->set_var( "message_user_id", $fromUser->id() );
+    
     $t->set_var( "message_subject", $message->subject() );
     $t->set_var( "message_message", $message->description() );
 
@@ -79,7 +78,6 @@ else
     // message not found
     eZHTTPTool::header( "Location: /error/404/" );
     exit();
-
 }
 
 ?>
