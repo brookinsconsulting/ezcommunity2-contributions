@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.18 2001/03/01 14:06:26 jb Exp $
+// $Id: productlist.php,v 1.19 2001/03/26 09:40:11 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -197,7 +197,43 @@ foreach ( $productList as $product )
     }
     else
     {
-        $t->set_var( "price", "" );
+        $options =& $product->options();
+        if ( count ( $options ) == 1 )
+        {
+            $option = $options[0];
+            if ( get_class ( $option ) == "ezoption" )
+            {
+                $optionValues =& $option->values();
+                if ( count ( $optionValues ) > 1 )
+                {
+                    $i=0;
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $found_price = false;
+                        if ( $ShowPriceGroups and $PriceGroup > 0 )
+                        {
+                            $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
+                            if( $priceArray[$i] )
+                            {
+                                $found_price = true;
+                                $priceArray[$i] = $priceArray[$i];
+                            }
+                        }
+                        if ( !$found_price )
+                        {
+                            $priceArray[] = $optionValue->price();
+                        }
+                        $i++;
+                    }
+                    $high = new eZCurrency( max( $priceArray ) );
+                    $low = new eZCurrency( min( $priceArray ) );
+                    
+                    $t->set_var( "price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+                }
+            }
+        }
+        else
+            $t->set_var( "price", "" );
     }
     
     $t->set_var( "category_id", $category->id() );
