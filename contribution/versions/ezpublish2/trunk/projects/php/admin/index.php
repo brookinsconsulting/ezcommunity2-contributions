@@ -41,7 +41,7 @@ include( "header.php" );
 $user = eZUser::currentUser();
 if ( $user )
 {
-    require( "ezuser/admin/admincheck.php" );
+//    require( "ezuser/admin/admincheck.php" );
     if ( ! ( $HelpMode == "enabled" ) )
     {
         if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )

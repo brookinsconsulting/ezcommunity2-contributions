@@ -10,7 +10,8 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
-include_once( "");
+//include_once( "");
+
 
 if( !eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "new" )
 {

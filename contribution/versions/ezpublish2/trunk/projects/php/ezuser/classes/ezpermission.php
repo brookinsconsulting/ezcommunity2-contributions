@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.3 2000/10/31 07:35:57 ce-cvs Exp $
+// $Id: ezpermission.php,v 1.4 2000/11/22 15:11:35 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -424,7 +424,7 @@ class eZPermission
         $module = $module->exists( $moduleName );
 
         $ret = false;
-        
+
         if ( $module )
         {
             // connect to the db
@@ -435,7 +435,7 @@ class eZPermission
             }
 
             $moduleID = $module->id();
-            
+
             $this->Database->array_query( $value_array, "SELECT * FROM eZUser_Permission
                                                     WHERE Name='$permissionName' AND ModuleID='$moduleID'" );
 

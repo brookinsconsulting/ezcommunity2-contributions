@@ -161,7 +161,7 @@ if ( $Action == "insert" )
 
     // Add company to categories
 
-    if ( isSet( $CompanyCategoryID ) )
+    if ( ( $CompanyCategoryID ) != "" )
     {
         $category = new eZCompanyType();
         
@@ -240,6 +240,20 @@ if ( $Action == "update" )
     $company->setName( $Name );  
     $company->setComment( $Description );
     $company->setCompanyNo( $CompanyNo );
+
+    if ( ( $CompanyCategoryID ) != "" )
+    {
+        $company->removeCategoryies();
+        
+        $category = new eZCompanyType();
+        
+        for( $i=0; $i<count( $CompanyCategoryID ); $i++ )
+        {
+            $category->get( $CompanyCategoryID[$i] );
+            $category->addCompany( $company );
+        }
+    }
+
     
     // Store or update images
     if ( $logo != "" )
@@ -504,6 +518,7 @@ foreach( $companyTypeList as $companyTypeItem )
     {
         $categoryList = $company->categories( $CompanyID );
         $found = false;
+
         foreach ( $categoryList as $category )
         {
             if ( $category->id() == $companyTypeItem->id() )
@@ -512,9 +527,13 @@ foreach( $companyTypeList as $companyTypeItem )
             }
         }
         if ( $found  == true )
+        {
             $t->set_var( "is_selected", "selected" );
+        }
         else
+        {
             $t->set_var( "is_selected", "" );
+        }
     }
     else
     {
