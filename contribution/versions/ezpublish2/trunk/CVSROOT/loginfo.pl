@@ -256,6 +256,7 @@ my $paddr = sockaddr_in($smtpport, inet_aton($smtpserver));
 print "########\n";
 print "paddr = $paddr    smtpport = $smtpport   smptpserver = $smtpserver\n";
 print "hei paa deg\n";
+print "$outputfile\n";
 
 
 # socket(SOCK, PF_INET, SOCK_STREAM, 0) || die "socket failed";
