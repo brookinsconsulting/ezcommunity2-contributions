@@ -68,6 +68,28 @@ a:hover
 	font-weight: bold;
 }
 
+.top
+{
+	color: #ffffff;
+	font-size: 10;
+	font-weight: bold;
+}
+
+.topusername
+{
+	color: #ffffff;
+	font-size: 10;
+}
+
+.topmenu
+{
+	color: #ffffff;
+	font-size: 10;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+
 .menu 
 {
 	font-size: 10px;
@@ -96,7 +118,6 @@ a:hover
 
 .boxtext 
 {
-	font-weight: bold;
 	margin-bottom: 4px;
 }
 
@@ -108,7 +129,7 @@ a:hover
 	margin-bottom: 8px;
 }
 
-.checktext
+.checkhead
 {
 	margin-bottom: 16px;
 }
