@@ -3,7 +3,6 @@
 
 include_once( "classes/ezuritool.php" );
 
-//  $url_array = explode( "/", $REQUEST_URI );
 $url_array = eZURITool::split( $REQUEST_URI );
 switch ( $url_array[2] )
 {
@@ -18,10 +17,7 @@ switch ( $url_array[2] )
             case "new":
             {
                 $NewCompanyCategory = $url_array[4];
-//                  unset( $CompanyID );
-//                  include( "ezcontact/admin/companyedit.php" );
-                $CompanyEdit = true;
-                include( "ezcontact/admin/personedit.php" );
+                include( "ezcontact/admin/companyedit.php" );
                 break;
             }
             case "edit":
@@ -29,9 +25,7 @@ switch ( $url_array[2] )
             case "delete":
             case "insert":
             {
-//                  include( "ezcontact/admin/companyedit.php" );
-                $CompanyEdit = true;
-                include( "ezcontact/admin/personedit.php" );
+                include( "ezcontact/admin/companyedit.php" );
                 break;
             }
             case "view":
@@ -43,20 +37,6 @@ switch ( $url_array[2] )
             {
                 $TypeID = $url_array[4];
                 include( "ezcontact/admin/companytypelist.php" );
-                break;
-            }
-
-            case "http":
-            {
-                $CompanyID = $url_array[4];
-                if ( isSet ( $Edit ) )
-                    $Action = "edit";
-                if ( isSet ( $Delete ) )
-                    $Action = "delete";
-
-//                  include( "ezcontact/admin/companyedit.php" );
-                $CompanyEdit = true;
-                include( "ezcontact/admin/personedit.php" );
                 break;
             }
 
@@ -91,11 +71,6 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
             }
-//              case "list":
-//              {
-//                  include( "ezcontact/admin/companytypelist.php" );
-//                  break;
-//              }
             default:
             {
                 header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
@@ -284,7 +259,6 @@ switch ( $url_array[2] )
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
                 $CompanyID = $url_array[5];
-//                  $ConsultationID = $url_array[5];
                 switch ( $Action )
                 {
                     // intentional fall through
@@ -316,7 +290,6 @@ switch ( $url_array[2] )
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
                 $PersonID = $url_array[5];
-//                  $ConsultationID = $url_array[5];
                 switch ( $Action )
                 {
                     // intentional fall through
