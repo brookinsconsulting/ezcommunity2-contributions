@@ -1,13 +1,60 @@
-<tr>
-    <td background="/images/<? echo $SiteStyle; ?>/menu-t.gif" valign="top"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="15" height="1"><img src="/images/<? echo $SiteStyle; ?>/menu-news.gif" width="120" height="50"></td>
-</tr>
-<tr> 
-    <td class="repeaty" background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/archive/">Arkiv</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/categoryedit/new/">Ny kategori</a><br>
-    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/articleedit/new/">Ny artikkel</a><br>
-    </td>
-</tr>
-<tr>
-    <td><img src="/images/<? echo $SiteStyle; ?>/menu-b.gif" width="150" height="40"></td>
-</tr>
+<?
+// 
+// $Id: menubox.php,v 1.4 2000/10/24 09:28:14 bf-cvs Exp $
+//
+// 
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <23-Oct-2000 17:53:46 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+include_once( "classes/INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$Language = $ini->read_var( "eZArticleMain", "Language" );
+
+include_once( "classes/eztemplate.php" );
+
+include_once( "ezarticle/classes/ezarticlecategory.php" );
+include_once( "ezarticle/classes/ezarticle.php" );
+
+$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
+                     "ezarticle/admin/intl", $Language, "menubox.php" );
+
+$t->setAllStrings();
+
+$t->set_file( array(
+    "menu_box_tpl" => "menubox.tpl"
+    ) );
+
+// Lister alle kategorier
+    
+$articleCategory = new eZArticleCategory( 0 );
+
+$articleCategory_array = $articleCategory->getByParent( $articleCategory );
+
+$t->set_var( "site_style", $SiteStyle );
+
+$t->pparse( "output", "menu_box_tpl" );
+    
+
+?>
+
+

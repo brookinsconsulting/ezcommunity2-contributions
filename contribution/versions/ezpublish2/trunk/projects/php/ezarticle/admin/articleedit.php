@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.10 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: articleedit.php,v 1.11 2000/10/24 09:28:14 bf-cvs Exp $
 //
 // 
 //
@@ -138,9 +138,15 @@ if ( $Action == "Update" )
 if ( $Action == "Delete" )
 {
     $article = new eZArticle( $ArticleID );
-    $article->delete();    
 
-    Header( "Location: /article/archive/" );
+
+    // get the category to redirect to
+    $categories = $article->categories();    
+    $categoryID = $categories[0]->id();
+
+    $article->delete();    
+    
+    Header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 
@@ -177,12 +183,13 @@ if ( $Action == "New" )
 
 }
 
+
+$article = new eZArticle( $ArticleID );
+
 if ( $Action == "Edit" )
 {
-    print( "Editing aritcle" . $ArticleID );
 
-    $article = new eZArticle( $ArticleID );
-
+ 
     $t->set_var( "article_id", $ArticleID );
     $t->set_var( "article_name", $article->name() );
 
@@ -213,7 +220,9 @@ foreach ( $categoryArray as $catItem )
     if ( $Action == "Edit" )
     {
         if ( $article->existsInCategory( $catItem ) )
+        {
             $t->set_var( "selected", "selected" );
+        }
         else
             $t->set_var( "selected", "" );
     }

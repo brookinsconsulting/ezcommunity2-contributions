@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.2 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: articlelist.php,v 1.3 2000/10/24 09:28:14 bf-cvs Exp $
 //
 // 
 //
@@ -46,6 +46,7 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $category = new eZArticleCategory( $CategoryID );
 
+$t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 

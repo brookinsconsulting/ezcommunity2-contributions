@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.2 2000/10/21 19:59:15 bf-cvs Exp $
+// $Id: groupedit.php,v 1.3 2000/10/24 09:28:14 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -34,7 +34,9 @@ if ( $Action == "insert" )
     $category->setDescription( $Description );
     $category->store();
 
-    Header( "Location: /article/archive/" );
+    $categoryID = $category->id();
+
+    Header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 
@@ -51,7 +53,9 @@ if ( $Action == "update" )
 
     $category->store();
 
-    Header( "Location: /article/archive/" );
+    $categoryID = $category->id();
+
+    Header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 

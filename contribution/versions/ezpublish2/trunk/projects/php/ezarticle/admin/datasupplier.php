@@ -138,6 +138,15 @@ switch ( $url_array[2] )
 
     case "categoryedit":
     {
+        // make switch
+        if ( $url_array[3] == "cancel" )        
+        {
+            $Action = "Cancel";
+            $ArticleID = $url_array[4];
+            Header( "Location: /article/archive/$CategoryID/" );
+            exit();
+        }        
+
         if ( $url_array[3] == "insert" )
         {
             $Action = "insert";

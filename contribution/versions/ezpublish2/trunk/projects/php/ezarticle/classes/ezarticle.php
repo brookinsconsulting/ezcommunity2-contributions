@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.11 2000/10/23 11:05:10 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.12 2000/10/24 09:28:15 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -520,9 +520,9 @@ class eZArticle
        {
            $this->dbInit();
            $catID = $category->id();
-        
+
            $this->Database->array_query( $ret_array, "SELECT ID FROM eZArticle_ArticleCategoryLink
-                                    WHERE ArticleID='$this->ID' AND ArticleID='$catID'" );
+                                    WHERE ArticleID='$this->ID' AND CategoryID='$catID'" );
 
            if ( count( $ret_array ) == 1 )
            {
