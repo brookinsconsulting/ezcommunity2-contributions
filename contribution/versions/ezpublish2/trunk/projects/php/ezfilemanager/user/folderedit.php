@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.19 2001/03/08 20:45:43 fh Exp $
+// $Id: folderedit.php,v 1.20 2001/03/10 17:37:19 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -38,7 +38,10 @@ include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
 $user = eZUser::currentUser();
 
-if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZFileManager", "WritePermission" ) == false ) )
+//om folder ID finnes 
+
+if( isset( $FolderID ) && $FolderID != 0 && !eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) &&
+                            !eZVirtualFolder::isOwner( $user, $FolderID ) ) 
 {
     eZHTTPTool::header( "Location: /error/403/" );
     exit();
@@ -324,7 +327,9 @@ if ( count ( $folderList ) == 0 )
 }
 
 // Print out all the groups.
-$groups = $user->groups();
+//$groups = $user->groups();
+$group = new eZUserGroup();
+$groups = $group->getAll();
 
 foreach ( $groups as $group )
 {

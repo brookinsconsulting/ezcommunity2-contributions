@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.25 2001/03/09 08:33:31 ce Exp $
+// $Id: fileupload.php,v 1.26 2001/03/10 17:37:19 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -359,7 +359,8 @@ if ( $Action == "Edit" )
 
 // Print out all the groups.
 
-$groups =& $user->groups();
+$group = new eZUserGroup();
+$groups = $group->getAll();
 
 foreach ( $groups as $group )
 {

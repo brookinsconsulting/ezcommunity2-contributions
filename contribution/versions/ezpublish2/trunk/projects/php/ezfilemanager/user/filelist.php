@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.29 2001/03/09 14:29:44 fh Exp $
+// $Id: filelist.php,v 1.30 2001/03/10 17:37:19 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -193,7 +193,7 @@ foreach ( $fileList as $file )
         $t->set_var( "read", "" );
     }
     
-    if(  eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user )  ||
+    if( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user )  ||
         eZVirtualFile::isOwner( $user, $file->id() ))
     {
         $t->parse( "write", "write_tpl" );
