@@ -71,7 +71,7 @@
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN move_to_cart_item_tpl -->
-	<a href="{www_dir}{index}/trade/wishlist/movetocart/{wishlist_item_id}/"> 
+	<a href="{www_dir}{index}/trade/wishlist/movetocart/{wishlist_item_id}/">
 	{intl-move_to_cart} 
 	</a> 
 	<!-- END move_to_cart_item_tpl -->
@@ -108,7 +108,8 @@
 	<!-- BEGIN wishlist_inc_tax_item_tpl -->
 	<td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
 	<!-- END wishlist_inc_tax_item_tpl -->
-	<td class="{td_class}" align="right"><a href="{www_dir}{index}/trade/wishlist/remove/{wishlist_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{wishlist_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{wishlist_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+	<td class="{td_class}" align="right">
+        <input type="checkbox" name="DeleteItem[]" value="{wishlist_item_id}" />
     </tr>
     <!-- BEGIN wishlist_item_basis_tpl -->
     <tr>
@@ -190,11 +191,13 @@
 
 <hr noshade="noshade" size="4" />
 
+<input type="hidden" name="Action" value="Refresh" />
+<input class="stdbutton" type="submit" name="DeleteItems" value="{intl-delete_slected}" />&nbsp;
+<input class="stdbutton" type="submit" value="{intl-update}" />
+
 <!-- END full_wishlist_tpl -->
 
 
-<input type="hidden" name="Action" value="Refresh" />
-<input class="stdbutton" type="submit" value="{intl-update}" />
 </form>
 
 <hr noshade="noshade" size="4" />

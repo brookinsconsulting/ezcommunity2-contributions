@@ -23,8 +23,16 @@ MyGold.com
 {description}
 		    
 {intl-key_number}: {key_number}
-{intl-valid}: {valid}
-			    
+
+<!-- BEGIN never_expire_tpl -->
+{intl-valid}: {intl-never_expire}
+<!-- END never_expire_tpl -->
+wegwe
+g
+weg
+weg
+weg
+weg
 =========================================================================
 			    
 So können Sie Ihren Geschenkgutschein im Internet einzulösen:
