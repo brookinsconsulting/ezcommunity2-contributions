@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.13 2001/07/19 12:19:21 jakobn Exp $
+// $Id: search.php,v 1.14 2001/09/12 12:54:16 ce Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -54,8 +54,25 @@ $t->set_file( "article_list_page_tpl", "search.tpl" );
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
-$t->set_var( "search_text", "" );
+// Init url variables - for eZList...
+$t->set_var( "url_start_stamp", urlencode( "+" ) );
+$t->set_var( "url_stop_stamp", urlencode( "+" ) );
+$t->set_var( "url_category_array", urlencode( "+" ) );
+$t->set_var( "url_contentswriter_id", urlencode( "+" ) );
+$t->set_var( "url_photographer_id", urlencode( "+" ) );
 
+if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
+{
+    $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
+    $StartStamp = $startDate->timeStamp();
+}
+if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
+{
+    $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
+    $StopStamp = $stopDate->timeStamp();
+}
+
+$t->set_var( "search_text", "" );
 
 $category = new eZArticleCategory( $CategoryID );
 
@@ -72,11 +89,43 @@ if( !isset ( $Offset ) )
 
 if ( $SearchText )
 {
+    if ( isset( $StartStamp ) )
+    {
+        $paramsArray["FromDate"] = $StartStamp;
+        $t->set_var( "url_start_stamp", urlencode( $StartStamp ) );
+    }
+        
+    if ( isset( $StopStamp ) )
+    {
+        $paramsArray["ToDate"] = $StopStamp;
+        $t->set_var( "url_stop_stamp", urlencode( $StopStamp ) );
+    }
+
+    if( $ContentsWriterID != 0 )
+    {
+        $paramsArray["AuthorID"] = $ContentsWriterID;
+        $t->set_var( "url_contentswriter_id", urlencode( $ContentsWriterID ) );
+    }
+
+    if( $PhotographerID != 0 )
+    {
+        $paramsArray["PhotographerID"];
+        $t->set_var( "url_photographer_id", urlencode( $PhotographerID ) );
+    }
+
+    if( is_array( $CategoryArray ) && count( $CategoryArray ) > 0 && !in_array( 0, $CategoryArray ) )
+    {
+        $paramsArray["Categories"] = $CategoryArray;
+
+        // fix output string for URL
+        $t->set_var( "url_category_array", urlencode( implode( "-", $CategoryArray ) ) );
+    }
+
     $t->set_var( "search_text", $SearchText );
     $article = new eZArticle();
-    $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit );
+    $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit, $paramsArray );
 
-    $totalCount = $article->searchCount( $SearchText, "time", false );
+    $totalCount = $article->searchCount( $SearchText, "time", false, $paramsArray );
 
     $t->set_var( "url_text", urlencode ( $SearchText ) );
 }

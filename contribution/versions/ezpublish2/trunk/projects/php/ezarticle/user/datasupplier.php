@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.85 2001/09/12 06:09:38 ce Exp $
+// $Id: datasupplier.php,v 1.86 2001/09/12 12:54:16 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -171,16 +171,27 @@ switch ( $url_array[2] )
         {
             include( "ezarticle/user/searchform.php" );
         }
-        else 
+        else
         {
-            if ( $url_array[3] == "move" )
+            $Offset = 0;
+            if( $url_array[3] == "parent" )
             {
                 $SearchText = urldecode( $url_array[4] );
-                $Offset = urldecode ( $url_array[5] );
+                if( $url_array[5] != urlencode( "+" ) )
+                    $StartStamp = urldecode( $url_array[5] );
+                if( $url_array[6] != urlencode( "+" ) )
+                    $StopStamp = urldecode( $url_array[6] );
+                if( $url_array[7] != urlencode( "+" ) )
+                    $CategoryArray = explode( "-", urldecode( $url_array[7] ) );
+                if( $url_array[8] != urlencode( "+" ) )
+                    $ContentsWriterID = urldecode( $url_array[8] );
+                if( $url_array[9] != urlencode( "+" ) )
+                    $PhotographerID = urldecode( $url_array[9] );
+                
+                $Offset = $url_array[10];
             }
             include( "ezarticle/user/search.php" );
         }
-        
     }
     break;
 

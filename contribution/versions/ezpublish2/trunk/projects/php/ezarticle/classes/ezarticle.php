@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.163 2001/09/11 21:12:17 fh Exp $
+// $Id: ezarticle.php,v 1.164 2001/09/12 12:54:15 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2045,6 +2045,8 @@ class eZArticle
         $catSQL = "";
         $typeTables = "";
         $typeSQL = "";
+
+
         if ( isSet( $params["FromDate"] ) )
         {
             $fromdate = $params["FromDate"];
