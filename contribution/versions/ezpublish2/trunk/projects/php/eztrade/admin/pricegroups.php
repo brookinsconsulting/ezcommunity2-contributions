@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pricegroups.php,v 1.3 2001/07/20 11:42:01 jakobn Exp $
+// $Id: pricegroups.php,v 1.4 2001/11/19 10:31:36 br Exp $
 //
 // Created on: <23-Feb-2001 12:09:51 amos>
 //
@@ -62,7 +62,6 @@ eZList::drawList( array( "language_file" => $language_file,
                          "page_path" => $page_path,
                          "item_type_array" => $item_type_array,
                          "total_types" => 0,
-                         "move_item" => true,
                          "action" => $Action,
                          "offset" => $Offset,
                          "list_type" => $ListType,
