@@ -344,6 +344,11 @@ a:hover.gcalYearViewMonthName { color: #6699cc; }
 #gcalRecurringMonthly      { display: none; }
 #gcalRecurringYearly       { display: none; }
 
+
+/* IE Height hack */
+#gcalDayViewEventTimesHeight { height:60px; }
+* html #gcalDayViewEventTimesHeight { height:58px; }
+
 /* Hellstrøm 24.8.2001 */
 /* The main calendar widget.  DIV containing a table. */
 
