@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.41 2000/12/12 11:06:40 ce Exp $
+// $Id: ezcompany.php,v 1.42 2000/12/12 12:46:49 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -240,32 +240,6 @@ class eZCompany
 
 
     /*
-      Returns all the company found in the database.
-      
-      The company are returned as an array of eZCompany objects.
-    */
-    function getByUser( $user )
-    {
-        $this->dbInit();
-
-        if ( get_class( $user ) == "ezuser" )
-        {
-            $userID = $user->id();
-            
-            $company_array = array();
-            $return_array = array();
-
-            $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_UserCompanyDict WHERE UserID='$userID'" );
-
-            foreach( $company_array as $companyItem )
-            {
-                $return_array[] = new eZCompany( $companyItem["CompanyID"] );
-            }
-            return $return_array;
-        }
-    }
-
-    /*
       Henter ut alle firma i databasen som inneholder søkestrengen.
     */
     function search( $query )
@@ -283,27 +257,6 @@ class eZCompany
         return $return_array;
     }
 
-    /*
-      Henter ut alle firma i databasen hvor en eller flere tilhørende personer    
-      inneholder søkestrengen.
-    */
-    function searchByPerson( $query )
-    {
-        $this->dbInit();    
-        $company_array = array();
-        $return_array = array();
-    
-        $this->Database->array_query( $company_array, "SELECT eZContact_Company.ID as ID
-                                      FROM eZContact_Company, eZContact_Person
-                                      WHERE ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%')
-                                      AND eZContact_Company.ID=eZContact_Person.Company) GROUP BY eZContact_Company.ID ORDER BY eZContact_Company.ID" );
-
-        foreach( $company_array as $companyItem )
-            {
-                $return_array[] = new eZCompany( $companyItem["ID"] );
-            }
-        return $return_array;
-    }
 
     /*!
       Removes the company from every user category.
