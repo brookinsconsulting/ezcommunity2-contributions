@@ -838,3 +838,12 @@ Maintainer(s) : pkej@ez.no
       classes/ezformelement.php
       classes/ezformrenderer.php: fixed several bugs
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-23  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformrenderer.php
+      user/formview.php: fixed several bugs
+
