@@ -1,126 +1,110 @@
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-	<tr>
-		<td>
+	<tr> 
+		<td width="80%"> 
 			<h1>{intl-productlist}</h1>
 		</td>
-    	<td align="right">
+		<td align="right"> 
 			<form action="/trade/search/" method="post">
 				<input type="text" name="Query" size="8" />
 				<input class="okbutton" type="submit" name="search" value="{intl-search_button}" />
 			</form>
 		</td>
 	</tr>
-</table>
-<hr noshade="noshade" size="1" />
-<img src="/sitedesign/mygold/images/path-arrow.gif" height="10" width="15" border="0" alt=""/>
-<a href="/trade/productlist/0/">{intl-top}</a>
-<!-- BEGIN path_tpl -->
-<img src="/sitedesign/mygold/images/path-slash.gif" height="10" width="20" border="0" alt=""/>
-<a href="/trade/productlist/{category_id}/">{category_name}</a>
-<!-- END path_tpl -->
-<hr noshade="noshade" size="1" />
-<!-- BEGIN category_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
-	<tr>
+	<tr> 
+		<td colspan="2"> 
+			<hr noshade size="1" />
+			<img src="/sitedesign/mygold/images/path-arrow.gif" height="10" width="15" border="0" alt=""/> 
+			<a href="/trade/productlist/0/">{intl-top}</a> 
+			<!-- BEGIN path_tpl -->
+			<img src="/sitedesign/mygold/images/path-slash.gif" height="10" width="20" border="0" alt=""/> 
+			<a href="/trade/productlist/{category_id}/">{category_name}</a> 
+			<!-- END path_tpl -->
+			<hr noshade size="1" />
+		</td>
+	</tr>
+	<!-- BEGIN category_list_tpl -->
+	<tr> 
 		<th align="left">{intl-category}:</th>
 		<th align="left">{intl-description}:</th>
 	</tr>
 	<!-- BEGIN category_tpl -->
-	<tr>
-		<td class="{td_class}">
-			<a href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
+	<tr> 
+		<td class="{td_class}"> <a href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp; 
 		</td>
-		<td class="{td_class}">
-			{category_description}&nbsp;
-		</td>
+		<td class="{td_class}"> {category_description}&nbsp; </td>
 	</tr>
 	<!-- END category_tpl -->
-</table>
-<hr noshade="noshade" size="1" />
-<!-- END category_list_tpl -->
-<!-- BEGIN product_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr> 
+		<td colspan="2"> 
+			<hr noshade size="1" />
+		</td>
+	</tr>
+	<!-- END category_list_tpl -->
+	<!-- BEGIN product_list_tpl -->
 	<!-- BEGIN product_tpl -->
-	<tr>
-		<td>
+	<tr> 
+		<td valign="top"> 
 			<h2><a href="/trade/productview/{product_id}/{category_id}/">{product_name}</a></h2>
+			<p><br />
+				{product_intro_text}</p>
+		</td>
+		<td rowspan="2"> 
 			<!-- BEGIN product_image_tpl -->
-			<table align="right">
-			    <tr>
-			        <td>
-						<a href="/trade/productview/{product_id}/{category_id}/">
-				        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" alt="{thumbnail_image_caption}"/></a>
-			        </td>
-			    </tr>
-			    <tr>
-			        <td class="pictext">{thumbnail_image_caption}</td>
+			<table>
+				<tr> 
+					<td> <a href="/trade/productview/{product_id}/{category_id}/"> 
+						<img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" alt="{thumbnail_image_caption}"/></a> 
+					</td>
+				</tr>
+				<tr> 
+					<td class="pictext">{thumbnail_image_caption}</td>
 				</tr>
 			</table>
 			<!-- END product_image_tpl -->
-			<p>{product_intro_text}</p>
+		</td>
+	</tr>
+	<tr> 
+		<td valign="bottom"> 
 			<!-- BEGIN price_tpl -->
-			<p class="pris">{product_price}</p><br />
+			<p class="pris">{product_price}</p>
 			<!-- END price_tpl -->
 		</td>
 	</tr>
-	<tr>
-		<td colspan="2"><hr noshade="noshade" size="1" /></td>
+	<tr> 
+		<td colspan="2"> 
+			<hr noshade size="1" />
+		</td>
 	</tr>
 	<!-- END product_tpl -->
-</table>
-<!-- END product_list_tpl -->
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
+	<!-- END product_list_tpl -->
+</table><br />
 <!-- BEGIN type_list_tpl -->
-<br />
 <table cellpadding="0" cellspacing="0" border="0" align="center">
-<tr>
-	<!-- BEGIN type_list_previous_tpl -->
-	<td>
-	&lt;&lt;&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_previous_index}">{intl-previous}</a>&nbsp;|
-	</td>
-	<!-- END type_list_previous_tpl -->
-
-	<!-- BEGIN type_list_previous_inactive_tpl -->
-	<td>
-	<span class="inactive">&lt;&lt; {intl-previous} </span>| 
-	</td>
-	<!-- END type_list_previous_inactive_tpl -->
-
-	<!-- BEGIN type_list_item_list_tpl -->
-
-	<!-- BEGIN type_list_item_tpl -->
-	<td>
-	&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_index}">{type_item_name}</a>&nbsp;|
-	</td>
-	<!-- END type_list_item_tpl -->
-
-	<!-- BEGIN type_list_inactive_item_tpl -->
-	<td>
-	<span class="inactive">&nbsp;{type_item_name}&nbsp;</span>|
-	</td>
-	<!-- END type_list_inactive_item_tpl -->
-
-	<!-- END type_list_item_list_tpl -->
-
-	<!-- BEGIN type_list_next_tpl -->
-	<td>
-	&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
-	</td>
-	<!-- END type_list_next_tpl -->
-
-	<!-- BEGIN type_list_next_inactive_tpl -->
-	<td>
-	<span class="inactive">&nbsp;{intl-next}</span> &gt;&gt;
-	</td>
-	<!-- END type_list_next_inactive_tpl -->
-
-</tr>
+	<tr> 
+		<!-- BEGIN type_list_previous_tpl -->
+		<td> &lt;&lt;&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_previous_index}">{intl-previous}</a>&nbsp;| 
+		</td>
+		<!-- END type_list_previous_tpl -->
+		<!-- BEGIN type_list_previous_inactive_tpl -->
+		<td> <span class="inactive">&lt;&lt; {intl-previous} </span>| </td>
+		<!-- END type_list_previous_inactive_tpl -->
+		<!-- BEGIN type_list_item_list_tpl -->
+		<!-- BEGIN type_list_item_tpl -->
+		<td> &nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_index}">{type_item_name}</a>&nbsp;| 
+		</td>
+		<!-- END type_list_item_tpl -->
+		<!-- BEGIN type_list_inactive_item_tpl -->
+		<td> <span class="inactive">&nbsp;{type_item_name}&nbsp;</span>| </td>
+		<!-- END type_list_inactive_item_tpl -->
+		<!-- END type_list_item_list_tpl -->
+		<!-- BEGIN type_list_next_tpl -->
+		<td> &nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt; 
+		</td>
+		<!-- END type_list_next_tpl -->
+		<!-- BEGIN type_list_next_inactive_tpl -->
+		<td> <span class="inactive">&nbsp;{intl-next}</span> &gt;&gt; </td>
+		<!-- END type_list_next_inactive_tpl -->
+	</tr>
 </table>
 <!-- END type_list_tpl -->
-	</td>
-</tr>
-
-</table>
