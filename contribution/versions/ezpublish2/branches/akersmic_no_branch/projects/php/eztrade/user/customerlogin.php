@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlogin.php,v 1.20 2001/10/17 07:17:03 ce Exp $
+// $Id: customerlogin.php,v 1.20.8.1 2002/01/24 12:50:40 bf Exp $
 //
 // Created on: <03-Oct-2000 16:45:30 bf>
 //
@@ -80,25 +80,8 @@ if ( $user  )
 }
 else
 {
-    $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                         "eztrade/user/intl/", $Language, "customerlogin.php" );
-
-    $t->setAllStrings();
-
-    $t->set_file( array(        
-        "customer_login_tpl" => "customerlogin.tpl"
-        ) );
-
-    if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
-    {      
-        $t->set_var( "redirect_url", $RedirectURL );
-    }
-    else
-    {
-        $t->set_var( "redirect_url", "/trade/customerlogin" );
-    }
-    
-    $t->pparse( "output", "customer_login_tpl" );
+    eZHTTPTool::header( "Location: /user/user/new/" );
+    exit();
 }
 
 ?>

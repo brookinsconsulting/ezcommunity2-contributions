@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.8 2002/01/23 08:38:30 bf Exp $
+// $Id: productlist.php,v 1.41.8.9 2002/01/24 12:50:40 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -215,7 +215,7 @@ foreach ( $productList as $product )
 
     $t->set_var( "product_name", $product->name() );
 
-    $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
+    $t->set_var( "product_intro_text", "" );
 
     if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
