@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.20 2001/12/18 14:27:44 pkej Exp $
+// $Id: formedit.php,v 1.21 2001/12/18 14:32:05 pkej Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -239,82 +239,6 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         $form->store();
         $FormID = $form->id();
         
-        $existingElementCount = $form->numberOfElements();
-        $existingElementCount++;
-        
-        if ( isSet( $NewElement ) )
-        {
-            $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
-            $newElementName = $newElementName . " " . $existingElementCount;
-            $element = new eZFormElement();
-            $element->setName( $newElementName );
-            $element->store();
-        }
-        
-        if ( isSet( $element ) )
-        {
-            $form->addElement( $element );
-        }
-
-        $elementCount = count( $elementID );
-        $elementTypeError = false;
-        
-        for ( $i = 0; $i < $elementCount; $i++ )
-        {
-            $element = new eZFormElement( $elementID[$i] );
-            $elementType = new eZFormElementType( $elementTypeID[$i] );
-            $element->setElementType( $elementType );
-
-            if ( $elementType->id() == 0 && $elementTypeError == false )
-            {
-                $errorMessages[] = "all_elements_must_have_type";
-                $elementTypeError = true;
-            }
-
-            $element->setName( $elementName[$i] );
-            $element->setSize( $Size[$i] );
-
-
-            $required = false;
-            $break = false;
-            if ( count( $elementRequired ) > 0 )
-            {
-                foreach ( $elementRequired as $requiredID )
-                {
-                    if ( $elementID[$i] == $requiredID )
-                    {
-                        $element->setRequired( true );
-                        $required = true;
-                    }
-                }
-            }
-            if ( count( $ElementBreak ) > 0 )
-            {
-                foreach ( $ElementBreak as $breakID )
-                {
-                    if ( $elementID[$i] == $breakID )
-                    {
-                        $element->setBreak( true );
-                        $break = true;
-                    }
-                }
-            }
-
-            $element->setBreak( $break );
-            $element->setRequired( $required );
-
-            $element->store();
-
-            if ( $elementType->name() == "table_item" )
-            {
-                $table = new eZFormTable( $element->ID() );
-                $table->setCols( $Size[$i] );
-                $table->setRows( $Rows[$i] );
-                $table->setElementID( $element->id() );
-                $table->store();
-            }
-        }
-
         if ( isSet( $OK ) && count( $errorMessages ) == 0 )
         {
             eZHTTPTool::header( "Location: /form/form/list/" );
