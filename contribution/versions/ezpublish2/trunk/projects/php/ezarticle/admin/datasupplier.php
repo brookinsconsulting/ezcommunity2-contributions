@@ -17,7 +17,8 @@ switch ( $url_array[2] )
         include( "ezarticle/admin/search.php" );
     }
     break;
-    
+
+    case "view":    
     case "articlepreview":
     {
         $ArticleID = $url_array[3];
