@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.6 2000/11/29 14:46:55 bf-cvs Exp $
+// $Id: adlist.php,v 1.7 2000/11/29 14:50:48 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -25,19 +25,11 @@
 
 
 // NOTE: this page does not use templates due to speed.
-
-include_once( "classes/INIFile.php" );
-
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
 include_once( "ezad/classes/ezadview.php" );
-
-// no need to include this is is included in the index file.
-//  $ini = new INIFIle( "site.ini" );
-
-$Language = $ini->read_var( "eZAdMain", "Language" );
 
 $category = new eZAdCategory( $CategoryID );
 
@@ -70,7 +62,7 @@ foreach ( $adList as $ad )
     $view->setPrice( 0.4 );
     $view->store();
 
-	print( "<a target=\"_blank\" href=\"/ad/goto/$adID/\"><img src=\"$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a>" );
+	print( "<a target=\"_blank\" href=\"/ad/goto/$adID/\"><img src=\"$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
 }
 
 
