@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.21 2000/07/26 09:15:29 bf-cvs Exp $
+    $Id: ezforummessage.php,v 1.22 2000/07/26 11:27:47 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -296,6 +296,18 @@ class eZforumMessage
         if( $this->Parent != "" ) $this->recursiveEmailNotice( $startId, $this->Parent, $liste );
     }
 
+    function countMessages( $Id )
+    {
+            
+        $query_id = mysql_query("SELECT COUNT(Id) AS Messages
+                             FROM MessageTable
+                             WHERE ForumId='$Id'
+                             AND Parent IS NULL")
+             or die("eZforumMessage::countMessages($Id) failed, dying...");
+        
+        return mysql_result($query_id,0,"Messages");
+    }
+    
     function countReplies( $Id )
     {
         openDB();

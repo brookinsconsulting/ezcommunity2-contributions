@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.6 2000/07/25 10:08:18 lw Exp $
+    $Id: category.php,v 1.7 2000/07/26 11:27:47 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -14,8 +14,6 @@ include( "template.inc" );
 include( "$DOCROOT/classes/ezforumforum.php" );
 include( "$DOCROOT/classes/ezsession.php" );
 include( "$DOCROOT/classes/ezuser.php" );
-
-openDB();
 
 $session = new eZSession;
 $forum = new eZforumForum;
@@ -47,18 +45,13 @@ for ($i = 0; $i < count($forums); $i++)
     $Id = $forums[$i]["Id"];
     $Name = $forums[$i]["Name"];
     $Description = $forums[$i]["Description"];
-    
-    $query_id = mysql_query("SELECT COUNT(Id) AS Messages FROM MessageTable WHERE ForumId='$Id' AND Parent IS NULL")
-         or die("");
-        
-    $Messages = mysql_result($query_id,0,"Messages");
-    
+
     $t->set_var( "forum_id", $Id);
     $t->set_var( "category_id", $category_id);
     $t->set_var( "link", $link);
     $t->set_var( "name", $Name);
     $t->set_var( "description", $Description);
-    $t->set_var( "messages",$Messages);
+    $t->set_var( "messages", eZforumMessage::countMessages( $Id ) );
  
     if ( ($i % 2) != 0)
         $t->set_var( "color", "#eeeeee");
@@ -66,7 +59,8 @@ for ($i = 0; $i < count($forums); $i++)
         $t->set_var( "color", "#bbbbbb");
     
     $t->parse("forums","elements",true);
-    }
+}
+
 if ( count( $forums) == 0 )
     $t->set_var( "forums", "<tr><td colspan=\"3\"><b>Ingen tilgjengelige forum</td></tr></b>");
 
