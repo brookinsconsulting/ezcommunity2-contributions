@@ -11,10 +11,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
-	<td class="tdminipath" align="left" class="path" width="99%">
+	<td class="tdminipath" align="left" class="path" width="99%">&nbsp;
 	<!-- BEGIN path_item_tpl -->	
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/article/archive/{category_id}/">{category_name}</a> 
+	&nbsp;
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
