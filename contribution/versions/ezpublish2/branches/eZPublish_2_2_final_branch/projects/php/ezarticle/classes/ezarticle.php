@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.11 2002/02/28 13:28:10 master Exp $
+// $Id: ezarticle.php,v 1.183.2.12 2002/03/01 13:09:49 master Exp $
 //
 // Definition of eZArticle class
 //
@@ -2369,7 +2369,49 @@ class eZArticle
         else
             return false;
     }
+    
+    /*!
+      Returns the ID of a category
+    */
+    function GetCategory( $articleSectionID = 0 )
+    {
+    
+        $db =& eZDB::globalDatabase();
+	
+        $categoryQueryWithSection="SELECT DISTINCT eZArticle_Category.ID AS CategoryID
+            FROM
+            eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
+	    WHERE
+	    eZArticle_Category.ID=eZArticle_ArticleCategoryLink.CategoryID
+	    AND eZArticle_Article.ID=eZArticle_ArticleCategoryLink.ArticleID
+	    AND eZArticle_Article.ID=$this->ID
+	    AND eZArticle_Category.SectionID='$articleSectionID'";
+	    
+	$categoryQueryWithoutSection="SELECT DISTINCT eZArticle_ArticleCategoryDefinition.CategoryID AS CategoryID
+            FROM
+            eZArticle_Article, eZArticle_ArticleCategoryDefinition
+	    WHERE
+	    eZArticle_Article.ID=eZArticle_ArticleCategoryDefinition.ArticleID
+	    AND eZArticle_Article.ID=$this->ID";
+	    
+	
+	if ( $articleSectionID > 0 )
+	{
+	    $db->array_query( $category_array, $categoryQueryWithSection );
+	    if ( count( $category_array ) == 0 )
+	    {
+	        $db->array_query( $category_array, $categoryQueryWithoutSection );
+	    }
+	}
+	else
+	{
+	    $db->array_query( $category_array, $categoryQueryWithoutSection );
+	}
 
+	return $category_array[0][$db->fieldName("CategoryID")];
+    }
+    
+    
     /*!
       Creates a discussion forum for the article.
     */

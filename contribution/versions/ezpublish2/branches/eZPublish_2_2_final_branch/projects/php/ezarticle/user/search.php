@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.4 2002/02/28 13:28:34 master Exp $
+// $Id: search.php,v 1.18.2.5 2002/03/01 13:12:05 master Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -158,6 +158,8 @@ if ( count ( $articleList ) > 0 )
         $t->set_var( "article_name", $article->name() );
 
         $t->set_var( "article_id", $article->id() );
+	
+	$t->set_var( "category_id", $article->GetCategory( $SectionIDOverride ) );
 
         if ( ( $i % 2 ) == 0 )
         {
