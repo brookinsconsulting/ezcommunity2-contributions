@@ -43,6 +43,8 @@ insert into eZUser_Permission SET ModuleID='10', Name='ModuleEdit';
 insert into eZUser_Permission SET ModuleID='11', Name='ModuleEdit';
 insert into eZUser_Permission SET ModuleID='12', Name='ModuleEdit';
 insert into eZUser_Permission SET ModuleID='13', Name='ModuleEdit';
+insert into eZUser_Module set Name='eZArticle';
+insert into eZUser_Module set Name='eZBulkMail';
 insert into eZUser_Module set Name='eZStats';
 insert into eZUser_Permission SET ModuleID='14', Name='ModuleEdit';
 insert into eZUser_Module set Name='eZSysInfo';
