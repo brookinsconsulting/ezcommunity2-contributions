@@ -14,9 +14,8 @@ $UsePHPSessions = false;
 
 ob_start();
 // Turn on output buffering with gz compression
-ob_start("ob_gzhandler");
 //ob_start("ob_gzhandler");
-
+//ob_start("ob_gzhandler");
 
 if ( $UsePHPSessions == true )
 {
@@ -161,13 +160,11 @@ if ( ( $requireUserLogin == "disabled" ) ||
     print( $buffer );
 
     // set the sitedesign from the section
-    /*
     include_once( "ezsitemanager/classes/ezsection.php" );
     print( eZSection::siteDesign( $GlobalSectionID ) );
     
     $siteDesign = eZSection::siteDesign( $GlobalSectionID );
     $GlobalSiteDesign = $siteDesign;
-    */
     
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
