@@ -105,7 +105,6 @@
 
 
   <tr>
-<<<<<<< groupedit.tpl
     <td colspan="2"><b>eZ Contact</b></td>
   </tr>
 
@@ -114,10 +113,7 @@
     <td>
       Rettigheter til å legge til å lese firma/personer
     </td>
-=======
-    <td colspan="2"><br><b>eZ Contact</b></td>
->>>>>>> 1.10
-  </tr>
+   </tr>
 
   <tr>
     <td><input type="checkbox" name="eZContact_Add" {eZContact_Add}></td>
