@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: eznewsflowerarticle.php,v 1.2 2000/10/12 12:57:08 pkej-cvs Exp $
+// $Id: eznewsflowercategory.php,v 1.1 2000/10/12 12:57:08 pkej-cvs Exp $
 //
-// Definition of eZNewsFlowerArticle class
+// Definition of eZNewsFlowerCategory class
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <20-Sep-2000 13:03:00 pkej>
@@ -13,14 +13,13 @@
 // your own programs or libraries.
 //
 //!! eZNews
-//! eZNewsFlowerArticle handles eZNews Flower articles.
+//! eZNewsFlowerCategory handles eZNews Flower categories.
 /*!
     A dummy class needed for polymorphic operation...
  */
-include_once( "eznews/classes/eznewsarticle.php" );
+include_once( "eznews/classes/eznewscategory.php" );
 
-class eZNewsFlowerArticle extends eZNewsArticle
+class eZNewsFlowerCategory extends eZNewsCategory
 {
 };
-
 ?>
