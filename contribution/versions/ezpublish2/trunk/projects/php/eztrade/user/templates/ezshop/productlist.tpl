@@ -75,8 +75,9 @@
     </table>
 <!-- END product_image_tpl -->
 
-<!-- BEGIN price_tpl -->
 <p>{product_intro_text}</p>
+
+<!-- BEGIN price_tpl -->
 <p class="pris">{product_price}</p>
 <!-- END price_tpl -->
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.5 2000/11/01 09:59:19 bf-cvs Exp $
+// $Id: productlist.php,v 1.6 2000/11/02 12:21:06 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -144,7 +144,8 @@ foreach ( $productList as $product )
     }
 
     $t->set_var( "product_name", $product->name() );
-
+    $t->set_var( "product_intro_text", $product->brief() );
+    
     if ( $product->showPrice() == true  )
     {
         $price = new eZCurrency( $product->price() );
@@ -156,7 +157,8 @@ foreach ( $productList as $product )
         $t->set_var( "price", "" );
     }
     
-    $t->set_var( "product_intro_text", $product->brief() );
+
+    
     $t->set_var( "category_id", $category->id() );
 
     if ( ( $i % 2 ) == 0 )
