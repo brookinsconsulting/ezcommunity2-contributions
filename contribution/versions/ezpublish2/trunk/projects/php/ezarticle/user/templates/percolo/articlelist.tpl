@@ -30,6 +30,15 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
+
+	<!-- BEGIN image_item_tpl -->
+
+	<!-- END image_item_tpl -->
+
+	<!-- BEGIN no_image_tpl -->
+
+	<!-- END no_image_tpl -->
+
 	<div class="listheadline"><a class="listheadline" href="/article/archive/{category_id}/">{category_name}</a></div>
 	<div class="p">{category_description}</div>
 	<img src="/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />

@@ -32,8 +32,8 @@
 	<!-- END product_available_header_tpl -->
 	<th>{intl-product_qty}:</th>
 
-	<td class="path" align="right">{intl-product_price}:</td>
-	<td class="path" align="right">&nbsp;</td>
+	<td align="right"><b>{intl-product_price}:</b></td>
+	<td align="right"><b>&nbsp;</b></td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
