@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.4 2001/09/21 16:28:34 br Exp $
+// $Id: categoryedit.php,v 1.5 2001/09/24 09:51:46 bf Exp $
 //
 // Created on: <26-Oct-2000 14:57:28 ce>
 //
@@ -215,7 +215,7 @@ if ( $Action == "update" )
             $category->get ( $LinkCategoryID );
             $category->setName ( $Name );
             $category->setDescription( $Description );
-            $category->setDescription( $SectionID );
+            $category->setSectionID( $SectionID );
             $category->setParent( $ParentCategory );
 
             $file = new eZImageFile();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkcategorylist.php,v 1.8 2001/07/20 11:15:21 jakobn Exp $
+// $Id: linkcategorylist.php,v 1.9 2001/09/24 09:51:46 bf Exp $
 //
 // Created on: <26-Oct-2000 15:02:09 ce>
 //
@@ -27,15 +27,37 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezlist.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-$Language = $ini->read_var( "eZLinkMain", "Language" );
-$UserLimit = $ini->read_var( "eZLinkMain", "UserLinkLimit" );
-$languageIni = new INIFile( "ezlink/user/intl/". $Language . "/linkcategorylist.php.ini", false );
 
 include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 include_once( "ezlink/classes/ezlinktype.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+if ( !$Offset )
+    $Offset = 0;
+
+// List all the categories
+$linkCategory = new eZLinkCategory();
+$linkCategory->get( $LinkCategoryID );
+
+// section
+
+if ( is_numeric( $linkCategory->sectionID() ) )
+{
+    $GlobalSectionID = $linkCategory->sectionID();
+    // init the section
+    $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+    $sectionObject->setOverrideVariables();
+}
+
+
+
+$ini =& $GLOBALS["GlobalSiteIni"];
+$Language = $ini->read_var( "eZLinkMain", "Language" );
+$UserLimit = $ini->read_var( "eZLinkMain", "UserLinkLimit" );
+$languageIni = new INIFile( "ezlink/user/intl/". $Language . "/linkcategorylist.php.ini", false );
+
 
 $t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
                      "ezlink/user/intl", $Language, "linkcategorylist.php" );
@@ -67,12 +89,6 @@ $t->set_var( "attribute_header", "" );
 $t->set_var( "attribute_value", "" );
 
 
-if ( !$Offset )
-    $Offset = 0;
-
-// List all the categories
-$linkCategory = new eZLinkCategory();
-$linkCategory->get( $LinkCategoryID );
 
 // Path
 $pathArray = $linkCategory->path();

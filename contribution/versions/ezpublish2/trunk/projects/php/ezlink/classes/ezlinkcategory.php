@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.10 2001/09/21 16:26:34 br Exp $
+// $Id: ezlinkcategory.php,v 1.11 2001/09/24 09:51:46 bf Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -458,6 +458,23 @@ class eZLinkCategory
     {
         return $this->SectionID;
     }
+    
+    /*!
+      \static
+      Returns the Section ID. Returns false if the Category was not found.
+    */
+    function sectionIDStatic($categoryID )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT SectionID from eZLink_Category WHERE ID='$categoryID'");
+        
+        $sectionID = $res[$db->fieldName("SectionID")];
+
+        if ( $sectionID > 0 )
+            return $sectionID;
+        else
+            return false;
+    }    
     
     /*!
       Sets the name of a group.
