@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewreport.php,v 1.6 2002/01/28 19:28:22 jhe Exp $
+// $Id: viewreport.php,v 1.7 2002/02/04 10:42:56 jhe Exp $
 //
 // Created on: <21-Jan-2002 09:40:52 jhe>
 //
@@ -167,6 +167,22 @@ $t->set_var( "gruk_rapporterte_kommuner", $res[$db->fieldName( "Count" )] );
 
 $t->set_var( "result_count", $result_count );
 $t->set_var( "form", $output );
+
+$urlString = $GLOBALS["REQUEST_URI"] . "?";
+
+if ( $QUERY_STRING != "" )
+{
+    if ( strstr( $QUERY_STRING, "PrintableVersion" ) )
+        $urlString .= $QUERY_STRING;
+    else
+        $urlString .= $QUERY_STRING . "&PrintableVersion=enabled";
+}
+else
+{
+    $urlString .= $QUERY_STRING . "PrintableVersion=enabled";
+}
+
+$t->set_var( "printable_url", $urlString );
 
 $t->pparse( "output", "view_report_tpl" );
 

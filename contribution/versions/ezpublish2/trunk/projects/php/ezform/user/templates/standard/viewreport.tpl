@@ -39,7 +39,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
        <td align="right">
-       <a href="{www_dir}{index}/form/report/{report_id}/?PrintableVersion=enabled">{intl-printable}</a>
+       <a href="{printable_url}">{intl-printable}</a>
        </td>
 </tr>
 </table>
