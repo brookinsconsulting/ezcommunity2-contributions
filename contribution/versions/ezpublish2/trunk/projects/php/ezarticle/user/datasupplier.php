@@ -1,6 +1,5 @@
 <?
 
-
 include_once( "ezarticle/classes/ezarticle.php" );
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );

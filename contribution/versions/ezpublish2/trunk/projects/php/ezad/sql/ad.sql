@@ -32,9 +32,8 @@ DROP TABLE IF EXISTS eZAd_View;
 CREATE TABLE eZAd_View(
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   AdID int(11),
-  ViewTime timestamp(14),
-  UserID int DEFAULT '0' NOT NULL,
-  ViewPrice float,
+  PageViewID int(11),
+  ViewProce float,
   PRIMARY KEY (ID)
 );
 
@@ -42,8 +41,7 @@ DROP TABLE IF EXISTS eZAd_Click;
 CREATE TABLE eZAd_Click(
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   AdID int(11),
-  ClickTime timestamp(14),
-  UserID int DEFAULT '0' NOT NULL,
+  PageViewID int(11),
   ClickPrice float,
   PRIMARY KEY (ID)
 );

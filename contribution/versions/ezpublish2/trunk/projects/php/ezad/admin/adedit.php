@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.7 2001/01/02 18:10:22 ce Exp $
+// $Id: adedit.php,v 1.8 2001/01/22 08:12:33 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -101,8 +101,8 @@ if ( $Action == "Insert" )
     }
     else
     {        
-        Header( "Location: /ad/archive/$CategoryID/" );
-        exit();
+//          Header( "Location: /ad/archive/$CategoryID/" );
+//          exit();
     }
     
 }

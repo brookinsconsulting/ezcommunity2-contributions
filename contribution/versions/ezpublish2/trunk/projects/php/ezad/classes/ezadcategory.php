@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.5 2000/12/11 15:56:43 ce Exp $
+// $Id: ezadcategory.php,v 1.6 2001/01/22 08:12:33 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -169,7 +169,7 @@ class eZAdCategory
 
       The categories are returned as an array of eZAdCategory objects.
     */
-    function getByParent( $parent, $showAll=false, $sortby=name )
+    function getByParent( $parent  )
     {
         if ( get_class( $parent ) == "ezadcategory" )
         {
@@ -180,19 +180,9 @@ class eZAdCategory
 
             $parentID = $parent->id();
 
-            if ( $showAll == true )
-            {
-
-                $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category
+            $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
-            }
-            else
-            {
-                $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category
-                                          WHERE ParentID='$parentID' AND ExcludeFromSearch='false'
-                                          ORDER BY Name" );
-            }
 
             for ( $i=0; $i<count($category_array); $i++ )
             {

@@ -59,3 +59,12 @@ include( "ezlink/user/menubox.php" );
 	</td>
     <td width="94%" bgcolor="#ffffff">
 
+
+    <!-- Banner -->
+    <center>
+        <?
+        $CategoryID = 1;
+        $Limit = 1; 
+        include( "ezad/user/adlist.php" );
+        ?>
+    </center>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.39 2001/01/22 07:12:05 bf Exp $
+// $Id: ezuser.php,v 1.40 2001/01/22 08:12:33 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -554,7 +554,6 @@ class eZUser
         foreach ( $sessionIDArray as $sessionID )
         {
             $session = new eZSession( $sessionID );
-
             $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
 
             $idle = $session->idle();
