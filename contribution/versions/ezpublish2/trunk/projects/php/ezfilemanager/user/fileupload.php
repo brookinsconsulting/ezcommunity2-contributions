@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.38 2001/09/25 17:37:52 fh Exp $
+// $Id: fileupload.php,v 1.39 2001/09/27 07:59:27 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -34,11 +34,11 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
-if ( isSet ( $NewFile ) )
+if ( isSet( $NewFile ) )
 {
     $Action = "New";
 }
-if ( isSet ( $NewFolder ) )
+if ( isSet( $NewFolder ) )
 {
     eZHTTPTool::header( "Location: /filemanager/folder/new/$FolderID" );
     exit();
@@ -59,13 +59,13 @@ if ( isSet( $DeleteFolders ) )
     $Action = "DeleteFolders";
 }
 
-if ( isSet ( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /filemanager/list/" . $parentID );
     exit();
 }
 
-if ( isSet ( $Download ) )
+if ( isSet( $Download ) )
 {
     $file = new eZVirtualFile( $FileID );
     $fileName = $file->originalFileName();
@@ -138,21 +138,20 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         $folder = new eZVirtualFolder( $FolderID );
         
-        if ( (eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
-              eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) ||
+        if ( ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
+               eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) ||
              ( $Action == "Update" &&
-             eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false )
-             )
+             eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false ) )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
         }
     }
-
+    
     if ( $nameCheck )
     {
         
-        if ( empty ( $Name ) )
+        if ( empty( $Name ) )
         {
             $t->parse( "error_name", "error_name_tpl" );
             $error = true;
@@ -161,7 +160,7 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if ( $descriptionCheck )
     {
-        if ( empty ( $Description ) )
+        if ( empty( $Description ) )
         {
             $t->parse( "error_description", "error_description_tpl" );
             $error = true;
@@ -224,7 +223,7 @@ if ( $Action == "Insert" && $error == false )
 
 if ( $Action == "Update" && $error == false )
 {
-    $file = new eZFile( );
+    $file = new eZFile();
 
     $uploadedFile = new eZVirtualFile( $FileID );
 
@@ -406,17 +405,17 @@ foreach ( $groups as $group )
 
 $folder = new eZVirtualFolder() ;
 
-$folderList = $folder->getTree( );
+$folderList = $folder->getTree();
 
 foreach ( $folderList as $folderItem )
 {
     if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) ||
-        eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) ||
+         eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) ||
          eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'u' ))
     {
         $t->set_var( "option_name", $folderItem[0]->name() );
         $t->set_var( "option_value", $folderItem[0]->id() );
-
+        
         if ( $folderItem[1] > 0 )
             $t->set_var( "option_level", str_repeat( "&nbsp;", $folderItem[1] ) );
         else
@@ -462,4 +461,3 @@ function changePermissions( $objectID, $groups, $permission )
 }
 
 ?>
-

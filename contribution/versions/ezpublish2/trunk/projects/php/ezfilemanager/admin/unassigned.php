@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.3 2001/09/05 11:54:47 jhe Exp $
+// $Id: unassigned.php,v 1.4 2001/09/27 07:59:27 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -55,9 +55,9 @@ $t->set_block( "unassigned_page_tpl", "file_list_tpl", "file_list" );
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
 $t->set_var( "read", "" );
 
-if ( isSet ( $Update ) )
+if ( isSet( $Update ) )
 {
-    for ( $i=0; $i < count( $FileArrayID ); $i++ )
+    for ( $i = 0; $i < count( $FileArrayID ); $i++ )
     {
         if ( ( $FolderArrayID[$i] != "-1" ) && ( is_numeric( $FolderArrayID[$i] ) ) )
         {
