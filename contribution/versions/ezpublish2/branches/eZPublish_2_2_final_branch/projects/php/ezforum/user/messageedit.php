@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.9 2002/04/24 07:26:42 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.10 2002/05/21 09:19:02 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -398,6 +398,7 @@ switch ( $Action )
         include_once( "ezforum/user/messagebody.php" );
 
         $msg = new eZForumMessage();
+        $msg->setIsTemporary( true );
         $msg->setForumID( $ForumID );
 
         $CheckMessageID = 0;

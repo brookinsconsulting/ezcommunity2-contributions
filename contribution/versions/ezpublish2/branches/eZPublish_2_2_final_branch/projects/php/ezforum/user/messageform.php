@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.6 2002/05/08 11:51:36 vl Exp $
+// $Id: messageform.php,v 1.16.2.7 2002/05/21 09:19:02 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -27,7 +27,10 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 
 $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
+$language = $ini->read_var( "eZForumMain", "Language" );
 $author = eZUser::currentUser();
+
+$locale = new eZLocale( $language );
 
 if ( $ShowMessageForm )
 {
@@ -102,6 +105,7 @@ if ( $ShowMessageForm )
         if ( !is_object( $msg ) )
         {
             $msg = new eZForumMessage( $MessageID );
+            $msg->setIsTemporary( true );
         }
         
         if ( isSet( $NewMessageTopic ) )
@@ -131,7 +135,11 @@ if ( $ShowMessageForm )
         }
         else
         {
-            if ( !is_object( $author ) )
+            if ( $msg->userName() != "" )
+            {
+                $MessageAuthor = $msg->userName();
+            }
+            else if ( !is_object( $author ) )
             {
                 $author = new eZUser( $msg->userId() );
             }
@@ -159,12 +167,15 @@ if ( $ShowMessageForm )
         }
         else
         {
-            if ( !is_object( $author ) )
+            if ( $msg->userName() != "" )
+            {
+                $MessageAuthor = $msg->userName();
+            }
+            else if ( !is_object( $author ) )
             {
                 $author = eZUser::currentUser();
             }
         }
-
         if ( $msg->isTemporary() )
         {
             $MessagePostedAt = $NewMessagePostedAt;
@@ -178,6 +189,10 @@ if ( $ShowMessageForm )
     if ( is_object( $author ) && $author->id() > 0 )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
+    }
+    else if ( $msg->userName() != "" )
+    {
+        $MessageAuthor = $msg->userName();
     }
     else
     {
