@@ -1,5 +1,5 @@
 <?
-// $Id: todoview.php,v 1.1 2001/01/15 14:38:14 ce Exp $
+// $Id: todoview.php,v 1.2 2001/01/15 14:57:27 ce Exp $
 //
 // Definition of todo list.
 //
@@ -17,7 +17,7 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 
-$iniLanguage = new INIFile( "eztodo/user/intl/" . $Language . "/todoedit.php.ini", false );
+$lanugageIni = new INIFile( "eztodo/user/intl/" . $Language . "/todoview.php.ini", false );
 
 include_once( "classes/eztemplate.php" );
 include_once( "eztodo/classes/eztodo.php" );
@@ -43,6 +43,7 @@ $t->set_file( array(
 
 $t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
 $t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
+$t->set_block( "todo_edit_page", "mark_as_done", "mark_done" );
 $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
 
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
@@ -53,20 +54,22 @@ $todo->get( $TodoID );
 
 if ( $todo->status() == true )
 {
-    $t->set_var( "todo_status", "DOne" );
+    $t->set_var( "todo_status", $lanugageIni->read_var( "strings", "done" ) );
+    $t->set_var( "mark_done", "" );
 }
 else
 {
-    $t->set_var( "todo_status", "ikke gjort" );
+    $t->parse( "mark_done", "mark_as_done" );
+    $t->set_var( "todo_status", $lanugageIni->read_var( "strings", "not_done" ) );
 }
 
 if ( $todo->permission() == "Public" )
 {
-    $t->set_var( "todo_permission", "Public" );
+    $t->set_var( "todo_permission", $lanugageIni->read_var( "strings", "public" ) );
 }
 else
 {
-    $t->set_var( "todo_permission", "privat" );
+    $t->set_var( "todo_permission", $lanugageIni->read_var( "strings", "privat" ) );
 }
 
 $t->set_var( "todo_name", $todo->name() );

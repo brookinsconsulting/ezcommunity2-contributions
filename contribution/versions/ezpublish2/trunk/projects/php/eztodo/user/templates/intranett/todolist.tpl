@@ -65,7 +65,7 @@
 <!-- BEGIN todo_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/todo/todoedit/edit/{todo_id}/">{todo_name}</a>
+	<a href="/todo/todoview/{todo_id}/">{todo_name}</a>
 	</td>
 
 	<td class="{td_class}">

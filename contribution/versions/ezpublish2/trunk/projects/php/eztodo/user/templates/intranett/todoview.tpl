@@ -62,9 +62,11 @@
         <td>
 	<input class="okbutton" type="submit" Name="Edit" value="{intl-edit}">
 	</td>
+	<!-- BEGIN mark_as_done -->
         <td>
 	<input class="okbutton" type="submit" Name="Done" value="{intl-mark_as_done}">
 	</td>
+	<!-- END mark_as_done -->
 </tr>
 </table>
 </form>

@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.11 2001/01/15 14:38:14 ce Exp $
+// $Id: eztodo.php,v 1.12 2001/01/15 14:57:27 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -190,13 +190,12 @@ class eZTodo
         }
         return $return_array;        
     }
-
-    /*! 
-      Gets all the todo infomasjon from another user, where ID == $id.
+        /*! 
+      Gets all the todo infomasjon from a owner, where ID == $id.
       Return the array in $todo_array ordered by name.
       
     */
-    function getByOthers( $id )
+    function getByUserID( $id )
     {
         $this->dbInit();
         $todo_array = 0;
@@ -204,7 +203,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Permission='Public' ORDER BY Name");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Priority DESC");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -212,8 +211,7 @@ class eZTodo
         }
         return $return_array;        
     }
-    
-    
+
     /*!
       Tilte of the todo.
       Returns the name of the todo as a string.
@@ -225,7 +223,28 @@ class eZTodo
        return $this->Name;
     }
 
+    /*! 
+      Gets all the todo infomasjon from a owner, where ID == $id.
+      Return the array in $todo_array ordered by name.
+      
+    */
+    function getByLimit( $id, $limit="5", $status="0" )
+    {
+        $this->dbInit();
+        $todo_array = 0;
 
+        $return_array = array();
+        $todo_array = array();
+
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority DESC LIMIT 0,$limit");
+
+        for ( $i=0; $i<count($todo_array); $i++ )
+        {
+            $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
+        }
+
+        return $return_array;        
+    }
     /*!
       Sets the name of the todo.
       The new name of the todo is passed as a paramenter ( $value ).
