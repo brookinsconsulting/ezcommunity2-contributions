@@ -21,8 +21,8 @@ CREATE TABLE eZQuiz_Game (
   ID int(11) NOT NULL auto_increment,
   Name varchar(30) default NULL,
   Description text,
-  StartDate date default NULL,
-  StopDate date default NULL,
+  StartDate int(11) default NULL,
+  StopDate int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
