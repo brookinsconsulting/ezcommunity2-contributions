@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.7 2000/10/21 19:33:11 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.8 2000/10/22 11:46:33 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -22,8 +22,6 @@
 */
 
 /*!TODO
-  Add support for < > and tags which are not supported. Theese tags should
-  be converted into html special chars.
   
 */
 
