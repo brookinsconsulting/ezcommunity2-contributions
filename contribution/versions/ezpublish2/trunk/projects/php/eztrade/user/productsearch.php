@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.5 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: productsearch.php,v 1.6 2000/11/01 10:03:34 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -47,7 +47,11 @@ $t->setAllStrings();
 $t->set_file(  "product_search_tpl", "productsearch.tpl" );
 
 $t->set_block( "product_search_tpl", "product_tpl", "product" );
+
+
+
 $t->set_block( "product_tpl", "image_tpl", "image" );
+$t->set_block( "product_tpl", "price_tpl", "price" );
 
 $t->set_block( "product_search_tpl", "previous_tpl", "previous" );
 $t->set_block( "product_search_tpl", "next_tpl", "next" );
@@ -90,9 +94,18 @@ if ( isSet( $Query ) )
 
         $t->set_var( "product_name", $product->name() );
 
-        $price = new eZCurrency( $product->price() );
-    
-        $t->set_var( "product_price", $locale->format( $price ) );
+        if ( $product->showPrice() == true  )
+        {
+            $price = new eZCurrency( $product->price() );
+            $t->set_var( "product_price", $locale->format( $price ) );
+            $t->parse( "price", "price_tpl" );
+        }
+        else
+        {
+            $t->set_var( "price", "" );
+        }
+        
+        
         $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_id", $product->id() );
 
