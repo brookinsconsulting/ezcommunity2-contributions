@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.5 2001/01/05 15:15:37 ce Exp $
+// $Id: filelist.php,v 1.6 2001/01/08 15:34:04 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -50,8 +50,10 @@ $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
 
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
+
 $t->set_block( "file_tpl", "read_tpl", "read" );
-$t->set_block( "read_tpl", "write_tpl", "write" );
+$t->set_block( "file_tpl", "write_tpl", "write" );
+
 $t->set_block( "file_list_page_tpl", "folder_list_tpl", "folder_list" );
 $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
 
@@ -86,7 +88,7 @@ foreach ( $pathArray as $path )
 $folderList =& $folder->getByParent( $folder );
 
 $i=0;
-foreach ( $folderList as $folder )
+foreach ( $folderList as $folderItem )
 {
 //      if ( ( $i % 2 ) == 0 )
 //      {
@@ -104,8 +106,8 @@ foreach ( $folderList as $folder )
 //          $t->set_var( "end_tr", "" );        
 //      }
 
-    $t->set_var( "folder_name", $folder->name() );
-    $t->set_var( "folder_id", $folder->id() );
+    $t->set_var( "folder_name", $folderItem->name() );
+    $t->set_var( "folder_id", $folderItem->id() );
 
     $t->parse( "folder", "folder_tpl", true );
     $i++;
@@ -183,6 +185,7 @@ foreach ( $fileList as $file )
     }
     else
     {
+//        $t->parse( "no_write", "no_write_tpl" );
     }
 
     $t->parse( "file", "file_tpl", true );
@@ -202,7 +205,7 @@ else
 
 
 $t->set_var( "image_dir", $ImageDir );
-
+$t->set_var( "main_folder_id", $FolderID );
 
 $t->pparse( "output", "file_list_page_tpl" );
 

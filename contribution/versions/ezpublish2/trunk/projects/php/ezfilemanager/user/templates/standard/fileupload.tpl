@@ -7,6 +7,40 @@
 
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN errors_tpl -->
+<h3 class="error">{intl-error_headline}</h3>
+<ul>
+    <!-- BEGIN error_write_permission -->
+    <li>{intl-error_write_permission}
+    <!-- END error_write_permission -->
+
+    <!-- BEGIN error_name_tpl -->
+    <li>{intl-error_name}
+    <!-- END error_name_tpl -->
+
+    <!-- BEGIN error_description_tpl -->
+    <li>{intl-error_description}
+    <!-- END error_description_tpl -->
+
+    <!-- BEGIN error_read_check_tpl -->
+    <li>{intl-error_read_check}
+    <!-- END error_read_check_tpl -->
+
+    <!-- BEGIN error_write_check_tpl -->
+    <li>{intl-error_write_check}
+    <!-- END error_write_check_tpl -->
+
+    <!-- BEGIN error_file_upload_tpl -->
+    <li>{intl-error_file_upload}
+    <!-- END error_file_upload_tpl -->
+</ul>
+
+<hr noshade size="4"/>
+
+<br />
+<!-- END errors_tpl -->
+
+
 <p class="boxtext">{intl-folder}:</p>
 
 <select name="FolderID">

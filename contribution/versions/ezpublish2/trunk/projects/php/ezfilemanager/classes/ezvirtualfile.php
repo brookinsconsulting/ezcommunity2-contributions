@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.7 2001/01/06 16:21:00 bf Exp $
+// $Id: ezvirtualfile.php,v 1.8 2001/01/08 15:34:04 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -102,6 +102,26 @@ class eZVirtualfile
         }
         
         $this->State_ = "Coherent";
+    }
+
+    /*!
+      Delete the eZVirtualFile object from the database and the filesystem.
+    */
+    function delete()
+    {
+        // Delete from the database
+        $this->dbInit();
+
+        if ( isset( $this->ID ) )
+        {
+            $this->Database->query( "DELETE FROM eZFileManager_File WHERE ID='$this->ID'" );
+        }
+
+        // Delete from the filesystem
+        if ( file_exists ( $this->filePath( true ) ) )
+        {
+            unlink( $this->filePath( true ) );
+        }
     }
     
     /*!
@@ -298,7 +318,6 @@ class eZVirtualfile
 
         return $ret;
     }
-
     
     /*!
       Returns the id of the virtual file.
@@ -513,7 +532,6 @@ class eZVirtualfile
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-
        switch ( $value )
        {
            case "User":
@@ -553,7 +571,6 @@ class eZVirtualfile
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-
 
        switch ( $value )
        {

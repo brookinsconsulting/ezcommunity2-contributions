@@ -1,5 +1,4 @@
 <?
-
 switch ( $url_array[2] )
 {
     case "new" :        
@@ -54,6 +53,30 @@ switch ( $url_array[2] )
         include( "ezfilemanager/user/filelist.php" );
     }
     break;
+
+    case "folder" :
+    {
+        switch( $url_array[3] )
+        {
+           
+            case "new" :
+            {
+                $FolderID = $url_array[4];
+                $Action = "New";
+                include( "ezfilemanager/user/folderedit.php" );
+            }
+            break;
+            case "insert" :
+            {
+                $Action = "Insert";
+                include( "ezfilemanager/user/folderedit.php" );
+            }
+            break;
+
+        }
+    }
+    break;
+    
     
 }
 
