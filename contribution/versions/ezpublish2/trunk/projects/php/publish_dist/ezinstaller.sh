@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.3 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.4 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://publish.ez.no) on a Linux 
@@ -23,6 +23,8 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 #---------------------------------------------------------------------------
 #
+# 1.4: - fixed to have it work with older Bash
+#
 
 
 ############################################################################
@@ -41,7 +43,7 @@ DEF_URLDIR=/
 ############################################################################
 #Let's go
 #
-echo "ezinstaller.sh - version 1.3 - (c) 2001 Kai Dübbert <kai@duebbert.de>"
+echo "ezinstaller.sh - version 1.4 - (c) 2001 Kai Dübbert <kai@duebbert.de>"
 echo ""
 echo "This tool will help you install eZ publish on your server."
 echo ""
@@ -63,9 +65,9 @@ function install_q {
 	echo ""
 	echo -n "Which mechanism do you want to use? (new|old): "
 	read Q
-	if [ "$Q" == "new" ]; then
+	if [ "$Q" = "new" ]; then
 		C_INSTALL=new
-	elif [ "$Q" == "old" ]; then
+	elif [ "$Q" = "old" ]; then
 		C_INSTALL=old
 		if [ `whoami` !=  "root" ]; then
 		    echo "For the old install you must be root. (The new install"
@@ -95,12 +97,12 @@ echo ""
 DEF_HOSTNAME="$(hostname -f)"
 echo -n "Hostname of your server [$DEF_HOSTNAME]: "
 read C_HOSTNAME
-if [ "$C_HOSTNAME" == "" ]; then
+if [ "$C_HOSTNAME" = "" ]; then
 	C_HOSTNAME=$DEF_HOSTNAME
 fi
 
 # IP-Address
-if [ "$C_INSTALL" == "old" ]; then
+if [ "$C_INSTALL" = "old" ]; then
 	echo -n "IP-Address of your server: "
 	read C_IPADDRESS
 fi
@@ -108,28 +110,28 @@ fi
 # Title
 echo -n "Title of your pages [$DEF_TITLE]: "
 read C_TITLE
-if [ "$C_TITLE" == "" ]; then
+if [ "$C_TITLE" = "" ]; then
 	C_TITLE=$DEF_TITLE
 fi
 
 # DB server
 echo -n "Database server [$DEF_DBSERVER]: "
 read C_DBSERVER
-if [ "$C_DBSERVER" == "" ]; then
+if [ "$C_DBSERVER" = "" ]; then
 	C_DBSERVER=$DEF_DBSERVER
 fi
 
 # DB name
 echo -n "Database name [$DEF_DBNAME]: "
 read C_DBNAME
-if [ "$C_DBNAME" == "" ]; then
+if [ "$C_DBNAME" = "" ]; then
 	C_DBNAME=$DEF_DBNAME
 fi
 
 # DB user
 echo -n "Database user [$DEF_DBUSER]: "
 read C_DBUSER
-if [ "$C_DBUSER" == "" ]; then
+if [ "$C_DBUSER" = "" ]; then
 	C_DBUSER=$DEF_DBUSER
 fi
 
@@ -138,11 +140,11 @@ echo -n "Password for user \"$C_DBUSER\": "
 read C_DBPASS
 
 # For old install
-if [ "$C_INSTALL" == "old" ]; then
+if [ "$C_INSTALL" = "old" ]; then
 	# Owner of Webserver
 	echo -n "Owner of webserver [$DEF_OWNER]: "
 	read C_OWNER
-	if [ "$C_OWNER" == "" ]; then
+	if [ "$C_OWNER" = "" ]; then
 		C_OWNER=$DEF_OWNER
 	fi
 
@@ -151,14 +153,14 @@ fi
 # Group of Webserver
 echo -n "Group of webserver [$DEF_GROUP]: "
 read C_GROUP
-if [ "$C_GROUP" == "" ]; then
+if [ "$C_GROUP" = "" ]; then
 	C_GROUP=$DEF_GROUP
 fi
 	
 # Web directory
 echo -n "Web directory [$DEF_WWWDIR]: "
 read C_WWWDIR
-if [ "$C_WWWDIR" == "" ]; then
+if [ "$C_WWWDIR" = "" ]; then
 	C_WWWDIR=$DEF_WWWDIR
 fi
 if [ ! -d "$C_WWWDIR" ]; then
@@ -167,7 +169,7 @@ if [ ! -d "$C_WWWDIR" ]; then
 	echo "done."
 else
 	touch $C_WWWDIR/test_delete_me
-	if [ ! $? == 0 ]; then
+	if [ ! $? = 0 ]; then
 		echo "Don't seem to have the right permissions for $C_WWWDIR!"
 		echo "Check and start ezinstall.sh again!"
 		exit 1
@@ -177,12 +179,12 @@ else
 fi
 
 # New install: Installdir
-if [ "$C_INSTALL" == "new" ]; then
+if [ "$C_INSTALL" = "new" ]; then
 	echo "-----------------------------------------------------------------"
 	echo "New install: the url to the web directory"
 	echo -n "URL directory [$DEF_URLDIR]: "
 	read C_URLDIR
-	if [ "$C_URLDIR" == "" ]; then
+	if [ "$C_URLDIR" = "" ]; then
 		C_URLDIR=$DEF_URLDIR
 	fi
 	# add a slash if needed!
@@ -199,7 +201,7 @@ if [ "$C_INSTALL" == "new" ]; then
 	echo "for security!"
 	echo -n "Site directory [$DEF_INSTDIR]: "
 	read C_INSTDIR
-	if [ "$C_INSTDIR" == "" ]; then
+	if [ "$C_INSTDIR" = "" ]; then
 		C_INSTDIR=$DEF_INSTDIR
 	fi
 	if [ ! -d "$C_INSTDIR" ]; then
@@ -230,26 +232,26 @@ echo "If you do a clean or first install, say yes to these options."
 echo ""
 echo -n "Shall I setup the database for you (Y/n): "
 read Q
-if [ "$Q" == "y" ] || [ "$Q" == "Y" ] || [ "$Q" == "" ]; then
+if [ "$Q" = "y" ] || [ "$Q" = "Y" ] || [ "$Q" = "" ]; then
 	echo "Is the db user \"$C_DBUSER\" allowed to create the"
 	echo "database \"$C_DBNAME\"? This will quite certainly"
 	echo "not be the case, if you haven't setup this user in"
 	echo "mySQL yet."
 	echo -n "Can I create and use the database with user \"$C_DBUSER\"? (Y/n)? "
 	read Q
-	if [ "$Q" == "n" ] || [ "$Q" == "N" ]; then
+	if [ "$Q" = "n" ] || [ "$Q" = "N" ]; then
 		echo ""
 		echo "Ok, please tell me a user that is allowed to create the database"
 		echo -n "and to give the right permissions to user \"$C_DBUSER\" (e.g. root): "
 		read C_DBUSER2
-		if [ "$C_DBUSER2" == "" ]; then
+		if [ "$C_DBUSER2" = "" ]; then
 			echo "ARGH.... you were supposed to give me a name! I will use \"root\""
 			echo "for now."
 			C_DBUSER2=root
 		fi
 		echo -n "Password for db user \"$C_DBUSER2\": "
 		read C_DBPASS2
-		if [ "$C_DBPASS2" == "" ]; then
+		if [ "$C_DBPASS2" = "" ]; then
 			echo "Uh-oh, having a powerful user like this and not having a password"
 			echo "is *VERY* bad in respect to security. But I will continue..."
 			DBOPTIONS="-u$C_DBUSER2"
@@ -259,14 +261,14 @@ if [ "$Q" == "y" ] || [ "$Q" == "Y" ] || [ "$Q" == "" ]; then
 		
 		echo -n "Creating the user \"$C_DBUSER\" to use the database \"$C_DBNAME\"... "
 		echo "grant all on ${C_DBNAME}.* to ${C_DBUSER}@localhost identified by \"$C_DBPASS\"" | mysql $DBOPTIONS
-		if [ $? == 0 ];then
+		if [ $? = 0 ];then
 			echo "done."
 		else
 			echo "Sorry, but this failed... I have to stop. Please try to find your error (or mine)."
 			exit 1
 		fi
 	else
-		if [ "$C_DBPASS" == "" ]; then
+		if [ "$C_DBPASS" = "" ]; then
 			DBOPTIONS="-u$C_DBUSER"
 		else
 			DBOPTIONS="-u$C_DBUSER -p$C_DBPASS"
@@ -276,7 +278,7 @@ if [ "$Q" == "y" ] || [ "$Q" == "Y" ] || [ "$Q" == "" ]; then
 	# database creation
 	echo -n "Creating the database... "
 	mysqladmin $DBOPTIONS create $C_DBNAME
-	if [ ! $? == 0 ]; then
+	if [ ! $? = 0 ]; then
 		echo "Creating the database failed! Abort."
 		exit 1
 	else
@@ -286,7 +288,7 @@ if [ "$Q" == "y" ] || [ "$Q" == "Y" ] || [ "$Q" == "" ]; then
 	# db structure creation
 	echo -n "Creating data structures... "
 	mysql $DBOPTIONS $C_DBNAME < sql/publish.sql
-	if [ ! $? == 0 ]; then
+	if [ ! $? = 0 ]; then
 		echo "Creating the data structures failed! Abort."
 		exit 1
 	else
@@ -296,10 +298,10 @@ if [ "$Q" == "y" ] || [ "$Q" == "Y" ] || [ "$Q" == "" ]; then
 	# example data
 	echo -n "Shall I fill the database with an example site (y/N)? "
 	read Q
-	if [ "$Q" == "y" ] || [ "$Q" == "Y" ]; then
+	if [ "$Q" = "y" ] || [ "$Q" = "Y" ]; then
 		echo -n "Filling the database... "
 		mysql $DBOPTIONS $C_DBNAME < sql/data.sql
-		if [ ! $? == 0 ]; then
+		if [ ! $? = 0 ]; then
 			echo "Filling the database with example data failed! Aborting."
 			exit 1
 		else
@@ -316,7 +318,7 @@ fi
 #
 echo -n "Extracting the data for the example site... "
 tar xzfp data.tar.gz
-if [ ! $? == 0 ]; then
+if [ ! $? = 0 ]; then
 	echo "Failed to extract the example data (data.tar.gz)! Aborting."
 	exit 1
 else
@@ -327,14 +329,14 @@ fi
 ############################################################################
 # Old install: using modfix_secure
 #
-if [ "$C_INSTALL" == "old" ]; then
+if [ "$C_INSTALL" = "old" ]; then
 	echo -n "Executing secure_modfix.sh... "
 	./secure_modfix.sh $C_OWNER $C_GROUP
 	if [ -d ezimagecatalogue/catalogue ]; then
 		chown -R $C_OWNER ezimagecatalogue/catalogue
 		chgrp -R $C_GROUP ezimagecatalogue/catalogue
 	fi
-	if [ $? == 0 ]; then
+	if [ $? = 0 ]; then
 		echo "done."
 	else
 		echo "FAILED! You might have problems with permissions. Do it yourself."
@@ -390,7 +392,7 @@ fi
 ############################################################################
 # Fix the owners and permissions. We don't have to be too picky with the new install.
 #
-if [ "$C_INSTALL" == "new" ]; then
+if [ "$C_INSTALL" = "new" ]; then
 	chmod 640 site.ini
 fi
 
@@ -400,7 +402,7 @@ fi
 #
 echo -n "Executing secure_clearcache.sh... "
 ./secure_clearcache.sh
-if [ $? == 0 ]; then
+if [ $? = 0 ]; then
 	echo "done."
 else
 	echo "FAILED! You might have problems with caching. Check it yourself."
@@ -409,7 +411,7 @@ fi
 ############################################################################
 # Moving files to wwwdir
 #
-if [ "$C_INSTALL" == "new" ]; then
+if [ "$C_INSTALL" = "new" ]; then
 	echo ""
 	echo "#################################################################"
 	echo "Moving the publicly needed files to $C_WWWDIR... "
@@ -457,7 +459,7 @@ if [ "$C_INSTALL" == "new" ]; then
 		mkdir -p admin/templates
 	fi
 	for i in admin/templates/*; do
-		if [ ! "$(basename $i)" == "CVS" ]; then
+		if [ ! "$(basename $i)" = "CVS" ]; then
 			mkdir -p admin/templates/$(basename $i)
 			if [ -e $i/*.css ]; then
 				mv $i/*.css admin/templates/$(basename $i)
@@ -469,7 +471,7 @@ if [ "$C_INSTALL" == "new" ]; then
 	echo -n "Moving sitedesign/*/*.css to sitedesign/*... "
 	for i in sitedesign/*; do
 		SDNAME=`basename $i`
-		if [ ! "$SDNAME" == "CVS" ]; then
+		if [ ! "$SDNAME" = "CVS" ]; then
 			mkdir -p "$C_WWWDIR/sitedesign/$SDNAME"
 			if [ -e $i/images ]; then
 				mv "$i/images" "$C_WWWDIR/sitedesign/$SDNAME"
@@ -496,14 +498,14 @@ fi
 ############################################################################
 # Move the files
 #
-if [ "$C_INSTALL" == "new" ]; then
+if [ "$C_INSTALL" = "new" ]; then
 	echo ""
 	echo "#################################################################"
 	echo "Moving the files:"
 	echo "Now I will move the files to the installation dir."
 	echo -n "Moving files... "
 	mv * $C_INSTDIR
-	if [ ! $? == 0 ]; then
+	if [ ! $? = 0 ]; then
 		echo "Moving of files failed! Aborting."
 		exit 1
 	else
@@ -544,7 +546,7 @@ echo " ...done."
 ############################################################################
 # Try to do the rest for the old install
 #
-if [ "$C_INSTALL" == "old" ]; then
+if [ "$C_INSTALL" = "old" ]; then
 	echo "
 NameVirtualHost $C_IPADDRESS
 <VirtualHost $C_HOSTNAME>
@@ -579,7 +581,7 @@ NameVirtualHost $C_IPADDRESS
 
 	echo -n "Moving files to $C_WWWDIR... "
 	mv * $C_WWWDIR
-	if [ $? == 0 ]; then
+	if [ $? = 0 ]; then
 		echo "done."
 	else
 		echo "FAILED!"
