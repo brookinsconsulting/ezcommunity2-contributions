@@ -1,6 +1,6 @@
 <?
-// 
-// $Id: ezcheckoutsupplier.php,v 1.1.2.4 2002/04/16 10:30:41 ce Exp $
+//
+// $Id: ezcheckoutsupplier.php,v 1.1.2.5 2002/06/10 09:06:28 ce Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -28,13 +28,13 @@
 //!! eZTrade
 //! eZCheckoutSupplier handles checkout instances for the current checkout method.
 /*!
-  
+
 */
 
 class eZCheckoutSupplier
 {
     /*!
-      
+
     */
     function eZCheckoutSupplier()
     {
@@ -60,7 +60,7 @@ class eZCheckoutSupplier
         for( $i=0; $i < count ( $this->PaymentMethods ); $i++ )
         {
 //            if ( ( $GLOBALS["SERVER_PORT"] != "443" ) and ( $this->PaymentMethods[$i]["RequireSSL"] == "disabled" )  )
-            if (  $this->PaymentMethods[$i]["RequireSSL"] == "disabled" )  
+            if (  $this->PaymentMethods[$i]["RequireSSL"] == "disabled" )
             {
                 if ( $useVoucher == true and $this->PaymentMethods[$i]["WorkWithVoucher"] == true )
                     $tmp[] = $this->PaymentMethods[$i];
@@ -69,7 +69,7 @@ class eZCheckoutSupplier
             }
         }
         $this->PaymentMethods = $tmp;
-        
+
         return $this->PaymentMethods;
     }
 
@@ -109,14 +109,15 @@ class eZCheckoutSupplier
         }
         return $ret;
     }
-    
+
 
     /*!
       Returns the file to include for the given payment type.
     */
     function &paymentFile( $id )
     {
-        $ret = "checkout/user/visa.php";
+        $ret = "eztrade/user/testpay.php";
+        /*
         switch( $id )
         {
             case 1 :
@@ -146,11 +147,42 @@ class eZCheckoutSupplier
             {
                 $ret = "eztrade/user/voucher.php";
             } break;
-
-            
         }
+        */
         return $ret;
     }
+
+    function &paymentTemplate( $id )
+    {
+        $ret = "eztrade/user/templates/mygold/testpay.tpl";
+        /*
+        switch( $id )
+        {
+            case 1 :
+            {
+                $ret = "visa.tpl";
+            }
+            break;
+            case 2 :
+            {
+                $ret = "mastercard.tpl";
+            }
+            break;
+            case 3 :
+            {
+                $ret = false;
+            }
+            break;
+            case 4 :
+            {
+                $ret = "voucher.tpl";
+            }
+            break;
+        }
+        */
+        return $ret;
+    }
+
 
     var $PaymentMethods;
 }
