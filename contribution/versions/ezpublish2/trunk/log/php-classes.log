@@ -823,3 +823,11 @@ Maintainer(s) : bf@ez.no
 
     * eztime.php: fixed bug (redeclaration of the function addZero())
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2003-04-10  Bjoern Reiten  <br@ez.no>
+
+    * ezcachefile.php: removed debug.
+

@@ -3669,3 +3669,11 @@ Maintainer(s) : ce@ez.no
 
     * user/productlist.php: Fixed cache bug
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2003-04-10  Bjoern Reiten  <br@ez.no>
+
+    * user/productsearch.php: fixed security bug with java script in search.
+

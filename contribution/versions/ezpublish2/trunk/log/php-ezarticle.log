@@ -3621,3 +3621,15 @@ Maintainer(s) : bf@ez.no
     * admin/cron.php
       classes/ezarticle.php: fixed bug with time publishing of articles.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-04-10  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezarticlecategory.php:
+    fixed bugs with permissions and get it compatible with psql.
+
+    * admin/categoryedit.php:
+    Set category_id default to blank in the template.
+

@@ -635,3 +635,11 @@ Maintainer(s) : fh@ez.no
     * classes/ezimapmailfolder.php
       user/folderlist.php: IMAP deleting bugfix
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2003-04-10  Bjoern Reiten  <br@ez.no>
+
+    * user/search.php: fixed security bug with java script in search.
+

@@ -365,3 +365,11 @@ Maintainer(s) : bf@ez.no
 
     * header.php: Fixed bug when editing unassigned images.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2003-04-10  Bjoern Reiten  <br@ez.no>
+
+    * header.php: fixed wrong url to help page.
+
