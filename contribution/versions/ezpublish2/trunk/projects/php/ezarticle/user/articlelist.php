@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.69 2001/09/11 10:56:15 jhe Exp $
+// $Id: articlelist.php,v 1.70 2001/09/11 11:20:06 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -274,7 +274,7 @@ else
 if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
-if ( $category->listLimit() )
+if ( ( $category->listLimit() > 0 ) &&  $Offset == 0 )
     $Limit = $category->listLimit();
 else
     $Limit = $UserListLimit;
