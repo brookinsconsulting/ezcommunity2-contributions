@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.3 2000/11/15 15:31:43 ce-cvs Exp $
+// $Id: ezonlinetype.php,v 1.4 2000/12/15 17:06:38 pkej Exp $
 //
 // Definition of eZOnline class
 //
@@ -125,6 +125,11 @@ class eZOnlineType
             {
                 $this->ID = $online_type_array[ 0 ][ "ID" ];
                 $this->Name = $online_type_array[ 0 ][ "Name" ];
+            }
+            else
+            {
+                $this->ID = "";
+                $this->State_ = "New";
             }
         }
     }
