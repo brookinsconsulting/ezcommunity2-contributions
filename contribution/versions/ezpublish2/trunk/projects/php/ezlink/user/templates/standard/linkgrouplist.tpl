@@ -6,7 +6,7 @@
      <td align="right">
 	 <form action="/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
-	       <input type="submit" name="search" value="{intl-search}" />
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
          </form>
      </td>
 </tr>
@@ -69,12 +69,12 @@
 </tr>
 <!-- BEGIN link_item_tpl -->
 <tr>
-	<td  width="80%"  valign="top" class="{td_class}">
+	<td valign="top" class="{td_class}">
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
     <div class="spacer"><span class="p">{link_description}</span><br />
 	<span class="small">(Hits: {link_hits})</span></div>
    	</td>
-	<td  width="20%" valign="top"  class="{td_class}">
+	<td valign="top"  class="{td_class}">
 	<!-- BEGIN link_image_item_tpl -->
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 	<!-- END link_image_item_tpl -->

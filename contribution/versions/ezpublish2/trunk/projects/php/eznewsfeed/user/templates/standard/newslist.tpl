@@ -1,16 +1,15 @@
 <h1>{intl-latest_news}</h1>
+
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN news_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
-	<a href="{first_news_url}" target="_vblank">
-	<h1>{first_news_name}</h1>
-	</a>
+	<a href="{first_news_url}" target="_vblank"><h1>{first_news_name}</h1></a>
 	<span class="small">( {first_news_origin} - {first_news_date} )</span>
-	<p class="newslist">{first_news_intro}</p>
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{first_news_url}" onclick="return popup('{first_news_url}')">{intl-read_more}</a>
+	<div class="spacer"><div class="p">{first_news_intro}</div></div>
+	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">&nbsp;<a class="path" href="{first_news_url}" onclick="return popup('{first_news_url}')">{intl-read_more}</a>
 	</td>
 </tr>
 </table>
