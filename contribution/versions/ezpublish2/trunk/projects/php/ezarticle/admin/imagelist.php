@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.1 2000/10/20 12:49:23 bf-cvs Exp $
+// $Id: imagelist.php,v 1.2 2000/10/22 13:24:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -78,6 +78,8 @@ foreach ( $images as $image )
         }
     }
     
+    $t->set_var( "image_number", $i + 1 );
+
     $t->set_var( "image_name", $image->caption() );
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "article_id", $ArticleID );

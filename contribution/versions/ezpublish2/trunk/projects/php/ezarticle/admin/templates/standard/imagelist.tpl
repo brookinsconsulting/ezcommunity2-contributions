@@ -40,6 +40,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
+	<th>Nr:</th>
 	<th>Bildetekst:</th>
 	<th>Forhåndsvisning:</th>
 	<th>Minibilde:</th>
@@ -49,6 +50,9 @@
 
 <!-- BEGIN image_tpl -->
 <tr>
+	<td class="{td_class}">
+	{image_number}
+	</td>
 	<td class="{td_class}">
 	{image_name}
 	</td>
