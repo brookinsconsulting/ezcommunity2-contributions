@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.22 2001/01/06 16:21:00 bf Exp $
+// $Id: ezdb.php,v 1.23 2001/01/09 11:53:07 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -89,9 +89,29 @@ class eZDB
       array as an indexed associative array.  The array is cleared first.  The results start with
       the array start at 0, and the number of results can be found with the count() function.
     */
-    function array_query( &$array, $sql )
+    function array_query( &$array, $sql, $min = 0, $max = -1 )
     {
         $array = array();
+        return $this->array_query_append( $array, $sql, $min, $max );
+    }
+
+    /*!
+      Same as array_query() but expects to recieve 1 row only (no array), no more no less.
+    */
+    function query_single( &$row, $sql )
+    {
+        $array = array();
+        $ret = $this->array_query_append( $array, $sql, 1, 1 );
+        $row = $array[0];
+        return $ret;
+    }
+
+    /*!
+      Differs from the above function only by not creating av empty array,
+      but simply appends to the array passed as an argument.
+     */    
+    function array_query_append( &$array, $sql, $min = 0, $max = -1 )
+    {
         $result =& $this->query( $sql );
 
         if ( $result == false )
@@ -100,32 +120,26 @@ class eZDB
             return false;
         }
 
-        if ( mysql_num_rows( $result ) > 0 )
-        {
-            for($i = 0; $i < mysql_num_rows( $result ); $i++ )
-                $array[$i] =& mysql_fetch_array( $result );
-        }
-    }
-
-    /*!
-      Differs from the above function only by not creating av empty array,
-      but simply appends to the array passed as an argument.
-     */    
-    function array_query_append( &$array, $sql)
-    {
-        $result =& query($sql);
-
-        if ( $result == false )
-        {
-            print( $this->Error );
-            return false;
-        }
-
         $offset = count( $array );
-        if ( count( $result ) > 0 )
+//          if ( count( $result ) > 0 )
+        if ( mysql_num_rows( $result ) > 0 )
         { 
             for($i = 0; $i < mysql_num_rows($result); $i++)
                 $array[$i + $offset] =& mysql_fetch_array($result);
+        }
+
+        if ( count( $array ) < $min )
+        {
+            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" .
+                                      htmlentities( "Received " . count( $array ) . " rows, minimum is $min" ) . "</b>\n" ;
+        }
+        if ( $max >= 0 )
+        {
+            if ( count( $array ) > $max )
+            {
+                $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" .
+                                          htmlentities( "Received " . count( $array ) . " rows, maximum is $max" ) . "</b>\n" ;
+            }
         }
     }
 
