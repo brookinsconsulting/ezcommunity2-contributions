@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.3 2001/11/22 16:42:45 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.4 2001/12/12 14:57:53 br Exp $
 //
 // Definition of eZArticle class
 //
@@ -429,6 +429,7 @@ class eZArticle
             $res[] = $db->query( "DELETE FROM eZArticle_ArticlePermission WHERE ObjectID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZArticle_ArticleForumLink WHERE ArticleID='$this->ID'" );
 
             if ( in_array( false, $res ) )
                 $db->rollback( );
