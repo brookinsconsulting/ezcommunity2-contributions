@@ -4,7 +4,7 @@
 
 <tr>
 	<td>
-	<a class="menu" href="/contact/companycategory/list">
+	<a class="menu" href="/contact/company/list">
 	<img src="/images/dot.gif" width="12" heigth="10" border="0">{intl-company_list}
 	</a>
 	</td>
