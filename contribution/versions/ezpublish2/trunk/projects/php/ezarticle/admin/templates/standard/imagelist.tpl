@@ -77,7 +77,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewImage"value="{intl-image_upload}nytt bilde" />
+<input class="stdbutton" type="submit" name="NewImage"value="{intl-image_upload}" />
 
 <hr noshade="noshade" size="4" />
 
