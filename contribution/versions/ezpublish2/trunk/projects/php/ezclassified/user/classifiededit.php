@@ -71,7 +71,7 @@ if ( $Action == "insert" )
     $position->store();
 
     $company = new eZCompany( $CompanyID );
-    $position->addCompany( $company );
+    $position->setCompany( $company );
 
     // Add classifed to categories
     if ( ( $CategoryArray ) != "" )
