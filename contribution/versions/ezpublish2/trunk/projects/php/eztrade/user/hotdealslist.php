@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.6 2001/02/08 10:17:38 jb Exp $
+// $Id: hotdealslist.php,v 1.7 2001/02/08 10:37:50 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -41,15 +41,20 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "hotdealslist.php" );
 
-$t->set_file( "product_list_page_tpl", "hotdealslist.tpl" );
+if ( isset( $HotDealsPage ) )
+{
+    $t->set_file( "product_list_page_tpl", "hotdealspage.tpl" );
+}
+else
+{
+    $t->set_file( "product_list_page_tpl", "hotdealslist.tpl" );
+}
 
-$t->set_block( "product_list_page_tpl", "price_tpl", "price" );
-
+$t->set_block( "product_list_page_tpl", "header_tpl", "header" );
 $t->set_block( "product_list_page_tpl", "product_list_tpl", "product_list" );
 $t->set_block( "product_list_tpl", "product_tpl", "product" );
-
 $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
-
+$t->set_block( "product_tpl", "price_tpl", "price" );
 
 
 $t->setAllStrings();
@@ -60,6 +65,7 @@ if ( !isset( $MaxHotDeals ) )
     $MaxHotDeals = false;
 if ( isset( $HotDealColumns ) )
     $hotDealColumns = $HotDealColumns;
+$t->set_var( "hotdeal_columns", $hotDealColumns );
 
 // products
 $productList =& $product->hotDealProducts( $MaxHotDeals );
