@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailusersubscripter.php,v 1.5 2001/10/14 18:10:26 fh Exp $
+// $Id: ezbulkmailusersubscripter.php,v 1.5.2.1 2001/10/29 15:54:16 fh Exp $
 //
 // eZBulkMailUserSubscription class
 //
@@ -145,6 +145,19 @@ class eZBulkMailUserSubscripter
         }
     }
 
+    /*!
+      Returns the email of the given user.
+     */
+    function eMail()
+    {
+        $ret_val = "unknown";
+        if( get_class( $this->User ) == "ezuser" )
+        {
+            $ret_val = $this->User->eMail();
+        }
+        return $ret_val;
+    }
+    
     /*!
       Unsubscribes this user from the given category. If the supplied argument is true, the user is unsubscibed from all categories.
      */

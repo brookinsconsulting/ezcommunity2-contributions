@@ -32,6 +32,23 @@
 <hr noshade="noshade" size="4">
 <!-- END address_tpl -->
 
+<!-- BEGIN user_address_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th width="100%">{intl-subscriber_user}:</th>
+</tr>
+<!-- BEGIN user_address_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	<a href="mailto:{subscriber_address}">{subscriber_address}</a>
+	</td>
+</tr>
+<!-- END user_address_item_tpl -->
+</table>
+<hr noshade="noshade" size="4">
+<!-- END user_address_tpl -->
+
+
 <!-- BEGIN address_group_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

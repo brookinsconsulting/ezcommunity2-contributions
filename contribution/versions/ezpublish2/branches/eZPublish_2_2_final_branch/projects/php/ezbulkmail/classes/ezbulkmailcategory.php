@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.25 2001/10/16 13:46:00 jhe Exp $
+// $Id: ezbulkmailcategory.php,v 1.25.2.1 2001/10/29 15:54:16 fh Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -371,6 +371,7 @@ class eZBulkMailCategory
     
     /*!
       Returns an array with all addresses that are subscribed to this category.
+      Used if eZUser login is disabled.
       \sa groupSubscriptions
      */
     function subscribers( $asObject = true, $categoryID = 0 )
@@ -381,6 +382,7 @@ class eZBulkMailCategory
             $categoryID = $this->ID;
         $subscribe_array = array();
         $return_array = array();
+
         $db->array_query( $subscribe_array, "SELECT ID, EMail FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$categoryID'" );
@@ -397,6 +399,7 @@ class eZBulkMailCategory
 
     /*!
       Returns an array with all users that are subscribed to this category.
+      Used if eZUser login is set.
       \sa groupSubscriptions
      */
     function subscribedUsers( $categoryID = 0 )

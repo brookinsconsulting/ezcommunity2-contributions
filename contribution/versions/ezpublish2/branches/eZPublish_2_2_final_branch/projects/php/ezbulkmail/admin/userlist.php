@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userlist.php,v 1.2 2001/08/29 19:53:17 fh Exp $
+// $Id: userlist.php,v 1.2.2.1 2001/10/29 15:54:16 fh Exp $
 //
 // Created on: <28-Aug-2001 15:02:02 fh>
 //
@@ -49,6 +49,11 @@ $t->set_block( "user_list_page_tpl", "address_tpl", "address" );
 $t->set_block( "address_tpl", "address_item_tpl", "address_item" );
 $t->set_var( "address", "" );
 
+$t->set_block( "user_list_page_tpl", "user_address_tpl", "user_address" );
+$t->set_block( "user_address_tpl", "user_address_item_tpl", "user_address_item" );
+$t->set_var( "user_address", "" );
+
+
 $t->set_block( "user_list_page_tpl", "address_group_tpl", "address_group" );
 $t->set_block( "address_group_tpl", "address_item_group_tpl", "address_item_group" );
 $t->set_var( "address_group", "" );
@@ -79,6 +84,7 @@ if( $CategoryID != 0 )
     $i = 0;
     $addresses = eZBulkMailCategory::subscribers( true, $CategoryID );
     $normal = 0;
+    $normalUser = 0;
     if( count( $addresses ) > 0 )
     {
         foreach( $addresses as $address )
@@ -87,6 +93,18 @@ if( $CategoryID != 0 )
             ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
             $t->parse( "address_item", "address_item_tpl", true );
             $i++; $normal++;
+        }
+    }
+    // list eZUser subscribers.
+    $addresses = eZBulkMailCategory::subscribedUsers( $CategoryID );
+    if( count( $addresses ) > 0 )
+    {
+        foreach( $addresses as $address )
+        {
+            $t->set_var( "subscriber_address", $address->eMail() );
+            ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+            $t->parse( "user_address_item", "user_address_item_tpl", true );
+            $i++; $normalUser++;
         }
     }
 
@@ -111,6 +129,8 @@ if( $CategoryID != 0 )
     {
         if( $normal > 0 )
             $t->parse( "address", "address_tpl", false );
+        if( $normalUser > 0 )
+            $t->parse( "user_address", "user_address_tpl", false );
         if( $group > 0 )
             $t->parse( "address_group", "address_group_tpl", false );
     }
