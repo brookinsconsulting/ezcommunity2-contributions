@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.46 2001/03/02 17:48:25 jb Exp $
+// $Id: ezperson.php,v 1.47 2001/03/03 20:23:14 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -220,39 +220,71 @@ class eZPerson
             {
                 case "standalone":
                 {
+                    $qry = "SELECT Person.ID
+                            FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
+                            ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NULL
+                            GROUP BY Person.ID";
+                    $db->array_query( $person_array, $qry );
+                    return count( $person_array );
                     break;
                 }
                 case "connected":
                 {
+                    $qry = "SELECT Person.ID
+                            FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
+                            ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NOT NULL
+                            GROUP BY Person.ID";
+                    $db->array_query( $person_array, $qry );
+                    return count( $person_array );
                     break;
                 }
                 case "all":
                 default:
                 {
+                    $qry = "SELECT count( ID ) AS Count FROM eZContact_Person
+                            ORDER BY LastName, FirstName";
+                    $db->query_single( $persons, $qry );
+                    return $persons["Count"];
                     break;
                 }
             }
-            $qry = "SELECT count( ID ) AS Count FROM eZContact_Person ORDER BY LastName, FirstName";
-            $db->query_single( $persons, $qry );
-            return $persons["Count"];
         }
         else
         {
+            switch( $cond )
+            {
+                case "standalone":
+                {
+                    $cond_text = "Dict.CompanyID IS NULL AND";
+                    break;
+                }
+                case "connected":
+                {
+                    $cond_text = "Dict.CompanyID IS NOT NULL AND";
+                    break;
+                }
+                case "all":
+                default:
+                {
+                    $cond_text = "";
+                }
+            }
             $query = new eZQuery( array( "A.FirstName", "A.LastName",
                                          "C.Number",
                                          "E.Street1", "E.Street2", "E.Place", "E.Zip",
-                                         "G.Url" ), $search_types );
-            $qry = "SELECT A.ID FROM
-                    eZContact_Person AS A,
-                    eZContact_PersonPhoneDict as B, eZContact_Phone AS C,
-                    eZContact_PersonAddressDict as D, eZContact_Address AS E,
-                    eZContact_PersonOnlineDict as F, eZContact_Online AS G
-                    WHERE A.ID = B.PersonID AND B.PhoneID = C.ID AND
-                          A.ID = D.PersonID AND D.AddressID = E.ID AND
-                          A.ID = F.PersonID AND F.OnlineID = G.ID AND
-                    (" .
+                                         "Online.Url" ), $search_types );
+            $qry = "SELECT A.ID AS ID FROM
+                    eZContact_Person AS A LEFT JOIN eZContact_PersonPhoneDict as B
+                    ON A.ID=B.PersonID    LEFT JOIN eZAddress_Phone as C
+		            ON B.PhoneID=C.ID     LEFT JOIN eZContact_PersonAddressDict AS D
+		            ON A.ID=D.PersonID    LEFT JOIN eZAddress_Address AS E
+		            ON D.AddressID=E.ID   LEFT JOIN eZContact_PersonOnlineDict AS F
+		            ON A.ID=F.PersonID    LEFT JOIN eZAddress_Online AS Online
+		            ON F.OnlineID=Online.ID LEFT JOIN eZContact_CompanyPersonDict AS Dict
+                    ON A.ID=Dict.PersonID
+                    WHERE $cond_text (" .
                     $query->buildQuery() .
-                    ")
+                    ") 
                     GROUP BY A.ID
                     ORDER BY A.LastName, A.FirstName";
             $db->array_query( $persons, $qry );
@@ -263,7 +295,7 @@ class eZPerson
     /*!
       Fetches all persons in the database.
     */
-    function getAll( $search_types = "", $limit_index = 0, $limit = 1, $company_person = false )
+    function getAll( $search_types = "", $limit_index = 0, $limit = 1, $cond = "all")
     {
         $db = eZDB::globalDatabase();
         $person_array = 0;
@@ -275,27 +307,70 @@ class eZPerson
 
         if ( empty( $search_types ) )
         {
-            $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName
-                    $limit_text";
+            switch( $cond )
+            {
+                case "standalone":
+                {
+                    $qry = "SELECT Person.ID
+                            FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
+                            ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NULL
+                            GROUP BY Person.ID $limit_text";
+                    break;
+                }
+                case "connected":
+                {
+                    $qry = "SELECT Person.ID
+                            FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
+                            ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NOT NULL
+                            GROUP BY Person.ID $limit_text";
+                    break;
+                }
+                case "all":
+                default:
+                {
+                    $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName
+                            $limit_text";
+                    break;
+                }
+            }
             $db->array_query( $person_array, $qry );
         }
         else
         {
+            switch( $cond )
+            {
+                case "standalone":
+                {
+                    $cond_text = "Dict.CompanyID IS NULL AND";
+                    break;
+                }
+                case "connected":
+                {
+                    $cond_text = "Dict.CompanyID IS NOT NULL AND";
+                    break;
+                }
+                case "all":
+                default:
+                {
+                    $cond_text = "";
+                }
+            }
             $query = new eZQuery( array( "A.FirstName", "A.LastName",
                                          "C.Number",
                                          "E.Street1", "E.Street2", "E.Place", "E.Zip",
-                                         "G.Url" ), $search_types );
-            $qry = "SELECT A.ID as ID FROM
-                    eZContact_Person AS A,
-                    eZContact_PersonPhoneDict as B, eZContact_Phone AS C,
-                    eZContact_PersonAddressDict as D, eZContact_Address AS E,
-                    eZContact_PersonOnlineDict as F, eZContact_Online AS G
-                    WHERE A.ID = B.PersonID AND B.PhoneID = C.ID AND
-                          A.ID = D.PersonID AND D.AddressID = E.ID AND
-                          A.ID = F.PersonID AND F.OnlineID = G.ID AND
-                    (" .
+                                         "Online.Url" ), $search_types );
+            $qry = "SELECT A.ID AS ID FROM
+                    eZContact_Person AS A LEFT JOIN eZContact_PersonPhoneDict as B
+                    ON A.ID=B.PersonID    LEFT JOIN eZAddress_Phone as C
+		            ON B.PhoneID=C.ID     LEFT JOIN eZContact_PersonAddressDict AS D
+		            ON A.ID=D.PersonID    LEFT JOIN eZAddress_Address AS E
+		            ON D.AddressID=E.ID   LEFT JOIN eZContact_PersonOnlineDict AS F
+		            ON A.ID=F.PersonID    LEFT JOIN eZAddress_Online AS Online
+		            ON F.OnlineID=Online.ID LEFT JOIN eZContact_CompanyPersonDict AS Dict
+                    ON A.ID=Dict.PersonID
+                    WHERE $cond_text (" .
                     $query->buildQuery() .
-                    ")
+                    ") 
                     GROUP BY A.ID
                     ORDER BY A.LastName, A.FirstName
                     $limit_text";
