@@ -1124,3 +1124,12 @@ Maintainer(s) : jhe@ez.no
     * user/messagesimplelist.php
       user/userlogin.php: Added design for akersmic
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-04-05  bf  <bf@zev.ez.no>
+
+    * user/message.php:
+    Added functionality for more flexible layout. Contributed by a user.
+

@@ -3010,3 +3010,12 @@ Maintainer(s) : bf@ez.no
     Fixed storing article category position when adding images to articles on user site
     Fixed premature publishing when submitting articles from user site
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-05  br  <br@zev.ez.no>
+
+    * admin/sitemap.php
+      user/sitemap.php: added fix to not write &nbsp; at the root level.
+

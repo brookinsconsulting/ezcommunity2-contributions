@@ -717,3 +717,11 @@ Maintainer(s) : bf@ez.no
 
     * INIFile.php: multilingual admin interface
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-04-05  bf  <bf@zev.ez.no>
+
+    * ezbenchmark.php: Updated the benchmark file.
+
