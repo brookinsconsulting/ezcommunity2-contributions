@@ -1,14 +1,13 @@
 <?
 // 
-// $Id: ezuritool.php,v 1.5 2001/01/25 17:15:27 jb Exp $
+// $Id: ezuritool.php,v 1.6 2001/07/09 07:18:21 jakobn Exp $
 //
 // Definition of eZURITool class
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Jan-2001 10:59:46 amos>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

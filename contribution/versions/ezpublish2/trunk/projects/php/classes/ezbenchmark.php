@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbenchmark.php,v 1.3 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbenchmark.php,v 1.4 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZTextTool class
 //
@@ -8,9 +8,6 @@
 // Created on: <23-Jan-2001 12:34:54 bf>
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
-//
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

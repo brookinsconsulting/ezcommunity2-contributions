@@ -1,14 +1,13 @@
 <? 
 // 
-// $Id: ezinformixdb.php,v 1.13 2001/07/03 15:25:31 bf Exp $
+// $Id: ezinformixdb.php,v 1.14 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZInformixDB class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Jun-2001 13:17:19 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

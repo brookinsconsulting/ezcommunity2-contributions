@@ -1,14 +1,13 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.27 2001/06/28 09:43:35 jhe Exp $
+// $Id: ezdatetime.php,v 1.28 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZDateTime class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Sep-2000 15:20:51 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -24,9 +23,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-include_once( "classes/ezdate.php" );
-include_once( "classes/eztime.php" );
 
 //!! eZCommon
 //! The eZDateTime class provides date and functions.
@@ -50,6 +46,8 @@ include_once( "classes/eztime.php" );
 /*!TODO
 */
 
+include_once( "classes/ezdate.php" );
+include_once( "classes/eztime.php" );
 
 class eZDateTime
 {

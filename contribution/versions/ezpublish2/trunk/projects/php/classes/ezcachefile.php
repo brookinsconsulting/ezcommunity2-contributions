@@ -1,14 +1,13 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.10 2001/06/05 09:16:26 bf Exp $
+// $Id: ezcachefile.php,v 1.11 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZCacheFile class
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <07-Feb-2001 13:56:26 amos>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

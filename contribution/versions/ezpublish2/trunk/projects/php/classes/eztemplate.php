@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.35 2001/05/07 08:32:57 jb Exp $
+// $Id: eztemplate.php,v 1.36 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZTemplate class
 //
@@ -9,8 +9,7 @@
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -26,9 +25,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-include_once( "classes/INIFile.php" );
-include_once( "classes/ezlog.php" );
 
 //!! eZCommon
 //! The eZTemplate class provides template functions. In regard to locale information.
@@ -101,6 +97,9 @@ include_once( "classes/ezlog.php" );
   \endcode
 
 */
+
+include_once( "classes/INIFile.php" );
+include_once( "classes/ezlog.php" );
 
 class eZTemplate
 {

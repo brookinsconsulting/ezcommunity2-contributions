@@ -1,14 +1,13 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.36 2001/05/06 13:14:28 bf Exp $
+// $Id: ezlocale.php,v 1.37 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZLocale class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Sep-2000 14:33:48 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

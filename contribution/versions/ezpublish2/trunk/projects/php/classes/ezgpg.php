@@ -1,14 +1,13 @@
 <?php
 // 
-// $Id: ezgpg.php,v 1.3 2001/04/09 14:37:39 chrism Exp $
+// $Id: ezgpg.php,v 1.4 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZGPG class
 //
 // Chris Mason <chris@net.ai>
 // Created on: <09-Apr-2001 16:36:08 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -30,7 +29,6 @@
 /*!
    
 */
-
 
 class eZGPG
 {

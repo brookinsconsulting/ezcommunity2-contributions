@@ -1,14 +1,13 @@
 <?
 // 
-// $Id: ezdate.php,v 1.25 2001/06/27 12:06:27 bf Exp $
+// $Id: ezdate.php,v 1.26 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZCompany class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Sep-2000 16:20:20 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -24,7 +23,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 //!! eZCommon
 //! The eZDate class provides date functions.

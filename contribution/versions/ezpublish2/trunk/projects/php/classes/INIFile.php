@@ -1,33 +1,31 @@
 <?php 
-/////////////////////////////////////////////////////////////////////////  
-//  
-//  class.INIfile.php  -  implements  a  simple  INIFile Parser  
-//   
-//  Author:  MO 
-//   
-//  Description:  
-//    I just wondered how to save simple parameters not in a database but in a file 
-//  So starting every time from scratch isn''t comfortable and I decided to write this 
-//  small unit for working with ini like files 
-//  Some  Examples:  
-//     
-//    $ini = new INIFile("./ini.ini"); 
-//  //Read entire group in an associative array 
-//    $grp = $ini->read_group("MAIN"); 
-//    //prints the variables in the group 
-//    if ($grp) 
-//    for(reset($grp); $key=key($grp); next($grp)) 
-//    { 
-//        echo "GROUP ".$key."=".$grp[$key]."<br>"; 
-//    } 
-//    //set a variable to a value 
-//    $ini->set_var("NEW","USER","JOHN"); 
-//  //Save the file 
-//    $ini->save_data(); 
+// 
+// $Id: INIFile.php,v 1.33 2001/07/09 07:18:20 jakobn Exp $
 //
-//    Modified by Jo Henrik Endrerud <jhe@ez.no> for eZ systems
-//    Modified by Bård Farstad <bf@ez.no>
-//    Modified by Jan Borsodi <jb@ez.no>
+// Implements a simple INI-file parser
+//
+// Based upon class.INIfile.php by Mircho Mirev <mircho@macropoint.com>
+//
+// Modified by Jo Henrik Endrerud <jhe@ez.no>
+// Modified by Bård Farstad <bf@ez.no>
+// Modified by Jan Borsodi <jb@ez.no>
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
 
 //!! eZCommon
 //! The INIFile class provides .ini file functions.

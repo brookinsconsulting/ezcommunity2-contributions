@@ -1,14 +1,13 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.6 2001/06/28 09:34:54 bf Exp $
+// $Id: ezmysqldb.php,v 1.7 2001/07/09 07:18:20 jakobn Exp $
 //
 // Definition of eZMySQLDB class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Jun-2001 16:09:31 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
