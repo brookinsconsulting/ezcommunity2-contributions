@@ -76,7 +76,7 @@ function formProcess( $value, $key )
         break;
         
         default:
-            $mailMessage = $mailMessage . "$key:    $value\n";
+            $mailMessage = $mailMessage . "$key:\n$value\n\n";
             break;
     }
 }
