@@ -235,9 +235,30 @@ switch ( $url_array[2] )
         
         
         include( "eztrade/admin/shippingtypes.php" );
+        break;
     }        
-    break;
-    
+
+    case "pricegroups":
+    {
+        $Action = $url_array[3];
+        switch( $Action )
+        {
+            case "list":
+            {
+                include( "eztrade/admin/pricegroups.php" );
+                break;
+            }
+            case "new":
+            case "edit":
+            {
+                if ( !isset( $PriceID ) )
+                    $PriceID = $url_array[4];
+                include( "eztrade/admin/pricegroupedit.php" );
+                break;
+            }
+        }
+        break;
+    }
 
     case "search":
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.16 2001/02/19 16:37:53 ce Exp $
+// $Id: productview.php,v 1.17 2001/02/23 18:45:51 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -32,6 +32,7 @@ include_once( "classes/eztexttool.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
@@ -44,6 +45,7 @@ $SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezoption.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 if ( !isset( $IntlDir ) )
     $IntlDir = "eztrade/user/intl";
@@ -284,7 +286,20 @@ $t->set_var( "product_number", $product->productNumber() );
 
 if ( $product->showPrice() == true  )
 {
-    $price = new eZCurrency( $product->price() );
+    $found_price = false;
+    if ( $ShowPriceGroups and $PriceGroup > 0 )
+    {
+        $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+        if ( $price )
+        {
+            $found_price = true;
+            $price = new eZCurrency( $price );
+        }
+    }
+    if ( !$found_price )
+    {
+        $price = new eZCurrency( $product->price() );
+    }
     $t->set_var( "product_price", $locale->format( $price ) );
     $t->parse( "price", "price_tpl" );
     $t->parse( "add_to_cart", "add_to_cart_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.36 2001/02/23 14:43:50 bf Exp $
+// $Id: productedit.php,v 1.37 2001/02/23 18:45:51 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray )
@@ -62,6 +63,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray )
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -144,6 +146,16 @@ if ( $Action == "Insert" )
     $product->setPrice( $Price );
     
     $product->store();
+
+//      eZPriceGroup::removePrices( $ProductID, -1 );
+    $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
+    for ( $i = 0; $i < $count; $i++ )
+    {
+        if ( is_numeric( $PriceGroupID[$i] ) )
+        {
+            eZPriceGroup::addPrice( $product->id(), $PriceGroupID[$i], $PriceGroup[$i] );
+        }
+    }
 
     // add a product to the categories
     $category = new eZProductCategory( $CategoryID );
@@ -264,6 +276,16 @@ if ( $Action == "Update" )
     
     $product->store();
 
+    eZPriceGroup::removePrices( $ProductID, -1 );
+    $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
+    for ( $i = 0; $i < $count; $i++ )
+    {
+        if ( is_numeric( $PriceGroupID[$i] ) )
+        {
+            eZPriceGroup::addPrice( $ProductID, $PriceGroupID[$i], $PriceGroup[$i] );
+        }
+    }
+
     $productID = $product->id();
 
     // Calculate which categories are new and which are unused
@@ -372,6 +394,8 @@ if ( $Action == "DeleteProducts" )
             $categoryID = $category->id();
     
             $product->delete();
+
+            eZPriceGroup::removePrices( $ProductID, -1 );
         }
     }
 
@@ -404,6 +428,8 @@ if ( $Action == "Delete" )
     $categoryID = $category->id();
     
     $product->delete();
+
+    eZPriceGroup::removePrices( $ProductID, -1 );
     
     Header( "Location: /trade/categorylist/parent/$categoryID/" );
     exit();
@@ -421,6 +447,9 @@ $t->set_block( "product_edit_tpl", "multiple_value_tpl", "multiple_value" );
 $t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 $t->set_block( "product_edit_tpl", "shipping_select_tpl", "shipping_select" );
 
+$t->set_block( "product_edit_tpl", "price_group_list_tpl", "price_group_list" );
+$t->set_block( "price_group_list_tpl", "price_group_header_item_tpl", "price_group_header_item" );
+$t->set_block( "price_group_list_tpl", "price_group_item_tpl", "price_group_item" );
 
 $t->setAllStrings();
                
@@ -468,6 +497,16 @@ if ( $Action == "Edit" )
     if ( $product->isHotDeal() == true )
         $t->set_var( "is_hot_deal_checked", "checked" );
 
+    $VatType =& $product->vatType();
+
+    $prices = eZPriceGroup::prices( $ProductID );
+    $PriceGroup = array();
+    $PriceGroupID = array();
+    foreach( $prices as $price )
+    {
+        $PriceGroup[] = $price["Price"];
+        $PriceGroupID[] = $price["PriceID"];
+    }
     $VatType =& $product->vatType();    
     $ShippingGroup =& $product->shippingGroup();    
 }
@@ -560,6 +599,50 @@ $groups =& $group->getAll();
 
 foreach ( $groups as $group )
 {
+    $t->set_var( "shipping_group_id", $group->id() );
+    
+    $t->set_var( "shipping_group_name", $group->name() );
+
+    $t->parse( "shipping_select", "shipping_select_tpl", true );
+}
+
+// Show price groups
+
+$t->set_var( "price_group_list", "" );
+
+if ( $ShowPriceGroups )
+{
+    $price_groups = eZPriceGroup::getAll();
+    $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
+    $NewPriceGroup = array();
+    for ( $i = 0; $i < $count; $i++ )
+    {
+        $NewPriceGroup[$PriceGroupID[$i]] = $PriceGroup[$i];
+    }
+    $prices = array();
+    $price_ids = array();
+    $price_names = array();
+    foreach( $price_groups as $price_group )
+    {
+        $price_id = $price_group->id();
+        $prices[] = $NewPriceGroup[$price_id];
+        $price_ids[] = $price_id;
+        $price_names[] = $price_group->name();
+    }
+    $PriceGroup = $prices;
+    $PriceGroupID = $price_ids;
+    for ( $i = 0; $i < count( $PriceGroup ); $i++ )
+    {
+        $t->set_var( "price_group_name", $price_names[$i] );
+        $t->parse( "price_group_header_item", "price_group_header_item_tpl", true );
+
+        $t->set_var( "price_group_value", $PriceGroup[$i] );
+        $t->set_var( "price_group_id", $PriceGroupID[$i] );
+        $t->parse( "price_group_item", "price_group_item_tpl", true );
+    }
+    $t->parse( "price_group_list", "price_group_list_tpl" );
+}
+
     if ( $ShippingGroup  and  ( $ShippingGroup->id() == $group->id() ) )
     {
         $t->set_var( "selected", "selected" );
@@ -572,9 +655,6 @@ foreach ( $groups as $group )
     $t->set_var( "shipping_group_id", $group->id() );
     
     $t->set_var( "shipping_group_name", $group->name() );
-
-    $t->parse( "shipping_select", "shipping_select_tpl", true );
-}
 
 $t->pparse( "output", "product_edit_tpl" );
 

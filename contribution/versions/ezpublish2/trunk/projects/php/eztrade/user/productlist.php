@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.13 2001/02/22 14:28:45 jb Exp $
+// $Id: productlist.php,v 1.14 2001/02/23 18:45:51 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -35,6 +35,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
@@ -43,6 +44,7 @@ $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "productlist.php" );
@@ -174,7 +176,20 @@ foreach ( $productList as $product )
     
     if ( $product->showPrice() == true  )
     {
-        $price = new eZCurrency( $product->price() );
+        $found_price = false;
+        if ( $ShowPriceGroups and $PriceGroup > 0 )
+        {
+            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+            if ( $price )
+            {
+                $found_price = true;
+                $price = new eZCurrency( $price );
+            }
+        }
+        if ( !$found_price )
+        {
+            $price = new eZCurrency( $product->price() );
+        }
         $t->set_var( "product_price", $locale->format( $price ) );        
         $t->parse( "price", "price_tpl" );
     }
@@ -211,7 +226,7 @@ eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl"
 
 if ( $GenerateStaticPage == "true" )
 {
-    $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryID, $Offset ),
+    $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryID, $Offset, $PriceGroup ),
                               "cache", "," );
     $output = $t->parse( $target, "product_list_page_tpl" );
     print( $output );

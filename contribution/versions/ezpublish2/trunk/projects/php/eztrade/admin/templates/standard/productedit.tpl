@@ -90,6 +90,27 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 </tr>
 </table>
 
+<!-- BEGIN price_group_list_tpl -->
+<p class="boxtext">{intl-price_groups}:</p>
+<table cellspacing="0" cellpadding="4" border="1">
+<tr>
+	<!-- BEGIN price_group_header_item_tpl -->
+	<th>
+	{price_group_name}:
+	</th>
+	<!-- END price_group_header_item_tpl -->
+</tr>
+<tr>
+	<!-- BEGIN price_group_item_tpl -->
+	<td>
+	<input type="text" name="PriceGroup[]" size="8" value="{price_group_value}" />
+	<input type="hidden" name="PriceGroupID[]" value="{price_group_id}" />
+	</td>
+	<!-- END price_group_item_tpl -->
+</tr>
+</table>
+<!-- END price_group_list_tpl -->
+
 <hr noshade="noshade" size="4" />
 
 	<input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
