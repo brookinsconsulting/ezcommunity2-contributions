@@ -23,3 +23,8 @@ insert into eZUser_Module set Name='eZStats';
 insert into eZUser_Permission SET ModuleID='14', Name='ModuleEdit';
 insert into eZUser_Module set Name='eZSysInfo';
 insert into eZUser_Permission SET ModuleID='15', Name='ModuleEdit';
+
+ALTER TABLE eZSession_SessionVariable ADD GroupName char(50);
+ALTER TABLE eZSession_Preferences ADD GroupName char(50);
+ALTER TABLE eZSession_SessionVariable ADD INDEX (GroupName,Name);
+ALTER TABLE eZSession_Preferences ADD INDEX (GroupName,Name);
