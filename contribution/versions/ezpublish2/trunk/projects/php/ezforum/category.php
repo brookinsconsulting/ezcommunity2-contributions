@@ -1,21 +1,21 @@
 <?
-/*!
-    $Id: category.php,v 1.31 2000/10/11 12:33:56 bf-cvs Exp $
-
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: <14-Jul-2000 12:44:05 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
+// 
+// $Id: category.php,v 1.32 2000/10/11 13:37:29 bf-cvs Exp $
+//
+// 
+//
+// Lars Wilhelmsen <lw@ez.no>
+// Created on: <11-Sep-2000 22:10:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
-
-include_once( "common/ezphputils.php" );
-
-//  include_once( "classes/template.inc" );
+$ini = new INIFile( "site.ini" );
 
 include_once( "classes/eztemplate.php" );
 
@@ -33,12 +33,11 @@ $t->set_file( "category_tpl", "category.tpl" );
 
 $t->set_block( "category_tpl", "forum_tpl", "forum" );
 
-$t->set_var( "category_id", $category_id );
-
 $category = new eZForumCategory( $category_id );
 
 print( $category->name( ) );
 
+// add to template..
 $forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
 
 $t->set_var( "forum_path", $forumPath );
@@ -48,6 +47,10 @@ $forums = $category->forums( );
 $i=0;
 foreach( $forums as $forum )
 {
+    print( "ID:" .$forum->id() );
+         
+    $t->set_var( "forum_id", $forum->id() );
+
     $t->set_var( "name", $forum->name() );    
     $t->set_var( "description", $forum->description() );    
 
@@ -61,6 +64,7 @@ foreach( $forums as $forum )
     $i++;
 }
 
+$t->set_var( "category_id", $category_id );
 
 $t->pparse( "output", "category_tpl" );
 

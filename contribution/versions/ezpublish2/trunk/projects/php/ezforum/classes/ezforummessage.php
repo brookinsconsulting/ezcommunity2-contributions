@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.42 2000/10/11 11:43:34 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.43 2000/10/11 13:37:29 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -23,178 +23,198 @@
   
 */
 
+/*!TODO
+  Rename tables and sql row names Id -> ID.
+
+  EmailNotice to use enum( true, false) and bool in the class.
+*/
+
+include_once( "classes/ezdatetime.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
 class eZForumMessage
 {
     /*!
-      
+      Constructs a new eZForumForum object.
     */
-    function eZForumMessage($ForumId = 0)
+    function eZForumMessage( $id="", $fetch=true )
     {
-        $this->ForumId = $ForumId;
-    }
+        $this->IsConnected = false;
 
-    /*!
-      
-    */
-    function newMessage()
-    {
-        unset($Id);
-    }
-
-    /*!
-      
-    */
-    function get( $Id )
-    {
-        $this->openDB();
-            
-        $query_id = mysql_query("SELECT ForumId, Parent, Topic,
-                                                          Body,
-                                                          UserId,
-                                                          PostingTime,
-                                                          EmailNotice
-                         FROM ezforum_MessageTable WHERE Id='$Id'")
-             or die("eZForumMessage::get($Id) failed, dying...");
-            
-        $results = mysql_fetch_array( $query_id );
-
-        print( $results["Id"] );
-        $this->Id = $Id;
-        $this->Topic = $results["Topic"];
-        $this->Body = $results["Body"];
-        $this->Parent = $results["Parent"];
-        $this->UserId = $results["UserId"];
-        $this->ForumId = $results["ForumId"];
-        $this->PostingTime = $results["PostingTime"];
-        $this->EmailNotice = $results["EmailNotice"];
-    }
-        
-    /*!
-      
-    */
-    function getAllHeaders( $forum_id )
-    {
-
-        $this->openDB();
-
-        $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
-                 DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM ezforum_MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
-            
-        $query_id = mysql_query( $query_string )
-             or die("eZForumMessage::getAllHeaders() failed, dying...");
-            
-        for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
-            $resultArray[$i] = mysql_fetch_array( $query_id );
-
-        return $resultArray;
-    }
-    
-    /*!
-      
-    */
-    function getHeaders($forum_id,$Parent = "NULL", $startMessage = "0",$maxMessages = "25")
-    {
-        $usr = new eZUser;
-        
-        $this->openDB();
-                
-        if ($Parent == "NULL")
+        if ( $id != "" )
         {
-            $optstr = "Parent IS NULL";
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+            }
         }
         else
         {
-            $optstr = "Parent='$Parent'";
+            $this->State_ = "New";
         }
-            
-        $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
-                 DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM ezforum_MessageTable WHERE ForumId='$forum_id' AND " . $optstr . "
-                 ORDER BY PostingTime DESC";
-        
-        $query_id = mysql_query( $query_string )
-             or die("eZForumMessage::getHeaders() failed, dying...");
-            
-        for ($i = 0;$i < mysql_num_rows($query_id); $i++)
-        {
-            $resultArray[$i] = mysql_fetch_array($query_id);
-//              $resultArray[$i]["UserId"] = $usr->resolveUser( $resultArray[$i]["UserId"] );
-        }
-            
-        return $resultArray;
     }
 
     /*!
-      Stores the object to the database.
+      Stores a eZForumForum object to the database.
     */
     function store()
     {
-        $this->openDB();
-            
-        $this->ForumId = addslashes( $this->ForumId );
-        $this->Parent = addslashes( $this->Parent );
-        $this->Topic = addslashes( $this->Topic );
-        $this->Body = addslashes( $this->Body );
-        $this->UserId = addslashes( $this->UserId );
-        $this->PostingTime = addslashes( $this->PostingTime );
-                    
-        if ($this->Id)
+        $this->dbInit();
+
+        if ( !isset( $this->ID ) )
         {
-            mysql_query("UPDATE ezforum_MessageTable SET ForumId = '$this->ForumId',
-                                                     Parent = '$this->Parent',
-                                                     Topic = '$this->Topic',
-                                                     Body = '$this->Body',
-                                                     UserId = '$this->UserId',
-                                                     PostingTime = '$this->PostingTime',
-                                                     EmailNotice = '$this->EmailNotice'
-                             WHERE Id='$this->Id'")
-                or die("store() near update");
-                
-            return $this->Id;            
+            $this->Database->query( "INSERT INTO ezforum_MessageTable SET
+		                         ForumId='$this->ForumID',
+		                         Topic='$this->Topic',
+		                         Body='$this->Body',
+		                         UserId='$this->UserID',
+		                         PostingTime='$this->PostingTime',
+		                         Parent='$this->Parent',
+		                         EmailNotice='$this->EmailNotice'
+                                 " );
+
+            $this->ID = mysql_insert_id();
+
+            $this->State_ = "Coherent";
         }
         else
         {
-            if ( $this->Parent != "" )
-            {
-                $tmp = "'$this->Parent', ";
-                $val = "Parent, ";
-            }
+            $this->Database->query( "UPDATE ezforum_MessageTable SET
+		                         ForumId='$this->ForumID',
+		                         Topic='$this->Topic',
+		                         Body='$this->Body',
+		                         UserId='$this->UserID',
+		                         PostingTime='$this->PostingTime',
+		                         Parent='$this->Parent',
+		                         EmailNotice='$this->EmailNotice'
+                                 WHERE ID='$this->ID'
+                                 " );
 
-            if ( $this->EmailNotice == "")
-            {
-                $this->EmailNotice = "N";
-            }
-            $query_str = "INSERT INTO ezforum_MessageTable(ForumId, " . $val . "
-                          Topic, Body, UserId, EmailNotice)
-                                         VALUES('$this->ForumId'," . $tmp . " '$this->Topic',
-                                         '$this->Body', '$this->UserId', '$this->EmailNotice')";
-            mysql_query($query_str)
-                or die("store() near insert");
-	    $temp = array();
-            $msg_id = mysql_insert_id();
-            $this->recursiveEmailNotice( $msg_id, $msg_id, $temp );
-            return $msg_id; 
+            $this->State_ = "Coherent";
         }
-    }
         
+        return true;
+    }
+
     /*!
-      Deletes a forummessage from the database.
+      Deletes a eZForumCategory object from the database.
     */
-    function delete($Id)
+    function delete()
     {
-        $this->openDB();
-            
-        mysql_query("DELETE FROM ezforum_MessageTable WHERE Id='$Id'")
-            or die("delete()");    
-    }
+        $this->dbInit();
+
+        $this->Database->query( "DELETE FROM ezforumMessageTable WHERE ID='$this->ID'" );
         
+        return true;
+    }
+    
+
+    /*!
+      Fetches the object information from the database.
+    */
+    function get( $id="" )
+    {
+        $this->dbInit();
+        $ret = false;
+        
+        if ( $id != "" )
+        {
+            $this->Database->array_query( $message_array, "SELECT * FROM ezforum_MessageTable WHERE ID='$id'" );
+            if ( count( $message_array ) > 1 )
+            {
+                die( "Error: Message's with the same ID was found in the database. This shouldn't happen." );
+            }
+            else if( count( $message_array ) == 1 )
+            {
+                $this->ID = $message_array[0][ "ID" ];
+                $this->ForumID = $message_array[0][ "ForumId" ];
+                $this->Topic = $message_array[0][ "Topic" ];
+                $this->Body = $message_array[0][ "Body" ];
+                $this->UserID = $message_array[0][ "UserId" ];
+                $this->Parent = $message_array[0][ "Parent" ];
+                $this->PostingTime = $message_array[0][ "PostingTime" ];
+                $this->EmailNotice = $message_array[0][ "EmailNotice" ];
+
+                $this->State_ = "Coherent";
+                $ret = true;
+            }
+        }
+        else
+        {
+            $this->State_ = "Dirty";
+        }
+        return $ret;
+    }
+
+
+//      /*!
+      
+//      */
+//      function getAllHeaders( $forum_id )
+//      {
+
+//          $this->dbInit();
+
+//          $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
+//                   DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
+//                   FROM ezforum_MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
+            
+//          $query_id = mysql_query( $query_string )
+//               or die("eZForumMessage::getAllHeaders() failed, dying...");
+            
+//          for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
+//              $resultArray[$i] = mysql_fetch_array( $query_id );
+
+//          return $resultArray;
+//      }
+    
+//      /*!
+      
+//      */
+//      function getHeaders($forum_id,$Parent = "NULL", $startMessage = "0",$maxMessages = "25")
+//      {
+//          $usr = new eZUser;
+        
+//          $this->dbInit();
+                
+//          if ($Parent == "NULL")
+//          {
+//              $optstr = "Parent IS NULL";
+//          }
+//          else
+//          {
+//              $optstr = "Parent='$Parent'";
+//          }
+            
+//          $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
+//                   DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
+//                   FROM ezforum_MessageTable WHERE ForumId='$forum_id' AND " . $optstr . "
+//                   ORDER BY PostingTime DESC";
+        
+//          $query_id = mysql_query( $query_string )
+//               or die("eZForumMessage::getHeaders() failed, dying...");
+            
+//          for ($i = 0;$i < mysql_num_rows($query_id); $i++)
+//          {
+//              $resultArray[$i] = mysql_fetch_array($query_id);
+//  //              $resultArray[$i]["UserId"] = $usr->resolveUser( $resultArray[$i]["UserId"] );
+//          }
+            
+//          return $resultArray;
+//      }
+
     /*!
       Searches the forum and returnes the result.
     */
     function search( $criteria )
     {
-        $this->openDB();
+        $this->dbInit();
         $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM ezforum_MessageTable
                       WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$criteria%'" )
             or die("Could not execute search, dying...");
@@ -210,7 +230,7 @@ class eZForumMessage
     */      
     function id()
     {
-        return $this->Id;
+        return $this->ID;
     }
         
     /*!
@@ -218,7 +238,10 @@ class eZForumMessage
     */      
     function forumId()
     {
-        return $this->ForumId;
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->ForumID;
     }
     
     /*!
@@ -226,7 +249,10 @@ class eZForumMessage
     */      
     function setForumId( $newForumId )
     {
-        $this->ForumId = $newForumId;
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->ForumID = $newForumId;
     }
     
     /*!
@@ -234,6 +260,9 @@ class eZForumMessage
     */      
     function parent()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Parent;
     }
     
@@ -242,6 +271,9 @@ class eZForumMessage
     */      
     function setParent($newParent)
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Parent = $newParent;    
     }
 
@@ -249,7 +281,11 @@ class eZForumMessage
       
     */      
     function topic()
-    {   
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->Topic;
     }
         
@@ -258,6 +294,10 @@ class eZForumMessage
     */      
     function setTopic( $newTopic )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->Topic = $newTopic;
     }
         
@@ -266,6 +306,10 @@ class eZForumMessage
     */      
     function body()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->Body;
     }
 
@@ -274,6 +318,10 @@ class eZForumMessage
     */      
     function setBody( $newBody )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->Body = $newBody;
     }
     
@@ -282,14 +330,35 @@ class eZForumMessage
     */      
     function userID()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->UserId;
     }
+
+    /*!
+      Returns the user as a eZUser object.
+    */      
+    function &user()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $user = new eZUser( $this->UserID );
         
+       return $user;
+    }
+    
     /*!
       
     */      
     function setUserId( $newUserId )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->UserId = $newUserId;
     }
 
@@ -298,6 +367,10 @@ class eZForumMessage
     */      
     function emailNotice()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->EmailNotice;
     }
 
@@ -306,6 +379,10 @@ class eZForumMessage
     */      
     function setEmailNotice( $newEmailNotice )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->EmailNotice = $newEmailNotice;
     }
 
@@ -314,6 +391,10 @@ class eZForumMessage
     */      
     function enableEmailNotice()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->setEmailNotice( "Y" );
     }
 
@@ -322,27 +403,29 @@ class eZForumMessage
     */      
     function disableEmailNotice()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->setEmailNotice( "N" );
     }
-    
-    /*!
-      
-    */      
-    function formatTime( $t )
-    {
-        $returnTime = $t[4] . $t[5] ."/". $t[2] . $t[3] ."/20". $t[0] . $t[1] . " ";
-        $returnTime .= $t[6] . $t[7] . ":" . $t[8] . $t[9] . ":" . $t[10] . $t[11];
-        
-        return $returnTime;
-    }
+
 
     /*!
-      
-    */      
-    function postingTime()
+      Returns the postimg time as a eZTimeDate object.
+    */
+    function &postingTime()
     {
-        return $this->formatTime( $this->PostingTime );
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $dateTime = new eZDateTime();
+
+       $dateTime->setMySQLTimeStamp( $this->PostingTime );
+       
+       return $dateTime;
     }
+    
 
     /*!
       recursiveEmailNotice() : Send a notice by email to users who have requested it.
@@ -384,7 +467,7 @@ class eZForumMessage
     */      
     function countMessages( $Id )
     {
-        $this->openDB();
+        $this->dbInit();
         
         $query_id = mysql_query("SELECT COUNT(Id) AS Messages
                              FROM ezforum_MessageTable
@@ -400,7 +483,7 @@ class eZForumMessage
     */      
     function countReplies( $Id )
     {
-        $this->openDB();
+        $this->dbInit();
          
         $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM ezforum_MessageTable WHERE Parent='$Id'")
              or die("could not count replies, dying");
@@ -418,7 +501,7 @@ class eZForumMessage
     {
         $ret_id = "";
 
-        $this->openDB();
+        $this->dbInit();
 
         $msg = new eZForumMessage( );
         $msg->get( $id );
@@ -435,130 +518,37 @@ class eZForumMessage
         return $ret_id;
     }
 
+
+
     /*!
-      Denne funksjonen printer ut alle headerene og viser dem som et tre.
-      Den returnerer rader i en tabell, hva den printer ut er avhengig
-      av templates.
-      WARNING: denne funksjonen er rekursiv og kan bruke en del minne. Denne forutsetter
-      også at databasekoblingen er oppe.
+      \private
+      Opens the database for read and write.
     */
-    function printHeaderTree( $forum_id, $parent_id, $level, $category_id, &$t )
+    function dbInit( )
     {
-        $level = $level + 1;
-
-//          $t = new Template(".");
-        $msg = new eZForumMessage();
-        $t->set_var( "category_id", $category_id );
-
-        $t->set_var( "category_id", $category_id );
-        $t->set_var( "forum_id", $forum_id );
-    
-        $headers = $msg->getHeaders( $forum_id, $parent_id );
-
-        for ( $i = 0; $i < count($headers); $i++ )
+        if ( $this->IsConnected == false )
         {
-            $Id = $headers[$i]["Id"];
-            $Topic  = $headers[$i]["Topic"];
-            $User = $headers[$i]["UserId"];
-            $PostingTime = $headers[$i]["PostingTimeFormated"];
-        
-            $t->set_var( "id", $Id );
-
-            $replies = eZForumMessage::countReplies( $Id );
-            
-            $t->set_var( "replies", $replies );
-
-            // legger på kode for å vise "gren" ikon
-            $spacer = "<img src=\"/images/1x1.gif\" border=\"0\" height=\"21\" width=\"5\" >";
-
-            if ( ( $replies == 0 ) )
-            {
-                if ( $level == 1 )
-                {            
-                    $spacer .= "<img src=\"/ezforum/images/n.gif\" border=\"0\" height=\"21\" width=\"9\" >";
-                }
-                else
-                {
-                    // sjekker om vi er på siste element av en gren.
-                    if ( $i == ( count($headers) -1 ) )
-                    {
-                        $imgtype = "l";
-                    }
-                    else
-                    {
-                        $imgtype = "t";                    
-                    }
-
-                    if ( $level > 2 )
-                        $spacer .= "<img  src=\"/images/1x1.gif\" height=\"21\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
-                
-                    $spacer .= "<img  src=\"/". $document_root ."/images/" . $imgtype . ".gif\"  height=\"21\" width=\"12\" border=\"0\">";
-
-                    $spacer .= "<img  src=\"/". $document_root ."/images/c.gif\" border=\"0\" height=\"21\" width=\"9\" >";
-                
-                }            
-            }
-            else
-            {
-                if ( $level > 1 )
-                {
-                    if ( $level > 2 )
-                        $spacer .= "<img   src=\"/". $document_root ."/images/trans.gif\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
-                
-                    $spacer .= "<img  height=\"21\" width=\"12\" src=\"/". $document_root ."/images/l.gif\" border=\"0\">";
-                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"/". $document_root ."/images/m.gif\" border=\"0\">";
-                }
-                else
-                {
-                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"/". $document_root ."/images/m.gif\" border=\"0\">";
-                }
-            }
-
-            $t->set_var( "tree_icon", $spacer );                    
-            $t->set_var( "topic", "&nbsp;" . $Topic );        
-            $t->set_var( "user", $User );
-            $t->set_var( "postingtime", $PostingTime );
-            $t->set_var( "link",$link );
-
-            if ( ($i % 2) != 0)
-                $t->set_var( "color", "#dcdcdc");
-            else
-                $t->set_var( "color", "#f0f0f0");
-    
-            $messages .= $t->parse( "message", "message_tpl", true );
-            $messages .= $this->printHeaderTree( $forum_id, $Id, $level, $document_root, $category_id, $t );
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
         }
-        return $messages;
-    }
-
-
-    /*!
-      Privat funksjon, skal kun brukes ac ezuser klassen.
-      Funksjon for å åpne databasen.
-    */
-    function openDB( )
-    {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
     
 
-    var $Id;
-    var $ForumId;
+    var $ID;
+    var $ForumID;
     var $Parent;
     var $Topic;
     var $Body;
-    var $UserId;
+    var $UserID;
     var $PostingTime;
     var $EmailNotice;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 ?>

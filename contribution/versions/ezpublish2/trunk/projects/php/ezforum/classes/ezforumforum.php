@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.14 2000/10/11 12:33:57 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.15 2000/10/11 13:37:29 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -31,7 +31,6 @@
 
 class eZForumForum
 {
-
     /*!
       Constructs a new eZForumForum object.
     */
@@ -67,7 +66,7 @@ class eZForumForum
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO ezforum_CategoryTable SET
+            $this->Database->query( "INSERT INTO ezforum_ForumTable SET
 		                         CategoryId='$this->CategoryID',
 		                         Name='$this->Name',
 		                         Description='$this->Description',
@@ -81,7 +80,7 @@ class eZForumForum
         }
         else
         {
-            $this->Database->query( "UPDATE ezforum_CategoryTable SET
+            $this->Database->query( "UPDATE ezforum_ForumTable SET
 		                         CategoryId='$this->CategoryID',
 		                         Name='$this->Name',
 		                         Description='$this->Description',
@@ -126,8 +125,8 @@ class eZForumForum
             }
             else if( count( $forum_array ) == 1 )
             {
-                $this->ID = $forum_array[0][ "ID" ];
-                $this->CategoryID = $forum_array[0][ "CategoryID" ];
+                $this->ID = $forum_array[0][ "Id" ];
+                $this->CategoryID = $forum_array[0][ "CategoryId" ];
                 $this->Name = $forum_array[0][ "Name" ];
                 $this->Description = $forum_array[0][ "Description" ];
                 $this->Moderated = $forum_array[0][ "Moderated" ];
@@ -151,6 +150,30 @@ class eZForumForum
     function getAll( )
     {
 
+    }
+
+    /*!
+      Returns the messages in a forum.
+    */
+    function messages( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $this->dbInit();
+
+       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+                                                       ezforum_MessageTable
+                                                       WHERE ForumId='$this->ID'" );
+
+       $ret = array();
+
+       foreach ( $message_array as $message )
+       {
+           $ret[] = new eZForumMessage( $message["ID"] );
+       }
+       
+       return $ret;
     }
     
     /*!
@@ -181,11 +204,11 @@ class eZForumForum
         
         
     /*!
-      
+      Returns the object id.
     */
     function id()
     {
-        return $this->Id;
+        return $this->ID;
     }
         
     /*!
@@ -193,14 +216,22 @@ class eZForumForum
     */
     function categoryId()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->CategoryId;
     }
         
     /*!
       
     */
-    function setCategoryId($newCategoryId)
+    function setCategoryId( $newCategoryId )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->CategoryId = $newCategoryId;
     }
         
@@ -209,6 +240,10 @@ class eZForumForum
     */
     function name()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->Name;
     }
         
@@ -217,6 +252,10 @@ class eZForumForum
     */
     function setName($newName)
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->Name = $newName;
     }
         
@@ -225,6 +264,10 @@ class eZForumForum
     */
     function description()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->Description;
     }
         
@@ -233,6 +276,10 @@ class eZForumForum
     */
     function setDescription($newDescription)
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->Description = $newDescription;
     }
         
@@ -241,6 +288,10 @@ class eZForumForum
     */
     function moderated()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         return $this->Moderated;
     }
         
@@ -249,6 +300,10 @@ class eZForumForum
     */
     function setModerated($newModerated)
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->Moderated = $newModerated;
     }
         
@@ -265,6 +320,10 @@ class eZForumForum
     */
     function setPrivate($newPrivate)
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
         $this->Private = $newPrivate;
     }
 

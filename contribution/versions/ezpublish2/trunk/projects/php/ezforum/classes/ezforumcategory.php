@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.16 2000/10/11 12:33:57 bf-cvs Exp $
+// $Id: ezforumcategory.php,v 1.17 2000/10/11 13:37:29 bf-cvs Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -173,13 +173,10 @@ class eZForumCategory
                                                        ezforum_ForumTable
                                                        WHERE CategoryId='$this->ID'" );
 
-       print( $this->ID );
-
        $ret = array();
 
        foreach ( $forum_array as $forum )
        {
-           print( "en" );
            $ret[] = new eZForumForum( $forum["ID"] );
        }
        
