@@ -3580,3 +3580,19 @@ Maintainer(s) : bf@ez.no
     Fixed bug in warning message "\{\{" with mail tag.
     CV: ----------------------------------------------------------------------
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-02-11  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php: - Cache is cleared when a category is deleted.
+
+    * xmlrpc/article.php:
+    - Made sure the article cache is deleted when the article is deleted.
+
+2003-02-11  David Escala  <descala@fonocom.es>
+
+    * classes/ezqdomgenerator.php:
+    handles especial html tags in the url of a link
+
