@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.11 2001/10/09 12:00:53 sascha Exp $
+// $Id: categorylist.php,v 1.12 2001/10/17 07:30:29 bf Exp $
 //
 // Created on: <23-Nov-2000 09:23:42 bf>
 //
@@ -50,7 +50,7 @@ if ( $PageCaching == "enabled" )
 }
 
 
-if ( $PureStatic != "true" )
+if ( $PureStatic == "false" )
 {
     include_once( "classes/INIFile.php" );
     include_once( "classes/eztemplate.php" );
