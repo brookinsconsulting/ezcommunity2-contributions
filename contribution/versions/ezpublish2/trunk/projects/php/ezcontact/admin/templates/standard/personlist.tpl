@@ -1,19 +1,66 @@
+<form action="/contact/person/search/" method="post">
 <table width="100%" border="0">
 <tr>
-	<td valign="bottom">
+	<td rowspan="2" valign="bottom">
 	    <h1>{intl-person_list_headline}</h1>
 	</td>
-	<td rowspan="2" align="right">
-	    <form action="/contact/person/search/" method="post">
-    	<input type="text" name="SearchText" size="12" value="{search_form_text}" />
+	<td align="right">
+	{intl-show_persons}:
+	<select name="LimitType">
+	<option value="all" {is_all_selected}>{intl-show_all}</option>
+	<option value="standalone" {is_without_selected}>{intl-without_relation}</option>
+	<option value="connected" {is_with_selected}>{intl-with_relation}</option>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td>
+	</td>
+	<td align="right">
+	    	<input type="text" name="SearchText" size="12" value="{search_form_text}" />
 		<input class="stdbutton" type="submit" value="{intl-search}" />
-	    </form>
+	</td>
+</tr>
+</table>
+</form>
+
+<hr noshade="noshade" size="4" />
+<br />
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td align="right">
+<table>
+<tr>
+	<td align="right">
+	{intl-new_consultation}
+	</td>
+	<td>
+	<img src="/images/addmini.gif">
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	{intl-edit_person}
+	</td>
+	<td>
+	<img src="/images/redigermini.gif">
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	{intl-delete_person}
+	</td>
+	<td>
+	<img src="/images/slettmini.gif">
+	</td>
+</tr>
+</table>
 	</td>
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-<br />
+
 
 <!-- BEGIN no_persons_tpl -->
 <h2>{intl-no_persons_found}</h2>
@@ -77,31 +124,41 @@
 <tr>
 	<!-- BEGIN person_list_previous_tpl -->
 	<td>
-	<a href="/contact/person/{action}/{item_previous_index}/{search_text}">{intl-previous}</a>
+	<a href="/contact/person/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END person_list_previous_tpl -->
 
 	<!-- BEGIN person_list_previous_inactive_tpl -->
 	<td>
-	{intl-previous}
+	&nbsp;
 	</td>
 	<!-- END person_list_previous_inactive_tpl -->
 
+	<!-- BEGIN person_list_item_list_tpl -->
+
 	<!-- BEGIN person_list_item_tpl -->
 	<td>
-	<a href="/contact/person/{action}/{item_index}/{search_text}">{item_name}</a>
+	|&nbsp;<a href="/contact/person/{action}/{item_index}/{search_text}">{item_name}</a>&nbsp;
 	</td>
 	<!-- END person_list_item_tpl -->
 
+	<!-- BEGIN person_list_inactive_item_tpl -->
+	<td>
+	|&nbsp;&lt;&nbsp;{item_name}&nbsp;&gt;&nbsp;
+	</td>
+	<!-- END person_list_inactive_item_tpl -->
+
+	<!-- END person_list_item_list_tpl -->
+
 	<!-- BEGIN person_list_next_tpl -->
 	<td>
-	<a href="/contact/person/{action}/{item_next_index}/{search_text}">{intl-next}</a>
+	|&nbsp;<a href="/contact/person/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END person_list_next_tpl -->
 
 	<!-- BEGIN person_list_next_inactive_tpl -->
 	<td>
-	{intl-next}
+	|&nbsp;
 	</td>
 	<!-- END person_list_next_inactive_tpl -->
 
