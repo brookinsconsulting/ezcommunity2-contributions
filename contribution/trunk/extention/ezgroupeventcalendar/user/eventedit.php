@@ -401,7 +401,7 @@ if ( $Action == "DeleteEvents" )
 			foreach ( $groupsList as $groups )
 			{
 				//If the user has a matching group set their group id to the matching group else there group id will be -1.
-				if( $event->groupID() == $groups->id() )
+				if( $event->groupID() == $groups->id() || $event->groupID() == 0  )
 				{
 					$dump = array_pop( $error );
 					$event->delete();
@@ -411,7 +411,6 @@ if ( $Action == "DeleteEvents" )
 			}  
 		}
 	}
-
 
     // user not allowed to delete this appointment
 	if( count( $error ) > 0 )
