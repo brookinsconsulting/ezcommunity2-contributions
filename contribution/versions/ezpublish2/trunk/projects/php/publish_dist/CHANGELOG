@@ -27,7 +27,10 @@ Changes from version 1.0.5
 * Added file upload to eZ article
 * Added word wrap of message replies in eZ forum. Nicer looking replies.
 * Added new tags in articles (bullet lists/includes of php files)
-* Made the menus in the admin module expandable/collapsable as well as moveable. This is remembered by the preferences for each user.
+* Added preferred layout for users
+* Made the menus in the admin module expandable/collapsable as well as moveable.
+  This is remembered by the preferences for each user. We've also changed the
+  design to a more sleek version.
 * Removed java script which were a problem for lynx users.
 * Removed strip tags from messages in eZ forum
 * Speeded up localisation of date and time
