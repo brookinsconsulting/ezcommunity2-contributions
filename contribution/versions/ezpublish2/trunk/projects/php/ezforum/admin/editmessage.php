@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: editmessage.php,v 1.3 2000/07/25 20:07:50 lw-cvs Exp $
+    $Id: editmessage.php,v 1.4 2000/07/25 20:30:34 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -22,6 +22,7 @@ $t->set_file(Array( "edit" => "$DOCROOT/admin/templates/editmessage.tpl",
 $msg = new eZforumMessage;
 $msg->get( $message_id );
 
+$t->set_var( "message_id", $message_id );
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
