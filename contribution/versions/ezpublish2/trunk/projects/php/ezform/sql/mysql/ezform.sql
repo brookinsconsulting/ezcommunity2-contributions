@@ -50,6 +50,14 @@ CREATE TABLE eZForm_FormElementFixedValueLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZForm_FormTable (
+  ID int(11) NOT NULL default '0',
+  ElementID int(11) NOT NULL,
+  Cols int(11) NOT NULL,
+  Rows int(11) NOT NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
 INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');
 INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');

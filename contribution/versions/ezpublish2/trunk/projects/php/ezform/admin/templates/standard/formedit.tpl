@@ -96,14 +96,21 @@
 
     <td class="{td_class}">&nbsp;
     <!-- BEGIN fixed_values_tpl -->
-    <a href="{www_dir}{index}/form/form/fixedvalues/{form_id}/{element_id}/">{intl-fixed_values}</a> 
+    <a href="{www_dir}{index}/form/form/fixedvalues/{form_id}/{element_id}/">{intl-fixed_values}</a>
     <!-- END fixed_values_tpl -->
+    <!-- BEGIN table_edit_tpl -->
+    <a href="{www_dir}{index}/form/form/tableedit/{form_id}/{element_id}/">{intl-edit_table}</a>
+    <!-- END table_edit_tpl -->
     </td>
 
     <td class="{td_class}">&nbsp;
     <!-- BEGIN size_tpl -->
-    <input type="text" size="3" name="Size[{element_nr}]" value="{element_size}" />&nbsp;
+    <input type="text" size="3" name="Size[{element_nr}]" value="{element_size}" />
     <!-- END size_tpl -->
+    <!-- BEGIN table_size_tpl -->
+    x<input type="text" size="3" name="Rows[{element_nr}]" value="{element_rows}" />
+    <!-- END table_size_tpl -->
+    &nbsp;
     </td>
 
     <td class="{td_class}">&nbsp;

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.1 2001/12/12 15:44:16 jhe Exp $
+// $Id: ezformtable.php,v 1.2 2001/12/13 08:59:30 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -52,8 +52,8 @@ class eZFormTable
         $ret = false;
         if ( $id != "" )
         {
-            $db->array_query( $tableArray, "SELECT * FROM eZForm_FormTable WHERE ID='$id'",
-                              0, 1 );
+            $db->array_query( $tableArray, "SELECT * FROM eZForm_FormTable WHERE ElementID='$id'",
+                              array( "Offset" => 0, "Limit" => 1 ) );
             if ( count( $tableArray ) == 1 )
             {
                 $this->fill( &$tableArray[0] );
@@ -62,6 +62,8 @@ class eZFormTable
             elseif ( count( $tableArray ) != 1 )
             {
                 $this->ID = 0;
+                $this->Rows = 0;
+                $this->Cols = 0;
             }
         }
         return $ret;
@@ -70,7 +72,7 @@ class eZFormTable
     function fill( &$tableArray )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID =& $tableArray[$db->fieldName( "ID" )];
+        $this->ID =& $tableArray[$db->fieldName( "ElementID" )];
         $this->Cols =& $tableArray[$db->fieldName( "Cols" )];
         $this->Rows =& $tableArray[$db->fieldName( "Rows" )];
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.12 2001/12/12 10:11:47 jhe Exp $
+// $Id: formedit.php,v 1.13 2001/12/13 08:59:29 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -30,6 +30,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
+include_once( "ezform/classes/ezformtable.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
@@ -244,7 +245,9 @@ $t->set_block( "form_edit_page_tpl", "element_list_tpl", "element_list" );
 $t->set_block( "element_list_tpl", "element_item_tpl", "element_item" );
 $t->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
 $t->set_block( "element_item_tpl", "fixed_values_tpl", "fixed_values" );
+$t->set_block( "element_item_tpl", "table_edit_tpl", "table_edit" );
 $t->set_block( "element_item_tpl", "size_tpl", "size" );
+$t->set_block( "element_item_tpl", "table_size_tpl", "table_size" );
 $t->set_block( "element_item_tpl", "break_tpl", "break" );
 
 $move_item = true;
@@ -359,7 +362,6 @@ if ( $count > 0 )
         }
         $t->set_var( "element_name", $element->name() );
         $t->set_var( "element_id", $element->id() );
-
         $t->set_var( "element_size", $element->size() );
         
         if ( $element->isRequired() )
@@ -384,14 +386,17 @@ if ( $count > 0 )
         $types = $currentType->getAll();
 
         $t->set_var( "fixed_values", "" );
+        $t->set_var( "table_table", "" );
         $t->set_var( "size", "" );
+        $t->set_var( "table_size", "" );
         $t->set_var( "typelist_item", "" );
-                    $t->set_var( "break", "" );
+        $t->set_var( "break", "" );
+        $t->set_var( "table_edit", "" );
 
         foreach ( $types as $type )
         {
             $t->set_var( "selected", "" );
-
+            
             if ( $type->id() == $currentType->id() )
             {
                 $name = $currentType->name();
@@ -403,8 +408,10 @@ if ( $count > 0 )
                     $t->parse( "fixed_values", "fixed_values_tpl" );
                 }
                 else
+                {
                     $t->set_var( "fixed_values", "" );
-                    
+                }
+                
                 $t->set_var( "selected", "selected" );
 
                 $t->set_var( "element_nr", $i );
@@ -414,7 +421,18 @@ if ( $count > 0 )
                     $t->parse( "break", "break_tpl" );
                 }
                 else
+                {
                     $t->set_var( "break", "" );
+                    if ( $name == "table_item" )
+                    {
+                        $table = new eZFormTable( $element->id() );
+                        $t->set_var( "element_size", $table->cols() );
+                        $t->set_var( "element_rows", $table->rows() );
+                        $t->parse( "size", "size_tpl" );
+                        $t->parse( "table_size", "table_size_tpl" );
+                        $t->parse( "table_edit", "table_edit_tpl" );
+                    }
+                }
             }
             
             $t->set_var( "element_type_id", $type->id() );

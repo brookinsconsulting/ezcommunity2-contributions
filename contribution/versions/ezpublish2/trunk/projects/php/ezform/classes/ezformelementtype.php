@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementtype.php,v 1.5 2001/10/09 08:06:02 ce Exp $
+// $Id: ezformelementtype.php,v 1.6 2001/12/13 08:59:30 jhe Exp $
 //
 // ezformelementtype class
 //
@@ -101,9 +101,9 @@ class eZFormElementType
         $db->begin();
 
         $formElements =& $this->formElements();
-        if ( is_array ( $formElements ) )
+        if ( is_array( $formElements ) )
         {
-            foreach( $formElements as $element )
+            foreach ( $formElements as $element )
             {
                 $formElements->delete();
             }
@@ -119,22 +119,22 @@ class eZFormElementType
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        if ( $id != "-1" )
+        if ( $id != -1 )
         {
             $db->array_query( $formArray, "SELECT * FROM eZForm_FormElementType WHERE ID='$id'",
                               0, 1 );
                               
-            if( count( $formArray ) == 1 )
+            if ( count( $formArray ) == 1 )
             {
                 $this->fill( &$formArray[0] );
                 $ret = true;
             }
-            elseif( count( $formArray ) != 1 )
+            elseif ( count( $formArray ) != 1 )
             {
                 $this->ID = 0;
             }
@@ -181,7 +181,7 @@ class eZFormElementType
                                            array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElementType( $formArray[$i][$db->fieldName( "ID" )] );
         }
@@ -258,7 +258,7 @@ class eZFormElementType
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT ID FROM eZForm_FormElement WHERE ElementTypeID='$this->ID'" );
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ID" )], true );
         }
