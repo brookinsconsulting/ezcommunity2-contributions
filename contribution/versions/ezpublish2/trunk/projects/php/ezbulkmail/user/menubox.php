@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/04/26 13:34:13 fh Exp $
+// $Id: menubox.php,v 1.3 2001/04/27 08:24:03 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <23-Mar-2001 10:57:04 fh>
@@ -47,7 +47,7 @@ $t->set_block( "menu_box_tpl", "single_list_tpl", "single_list" );
 $t->set_var( "normal_list", "" );
 $t->set_var( "single_list", "" );
 
-if( $SingleListLogon == false )
+if( $SingleListLogon == "disabled" )
 {
     $t->parse( "normal_list", "normal_list_tpl" );
 }
