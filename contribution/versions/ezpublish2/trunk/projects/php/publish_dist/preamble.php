@@ -5,4 +5,3 @@
 <title>zez.org: about code</title>
 <link rel="stylesheet" type="text/css" href="/zez.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-</head>

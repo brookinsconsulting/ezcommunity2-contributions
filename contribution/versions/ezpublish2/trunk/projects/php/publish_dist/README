@@ -1,6 +1,20 @@
 
 NOTE: To upgrade the database from version 1.0.1 to 1.0.2 
-run the following SQL commands:
+      run the following SQL commands:
 
 create table eZArticle_ArticleCategoryDefinition( ID int primary key auto_increment, ArticleID int not null, CategoryID int not null ); 
 INSERT INTO eZArticle_ArticleCategoryDefinition ( ArticleID, CategoryID )  SELECT DISTINCT ArticleID, CategoryID from eZArticle_ArticleCategoryLink;  
+
+NOTE: To upgrade the database from 1.0.2 to 1.0.3 and higher 
+      run the following SQL commands:
+ 
+ALTER TABLE eZSession_Session ADD Created timestamp;
+ALTER TABLE eZSession_Session ADD LastAccessed timestamp;
+
+ALTER TABLE eZUser_Group ADD SessionTimeout int default 60;
+ 
+CREATE TABLE eZArticle_ArticleForumLink( ID int primary key auto_increment, ArticleID int not NULL, ForumID int not NULL );
+
+CREATE TABLE eZForum_ForumCategoryLink( ID int primary key auto_increment, ForumID int not null, CategoryID int not null );
+INSERT INTO eZForum_ForumCategoryLink ( ForumID, CategoryID )  SELECT ID, CategoryID from eZForum_Forum;
+ALTER TABLE eZForum_Forum DROP CategoryID;

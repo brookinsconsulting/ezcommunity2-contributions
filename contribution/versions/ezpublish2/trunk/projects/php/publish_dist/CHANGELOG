@@ -1,3 +1,13 @@
+eZ publish changelog:
+---------------------
+
+Changes from version 1.0.2
+--------------------------
+* Added session timeout on user groups
+* Added session info, currently loggen in users
+* Added possibility to manually logout users
+
+
 Changes from version 1.0.1
 -------------------------
 * Added assignment of articles to multiple categories.
