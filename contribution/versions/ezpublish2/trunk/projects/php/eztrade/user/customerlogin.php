@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.4 2000/11/06 16:00:18 bf-cvs Exp $
+// $Id: customerlogin.php,v 1.5 2000/11/07 08:18:33 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -26,18 +26,25 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
+include_once( "ezuser/classes/ezuser.php" );
+
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
+$user = eZUser::currentUser();
+if ( $user  )
+{
+    if ( count( $user->addresses() ) == 0 )
+    {
+
+    }
 include_once( "ezuser/classes/ezuser.php" );
 print("bla" );
 exit();
 Header( "Location: /user/addressedit/new/" );
 exit();
 
-if ( eZUser::currentUser() )
-{
     Header( "Location: /trade/checkout/" );
 }
 else
