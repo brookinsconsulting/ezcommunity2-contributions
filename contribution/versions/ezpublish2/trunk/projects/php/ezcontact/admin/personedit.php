@@ -490,6 +490,7 @@ if ( !$confirm )
                 $category->get( 0 );
                 $category->addCompany( $company );
             }
+            $item_cat_id = $CompanyCategoryID[0];
 
             // Upload images
             $file = new eZImageFile();
@@ -564,6 +565,7 @@ if ( !$confirm )
 
             $item_id = $person->id();
             $PersonID = $item_id;
+            $item_cat_id = "";
 
             $item =& $person;
         }
@@ -637,7 +639,7 @@ if ( !$confirm )
         $t->set_var( "company_id", $CompanyID );
 
         include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: /contact/$item_type/view/$item_id" );
+        eZHTTPTool::header( "Location: /contact/$item_type/list/$item_cat_id" );
     }
 
 /*
