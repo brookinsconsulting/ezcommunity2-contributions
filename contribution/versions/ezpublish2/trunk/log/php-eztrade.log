@@ -2350,3 +2350,30 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezoptionvalue.php: Fixed a quantity bug on option values
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-27  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezproduct.php: fixed save column.
+
+    * user/cart.php
+      classes/ezcartitem.php
+      classes/ezoptionvalue.php
+      classes/ezproduct.php:
+    added support so prices can be shown without pricegroups when logged inn.
+
+    * classes/ezproduct.php: removed debug info.
+
+    * classes/ezpricegroup.php
+      classes/ezproduct.php
+      user/productview.php: fixed some bugs with prices.
+
+2001-11-27  Christoffer Elo  <ce@ez.no>
+
+    * xmlrpc/Attic/xmlrpcserverimport.php: Added the mygold import class
+
+    * user/productview.php
+      admin/optionedit.php: Added the new improt
+
