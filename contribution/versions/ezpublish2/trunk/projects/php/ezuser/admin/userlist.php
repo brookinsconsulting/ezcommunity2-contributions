@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.22 2001/03/01 14:06:26 jb Exp $
+// $Id: userlist.php,v 1.23 2001/04/03 15:13:45 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -54,6 +54,7 @@ $t->set_block( "user_item_tpl", "user_empty_email_item_tpl", "user_empty_email_i
 $t->set_block( "user_list_page", "group_item_tpl", "group_item" );
 
 $t->set_var( "site_style", $SiteStyle );
+$t->set_var( "OldSearchText", "" );
 
 $user = new eZUser();
 
@@ -62,7 +63,11 @@ if ( !is_numeric( $Max ) )
 if ( !is_numeric( $Index ) )
     $Index = 0;
 
-if ( $GroupID == 0 )
+if( isset( $Search ) && $SearchText != "" )
+{
+    $userList = $user->search( $SearchText );
+}
+else if ( $GroupID == 0 )
 {
     $userList = $user->getAll( $OrderBy, true, false, $Max, $Index );
     $TotalTypes = $user->getAllCount();

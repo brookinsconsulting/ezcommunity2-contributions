@@ -1,4 +1,17 @@
-<h1>{intl-head_line} - ( {user_count} )</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="bottom">
+	<h1>{intl-head_line} - ( {user_count} )</h1>
+	</td>
+	<td align="right">
+	<form action="/user/userlist/" method="post">
+	<input type="text" name="SearchText" size="12" />
+	<input class="stdbutton" Name="Search" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
+
 
 <hr noshade size="4">
 

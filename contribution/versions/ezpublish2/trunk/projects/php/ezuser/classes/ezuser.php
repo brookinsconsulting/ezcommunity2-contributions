@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.58 2001/04/03 13:52:46 jakobn Exp $
+// $Id: ezuser.php,v 1.59 2001/04/03 15:13:45 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -819,6 +819,40 @@ class eZUser
        return $ret;
     }
 
+    /*!
+      Searches for users matching the queryText and returns them as an array of eZUser objects.
+     */
+    function search( $queryText, $order = false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        switch ( $order )
+        {
+            case "name" : $orderBy = "LastName, FirstName"; break;
+            case "lastname" : $orderBy = "LastName"; break;
+            case "firstname" : $orderBy = "FirstName"; break;
+            case "lastname" : $orderBy = "LastName"; break;
+            case "email" : $orderBy = "Email"; break;
+            default : $orderBy = "Login"; break;
+        }
+        
+        $return_array = array();
+        $user_array = array();
+        $query = "SELECT ID FROM eZUser_User WHERE
+                  Login LIKE '%$queryText%' OR Email LIKE '%$queryText%'
+                  OR FirstName LIKE '$queryText' OR LastName LIKE '%$queryText%'
+                  GROUP BY ID
+                  ORDER BY $orderBy";
+
+        $db->array_query( $user_array, $query );
+        for ( $i=0; $i < count($user_array); $i++ )
+        {
+            $return_array[$i] = new eZUser( $user_array[$i]["ID"] );
+        }
+
+        return $return_array;
+    }
+    
     var $ID;
     var $Login;
     var $Password;
