@@ -42,7 +42,7 @@ ImageMagick-4.2.9 (www.imagemagick.org)
 Apache-1.3.14 (www.apache.org)
 \layout Itemize
 
-libxml-2.1.1 (www.xmlsoft.org)
+libxml-2.2.5 (www.xmlsoft.org)
 \layout Section
 
 PHP install:
