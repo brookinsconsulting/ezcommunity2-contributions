@@ -6,13 +6,13 @@
 </tr>
 <tr>
 	<td class="menutext">
-	<p class="boxtext">{intl-username}</p>
+	<p class="menutext">{intl-username}</p>
 	<input type="text" size="6" name="Username"/>
 	</td>
 </tr>
 <tr>
 	<td class="menutext">
-	<p class="boxtext">{intl-password}</p>
+	<p class="menutext">{intl-password}</p>
 	<input type="password" size="6" name="Password" />
 	</td>
 </tr>
@@ -28,12 +28,16 @@
 
 <tr>
 	<td class="menutext">
-	<a class="menu" href="/user/forgot/">{intl-forgot}</a>
+	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/forgot/">{intl-forgot}</a>
 	</td>
 </tr>
 <tr>
 	<td class="menutext">
-	<a class="menu" href="/user/user/new/">{intl-register}</p>
+	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/user/new/">{intl-register}
 	</td>
 </tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
 </table>
+

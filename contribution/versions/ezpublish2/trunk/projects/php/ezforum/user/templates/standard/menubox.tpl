@@ -6,8 +6,7 @@
 <tr>
 	<td width="100%">
 	<a href="/forum/forumlist/{id}/" class="menu">
-        <img src="/images/dot.gif" width="12" height="12" border="0">&nbsp;
-        {name}
+        <img src="/images/dot.gif" width="12" height="10" border="0">{name}
 	</a>
 	</td>
 </tr>
