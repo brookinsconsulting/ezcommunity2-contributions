@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/01/16 12:28:58 ce Exp $
+// $Id: menubox.php,v 1.2 2001/01/16 12:32:15 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -42,10 +42,6 @@ $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
     
-$t->set_block( "menu_box_tpl", "category_tpl", "category" );
-
 $t->pparse( "output", "menu_box_tpl" );
-    
-}
 
 ?>
