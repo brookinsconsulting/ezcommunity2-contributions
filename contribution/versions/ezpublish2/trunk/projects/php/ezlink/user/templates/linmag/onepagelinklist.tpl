@@ -49,10 +49,7 @@
 
 <!-- BEGIN link_item_tpl -->
 <tr>
-	<td class="{td_class}" valign="top" width="1%">
-	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
-	</td>
-	<td class="{td_class}" valign="top" width="99%">
+	<td class="{td_class}" valign="top" width="99%" colspan="2">
 	<span class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_name}</a></span>
    	</td>
 </tr>
@@ -69,8 +66,8 @@
 <!-- BEGIN attribute_list_tpl -->
 <tr>
 	<td colspan="2" class="{td_class}">
-	<div align="center">
-	<table width="50%" cellspacing="0" cellpadding="2" border="0">
+	<div align="left">
+	<table cellspacing="0" cellpadding="2" border="0">
 
 <!-- BEGIN attribute_tpl -->
 
@@ -79,8 +76,8 @@
 <!-- BEGIN attribute_value_tpl -->
 
 	<tr> 
-		<th class="small">{attribute_name}:</th>
-		<td class="small" align="right">{attribute_value_var} {attribute_unit}</td>
+		<th>{attribute_name}:</th>
+		<td>{attribute_value_var} {attribute_unit}</td>
 	</tr>
 
 <!-- END attribute_value_tpl -->
