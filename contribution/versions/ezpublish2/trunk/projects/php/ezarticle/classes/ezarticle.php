@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.136 2001/08/01 16:11:21 kaid Exp $
+// $Id: ezarticle.php,v 1.137 2001/08/06 14:28:22 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -1929,10 +1929,8 @@ class eZArticle
     /*!
       Returns every article in every category sorted by time.
     */
-    function &articles( $sortMode="time",
-    $fetchNonPublished=true,
-    $offset=0,
-    $limit=50 )
+    function &articles( $sortMode="time", $fetchNonPublished=true,
+                        $offset=0, $limit=50 )
     {
         $db =& eZDB::globalDatabase();
 

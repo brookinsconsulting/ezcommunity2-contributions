@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.55 2001/08/01 16:22:23 kaid Exp $
+// $Id: articlelist.php,v 1.56 2001/08/06 14:28:22 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -87,7 +87,6 @@ $t->set_block( "category_item_tpl", "no_image_tpl", "no_image" );
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
-
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
 
@@ -116,7 +115,7 @@ $category = new eZArticleCategory( $CategoryID );
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
-if ( isset( $NoArticleHeader ) and $NoArticleHeader )
+if ( isSet( $NoArticleHeader ) and $NoArticleHeader )
 {
     $t->set_var( "header_item", "" );
 }

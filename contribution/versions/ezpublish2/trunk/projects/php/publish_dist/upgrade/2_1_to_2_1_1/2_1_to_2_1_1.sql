@@ -692,17 +692,15 @@ alter table eZBulkMail_Forgot change TimeTmp Time int;
 
 
 ## fulltext search index tables
-Create table eZArticle_Word
-( 
+Create table eZArticle_Word ( 
   ID int not null,
-   Word varchar(50) not null,
-   PRIMARY KEY (ID)
+  Word varchar(50) not null,
+  PRIMARY KEY (ID)
 );
 
-CREATE TABLE eZArticle_ArticleWordLink
-(
-	ArticleID int not null,
-	WordID int not null
+CREATE TABLE eZArticle_ArticleWordLink (
+  ArticleID int not null,
+  WordID int not null
 );
 
 
@@ -800,5 +798,12 @@ CREATE TABLE eZPoll_PollForumLink (
   ID int NOT NULL,
   PollID int NOT NULL default '0',
   ForumID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZTrade_ProductPermissionLink (
+  ID int NOT NULL,
+  ProductID int NOT NULL default '0',
+  GroupID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );

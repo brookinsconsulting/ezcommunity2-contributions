@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.24 2001/07/30 13:22:37 bf Exp $
+// $Id: categorylist.php,v 1.25 2001/08/06 14:28:23 jhe Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -68,9 +68,7 @@ $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTem
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "category_list_page_tpl" => "categorylist.tpl"
-    ) );
+$t->set_file( "category_list_page_tpl", "categorylist.tpl" );
 
 // path
 $t->set_block( "category_list_page_tpl", "path_item_tpl", "path_item" );
@@ -129,7 +127,7 @@ foreach ( $pathArray as $path )
 $categoryList =& $category->getByParent( $category );
 
 // categories
-$i=0;
+$i = 0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
@@ -169,7 +167,7 @@ $TotalTypes =& $category->productCount( $category->sortMode(), true );
 $productList =& $category->products( $category->sortMode(), true, $Offset, $Limit, true );
 
 $locale = new eZLocale( $Language );
-$i=0;
+$i = 0;
 $t->set_var( "product_list", "" );
 
 if ( $category->sortMode() == "absolute_placement" )

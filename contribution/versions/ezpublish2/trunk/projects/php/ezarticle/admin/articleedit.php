@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.107 2001/07/25 12:29:53 ce Exp $
+// $Id: articleedit.php,v 1.108 2001/08/06 14:28:22 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -680,13 +680,13 @@ $group = new eZUserGroup();
 $groupList = $group->getAll();
 
 $t->set_var( "selected", "" );
-foreach( $groupList as $groupItem )
+foreach ( $groupList as $groupItem )
 {
     /* for the group owner selector */
         $t->set_var( "module_owner_id", $groupItem->id() );
         $t->set_var( "module_owner_name", $groupItem->name() );
 
-        if( in_array( $groupItem->id(), $writeGroupsID ) )
+        if ( in_array( $groupItem->id(), $writeGroupsID ) )
             $t->set_var( "is_selected", "selected" );
         else
             $t->set_var( "is_selected", "" );
@@ -696,15 +696,13 @@ foreach( $groupList as $groupItem )
         /* for the read access groups selector */
         $t->set_var( "group_name", $groupItem->name() );
         $t->set_var( "group_id", $groupItem->id() );
-        if( in_array( $groupItem->id(), $readGroupsID ) )
+        if ( in_array( $groupItem->id(), $readGroupsID ) )
             $t->set_var( "selected", "selected" );
         else
             $t->set_var( "selected", "" );
         $t->parse( "group_item", "group_item_tpl", true );
 }
 
-
 $t->pparse( "output", "article_edit_page_tpl" );
-
 
 ?>

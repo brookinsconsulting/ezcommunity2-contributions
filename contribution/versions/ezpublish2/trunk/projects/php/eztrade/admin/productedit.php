@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.56 2001/08/03 14:08:19 jhe Exp $
+// $Id: productedit.php,v 1.57 2001/08/06 14:28:23 jhe Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
-
+include_once( "eztrade/classes/ezproductpermission.php" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
@@ -118,7 +118,7 @@ if ( $Action == "Insert" )
 
     $vattype = new eZVATType( $VATTypeID );
     $product->setVATType( $vattype );
-
+    
     $shippingGroup = new eZShippingGroup( $ShippingGroupID );
     $product->setShippingGroup( $shippingGroup );    
     
@@ -187,12 +187,14 @@ if ( $Action == "Insert" )
     $product->setCategoryDefinition( $category );
 
     if ( count( $CategoryArray ) > 0 )
-    foreach ( $CategoryArray as $categoryItem )
     {
-        if ( $categoryItem != $CategoryID )
+        foreach ( $CategoryArray as $categoryItem )
         {
-            $category = new eZProductCategory( $categoryItem );
-            $category->addProduct( $product );
+            if ( $categoryItem != $CategoryID )
+            {
+                $category = new eZProductCategory( $categoryItem );
+                $category->addProduct( $product );
+            }
         }
     }
 
@@ -200,6 +202,25 @@ if ( $Action == "Insert" )
 
     $productID = $product->id();
 
+    if ( count( $GroupArray ) > 0 )
+    {
+        if ( in_array( 0, $GroupArray ) )
+        {
+            eZProductPermission::setPermission( $productID, -1 );
+        }
+        else
+        {
+            foreach ( $GroupArray as $groupItem )
+            {
+                eZProductPermission::setPermission( $productID, $groupItem );
+            }
+        }
+    }
+    else
+    {
+        eZProductPermission::setPermission( $productID, -1 );
+    }
+    
     $categoryArray = $product->categories();
     $categoryIDArray = array();
     foreach ( $categoryArray as $cat )
@@ -330,6 +351,26 @@ if ( $Action == "Update" )
 
     $productID = $product->id();
 
+    eZProductPermission::removePermissions( $productID );
+    if ( count( $GroupArray ) > 0 )
+    {
+        if ( in_array( 0, $GroupArray ) )
+        {
+            eZProductPermission::setPermission( $productID, -1 );
+        }
+        else
+        {
+            foreach ( $GroupArray as $groupItem )
+            {
+                eZProductPermission::setPermission( $productID, $groupItem );
+            }
+        }
+    }
+    else
+    {
+        eZProductPermission::setPermission( $productID, -1 );
+    }
+    
     // Calculate which categories are new and which are unused
     $old_maincategory = $product->categoryDefinition();
     $old_categories = array_merge( $old_maincategory->id(), $product->categories( false ) );
@@ -502,6 +543,7 @@ $t->set_block( "product_edit_tpl", "value_tpl", "value" );
 $t->set_block( "product_edit_tpl", "multiple_value_tpl", "multiple_value" );
 
 $t->set_block( "product_edit_tpl", "module_linker_button_tpl", "module_linker_button" );
+$t->set_block( "product_edit_tpl", "group_item_tpl", "group_item" );
 
 $t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 $t->set_block( "product_edit_tpl", "shipping_select_tpl", "shipping_select" );
@@ -545,7 +587,7 @@ if ( $Action == "Edit" )
     $t->set_var( "price_value", $product->price() );
     $t->set_var( "brief_value", $product->brief() );
     $t->set_var( "description_value", $product->description() );
-    $t->set_var( "expiry_value", $product->expiryTime() );
+    $t->set_var( "expiry_value", $product->expiryTime() ? $product->expiryTime() : "" );
     $t->set_var( "external_link", $product->externalLink() );
     
     $t->set_var( "action_value", "update" );
@@ -753,6 +795,32 @@ if ( $ShowPriceGroups )
 $t->set_var( "module_linker_button", "" );
 if ( $ShowModuleLinker )
     $t->parse( "module_linker_button", "module_linker_button_tpl" );
+
+$productGroupsID = eZProductPermission::getPermissionList( $ProductID );
+
+$group = new eZUserGroup();
+$groupList = $group->getAll();
+
+if ( in_array( -1, $productGroupsID ) )
+{
+    $t->set_var( "all_selected", "selected" );
+}
+else
+{
+    $t->set_var( "all_selected", "" );
+}
+
+foreach ( $groupList as $groupItem )
+{
+    $t->set_var( "group_id", $groupItem->id() );
+    $t->set_var( "group_name", $groupItem->name() );
+    if ( in_array( $groupItem->id(), $productGroupsID ) )
+        $t->set_var( "is_selected", "selected" );
+    else
+        $t->set_var( "is_selected", "" );
+    
+    $t->parse( "group_item", "group_item_tpl", true );
+}
 
 $t->pparse( "output", "product_edit_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.23 2001/07/20 11:42:02 jakobn Exp $
+// $Id: productlist.php,v 1.24 2001/08/06 14:28:23 jhe Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -62,11 +62,11 @@ $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
 $t->set_block( "product_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_tpl", "category" );
 
-if ( !isset( $ModuleName ) )
+if ( !isSet( $ModuleName ) )
     $ModuleName = "trade";
-if ( !isset( $ModuleList ) )
+if ( !isSet( $ModuleList ) )
     $ModuleList = "productlist";
-if ( !isset( $ModuleView ) )
+if ( !isSet( $ModuleView ) )
     $ModuleView = "productview";
 
 $t->set_var( "module", $ModuleName );
@@ -75,9 +75,8 @@ $t->set_var( "module_view", $ModuleView );
 
 $t->setAllStrings();
 
-$category = new eZProductCategory(  );
+$category = new eZProductCategory();
 $category->get( $CategoryID );
-
 
 // path
 $pathArray = $category->path();
@@ -86,22 +85,18 @@ $t->set_var( "path", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
-
     $t->set_var( "category_name", $path[1] );
-    
     $t->parse( "path", "path_tpl", true );
 }
 
 $categoryList =& $category->getByParent( $category );
 
 // categories
-$i=0;
+$i = 0;
 foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_id", $categoryItem->id() );
-
     $t->set_var( "category_name", $categoryItem->name() );
-
     $t->set_var( "category_description", $categoryItem->description() );
 
     $parent = $categoryItem->parent();
@@ -137,9 +132,9 @@ else
     $t->parse( "category_list", "category_list_tpl" );
 }
 
-if ( !isset( $Limit ) or !is_numeric( $Limit ) )
+if ( !isSet( $Limit ) or !is_numeric( $Limit ) )
     $Limit = 10;
-if ( !isset( $Offset ) or !is_numeric( $Offset ) )
+if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
 // products
@@ -147,7 +142,7 @@ $TotalTypes =& $category->productCount( $category->sortMode(), false );
 $productList =& $category->activeProducts( $category->sortMode(), $Offset, $Limit );
 
 $locale = new eZLocale( $Language );
-$i=0;
+$i = 0;
 foreach ( $productList as $product )
 {
     $t->set_var( "product_id", $product->id() );
@@ -276,6 +271,5 @@ else
 {
     $t->pparse( "output", "product_list_page_tpl" );
 }
-
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.51 2001/07/20 11:42:02 jakobn Exp $
+// $Id: productview.php,v 1.52 2001/08/06 14:28:23 jhe Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -61,7 +61,7 @@ include_once( "classes/ezmodulelink.php" );
 include_once( "classes/ezlinksection.php" );
 include_once( "classes/ezlinkitem.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !isSet( $IntlDir ) )
     $IntlDir = "eztrade/user/intl";
@@ -73,17 +73,17 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 
 $t->setAllStrings();
 
-if ( !isset( $productview ) )
+if ( !isSet( $productview ) )
     $productview = "productview.tpl";
 
-if ( isset( $template_array ) and isset( $variable_array ) and
+if ( isSet( $template_array ) and isSet( $variable_array ) and
      is_array( $template_array ) and is_array( $variable_array ) )
 {
     $standard_array = array( "product_view_tpl" => $productview );
     $temp_arr = array_merge( $standard_array, $template_array );
     $t->set_file( $temp_arr );
     $t->set_file_block( $template_array );
-    if ( isset( $block_array ) and is_array( $block_array ) )
+    if ( isSet( $block_array ) and is_array( $block_array ) )
         $t->set_block( $block_array );
     $t->parse( $variable_array );
 }
@@ -103,34 +103,37 @@ $t->set_block( "price_tpl", "alternative_currency_list_tpl", "alternative_curren
 $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alternative_currency" );
 
 $t->set_block( "product_view_tpl", "quantity_item_tpl", "quantity_item" );
-
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
 $t->set_block( "product_view_tpl", "image_list_tpl", "image_list" );
+
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_view_tpl", "option_tpl", "option" );
 $t->set_block( "option_tpl", "value_price_header_tpl", "value_price_header" );
+$t->set_block( "option_tpl", "value_tpl", "value" );
+
 $t->set_block( "value_price_header_tpl", "value_description_header_tpl", "value_description_header" );
 $t->set_block( "value_price_header_tpl", "value_price_header_item_tpl", "value_price_header_item" );
 $t->set_block( "value_price_header_tpl", "value_currency_header_item_tpl", "value_currency_header_item" );
-$t->set_block( "option_tpl", "value_tpl", "value" );
+
 $t->set_block( "value_tpl", "value_description_tpl", "value_description" );
 $t->set_block( "value_tpl", "value_price_item_tpl", "value_price_item" );
 $t->set_block( "value_tpl", "value_availability_item_tpl", "value_availability_item" );
 $t->set_block( "value_tpl", "value_price_currency_list_tpl", "value_price_currency_list" );
+
 $t->set_block( "value_price_currency_list_tpl", "value_price_currency_item_tpl", "value_price_currency_item" );
 $t->set_block( "product_view_tpl", "external_link_tpl", "external_link" );
-
 $t->set_block( "product_view_tpl", "attribute_list_tpl", "attribute_list" );
+
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 $t->set_block( "attribute_list_tpl", "attribute_value_tpl", "attribute_value" );
 $t->set_block( "attribute_list_tpl", "attribute_header_tpl", "attribute_header" );
 
 $t->set_block( "product_view_tpl", "numbered_page_link_tpl", "numbered_page_link" );
 $t->set_block( "product_view_tpl", "print_page_link_tpl", "print_page_link" );
-
 $t->set_block( "product_view_tpl", "section_item_tpl", "section_item" );
+
 $t->set_block( "section_item_tpl", "link_item_tpl", "link_item" );
 
 if ( !isSet( $ModuleName ) )
@@ -149,6 +152,11 @@ $t->set_var( "module_print", $ModulePrint );
 $t->set_var( "attribute_header", "" );
 $t->set_var( "attribute_value", "" );
 
+if ( !eZProductPermission::hasPermission( $ProductID ) )
+{
+    $ProductID = 0;
+}
+
 $product = new eZProduct( $ProductID );
 
 if ( $CategoryID == "" )
@@ -157,7 +165,7 @@ if ( $CategoryID == "" )
 }
 else
 {
-    $category = new eZProductCategory(  );
+    $category = new eZProductCategory();
     $category->get( $CategoryID );
 }
 
@@ -284,7 +292,7 @@ foreach ( $options as $option )
     }
     else
     {
-        foreach( $headers as $header )
+        foreach ( $headers as $header )
         {
             $t->set_var( "description_header", $header );
             $t->parse( "value_description_header", "value_description_header_tpl", true );
@@ -294,7 +302,7 @@ foreach ( $options as $option )
     foreach ( $values as $value )
     {
         $value_quantity = $value->totalQuantity();
-        if ( $ShowOptionQuantity or (is_bool( $value_quantity ) and !$value_quantity ) or
+        if ( $ShowOptionQuantity or ( is_bool( $value_quantity ) and !$value_quantity ) or
              !$RequireQuantity or ( $RequireQuantity and $value_quantity > 0 ) )
         {
             if ( !$value->hasQuantity( $RequireQuantity ) )
@@ -313,7 +321,7 @@ foreach ( $options as $option )
             }
             else
             {
-                foreach( $descriptions as $description )
+                foreach ( $descriptions as $description )
                 {
                     $t->set_var( "value_name", $description );
                     $t->parse( "value_description", "value_description_tpl", true );
@@ -369,7 +377,7 @@ foreach ( $options as $option )
             }
 
             $t->set_var( "value_availability_item", "" );
-            if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+            if ( !( is_bool( $value_quantity ) and !$value_quantity ) )
             {
                 $named_quantity = $value_quantity;
                 if ( $ShowNamedQuantity )
@@ -398,16 +406,16 @@ if ( !$product->hasQuantity( $RequireQuantity ) )
 $module_link = new eZModuleLink( "eZTrade", "Product", $product->id() );
 $sections =& $module_link->sections();
 $t->set_var( "section_item", "" );
-foreach( $sections as $section )
+foreach ( $sections as $section )
 {
     $t->set_var( "link_item", "" );
     $t->set_var( "section_name", $section->name() );
     $t->set_var( "section_id", $section->id() );
     $links =& $section->links();
     $i = 0;
-    foreach( $links as $link )
+    foreach ( $links as $link )
     {
-        $t->set_var( "td_class", ($i%2) == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "td_class", ($i % 2) == 0 ? "bglight" : "bgdark" );
         $t->set_var( "link_name", $link->name() );
         $t->set_var( "link_url", $link->url() );
         $t->set_var( "link_id", $link->id() );
@@ -419,10 +427,10 @@ foreach( $sections as $section )
 
 // attribute list
 $type = $product->type();
-if ( $type )    
+if ( $type )
 {
     $attributes = $type->attributes();
-    for( $i=0; $i < count ( $attributes ); $i++ )
+    for ( $i = 0; $i < count( $attributes ); $i++ )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -449,11 +457,11 @@ if ( $type )
                 $t->parse( "attribute", "attribute_value_tpl", true );
             }
         }
-        elseif ( $attributes[$i]->attributeType() == 2 )
+        else if ( $attributes[$i]->attributeType() == 2 )
         {
             $j = $i;
             $header = false;
-            for( $j++; $j < count ( $attributes ); $j++ )
+            for ( $j++; $j < count( $attributes ); $j++ )
             {
                 if ( $attributes[$j]->attributeType() == 2 )
                     break;
@@ -588,9 +596,9 @@ else
     $t->set_var( "numbered_page_link", "" );
 }
 
-if ( isset( $func_array ) and is_array( $func_array ) )
+if ( isSet( $func_array ) and is_array( $func_array ) )
 {
-    foreach( $func_array as $func )
+    foreach ( $func_array as $func )
     {
         $func( $t, $ProductID );
     }
@@ -609,6 +617,5 @@ else
 {
     $t->pparse( "output", "product_view_tpl" );
 }
-
 
 ?>

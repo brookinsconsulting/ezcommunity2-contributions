@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.18 2001/07/20 11:45:40 jakobn Exp $
+// $Id: ezpermission.php,v 1.19 2001/08/06 14:28:23 jhe Exp $
 //
-// Definition of eZCompany class
+// Definition of eZPermission class
 //
 // Created on: <27-Sep-2000 08:05:56 bf>
 //

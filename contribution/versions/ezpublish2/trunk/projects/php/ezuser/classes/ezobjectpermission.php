@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.20 2001/07/20 11:45:40 jakobn Exp $
+// $Id: ezobjectpermission.php,v 1.21 2001/08/06 14:28:23 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -66,32 +66,32 @@ class eZObjectPermission
       \static
       Returns true if the user has the desired permission to the desired object.
       $objectID is the ID of the object you are interested in. This could be a bug, an article etc..
-      $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
+      $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
       $permission either 'r' for readpermission or 'w' for writepermission.
       $user (of type eZUser )is the user you want to check permissions for. Default is currentUser.
 
       NOTE: If you object has an owner, and this user allways should have rights, you must check this yourself.
      */
-    function hasPermission( $objectID, $modulTable, $permission, $user=false )
+    function hasPermission( $objectID, $moduleTable, $permission, $user=false )
     {
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
         {
             $user =& eZUser::currentUser();
         }
 
-        if( is_object( $user ) && $user->hasRootAccess() )
+        if ( is_object( $user ) && $user->hasRootAccess() )
             return true;
         
         $SQLGroups = "GroupID = '-1'";
-        if( get_class( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
         {
             $groups =& $user->groups( true );
             $first = true;
-            if( count( $groups ) > 0 )
+            if ( count( $groups ) > 0 )
             {
-                foreach( $groups as $groupItem )
+                foreach ( $groups as $groupItem )
                 {
-                    if( $first == true )
+                    if ( $first == true )
                     {
                         $SQLGroups = "GroupID='$groupItem' ";
                     }
@@ -105,19 +105,19 @@ class eZObjectPermission
             }
         }
 
-        $tableName = getTableName( $modulTable );
-        if( $tableName == "" )
+        $tableName = getTableName( $moduleTable );
+        if ( $tableName == "" )
         {
             return false;
         }
 
         $SQLRead = "";
         $SQLWrite = "";
-        if( $permission == 'r' )
+        if ( $permission == 'r' )
         {
             $SQLRead = "AND ReadPermission='1'";
         }
-        else if( $permission == 'w' )
+        else if ( $permission == 'w' )
         {
             $SQLWrite = "AND WritePermission='1'";
         }
@@ -127,7 +127,7 @@ class eZObjectPermission
 
         $database->query_single( $res, $query );
 
-        if( $res[$database->fieldName("ID")] != 0 )
+        if ( $res[$database->fieldName( "ID" )] != 0 )
             return true;
 
         return false;
@@ -138,10 +138,10 @@ class eZObjectPermission
       Sets a permissions for on an object for a eZUserGroup. To set a permission for all use -1 as group.
       $group is of type eZUserGroup or the group ID and is the group that gets the permission
       $objectID is the ID of the object you are interested in. This could be a bug, an article etc..
-      $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
+      $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
       $permission either 'r' for readpermission or 'w' for writepermission.
     */
-    function setPermission( $group, $objectID, $modulTable, $permission  )
+    function setPermission( $group, $objectID, $moduleTable, $permission  )
     {
         if( get_class( $group ) == "ezusergroup" )
         {
@@ -170,7 +170,7 @@ class eZObjectPermission
             return false;
         }
 
-        $tableName = getTableName( $modulTable );
+        $tableName = getTableName( $moduleTable );
         if( $tableName == "" )
         {
             return false;
@@ -221,9 +221,9 @@ class eZObjectPermission
       \static
       Removes all permissions of a given type on an object.
      */
-    function removePermissions( $objectID, $modulTable, $permission )
+    function removePermissions( $objectID, $moduleTable, $permission )
     {
-        $tableName = getTableName( $modulTable );
+        $tableName = getTableName( $moduleTable );
         if( $tableName == "" )
         {
             return false;
@@ -252,13 +252,13 @@ class eZObjectPermission
       Returns all the groups that have permissions to a given object, if none are selected a empty array is returned.
       If one object with -1 is returned, everyone has access to the object.
       $group is of type eZUserGroup or a groupID, use -1 for objects everyone is allowed to see.
-      $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
+      $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
       $permission either 'r' for readpermission or 'w' for writepermission.
      */
-    function getGroups( $objectID, $modulTable, $permission, $GroupReturn=true )
+    function getGroups( $objectID, $moduleTable, $permission, $GroupReturn=true )
     {
         $ret = array();
-        $tableName = getTableName( $modulTable );
+        $tableName = getTableName( $moduleTable );
         if( $tableName == "" )
         {
             return $ret;
@@ -305,12 +305,12 @@ class eZObjectPermission
       Returns all the ID's of objects that a given user has permission $permission to
       If one object with -1 is returned, everyone has access to the object.
       $group is of type eZUserGroup or a groupID, use -1 for objects everyone is allowed to see.
-      $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
+      $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
       $permission either 'r' for readpermission or 'w' for writepermission.
       $count if set to true the function will return the count of accessable objects.
       $user of type eZUser, if left out, currentuser is used.
      */
-    function getObjects( $modulTable, $permission, $count = false , $user=false )
+    function getObjects( $moduleTable, $permission, $count = false , $user=false )
     {
         $ret = array();
 
@@ -345,7 +345,7 @@ class eZObjectPermission
             }
         }
         
-        $tableName = getTableName( $modulTable );
+        $tableName = getTableName( $moduleTable );
         if( $tableName == "" )
         {
             return $ret;
@@ -392,7 +392,6 @@ class eZObjectPermission
         }
         return $ret;
     }
-
 }
 
     
@@ -402,7 +401,7 @@ class eZObjectPermission
 function getTableName( $name )
 {
     $ret = "";
-    switch( $name )
+    switch ( $name )
     {
         case "article_article" :
             $ret = "eZArticle_ArticlePermission";

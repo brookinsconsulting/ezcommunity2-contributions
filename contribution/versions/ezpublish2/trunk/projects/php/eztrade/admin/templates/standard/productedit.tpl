@@ -33,6 +33,14 @@
 </table>
 <br />
 
+<p class="boxtext">{intl-groups}:</p>
+<select name="GroupArray[]" size="3" multiple>
+<option value="0" {all_selected}>{intl-all}</option>
+<!-- BEGIN group_item_tpl -->
+<option value="{group_id}" {is_selected}>{group_name}</option>
+<!-- END group_item_tpl -->
+</select>
+
 <p class="boxtext">{intl-keywords}:</p>
 <input class="box" name="Keywords" size="40" value="{keywords_value}" />
 <br /><br />
