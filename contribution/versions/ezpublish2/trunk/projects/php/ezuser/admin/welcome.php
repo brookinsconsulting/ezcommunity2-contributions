@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: welcome.php,v 1.8 2001/03/15 09:37:04 ce Exp $
+// $Id: welcome.php,v 1.9 2001/03/15 09:48:06 ce Exp $
 //
 // Christoffer A. Elo <bf@ez.no>
 // Created on: <13-Nov-2000 10:57:15 bf>
@@ -54,7 +54,7 @@ if ( $user )
     $t->set_var( "last_name", $user->lastName() );
 }
 
-if ( $ini->read_var( "site", "CheckCheckDependence" ) == "enabled" )
+if ( $ini->read_var( "site", "CheckDependence" ) == "enabled" )
 {
     if ( function_exists( "xmltree" ) == false )
     {
