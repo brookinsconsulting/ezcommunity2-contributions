@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezwishlist.php,v 1.3 2001/01/06 16:21:01 bf Exp $
+// $Id: ezwishlist.php,v 1.4 2001/01/17 10:23:29 bf Exp $
 //
 // Definition of eZWishList class
 //
@@ -103,7 +103,8 @@ class eZWishList
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTrade_WishList SET
-		                         UserID='$this->UserID'
+		                         UserID='$this->UserID',
+		                         IsPublic='$this->IsPublic'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -113,7 +114,8 @@ class eZWishList
         else
         {
             $this->Database->query( "UPDATE eZTrade_WishList SET
-		                         UserID='$this->UserID'
+		                         UserID='$this->UserID',
+		                         IsPublic='$this->IsPublic'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -142,6 +144,7 @@ class eZWishList
             {
                 $this->ID = $wishlist_array[0][ "ID" ];
                 $this->UserID = $wishlist_array[0][ "UserID" ];
+                $this->IsPublic = $wishlist_array[0][ "IsPublic" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -212,6 +215,19 @@ class eZWishList
     }
 
     /*!
+      Returns the owner of the wishlist as an eZUser object.
+    */
+    function &user()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $user = new eZUser( $this->UserID );
+
+       return $user;
+    }
+
+    /*!
       Sets the user the wishlist belongs to.
 
       Return false if the applied argument is not and eZUser object.
@@ -221,14 +237,44 @@ class eZWishList
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-
         if ( get_class( $user ) == "ezuser" )
         {
             $this->UserID = $user->id();
-        }
-        
+        }        
     }
 
+    /*!
+      Sets the wishlist to be public or private.
+    */
+    function setIsPublic( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+           $this->IsPublic = 1;
+       else
+           $this->IsPublic = 0;
+    }
+
+
+    /*!
+      Returns true if the wishlist is public, false if not.
+    */
+    function isPublic( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = 0;
+       if ( $this->IsPublic == 1 )
+       {
+           $ret = true;
+       }
+
+       return $ret;
+    }
+    
     /*!
       Returns all the wishlist items in the wishlist.
 
@@ -287,6 +333,37 @@ class eZWishList
 
        $this->delete();       
     }
+
+    /*!
+      Searches the public wishlists and returns an array with
+      eZWishList objects which matched the search.
+    */
+    function search( $queryText )
+    {        
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $wishlist_array,
+       "SELECT eZTrade_WishList.ID AS ID FROM eZTrade_WishList, eZUser_User
+        WHERE eZTrade_WishList.UserID=eZUser_User.ID
+        AND eZTrade_WishList.IsPublic=1
+        AND ( eZUser_User.Email='$queryText'
+        OR eZUser_User.FirstName='$queryText'
+        OR eZUser_User.LastName='$queryText' )
+        GROUP BY eZUser_User.ID" );
+
+       foreach ( $wishlist_array as $item )
+       {
+               $ret[] = new eZWishlist( $item["ID"] );
+       }
+
+       return $ret;       
+
+    }
     
     /*!
       \private
@@ -303,6 +380,7 @@ class eZWishList
 
     var $ID;
     var $UserID;
+    var $IsPublic;
     
     ///  Variable for keeping the database connection.
     var $Database;

@@ -95,3 +95,20 @@ CREATE TABLE eZArticle_ArticleFileLink (
 );
 
 ALTER TABLE eZTrade_ProductImageLink add Created timestamp;
+
+alter table eZTrade_WishList add IsPublic int not null default 0;
+
+alter table eZTrade_CartItem add WishListItemID int not null default 0;
+
+ alter table eZTrade_WishListItem add IsBought int not null default 0; 
+
+# A new block template in the wishlist.tpl file:
+
+		  <!-- BEGIN is_bought_tpl -->
+		  {intl-is_bought}
+		  <!-- END is_bought_tpl -->
+
+		  <!-- BEGIN is_not_bought_tpl -->
+		  {intl-is_not_bought}
+		  <!-- END is_not_bought_tpl -->
+

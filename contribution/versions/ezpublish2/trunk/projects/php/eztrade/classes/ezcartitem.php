@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.7 2001/01/06 16:21:01 bf Exp $
+// $Id: ezcartitem.php,v 1.8 2001/01/17 10:23:29 bf Exp $
 //
 // Definition of eZCartItem class
 //
@@ -48,6 +48,7 @@
 include_once( "classes/ezdb.php" );
 
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
+include_once( "eztrade/classes/ezwishlistitem.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 
 class eZCartItem
@@ -96,7 +97,8 @@ class eZCartItem
             $this->Database->query( "INSERT INTO eZTrade_CartItem SET
 		                         ProductID='$this->ProductID',
 		                         CartID='$this->CartID',
-		                         Count='$this->Count'
+		                         Count='$this->Count',
+		                         WishListItemID='$this->WishListItemID'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -108,7 +110,8 @@ class eZCartItem
             $this->Database->query( "UPDATE eZTrade_CartItem SET
 		                         ProductID='$this->ProductID',
 		                         CartID='$this->CartID',
-		                         Count='$this->Count'
+		                         Count='$this->Count',
+		                         WishListItemID='$this->WishListItemID'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -139,6 +142,7 @@ class eZCartItem
                 $this->ProductID = $cart_array[0][ "ProductID" ];
                 $this->CartID = $cart_array[0][ "CartID" ];
                 $this->Count = $cart_array[0][ "Count" ];
+                $this->WishListItemID = $cart_array[0][ "WishListItemID" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -262,6 +266,39 @@ class eZCartItem
 
        $this->Count = $count;
     }
+
+    /*!
+      Sets the wishlist item.
+    */
+    function setWishListItem( $wishlist )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $wishlist ) == "ezwishlistitem" )
+       {
+           $this->WishListItemID = $wishlist->id();
+       }
+    }
+
+    /*!
+      Returns the wishlist item as a eZWishListItem object. 0 if the 
+    */
+    function wishListItem()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       
+       if ( ( $this->WishListItemID != 0 ) && is_numeric( $this->WishListItemID ) )
+       {
+           $ret = new eZWishListItem( $this->WishListItemID );
+       }
+
+       return $ret;
+    }
+    
     
     /*!
       Returns all the option values as an array of eZCartOptionValue objects.
@@ -305,6 +342,9 @@ class eZCartItem
     var $ProductID;
     var $CartID;
     var $Count;
+
+    /// ID to a wishlist item. Indicates which wishlistitem the cart item comes from. 0 if added from product.
+    var $WishListItemID;
     
     ///  Variable for keeping the database connection.
     var $Database;

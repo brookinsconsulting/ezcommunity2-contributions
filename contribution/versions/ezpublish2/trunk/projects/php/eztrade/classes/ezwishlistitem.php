@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.5 2001/01/06 16:21:01 bf Exp $
+// $Id: ezwishlistitem.php,v 1.6 2001/01/17 10:23:29 bf Exp $
 //
 // Definition of eZWishItem class
 //
@@ -96,7 +96,8 @@ class eZWishListItem
             $this->Database->query( "INSERT INTO eZTrade_WishListItem SET
 		                         ProductID='$this->ProductID',
 		                         WishListID='$this->WishListID',
-		                         Count='$this->Count'
+		                         Count='$this->Count',
+		                         IsBought='$this->IsBought'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -108,7 +109,8 @@ class eZWishListItem
             $this->Database->query( "UPDATE eZTrade_WishListItem SET
 		                         ProductID='$this->ProductID',
 		                         WishListID='$this->WishListID',
-		                         Count='$this->Count'
+		                         Count='$this->Count',
+		                         IsBought='$this->IsBought'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -139,6 +141,7 @@ class eZWishListItem
                 $this->ProductID = $wishlist_array[0][ "ProductID" ];
                 $this->WishListID = $wishlist_array[0][ "WishListID" ];
                 $this->Count = $wishlist_array[0][ "Count" ];
+                $this->IsBought = $wishlist_array[0][ "IsBought" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -205,7 +208,7 @@ class eZWishListItem
        $ret = false;
 
        $wishlist = new eZWishlist( );
-       if ( $wishlist->get( $this->WishlistID ) )
+       if ( $wishlist->get( $this->WishListID ) )
        {
            $ret = $wishlist;
        }
@@ -250,6 +253,44 @@ class eZWishListItem
        {
            $this->WishListID = $wishlist->id();
        }        
+    }
+
+    /*!
+      Sets the product to be bought. This is only an indication so that the user, and
+      other people looking at the wishlist, sees if the item is already bought for this
+      user.
+    */
+    function setIsBought( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->IsBought = 1;
+       }
+       else
+       {
+           $this->IsBought = 0;
+       }       
+    }
+
+    /*!
+      Returns true if the item is already bought. False if not.
+    */
+    function isBought()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       
+       if ( $this->IsBought == 1 )
+       {
+           $ret = true;
+       }
+
+       return $ret;
     }
 
     /*!
@@ -314,6 +355,9 @@ class eZWishListItem
        $cartItem->setProduct( $product );
        $cartItem->setCart( $cart );
 
+       // set the wishlist item
+       $cartItem->setWishListItem( $this );
+
        $cartItem->store();
 
        $optionValues = $this->optionValues();
@@ -364,6 +408,7 @@ class eZWishListItem
     var $ProductID;
     var $WishListID;
     var $Count;
+    var $IsBought;
     
     ///  Variable for keeping the database connection.
     var $Database;

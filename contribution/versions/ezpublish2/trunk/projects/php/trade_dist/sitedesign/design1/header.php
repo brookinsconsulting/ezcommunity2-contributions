@@ -15,6 +15,9 @@
      <a href="/trade/cart/">YOUR CART</a><br />
      <a href="/trade/wishlist/">YOUR WISHLIST</a><br />
      
+     <a href="/trade/sendwishlist/">Send wishlist</a><br />
+     <a href="/trade/findwishlist/">Find wishlist</a><br />
+     
      <? include( "eztrade/user/hotdealslist.php" ); ?>     
 </td>
 <td rowspan="2" bgcolor="#ffffff" width="97%" valign="top">

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.18 2000/11/03 10:38:03 bf-cvs Exp $
+// $Id: checkout.php,v 1.19 2001/01/17 10:23:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -233,7 +233,17 @@ if ( $SendOrder == "true" )
     }
 
     foreach( $items as $item )
-    {        
+    {
+        // set the wishlist item to bought if the cart item is
+        // fetched from a wishlist
+
+        $wishListItem = $item->wishListItem();
+        if ( $wishListItem )
+        {
+            $wishListItem->setIsBought( true );
+            $wishListItem->store();
+        }
+        
         $product = $item->product();
         // create a new order item
         $orderItem = new eZOrderItem();
@@ -300,16 +310,12 @@ if ( $SendOrder == "true" )
     $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_sub_total", $priceString );
 
-
-
     $shippinglPrice = $order->shippingCharge();
     $currency->setValue( $shippinglPrice );
     
     $shippingPriceString = substr(  $locale->format( $currency ), 0, 13 );
     $shippingPriceString = str_pad( $shippingPriceString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
-
-
 
     $grandTotal = $order->totalPrice() + $order->shippingCharge();
     $currency->setValue( $grandTotal );
@@ -318,11 +324,9 @@ if ( $SendOrder == "true" )
     $grandTotalString = str_pad( $grandTotalString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_total", $grandTotalString );
     
-    
     $mailTemplate->set_var( "order_number", $order->id() );
     
-    // Send E-mail
-    
+    // Send E-mail    
     $mail = new eZMail();
     $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.9 2000/12/12 18:49:40 bf Exp $
+// $Id: productsearch.php,v 1.10 2001/01/17 10:23:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -29,7 +29,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
@@ -118,6 +118,9 @@ if ( isSet( $Query ) )
         $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_id", $product->id() );
 
+        $defCat = $product->categoryDefinition();
+        $t->set_var( "category_id", $defCat->id() );
+
         if ( ( $i % 2 ) == 0 )
         {
             $t->set_var( "td_class", "bglight" );
@@ -154,9 +157,6 @@ if ( isSet( $Query ) )
         $i++;
     }
 }
-
-$defCat = $product->categoryDefinition();
-$t->set_var( "category_id", $defCat->id() );
 
 $t->set_var( "url_query_string", $Query );
 $t->set_var( "query_string", $Query );

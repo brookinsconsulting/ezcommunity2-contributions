@@ -1,36 +1,8 @@
 <?
 
 include_once( "eztrade/classes/ezproducttype.php" );
-//  include_once( "eztrade/classes/ezproductattribute.php" );
-
-//  $product = new eZProduct( 1 );
-//  print( $product->name() . "<br>" );
-
-//  $type = new eZProductType( 1 );
-//  //  $type->setName( "Flowers" );
-//  //  $type->setDescription( "Flowers are nice" );
-//  //  $type->store();
-
-//  print( "<b>". $type->name() .":</b>" );
-
-//  $attribute = new eZProductAttribute();
-//  $attribute->setType( $type );
-//  $attribute->setName( "Doors" );
-//  //  $attribute->store();
-
-//  $attributes = $type->attributes();
-
-//  foreach ( $attributes as $attribute )
-//  {
-//      print( "<br>" . $attribute->name( ) . " : " );
-//      $attribute->setValue( $product, "this is a value" );
-
-//      print( $attribute->value( $product ) );    
-//  }
-
 
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
-
 
 switch ( $url_array[2] )
 {
@@ -152,6 +124,30 @@ switch ( $url_array[2] )
         include( "eztrade/user/wishlist.php" );
     break;
 
+    case "viewwishlist" :
+    {
+        if ( $url_array[3] == "movetocart" )
+        {
+            $Action = "MoveToCart";
+            $WishListItemID = $url_array[4];
+        }
+        
+        include( "eztrade/user/viewwishlist.php" );
+    }
+    break;
+    
+    case "sendwishlist" :
+    {
+        include( "eztrade/user/sendwishlist.php" );
+    }
+    break;
+
+    case "findwishlist" :
+    {
+        include( "eztrade/user/findwishlist.php" );
+    }
+    break;
+
     case "customerlogin" :
         include( "eztrade/user/customerlogin.php" );
         break;
@@ -171,7 +167,7 @@ switch ( $url_array[2] )
         break;
 
     default :
-        print( "<h1>Sorry, Your PRODUCT page could not be found. </h1>" );
+        print( "<h1>Sorry, Your Product page could not be found. </h1>" );
         break;
 }
 

@@ -37,10 +37,18 @@
 
 <form action="/trade/wishlist/" method="post">
 
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-  <tr>
+<tr>
     <td>
       <h1>{intl-wishlist}</h1>
+    </td>
+    <td align="right">
+      <input type="checkbox" name="IsPublic" {is_public_checked} />&nbsp;{intl-is_public}
+    </td>
+<tr>
+    <td colspan="2">
+
       <hr noshade size="4" />
       <!-- BEGIN empty_wishlist_tpl -->
       <h2>{intl-empty_wishlist}</h2>
@@ -50,8 +58,9 @@
 		  <th>{intl-product_image}:</th>
 		  <th>{intl-product_name}:</th>
 		  <th>{intl-product_options}:</th>
-		  <th>{intl-product_qty}:</th>
 		  <th>{intl-move_to_cart}:</th>
+		  <th>{intl-someone_has_bought_this}:</th>
+		  <th>{intl-product_qty}:</th>
 		  <td align="right"><b>{intl-product_price}:</b></td>
 		  <td align="right">&nbsp;</td>
 		</tr>
@@ -65,7 +74,21 @@
 			{option_value}<br>
 			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
 		  <td class="{td_class}"> <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
-			{intl-move_to_cart} </a> </td>
+			{intl-move_to_cart} </a> 
+                  </td>
+
+  		  <td class="{td_class}">
+
+		  <!-- BEGIN is_bought_tpl -->
+		  {intl-is_bought}
+		  <!-- END is_bought_tpl -->
+
+		  <!-- BEGIN is_not_bought_tpl -->
+		  {intl-is_not_bought}
+		  <!-- END is_not_bought_tpl -->
+
+   		  </td>
+
   		  <td class="{td_class}">
 		  	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
 			<input size="3" type="text" name="WishlistCountArray[]" value="{wishlist_item_count}" />

@@ -100,13 +100,14 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{cart_item_id}
 <!-- END cart_item_list_tpl -->
 
 <hr noshade="noshade" size="4" />
+<!-- BEGIN cart_checkout_tpl -->
+
 <table border="0">
 <tr>
-	<!-- BEGIN cart_checkout_tpl -->
+
 	<td>
 	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
-	<!-- END cart_checkout_tpl -->
 
 	<td>
 	<input class="okbutton" type="submit" value="{intl-update}" />
@@ -114,6 +115,8 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{cart_item_id}
 	</td>
 </td>
 </table>
+<!-- END cart_checkout_tpl -->
+
 
 <input type="hidden" name="Action" value="Refresh" />
 

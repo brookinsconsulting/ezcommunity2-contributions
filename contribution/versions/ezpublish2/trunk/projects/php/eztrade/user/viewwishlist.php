@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.10 2001/01/17 10:23:29 bf Exp $
+// $Id: viewwishlist.php,v 1.1 2001/01/17 10:23:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -30,7 +30,7 @@ include_once( "classes/ezcurrency.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
@@ -45,6 +45,30 @@ include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 
+// move to item to cart and delete item if the user owns it
+// if not just "copy" to cart
+if ( $Action == "MoveToCart" )
+{
+    $wishListItem = new eZWishListItem( );
+    if ( $wishListItem->get( $WishListItemID ) )
+    {
+        $wishListItem->moveToCart();
+
+        // only delete if the user owns the wishlist
+        $tmpWishlist = $wishListItem->wishlist();
+        $tmpUser = $tmpWishlist->user();
+        $curUser = eZUser::currentUser();
+
+        if ( $curUser && ( $tmpUser->id() == $curUser->id() ) )
+        {        
+            $wishListItem->delete();
+        }
+    }
+
+    Header( "Location: /trade/cart/" );
+    exit();
+}
+
 $wishlist = new eZWishlist();
 $session = new eZSession();
 
@@ -55,192 +79,45 @@ if ( !$session->fetch() )
 }
 
 
-// your own wishlist
-$user = eZUser::currentUser();
-
-if ( !$user )
+if ( is_numeric( $url_array[3] ) )
+{
+    $userID = $url_array[3];
+}
+else
 {
     Header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
-    exit();
+    exit();    
 }
 
-$wishlist = $wishlist->getByUser( $user );
-
-
-if ( !$wishlist )
 {
-    $wishlist = new eZWishlist();
-    $wishlist->setUser( $user );
+    // others wishlist
+    $user = new eZUser( $userID );
+    $wishlist = $wishlist->getByUser( $user );
 
-    $wishlist->store();
-}
-
-if ( $Action == "AddToBasket" )
-{
-    $product = new eZProduct( $ProductID );
-
-    // check if a product like this is already in the basket.
-    // if so-> add the count value.
-    $productAddedToWishlist = false;
+    if ( $wishlist )
     {
-        // fetch the cart items
-        $items = $wishlist->items( );
-
-        foreach ( $items as $item )
+        // do not show non public wish lists (unless owned by one)
+        if ( $wishlist->isPublic() == false )
         {
-            $productItem =  $item->product();
-            // the same product
-            if ( ( $ProductID == $productItem->id() ) && ( $productAddedToWishlist == false ) )
-            {
-                $optionValues =& $item->optionValues();
-
-                if ( count( $optionValues ) > 0 )
-                { // product with options
-                    $hasTheSameOptions = true;
-                    
-                    foreach ( $optionValues as $optionValue )
-                    {
-                        $option =& $optionValue->option();
-                        $value =& $optionValue->optionValue();                        
-
-                        $optionValueFound = false;
-                        
-                        if ( count( $OptionValueArray ) > 0 )
-                        {
-                            $i=0;
-                            foreach ( $OptionValueArray as $valueItem )
-                            {
-                                if ( ( $OptionIDArray[$i] == $option->id() )
-                                     && ( $valueItem == $value->id() ) )
-                                {
-                                    $optionValueFound = true;
-                                }
-                                $i++;
-                            }
-                        }
-                        
-                        if ( $optionValueFound == false )
-                        {
-                            $hasTheSameOptions = false;
-                        }
-                    }
-
-                    if ( $hasTheSameOptions == true )
-                    {
-                        $item->setCount( $item->count() + 1 );
-                        $item->store();
-                        $productAddedToWishlist = true;
-                    }
-                }
-                else
-                { // product without options
-                    if ( count( $OptionValueArray ) == 0 )
-                    {
-                        $item->setCount( $item->count() + 1 );
-                        $item->store();
-                        $productAddedToWishlist = true;
-                    }
-                }
-            }
+            Header( "Location: /" );
+            exit();
         }
-    }
-    
-    if ( $productAddedToWishlist == false )
-    {
-        $wishlistItem = new eZWishlistItem();
-
-        $wishlistItem->setProduct( $product );
-        $wishlistItem->setWishlist( $wishlist );
-
-        $wishlistItem->store();
-
-        if ( count( $OptionValueArray ) > 0 )
-        {
-            $i = 0;
-            foreach ( $OptionValueArray as $value )
-            {
-
-                $option = new eZOption( $OptionIDArray[$i] );
-                $optionValue = new eZOptionValue( $value );
-
-                $wishlistOption = new eZWishlistOptionValue();
-                $wishlistOption->setWishlistItem( $wishlistItem );
-                $wishlistOption->setOption( $option );
-                $wishlistOption->setOptionValue( $optionValue );
-
-                $wishlistOption->store();
-
-                $i++;
-            }
-        }
-    }
-
-    Header( "Location: /trade/wishlist/" );
-
-    exit();
-}
-
-
-if ( $Action == "RemoveFromWishlist" )
-{
-    $wishListItem = new eZWishListItem( );
-    if ( $wishListItem->get( $WishListItemID ) )
-    {
-        $wishListItem->delete();
-    }
-
-    Header( "Location: /trade/wishlist/" );
-
-    exit();
-}
-
-
-if ( $Action == "Refresh" )
-{
-    $i=0;
-    if ( count( $WishlistIDArray ) > 0 )
-    foreach ( $WishlistIDArray as $wishlistID )
-    {
-        $wishlistItem = new eZWishlistItem( $wishlistID );
-        $wishlistItem->setCount( $WishlistCountArray[$i] );
-        $wishlistItem->store();
-        $i++;
-    }
-
-    // set public/private
-    if ( $IsPublic == "on" )
-    {
-        $wishlist->setIsPublic( true );
-        $wishlist->store();
     }
     else
     {
-        $wishlist->setIsPublic( false );
-        $wishlist->store();        
+        Header( "Location: /" );
+        exit();
     }
 }
 
-
-if ( $Action == "MoveToCart" )
-{
-    $wishListItem = new eZWishListItem( );
-    if ( $wishListItem->get( $WishListItemID ) )
-    {
-        $wishListItem->moveToCart();
-        $wishListItem->delete();
-    }
-
-    Header( "Location: /trade/cart/" );
-    exit();
-}
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/user/intl/", $Language, "wishlist.php" );
+                     "eztrade/user/intl/", $Language, "viewwishlist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "wishlist_page_tpl" => "wishlist.tpl"
+    "wishlist_page_tpl" => "viewwishlist.tpl"
     ) );
 
 
@@ -255,7 +132,6 @@ $t->set_block( "wishlist_item_tpl", "wishlist_item_option_tpl", "wishlist_item_o
 
 $t->set_block( "wishlist_item_tpl", "is_bought_tpl", "is_bought" );
 $t->set_block( "wishlist_item_tpl", "is_not_bought_tpl", "is_not_bought" );
-
 
 
 if ( $wishlist->isPublic() == true )
@@ -310,7 +186,7 @@ foreach ( $items as $item )
         $t->set_var( "is_bought", "" );
         $t->parse( "is_not_bought", "is_not_bought_tpl" );
     }
-    
+
     $currency->setValue( $product->price() * $item->count() );
 
     $sum += $product->price();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.9 2000/12/21 19:42:03 pkej Exp $
+// $Id: ezmail.php,v 1.10 2001/01/17 10:23:28 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -144,7 +144,7 @@ class eZMail
     */
     function setSubject( $newSubject )
     {
-        $this->Subject = $newSubject;
+        $this->Subject = trim( $newSubject );
     }
 
     /*!
@@ -168,7 +168,16 @@ class eZMail
     */
     function send()
     {
-        mail( $this->To, $this->Subject, $this->Body, "From: " . $this->From)
+        //  $headers .= "cc:birthdayarchive@php.net\n"; // CC to
+        //  $headers .= "bcc:birthdaycheck@php.net, birthdaygifts@php.net\n"; // BCCs to
+
+        $headers .= "From: $this->From <$this->From>\n";
+        $headers .= "X-Sender: <$this->From>\n"; 
+        $headers .= "X-Mailer: eZ publish PHP\n"; // mailer
+        $headers .= "X-Priority: 1\n"; // Urgent message!
+        $headers .= "Return-Path: <$this->From>\n";  // Return path for errors
+        
+        mail( $this->To, $this->Subject, $this->Body, $headers )
             or warn( "Error: could not send email." );
     }
 
