@@ -70,15 +70,15 @@
 <!-- END country_tpl -->
 
 <b>{intl-text}:</b><br />
-<textarea name="Description" cols="40"" rows="8">{email_text}</textarea>
+<textarea name="Description" cols="40" rows="8">{email_text}</textarea>
 <br /><br />
 <!-- END smail_tpl -->
 
 <hr noshade="noshade" size="1" />
 
-<input type="hidden" name="MailMethod" value="{mail_method}" />
+<input type="hidden" name="Mail" value="{mail_method}" />
 <input type="hidden" name="ProductID" value="{product_id}" />
-<input type="hidden" name="PriceRange" value="{price_range}" />
+<input type="hidden" name="Price" value="{price_range}" />
 
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />

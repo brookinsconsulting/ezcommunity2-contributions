@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.26 2001/09/21 09:53:02 ce Exp $
+// $Id: ezcartitem.php,v 1.27 2001/10/10 12:30:18 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -156,9 +156,13 @@ class eZCartItem
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-            
-        $res[] = $db->query( "DELETE FROM eZTrade_CartOptionValue WHERE CartItemID='$this->ID'" );
+
+        $voucherInformation =& $this->voucherInformation();
+        if ( $voucherInformation )
+            $voucherInformation->delete();
         
+        $res[] = $db->query( "DELETE FROM eZTrade_CartOptionValue WHERE CartItemID='$this->ID'" );
+
         $res[] = $db->query( "DELETE FROM eZTrade_CartItem WHERE ID='$this->ID'" );
         
         if ( in_array( false, $res ) )

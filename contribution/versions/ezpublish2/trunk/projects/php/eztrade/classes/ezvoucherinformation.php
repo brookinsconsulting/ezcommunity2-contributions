@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.5 2001/10/09 08:06:02 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.6 2001/10/10 12:30:18 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -91,7 +91,7 @@ class eZVoucherInformation
             $timeStamp =& eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherInformation
-                      ( ID, VoucherID, OnlineID, ToAddressID, FromToAddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price, ProductID )
+                      ( ID, VoucherID, OnlineID, ToAddressID, FromAddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price, ProductID )
                       VALUES
                       ( '$nextID',
                         '$this->VoucherID',

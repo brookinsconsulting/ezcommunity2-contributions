@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.68 2001/10/05 12:37:50 br Exp $
+// $Id: cart.php,v 1.69 2001/10/10 12:30:18 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -296,7 +296,7 @@ if ( $Action == "AddToBasket" )
                 $cartItem->setCart( $cart );
 
                 $voucherInformationID = $session->variable( "VoucherInformationID" );
-
+                $session->setVariable( "VoucherInformationID", 0 );
                 $cartItem->setVoucherInformation( $voucherInformationID );
 
                 $cartItem->store();
@@ -324,7 +324,6 @@ if ( $Action == "AddToBasket" )
             }
         }
     }
-
     eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
@@ -488,8 +487,6 @@ if ( $ShowCart == true )
     
     $cart->cartTotals( $tax, $total );
 
-
-    
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     

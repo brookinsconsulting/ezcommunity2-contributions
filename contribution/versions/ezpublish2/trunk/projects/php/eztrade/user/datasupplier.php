@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.51 2001/10/05 19:22:40 br Exp $
+// $Id: datasupplier.php,v 1.52 2001/10/10 12:30:18 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -260,6 +260,9 @@ switch ( $url_array[2] )
     case "voucherinformation" :
     {
         $ProductID = $url_array[3];
+        $PriceRange = $url_array[4];
+        $MailMethod = $url_array[5];
+
         include( "eztrade/user/voucherinformation.php" );
     }
     break;

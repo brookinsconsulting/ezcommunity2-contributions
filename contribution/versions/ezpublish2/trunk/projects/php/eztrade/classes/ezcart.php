@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.33 2001/10/02 07:59:01 ce Exp $
+// $Id: ezcart.php,v 1.34 2001/10/10 12:30:18 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -304,7 +304,6 @@ class eZCart
         $tax = "";
         $total = "";
 
-       
         if ( !$voucher )
         {
             $items = $this->items( );

@@ -24,6 +24,14 @@
 
 <hr noshade size="4"/>
 
+<!-- BEGIN price_to_high_tpl -->
+<p class="error">{intl-price_to_high}</p>
+<!-- END price_to_high_tpl -->
+<!-- BEGIN price_to_low_tpl -->
+<p class="error">{intl-price_to_low}</p>
+<!-- END price_to_low_tpl -->
+
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
