@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.26 2000/08/28 13:53:50 bf-cvs Exp $
+    $Id: main.php,v 1.27 2000/08/28 16:39:44 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,12 +9,13 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
+include_once( "class.INIFile.php" );
+
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
-include_once( "class.INIFile.php" );
 
 include_once( $DOC_ROOT . "classes/ezdb.php" );
 include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
@@ -40,12 +41,18 @@ $t->set_file( Array("main" => "main.tpl",
                     "results" => "main-search-results.tpl",
                     "search-elements" =>"main-search-results-elements.tpl",
                     "navigation" => "navigation.tpl",
+                    "login" => "login.tpl",                    
                     "logout" => "logout.tpl"
                     ) );
 
 $t->set_var( "docroot", $DOC_ROOT);
 $category = new eZForumCategory();
 $categories = $category->getAllCategories();
+
+
+$t->set_var( "current_forum", "" );
+$t->set_var( "current_forum_category", "" );
+
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
@@ -55,8 +62,8 @@ if ( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
-   $t->set_var( "user", "Anonym" );
-   $t->set_var( "logout-message", "" );
+    $t->set_var( "user", "Anonym" );
+    $t->parse( "logout-message", "login", true);   
 }
 $t->parse( "navigation-bar", "navigation", true);
 
@@ -103,26 +110,6 @@ else
     $t->parse( "searchfield", "search" );
 }
 
-// login / logout
-
-if ( $session->validate( $AuthenticatedSession ) == 0   )
-{
-    $t->set_var( "login-msg", "" );
-    $t->set_var( "loginlogout", "" );
-}
-else
-{
-    if ( $login == "failed" )
-    {
-        $t->set_var( "login-msg", "Påloggingen var mislykket, prøv igjen." );
-    }
-    else
-    {
-        $t->set_var( "login-msg", "" );
-    }
-
-    $t->parse( "loginlogout", "login", true );
-}
 
 //parse template file
 $t->pparse( "output", "main" );

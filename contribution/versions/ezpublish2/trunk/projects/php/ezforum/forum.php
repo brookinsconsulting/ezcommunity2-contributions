@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.23 2000/08/28 13:48:03 bf-cvs Exp $
+    $Id: forum.php,v 1.24 2000/08/28 16:39:44 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -19,6 +19,7 @@ include_once( "template.inc" );
 include_once( "class.INIFile.php" );
 include_once( $DOC_ROOT . "/classes/ezdb.php" );
 include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+include_once( $DOC_ROOT . "/classes/ezforumforum.php" );
 include_once( "classes/ezuser.php" );
 include_once( "classes/ezsession.php" );
 include_once( "classes/eztemplate.php" );
@@ -47,6 +48,13 @@ $t->set_var( "docroot", $DOC_ROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
 
+$category = new eZForumCategory( );
+$category->get( $category_id );
+$t->set_var( "current_forum", "/ " . $category->name() );
+
+$forum = new eZForumForum( );
+$forum->get( $forum_id );
+$t->set_var( "current_forum_category", "/ " . $forum->name() );
 
 
 //navbar setup

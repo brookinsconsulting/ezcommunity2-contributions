@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.20 2000/08/28 13:48:03 bf-cvs Exp $
+    $Id: category.php,v 1.21 2000/08/28 16:39:44 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,8 +8,6 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-
-//include( "ezforum/dbsettings.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
@@ -24,7 +22,7 @@ include_once( "classes/eztemplate.php" );
 
 $session = new eZSession;
 
-$ini = new INIFile( "site.ini" ); // get language settings
+
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 $t = new eZTemplate( $DOC_ROOT . "/templates", $DOC_ROOT. "/intl", $Language, "category.php" );
@@ -42,6 +40,10 @@ $t->set_file( array("category" => "category.tpl",
 
 $t->set_var( "docroot", $DOC_ROOT);
 $t->set_var( "category_id", $category_id );
+
+$category = new eZForumCategory( );
+$category->get( $category_id );
+$t->set_var( "current_forum", $category->name() );
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
