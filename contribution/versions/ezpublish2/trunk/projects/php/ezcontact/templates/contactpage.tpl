@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<h1>Kontaktdatabase</h1>
+<h2>Kontaktdatabase</h2>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 {company_list}
 </table>

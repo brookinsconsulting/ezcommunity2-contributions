@@ -52,9 +52,9 @@
 
 </script>
 
-<h1>{message}</h1>
+<h2>{message}</h2>
 
-<table width="100%" border="0">
+<table width="100%" border="0" cellpadding="2" cellspacing="2">
 <tr>
 	<td bgcolor="#3c3c3c">
 	<font color="#ffffff"><b>&nbsp;&nbsp;Personinformasjon</b></font>	
