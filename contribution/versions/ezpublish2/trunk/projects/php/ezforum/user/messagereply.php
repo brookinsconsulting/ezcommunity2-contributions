@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.34 2001/03/14 09:34:07 pkej Exp $
+// $Id: messagereply.php,v 1.35 2001/04/23 12:09:41 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -23,6 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 include_once( "classes/ezmail.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 if ( $StartAction == "reply" )
 {
@@ -104,7 +105,7 @@ if ( $StartAction == "reply" )
         {
             if ( ( $message->treeID() > $msg->treeID() ) && $message->emailNotice() )
             {
-                
+                $user =& eZUser::currentUser();
                 $headersInfo = ( getallheaders() );
                 $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
                 $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
