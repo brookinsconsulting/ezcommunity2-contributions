@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productreport.php,v 1.4 2001/01/22 14:43:01 jb Exp $
+// $Id: productreport.php,v 1.5 2001/02/12 16:12:36 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Jan-2001 14:47:56 bf>
@@ -51,6 +51,18 @@ $t->set_block( "product_report_tpl", "most_added_to_cart_products_tpl", "most_ad
 $t->set_block( "product_report_tpl", "most_added_to_wishlist_products_tpl", "most_added_to_wishlist_products" );
 $t->set_block( "product_report_tpl", "most_bought_products_tpl", "most_bought_products" );
 
+$t->set_block( "product_report_tpl", "month_tpl", "month" );
+$t->set_block( "month_tpl", "month_previous_tpl", "month_previous" );
+$t->set_block( "month_tpl", "month_previous_inactive_tpl", "month_previous_inactive" );
+$t->set_block( "month_tpl", "month_next_tpl", "month_next" );
+$t->set_block( "month_tpl", "month_next_inactive_tpl", "month_next_inactive" );
+
+if ( !is_numeric( $Year ) || !is_numeric( $Month ) )
+{
+    $cur_date = new eZDate();
+    $Year = $cur_date->year();
+    $Month = $cur_date->month();
+}
 
 $query = new eZPageViewQuery();
 
@@ -73,12 +85,22 @@ foreach ( $productReport as $product )
     }
 }
 
-foreach ( $productArray as $productItem )
+if ( !empty( $productArray ) )
 {
-    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"] ) );
-    $t->set_var( "view_count", $productItem["Count"] );
+    $i = 0;
+    foreach ( $productArray as $productItem )
+    {
+        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"] ) );
+        $t->set_var( "view_count", $productItem["Count"] );
 
-    $t->parse( "most_viewed_product", "most_viewed_product_tpl", true );
+        $t->parse( "most_viewed_product", "most_viewed_product_tpl", true );
+        ++$i;
+    }
+}
+else
+{
+    $t->set_var( "most_viewed_product", "" );
 }
 
 // mostly added to cart
@@ -99,15 +121,25 @@ foreach ( $productReport as $product )
     }
 }
 
-foreach ( $productArray as $productItem )
+if ( !empty( $productArray ) )
 {
-    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"]  ) );
-    $t->set_var( "add_count", $productItem["Count"] );
+    $i = 0;
+    foreach ( $productArray as $productItem )
+    {
+        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"]  ) );
+        $t->set_var( "add_count", $productItem["Count"] );
 
-    $t->parse( "most_added_to_cart_products", "most_added_to_cart_products_tpl", true );
+        $t->parse( "most_added_to_cart_products", "most_added_to_cart_products_tpl", true );
+        ++$i;
+    }
+}
+else
+{
+    $t->set_var( "most_added_to_cart_products", "" );
 }
 
-// mostly added to wishlist
+//  // mostly added to wishlist
 
 $productReport =& $query->topProductAddToWishlist( );
 
@@ -126,31 +158,74 @@ foreach ( $productReport as $product )
     }
 }
 
-foreach ( $productArray as $productItem )
+if ( !empty( $productArray ) )
 {
-    print( 
-    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"]  ) );
-    $t->set_var( "add_count", $productItem["Count"] );
+    $i = 0;
+    foreach ( $productArray as $productItem )
+    {
+        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"]  ) );
+        $t->set_var( "add_count", $productItem["Count"] );
 
-    $t->parse( "most_added_to_wishlist_products", "most_added_to_wishlist_products_tpl", true );
+        $t->parse( "most_added_to_wishlist_products", "most_added_to_wishlist_products_tpl", true );
+        ++$i;
+    }
+} 
+else
+{
+    $t->set_var( "most_added_to_wishlist_products", "" );
 }
-
+ 
 // Most bought product
 
 $order = new eZOrder();
 $productReport =& $order->mostPopularProduct();
 
-foreach ( $productReport as $productItem )
+if ( !empty( $productReport ) )
 {
-    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ProductID"]  ) );
+    $i = 0;
+    foreach ( $productReport as $productItem )
+    {
+        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "product_name", $tmpProduct->productName( $productItem["ProductID"]  ) );
 
-    $t->set_var( "buy_count", $productItem["Count"] );
-    $t->set_var( "total_buy_count", $productItem["RealCount"] );
+        $t->set_var( "buy_count", $productItem["Count"] );
+        $t->set_var( "total_buy_count", $productItem["RealCount"] );
 
-    $t->parse( "most_bought_products", "most_bought_products_tpl", true );
+        $t->parse( "most_bought_products", "most_bought_products_tpl", true );
+        ++$i;
+    }
+}
+else
+{
+    $t->set_var( "most_bought_products", "" );
 }
 
     
+$next_month = new eZDate( $Year, $Month, 1, 0, 1, 0 );
+$prev_month = new eZDate( $Year, $Month, 1, 0, -1, 0 );
+
+$t->set_var( "next_month", $next_month->month() );
+$t->set_var( "previous_month", $prev_month->month() );
+$t->set_var( "next_year", $next_month->year() );
+$t->set_var( "previous_year", $prev_month->year() );
+
+$t->set_var( "month_next_inactive", "" );
+$t->set_var( "month_next", "" );
+$t->set_var( "month_previous", "" );
+$t->set_var( "month_previous_inactive", "" );
+
+$cur_date = new eZDate();
+
+if ( $cur_date->isGreater( $next_month ) )
+    $t->parse( "month_next_inactive", "month_next_inactive_tpl" );
+else
+    $t->parse( "month_next", "month_next_tpl" );
+
+$t->parse( "month_previous", "month_previous_tpl" );
+
+$t->parse( "month", "month_tpl" );
+
 $t->set_var( "this_month", $Month );
 $t->set_var( "this_year", $Year );
 
