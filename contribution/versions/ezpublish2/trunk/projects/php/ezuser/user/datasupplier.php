@@ -73,7 +73,13 @@ switch ( $url_array[2] )
         
         include( "ezuser/user/useredit.php" );
     }
-    break;    
+    break;
+
+    case "address" :
+    {
+        include( "ezuser/user/addressedit.php" );
+    }
+    break;
     
     case "logout" :
     {
