@@ -136,7 +136,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
-include_once( "classes/eztimetime.php" );
+//include_once( "classes/eztimetime.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
