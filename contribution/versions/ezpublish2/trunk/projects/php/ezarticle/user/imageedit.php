@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.1 2001/08/17 14:14:07 ce Exp $
+// $Id: imageedit.php,v 1.2 2001/09/07 17:33:55 fh Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -30,6 +30,7 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezimagefile.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezuser/classes/ezauthor.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
@@ -47,6 +48,20 @@ if ( $Action == "Insert" )
         $image = new eZImage();
         $image->setName( $Name );
         $image->setCaption( $Caption );
+        if ( trim( $NewPhotographerName ) != "" &&
+             trim( $NewPhotographerEmail ) != ""
+             )
+        {
+            $author = new eZAuthor( );
+            $author->setName( $NewPhotographerName );
+            $author->setEmail( $NewPhotographerEmail );
+            $author->store();
+            $image->setPhotographer( $author );
+        }
+        else
+        {
+            $image->setPhotographer( $PhotoID );
+        }
 
         if( $image->checkImage( $file ) && $image->setImage( $file ) )
         {
@@ -72,12 +87,27 @@ if ( $Action == "Insert" )
 if ( $Action == "Update" )
 {
     $file = new eZImageFile();
+    $image = new eZImage( $ImageID );
     
+    if ( trim( $NewPhotographerName ) != "" &&
+         trim( $NewPhotographerEmail ) != ""
+         )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $NewPhotographerName );
+        $author->setEmail( $NewPhotographerEmail );
+        $author->store();
+        $image->setPhotographer( $author );
+    }
+    else
+    {
+        $image->setPhotographer( $PhotoID );
+    }
+
     if ( $file->getUploadedFile( "userfile" ) )
     {
         $article = new eZArticle( $ArticleID );
 
-        $image = new eZImage( $ImageID );
 
         $variations =& $image->variations();
 
@@ -175,6 +205,7 @@ $t->set_file( array(
 
 
 $t->set_block( "image_edit_page", "image_tpl", "image" );
+$t->set_block( "image_edit_page", "photographer_item_tpl", "photographer_item" );
 
 //default values
 $t->set_var( "name_value", "" );
@@ -187,6 +218,9 @@ if ( $Action == "Edit" )
 {
     $article = new eZArticle( $ArticleID );
     $image = new eZImage( $ImageID );
+
+    $photographer = $image->photographer();
+    $photographerID = $photographer->id();
 
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "name_value", $image->name() );
@@ -204,6 +238,25 @@ if ( $Action == "Edit" )
     $t->set_var( "image_file_name", $image->originalFileName() );
     $t->parse( "image", "image_tpl" );
 }
+
+$author = new eZAuthor();
+$authorArray = $author->getAll();
+foreach ( $authorArray as $author )
+{
+    if ( $photographerID == $author->id() )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+
+    $t->set_var( "photo_id", $author->id() );
+    $t->set_var( "photo_name", $author->name() );
+    $t->parse( "photographer_item", "photographer_item_tpl", true );
+}
+
 
 $article = new eZArticle( $ArticleID );
     

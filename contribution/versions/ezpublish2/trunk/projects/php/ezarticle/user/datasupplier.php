@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.82 2001/09/07 12:12:00 bf Exp $
+// $Id: datasupplier.php,v 1.83 2001/09/07 17:33:55 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -532,6 +532,17 @@ switch ( $url_array[2] )
                         {
                             $Action = "New";
                             $ArticleID = $url_array[5];
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/imageedit.php" );
+                        }
+                        break;
+
+                        case "edit" :
+                        {
+                            $Action = "Edit";
+                            $ArticleID = $url_array[6];
+                            $ImageID = $url_array[5];
                             if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
                                 || eZArticle::isAuthor( $user, $ArticleID ) )
                                 include( "ezarticle/user/imageedit.php" );

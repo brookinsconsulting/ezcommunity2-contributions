@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.24 2001/09/07 15:45:36 fh Exp $
+// $Id: imageedit.php,v 1.25 2001/09/07 17:33:55 fh Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -92,19 +92,19 @@ if ( $Action == "Update" )
     $image = new eZImage( $ImageID );
     
     if ( trim( $NewPhotographerName ) != "" &&
-             trim( $NewPhotographerEmail ) != ""
-             )
-        {
-            $author = new eZAuthor( );
-            $author->setName( $NewPhotographerName );
-            $author->setEmail( $NewPhotographerEmail );
-            $author->store();
-            $image->setPhotographer( $author );
-        }
-        else
-        {
-            $image->setPhotographer( $PhotoID );
-        }
+         trim( $NewPhotographerEmail ) != ""
+         )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $NewPhotographerName );
+        $author->setEmail( $NewPhotographerEmail );
+        $author->store();
+        $image->setPhotographer( $author );
+    }
+    else
+    {
+        $image->setPhotographer( $PhotoID );
+    }
         
     if ( $file->getUploadedFile( "userfile" ) )
     {

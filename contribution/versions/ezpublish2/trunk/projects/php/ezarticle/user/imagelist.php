@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.1 2001/08/17 14:14:07 ce Exp $
+// $Id: imagelist.php,v 1.2 2001/09/07 17:33:55 fh Exp $
 //
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
@@ -84,6 +84,9 @@ else
     $i=0;
     foreach ( $images as $image )
     {
+        $placement = $image["Placement"];
+        $image = $image["Image"];
+
         if ( ( $i % 2 ) == 0 )
         {
             $t->set_var( "td_class", "bglight" );
@@ -94,7 +97,8 @@ else
         }
 
         $t->set_var( "thumbnail_image_checked", "" );
-        if ( $thumbnail != 0 )
+        
+        if ( is_object( $thumbnail ) )
         {
             if ( $thumbnail->id() == $image->id() )
             {
