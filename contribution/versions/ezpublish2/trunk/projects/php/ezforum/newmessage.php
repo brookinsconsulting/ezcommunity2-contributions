@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: newmessage.php,v 1.2 2000/07/17 12:44:52 lw-cvs Exp $
+    $Id: newmessage.php,v 1.3 2000/07/25 10:13:37 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,7 +21,8 @@ $usr = new eZUser;
 $t = new Template(".");
 $session = new eZSession();
 
-$t->set_file("newmessage","$DOCROOT/templates/newmessage.tpl");
+$t->set_file( Array( "newmessage" => "$DOCROOT/templates/newmessage.tpl",
+                     "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl" ) );
 
 $t->set_var( "category_id", $category_id);
 $t->set_var( "docroot", $DOCROOT);
@@ -51,6 +52,14 @@ function categoryForumInfo($Id)
 $t->set_var("info", categoryForumInfo($forum_id) );
 $t->set_var("forum_id", $forum_id);
 $t->set_var("user", $usr->resolveUser( $UserId ) );
+
+$t->set_var( "link1-url", "Gå til topp");
+$t->set_var( "link1-caption", "main.php");
+$t->set_var( "link2-url", "search.php");
+$t->set_var( "link2-caption", "Søk");
+
+$t->set_var( "back-url", "forum.php");
+$t->parse( "navigation-bar-bottom", "navigation-bottom", true);
     
 $t->pparse("output", "newmessage");
 ?>
