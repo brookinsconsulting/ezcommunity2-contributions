@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.10 2001/05/10 08:28:30 ce Exp $
+// $Id: search.php,v 1.11 2001/07/09 06:40:09 miker Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -63,7 +63,7 @@ $t->set_var( "search_result", "" );
 
 if ( $QueryString != "" )
 {
-    $t->set_var( "url_text", urlencode( $QueryString ) );
+    $t->set_var( "url_text", urldecode(urlencode( $QueryString ) ));
 
     $forum = new eZForum();
     
