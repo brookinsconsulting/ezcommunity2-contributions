@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.9 2000/07/24 14:24:20 lw Exp $
+    $Id: ezuser.php,v 1.10 2000/07/25 10:08:30 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -540,9 +540,15 @@ class eZUser {
     {
        openDB();
 
+       if ( $Id )
+{
        $q = mysql_query( "SELECT nick_name, first_name, last_name FROM UserTable WHERE Id = $Id " )
             or die("Could not resolve user name, dying...");
-
+}
+else
+{
+  return "Anonym";
+}
        $name = mysql_fetch_array( $q );
        if ( $name["nick_name"] == "")
           return ( $name["first_name"] . " " . $name["last_name"] );
