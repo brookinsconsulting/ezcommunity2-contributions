@@ -787,3 +787,12 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: Changed version information.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-06-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * INIFile.php:
+    error messages in ini file is not printet if DEBUG is disabled
+

@@ -1093,3 +1093,11 @@ Maintainer(s) : br@ez.no
       user/imageedit.php:
     Fixed "read" permission not set when creating new image bug.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-06-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/datasupplier.php: coding standard fixes
+

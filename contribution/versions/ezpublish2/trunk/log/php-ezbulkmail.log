@@ -717,3 +717,11 @@ Maintainer(s) : fh@ez.no
       classes/ezbulkmailcategory.php
       classes/ezbulkmailusersubscripter.php: Added related products
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-06-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/categorylist.php: coding standard fixes
+
