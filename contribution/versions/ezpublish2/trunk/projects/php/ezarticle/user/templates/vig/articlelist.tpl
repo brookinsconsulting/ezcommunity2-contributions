@@ -2,7 +2,7 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" valign="top">
-	<a href="/article/articleheaderlist/1/"><img src="/sitedesign/vig/images/vig-nytt.gif" height="116" width="130" alt="" border="0" /></a><br /><br />
+	<a href="/article/articleheaderlist/1/"><img src="/sitedesign/vig/images/vig-siste.gif" height="150" width="130" alt="" border="0" /></a><br /><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
@@ -15,9 +15,6 @@
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" height="1" width="10" alt="" border="0" /></td>
 	<td width="98%" valign="top">
-<h1>Siste nytt fra Vekst i Grenland</h1>
-
-<hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
 
 <!-- BEGIN path_item_tpl -->
