@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.24 2001/12/21 11:57:33 jhe Exp $
+// $Id: pageedit.php,v 1.25 2001/12/21 12:04:25 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -86,7 +86,7 @@ $t->set_var( "delete_range_button", "" );
 
 // Make sub template for elements.
 $elementTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
-                     "ezform/admin/intl", $Language, "form.php" );
+                                   "ezform/admin/intl", $Language, "form.php" );
 
 $elementTemplate->set_file( "elementlist_tpl", "elementlist.tpl" );
 
@@ -530,11 +530,11 @@ if ( $element )
     {
         foreach ( $elements as $pageElement )
         {
-            if ( get_class( $pageElement ) == "ezformelementtype" )
-                $elementType =& $pageElement->elementType();
+            $elementType = $pageElement->elementType();
+            if ( get_class( $elementType ) == "ezformelementtype" )
+                $name = $elementType->name();
             else
-                $elementType = $pageElement;
-            $name = $elementType->name();
+                $name = $elementType;
             
             if ( $name == "multiple_select_item" ||
             $name == "dropdown_item" ||
@@ -542,7 +542,7 @@ if ( $element )
             $name == "checkbox_item" ||
             $name == "text_field_item" )
             {
-                if( $pageElement->id() == $elementChoiceID )
+                if ( $pageElement->id() == $elementChoiceID )
                 {
                     $t->set_var( "selected", "selected" );
                 }
