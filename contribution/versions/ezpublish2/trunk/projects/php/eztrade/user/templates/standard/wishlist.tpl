@@ -24,7 +24,7 @@
       <!-- END empty_wishlist_tpl --> <!-- BEGIN wishlist_item_list_tpl -->
       <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 		<tr> 
-		  <th>{intl-product_image}:</th>
+		  <th>&nbsp;</th>
 		  <th>{intl-product_name}:</th>
 		  <th>{intl-product_options}:</th>
 		  <th>{intl-move_to_cart}:</th>
@@ -76,14 +76,14 @@
 		  	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
 			<input size="3" type="text" name="WishlistCountArray[]" value="{wishlist_item_count}" />
    		  </td>
-		  <td class="{td_class}" align="right"> {product_price} </td>
+		  <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
 		  <td class="{td_class}" align="right"><a href="{www_dir}{index}/trade/wishlist/remove/{wishlist_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{wishlist_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{wishlist_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 		</tr>
 		<!-- END wishlist_item_tpl --> 
 		<tr> 
-		  <td colspan="3">&nbsp;</td>
-		  <th colspan="3">{intl-total}:</th>
-		  <td align="right"> {wishlist_sum} </td>
+		  <td colspan="6">&nbsp;</td>
+		  <th colspan="1">{intl-total}:</th>
+		  <td align="right"><nobr>{wishlist_sum}</nobr></td>
 		  <td align="right">&nbsp;</td>
 		</tr>
 	  </table>
@@ -93,16 +93,11 @@
   </tr>
 </table>
 
-<table border="0">
-<tr>
-	<td>
 	<input type="hidden" name="Action" value="Refresh" />
-	<input class="okbutton" type="submit" value="{intl-update}" />
-	</td>
-</td>
-</table>
+	<input class="stdbutton" type="submit" value="{intl-update}" />
 </form>
-<hr noshade size="1" />
+
+<hr noshade="noshade" size="4" />
 
 <!-- BEGIN wishlist_checkout_tpl -->
 <form action="{www_dir}{index}/trade/sendwishlist/" method="post">

@@ -13,7 +13,7 @@
       <!-- END empty_wishlist_tpl --> <!-- BEGIN wishlist_item_list_tpl -->
       <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 		<tr> 
-		  <th>{intl-product_image}:</th>
+		  <th>&nbsp;</th>
 		  <th>{intl-product_name}:</th>
 		  <th>{intl-product_options}:</th>
 		  <th>{intl-move_to_cart}:</th>
@@ -65,24 +65,24 @@
   		  <td class="{td_class}">
 		  {wishlist_item_count}
    		  </td>
-		  <td class="{td_class}" align="right"> {product_price} </td>
+		  <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
 		</tr>
 		<!-- END wishlist_item_tpl --> 
 		<tr> 
-		  <td colspan="5">&nbsp;</td>
+		  <td colspan="6">&nbsp;</td>
 		  <th>{intl-shipping}:</th>
-		  <td align="right"> {shipping_cost} </td>
+		  <td align="right"><nobr>{shipping_cost}</nobr></td>
 		  <td align="right">&nbsp;</td>
 		</tr>
 		<tr> 
-		  <td colspan="5">&nbsp;</td>
+		  <td colspan="6">&nbsp;</td>
 		  <th>{intl-total}:</th>
-		  <td align="right"> {wishlist_sum} </td>
+		  <td align="right"><nobr>{wishlist_sum}</nobr></td>
 		  <td align="right">&nbsp;</td>
 		</tr>
 	  </table>
       <!-- END wishlist_item_list_tpl -->
-      <hr noshade size="4" />
+      <hr noshade="noshade" size="4" />
     </td>
   </tr>
 </table>
