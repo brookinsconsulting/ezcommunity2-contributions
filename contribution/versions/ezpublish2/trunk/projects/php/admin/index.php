@@ -19,7 +19,7 @@ include_once( "../classes/ezuser.php" );
 
 
 include_once( "../ezpublish/settings/dbconnect.php" );
-include_once( "../dbsettings.php" );
+//include_once( "../dbsettings.php" );
 
 include_once( "../classes/ezsession.php" );
 include_once( "ezphputils.php" );
