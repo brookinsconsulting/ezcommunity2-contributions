@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: login.php,v 1.4 2000/07/18 09:42:02 lw-cvs Exp $
+    $Id: login.php,v 1.5 2000/07/25 08:23:34 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,11 +9,11 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-include( "ezphputils.php" );
 include( "ezforum/dbsettings.php" );
-include( "classes/ezdb.php" );
-include( "classes/ezuser.php" );
-include( "classes/ezsession.php" );
+include( "ezphputils.php" );
+include( $DOCROOT . "/classes/ezdb.php" );
+include( $DOCROOT . "/classes/ezuser.php" );
+include( $DOCROOT . "/classes/ezsession.php" );
 
 $user = new eZUser( );
 

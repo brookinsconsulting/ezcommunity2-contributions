@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.11 2000/07/24 14:24:14 lw Exp $
+    $Id: main.php,v 1.12 2000/07/25 08:23:34 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -112,23 +112,23 @@ if ( $session->validate( $AuthenticatedSession ) == 0   )
     $t->set_var( "login-msg", "" );
     $t->parse( "loginlogout", "logout", true);
 */
-    $t->set_var( "login-msg", "");
-    $t->set_var( "loginlogout", "");
+    $t->set_var( "login-msg", "" );
+    $t->set_var( "loginlogout", "" );
 }
 else
 {
     if ( $login == "failed" )
     {
-        $t->set_var( "login-msg", "Påloggingen var mislykket, prøv igjen.");
+        $t->set_var( "login-msg", "Påloggingen var mislykket, prøv igjen." );
     }
     else
     {
-        $t->set_var( "login-msg", "");
+        $t->set_var( "login-msg", "" );
     }
-    
-    $t->parse( "loginlogout", "login", true);
+
+    $t->parse( "loginlogout", "login", true );
 }
 
 //parse template file
-$t->pparse("output","main");
+$t->pparse( "output", "main" );
 ?>
