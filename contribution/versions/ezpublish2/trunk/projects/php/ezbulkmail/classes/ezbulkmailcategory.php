@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.20 2001/08/29 19:53:17 fh Exp $
+// $Id: ezbulkmailcategory.php,v 1.21 2001/09/04 15:18:13 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -485,6 +485,21 @@ class eZBulkMailCategory
                 $ret = new eZBulkMailCategorySettings( $ret );
             }
         }
+        if ( get_class ( $address ) == "ezbulkmailusersubscripter" )
+        {
+            $db =& eZDB::globalDatabase();
+
+            $user = $address->user();
+            $userID = $user->id();
+
+            $db->array_query( $result_array, "SELECT ID FROM eZBulkMail_UserSubscriptionCategorySettings WHERE CategoryID='$categoryID' AND UserID='$userID'" );
+            $ret = $result_array[0][$db->fieldName("ID")];
+            if ( is_numeric ( $ret ) )
+            {
+                $ret = new eZBulkMailCategorySettings( $ret );
+            }
+        }
+
         return $ret;
     }
 
@@ -526,6 +541,38 @@ class eZBulkMailCategory
                 $db->commit();
         }
         return $ret;
+    }
+
+    /*!
+      Add a eZUser to this category.
+    */
+    function addUserSubscription( $user )
+    {
+        $result = false;
+        if ( get_class ( $user ) == "ezuser" )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            
+            $userID = $user->id();
+            $db->lock( "eZBulkMail_UserCategoryLink" );
+            $nextID = $db->nextID( "eZBulkMail_UserCategoryLink", "ID" );
+
+            $result = $db->query( "INSERT INTO eZBulkMail_UserCategoryLink
+                         ( ID, CategoryID, UserID )
+                         VALUES
+                         ( '$nextID',
+                           '$categoryID',
+                           '$userID'
+                            ) " );
+
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
+        return $result;
     }
 
     var $ID;

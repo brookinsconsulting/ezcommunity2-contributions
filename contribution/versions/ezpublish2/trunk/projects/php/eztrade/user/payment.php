@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.66 2001/09/03 12:27:22 ce Exp $
+// $Id: payment.php,v 1.67 2001/09/04 15:18:14 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -766,6 +766,7 @@ if ( $PaymentSuccess == "true" )
         $voucherInformation->addVoucher( $newVoucher );
         $voucher->generateKey();
         $voucher->store();
+        $voucher->sendMail();
     }
 
     // call the payment script after the payment is successful.

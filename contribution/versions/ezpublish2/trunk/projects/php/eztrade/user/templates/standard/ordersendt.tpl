@@ -45,7 +45,7 @@
 </table>
 
 <p class="boxtext">{intl-comment}:</p>
-{payment_method}
+{comment}
 
 
 <br />

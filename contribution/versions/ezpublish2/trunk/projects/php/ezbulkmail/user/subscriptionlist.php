@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: subscriptionlist.php,v 1.5 2001/08/13 12:31:09 ce Exp $
+// $Id: subscriptionlist.php,v 1.6 2001/09/04 15:18:13 ce Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -25,14 +25,21 @@
 
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezbulkmail/classes/ezbulkmailsubscriptionaddress.php" );
+include_once( "ezbulkmail/classes/ezbulkmailusersubscripter.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
+if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
+{
+    $subscriptionaddress = new eZBulkMailUserSubscripter( eZUser::currentUser() );
 
+}
+else
 $subscriptionaddress = eZBulkMailSubscriptionAddress::getByEmail( $session->variable( "BulkMailAddress" ) );
+
 
 if( !is_object ( $subscriptionaddress ) )
 {
@@ -50,7 +57,7 @@ if( isset ( $Ok ) )
 
     for( $i=0;$i<count($CategoryAll);$i++ )
     {
-        $subscriptionaddress->addDelay( $CategoryAll[$i], $SendDelay[$i] );        
+        $subscriptionaddress->addDelay( $CategoryAll[$i], $SendDelay[$i] );
     }
 
     /** TODO: Create a confirmation dialog to send the user to... let him either edit or do nothing...**/

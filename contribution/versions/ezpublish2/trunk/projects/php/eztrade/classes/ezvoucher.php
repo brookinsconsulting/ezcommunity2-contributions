@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.2 2001/08/24 07:21:07 ce Exp $
+// $Id: ezvoucher.php,v 1.3 2001/09/04 15:18:14 ce Exp $
 //
 // eZVoucher class
 //
@@ -284,7 +284,39 @@ class eZVoucher
     */
     function &price( )
     {
-       return $this->Price;
+        return $this->Price;
+    }
+
+    /*!
+      Returns the price of the voucher.
+    */
+    function &sendMail( )
+    {
+        $db->query_single( $res, "SELECT MailMethod FROM eZTrade_Voucher WHERE ID='$this->ID'" );
+
+        if ( $res[$db->fieldName( "MailMethod" )] == 1 )
+            $this->sendEMail();
+        elseif ( $res[$db->fieldName( "MailMethod" )] == 2 )
+            $this->sendSMail();
+        
+        return $this->Price;
+    }
+
+    /*!
+      \private
+      Mail the user.
+    */
+    function sendEMail()
+    {
+
+        $db->query_single( $res, "SELECT * FROM eZTrade_VoucherEMail WHERE VoucherID='$this->ID'" );
+
+        $mail = new eZMail();
+
+        $mailAddress = new eZOnline( $res[$db->fieldName( "OnlineID" )] );
+        $mail->setFrom( );
+        $mail->setTo( $mailAddress->url() );
+        $mail->setBody( $res[$db->fieldName( "Description" )] );
     }
 
     /*!

@@ -51,12 +51,12 @@
 </tr>
 <!-- BEGIN voucher_information_tpl -->
 <tr>
-        <td colspan="2" width="1%" class="{td_class}" >
-	<p>{intl-send_smail}</p>
+        <td colspan="4" width="1%" class="{td_class}" >
+	<p>{intl-send_email}</p>
 	<input type="radio" name="MailType-{product_id}" value="1" checked />
         </td>
-        <td colspan="4" width="99%" class="{td_class}" >
-	<p>{intl-send_email}</p>
+        <td colspan="2" width="99%" class="{td_class}" >
+	<p>{intl-send_smail}</p>
 	<input type="radio" name="MailType-{product_id}" value="2" />
         </td>
 	<input type="hidden" name="VoucherIDArray[]" value="{product_id}" />

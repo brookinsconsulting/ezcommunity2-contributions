@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.77 2001/09/03 15:54:25 ce Exp $
+// $Id: ezimage.php,v 1.78 2001/09/04 15:18:14 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -208,6 +208,26 @@ class eZImage
             $res[] =& new eZImage( $image[$db->fieldName("ID")] );
         }
         return $res;
+    }
+
+    /*!
+      \static
+      Searches the database for images.
+    */
+    function &searchCount( $name, $literal = false )
+    {
+        $db =& eZDB::globalDatabase();
+        $res = array();
+
+        $query = new eZQuery( array( "Name", "Caption", "Description", "Keywords" ),
+                              $name );
+        $query->setIsLiteral( $literal );
+        $where =& $query->buildQuery();
+
+        $db->query_single( $res,
+                          "SELECT COUNT(ID) as Count FROM eZImageCatalogue_Image WHERE $where" );
+
+        return $res["Count"];
     }
 
     /*!

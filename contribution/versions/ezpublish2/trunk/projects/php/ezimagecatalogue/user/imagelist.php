@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.36 2001/09/03 15:54:25 ce Exp $
+// $Id: imagelist.php,v 1.37 2001/09/04 15:18:14 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezfile.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -214,10 +215,12 @@ $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
 if ( isSet( $SearchText )  )
 {
     $imageList =& eZImage::search( $SearchText );
+    $count =& eZImage::searchCount( $SearchText );
 }
 else
 {
     $imageList =& $category->images( "time", $Offset, $limit );
+    $count =& $category->imageCount(  );
 }
 
 
@@ -369,30 +372,8 @@ foreach ( $imageList as $image )
     $counter++;
 }
 
-if ( $category->imageCount() > ( $Offset + $limit ) )
-{
-    $t->set_var( "next-offset", $Offset + $limit );
-    $t->parse( "next", "next_tpl" );
-}
-else
-{
-    $t->set_var( "next", "" );
-}
+eZList::drawNavigator( $t, $count, $limit, $Offset, "image_list_page_tpl" );
 
-if ( $Offset > 0 )
-{
-    if ( ( $Offset - $limit ) < 0 )
-        $t->set_var( "prev-offset", 0 );
-    else
-        $t->set_var( "prev-offset", $Offset - $limit );
-    $t->parse( "prev", "previous_tpl" );
-}
-else
-{
-    $t->set_var( "prev", "" );
-}
-
-$t->set_var( "pos", $Offset );
 $t->set_var( "detail_button", "" );
 $t->set_var( "normal_button", "" );
 if ( isSet ( $DetailView ) )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.84 2001/09/03 12:27:22 ce Exp $
+// $Id: checkout.php,v 1.85 2001/09/04 15:18:14 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -375,7 +375,7 @@ $can_checkout = true;
        
         // product price
         $currency->setValue( $price );
-        
+
         $sum += $price;
 
         $t->set_var( "product_name", $product->name() );
@@ -494,10 +494,9 @@ $can_checkout = true;
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
-
     // Find the correct price.
     // Check if the site want VAT included or not.
-    if ( $vat )
+    if ( $PricesIncludeVAT == "enabled" )
     {
         $sum = $sum + $shippingCost + $shippingVAT;
         $totalPrice = $sum;
@@ -562,7 +561,6 @@ $can_checkout = true;
     else
         $t->set_var( "remove_voucher", "" );
 
-
     // Print the total sum.
     $sum -= $totalVoucher;
     $currency->setValue( $sum );
@@ -573,7 +571,7 @@ $can_checkout = true;
         $payment = false;
     else
         $payment = true;
-    
+
     // the total cost of the payment
     $t->set_var( "total_cost_value", $sum );
     $t->set_var( "total_vat_value", $totalVAT ); 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.54 2001/09/03 15:53:29 ce Exp $
+// $Id: cart.php,v 1.55 2001/09/04 15:18:14 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -385,6 +385,7 @@ foreach ( $items as $item )
     }
 
     // Show the product price
+    $addPrice = true;
     $foundPriceGroup = false;
     if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
          $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
@@ -429,6 +430,7 @@ foreach ( $items as $item )
     }
     else
     {
+        $addPrice = false;
         if ( $PricesIncludeVAT == "enabled" )
         {
             $totalVAT = $product->addVAT( $item->price() );
@@ -453,6 +455,7 @@ foreach ( $items as $item )
     {
         foreach ( $optionValues as $optionValue )
         {
+            $t->set_var( "cart_item_option", "" );
             $option =& $optionValue->option();
             $value =& $optionValue->optionValue();
             $value_quantity = $value->totalQuantity();
@@ -476,15 +479,18 @@ foreach ( $items as $item )
                 if ( $PricesIncludeVAT == "enabled" )
                 {
                     $totalVAT += $product->addVAT( $value->price() );
-                    $optionPrice += ( $value->price() * $optionValue->count() ) + $totalVAT;
+                    $optionPrice = ( $value->price() * $optionValue->count() ) + $totalVAT;
                 }
                 else
                 {
                     $totalVAT += $product->extractVAT( $value->price() );
-                    $optionPrice += $value->price() * $optionValue->count();
+                    $optionPrice = $value->price() * $optionValue->count();
                 }
             }
-            $price += $optionPrice;
+
+            if ( $addPrice )
+                $price += $optionPrice;
+                
             $currency->setValue( $optionPrice );
             $t->set_var( "option_price", $locale->format( $currency ) );
 
