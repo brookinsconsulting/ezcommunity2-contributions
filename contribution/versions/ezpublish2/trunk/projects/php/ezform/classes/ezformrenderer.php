@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.67 2002/01/28 19:28:22 jhe Exp $
+// $Id: ezformrenderer.php,v 1.68 2002/02/06 12:44:03 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -867,13 +867,13 @@ class eZFormRenderer
                     
                     global $$elementName;
                     $value = $$elementName;
-                    if ( isSet( $value ) && $value != "" )
-                    {
-                        if ( $result )
-                            $tableElement->setResult( $value, $result, true );
-                        else
-                            $tableElement->setResult( $value );
-                    }
+                    if ( !isSet( $value ) )
+                        $value = "";
+
+                    if ( $result )
+                        $tableElement->setResult( $value, $result, true );
+                    else
+                        $tableElement->setResult( $value );
                 }
             }
             else
@@ -895,14 +895,13 @@ class eZFormRenderer
                         $i++;
                     }
                 }
-                if ( isSet( $value ) )
-                {
-                    if ( $result )
-                    {
-                        $element->setResult( $value, $result, true );
-                    }
-                    else
-                        $element->setResult( $value );
+                if ( !isSet( $value ) )
+                    $value = "";
+                
+                if ( $result )
+                    $element->setResult( $value, $result, true );
+                else
+                    $element->setResult( $value );
                 }
             }
         }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.11 2002/01/21 11:29:57 jhe Exp $
+// $Id: datasupplier.php,v 1.12 2002/02/06 12:44:03 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -129,8 +129,6 @@ switch ( $eZFormOperation )
                 eZHTTPTool::header( "Location: /error/404" );
             }
         }
-        
-        
     }
     break;
     
