@@ -37,7 +37,7 @@
 	{appointment_date}
 	</td>
 	<td>
-	{appointment_time}
+	{appointment_starttime} - {appointment_stoptime}
 	</td>
 	<td>
 	<!-- BEGIN low_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentview.php,v 1.1 2001/01/09 17:00:07 bf Exp $
+// $Id: appointmentview.php,v 1.2 2001/01/17 10:02:32 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 11:53:05 bf>
@@ -28,14 +28,17 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
+include_once( "classes/ezlocale.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
 include_once( "ezcalendar/classes/ezappointmenttype.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
+$locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "appointmentview.php" );
@@ -53,8 +56,12 @@ $t->set_block( "appointment_view_tpl", "high_tpl", "high" );
 
 
 $appointment = new eZAppointment( $AppointmentID );
+$datetime = $appointment->date();
 
 $t->set_var( "appointment_title", $appointment->name() );
+$t->set_var( "appointment_date", $locale->format( $datetime->date() ) );
+$t->set_var( "appointment_starttime", $locale->format( $appointment->startTime() ) );
+$t->set_var( "appointment_stoptime", $locale->format( $appointment->stopTime() ) );
 $t->set_var( "appointment_description", $appointment->description() );
 
 if ( $appointment->isPrivate() == true )
