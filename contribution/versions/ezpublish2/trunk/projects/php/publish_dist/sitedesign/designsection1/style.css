@@ -1,0 +1,82 @@
+input.textfield {
+	font : 11px Verdana, Arial, Helvetica, sans-serif;
+}
+
+td.path {
+	font : 11px Verdana, Arial, Helvetica, sans-serif;
+}
+
+td.path a {
+	color : Black;
+	font-weight : bold;
+}
+
+td.section {
+        background : #FF9900;
+	color : white;
+	font : bold 11px Verdana, Arial, Helvetica, sans-serif;
+	padding : 2px 10px 2px 10px;
+}
+
+td.sectionblack {
+        background : #000000;
+	color : white;
+	font : bold 11px Verdana, Arial, Helvetica, sans-serif;
+	padding : 2px 10px 2px 10px;
+}
+
+
+td.section a {
+	color : #000000;
+}
+
+.orange {
+        background : #FF9900;
+}
+
+
+div.leftmenu {
+	font : bold 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	margin : 0px 15px 10px 18px;
+	line-height : 22px;
+}
+
+div.leftmenu a, a.menu, div.leftmenu a:visited {
+	color : #FF9900;
+}
+
+div.leftmenu a:hover {
+	color: white;
+}
+
+div.rightmenu {
+	font : bold 0.6em Verdana, Geneva, Arial, Helvetica, sans-serif;
+	margin : 0px 15px 10px 14px;
+	line-height : 22px;
+	color:white;
+}
+
+div.rightmenu a, div.rightmenu a:visited {
+	color : White;
+}
+
+div.rightmenu a:hover {
+	color: #FFC266;
+}
+
+div.pageheading {
+	font : bold 26px Georgia, "Times New Roman", Times, serif;
+}
+
+div.author {
+	font : 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+div.normal {
+	font : 12px Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+form
+{
+	margin: 0px;
+}
