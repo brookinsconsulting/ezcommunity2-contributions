@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.9 2000/09/28 09:29:59 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.10 2000/09/28 10:34:03 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -910,7 +910,7 @@ class eZNewsItem
             echo "eZNewsItem->getAllChildren( \$inOrderBy = $inOrderBy, \$direction = $direction ) <br>\n";
         }
         $this->dbInit();
-        
+
         $returnArray = array();
         $itemArray = array();
         
@@ -940,7 +940,7 @@ class eZNewsItem
         $this->Database->array_query( $itemArray, $query );
         
         for( $i = 0; $i < count( $itemArray ); $i++ )
-        {
+        {   
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
         }
         

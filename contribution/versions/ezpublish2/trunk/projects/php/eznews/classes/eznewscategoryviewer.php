@@ -45,7 +45,6 @@ class eZNewsCategoryViewer
         global $data;
         global $parsedXMLAttributes;
         
-       
         $item->polymorphSelf( $this->className );
         $this->Item = $item;
         $theViewer = $this;
@@ -53,7 +52,6 @@ class eZNewsCategoryViewer
         $parsedXMLAttributes["categoryid"]["value"] = $this->Item->ID();
         
         $this->URLArray = $URLArray;
-
         $kids = $item->getAllChildren("date", "reverse" );
         $description = $item->publicDescriptionID();
 
@@ -94,7 +92,7 @@ class eZNewsCategoryViewer
         else
         {
             $data = $data . "</ezflower>";
-            @include_once( "eznews/classes/xml_parser.php" );
+            include_once( "eznews/classes/xml_parser.php" );
         }
     }
     

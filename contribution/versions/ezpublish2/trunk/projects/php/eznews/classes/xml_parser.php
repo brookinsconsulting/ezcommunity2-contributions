@@ -44,27 +44,6 @@ function characterData($parser, $data)
     }
 }
     
-    function printArray( &$array )
-    {
-        if( is_array( $array ) )
-        {
-            foreach( $array as $item )
-            {
-                if( is_array( $item )  )
-                {
-                    $this->printArray( $item );
-                }
-                else
-                {
-                    echo htmlspecialchars( $item ) . "<br>";
-                }
-            }
-        }
-        else    
-        {
-            echo htmlspecialchars( $array ) . " a<br>";
-        }
-    }
 
 global $data;
 
