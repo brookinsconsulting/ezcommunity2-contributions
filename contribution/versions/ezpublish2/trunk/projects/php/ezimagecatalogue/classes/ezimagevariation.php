@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.23 2001/06/25 14:40:09 bf Exp $
+// $Id: ezimagevariation.php,v 1.24 2001/06/25 15:23:28 bf Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -185,6 +185,7 @@ class eZImageVariation
             {
                 if ( !$image->fileExists( true ) )
                     return eZImageVariation::createErrorImage();
+
                 $imageFile = new eZImageFile();
                 $imageFile->getFile( $image->filePath( true ) );
                 $imageFile->setType( "image/jpeg" );
@@ -200,6 +201,7 @@ class eZImageVariation
                 $result = $imageFile->scaleCopy( $dest, $variationGroup->width(), $variationGroup->height(), $convertToGray );
                 if ( !is_bool( $result ) and $result == "locked" )
                 {
+
                     if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id(), $modification ) )
                     {
                         $ret =& $variation;
@@ -224,6 +226,7 @@ class eZImageVariation
                     $variation->setImageID(  $image->id() );                
                     $variation->setVariationGroupID(  $variationGroup->id() );
                     $variation->setModification( $modification );
+
 
                     $variation->store();
 

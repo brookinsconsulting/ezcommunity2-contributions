@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.17 2001/06/25 14:40:09 bf Exp $
+// $Id: ezimagecategory.php,v 1.18 2001/06/25 15:23:27 bf Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -506,7 +506,7 @@ class eZImageCategory
  
        for ( $i=0; $i<count($file_array); $i++ )
        {
-           $return_array[$i] = new eZImage( $file_array[$i]["ImageID"], false );
+           $return_array[$i] = new eZImage( $file_array[$i][$db->fieldName("ImageID")], false );
        }
        
        return $return_array;

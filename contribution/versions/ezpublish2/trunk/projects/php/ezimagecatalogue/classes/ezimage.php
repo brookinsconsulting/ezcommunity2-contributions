@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.54 2001/06/25 14:40:08 bf Exp $
+// $Id: ezimage.php,v 1.55 2001/06/25 15:23:27 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -105,10 +105,10 @@ class eZImage
 
         $db->begin( );
         
-        $name = $db->fieldName( $this->Name );
-        $description = $db->fieldName( $this->Description );
-        $caption = $db->fieldName( $this->Caption );
-        $filename = $db->fieldName( $this->FileName );
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $caption = $db->escapeString( $this->Caption );
+        $filename = $db->escapeString( $this->FileName );
         $originalfilename = $db->fieldName( $this->OriginalFileName );
         
         if ( !isset( $this->ID ) )
@@ -565,7 +565,10 @@ class eZImage
        {
            $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
        }
-       return file_exists( $path ) and is_file( $path );
+       
+       $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
+
+       return file_exists( $relPath ) and is_file( $relPath );
     }
     /*!
       Returns the path and filename to the original image.
@@ -613,7 +616,7 @@ class eZImage
        if ( $group->groupExists( $width, $height ) )
        {
            $group->get( $group->groupExists( $width, $height ) );
-           
+
            $ret =& $variation->requestVariation( $this, $group, $convertToGray );
        }
        else
@@ -621,6 +624,7 @@ class eZImage
            $group->setWidth( $width );
            $group->setHeight( $height );
            $group->store();
+
            
            $ret =& $variation->requestVariation( $this, $group, $convertToGray );
        }

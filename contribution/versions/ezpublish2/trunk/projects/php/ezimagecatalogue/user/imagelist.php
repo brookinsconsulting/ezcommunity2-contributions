@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.25 2001/05/31 14:06:54 virt Exp $
+// $Id: imagelist.php,v 1.26 2001/06/25 15:23:28 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -220,14 +220,13 @@ foreach ( $imageList as $image )
     $t->set_var( "image_url", $image->name() );
 
     $width =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewWidth" );
-    
     $height =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewHight" );
     
     $variation =& $image->requestImageVariation( $width, $height );
-
+    
     $t->set_var( "image_description",$image->description() ); 
     $t->set_var( "image_alt", $image->name() );
-    $t->set_var( "image_src", "/" .$variation->imagePath() );
+    $t->set_var( "image_src", "/" . $variation->imagePath() );
     $t->set_var( "image_width", $variation->width() );
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.25 2001/06/25 11:30:23 jhe Exp $
+// $Id: imageedit.php,v 1.26 2001/06/25 15:23:28 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -175,7 +175,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( $file->getUploadedFile( "userfile" ) )
         {
             $imageTest = new eZImage();
-            $imageTest->setName( "testimage" );
             if( $imageTest->checkImage( $file ) and $imageTest->setImage( $file ) )
             {
                 $fileOK = true;
@@ -263,6 +262,7 @@ if ( $Action == "Insert" && $error == false )
     }
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
+    
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
@@ -348,9 +348,11 @@ if ( $Action == "DeleteImages" )
         {
             $image = new eZImage( $ImageID );
             $image->delete();
+
+            print( $ImageID );
         }
     }
-    
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
     exit();    
