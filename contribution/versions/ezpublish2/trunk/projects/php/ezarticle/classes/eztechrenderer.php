@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.19 2000/10/28 20:26:06 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.20 2000/10/28 20:58:55 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -728,8 +728,11 @@ class eZTechRenderer
       Returns a html highlighted string.
     */
     function &htmlHighlight( $string )
-    {        
+    {
         $string =& htmlspecialchars( $string );
+
+        $string = preg_replace( "#(&lt;.*?&gt;)#", "<font color=\"blue\">\\1</font>", $string );
+        
         $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
