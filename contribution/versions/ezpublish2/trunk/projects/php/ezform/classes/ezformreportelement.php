@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.1 2002/01/18 14:05:57 jhe Exp $
+// $Id: ezformreportelement.php,v 1.2 2002/01/21 11:29:57 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -126,6 +126,10 @@ class eZFormReportElement
     {
         switch ( $this->StatisticsType )
         {
+            case 0:
+            {
+                return "";
+            }
             case 1:
             {
                 return $this->statFrequency( &$template );
@@ -142,6 +146,7 @@ class eZFormReportElement
 
     function statFrequency( &$template )
     {
+        $template->set_var( "frequency_element", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $res, "SELECT Result, Count(Result) AS Count
@@ -159,13 +164,14 @@ class eZFormReportElement
 
     function statCount( &$template )
     {
+        $template->set_var( "count", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->array_query( $res, "SELECT Count(Result) AS Count
+        $db->query_single( $res, "SELECT Count(Result) AS Count
                                  FROM eZForm_FormElementResult
                                  WHERE ElementID='$this->ElementID' AND
                                  Result != ''" );
-        $template->set_var( "count", $result[$db->fieldName( "Count" )] );
+        $template->set_var( "count", $res[$db->fieldName( "Count" )] );
         $output = $template->parse( $target, "count_tpl" );
         return $output;        
     }
@@ -173,6 +179,7 @@ class eZFormReportElement
     function types()
     {
         $ret = array(
+            array( "Name" => "nothing", "Description" => "intl-nothing" ),
             array( "Name" => "frequency", "Description" => "intl-frequency" ),
             array( "Name" => "count", "Description" => "intl-count" )
             );

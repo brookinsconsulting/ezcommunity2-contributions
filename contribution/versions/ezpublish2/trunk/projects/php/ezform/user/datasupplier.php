@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.10 2002/01/18 14:05:57 jhe Exp $
+// $Id: datasupplier.php,v 1.11 2002/01/21 11:29:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -205,6 +205,7 @@ switch ( $eZFormOperation )
         if ( $url_array[3] > 0 )
         {
             $ReportID = $url_array[3];
+            include( "ezform/user/viewreport.php" );
         }
         else
         {

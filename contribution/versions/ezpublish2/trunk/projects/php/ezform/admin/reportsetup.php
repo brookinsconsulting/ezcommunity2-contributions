@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.1 2002/01/18 14:05:57 jhe Exp $
+// $Id: reportsetup.php,v 1.2 2002/01/21 11:29:57 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -65,7 +65,6 @@ if ( $Action == "store" )
 
 $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
                      "ezform/admin/intl/", $Language, "reportsetup.php" );
-$t->setAllStrings();
 
 $t->set_file( "report_setup_tpl", "reportsetup.tpl" );
 
@@ -107,6 +106,8 @@ foreach ( $elements as $element )
     $i++;
 }
 
+$t->setAllStrings();
+    
 $t->pparse( "output", "report_setup_tpl" );
 
 ?>

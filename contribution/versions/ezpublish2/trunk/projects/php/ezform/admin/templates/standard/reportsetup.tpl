@@ -20,7 +20,7 @@
    <td class="{td_class}">
    <select name="StatisticsType{element_id}">
 <!-- BEGIN statistics_type_tpl -->
-   <option value="{statistics_id}" {selected}>{statistics_name}</option>
+   <option value="{statistics_id}" {selected}>{{statistics_name}}</option>
 <!-- END statistics_type_tpl -->
    </select>
    </td>

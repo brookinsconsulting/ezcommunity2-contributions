@@ -173,4 +173,14 @@
 
 <!-- END form_list_tpl -->
 
+<!-- BEGIN frequency_tpl -->
+<!-- BEGIN frequency_element_tpl -->
+{result}: {count}<br />
+<!-- END frequency_element_tpl -->
+<!-- END frequency_tpl -->
+
+<!-- BEGIN count_tpl -->
+{count}
+<!-- END count_tpl -->
+
 ADMIN REMOVE

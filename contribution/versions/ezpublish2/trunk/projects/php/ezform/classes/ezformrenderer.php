@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.51 2002/01/17 13:43:41 jhe Exp $
+// $Id: ezformrenderer.php,v 1.52 2002/01/21 11:29:57 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -42,6 +42,7 @@ include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
 include_once( "ezform/classes/ezformelementtext.php" );
 include_once( "ezform/classes/ezformelementnumerical.php" );
+include_once( "ezform/classes/ezformreportelement.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
 include_once( "ezform/classes/ezformtable.php" );
 include_once( "ezmail/classes/ezmail.php" );
@@ -82,6 +83,10 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "numerical_integer_item_tpl", "numerical_integer_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "multiple_select_item_tpl", "multiple_select_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "header_tpl", "header" );
+        $this->Template->set_block( "form_renderer_page_tpl", "frequency_tpl", "frequency" );
+        $this->Template->set_block( "frequency_tpl", "frequency_element_tpl", "frequency_element" );
+        $this->Template->set_block( "form_renderer_page_tpl", "count_tpl", "count" );
+        
         $this->Template->set_block( "multiple_select_item_tpl", "multiple_select_item_sub_item_tpl", "multiple_select_item_sub_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
         $this->Template->set_block( "dropdown_item_tpl", "dropdown_item_sub_item_tpl", "dropdown_item_sub_item" );
@@ -114,7 +119,9 @@ class eZFormRenderer
         $this->Template->set_block( "form_list_tpl", "form_instructions_tpl", "form_instructions" );
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
         $this->Template->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
-        
+
+        $this->Template->set_var( "frequency", "" );
+        $this->Template->set_var( "count", "" );
         $this->Template->set_var( "error_list", "" );
         $this->Template->set_var( "error_item", "" );
         $this->Template->set_var( "form_start_tag", "" );
@@ -162,7 +169,7 @@ class eZFormRenderer
     /*!
         Renders the element which are given as an argument based on its type.
      */
-    function &renderElement( $element, $setSize = true, $header = true, $result = false, $resultID )
+    function &renderElement( $element, $setSize = true, $header = true, $result = false, $resultID = false, $report = false )
     {
         $output = "";
         if ( get_class( $element ) == "ezformelement" )
@@ -172,14 +179,17 @@ class eZFormRenderer
             $type =& $element->elementType();
             $name = $type->name();
 
-            if ( $result &&
-                 ( $name == "user_email_item" ||
-                   $name == "numerical_float_item" ||
-                   $name == "numerical_integer_item" ||
-                   $name == "dropdown_item" ||
-                   $name == "text_field_item" ||
-                   $name == "text_area_item" ||
-                   $name == "multiple_select_item" ) )
+            if ( ( $result &&
+                   ( $name == "user_email_item" ||
+                     $name == "numerical_float_item" ||
+                     $name == "numerical_integer_item" ||
+                     $name == "dropdown_item" ||
+                     $name == "text_field_item" ||
+                     $name == "text_area_item" ||
+                     $name == "multiple_select_item" ) ) ||
+                 ( $report &&
+                   ( $name == "radiobox_item" ||
+                     $name == "checkbox_item" ) ) )
             {
                 $subItems = array();
                 $name = "result_item";
@@ -202,14 +212,22 @@ class eZFormRenderer
 
             if ( !( isSet( $elementValue ) && $elementValue != "" ) )
             {
-                if ( $resultID )
+                if ( $report )
                 {
-                    $elementValue = $element->result( -1, $resultID );
-                    if ( $elementValue == "" )
-                        $elementValue = "&nbsp;";
+                    $reportElement = new eZFormReportElement( $element->id() );
+                    $elementValue = $reportElement->analyze( $this->Template );
                 }
                 else
-                    $elementValue = $element->result();
+                {
+                    if ( $resultID )
+                    {
+                        $elementValue = $element->result( -1, $resultID );
+                        if ( $elementValue == "" )
+                            $elementValue = "&nbsp;";
+                    }
+                    else
+                        $elementValue = $element->result();
+                }
             }
 
             if ( $name == "user_email_item" )
@@ -319,7 +337,7 @@ class eZFormRenderer
     /*!
       Renders form for viewing of results
     */
-    function &renderResult( $resultID, $result = true )
+    function &renderResult( $resultID, $result = true, $report = false )
     {
         $elements = $this->Form->formElements();
         $elementCounter = 0;
@@ -403,7 +421,7 @@ class eZFormRenderer
                             else
                                 $this->Template->set_var( "colspan", "" );
                             
-                            $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID );
+                            $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID, $report );
                             
                             $this->Template->set_var( "element", $output );
                             
@@ -435,7 +453,7 @@ class eZFormRenderer
                 }
                 else
                 {
-                    $output = $this->renderElement( $element, true, true, $result, $resultID );
+                    $output = $this->renderElement( $element, true, true, $result, $resultID, $report );
                     
                     $this->Template->set_var( "element", $output );
                     
