@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userlist.php,v 1.2.2.1 2001/10/29 15:54:16 fh Exp $
+// $Id: userlist.php,v 1.2.2.2 2001/10/29 19:10:11 fh Exp $
 //
 // Created on: <28-Aug-2001 15:02:02 fh>
 //
@@ -33,7 +33,7 @@ include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZBulkMailMain", "Language" );
 
-$t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "TemplateDir" ),
+$t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl/", $Language, "userlist.php" );
 
 $t->setAllStrings();

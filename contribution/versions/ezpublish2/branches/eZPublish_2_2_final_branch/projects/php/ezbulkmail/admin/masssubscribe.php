@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: masssubscribe.php,v 1.7 2001/08/28 19:42:03 fh Exp $
+// $Id: masssubscribe.php,v 1.7.2.1 2001/10/29 19:10:11 fh Exp $
 //
 // Created on: <14-May-2001 15:02:02 ce>
 //
@@ -34,7 +34,7 @@ include_once( "ezmail/classes/ezmail.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZBulkMailMain", "Language" );
 
-$t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "TemplateDir" ),
+$t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl/", $Language, "masssubscribe.php" );
 
 $t->setAllStrings();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.26.2.1 2001/10/29 17:19:01 fh Exp $
+// $Id: ezbulkmail.php,v 1.26.2.2 2001/10/29 19:10:11 fh Exp $
 //
 // eZBulkMail class
 //
@@ -393,7 +393,7 @@ class eZBulkMail
     /*!
       Associates a template with a bulkmail. If the parameter is false, the mail is dissassociated with all templates.
       NOTE: A bulkmail is only associated with a template before it is sent. After it is sent the template is stored in the mail. This is because
-      templates my change, but you want to know exactly what you have sent to your custemors.
+      templates may change, but you want to know exactly what you have sent to your customers.
      */
     function useTemplate( $templateID )
     {
