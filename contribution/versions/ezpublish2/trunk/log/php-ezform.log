@@ -1097,3 +1097,33 @@ Maintainer(s) : pkej@ez.no
       user/templates/standard/viewreport.tpl
       user/viewreport.php: added report
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-22  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/reportedit.php.ini: fixed Update
+
+    * classes/ezformreportelement.php
+      admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/reportsetup.php
+      admin/templates/standard/formrenderer.tpl
+      admin/templates/standard/reportsetup.tpl
+      classes/ezformrenderer.php: added cross tables
+
+    * classes/ezformrenderer.php
+      classes/ezformreportelement.php
+      admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/reportsetup.php
+      admin/templates/standard/formrenderer.tpl
+      admin/templates/standard/reportsetup.tpl: made update
+
+    * admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php: added median
+

@@ -2850,3 +2850,35 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezorder.php: added EDate and Pnutr for paynet transactions.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-22  Bjoern Reiten  <br@ez.no>
+
+    * user/checkout.php: fixed bug in checkout when the cart is emty.
+
+    * user/checkout.php:
+    fixed bug in checkout when the cart is emty. (redirect to cart)
+
+    * user/checkout.php:
+    Fixed bug when the user is in checkout and the cart is emty.
+
+    * admin/datasupplier.php
+      admin/intl/no_NO/orderedit.php.ini
+      admin/orderedit.php
+      admin/templates/standard/orderedit.tpl
+      classes/ezorder.php
+      sql/mysql/eztrade.sql
+      user/payment.php: added code for paynet
+
+2002-01-22  Baard Farstad  <bf@ez.no>
+
+    * user/cart.php
+      user/productsearch.php
+      user/productview.php: Fixed A image in search result.
+
+    * classes/ezproduct.php
+      sql/mysql/eztrade.sql
+      user/productsearch.php: Fixed advanced search.
+
