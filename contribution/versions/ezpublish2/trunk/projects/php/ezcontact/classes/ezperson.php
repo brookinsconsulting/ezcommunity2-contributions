@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.24 2000/11/16 17:38:28 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.25 2000/11/16 17:43:13 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -212,7 +212,7 @@ class eZPerson
     */
     function getAll( )
     {
-        $this->dbInit();    
+        $this->dbInit();
         $person_array = 0;
     
         $this->Database->array_query( $person_array, "SELECT ID FROM eZContact_Person ORDER BY LastName" );
@@ -279,9 +279,15 @@ class eZPerson
         {
             $addressID = $address->id();
 
-            $this->Database->query( "INSERT INTO eZContact_PersonAddressDict
-                                SET PersonID='$this->ID', AddressID='$addressID'" );
+            $checkQuery = "SELECT $PersonID FROM eZContact_PersonAddressDict WHERE AddressID='$addressID'";
+            
+            $this->Database->array_query( $address_array, $checkQuery );
 
+            if( !is_array( $address_array ) )
+            {
+                $this->Database->query( "INSERT INTO eZContact_PersonAddressDict
+                                SET PersonID='$this->ID', AddressID='$addressID'" );
+            }
             $ret = true;
         }
         return $ret;
@@ -325,8 +331,15 @@ class eZPerson
         {
             $phoneID = $phone->id();
 
-            $this->Database->query( "INSERT INTO eZContact_PersonPhoneDict
+            $checkQuery = "SELECT $PersonID FROM eZContact_PersonPhoneDict WHERE PhoneID='$phoneID'";
+            
+            $this->Database->array_query( $phone_array, $checkQuery );
+
+            if( !is_array( $phone_array ) )
+            {
+                $this->Database->query( "INSERT INTO eZContact_PersonPhoneDict
                                 SET PersonID='$this->ID', PhoneID='$phoneID'" );
+            }
 
             $ret = true;
         }
@@ -372,8 +385,15 @@ class eZPerson
         {
             $onlineID = $online->id();
 
-            $this->Database->query( "INSERT INTO eZContact_PersonOnlineDict
+            $checkQuery = "SELECT $PersonID FROM eZContact_PersonOnlineDict WHERE OnlineID='$onlineID'";
+            
+            $this->Database->array_query( $online_array, $checkQuery );
+
+            if( !is_array( $online_array ) )
+            {
+                $this->Database->query( "INSERT INTO eZContact_PersonOnlineDict
                                 SET PersonID='$this->ID', OnlineID='$onlineID'" );
+            }
 
             $ret = true;
         }
@@ -422,11 +442,7 @@ class eZPerson
             $checkQuery = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID=$userID";
             $this->Database->array_query( $user_array, $checkQuery );
             
-            if( is_array( $user_array ) )
-            {
-                $user_array[0]["PersonID"];
-            }
-            else
+            if( !is_array( $user_array ) )
             {
                 $this->Database->query( "INSERT INTO eZContact_UserPersonDict
                                 SET PersonID='$this->ID', UserID='$userID'" );
