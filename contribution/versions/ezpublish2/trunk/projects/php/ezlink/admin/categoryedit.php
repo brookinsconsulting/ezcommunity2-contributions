@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.5 2001/09/24 09:51:46 bf Exp $
+// $Id: categoryedit.php,v 1.6 2001/10/02 17:56:50 br Exp $
 //
 // Created on: <26-Oct-2000 14:57:28 ce>
 //
@@ -240,7 +240,7 @@ if ( $Action == "update" )
             if ( isSet ( $Browse ) )
             {
                 $categoryID = $category->id();
-                $session = new eZSession();
+                $session = eZSession::globalSession();
                 $session->setVariable( "SelectImages", "single" );
                 $session->setVariable( "ImageListReturnTo", "/link/categoryedit/edit/$categoryID/" );
                 $session->setVariable( "NameInBrowse", $category->name() );
