@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.28 2001/03/19 16:08:57 bf Exp $
+// $Id: cart.php,v 1.29 2001/03/21 12:58:53 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -53,7 +53,6 @@ include_once( "eztrade/classes/ezshippingtype.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
-
 
 
 if ( ( $Action == "Refresh" ) || isset( $DoCheckOut ) )

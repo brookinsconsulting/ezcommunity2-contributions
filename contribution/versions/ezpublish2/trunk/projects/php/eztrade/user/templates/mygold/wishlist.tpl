@@ -33,6 +33,9 @@
 		  <th>{intl-product_options}:</th>
 		  <th>{intl-action}:</th>
 		  <th>{intl-someone_has_bought_this}:</th>
+		  <!-- BEGIN product_available_header_tpl -->
+
+		  <!-- END product_available_header_tpl -->
 		  <th>{intl-product_qty}:</th>
 		  <th align="right">{intl-product_price}:</th>
 		  <th>&nbsp;</th>
@@ -49,8 +52,15 @@
 		    <!-- END wishlist_item_option_tpl -->
 		    &nbsp;
 		  </td>
-		  <td class="{td_class}"> <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
+
+		  <td class="{td_class}">
+		  <!-- BEGIN move_to_cart_item_tpl -->
+		   <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
 			{intl-move_to_cart} </a> 
+		  <!-- END move_to_cart_item_tpl -->
+		  <!-- BEGIN no_move_to_cart_item_tpl -->
+		  &nbsp;
+		  <!-- END no_move_to_cart_item_tpl -->
                   </td>
 
   		  <td class="{td_class}">
@@ -63,22 +73,17 @@
 		  {intl-is_not_bought}
 		  <!-- END is_not_bought_tpl -->
 
-   		  </td>
+  		  </td>
 
-  		  <td class="{td_class}">
-		  	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
-			<input size="3" type="text" name="WishlistCountArray[]" value="{wishlist_item_count}" />
-   		  </td>
+		  <!-- BEGIN product_available_item_tpl -->
+
+		  <!-- END product_available_item_tpl -->
+
+
 		  <td class="{td_class}" align="right"> {product_price} </td>
 		  <td class="{td_class}" align="right"><a href="/trade/wishlist/remove/{wishlist_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{wishlist_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{wishlist_item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 		</tr>
 		<!-- END wishlist_item_tpl --> 
-		<tr> 
-		  <td class="sum"  colspan="3">&nbsp;</td>
-		  <td class="sum" colspan="3" align="right">{intl-shipping}:</td>
-		  <td class="sum" align="right"> {shipping_cost} </td>
-		  <td class="sum" align="right">&nbsp;</td>
-		</tr>
 		<tr> 
 		  <td class="sum" colspan="3">&nbsp;</td>
 		  <td class="sum" colspan="3" align="right">{intl-total}:</td>

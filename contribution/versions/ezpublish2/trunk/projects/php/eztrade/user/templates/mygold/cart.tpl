@@ -17,7 +17,7 @@
 	<!-- BEGIN product_available_header_tpl -->
 	<th>{intl-product_availability}:</th>
 	<!-- END product_available_header_tpl -->
-	<th>{intl-product_qty}:</th>
+
 
 	<th align="right">{intl-product_price}:</th>
 	<th align="right">&nbsp;</th>
@@ -46,10 +46,7 @@
 	{product_availability}
 	</td>
 	<!-- END product_available_item_tpl -->
-	<td class="{td_class}">
-	<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
-	<input size="3" type="text" name="CartCountArray[]" value="{cart_item_count}" />
-	</td>
+
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>

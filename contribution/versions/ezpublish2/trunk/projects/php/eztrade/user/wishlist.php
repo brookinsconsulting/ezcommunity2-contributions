@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.16 2001/03/15 20:45:36 sascha Exp $
+// $Id: wishlist.php,v 1.17 2001/03/21 12:58:53 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -445,10 +445,6 @@ foreach ( $items as $item )
     $i++;
 }
 
-//  $shippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
-$shippingCost = 0;
-
-$currency->setValue( $shippingCost );
 
 $currency->setValue( $sum );
 $t->set_var( "wishlist_sum", $locale->format( $currency ) );
