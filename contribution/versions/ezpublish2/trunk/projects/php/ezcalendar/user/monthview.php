@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.33 2001/09/05 11:55:50 jhe Exp $
+// $Id: monthview.php,v 1.34 2001/09/12 12:35:59 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -83,11 +83,11 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
-if ( $t->hasCache() )
+//if ( $t->hasCache() )
 {
-    print( $t->cache() );
+//    print( $t->cache() );
 }
-else
+//else
 {
     $t->setAllStrings();
 
@@ -283,8 +283,15 @@ else
     $t->parse( "month", "month_tpl", true );
 
     // User list
-    $user = new eZUser();
-    $user_array =& $user->getAll();
+    if ( $ini->read_var( "eZCalendarMain", "OnlyShowTrustees" ) == "enabled" )
+    {
+        $user_array = array_merge( array( $appOwnerUser ), $appOwnerUser->getByTrustee( -1, true ) );
+    }
+    else
+    {
+        $user = new eZUser();
+        $user_array =& eZUser::getAll();
+    }
     foreach ( $user_array as $userItem )
     {
         $t->set_var( "user_id", $userItem->id() );
