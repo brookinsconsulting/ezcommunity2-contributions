@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.45 2001/08/31 14:01:59 jhe Exp $
+// $Id: ezforum.php,v 1.46 2001/09/07 20:51:22 fh Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -223,9 +223,8 @@ class eZForum
     function &search( $query, $offset, $limit )
     {
        $db =& eZDB::globalDatabase();
-
        $query = new eZQuery( array( "Topic", "Body" ), $query );
-
+       $query->setPartialCompare( true );
        $query_str = "SELECT ID, PostingTime FROM eZForum_Message WHERE (" .
              $query->buildQuery()  .
              ") GROUP BY ID, PostingTime ORDER BY PostingTime";
