@@ -21,6 +21,7 @@ ezimagecatalogue
 ezsitemanager
 ezquiz
 classes
+ezurltranslator
 "
 
 for dir in $dirs
