@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.14 2000/07/31 21:40:49 lw-cvs Exp $
+    $Id: main.php,v 1.15 2000/08/01 10:14:19 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -29,7 +29,8 @@ $t->set_file( Array("main" => "main.tpl",
                     "search" => "main-search.tpl",
                     "results" => "main-search-results.tpl",
                     "search-elements" =>"main-search-results-elements.tpl",
-                    "navigation" => "navigation.tpl"
+                    "navigation" => "navigation.tpl",
+                    "logout" => "logout.tpl"
                     ) );
 
 $t->set_var( "docroot", $DOCROOT);
@@ -38,10 +39,12 @@ $categories = eZforumCategory::getAllCategories();
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
    $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
+   $t->parse( "logout-message", "logout", true);
 }
 else
 {
    $t->set_var( "user", "Anonym" );
+   $t->set_var( "logout-message", "");
 }
 $t->parse( "navigation-bar", "navigation", true);
 

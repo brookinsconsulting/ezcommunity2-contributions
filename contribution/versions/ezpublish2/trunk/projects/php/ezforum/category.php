@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.12 2000/07/31 21:40:49 lw-cvs Exp $
+    $Id: category.php,v 1.13 2000/08/01 10:14:19 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -23,19 +23,23 @@ $t->set_file( array("category" => "category.tpl",
                     "elements" => "category-elements.tpl",
                     "navigation" => "navigation.tpl",
                     "navigation-bottom" => "navigation-bottom.tpl",
-                    "no-forums" => "noforums.tpl"
+                    "no-forums" => "noforums.tpl",
+                    "logout" => "logout.tpl"
                     )
               );
 
 $t->set_var( "docroot", $DOCROOT);
-            
+$t->set_var( "category_id", $category_id );
+
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
    $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
+   $t->parse( "logout-message", "logout", true );
 }
 else
 {
    $t->set_var( "user", "Anonym" );
+   $t->set_var( "logout-message", "" );
 }
 $t->parse( "navigation-bar", "navigation", true);
 

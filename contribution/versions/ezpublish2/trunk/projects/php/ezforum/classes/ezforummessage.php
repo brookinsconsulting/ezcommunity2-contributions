@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.27 2000/07/28 09:51:58 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.28 2000/08/01 10:14:20 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -374,12 +374,13 @@ class eZforumMessage
       WARNING: denne funksjonen er rekursiv og kan bruke en del minne. Denne forutsetter
       også at databasekoblingen er oppe.
     */
-    function printHeaderTree( $forum_id, $parent_id, $level, $document_root )
+    function printHeaderTree( $forum_id, $parent_id, $level, $document_root, $category_id )
     {
         $level = $level + 1;
     
         $t = new Template(".");
         $msg = new eZForumMessage();
+        $t->set_var( "category_id", $category_id );
 
         $t->set_file( "elements", $document_root . "/templates/forum-elements.tpl"   );
 
@@ -465,7 +466,7 @@ class eZforumMessage
                 $t->set_var( "color", "#bbbbbb");
     
             $messages .= $t->parse( "messages", "elements", true );
-            $messages .= $this->printHeaderTree( $forum_id, $Id, $level, $document_root );
+            $messages .= $this->printHeaderTree( $forum_id, $Id, $level, $document_root, $category_id );
         }
         return $messages;
     }

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.8 2000/07/31 21:40:49 lw-cvs Exp $
+    $Id: message.php,v 1.9 2000/08/01 10:14:20 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -12,19 +12,36 @@ include( "ezforum/dbsettings.php" );
 include_once( "template.inc" );
 include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 
 $msg = new eZforumMessage;
 $usr = new eZUser;
+$session = new eZSession;
 $t = new Template( "$DOCROOT/templates" );
     
 $t->set_file( array("message" => "message.tpl",
                     "elements" => "message-elements.tpl",
                     "navigation" => "navigation.tpl",
-                    "navigation-bottom" => "navigation-bottom.tpl" ) );
+                    "navigation-bottom" => "navigation-bottom.tpl",
+                    "logout" => "logout.tpl"
+                    )
+              );
 
 $t->set_var( "docroot", $DOCROOT);
 $t->set_var( "category_id", $category_id);
+
+if ( $session->get( $AuthenticatedSession ) == 0 )
+{
+    $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
+    $t->parse( "logout-message", "logout", true );
+}
+else
+{
+    $UserID = 0;
+    $t->set_var( "user", "Anonym" );
+    $t->set_var( "logout-message", "" );
+}
 
 $t->parse( "navigation-bar", "navigation", true );
 
@@ -39,7 +56,7 @@ $t->set_var( "forum_id", $forum_id );
 
 $top_message = $msg->getTopMessage( $message_id );
     
-$messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOCROOT );
+$messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOCROOT, $category_id );
 $t->set_var( "replies", $messages );
 
 //  $replies = $msg->getHeaders( $forum_id, $message_id );
