@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.39 2001/10/15 11:32:17 ce Exp $
+// $Id: ezoptionvalue.php,v 1.39.2.1 2001/11/21 16:10:04 br Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -423,8 +423,8 @@ class eZOptionValue
     function correctPrice( $calcVAT, $inProduct )
     {
         $inUser =& eZUser::currentUser();
-        $vatPercentage = $inProduct->vatPercentage();
-        $productHasVAT = $inProduct->priceIncVAT();
+        $vat = $inProduct->vatPercentage();
+        $productHasVAT = $inProduct->includesVAT();
 
         if ( get_class( $inUser ) == "ezuser" )
         {
@@ -442,16 +442,14 @@ class eZOptionValue
         {
             if ( $productHasVAT == false )
             {
-                $vat = ( $price / ( $vatPercentage + 100  ) ) * $vatPercentage;
-                $price = $price + $vat;
+                $price = ( $price * $vat / 100 ) + $price;
             }
         }
         else
         {
             if ( $productHasVAT == true )
             {
-                $vat = ( $price / ( $vatPercentage + 100  ) ) * $vatPercentage;
-                $price = $price - $vat;
+                $price = $price - ( $price / ( $vat + 100  ) ) * $vat;
             }
 
         }

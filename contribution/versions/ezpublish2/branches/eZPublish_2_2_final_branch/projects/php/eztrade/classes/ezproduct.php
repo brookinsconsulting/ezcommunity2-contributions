@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.1 2001/11/01 13:05:51 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.2 2001/11/21 16:10:04 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -409,7 +409,7 @@ class eZProduct
                     $vat =& $vatType->value();
                 }
                 
-                $price = $price - ( $price / ( 100 + $vat ) ) * $vat;
+                $price = $price - ( $price / ( $vat + 100 ) ) * $vat;
                 
             }
         }
@@ -1892,26 +1892,36 @@ class eZProduct
         $ret = new eZVATType();
         
         $ini =& INIFile::globalINI();
-        if ( $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled" )
-            $useVAT = false;
-        else
+        if ( $ini->read_var( "eZTradeMain", "PricesIncVATBeforeLogin" ) == "enabled" )
             $useVAT = true;
+        else
+            $useVAT = false;
 
-       if ( get_class ( $user ) == "ezuser" )
+        if ( $ini->read_var( "eZTradeMain", "CountryVATDiscrimination" ) == "enabled" )
+            $CountryDisc = true;
+        else
+            $CountryDisc = false;
+
+        
+       if ( get_class ( $user ) == "ezuser" && $CountryDisc == true )
        {
            $mainAddress = $user->mainAddress();
            if ( get_class ( $mainAddress ) == "ezaddress" )
            {
                $country = $mainAddress->country();
-               if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
-                   $useVAT = false;
-               else
+               if ( ( get_class ( $country ) == "ezcountry" ) and ( $country->hasVAT() == true ) )
+               {
                    $useVAT = true;
+               }
+               else
+               {
+                   $useVAT = false;
+               }
            }
 
        }
 
-       if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
+       if ( ( $useVAT == true ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
        {
            $ret = new eZVATType( $this->VATTypeID );
        }
