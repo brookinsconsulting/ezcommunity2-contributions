@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.2 2001/10/25 09:50:03 sascha Exp $
+// $Id: productview.php,v 1.77.4.3 2001/11/12 09:06:42 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -71,7 +71,7 @@ else
 
 if ( isSet ( $Voucher ) )
 {
-    eZHTTPTool::header( "Location: /trade/voucherinformation/$ProductID/$MailMethod/" );
+    eZHTTPTool::header( "Location: /trade/customerlogin/?RedirectURL=/trade/voucherinformation/$ProductID/$MailMethod/" );
     exit();
 }
 else
