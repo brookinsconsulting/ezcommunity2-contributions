@@ -56,3 +56,8 @@ december_month=December
 
 mod: ezerror/admin, menubox.php.ini
 Change: added menubox.php.ini
+
+mod: ezcalendar/user, dayview.php.ini
+change: added
+previous_day=Previous day
+next_day=Next day
