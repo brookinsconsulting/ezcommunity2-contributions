@@ -10,6 +10,10 @@
 
 	<!-- Meny start! -->
 
+	<?
+	include( "ezarticle/user/menubox.php" );
+	?>
+
 	<? include( "eztrade/user/categorylist.php" ); ?>
 
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">

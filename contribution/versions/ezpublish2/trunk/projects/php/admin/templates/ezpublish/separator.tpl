@@ -1,6 +1,5 @@
 	<!-- Menues: End -->
 
-    <img src="/admin/images/1x1.gif" width="140" height="1" border="0" /><br />
 	</td>
 
     

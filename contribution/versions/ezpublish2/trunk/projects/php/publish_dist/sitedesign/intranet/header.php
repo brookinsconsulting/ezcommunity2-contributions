@@ -9,6 +9,10 @@
     <td width="1%" bgcolor="#f4fbf4">
 	<!-- Meny start! -->
 
+	<?
+	include( "ezarticle/user/menubox.php" );
+	?>
+
     <?
     include( "ezcalendar/user/menubox.php" );
     ?>
@@ -23,10 +27,6 @@
 
 	<?
 	include( "ezcontact/user/menubox.php" );
-	?>
-
-	<?
-	include( "ezarticle/user/menubox.php" );
 	?>
 
 	<?

@@ -4,6 +4,12 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: general admin interface, header.php.ini
+change: added
+user_settings=User&nbsp;settings
+all=All&nbsp;on
+none=All&nbsp;off
+
 mod: ezarticle/user, menubox.php.ini
 change: added
 latest=Latest

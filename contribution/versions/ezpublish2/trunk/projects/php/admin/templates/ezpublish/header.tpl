@@ -101,8 +101,11 @@
 	<td align="center"><a href="/module/{module_action}/{ez_module_name}"><img src="/{ez_dir_name}/admin/images/module_icon.gif" width="32" height="32" border="0" alt="{module_name}" /></a></td>
 <!-- END module_item_tpl -->
 <!-- BEGIN module_control_tpl -->
-	<td align="center"><a href="/module/activate/all">{intl-all}</a></td>
-	<td align="center"><a href="/module/activate/none">{intl-none}</a></td>
+	<td>&nbsp;&nbsp;</td>
+	<td align="left">
+	<img src="/admin/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/module/activate/all">{intl-all}</a><br />
+	<img src="/admin/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/module/activate/none">{intl-none}</a>
+	</td>
 <!-- END module_control_tpl -->
 </tr>
 </table>

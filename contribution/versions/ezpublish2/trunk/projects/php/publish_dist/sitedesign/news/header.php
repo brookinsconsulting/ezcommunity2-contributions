@@ -10,20 +10,20 @@
 	<!-- Meny start! -->
 
 	<?
-	include( "eznewsfeed/user/menubox.php" );
-	?>
-
-	<?
 	include( "ezarticle/user/menubox.php" );
 	?>
 	
+	<?
+	include( "eznewsfeed/user/menubox.php" );
+	?>
+
 	<?
 	include( "ezforum/user/menubox.php" );
 	?>
 	
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">
 	<tr>
-		<td colspan="2" class="menuhead">Information</td>
+		<td colspan="2" class="menuhead">Static pages</td>
 	</tr>
 	<?
 	     // include the static pages for category 2
