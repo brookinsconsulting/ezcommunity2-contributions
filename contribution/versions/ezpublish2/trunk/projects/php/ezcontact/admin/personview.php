@@ -44,8 +44,8 @@ $t->set_block( "person_view", "online_item_tpl", "online_item" );
 $t->set_block( "online_item_tpl", "online_line_tpl", "online_line" );
 $t->set_block( "person_view", "no_online_item_tpl", "no_online_item" );
 
-$t->set_block( "person_view", "contact_person_tpl", "contact_person" );
-$t->set_block( "person_view", "no_contact_person_tpl", "no_contact_person" );
+//  $t->set_block( "person_view", "contact_person_tpl", "contact_person" );
+//  $t->set_block( "person_view", "no_contact_person_tpl", "no_contact_person" );
 $t->set_block( "person_view", "project_status_tpl", "project_status" );
 $t->set_block( "person_view", "no_project_status_tpl", "no_project_status" );
 
@@ -217,21 +217,21 @@ if ( $Action == "view" )
     $t->set_var( "person_id", $PersonID );
 
     // Project info
-    $t->set_var( "contact_person", "" );
-    $t->set_var( "no_contact_person", "" );
+//      $t->set_var( "contact_person", "" );
+//      $t->set_var( "no_contact_person", "" );
 
-    $contact = $person->contact();
-    if ( $contact )
-    {
-        $user = new eZUser( $contact );
-        $t->set_var( "contact_firstname", $user->firstName() );
-        $t->set_var( "contact_lastname", $user->lastName() );
-        $t->parse( "contact_person", "contact_person_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_contact_person", "no_contact_person_tpl" );
-    }
+//      $contact = $person->contact();
+//      if ( $contact )
+//      {
+//          $user = new eZUser( $contact );
+//          $t->set_var( "contact_firstname", $user->firstName() );
+//          $t->set_var( "contact_lastname", $user->lastName() );
+//          $t->parse( "contact_person", "contact_person_tpl" );
+//      }
+//      else
+//      {
+//          $t->parse( "no_contact_person", "no_contact_person_tpl" );
+//      }
 
     $t->set_var( "project_status", "" );
     $t->set_var( "no_project_status", "" );

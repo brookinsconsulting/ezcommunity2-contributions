@@ -233,7 +233,10 @@ $t->set_var( "no_contact_person", "" );
 $contact = $company->contact();
 if ( $contact )
 {
-    $user = new eZUser( $contact );
+    if ( $company->contactType() == "ezperson" )
+        $user = new eZPerson( $contact );
+    else
+        $user = new eZUser( $contact );
     $t->set_var( "contact_firstname", $user->firstName() );
     $t->set_var( "contact_lastname", $user->lastName() );
     $t->parse( "contact_person", "contact_person_tpl" );

@@ -45,6 +45,7 @@
 
 <!-- BEGIN person_item_tpl -->
 <h2>{intl-personal_headline}</h2>
+<p>{intl-general_information}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
 	    <td width="50%">
@@ -98,6 +99,8 @@
 <!-- END person_item_tpl -->
 
 <h2>{intl-address_headline}</h2>
+<p>{intl-address_information}</p>
+<p>{intl-address_ignore_information}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN address_table_item_tpl -->
 <!-- BEGIN address_item_tpl -->
@@ -149,9 +152,16 @@
 </tr>
 <!-- END address_item_tpl -->
 <!-- END address_table_item_tpl -->
+<tr>
+	<td>
+	<p>{intl-address_optional}</p>
+	</td>
+</tr>
 </table>
 
 <h2>{intl-telephone_headline}</h2>
+<p>{intl-telephone_information}</p>
+<p>{intl-telephone_ignore_information}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN phone_table_item_tpl -->
 <tr>
@@ -176,6 +186,8 @@
 </table>
 
 <h2>{intl-online_headline}</h2>
+<p>{intl-online_information}</p>
+<p>{intl-online_ignore_information}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN online_table_item_tpl -->
 <tr>
@@ -202,6 +214,7 @@
 <!-- BEGIN project_item_tpl -->
 <h2>{intl-project_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <!-- BEGIN project_contact_item_tpl -->
     <tr>
 	    <td width="1%" valign="top" rowspan="2">
 	            <p class="boxtext">{intl-contact}:</p>
@@ -219,14 +232,19 @@
 		    <!-- BEGIN contact_group_item_select_tpl -->
 		    <option value="{type_id}" {selected}>{type_name}</option>
 		    <!-- END contact_group_item_select_tpl -->
-		    </select><br />
+		    </select>
+		    <input type="hidden" name="ContactPersonType" value="{contact_person_type}">
+		    <br />
 		    <input type="text" name="UserSearch" value="{user_search}">
 		    <input type="submit" name="RefreshUsers" value="{intl-refresh}">
 	    </td>
     </tr>
+    <!-- END project_contact_item_tpl -->
 
     <tr>
 	    <td width="1%" valign="top">
+	            <p></p>
+	    	    <p>{intl-project_status_information}</p>
 	            <p class="boxtext">{intl-state}:</p>
 		    <select name="ProjectID" />
 		    <option value="-1">{intl-no_state}</option>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.42 2001/01/30 11:17:42 bf Exp $
+// $Id: ezperson.php,v 1.43 2001/02/15 18:03:54 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -243,15 +243,20 @@ class eZPerson
     /*!
       Fetches all persons in the database.
     */
-    function getAll( $search_types = "", $limit_index = 0, $limit = 1 )
+    function getAll( $search_types = "", $limit_index = 0, $limit = 1, $company_person = false )
     {
         $db = eZDB::globalDatabase();
         $person_array = 0;
 
+        if ( $limit >= 0 )
+        {
+            $limit_text = "LIMIT $limit_index, $limit";
+        }
+
         if ( empty( $search_types ) )
         {
             $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName
-                    LIMIT $limit_index, $limit";
+                    $limit_text";
             $db->array_query( $person_array, $qry );
         }
         else
@@ -273,7 +278,7 @@ class eZPerson
                     ")
                     GROUP BY A.ID
                     ORDER BY A.LastName, A.FirstName
-                    LIMIT $limit_index, $limit";
+                    $limit_text";
             $db->array_query( $person_array, $qry );
         }
 

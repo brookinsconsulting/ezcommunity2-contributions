@@ -97,17 +97,7 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td width="50%">
-	<p class="boxtext">{intl-contact_person}:</p>
-	<!-- BEGIN contact_person_tpl -->
-	{contact_lastname}, {contact_firstname}
-	<!-- END contact_person_tpl -->
-	<!-- BEGIN no_contact_person_tpl -->
-	{intl-no_contact_person}
-	<!-- END no_contact_person_tpl -->
-	</td>
-
-	<td width="50%">
+	<td width="100%">
 	<p class="boxtext">{intl-project_status}:</p>
 	<!-- BEGIN project_status_tpl -->
 	{project_status}

@@ -143,8 +143,9 @@ $t->set_block( "online_table_item_tpl", "online_item_tpl", "online_item" );
 $t->set_block( "online_item_tpl", "online_item_select_tpl", "online_item_select" );
 
 $t->set_block( "edit_tpl", "project_item_tpl", "project_item" );
-$t->set_block( "project_item_tpl", "contact_group_item_select_tpl", "contact_group_item_select" );
-$t->set_block( "project_item_tpl", "contact_item_select_tpl", "contact_item_select" );
+$t->set_block( "project_item_tpl", "project_contact_item_tpl", "project_contact_item" );
+$t->set_block( "project_contact_item_tpl", "contact_group_item_select_tpl", "contact_group_item_select" );
+$t->set_block( "project_contact_item_tpl", "contact_item_select_tpl", "contact_item_select" );
 $t->set_block( "project_item_tpl", "project_item_select_tpl", "project_item_select" );
 
 $t->set_block( "person_edit", "delete_item_tpl", "delete_item" );
@@ -240,7 +241,7 @@ if ( !$confirm )
 
         if ( isset( $CompanyEdit ) )
         {
-            if( empty( $Name ) )
+            if( $Name == "" )
             {
                 $t->parse( "error_name_item", "error_name_item_tpl" );
                 $error = true;
@@ -248,13 +249,13 @@ if ( !$confirm )
         }
         else
         {
-            if( empty( $FirstName ) )
+            if( $FirstName == "" )
             {
                 $t->parse( "error_firstname_item", "error_firstname_item_tpl" );
                 $error = true;
             }
     
-            if( empty( $LastName ) )
+            if( $LastName == "" )
             {
                 $t->parse( "error_lastname_item", "error_lastname_item_tpl" );
                 $error = true;
@@ -276,7 +277,7 @@ if ( !$confirm )
         {
             if( $AddressTypeID[$i] != -1 )
             {
-                if ( empty( $Street1[$i] ) || empty( $Place[$i] ) || empty( $Zip[$i] ) || empty( $Country[$i] ) )
+                if ( $Street1[$i] == "" || $Place[$i] == "" || $Country[$i] == "" )
                 {
                     $t->set_var( "error_address_position", $i + 1 );
                     $t->parse( "error_address_item", "error_address_item_tpl", true );
@@ -285,7 +286,7 @@ if ( !$confirm )
             }
             else
             {
-                if ( !empty( $Street1[$i] ) || !empty( $Street2[$i] ) || !empty( $Place[$i] ) || !empty( $Zip[$i] ) || !empty( $Country[$i] ) )
+                if ( $Street1[$i] != "" || $Street2[$i] != "" || $Place[$i] != "" || $Country[$i] != "" )
                 {
                     $t->set_var( "error_address_position", $i + 1 );
                     $t->parse( "error_address_item", "error_address_item_tpl", true );
@@ -299,7 +300,7 @@ if ( !$confirm )
         {
             if( $PhoneTypeID[$i] != -1 )
             {
-                if ( empty( $Phone[$i] ) )
+                if ( $Phone[$i] == "" )
                 {
                     $t->set_var( "error_phone_position", $i + 1 );
                     $t->parse( "error_phone_item", "error_phone_item_tpl", true );
@@ -308,7 +309,7 @@ if ( !$confirm )
             }
             else
             {
-                if ( !empty( $Phone[$i] ) )
+                if ( $Phone[$i] != "" )
                 {
                     $t->set_var( "error_phone_position", $i + 1 );
                     $t->parse( "error_phone_item", "error_phone_item_tpl", true );
@@ -322,7 +323,7 @@ if ( !$confirm )
         {
             if( $OnlineTypeID[$i] != -1 )
             {
-                if ( empty( $Online[$i] ) )
+                if ( $Online[$i] == "" )
                 {
                     $t->set_var( "error_online_position", $i + 1 );
                     $t->parse( "error_online_item", "error_online_item_tpl", true );
@@ -331,7 +332,7 @@ if ( !$confirm )
             }
             else
             {
-                if ( !empty( $Online[$i] ) )
+                if ( $Online[$i] != "" )
                 {
                     $t->set_var( "error_online_position", $i + 1 );
                     $t->parse( "error_online_item", "error_online_item_tpl", true );
@@ -364,7 +365,10 @@ if ( !$confirm )
             $company->setName( $Name );
 
             $company->setCompanyNo( $CompanyNo );
-            $company->setContact( $ContactID );
+            if ( $ContactPersonType == "ezperson" )
+                $company->setPersonContact( $ContactID );
+            else
+                $company->setContact( $ContactID );
             $company->setComment( $Comment );
             $company->store();
 
@@ -426,7 +430,7 @@ if ( !$confirm )
 
             $Birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
             $person->setBirthDay( $Birth->mySQLDate() );
-            $person->setContact( $ContactID );
+//              $person->setContact( $ContactID );
             $person->setComment( $Comment );
             $person->store();
 
@@ -445,8 +449,8 @@ if ( !$confirm )
                       count( $Zip ), count( $Place ) );
         for ( $i = 0; $i < $count; $i++ )
         {
-            if ( !empty( $Street1[$i] ) && !empty( $Place[$i] ) &&
-                 !empty( $Zip[$i] ) && !empty( $Country[$i] ) && !empty( $AddressTypeID ) )
+            if ( $Street1[$i] != "" && $Place[$i] != "" &&
+                 $Country[$i] != "" && $AddressTypeID != "" )
             {
                 $address = new eZAddress( false, true );
                 $address->setStreet1( $Street1[$i] );
@@ -465,7 +469,7 @@ if ( !$confirm )
         $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
         for( $i=0; $i < $count; $i++ )
         {
-            if( !empty( $PhoneTypeID[$i] ) && !empty( $Phone[$i] ) )
+            if( $PhoneTypeID[$i] != "" && $Phone[$i] != "" )
             {
                 $phone = new eZPhone( false, true );
                 $phone->setNumber( $Phone[$i] );
@@ -480,7 +484,7 @@ if ( !$confirm )
         $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
         for( $i=0; $i < $count; $i++ )
         {
-            if( !empty( $OnlineTypeID[$i] ) && !empty( $Online[$i] ) )
+            if( $OnlineTypeID[$i] != "" && $Online[$i] != "" )
             {
                 $online = new eZOnline( false, true );
                 $online->setURL( $Online[$i] );
@@ -541,35 +545,45 @@ if ( !$confirm )
         }
 
         $addresses = $item->addresses();
+        $i = 1;
         foreach( $addresses as $address )
         {
             $AddressTypeID[] = $address->addressTypeID();
-            $AddressID[] = $address->id();
+            $AddressID[] = $i;
             $Street1[] = $address->street1();
             $Street2[] = $address->street2();
             $Zip[] = $address->zip();
             $Place[] = $address->place();
             $country = $address->country();
             $Country[] = $country->id();
+            $i++;
         }
 
         $phones = $item->phones();
+        $i = 1;
         foreach( $phones as $phone )
         {
             $PhoneTypeID[] = $phone->phoneTypeID();
-            $PhoneID[] = $phone->id();
+            $PhoneID[] = $i;
             $Phone[] = $phone->number();
+            $i++;
         }
 
         $onlines = $item->onlines();
+        $i = 1;
         foreach( $onlines as $online )
         {
             $OnlineTypeID[] = $online->onlineTypeID();
-            $OnlineID[] = $online->id();
+            $OnlineID[] = $i;
             $Online[] = $online->url();
+            $i++;
         }
 
         $ContactID = $item->contact();
+        if ( get_clasS( $item ) == "ezcompany" )
+            $ContactType = $item->contactType();
+        else
+            $ContactType = "ezuser";
         $ProjectID = $item->projectState();
     }
 
@@ -608,8 +622,14 @@ if ( !$confirm )
             // Company type selector
             $companyTypeList = eZCompanyType::getTree();
 
-            $categoryList =& eZCompany::categories( $CompanyID, false );
+            if ( !isset( $CompanyCategoryID ) )
+                $categoryList =& eZCompany::categories( $CompanyID, false );
+            else
+                $categoryList =& $CompanyCategoryID;
+            if ( isset( $NewCompanyCategory ) and is_numeric( $NewCompanyCategory ) )
+                $categoryList =& array_unique( array_merge( $NewCompanyCategory, $categoryList ) );
             $category_values = array_values( $categoryList );
+            $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
             foreach( $companyTypeList as $companyTypeItem )
             {
                 $t->set_var( "company_type_name", $companyTypeItem[0]->name() );
@@ -620,34 +640,8 @@ if ( !$confirm )
                 else
                     $t->set_var( "company_type_level", "" );
 
-                if ( $company )
-                {
-                    $found = in_array( $companyTypeItem[0]->id(), $category_values );
-                    if ( $found == true )
-                    {
-                        $t->set_var( "is_selected", "selected" );
-                    }
-                    else
-                    {
-                        $t->set_var( "is_selected", "" );
-                    }
-                }
-                else if ( isset( $NewCompanyCategory ) )
-                {
-                    if ( $NewCompanyCategory == $companyTypeItem[0]->id() )
-                    {
-                        $t->set_var( "is_selected", "selected" );
-                    }
-                    else
-                    {
-                        $t->set_var( "is_selected", "" );
-                    }
-                }
-                else
-                {
-                    $t->set_var( "is_selected", "" );
-                }
-
+                $t->set_var( "is_selected", in_array( $companyTypeItem[0]->id(), $category_values )
+                                            ? "selected" : "" );
 
                 $t->parse( "company_type_select", "company_type_select_tpl", true );
             }
@@ -661,12 +655,8 @@ if ( !$confirm )
             $t->set_var( "user_id", $user->id() );
             if ( isset( $FirstName ) )
                 $t->set_var( "firstname", $FirstName );
-            else
-                $t->set_var( "firstname", $user->firstName() );
             if ( isset( $LastName ) )
                 $t->set_var( "lastname", $LastName );
-            else
-                $t->set_var( "lastname", $user->lastName() );
 
             for ( $i = 1; $i <= 31; $i++ )
             {
@@ -697,7 +687,7 @@ if ( !$confirm )
             }
 
             $var_name =& $birth_array[$BirthMonth];
-            if ( empty( $var_name ) )
+            if ( $var_name == "" )
                 $var_name =& $birth_array[1];
 
             $t->set_var( $var_name, "selected" );
@@ -737,33 +727,37 @@ if ( !$confirm )
         if ( isset( $NewAddress ) )
         {
             $AddressTypeID[] = "";
-            $AddressID[] = "";
+            $AddressID[] = count( $AddressID ) > 0 ? $AddressID[count($AddressID)-1] + 1 : 1;
             $Street1[] = "";
             $Street2[] = "";
             $Zip[] = "";
             $Place[] = "";
-            $Country[] = "";
+            $Country[] = count( $Country ) > 0 ? $Country[count($Country)-1] : "";
         }
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
-                      count( $Zip ), count( $Place ), $AddressMinimum );
+                      count( $Zip ), count( $Place ) );
         $item = 0;
         $AddressDeleteValues =& array_values( $AddressDelete );
-        for ( $i = 0; $i < $count || $item < $count; $i++ )
+        $last_id = 0;
+        for ( $i = 0; $i < $count || $item < $AddressMinimum; $i++ )
         {
             if ( ( $item % $AddressWidth == 0 ) && $item > 0 )
             {
                 $t->parse( "address_table_item", "address_table_item_tpl", true );
                 $t->set_var( "address_item" );
             }
-            if ( !in_array( $i, $AddressDeleteValues ) )
+            if ( !isset( $AddressID[$i] ) or !is_numeric( $AddressID[$i] ) )
+                 $AddressID[$i] = ++$last_id;
+            if ( !in_array( $AddressID[$i], $AddressDeleteValues ) )
             {
+                $last_id = $AddressID[$i];
                 $t->set_var( "street1", $Street1[$i] );
                 $t->set_var( "street2", $Street2[$i] );
                 $t->set_var( "zip", $Zip[$i] );
                 $t->set_var( "place", $Place[$i] );
                 $t->set_var( "address_id", $AddressID[$i] );
-                $t->set_var( "address_index", $i );
+                $t->set_var( "address_index", $AddressID[$i] );
                 $t->set_var( "address_position", $i + 1 );
 
                 $t->set_var( "address_item_select", "" );
@@ -777,6 +771,7 @@ if ( !$confirm )
                         $t->set_var( "selected", "selected" );
                     $t->parse( "address_item_select", "address_item_select_tpl", true );
                 }
+                $t->set_var( "country_item_select", "" );
                 foreach( $countries as $country )
                 {
                     $t->set_var( "type_id", $country["ID"] );
@@ -790,6 +785,8 @@ if ( !$confirm )
                 $t->parse( "address_item", "address_item_tpl", true );
                 $item++;
             }
+            else
+                $AddressDeleteValues = array_diff( $AddressDeleteValues, array( $AddressID[$i] ) );
         }
         $t->parse( "address_table_item", "address_table_item_tpl", true );
 
@@ -798,24 +795,28 @@ if ( !$confirm )
         if ( isset( $NewPhone ) )
         {
             $PhoneTypeID[] = "";
-            $PhoneID[] = "";
+            $PhoneID[] = count( $PhoneID ) > 0 ? $PhoneID[count($PhoneID)-1] + 1 : 1;
             $Phone[] = "";
         }
-        $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ), $PhoneMinimum );
+        $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
         $item = 0;
+        $last_id = 0;
         $PhoneDeleteValues =& array_values( $PhoneDelete );
-        for ( $i = 0; $i < $count || $item < $count; $i++ )
+        for ( $i = 0; $i < $count || $item < $PhoneMinimum; $i++ )
         {
             if ( ( $item % $PhoneWidth == 0 ) && $item > 0 )
             {
                 $t->parse( "phone_table_item", "phone_table_item_tpl", true );
                 $t->set_var( "phone_item" );
             }
-            if ( !in_array( $i, $PhoneDeleteValues ) )
+            if ( !isset( $PhoneID[$i] ) or !is_numeric( $PhoneID[$i] ) )
+                 $PhoneID[$i] = ++$last_id;
+            if ( !in_array( $PhoneID[$i], $PhoneDeleteValues ) )
             {
+                $last_id = $PhoneID[$i];
                 $t->set_var( "phone_number", $Phone[$i] );
                 $t->set_var( "phone_id", $PhoneID[$i] );
-                $t->set_var( "phone_index", $i );
+                $t->set_var( "phone_index", $PhoneID[$i] );
                 $t->set_var( "phone_position", $i + 1 );
 
                 $t->set_var( "phone_item_select", "" );
@@ -833,30 +834,36 @@ if ( !$confirm )
                 $t->parse( "phone_item", "phone_item_tpl", true );
                 $item++;
             }
+            else
+                $PhoneDeleteValues = array_diff( $PhoneDeleteValues, array( $PhoneID[$i] ) );
         }
         $t->parse( "phone_table_item", "phone_table_item_tpl", true );
 
         if ( isset( $NewOnline ) )
         {
             $OnlineTypeID[] = "";
-            $OnlineID[] = "";
+            $OnlineID[] = count( $OnlineID ) > 0 ? $OnlineID[count($OnlineID)-1] + 1 : 1;
             $Online[] = "";
         }
-        $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ), $OnlineMinimum );
+        $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
         $item = 0;
+        $last_id = 0;
         $OnlineDeleteValues =& array_values( $OnlineDelete );
-        for ( $i = 0; $i < $count || $item < $count; $i++ )
+        for ( $i = 0; $i < $count || $item < $OnlineMinimum; $i++ )
         {
             if ( ( $item % $OnlineWidth == 0 ) && $item > 0 )
             {
                 $t->parse( "online_table_item", "online_table_item_tpl", true );
                 $t->set_var( "online_item" );
             }
-            if ( !in_array( $i, $OnlineDeleteValues ) )
+            if ( !isset( $OnlineID[$i] ) or !is_numeric( $OnlineID[$i] ) )
+                 $OnlineID[$i] = ++$last_id;
+            if ( !in_array( $OnlineID[$i], $OnlineDeleteValues ) )
             {
+                $last_id = $OnlineID[$i];
                 $t->set_var( "online_value", $Online[$i] );
                 $t->set_var( "online_id", $OnlineID[$i] );
-                $t->set_var( "online_index", $i );
+                $t->set_var( "online_index", $OnlineID[$i] );
                 $t->set_var( "online_position", $i + 1 );
 
                 $t->set_var( "online_item_select", "" );
@@ -874,6 +881,8 @@ if ( !$confirm )
                 $t->parse( "online_item", "online_item_tpl", true );
                 $item++;
             }
+            else
+                $OnlineDeleteValues = array_diff( $OnlineDeleteValues, array( $OnlineID[$i] ) );
         }
         $t->parse( "online_table_item", "online_table_item_tpl", true );
 
@@ -888,50 +897,78 @@ if ( !$confirm )
             $t->parse( "contact_group_item_select", "contact_group_item_select_tpl", true );
         }
 
-        $t->set_var( "user_search", $UserSearch );
+        $t->set_var( "project_contact_item", "" );
+        if ( isset( $CompanyEdit ) )
+        {
+            $t->set_var( "user_search", $UserSearch );
 
-        if ( $ContactGroupID == -1 )
-        {
-            $users =& eZUser::getAll( "name", true, $UserSearch );
-        }
-        else if ( $ContactGroupID < 1 )
-        {
             $users = array();
-            if ( is_numeric( $ContactID ) )
+            if ( $ContactGroupID == -1 )
             {
-                $user = new eZUser( $ContactID );
-                $users[] = $user;
+                $users =& eZUser::getAll( "name", true, $UserSearch );
             }
-        }
-        else
-        {
-            $group = new eZUserGroup();
-            $users =& $group->users( $ContactGroupID, "name", $UserSearch );
+            else if ( $ContactGroupID == -3 )
+            {
+                $users =& eZPerson::getAll( $UserSearch, 0, -1, true );
+            }
+            else if ( $ContactGroupID < 1 )
+            {
+                $users = array();
+                if ( is_numeric( $ContactID ) )
+                {
+                    if ( $ContactType == "ezperson" )
+                        $user = new eZPerson( $ContactID );
+                    else
+                        $user = new eZUser( $ContactID );
+                    $users[] = $user;
+                }
+            }
+            else
+            {
+                $group = new eZUserGroup();
+                $users =& $group->users( $ContactGroupID, "name", $UserSearch );
+            }
+
+            foreach( $users as $user )
+            {
+                if ( get_class( $user ) == "ezuser" ||
+                     get_class( $user ) == "ezperson" )
+                {
+                    $t->set_var( "type_id", $user->id() );
+                    $t->set_var( "type_firstname", $user->firstName() );
+                    $t->set_var( "type_lastname", $user->lastName() );
+                    $t->set_var( "selected", "" );
+                    if ( $ContactID == $user->id() )
+                        $t->set_var( "selected", "selected" );
+                }
+                $t->parse( "contact_item_select", "contact_item_select_tpl", true );
+            }
+            if ( count( $users ) > 0 )
+                $t->set_var( "contact_person_type", get_class( $users[0] ) == "ezuser" ? "ezuser" : "ezperson" );
+            else
+                $t->set_var( "contact_person_type", "" );
+
+            $t->set_var( "none_selected", "" );
+            $t->set_var( "all_selected", "" );
+            $t->set_var( "persons_selected", "" );
+            if ( $ContactGroupID == -1 )
+            {
+                $t->set_var( "all_selected", "selected" );
+            }
+            else if ( $ContactGroupID == -3 )
+            {
+                $t->set_var( "persons_selected", "selected" );
+            }
+            else if ( $ContactGroupID < 1 )
+            {
+                $t->set_var( "none_selected", "selected" );
+            }
+
+            $t->parse( "project_contact_item", "project_contact_item_tpl" );
         }
 
-        foreach( $users as $user )
-        {
-            $t->set_var( "type_id", $user->id() );
-            $t->set_var( "type_firstname", $user->firstName() );
-            $t->set_var( "type_lastname", $user->lastName() );
-            $t->set_var( "selected", "" );
-            if ( $ContactID == $user->id() )
-                $t->set_var( "selected", "selected" );
-            $t->parse( "contact_item_select", "contact_item_select_tpl", true );
-        }
-
-        $project_types =& eZProjectType::findTypes();
-        $t->set_var( "none_selected", "" );
-        $t->set_var( "all_selected", "" );
-        if ( $ContactGroupID == -1 )
-        {
-            $t->set_var( "all_selected", "selected" );
-        }
-        else if ( $ContactGroupID < 1 )
-        {
-            $t->set_var( "none_selected", "selected" );
-        }
         $t->set_var( "project_item_select", "" );
+        $project_types =& eZProjectType::findTypes();
         foreach( $project_types as $project_type )
         {
             $t->set_var( "type_id", $project_type->id() );

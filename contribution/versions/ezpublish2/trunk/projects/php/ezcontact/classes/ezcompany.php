@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.60 2001/01/30 11:17:42 bf Exp $
+// $Id: ezcompany.php,v 1.61 2001/02/15 18:03:54 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -80,22 +80,23 @@ class eZCompany
 
         if ( !isset( $this->ID ) or !is_numeric( $this->ID ) )
         {
-        
-            $db->query( "INSERT INTO eZContact_Company set Name='$this->Name',
-	                                              Comment='$this->Comment',
-                                                  CompanyNo='$this->CompanyNo',
-                                                  ContactType='$this->ContactType',
-	                                              CreatorID='$this->CreatorID'" );
-            $this->ID = mysql_insert_id();
+            $query_type = "INSERT INTO";
         }
         else
         {
-            $db->query( "UPDATE eZContact_Company set Name='$this->Name',
-                                            	 Comment='$this->Comment',
-                                                 CompanyNo='$this->CompanyNo',
-                                                 ContactType='$this->ContactType',
-                                               	 CreatorID='$this->CreatorID' WHERE ID='$this->ID'" );
+            $query_type = "UPDATE";
+            $query_cond = "WHERE ID='$this->ID'";
         }
+        $type = $this->ContactType == "ezperson" ? 2 : 1;
+        $db->query( "$query_type eZContact_Company set Name='$this->Name',
+                                 Comment='$this->Comment',
+                                 CompanyNo='$this->CompanyNo',
+                                 ContactID='$this->ContactID',
+                                 ContactType='$type',
+                                 CreatorID='$this->CreatorID'
+                                 $query_cond" );
+        if ( !isset( $this->ID ) or !is_numeric( $this->ID ) )
+            $this->ID = mysql_insert_id();
 
         return true;
     }
@@ -186,19 +187,19 @@ class eZCompany
                 $this->Comment = $company_array[0]["Comment"];
                 $this->CreatorID = $company_array[0]["CreatorID" ];        
                 $this->CompanyNo = $company_array[0]["CompanyNo"];
-                $this->ContactType = $company_array[0]["ContactType"];
-                     
+                $this->ContactID = $company_array[0]["ContactID"];
+                $type = $company_array[0]["ContactType"];
+                $this->ContactType = $type == 2 ? "ezperson" : "ezuser";
                 $ret = true;
             }
         }
         return $ret;
     }
-    
 
     /*!
-      Returns all the company found in the database.
+      Returns all companies found in the database.
       
-      The company are returned as an array of eZCompany objects.
+      The companies are returned as an array of eZCompany objects.
     */
     function &getAll( )
     {
@@ -217,9 +218,9 @@ class eZCompany
     }
 
     /*!
-      Returns all the companies found in the database.
+      Returns all the companies found in the database in a specific category.
       
-      The company are returned as an array of eZCompany objects.
+      The companies are returned as an array of eZCompany objects.
     */
     function &getByCategory( $categoryID )
     {
@@ -807,13 +808,32 @@ class eZCompany
      */
     function setContact( $value )
     {
-        $this->ContactType = $value;
+        $this->ContactID = $value;
+        $this->ContactType = "ezuser";
     }
 
     /*!
       Returns the contact for this company.
     */
     function contact( )
+    {
+        return $this->ContactID;
+        $this->ContactType = "ezuser";
+    }
+
+    /*!
+        Set the person contact for this object to $value.
+     */
+    function setPersonContact( $value )
+    {
+        $this->ContactID = $value;
+        $this->ContactType = "ezperson";
+    }
+
+    /*!
+      Returns the contact for this company.
+    */
+    function contactType()
     {
         return $this->ContactType;
     }
@@ -885,7 +905,8 @@ class eZCompany
     var $Name;
     var $Comment;
     var $Online;
-    var $ContactType;
+    var $ContactID;
+    var $PersonContactID;
     var $CompanyNo;
 }
 
