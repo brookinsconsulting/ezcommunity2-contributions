@@ -24,7 +24,7 @@ Chapter 2 Pre-requisites
     2.3 Which Software is Already Installed?
         2.3.1 Systems Using RPM
     2.4 FreeBSD
-    2.5 Debian
+    2.5 Mandrake
     2.6 IRIX
     2.7 RAQ 3
     2.8 Windows
@@ -73,7 +73,7 @@ Chapter 9 Installing on Windows
         9.4.1 User Site
         9.4.2 Admin Site
     9.5 eZ publish Installation
-Chapter 10 Debian
+Chapter 10 Mandrake
     10.1 Download the Following
 
 
@@ -102,8 +102,9 @@ directly from the software developer.
 
 Different distribution sites for different Unix systems are:
 
-* Debian (http://www.debian.org/distrib/ftplist) See also
-  chapter [chptr: debian].
+* Debian (http://www.debian.org/distrib/ftplist)
+
+* Mandrake, see chapter [chptr: mandrake].
 
 * IRIX (http://freeware.sgi.com/)
 
@@ -275,10 +276,10 @@ the current port of libxml installs itself as /usr/local/lib/libxml2.a|so
 and it goes unrecognised by configure. You can easily get
 around this problem by linking the libs to libxml.a|so.
 
-2.5 Debian
+2.5 Mandrake
 
-First read chapter [chptr: debian], then
-continue reading the manual from here.
+First read chapter [chptr: mandrake],
+then continue reading the manual from here.
 
 2.6 IRIX
 
@@ -1310,7 +1311,7 @@ distribution to "c:\ezpublish\classes":
 * replace c:\ezpublish\admin\index.php with the file from the
   "ezpublish-win.files.zip" distribution.
 
-Debian<chptr: debian>
+Mandrake<chptr: mandrake>
 
 Thanks to Mark Polsen for giving us this information.
 

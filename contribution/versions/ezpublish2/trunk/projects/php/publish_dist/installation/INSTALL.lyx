@@ -127,11 +127,11 @@ Different distribution sites for different Unix systems are:
 Debian 
 \family typewriter 
 \size footnotesize 
-(http://www.debian.org/distrib/ftplist) 
-\family default 
-\size default 
-See also chapter 
-\begin_inset LatexCommand \ref{chptr: debian}
+(http://www.debian.org/distrib/ftplist)
+\layout Itemize
+
+Mandrake, see chapter 
+\begin_inset LatexCommand \ref{chptr: mandrake}
 
 \end_inset 
 
@@ -513,11 +513,11 @@ libxml2.a|so and it goes unrecognised by configure.
  You can easily get around this problem by linking the libs to libxml.a|so.
 \layout Section
 
-Debian
+Mandrake
 \layout Standard
 
 First read chapter 
-\begin_inset LatexCommand \ref{chptr: debian}
+\begin_inset LatexCommand \ref{chptr: mandrake}
 
 \end_inset 
 
@@ -3870,8 +3870,8 @@ admin
 index.php with the file from the "ezpublish-win.files.zip" distribution.
 \layout Chapter
 
-Debian
-\begin_inset LatexCommand \label{chptr: debian}
+Mandrake
+\begin_inset LatexCommand \label{chptr: mandrake}
 
 \end_inset 
 
