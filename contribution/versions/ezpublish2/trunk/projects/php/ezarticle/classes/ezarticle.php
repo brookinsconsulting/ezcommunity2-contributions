@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.30 2001/01/22 14:42:59 jb Exp $
+// $Id: ezarticle.php,v 1.31 2001/02/08 14:31:13 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -897,6 +897,10 @@ class eZArticle
        if ( count( $res ) == 1 )
        {
            $category = new eZArticleCategory( $res[0]["CategoryID"] );
+       }
+       else
+       {
+           print( "<br><b>Failed to get article category definition for ID $this->ID</b></br>" );
        }
 
        return $category;
