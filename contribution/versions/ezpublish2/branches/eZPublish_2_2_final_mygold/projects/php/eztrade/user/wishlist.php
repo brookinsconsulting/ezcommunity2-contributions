@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20.4.1 2001/10/23 10:27:14 ce Exp $
+// $Id: wishlist.php,v 1.20.4.2 2001/10/29 08:28:01 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -197,14 +197,17 @@ if ( $Action == "AddToBasket" )
 }
 
 
-if ( $Action == "RemoveFromWishlist" )
+if ( isSet ( $DeleteItems ) )
 {
     $wishListItem = new eZWishListItem( );
-    if ( $wishListItem->get( $WishListItemID ) )
+    if ( count ( $DeleteItem ) > 0 )
     {
-        $wishListItem->delete();
+        foreach( $DeleteItem as $ID )
+        {
+            $wishListItem->get( $ID );
+            $wishListItem->delete();
+        }
     }
-
     Header( "Location: /trade/wishlist/" );
 
     exit();
@@ -333,6 +336,8 @@ $t->set_block( "wishlist_item_tpl", "is_bought_tpl", "is_bought" );
 $t->set_block( "wishlist_item_tpl", "is_not_bought_tpl", "is_not_bought" );
 
 $t->set_block( "wishlist_page_tpl", "wishlist_checkout_tpl", "wishlist_checkout" );
+
+$t->set_var( "full_wishlist", "" );
 
 function turnColumnsOnOff( $rowName )
 {

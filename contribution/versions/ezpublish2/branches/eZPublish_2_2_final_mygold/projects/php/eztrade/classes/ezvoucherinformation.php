@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.7 2001/10/26 10:29:53 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.8 2001/10/29 08:28:01 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -579,6 +579,8 @@ class eZVoucherInformation
         $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                              "eztrade/user/intl/", $Language, "voucheremail.php" );
 
+        $languageIni = new INIFile( "eztrade/user/" . "intl/" . $Language . "/voucheremail.php.ini", false );  
+
         $t->setAllStrings();
         
         $t->set_file( "voucheremail", "voucheremail.tpl" );
@@ -615,7 +617,8 @@ class eZVoucherInformation
         }
 
         $mailAddress = $this->toOnline();
-        
+
+        $mail->setSubject( $GLOBALS["SERVER_NAME"] . ": " . $languageIni->read_var( "strings", "subject" ) );
         $mail->setTo( $mailAddress->url() );
         $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
         $mail->setFrom( $fromUser->url() );
