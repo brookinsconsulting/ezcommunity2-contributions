@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.12 2001/03/01 14:06:25 jb Exp $
+// $Id: imageview.php,v 1.13 2001/03/05 15:49:02 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -31,6 +31,7 @@ include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
 
