@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.17.2.2 2001/11/16 12:53:06 jhe Exp $
+// $Id: ezformrenderer.php,v 1.17.2.3 2003/02/28 08:31:05 br Exp $
 //
 // eZFormRenderer class
 //
@@ -399,6 +399,7 @@ class eZFormRenderer
         $form = new eZForm( $FormID );
         
         $ini =& INIFile::globalINI();
+        $Language = $ini->read_var( "eZFormMain", "Language" );
         
         $emailDefaults = false;
         
