@@ -1,8 +1,21 @@
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td width="35%">
+	<h1>{headline}</h1>
+	</td>
+	<td width="45%" align="right">
+	<form method="post" action="/link/search/">
+	<input type="text" name="QueryText" size="20" value=""><input type="submit" value="Search">
+	<input type="hidden" name="Action" value="search">
+	</form>
+	</td>
+	</td>
+<tr>
+</table>
+
+<hr noshade size="4">
+
 <form method="post" action="/link/linkedit/{action_value}/{link_id}/">
-
-<h1>{intl-headline}</h1>
-
-<hr noshade size="4"/>
 
 <p class="error">{error_msg}</p>
 

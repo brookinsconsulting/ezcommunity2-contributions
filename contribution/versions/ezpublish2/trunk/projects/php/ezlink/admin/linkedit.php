@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.25 2000/10/19 12:26:06 ce-cvs Exp $
+  $Id: linkedit.php,v 1.26 2000/10/19 12:51:02 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -146,6 +146,9 @@ $t->set_file( array(
 
 $t->set_block( "link_edit", "link_group_tpl", "link_group" );
 
+$ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
+$headline = $ini->read_var( "strings", "headline_insert" );
+
 $linkselect = new eZLinkGroup();
 $linkGroupList = $linkselect->getAll();
 
@@ -196,6 +199,9 @@ if ( $Action == "edit" )
         $yes_selected = "";
         $no_selected = "selected";
     }
+    
+    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/useredit.php.ini", false );
+    $headline =  $ini->read_var( "strings", "headline_edit" );
 
 }
     
@@ -236,6 +242,7 @@ $t->set_var( "keywords", $tkeywords );
 $t->set_var( "description", $tdescription );
 // $t->set_var( "accepted", $taccepted );
 
+$t->set_var( "headline", $headline );
 
 $t->set_var( "error_msg", $error_msg );
 $t->set_var( "document_root", $DOC_ROOT );

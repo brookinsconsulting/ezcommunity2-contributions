@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.2 2000/10/10 13:26:02 ce-cvs Exp $
+// $Id: pollist.php,v 1.3 2000/10/19 12:51:02 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -40,6 +40,7 @@ $poll = new eZPoll();
 
 $pollList = $poll->getAll( );
 
+
 foreach( $pollList as $pollItem )
 {
     $t->set_var( "poll_id", $pollItem->id() );
@@ -47,6 +48,7 @@ foreach( $pollList as $pollItem )
     $t->set_var( "poll_description", $pollItem->description() );
 
     $t->parse( "poll_item", "poll_item_tpl", true );
+
 }
 
 $t->set_var( "document_root", $DOC_ROOT );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.4 2000/10/18 12:32:43 ce-cvs Exp $
+// $Id: eztexttool.php,v 1.5 2000/10/19 12:51:02 ce-cvs Exp $
 //
 // Definition of eZTextTool class
 //
@@ -63,7 +63,8 @@ class eZTextTool
     */
     function &addPre( $string, $char=">" )
     {
-        return eregi_replace( "^", "$char\n", $string );
+        return eregi_replace( "^", "^$char", $string );
+        return eregi_replace( "\n", "\n$char", $string );
     }
 }
 
