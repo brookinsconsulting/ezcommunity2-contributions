@@ -8,7 +8,7 @@
 </table>
 <!-- END article_url_item_tpl -->
 
-        <table width="530" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+        <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
         <tr>
             <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td width="98%" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="1" height="14" hspace="0" vspace="0" /><br /></td>
@@ -24,7 +24,7 @@
         </tr>
 		</table>
 
-        <table width="530" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+        <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
 		<tr>
 		    <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td width="99%">
@@ -38,7 +38,7 @@
 <!-- END article_header_tpl -->
 
 
-<p>
+<p class="intro">
 {article_intro}
 </p>
 <p>

@@ -1,6 +1,6 @@
 <!-- BEGIN header_item_tpl -->
 
-        <table width="530" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+        <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
         <tr>
             <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td width="98%" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
@@ -26,11 +26,19 @@
 
 
 <!-- BEGIN category_list_tpl -->
-
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN category_item_tpl -->
-
+<tr>
+	<td class="{td_class}">
+	<div class="listheadline"><a class="listheadline" href="/article/archive/{category_id}/">{category_name}</a></div>
+	<div class="p">{category_description}</div>
+	<img src="/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />
+	<a class="path" href="/article/archive/{category_id}/">{article_link_text}</a>
+	<br /><br />
+	</td>
+</tr>
 <!-- END category_item_tpl -->
-
+</table>
 <!-- END category_list_tpl -->
 
 <!-- BEGIN article_list_tpl -->
@@ -39,7 +47,6 @@
 <tr>
 	<td>
 	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
-	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table width="1%" align="right">
@@ -57,8 +64,8 @@
         <!-- END article_image_tpl -->
 
 
-	<div class="spacer"><div class="p">{article_intro}</div></div>
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<div class="p">{article_intro}</div>
+	<img src="/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />
 	<a class="path" href="/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
 	</td>
