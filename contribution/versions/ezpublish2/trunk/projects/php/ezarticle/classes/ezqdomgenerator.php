@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.20 2001/08/06 10:55:36 virt Exp $
+// $Id: ezqdomgenerator.php,v 1.21 2001/08/07 13:33:58 virt Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -547,7 +547,7 @@ class eZQDomGenerator
         }
 
         // ez anchor
-        if ( $paragraph->name == "anchor" )
+        if ( $paragraph->name == "ezanchor" )
         {
             foreach ( $paragraph->attributes as $anchorItem )
             {
