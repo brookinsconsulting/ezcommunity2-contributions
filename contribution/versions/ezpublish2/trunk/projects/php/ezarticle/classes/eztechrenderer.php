@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.28 2000/11/01 09:43:08 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.29 2000/11/01 10:27:31 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -166,8 +166,6 @@ class eZTechRenderer
                 }
             }
 
-            $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
-            
 //            $newArticle = eZTextTool::nl2br( $intro );
             $newArticle = $intro;
         }
@@ -224,8 +222,6 @@ class eZTechRenderer
                 }
             }
 
-            $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
-            
             $pageArray = array();
             // loop on the pages
             foreach ( $body as $page )
