@@ -38,7 +38,7 @@ CREATE TABLE eZImageCatalogue_Image (
 # Dumping data for table 'eZImageCatalogue_Image'
 #
 
-INSERT INTO eZImageCatalogue_Image VALUES (1,'','caption text','','php0meQsj.jpg','360_rose.jpg');
+INSERT INTO eZImageCatalogue_Image VALUES (1,'','caption text','','php0meQsj.jpg','360_rose.jpg', 27, 1, 1);
 
 #
 # Table structure for table 'eZImageCatalogue_ImageCategoryLink'
