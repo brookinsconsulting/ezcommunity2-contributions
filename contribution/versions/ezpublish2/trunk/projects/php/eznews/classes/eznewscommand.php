@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscommand.php,v 1.1 2000/09/28 08:27:14 pkej-cvs Exp $
+// $Id: eznewscommand.php,v 1.2 2000/09/28 10:39:34 pkej-cvs Exp $
 //
 // Definition of eZNewsCommand class
 //
@@ -114,6 +114,9 @@ class eZNewsCommand
             include_once( "eznews/classes/eznewsitemtype.php" );
             
             $item = new eZNewsItem();
+            
+            echo "hva får vi egentlig inn? jo: " . htmlspecialchars($itemInfo);
+            
             $item->getByName( $itemInfo );
             
             $itemType = new eZNewsItemType( $item->itemTypeID() );
