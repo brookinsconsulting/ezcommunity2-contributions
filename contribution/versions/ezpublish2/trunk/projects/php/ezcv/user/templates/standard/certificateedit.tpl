@@ -4,16 +4,6 @@
 
 <input type="hidden" name="CVID" value="{cv_id}" />
 
-<p class="boxtext">{intl-th_certificate_type}:</p>
-<select size="10" name="TypeID">
-
-<option {root_selected} value="0">{intl-root_category}</option>
-<!-- BEGIN parent_item_tpl -->
-<option {selected} value="{select_parent_id}">{select_parent_name}</option>
-<!-- END parent_item_tpl -->
-
-</select>
-
 <br /><br />
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>

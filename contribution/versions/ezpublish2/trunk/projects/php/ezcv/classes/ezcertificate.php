@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcertificate.php,v 1.2 2000/12/21 16:58:11 ce Exp $
+// $Id: ezcertificate.php,v 1.3 2000/12/21 18:16:39 ce Exp $
 //
 // Definition of eZCertificate class
 //
@@ -71,27 +71,14 @@ class eZCertificate
         $this->dbInit();
         if( !isSet( $this->ID ) )
         {
-        
-            $this->Created = gmdate( "YmdHis", time());
-            
-            $this->Database->query( "INSERT INTO eZCV_Certificate SET CertificateTypeID='$this->CertificateTypeID', Received='$this->Received', End='$this->End'" );
+            $this->Database->query( "INSERT INTO eZCV_Certificate SET Name='$this->Name', Institution='$this->Institution', Received='$this->Received', End='$this->End'" );
 
             $this->ID = mysql_insert_id();            
             $this->State_ = "Coherent";
         }
         else
         {
-            $this->Database->query
-            ( "
-                UPDATE
-                    eZCV_Certificate
-                SET
-                    CertificateTypeID='$this->CertificateTypeID',
-                    Received='$this->Received',
-                    End='$this->End'
-                WHERE
-                    ID='$this->ID'
-            " );
+            $this->Database->query( "UPDATE eZCV_Certificate SET Name='$this->Name', Institution='$this->Institution', Received='$this->Received', End='$this->End' WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
     }
@@ -112,10 +99,11 @@ class eZCertificate
             }
             else if( count( $objectArray ) == 1 )
             {
-                $this->ID = $objectArray[ 0 ][ "ID" ];
-                $this->CertificateTypeID = $objectArray[ 0 ][ "CertificateTypeID" ];
-                $this->Received = $objectArray[ 0 ][ "Received" ];
-                $this->End = $objectArray[ 0 ][ "End" ];
+                $this->ID =& $objectArray[ 0 ][ "ID" ];
+                $this->Name =& $objectArray[ 0 ][ "Name" ];
+                $this->Institution =& $objectArray[ 0 ][ "Institution" ];
+                $this->Received =& $objectArray[ 0 ][ "Received" ];
+                $this->End =& $objectArray[ 0 ][ "End" ];
             }
         }
     }
@@ -139,61 +127,6 @@ class eZCertificate
     }
 
     /*!
-        Fetches all the company types in the db and return them as an array of objects.
-     */
-    function getByTypeID( $id = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
-    {
-        $this->dbInit();
-
-        switch( strtolower( $OrderBy ) )
-        {
-            case "start":
-            case "received":
-                $OrderBy = "ORDER BY Received";
-                break;
-            case "end":
-            case "expires":
-            case "expire":
-                $OrderBy = "ORDER BY End";
-                break;
-            case "id":
-                $OrderBy = "ORDER BY ID";
-                break;
-            case "typeid":
-                $OrderBy = "ORDER BY CertificateTypeID";
-                break;
-            default:
-                $OrderBy = "ORDER BY ID";
-                break;
-        }
-        
-        if( is_numeric( $LimitStart ) )
-        {
-            $LimitClause = "LIMIT $LimitStart";
-            
-            if( is_numeric( $LimitBy ) )
-            {
-                $LimitClause = $LimitClause . ", $LimitBy";
-            }
-        }
-        else
-        {
-            $LimitClause = "";
-        }
-        
-        $company_type_array = array();
-        $return_array = array();
-        
-        $this->Database->array_query( $company_type_array, "SELECT CertificateTypeID FROM eZCV_Certificate WHERE CertificateTypeID='$id' $OrderBy $LimitClause" );
-
-        foreach( $company_type_array as $companyTypeItem )
-        {
-            $return_array[] = new eZCertificateType( $companyTypeItem["CertificateTypeID"] );
-        }
-        return $return_array;
-    }
-    
-    /*!
         Returns the ID of this object.
      */
     function id()
@@ -215,119 +148,52 @@ class eZCertificate
         $this->ID = $value;
     }
 
-    function path( $id = 0 )
-    {    
-        if( $id == 0 )
-        {
-            $id = $this->CertificateTypeID;
-        }
-        
-        $type = new eZCertificateType( $id );
-        
-        return $type->path();
-    }
-
-    function name()
+    function &name()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $id = $this->CertificateTypeID;
-        
-        $type = new eZCertificateType( $id );
-        
-        return $type->name();
-    }
-
-    function type()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $id = $this->CertificateTypeID;
-        $type = new eZCertificateType( $id );
-        return $type->name();
-    }
-
-    function typeID()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $id = $this->CertificateTypeID;
-        
-        $type = new eZCertificateType( $id );
-        
-        return $type->id();
+        return $this->Name;
     }
 
     /*!
-        Returns the description of this certificate.
+        Returns the institution of the issuer of this certificate.
      */
-    function description()
+    function &institution()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $id = $this->CertificateTypeID;
-        
-        $type = new eZCertificateType( $id );
-        
-        return $type->description();
+        return $this->Institution;
     }
 
     /*!
-        Returns the name of the category of this certificate.
-     */
-    function category()
+        Set the institution of this object to $value.
+    */
+    function setInstitution( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $id = $this->CertificateTypeID;
-        
-        $type = new eZCertificateType( $id );
-        $category = $type->certificateCategory();
-        return $category->name();
+        $this->Institution = $value;
     }
-    
+
     /*!
-        Returns the ID of the category of this certificate.
-     */
-    function categoryID()
+        Set the name of this object to $value.
+    */
+    function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $id = $this->CertificateTypeID;
-        
-        $type = new eZCertificateType( $id, fetch );
-        $category = $type->certificateCategory();
-        return $category->id();
+        $this->Name = $value;
     }
-    
-    /*!
-        Returns the name of the issuer of this certificate.
-     */
-    function institution()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
 
-        if( $id == 0 )
-        {
-            $id = $this->CertificateTypeID;
-        }
-        
-        $type = new eZCertificateType( $id );
-        $category = $type->certificateCategory();
-        return $category->institution();
-    }
 
    /*!
         Returns the Received of this object.
      */
-    function received()
+    function &received()
     {
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -348,7 +214,7 @@ class eZCertificate
     /*!
         Returns the End of this object.
      */
-    function end()
+    function &end()
     {
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -359,7 +225,7 @@ class eZCertificate
     /*!
         Returns the expiry date of this object.
      */
-    function expires()
+    function &expires()
     {
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -390,76 +256,6 @@ class eZCertificate
     }
 
     /*!
-        Returns the CertificateType of this object.
-     */
-    function certificateType()
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if( is_numeric( $this->CertificateTypeID ) )
-        {
-            $returnValue = new eZCertificateType( $this->CertificateTypeID );
-        }
-        else
-        {
-            $returnValue = 0;
-        }
-
-        return $returnValue;
-    }
-    
-    /*!
-        Returns the CertificateType of this object.
-     */
-    function certificateTypeID()
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if( is_numeric( $this->CertificateTypeID ) )
-        {
-            $returnValue = $this->CertificateTypeID;
-        }
-        else
-        {
-            $returnValue = 0;
-        }
-
-        return $returnValue;
-    }
-    /*!
-        Set the CertificateTypeID of this object to $certificate.
-    */
-    function setCertificateType( $certificate )
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $ret = false;
-       
-        $this->dbInit();
-        if( get_class( $certificate ) == "ezcertificate" )
-        {
-            $certificateID = $certificate->id();
-
-        }
-        elseif(is_numeric( $certificate ) )
-        {
-            $certificateID = $certificate;
-        }
-        
-        if(is_numeric( $certificateID ) )
-        {
-            $this->CertificateTypeID = $certificateID;
-            $ret = true;
-        }
-        
-        return $ret;
-    }
-
-
-    /*!
       \private
       Used by this class to connect to the database.
     */
@@ -473,7 +269,8 @@ class eZCertificate
     }
     
     var $ID;
-    var $CertificateTypeID;
+    var $Name;
+    var $Institution;
     var $Received;
     var $End;
 

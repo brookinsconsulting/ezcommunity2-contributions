@@ -141,7 +141,6 @@ switch ( $url_array[2] )
             header( "Location: /error.php?type=404&reason=missinginfo&hint[]=/cv/certificate/$operation/&module=ezcv" );
             exit();               
         }
-        
         switch( $operation )
         {
             case "new":

@@ -1,3 +1,4 @@
+
 <SCRIPT LANGUAGE="JavaScript1.2">
 <!--//
 
@@ -236,9 +237,8 @@
     <th>{intl-th_current_id}:</th>
     <th>{intl-th_start}:</th>
     <th>{intl-th_end}:</th>
+    <th>{intl-th_certificate_name}:</th>
     <th>{intl-th_certificate_institution}:</th>
-    <th>{intl-th_certificate_category}:</th>
-    <th>{intl-th_certificate_type}:</th>
     <th colspan="2">&nbsp;</th>
 </tr>
 <!-- BEGIN certificate_item_tpl -->
@@ -246,9 +246,8 @@
     <td>{certificate_id}&nbsp;</td>
     <td class="small">{certificate_start}&nbsp;</td>
     <td class="small">{certificate_end}&nbsp;</td>
+    <td>{certificate_name}&nbsp;</td>
     <td>{certificate_institution}&nbsp;</td>
-    <td>{certificate_category}&nbsp;</td>
-    <td>{certificate_type}&nbsp;</td>
     <td width="1%"><a href="/cv/certificate/edit/{certificate_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcvce{certificate_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezcvce{certificate_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
     <td width="1%"><a href="/cv/certificate/delete/{certificate_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcvce{certificate_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezcvce{certificate_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>

@@ -379,10 +379,8 @@ if( is_numeric( $CVID ) )
         $endDate->setMySQLDate( $certificate->expires() );
 
         $t->set_var( "certificate_id", $certificate->id() );
+        $t->set_var( "certificate_name", $certificate->name() );
         $t->set_var( "certificate_institution", $certificate->institution() );
-        $t->set_var( "certificate_category", $certificate->category() );
-        $t->set_var( "certificate_type", $certificate->type() );
-        $t->set_var( "certificate_description", $certificate->description() );
         $t->set_var( "certificate_start", $locale->format( $startDate ) );
         $t->set_var( "certificate_end", $locale->format( $endDate ) );
 
