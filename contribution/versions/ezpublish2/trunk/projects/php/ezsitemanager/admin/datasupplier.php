@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.7 2001/09/24 12:55:15 bf Exp $
+// $Id: datasupplier.php,v 1.8 2001/09/26 16:53:19 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -57,6 +57,12 @@ switch ( $url_array[2] )
 
     }break;
 
+    case "menuconfig":
+    {
+        include( "ezsitemanager/admin/menuconfig.php" );        
+    }break;
+
+    
     case "siteconfig":
     {
         include( "ezsitemanager/admin/siteconfig.php" );        
