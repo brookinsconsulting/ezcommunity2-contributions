@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.27 2001/08/09 14:30:55 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.28 2001/08/17 12:57:42 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -459,7 +459,13 @@ class eZQDomrenderer
 
             setType( $imageID, "integer" );
 
-            $image = $articleImages[$imageID-1];
+
+            foreach ( $articleImages as $imageArray )
+            {
+                if ( $imageArray["Placement"] == $imageID )
+                    $image = $imageArray["Image"];
+            }
+            
 
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )

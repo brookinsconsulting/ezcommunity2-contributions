@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.148 2001/08/17 08:45:58 ce Exp $
+// $Id: ezarticle.php,v 1.149 2001/08/17 12:57:42 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1201,13 +1201,16 @@ class eZArticle
     
             $db->lock( "eZArticle_ArticleImageLink" );
 
+            $db->array_query( $image_array, "SELECT COUNT(*) AS Count FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+            $placement = $image_array[0][$db->fieldName("Count")] + 1;
+            
             $nextID = $db->nextID( "eZArticle_ArticleImageLink", "ID" );
             $timeStamp = eZDateTime::timeStamp( true );
             
             $res = $db->query( "INSERT INTO eZArticle_ArticleImageLink
-                         ( ID, ArticleID, ImageID, Created )
+                         ( ID, ArticleID, ImageID, Created, Placement )
                          VALUES
-                         ( '$nextID',  '$this->ID', '$value', '$timeStamp' )" );
+                         ( '$nextID',  '$this->ID', '$value', '$timeStamp', '$placement' )" );
 
             $db->unlock();
     
@@ -1249,11 +1252,29 @@ class eZArticle
         $return_array = array();
         $image_array = array();
        
-        $db->array_query( $image_array, "SELECT ImageID, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
-       
+        $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+
+        // convert the database if placement is not set
+        if ( count( $image_array ) > 0 )
+        {
+            if ( $image_array[0][$db->fieldName("Placement")] == "0" )
+            {
+                $placement=1;                
+                for ( $i=0; $i < count($image_array); $i++ )
+                {
+                    $imageLinkID = $image_array[$i][$db->fieldName("ID")];
+                    $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$placement' WHERE ID='$imageLinkID'" );
+                    
+                    $image_array[$i][$db->fieldName("Placement")] = $placement;
+                    $placement++;
+                }
+            }
+        }
+        
         for ( $i=0; $i < count($image_array); $i++ )
         {
-            $return_array[$i] = $asObject ? new eZImage( $image_array[$i][$db->fieldName("ImageID")] ) : $image_array[$i][$db->fieldName("ImageID")];
+            $return_array[$i]["Image"] = $asObject ? new eZImage( $image_array[$i][$db->fieldName("ImageID")] ) : $image_array[$i][$db->fieldName("ImageID")];
+            $return_array[$i]["Placement"] = $image_array[$i][$db->fieldName("Placement")];         
         }
        
         return $return_array;

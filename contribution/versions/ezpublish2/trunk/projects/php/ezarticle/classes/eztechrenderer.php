@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.73 2001/08/09 15:15:29 bf Exp $
+// $Id: eztechrenderer.php,v 1.74 2001/08/17 12:57:42 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -546,7 +546,11 @@ class eZTechRenderer
 //                          $imageID = $paragraph->children[0]->content;
             setType( $imageID, "integer" );
                         
-            $image = $articleImages[$imageID-1];
+            foreach ( $articleImages as $imageArray )
+            {
+                if ( $imageArray["Placement"] == $imageID )
+                    $image = $imageArray["Image"];
+            }
                         
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )

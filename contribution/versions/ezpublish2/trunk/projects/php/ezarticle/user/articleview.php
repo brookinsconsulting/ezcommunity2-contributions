@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.66 2001/08/15 09:48:43 br Exp $
+// $Id: articleview.php,v 1.67 2001/08/17 12:57:42 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -245,12 +245,14 @@ if ( $article->get( $ArticleID ) )
     $images =& $article->images();
     
     {
-        $imageNumber = 1;
         $i=0;
 
-        foreach ( $images as $image )
+        foreach ( $images as $imageArray )
         {
-            if ( is_array( $usedImages ) && !in_array( $imageNumber, $usedImages ) )
+            $image = $imageArray["Image"];
+            $placement = $imageArray["Placement"];
+            
+            if ( is_array( $usedImages ) && !in_array( $placement, $usedImages ) )
             {
                 if ( ( $i % 2 ) == 0 )
                 {

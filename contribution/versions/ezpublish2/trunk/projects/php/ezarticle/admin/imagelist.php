@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.19 2001/08/08 12:34:52 jhe Exp $
+// $Id: imagelist.php,v 1.20 2001/08/17 12:57:42 bf Exp $
 //
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
@@ -72,6 +72,7 @@ if ( isSet( $AddImages ) )
 }
 
 $images = $article->images();
+
 if ( count( $images ) == 0 )
 {
     $t->set_var( "image_list", "" );
@@ -80,18 +81,18 @@ if ( count( $images ) == 0 )
 else
 {
     $t->set_var( "no_images", "" );
-
+ 
     $i=0;
     foreach ( $images as $image )
     {
+        $placement = $image["Placement"];
+        $image = $image["Image"];
+
+        
         if ( ( $i % 2 ) == 0 )
-        {
             $t->set_var( "td_class", "bglight" );
-        }
         else
-        {
             $t->set_var( "td_class", "bgdark" );
-        }
 
         $t->set_var( "thumbnail_image_checked", "" );
         if ( $thumbnail != 0 )
@@ -102,7 +103,7 @@ else
             }
         }
 
-        $t->set_var( "image_number", $i + 1 );
+        $t->set_var( "image_number", $placement );
 
         if ( $image->caption() == "" )
             $t->set_var( "image_name", "&nbsp;" );
