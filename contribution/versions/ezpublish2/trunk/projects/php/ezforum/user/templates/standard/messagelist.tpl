@@ -55,6 +55,7 @@
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="1%">
+		<nobr>
 		{spacer}{spacer}
 				<!-- BEGIN new_icon_tpl -->
                 <img src="/images/message_new.gif" width="16" height="16" border="0" alt="New message" />
@@ -62,7 +63,7 @@
 		<!-- BEGIN old_icon_tpl -->
                 <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />
 		<!-- END old_icon_tpl -->	
-
+		</nobr>
 		</td>
 		<td width="99%">
         &nbsp;<a href="/forum/message/{message_id}/">{topic} {count_replies}</a>
