@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.59 2001/09/14 13:29:04 pkej Exp $
+// $Id: cart.php,v 1.60 2001/09/14 19:10:35 br Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -478,7 +478,7 @@ if ( $ShowCart == true )
     
     $cart->cartTotals( $tax, $total, $user );
 
-    $locale = new eZLocale( $inLanguage );
+    $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
     $t->set_var( "empty_cart", "" );
