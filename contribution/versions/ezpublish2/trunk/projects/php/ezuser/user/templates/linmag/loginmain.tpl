@@ -7,7 +7,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="menu">
-	<input type="text" size="6" name="Username" style="width:120px" />
+	<input type="text" size="6" name="Username" style="width:100px" />
 	</td>
 </tr>
 <tr>
@@ -17,7 +17,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="menu">
-	<input type="password" size="6" name="Password" style="width:120px" />
+	<input type="password" size="6" name="Password" style="width:100px" />
 	</td>
 </tr>
 <tr>
