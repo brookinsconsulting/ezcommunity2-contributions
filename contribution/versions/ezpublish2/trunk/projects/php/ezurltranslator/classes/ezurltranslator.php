@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezurltranslator.php,v 1.3 2001/05/05 11:16:05 bf Exp $
+// $Id: ezurltranslator.php,v 1.4 2001/05/26 11:40:59 bf Exp $
 //
 // Definition of eZURLTranslator class
 //
@@ -56,6 +56,8 @@ class eZURLTranslator
         $ret = "/error/404";
         
         $db =& eZDB::globalDatabase();
+
+        $url = preg_replace( "/^(.*)\/$/", "\\1", $url );
         
         $db->array_query( $url_array,
             "SELECT Dest FROM eZURLTranslator_URL
