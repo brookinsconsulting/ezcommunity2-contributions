@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.19 2002/04/25 12:15:56 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.20 2002/07/10 10:25:26 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -896,6 +896,8 @@ class eZArticle
         foreach( $keywords as $keyword )
         {
             $db->begin( );
+
+            $keyword = $db->escapeString( $keyword );
 
             $db->lock( "eZArticle_ArticleKeyword" );
 
