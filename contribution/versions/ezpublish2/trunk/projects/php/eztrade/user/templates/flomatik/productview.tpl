@@ -121,12 +121,16 @@
 		<th>
 		Art. Nr:
 		</th>
+		<!-- BEGIN value_price_header_item_tpl -->
 		<th>
 		Price:
 		</th>
+		<!-- END value_price_header_item_tpl -->
+		<!-- BEGIN value_currency_header_item_tpl -->
 		<th colspan="{currency_count}"> 
 		Alternative currency:
 		</th>
+		<!-- END value_currency_header_item_tpl -->
 	</tr>
 
 	<!-- END value_price_header_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.26 2001/02/28 12:28:01 jb Exp $
+// $Id: productview.php,v 1.27 2001/02/28 12:54:52 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -100,6 +100,8 @@ $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_view_tpl", "option_tpl", "option" );
 $t->set_block( "option_tpl", "value_price_header_tpl", "value_price_header" );
+$t->set_block( "value_price_header_tpl", "value_price_header_item_tpl", "value_price_header_item" );
+$t->set_block( "value_price_header_tpl", "value_currency_header_item_tpl", "value_currency_header_item" );
 $t->set_block( "option_tpl", "value_tpl", "value" );
 $t->set_block( "value_tpl", "value_price_item_tpl", "value_price_item" );
 $t->set_block( "value_tpl", "value_price_currency_list_tpl", "value_price_currency_list" );
@@ -230,6 +232,14 @@ if ( $ShowPrice and $product->showPrice() == true  )
 $currency = new eZProductCurrency( );
 $currencies =& $currency->getAll();
 $t->set_var( "currency_count", count( $currencies ) );
+$t->set_var( "value_price_header_item", "" );
+$t->set_var( "value_currency_header_item", "" );
+if ( !$RequireUserLogin or get_class( $user ) == "ezuser"  )
+{
+    $t->parse( "value_price_header_item", "value_price_header_item_tpl" );
+    if ( count( $currencies ) > 0 )
+        $t->parse( "value_currency_header_item", "value_currency_header_item_tpl" );
+}
 
 $currency_locale = new eZLocale( $Language );
 foreach ( $options as $option )
@@ -249,6 +259,8 @@ foreach ( $options as $option )
         $t->set_var( "value_id", $value->id() );
         
         $t->set_var( "value_price", "" );
+        $t->set_var( "value_price_item", "" );
+        $t->set_var( "value_price_currency_list", "" );        
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
              $ShowPrice and $product->showPrice() == true  )
         {

@@ -117,6 +117,14 @@
 	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
 	<!-- BEGIN value_price_header_tpl -->
 
+	<!-- BEGIN value_price_header_item_tpl -->
+
+	<!-- END value_price_header_item_tpl -->
+
+	<!-- BEGIN value_currency_header_item_tpl -->
+
+	<!-- END value_currency_header_item_tpl -->
+
 	<!-- END value_price_header_tpl -->
 	<select name="OptionValueArray[]">
 
