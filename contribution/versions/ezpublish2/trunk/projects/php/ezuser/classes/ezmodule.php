@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodule.php,v 1.12 2001/10/16 18:44:20 fh Exp $
+// $Id: ezmodule.php,v 1.13 2001/10/16 18:48:46 fh Exp $
 //
 // Definition of eZModule class
 //
@@ -200,7 +200,7 @@ class eZModule
 
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
+            $ret = new eZModule( $user_array[0][$db->fieldName("ID")] );
         }
 
         return $ret;        
