@@ -5,7 +5,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="menutext">
-	<b>{head_line}</b>
+	{head_line}
 	</td>
 </tr>
 <!-- BEGIN vote_item_tpl -->

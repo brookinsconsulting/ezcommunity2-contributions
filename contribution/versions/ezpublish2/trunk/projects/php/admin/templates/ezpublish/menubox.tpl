@@ -22,17 +22,17 @@
 		<td width="1%">
 		<img src="/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
 		</td>
-		<td width="97%">
+		<td width="96%">
 		<span class="modulename">		
 		{intl-module_name}
 		</span>
 		</td>
-		<td>
-		<a href="{move_up_uri}">U</a>
+		<td width="1%">
+		<a href="{move_down_uri}"><img src="/images/move-down.gif" width="12" height="12" border="0" alt="" /></a>
 		</td>
-		<td>
-		<a href="{move_down_uri}">D</a>
-		</td>
+		<td width="1%">
+		<a href="{move_up_uri}"><img src="/images/move-up.gif" width="12" height="12" border="0" alt="" /></a>
+		</td>	
 	</tr>
 	</table>
 	

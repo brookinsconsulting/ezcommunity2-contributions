@@ -27,12 +27,12 @@
 		{intl-module_name}
 		</span>
 		</td>
-		<td>
-		<a href="{move_up_uri}">U</a>
+		<td width="1%">
+		<a href="{move_down_uri}"><img src="/images/move-down.gif" width="12" height="12" border="0" alt="" /></a><br />
 		</td>
-		<td>
-		<a href="{move_down_uri}">D</a>
-		</td>
+		<td width="1%">
+		<a href="{move_up_uri}"><img src="/images/move-up.gif" width="12" height="12" border="0" alt="" /></a>
+		</td>	
 	</tr>
 	</table>
 

@@ -20,8 +20,8 @@
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
 	<!-- END product_image_tpl -->&nbsp;
 
-	<div class="menutext">{product_intro_text}</div>
-
+	<br />
+	<span class="menutext">{product_intro_text}</span>
 
 <!-- BEGIN price_tpl -->
 	<div class="pris">{product_price}</div>
