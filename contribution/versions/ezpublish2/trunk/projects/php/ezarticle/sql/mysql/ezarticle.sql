@@ -213,6 +213,11 @@ CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
 CREATE INDEX Link_CategoryID ON eZArticle_ArticleCategoryLink (CategoryID);
 CREATE INDEX Link_Placement ON eZArticle_ArticleCategoryLink (Placement);
 
+CREATE INDEX WordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
+CREATE INDEX WordLink_WordID ON eZArticle_ArticleWordLink (WordID);
+CREATE INDEX Word_Word ON eZArticle_Word (Word);
+CREATE UNIQUE INDEX Word_ID ON eZArticle_Word (ID);
+
 CREATE INDEX ArticlePermission_ObjectID ON eZArticle_ArticlePermission (ObjectID);
 CREATE INDEX ArticlePermission_GroupID ON eZArticle_ArticlePermission (GroupID);
 
