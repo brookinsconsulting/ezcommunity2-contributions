@@ -2415,3 +2415,15 @@ Maintainer(s) : ce@ez.no
 
     * user/precheckout.php: Added PHPSESSION to the checkout
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-12-04  Bjoern Reiten  <br@ez.no>
+
+    * user/checkout.php
+      user/templates/standard/checkout.tpl
+      user/cart.php: Fixed default on billing and shipping address.
+
+    * user/productview.php: removed debuginfo.
+

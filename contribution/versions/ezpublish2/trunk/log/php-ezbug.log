@@ -551,3 +551,17 @@ Maintainer(s) : vl@ez.no
 
     * user/intl/es_MX/bugreport.php.ini: es_MX update for 2.2.2
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-12-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php
+      admin/intl/en_GB/confirmationmail.php.ini
+      admin/intl/en_GB/supportcategoryedit.php.ini
+      admin/supportcategoryedit.php
+      admin/templates/standard/supportcategoryedit.tpl
+      classes/ezbugsupport.php
+      classes/ezbugsupportcategory.php: updated support script
+

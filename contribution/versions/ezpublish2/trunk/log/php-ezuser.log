@@ -773,3 +773,31 @@ Maintainer(s) : bf@ez.no
 
     * user/userbox.php: small fixes to uninitialized variables.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-04  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezuser.php: removed debuginfo from removeAddress()
+
+2001-12-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/en_GB/expireduserlist.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/useredit.php.ini
+      admin/intl/no_NO/additionallist.php.ini
+      admin/intl/no_NO/expireduserlist.php.ini
+      admin/intl/no_NO/fixedvalues.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/titlelist.php.ini
+      admin/intl/no_NO/useredit.php.ini
+      admin/login.php
+      admin/templates/standard/expireduserlist.tpl
+      admin/templates/standard/useredit.tpl
+      admin/useredit.php
+      classes/ezuser.php
+      user/login.php
+      admin/datasupplier.php
+      admin/expireduserlist.php: added expiry date for users
+
