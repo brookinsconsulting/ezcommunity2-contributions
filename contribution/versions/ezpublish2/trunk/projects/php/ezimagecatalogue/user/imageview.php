@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageview.php,v 1.18 2001/09/22 12:03:13 master Exp $
+// $Id: imageview.php,v 1.19 2001/09/27 16:19:19 br Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -57,7 +57,7 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 $parent_category = $image->categories();
 
 // tempo fix for admin users - maybe in the future must be changed
-if ( $parent_category != 0 && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+if ( $parent_category != 0 )
 {
     $GlobalSectionID = eZImageCategory::sectionIDstatic ( $parent_category[0] ); // We use always first category ;-( [0]
 }

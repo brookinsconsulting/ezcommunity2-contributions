@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.1 2001/09/27 11:48:27 br Exp $
+// $Id: imagelist.php,v 1.2 2001/09/27 16:19:19 br Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -128,19 +128,7 @@ $t->set_var( "main_category_id", $CategoryID );
 
 $category = new eZImageCategory( $CategoryID );
 
-// sections 
-include_once( "ezsitemanager/classes/ezsection.php" ); 
  
-// tempo fix for admin users - maybe in the future must be changed 
-if ( ($CategoryID != 0) && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) ) 
-{ 
-    $GlobalSectionID = eZImageCategory::sectionIDstatic ( $CategoryID ); 
-} 
-         
-// init the section 
-$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID ); 
-$sectionObject->setOverrideVariables(); 
-
 // Check if user have permission to the current category
 
 $error = true;
