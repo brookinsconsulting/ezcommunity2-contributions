@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointmenttype.php,v 1.4 2001/02/19 17:20:18 gl Exp $
+// $Id: ezappointmenttype.php,v 1.5 2001/02/19 22:13:10 gl Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -250,12 +250,11 @@ class eZAppointmentType
         foreach ( $AppointmentTypeList as $AppointmentType )
         {
             array_push( $tree, array( $return_array[] = new eZAppointmentType( $AppointmentType->id() ), $level ) );
-            
+
             if ( $AppointmentType != 0 )
             {
                 $tree = array_merge( $tree, $this->getTree( $AppointmentType->id(), $level ) );
             }
-            
         }
 
         return $tree;
@@ -285,6 +284,14 @@ class eZAppointmentType
         return $this->Description;
     }
     
+    /*!
+      Returns the parentID, which is 0 if there is no parent.
+    */
+    function parentID()
+    {
+        return $this->ParentID;
+    }
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */

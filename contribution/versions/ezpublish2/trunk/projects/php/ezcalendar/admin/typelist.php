@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typelist.php,v 1.2 2001/02/19 17:20:18 gl Exp $
+// $Id: typelist.php,v 1.3 2001/02/19 22:13:10 gl Exp $
 //
 // Gunnstein Lye <gl@ez.no>
 // Created on: <20-Dec-2000 18:18:28 gl>
@@ -45,35 +45,35 @@ $t->set_file( array(
     ) );
 
 
-// type
 $t->set_block( "type_list_page_tpl", "type_list_tpl", "type_list" );
 $t->set_block( "type_list_tpl", "type_item_tpl", "type_item" );
 
 $t->set_var( "site_style", $SiteStyle );
 
 $type = new eZAppointmentType();
-$typeList = $type->getAll( );
+$typeList = $type->getTree();
 
-// categories
 $i=0;
-$t->set_var( "type_list", "" );
-foreach ( $typeList as $typeItem )
+foreach ( $typeList as $typeSubList )
 {
+    $typeItem = $typeSubList[0];
+    $typeLevel = $typeSubList[1];
+    $indent = "";
+
+    while ( $typeLevel > 1 )
+    {
+        $indent = $indent . "&nbsp;&nbsp;&nbsp;";
+        $typeLevel--;
+    }
+
+    $t->set_var( "type_name", $indent . $typeItem->name() );
     $t->set_var( "type_id", $typeItem->id() );
-
-    $t->set_var( "type_name", $typeItem->name() );
-
+    $t->set_var( "type_description", $typeItem->description() );
 
     if ( ( $i % 2 ) == 0 )
-    {
         $t->set_var( "td_class", "bglight" );
-    }
     else
-    {
         $t->set_var( "td_class", "bgdark" );
-    }
-    
-    $t->set_var( "type_description", $typeItem->description() );
 
     $t->parse( "type_item", "type_item_tpl", true );
     $i++;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.2 2001/02/19 17:20:18 gl Exp $
+// $Id: typeedit.php,v 1.3 2001/02/19 22:13:10 gl Exp $
 //
 // Gunnstein Lye <gl@ez.no>
 // Created on: <20-Dec-2000 18:24:06 gl>
@@ -49,6 +49,11 @@ if ( $Action == "Insert" )
     $type->setName( $Name );
     $type->setDescription( $Description );
 
+    if ( $ParentID != 0 && $ParentID != $type->id() )
+    {
+        $type->setParent( new eZAppointmentType( $ParentID ) );
+    }
+
     $type->store();
 
     eZHTTPTool::header( "Location: /calendar/typelist/" );
@@ -60,6 +65,11 @@ if ( $Action == "Update" )
     $type = new eZAppointmentType( $TypeID );
     $type->setName( $Name );
     $type->setDescription( $Description );
+
+    if ( $ParentID != 0 && $ParentID != $type->id() )
+    {
+        $type->setParent( new eZAppointmentType( $ParentID ) );
+    }
 
     $type->store();
 
@@ -93,6 +103,31 @@ $t->setAllStrings();
 
 $t->set_file( array( "type_edit_tpl" => "typeedit.tpl" ) );
 
+$t->set_block( "type_edit_tpl", "parent_item_tpl", "parent_item" );
+
+
+$type = new eZAppointmentType();
+$typeList = $type->getTree();
+
+foreach ( $typeList as $typeSubList )
+{
+    $typeItem = $typeSubList[0];
+    $typeLevel = $typeSubList[1];
+    $indent = "";
+
+    while ( $typeLevel > 1 )
+    {
+        $indent = $indent . "&nbsp;&nbsp;";
+        $typeLevel--;
+    }
+
+    $t->set_var( "parent_name", $indent . $typeItem->name() );
+    $t->set_var( "parent_id", $typeItem->id() );
+    $t->set_var( "parent_is_selected", "" );
+
+    $t->parse( "parent_item", "parent_item_tpl", true );
+}
+
 
 if ( $Action == "Edit" )
 {
@@ -101,12 +136,13 @@ if ( $Action == "Edit" )
     $t->set_var( "header", $LanguageIni->read_var( "strings", "edit_appointment_type" ) );
     $t->set_var( "name_value", $type->name() );
     $t->set_var( "description_value", $type->description() );
-    $t->set_var( "action_value", "Update" );
     $t->set_var( "type_id", $type->id() );
+    $t->set_var( "action_value", "Update" );
 }
 else
 {
     $t->set_var( "header", $LanguageIni->read_var( "strings", "new_appointment_type" ) );
+    $t->set_var( "parent_id", "" );
     $t->set_var( "description_value", "" );
     $t->set_var( "name_value", "" );
     $t->set_var( "type_id", "" );

@@ -4,6 +4,13 @@
 
 <hr noshade="noshade" size="4" />
 
+<p class="boxtext">{intl-parent}:</p>
+<select name="ParentID">
+<!-- BEGIN parent_item_tpl -->
+<option {parent_is_selected} value="{parent_id}">{parent_name}</option>
+<!-- END parent_item_tpl -->
+</select>
+
 <p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 

@@ -20,7 +20,7 @@ switch ( $url_array[2] )
             $Action = "Delete";
             $TypeID = $url_array[4];
         }
-        else
+        else if ( $url_array[3] == "new" )
         {
             $Action = "New";
         }
