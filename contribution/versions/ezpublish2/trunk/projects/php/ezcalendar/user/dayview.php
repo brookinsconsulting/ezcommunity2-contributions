@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.34 2001/02/26 15:16:50 pkej Exp $
+// $Id: dayview.php,v 1.35 2001/02/26 15:50:07 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -91,7 +91,7 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
 
-if ( false/*$t->hasCache()*/ )
+if ( $t->hasCache() )
 {
 //    print( "cached<br />" );
     print( $t->cache() );
@@ -168,8 +168,6 @@ else
     $midNight->setSecondsElapsed( 0 );
     $lastInterval = $midNight->subtract( $interval );
     $firstInterval = $midNight->add( $interval );
-//    print( $Locale->format( $midNight, false ) . "<br />" );
-//    print( $Locale->format( $lastInterval, false ) . "<br />" );
 
     foreach ( $appointments as $appointment )
     {
@@ -222,9 +220,14 @@ else
 
         foreach ( $appointments as $appointment )
         {
+            // avoid wrapping around midnight
+            $nextInterval = $tmpTime->add( $interval );
+            if ( $nextInterval->isGreater( $tmpTime ) )
+                $nextInterval = new eZTime( 23, 59 );
+
             // if this appointment should be inserted into the table now
             if ( $appointmentDone[$appointment->id()] == false &&
-                 intersects( $appointment, $tmpTime, $tmpTime->add( $interval ) ) == true )
+                 intersects( $appointment, $tmpTime, $nextInterval ) == true )
             {
                 $foundFreeColumn = false;
                 $col = 0;
@@ -520,12 +523,11 @@ else
         }
         $t->parse( "week", "week_tpl", true );
 
-        if( $currentDay >= $date->daysInMonth() )
+        if ( $currentDay >= $date->daysInMonth() )
         {
             $week = 6;
         }
     }
-
 
     $t->storeCache( "output", "day_view_page_tpl", true );
 }
