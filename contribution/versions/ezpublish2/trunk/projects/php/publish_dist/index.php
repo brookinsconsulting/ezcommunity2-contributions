@@ -140,17 +140,38 @@ if ( ( $requireUserLogin == "disabled" ) ||
     $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
 
     // site cache check
-
     $SiteCacheFile = "classes/cache/" . md5( $REQUEST_URI ) . ".php";
-
-
+    $SiteCache = $ini->read_var( "site", "SiteCache" );
+         
     // check to use site cache
-    if ( !file_exists( $SiteCacheFile ) && ( $ini->read_var( "site", "SiteCache" ) == "enabled" ) )
+    if ( ( $SiteCache == "enabled" ) and !file_exists( $SiteCacheFile ) )
+    {
         $StoreSiteCache = true;
+    }
     else
+    {
         $StoreSiteCache = false;
+
+        if ( $SiteCache == "enabled" and file_exists( $SiteCacheFile ) )
+        {
+            $timeout = $ini->read_var( "site", "SiteCacheTimeout" );
+            $SiteCacheTime = filemtime( $SiteCacheFile );
+            if ( ( time() - $SiteCacheTime ) < ( $timeout*60 ) )
+            {
+             // print( "valid cache" );
+            }
+            else
+            {
+                $StoreSiteCache = true;
+
+                // delete cache file
+                unlink( $SiteCacheFile );
+                //  print( "time out-clearing cache" );
+            }
+        }        
+    }
         
-    if ( $StoreSiteCache || $ini->read_var( "site", "SiteCache" ) == "disabled" )
+    if ( $StoreSiteCache || $SiteCache == "disabled" )
     {
         $buffer =& ob_get_contents();
         ob_end_clean();
@@ -255,7 +276,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
     }
     else
     {
-        print( "static" );
         // load site cache
         include( $SiteCacheFile );
     }
