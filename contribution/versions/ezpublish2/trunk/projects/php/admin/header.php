@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.24 2001/01/26 11:29:38 pkej Exp $
+// $Id: header.php,v 1.25 2001/02/08 12:38:45 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -27,6 +27,8 @@ include_once( "classes/eztemplate.php" );
 
 $ini =& $GlobalSiteIni;
 $Language =& $ini->read_var( "eZUserMain", "Language" );
+$Locale = new eZLocale( $Language );
+$iso = $Locale->languageISO();
 
 
 $t = new eZTemplate( "templates/" . $SiteStyle,
@@ -59,6 +61,7 @@ $t->set_var( "site_style", $SiteStyle );
 
 $t->set_var( "module_name", $moduleName );
 
+$t->set_var( "charset", $iso );
 
 $t->setAllStrings();
 

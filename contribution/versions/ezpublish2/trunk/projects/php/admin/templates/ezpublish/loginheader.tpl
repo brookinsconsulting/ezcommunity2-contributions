@@ -5,7 +5,7 @@
 <head>
 <title>eZ publish administrasjon</title>
 <link rel="stylesheet" type="text/css" href="/{site_style}.css"/>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<meta http-equiv="Content-Type" content="text/html; charset={charset}"/>
 
 <SCRIPT LANGUAGE="JavaScript1.2">
 <!--//
