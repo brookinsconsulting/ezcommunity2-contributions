@@ -3653,3 +3653,11 @@ Maintainer(s) : ce@ez.no
       classes/ezvoucheremail.php~
       classes/ezvouchersmail.php~: removed emacs backup files
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-09-18  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezorder.php: fixed initial status.
+
