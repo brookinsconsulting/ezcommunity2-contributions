@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.1 2002/01/04 14:32:35 kaid Exp $
+// $Id: search.php,v 1.18.2.2 2002/01/04 14:37:51 kaid Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -36,6 +36,7 @@ include_once( "ezuser/classes/ezuser.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
+$NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
 $Limit = $ini->read_var( "eZForumMain", "SearchUserLimit" );
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
