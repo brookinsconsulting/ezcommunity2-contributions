@@ -37,7 +37,7 @@ alter table eZTodo_Todo change Permission IsPrivate int default 0;
 create table eZTodo_Log( ID int auto_increment primary key, Log text, Created timestamp);      
 create table eZTodo_TodoLogLink ( ID int auto_increment primary key, TodoID int, LogID int );
 
-alter table eZBulkMail_SentLog drop AddressID; 
+#alter table eZBulkMail_SentLog drop AddressID; 
 alter table eZBulkMail_Category add IsSingleCategory int(1) default '0'; 
 
 #

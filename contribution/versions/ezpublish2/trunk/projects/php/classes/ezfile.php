@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfile.php,v 1.11 2001/03/26 17:33:12 fh Exp $
+// $Id: ezfile.php,v 1.12 2001/05/01 12:23:56 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -74,7 +74,7 @@ class eZFile
         $this->FileSize = $name_var['size'];
         $this->TmpFileName = $name_var['tmp_name'];
 
-        if ( ( $this->FileSize == "0" ) || ( $this->FileSize == "" ) )
+        if ( ( $this->FileSize == "0" ) || ( $this->FileSize == "" ) || ( $this->FileName == "" ) )
         {
             $ret = false;
         }

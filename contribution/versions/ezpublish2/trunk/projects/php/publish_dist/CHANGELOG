@@ -14,6 +14,7 @@ Changes from 2.1.0B1 to 2.1.0B2
 * Added password and email verification in eZBulkMail
 * Added possibility to automaticly send news updates through mail via ezbulkmail
 * Added support for dynamic menuboxes in the admin interface, this means that each module may have it's own menubox template.
+* Added workaround for Konqueror bug when uploading empty files.
 * Added version number textfield in eZ bug
 * Added possibility to subscribe usergroups to a bulkmail list. Also a list can be private or public
 * Added article indexing by keywords
