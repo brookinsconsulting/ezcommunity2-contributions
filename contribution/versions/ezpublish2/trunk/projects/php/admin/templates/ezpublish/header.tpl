@@ -81,6 +81,11 @@
 	<img src="{www_dir}/admin/images/1x1.gif" width="20" height="10" border="0" alt="" />
 	</td>
 	<td width="1%">
+	<span class="top">{intl-ezpublish_version}:</span><br />
+	<span class="topusername">{ezpublish_version}</span><br />
+	<img src="{www_dir}/admin/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
+	</td>
+	<td width="1%">
 	<span class="top">{intl-site_url}:</span><br />
 	<span class="topusername">{site_url}</span><br />
 	<img src="{www_dir}/admin/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />

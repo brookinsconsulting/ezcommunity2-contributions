@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.37 2001/07/29 23:30:57 kaid Exp $
+// $Id: header.php,v 1.38 2001/09/27 13:15:21 bf Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -28,6 +28,7 @@ include_once( "ezmodule/classes/ezmodulehandler.php" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezpublish.php" );
 
 $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
@@ -121,6 +122,7 @@ if ( $ModuleTab == true )
 $t->setAllStrings();
 
 $t->set_var( "module_count", count ( $modules ) );
+$t->set_var( "ezpublish_version", eZPublish::version() );
 
 $t->set_var( "menu_item", "" );
 
