@@ -67,6 +67,7 @@ if ( $Action == "insert" )
     $position->setDuration( $Duration );
     $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
+    $position->setValidUntil( $Year, $Month, $Day );
     $position->store();
 
     $company = new eZCompany( $CompanyID );
@@ -101,6 +102,8 @@ if ( $Action == "update" )
     $position->setDuration( $Duration );
     $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
+    $position->setValidUntil( $Year, $Month, $Day );
+
     $position->store();
 
     $position->removeCategoryies();
@@ -142,6 +145,8 @@ $t->set_file( array(
 $t->set_block( "classified_edit", "category_item_tpl", "category_item" );
 
 $t->set_block( "classified_edit", "company_view_tpl", "company_view" );
+$t->set_block( "classified_edit", "delete_button_tpl", "delete_button" );
+$t->set_var( "delete_button", "" );
 $t->set_block( "company_view_tpl", "address_item_tpl", "address_item" );
 $t->set_block( "company_view_tpl", "phone_item_tpl", "phone_item" );
 $t->set_block( "company_view_tpl", "fax_item_tpl", "fax_item" );
@@ -162,6 +167,9 @@ if ( $Action == "new" )
     $t->set_var( "classified_duration", "" );
     $t->set_var( "classified_workplace", "" );
     $t->set_var( "classified_contact_person", "" );
+    $t->set_var( "classified_year", "" );
+    $t->set_var( "classified_month", "" );
+    $t->set_var( "classified_day", "" );
     $Action_value = "insert";
 }
 
@@ -179,6 +187,14 @@ if ( $Action == "edit" )
     $t->set_var( "classified_duration", $position->Duration() );
     $t->set_var( "classified_workplace", $position->WorkPlace() );
 
+    $date = $position->validUntil();
+
+    $t->set_var( "classified_year", $date->year() );
+    $t->set_var( "classified_month", $date->month() );
+    $t->set_var( "classified_day", $date->day() );
+
+    $t->parse( "delete_button", "delete_button_tpl" );
+    
     // Template variabler.
     $Action_value = "update";
     

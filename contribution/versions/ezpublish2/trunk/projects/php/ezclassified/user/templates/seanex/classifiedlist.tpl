@@ -24,7 +24,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td> <!-- class="{td_class}" -->
+	<td class="{td_class}" -->
 	<a href=/classified/classifiedlist/list/{category_id}>{category_name}</a>
 	</td>
 </tr>

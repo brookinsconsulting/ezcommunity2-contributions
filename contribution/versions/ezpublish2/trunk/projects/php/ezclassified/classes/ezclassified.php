@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.5 2000/12/01 09:12:11 ce-cvs Exp $
+// $Id: ezclassified.php,v 1.6 2000/12/05 11:26:04 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -43,6 +43,7 @@
 //require "ezphputils.php";
 
 include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "classes/ezdate.php" );
 // include_once( "ezcontact/classes/ezonline.php" );
 
 class eZClassified
@@ -89,7 +90,9 @@ class eZClassified
 	                                              Description='$this->Description',
 	                                              UserID='$this->UserID',
 	                                              Price='$this->Price',
-	                                              Created=now()
+	                                              Created=now(),
+                                                  Updated=now(),
+                                                  ValidUntil='$this->ValidUntil'
                                                   ");
             $this->ID = mysql_insert_id();
             
@@ -104,7 +107,9 @@ class eZClassified
 	                                              Description='$this->Description',
 	                                              UserID='$this->UserID',
 	                                              Price='$this->Price',
-	                                              Created=Created
+	                                              Created=Created,
+                                                  Updated=now(),
+                                                  ValidUntil='$this->ValidUntil'
                                                	  WHERE ID='$this->ID'
                                                	  " );
             $this->State_ = "Coherent";
@@ -157,6 +162,7 @@ class eZClassified
                 $this->Price = $classified_array[0]["Price"];
                 $this->Dato = $classified_array[0]["Dato"];
                 $this->Created = $classified_array[0]["Created"];
+                $this->validUntil = $classified_array[0]["ValidUntil"];
                      
                 $ret = true;
             }
@@ -211,6 +217,64 @@ class eZClassified
         }
         return $return_array;
     }
+
+    /*
+      Returns all the company found in the database.
+      
+      The company are returned as an array of eZClassified objects.
+    */
+    function getByCompanyID( $companyID )
+    {
+        $this->dbInit();
+        
+        $classified_array = array();
+        $return_array = array();
+    
+        $this->Database->array_query( $classified_array, "SELECT ClassifiedID FROM eZClassified_ClassifiedCompanyLink WHERE CompanyID='$companyID'" );
+
+        foreach( $classified_array as $classifiedItem )
+        {
+            $return_array[] = new eZClassified( $classifiedItem["ClassifiedID"] );
+        }
+        return $return_array;
+    }
+
+    /*!
+        Get all valid CVs.
+     */
+    function getAllValid( $companyID, $valid=true )
+    {
+        $this->dbInit();
+        $item_array = 0;
+        $classified_array = 0;
+        $return_array = array();
+
+        if ( $valid == true )
+        {
+            $query = ( "SELECT ID as ClassifiedID FROM eZClassified_Classified WHERE ValidUntil >= CURRENT_DATE() ORDER BY Created" );
+        }
+        else
+        {
+            $query = ( "SELECT ID as ClassifiedID FROM eZClassified_Classified WHERE ValidUntil <= CURRENT_DATE() ORDER BY Created" );
+        }
+        $this->Database->array_query( $item_array, $query );
+
+        for( $i=0; $i<count( $item_array ); $i++ )
+        {
+            $ClassifiedID = $item_array[$i]["ClassifiedID"];
+
+            $query = ( "SELECT ClassifiedID FROM eZClassified_ClassifiedCompanyLink WHERE CompanyID='$companyID' AND ClassifiedID='$ClassifiedID'" );
+            $this->Database->array_query( $classified_array, $query );
+            
+            foreach( $classified_array as $item )
+            {
+                $return_array[] = new eZClassified( $item["ClassifiedID"] );
+            }
+            return $return_array;
+        }
+    }
+
+
     
     /*
       Henter ut alle firma i databasen som inneholder søkestrengen.
@@ -366,6 +430,19 @@ class eZClassified
         }
     }
 
+    function setValidUntil( $year, $month, $day )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $date = new eZDate( $year, $month, $day );
+
+        $mySQLDate = $date->mySQLDate();
+
+        $this->ValidUntil = $mySQLDate;
+    }
+
+
 
     /*!
       Returnerer ID.
@@ -423,6 +500,20 @@ class eZClassified
        return $dateTime;
     }
 
+    /*!
+      Returns the postimg time as a eZTimeDate object.
+    */
+    function validUntil()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $date = new eZDate( );
+       $date->setMySQLDate( $this->validUntil );
+       
+       return $date;
+    }
+
     
     /*!
       \private
@@ -445,6 +536,8 @@ class eZClassified
     var $Price;
     var $Date;
     var $Created;
+    var $Updated;
+    var $ValidUntil;
 
     ///  Variable for keeping the database connection.
     var $Database;

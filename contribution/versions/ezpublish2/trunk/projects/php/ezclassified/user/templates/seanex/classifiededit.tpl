@@ -88,6 +88,11 @@
 <p class="boxtext">{intl-workplace}:</p>
 <input type="text" size="20" name="WorkPlace" value="{classified_workplace}"/>
 
+<p class="boxtext">{intl-validUntil}:</p>
+År: <input type="text" size="5" name="Year" value="{classified_year}"/>
+Måned: <input type="text" size="3" name="Month" value="{classified_month}"/>
+Dag: <input type="text" size="3" name="Day" value="{classified_day}"/>
+
 <p class="boxtext">{intl-category}:</p>
 <select multiple size="10" name="CategoryArray[]">
 <!-- BEGIN category_item_tpl -->
@@ -99,6 +104,7 @@
 <input type="hidden" value="{classified_id}" name="PositionID">
 <input type="hidden" value="{company_id}" name="CompanyID">
 <input type="submit" value="{intl-ok}">
+<!-- BEGIN delete_button_tpl -->
 <input type="submit" Name="Delete" value="{intl-delete}">
-
+<!-- END delete_button_tpl -->
 </form>

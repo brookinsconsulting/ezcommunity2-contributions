@@ -55,6 +55,7 @@ else
     $i=0;
     foreach( $categoryList as $categoryItem )
     {
+        print( $i );
         if ( ( $i %2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
@@ -83,6 +84,7 @@ else
 {
     for( $i=0;$i<count( $positionList ); $i++ )
     {
+        print( "123" . $i );
         if ( ( $i %2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else

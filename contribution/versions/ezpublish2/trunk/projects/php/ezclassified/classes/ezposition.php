@@ -38,7 +38,6 @@ class eZPosition extends eZClassified
                 $this->Database->query( "INSERT INTO eZClassified_Position SET
                                                   Duration='$this->Duration',
 	                                              WorkTime='$this->WorkTime',
-	                                              ClosingTime='$this->ClosingTime',
 	                                              Pay='$this->Pay',
                                                   ContactPerson='$this->ContactPerson',
                                                   WorkPlace='$this->WorkPlace',
@@ -51,7 +50,6 @@ class eZPosition extends eZClassified
             $this->Database->query( "UPDATE eZClassified_Position SET
                                                   Duration='$this->Duration',
 	                                              WorkTime='$this->WorkTime',
-	                                              ClosingTime='$this->ClosingTime',
 	                                              Pay='$this->Pay',
                                                   ContactPerson='$this->ContactPerson',
                                                   WorkPlace='$this->WorkPlace'
@@ -85,7 +83,6 @@ class eZPosition extends eZClassified
                 $this->Duration = $position_array[0]["Duration"];
                 $this->WorkTime = $position_array[0]["WorkTime"];
                 $this->WorkPlace = $position_array[0]["WorkPlace"];
-                $this->ClosingDate = $position_array[0]["ClosingDate"];
                 $this->Pay = $position_array[0]["Pay"];
                 $this->ContactPerson = $position_array[0]["ContactPerson"];
                 
@@ -129,16 +126,6 @@ class eZPosition extends eZClassified
             $this->get( $this->ID );
 
         $this->WorkPlace = $value;
-    }
-    /*!
-      Sets the name of the company.
-    */
-    function setClosingDate( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->ClosingDate = $value;
     }
 
     /*!
@@ -194,16 +181,6 @@ class eZPosition extends eZClassified
 
         return $this->WorkPlace;
     }
-    /*!
-      Returnerer firmanavn.
-    */
-    function closingDate()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->ClosingDate;
-    }
 
     /*!
       Returnerer firmanavn.
@@ -231,7 +208,6 @@ class eZPosition extends eZClassified
     var $Duration;
     var $WorkTime;
     var $WorkPlace;
-    var $ClosingDate;
     var $Pay;
     var $ContactPerson;
 }
