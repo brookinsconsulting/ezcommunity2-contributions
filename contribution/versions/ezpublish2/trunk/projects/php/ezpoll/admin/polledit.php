@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.12 2000/11/01 07:36:47 bf-cvs Exp $
+// $Id: polledit.php,v 1.13 2000/11/01 12:03:15 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -90,7 +90,8 @@ if ( $Action == "Insert" )
     $pollID = $poll->id();
 
     // clear the menu cache
-    unlink( "ezpoll/cache/menubox.cache" );
+    if ( file_exists("ezpoll/cache/menubox.cache" )  )
+        unlink( "ezpoll/cache/menubox.cache" );
     
     if ( isset ( $Choice ) )
     {
@@ -148,7 +149,8 @@ if ( $Action == "Update" )
     $poll->store();
 
     // clear the menu cache
-    unlink( "ezpoll/cache/menubox.cache" );
+    if ( file_exists("ezpoll/cache/menubox.cache" )  )
+        unlink( "ezpoll/cache/menubox.cache" );
     
     if ( isset ( $Choice ) )
     {
@@ -168,7 +170,8 @@ if ( $Action == "Delete" )
     $poll->delete();
 
     // clear the menu cache
-    unlink( "ezpoll/cache/menubox.cache" );
+    if ( file_exists("ezpoll/cache/menubox.cache" )  )
+        unlink( "ezpoll/cache/menubox.cache" );
     
     Header( "Location: /poll/pollist/" );
     exit();
