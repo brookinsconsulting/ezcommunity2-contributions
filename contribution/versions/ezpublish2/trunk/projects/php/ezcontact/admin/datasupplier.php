@@ -17,7 +17,7 @@ switch ( $url_array[2] )
             case "delete":
             case "insert":
             {
-                include( "ezcontact/admin/companytypeedit.php" );
+                include( "ezcontact/admin/companyedit.php" );
                 break;
             }
             case "list":
