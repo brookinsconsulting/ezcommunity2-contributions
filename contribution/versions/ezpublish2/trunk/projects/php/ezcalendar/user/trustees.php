@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: trustees.php,v 1.3 2001/09/28 06:29:57 jhe Exp $
+// $Id: trustees.php,v 1.4 2001/10/12 12:25:13 jhe Exp $
 //
 // Created on: <26-Jul-2001 14:26:26 jhe>
 //
@@ -33,6 +33,15 @@ $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $locale = new eZLocale( $Language );
 
 $user =& eZUser::currentUser();
+
+if ( !$user )
+{
+    $text = "You do not have permission to trustees";
+    $info = urlencode( $text );
+    eZHTTPTool::header( "Location: /error/403?Info=$info" );
+    exit();
+}
+
 $session =& eZSession::globalSession();
 $session->fetch();
 if ( $Action == "edit" )
