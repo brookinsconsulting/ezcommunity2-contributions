@@ -18,7 +18,7 @@ CREATE TABLE eZCV_CV
     NationalityID int(11) DEFAULT '0' NOT NULL,
     Sex enum( 'male', 'female', 'unknown' ) DEFAULT 'unknown' NOT NULL,
     ArmyStatus enum( 'served', 'drafted', 'unknown', 'undrafted', 'released' ) DEFAULT 'unknown' NOT NULL,
-    MaritalStatus enum( 'unmarried', 'married', 'divorced', 'widow', 'widower', 'unknown' ) DEFAULT 'unknown' NOT NULL,
+    MaritalStatus enum( 'unmarried', 'married', 'divorced', 'widow', 'widower', 'live-in' ) DEFAULT 'unmarried' NOT NULL,
     WorkStatus enum( 'armed_services', 'studying', 'unemployed', 'freelance', 'employed', 'unknown' ) DEFAULT 'unknown' NOT NULL,
     Children int(2) DEFAULT '0' NOT NULL,
     Comment text NOT NULL,
