@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.23 2001/10/12 10:45:09 ce Exp $
+// $Id: frontpage.php,v 1.24 2001/10/16 10:28:05 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -119,6 +119,8 @@ $rows =& $sectionObject->frontPageRows();
 
 $page_element = array();
 
+$tempArticle = new eZArticle();
+
 if ( is_array ( $rows ) and count ( $rows ) > 0 )
 {
     foreach ( $rows as $row )    
@@ -127,13 +129,28 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
         if ( $value == "2column" )
         {
             $category = new eZArticleCategory( $row->categoryID() );
-            $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
+            if ( $category->id() == "0" )
+            {
+                $articleList =& array_merge( $articleList, $tempArticle->articles( "time", false, $offsetArticleArray[$row->categoryID()], 2 ) );
+            }
+            else
+            {
+                $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
+            }
+            
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 2;
         }
         if ( $value == "1column" || $value == "1short" )
         {
             $category = new eZArticleCategory( $row->categoryID() );
-            $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
+            if ( $category->id() == "0" )
+            {
+                $articleList =& array_merge( $articleList, $tempArticle->articles( "time", false, $offsetArticleArray[$row->categoryID()], 1 ) );
+            }
+            else
+            {
+                $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
+            }
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 1;
         }
         if ( $value == "ad"  )
