@@ -193,3 +193,5 @@ CREATE TABLE eZUser_Photographer (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE INDEX UserGroupLink_UserID ON eZUser_UserGroupLink (UserID);
+CREATE INDEX UserGroupLink_GroupID ON eZUser_UserGroupLink (GroupID);

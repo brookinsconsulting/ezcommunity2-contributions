@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.76 2001/09/19 11:24:57 bf Exp $
+// $Id: articlelist.php,v 1.77 2001/10/06 11:20:50 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -407,6 +407,7 @@ foreach ( $articleList as $article )
 
 	if( $authorText == "" || $authorText[0] == "-" )
 	{
+		$t->set_var( "article_published", $locale->format( $published ) );
         $t->set_var( "article_date", "" );    
 	}
 	else

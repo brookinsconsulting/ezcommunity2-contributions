@@ -206,12 +206,15 @@ CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
-CREATE FULLTEXT INDEX Article_Fulltext ON eZArticle_Article (Contents);
-CREATE FULLTEXT INDEX Article_FulltextName ON eZArticle_Article (Name);
+# CREATE FULLTEXT INDEX Article_Fulltext ON eZArticle_Article (Contents);
+# CREATE FULLTEXT INDEX Article_FulltextName ON eZArticle_Article (Name);
 
 CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
 CREATE INDEX Link_CategoryID ON eZArticle_ArticleCategoryLink (CategoryID);
 CREATE INDEX Link_Placement ON eZArticle_ArticleCategoryLink (Placement);
+
+CREATE INDEX ArticlePermission_ObjectID ON eZArticle_ArticlePermission (ObjectID);
+CREATE INDEX ArticlePermission_GroupID ON eZArticle_ArticlePermission (GroupID);
 
 CREATE INDEX Def_ArticleID ON eZArticle_ArticleCategoryDefinition (ArticleID);
 CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
