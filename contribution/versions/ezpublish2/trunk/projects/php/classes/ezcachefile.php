@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.3 2001/02/07 14:12:59 jb Exp $
+// $Id: ezcachefile.php,v 1.4 2001/02/07 14:19:53 jb Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -157,6 +157,8 @@ class eZCacheFile
       The $components is expected to be an array, if an entry in the array is NULL a wildcard
       is inserted letting it be possible to find several files of a similar $component structure.
       If an entry is an array the subcomponent can contain either entries found in the array.
+      If $as_object is false the returned array contains the actual files without path, otherwise
+      eZCacheFile objects are returned.
 
       Example:
       \code
@@ -173,7 +175,7 @@ class eZCacheFile
       // For instance "articleview,1,2.cache" and "articleview,2,2.cache" matches.
       $files = eZCacheFile::files( "ezarticle/cache", array( "articleview", array( "1", 2" ), "2" ), "cache", "," );
     */
-    function files( $root, $components, $suffix = "cache", $separator = "-" )
+    function files( $root, $components, $suffix = "cache", $separator = "-", $as_object = true )
     {
         if ( strlen( $root ) > 1 and $root[strlen($root) - 1] != "/" )
             $root .= "/";
@@ -181,7 +183,7 @@ class eZCacheFile
             $components = array( $components );
         $reg = "";
         $i = 0;
-        foreach( $component as $comp )
+        foreach( $components as $comp )
         {
             if ( $i > 0 )
                 $reg .= $separator;
@@ -199,6 +201,7 @@ class eZCacheFile
                         ++$j;
                     }
                     $cond = "($cond)";
+                    $reg .= $cond;
                 }
                 else
                 {
@@ -221,11 +224,15 @@ class eZCacheFile
                 if ( preg_match( $reg, $entry ) )
                 {
                     $parts = explode( ".", $entry );
-                    $ret = new eZCacheFile( $root, explode( $separator, $parts[0] ),
-                                            $parts[1], $separator );
+                    if ( $as_object )
+                        $ret[] = new eZCacheFile( $root, explode( $separator, $parts[0] ),
+                                                  $parts[1], $separator );
+                    else
+                        $ret[] = $entry;
                 }
             }
         }
+        return $ret;
     }
 
     var $Root;
