@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.6 2002/04/16 08:46:55 jhe Exp $
+// $Id: ezmail.php,v 1.44.2.7 2002/06/10 16:41:45 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -996,7 +996,10 @@ class eZMail
         if ( !empty( $this->ReplyTo ) )
             $mime .= "Reply-To: " . $this->ReplyTo . "\n";
         if ( !empty( $this->BodyText ) )
-            $this->add_attachment( $this->BodyText, "", "text/plain");   
+        {
+            $body = preg_replace( "/(?<![\r])\n(?![\r])/", "\r\n", $this->BodyText );
+            $this->add_attachment( $body, "", "text/plain");
+        }
 
         $mime .= "MIME-Version: 1.0\n" . $this->build_multipart();
         mail( $this->To, $this->Subject, "", $mime );
