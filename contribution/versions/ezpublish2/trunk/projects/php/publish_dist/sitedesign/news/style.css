@@ -1,0 +1,252 @@
+body 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+
+p 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+
+h1 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 24px;
+	color: #000000;
+	margin-bottom: 8px;
+	text-decoration : none;
+}
+
+h2 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 18px;
+	color: #000000;
+	margin-top: 16px;
+	margin-bottom: 8px;	
+	text-decoration : none;
+}
+
+.newslistheadline 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 18px;
+	color: #000000;
+	margin-top: 16px;
+	margin-bottom: 8px;	
+	text-decoration : none;
+}
+
+h3 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 13px;
+	color: #000000;
+	text-decoration : none;
+}
+
+a 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;		
+	color : #000000;
+	text-decoration : underline;
+}
+
+.small
+{
+	font-size: 10px;
+	font-weight: normal;
+}
+
+.smallbold 
+{
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.menu 
+{
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.menubold 
+{
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.menutext 
+{
+	font-size: 11px;
+	margin-bottom: 4px;
+}
+
+.menuhead
+{
+	background: #777777;
+	font-size: 18px;
+	color: #ffffff;
+	font-weight: normal;
+	text-align: center;
+}
+
+.menuspacer
+{
+	font-size: 2px;
+}
+
+.path 
+{
+	font-size: 13px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.byline 
+{
+	font-style: italic;
+}
+
+.boxtext 
+{
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.list
+{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: 4px;
+}
+
+th 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	text-align: left;
+}
+
+td 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-size: 13px;
+	color: #000000;
+
+}
+
+.bglight 
+{
+	background-color: #f0f0f0;
+}
+
+.bgdark 
+{
+	background-color: #dcdcdc;
+}
+
+.bgcurrent
+{
+	background-color: #f07800;
+}
+
+.bgweekend
+{
+	background-color: #a0a0a0;
+}
+
+.bgselect
+{
+	color: #ffffff;
+	background-color: #787878;
+}
+
+.linkselect
+{
+	color: #ffffff;
+}
+
+.linknormal
+{
+	color: #000000;
+}
+
+select 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+
+input 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+
+.stdbutton 
+{
+	font-weight: normal;
+}
+ 
+.okbutton 
+{
+	font-size: 18px;
+	font-weight: bold;
+}
+
+textarea 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+
+.error
+{
+	font-size: 14;
+	font-weight: bold;
+    color: #f07800;
+}
+
+hr
+{
+	color: #777777;
+}
+
+a:hover 
+{
+	color: #404040;
+	text-decoration: underline;
+}
+
+.pictext 
+{
+	font-size: 11px;
+	font-style: italic;
+}
+
+.credit
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 11px;
+}
+
+.pris
+{
+	font-weight: bold;
+}
