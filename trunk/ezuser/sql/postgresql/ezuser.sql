@@ -1,5 +1,6 @@
 CREATE TABLE eZUser_User (
   ID int NOT NULL,
+  PersonID int NULL,
   Login varchar(50) NOT NULL default '',
   Password varchar(50) NOT NULL default '',
   Email varchar(50) default NULL,

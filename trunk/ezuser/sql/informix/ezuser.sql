@@ -11,6 +11,7 @@ drop table ezuser_module;
 
 CREATE TABLE eZUser_User (
   ID int NOT NULL,
+  PersonID int NULL,
   Login varchar(50) NOT NULL,
   Password varchar(50) NOT NULL,
   Email varchar(50) default NULL,
