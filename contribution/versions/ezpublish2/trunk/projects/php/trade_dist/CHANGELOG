@@ -3,6 +3,7 @@ eZ trade changelog:
 
 Changes from version 1.0.4
 --------------------------
+* Added image previews in hot deals list.
 * Speedup by 20-50%, due to more efficient ini file reading.
 * Added increasment of product count in basket when adding a product with the same options.
 * Fixed broken product search.
@@ -22,7 +23,6 @@ Changes from version 1.0.3
 * Fixed so that admin can read forum messages.
 * Fixed some minor forum bugs.
 
-
 Changes from version 1.0.2
 --------------------------
 * Added discussion on articles / news
@@ -33,7 +33,6 @@ Changes from version 1.0.2
 * Removed debug output from product view template.
 * Lots of bug fixes
 * Template cleanup
-
 
 Changes from version 1.0.1
 --------------------------
@@ -54,7 +53,6 @@ Changes from version 1.0.1
 * Fixed deleting of cached printed version, when an article is updated.
 * Fixed internationalization of Order list and Order edit.
 * Various language updates.
-
 
 Changes from version 1.0
 ------------------------

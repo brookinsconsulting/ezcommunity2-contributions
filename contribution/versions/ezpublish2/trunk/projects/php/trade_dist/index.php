@@ -1,21 +1,17 @@
 <?
-// Version information
-if ( $VersionQuery == "show" )
-{
-    print( "eZ trade v1.0.4" );
-    exit();
-}
-
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
+// turn on output buffering
 ob_start();
 
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
+
+$siteDesign = $ini->read_var( "site", "SiteDesign" );
 
 // parse the URI
 $meta_page = "";
@@ -30,7 +26,7 @@ $url_array = explode( "/", $REQUEST_URI );
 $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
 // include some html
-include( "preamble.php" );
+include( "sitedesign/$siteDesign/preamble.php" );
 
 // check if there is specific meta info, ifnot include the default
 if ( file_exists( $meta_page ) )
@@ -40,7 +36,7 @@ if ( file_exists( $meta_page ) )
 else
 {
     // Load the default meta info
-    include( "defaultmetainfo.php" );
+    include( "sitedesign/$siteDesign/defaultmetainfo.php" );
 }
 
 
@@ -59,11 +55,11 @@ if ( file_exists( $content_page_pre ) )
 // include more html
 if ( $PrintableVersion == "enabled" )
 {
-    include( "simpleheader.php" );
+    include( "sitedesign/$siteDesign/simpleheader.php" );
 }
 else
 {
-    include( "header.php" );    
+    include( "sitedesign/$siteDesign/header.php" );
 }
 
 // Main contents
@@ -88,11 +84,11 @@ else
 // include more html
 if ( $PrintableVersion == "enabled" )
 {
-    include( "simplefooter.php" );
+    include( "sitedesign/$siteDesign/simplefooter.php" );
 }
 else
 {
-    include( "footer.php" );
+    include( "sitedesign/$siteDesign/footer.php" );
 }
                     
 ob_end_flush();
