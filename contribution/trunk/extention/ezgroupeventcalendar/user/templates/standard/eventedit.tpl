@@ -177,6 +177,8 @@
 
 <input {is_all_day} type="checkbox" name="IsAllDay" onChange="resetTimeSelect();" />&nbsp;<span class="check">{intl-all_day_event}</span>
 
+
+<!-- BEGIN html_form_datetime_select_tpl -->
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
 	<td valign="top">
@@ -233,6 +235,15 @@
         </td>
 </tr>
 </table>
+<!-- END html_form_datetime_select_tpl -->
+
+<!-- BEGIN dhtml_form_datetime_select_tpl -->
+
+<br />
+<a href="" onclick="return showCalendar('sel2', '%a, %b %e, %Y [%I:%M %p]', '12');">GUI Calendar</a>
+<!-- END dhtml_form_datetime_select_tpl -->
+
+
 <!-- start recurring_event stuff -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
