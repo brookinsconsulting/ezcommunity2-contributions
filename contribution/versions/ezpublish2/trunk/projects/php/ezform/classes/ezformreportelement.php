@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.26 2002/02/06 12:25:26 jhe Exp $
+// $Id: ezformreportelement.php,v 1.27 2002/02/06 13:36:43 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -318,12 +318,14 @@ class eZFormReportElement
 
             $language =& $ini->read_var( "eZFormMain", "Language" );
             $locale = new eZLocale( $language );
-            
             foreach ( $res as $result )
             {
-                if ( $element->ElementType->name() == "numerical_float_item" ||
-                     $element->ElementType->name() == "numerical_integer_item" )
+                if ( ( $element->ElementType->name() == "numerical_float_item" ||
+                       $element->ElementType->name() == "numerical_integer_item" ) &&
+                     is_numeric( $result[$db->fieldName( "Result" )] ) )
+                {
                     $t->set_var( "result", $locale->formatNumber( $result[$db->fieldName( "Result" )] ) );
+                }
                 else
                     $t->set_var( "result", $result[$db->fieldName( "Result" )] );
                     
