@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.25 2001/02/08 10:59:09 jb Exp $
+// $Id: articlelist.php,v 1.26 2001/02/08 15:05:17 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -228,7 +228,7 @@ foreach ( $articleList as $article )
 $prevOffs = $Offset - $Limit;
 $nextOffs = $Offset + $Limit;
         
-if ( $prevOffs >= 0 )
+if ( $prevOffs >= 0 and !$NoNavigators )
 {
     $t->set_var( "prev_offset", $prevOffs  );
     $t->parse( "previous", "previous_tpl" );
@@ -238,7 +238,7 @@ else
     $t->set_var( "previous", "" );
 }
         
-if ( $nextOffs <= $articleCount )
+if ( $nextOffs <= $articleCount and !$NoNavigators )
 {
     $t->set_var( "next_offset", $nextOffs  );
     $t->parse( "next", "next_tpl" );
