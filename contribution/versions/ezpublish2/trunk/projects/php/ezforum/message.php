@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.29 2000/10/12 16:29:29 bf-cvs Exp $
+// $Id: message.php,v 1.30 2000/10/12 17:45:06 bf-cvs Exp $
 //
 // 
 //
@@ -85,8 +85,14 @@ $locale = new eZLocale( $Language );
 
 $level = 0;
 
+$i=0;
 foreach ( $messages as $message )
 {
+    if ( ( $i % 2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+    
     $level = $message->level();
     
     if ( $level > 0 )
@@ -105,6 +111,7 @@ foreach ( $messages as $message )
     $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
     $t->parse( "reply", "reply_tpl", true );
+    $i++;
 }
 
 $t->pparse( "output", "message_tpl" );

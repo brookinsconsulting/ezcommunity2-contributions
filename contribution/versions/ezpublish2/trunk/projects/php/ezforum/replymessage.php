@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: replymessage.php,v 1.10 2000/10/12 12:26:18 bf-cvs Exp $
+// $Id: replymessage.php,v 1.11 2000/10/12 17:45:06 bf-cvs Exp $
 //
 // 
 //
@@ -19,41 +19,67 @@ $ini = new INIFile( "site.ini" ); // get language settings
 
 
 include_once( "common/ezphputils.php" );
-include_once( "classes/template.inc" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php");
 include_once( "ezforum/classes/ezforumcategory.php");
 
 
-
 if ( $Action == "Reply" )
 {
     $original = new eZForumMessage( $ReplyID );
     
-    $message = new eZForumMessage( );
+    $reply = new eZForumMessage( );
 
-    $message->setForumID( $original->forumID() );
+    $reply->setForumID( $original->forumID() );
 
-    $message->setTopic( $Topic );
-    $message->setBody( $Body );
+    $reply->setTopic( $Topic );
+    $reply->setBody( $Body );
 
-    $message->setParent( $original->id() );
+    $reply->setParent( $original->id() );
     
     $user = eZUser::currentUser();
 
     
-    $message->setUserId( $user->id() );
+    $reply->setUserId( $user->id() );
 
     if ( $notice )
-        $message->enableEmailNotice();
+        $reply->enableEmailNotice();
     else
-        $message->disableEmailNotice();
+        $reply->disableEmailNotice();
 
-    $message->store();
+    $reply->store();
 
     $forum_id = $original->forumID();
 
+    // send out email notices
+    $forum = new eZForumForum( $forum_id );
+    $messages = $forum->messageThreadTree( $reply->threadID() );
+
+    $mail = new eZMail();
+
+    $mail->setFrom( "noreply@ez.no" );
+    
+    $mail->setSubject( "reply" );
+    
+   
+    foreach ( $messages as $message )
+    {
+        if ( $message->id() != $reply->id() )
+        {
+            if ( ( $message->treeID() > $reply->treeID() ) && $message->emailNotice() )
+            {
+                $user =& $message->user();
+                
+                $mail->setTo( $user->email() );
+                $mail->setBody(  $message->id() . "" . $user->email() );
+                
+                $mail->send();
+            }
+        }
+    }    
     
     Header( "Location: /forum/category/forum/$forum_id/" );
 

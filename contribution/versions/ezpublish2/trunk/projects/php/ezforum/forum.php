@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.43 2000/10/12 16:29:29 bf-cvs Exp $
+// $Id: forum.php,v 1.44 2000/10/12 17:45:06 bf-cvs Exp $
 //
 // 
 //
@@ -83,7 +83,7 @@ if ( !isset( $Offset ) )
     $Offset = 0;
 
 if ( !isset( $Limit ) )
-    $Limit = 4;
+    $Limit = 30;
 
 $messages = $forum->messageTree( $Offset, $Limit );
 

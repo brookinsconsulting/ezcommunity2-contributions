@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.48 2000/10/12 16:29:29 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.49 2000/10/12 17:45:06 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -128,10 +128,10 @@ class eZForumMessage
 
                     $this->ThreadID = $result[0]["ThreadID"];
 
-                    $parentID += 1;
+//                      $parentID += 1;
                     
                     // update the whole tree
-                    $this->Database->query( "UPDATE ezforum_MessageTable SET TreeID=(TreeID +1 ) WHERE TreeID > $parentID" );
+                    $this->Database->query( "UPDATE ezforum_MessageTable SET TreeID=(TreeID +1 ) WHERE TreeID >= $parentID" );
 
                     
                 }
@@ -397,9 +397,12 @@ class eZForumMessage
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->EmailNotice == "Y" )
+           $ret = true;    
         
-        
-        return $this->EmailNotice;
+       return $ret;
     }
 
     /*!
@@ -455,7 +458,9 @@ class eZForumMessage
     }
 
     /*!
-      Returns the threadID
+      Returns the threadID. Each new posting to a forum creates
+      a new thread. Every reply to that message belongs to the
+      same thread.
     */
     function threadID()
     {
@@ -464,42 +469,23 @@ class eZForumMessage
 
        return $this->ThreadID;
     }
-    
 
     /*!
-      recursiveEmailNotice() : Send a notice by email to users who have requested it.
-
-      $msgId : $message to send a notice about
-     */
-    function recursiveEmailNotice( $startId, $msgId, &$liste )
+      Returns the treeID. The tree id is an integer which
+      indicates the position of the message in the forum.
+      Higher number is newer/higher up in the tree. 0 is the
+      first message.
+    */
+    function treeID()
     {
-        $this->get( $msgId );
-        if ( $this->Id != $startId) // root of search - do not check current message
-        {
-            if ($this->emailNotice() == 'Y')
-            {
-                if( !in_array( $this->UserId, $liste ) )
-                {
-                    array_push( $liste, $this->UserId );
-                    $email = new eZMail();
-                    $usr = new eZUser();
-                    $msg = new eZForumMessage;
-                    $msg->get( $startId );
-                    $usr->get( $this->UserId );
-                    $email->setTo( $usr->email() );
-                    $email->setFrom( "webmaster@" . $SERVER_NAME );
-                    $email->setSubject( $msg->topic() );
-                    $email->setBody( $msg->body() );
-                    $email->send();
-                }    
-            }
-        }
-        else
-        {
-            array_push( $liste, $this->UserId );
-        }
-        if( $this->Parent != "" ) $this->recursiveEmailNotice( $startId, $this->Parent, $liste );
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->TreeID;
     }
+
+    
+    
 
     /*!
       
@@ -589,7 +575,6 @@ class eZForumMessage
         }
     }
     
-
     var $ID;
     var $ForumID;
     var $ParentID;

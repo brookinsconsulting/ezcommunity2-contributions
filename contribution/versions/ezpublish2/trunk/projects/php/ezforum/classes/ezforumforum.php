@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.21 2000/10/12 16:29:29 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.22 2000/10/12 17:45:06 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -178,8 +178,10 @@ class eZForumForum
 
     /*!
       Returns all the messages and submessages as a tree.
+
+      Default limit is set to 30.
     */
-    function &messageTree( $offset=0, $limit=10 )
+    function &messageTree( $offset=0, $limit=30 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -202,8 +204,10 @@ class eZForumForum
 
     /*!
       Returns all the messages and submessages of a thread as a tree.
+
+      Default limit is set to 100
     */
-    function &messageThreadTree( $threadID, $offset=0, $limit=10 )
+    function &messageThreadTree( $threadID, $offset=0, $limit=100 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -347,6 +351,17 @@ class eZForumForum
         
         
         $this->Private = $newPrivate;
+    }
+
+    /*!
+      Returns the treeID. The tree id is an integer which
+      indicates the position of the message in the forum.
+      Higher number is newer/higher up in the tree. 0 is the
+      first message.
+    */
+    function treeID()
+    {
+
     }
 
     /*!
