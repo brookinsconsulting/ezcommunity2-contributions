@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.3 2001/05/28 14:56:15 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.4 2001/05/28 17:51:41 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -191,6 +191,8 @@ class eZQDomrenderer
                                 {
                                     $intro = $this->renderPlain( $intro, $paragraph );
                                     $intro = $this->renderStandards( $intro, $paragraph );
+                                    $intro = $this->renderImage( $intro, $paragraph );
+                                    $intro = $this->renderHeader( $intro, $paragraph );
                                     
                                     
                                     $this->PrevTag = $paragraph->name;
@@ -304,6 +306,7 @@ class eZQDomrenderer
             }
             else if ( $pageNumber != 0 )
             {
+                $intro = "";
                 $bodyContents = $pageArray[$pageNumber];
             }
             else
