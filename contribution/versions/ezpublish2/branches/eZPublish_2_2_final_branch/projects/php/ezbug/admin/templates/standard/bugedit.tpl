@@ -113,11 +113,8 @@
 	<td width="1%" class="{td_class}">
 	{file_number}
 	</td>
-	<td width="97%" class="{td_class}">
+	<td width="98%" class="{td_class}">
 	{file_name}
-	</td>
-	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/bug/edit/fileedit/edit/{file_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="FileArrayID[]" value="{file_id}" />
@@ -135,7 +132,6 @@
 	<th>{intl-image_id}:</th>
 	<th>{intl-image_name}:</th>
 	<th>&nbsp;</th>
-	<th>&nbsp;</th>
 </tr>
 
 <!-- BEGIN image_tpl -->
@@ -143,11 +139,8 @@
 	<td width="1%" class="{td_class}">
 	{image_number}
 	</td>
-	<td width="97%" class="{td_class}">
+	<td width="98%" class="{td_class}">
 	{image_name}
-	</td>
-	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/bug/edit/imageedit/edit/{image_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}" />
