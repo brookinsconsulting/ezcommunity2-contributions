@@ -971,6 +971,8 @@ function assignToCategoies( )
         {
             $category = new eZProductCategory( $categoryItem[0]->id() );
             $categoryChildrens = $category->getByParent( $categoryItem[0] );
+
+            // Get the products that we will check on
             $products = $category->products();
             if ( count ( $categoryChildrens ) > 0 )
             {
@@ -980,13 +982,16 @@ function assignToCategoies( )
                     $createProduct = true;
                     if ( count ( $products ) > 0 )
                     {
-                        $createProduct = false;
+                        $createProduct = true;
                         foreach ( $products as $product )
                         {
                             $productID = $product->id();
                             $db->array_query( $checkArray, "SELECT ProductID FROM eZTrade_ProductCategoryLink WHERE ProductID='$productID' AND CategoryID='$categoryID'" );
-                            if ( count ( $checkArray ) == 0 )
-                                $createProduct = true;
+
+                            if ( count ( $checkArray ) == 1 )
+                            {
+                                $createProduct = false;
+                            }
                         }
                     }
                     if ( $createProduct )
@@ -1003,76 +1008,78 @@ function assignToCategoies( )
 
 function passiv( $bufferArray )
 {
-    $data =& $bufferArray[0];
+      $data =& $bufferArray[0];
 
-    $data = $data->value();
+      $data =& $data->value();
     
-    $db = eZDB::globalDatabase();
+      $db = eZDB::globalDatabase();
 
-    $product = new eZProduct();
-    $optionValue = new eZOptionValue();
+      $product = new eZProduct();
+      $optionValue = new eZOptionValue();
     
-    $db->array_query( $productList, "SELECT ID, RemoteID FROM eZTrade_Product" );
-    $db->array_query( $optionValueList, "SELECT ID, RemoteID FROM eZTrade_OptionValue" );
+      $db->array_query( $productList, "SELECT ID, RemoteID FROM eZTrade_Product" );
+      $db->array_query( $optionValueList, "SELECT ID, RemoteID FROM eZTrade_OptionValue" );
     
-    $i = 0;
+      $i = 0;
 
-    foreach ( $data as $buffer )
-    {
-        $buffer = $buffer->value();
-        
-        $buffer = ereg_replace( "\|", "", $buffer );
-        $buffer = trim( $buffer );
+      foreach ( $data as $buffer )
+      {
+          $buffer =& $buffer->value();
 
-        foreach( $productList as $productItem )
-        {
-            $remoteArray = explode( "-", $productItem["RemoteID"] );
+          foreach( $productList as $productItem )
+          {
+              $remoteArray = explode( "-", $productItem["RemoteID"] );
 
-            if ( $remoteArray[3] )
-            {
-                if ( $buffer == $remoteArray[3] )
-                {
-                    $product_array[] = $buffer;
-                
-                    $product->get( $productItem["ID"] );
-                    $product->setTotalQuantity( 0 );
-                }
-            }
-        }
-        
-        foreach( $optionValueList as $optionItem )
-        {
-            $remoteArray = explode( "-", $optionItem["RemoteID"] );
+              if ( $remoteArray[3] )
+              {
+                  if ( $buffer == $remoteArray[3] )
+                  {
+                      $product_array[] =& $buffer;
 
-            if ( $remoteArray[3] )
-            {
-                if ( $buffer == $remoteArray[3] )
-                {
-                    $option_array[] = $buffer;
-                
-                    $optionValue->get( $optionItem["ID"] );
-                    $optionValue->setTotalQuantity( 0 );
-                }
-            }
-        }
-        $i++;
-    }
+                      $product->get( $productItem["ID"] );
+                      $product->setTotalQuantity( 0 );
+                  }
+              }
 
-    $mail = new eZMail();
-    $mail->setTo( "ce@ez.no" );
-    $mail->setFrom( "mygold@mygold.com" );
-    $mail->setSubject( "passiv script" );
+          }
+
+          foreach( $optionValueList as $optionItem )
+          {
+              $remoteArray = explode( "-", $optionItem["RemoteID"] );
+
+              if ( $remoteArray[3] )
+              {
+                  if ( $buffer == $remoteArray[3] )
+                  {
+                      $option_array[] =& $buffer;
+
+                      $optionValue->get( $optionItem["ID"] );
+                      $optionValue->setTotalQuantity( 0 );
+                  }
+              }
+          }
+
+          $i++;
+      }
+
+
     
-    $body = ( "Mygold passiv script completed\n" );
-    $body .= ( "\n" );
-    $body .= ( "Total products marked as sold: . " . count( $product_array ) . "\n" );
-    $body .= ( "Total options marked as sold: . " . count( $option_array ) . "\n" );
+//      $mail = new eZMail();
+//      $mail->setTo( "ce@ez.no" );
+//      $mail->setFrom( "mygold@mygold.com" );
+//      $mail->setSubject( "passiv script" );
 
-    $mail->setBody( $body );
 
-    $mail->send();
+//      $body = ( "Mygold passiv script completed\n" );
+//      $body .= ( "\n" );
+//      $body .= ( "Total products marked as sold: . " . count( $product_array ) . "\n" );
+//      $body .= ( "Total options marked as sold: . " . count( $option_array ) . "\n" );
 
-    return new eZXMLRPCInt( 1 );
+//      $mail->setBody( $body );
+
+//    $mail->send();
+
+    return new eZXMLRPCInt( $categoryID );
 
 }
 

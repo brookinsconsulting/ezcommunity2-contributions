@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.62 2001/04/16 11:07:34 bf Exp $
+// $Id: ezuser.php,v 1.63 2001/04/19 13:07:24 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -109,7 +109,7 @@ class eZUser
         $lastname = addslashes( $this->LastName );
         $signature = addslashes( $this->Signature );
         $login = addslashes( $this->Login );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZUser_User SET
@@ -120,8 +120,10 @@ class eZUser
                                  FirstName='$firstname',
                                  LastName='$lastname',
                                  Signature='$signature',
+                                 CookieLogin='$this->CookieLogin',
 				                 SimultaneousLogins='$this->SimultaneousLogins'" );
             $this->ID = mysql_insert_id();
+
         }
         else
         {
@@ -132,6 +134,7 @@ class eZUser
                                  FirstName='$firstname',
                                  Signature='$signature',
                                  LastName='$lastname',
+                                 CookieLogin='$this->CookieLogin',
                                  SimultaneousLogins='$this->SimultaneousLogins'
                                  WHERE ID='$this->ID'" );
 
@@ -144,7 +147,7 @@ class eZUser
             }
             
         }
-        
+
         return true;
     }
 
@@ -206,6 +209,7 @@ class eZUser
         $this->FirstName =& $user_array[ "FirstName" ];
         $this->LastName =& $user_array[ "LastName" ];
         $this->Signature =& $user_array[ "Signature" ];
+        $this->CookieLogin =& $user_array[ "CookieLogin" ];
         $this->SimultaneousLogins =& $user_array[ "SimultaneousLogins" ];
     }
 
@@ -454,11 +458,24 @@ class eZUser
     }
 
     /*!
+      Returns the auto cookie login value.
+    */
+    function cookieLogin( )
+    {
+        $ret = false;
+        if ( $this->CookieLogin == 1 )
+            $ret = true;
+
+        return $ret;
+    }
+
+    
+    /*!
       Returns the number og simultaneous logins allowed on this account.
     */
     function simultaneousLogins( )
     {
-	return htmlspecialchars( $this->SimultaneousLogins );
+        return htmlspecialchars( $this->SimultaneousLogins );
     }
     
     /*!
@@ -533,9 +550,20 @@ class eZUser
     */
     function setSimultaneousLogins ( $value )
     {
-       $this->SimultaneousLogins = $value;
+        $this->SimultaneousLogins = $value;
+        
+        setType( $this->SimultaneousLogins, "integer" );
+    }
 
-       setType( $this->SimultaneousLogins, "integer" );
+    /*!
+      Sets the auto cookie login value on this account.
+    */
+    function setCookieLogin ( $value )
+    {
+        if ( $value == true )
+            $this->CookieLogin = 1;
+        else
+            $this->CookieLogin = 0;
     }
 
     /*!
@@ -561,9 +589,41 @@ class eZUser
 //            $session->refresh();
             
             $session->setVariable( "AuthenticatedUser", $user->id() );
-            $ret = true;            
+            $ret = true;
         }
         return $ret;
+    }
+
+    /*!
+      \static
+      Auto login in a user with a cookie. The function check the database for the same hash, if the hash is found the user is logged in.
+     */
+    function autoCookieLogin( $hash )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if ( $hash )
+        {
+            $db->array_query( $userArray, "SELECT UserID FROM eZUser_Cookie WHERE Hash='$hash'" );
+            if ( count ( $userArray ) == 1 )
+            {
+                $user = new eZUser( $userArray[0]["UserID"] );
+                if ( $user )
+                    eZUser::loginUser( $user );
+            }
+        }
+    }
+
+    function clearAutoCookieLogin()
+    {
+        $user = eZUser::currentUser();
+        $db =& eZDB::globalDatabase();
+
+        if ( $user )
+        {
+            $userID = $user->id();
+            $db->query( "DELETE FROM eZUser_Cookie WHERE UserID='$userID'" );
+        }
     }
 
     /*!
@@ -802,6 +862,25 @@ class eZUser
         return $ret;
     }
 
+    function setCookieValues()
+    {
+        $user = eZUser::currentUser();
+        $db =& eZDB::globalDatabase();
+
+        if ( $user )
+        {
+            $userID = $user->id();
+            $hash = md5( microTime() );
+
+            $db->query( "DELETE FROM eZUser_Cookie WHERE UserID='$userID'" );
+            $db->query( "INSERT INTO eZUser_Cookie SET
+                               Hash='$hash',
+                               UserID='$userID'" );
+
+            setCookie( "eZUser_AutoCookieLogin", $hash, 0, "/",  "", 0 );
+        }
+    }
+
     /*!
       Returns the timeout for the user. If the user is not a member of any user groups the timeout
       is set to 30. If the user is a member of several user groups, the fastest timeout is returned.
@@ -873,6 +952,7 @@ class eZUser
     var $LastName;
     var $InfoSubscription;
     var $Signature;
+    var $CookieLogin;
     var $SimultaneousLogins;
     var $StoredTimeout;
 }

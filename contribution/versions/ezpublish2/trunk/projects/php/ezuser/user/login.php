@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.28 2001/04/17 14:56:52 ce Exp $
+// $Id: login.php,v 1.29 2001/04/19 13:07:24 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -97,12 +97,16 @@ if ( $Action == "login" )
                 $MaxLogins = $user->simultaneousLogins();
             }
             
-
             if ( ( $logins < $MaxLogins ) || ( $MaxLogins  == "0" ) )
             {      
                 eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
                 
                 eZUser::loginUser( $user );
+                
+                if ( $user->cookieLogin() == true )
+                {
+                    $user->setCookieValues();
+                }
                 
                 if ( isSet( $RedirectURL ) )
                 {
@@ -161,6 +165,9 @@ else
 
 if ( $Action == "logout" )
 {
+    if ( $ini->read_var( "eZUserMain", "AutoCookieLogin" ) == "enabled" )
+        eZUser::clearAutoCookieLogin();
+    
     eZUser::logout();
     eZHTTPTool::header( "Location: /" );
 }

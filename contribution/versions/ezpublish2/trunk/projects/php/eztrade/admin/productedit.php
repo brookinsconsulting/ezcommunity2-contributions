@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.48 2001/03/26 18:35:47 jb Exp $
+// $Id: productedit.php,v 1.49 2001/04/19 13:07:23 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -639,7 +639,9 @@ foreach ( $groups as $group )
 $t->set_var( "quantity_item", "" );
 $t->set_var( "quantity_value", $Quantity );
 if ( $ShowQuantity )
+{
     $t->parse( "quantity_item", "quantity_item_tpl" );
+}
 
 // Show price groups
 

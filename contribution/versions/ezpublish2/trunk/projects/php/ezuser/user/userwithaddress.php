@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.48 2001/03/26 17:22:51 bf Exp $
+// $Id: userwithaddress.php,v 1.49 2001/04/19 13:07:24 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -113,6 +113,9 @@ $t->set_var( "login_value", "$Login" );
 $t->set_var( "email_value", "$Email" );
 $t->set_var( "password_value", "$Password" );
 $t->set_var( "verify_password_value", "$VerifyPassword" );
+
+if ( $AutoCookieLogin == "on" )
+    $t->set_var( "is_cookie_selected", "checked" );
 
 $user = eZUser::currentUser();
 
@@ -331,6 +334,12 @@ if ( isset( $OK ) and $error == false )
     $user_insert->setLastName( $LastName );
     $user_insert->setSignature( $Signature );
 
+
+    if ( $AutoCookieLogin == "on" )
+        $user_insert->setCookieLogin( true );
+    else
+        $user_insert->setCookieLogin( false );
+
     $user_insert->store();
 
     // add user to usergroup
@@ -420,6 +429,11 @@ if ( get_class( $user ) == "ezuser" )
     if ( !isset( $LastName ) )
          $LastName = $user->LastName();
 
+    if ( $user->cookieLogin() == true )
+        $cookieCheck = "checked";
+    else
+        $cookieCheck = "";
+    
     if ( !isset( $AddressID ) )
     {
         if ( !isset( $AddressID ) )
@@ -512,6 +526,8 @@ $t->set_var( "email_value", $Email );
 
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
+
+$t->set_var( "is_cookie_selected", $cookieCheck );
 
 if ( get_class( $user ) == "ezuser" )
     $t->set_var( "readonly", "disabled" );

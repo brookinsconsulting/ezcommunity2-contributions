@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.21 2001/03/23 14:50:33 pkej Exp $
+// $Id: productpreview.php,v 1.22 2001/04/19 13:07:23 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -361,6 +361,7 @@ foreach ( $options as $option )
             $t->set_var( "value_availability_item", "" );
             if ( !(is_bool( $value_quantity ) and !$value_quantity) )
             {
+
                 $named_quantity = $value_quantity;
                 if ( $ShowNamedQuantity )
                     $named_quantity = eZProduct::namedQuantity( $value_quantity );

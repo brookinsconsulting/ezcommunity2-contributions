@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.21 2001/04/17 14:26:02 ce Exp $
+// $Id: productlist.php,v 1.22 2001/04/19 13:07:23 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -150,11 +150,6 @@ $locale = new eZLocale( $Language );
 $i=0;
 foreach ( $productList as $product )
 {
-    
-    print( $product->id() . "<br>");
-    if ( $product->id != "682" )
-    {
-    
     $t->set_var( "product_id", $product->id() );
 
     // preview image
@@ -256,7 +251,6 @@ foreach ( $productList as $product )
 
     $t->parse( "product", "product_tpl", true );
     $i++;
-    }
 }
 
 if ( count( $productList ) > 0 )
