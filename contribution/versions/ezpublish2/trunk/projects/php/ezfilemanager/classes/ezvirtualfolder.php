@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.33 2001/09/22 10:53:16 master Exp $
+// $Id: ezvirtualfolder.php,v 1.34 2001/09/25 08:15:32 jhe Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -116,7 +116,7 @@ class eZVirtualFolder
                 {
                     $folder = new eZVirtualFolder();
                     $folder->setName( $dirlist[0] );
-                    $folder->setParent( new eZVirtualFolder( $parent ) );
+                    $folder->setParent( $parent );
                     $folder->store();
                     $group = new eZUserGroup( $readgroup );
                     eZObjectPermission::setPermission( $group, $folder->id(), "filemanager_folder", "r" );
@@ -455,11 +455,15 @@ class eZVirtualFolder
     /*!
       Sets the parent category.
     */
-    function setParent( &$value )
+    function setParent( $value )
     {
        if ( get_class( $value ) == "ezvirtualfolder" )
        {
            $this->ParentID = $value->id();
+       }
+       else if ( is_numeric( $value ) )
+       {
+           $this->ParentID = $value;
        }
     }
 

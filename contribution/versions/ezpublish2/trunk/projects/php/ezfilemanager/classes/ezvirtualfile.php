@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.47 2001/09/21 14:28:48 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.48 2001/09/25 08:15:32 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -430,13 +430,15 @@ class eZVirtualfile
     /*!
       Sets the user of the file.
     */
-    function setUser( &$user )
+    function setUser( $user )
     {
         if ( get_class( $user ) == "ezuser" )
         {
-            $userID = $user->id();
-
-            $this->UserID = $userID;
+            $this->UserID = $user->id();
+        }
+        else if ( is_numeric( $user ) )
+        {
+            $this->UserID = $user;
         }
     }
 
