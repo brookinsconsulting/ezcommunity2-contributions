@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2000/10/24 15:03:29 bf-cvs Exp $
+// $Id: menubox.php,v 1.2 2000/10/25 07:17:55 ce-cvs Exp $
 //
 // 
 //
@@ -69,7 +69,7 @@ function createLinkMenu()
     include_once( "ezlink/classes/ezlink.php" );
     include_once( "ezlink/classes/ezhit.php" );
 
-    $t = new eZTemplate( "ezlink/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+    $t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
                          "ezlink/user/intl", $Language, "categorylist.php" );
 
     $t->setAllStrings();
