@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quizlist.php,v 1.8 2001/07/20 11:24:09 jakobn Exp $
+// $Id: quizlist.php,v 1.9 2001/10/31 12:11:25 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -32,19 +32,17 @@ include_once( "ezquiz/classes/ezquizgame.php" );
 include_once( "ezquiz/classes/ezquizscore.php" );
 
 $ini =& INIFile::globalINI();
-$intl = new INIFIle( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
 
 $Language = $ini->read_var( "eZQuizMain", "Language" );
 $ListLimit = $ini->read_var( "eZQuizMain", "ListLimit" );
 
+$intl = new INIFile( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
 $Limit = $ListLimit;
 
 $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir" ),
                      "ezquiz/user/intl/", $Language, "quiz.php" );
 
-$t->set_file( array(
-    "quiz_list_page_tpl" => "quizlist.tpl"
-    ) );
+$t->set_file( "quiz_list_page_tpl", "quizlist.tpl" );
 
 $t->set_block( "quiz_list_page_tpl", "game_list_item_tpl", "game_list_item" );
 $t->set_block( "game_list_item_tpl", "game_item_tpl", "game_item" );
@@ -58,45 +56,54 @@ $t->set_var( "game_list_item", "" );
 $t->set_var( "game_item", "" );
 $t->set_var( "error_item", "" );
 
-
 $game = new eZQuizGame();
 $score = new eZQuizScore();
 
-switch( $Action )
+switch ( $Action )
 {
     case "list":
+    {
         $games = $game->getAll( $Offset, $Limit );
         $gameCount = $game->count();
         $isGame = true;
         $t->set_var( "header_of_page", "header_game_list" );
-        break;
+    }
+    break;
     case "future":
+    {
         $games = $game->opensNext( $Offset, $Limit );
         $gameCount = $game->numberOfOpenGames();
         $isGame = true;
         $t->set_var( "header_of_page", "header_future_game_list" );
-        break;
+    }
+    break;
     case "past":
+    {
         $games = $game->closedGames( $Offset, $Limit );
         $gameCount = $game->numberOfClosedGames();
         $isGame = true;
         $t->set_var( "header_of_page", "header_past_game_list" );
-        break;
+    }
+    break;
     case "open":
+    {
         $scores = $score->getAllSavedByUser( $user, $Offset, $Limit );
         $gameCount = $score->countAllSavedByUser( $user );
         $isScore = true;
         $t->set_var( "header_of_page", "header_open_game_list" );
-        break;
+    }
+    break;
     case "closed":
+    {
         $scores = $score->getAllByUser( $user, $Offset, $Limit );
         $gameCount = $score->countAllByUser( $user );
         $isScore = true;
         $t->set_var( "header_of_page", "header_closed_game_list" );
-        break;
+    }
+    break;
 }
 
-if( $isGame )
+if ( $isGame )
 {
     $count = count( $games );
 }
@@ -106,10 +113,10 @@ else
 }
 $locale = new eZLocale( $Language );
 
-if( $count > 0 && $isGame )
+if ( $count > 0 && $isGame )
 {
     $i = 0;
-    foreach( $games as $game )
+    foreach ( $games as $game )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -128,17 +135,17 @@ if( $count > 0 && $isGame )
         $start = $game->startDate();
         $stop = $game->stopDate();
 
-        if( $start->day() != 0  )
+        if ( $start->day() != 0  )
         {
             $t->set_var( "game_start", $locale->format( $start, true ) );
         }
 
-        if( $stop->day() != 0  )
+        if ( $stop->day() != 0  )
         {
             $t->set_var( "game_stop", $locale->format( $stop, true ) );
         }
 
-        if( $game->isFutureGame() )
+        if ( $game->isFutureGame() )
         {
             $t->set_var( "score_link", "&nbsp;" );
         }
@@ -153,10 +160,10 @@ if( $count > 0 && $isGame )
     }
     $t->parse( "game_list_item", "game_list_item_tpl" );
 }
-elseif( $count > 0 && $isScore )
+elseif ( $count > 0 && $isScore )
 {
     $i = 0;
-    foreach( $scores as $score )
+    foreach ( $scores as $score )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -177,23 +184,23 @@ elseif( $count > 0 && $isScore )
         $start = $game->startDate();
         $stop = $game->stopDate();
         
-        if( is_object( $start ) )
+        if ( is_object( $start ) )
         {
-            if( $start->day() != 0  )
+            if ( $start->day() != 0  )
             {
                 $t->set_var( "game_start", $locale->format( $start, true ) );
             }
         }
         
-        if( is_object( $stop ) )
+        if ( is_object( $stop ) )
         {
-            if( $stop->day() != 0  )
+            if ( $stop->day() != 0  )
             {
                 $t->set_var( "game_stop", $locale->format( $stop, true ) );
             }
         }
 
-        if( $game->isFutureGame() )
+        if ( $game->isFutureGame() )
         {
             $t->set_var( "score_link", "&nbsp;" );
         }
@@ -210,7 +217,7 @@ elseif( $count > 0 && $isScore )
 }
 else
 {
-    switch(  $Action )
+    switch ( $Action )
     {
         case "list":
         {
@@ -245,10 +252,10 @@ else
     }
 }
 
-if( $error )
+if ( $error )
 {
     $GenerateStaticPage = false;
-    switch( $error )
+    switch ( $error )
     {
         case "list_empty":
         {
@@ -294,6 +301,5 @@ $t->setAllStrings();
 eZList::drawNavigator( $t, $gameCount, $Limit, $Offset, "quiz_list_page_tpl" );
 
 $t->pparse( "output", "quiz_list_page_tpl" );
-
 
 ?>
