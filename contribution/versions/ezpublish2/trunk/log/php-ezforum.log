@@ -1261,3 +1261,14 @@ Maintainer(s) : jhe@ez.no
     * user/messagebody.php:
     fixed security bug with message body (variable check)
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2003-06-17  Vidar Langseid  <vl@ez.no>
+
+    * user/messagesimplelist.php:
+    Fixed so that template variable {user} is set to something meaningful
+    in messagesimplelist (usercomment to articles) even though poster is
+    not logged in
+
