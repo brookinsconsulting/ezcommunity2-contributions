@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.5 2000/10/26 19:19:57 bf-cvs Exp $
+// $Id: forgot.php,v 1.6 2000/10/27 10:51:06 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -31,6 +31,7 @@ include_once( "classes/ezmail.php" );
 
 $iniSite = new INIFIle( "site.ini" );
 $Language = $iniSite->read_var( "eZUserMain", "Language" );
+$headersInfo = getallheaders();
 
 $ini = new INIFIle( "ezuser/user/intl/" . $Language . "/forgot.php.ini", false );
 // Get the user.
@@ -43,7 +44,7 @@ if ( $Login )
 // Store the user with a unic hash and mail the hash variable to the user.
 if ( $user )
 {
-    $subjectText = $ini->read_var( "strings", "subject_text" );
+    $subjectText = ( $ini->read_var( "strings", "subject_text" ) . " " . $headersInfo["Host"] );
     $bodyText = $ini->read_var( "strings", "body_text" );
 
     $forgot = new eZForgot();
@@ -57,7 +58,7 @@ if ( $user )
     $mailpassword->setSubject( $subjectText );
 
     $body = ( $bodyText . "\n");
-    $body .= ( "http://zez.nox.ez.no/user/forgot/change/?Action=change&UserID=$userID&Hash=" . $forgot->Hash() );
+    $body .= ( "http://" . $headersInfo["Host"] . "/user/forgot/change/?Action=change&UserID=$userID&Hash=" . $forgot->Hash() );
 
     $mailpassword->setBody( $body );
     $mailpassword->send();
