@@ -17,7 +17,13 @@
 <input type="text" size="40" name="SourceSitePassword" value="{source_site_password_value}" />
 
 <p class="boxtext">{intl-source_site_decoder}:</p>
-<input type="text" size="40" name="SourceSiteDecoder" value="{source_site_decoder_value}" />
+<!--<input type="text" size="40" name="SourceSiteDecoder" value="{source_site_decoder_value}" />-->
+
+<select name="DecoderChoice">
+<!-- BEGIN decoder_tpl -->
+<option value="{decoder_value}" {choice_selected}>{decoder_value}</option>
+<!-- END decoder_tpl -->
+</select>
 
 <p class="boxtext">{intl-source_site_isactive}:</p>
 <input {source_site_isactive_value} type="checkbox" name="SourceSiteIsActive" />
@@ -36,7 +42,17 @@
 </select>
 <br /><br />
 <hr noshade="noshade" size="4" />
-<input type="submit" class="okbutton" value="{intl-ok}" />
-<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td>
+    <input type="submit" class="okbutton" value="{intl-ok}" />
+  </td>
+  <td>&nbsp</td>
+  <td>
+    <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
+  </td>
+</tr>
+</table>
 
 </form>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.6 2001/01/30 19:05:10 pkej Exp $
+// $Id: sourcesiteedit.php,v 1.7 2001/02/09 13:25:19 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -33,9 +33,11 @@ $ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
+include_once( "eznewsfeed/classes/eznewsimporter.php" );
 include_once( "eznewsfeed/classes/ezsourcesite.php" );
 
 include_once( "eznewsfeed/classes/eznewscategory.php" );
+
 
 if ( $Action == "Insert" )
 {
@@ -47,7 +49,7 @@ if ( $Action == "Insert" )
     $sourcesite->setPassword( $SourceSitePassword );
     $category = new eZNewsCategory( $CategoryID );
     $sourcesite->setCategory( $category );
-    $sourcesite->setDecoder( $SourceSiteDecoder );
+    $sourcesite->setDecoder( $DecoderChoice );
 
     if ( $SourceSiteIsActive == "on" )
     {
@@ -84,7 +86,7 @@ if ( $Action == "Update" )
     $sourcesite->setPassword( $SourceSitePassword );
     $category = new eZNewsCategory( $CategoryID );
     $sourcesite->setCategory( $category );
-    $sourcesite->setDecoder( $SourceSiteDecoder );
+    $sourcesite->setDecoder( $DecoderChoice );
 
 
     if ( $SourceSiteIsActive == "on" )
@@ -133,6 +135,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "news_edit_page_tpl", "value_tpl", "value" );
+$t->set_block( "news_edit_page_tpl", "decoder_tpl", "decoder" );
 
 if ( $Action == "New" )
 {
@@ -141,7 +144,6 @@ if ( $Action == "New" )
     $t->set_var( "source_site_url_value", "" );
     $t->set_var( "source_site_login_value", "" );
     $t->set_var( "source_site_password_value", "" );
-    $t->set_var( "source_site_decoder_value", "" );
     $t->set_var( "action_value", "insert" );    
 }
 
@@ -155,8 +157,8 @@ if ( $Action == "Edit" )
     $t->set_var( "source_site_url_value", $sourcesite->url() );
     $t->set_var( "source_site_login_value", $sourcesite->login() );
     $t->set_var( "source_site_password_value", $sourcesite->password() );
-    $t->set_var( "source_site_decoder_value", $sourcesite->decoder() );
     $t->set_var( "source_site_id", $sourcesite->id() );
+    $decoderChoice = $sourcesite->decoder();
     $t->set_var( "action_value", "update" );
 
     $category = $sourcesite->category();
@@ -180,6 +182,23 @@ if ( $Action == "Edit" )
         $t->set_var( "source_site_auto_publish_value", "" );
     }  
 }
+
+// decoder select
+$decoders = eZNewsImporter::listDecoders();
+foreach( $decoders as $decoderItem )
+{
+    if( isset( $decoderChoice ) && $decoderChoice == $decoderItem )
+    {
+        $t->set_var( "choice_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "choice_selected", "" );
+    }
+    $t->set_var( "decoder_value", $decoderItem );
+    $t->parse( "decoder", "decoder_tpl", true );    
+}
+
 
 // category select
 $category = new eZNewsCategory();
