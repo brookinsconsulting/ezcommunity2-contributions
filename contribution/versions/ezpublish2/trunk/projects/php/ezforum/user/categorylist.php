@@ -1,10 +1,8 @@
 <?
 // 
-// $Id: categorylist.php,v 1.2 2000/10/27 10:19:57 ce-cvs Exp $
+// $Id: categorylist.php,v 1.3 2000/11/02 16:45:28 bf-cvs Exp $
 //
-// Definition of || class
-//
-// <real-name> <<mail-name>>
+// Christoffer A. Elo
 // Created on: <17-Oct-2000 13:50:26 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -24,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
