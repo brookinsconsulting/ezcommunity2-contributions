@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.25 2001/02/19 13:41:48 bf Exp $
+// $Id: ezarticlecategory.php,v 1.26 2001/02/21 13:58:22 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -36,6 +36,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
 class eZArticleCategory
@@ -82,7 +83,8 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
-                                 ParentID='$this->ParentID'" );
+                                 ParentID='$this->ParentID',
+                                 OwnerGroupID='$this->OwnerGroupID'" );
             $this->ID = mysql_insert_id();
         }
         else
@@ -92,7 +94,8 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+                                 ParentID='$this->ParentID',
+                                 OwnerGroupID='$this->OwnerGroupID' WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -160,6 +163,7 @@ class eZArticleCategory
                 $this->ParentID = $category_array[0][ "ParentID" ];
                 $this->ExcludeFromSearch = $category_array[0][ "ExcludeFromSearch" ];
                 $this->SortMode = $category_array[0][ "SortMode" ];
+                $this->OwnerGroupID = $category_array[0][ "OwnerGroupID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -345,6 +349,20 @@ class eZArticleCategory
     }
 
     /*!
+      Returns the owner group of this module as an eZOwnerGroup object.
+      If the object doesn't have an owner it returns 0.
+    */
+    function ownerGroup()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $group = new eZUserGroup( $this->OwnerGroupID );
+        return $group;
+    }
+
+    
+    /*!
       Returns the sort mode.
 
       1 - publishing date
@@ -487,6 +505,33 @@ class eZArticleCategory
        }
     }
 
+    /*!
+      Sets the owner group of this module.
+      Parameter $newOwner must be an eZUserGroup object.
+      if $recursive is true the function will also set the owner group for all submodules. These will be stored automaticly.
+     */
+    function setOwnerGroup( $newOwner, $recursive = false )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if( get_class( $newOwner ) == "ezusergroup" )
+        {
+            $this->OwnerGroupID = $newOwner->id();
+            if( $recursive == true )
+            {
+                $categories = $this->getByParent( $this );
+                foreach( $categories as $categoryItem )
+                {
+                    $categoryItem->setOwnerGroup( $newOwner, true );
+                    $categoryItem->store();
+                }
+            }
+        }
+    }
+
+
+    
     /*!
       Adds a article to the category.
     */
@@ -770,7 +815,8 @@ class eZArticleCategory
     var $Description;
     var $ExcludeFromSearch;
     var $SortMode;
-
+    var $OwnerGroupID;
+    
     ///  Variable for keeping the database connection.
     var $Database;
 

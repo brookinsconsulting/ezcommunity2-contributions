@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.1 2001/02/21 13:19:31 fh Exp $
+// $Id: categoryedit.php,v 1.2 2001/02/21 13:58:22 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -70,6 +70,13 @@ if ( $Action == "insert" )
     {
         $category->setExcludeFromSearch( false );
     }
+
+    $ownerGroup = new eZUserGroup( $OwnerID );
+    if( isset( $Recursive ) )
+        $category->setOwnerGroup( $ownerGroup, true );
+    else
+        $category->setOwnerGroup( $ownerGroup, false );
+
     
     $category->store();
 
@@ -106,6 +113,12 @@ if ( $Action == "update" )
     {
         $category->setExcludeFromSearch( false );
     }
+
+    $ownerGroup = new eZUserGroup( $OwnerID );
+    if( isset( $Recursive ) )
+        $category->setOwnerGroup( $ownerGroup, true );
+    else
+        $category->setOwnerGroup( $ownerGroup, false );
     
     $category->store();
 
@@ -158,7 +171,8 @@ $t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 
 
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
-               
+$t->set_block( "category_edit_tpl", "category_owner_tpl", "category_owner" );
+
 $category = new eZArticleCategory();
 
 $categoryArray = $category->getAll( );
@@ -197,6 +211,9 @@ if ( $Action == "edit" )
     {
         $t->set_var( "exclude_checked", "checked" );
     }
+    $ownerGroup = $category->ownerGroup();
+    if( get_class( $ownerGroup ) == "ezusergroup" )
+        $ownerGroupID = $ownerGroup->id();
 }
 
 $category = new eZArticleCategory();
@@ -225,6 +242,26 @@ foreach( $tree as $item )
 
 
     $t->parse( "value", "value_tpl", true );
+}
+
+// group selector
+$group = new eZUserGroup();
+$groupList = $group->getAll();
+
+foreach( $groupList as $groupItem )
+{
+//    if( eZPermission::checkPermission( $groupItem , "eZBug", "BugEdit" ) )
+//    {
+        $t->set_var( "module_owner_id", $groupItem->id() );
+        $t->set_var( "module_owner_name", $groupItem->name() );
+
+        if( isset( $ownerGroup ) && $ownerGroupID == $groupItem->id() )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+    
+        $t->parse( "category_owner", "category_owner_tpl", true );
+//    }
 }
 
 $t->pparse( "output", "category_edit_tpl" );

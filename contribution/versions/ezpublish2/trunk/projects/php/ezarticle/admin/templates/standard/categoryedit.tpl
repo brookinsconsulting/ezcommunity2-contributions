@@ -55,6 +55,24 @@
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
+<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<th class "boxtext" width="20%">{intl-owner}</th>
+<th class "boxtext" width="80%">{intl-recursive}
+<tr>
+  <td>
+    <select name="OwnerID">
+    <option value="0">{intl-none}</option>
+    <!-- BEGIN category_owner_tpl -->
+    <option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
+    <!-- END category_owner_tpl -->
+    </select>
+  </td>
+  <td>
+    <input type="checkbox" name="Recursive" />
+  </td>
+</tr>
+</table>
+
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
