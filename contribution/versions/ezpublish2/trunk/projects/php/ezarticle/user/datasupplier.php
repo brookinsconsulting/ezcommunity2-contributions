@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.80 2001/09/03 13:28:30 bf Exp $
+// $Id: datasupplier.php,v 1.81 2001/09/06 17:25:16 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -178,6 +178,8 @@ switch ( $url_array[2] )
 
     case "index":
     {
+        $CurrentIndex = urldecode( $url_array[3] );
+
         $user =& eZUser::currentUser();
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
@@ -192,7 +194,7 @@ switch ( $url_array[2] )
                 }
         }
         include_once( "classes/ezcachefile.php" );
-        $file = new eZCacheFile( "ezarticle/cache/", array( "articleindex", $groupstr ),
+        $file = new eZCacheFile( "ezarticle/cache/", array( "articleindex", $groupstr, $CurrentIndex ),
                                  "cache", "," );
             
         $cachedFile = $file->filename( true );

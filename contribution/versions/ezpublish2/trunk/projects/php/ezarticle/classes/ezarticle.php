@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.158 2001/09/04 14:26:06 bf Exp $
+// $Id: ezarticle.php,v 1.159 2001/09/06 17:25:16 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -864,7 +864,7 @@ class eZArticle
     }
 
     /*!
-      Sets the manual keywords to an article. Theese words are used in the search.
+      Sets the manual keywords to an article. Theese words are used in the search and for the keyword index.
     */
     function setManualKeywords( $keywords, $toLower = true )
     {
@@ -907,6 +907,32 @@ class eZArticle
                           '$keyword',
                          '0' )" );
 
+           
+            $db->unlock();
+
+            
+            // Create first letter cache table
+            $db->array_query( $letter_array, "SELECT SUBSTRING( Keyword from 1 for 1 ) AS Letter
+                                               FROM eZArticle_ArticleKeyword GROUP BY Letter" );
+            
+            $db->lock( "eZArticle_ArticleKeywordFirstLetter" );
+            
+            $db->query( "DELETE FROM eZArticle_ArticleKeywordFirstLetter" );
+
+            foreach ( $letter_array as $letter )
+            {
+                $nextID = $db->nextID( "eZArticle_ArticleKeywordFirstLetter", "ID" );
+
+                $letter = strToLower( $letter[$db->fieldName("Letter")] );
+            
+                $res = $db->query( "INSERT INTO eZArticle_ArticleKeywordFirstLetter
+                         ( ID,
+                         Letter )
+                         VALUES
+                        ( '$nextID',
+                          '$letter' )" );                
+            }
+
             $db->unlock();
             
             if ( $res == false )
@@ -914,6 +940,31 @@ class eZArticle
             else
                 $db->commit();
         }
+    }
+
+    /*!
+      \private
+      \static
+
+      Returns an array of letters which is the unique first character of all keywords.
+    */
+    function &keywordFirstLetters( )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $letter_array, "SELECT SUBSTRING( Keyword from 1 for 1 ) AS Letter
+                                          FROM eZArticle_ArticleKeyword GROUP BY Letter ORDER BY Letter" );
+
+        $retArray = array();
+        foreach ( $letter_array as $letter )
+        {
+            $nextID = $db->nextID( "eZArticle_ArticleKeywordFirstLetter", "ID" );
+
+            $letter = strToLower( $letter[$db->fieldName("Letter")] );
+            $retArray[] = $letter;
+        }
+
+        return $retArray;
     }
 
     /*!
@@ -956,7 +1007,7 @@ class eZArticle
     function &manualKeywords( $as_array = false )
     {
         $db =& eZDB::globalDatabase();
-        $db->array_query( $keywords, "SELECT Keyword FROM eZArticle_ArticleKeyword
+        $db->array_query($keywords, "SELECT Keyword FROM eZArticle_ArticleKeyword
                                       WHERE ArticleID='$this->ID' AND Automatic='0'" );
         $ret = array();
         foreach( $keywords as $keyword )
@@ -972,8 +1023,9 @@ class eZArticle
       \static
       Returns an index of keywords found in all articles.
       It returns an array of unique keywords.
+      If $firstLetter is set only the keywords with this first letter are returned.
     */
-    function &manualKeywordIndex()
+    function &manualKeywordIndex( $firstLetter = false )
     {
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
@@ -997,8 +1049,13 @@ class eZArticle
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
+        $firstLetterSQL = "";
+        if ( $firstLetter != false )
+        {
+            $firstLetterSQL = " HAVING Letter='$firstLetter' ";
+        }
         $db =& eZDB::globalDatabase();
-        $db->array_query( $keywords, "SELECT ArtKey.Keyword AS Keyword
+        $db->array_query( $keywords, "SELECT ArtKey.Keyword AS Keyword, SUBSTRING( ArtKey.Keyword from 1 for 1 ) AS Letter
                   FROM eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission,
                        eZArticle_Category AS Category,
@@ -1013,7 +1070,7 @@ class eZArticle
                         AND Category.ID=Link.CategoryID
                         AND Category.ExcludeFromSearch = '0'
                         AND ArtKey.Keyword is not NULL
-                                      GROUP BY Keyword ORDER BY Keyword", 0, -1, "Keyword" );
+                                      GROUP BY Keyword $firstLetterSQL ORDER BY Keyword", 0, -1, "Keyword" );
         return $keywords;
     }
 

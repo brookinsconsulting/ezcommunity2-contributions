@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.4 2001/07/29 23:30:58 kaid Exp $
+// $Id: index.php,v 1.5 2001/09/06 17:25:16 bf Exp $
 //
 // Created on: <27-Apr-2001 10:15:40 amos>
 //
@@ -44,10 +44,26 @@ $t->set_file( "index_tpl", "index.tpl" );
 $t->set_block( "index_tpl", "index_item_tpl", "index_item" );
 $t->set_block( "index_item_tpl", "article_item_tpl", "article_item" );
 $t->set_block( "article_item_tpl", "comma_item_tpl", "comma_item" );
+$t->set_block( "index_tpl", "letter_item_tpl", "letter_item" );
 
 $t->set_var( "index_item", "" );
 
-$indexes =& eZArticle::manualKeywordIndex();
+$letterArray =& eZArticle::keywordFirstLetters();
+
+if (  strLen( $CurrentIndex )  != 1  )
+{
+    $CurrentIndex = $letterArray[0];
+}
+
+
+foreach ( $letterArray as $letter )
+{
+    $t->set_var( "letter", $letter );
+    $t->parse( "letter_item", "letter_item_tpl", true );
+}
+
+
+$indexes =& eZArticle::manualKeywordIndex( $CurrentIndex );
 foreach( $indexes as $index )
 {
     $t->set_var( "article_item", "" );

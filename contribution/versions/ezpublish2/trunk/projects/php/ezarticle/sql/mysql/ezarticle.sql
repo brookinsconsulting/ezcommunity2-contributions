@@ -195,6 +195,11 @@ CREATE TABLE eZArticle_Word (
   Word varchar(50) NOT NULL default ''
 );
 
+CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
+  ID int(11) NOT NULL default '0',
+  Letter char(1) NOT NULL default ''
+);
+
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
