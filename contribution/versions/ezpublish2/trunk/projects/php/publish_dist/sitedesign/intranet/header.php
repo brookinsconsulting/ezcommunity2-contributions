@@ -14,14 +14,6 @@
 	?>
 
     <?
-    include( "ezcalendar/user/menubox.php" );
-    ?>
-
-    <?
-    include( "eztodo/user/menubox.php" );
-    ?>
-
-    <?
     include( "ezbug/user/menubox.php" );
     ?>
 

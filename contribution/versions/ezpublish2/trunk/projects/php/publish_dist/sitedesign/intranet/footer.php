@@ -11,6 +11,18 @@
     ?>
 
     <?
+    include( "eztodo/user/menubox.php" );
+    ?>
+
+    <?
+    include( "eztodo/user/todomenulist.php" );
+    ?>
+
+    <?
+    include( "ezcalendar/user/menubox.php" );
+    ?>
+
+    <?
     // a short list of articles from the given category
     // shows $Limit number starting from offset $Offset    
     $CategoryID=5;
@@ -21,10 +33,6 @@
     
     <?
         include( "ezpoll/user/votebox.php" );
-    ?>
-
-    <?
-        include( "eztodo/user/todomenulist.php" );
     ?>
 
 	<?

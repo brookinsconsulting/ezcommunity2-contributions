@@ -1,11 +1,12 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td colspan="2" class="menuhead">{intl-headline}</td>
+	<td width="1%" valign="top"><img src="/images/1x1.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%" class="menusubhead">{intl-headline}:</td>
 </tr>
 
 <!-- BEGIN todo_item_tpl -->
 <tr>
-	<td>
+	<td colspan="2">
 	<a class="menutext" href="/todo/todoview/{todo_id}">{todo_name}</a>
 	</td>
 </tr>
@@ -13,10 +14,12 @@
 
 <!-- BEGIN no_item_tpl -->
 <tr>
-	<td class="menutext">
+	<td colspan="2" class="menutext">
 	{intl-no_todo}
 	</td>
 </tr>
 <!-- END no_item_tpl -->
-
+<tr>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
+</tr>
 </table>
