@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.2 2000/10/30 13:27:58 ce-cvs Exp $
+// $Id: linkgrouplist.php,v 1.3 2000/10/31 12:43:26 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -98,8 +98,8 @@ foreach( $linkGroupList as $linkGroupItem )
     $t->set_var( "linkgroup_title", $linkGroupItem->title() );
     $t->set_var( "linkgroup_parent", $linkGroupItem->parent() );
 
-    $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
-    $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
+//      $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
+//      $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
         
     $t->set_var( "total_links", $total_sub_links );
     $t->set_var( "new_links", $new_sub_links );
