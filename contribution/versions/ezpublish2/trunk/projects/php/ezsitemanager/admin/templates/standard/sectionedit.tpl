@@ -9,11 +9,11 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="40" name="Name" value="{section_name}" />
+	<input type="text" size="30" name="Name" value="{section_name}" />
 	</td>	
 	<td>
 	<p class="boxtext">{intl-sitedesign}:</p>
-	<input type="text" size="40" name="SiteDesign" value="{section_sitedesign}" />
+	<input type="text" size="30" name="SiteDesign" value="{section_sitedesign}" />
 	</td>	
 </tr>
 <tr>

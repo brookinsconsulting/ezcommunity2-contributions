@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.61 2001/05/10 15:41:45 ce Exp $
+// $Id: ezarticlecategory.php,v 1.62 2001/05/10 16:02:11 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -336,7 +336,18 @@ class eZArticleCategory
         else
             return false;
     }
-    
+
+    /*!
+      Returns the Section ID. Returns false if the Category was not found.
+    */
+    function sectionID( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->SectionID;
+    }
+
     
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.17 2001/05/10 15:41:45 ce Exp $
+// $Id: categoryedit.php,v 1.18 2001/05/10 16:02:11 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -336,6 +336,8 @@ if ( $Action == "edit" )
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
     $parent = $category->parent();
+
+    $sectionID = $category->sectionID();
 
     // set the current sortmode to selected
     $t->set_var( $category->sortMode( true ) . "_selected", "selected" );    
