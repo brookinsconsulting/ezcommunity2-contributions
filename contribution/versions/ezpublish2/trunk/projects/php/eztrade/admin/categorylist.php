@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.13 2001/01/24 18:54:44 bf Exp $
+// $Id: categorylist.php,v 1.14 2001/01/25 16:24:41 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -62,6 +62,7 @@ $t->set_block( "product_list_tpl", "product_item_tpl", "product_item" );
 $t->set_block( "product_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
 $t->set_block( "product_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
 
+$t->set_var( "site_style", $SiteStyle );
 
 $category = new eZProductCategory(  );
 $category->get( $ParentID );
