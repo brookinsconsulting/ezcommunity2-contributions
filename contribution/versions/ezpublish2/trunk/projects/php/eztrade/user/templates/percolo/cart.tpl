@@ -116,6 +116,14 @@
 
 </form>
 
+<br />
+
+<form action="/trade/productlist/1" method="post">
+<input class="okbutton" type="submit" value="Kjøp flere varer" />
+</form>
+
 </td>
 </tr>
 </table>
+
+
