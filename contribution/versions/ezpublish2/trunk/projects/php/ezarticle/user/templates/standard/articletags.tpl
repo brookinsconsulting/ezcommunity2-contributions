@@ -159,7 +159,7 @@
 <br clear="all" />
 <table width="{table_width}" cellpadding="0" cellspacing="0">
 <tr>
-<td bgcolor="#aaaaaa">
+<td bgcolor="#aaaaaa" valign="top">
 <table width="100%" cellpadding="2" cellspacing="{table_border}">
 <!-- BEGIN tr_tpl -->
 <tr>
