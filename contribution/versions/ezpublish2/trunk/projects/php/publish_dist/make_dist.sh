@@ -27,5 +27,6 @@ done
 
 cd ..
 cd ..
+rm -rf eztrade/
 pwd
 rm make_dist.sh
