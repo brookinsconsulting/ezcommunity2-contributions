@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.37 2001/08/28 16:51:26 jhe Exp $
+// $Id: filelist.php,v 1.38 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -51,11 +51,10 @@ $t->set_block( "file_list_page_tpl", "current_folder_tpl", "current_folder" );
 
 // path
 $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
-
 $t->set_block( "file_list_page_tpl", "write_menu_tpl", "write_menu" );
 $t->set_block( "file_list_page_tpl", "delete_menu_tpl", "delete_menu" );
-
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
+
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
 
 $t->set_block( "file_tpl", "read_tpl", "read" );
@@ -151,7 +150,7 @@ foreach ( $folderList as $folderItem )
 }
 
 
-if( count( $folderList ) > 0 )
+if ( count( $folderList ) > 0 )
 {
     $t->parse( "folder_list", "folder_list_tpl" );
 }
@@ -195,7 +194,7 @@ foreach ( $fileList as $file )
         $t->set_var( "read", "" );
     }
     
-    if( ( $user ) &&
+    if ( ( $user ) &&
         ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) )  ||
         ( eZVirtualFile::isOwner( $user, $file->id() )) )
     {
@@ -221,18 +220,18 @@ else
     $t->set_var( "file_list", "" );
 }
 
-if( $FolderID == 0 && eZPermission::checkPermission( eZUser::currentUser(), "eZFileManager", "WriteToRoot" ) )
+if ( $FolderID == 0 && eZPermission::checkPermission( eZUser::currentUser(), "eZFileManager", "WriteToRoot" ) )
 {
     $t->parse( "write_menu", "write_menu_tpl" );
 }
-elseif ( ( $user ) &&
-         ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ) ||
-         ( eZVirtualFolder::isOwner( eZUser::currentUser(), $FolderID ) ) )
+else if ( ( $user ) &&
+          ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ) ||
+          ( eZVirtualFolder::isOwner( eZUser::currentUser(), $FolderID ) ) )
 {
     $t->parse( "write_menu", "write_menu_tpl" );
 }
 
-if( $deleteFolders || $deleteFiles )
+if ( $deleteFolders || $deleteFiles )
 {
     $t->parse( "delete_menu", "delete_menu_tpl" );
 }

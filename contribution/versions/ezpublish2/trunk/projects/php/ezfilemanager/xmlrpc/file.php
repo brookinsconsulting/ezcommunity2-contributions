@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: file.php,v 1.2 2001/07/19 13:01:02 jakobn Exp $
+// $Id: file.php,v 1.3 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
-if( $Command == "data" ) // return all the data in the category
+if ( $Command == "data" ) // return all the data in the category
 {
     $file = new eZVirtualFile();
     if ( $file->get( $ID ) )
@@ -38,9 +38,9 @@ if( $Command == "data" ) // return all the data in the category
         $readGroups = eZObjectPermission::getGroups( $ID, "filemanager_file", 'r', false );
         $rgp = array();
         $wgp = array();
-        foreach( $readGroups as $group )
+        foreach ( $readGroups as $group )
             $rgp[] = new eZXMLRPCInt( $group );
-        foreach( $writeGroups as $group )
+        foreach ( $writeGroups as $group )
             $wgp[] = new eZXMLRPCInt( $group );
         $originalFileName = $file->originalFileName();
         $filePath = $file->filePath( true );
@@ -111,7 +111,7 @@ else if ( $Command == "storedata" )
         $Error = createErrorMessage( EZERROR_BAD_REQUEST_DATA );
     }
 }
-else if( $Command == "delete" )
+else if ( $Command == "delete" )
 {
     $file = new eZVirtualFile();
     if ( $file->get( $ID ) )

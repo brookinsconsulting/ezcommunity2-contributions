@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.32 2001/08/15 14:37:23 bf Exp $
+// $Id: fileupload.php,v 1.33 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -145,7 +145,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
-    if ( count ( $ReadGroupArrayID ) > 1 )
+    if ( count( $ReadGroupArrayID ) > 1 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
@@ -157,7 +157,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
-    if ( count ( $WriteGroupArrayID ) > 1 )
+    if ( count( $WriteGroupArrayID ) > 1 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
@@ -219,7 +219,7 @@ if ( $Action == "Insert" && $error == false )
     
     $uploadedFile->store();
 
-    if ( count ( $ReadGroupArrayID ) > 0 )
+    if ( count( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
@@ -232,7 +232,7 @@ if ( $Action == "Insert" && $error == false )
         }
     }
 
-    if ( count ( $WriteGroupArrayID ) > 0 )
+    if ( count( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
@@ -271,7 +271,7 @@ if ( $Action == "Update" && $error == false )
     $uploadedFile->store();
 
     eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'r' );    
-    if ( count ( $ReadGroupArrayID ) > 0 )
+    if ( count( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
@@ -285,7 +285,7 @@ if ( $Action == "Update" && $error == false )
     }
 
     eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'w' );
-    if ( count ( $WriteGroupArrayID ) > 0 )
+    if ( count( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
@@ -311,14 +311,14 @@ if ( $Action == "Update" && $error == false )
 if ( $Action == "DeleteFiles" )
 {
     $oldFolder = 0;
-    if ( count ( $FileArrayID ) != 0 )
+    if ( count( $FileArrayID ) != 0 )
     {
-        foreach( $FileArrayID as $ID )
+        foreach ( $FileArrayID as $ID )
         {
             $file = new eZVirtualFile( $ID );
             $oldParent = $file->folder();
 
-            if( $oldParent )
+            if ( $oldParent )
                 $oldFolder = $oldParent->id();
 
             $file->delete();
@@ -334,7 +334,7 @@ if ( $Action == "Delete" )
     $file = new eZVirtualFile( $FileID );
     $oldParent = $file->folder();
     
-    if( $oldParent )
+    if ( $oldParent )
         $oldFolder = $oldParent->id();
 
     $file->delete();
@@ -457,7 +457,7 @@ $folderList = $folder->getTree( );
 
 foreach ( $folderList as $folderItem )
 {
-    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) ||
+    if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) ||
         eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) )
     {
         $t->set_var( "option_name", $folderItem[0]->name() );

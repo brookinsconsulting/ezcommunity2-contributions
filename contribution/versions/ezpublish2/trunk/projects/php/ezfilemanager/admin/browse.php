@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browse.php,v 1.4 2001/08/28 16:07:02 bf Exp $
+// $Id: browse.php,v 1.5 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <29-May-2001 14:58:11 ce>
 //
@@ -144,7 +144,7 @@ foreach ( $folderList as $folderItem )
 }
 
 
-if( count( $folderList ) > 0 )
+if ( count( $folderList ) > 0 )
 {
     $t->parse( "folder_list", "folder_list_tpl" );
 }

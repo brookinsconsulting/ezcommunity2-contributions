@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.26 2001/08/02 13:09:42 jhe Exp $
+// $Id: folderedit.php,v 1.27 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -54,7 +54,7 @@ if ( isSet ( $Cancel ) )
 
     $parent = $folder->parent();
 
-    if( !isSet( $parentID ) )
+    if ( !isSet( $parentID ) )
         $parentID = "0";
     
     if ( $parent )
@@ -201,7 +201,7 @@ if ( $Action == "Insert" && $error == false )
 
     $folder->store();
 
-    if ( count ( $ReadGroupArrayID ) > 0 )
+    if ( count( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
@@ -214,7 +214,7 @@ if ( $Action == "Insert" && $error == false )
         }
     }
 
-    if ( count ( $WriteGroupArrayID ) > 0 )
+    if ( count( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
@@ -246,7 +246,7 @@ if ( $Action == "Update" && $error == false )
     $folder->store();
 
     eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'r' );
-    if ( count ( $ReadGroupArrayID ) > 0 )
+    if ( count( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
@@ -260,7 +260,7 @@ if ( $Action == "Update" && $error == false )
     }
 
     eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'w' );
-    if ( count ( $WriteGroupArrayID ) > 0 )
+    if ( count( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
@@ -280,7 +280,7 @@ if ( $Action == "Update" && $error == false )
 
 if ( $Action == "Delete" && $error == false )
 {
-    if ( count ( $FolderArrayID ) > 0 )
+    if ( count( $FolderArrayID ) > 0 )
     {
         foreach ( $FolderArrayID as $FolderID )
         {
@@ -324,7 +324,7 @@ $folder = new eZVirtualFolder() ;
 
 $folderList = $folder->getTree( );
 
-if ( count ( $folderList ) == 0 )
+if ( count( $folderList ) == 0 )
 {
     $t->set_var( "option_level", "" );
     $t->set_var( "value", "" );
@@ -389,7 +389,7 @@ foreach ( $groups as $group )
 // Print out all the folders.
 foreach ( $folderList as $folderItem )
 {
-    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' )
+    if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' )
         || eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) )
     {
         $t->set_var( "option_name", $folderItem[0]->name() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.11 2001/08/17 13:35:59 jhe Exp $
+// $Id: menubox.php,v 1.12 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <16-Jan-2001 13:23:02 ce>
 //
@@ -49,7 +49,7 @@ $t->set_block( "menu_box_tpl", "user_login_tpl", "user_login" );
 
 $user =& eZUser::currentUser();
 
-if( $user && ( eZObjectPermission::getObjects( "filemanager_folder", 'w', true ) > 0 
+if ( $user && ( eZObjectPermission::getObjects( "filemanager_folder", 'w', true ) > 0 
                || eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) ) )
 {
     $t->parse( "user_login", "user_login_tpl" );

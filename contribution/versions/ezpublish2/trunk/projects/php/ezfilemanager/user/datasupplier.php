@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.16 2001/08/28 16:51:26 jhe Exp $
+// $Id: datasupplier.php,v 1.17 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -90,7 +90,7 @@ switch ( $url_array[2] )
 
     case "folder" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
            
             case "new" :

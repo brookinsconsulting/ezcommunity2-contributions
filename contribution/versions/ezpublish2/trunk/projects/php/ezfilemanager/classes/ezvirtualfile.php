@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.43 2001/08/13 13:50:22 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.44 2001/09/05 11:54:47 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -117,7 +117,7 @@ class eZVirtualfile
             $results[] = $db->query( "DELETE FROM eZFileManager_FilePermission WHERE ObjectID='$this->ID'" );
 
             $commit = true;
-            foreach(  $results as $result )
+            foreach (  $results as $result )
             {
                 if ( $result == false )
                     $commit = false;
@@ -151,7 +151,7 @@ class eZVirtualfile
             {
                 die( "Error: VirtualFile's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $virtualfile_array ) == 1 )
+            else if ( count( $virtualfile_array ) == 1 )
             {
                 $this->ID =& $virtualfile_array[0][$db->fieldName( "ID" )];
                 $this->Name =& $virtualfile_array[0][$db->fieldName( "Name" )];
@@ -252,7 +252,7 @@ class eZVirtualfile
                                         ON File.ID=Link.FileID
                                         WHERE FileID IS NULL" );
 
-        foreach( $fileArray as $file )
+        foreach ( $fileArray as $file )
         {
             $returnArray[] = new eZVirtualFile( $file[$db->fieldName( "ID" )] );
         }
@@ -273,7 +273,7 @@ class eZVirtualfile
     */
     function &name( $html = true )
     {
-        if( $html )
+        if ( $html )
             return htmlspecialchars( $this->Name );
         else
             return $this->Name;
@@ -284,7 +284,7 @@ class eZVirtualfile
     */
     function &description( $html = true )
     {
-        if( $html )
+        if ( $html )
             return htmlspecialchars( $this->Description );
         else
             return $this->Description;
@@ -328,13 +328,13 @@ class eZVirtualfile
      */
     function isOwner( $user, $file )
     {
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
             return false;
         
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
         $userID = $res[$db->fieldName( "UserID" )];
-        if(  $userID == $user->id() )
+        if (  $userID == $user->id() )
             return true;
 
         return false;
@@ -578,7 +578,7 @@ class eZVirtualfile
 
         $db->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
 
-        for ( $i=0; $i < count ( $readPermissions ); $i++ )
+        for ( $i=0; $i < count( $readPermissions ); $i++ )
         {
             if ( $readPermissions[$i][$db->fieldName( "GroupID" )] == 0 )
             {
@@ -586,7 +586,7 @@ class eZVirtualfile
             }
             else
             {
-                if ( count ( $groups ) > 0 )
+                if ( count( $groups ) > 0 )
                 {
                     foreach ( $groups as $group )
                     {
@@ -623,7 +623,7 @@ class eZVirtualfile
        
         $db->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
 
-        for ( $i=0; $i < count ( $writePermissions ); $i++ )
+        for ( $i=0; $i < count( $writePermissions ); $i++ )
         {
             if ( $writePermissions[$i][$db->fieldName( "GroupID" )] == 0 )
             {
@@ -631,7 +631,7 @@ class eZVirtualfile
             }
             else
             {
-                if ( count ( $groups ) > 0 )
+                if ( count( $groups ) > 0 )
                 {
                     foreach ( $groups as $group )
                     {
@@ -708,7 +708,7 @@ class eZVirtualfile
         $db->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
 
       
-        for ( $i=0; $i < count ( $readPermissions ); $i++ )
+        for ( $i=0; $i < count( $readPermissions ); $i++ )
         {
             if ( $readPermissions[$i][$db->fieldName( "GroupID" )] == 0 )
             {
@@ -735,7 +735,7 @@ class eZVirtualfile
         $db->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
 
       
-        for ( $i=0; $i < count ( $writePermissions ); $i++ )
+        for ( $i=0; $i < count( $writePermissions ); $i++ )
         {
             if ( $writePermissions[$i][$db->fieldName( "GroupID" )] == 0 )
             {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.28 2001/08/17 13:35:59 jhe Exp $
+// $Id: ezvirtualfolder.php,v 1.29 2001/09/05 11:54:47 jhe Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -351,7 +351,7 @@ class eZVirtualFolder
     */
     function &name( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Name );
        else
            return $this->Name;
@@ -362,7 +362,7 @@ class eZVirtualFolder
     */
     function &description()
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Description );
        else
            return $this->Description;

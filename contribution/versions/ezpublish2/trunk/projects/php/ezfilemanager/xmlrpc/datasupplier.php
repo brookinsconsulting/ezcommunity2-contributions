@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.2 2001/07/19 13:01:02 jakobn Exp $
+// $Id: datasupplier.php,v 1.3 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,7 +30,7 @@ switch ( $RequestType )
 {
     case "file" :
     {
-        switch( $Command )
+        switch ( $Command )
         {
 //              case "list":
 //              {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.2 2001/07/19 13:01:02 jakobn Exp $
+// $Id: unassigned.php,v 1.3 2001/09/05 11:54:47 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -57,7 +57,7 @@ $t->set_var( "read", "" );
 
 if ( isSet ( $Update ) )
 {
-    for( $i=0; $i < count ( $FileArrayID ); $i++ )
+    for ( $i=0; $i < count( $FileArrayID ); $i++ )
     {
         if ( ( $FolderArrayID[$i] != "-1" ) && ( is_numeric( $FolderArrayID[$i] ) ) )
         {
@@ -71,7 +71,7 @@ if ( isSet ( $Update ) )
 // Print out the files.
 $fileList =& eZVirtualFile::getUnAssigned();
 // $fileCount =& eZFileManager::countUnAssigned();
-if ( count ( $fileList ) > 0 )
+if ( count( $fileList ) > 0 )
 {
     foreach ( $fileList as $file )
     {
@@ -105,7 +105,7 @@ $folderList =& $folder->getTree( );
 // Make a folder list
 foreach ( $folderList as $folderItem )
 {
-    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "imagecatalogue_category", 'w' )
+    if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "imagecatalogue_category", 'w' )
         || eZImageCategory::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) )
     {
         $t->set_var( "option_name", $folderItem[0]->name() );
