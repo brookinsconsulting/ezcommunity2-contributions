@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sectionedit.php,v 1.3 2001/06/27 13:28:56 jhe Exp $
+// $Id: sectionedit.php,v 1.4 2001/07/05 14:16:33 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <10-May-2001 16:17:29 ce>
@@ -76,6 +76,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
         $section = new eZSection( $SectionID);
     else
         $section = new eZSection();
+
     $section->setName( $Name );
     $section->setSiteDesign( $SiteDesign );
     $section->setDescription( $Description );

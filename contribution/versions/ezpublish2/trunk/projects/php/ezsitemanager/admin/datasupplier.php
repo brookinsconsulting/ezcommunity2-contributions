@@ -19,6 +19,12 @@ switch ( $url_array[2] )
         include( "ezsitemanager/admin/sqlquery.php" );
     }
     break;
+
+    case "cache":
+    {
+        include( "ezsitemanager/admin/cacheadmin.php" );
+    }
+    break;
     
     case "section":
     {
