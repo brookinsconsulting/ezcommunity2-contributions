@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.17 2001/09/06 10:46:11 jb Exp $
+// $Id: categorylist.php,v 1.18 2001/09/24 12:36:50 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -77,7 +77,7 @@ if ( $Command == "list" )
         $total += $categoryCount;
         if ( $loc_offset < $categoryCount )
         {
-            $categoryList =& $category->getByParent( $category, true, "placement", $loc_offset, $loc_max );
+            $categoryList =& $category->getByParent( $category, true, "placement", $loc_offset, $loc_max, $User );
             $loc_max -= count( $categoryList );
 
             foreach ( $categoryList as $catItem )
