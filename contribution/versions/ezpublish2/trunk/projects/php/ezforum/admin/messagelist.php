@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: messagelist.php,v 1.5 2000/10/20 13:31:31 ce-cvs Exp $
+  $Id: messagelist.php,v 1.6 2000/10/20 15:30:07 ce-cvs Exp $
 
   Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,6 +21,8 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
+
+require( "ezuser/admin/admincheck.php" );
 
 $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/admin/" . "/intl", $Language, "messagelist.php" );

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.10 2000/10/17 14:19:16 ce-cvs Exp $
+    $Id: categorylist.php,v 1.11 2000/10/20 15:30:07 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -19,6 +19,8 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
+
+require( "ezuser/admin/admincheck.php" );
   
 $cat = new eZForumCategory();
 

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumlist.php,v 1.4 2000/10/17 14:19:16 ce-cvs Exp $
+    $Id: forumlist.php,v 1.5 2000/10/20 15:30:07 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -17,6 +17,8 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
+
+require( "ezuser/admin/admincheck.php" );
 
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
 $DOC_ROOT . "/admin/" . "/intl", $Language, "forumlist.php" );
