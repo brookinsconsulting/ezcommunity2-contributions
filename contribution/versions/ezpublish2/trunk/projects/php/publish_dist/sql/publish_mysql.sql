@@ -58,7 +58,7 @@ CREATE TABLE eZAddress_Address (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0);
+INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0,'Default address');
 
 CREATE TABLE eZAddress_AddressDefinition (
   UserID int(11) DEFAULT '0' NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE eZAddress_AddressType (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_AddressType VALUES (1,'Post adresse',1,0);
+INSERT INTO eZAddress_AddressType VALUES (1,'Home address',1,0);
 
 CREATE TABLE eZAddress_Country (
   ID int(11) NOT NULL,
@@ -360,7 +360,7 @@ CREATE TABLE eZAddress_PhoneType (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_PhoneType VALUES (1,'Telefon',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (1,'Phone',1,0);
 
 
 CREATE TABLE eZArticle_Article (

@@ -36,8 +36,6 @@
 #
 # Dumping data for table 'eZAddress_AddressType'
 #
-
-INSERT INTO eZAddress_AddressType VALUES (1,'Work',1,0);
 INSERT INTO eZAddress_AddressType VALUES (2,'Home',2,0);
 
 #
@@ -63,7 +61,6 @@ INSERT INTO eZAddress_AddressType VALUES (2,'Home',2,0);
 # Dumping data for table 'eZAddress_PhoneType'
 #
 
-INSERT INTO eZAddress_PhoneType VALUES (1,'Work',1,0);
 INSERT INTO eZAddress_PhoneType VALUES (2,'Home',2,0);
 
 #
@@ -751,7 +748,7 @@ INSERT INTO eZFileManager_FilePermission VALUES (1,1,-1,1,1);
 # Dumping data for table 'eZFileManager_Folder'
 #
 
-INSERT INTO eZFileManager_Folder VALUES (1,'FIle archive','FIles for the people!',0,1,1,1);
+INSERT INTO eZFileManager_Folder VALUES (1,'FIle archive','FIles for the people!',0,1,1,1,1);
 
 #
 # Dumping data for table 'eZFileManager_FolderPermission'
@@ -1264,8 +1261,8 @@ INSERT INTO eZPoll_Vote VALUES (1,1,4,'10.0.2.3',0);
 # Dumping data for table 'eZTodo_Category'
 #
 
-INSERT INTO eZTodo_Category VALUES (NULL,1,'Private stuff');
-INSERT INTO eZTodo_Category VALUES (NULL,2,'Work');
+INSERT INTO eZTodo_Category VALUES (1,'','Private stuff');
+INSERT INTO eZTodo_Category VALUES (2,'','Work');
 
 #
 # Dumping data for table 'eZTodo_Log'
@@ -1625,3 +1622,9 @@ INSERT INTO eZUser_Author VALUES (1,'Ola Normann','ola@norge.no');
 # Dumping data for table 'eZUser_UserGroupLink'
 #
 
+INSERT INTO eZSiteManager_SectionFrontPageRow VALUES (1,2,0,0);
+INSERT INTO eZSiteManager_SectionFrontPageRow VALUES (2,1,1,1);
+
+
+INSERT INTO eZSiteManager_SectionFrontPageRowLink VALUES (1,1,1);
+INSERT INTO eZSiteManager_SectionFrontPageRowLink VALUES (2,2,1);
