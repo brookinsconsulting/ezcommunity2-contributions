@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.12 2001/09/06 10:02:12 jb Exp $
+// $Id: image.php,v 1.13 2001/09/17 15:19:43 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -82,7 +82,8 @@ if( $Command == "data" ) // Dump image info!
                     "WriteGroups" => new eZXMLRPCArray( $wgp ),
                     "Categories" => new eZXMLRPCArray( $image->categories(), "integer" ),
                     "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
-                    "Size" => createSizeStruct( $variation->width(), $variation->height() )
+                    "Size" => createSizeStruct( $variation->width(), $variation->height() ),
+                    "RequestSize" => createSizeStruct( $width, $height )
                     );
                 $ReturnData = new eZXMLRPCStruct( $ret );
             }
