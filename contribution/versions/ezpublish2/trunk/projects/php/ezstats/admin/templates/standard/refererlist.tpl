@@ -1,4 +1,17 @@
-<h1>{intl-referer_list}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h1>{intl-referer_list}</h1>
+	</td>
+	<td align="right">
+	<form action="/stats/refererlist/{view_mode}/{view_limit}" method="post">
+	{intl-exclude_domain}:
+	<input type="text" value="" name="ExcludeDomain" />
+	<input type="submit" value="{intl-ok}" />
+	</form>
+	</td>
+</tr>
+</table>
 
 <hr noshade size="4" />
 

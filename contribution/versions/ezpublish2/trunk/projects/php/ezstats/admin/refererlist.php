@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: refererlist.php,v 1.1 2001/01/07 16:50:10 bf Exp $
+// $Id: refererlist.php,v 1.2 2001/01/07 17:44:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:13:21 bf>
@@ -48,7 +48,8 @@ $t->set_block( "referer_list_tpl", "referer_tpl", "referer" );
 
 $query = new eZPageViewQuery();
 
-$latest =& $query->topReferers( $ViewLimit );
+$latest =& $query->topReferers( $ViewLimit, $ExcludeDomain );
+
 
 if ( count( $latest ) > 0 )
 {
@@ -68,6 +69,9 @@ else
 {
     $t->set_var( "referer_list", "" );
 }
+
+$t->set_var( "view_mode", $ViewMode );
+$t->set_var( "view_limit", $ViewLimit );
 
 
 

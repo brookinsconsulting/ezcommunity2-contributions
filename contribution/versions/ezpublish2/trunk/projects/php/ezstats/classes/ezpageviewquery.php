@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.3 2001/01/07 16:50:10 bf Exp $
+// $Id: ezpageviewquery.php,v 1.4 2001/01/07 17:44:48 bf Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -186,7 +186,7 @@ class eZPageViewQuery
       The files are returned as an assiciative array of
       array( ID => $id, Domain => $domain, URI => $uri, Count => $count ).
     */
-    function &topReferers( $limit=20 )
+    function &topReferers( $limit=20, $excludeDomain="" )
     {
         $this->dbInit();
 
@@ -195,7 +195,8 @@ class eZPageViewQuery
         
         $this->Database->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RefererURL.ID, eZStats_RefererURL.Domain, eZStats_RefererURL.URI
-         FROM eZStats_PageView, eZStats_RefererURL WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID
+         FROM eZStats_PageView, eZStats_RefererURL
+         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID AND eZStats_RefererURL.Domain != '$excludeDomain'
          GROUP BY eZStats_RefererURL.ID
          ORDER BY Count DESC
          LIMIT 0,$limit" );
