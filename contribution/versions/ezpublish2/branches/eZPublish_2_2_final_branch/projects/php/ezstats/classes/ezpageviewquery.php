@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.8 2003/01/07 14:26:43 br Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.9 2004/07/08 16:15:25 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -38,6 +38,7 @@ include_once( "classes/ezdb.php" );
 include_once( "classes/ezquery.php" );
 include_once( "classes/ezdate.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezstats/classes/ezpageview.php" );
 
 class eZPageViewQuery
 {
@@ -232,8 +233,8 @@ class eZPageViewQuery
         for ( $i=0; $i < count($visitor_array); $i++ )
         {
             $id = $visitor_array[$i][$db->fieldName( "ID" )];
-            $ip = $visitor_array[$i][$db->fieldName( "IP" )];
-            $hostName = $visitor_array[$i][$db->fieldName( "HostName" )];
+            $ip = (string)$visitor_array[$i][$db->fieldName( "IP" )];
+            $hostName = (string)$visitor_array[$i][$db->fieldName( "HostName" )];
             $count = $visitor_array[$i][$db->fieldName( "Count" )];
 
             // check if the domain name is fetched, if not try to fetch it 
@@ -243,7 +244,8 @@ class eZPageViewQuery
                 $db->begin();
                 if ( $ip )
                 {
-                    $hostName =& gethostbyaddr( $ip );
+                    $sendIP = $ip;
+                    $hostName =& eZPageView::getHostByAddr( $sendIP );
                     $result = $db->query( "UPDATE eZStats_Archive_RemoteHost SET HostName='$hostName'
                                          WHERE ID='$id'" );
                     if ( $result == false )
@@ -256,11 +258,10 @@ class eZPageViewQuery
                     $hostName = "";
                 }
             }
-            
-            $return_array[$i] = array( "ID" => $id,
-                                       "IP" => $ip,
-                                       "HostName" => $hostName,
-                                       "Count" => $count );
+            $return_array[] = array( "ID" => (int)$id,
+                                       "IP" => (string)$ip,
+                                       "HostName" => (string)$hostName,
+                                       "Count" => (int)$count );
         }
         return $return_array;
     }
@@ -627,9 +628,12 @@ class eZPageViewQuery
         // loop over the days
         for ( $hour = 0; $hour <= 23; ++$hour )
         {
-            $stamp = new eZDateTime( $year, $month, $day, $hour, 0, 0 );
+            $stampStart = new eZDateTime( $year, $month, $day, $hour, 0, 0 );
+            $stampEnd = new eZDateTime( $year, $month, $day, $hour, 59, 59 );
             $db->array_query( $visitor_array,
-            "SELECT Count FROM eZStats_Archive_PageView WHERE Hour='" . $stamp->timeStamp() . "'" );
+            "SELECT Count FROM eZStats_Archive_PageView WHERE
+                               Hour>='" . $stampStart->timeStamp() . "' AND
+                               Hour<='" . $stampEnd->timeStamp()  . "'" );
 
             $TotalPages += $visitor_array[0][$db->fieldName( "Count" )];
             $hour_array[] = array( "Count" => $visitor_array[0][$db->fieldName( "Count" )] );
