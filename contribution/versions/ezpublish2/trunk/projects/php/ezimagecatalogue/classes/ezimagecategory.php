@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.13 2001/05/04 16:37:25 descala Exp $
+// $Id: ezimagecategory.php,v 1.14 2001/05/05 11:04:48 bf Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -738,5 +738,3 @@ class eZImageCategory
 }
 
 ?>
-
- 

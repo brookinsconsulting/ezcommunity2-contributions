@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.46 2001/05/04 16:37:24 descala Exp $
+// $Id: ezimage.php,v 1.47 2001/05/05 11:04:48 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -1189,4 +1189,3 @@ class eZImage
 }
 
 ?>
- 

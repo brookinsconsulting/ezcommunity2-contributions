@@ -1,2 +1,0 @@
-print( "wrong file" );
-exit();
