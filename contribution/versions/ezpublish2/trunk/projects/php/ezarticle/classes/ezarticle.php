@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.62 2001/04/07 13:54:19 bf Exp $
+// $Id: ezarticle.php,v 1.63 2001/04/09 11:58:22 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -124,7 +124,7 @@ class eZArticle
                                  Contents='$contents',
                                  AuthorText='$authortext',
                                  AuthorID='$this->AuthorID',
-                                 LinkText='$linktest',
+                                 LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
@@ -148,7 +148,7 @@ class eZArticle
 		                         Name='$name',
                                  Contents='$contents',
                                  AuthorText='$authortext',
-                                 LinkText='$linktest',
+                                 LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',

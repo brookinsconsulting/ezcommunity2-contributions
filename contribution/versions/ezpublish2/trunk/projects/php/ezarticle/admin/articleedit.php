@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.64 2001/04/07 15:11:59 bf Exp $
+// $Id: articleedit.php,v 1.65 2001/04/09 11:58:22 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -621,6 +621,8 @@ if ( $Action == "Edit" )
     
     $t->set_var( "author_text", $article->authorText() );
     $t->set_var( "link_text", $article->linkText() );
+
+    print( $article->linkText() );
     
     $t->set_var( "action_value", "update" );
 
@@ -655,8 +657,8 @@ $categoryArray = $category->getAll( );
 
 
 $tree = new eZArticleCategory();
-$treeArray = $tree->getTree();
-$user = eZUser::currentUser();
+$treeArray =& $tree->getTree();
+$user =& eZUser::currentUser();
 
 foreach ( $treeArray as $catItem )
 {
