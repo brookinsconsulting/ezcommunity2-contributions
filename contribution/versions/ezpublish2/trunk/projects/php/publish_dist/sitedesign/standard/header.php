@@ -36,6 +36,11 @@ if ( $StoreStats == "enabled" )
 	?>      
 
 	<?
+    $CategoryID = 1;
+	include( "eznewsfeed/user/headlines.php" );
+	?>      
+
+	<?
 //	include( "ezmail/user/menubox.php" );
 	?>
 	
