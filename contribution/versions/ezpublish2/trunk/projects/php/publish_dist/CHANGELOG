@@ -3,6 +3,9 @@ eZ publish changelog:
 
 Changes from 2.1 to
 -----------------
+* Added cache control in site manager ( possibility to clear cache )
+* Added site.ini editing under site manager
+* Added custom php/html file upload/edit in sistemanager
 * Added possibility to override sender info when sending bulkmails with settings in site.ini
 * Added mail to friend script
 * Added time publising on eZ article
