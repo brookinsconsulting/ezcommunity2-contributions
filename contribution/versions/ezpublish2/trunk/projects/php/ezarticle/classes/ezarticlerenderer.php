@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.10 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezarticlerenderer.php,v 1.11 2001/08/09 14:30:55 bf Exp $
 //
 // Definition of eZArticleRenderer class
 //
@@ -35,6 +35,7 @@ class eZArticleRenderer
 {
     function eZArticleRenderer(  &$article )
     {
+        $this->Generator = false;
         $this->Article =& $article;
 
         $contents =& $this->Article->contents();
@@ -101,12 +102,10 @@ class eZArticleRenderer
     */
     function &renderIntro( )
     {
-        include_once( "ezarticle/classes/" . $this->RendererFile );
-
-        $generator = new $this->RendererClass( $this->Article );
-              
+        $generator =& $this->generator();
+        
         return $generator->renderIntro();
-    }
+    }    
 
     /*!
       Returns a specific page of a article. If no argument is given or
@@ -116,14 +115,40 @@ class eZArticleRenderer
     */
     function &renderPage( $page=0 )
     {
-        include_once( "ezarticle/classes/" . $this->RendererFile );
-
-        $generator = new $this->RendererClass( $this->Article );
-
+        $generator =& $this->generator();
 //        print( "Using renderer: " . $this->RendererClass . "<br>");
               
         return $generator->renderPage( $page );
     }
+
+    /*!
+      Returns the list of images used in the article.
+    */
+    function usedImageList()
+    {
+        $generator =& $this->generator();
+
+        return $generator->usedImageList();
+    }
+
+    /*!
+      \private
+      Private function to return the generator class.
+    */
+    function &generator()
+    {
+        if ( $this->Generator == false )
+        {
+            include_once( "ezarticle/classes/" . $this->RendererFile );
+            $this->Generator = new $this->RendererClass( $this->Article );
+        }
+
+        return $this->Generator;
+    }
+
+
+    /// varable to store the generator object
+    var $Generator;    
     
     var $RendererClass;
     var $RendererFile;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.26 2001/08/09 10:56:08 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.27 2001/08/09 14:30:55 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -145,6 +145,8 @@ class eZQDomrenderer
     */
     function eZQDomrenderer( &$article )
     {
+        $UsedImageList = array();
+        
         $ini =& INIFile::globalINI();
 
         $this->Template = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
@@ -173,10 +175,10 @@ class eZQDomrenderer
 
         $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
         
-	$this->Template->set_block( "articletags_tpl", "hr_tpl", "hr"  );
+        $this->Template->set_block( "articletags_tpl", "hr_tpl", "hr"  );
         
 	
-	$this->Template->set_block( "articletags_tpl", "tstart_tpl", "tstart"  );
+        $this->Template->set_block( "articletags_tpl", "tstart_tpl", "tstart"  );
         $this->Template->set_block( "articletags_tpl", "telem_tpl", "telem"  );
         $this->Template->set_block( "articletags_tpl", "trow_tpl", "trow"  );
         $this->Template->set_block( "articletags_tpl", "tend_tpl", "tend"  );
@@ -464,6 +466,9 @@ class eZQDomrenderer
             {
                 $ini =& INIFile::globalINI();
 
+                // store the relative ID to the image
+                $this->UsedImageList[] = $imageID;
+                
                 switch ( $imageSize )
                 {
                     case "small" :
@@ -912,6 +917,14 @@ class eZQDomrenderer
         return $pageContent;
     }
 
+    /*!
+      Returns the relative ID to the images used ( rendered ) in this article
+    */
+    function usedImageList()
+    {
+        return $this->UsedImageList;
+    }
+    
     
     function &renderHr( $paragraph )
     {
@@ -952,6 +965,7 @@ class eZQDomrenderer
     }
     
 
+    var $UsedImageList;
     var $Article;
     var $PrevTag;
     var $Template;
