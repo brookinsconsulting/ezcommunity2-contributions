@@ -1,16 +1,4 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td valign="bottom">
-	<h1>{intl-head_line} - {current_category_name}</h1>
-	</td>
-	<td align="right">
-	<form action="/article/search/" method="post">
-	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
-	</form>	
-	</td>
-</tr>
-</table>
+<h1>{current_category_name}</h1>
 
 
 
@@ -20,15 +8,10 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
-<a class="path" href="/article/archive/0/">{intl-top_level}</a>
-
 <!-- BEGIN path_item_tpl -->
-<img src="/ezarticle/user/images/standard/path-slash.gif" height="10" width="20" border="0" alt="">
-<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
+
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
 
 
 <!-- BEGIN category_list_tpl -->
