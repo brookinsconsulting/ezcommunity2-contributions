@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.19 2002/01/25 13:23:13 jhe Exp $
+// $Id: ezformreportelement.php,v 1.20 2002/01/28 19:28:22 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -274,6 +274,11 @@ class eZFormReportElement
                 return $this->statMin25Median75Max( &$template, $resultString );
             }
             break;
+
+            case "List":
+            {
+                return $this->statList( &$template, $resultString );
+            }
         }
     }
 
@@ -626,6 +631,50 @@ class eZFormReportElement
         return $output;
         
     }
+
+    function statList( &$t, $resultString )
+    {
+        $t->set_var( "list", "" );
+        $t->set_var( "list_row", "" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $element = $this->element();
+        $reference = $this->reference();
+        $db->array_query( $res, "SELECT Result, ResultID, ElementID FROM eZForm_FormElementResult
+                                 WHERE (eZForm_FormElementResult.ElementID='" . $element->id() . "' OR
+                                 eZForm_FormElementResult.ElementID='" . $reference->id() . "')
+                                 $resultString
+                                 ORDER BY ResultID" );
+
+        for ( $i = 0; $i < count( $res ); $i++ )
+        {
+            if ( $res[$i]["ElementID"] != $res[$i + 1]["ElementID"] &&
+                 $res[$i]["ResultID"] == $res[$i]["ResultID"] )
+            {
+                if ( $res[$i]["ElementID"] == $element->id() )
+                {
+                    $t->set_var( "element_value", $res[$i]["Result"] );
+                }
+                else
+                {
+                    $t->set_var( "header_value", $res[$i]["Result"] );
+                }
+
+                if ( $res[$i + 1]["ElementID"] == $element->id() )
+                {
+                    $t->set_var( "element_value", $res[$i + 1]["Result"] );
+                }
+                else
+                {
+                    $t->set_var( "header_value", $res[$i + 1]["Result"] );
+                }
+                $t->parse( "list_row", "list_row_tpl", true );
+                $i++;
+            }
+        }
+        $output = $t->parse( $target, "list_tpl" );
+        return $output;
+    }
     
     function types( $no = -1 )
     {
@@ -643,7 +692,8 @@ class eZFormReportElement
             array( "Name" => "75percentile", "Description" => "intl-75percentile" ),
             array( "Name" => "Cross-reference", "Description" => "intl-cross_reference" ),
             array( "Name" => "Graph", "Description" => "intl-graphical_representation" ),
-            array( "Name" => "Min25Median75Max", "Description" => "intl-min25median75max" )
+            array( "Name" => "Min25Median75Max", "Description" => "intl-min25median75max" ),
+            array( "Name" => "List", "Description" => "intl-list" )
             );
         
         if ( $no > -1 )

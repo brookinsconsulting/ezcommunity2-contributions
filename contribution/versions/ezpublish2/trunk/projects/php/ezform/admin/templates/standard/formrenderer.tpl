@@ -250,3 +250,14 @@
 <!-- BEGIN min25median75max_tpl -->
 {min} - {25} - {median} - {75} - {max}
 <!-- END min25median75max_tpl -->
+
+<!-- BEGIN list_tpl -->
+<table cellspacing="0" cellpadding="0" width="100%">
+<!-- BEGIN list_row_tpl -->
+<tr>
+<td class="boxtext">{header_value}</td>
+<td>{element_value}</td>
+</tr>
+<!-- END list_row_tpl -->
+</table>
+<!-- END list_tpl -->

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: formedit.php,v 1.2 2002/01/17 09:38:52 jhe Exp $
+// $Id: formedit.php,v 1.3 2002/01/28 19:28:22 jhe Exp $
 //
 // Created on: <15-Jan-2002 11:30:20 jhe>
 //
@@ -52,7 +52,7 @@ if ( $user && $user->hasRootAccess() )
 
         $form = new eZForm( $FormID );
         $render = new eZFormRenderer( $form );
-        $output = $render->renderResult( $ResultID, false );
+        $output = $render->renderResult( $ResultID, false, false, false, false, false, $count );
         $t->set_var( "form", $output );
         $t->pparse( "output", "form_edit_tpl" );
     }

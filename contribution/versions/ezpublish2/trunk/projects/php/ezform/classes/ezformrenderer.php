@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.66 2002/01/28 13:04:52 jhe Exp $
+// $Id: ezformrenderer.php,v 1.67 2002/01/28 19:28:22 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -93,6 +93,8 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "cross_table_tpl", "cross_table" );
         $this->Template->set_block( "form_renderer_page_tpl", "graph_table_tpl", "graph_table" );
         $this->Template->set_block( "form_renderer_page_tpl", "min25median75max_tpl", "min25median75max" );
+        $this->Template->set_block( "form_renderer_page_tpl", "list_tpl", "list" );
+        $this->Template->set_block( "list_tpl", "list_row_tpl", "list_row" );
         $this->Template->set_block( "graph_table_tpl", "graph_row_tpl", "graph_row" );
         $this->Template->set_block( "graph_row_tpl", "graph_cell_tpl", "graph_cell" );
         $this->Template->set_block( "graph_cell_tpl", "bar_tpl", "bar" );
@@ -137,6 +139,7 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
         $this->Template->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
 
+        $this->Template->set_var( "list", "" );
         $this->Template->set_var( "min25median75max", "" );
         $this->Template->set_var( "graph_table", "" );
         $this->Template->set_var( "cross_table", "" );
@@ -376,15 +379,9 @@ class eZFormRenderer
         return $output;
     }
 
-    /*!
-      Renders form for viewing of results
-    */
-    function &renderResult( $resultID, $result = true, $report = false, $elementID = false, $operator = false, $searchString = false, &$result_count )
+    function getResults( $elementID, $operator, $searchString )
     {
         $db =& eZDB::globalDatabase();
-
-        $elements = $this->Form->formElements();
-
         $resultArray = false;
         if ( $elementID )
         {
@@ -449,9 +446,22 @@ class eZFormRenderer
             {
                 $resultArray[] = $q[$db->fieldName( "ResultID" )];
             }
-            
-            $result_count = count( $qa );
+
+            return $resultArray;
         }
+    }
+    
+    /*!
+      Renders form for viewing of results
+    */
+    function &renderResult( $resultID, $result = true, $report = false, $elementID = false, $operator = false, $searchString = false, &$result_count )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $elements = $this->Form->formElements();
+
+        $resultArray = $this->getResults( $elementID, $operator, $searchString );
+        $result_count = count( $resultArray );
         
         $elementCounter = 0;
         

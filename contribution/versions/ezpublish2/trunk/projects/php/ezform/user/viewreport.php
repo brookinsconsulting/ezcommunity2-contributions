@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewreport.php,v 1.5 2002/01/28 09:45:31 jhe Exp $
+// $Id: viewreport.php,v 1.6 2002/01/28 19:28:22 jhe Exp $
 //
 // Created on: <21-Jan-2002 09:40:52 jhe>
 //
@@ -113,13 +113,57 @@ $renderer =& new eZFormRenderer( $form );
 $t->set_var( "form_name", $form->name() );
 
 if ( isSet( $Search ) )
+{
     $output = $renderer->renderResult( $ReportID, true, true, $ElementID, $Operator, $SearchText, $result_count );
+}
 else
 {
     $output = $renderer->renderResult( $ReportID, true, true, false, false, false, $result_count );
     $result_count = count( eZFormElement::getAllResults( true, eZForm::getAllFormElements( $form->id() ) ) );
-
 }
+
+// Begin GRUK hack...
+$results = $renderer->getResults( $ElementID, $Operator, $SearchText );
+if ( !$results )
+    $results = array();
+$i = 0;
+foreach ( $results as $res )
+{
+    if ( $i == 0 )
+        $resString = "AND (";
+    else
+        $resString .= "OR ";
+    $resString .= "ResultID = $res ";
+    $i++;
+    if ( $i == count( $results ) )
+        $resString .= ")";
+}
+
+$db =& eZDB::globalDatabase();
+$res = array();
+$db->array_query( $res, "SELECT REPLACE(TRIM(Result), CHAR(160), '')+0 AS Results FROM eZForm_FormElementResult
+                         WHERE ElementID >= 459 AND ElementID <= 483 AND Result != '' $resString
+                         GROUP BY REPLACE(TRIM(Result), CHAR(160), '')" );
+$t->set_var( "gruk_antall_kommuner", count( $res ) );
+
+$i = 0;
+foreach ( $res as $r )
+{
+    if ( $i == 0 )
+        $whereStr = "AND (";
+    else
+        $whereStr .= "OR ";
+    $whereStr .= "ResultID LIKE '" . $r[$db->fieldName( "Results" )] . "%' ";
+    $i++;
+    if ( $i == count( $res ) )
+        $whereStr .= ")";
+}
+$db->query_single( $res, "SELECT COUNT(ID) AS Count FROM eZForm_FormElementResult
+                          WHERE ElementID = 102 $whereStr" );
+
+$t->set_var( "gruk_rapporterte_kommuner", $res[$db->fieldName( "Count" )] );
+// End GRUK hack...
+
 
 $t->set_var( "result_count", $result_count );
 $t->set_var( "form", $output );

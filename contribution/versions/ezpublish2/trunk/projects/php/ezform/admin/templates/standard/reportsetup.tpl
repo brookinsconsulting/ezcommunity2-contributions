@@ -11,6 +11,7 @@
 	<th>&nbsp;</th>
         <th>{intl-statistics_type}:</th>
 	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 <!-- BEGIN form_element_tpl -->
 <tr>
    <td class="{td_class}">{element_name}</td>
@@ -38,6 +39,15 @@
 <!-- BEGIN override_text_tpl -->
    <a href="{www_dir}{index}/form/report/setup/text/{report_id}/{table_id}/{element_id}/">{intl-override_text}</a>
 <!-- END override_text_tpl -->
+   </td>
+   <td class="{td_class}">
+<!-- BEGIN header_tpl -->
+   <select name="Header{element_id}">
+<!-- BEGIN element_item_tpl -->
+   <option value="{header_id}" {header_selected}>{header_name}</option>
+<!-- END element_item_tpl -->
+   </select>
+<!-- END header_tpl -->
    </td>
 </tr>
 <!-- END form_element_tpl -->

@@ -32,6 +32,8 @@
 
 <hr noshade="noshade" size="4" />
 
+<!-- {gruk_rapporterte_kommuner} av {gruk_antall_kommuner} kommuner har svart<br /> -->
+
 {form}
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

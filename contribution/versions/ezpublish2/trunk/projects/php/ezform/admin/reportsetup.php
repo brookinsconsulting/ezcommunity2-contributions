@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.8 2002/01/28 09:45:30 jhe Exp $
+// $Id: reportsetup.php,v 1.9 2002/01/28 19:28:22 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -60,6 +60,12 @@ if ( $Action == "store" )
             if ( isSet( $$value ) )
                 $repElement->setReference( $$value );
         }
+        if ( $types[$$value]["Name"] == "List" )
+        {
+            $value = "Header" . $element->id();
+            if ( isSet( $$value ) )
+                $repElement->setReference( $$value );
+        }
         $repElement->store();
     }
 
@@ -91,9 +97,12 @@ $t->set_block( "report_setup_tpl", "form_element_tpl", "form_element" );
 $t->set_block( "form_element_tpl", "statistics_type_tpl", "statistics_type" );
 $t->set_block( "form_element_tpl", "table_item_tpl", "table_item" );
 $t->set_block( "form_element_tpl", "override_text_tpl", "override_text" );
+$t->set_block( "form_element_tpl", "header_tpl", "header" );
+$t->set_block( "header_tpl", "element_item_tpl", "element_item" );
 $t->set_block( "form_element_tpl", "cross_reference_tpl", "cross_reference" );
 $t->set_block( "cross_reference_tpl", "cross_reference_item_tpl", "cross_reference_item" );
 
+$t->set_var( "header" );
 $t->set_var( "form_element", "" );
 $t->set_var( "override_text", "" );
 $t->set_var( "cross_reference", "" );
@@ -102,6 +111,36 @@ $t->set_var( "report_id", $ReportID );
 $t->set_var( "table_id", $TableID );
 
 $i = 0;
+
+
+$elementsArray = $form->formElements();
+
+$elementList = array();
+foreach ( $elementsArray as $element )
+{
+    $eType = $element->elementType();
+    if ( $eType->name() == "table_item" )
+    {
+        $table = new eZFormTable( $element->id() );
+        $tableElements = $table->tableElements();
+        foreach ( $tableElements as $te )
+        {
+            $eT = $element->elementType();
+            $elementList[] = $te;
+        }
+    }
+    else
+    {
+        if ( !( $eType->name() == "text_label_item" ||
+                $eType->name() == "text_header_1_item" ||
+                $eType->name() == "text_header_2_item" ||
+                $eType->name() == "hr_line_item" ||
+                $eType->name() == "empty_item" ) )
+        {
+            $elementList[] = $element;
+        }
+    }
+}
 
 $statTypes = eZFormReportElement::types();
 
@@ -123,6 +162,27 @@ foreach ( $elements as $element )
     else
         $t->set_var( "override_text", "" );
 
+    $t->set_var( "header", "" );
+    if ( $repElement->statisticsType( false ) == "List" )
+    {
+        $t->set_var( "element_item", "" );
+        foreach ( $elementList as $ele )
+        {
+            $t->set_var( "header_id", $ele->id() );
+            if ( strlen( $ele->name() ) > 40 )
+                $t->set_var( "header_name", substr( $ele->name(), 0, 40 ) . "..." );
+            else
+                $t->set_var( "header_name", $ele->name() );
+            
+            if ( $ele->id() == $repElement->reference( false ) )
+                $t->set_var( "header_selected", "selected" );
+            else
+                $t->set_var( "header_selected", "" );
+            $t->parse( "element_item", "element_item_tpl", true );
+        }
+        $t->parse( "header", "header_tpl" );
+    }
+    
     $t->set_var( "statistics_type", "" );
     for ( $stat = 0; $stat < count( $statTypes ); $stat++ )
     {
