@@ -23,6 +23,7 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 $server = new eZXMLRPCServer( );
 
 $server->registerFunction( "insert", array( new eZXMLRPCStruct() ) );
+$server->registerFunction( "assignToCategoies" );
 
 $server->processRequest();
 
@@ -75,12 +76,12 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
 
         addProductToGroup( $productCategory, $product );
 
-        // 
-        if ( $categoryCreated )
-        {
-            addProductToGroup( $parent, $product );
+//          // 
+//          if ( $categoryCreated )
+//          {
+//              addProductToGroup( $parent, $product );
 
-        }
+//          }
 
         // Add the product to the material groups
         $matCategoryArray = array();
@@ -879,6 +880,51 @@ function insert( $args )
     
     return new eZXMLRPCInt( $productID );
 }
+
+function assignToCategoies( )
+{
+    $db =& eZDB::globalDatabase();
+    $category = new eZProductCategory();
+   
+    $categories = $category->getTree();
+    foreach ( $categories as $categoryItem )
+    {
+        $level = $categoryItem[1];
+        if ( $level == 2 )
+        {
+            $category = new eZProductCategory( $categoryItem[0]->id() );
+            $categoryChildrens = $category->getByParent( $categoryItem[0] );
+            $products = $category->products();
+            if ( count ( $categoryChildrens ) > 0 )
+            {
+                foreach ( $categoryChildrens as $categoryChildren )
+                {
+                    $categoryID = $categoryChildren->id();
+                    $createProduct = true;
+                    if ( count ( $products ) > 0 )
+                    {
+                        $createProduct = false;
+                        foreach ( $products as $product )
+                        {
+                            $productID = $product->id();
+                            $db->array_query( $checkArray, "SELECT ProductID FROM eZTrade_ProductCategoryLink WHERE ProductID='$productID' AND CategoryID='$categoryID'" );
+                            if ( count ( $checkArray ) == 0 )
+                                $createProduct = true;
+                        }
+                    }
+                    if ( $createProduct )
+                    {
+                        $products = $categoryChildren->products();
+                        $category->addProduct( $products[0] );
+                    }
+                }
+            }
+        }
+    }
+    return new eZXMLRPCInt( $categoryID );
+}
+
+
 
 ?>
 

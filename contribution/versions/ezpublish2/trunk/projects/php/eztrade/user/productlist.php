@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.19 2001/03/26 09:40:11 ce Exp $
+// $Id: productlist.php,v 1.20 2001/03/26 14:23:20 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -221,13 +221,13 @@ foreach ( $productList as $product )
                         }
                         if ( !$found_price )
                         {
-                            $priceArray[] = $optionValue->price();
+                            $priceArray[$i] = $optionValue->price();
                         }
                         $i++;
                     }
                     $high = new eZCurrency( max( $priceArray ) );
                     $low = new eZCurrency( min( $priceArray ) );
-                    
+
                     $t->set_var( "price", $locale->format( $low ) . " - " . $locale->format( $high ) );
                 }
             }

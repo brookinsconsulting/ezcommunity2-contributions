@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.33 2001/03/23 18:57:47 jb Exp $
+// $Id: ezproductcategory.php,v 1.34 2001/03/26 14:23:20 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -529,6 +529,7 @@ class eZProductCategory
                                              ORDER BY Placement DESC LIMIT 1", 0, 1 );
         $placement = count( $qry ) == 1 ? $qry[0]["Placement"] + 1 : 1;
 
+        print( "her" );
         $query = "INSERT INTO eZTrade_ProductCategoryLink
                   SET CategoryID='$categoryid',
                       ProductID='$prodID',
