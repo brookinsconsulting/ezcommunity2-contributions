@@ -70,7 +70,6 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<hr noshade="noshade" size="4" />
 <!-- BEGIN cart_checkout_tpl -->
 
 <table border="0">

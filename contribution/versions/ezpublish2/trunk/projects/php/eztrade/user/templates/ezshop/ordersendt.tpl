@@ -1,11 +1,16 @@
-<h1>{intl-confirming-order}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="#f08c00">
+	<div class="headline">{intl-confirming-order}</div>
+	</td>
+</tr>
+</table>
 
-<hr noshade="noshade" size="4" />
+<br />
 
 <h2>{intl-thanks_for_shopping}</h2>
 
 <p>{intl-email_notice}</p>
-
 
 
 <h2>{intl-customer_info}</h2>

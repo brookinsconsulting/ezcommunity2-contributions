@@ -1,8 +1,14 @@
 <form action="/trade/checkout/" method="post">
 
-<h1>{intl-confirm_order}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="#f08c00">
+	<div class="headline">{intl-confirm_order}</div>
+	</td>
+</tr>
+</table>
 
-<hr noshade="noshade" size="4" />
+<br />
 
 <h2>{intl-products_about_to_order}:</h2>
 
@@ -60,8 +66,7 @@
 <!-- END cart_item_list_tpl -->
 
 <!-- BEGIN billing_address_tpl -->
-<h2>{intl-billing_to}:</h2>
-<br />
+<p class="boxtext">{intl-billing_to}:</p>
 <select name="BillingAddressID">
 <!-- BEGIN billing_option_tpl -->
 <option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
@@ -69,7 +74,7 @@
 </select>
 <!-- END billing_address_tpl -->
 
-<h2>{intl-shipping_to}:</h2>
+<p class="boxtext">{intl-shipping_to}:</p>
 <select name="ShippingAddressID">
 <!-- BEGIN shipping_address_tpl -->
 <option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
@@ -77,10 +82,8 @@
 </select>
 
 <br /><br />
-<hr noshade="noshade" size="4" />
-<br />
 
-{intl-payment_methods_description}:
+<p class="boxtext">{intl-payment_methods_description}:</p>
 
 <select name="PaymentMethod">
 <!-- BEGIN payment_method_tpl -->
@@ -89,8 +92,6 @@
 </select>
 
 <br /><br />
-
-<hr noshade="noshade" size="4" />
 
 
 <input type="hidden" name="SendOrder" value="true" />
