@@ -1,6 +1,6 @@
 <!-- BEGIN user_email_item_tpl -->
 {header_line}
-<input type="text" {element_size} name="formSender" value="{form_sender}" />
+<input type="text" {element_size} name="{field_name}" value="{field_value}" />
 <!-- END user_email_item_tpl -->
 
 <!-- BEGIN header_tpl -->

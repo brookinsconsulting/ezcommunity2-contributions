@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.44 2002/01/03 12:55:53 jhe Exp $
+// $Id: ezformrenderer.php,v 1.45 2002/01/04 13:10:30 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -174,38 +174,28 @@ class eZFormRenderer
             $type = $elementType->name();
             $type = str_replace( " ", "_", $type );
 
-            if ( $elementType->name() == "user_email_item" )
-            {
-                $elementName = formSender;
-                global $formSender;
-                if ( $formSender )
-                {
-                    $this->Template->set_var( "form_sender", $formSender );
-                }
-                else
-                {
-                    if ( $user =& eZUser::currentUser() )
-                    {
-                        $this->Template->set_var( "form_sender", $user->eMail() );
-                    }
-                    else
-                    {
-                        $this->Template->set_var( "form_sender", "" );
-                    }
-                }
-            }
-            else
-            {
-                $elementName = "eZFormElement_" . $element->id();
-            }
+            $elementName = "eZFormElement_" . $element->id();
 
             global $$elementName;
+
             if ( isSet( $$elementName ) )
                 $elementValue = $$elementName;
             
             $this->Template->set_var( "field_name", $elementName );
             if ( !( isSet( $elementValue ) && $elementValue != "" ) )
                 $elementValue = $element->result();
+
+            if ( $elementType->name() == "user_email_item" )
+            {
+                if ( $elementValue == "" )
+                {
+                    if ( $user =& eZUser::currentUser() )
+                    {
+                        $elementValue =  $user->eMail();
+                    }
+                }
+            }
+
             $this->Template->set_var( "field_value", $elementValue );
             $this->Template->set_var( "element_name", $element->name() );
 
@@ -682,8 +672,8 @@ class eZFormRenderer
             $value = $$elementName;
             if ( $element->isRequired() == true )
             {
-                if ( $elementType->name() == "user_email_item" )
-                    $value = $formSender;
+/*                if ( $elementType->name() == "user_email_item" )
+                  $value = $formSender;*/
                 
                 if ( empty( $value ) )
                 {
@@ -789,10 +779,8 @@ class eZFormRenderer
                 {
                     $elementName = "eZFormElement_" . $te->id();
 
-                    global $$elementName;
-                    $value = $$elementName;
+                    $value = $element->result();
                     
-                
                     // convert array to multiple textlines.
                     $tmpValue = "";
                     if ( is_array( $value ) )
@@ -826,10 +814,8 @@ class eZFormRenderer
             {
                 $elementName = "eZFormElement_" . $element->id();
 
-                global $$elementName;
-                $value = $$elementName;
-                
-                
+                $value = $element->result();
+                                
                 // convert array to multiple textlines.
                 $tmpValue = "";
                 if ( is_array( $value ) )
