@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.23 2001/03/09 23:15:59 fh Exp $
+// $Id: articlelist.php,v 1.24 2001/03/17 12:39:22 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -231,8 +231,8 @@ if ( !isset( $Limit ) )
     $Limit = $AdminListLimit;
 
 // articles
-$articleList =& $category->articles( $category->sortMode(), false, true, true, $Offset, $Limit );
-$articleCount = $category->articleCount( false, true, true );
+$articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
+$articleCount = $category->articleCount( false, true  );
 
 $i=0;
 $t->set_var( "article_list", "" );

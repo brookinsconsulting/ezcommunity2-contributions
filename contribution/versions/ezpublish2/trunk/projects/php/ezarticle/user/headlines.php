@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.7 2001/03/01 14:06:25 jb Exp $
+// $Id: headlines.php,v 1.8 2001/03/17 12:39:22 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -57,7 +57,7 @@ $t->set_var( "image_dir", $ImageDir );
 $category = new eZArticleCategory( $CategoryID );
 
 // should we allow currentuser to go get articles with permissions or should we not??
-$articleList = $category->articles( $SortMode, false, true, false, 0, 5 );
+$articleList = $category->articles( $SortMode, false, true, 0, 5 );
 
 $locale = new eZLocale( $Language );
 $i=0;

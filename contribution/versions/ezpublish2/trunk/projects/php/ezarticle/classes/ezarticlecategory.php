@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.48 2001/03/10 13:46:28 bf Exp $
+// $Id: ezarticlecategory.php,v 1.49 2001/03/17 12:39:22 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -619,13 +619,11 @@ class eZArticleCategory
       If $fetchAll is set to true, both published and unpublished articles will be returned.
       If it is set to false, then $fetchPublished will determine: If $fetchPublished is
       set to true then only published articles will be returned. If it is false, then only
-      non-published articles will be returned. If the $getExcludedArticles is set to true the
-      articles which are excluded from search is also returned.
+      non-published articles will be returned. 
     */
     function &articles( $sortMode="time",
                         $fetchAll=true,
                         $fetchPublished=true,
-                        $getExcludedArticles=false,
                         $offset=0,
                         $limit=50 )
     {
@@ -681,6 +679,7 @@ class eZArticleCategory
            $publishedCode = " AND Article.IsPublished = 'false' ";
        }
 
+       /* not needed
        if ( $getExcludedArticles == false )
        {
            $excludedCode = " AND Category.ExcludeFromSearch = 'false' ";
@@ -689,6 +688,7 @@ class eZArticleCategory
        {
            $excludedCode = "";           
        }
+       */
 
 
        // this code works. do not EDIT !! :)
@@ -717,22 +717,23 @@ class eZArticleCategory
        }
     
 
-       /*
-       $this->Database->array_query( $article_array, "
-                SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
-                WHERE 
-                eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                $publishedCode
-                AND
-                eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                AND
-                eZArticle_Category.ID='$this->ID'
-                $excludedCode
-                $publishedCode
-                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
+       $query = "SELECT Article.ID as ArticleID
+                  FROM eZArticle_Article AS Article,
+                       eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_ArticlePermission AS Permission,
+                       eZArticle_Category AS Category
+                  WHERE (
+                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                        )
+                        $publishedCode
+                        AND Link.CategoryID='$this->ID'
+                        AND Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Category.ID=Link.CategoryID
+                 ORDER BY $OrderBy
+                 LIMIT $offset,$limit";
 
-       */                
+       /* SQL before optimizing
        $query = "SELECT Article.ID as ArticleID
                  FROM eZArticle_Article AS Article
                  LEFT JOIN eZArticle_ArticleCategoryLink as Link ON Article.ID=Link.ArticleID
@@ -748,18 +749,9 @@ class eZArticleCategory
                  GROUP BY Article.ID
                  ORDER BY $OrderBy
                  LIMIT $offset,$limit;";
-/*       $this->Database->array_query( $article_array, "
-       select Article.ID AS ArticleID
-       FROM eZArticle_Article AS Article LEFT JOIN eZArticle_ArticleCategoryLink AS Link
-       on Article.id=Link.articleid LEFT JOIN eZArticle_ArticleReaderLink AS ReaderLink
-       on Article.id=ReaderLink.articleid,
-       eZArticle_Category AS Category
-       WHERE ( $loggedInSQL Article.ReadPermission=2  )
-       $publishedCode
-       AND Link.CategoryID='$this->ID'
-       AND Category.ID=Link.CategoryID 
-       $excludedCode 
-       GROUP BY Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" ); */
+       */
+       
+       
        $this->Database->array_query( $article_array, $query );
        
  
@@ -777,10 +769,9 @@ class eZArticleCategory
       If $fetchAll is set to true, both published and unpublished articles will be counted.
       If it is set to false, then $fetchPublished will determine: If $fetchPublished is
       set to true then only published articles will be counted. If it is false, then only
-      non-published articles will be counted. If the $getExcludedArticles is set to true the
-      articles which are excluded from search is also counted.
+      non-published articles will be counted.       
     */
-    function articleCount( $fetchAll=true, $fetchPublished=true, $getExcludedArticles=false )
+    function articleCount( $fetchAll=true, $fetchPublished=true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -803,6 +794,7 @@ class eZArticleCategory
            $publishedCode = " AND Article.IsPublished = 'false' ";
        }
 
+       /* Not needed on this list
        if ( $getExcludedArticles == false )
        {
            $excludedCode = " AND Category.ExcludeFromSearch = 'false' ";
@@ -811,6 +803,7 @@ class eZArticleCategory
        {
            $excludedCode = "";           
        }
+       */
 
 
        $user = eZUser::currentUser();
@@ -837,17 +830,21 @@ class eZArticleCategory
 
        }
     
+       $query = "SELECT count( Article.ID ) AS Count 
+                  FROM eZArticle_Article AS Article,
+                       eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_ArticlePermission AS Permission,
+                       eZArticle_Category AS Category
+                  WHERE (
+                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                        )
+                        $publishedCode
+                        AND Link.CategoryID='$this->ID'
+                        AND Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Category.ID=Link.CategoryID";
 
-/*       $this->Database->array_query( $article_array, "
-       select count( Article.ID ) AS Count
-       from eZArticle_Article as Article left join eZArticle_ArticleCategoryLink as Link
-       on Article.id=Link.articleid left join eZArticle_ArticleReaderLink as ReaderLink on Article.id=ReaderLink.articleid,
-       eZArticle_Category AS Category
-       WHERE ( $loggedInSQL Article.ReadPermission=2  )
-       $publishedCode
-       AND Link.CategoryID='$this->ID'
-       AND Category.ID=Link.CategoryID 
-       $excludedCode " );       */
+       /* SQL before optimizing
        $query = "SELECT count( Article.ID ) as Count
                  FROM eZArticle_Article AS Article
                  LEFT JOIN eZArticle_ArticleCategoryLink as Link ON Article.ID=Link.ArticleID
@@ -860,6 +857,7 @@ class eZArticleCategory
                  AND Link.CategoryID='$this->ID'
                  AND Category.ID=Link.CategoryID
                  $excludedCode;";
+       */
 
        $this->Database->array_query( $article_array, $query );
 

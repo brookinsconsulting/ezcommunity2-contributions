@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.37 2001/03/16 13:10:16 bf Exp $
+// $Id: articlelist.php,v 1.38 2001/03/17 12:39:22 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -168,8 +168,8 @@ if ( $CategoryID == 0 )
 }
 else
 {
-    $articleList = $category->articles( $category->sortMode(), false, true, false, $Offset, $Limit );
-    $articleCount = $category->articleCount( false, true, false );
+    $articleList = $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
+    $articleCount = $category->articleCount( false, true  );
 }
 
 $t->set_var( "category_current_id", $CategoryID );
