@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.7 2002/01/18 11:40:37 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.8 2002/01/18 11:54:15 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -155,7 +155,8 @@ class eZProduct
                                   ShippingGroupID,
                                   Published,
                                   ExpiryTime,
-                                  IncludesVAT )
+                                  IncludesVAT,
+                                  TypeID )
                                   VALUES
                                   ( '$nextID',
 		                            '$name',
@@ -174,7 +175,8 @@ class eZProduct
                                     '$this->ShippingGroupID',
                                     '$timeStamp',
                                     '$this->ExpiryTime',
-                                    '$this->IncludesVAT' )" );
+                                    '$this->IncludesVAT',
+                                    '$this->TypeID')" );
             $db->unlock();
 			$this->ID = $nextID;
         }
@@ -196,7 +198,8 @@ class eZProduct
                                  ProductType='$this->ProductType',
                                  Published=Published,
                                  ExpiryTime='$this->ExpiryTime',
-                                 IncludesVAT='$this->IncludesVAT'
+                                 IncludesVAT='$this->IncludesVAT',
+                                 TypeID='$this->TypeID'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -209,7 +212,7 @@ class eZProduct
             $db->commit();
 
         $this->createIndex();
-        
+
         return true;
     }
 
@@ -224,7 +227,7 @@ class eZProduct
 
         $tmpContents = str_replace ("</intro>", " ", $tmpContents );
         $tmpContents = str_replace ("</page>", " ", $tmpContents );
-        
+
         $contents = strtolower( strip_tags( $tmpContents ) ) . " " . $this->Name;
 
         // fetch all attributes
@@ -238,7 +241,7 @@ class eZProduct
                 $contents .= " " . $value;
             }
         }
-        
+
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
         $contents = str_replace ("(", " ", $contents );
@@ -265,12 +268,12 @@ class eZProduct
         $contents = preg_replace("(\s+)", " ", $contents );
 
         $contents_array =& split( " ", $contents );
-       
+
         $totalWordCount = count( $contents_array );
         $wordCount = array_count_values( $contents_array );
 
         $contents_array = array_unique( $contents_array );
-        
+
         $keywords = "";
         foreach ( $contents_array as $word )
         {
@@ -289,10 +292,10 @@ class eZProduct
 
         // get total number of products
         $db->array_query( $product_array, "SELECT COUNT(*) AS Count FROM eZTrade_Product" );
-        $productCount = $product_array[0][$db->fieldName( "Count" )];        
+        $productCount = $product_array[0][$db->fieldName( "Count" )];
 
         $db->begin( );
-        
+
         foreach ( $contents_array as $word )
         {
             if ( strlen( $word ) >= 2 )
@@ -306,13 +309,13 @@ class eZProduct
                 $count = $wordCount[$indexWord];
 
                 $freq = ( $count / $totalWordCount );
-                
+
                 $query = "SELECT ID FROM eZTrade_Word
                       WHERE Word='$indexWord'";
 
                 $db->array_query( $word_array, $query );
 
-               
+
                 if ( count( $word_array ) == 1 )
                 {
                     // word exists create reference
@@ -326,8 +329,8 @@ class eZProduct
 
                     // update word frequency
                     $ret[] = $db->query( "UPDATE  eZTrade_Word SET Frequency='$wordFreq' WHERE ID='$wordID'" );
-                    
-                
+
+
                     $ret[] = $db->query( "INSERT INTO eZTrade_ProductWordLink ( ProductID, WordID, Frequency ) VALUES
                                       ( '$this->ID',
                                         '$wordID',
@@ -352,14 +355,14 @@ class eZProduct
                                       ( '$this->ID',
                                         '$nextID',
                                         '$freq' )" );
-                
+
                 }
             }
-        }        
+        }
         eZDB::finish( $ret, $db );
 
     }
-    
+
 
     /*!
       Fetches the object information from the database.
@@ -392,6 +395,7 @@ class eZProduct
                 $this->ProductType =& $category_array[0][$db->fieldName( "ProductType" )];
                 $this->ExpiryTime =& $category_array[0][$db->fieldName( "ExpiryTime" )];
                 $this->IncludesVAT =& $category_array[0][$db->fieldName( "IncludesVAT" )];
+                $this->TypeID =& $category_array[0][$db->fieldName( "TypeID" )];
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 
@@ -426,7 +430,7 @@ class eZProduct
         if ( isSet( $this->ID ) )
         {
             $db->begin();
-            $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
+//            $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue WHERE ProductID='$this->ID'" );
 
             $res[] = $db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
@@ -1599,8 +1603,8 @@ class eZProduct
 
         if ( !is_numeric( $productTypeID ) )
             $productTypeID = 0;
-            
-             
+
+
         // Build the ORDER BY
         $OrderBy = "eZTrade_ProductWordLink.Frequency DESC";
         switch( $sortMode )
@@ -1627,12 +1631,12 @@ class eZProduct
         // stop word frequency
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZTradeMain", "StopWordFrequency" );
-       
+
         $query = new eZQuery( "eZTrade_Word.Word", $queryText );
         $query->setIsLiteral( true );
 //        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
 //        $query->setStopWordPercent( 1 );
-        $searchSQL = $query->buildQuery();        
+        $searchSQL = $query->buildQuery();
 
         {
             $queryArray = explode( " ", trim( $queryText ) );
@@ -1641,7 +1645,7 @@ class eZProduct
 
             $count = 1;
             foreach ( $queryArray as $queryWord )
-            {                
+            {
                 $queryWord = trim( $queryWord );
 
                 switch ( $searchType )
@@ -1671,12 +1675,12 @@ class eZProduct
                          $attributeSQL
                          $albumSQL
                        ORDER BY $OrderBy";
-                        
+
                     }break;
 
                     default:
                     {
-                     
+
                         $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  )  AND ";
 
                         if ( $productTypeID != 0 )
@@ -1684,7 +1688,7 @@ class eZProduct
                             $typeTables = ",
                       eZTrade_ProductTypeLink,
                       eZTrade_Type";
-                    
+
                             $typeSQL = "                         AND
                          eZTrade_Product.ID=eZTrade_ProductTypeLink.ProductID
                          AND
@@ -1712,7 +1716,7 @@ class eZProduct
                         )
                        ORDER BY $OrderBy";
 
-                        
+
                     }break;
                 }
 
@@ -1722,31 +1726,31 @@ class eZProduct
 //                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
 //                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
 //                if ( $WordFreq["Frequency"] <= $StopWordFrequency )
-                
+
                 $count += 1;
             }
             $count -= 1;
 
             $queryString = "SELECT ProductID, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
-            
+
             $db->array_query( $product_array, $queryString );
 
             $db->query( "DROP  TABLE eZTrade_SearchTemp" );
 
             $SearchTotalCount = count( $product_array );
             if ( $limit >= 0 )
-                $product_array =& array_slice( $product_array, $offset, $limit );            
+                $product_array =& array_slice( $product_array, $offset, $limit );
         }
 
         for ( $i=0; $i < count($product_array); $i++ )
         {
             $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName("ProductID")], false );
         }
-       
+
         return $return_array;
     }
 
-    
+
     /*!
       Search through the products.
 
@@ -2107,6 +2111,7 @@ class eZProduct
             $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue
                                      WHERE ProductID='$this->ID'" );
 
+            /*
             $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink
                                      WHERE ProductID='$this->ID'" );
 
@@ -2123,8 +2128,15 @@ class eZProduct
                            '$this->ID' )";
             $db->unlock();
 
+
             $res[] = $db->query( $query );
             eZDB::finish( $res, $db );
+            */
+
+            $query = "UPDATE eZTrade_Product SET TypeID='$typeID' WHERE ID='$this->ID'";
+            $res[] = $db->query( $query );
+            eZDB::finish( $res, $db );
+            $this->TypeID = $typeID;
        }
     }
 
@@ -2132,6 +2144,31 @@ class eZProduct
       Returns the product's type.
     */
     function type( )
+    {
+        /*
+       $db =& eZDB::globalDatabase();
+
+       $db->array_query( $res, "SELECT TypeID FROM
+                                            eZTrade_ProductTypeLink
+                                            WHERE ProductID='$this->ID'" );
+
+       $type = false;
+
+       if ( count( $res ) == 1 )
+       {
+           $type = new eZProductType( $res[0][$db->fieldName( "TypeID" )] );
+       }
+        */
+        if ( $this->TypeID == 0 )
+            return false;
+        else
+            return new eZProductType( $this->TypeID );
+    }
+
+    /*!
+      Returns the product's type.
+    */
+    function typeOld( )
     {
        $db =& eZDB::globalDatabase();
 
@@ -2145,7 +2182,6 @@ class eZProduct
        {
            $type = new eZProductType( $res[0][$db->fieldName( "TypeID" )] );
        }
-
        return $type;
     }
 
@@ -2158,11 +2194,9 @@ class eZProduct
        $db->begin();
 
        // delete values
-       $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue
+       $res[] = $db->query( "UPDATE eZTrade_Product SET TypeID='0'
                                      WHERE ProductID='$this->ID'" );
 
-       $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink
-                                     WHERE ProductID='$this->ID'" );
        eZDB::finish( $res, $db );
 
     }
@@ -2599,23 +2633,23 @@ class eZProduct
             $forumID = $forum->id();
 
             $db->begin( );
-    
+
             $db->lock( "eZTrade_ProductForumLink" );
 
             $nextID = $db->nextID( "eZTrade_ProductForumLink", "ID" );
-            
+
             $res = $db->query( "INSERT INTO eZTrade_ProductForumLink
                                 ( ID, ProductID, ForumID )
                                 VALUES
                                 ( '$nextID', '$this->ID', '$forumID' )" );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
                 $db->commit();
-            
+
 
             if ( $as_object )
                 $forum = new eZForum( $forumID );
@@ -2624,7 +2658,7 @@ class eZProduct
         }
         return $forum;
     }
-    
+
 
     var $ID;
     var $Name;
@@ -2647,6 +2681,7 @@ class eZProduct
     var $Price;
     var $ExpiryTime;
     var $IncludesVAT;
+    var $TypeID;
 }
 
 ?>
