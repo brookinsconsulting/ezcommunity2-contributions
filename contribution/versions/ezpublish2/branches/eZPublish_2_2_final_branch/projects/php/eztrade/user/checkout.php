@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96 2001/10/12 11:42:48 ce Exp $
+// $Id: checkout.php,v 1.96.2.1 2001/11/01 13:26:59 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -48,8 +48,6 @@ $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 // Set some variables to defaults.
 $ShowCart = false;
 $ShowSavingsColumn = false;
-
-
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -496,7 +494,7 @@ if ( $ShowCart == true )
     }
     
     $SubTotalsColumns = $ColSpanSizeTotals;
-    
+
     if ( $ShowExTaxColumn == true )
     {
         if ( $ShowExTaxTotal == true or $ShowIncTaxColumn == false )

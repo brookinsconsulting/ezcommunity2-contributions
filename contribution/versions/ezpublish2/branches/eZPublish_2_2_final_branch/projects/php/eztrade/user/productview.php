@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77 2001/10/17 13:14:39 ce Exp $
+// $Id: productview.php,v 1.77.2.1 2001/11/01 13:26:59 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -454,7 +454,7 @@ foreach ( $options as $option )
 if ( !$product->hasQuantity( $RequireQuantity ) )
     $can_checkout = false;
 
-$can_checkout = $product->showPrice();
+// $can_checkout = $product->showPrice();
 
 
 // link list

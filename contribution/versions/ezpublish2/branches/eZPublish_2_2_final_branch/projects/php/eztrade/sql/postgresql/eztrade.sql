@@ -403,6 +403,7 @@ CREATE TABLE eZTrade_Voucher (
   MailMethod int(11) default '1',
   UserID int(11) default '0',
   ProductID int(11) default '0',
+  VoucherID int(11) default '0',	
   PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
