@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.156 2001/09/04 08:07:03 pkej Exp $
+// $Id: ezarticle.php,v 1.157 2001/09/04 13:56:38 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -758,8 +758,11 @@ class eZArticle
 
         $contents_array =& split( " ", $contents );
        
-        $contents_array = array_unique( $contents_array );
+        $totalWordCount = count( $contents_array );
+        $wordCount = array_count_values( $contents_array );
 
+        $contents_array = array_unique( $contents_array );
+        
         $keywords = "";
         foreach ( $contents_array as $word )
         {
@@ -776,6 +779,10 @@ class eZArticle
 
         $ret[] = $db->query( "DELETE FROM  eZArticle_ArticleWordLink WHERE ArticleID='$this->ID'" );
 
+        // get total number of articles
+        $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_Article" );
+        $articleCount = $article_array[0]["Count"];        
+        
         foreach ( $contents_array as $word )
         {
             if ( strlen( $word ) >= 2 )
@@ -786,41 +793,61 @@ class eZArticle
 
                 $db->begin( );
 
+                // find the frequency
+                $count = $wordCount[$indexWord];
+
+                $freq = ( $count / $totalWordCount );
+                
                 $query = "SELECT ID FROM eZArticle_Word
                       WHERE Word='$indexWord'";
 
                 $db->array_query( $word_array, $query );
 
+               
                 if ( count( $word_array ) == 1 )
                 {
                     // word exists create reference
                     $wordID = $word_array[0][$db->fieldName("ID")];
+
+                    // number of links to this word
+                    $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_ArticleWordLink WHERE WordID='$wordID'" );
+                    $wordUsageCount = $article_array[0]["Count"];
+
+                    $wordFreq = ( $wordUsageCount + 1 )  / $articleCount;
+
+                    // update word frequency
+                    $ret[] = $db->query( "UPDATE  eZArticle_Word SET Frequency='$wordFreq' WHERE ID='$wordID'" );
+                    
                 
-                    $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
+                    $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID, Frequency ) VALUES
                                       ( '$this->ID',
-                                        '$wordID' )" );
+                                        '$wordID',
+                                        '$freq' )" );
                 }
                 else
                 {
                     // lock the table
                     $db->lock( "eZArticle_Word" );
 
-                // new word, create word
+                    $wordFreq = 1 / $articleCount;
+
+                    // new word, create word
                     $nextID = $db->nextID( "eZArticle_Word", "ID" );
-                    $ret[] = $db->query( "INSERT INTO eZArticle_Word ( ID, Word ) VALUES
+                    $ret[] = $db->query( "INSERT INTO eZArticle_Word ( ID, Word, Frequency ) VALUES
                                       ( '$nextID',
-                                        '$indexWord' )" );
+                                        '$indexWord',
+                                        '$wordFreq' )" );
                     $db->unlock();
 
-                    $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
+                    $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID, Frequency ) VALUES
                                       ( '$this->ID',
-                                        '$nextID' )" );
+                                        '$nextID',
+                                        '$freq' )" );
                 
                 }
             }
         }
-        eZDB::finish( $ret, $db );            
-        
+        eZDB::finish( $ret, $db );
     }
     
     /*!
@@ -1674,7 +1701,7 @@ class eZArticle
         $queryText = $db->escapeString( $queryText );
         
         // Build the ORDER BY
-        $OrderBy = "eZArticle_Article.Published DESC";
+        $OrderBy = "eZArticle_ArticleWordLink.Frequency DESC";
         switch( $sortMode )
         {
             case "alpha" :
@@ -1720,7 +1747,9 @@ class eZArticle
 
         $query = new eZQuery( "eZArticle_Word.Word", $queryText );
         $query->setIsLiteral( true );
+        $query->setStopWordColumn(  "eZArticle_Word.Frequency" );        
         $searchSQL = $query->buildQuery();
+        
         $dateSQL = "";
         $catTable = "";
         $catSQL = "";
@@ -1804,7 +1833,7 @@ class eZArticle
                           ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
                             AND eZArticle_ArticlePermission.ReadPermission='1'
                           )
-                        )            
+                        )
                        ORDER BY $OrderBy";
 
 //          $qry = preg_replace( "/\n/m", "", $queryString );
@@ -1861,6 +1890,7 @@ class eZArticle
 
         $query = new eZQuery( "eZArticle_Word.Word", $queryText );
         $query->setIsLiteral( true );
+        $query->setStopWordColumn(  "eZArticle_Word.Frequency" );
         $searchSQL = $query->buildQuery();
 
 
