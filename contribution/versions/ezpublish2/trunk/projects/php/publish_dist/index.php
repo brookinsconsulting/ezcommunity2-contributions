@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.107 2001/09/21 12:01:03 bf Exp $
+// $Id: index.php,v 1.108 2001/09/21 15:18:44 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -100,13 +100,6 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
-// set character set
-include_once( "classes/ezlocale.php" );
-$Language = $ini->read_var( "eZCalendarMain", "Language" );
-$Locale = new eZLocale( $Language );
-$iso =& $Locale->languageISO();
-if ( $iso != false )
-    header( "Content-type: text/html;charset=$iso" );
 
 // Design
 include_once( "ezsession/classes/ezsession.php" );
@@ -274,6 +267,23 @@ if ( ( $requireUserLogin == "disabled" ) ||
                 include( $ini->read_var( "site", "DefaultPage" ) );
             }
         }
+
+        // set character set
+        include_once( "classes/ezlocale.php" );
+        $languageOverride = $GLOBALS["eZLanguageOverride"];
+        if ( $languageOverride != "" )
+        {
+            $Language = $languageOverride;
+        }
+        else
+        {
+            $Language = $ini->read_var( "eZCalendarMain", "Language" );
+        }
+        $Locale = new eZLocale( $Language );
+        $iso =& $Locale->languageISO();
+        if ( $iso != false )
+            header( "Content-type: text/html;charset=$iso" );
+        
     
         $MainContents =& ob_get_contents();
         ob_end_clean();
