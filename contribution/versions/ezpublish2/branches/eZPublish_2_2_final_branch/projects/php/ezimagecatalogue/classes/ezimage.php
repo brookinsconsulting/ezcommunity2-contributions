@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.88 2001/10/12 10:45:09 ce Exp $
+// $Id: ezimage.php,v 1.88.2.1 2002/02/26 12:31:05 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -92,7 +92,7 @@ class eZImage
     /*!
       Constructs a new eZImage object.
     */
-    function eZImage( $id="" )
+    function eZImage( $id = "" )
     {
         $this->PhotographerID = 0;
         $this->NewImage = false;
@@ -110,7 +110,7 @@ class eZImage
     {
         $db =& eZDB::globalDatabase();
 
-        $db->begin( );
+        $db->begin();
         
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
@@ -159,7 +159,7 @@ class eZImage
             {
                 $variationArray =& $this->variations();
 
-                foreach( $variationArray as $variation )
+                foreach ( $variationArray as $variation )
                 {
                     $variation->delete();
                 }
@@ -241,7 +241,7 @@ class eZImage
         {
             $variationArray =& $this->variations();
 
-            foreach( $variationArray as $variation )
+            foreach ( $variationArray as $variation )
             {
                 $variation->delete();
             }
@@ -271,23 +271,23 @@ class eZImage
         if ( $id != "" )
         {
             $db->array_query( $image_array, "SELECT * FROM eZImageCatalogue_Image WHERE ID='$id'" );
-            if( count( $image_array ) > 0 )
+            if ( count( $image_array ) > 0 )
             {
                 if ( count( $image_array ) > 1 )
                 {
                     print( "<br /><b>Error: Image's with the same ID was found in the database. This shouldent happen.</b><br />" );
                 }
-                $this->ID =& $image_array[0][$db->fieldName("ID")];
-                $this->Name =& $image_array[0][$db->fieldName("Name")];
-                $this->Caption =& $image_array[0][$db->fieldName("Caption")];
-                $this->Description =& $image_array[0][$db->fieldName("Description")];
-                $this->FileName =& $image_array[0][$db->fieldName("FileName")];
-                $this->OriginalFileName =& $image_array[0][$db->fieldName("OriginalFileName")];
-                $this->UserID =& $image_array[0][$db->fieldName("UserID")];
-                $this->WritePermission =& $image_array[0][$db->fieldName("WritePermission")];
-                $this->ReadPermission =& $image_array[0][$db->fieldName("ReadPermission")];
-                $this->PhotographerID =& $image_array[0][$db->fieldName("PhotographerID")];
-                $this->Keywords =& $image_array[0][$db->fieldName("Keywords")];
+                $this->ID =& $image_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $image_array[0][$db->fieldName( "Name" )];
+                $this->Caption =& $image_array[0][$db->fieldName( "Caption" )];
+                $this->Description =& $image_array[0][$db->fieldName( "Description" )];
+                $this->FileName =& $image_array[0][$db->fieldName( "FileName" )];
+                $this->OriginalFileName =& $image_array[0][$db->fieldName( "OriginalFileName" )];
+                $this->UserID =& $image_array[0][$db->fieldName( "UserID" )];
+                $this->WritePermission =& $image_array[0][$db->fieldName( "WritePermission" )];
+                $this->ReadPermission =& $image_array[0][$db->fieldName( "ReadPermission" )];
+                $this->PhotographerID =& $image_array[0][$db->fieldName( "PhotographerID" )];
+                $this->Keywords =& $image_array[0][$db->fieldName( "Keywords" )];
 
                 $ret = true;
             }
@@ -307,13 +307,13 @@ class eZImage
         if ( $id != "" )
         {
             $db->array_query( $image_array, "SELECT * FROM eZImageCatalogue_Image WHERE OriginalFileName='$id'" );
-            if( count( $image_array ) > 0 )
+            if ( count( $image_array ) > 0 )
             {
                 if ( count( $image_array ) > 1 )
                 {
                     print( "<br /><b>Error: Image's with the same  was found in the database. This shouldn't happen.</b><br />" );
                 }
-                $ret =& new eZImage( $image_array[0][$db->fieldName("ID")] );
+                $ret =& new eZImage( $image_array[0][$db->fieldName( "ID" )] );
             }
         }
         return $ret;
@@ -391,7 +391,7 @@ class eZImage
         $category = false;
         if ( count( $res ) == 1 )
         {
-            $category = new eZImageCategory( $res[0][$db->fieldName("CategoryID")] );
+            $category = new eZImageCategory( $res[0][$db->fieldName( "CategoryID" )] );
         }
         else
         {
@@ -419,9 +419,9 @@ class eZImage
                                         ON Image.ID=Link.ImageID
                                         WHERE ImageID IS NULL", $limitArray );
 
-        foreach( $imageArray as $image )
+        foreach ( $imageArray as $image )
         {
-            $returnArray[] = new eZImage( $image[$db->fieldName("ID")] );
+            $returnArray[] = new eZImage( $image[$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -480,12 +480,12 @@ class eZImage
                 if ( $this->UserID != 0 )
                 {
                     $currentGroups =& $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
+                    foreach ( $currentGroups as $Groups )
                     {
                         $user = new eZUser( $this->UserID );
                         $userGroups =& $user->groups();
                             
-                        foreach( $userGroups as $userGroup )
+                        foreach ( $userGroups as $userGroup )
                         {
                             if ( $Groups->id() == $userGroup->id() )
                             {
@@ -553,12 +553,12 @@ class eZImage
                 if ( $this->UserID != 0 )
                 {
                     $currentGroups =& $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
+                    foreach ( $currentGroups as $Groups )
                     {
                         $user = new eZUser( $this->UserID );
                         $userGroups =& $user->groups();
                             
-                        foreach( $userGroups as $userGroup )
+                        foreach ( $userGroups as $userGroup )
                         {
                             if ( $Groups->id() == $userGroup->id() )
                             {
@@ -605,7 +605,7 @@ class eZImage
     */
     function &name( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Name );
        else
            return $this->Name;
@@ -616,7 +616,7 @@ class eZImage
     */
     function &caption( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Caption );
        else
            return $this->Caption;
@@ -627,7 +627,7 @@ class eZImage
     */
     function &description( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Description );
        else
            return $this->Description;
@@ -670,7 +670,7 @@ class eZImage
       If $relative is set to true the path is returned relative.
       Absolute is default.
     */
-    function &filePath( $relative=false )
+    function &filePath( $relative = false )
     {
        $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
        
