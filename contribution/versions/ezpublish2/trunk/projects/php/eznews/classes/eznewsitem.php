@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.36 2000/10/13 08:32:12 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.37 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -315,6 +315,8 @@ class eZNewsItem extends eZNewsUtility
                 $type = new eZNewsChangeType( $changeType );
                 
                 $ticket->setChangeTypeID( $type->ID() );
+                $ticket->setChangeInfo( "0" );
+
                 $ticket->setName( $changeText );
                 $ticket->setChangedBy( $creator );
                 $ticket->setChangedAt( $this->createTimeStamp() );
@@ -354,7 +356,8 @@ class eZNewsItem extends eZNewsUtility
      */
     function setImage( $ImageID,  $isFrontImage = false )
     {
-        $value = true;
+        echo "eZNewsItem::createLogItem( \$ImageID = $ImageID \$isFrontImage = $isFrontImage )<br />\n";
+        $value = false;
         
         if( !$this->isDirty() )
         {
@@ -362,43 +365,48 @@ class eZNewsItem extends eZNewsUtility
             {
                 if( $existingImage == $ImageID )
                 {
-                    $value = false;
-                    $this->Errors[] = "intl-eznews-eznewsitem-image-reference-exists";
+                    $oldImageID = $existingImage;
                 }
             }
             
-            // Check if the image actually exists in the db...
-            
-            include_once( "ezimagecatalogue/classes/ezimage.php" );
-            
-            $image = new eZImage( $ImageID );
-            
-            if( $image->isCoherent() == false )
+            if( $oldImageID != $ImageID )
             {
-                $value = false;
-                $this->Errors[] = "intl-eznews-eznewsitem-image-doesnt-exist";
-            }
-            
-            if( $value == true )
-            {
-                if( $isFrontImage == true )
+                // Check if the image actually exists in the db...
+
+                include_once( "ezimagecatalogue/classes/ezimage.php" );
+
+                $image = new eZImage( $ImageID );
+
+                if( $image->isCoherent() == false )
                 {
-                    if( $this->isFrontImage )
+                    $value = false;
+                    $this->Errors[] = "intl-eznews-eznewsitem-image-doesnt-exist";
+                }
+
+                if( $value == true )
+                {
+                    if( $isFrontImage == true )
                     {
-                        $value = false;
-                        $this->Errors[] = "intl-eznews-eznewsitem-another-fron-image-set";
+                        $oldFrontImage = $this->isFrontImage;
+                        $this->isFrontImage = $ImageID;
+                        
+                        if( $oldFrontImage != $ImageID )
+                        {
+                            $oldImage = new eZImage( $oldFrontImage );
+                            $this->createLogItem( $this->ID . ": Front Image changed from " . $oldImage->Name() . "(" . $oldImage->ID()  .")" . " to " . $image->Name() . "(" . $image->ID()  .")", $this->Status );
+                        }
                     }
                     else
                     {
-                        $this->isFrontImage = $ImageID;
+                        $this->createLogItem( $this->ID . ": Image " . $image->Name() . "(" . $image->ID()  .")" . " added.", $this->Status );
                     }
                 }
-            }
-            
-            if( $value == true )
-            {
-                $this->ImageID[] = $ImageID;
-                $this->alterState();
+
+                if( $value == true )
+                {
+                    $this->ImageID[] = $ImageID;
+                    $this->alterState();
+                }
             }
         }
         
@@ -579,14 +587,12 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Creates the relationship between this object and its parent.
         
-        Will fail if an parent is marked as canonical, but a
-        canonical parent already exists.
-        
         If the object is dirty it will not accept any new references.
         
         Needs store() afterwards.
         
-        Only one parent can be the canonical parent.
+        Only one parent can be the canonical parent. Only the latest
+        added canonical parent will be retained.
         
         \in
             \$ParentID A legal name or ID of a eznews_item entry.
@@ -598,7 +604,7 @@ class eZNewsItem extends eZNewsUtility
     function setParent( $ParentID, $isCanonical = false )
     {
         #echo "eZNewsItem::setParent( \$ParentID = $ParentID, \$isCanonical = $isCanonical )<br />\n";
-        $value = true;
+        $value = false;
         
         if( !$this->isDirty() )
         {
@@ -606,40 +612,45 @@ class eZNewsItem extends eZNewsUtility
             {
                 if( $existingParent == $ParentID )
                 {
-                    $value = false;
-                    $this->Errors[] = "intl-eznews-eznewsitem-parent-reference-exists";
+                    $oldParentID = $existingParent;
                 }
             }
 
-            $item = new eZNewsItem( $ParentID );
-            
-            if( $item->isCoherent() == false )
+            if( $oldParentID != $ImageID )
             {
-                $value = false;
-                $this->Errors[] = "intl-eznews-eznewsitem-parent-doesnt-exist";
-            }
+                $item = new eZNewsItem( $ParentID );
 
-            if( $value == true )
-            {
-
-                if( $isCanonical == true )
+                if( $item->isCoherent() == false )
                 {
-                    if( $this->isCanonical )
+                    $value = false;
+                    $this->Errors[] = "intl-eznews-eznewsitem-parent-doesnt-exist";
+                }
+
+                if( $value == true )
+                {
+
+                    if( $isCanonical == true )
                     {
-                        $value = false;
-                        $this->Errors[] = "intl-eznews-eznewsitem-canonical-parent-reference-exists";
+                        $oldCanonicalID = $this->isCanonical;
+                        $this->isCanonical = $ParentID;
+                        
+                        if( $oldCanonicalID != $ParentID )
+                        {
+                            $oldCanonical = new eZNewsCategory( $oldCanonicalID );
+                            $this->createLogItem( $this->ID . ": Canonical parent changed from " . $oldCanonical->Name() . "(" . $oldCanonical->ID()  .")" . " to " . $item->Name() . "(" . $item->ID()  .")", $this->Status );
+                        }
                     }
                     else
                     {
-                        $this->isCanonical = $ParentID;
+                        $this->createLogItem( $this->ID . ": Parent " . $item->Name() . "(" . $item->ID()  .")" . " added.", $this->Status );
                     }
                 }
-            }
-            
-            if( $value == true )
-            {
-                $this->ParentID[] = $ParentID;
-                $this->alterState();
+
+                if( $value == true )
+                {
+                    $this->ParentID[] = $ParentID;
+                    $this->alterState();
+                }
             }
         }
         
@@ -1074,7 +1085,7 @@ class eZNewsItem extends eZNewsUtility
             $this->updateParents();
             $this->updateFiles();
             $this->updateImages();
-            $this->createLogItem( $this->ID . ": Was stored", $this->Status );
+            $this->createLogItem( $this->ID . ": Was updated", $this->Status );
             $this->updateLogs();
         }
         
@@ -1112,10 +1123,7 @@ class eZNewsItem extends eZNewsUtility
         {
             $this->dirtyUpdate();
 
-            if( $this->isLogging() )
-            {
-                $this->createLogItem( $this->ID . ": Item was deleted", "delete" );
-            }
+            $this->createLogItem( $this->ID . ": Item was deleted", "delete" );
 
             $this->Status = $type->ID();
 
@@ -1801,13 +1809,15 @@ class eZNewsItem extends eZNewsUtility
         
         $count = count( $imagesArray );
         
+        #echo "\$count = $count<br />\n";
+        
         unset( $this->ImageID );
         $this->ImageID = array();
         
         for( $i = 0; $i < $count; $i++ )
         {
             include_once( "ezimagecatalogue/classes/ezimage.php" );
-            
+
             $returnArray[$i] = new eZImage( $imagesArray[$i][ "ImageID" ], 0 );
             $this->ImageID[] = $returnArray[$i];
 
@@ -2044,10 +2054,7 @@ class eZNewsItem extends eZNewsUtility
         {
             $this->CreatedAt = $inCreatedAt;
 
-            if( $this->isLogging() )
-            {
-                $this->createLogItem( $this->ID . ": Creation date changed from $oldCreatedAt to $inCreatedAt", $this->Status );
-            }
+            $this->createLogItem( $this->ID . ": Creation date changed from $oldCreatedAt to $inCreatedAt", $this->Status );
 
             $this->alterState();
         }
@@ -2092,16 +2099,13 @@ class eZNewsItem extends eZNewsUtility
         $it = new eZNewsItemType( $inItemTypeID, true );
         $itold = new eZNewsItemType( $this->ItemTypeID, true );
 
-        if( $itold->name() != $it->name() )
+        if( $itold->ID() != $it->ID() )
         {
             if( $it->isCoherent() )
             {
                 $this->dirtyUpdate();
 
-                if( $this->isLogging() )
-                {
-                    $this->createLogItem( $this->ID . ": Item Type changed from " . $itold->name() . "(" . $itold->ID()  .")" . " to " . $it->name() . "(" . $it->ID()  .")", $this->Status );
-                }
+                $this->createLogItem( $this->ID . ": Item Type changed from " . $itold->name() . "(" . $itold->ID()  .")" . " to " . $it->name() . "(" . $it->ID()  .")", $this->Status );
 
                 $this->ItemTypeID = $it->ID();
 
@@ -2175,6 +2179,8 @@ class eZNewsItem extends eZNewsUtility
         #echo "eZNewsItem::getFrontImage()<br />\n";
         $this->dirtyUpdate();
         
+        #echo "\$this->isFrontImage = " . $this->isFrontImage . "<br />\n";
+        
         return $this->isFrontImage;
     }
 
@@ -2244,16 +2250,13 @@ class eZNewsItem extends eZNewsUtility
         #echo "eZNewsItem::setName( \$inName = $inName )<br />\n";
         $oldname = $this->name();
         
-        echo "\$oldname = $oldname, \$inName = $inName<br />\n";
+        #echo "\$oldname = $oldname, \$inName = $inName<br />\n";
         
         $value = eZNewsUtility::setName( $inName );
         
-        if( $oldname != $inName )
+        if( $value )
         {
-            if( $this->isLogging() && $value )
-            {
-                $this->createLogItem( $this->ID . ": Name changed from $oldname to $inName", $this->Status );
-            }
+            $this->createLogItem( $this->ID . ": Name changed from $oldname to $inName", $this->Status );
         }
 
         return $value;
@@ -2278,12 +2281,9 @@ class eZNewsItem extends eZNewsUtility
         
         $value = eZNewsUtility::setID( $inID );
         
-        if( $oldid != $inID )
+        if( $value )
         {
-            if( $this->isLogging() && $value )
-            {
-                $this->createLogItem( $this->ID . "(was " . $oldid . "): ID changed from $oldid to $inID", $this->Status );
-            }
+            $this->createLogItem( $this->ID . "(was " . $oldid . "): ID changed from $oldid to $inID", $this->Status );
         }
 
         return $value;
@@ -2327,7 +2327,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function printObject()
     {
-        #echo "eZNewsUtility::printObject()<br />\n";
+        echo "eZNewsItem::printObject()<br />\n";
         echo "ID = " . $this->ID . " \n";
         echo "Name = " . $this->Name . " \n";
         echo "ItemTypeID = " . $this->ItemTypeID . " \n";

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.8 2000/10/13 08:22:43 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.9 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -224,28 +224,22 @@ class eZNewsArticle extends eZNewsItem
      */
     function setAuthorText( $inAuthorText )
     {
-        #echo "eZNewsArticle::setAuthorText( \$inAuthorText = $inAuthorText )<br />\n";
+        echo "eZNewsArticle::setAuthorText( \$inAuthorText = $inAuthorText )<br />\n";
+        echo "\$this->AuthorText = " . $this->AuthorText . ", \$inAuthorText = $inAuthorText<br />\n";
         $value = false;
         
         $this->dirtyUpdate();
         
         $oldAuthorText = $this->AuthorText;
-        
-        if( $inAuthorText != $oldAuthorText )
+
+        if( strcmp( $inAuthorText, $oldAuthorText ) )
         {
             $this->AuthorText = $inAuthorText;
 
             $this->alterState();
             $value = true;
 
-            if( $this->isLogging() && $value )
-            {
-                $this->createLogItem( $this->ID . ": Author text has changed from $oldAuthorText to $inAuthorText", $this->Status );
-            }
-        }
-        else
-        {
-            $value = true;
+            $this->createLogItem( $this->ID . ": Author text has changed from $oldAuthorText to $inAuthorText", $this->Status );
         }
         
         return $value;
@@ -302,21 +296,14 @@ class eZNewsArticle extends eZNewsItem
         
         $oldMeta = $this->Meta;
         
-        if( $oldMeta != $inMeta )
+        if( strcmp( $oldMeta, $inMeta ) )
         {
             $this->Meta = $inMeta;
 
             $this->alterState();
             $value = true;
 
-            if( $this->isLogging() && $value )
-            {
-                $this->createLogItem( $this->ID . ": Meta has changed from $oldMeta to $inMeta", $this->Status );
-            }
-        }
-        else
-        {
-            $value = true;
+            $this->createLogItem( $this->ID . ": Meta has changed from $oldMeta to $inMeta", $this->Status );
         }
         
         return $value;
@@ -361,20 +348,13 @@ class eZNewsArticle extends eZNewsItem
         
         $oldStory = $this->Story;
         
-        if( $oldStory != $inStory )
+        if( strcmp( $oldStory, $inStory ) ) 
         {
             $this->Story = $inStory;
 
-            if( $this->isLogging() && $value )
-            {
-                $this->createLogItem( $this->ID . ": Story has changed from $oldStory to $inStory", $this->Status );
-            }
+            $this->createLogItem( $this->ID . ": Story has changed from $oldStory to $inStory", $this->Status );
             $this->alterState();
             
-            $value = true;
-        }
-        else
-        {
             $value = true;
         }
         
@@ -420,20 +400,13 @@ class eZNewsArticle extends eZNewsItem
         
         $oldLinkText = $this->LinkText;
         
-        if( $oldLinkText != $inLinkText )
+        if( strcmp( $oldLinkText, $inLinkText ) )
         {
             $this->LinkText = $inLinkText;
 
-            if( $this->isLogging() && $value )
-            {
-                $this->createLogItem( $this->ID . ": Link text has changed from $oldLinkText to $inLinkText", $this->Status );
-            }
+            $this->createLogItem( $this->ID . ": Link text has changed from $oldLinkText to $inLinkText", $this->Status );
             $this->alterState();
             
-            $value = true;
-        }
-        else
-        {
             $value = true;
         }
         
@@ -488,6 +461,22 @@ class eZNewsArticle extends eZNewsItem
         }
         #$this->printErrors();
         return $value;        
+    }
+    
+    
+    
+    /*!
+        Print all the info in the object.
+     */
+    function printObject()
+    {
+        echo "eZNewsArticle::printObject()<br />\n";
+        eZNewsItem::printObject();
+        echo "AuthorText = " . $this->AuthorText . " \n";       
+        echo "Meta = " . $this->Meta . " \n";       
+        echo "Story = " . $this->Story . " \n";       
+        echo "LinkText = " . $this->LinkText . " \n";       
+        echo "<br />\n";
     }
     
     /*  This is the plain text version of the authors name,

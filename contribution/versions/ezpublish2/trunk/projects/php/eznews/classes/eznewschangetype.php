@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.11 2000/10/11 15:34:08 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.12 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -403,6 +403,20 @@ class eZNewsChangeType extends eZNewsUtility
 
 
 
+    /*!
+        Print all the info in the object.
+     */
+    function printObject()
+    {
+        echo "eZNewsChangeType::printObject()<br />\n";
+        echo "Description = " . $this->Description . " \n";
+        echo "<br />\n";
+        
+        eZNewsUtility::printObject();
+    }
+    
+    
+    
     // The data members
 
     /// The human readable description of this item.

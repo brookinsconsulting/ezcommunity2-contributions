@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.16 2000/10/13 08:22:43 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.17 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -729,7 +729,7 @@ class eZNewsUtility
         \in
             \$inName    The new name of this object
         \return
-            Will always return true.
+            Will return true if name was changed.
     */
     function setName( $inName )
     {
@@ -739,17 +739,13 @@ class eZNewsUtility
         
         $oldName = $this->Name;
         
-        if( $oldName != $inName )
+        #echo "\$oldName = $oldName, \$inName = $inName<br>\n";
+        
+        if( strcmp( $inName, $oldName ) )
         {
             $this->dirtyUpdate();
-
             $this->Name = $inName;
-
             $this->alterState();
-            $value = true;
-        }
-        else
-        {
             $value = true;
         }
         
@@ -873,7 +869,7 @@ class eZNewsUtility
     // Object preferences
     
     /// Check if there are unsaved changes
-    var $doStoreCheck;
+    var $doStoreCheck = true;
 
     
     // Object errors
@@ -890,7 +886,7 @@ class eZNewsUtility
     var $Database;
 
     /// Indicates the state of the object. In regards to database information.
-    var $State_;
+    var $State_ = "uninitialized";
     
     /// Is true if the object has a database connection, false if not.
     var $isConnected = false;

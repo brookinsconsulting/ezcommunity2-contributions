@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangeticket.php,v 1.3 2000/10/11 15:34:08 pkej-cvs Exp $
+// $Id: eznewschangeticket.php,v 1.4 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeTicket class
 //
@@ -673,6 +673,23 @@ class eZNewsChangeTicket extends eZNewsUtility
 
 
 
+    /*!
+        Print all the info in the object.
+     */
+    function printObject()
+    {
+        echo "eZNewsChangeTicket::printObject()<br />\n";
+        echo "ChangeInfo = " . $this->ChangeInfo . " \n";
+        echo "ChangeTypeID = " . $this->ChangeTypeID . " \n";
+        echo "ChangedBy = " . $this->ChangedBy . " \n";
+        echo "ChangedAt = " . $this->ChangedAt . " \n";
+        echo "ChangeIP = " . $this->ChangeIP . " \n";
+        echo "<br />\n";
+        
+        eZNewsUtility::printObject();
+    }
+    
+    
     // The data members
 
     /// ID of an article which details this change.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.7 2000/10/10 15:01:35 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.8 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
@@ -565,6 +565,22 @@ class eZNewsItemType extends eZNewsUtility
 
 
 
+    /*!
+        Print all the info in the object.
+     */
+    function printObject()
+    {
+        echo "eZNewsItemType::printObject()<br />\n";
+        echo "eZClass = " . $this->eZClass . " \n";
+        echo "eZTable = " . $this->eZTable . " \n";
+        echo "ParentID = " . $this->ParentID . " \n";
+        echo "<br />\n";
+        
+        eZNewsUtility::printObject();
+    }
+    
+    
+    
     // The data members
 
     /// The class name of this item, empty means use parent or n/a.

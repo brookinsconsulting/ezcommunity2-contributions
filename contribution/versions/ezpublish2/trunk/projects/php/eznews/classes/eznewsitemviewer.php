@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.14 2000/10/12 15:14:13 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.15 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -175,6 +175,31 @@ class eZNewsItemViewer
         return $value;
     }
     
+    
+    
+    /*!
+        This function will show the apropriate interface for an item or action.
+        
+        The interface shown is dependant on the uri sent in, and if the uri has
+        legal values.
+        
+        \return
+            Returns true if an action was taken.
+     */
+    function doNormalAction( $itemNo )
+    {
+        #echo "eZNewsItemViewer::doAdminAction()<br>\n";
+        $continue = true;
+        $value = false;
+        
+        if( $continue )
+        {
+            $value = $this->doNormalBrowse( $itemNo );
+            $continue = false;
+        }
+        
+        return $value;
+    }
     
     
     /*!
@@ -428,6 +453,28 @@ class eZNewsItemViewer
 
 
 
+    function doNormalBrowse( &$inItemNo )
+    {
+        $value = true;
+        // Checks if we''re dealing with a special customer.
+        $special = $this->IniObject->GlobalIni->read_var( "eZNewsMain", "Customer" );
+        if( !strcmp( $special, "true" ) )
+        {
+            global $ItemID;
+            $ItemID = $inItemNo;
+            $tempItem = new eZNewsItem( $inItemNo );
+            $itemType = new eZNewsItemType( $tempItem->itemTypeID() );
+
+            $class = $itemType->eZClass();
+            $class = $class . "Viewer";
+
+            include_once( strtolower( "eznews/admin/eznewsitem/" . $class . ".php" ) );
+            
+            $object = new $class( $this->inNewsConfigFileName, $inItemNo );
+            $object->doAction( "view", "this" );
+        }
+    }
+    
     function doAdminBrowse( &$inItemNo )
     {
         #echo "eZNewsItemViewer::doAdminBrowse( \$inItemNo = $inItemNo )<br>\n";
@@ -507,6 +554,46 @@ class eZNewsItemViewer
     function doNormal()
     {
         #echo "eZNewsItemViewer::doNormal()<br>\n";
+        #echo "eZNewsItemViewer::doAdmin()<br>\n";
+        $count = $this->URLObject->getURLCount();
+
+        if( $count >= 3 )
+        {
+            switch( $this->URLObject->getURLPart( 1 ) )
+            {
+                case "itemtype":
+                case "changetype":
+                    break;
+                case "id":
+                case "article":
+                    $this->doNormalAction( $this->URLObject->getURLPart( 2 ) );
+                    break;
+                case "date":
+                    //$item = $this->parseDate();
+                    break;
+                case "author":
+                    //$item = $this->parseAuthor();
+                    break;
+                case "category":
+                case "path":
+                case "definition":
+                    //$item = $this->parseCategory();
+                    break;
+                default:
+                    $this->doNormalTopAction();
+                    break;                
+            }
+        }
+        
+        if( $count == 2 )
+        {
+            $this->doNormalAction( $this->URLObject->getURLPart( 1 ) );
+        }
+        
+        if( $count == 1 )
+        {
+            $this->doNormalTopAction();
+        }
     }
 
 

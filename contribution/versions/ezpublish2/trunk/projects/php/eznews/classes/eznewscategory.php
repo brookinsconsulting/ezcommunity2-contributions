@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.8 2000/10/13 08:32:12 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.9 2000/10/13 11:59:02 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -35,7 +35,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function eZNewsCategory( $inData = "", $fetch = true )
     {
-         #echo "eZNews "eZNewsCategory::eZNewsCategory( \$inData = $inData, \$fetch = $fetch )<br>\n";
+        #echo "eZNewsCategory::eZNewsCategory( \$inData = $inData, \$fetch = $fetch )<br>\n";
 
         eZNewsItem::eZNewsItem( $inData, $fetch );
     }
@@ -224,10 +224,7 @@ class eZNewsCategory extends eZNewsItem
             $this->alterState();
             $value = true;
             
-            if( $this->isLogging )
-            {
-                $this->createLogItem( $this->ID . ": PublicDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
-            }
+            $this->createLogItem( $this->ID . ": PublicDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
         }
         else
         {
@@ -286,10 +283,7 @@ class eZNewsCategory extends eZNewsItem
             $this->alterState();
             $value = true;
             
-            if( $this->isLogging )
-            {
-                $this->createLogItem( $this->ID . ": PrivateDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
-            }
+            $this->createLogItem( $this->ID . ": PrivateDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
         }
         else
         {
@@ -339,6 +333,18 @@ class eZNewsCategory extends eZNewsItem
         return $value;        
     }
     
+    
+    /*!
+        Print all the info in the object.
+     */
+    function printObject()
+    {
+        echo "eZNewsCategory::printObject()<br />\n";
+        eZNewsItem::printObject();
+        echo "PublicDescriptionID = " . $this->PublicDescriptionID . " \n";       
+        echo "PrivateDescriptionID = " . $this->PrivateDescriptionID . " \n";       
+        echo "<br />\n";
+    }
     
     /*  This is the public information about this category. */
     var $PublicDescriptionID = 0;
