@@ -1,6 +1,5 @@
 <?
-// 
-// $Id: ezaddress.php,v 1.28 2001/01/22 14:43:00 jb Exp $
+// $Id: ezaddress.php,v 1.29 2001/01/23 09:59:38 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -276,7 +275,7 @@ class eZAddress
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $return_array = false;
+//          $return_array = false;
         
         if ( get_class ( $user ) == "ezuser" )
         {
@@ -287,12 +286,11 @@ class eZAddress
             $this->Database->array_query( $addressArray, "SELECT AddressID FROM eZContact_AddressDefinition
                                      WHERE UserID='$userID'" );
 
-            foreach( $addressArray as $address )
+            if ( count ( $addressArray ) == 1 )
             {
-                $return_array[] = new eZAddress( $address["AddressID"] );
+                return new eZAddress( $addressArray[0]["AddressID"] );
             }
         }
-        return $return_array;
     }
 
     /*!

@@ -61,19 +61,25 @@
 
 <h2>{intl-billing_to}:</h2>
 
-{customer_first_name} {customer_last_name} 
+
 <br />
 <select name="BillingAddressID">
+<!-- BEGIN wish_user_tpl -->
+<option value="{wish_user_address_id}">{wish_first_name} {wish_last_name}</option>
+<!-- END wish_user_tpl -->
 <!-- BEGIN billing_address_tpl -->
-<option value="{address_id}">{street1} {street2} {zip} {place} {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
 <!-- END billing_address_tpl -->
 </select>
 
 
 <h2>{intl-shipping_to}:</h2>
 <select name="ShippingAddressID">
+<!-- BEGIN wish_user_tpl -->
+<option value="{wish_user_address_id}">{wish_first_name} {wish_last_name}</option>
+<!-- END wish_user_tpl -->
 <!-- BEGIN shipping_address_tpl -->
-<option value="{address_id}">{street1} {street2} {zip} {place} {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
 <!-- END shipping_address_tpl -->
 </select>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.24 2001/01/22 14:43:02 jb Exp $
+// $Id: userwithaddress.php,v 1.25 2001/01/23 09:59:39 ce Exp $
 //
 // 
 //
@@ -106,7 +106,6 @@ if ( count ( $AddressID ) != 0 )
 {
     for ( $i=0; $i < count ( $AddressID ); $i++ )
     {
-        print( "what" );
         $t->set_var( "address_number", "$i" );
         $t->set_var( "address_id", "$AddressID[$i]" );
         $t->set_var( "street1_value", "$Street1[$i]" );
@@ -159,7 +158,7 @@ $lastNameCheck = true;
 $loginCheck = true;
 $passordCheck = true;
 $street1Check = true;
-$street2Check = true;
+$street2Check = false;
 $zipCheck = true;
 $placeCheck = true;
 
@@ -255,25 +254,40 @@ if ( ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) ) && 
     {
         for( $i=0; $i < count ( $AddressID ); $i++ )
         {
-            if ( empty ( $Street1[$i] ) )
+            if ( $street1Check )
             {
-                $t->parse( "error_address_street1", "error_address_street1_tpl" );
-                $error = true;
+                if ( empty ( $Street1[$i] ) )
+                {
+                    $t->parse( "error_address_street1", "error_address_street1_tpl" );
+                    $error = true;
+                }
             }
-            if ( empty ( $Street2[$i] ) )
+
+            if ( $street2Check )
             {
-                $t->parse( "error_address_street2", "error_address_street2_tpl" );
-                $error = true;
+                if ( empty ( $Street2[$i] ) )
+                {
+                    $t->parse( "error_address_street2", "error_address_street2_tpl" );
+                    $error = true;
+                }
             }
-            if ( empty ( $Zip[$i] ) )
+
+            if ( $zipCheck )
             {
-                $t->parse( "error_address_zip", "error_address_zip_tpl" );
-                $error = true;
+                if ( empty ( $Zip[$i] ) )
+                {
+                    $t->parse( "error_address_zip", "error_address_zip_tpl" );
+                    $error = true;
+                }
             }
-            if ( empty ( $Place[$i] ) )
+
+            if ( $placeCheck )
             {
-                $t->parse( "error_address_place", "error_address_place_tpl" );
-                $error = true;
+                if ( empty ( $Place[$i] ) )
+                {
+                    $t->parse( "error_address_place", "error_address_place_tpl" );
+                    $error = true;
+                }
             }
         }
     }

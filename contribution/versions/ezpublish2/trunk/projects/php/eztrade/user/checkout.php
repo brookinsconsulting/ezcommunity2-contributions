@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.22 2001/01/19 16:00:02 ce Exp $
+// $Id: checkout.php,v 1.23 2001/01/23 09:59:38 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -95,6 +95,7 @@ $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
 $t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
+$t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
 
 if ( $VISAShopping == "enabled" )
@@ -407,25 +408,40 @@ if ( $SendOrder == "true" )
         {
             $t->set_var( "cart_image", "" );
         }
-
+        
+        $t->set_var( "wish_user", "" );
+        
         $wishListItem = $item->wishListItem();
+        
         if ( $wishListItem )
         {
             $wishList = $wishListItem->wishList();
 
-            $wishUser = $wishList->user();
-
-            $address = new eZAddress();
-
-            $mainAddress = $address->mainAddress( $wishUser );
-
-            if ( $mainAddress )
+            if ( $wishList )
             {
-                // BÅRD, her har du $mainAddress objektet
+                $wishUser = $wishList->user();
+
+                if ( get_class ( $wishUser ) == "ezuser" )
+                {
+                    $address = new eZAddress();
+                
+                    $mainAddress =& $address->mainAddress( $wishUser );
+
+                    if ( get_class ( $mainAddress ) == "ezaddress" )
+                    {
+                        $t->set_var( "wish_user_address_id", $mainAddress->id() );
+                        $t->set_var( "wish_first_name", $wishUser->firstName() );
+                        $t->set_var( "wish_last_name", $wishUser->lastName() );
+                    
+                        $t->parse( "wish_user", "wish_user_tpl" );
+                    }
+                    else
+                    {
+                    }
+                }
             }
         }
 
-        
         $price = $product->price() * $item->count();
         $currency->setValue( $price );
 
