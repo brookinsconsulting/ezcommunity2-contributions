@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.15 2001/02/26 14:12:58 pkej Exp $
+// $Id: eztexttool.php,v 1.16 2001/04/25 14:08:05 jb Exp $
 //
 // Definition of eZTextTool class
 //
@@ -159,6 +159,70 @@ class eZTextTool
             $i++; 
         } 
         return $out;
+    }
+
+    /*!
+      \static
+      Parses an XML message into a tree array,
+      the XML needs to be passed trough qdom_tree or xml_tree before being passed to this function.
+      This function is useful for small xml files with 1-3 levels.
+      The resulting array tree makes it easy to grab variables from the XML tree.
+      Each node gets a separate array with each attribute as a key/value pair,
+      each child of that node is a key with the node name and the value is the new tree.
+      Example: <top attrib="test"><one src="test again" /></top>
+      Result: Array
+      (
+        [top] => Array
+        (
+          [attrib] => test
+          [children] => Array
+          (
+            [one] => Array
+            (
+              [src] => test again
+            )
+          )
+        )
+      )
+      You can then access the "src" attribute of the node "one" by doing,
+      $src = $tree["top"]["children"]["one"]["src"];
+      which is quite easier than traversing an xml tree manually.
+    */
+    function &parseXML( &$xml )
+    {
+        $msg = array();
+        eZTextTool::parseXMLPart( $xml, $msg );
+        return $msg;
+    }
+
+    /*!
+      \static
+      \private
+      Helper function for parseXML.
+    */
+    function parseXMLPart( &$xml, &$msg )
+    {
+        foreach( $xml->children as $child )
+        {
+            $part = array();
+            if ( isset( $child->attributes ) )
+            {
+                foreach( $child->attributes as $attr )
+                {
+                    if ( $attr->type == 2 )
+                    {
+                        $part[$attr->name] =& $attr->content;
+                    }
+                }
+            }
+            if ( isset( $child->children ) )
+            {
+                $children = array();
+                eZTextTool::parseXMLPart( $child, $children );
+                $part["children"] =& $children;
+            }
+            $msg[$child->name] = $part;
+        }
     }
 }
 
