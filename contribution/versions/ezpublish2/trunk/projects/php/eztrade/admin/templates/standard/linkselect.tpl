@@ -152,7 +152,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN module_item_tpl -->
 <tr>
-	<td width="1%" valign="top"><img src="/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" /><br /></td>
+	<td width="1%" valign="top"><img src="/admin/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" /><br /></td>
 	<td width="99%"class="menu"><a class="menu" href="/trade/productedit/link/select/{product_id}/{module_name}/{module_type}/{section_id}">{module_type_name}</a></td>
 </tr>
 <!-- END module_item_tpl -->

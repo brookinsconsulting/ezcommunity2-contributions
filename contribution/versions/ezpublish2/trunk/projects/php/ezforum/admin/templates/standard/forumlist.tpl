@@ -14,9 +14,9 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
-<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
 
 <hr noshade="noshade" size="4" />
@@ -38,7 +38,7 @@
 	{forum_description}
 	</td>
     <td width="1%" class={td_class}>
-	<a href="/forum/forumedit/edit/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="/forum/forumedit/edit/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
     <td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ForumArrayID[]" value="{forum_id}">

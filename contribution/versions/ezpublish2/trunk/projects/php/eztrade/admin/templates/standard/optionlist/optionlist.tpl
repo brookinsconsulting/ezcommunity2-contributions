@@ -17,12 +17,12 @@
 	{option_name}
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/productedit/optionedit/edit/{option_id}/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{option_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezto{option_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/trade/productedit/optionedit/edit/{option_id}/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{option_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezto{option_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="DeleteOptionID[]" value="{option_id}">
 <!--  	<td width="1%" class="{td_class}"> -->
-<!--  	<a href="#" onClick="verify( '{intl-delete}', '/trade/productedit/optionedit/delete/{option_id}/{product_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{option_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezto{option_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a> -->
+<!--  	<a href="#" onClick="verify( '{intl-delete}', '/trade/productedit/optionedit/delete/{option_id}/{product_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{option_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="ezto{option_id}-slett" border="0" src="/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a> -->
 	</td>
 </tr>
 <!-- END option_tpl -->

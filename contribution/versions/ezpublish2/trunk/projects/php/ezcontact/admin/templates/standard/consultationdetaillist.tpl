@@ -28,11 +28,11 @@
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
 
 </tr>

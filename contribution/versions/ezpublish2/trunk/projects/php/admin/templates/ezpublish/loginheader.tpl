@@ -96,7 +96,7 @@
 
 		<a href="/">
 		<!-- Icon: Start -->
-		<img src="/ez{module_name}/admin/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
+		<img src="/ez{module_name}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
 		<!-- Icon: End -->
 		</a>
 

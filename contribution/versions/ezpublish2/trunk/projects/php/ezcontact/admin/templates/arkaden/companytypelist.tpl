@@ -39,12 +39,12 @@
 <!-- BEGIN path_tpl -->
 <hr noshade="noshade" size="4" />
 
-<img src="/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
 <a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/admin/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 
@@ -82,8 +82,8 @@
     <td>{type_id}</td>
     <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>
 <!-- END category_item_tpl -->
 
@@ -112,8 +112,8 @@
     <td>{type_id}</td>
     <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_view}/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>
 <!-- END type_item_tpl -->
 

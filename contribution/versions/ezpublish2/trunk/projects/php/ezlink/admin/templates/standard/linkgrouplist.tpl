@@ -17,7 +17,7 @@
 <!-- BEGIN path_tpl -->
 
 
-<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 <a class="path" href="/link/group/0/">{intl-top}</a>
 
@@ -25,7 +25,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 <a class="path" href="/link/group/{group_id}/">{group_name}</a>
 <!-- END path_item_tpl -->
@@ -56,7 +56,7 @@
 	<!-- END no_image_tpl -->
         </td>
 	<td width="1%" bgcolor="{bg_color}">
-	<a href="/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td bgcolor="{bg_color}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{linkgroup_id}">
@@ -94,7 +94,7 @@
 	(Hits:&nbsp;{link_hits})
 	</td>
 	<td class="{td_class}" width="1%" bgcolor="{bg_color}">
-	<a href="/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="LinkArrayID[]" value="{link_id}">

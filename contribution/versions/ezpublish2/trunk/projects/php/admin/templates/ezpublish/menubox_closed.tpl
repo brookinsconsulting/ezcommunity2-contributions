@@ -2,9 +2,9 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="repeaty" rowspan="2" width="1%" background="/images/{site_style}/box-l02.gif" valign="top"><img src="/images/{site_style}/box-l01.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/images/{site_style}/box-m01.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeaty" rowspan="2" width="1%" background="/images/{site_style}/box-r02.gif" valign="top"><img src="/images/{site_style}/box-r01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" rowspan="2" width="1%" background="/admin/images/{site_style}/box-l02.gif" valign="top"><img src="/admin/images/{site_style}/box-l01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="98%" background="/admin/images/{site_style}/box-m01.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeaty" rowspan="2" width="1%" background="/admin/images/{site_style}/box-r02.gif" valign="top"><img src="/admin/images/{site_style}/box-r01.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
 	<td align="bottom" bgcolor="#b5b5b5">
@@ -20,7 +20,7 @@
 		
 		</td>
 		<td width="1%">
-		<img src="/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
+		<img src="/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
 		</td>
 		<td width="95%">
 		<span class="modulename">		
@@ -28,13 +28,13 @@
 		</span>
 		</td>
 		<td width="1%">
-		<img src="/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
+		<img src="/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
 		</td>
 		<td width="1%">
-		<a href="{move_down_uri}"><img src="/images/{site_style}/move-down.gif" width="12" height="12" border="0" alt="" /></a><br />
+		<a href="{move_down_uri}"><img src="/admin/images/{site_style}/move-down.gif" width="12" height="12" border="0" alt="" /></a><br />
 		</td>
 		<td width="1%">
-		<a href="{move_up_uri}"><img src="/images/{site_style}/move-up.gif" width="12" height="12" border="0" alt="" /></a>
+		<a href="{move_up_uri}"><img src="/admin/images/{site_style}/move-up.gif" width="12" height="12" border="0" alt="" /></a>
 		</td>	
 	</tr>
 	</table>
@@ -42,13 +42,13 @@
 	</td>
 </tr>
 <tr>
-    <td class="repeaty" width="1%" valign="bottom"><img src="/images/{site_style}/box-l03closed.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/images/{site_style}/top-m02.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="10" border="0" /><br /></td>
-    <td class="repeaty" width="1%" valign="bottom"><img src="/images/{site_style}/box-r03closed.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-l03closed.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="98%" background="/admin/images/{site_style}/top-m02.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-r03closed.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
 	<td class="tdmini" colspan="3">
-	<img src="/images/{site_style}/1x1.gif" width="1" height="6" border="0" /><br />
+	<img src="/admin/images/{site_style}/1x1.gif" width="1" height="6" border="0" /><br />
 	</td>
 </tr>
 </table>

@@ -22,7 +22,7 @@
 	<h1>{news_name}</h1>
 	<span class="small">( {news_origin} - {news_date} )</span>
 	<p class="newslist">{news_intro}</p>
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" target="_blank"  href="{news_url}">{intl-read_more}</a>
+	<img src="/admin/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" target="_blank"  href="{news_url}">{intl-read_more}</a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/eznewsfeed/admin/images/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/eznewsfeed/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>

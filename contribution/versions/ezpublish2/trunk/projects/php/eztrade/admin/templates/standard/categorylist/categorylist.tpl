@@ -15,11 +15,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="0" />
+<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="0" />
 <a class="path" href="/trade/categorylist/parent/0/">{intl-top}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="0" />
 <a class="path" href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
 
 <!-- END path_item_tpl -->
@@ -48,7 +48,7 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="/trade/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{category_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
@@ -105,14 +105,14 @@
 	</td>
 	<!-- BEGIN absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="/trade/categorylist/parent/{category_id}/?MoveDown={product_id}"><img src="/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	<a href="/trade/categorylist/parent/{category_id}/?MoveDown={product_id}"><img src="/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/categorylist/parent/{category_id}/?MoveUp={product_id}"><img src="/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	<a href="/trade/categorylist/parent/{category_id}/?MoveUp={product_id}"><img src="/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
 	</td>
 	<!-- END absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="/trade/productedit/edit/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezti{product_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="/trade/productedit/edit/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezti{product_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ProductArrayID[]" value="{product_id}">

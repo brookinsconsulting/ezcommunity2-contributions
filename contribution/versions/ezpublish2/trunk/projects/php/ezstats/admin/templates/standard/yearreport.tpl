@@ -43,13 +43,13 @@
 		<tr>
 			<!-- BEGIN percent_marker_tpl -->
 			<td width="{page_view_percent}%" bgcolor="#ffee00">
-			<img src="/images/1x1.gif" width="1" height="10" border="0"></td>
+			<img src="/admin/images/1x1.gif" width="1" height="10" border="0"></td>
 			<td width="{page_view_inverted_percent}%"  bgcolor="#eeeeee">
-			<img src="/images/1x1.gif" width="1" height="10" border="0"></td>
+			<img src="/admin/images/1x1.gif" width="1" height="10" border="0"></td>
 			<!-- END percent_marker_tpl -->
 			<!-- BEGIN no_percent_marker_tpl -->
 			<td colspan="2" width="{page_view_percent}%" bgcolor="#eeeeee">
-			<img src="/images/1x1.gif" width="1" height="10" border="0"></td>
+			<img src="/admin/images/1x1.gif" width="1" height="10" border="0"></td>
 			<!-- END no_percent_marker_tpl -->
 		</tr>
 		</table>

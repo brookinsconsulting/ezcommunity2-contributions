@@ -2,17 +2,17 @@
 <!-- BEGIN path_tpl -->
 <hr noshade="noshade" size="4" />
 
-<img src="/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
 <a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/admin/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="/{intl-module_name}/{intl-category_command_type}/{intl-command_view}/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 
 <!-- BEGIN current_path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/admin/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="/{intl-module_name}/{intl-category_command_type}/{intl-command_view}/{parent_id}">{intl-current_edit}</a>
 <!-- END current_path_item_tpl -->
 

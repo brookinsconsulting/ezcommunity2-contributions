@@ -29,12 +29,12 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 <a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 
@@ -49,7 +49,7 @@
 	{intl-new_consultation}
 	</td>
 	<td>
-	<img src="/images/addmini.gif">
+	<img src="/admin/images/addmini.gif">
 	</td>
 </tr>
 <tr>
@@ -57,7 +57,7 @@
 	{intl-edit_person}
 	</td>
 	<td>
-	<img src="/images/redigermini.gif">
+	<img src="/admin/images/redigermini.gif">
 	</td>
 </tr>
 <tr>
@@ -65,7 +65,7 @@
 	{intl-delete_person}
 	</td>
 	<td>
-	<img src="/images/slettmini.gif">
+	<img src="/admin/images/slettmini.gif">
 	</td>
 </tr>
 </table>
@@ -123,11 +123,11 @@
     <td>{type_description}</td>
 
     <!-- BEGIN type_edit_button_tpl -->
-    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a></td>
     <!-- END type_edit_button_tpl -->
 
     <!-- BEGIN type_delete_button_tpl -->
-    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></td>
 </tr>
     <!-- END type_delete_button_tpl -->
 
@@ -196,19 +196,19 @@
 
 	<!-- BEGIN company_consultation_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{company_id}-red','','/images/addminimrk.gif',1)"><img name="ezn{company_id}-red" border="0" src="/images/addmini.gif" width="16" height="16" align="top" alt="Add consultation" /></a>
+	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{company_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{company_id}-red" border="0" src="/admin/images/addmini.gif" width="16" height="16" align="top" alt="Add consultation" /></a>
 	</td>
 	<!-- END company_consultation_button_tpl -->
 
 	<!-- BEGIN company_edit_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{company_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<!-- END company_edit_button_tpl -->
 
 	<!-- BEGIN company_delete_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/contact/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{company_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="/contact/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{company_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>	
 	<!-- END company_delete_button_tpl -->
 

@@ -37,7 +37,7 @@
 	{intl-new_consultation}
 	</td>
 	<td>
-	<img src="/images/addmini.gif">
+	<img src="/admin/images/addmini.gif">
 	</td>
 </tr>
 <tr>
@@ -45,7 +45,7 @@
 	{intl-edit_person}
 	</td>
 	<td>
-	<img src="/images/redigermini.gif">
+	<img src="/admin/images/redigermini.gif">
 	</td>
 </tr>
 <tr>
@@ -53,7 +53,7 @@
 	{intl-delete_person}
 	</td>
 	<td>
-	<img src="/images/slettmini.gif">
+	<img src="/admin/images/slettmini.gif">
 	</td>
 </tr>
 </table>
@@ -100,19 +100,19 @@
 
 	<!-- BEGIN person_consultation_button_tpl -->
 	<td width="1%">
-	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/images/addmini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/admin/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_consultation_button_tpl -->
 
 	<!-- BEGIN person_edit_button_tpl -->
 	<td width="1%">
-	<a href="/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_edit_button_tpl -->
 
 	<!-- BEGIN person_delete_button_tpl -->
 	<td width="1%">
-	<a href="/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{person_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{person_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
 	<!-- END person_delete_button_tpl -->
 

@@ -150,7 +150,7 @@
 
 	<!-- BEGIN person_consultation_button_tpl -->
 	<td width="1%">
-	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/images/addmini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/admin/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_consultation_button_tpl -->
 </tr>

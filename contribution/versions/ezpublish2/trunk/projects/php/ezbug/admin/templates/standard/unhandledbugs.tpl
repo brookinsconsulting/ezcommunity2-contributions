@@ -26,7 +26,7 @@
 	{bug_submitter}
 	</td>
 	<td class="{td_class}">
-	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bug_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bug_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bug_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bug_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 </tr>
 <!-- END bug_tpl -->

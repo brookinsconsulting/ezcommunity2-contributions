@@ -22,7 +22,7 @@
 <!-- BEGIN path_tpl -->
 
 
-<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" /> 
+<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" /> 
 
 <a class="path" href="/newsfeed/unpublished/0/">{intl-top_category}</a>
 
@@ -30,7 +30,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 <a class="path" href="/newsfeed/unpublished/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
@@ -54,7 +54,7 @@
 	  {category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	  <a href="/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	  <a href="/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="CategoryArrayID[]" value="{category_nr}">
@@ -95,7 +95,7 @@
 	</td>
 
 	<td width="1%" class="{td_class}">
-	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="NewsDeleteIDArray[]" value="{news_id}" />

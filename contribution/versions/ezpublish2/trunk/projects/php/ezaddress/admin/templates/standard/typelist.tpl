@@ -40,7 +40,7 @@
 	{extra_type_item}
 
 <!-- BEGIN item_move_down_tpl -->
-	<td width="1%"><a href="{item_down_command}/{item_id}"><img src="/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td width="1%"><a href="{item_down_command}/{item_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
 <!-- END item_move_down_tpl -->
 
 <!-- BEGIN no_item_move_down_tpl -->
@@ -55,14 +55,14 @@
 <!-- END no_item_separator_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
-	<td width="1%"><a href="{item_up_command}/{item_id}"><img src="/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td width="1%"><a href="{item_up_command}/{item_id}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
 	<td width="1%"> &nbsp; </td>
 <!-- END no_item_move_up_tpl -->
 
 	<td width="1%">
-	<a href="{item_edit_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{item_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{item_edit_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{item_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">

@@ -6,7 +6,7 @@
 
 <hr noshade size="4" />
 
-<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 <a class="path" href="/bug/module/list/0/">{intl-top}</a>
 
@@ -14,7 +14,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 <a class="path" href="/bug/module/list/{module_id}/">{module_name}</a>
 <!-- END path_item_tpl -->
@@ -28,7 +28,7 @@
 	<a href="/bug/module/list/{module_id}">{module_name}</a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/bug/module/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{module_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="pt{module_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/bug/module/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{module_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="pt{module_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="ModuleArrayID[]" value="{module_id}">

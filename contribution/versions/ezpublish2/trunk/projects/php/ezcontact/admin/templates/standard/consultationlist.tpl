@@ -25,11 +25,11 @@
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcc{company_id}-slett','','/images/addminimrk.gif',1)"><img name="ezcc{company_id}-slett" border="0" src="/images/addmini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcc{company_id}-slett','','/admin/images/addminimrk.gif',1)"><img name="ezcc{company_id}-slett" border="0" src="/admin/images/addmini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>	
 
 	<td width="1%">
-	<a href="/contact/consultation/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{company_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="/contact/consultation/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{company_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>	
 
 </tr>
@@ -60,11 +60,11 @@
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpc{person_id}-slett','','/images/addminimrk.gif',1)"><img name="ezpc{person_id}-slett" border="0" src="/images/addmini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpc{person_id}-slett','','/admin/images/addminimrk.gif',1)"><img name="ezpc{person_id}-slett" border="0" src="/admin/images/addmini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>	
 
 	<td width="1%">
-	<a href="/contact/consultation/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{person_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezp{person_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="/contact/consultation/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{person_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezp{person_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>	
 
 </tr>

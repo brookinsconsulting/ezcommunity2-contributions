@@ -3,6 +3,12 @@ eZ publish changelog:
 
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* New general link feature. It's possible to link one part of a module to another part
+  of any other ez module given that they have an url supplier. This means that one
+  can add "Related links" etc.. to articles.
+* Added availability (quantity) to products and product options. Various options can be
+  enabled/disabled to either show availability as a number or as a custom message.
+  It's also possible to restrict product buying to products which are available.
 * Removed usage of symlinks. Admin and user uses the same documentroot now.
 * Optimised eZ article. Is now much more capable of handling > 10.000 articles.
 * Fixed renering of currencies with decimals, the integerpart was only rendered.
