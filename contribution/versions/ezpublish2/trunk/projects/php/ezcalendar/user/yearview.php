@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.10 2001/01/24 13:17:07 gl Exp $
+// $Id: yearview.php,v 1.11 2001/01/25 14:50:17 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -35,101 +35,124 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $Locale = new eZLocale( $Language );
 
-$t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
-                     "ezcalendar/user/intl/", $Language, "yearview.php" );
-
-$t->set_file( "month_list_page_tpl", "yearview.tpl" );
-
-$t->setAllStrings();
-
-$t->set_block( "month_list_page_tpl", "month_tpl", "month" );
-$t->set_block( "month_tpl", "week_tpl", "week" );
-$t->set_block( "week_tpl", "day_tpl", "day" );
-$t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
-
-$session =& eZSession::globalSession();
-$session->fetch();
-
-$date = new eZDate( );
 $today = new eZDate( );
+$zDay = addZero( $today->day() );
+$t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
+                     "ezcalendar/user/intl", $Language, "yearview.php",
+                     "default", "ezcalendar" . "/user", "$Year-$zDay" );
 
-if ( $Year != "" )
+$t->set_file( "year_view_page_tpl", "yearview.tpl" );
+
+if ( $t->hasCache() )
 {
-    $date->setYear( $Year );
+//    print( "cached<br />" );
+    print( $t->cache() );
 }
 else
 {
-    $Year = $date->year();
-}
+//    print( "not cached<br />" );
+    $t->setAllStrings();
 
-$session->setVariable( "Year", $Year );
+    $t->set_block( "year_view_page_tpl", "month_tpl", "month" );
+    $t->set_block( "month_tpl", "week_tpl", "week" );
+    $t->set_block( "week_tpl", "day_tpl", "day" );
+    $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
 
-$t->set_var( "year_number", $Year );
-$t->set_var( "prev_year_number", $Year - 1 );
-$t->set_var( "next_year_number", $Year + 1 );
+    $session =& eZSession::globalSession();
+    $session->fetch();
 
-$i=0;
-for ( $month=1; $month<13; $month++ )
-{
-    if ( ( $i % 3 ) == 0 )
+    $date = new eZDate( );
+
+    if ( $Year != "" )
     {
-        $t->set_var( "begin_tr", "<tr>" );
-        $t->set_var( "end_tr", "" );        
-    }
-    else if ( ( $i % 3 ) == 2 )
-    {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "</tr>" );
+        $date->setYear( $Year );
     }
     else
     {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "" );        
+        $Year = $date->year();
     }
-    
-    $date->setMonth( $month );
-    $t->set_var( "month_number", $month );
-    $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
 
-    $t->set_var( "week", "" );
-    for ( $week=0; $week<6; $week++ )
+    $session->setVariable( "Year", $Year );
+
+    $t->set_var( "year_number", $Year );
+    $t->set_var( "prev_year_number", $Year - 1 );
+    $t->set_var( "next_year_number", $Year + 1 );
+
+    $i=0;
+    for ( $month=1; $month<13; $month++ )
     {
-        $t->set_var( "day", "" );
-        $t->set_var( "empty_day", "" );
-        
-        for ( $day=1; $day<=7; $day++ )
+        if ( ( $i % 3 ) == 0 )
         {
-            $date->setDay( 1 );
-            $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
-
-            $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
-
-            if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
-                 ( $currentDay <= $date->daysInMonth() ) )
-            {
-                $date->setDay( $currentDay );
-
-                $t->set_var( "td_class", "bglight" );
-                if ( $date->equals( $today ) )
-                    $t->set_var( "td_class", "bgcurrent" );
-
-                $t->set_var( "day_number", $currentDay );
-                $t->parse( "day", "day_tpl", true );
-            }
-            else
-            {
-                $t->set_var( "td_class", "bglight" );                
-                $t->parse( "day", "empty_day_tpl", true );
-            }
+            $t->set_var( "begin_tr", "<tr>" );
+            $t->set_var( "end_tr", "" );        
         }
-        $t->parse( "week", "week_tpl", true );
-    }
-    $t->parse( "month", "month_tpl", true );
+        else if ( ( $i % 3 ) == 2 )
+        {
+            $t->set_var( "begin_tr", "" );
+            $t->set_var( "end_tr", "</tr>" );
+        }
+        else
+        {
+            $t->set_var( "begin_tr", "" );
+            $t->set_var( "end_tr", "" );        
+        }
+    
+        $date->setMonth( $month );
+        $t->set_var( "month_number", $month );
+        $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
 
-    $i++;
+        $t->set_var( "week", "" );
+        for ( $week=0; $week<6; $week++ )
+        {
+            $t->set_var( "day", "" );
+            $t->set_var( "empty_day", "" );
+
+            for ( $day=1; $day<=7; $day++ )
+            {
+                $date->setDay( 1 );
+                $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
+
+                $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
+
+                if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
+                     ( $currentDay <= $date->daysInMonth() ) )
+                {
+                    $date->setDay( $currentDay );
+
+                    $t->set_var( "td_class", "bglight" );
+                    if ( $date->equals( $today ) )
+                        $t->set_var( "td_class", "bgcurrent" );
+
+                    $t->set_var( "day_number", $currentDay );
+                    $t->parse( "day", "day_tpl", true );
+                }
+                else
+                {
+                    $t->set_var( "td_class", "bglight" );                
+                    $t->parse( "day", "empty_day_tpl", true );
+                }
+            }
+            $t->parse( "week", "week_tpl", true );
+        }
+        $t->parse( "month", "month_tpl", true );
+
+        $i++;
+    }
+
+    $t->storeCache( "output", "year_view_page_tpl", true );
 }
 
-$t->pparse( "output", "month_list_page_tpl" );
+//Adds a "0" in front of the value if it's below 10.
+function addZero( $value )
+{
+    settype( $value, "integer" );
+    $ret = $value;
+    if ( $ret < 10 )
+    {
+        $ret = "0". $ret;
+    }
+    return $ret;
+}
 
 
 ?>
