@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.36 2001/04/29 14:37:31 bf Exp $
+// $Id: ezsession.php,v 1.37 2001/05/04 12:35:04 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -325,21 +325,26 @@ class eZSession
 
       If the variable does not exist 0 (false) is returned.
     */
-    function variable( $name )
+    function variable( $name, $group = false )
     {
-        if ( isset( $this->StoredVariables[$name] ) )
+        if ( isset( $this->StoredVariables[$group][$name] ) )
         {
-            return $this->StoredVariables[$name];
+            return $this->StoredVariables[$group][$name];
         }
         $ret = false;
         $db =& eZDB::globalDatabase();
 
+        if ( !is_bool( $group ) )
+            $group_sql = "GroupName='$group'";
+        else
+            $group_sql = "GroupName IS NULL";
         $db->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
-                                                    WHERE SessionID='$this->ID' AND Name='$name'" );
+                                                    WHERE SessionID='$this->ID' AND Name='$name'
+                                                    AND $group_sql" );
         if ( count( $value_array ) == 1 )
         {
             $ret = $value_array[0]["Value"];
-            $this->StoredVariables[$name] = $ret;
+            $this->StoredVariables[$group][$name] = $ret;
         }
 
         return $ret;
@@ -402,17 +407,22 @@ class eZSession
     /*!
       Adds or updates a variable to the session.
     */
-    function setVariable( $name, $value )
+    function setVariable( $name, $value, $group = false )
     {
         $db =& eZDB::globalDatabase();
 
-        if ( isset( $this->StoredVariables[$name] ) )
+        if ( isset( $this->StoredVariables[$group][$name] ) )
         {
-            $this->StoredVariables[$name] = $value;
+            $this->StoredVariables[$group][$name] = $value;
         }
 
+        if ( !is_bool( $group ) )
+            $group_sql = "GroupName='$group'";
+        else
+            $group_sql = "GroupName IS NULL";
         $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
-                                                    WHERE SessionID='$this->ID' AND Name='$name'" );       
+                                                    WHERE SessionID='$this->ID' AND Name='$name'
+                                                    AND $group_sql" );
         if ( count( $value_array ) == 1 )
         {
             $valueID = $value_array[0]["ID"];
@@ -425,7 +435,8 @@ class eZSession
             $db->query( "INSERT INTO eZSession_SessionVariable SET
 		                         SessionID='$this->ID',
 		                         Name='$name',
-		                         Value='$value'
+		                         Value='$value',
+                                 GroupName='$group'
                                  " );
         }       
     }
