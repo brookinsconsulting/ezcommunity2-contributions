@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: imagelist.php,v 1.29 2001/06/29 14:58:22 th Exp $
+// $Id: imagelist.php,v 1.30 2001/07/09 08:33:16 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -387,6 +387,7 @@ else
     $t->set_var( "prev", "" );
 }
 
+$t->set_var( "pos", $Offset );
 $t->set_var( "detail_button", "" );
 $t->set_var( "normal_button", "" );
 if ( isSet ( $DetailView ) )

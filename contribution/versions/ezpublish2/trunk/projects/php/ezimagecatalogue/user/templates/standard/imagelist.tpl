@@ -170,7 +170,7 @@
 </form>
 
 
-<form method="post" action="/imagecatalogue/image/list/{main_category_id}/" enctype="multipart/form-data">
+<form method="post" action="/imagecatalogue/image/list/{main_category_id}/{pos}/" enctype="multipart/form-data">
 <input type="hidden" name="Detail" value="{is_detail_view}">
 
 <!-- BEGIN normal_view_button -->
