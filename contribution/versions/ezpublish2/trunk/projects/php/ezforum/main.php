@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.24 2000/08/28 13:26:02 bf-cvs Exp $
+    $Id: main.php,v 1.25 2000/08/28 13:48:03 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,11 +16,12 @@ include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( "class.INIFile.php" );
 
-include_once( $DOC_ROOT . "/classes/ezdb.php" );
-include_once( $DOC_ROOT . "/classes/ezforumcategory.php" );
-include_once( $DOC_ROOT . "/classes/ezuser.php" );
-include_once( $DOC_ROOT . "/classes/ezsession.php" );
-include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+include_once( $DOC_ROOT . "classes/ezdb.php" );
+include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
+include_once( $DOC_ROOT . "classes/ezforummessage.php" );
+
+include_once( "classes/ezuser.php" );
+include_once( "classes/ezsession.php" );
 include_once( "classes/eztemplate.php" );
 
 echo "";

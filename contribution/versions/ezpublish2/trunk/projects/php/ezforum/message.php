@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.13 2000/08/28 13:26:02 bf-cvs Exp $
+    $Id: message.php,v 1.14 2000/08/28 13:48:03 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -12,12 +12,11 @@
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
-//include( "ezforum/dbsettings.php" );
-
 include_once( $DOC_ROOT . "/classes/ezdb.php" );
-include_once( $DOC_ROOT . "/classes/ezuser.php" );
-include_once( $DOC_ROOT . "/classes/ezsession.php" );
 include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+
+include_once( "classes/ezuser.php" );
+include_once( "classes/ezsession.php" );
 include_once( "classes/eztemplate.php" );
 
 $msg = new eZforumMessage;
@@ -43,7 +42,8 @@ $t->set_var( "category_id", $category_id);
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
-    $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
+    $user = new eZUser();    
+    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
     $t->parse( "logout-message", "logout", true );
 }
 else
@@ -67,6 +67,7 @@ $t->set_var( "forum_id", $forum_id );
 $top_message = $msg->getTopMessage( $message_id );
     
 $messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOC_ROOT, $category_id );
+
 $t->set_var( "replies", $messages );
 
 $t->set_var( "link1-url", "main.php");

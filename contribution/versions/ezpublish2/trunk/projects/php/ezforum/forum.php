@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.22 2000/08/28 13:26:02 bf-cvs Exp $
+    $Id: forum.php,v 1.23 2000/08/28 13:48:03 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -18,9 +18,9 @@ include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( "class.INIFile.php" );
 include_once( $DOC_ROOT . "/classes/ezdb.php" );
-include_once( $DOC_ROOT . "/classes/ezuser.php" );
 include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
-include_once( $DOC_ROOT . "/classes/ezsession.php" );
+include_once( "classes/ezuser.php" );
+include_once( "classes/ezsession.php" );
 include_once( "classes/eztemplate.php" );
 
 $ini = new INIFile( "ezforum.ini" ); // get language settings
@@ -54,7 +54,8 @@ if ( $session->get( $AuthenticatedSession ) == 0 )
 {
     $UserID = $session->UserID();
 
-    $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
+    $user = new eZUser();
+    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
 
     $t->parse( "logout-message", "logout", true );
 }

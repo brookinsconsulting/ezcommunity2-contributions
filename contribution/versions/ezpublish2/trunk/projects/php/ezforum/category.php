@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.19 2000/08/28 13:26:02 bf-cvs Exp $
+    $Id: category.php,v 1.20 2000/08/28 13:48:03 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -14,13 +14,12 @@
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
-
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( $DOC_ROOT . "classes/ezforumforum.php" );
 include_once( $DOC_ROOT . "classes/ezforummessage.php" );
-include_once( $DOC_ROOT . "classes/ezsession.php" );
-include_once( $DOC_ROOT . "classes/ezuser.php" );
+include_once( "classes/ezsession.php" );
+include_once( "classes/ezuser.php" );
 include_once( "classes/eztemplate.php" );
 
 $session = new eZSession;
@@ -28,7 +27,7 @@ $session = new eZSession;
 $ini = new INIFile( "site.ini" ); // get language settings
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
-$t = new eZTemplate( "$DOC_ROOT/templates", "$DOC_ROOT/intl", $Language, "category.php" );
+$t = new eZTemplate( $DOC_ROOT . "/templates", $DOC_ROOT. "/intl", $Language, "category.php" );
 $t->setAllStrings();
 
 $t->set_file( array("category" => "category.tpl",
@@ -46,13 +45,14 @@ $t->set_var( "category_id", $category_id );
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
-   $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
-   $t->parse( "logout-message", "logout", true );
+    $user = new eZUser();
+    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
+    $t->parse( "logout-message", "logout", true );
 }
 else
 {
-   $t->set_var( "user", "Anonym" );
-   $t->parse( "logout-message", "login", true);
+    $t->set_var( "user", "Anonym" );
+    $t->parse( "logout-message", "login", true);
 }
 $t->parse( "navigation-bar", "navigation", true);
 
