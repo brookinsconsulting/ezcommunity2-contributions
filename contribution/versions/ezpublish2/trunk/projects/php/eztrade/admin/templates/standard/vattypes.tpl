@@ -4,7 +4,19 @@
 
 <form action="/trade/vattypes/" method="post">
 
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+    <td>
+        {intl-name}:
+    </td>
+    <td>
+        {intl-percentage}:
+    </td>
+    <td>
+        &nbsp;
+    </td>
+</tr>
 <!-- BEGIN vat_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -12,7 +24,7 @@
 	  <input type="text" name="VatName[]" value="{vat_name}" />
 	</td>
 	<td class="{td_class}">
-	  <input type="text" size="2" name="VatValue[]" value="{vat_value}" />%
+	  <input type="text" size="4" name="VatValue[]" value="{vat_value}" />%
 	</td>
 	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="VatArrayID[]" value="{vat_id}">
