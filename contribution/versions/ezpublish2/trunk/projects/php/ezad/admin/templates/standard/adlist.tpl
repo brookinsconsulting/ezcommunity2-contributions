@@ -85,7 +85,7 @@
 	<td class="{td_class}">
 	<!-- BEGIN image_item_tpl -->
 	<!-- <p class="boxtext">{intl-th_type_current_image}:</p> -->
-	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /></p>
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	<p class="error">{intl-no_image}</p>

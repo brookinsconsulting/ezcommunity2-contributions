@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.12 2001/03/01 14:06:24 jb Exp $
+// $Id: adlist.php,v 1.13 2001/03/19 15:16:17 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -148,10 +148,10 @@ foreach ( $adList as $ad )
     {
         $imageURL = $image->filePath();
 
-        $t->set_var( "image_width", $imageWidth );
-        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_width", $image->width() );
+        $t->set_var( "image_height", $image->height() );
         $t->set_var( "image_url", $imageURL );
-        $t->set_var( "image_caption", $imageCaption );
+        $t->set_var( "image_caption", $image->caption() );
         $t->parse( "image_item", "image_item_tpl" );
         $t->set_var( "no_image", "" );
     }
