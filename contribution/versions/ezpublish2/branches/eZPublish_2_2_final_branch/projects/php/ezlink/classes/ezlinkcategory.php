@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.11 2001/09/24 09:51:46 bf Exp $
+// $Id: ezlinkcategory.php,v 1.11.2.1 2001/10/29 18:28:17 fh Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -100,7 +100,7 @@ class eZLinkCategory
                 ImageID='$this->ImageID',
                 SectionID='$this->SectionID'
                 WHERE ID='$this->ID'" );
-         
+
         if ( $res == false )
             $db->rollback( );
         else

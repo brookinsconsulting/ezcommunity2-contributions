@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.6 2001/10/02 17:56:50 br Exp $
+// $Id: categoryedit.php,v 1.6.2.1 2001/10/29 18:28:17 fh Exp $
 //
 // Created on: <26-Oct-2000 14:57:28 ce>
 //
@@ -212,8 +212,8 @@ if ( $Action == "update" )
         $ParentCategory != "" )
         {
             $category = new eZLinkCategory();
-            $category->get ( $LinkCategoryID );
-            $category->setName ( $Name );
+            $category->get( $LinkCategoryID );
+            $category->setName( $Name );
             $category->setDescription( $Description );
             $category->setSectionID( $SectionID );
             $category->setParent( $ParentCategory );
@@ -277,6 +277,7 @@ $t->set_block( "category_edit", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit", "parent_category_tpl", "parent_category" );
 $t->set_block( "category_edit", "image_item_tpl", "image_item" );
 $t->set_block( "category_edit", "no_image_item_tpl", "no_image_item" );
+$t->set_var( "category_id", "" );
 
 $categoryselect = new eZLinkCategory();
 $categoryLinkList = $categoryselect->getTree( );
@@ -309,7 +310,7 @@ if ( $Action == "edit" )
     else
     {
         $linkCategory = new eZLinkCategory();
-        $linkCategory->get ( $LinkCategoryID );
+        $linkCategory->get( $LinkCategoryID );
 
         $parentID = $linkCategory->parent();
         $sectionID = $linkCategory->sectionID();
