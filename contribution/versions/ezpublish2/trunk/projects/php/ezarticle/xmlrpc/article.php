@@ -2,6 +2,7 @@
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
@@ -48,6 +49,7 @@ if( $Command == "data" ) // return all the data in the category
                       "LinkText" => new eZXMLRPCString( $article->linkText( false ) ),
                       "ManualKeyWords" => new eZXMLRPCString( $article->manualKeywords() ),
                       "Category" => new eZXMLRPCInt( $article->categoryDefinition( false ) ),
+                      "Categories" => new eZXMLRPCArray( $article->categories( false ), "integer" ),
                       "Discuss" => new eZXMLRPCBool( $article->discuss() ),
                       "IsPublished" => new eZXMLRPCBool( $article->isPublished() ),
                       "PageCount" => new eZXMLRPCInt( $article->pageCount() ),
@@ -61,12 +63,12 @@ if( $Command == "data" ) // return all the data in the category
                       "Topic" => new eZXMLRPCInt( $article->topic( false ) )
 //                                             "PublishedDate" => new eZXMLRPCStruct(),
                       );
-        $start_date = $article->startDate();
-        if ( $start_date->isValid() )
-            $ret["StartDate"] = createDateTimeStruct( $start_date );
-        $stop_date =& $article->stopDate();
-        if ( $stop_date->isValid() )
-            $ret["StopDate"] = createDateTimeStruct( $stop_date );
+        $start_date = $article->startDate( false );
+        if ( !is_bool( $start_date ) )
+            $ret["StartDate"] = createDateTimeStruct( $article->startDate() );
+        $stop_date =& $article->stopDate( false );
+        if ( !is_bool( $stop_date ) )
+            $ret["StopDate"] = createDateTimeStruct( $article->stopDate() );
         $published =& $article->published();
         if ( $published->isValid() )
             $ret["PublishDate"] = createDateTimeStruct( $published );
@@ -75,6 +77,7 @@ if( $Command == "data" ) // return all the data in the category
 }
 else if( $Command == "storedata" )
 {
+    eZLog::writeNotice( "Article #1" );
     $article = new eZArticle();
     if( $ID != 0 )
         $article->get( $ID );
@@ -105,11 +108,22 @@ else if( $Command == "storedata" )
     $article->store();
     $ID = $article->id();
 
+    eZLog::writeNotice( "Article #2" );
     if ( isset( $Data["Category"] ) )
     {
         $cat = new eZArticleCategory( $Data["Category"]->value() );
-        eZLog::writeNotice( "Article cat " . $cat->id() );
         $article->setCategoryDefinition( $cat );
+    }
+
+    if ( isset( $Data["Categories"] ) )
+    {
+        $cats =& $Data["Categories"]->value();
+        $article->removeFromCategories();
+        foreach( $cats as $cat )
+        {
+            $cat = $cat->value();
+            eZArticleCategory::addArticle( $article, $cat );
+        }
     }
 
     // images
@@ -128,6 +142,8 @@ else if( $Command == "storedata" )
         $article->deleteImage( $image );
     foreach( $added_images as $image )
         $article->addImage( $image );
+
+    eZLog::writeNotice( "Article #3" );
 
     // files
     $files = $Data["Files"]->value();
@@ -196,8 +212,12 @@ else if( $Command == "storedata" )
     {
         $type = new eZArticleType();
         if ( $type->get( $typeID ) )
-            $type->delete();
+        {
+            $article->deleteAttributesByType( $type );
+        }
     }
+
+    eZLog::writeNotice( "Article #4" );
 
     // forms
     $article->deleteForms();
@@ -207,6 +227,8 @@ else if( $Command == "storedata" )
         $form = new eZForm( $form->value() );
         $article->addForm( $form );
     }
+
+    eZLog::writeNotice( "Article #4.2" );
 
     // categories
     $category = new eZArticleCategory( eZArticle::categoryDefinitionStatic( $ID ) );
@@ -225,7 +247,17 @@ else if( $Command == "storedata" )
             $par[] = createURLStruct( "ezarticle", "category", $item[0] );
     }
 
-//      eZArticleTool::deleteCache( $ID, $CategoryID, $CategoryArray );
+    eZLog::writeNotice( "Article #4.3" );
+
+    $category = $article->categoryDefinition( );
+    eZLog::writeNotice( "Article #4.3.1" );
+    $CategoryID = $category->id();
+    eZLog::writeNotice( "Article #4.3.2" );
+    $CategoryArray =& $article->categories( false );
+    eZLog::writeNotice( "Article #4.3.3" );
+    eZArticleTool::deleteCache( $ID, $CategoryID, $CategoryArray );
+
+    eZLog::writeNotice( "Article #4.4" );
 
     $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "article", $ID ),
                                              "Path" => new eZXMLRPCArray( $par ),
@@ -233,6 +265,7 @@ else if( $Command == "storedata" )
                                              )
                                       );
     $Command = "update";
+    eZLog::writeNotice( "Article #5" );
 
 }
 else if( $Command == "delete" )
