@@ -60,7 +60,6 @@
 </head>
 
 <body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onload="MM_preloadImages('/admin/images/{site_style}/redigerminimrk.gif','/admin/images/{site_style}/slettminimrk.gif','/admin/images/{site_style}/downloadminimrk.gif','/admin/images/{site_style}/imagemapminimrk.gif')">
-
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="repeaty" width="1" background="{www_dir}/admin/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="{www_dir}/admin/images/{site_style}/top-l01.gif" width="10" height="10" border="0" alt="" /><br /></td>
@@ -77,14 +76,14 @@
 	<td width="1%" class="tdmini">
 	<a href="http://publish.ez.no" target="_vblank"><img src="{www_dir}/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
-	<td width="92%">
+	<td width="91%">
 	<img src="{www_dir}/admin/images/1x1.gif" width="20" height="10" border="0" alt="" />
 	</td>
 	<td width="1%">
 	<span class="top">{intl-ezpublish_version}:</span><br />
 	<span class="topusername">{ezpublish_version}</span><br />
 	<img src="{www_dir}/admin/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
-	</td>
+	</td>	
 	<td width="1%">
 	<span class="top">{intl-site_url}:</span><br />
 	<span class="topusername">{site_url}</span><br />

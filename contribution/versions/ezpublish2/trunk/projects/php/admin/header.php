@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.38 2001/09/27 13:15:21 bf Exp $
+// $Id: header.php,v 1.39 2001/10/12 10:52:58 sascha Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -30,6 +30,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezpublish.php" );
 
+
 $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
 $Locale = new eZLocale( $Language );
@@ -51,6 +52,7 @@ $t = new eZTemplate( "admin/templates/" . $SiteStyle,
 
 
 $t->set_file( "header_tpl", "header.tpl" );
+
 
 $t->set_block( "header_tpl", "module_list_tpl", "module_list" );
 $t->set_block( "module_list_tpl", "module_item_tpl", "module_item" );

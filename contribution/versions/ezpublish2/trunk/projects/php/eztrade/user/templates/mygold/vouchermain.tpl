@@ -1,11 +1,10 @@
 <h1>Geschenk Gutscheine von MyGold.com</h1>
-<hr size="1">
+<hr size="1" noshade="noshade" />
 Mit einem Gutschein von MyGold.com k&ouml;nnen Sie sicher gehen, da&szlig; der 
-Empf&auml;nger das Richtige bekommt - denn er kann sich sein Geschenk selber aussuchen. 
+Empf&auml;nger das Richtige bekommt - denn er kann sich sein Geschenk selber aussuchen.<br />
+Dabei haben Sie die Wahl ob Sie den Gutschein lieber per E-Mail oder per Post an den 
+Empf&auml;nger schicken m&ouml;chten.<br />
 <br />
-  Dabei haben Sie die Wahl ob Sie den Gutschein lieber per E-Mail oder per Post 
-  an den Empf&auml;nger schicken m&ouml;chten.<br />
-  <br />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr> 
@@ -13,26 +12,26 @@ Empf&auml;nger das Richtige bekommt - denn er kann sich sein Geschenk selber aus
       <table width="100%" border="0" cellspacing="3" cellpadding="3">
         <tr> 					 
           <td align="center" valign="middle">
-	    <img src="/sitedesign/mygold/images/gutschein_s.gif" width="100" height="99" alt="Abbildung Brief Gutschein" /><br />
+	    <img src="/sitedesign/mygold/images/egutschein_s.gif" width="100" height="136" alt="Abbildung E-Mail Gutschein" /><br />
             <a class="small" href="/imagecatalogue/imageview/218573/?RefererURL=/trade/vouchermain/">Detailansicht</a>
 	  </td>
           <td valign="top"> 
             <h2><nobr>Zusendung per E-Mail</nobr></h2>
             Egal wohin, mit einem E-Mail-Gutschein erreichen Sie den Empf&auml;nger 
             innerhalb weiniger Stunden.<br />
-            <a href="/trade/productview/1111/">Gutschein kaufen</a> </td>
+            <a href="/trade/productview/3156/">Gutschein kaufen</a> </td>
         </tr>
         <tr> 
           <td align="center" valign="middle">
-	    <img src="/sitedesign/mygold/images/egutschein_s.gif" width="100" height="136" alt="Abbildung E-Mail Gutschein" /><br />
-            <a class="small" href="/imagecatalogue/imageview/218573/?RefererURL=/trade/vouchermain/">Detailansicht</a>
+	    <img src="/sitedesign/mygold/images/gutschein_s.gif" width="100" height="99" alt="Abbildung Brief Gutschein" /><br />	  
+            <a class="small" href="/trade/voucheremailsample/">Detailansicht</a>
 	  </td>
           <td valign="top"> 
             <h2><nobr>Zusendung per Post</nobr></h2>
             Die eleganteste Form einen Gutschein zu schenken. Hier verschicken 
             wir Ihren Gutschein auf einer edlen Karte per Brief. Die Zustellung 
             erfolgt innerhalb von drei bis f&uuml;nf Werktagen.<br />
-            <a href="/trade/productview/1111/">Gutschein kaufen</a> </td>
+            <a href="/trade/productview/3156/">Gutschein kaufen</a> </td>
         </tr>
       </table>
     </td>
@@ -73,8 +72,8 @@ Empf&auml;nger das Richtige bekommt - denn er kann sich sein Geschenk selber aus
         <tr> 
           <td> 
             <ul>
-              <li><b><a href="l">Gutschein erstellen</a></b></li>
-              <li><b><a href="l">Wert eines Gutscheines abfragen</a></b></li>
+              <li><b><a href="/trade/productview/3156/">Gutschein erstellen</a></b></li>
+              <li><b><a href="/trade/voucherinformation/">Wert eines Gutscheines abfragen</a></b></li>
             </ul>
           </td>
         </tr>

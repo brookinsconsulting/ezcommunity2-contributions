@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.2 2001/07/20 11:30:53 jakobn Exp $
+// $Id: datasupplier.php,v 1.3 2001/10/12 10:52:59 sascha Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,6 +29,12 @@ switch( $url_array[2] )
     case "sysinfo" :
     {
         include( "ezsysinfo/admin/sysinfo.php" );
+    }
+    break;
+
+    case "ezinfo" :
+    {
+        include( "ezsysinfo/admin/ezinfo.php" );
     }
     break;
 
