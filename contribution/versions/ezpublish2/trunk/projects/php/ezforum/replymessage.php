@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: replymessage.php,v 1.7 2000/09/08 13:10:05 bf-cvs Exp $
+    $Id: replymessage.php,v 1.8 2000/10/11 15:45:26 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,7 +8,6 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-
 
 include_once( "classes/INIFile.php" );
 

@@ -8,36 +8,40 @@ switch ( $url_array[2] )
     case "" :
         include( "ezforum/main.php" );
         break;
+
     case "category" :
         if ( $url_array[3] == "forum" )
         {
             if ( $url_array[4] == "message" )
             {
+                $message_id = $url_array[6];
+                $forum_id = $url_array[5];
                 include( "ezforum/message.php" );
             }
-            else if ( $url_array[4] == "newpost" )
+            if ( $url_array[4] == "newpost" )
             {
+                $forum_id = $url_array[5];
                 include( "ezforum/newmessage.php" );                
             }
+            if ( $url_array[4] == "replymessage" )
+            {
+                $forum_id = $url_array[5];
+                $category_id = $url_array[5];
+                $reply_id = $url_array[5];
+                include( "ezforum/replymessage.php" );                
+            }
             else                
-            {                
+            {
+                $forum_id = $url_array[4];
                 include( "ezforum/forum.php" );
             }
-            
+
         }
         else
         {
+            $category_id = $url_array[3];
             include( "ezforum/category.php" );
         }
-        break;
-    case "gotolink" :
-        include( "ezlink/gotolink.php" );        
-        break;
-    case "search" :
-        include( "ezlink/search.php" );
-        break;
-    default :
-        print( "<h1>Sorry, Your link page could not be found. </h1>" );
         break;
 }
 
