@@ -130,7 +130,7 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%' ORDER BY Title" );
+        array_query( $link_array, "SELECT * FROM Link WHERE (KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%') AND Accepted='Y' ORDER BY Title" );
 
         return $link_array;
     }

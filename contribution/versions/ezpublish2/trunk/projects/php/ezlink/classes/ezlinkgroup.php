@@ -95,6 +95,26 @@ class eZLinkGroup
     }
 
     /*
+      Returnerer antall linker i alle underkategoriene.
+     */
+    function getTotalSubLinks( $id )
+    {
+        $count = 0;
+        
+        $sibling_array = $this->getByParent( $id );
+        print( "antall: " . count( $sibling_array ) );
+
+        for ( $i=0; $i<count( $sibling_array ); $i++ )
+        {
+            $group_id =  $sibling_array[ $i][ "ID" ];
+            $count += $this->getTotalSubLinks( $group_id );
+            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$group_id' AND Accepted='N'" );
+            $count += $link_count[0][ "LinkCount" ];            
+        }
+        return $count;
+    }
+
+    /*
       Henter ut _alt_
     */
     function getAll()
