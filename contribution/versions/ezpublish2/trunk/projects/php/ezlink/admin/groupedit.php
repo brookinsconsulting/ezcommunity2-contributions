@@ -50,10 +50,9 @@ if ( $Action == "update" )
     $updatelinkgroup->get ( $LGID );
 
     $updatelinkgroup->setTitle ( $title );
-    print( $LGID );
-    print( $title );
     $updatelinkgroup->update();
-    die();
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );    
+
 }
 
 // Sette template filer
@@ -78,13 +77,13 @@ if ( $Action == "edit" )
     $editlinkgroup = new eZLinkGroup();
     $editlinkgroup->get ( $LGID );
 
-    $title = $editlinkgroup->Title();
+    $title = $editlinkgroup->title();
     
     $action = "update";
     $message = "Rediger gruppe";
     $submit = "Rediger";
 
-    $ttitle = $editlinkgroup->Title();
+    $ttitle = $editlinkgroup->title();
 }
 
 
