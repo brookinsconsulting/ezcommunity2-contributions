@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleheaderlist.php,v 1.5 2001/03/01 14:06:25 jb Exp $
+// $Id: articleheaderlist.php,v 1.6 2001/03/05 12:06:01 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 21:15:58 bf>
@@ -30,6 +30,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
@@ -130,37 +131,40 @@ $i=0;
 $t->set_var( "article_list", "" );
 foreach ( $articleList as $article )
 {
-    $t->set_var( "article_id", $article->id() );
-    $t->set_var( "article_name", $article->name() );
+    if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) )
+    {
+        $t->set_var( "article_id", $article->id() );
+        $t->set_var( "article_name", $article->name() );
     
 
-    $published = $article->published();
+        $published = $article->published();
 
-    $t->set_var( "article_published", $locale->format( $published ) );    
+        $t->set_var( "article_published", $locale->format( $published ) );    
 
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
-    if ( $article->linkText() != "" )
-    {
-        $t->set_var( "article_link_text", $article->linkText() );
-    }
-    else
-    {
-        $t->set_var( "article_link_text", "more" );
-    }
+        if ( $article->linkText() != "" )
+        {
+            $t->set_var( "article_link_text", $article->linkText() );
+        }
+        else
+        {
+            $t->set_var( "article_link_text", "more" );
+        }
 
-    $t->parse( "article_item", "article_item_tpl", true );
-    $i++;
+        $t->parse( "article_item", "article_item_tpl", true );
+        $i++;
+    }
 }
 
-if ( count( $articleList ) > 0 )    
+if (  $i > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
 else
     $t->set_var( "article_list", "" );

@@ -41,12 +41,12 @@
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td>
+	<td class="{td_class}">
 	<a href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
-	<td align="right" class="small">
+	<td align="right" class="{td_class}">
 	{article_published}
 	</td>
 </tr>
