@@ -55,6 +55,7 @@
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
+<!-- {intl-owner_group -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <th class "boxtext" width="50%">{intl-owner}:</th>
 <th class "boxtext" width="50%">{intl-recursive}:</th>

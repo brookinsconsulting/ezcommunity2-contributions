@@ -54,7 +54,8 @@
 
 	</td>
 	<td align="top">
-
+	
+	<!-- {intl-groups_write -->
 	<p class="boxtext">{intl-owner_group}:</p>
 	<select name="OwnerGroupID">
 	<option value="0">{intl-none}</option>

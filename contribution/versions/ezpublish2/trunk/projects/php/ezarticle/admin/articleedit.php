@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.43 2001/02/22 18:40:29 jb Exp $
+// $Id: articleedit.php,v 1.44 2001/02/26 13:58:27 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -567,9 +567,13 @@ $categoryArray = $category->getAll( );
 
 $tree = new eZArticleCategory();
 $treeArray = $tree->getTree();
+$user = eZUser::currentUser();
 
 foreach ( $treeArray as $catItem )
 {
+    if( eZArticleCategory::hasWritePermission( $user, $catItem[0]->id() ) != true )
+        break;
+    
     if ( $Action == "Edit" )
     {
         $defCat = $article->categoryDefinition( );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.35 2001/02/23 10:25:27 fh Exp $
+// $Id: ezarticlecategory.php,v 1.36 2001/02/26 13:58:27 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -280,6 +280,10 @@ class eZArticleCategory
         return $path;
     }
 
+    /*!
+      FIXME: Look at the tree function in (productcategory??!??)
+      Recursive function that returns an array containing an int (tree position) and an array ( all items on that level )
+     */
     function getTree( $parentID=0, $level=0 )
     {
         $category = new eZArticleCategory( $parentID );
@@ -507,7 +511,7 @@ class eZArticleCategory
         $database->query_single( $res, "SELECT OwnerGroupID from eZArticle_Category WHERE ID='$categoryID'");
         $ownerGroupID = $res[ "OwnerGroupID" ];
         $userGroups = $user->groups( true );
-        if( in_array( $ownerGroupID, $userGroups ) || $ownerGroupID == 0 )
+        if( in_array( $ownerGroupID, $userGroups ) )
             return true;
 
         return false;
