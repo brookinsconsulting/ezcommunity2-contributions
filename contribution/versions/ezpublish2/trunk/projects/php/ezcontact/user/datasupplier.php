@@ -248,14 +248,16 @@ switch ( $url_array[2] )
                 $Action = $url_array[4];
                 if ( !isset( $CompanyID ) or !is_numeric( $CompanyID ) )
                     $CompanyID = $url_array[5];
-//                  $ConsultationID = $url_array[5];
                 switch ( $Action )
                 {
                     // intentional fall through
+                    case "delete":
+                    {
+                        $ConsultationID = $url_array[5];
+                    }
                     case "new":
                     case "edit":
                     case "update":
-                    case "delete":
                     case "insert":
                     {
                         include( "ezcontact/admin/consultationedit.php" );
@@ -281,14 +283,16 @@ switch ( $url_array[2] )
                 $Action = $url_array[4];
                 if ( !isset( $PersonID ) or !is_numeric( $PersonID ) )
                     $PersonID = $url_array[5];
-//                  $ConsultationID = $url_array[5];
                 switch ( $Action )
                 {
                     // intentional fall through
+                    case "delete":
+                    {
+                        $ConsultationID = $url_array[5];
+                    }
                     case "new":
                     case "edit":
                     case "update":
-                    case "delete":
                     case "insert":
                     {
                         include( "ezcontact/admin/consultationedit.php" );

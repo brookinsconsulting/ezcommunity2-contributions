@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.50 2001/04/05 09:27:29 fh Exp $
+// $Id: ezperson.php,v 1.51 2001/04/06 13:17:03 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -608,6 +608,7 @@ class eZPerson
         {
             foreach ( $phones as $phone )
                 {
+                    /* FIXME please, don't use contants!!! */
                     if ( $phone->phoneTypeID() == 4 ) // 4 = Work phone
                     {
                         return $phone->number();
@@ -627,6 +628,7 @@ class eZPerson
         {
             foreach ( $phones as $phone )
                 {
+                    /* FIXME please, don't use contants!!! */
                     if ( $phone->phoneTypeID() == 8 ) // 4 = Fax
                     {
                         return $phone->number();
@@ -638,6 +640,7 @@ class eZPerson
 
     /*!
       Returns the title of the user related to a given company ($companyID)
+      \obsolete
     */
     function hasTitle( $companyID )
     {
@@ -654,6 +657,7 @@ class eZPerson
 
     /*!
       Returns the title of the user related to a given company ($companyID)
+      \obsolete
     */
     function title( $companyID )
     {

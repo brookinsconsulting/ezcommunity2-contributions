@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultationtype.php,v 1.5 2001/04/05 09:27:29 fh Exp $
+// $Id: ezconsultationtype.php,v 1.6 2001/04/06 13:17:03 jb Exp $
 //
 // Definition of eZConsultationType class
 //
@@ -63,14 +63,6 @@ class eZConsultationType
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -90,7 +82,6 @@ class eZConsultationType
                                                   Name='$name',
                                                   ListOrder='$listorder'" );
             $this->ID = mysql_insert_id();
-            $this->State_ = "Coherent";
         }
         else
         {
@@ -98,7 +89,6 @@ class eZConsultationType
                                                   Name='$name',
                                                   ListOrder='$this->ListOrder'
                                                   WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
         }
 
         return true;
@@ -145,11 +135,6 @@ class eZConsultationType
             $this->ListOrder = $consulttype_array["ListOrder"];
 
             $ret = true;
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -160,8 +145,6 @@ class eZConsultationType
 
     function setName( $name )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Name = $name;
     }
 
@@ -171,8 +154,6 @@ class eZConsultationType
 
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->ID;
     }
 
@@ -182,8 +163,6 @@ class eZConsultationType
 
     function name()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Name;
     }
 
@@ -193,8 +172,6 @@ class eZConsultationType
 
     function count()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $db = eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT count( ID ) as Count FROM eZContact_Consultation WHERE StateID='$this->ID'" );
         return $qry["Count"];
@@ -206,8 +183,6 @@ class eZConsultationType
 
     function moveUp()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $db = eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ConsultationType
                                   WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
@@ -223,8 +198,6 @@ class eZConsultationType
 
     function moveDown()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $db = eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ConsultationType
                                   WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
@@ -256,9 +229,6 @@ class eZConsultationType
     var $ID;
     var $Name;
     var $ListOrder;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

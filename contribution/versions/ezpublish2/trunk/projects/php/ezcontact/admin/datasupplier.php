@@ -234,10 +234,13 @@ switch ( $ListType )
                 switch ( $Action )
                 {
                     // intentional fall through
+                    case "delete":
+                    {
+                        $ConsultationID = $url_array[5];
+                    }
                     case "new":
                     case "edit":
                     case "update":
-                    case "delete":
                     case "insert":
                     {
                         include( "ezcontact/admin/consultationedit.php" );
@@ -266,10 +269,13 @@ switch ( $ListType )
                 switch ( $Action )
                 {
                     // intentional fall through
+                    case "delete":
+                    {
+                        $ConsultationID = $url_array[5];
+                    }
                     case "new":
                     case "edit":
                     case "update":
-                    case "delete":
                     case "insert":
                     {
                         include( "ezcontact/admin/consultationedit.php" );

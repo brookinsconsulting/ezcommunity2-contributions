@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.28 2001/04/05 09:27:29 fh Exp $
+// $Id: ezcompanytype.php,v 1.29 2001/04/06 13:17:03 jb Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -52,15 +52,6 @@ class eZCompanyType
                 
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
     
@@ -80,14 +71,12 @@ class eZCompanyType
 
             $this->ID = mysql_insert_id();
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         else
         {
             $db->query( "UPDATE eZContact_CompanyType set Name='$name', Description='$description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         return $ret;
@@ -363,9 +352,6 @@ class eZCompanyType
     */
     function addCompany( $company )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $ret = false;
 
        if ( get_class( $company ) )
@@ -391,9 +377,6 @@ class eZCompanyType
      */
     function setImageID( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezimage" )
         {
             $this->ImageID = $value->id();
@@ -411,9 +394,6 @@ class eZCompanyType
     */
     function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Name = $value;
     }
     /*!
@@ -421,9 +401,6 @@ class eZCompanyType
     */
     function setDescription( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Description = $value;
     }
 
@@ -432,9 +409,6 @@ class eZCompanyType
     */
     function setParentID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->ParentID = $value;
     }
 
@@ -460,9 +434,6 @@ class eZCompanyType
     */
     function description( )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Description;
     }
     
@@ -471,9 +442,6 @@ class eZCompanyType
     */
     function parentID( )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ParentID;
     }
     
@@ -483,9 +451,6 @@ class eZCompanyType
     */
     function imageID( )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ImageID;
     }
 
@@ -494,9 +459,6 @@ class eZCompanyType
     var $Name;
     var $Description;
     var $ImageID;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

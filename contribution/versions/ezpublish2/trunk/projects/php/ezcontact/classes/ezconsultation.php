@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.12 2001/04/05 09:27:29 fh Exp $
+// $Id: ezconsultation.php,v 1.13 2001/04/06 13:17:03 jb Exp $
 //
 // Definition of eZConsultation class
 //
@@ -152,22 +152,15 @@ class eZConsultation
         {
             $db = eZDB::globalDatabase();
             $db->query_single( $consult_array, "SELECT * FROM eZContact_Consultation WHERE ID='$id'" );
-//              if ( count( $consult_array ) > 1 )
-//              {
-//                  die( "Error: More than one consultation with the same id was found. " );
-//              }
-//              else if ( count( $consult_array ) == 1 )
-            {
-                $this->ID = $consult_array["ID"];
-                $this->ShortDesc = $consult_array["ShortDesc"];
-                $this->Description = $consult_array["Description"];
-                $this->State = $consult_array["StateID"];
-                $this->EmailNotice = $consult_array["EmailNotifications"];
-                $this->Date = new eZDateTime();
-                $this->Date->setMySQLDateTime( $consult_array["Date"] );
+            $this->ID = $consult_array["ID"];
+            $this->ShortDesc = $consult_array["ShortDesc"];
+            $this->Description = $consult_array["Description"];
+            $this->State = $consult_array["StateID"];
+            $this->EmailNotice = $consult_array["EmailNotifications"];
+            $this->Date = new eZDateTime();
+            $this->Date->setMySQLDateTime( $consult_array["Date"] );
 
-                $ret = true;
-            }
+            $ret = true;
             $this->State_ = "Coherent";
         }
         else
