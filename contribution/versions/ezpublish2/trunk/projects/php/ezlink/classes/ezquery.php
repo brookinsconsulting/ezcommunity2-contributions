@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezquery.php,v 1.4 2000/08/14 09:18:57 bf-cvs Exp $
+    $Id: ezquery.php,v 1.5 2000/09/08 13:00:51 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -9,6 +9,8 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
+//!! eZLink
+//!
 /*!
   En klasse som håndterer SQL queries. Lager query setninger fra
   tekststrenger. 

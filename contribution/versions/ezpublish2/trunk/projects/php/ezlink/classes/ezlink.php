@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezlink.php,v 1.22 2000/09/07 15:44:45 bf-cvs Exp $
+    $Id: ezlink.php,v 1.23 2000/09/08 13:00:51 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -9,6 +9,12 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
+//!! eZLink
+//!
+/*!
+
+*/
+  
 class eZLink
 {
     /*

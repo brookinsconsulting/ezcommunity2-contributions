@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.1 2000/09/08 12:13:53 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.2 2000/09/08 13:00:51 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -26,7 +26,7 @@ class eZDateTime
       Constructs a new eZDateTime object. If the parameters are set the date and
       time is set accordingly. If not the current local time and date are used.
     */
-    function eZDate( $year=0, $month=0, $day=0, $hour=0, $minute )
+    function eZDateTime( $year=0, $month=0, $day=0, $hour=0, $minute=0, $second=0 )
     {
         if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
         {
@@ -67,7 +67,6 @@ class eZDateTime
     {
         return $this->Day;
     }
-    
     
     var $Year;
     var $Month;

@@ -1,12 +1,18 @@
 <?
 /*!
-    $Id: ezhit.php,v 1.11 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: ezhit.php,v 1.12 2000/09/08 13:00:51 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
     Created on: 
     
     Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+//!! eZLink
+//!
+/*!
+
 */
 
 class eZHit
