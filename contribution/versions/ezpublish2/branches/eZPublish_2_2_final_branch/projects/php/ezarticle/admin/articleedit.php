@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.9 2002/05/02 08:32:50 bf Exp $
+// $Id: articleedit.php,v 1.116.2.10 2002/05/14 06:52:21 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -510,12 +510,6 @@ if ( $Action == "Edit" )
     }
 
     $definition =& $article->categoryDefinition();
-    
-    if ( eZObjectPermission::hasPermissionWithDefinition( $article->id(), "article_article", 'w', $user, $definition->id() ) == true  )
-        print( "granted" );
-    else
-        print( "denied" );
-    
     
 
     $t->set_var( "article_id", $ArticleID );
