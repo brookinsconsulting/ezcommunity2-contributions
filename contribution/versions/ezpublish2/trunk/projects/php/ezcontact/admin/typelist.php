@@ -48,9 +48,26 @@ else
     $back_command = $HTTP_REFERER;
 }
 
-$t->set_file( array(
-    "list_page" =>  "typelist.tpl",
-    ) );
+if ( !isset( $typelist ) )
+    $typelist = "typelist.tpl";
+
+if ( isset( $template_array ) and isset( $variable_array ) and
+     is_array( $template_array ) and is_array( $variable_array ) )
+{
+    $standard_array = array( "list_page" => $typelist );
+    $t->set_file( array_merge( $standard_array, $template_array ) );
+    $t->set_file_block( $template_array );
+    if ( isset( $block_array ) and is_array( $block_array ) )
+        $t->set_block( $block_array );
+    $t->parse( $variable_array );
+}
+else
+{
+    $t->set_var( "extra_type_header", "" );
+    $t->set_var( "extra_type_item", "" );
+    $t->set_file( "list_page", $typelist );
+}
+
 $t->set_block( "list_page", "list_item_tpl", "list_item" );
 $t->set_block( "list_item_tpl", "line_item_tpl", "line_item" );
 $t->set_block( "list_page", "no_line_item_tpl", "no_line_item" );
@@ -118,8 +135,19 @@ foreach( $item_type_array as $item )
     else
         $t->set_var( "bg_color", "bgdark" );
 
-    $t->set_var( "item_id", $item->id() );
-    $t->set_var( "item_name", $item->name() );
+    if ( isset( $func_call ) and is_array( $func_call ) )
+    {
+        reset( $func_call );
+        while( list($key,$val) = each( $func_call ) )
+        {
+            $t->set_var( $key, $item->$val() );
+        }
+    }
+    else
+    {
+        $t->set_var( "item_id", $item->id() );
+        $t->set_var( "item_name", $item->name() );
+    }
 
     if ( isset( $SortPage ) )
     {
