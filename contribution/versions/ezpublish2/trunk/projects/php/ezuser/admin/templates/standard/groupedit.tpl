@@ -7,13 +7,13 @@
 <p class="boxtext">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" size="20" name="Name" value="{name_value}"/>
+<input type="text" size="20" name="Name" value="{name_value}" />
 
 <p class="boxtext">{intl-description}:</p>
-<input type="text" size="40" name="Description" value="{description_value}"/>
+<textarea cols="40" rows="4" name="Description">{description_value}</textarea>
 
 <p class="boxtext">{intl-session_timeout}:</p>
-<input type="text" size="40" name="SessionTimeout" value="{session_timeout_value}"/>
+<input type="text" size="10" name="SessionTimeout" value="{session_timeout_value}" />
 
 	<!-- BEGIN module_list_header_tpl -->
 	<p class="checkhead">{module_name}:</p>
@@ -31,11 +31,11 @@
 <br />
 
 
-<hr noshade size="4"/>
+<hr noshade size="4" />
 
-<table cellspacing="0" cellpadding="4" border="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td valign="top">
 	<input type="hidden" name="GroupID" value="{group_id}" />
 	<input class="okbutton" type="submit" value="OK" />
 	</td>

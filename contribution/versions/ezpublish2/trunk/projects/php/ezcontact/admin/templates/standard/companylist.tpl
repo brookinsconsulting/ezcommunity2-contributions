@@ -30,8 +30,9 @@
 //-->
 </SCRIPT> 
 
+<div onLoad="MM_preloadImages('/ezcontact/admin/images/redigerminimrk.gif','/ezcontact/admin/images/slettminimrk.gif')"></div>
 
-<h1>{intl-headline}</h1>
+<h1>{intl-headline}</h1>aaa
 
 <!-- BEGIN path_tpl -->
 

@@ -32,9 +32,11 @@
 
 <h1>{intl-headline}</h1>
 
+<hr noshade="noshade" size="4"/ >
+
 <!-- BEGIN path_tpl -->
 
-<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/path-arrow.gif" height="10" width="15" border="0">
 
 <a class="path" href="/contact/company/list/0/">{intl-top}</a>
 
@@ -42,24 +44,20 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/images/path-slash.gif" height="10" width="20" border="0">
 
 <a class="path" href="/contact/company/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4"/ >
 
 <!-- BEGIN category_list_tpl -->
+<h2>{intl-categories}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<h2>{categories}</h2>
-	</td>
-</tr>
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td class="{td_class}">
-	<a href=/contact/company/list/{category_id}>{category_name}&nbsp;</a>
+	<td> <!-- class="{td_class}" -->
+	<a href=/contact/company/list/{category_id}>{category_name}</a>
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -68,27 +66,14 @@
 
 
 <!-- BEGIN company_list_tpl -->
+<h2>{intl-companies}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<h2>{intl-companies}</h2>
+	<th>{intl-image}:</th>
+	<th>{intl-name}:</th>
+	<th>{intl-telephone}:</th>
 </tr>
 <!-- BEGIN company_item_tpl -->
-<tr>
-	<td>
-	&nbsp;
-	</td>
-</tr>
-<tr>
-	<th>
-	{intl-image}
-	</th>
-	<th>
-	{intl-name}
-	</th>
-	<th>
-	{intl-telephone}
-	</th>
-</tr>
 <tr>
 	<td class="{td_class}">
 
@@ -97,7 +82,7 @@
 	<!-- END image_view_tpl -->
 
 	<!-- BEGIN no_image_tpl -->
-	<p>{intl-no_image}</p>
+<!--	<p>{intl-no_image}</p> -->
 	<!-- END no_image_tpl -->	
 
 	</td>
