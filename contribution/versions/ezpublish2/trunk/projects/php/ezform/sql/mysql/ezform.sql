@@ -101,8 +101,8 @@ CREATE TABLE eZForm_FormElementResult (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-CREATE TABLE eZForm_NumericalElement (
-  ElementID NOT NULL default '0',
+CREATE TABLE eZForm_FormElementNumerical (
+  ElementID int NOT NULL default '0',
   MaxValue varchar(10),
   MinValue varchar(10),
   PRIMARY KEY (ElementID)

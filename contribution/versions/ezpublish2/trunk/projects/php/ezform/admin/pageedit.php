@@ -1,10 +1,9 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.22 2001/12/20 11:49:07 jhe Exp $
+// $Id: pageedit.php,v 1.23 2001/12/20 12:37:34 jhe Exp $
 //
 // Definition of ||| class
 //
-// <Bjørn Reiten> <br@ez.no>
 // Created on: <14-Dec-2001 12:44:00 br>
 //
 // This source file is part of eZ publish, publishing software.
@@ -180,78 +179,73 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
 {
     $page->setName( $pageName );
     
-    if ( isSet( $NewElement ) || isSet( $Update ) )
+    $existingElementCount = $page->numberOfElements();
+    $existingElementCount++;
+    
+    if ( isSet( $NewElement ) )
     {
-        $existingElementCount = $page->numberOfElements();
-        $existingElementCount++;
+        $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
+        $newElementName = $newElementName . " " . $existingElementCount;
+        $element = new eZFormElement();
+        $element->setName( $newElementName );
+        $element->store();
+    }
         
-        if ( isSet( $NewElement ) )
+    if ( isSet( $element ) )
+    {
+        $page->addElement( $element );
+    }
+
+    $elementCount = count( $elementID );
+    $elementTypeError = false;
+    for ( $i = 0; $i < $elementCount; $i++ )
+    {
+        $element = new eZFormElement( $elementID[$i] );
+        $elementType = new eZFormElementType( $elementTypeID[$i] );
+        $element->setElementType( $elementType );
+        
+        if ( $elementType->id() == 0 && $elementTypeError == false )
         {
-            $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
-            $newElementName = $newElementName . " " . $existingElementCount;
-            $element = new eZFormElement();
-            $element->setName( $newElementName );
-            $element->store();
+            $errorMessages[] = "all_elements_must_have_type";
+            $elementTypeError = true;
         }
         
-        if ( isSet( $element ) )
+        $element->setName( $elementName[$i] );
+        $element->setSize( $Size[$i] );
+        
+        $required = false;
+        $break = false;
+        if ( count( $elementRequired ) > 0 )
         {
-            $page->addElement( $element );
+            foreach ( $elementRequired as $requiredID )
+            {
+                if ( $elementID[$i] == $requiredID )
+                {
+                    $required = true;
+                }
+            }
         }
-
-        $elementCount = count( $elementID );
-        $elementTypeError = false;
-        for ( $i = 0; $i < $elementCount; $i++ )
+        if ( count( $ElementBreak ) > 0 )
         {
-            $element = new eZFormElement( $elementID[$i] );
-            $elementType = new eZFormElementType( $elementTypeID[$i] );
-            $element->setElementType( $elementType );
-
-            if ( $elementType->id() == 0 && $elementTypeError == false )
+            foreach ( $ElementBreak as $breakID )
             {
-                $errorMessages[] = "all_elements_must_have_type";
-                $elementTypeError = true;
-            }
-
-            $element->setName( $elementName[$i] );
-            $element->setSize( $Size[$i] );
-
-            $required = false;
-            $break = false;
-            if ( count( $elementRequired ) > 0 )
-            {
-                foreach ( $elementRequired as $requiredID )
+                if ( $elementID[$i] == $breakID )
                 {
-                    if ( $elementID[$i] == $requiredID )
-                    {
-                        $element->setRequired( true );
-                        $required = true;
-                    }
+                    $break = true;
                 }
             }
-            if ( count( $ElementBreak ) > 0 )
-            {
-                foreach ( $ElementBreak as $breakID )
-                {
-                    if ( $elementID[$i] == $breakID )
-                    {
-                        $element->setBreak( true );
-                        $break = true;
-                    }
-                }
-            }
-            $element->setBreak( $break );
-//            $element->setRequired( $required );
-
-            $element->store();
-            if ( $elementType->name() == "table_item" )
-            {
-                $table = new eZFormTable( $element->ID() );
-                $table->setCols( $Size[$i] );
-                $table->setRows( $Rows[$i] );
-                $table->setElementID( $element->id() );
-                $table->store();
-            }
+        }
+        $element->setBreak( $break );
+        $element->setRequired( $required );
+        
+        $element->store();
+        if ( $elementType->name() == "table_item" )
+        {
+            $table = new eZFormTable( $element->ID() );
+            $table->setCols( $Size[$i] );
+            $table->setRows( $Rows[$i] );
+            $table->setElementID( $element->id() );
+            $table->store();
         }
     }
 
@@ -308,15 +302,6 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
     }
 }
 
-
-
-
-
-
-
-
-
-
 if ( $page->numberOfElements() == 0 )
 {
     if ( $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) == "enabled" )
@@ -359,12 +344,12 @@ if ( is_Numeric( $ElementChoiceID[0] ) && $ElementChoiceID[0] != 0 )
 }
 else if ( isSet( $PageID ) && is_Array( $ElementChoiceID ) )
 {
-    foreach( $elements as $element )
+    foreach ( $elements as $element )
     {
         $element->removeCondition();
     }
 }
-else if( isSet( $PageID ) )
+else if ( isSet( $PageID ) )
 {
     $elementChoiceID = $page->getConditionElement();
 }
@@ -687,7 +672,7 @@ if ( $element )
         {
             $t->set_var( "fixed_value_text_field", "" );
             
-            foreach( $values as $value )
+            foreach ( $values as $value )
             {
                 $t->set_var( "fixed_value_name", $value->value() );
                 $t->set_var( "fixed_value_id", $value->id() );
@@ -696,7 +681,7 @@ if ( $element )
                 
                 $pages =& eZFormPage::getByFormID( $FormID );
                 
-                if( count( $pages ) > 0 )
+                if ( count( $pages ) > 0 )
                 {
                     
                     $check_id = "FixedPage_" . $value->id();
@@ -707,7 +692,7 @@ if ( $element )
                         $check[0] = $element->getConditionMaxByPage( $value->id() );
                     }
                     
-                    foreach( $pages as $pageValue )
+                    foreach ( $pages as $pageValue )
                     {
                         if ( $page->id() != $pageValue->id() )
                         {
