@@ -1,4 +1,4 @@
-<h1>About eZ trade v 1.0.5</h1>
+<h1>About eZ trade v2.0 Beta 1</h1>
 <hr noshade="noshade" size="4" />
 <br />
 

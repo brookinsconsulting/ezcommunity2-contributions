@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.7 2000/11/28 16:44:58 pkej-cvs Exp $
+// $Id: ezdate.php,v 1.8 2001/01/07 15:56:31 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -146,6 +146,16 @@ class eZDate
         
         return $return;
     }
+
+    /*!
+      Returns the number of days in the current month.
+    */
+    function daysInMonth( )
+    {
+        $lastday = mktime( 2, 0, 0, $this->Month + 1, 0, $this->Year );
+        
+        return strftime(  "%d", $lastday );
+    }    
         
     var $Year;
     var $Month;

@@ -9,3 +9,7 @@
 <hr noshade size="4" />
 
 <a href="/stats/pageviewlist/last/20">{intl-last_20_page_views}</a>
+<br />
+<a href="/stats/visitorlist/top/20">{intl-top_20_visitors}</a>
+<br />
+<a href="/stats/monthrepport/{this_year}/{this_month}/">{intl-this_month}</a>

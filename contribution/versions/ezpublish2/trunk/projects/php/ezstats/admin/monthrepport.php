@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: overview.php,v 1.2 2001/01/07 15:56:31 bf Exp $
+// $Id: monthrepport.php,v 1.1 2001/01/07 15:56:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <05-Jan-2001 11:23:51 bf>
+// Created on: <07-Jan-2001 14:47:04 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -35,29 +35,56 @@ include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
 
 $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTemplateDir" ),
-                     "ezstats/admin/intl", $Language, "overview.php" );
+                     "ezstats/admin/intl", $Language, "monthrepport.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "overview_tpl" => "overview.tpl"
+    "month_repport_tpl" => "monthrepport.tpl"
     ) );
+
+$t->set_block( "month_repport_tpl", "result_list_tpl", "result_list" );
+$t->set_block( "result_list_tpl", "day_tpl", "day" );
 
 $query = new eZPageViewQuery();
 
-$t->set_var( "total_page_views", $query->totalPageViews() );
+$monthRepport =& $query->monthStats( $Year, $Month );
 
-$today = new eZDate();
-$pagesToday = $query->totalPageViewsDay( $today );
-$pagesThisMonth = $query->totalPageViewsMonth( $today );
+if ( count( $monthRepport ) > 0 )
+{
+    $i=1;
+    foreach ( $monthRepport["Days"] as $day )
+    {
+        $count = $day["Count"];
+        $totalCount = $monthRepport["TotalPages"];
+        
+        $t->set_var( "page_view_count", $count );
+        $t->set_var( "current_day", $i );
 
-$t->set_var( "total_pages_today", $pagesToday );
+        $pageViewPercent = ( $count / $totalCount ) * 100;
+        $pageViewPercent = round($pageViewPercent);
 
-$t->set_var( "this_year", $today->year() );
-$t->set_var( "this_month", $today->month() );
+        $t->set_var( "page_view_percent", $pageViewPercent );
+        $t->set_var( "page_view_percent_inverted", 100 - $pageViewPercent );
 
-$t->set_var( "total_pages_this_month", $pagesThisMonth );
+        $t->parse( "day", "day_tpl", true );
+        $i++;
+    }
+    $t->set_var( "total_page_views", $monthRepport["TotalPages"] );
 
-$t->pparse( "output", "overview_tpl" );
+    $t->parse( "result_list", "result_list_tpl" );
+}
+else
+{
+    $t->set_var( "result_list", "" );
+}
+
+$t->set_var( "this_month", $Month );
+$t->set_var( "this_year", $Year );
+
+
+
+$t->pparse( "output", "month_repport_tpl" );
+
 
 ?>

@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: overview.php,v 1.2 2001/01/07 15:56:31 bf Exp $
+// $Id: visitorlist.php,v 1.1 2001/01/07 15:56:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <05-Jan-2001 11:23:51 bf>
+// Created on: <07-Jan-2001 12:56:58 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -35,29 +35,43 @@ include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
 
 $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTemplateDir" ),
-                     "ezstats/admin/intl", $Language, "overview.php" );
+                     "ezstats/admin/intl", $Language, "visitorlist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "overview_tpl" => "overview.tpl"
+    "visitor_page_tpl" => "visitorlist.tpl"
     ) );
+
+$t->set_block( "visitor_page_tpl", "visitor_list_tpl", "visitor_list" );
+$t->set_block( "visitor_list_tpl", "visitor_tpl", "visitor" );
 
 $query = new eZPageViewQuery();
 
-$t->set_var( "total_page_views", $query->totalPageViews() );
+$latest =& $query->topVisitors( $ViewLimit );
 
-$today = new eZDate();
-$pagesToday = $query->totalPageViewsDay( $today );
-$pagesThisMonth = $query->totalPageViewsMonth( $today );
+if ( count( $latest ) > 0 )
+{
+    foreach ( $latest as $visitor )
+    {
+        $t->set_var( "remote_ip", $visitor["IP"] );
+        $t->set_var( "remote_host_name", $visitor["HostName"] );
+        
+        $t->set_var( "page_view_count", $visitor["Count"] );
 
-$t->set_var( "total_pages_today", $pagesToday );
+        $t->parse( "visitor", "visitor_tpl", true );
+    }
 
-$t->set_var( "this_year", $today->year() );
-$t->set_var( "this_month", $today->month() );
+    $t->parse( "visitor_list", "visitor_list_tpl" );
+}
+else
+{
+    $t->set_var( "visitor_list", "" );
+}
 
-$t->set_var( "total_pages_this_month", $pagesThisMonth );
 
-$t->pparse( "output", "overview_tpl" );
+
+$t->pparse( "output", "visitor_page_tpl" );
+
 
 ?>

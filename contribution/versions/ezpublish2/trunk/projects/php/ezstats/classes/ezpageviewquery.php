@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.1 2001/01/07 12:31:48 bf Exp $
+// $Id: ezpageviewquery.php,v 1.2 2001/01/07 15:56:31 bf Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -35,6 +35,7 @@
  */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdate.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 class eZPageViewQuery
@@ -148,7 +149,77 @@ class eZPageViewQuery
         
         return $return_array;
     }
-    
+
+    /*!
+      Returns the visitors which has viewed most pages.
+
+      The files are returned as an assiciative array of array( ID => $id, IP => $ip, HostName => $hostName, Count => $count ).
+    */
+    function &topVisitors( $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RemoteHost.ID, eZStats_RemoteHost.IP, eZStats_RemoteHost.HostName
+         FROM eZStats_PageView, eZStats_RemoteHost
+         WHERE eZStats_PageView.RemoteHostID=eZStats_RemoteHost.ID
+         GROUP BY eZStats_RemoteHost.ID ORDER BY Count DESC
+         LIMIT 0,$limit" );
+        
+        for ( $i=0; $i<count($visitor_array); $i++ )
+        {
+            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
+                                       "IP" => $visitor_array[$i]["IP"],
+                                       "HostName" => $visitor_array[$i]["HostName"],
+                                       "Count" => $visitor_array[$i]["Count"] );
+        }
+        
+        return $return_array;
+    }
+
+    /*!
+      Returns the statistics for one month.
+
+      Returns an array of days with the statistics as an associative array:
+      array( "Days" => array( "Count" => $count )
+    */
+    function &monthStats( $year, $month )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        $day_array = array();
+
+        $date = new eZDate( $year, $month, 1 );
+
+        if ( $month < 10 )
+            $month = "0" . $month;
+
+        $TotalPages = 0;
+        // loop over the days
+        for ( $day=1; $day<=$date->daysInMonth(); $day++ )
+        {
+            if ( $day < 10 )
+                $sday = "0" . $day;
+            else
+                $sday = $day;
+        
+            $stamp = $year . $month . $sday;
+            $this->Database->array_query( $visitor_array,
+            "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE Date LIKE '$stamp%'" );
+
+            $TotalPages += $visitor_array[0]["Count"];
+            $day_array[] = array( "Count" => $visitor_array[0]["Count"] );
+        }
+
+        $return_array = array( "TotalPages" => $TotalPages, "Days" => $day_array );
+        
+        return $return_array;
+    }
     
     /*!
       \private

@@ -3,7 +3,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="5">
 <tr>
 	<td bgcolor="#dddddd" colspan="3">
-	<h1>eZ trade v1.0.5</h1>
+    <h1>eZ trade v2.0 Beta 1</h1>
 	</td>
 </tr>
 <tr> 

@@ -1,23 +1,23 @@
-<h1>{intl-latest_served_pages}</h1>
+<h1>{intl-top_visitor_list}</h1>
 
 <hr noshade size="4" />
 
 
-<!-- BEGIN page_view_list_tpl -->
+<!-- BEGIN visitor_list_tpl -->
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<th>
-	{intl-remote_ip}
+	{intl-remote_ip}:
 	</th>
 	<th>
-	{intl-remote_hostname}
+	{intl-remote_hostname}:
 	</th>
 	<th>
-	{intl-request_page}
+	{intl-page_view_count}:
 	</th>
 </tr>
-<!-- BEGIN page_view_tpl -->
+<!-- BEGIN visitor_tpl -->
 <tr>
 	<td>
 	{remote_ip}
@@ -26,12 +26,12 @@
 	{remote_host_name}
 	</td>
 	<td>
-	{request_page}
+	{page_view_count}
 	</td>
 </tr>
-<!-- END page_view_tpl -->
+<!-- END visitor_tpl -->
 </table>
 
 
-<!-- END page_view_list_tpl -->
+<!-- END visitor_list_tpl -->
 
