@@ -110,6 +110,18 @@ switch ( $url_array[2] )
 
     case "extendedsearch":
     {
+        if ( !isset( $Category ) and count( $url_array ) > 5 )
+        {
+            $Category = trim( urldecode( $url_array[4] ) );
+        }
+        if ( !isset( $SearchText ) and count( $url_array ) > 5 )
+        {
+            $SearchText = trim( urldecode( $url_array[3] ) );
+        }
+        if ( count( $url_array ) > 5 )
+            $Offset = $url_array[5];
+        if ( count( $url_array ) > 5 )
+            $Search = true;
         include( "ezarticle/user/extendedsearch.php" );
     }
     break;
