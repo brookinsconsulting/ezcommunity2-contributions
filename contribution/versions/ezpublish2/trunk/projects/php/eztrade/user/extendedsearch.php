@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.6 2001/03/21 14:49:46 bf Exp $
+// $Id: extendedsearch.php,v 1.7 2001/03/21 15:10:49 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -201,7 +201,7 @@ if ( count ( $productList ) > 0 )
         $i++;
     }
 
-    $t->set_var( "empty_search_list", "" );    
+    $t->set_var( "empty_search", "" );    
 }
 else
 {
