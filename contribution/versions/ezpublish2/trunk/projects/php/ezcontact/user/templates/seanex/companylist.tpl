@@ -70,13 +70,44 @@
 <!-- BEGIN company_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<h2>{companies}</h2>
+	<h2>{intl-companies}</h2>
 </tr>
 <!-- BEGIN company_item_tpl -->
 <tr>
+	<td>
+	&nbsp;
+	</td>
+</tr>
+<tr>
+	<th>
+	{intl-image}
+	</th>
+	<th>
+	{intl-name}
+	</th>
+	<th>
+	{intl-telephone}
+	</th>
+</tr>
+<tr>
+	<td class="{td_class}">
+
+	<!-- BEGIN image_view_tpl -->
+        <img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<!-- END image_view_tpl -->
+
+	<!-- BEGIN no_image_tpl -->
+	<p>{intl-no_image}</p>
+	<!-- END no_image_tpl -->	
+
+	</td>
 	<td class="{td_class}">
 	<a href="/contact/company/view/{company_id}/">{company_name}</a>
 	</td>
+	<td class="{td_class}">
+	{company_telephone}
+	</td>
+
 </tr>
 <!-- END company_item_tpl -->
 </table>

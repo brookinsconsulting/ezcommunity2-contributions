@@ -52,7 +52,6 @@ $t->set_var( "name", $company->name() );
 $t->set_var( "description", $company->comment() );
 $t->set_var( "companyno", $company->companyNo() );
 
-
 // View logo.
 $logoImage = $company->logoImage();
 
@@ -76,11 +75,12 @@ else
 
 // View company image.
 $companyImage = $company->companyImage();
-    
-if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
+
+if ( ( get_class ( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
 {
     $variation = $companyImage->requestImageVariation( 150, 150 );
-        
+
+    print( $variation->imagePath() );
     $t->set_var( "image_src", "/" . $variation->imagePath() );
     $t->set_var( "image_name", $companyImage->name() );
     $t->set_var( "image_id", $companyImage->id() );

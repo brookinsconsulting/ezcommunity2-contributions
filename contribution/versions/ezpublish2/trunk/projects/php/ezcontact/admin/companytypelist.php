@@ -261,7 +261,6 @@ else
         }
         else
         {
-            print( "ingen bilde" );
             $t->set_var( "image_view", "" );
             $t->parse( "no_image", "no_image_tpl" );
         }

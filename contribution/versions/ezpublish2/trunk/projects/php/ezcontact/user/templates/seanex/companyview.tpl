@@ -14,20 +14,6 @@
 <!-- END logo_view_tpl -->
 
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<h3 class="error">{error}</h3>
-<tr>
-	<td>
-	<p class="boxtext">{intl-name}:</p>
-	{name}
-	</td>
-	<td>
-	<p class="boxtext">{intl-orgno}:</p>
-	{companyno}
-	</td>
-</tr>
-</table>
-
 <p class="boxtext">{intl-description}:</p>
 <p>
 {description}
@@ -66,12 +52,8 @@
 {email}
 <!-- END email_item_tpl -->
 
-<!-- BEGIN no_logo_tpl -->
-<p>{intl-no_logo}</p>
-<!-- END no_logo_tpl -->
 
 <!-- BEGIN image_view_tpl -->
      <p class="boxtext">{intl-company_image}:</p>
        <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 <!-- END image_view_tpl -->
-

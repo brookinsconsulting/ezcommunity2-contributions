@@ -9,10 +9,6 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-//  include_once( "classes/ezsession.php" );
-//  include_once( "classes/ezusergroup.php" );
-//  include_once( "classes/ezuser.php" );
-
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezpersontype.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
@@ -47,7 +43,8 @@ $t->set_block( "company_edit", "no_logo_tpl", "no_logo" );
                                             
 $company = new eZCompany();
 $company->get( $CompanyID );
-    
+
+
 $t->set_var( "name", $company->name() );
 $t->set_var( "description", $company->comment() );
 $t->set_var( "companyno", $company->companyNo() );
@@ -77,7 +74,7 @@ else
 // View company image.
 $companyImage = $company->companyImage();
     
-if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
+if ( ( get_class ( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
 {
     $variation = $companyImage->requestImageVariation( 150, 150 );
         

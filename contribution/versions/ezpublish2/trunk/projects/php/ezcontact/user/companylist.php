@@ -29,6 +29,9 @@ $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
 $t->set_block( "company_page_tpl", "company_list_tpl", "company_list" );
 $t->set_block( "company_list_tpl", "company_item_tpl", "company_item" );
+$t->set_block( "company_item_tpl", "image_view_tpl", "image_view" );
+$t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
+
 
 $t->set_block( "company_page_tpl", "path_item_tpl", "path_item" );
 
@@ -70,8 +73,6 @@ else
         $t->set_var( "category_parent_id", $companyTypeItem->parentID() );
         $t->set_var( "category_name", $companyTypeItem->name() );
         
-        $t->set_var( "categories", "Kategorier" );
-
         $i++;
         $t->parse( "category_item", "category_item_tpl", true );
     }
@@ -86,7 +87,7 @@ if ( count( $companyList ) == 0 )
 {
     $t->set_var( "error_msg", $errorIni->read_var( "strings", "error_msg" ) );
     $t->set_var( "company_item", "" );
-    //   $t->parse( "error", "error_tpl" );
+    $t->set_var( "company_list", "" );
 }
 else
 {
@@ -108,12 +109,21 @@ else
 
         // Image list
         $logoImage = $companyItem->logoImage();
-        if ( get_class ( $logoImage ) )
+        if ( get_class ( $logoImage ) == "ezimage" )
         {
             $variation = $logoImage->requestImageVariation( 150, 150 );
             
             $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
             $t->set_var( "logo_name", $logoImage->name() );
+
+            $t->set_var( "no_image", "" );
+            $t->parse( "image_view", "image_view_tpl" );
+        }
+        else
+        {
+            $t->set_var( "image_view", "" );
+            $t->parse( "no_image", "no_image_tpl" );
+
         }
 
 
@@ -123,7 +133,7 @@ else
         {
             if ( $phoneList[$i]->phoneTypeID() == 1 )
             {
-                $t->set_var( "telephone", $phoneList[$i]->number() );
+                $t->set_var( "company_telephone", $phoneList[$i]->number() );
             }
         }
         
