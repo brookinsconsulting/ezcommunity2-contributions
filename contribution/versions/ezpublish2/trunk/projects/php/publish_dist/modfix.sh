@@ -5,7 +5,9 @@ chmod 666 site.ini
 touch error.log
 chmod 666 error.log
 
-
+# [cache section]
+# This part will create the cache dirs which are needed and make sure
+# that they are writeable by php.
 
 dirs="
 admin/tmp
@@ -47,6 +49,9 @@ do
     fi
     chmod 777 $dir   
 done
+
+# [admin section]
+# This part will link the modules into the admin directory
 
 files="
 error.log
