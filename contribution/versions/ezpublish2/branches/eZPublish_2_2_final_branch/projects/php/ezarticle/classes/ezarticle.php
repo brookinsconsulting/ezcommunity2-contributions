@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.15 2002/04/03 13:01:20 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.16 2002/04/10 12:04:04 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -2056,17 +2056,62 @@ class eZArticle
                         )
                        ORDER BY $OrderBy";
 
-            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
-
             $db->array_query( $article_array, $queryString );
 
             $SearchTotalCount = count( $article_array );
             $article_array =& array_slice( $article_array, $offset, $limit );
         }
 
-        for ( $i=0; $i < count($article_array); $i++ )
+        for ( $i = 0; $i < count($article_array); $i++ )
         {
-            $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName("ArticleID")], false );
+            $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )], false );
+        }
+
+        return $return_array;
+    }
+
+    /*!
+      Does a search for titles in the article archive.
+      queryText is the text to search for
+      fetchnonPublished can be either true or false.
+
+      $SearchTotalCount will return the total number of items found in the search
+    */
+    function &searchTitle( &$queryText, $fetchPublished=false, &$SearchTotalCount, $categoryID = false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $queryText = $db->escapeString( $queryText );
+
+        // Build the ORDER BY
+        $OrderBy = "eZArticle_Article.Published DESC";
+
+        if ( $fetchPublished == true )
+            $fetchText = "";
+        else
+            $fetchText = "AND eZArticle_Article.IsPublished = '1'";
+
+        if ( $categoryID )
+            $categoryText = "AND eZArticle_ArticleCategoryLink.CategoryID = '$categoryID'";
+        else
+            $categoryText = "";
+        
+        $usePermission = true;
+        
+        $user =& eZUser::currentUser();
+
+        $query = "SELECT eZArticle_Article.ID AS ArticleID FROM eZArticle_Article, eZArticle_ArticleCategoryLink WHERE
+                  eZArticle_Article.Name LIKE '%$queryText%' AND
+                  eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
+                  $fetchText
+                  $categoryText GROUP BY eZArticle_Article.ID ORDER BY eZArticle_Article.Published";
+        
+        $db->array_query( $article_array, $query );
+        $SearchTotalCount = count( $article_array );
+
+        for ( $i = 0; $i < count( $article_array ); $i++ )
+        {
+            $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )], false );
         }
 
         return $return_array;

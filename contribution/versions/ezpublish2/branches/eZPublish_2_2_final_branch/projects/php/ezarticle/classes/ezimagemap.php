@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagemap.php,v 1.5 2001/10/15 11:04:57 jhe Exp $
+// $Id: ezimagemap.php,v 1.5.2.1 2002/04/10 12:04:04 jhe Exp $
 //
 // Created on: <12-Jun-2001 17:41:10 jhe>
 //
@@ -73,6 +73,18 @@ class eZImageMap
         {
             if ( $element_list[$i] != "" )
             {
+                if ( $list[4] > $list[6] )
+                {
+                    $temp = $list[6];
+                    $list[6] = $list[4];
+                    $list[4] = $list[6];
+                }
+                if ( $list[3] > $list[5] )
+                {
+                    $temp = $list[5];
+                    $list[5] = $list[3];
+                    $list[3] = $list[5];
+                }
                 $list = split( "\|", $element_list[$i] );
                 $id = $db->nextID( "eZImageCatalogue_ImageMap", "ID" );
                 $res[] = $db->query( "INSERT INTO eZImageCatalogue_ImageMap
