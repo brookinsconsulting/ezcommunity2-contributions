@@ -1,11 +1,15 @@
-eZ xmlrpc version 1.0 beta 2
-----------------------------
+eZ xmlrpc version 1.0
+---------------------
 
 eZ xmlrpc is an implementation of the XML-RPC found at:
 
    http://www.xmlrpc.com/spec
 
 More information about XMP-RPC is found at: http://www.xmlrpc.com/
+
+A tutorial is available at:
+
+http://zez.org/article/articleview/47/
 
 Class reference documentation can be found in the doc/ folder.
 
