@@ -66,24 +66,21 @@
 
 
 <!-- BEGIN attached_file_list_tpl -->
-<p class="boxtext">{intl-attached_files}:</p>
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<h2>{intl-attached_files}</h2>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN attached_file_tpl -->
-<tr class="{td_class}">
-     <td width="20%">
-     {file_name}
+<tr>
+     <td width="50%" class="{td_class}">
+     <a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a>
      </td>
-     <td width="80%">
+     <td width="50%" class="{td_class}" align="right">
      <div class="p"><a href="/filemanager/download/{file_id}/{original_file_name}/">( {original_file_name} {file_size}&nbsp;{file_unit} )</a></div>
      </td>
 </tr>
-<tr class="{td_class}">
-     <td colspan="2">
-     {file_description}
-     </td>
-</tr>
 <tr>
-     <td>&nbsp;</td>
+     <td colspan="2" class="{td_class}" valign="top">
+	{file_description}
+     </td>
 </tr>
 <!-- END attached_file_tpl -->
 </table>
@@ -112,14 +109,14 @@
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
+| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
+| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a>
 <!-- END print_page_link_tpl -->
 
-| <a class"path" href="/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
+| <a class="path" href="/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
 
 
 </div>

@@ -144,7 +144,7 @@ th
 	text-align: left;
 }
 
-.right
+th.right
 {
 	text-align: right;
 }
@@ -237,19 +237,24 @@ hr
 
 .box
 {
-	width: 500px;
+	width: 440px;
 }
 
 .halfbox
 {
-	width: 230px;
+	width: 200px;
+}
+
+.searchbox
+{
+	width: 120px;
 }
 
 .error
 {
 	font-size: 14;
 	font-weight: bold;
-    color: #f07800;
+    color: #f08c00;
 }
 
 /* Special admin styles */
@@ -290,5 +295,6 @@ hr
 	font-size: 1px;
 }
 
-/* Hellstrøm 28.5.2001 */
+/* Hellstrøm 11.6.2001 */
+
 

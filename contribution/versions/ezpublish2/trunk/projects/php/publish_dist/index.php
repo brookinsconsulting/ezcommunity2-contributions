@@ -52,43 +52,6 @@ include_once( "ezuser/classes/ezuser.php" );
 
 $session =& eZSession::globalSession();
 
-
-/// test code
-
-$db =& eZDB::globalDatabase();
-
-print( "Using current database driver: ". $db->isA() . "<br>" );
-
-
-if ( !$session->fetch( ) )
-{
-    $session->store();
-}
-
-print( $session->id() );
-print( $session->idle() );
-
-$session->setVariable( "CartID", "42" );
-
-$cartID = $session->variable( "CartID" );
-
-// check if the variable exists and print out the contents
-if ( $cartID )
-{
-    print( "You have a shopping cart<br>" );
-    print( "And the ID is: " . $cartID );
-}
-
-$db->close();
-
-print( "<br>" );
-$bench->stop();
-$bench->printResults();
-
-die();
-
-// end test code
-
 //
 unset( $siteDesign );
 unset( $GlobalSiteDesign );

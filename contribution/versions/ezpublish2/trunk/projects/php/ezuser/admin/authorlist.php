@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: authorlist.php,v 1.2 2001/06/12 14:32:33 ce Exp $
+// $Id: authorlist.php,v 1.3 2001/06/22 14:13:21 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <31-May-2001 13:27:04 bf>
@@ -78,6 +78,7 @@ $author = new eZAuthor( );
 
 $authorArray = $author->getAll();
 
+$i=0;
 if ( count ( $authorArray ) > 0 )
 {
     foreach ( $authorArray as $author )
@@ -87,7 +88,14 @@ if ( count ( $authorArray ) > 0 )
         $t->set_var( "author_email", $author->email() );
         
         $t->parse( "author_item", "author_item_tpl", true );
-    }
+
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bgdark" );
+    else
+        $t->set_var( "td_class", "bglight" );
+    $i++;
+	}
+    
 }
 $t->parse( "author_list", "author_list_tpl" );
 
