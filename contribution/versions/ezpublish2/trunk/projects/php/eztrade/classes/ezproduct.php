@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.92 2001/09/14 13:11:47 pkej Exp $
+// $Id: ezproduct.php,v 1.93 2001/09/15 12:37:17 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -345,13 +345,9 @@ class eZProduct
       Returns the correct price of the product based on the logged in user, and the
       VAT status and use.
     */
-    function &correctPrice( &$inUser, $calcVAT )
+    function &correctPrice( $calcVAT )
     {
-        if ( get_class( $inUser ) != "ezuser" )
-        {
-            $UserID = $inUser;
-            $inUser = new eZUser( $UserID );
-        }
+        $inUser =& eZUser::currentUser();
         
         if ( get_class( $inUser ) == "ezuser" )
         {
@@ -388,13 +384,9 @@ class eZProduct
       Returns the correct price range of the product based on the logged in user, and the
       VAT status and use.
     */
-    function &correctPriceRange( &$inUser, $calcVAT )
+    function &correctPriceRange( $calcVAT )
     {
-        if ( get_class( $inUser ) != "ezuser" )
-        {
-            $UserID = $inUser;
-            $inUser = new eZUser( $UserID );
-        }
+        $inUser =& eZUser::currentUser();
         
         if ( get_class( $inUser ) == "ezuser" )
         {
@@ -417,20 +409,20 @@ class eZProduct
         
         if ( empty( $lowPrice ) )
         {
-            $lowPrice = $this->correctPrice( $inUser, $calcVAT  );
+            $lowPrice = $this->correctPrice( $calcVAT  );
         }
         else
         {
-            $lowPrice += $this->correctPrice( $inUser, $calcVAT );
+            $lowPrice += $this->correctPrice( $calcVAT );
         }
         
         if ( empty( $maxPrice ) )
         {
-            $maxPrice = $this->correctPrice( $inUser, $calcVAT );
+            $maxPrice = $this->correctPrice( $calcVAT );
         }
         else
         {
-            $maxPrice += $this->correctPrice( $inUser, $calcVAT );
+            $maxPrice += $this->correctPrice( $calcVAT );
         }
         
         if ( $calcVAT == true )
@@ -462,8 +454,12 @@ class eZProduct
     /*!
       Returns the correct localized price of the product.
     */
-    function &localePrice( $inLanguage, &$inUser, $calcVAT )
+    function &localePrice( $calcVAT )
     {
+        $inUser =& eZUser::currentUser();
+        $ini =& INIFile::globalINI();
+        $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
+        
         $locale = new eZLocale( $inLanguage );
         $currency = new eZCurrency();
 
@@ -472,7 +468,7 @@ class eZProduct
             $highCurrency = new eZCurrency();
             $lowCurrency = new eZCurrency();
             
-            $prices = $this->correctPriceRange( $inUser, $calcVAT );
+            $prices = $this->correctPriceRange( $calcVAT );
             
             $highCurrency->setValue( $prices["max"] );
             $lowCurrency->setValue( $prices["min"] );
@@ -481,7 +477,7 @@ class eZProduct
         }
         else
         {
-            $price = $this->correctPrice( $inUser, $calcVAT );
+            $price = $this->correctPrice( $calcVAT );
             $currency->setValue( $price );
             $returnString = $locale->format( $currency );
         }

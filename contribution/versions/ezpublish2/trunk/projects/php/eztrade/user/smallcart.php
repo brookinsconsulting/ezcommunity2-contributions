@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.30 2001/09/14 19:10:08 br Exp $
+// $Id: smallcart.php,v 1.31 2001/09/15 12:37:18 pkej Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -119,11 +119,11 @@ foreach ( $items as $item )
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
-            $t->set_var( "product_price", $item->localePrice( true, true, $Language, $user, $PricesIncludeVAT ) );        
+            $t->set_var( "product_price", $item->localePrice( true, true, $PricesIncludeVAT ) );        
         }
         else
         {
-           $t->set_var( "product_price", $item->localePrice( true, true, $Language, $user, $PricesIncludeVAT ) );        
+           $t->set_var( "product_price", $item->localePrice( true, true, $PricesIncludeVAT ) );        
         }
         
         // product price
@@ -172,7 +172,7 @@ foreach ( $items as $item )
 
 
 // shipping cost and VAT
-$cart->cartTotals( $tax, $total, $user );
+$cart->cartTotals( $tax, $total );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();

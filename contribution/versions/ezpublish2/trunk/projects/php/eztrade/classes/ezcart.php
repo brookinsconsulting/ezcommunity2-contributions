@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.27 2001/09/14 12:29:11 ce Exp $
+// $Id: ezcart.php,v 1.28 2001/09/15 12:37:17 pkej Exp $
 //
 // Definition of eZCart class
 //
@@ -299,8 +299,9 @@ class eZCart
     /*
         This function calculates the totals of the cart contents.
      */
-    function cartTotals( &$tax, &$total, $user )
+    function cartTotals( &$tax, &$total )
     {
+        $inUser =& eZUser::currentUser();
         $items = $this->items( );
         foreach( $items as $item )
         {

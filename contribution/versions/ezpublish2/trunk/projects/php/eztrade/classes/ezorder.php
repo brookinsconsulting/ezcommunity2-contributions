@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.48 2001/09/03 12:27:22 ce Exp $
+// $Id: ezorder.php,v 1.49 2001/09/15 12:37:17 pkej Exp $
 //
 // Definition of eZOrder class
 //
@@ -903,6 +903,50 @@ class eZOrder
         $db->array_query( $res, "SELECT SUM( Count ) AS C FROM eZTrade_OrderItem WHERE ProductID='$product'" );
         return $res[0][$db->fieldName( "C" )];
     }
+
+    /*
+        This function calculates the totals of the order contents.
+     */
+    function orderTotals( &$tax, &$total, $user )
+    {
+        $items = $this->items( );
+        foreach( $items as $item )
+        {
+            $product =& $item->product();
+            $vatPercentage = $product->vatPercentage();
+            
+            $exTax = $item->correctPrice( true, true, $user, false );
+            $incTax = $item->correctPrice( true, true, $user, true );
+
+            $totalExTax += $exTax;
+            $totalIncTax += $incTax;
+            
+            $tax["$vatPercentage"]["basis"] += $exTax;
+            $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
+            $tax["$vatPercentage"]["percentage"] = $vatPercentage;
+        }
+        
+        $total["subinctax"] = $totalIncTax;
+        $total["subextax"] = $totalExTax;
+        $total["subtax"] = $totalIncTax - $totalExTax;
+        
+        $shippingCost = $this->ShippingCharge;
+        $shippingVAT = $this->ShippingVAT;
+        $shippingVATPercentage = round( $shippingVAT / ( ( $shippingCost - $shippingVAT ) / 100 ), 0 );
+
+        $tax["$shippingVATPercentage"]["basis"] += $shippingCost - $shippingVAT;
+        $tax["$shippingVATPercentage"]["tax"] += $shippingVAT;
+        $tax["$shippingVATPercentage"]["percentage"] = $shippingVATPercentage;
+
+        $total["shipinctax"] = $shippingCost;
+        $total["shipextax"] = $shippingCost - $shippingVAT;
+        $total["shiptax"] = $shippingVAT;
+
+        $total["inctax"] = $total["subinctax"] + $total["shipinctax"];
+        $total["extax"] = $total["subextax"] + $total["shipextax"];
+        $total["tax"] = $total["subtax"] + $total["shiptax"];
+    }
+
     
     var $ID;
     var $UserID;

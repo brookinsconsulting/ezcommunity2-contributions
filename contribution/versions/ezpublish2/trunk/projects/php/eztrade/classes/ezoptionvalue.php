@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.35 2001/09/14 08:30:51 pkej Exp $
+// $Id: ezoptionvalue.php,v 1.36 2001/09/15 12:37:17 pkej Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -402,12 +402,15 @@ class eZOptionValue
     /*!
       Returns the correct localized price of the product.
     */
-    function &localePrice( $inLanguage, &$inUser, $calcVAT, $productHasVAT, $vatPercentage, $ProductID )
+    function &localePrice( $calcVAT, $inProduct )
     {
+        $ini =& INIFile::globalINI();
+        $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
+        
         $locale = new eZLocale( $inLanguage );
         $currency = new eZCurrency();
 
-        $price = $this->correctPrice( $inUser, $calcVAT, $productHasVAT, $vatPercentage, $ProductID );
+        $price = $this->correctPrice( $calcVAT, $inProduct );
 
         $currency->setValue( $price );
         return $locale->format( $currency );
@@ -416,19 +419,17 @@ class eZOptionValue
     /*!
       Returns the correct price of the option value.
     */
-    function correctPrice( &$inUser, $calcVAT, $productHasVAT, $vatPercentage, $ProductID )
+    function correctPrice( $calcVAT, $inProduct )
     {
-        if ( get_class( $inUser ) != "ezuser" )
-        {
-            $UserID = $inUser;
-            $inUser = new eZUser( $UserID );
-        }
-        
+        $inUser =& eZUser::currentUser();
+        $vatPercentage = $inProduct->vatPercentage();
+        $productHasVAT = $inProduct->priceIncVAT();
+
         if ( get_class( $inUser ) == "ezuser" )
         {
             $groups = $inUser->groups( true );
 
-            $price = eZPriceGroup::correctPrice( $ProductID, $groups, $this->OptionID, $this->ID );
+            $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );
         }
         
         if ( empty( $price ) )

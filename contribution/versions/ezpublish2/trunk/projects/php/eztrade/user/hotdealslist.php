@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: hotdealslist.php,v 1.21 2001/09/14 13:06:35 pkej Exp $
+// $Id: hotdealslist.php,v 1.22 2001/09/15 12:37:18 pkej Exp $
 //
 // Created on: <12-Nov-2000 19:34:40 bf>
 //
@@ -166,7 +166,7 @@ foreach ( $productList as $product )
     if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
-        $t->set_var( "product_price", $product->localePrice( $Language, $user, $PricesIncludeVAT ) );
+        $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
 
         $t->parse( "price", "price_tpl" );
     }

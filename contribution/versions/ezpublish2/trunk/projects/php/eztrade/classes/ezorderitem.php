@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.21 2001/09/03 11:13:38 ce Exp $
+// $Id: ezorderitem.php,v 1.22 2001/09/15 12:37:17 pkej Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -28,7 +28,11 @@
 //! eZOrderItem handles order items.
 /*!
 
+    All prices saved with this object is without VAT. All prices are for _one_
+    product only. Remember to multiply correctly with the count.
+
   \sa eZOrder eZOrderOptionValue
+  
 */
 
 /*!TODO
@@ -306,6 +310,35 @@ class eZOrderItem
     {
         return new eZOrder( $this->OrderID );
     }
+
+    /*!
+      Returns the correct price of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function correctPrice( $calcCount=true, $withOptions=true, &$inUser, $calcVAT )
+    {
+        echo $this->Price . ", " . $this->VAT . ", " . ( $this->Price - $this->VAT ) . "<br>\n";
+        if( $calcVAT = true )
+            return ( $this->Price + $this->VAT ) * $this->Count;
+        else
+            return $this->Price * $this->Count;
+    }
+
+    /*!
+      Returns the correct localized price of the product.
+    */
+    function localePrice( $calcCount=true, $withOptions=true, $inLanguage, &$inUser, $calcVAT )
+    {
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+        
+        $price = $this->correctPrice( $calcCount, $withOptions, $inUser, $calcVAT );
+        
+        $currency->setValue( $price );
+        return $locale->format( $currency );
+    }    
+    
+
     
     var $ID;
     var $OrderID;

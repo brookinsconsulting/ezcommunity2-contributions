@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.62 2001/09/14 21:05:42 br Exp $
+// $Id: productview.php,v 1.63 2001/09/15 12:37:18 pkej Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -346,11 +346,9 @@ foreach ( $options as $option )
                  $ShowPrice and $product->showPrice() == true  )
             {
 
-                $price = new eZCurrency( $value->correctPrice( $user, $PricesIncludeVAT,
-                    $product->includesVAT(), $product->vatPercentage(), $product->id() ) );
+                $price = new eZCurrency( $value->correctPrice( $PricesIncludeVAT, $product ) );
 
-                $t->set_var( "value_price", $value->localePrice( $Language, $user, $PricesIncludeVAT,
-                    $product->includesVAT(), $product->vatPercentage(), $product->id() ) );
+                $t->set_var( "value_price", $value->localePrice( $PricesIncludeVAT, $product ) );
 
                 $t->parse( "value_price_item", "value_price_item_tpl" );
 
@@ -529,9 +527,10 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
      $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
 {
 
-    $t->set_var( "product_price", $product->localePrice( $Language, $user, $PricesIncludeVAT ) );
+    $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
 
-    $price = new eZCurrency( $product->correctPrice( $user, $PricesIncludeVAT ) );
+    $price = new eZCurrency( $product->correctPrice( $PricesIncludeVAT ) );
+    
     // show alternative currencies
 
     $currency = new eZProductCurrency( );
@@ -539,7 +538,7 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
 
     if ( $product->hasOptions() )
     {
-        $priceRange = $product->correctPriceRange( $user, $PricesIncludeVAT );
+        $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
 
         foreach ( $currencies as $currency )
         {

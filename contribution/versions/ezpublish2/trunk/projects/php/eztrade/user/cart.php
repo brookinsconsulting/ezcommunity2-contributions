@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.60 2001/09/14 19:10:35 br Exp $
+// $Id: cart.php,v 1.61 2001/09/15 12:37:18 pkej Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -409,10 +409,10 @@ foreach ( $items as $item )
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_number", $product->productNumber() );
-    $t->set_var( "product_price", $item->localePrice( false, true, $Language, $user, $PricesIncludeVAT ) );
+    $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT ) );
     $t->set_var( "product_count", $item->count() );
-    $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, $Language, $user, false ) );
-    $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, $Language, $user, true ) );
+    $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
+    $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );
 
     $numberOfItems++;
 
@@ -435,7 +435,7 @@ foreach ( $items as $item )
         $t->set_var( "option_id", $option->id() );
         $t->set_var( "option_name", $option->name() );
         $t->set_var( "option_value", $descriptions[0] );
-        $t->set_var( "option_price", $value->localePrice( $Language, $user, $PricesIncludeVAT, $productHasVAT, $vatPercentage, $product->id() ) );
+        $t->set_var( "option_price", $value->localePrice( $PricesIncludeVAT, $product ) );
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
         
         $numberOfOptions++;
@@ -452,7 +452,7 @@ foreach ( $items as $item )
     {
         if( $product->price() > 0 )
         {
-            $t->set_var( "basis_price", $item->localePrice( false, false, $Language, $user, $PricesIncludeVAT ) );
+            $t->set_var( "basis_price", $item->localePrice( false, false, $PricesIncludeVAT ) );
             $t->parse( "cart_item_basis", "cart_item_basis_tpl", true );
         }
         else
@@ -476,7 +476,7 @@ turnColumnsOnOff( "header" );
 if ( $ShowCart == true )
 {
     
-    $cart->cartTotals( $tax, $total, $user );
+    $cart->cartTotals( $tax, $total );
 
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
