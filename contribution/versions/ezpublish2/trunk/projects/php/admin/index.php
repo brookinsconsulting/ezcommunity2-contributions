@@ -22,7 +22,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$ini = new INIFile( "../site.ini" );
+$ini = new INIFile( "site.ini" );
 $t = new Template( "." );
 
 $SiteStyle = $ini->read_var( "site", "SiteStyle");

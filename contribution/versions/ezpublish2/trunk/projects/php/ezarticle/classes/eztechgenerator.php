@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.11 2000/10/24 19:03:13 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.12 2000/10/25 08:52:08 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -59,24 +59,28 @@ class eZTechGenerator
             $tmpPage = $page;
 
             // parse the <image id align size> tag and convert it
-            // to <image id="id" align="align" size="size"></image>
+            // to <image id="id" align="align" size="size" />
 
-            $tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" ></image>", $tmpPage );
+            $tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
 
-            print( htmlspecialchars( $tmpPage ) . "<br>");
+            // convert <link ez.no ez systems> to valid xml
+            // $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
+            $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
             
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!)
             // the expression must be fixed with eg just use the 3 last letters of the tag
 
+            $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der))>#", "&gt;", $tmpPage );
             // make better..
-//              $tmpPage = preg_replace( "/(?<!(age|php|age|cpp|ell|sql|der))>/", "&gt;", $tmpPage );
+            $tmpPage = preg_replace( "#/&gt;#", "/>", $tmpPage );
+            
 
             // strip for tags, not much sense to have this here... will problably remove this later
 //              $tmpPage = strip_tags( $tmpPage, "<page>,<php>,</php>,<image>,</image>,<cpp>,</cpp>,<shell>,</shell>,<sql>,</sql>,<header>,</header>" );
@@ -158,9 +162,62 @@ class eZTechGenerator
                     // image 
                     if ( $paragraph->name == "image" )
                     {
-                        $pageContent .= "<image>" . $paragraph->children[0]->content . "</image>";
+                        foreach ( $paragraph->attributes as $imageItem )
+                        {
+                            switch ( $imageItem->name )
+                            {
+
+                                case "id" :
+                                {
+                                    $imageID = $imageItem->children[0]->content;
+                                }
+                                break;
+
+                                case "align" :
+                                {
+                                    $imageAlignment = $imageItem->children[0]->content;
+                                }
+                                break;
+
+                                case "size" :
+                                {
+                                    $imageSize = $imageItem->children[0]->content;
+                                }
+                                break;
+                                
+                            }
+                        }
+                        
+                        $pageContent .= "<image $imageID $imageAlignment $imageSize>";
                     }
 
+                    // image 
+                    if ( $paragraph->name == "link" )
+                    {
+                        foreach ( $paragraph->attributes as $imageItem )
+                        {
+                            print( $imageItem->name );
+                            switch ( $imageItem->name )
+                            {
+
+                                case "href" :
+                                {
+                                    $href = $imageItem->children[0]->content;
+                                }
+                                break;
+
+                                case "text" :
+                                {
+                                    $text = $imageItem->children[0]->content;
+                                }
+                                break;
+                                
+                            }
+                        }
+                        
+                        $pageContent .= "<link $href $text>";
+                    }
+                    
                     // sql code
                     if ( $paragraph->name == "sql" )
                     {
