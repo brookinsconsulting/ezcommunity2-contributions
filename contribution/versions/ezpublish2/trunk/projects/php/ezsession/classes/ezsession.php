@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.32 2001/03/12 15:03:02 bf Exp $
+// $Id: ezsession.php,v 1.33 2001/03/13 08:55:18 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -197,7 +197,7 @@ class eZSession
             {                 
                 $hash = $GLOBALS["eZSession"];
             }
-            
+
             $db->array_query( $session_array, "SELECT *
                                       FROM eZSession_Session
                                       WHERE Hash='$hash'" );

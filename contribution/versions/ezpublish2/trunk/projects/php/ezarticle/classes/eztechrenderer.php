@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.61 2001/03/12 16:10:05 bf Exp $
+// $Id: eztechrenderer.php,v 1.62 2001/03/13 08:55:18 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -574,8 +574,17 @@ class eZTechRenderer
                         $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
                     }
                 }
-                            
-                $imageURL = "/" . $variation->imagePath();
+
+
+                if ( get_class( $variation ) == "ezimage" )
+                {
+                    $imageURL = $variation->filePath();
+                }
+                else
+                {
+                    $imageURL = "/" . $variation->imagePath();
+                }
+                
                 $imageWidth = $variation->width();
                 $imageHeight = $variation->height();
                 $imageCaption = $image->caption();
