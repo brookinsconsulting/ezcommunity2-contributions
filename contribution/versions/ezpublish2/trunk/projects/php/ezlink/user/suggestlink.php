@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: suggestlink.php,v 1.22 2001/11/01 20:38:22 br Exp $
+// $Id: suggestlink.php,v 1.23 2001/11/11 17:02:17 br Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -54,15 +54,24 @@ if ( isSet( $Delete ) )
     $Action = "delete";
 }
 
+
 if ( isSet( $Back ) )
 {
-    $link = new eZLink();
-    $link->get( $LinkID );
-    $catDef = $link->categoryDefinition();
-    $LinkCategoryID = $catDef->id();
+    if ( $LinkID != "" )
+    {
+        $link = new eZLink();
+        $link->get( $LinkID );
+        $catDef = $link->categoryDefinition();
+        $LinkCategoryID = $catDef->id();
 
-    eZHTTPTool::header( "Location: /link/category/$LinkCategoryID/" );
-    exit();
+        eZHTTPTool::header( "Location: /link/category/$LinkCategoryID/" );
+        exit();
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: $RefererURL" );
+        exit();
+    }
 }
 
 $Accepted = $ini->read_var( "eZLinkMain", "AcceptSuggestedLinks" );
@@ -367,6 +376,24 @@ $t->set_var( "image_item", "" );
 // set accepted link as default.
 $yes_selected = "selected";
 $no_selected = "";
+
+if ( $RefererURL != "" )
+{
+    $t->set_var( "referer_url", $RefererURL );
+}
+else
+{
+    $refererURL = $GLOBALS["HTTP_REFERER"];
+    if ( $refererURL != "" )
+    {
+        $t->set_var( "referer_url", $refererURL );
+    }
+    else
+    {
+        $t->set_var( "referer_url", "/" );
+    }
+}
+
 
 if ( $Action == "AttributeList" )
 {

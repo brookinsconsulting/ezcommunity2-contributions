@@ -16,6 +16,7 @@
 
 <form method="post" action="{www_dir}{index}/link/suggestlink/{action_value}/{link_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
+<input type="hidden" name="RefererURL" value="{referer_url}">
 
 <p class="error">{error_msg}</p>
 
