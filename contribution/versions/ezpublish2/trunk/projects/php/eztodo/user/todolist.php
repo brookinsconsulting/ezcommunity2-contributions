@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.4 2001/01/15 12:59:04 ce Exp $
+// $Id: todolist.php,v 1.5 2001/01/16 13:47:07 ce Exp $
 //
 // Definition of todo list.
 //
@@ -33,6 +33,11 @@ include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
 
 $user = eZUser::currentUser();
+if ( $user == false )
+{
+    Header( "Location: /" );
+    exit();
+}
 
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                      "eztodo/user/intl/", $Language, "todolist.php" );

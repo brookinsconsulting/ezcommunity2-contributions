@@ -1,5 +1,5 @@
 <tr>
-	<td class="menuhead" bgcolor="#c82828">{intl-forum}</td>
+	<td class="menuhead" bgcolor="#c82828">{intl-todo}</td>
 </tr>
 
 <tr>

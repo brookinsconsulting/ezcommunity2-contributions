@@ -1,5 +1,5 @@
 <?
-// $Id: todoview.php,v 1.2 2001/01/15 14:57:27 ce Exp $
+// $Id: todoview.php,v 1.3 2001/01/16 13:47:07 ce Exp $
 //
 // Definition of todo list.
 //
@@ -69,7 +69,7 @@ if ( $todo->permission() == "Public" )
 }
 else
 {
-    $t->set_var( "todo_permission", $lanugageIni->read_var( "strings", "privat" ) );
+    $t->set_var( "todo_permission", $lanugageIni->read_var( "strings", "private" ) );
 }
 
 $t->set_var( "todo_name", $todo->name() );

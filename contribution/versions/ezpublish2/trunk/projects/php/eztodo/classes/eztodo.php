@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.13 2001/01/16 12:01:18 ce Exp $
+// $Id: eztodo.php,v 1.14 2001/01/16 13:47:06 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -159,7 +159,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
         
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Priority DESC" );
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Priority" );
         
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -182,7 +182,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Priority DESC");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Priority");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -203,7 +203,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Permission='Public' ORDER BY Priority DESC");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Permission='Public' ORDER BY Priority");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -236,7 +236,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority DESC LIMIT 0,$limit");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority LIMIT 0,$limit");
 
         for ( $i=0; $i<count($todo_array); $i++ )
         {
