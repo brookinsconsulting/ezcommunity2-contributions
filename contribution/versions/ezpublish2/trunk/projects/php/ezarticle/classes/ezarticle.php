@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.141 2001/08/15 06:56:46 ce Exp $
+// $Id: ezarticle.php,v 1.142 2001/08/15 10:43:39 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1950,6 +1950,7 @@ class eZArticle
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
         $groupSQL = "";
+        $usePermission = true;
         if ( $user )
         {
             $groups =& $user->groups( true );
@@ -1966,9 +1967,17 @@ class eZArticle
             }
             $currentUserID = $user->id();
             $currentUserSQL = "Article.AuthorID=$currentUserID OR";
+
+            if ( $user->hasRootAccess() )
+                $usePermisson = false;
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
+        if ( $usePermission )
+           $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' AND CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
+       else
+           $permissionSQL = "";
+        
         $publishedCode = "";
         if ( $fetchNonPublished == false )
         {
@@ -1980,18 +1989,20 @@ class eZArticle
         }
 
         $query = "SELECT DISTINCT Article.ID as ArticleID, Article.Published, Article.Name
-                  FROM eZArticle_Article AS Article,
+                  FROM eZArticle_ArticleCategoryDefinition as Definition,
+                       eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission,
+                       eZArticle_CategoryPermission as CategoryPermission,
                        eZArticle_Category AS Category
-                  WHERE (
-                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
-                        )
+                  WHERE $permissionSQL
                         $publishedCode
                         AND Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                         AND Category.ID=Link.CategoryID
                         AND Category.ExcludeFromSearch = '0'
+                        AND Definition.ArticleID=Article.ID
+                        AND CategoryPermission.ObjectID=Definition.CategoryID
                  ORDER BY $OrderBy";
        
         $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset )  );
