@@ -8,4 +8,3 @@
 	<p class="menuspacer">&nbsp;<br />&nbsp;</p>
 	<img src="/images/pil.gif" height="10" width="10" border="0">&nbsp;<a class="menutext" href="/user/userwithaddress/">Ny bruker</a>
 	</form>
-

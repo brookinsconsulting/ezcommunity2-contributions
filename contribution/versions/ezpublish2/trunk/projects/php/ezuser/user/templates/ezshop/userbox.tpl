@@ -1,8 +1,28 @@
+<form method="post" action="/user/login/logout/">
 
-	<form method="post" action="/user/login/logout/">
-	<p class="menutext">Innlogget bruker:</p>
-	{first_name} {last_name}<br /><br />
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<td class="menutext">Innlogget bruker:</td>
+</tr>
+<tr>
+	<td class="small">{first_name} {last_name}</td>
+</tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+<tr>
+	<td>
 	<input type="submit" value="Logg ut" />
-	<p class="menuspacer">&nbsp;<br />&nbsp;</p>
+	</td>
+</tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+<tr>
+	<td>
     <img src="/images/pil.gif" height="10" width="10" border="0">&nbsp;<a class="menutext" href="/user/passwordchange/">Bytt passord</a>
-    </form>
+	</td>
+</tr>
+</table>
+
+</form>

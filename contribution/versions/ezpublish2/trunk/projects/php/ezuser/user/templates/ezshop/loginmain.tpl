@@ -2,7 +2,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead" bgcolor="#c82828">{intl-head_line}</td>
+	<td class="menuhead">{intl-head_line}</td>
 </tr>
 <tr>
 	<td class="menutext">
@@ -26,13 +26,16 @@
 </tr>
 <tr>
 	<td class="menutext">
-	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/forgot/">{intl-forgot}</a>
+	<img src="/images/pil.gif" width="10" height="10">&nbsp;<a class="menu" href="/user/forgot/">{intl-forgot}</a>
 	</td>
 </tr>
 <tr>
 	<td class="menutext">
-	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/user/new/">{intl-register}
+	<img src="/images/pil.gif" width="10" height="10">&nbsp;<a class="menu" href="/user/user/new/">{intl-register}
 	</td>
+</tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
 </tr>
 <tr>
 	<td class="menuspacer">&nbsp;</td>
