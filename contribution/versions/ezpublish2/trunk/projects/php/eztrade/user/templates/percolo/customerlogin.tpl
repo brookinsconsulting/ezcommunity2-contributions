@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
-            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">{intl-head_line}</h1></td>
+            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">Kunderegistrering</h1></td>
         </tr>
         <tr>
             <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
@@ -40,10 +40,9 @@
 <input type="password" size="20" name="Password"/><br />
 <br />
 
-<input class="okbutton" type="submit" value="{intl-login}" />
+<input class="okbutton" type="submit" value="Logg inn" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
-
 
 </td>
 </tr>

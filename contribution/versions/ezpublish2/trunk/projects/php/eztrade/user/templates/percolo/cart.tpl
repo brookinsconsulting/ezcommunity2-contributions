@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
-            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">{intl-cart}</h1></td>
+            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">Handlekurv</h1></td>
         </tr>
         <tr>
             <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
@@ -17,7 +17,7 @@
 			<td colspan="2">
 
 <!-- BEGIN empty_cart_tpl -->
-<h2>{intl-empty_cart}</h2>
+<h2>Det er ingen varer i handlekurven din</h2>
 <!-- END empty_cart_tpl -->
 
 
