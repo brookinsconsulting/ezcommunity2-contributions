@@ -1,6 +1,8 @@
 <table width="100%">
 <tr>
 	<td valign="top">
+| bruker: <br>
+<b>{current_user}</b> |
 | <a href="index.php4?page={document_root}contactlist.php4"><img src="{document_root}images/liste.gif" border="0" alt="Liste"></a>
 | <a href="index.php4?page={document_root}noteslist.php4"><img src="{document_root}images/huskelapp.gif" border="0" alt="Notater"></a>
 | <a href="index.php4?page={document_root}personedit.php4"><img src="{document_root}images/person.gif" border="0" alt="Ny kontaktperson"></a>
@@ -9,7 +11,7 @@
 
 | <a href="{document_root}logout.php4"><img src="{document_root}images/loggut.gif" border="0" alt="Logg ut"></a>
 
-| bruker: <b>{current_user}</b> |
+
 
   </td>
   <td bgcolor="#eeeeee">
