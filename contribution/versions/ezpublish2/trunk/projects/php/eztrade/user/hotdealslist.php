@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.8 2001/02/08 11:22:18 jb Exp $
+// $Id: hotdealslist.php,v 1.9 2001/02/08 15:57:18 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -47,7 +47,9 @@ if ( isset( $HotDealsPage ) )
 }
 else
 {
-    $t->set_file( "product_list_page_tpl", "hotdealslist.tpl" );
+    if ( !isset( $HotDealsTemplate ) )
+        $HotDealsTemplate = "hotdealslist.tpl";
+    $t->set_file( "product_list_page_tpl", $HotDealsTemplate );
 }
 
 $t->set_block( "product_list_page_tpl", "header_tpl", "header" );
