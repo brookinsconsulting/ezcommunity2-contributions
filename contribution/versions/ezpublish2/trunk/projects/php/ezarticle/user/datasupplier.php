@@ -255,6 +255,8 @@ switch ( $url_array[2] )
     case "print":
     case "articleprint":
     {
+        $PrintableVersion = "enabled";
+        
         $StaticRendering = false;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];

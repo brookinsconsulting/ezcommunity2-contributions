@@ -135,6 +135,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
     {
         // the page with the real contents
         include( $content_page );
+
+        // The following variables can be set from the contents page:
+        // $PrintableVersion = "enabled | disabled";
+        // $GlobalSectionID = integer value, reference to the selected section.
     }
     else
     {
@@ -189,20 +193,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
     {
         // Load the default meta info
         include( "sitedesign/$siteDesign/defaultmetainfo.php" );
-    }
-
-
-    
-// Pre check
-    {
-        // send the URI to the right decoder
-        $content_page_pre = "ez" . $url_array[1] . "/user/datasupplier_pre.php";
-    }
-
-    if ( file_exists( $content_page_pre ) )
-    {
-        // the page with the real contents
-        include( $content_page_pre );
     }
 
 
