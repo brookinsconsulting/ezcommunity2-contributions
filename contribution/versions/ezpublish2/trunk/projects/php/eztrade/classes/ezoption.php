@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.16 2001/03/02 15:51:06 jb Exp $
+// $Id: ezoption.php,v 1.17 2001/03/12 14:13:30 jb Exp $
 //
 // Definition of eZOption class
 //
@@ -287,7 +287,22 @@ class eZOption
         if ( !$id )
             $id = $this->ID;
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZTrade_OptionValue WHERE OptionID='$id'" );
+        $db->array_query( $qry_array, "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$id'" );
+        foreach( $qry_array as $row )
+        {
+            $row_id = $row["ID"];
+            eZOptionValue::delete( $row_id );
+        }
+    }
+
+    /*!
+      Removes all values connected to this option.
+    */
+    function removeValue( $id )
+    {
+        if ( get_class( $id ) == "ezoptionvalue" )
+            $id = $id->id();
+        eZOptionValue::delete( $id );
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.16 2001/03/12 13:45:45 jb Exp $
+// $Id: optionedit.php,v 1.17 2001/03/12 14:13:30 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -113,6 +113,24 @@ if ( isset( $OK ) )
     $option->addHeader( $OptionValueDescription );
 
 //      $option->removeValues();
+    $i = 0;
+    $option_ids = array();
+    foreach ( $OptionValue as $name )
+    {
+        if ( $name != "" )
+        {
+            if ( is_numeric( $OptionValueID[$i] ) and $OptionValueID[$i] > 0 )
+                $option_ids[] = $OptionValueID[$i];
+        }
+        $i++;
+    }
+    $orig_option_ids = eZOptionValue::getByOption( $option, false );
+    $old_option_ids = array_diff( $orig_option_ids, $option_ids );
+    foreach( $old_option_ids as $id )
+    {
+        eZOptionValue::delete( $id );
+    }
+
     $i = 0;
     foreach ( $OptionValue as $name )
     {

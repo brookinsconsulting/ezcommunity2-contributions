@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.18 2001/03/12 13:45:45 jb Exp $
+// $Id: ezoptionvalue.php,v 1.19 2001/03/12 14:13:30 jb Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -148,7 +148,7 @@ class eZOptionValue
 
       The values are sorted by name. Returns 0 if no values are found.
     */
-    function &getByOption( &$value )
+    function &getByOption( &$value, $as_object = true )
     {
         if ( get_class( $value ) == "ezoption" )
         {        
@@ -164,7 +164,8 @@ class eZOptionValue
 
             for ( $i=0; $i < count($optionValue_array); $i++ )
             {
-                $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], true );
+                $return_array[$i] = $as_object ? new eZOptionValue( $optionValue_array[$i]["ID"], true ) :
+                                                 $optionValue_array[$i]["ID"];
             }
             return $return_array;
         }
@@ -230,15 +231,17 @@ class eZOptionValue
     /*!
       Deletes a option from the database.
     */
-    function delete()
+    function delete( $id = false )
     {
+        if ( !$id )
+            $id = $this->ID;
         $db =& eZDB::globalDatabase();
         $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValue
-                                                      WHERE ID='$this->ID'" );
+                                                      WHERE ID='$id'" );
         $db->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
-                                                      WHERE ValueID='$this->ID'" );
+                                                      WHERE ValueID='$id'" );
         $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValueContent
-                                                      WHERE ValueID='$this->ID'" );
+                                                      WHERE ValueID='$id'" );
     }
 
     /*!
