@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.3 2002/01/15 15:39:23 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.4 2002/01/16 12:18:03 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -245,6 +245,18 @@ class eZProduct
         $contents = str_replace ("qdom", " ", $contents );
         $contents = str_replace ("tech", " ", $contents );
 
+        // fetch all attributes
+        $type = $this->type();
+        if ( $type )
+        {
+            $attributes =& $type->attributes();
+            foreach ( $attributes as $attribute )
+            {
+                $value =& $attribute->value( $this );
+                $contents .= " " . $value;
+            }
+        }
+
         // strip &quot; combinations
         $contents = preg_replace("(&.+?;)", " ", $contents );
 
@@ -261,7 +273,7 @@ class eZProduct
         $keywords = "";
         foreach ( $contents_array as $word )
         {
-            if ( strlen( $word ) >= 2 )
+            if ( strlen( $word ) >= 1 )
             {
                 $keywords .= $word . " ";
             }
@@ -1632,8 +1644,8 @@ class eZProduct
                        $searchSQL
                        AND
                        ( eZTrade_Product.ID=eZTrade_ProductWordLink.ProductID
-                         AND eZTrade_ProductWordLink.WordID=eZTrade_Word.ID
-                         $fetchText
+                         AND
+                         eZTrade_ProductWordLink.WordID=eZTrade_Word.ID
                         )
                        ORDER BY $OrderBy";
 
