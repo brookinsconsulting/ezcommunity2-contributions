@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.135 2001/08/01 14:51:41 bf Exp $
+// $Id: ezarticle.php,v 1.136 2001/08/01 16:11:21 kaid Exp $
 //
 // Definition of eZArticle class
 //
@@ -934,12 +934,11 @@ class eZArticle
     {
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups =& $user->groups( true );
 
-            $groupSQL = "";
-           
             $i = 0;
             foreach ( $groups as $group )
             {
@@ -1049,11 +1048,10 @@ class eZArticle
 
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups = $user->groups( true );
-
-            $groupSQL = "";
            
             $i = 0;
             foreach ( $groups as $group )
@@ -1647,11 +1645,10 @@ class eZArticle
 
         // Build the permission
         $loggedInSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups = $user->groups( true );
-
-            $groupSQL = "";
            
             $i = 0;
             foreach ( $groups as $group )
@@ -1791,11 +1788,10 @@ class eZArticle
         $user =& eZUser::currentUser();
 
         $loggedInSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups =& $user->groups( true );
-
-            $groupSQL = "";
            
             $i = 0;
             foreach ( $groups as $group )
@@ -1865,14 +1861,14 @@ class eZArticle
         $db =& eZDB::globalDatabase();
 
         $OrderBy = "Article.Published DESC";
-        switch( $sortMode )
-        {
-            case "alpha" :
-            {
-                $OrderBy = "Article.Name DESC";
-            }
-            break;
-        }
+        //switch( $sortMode )
+        //{
+        //    case "alpha" :
+        //    {
+        //        $OrderBy = "Article.Name DESC";
+        //    }
+        //    break;
+        //}
 
        
         $return_array = array();
@@ -1880,11 +1876,10 @@ class eZArticle
 
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups =& $user->groups( true );
-
-            $groupSQL = "";
            
             $i = 0;
             foreach ( $groups as $group )
@@ -1957,12 +1952,11 @@ class eZArticle
 
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups =& $user->groups( true );
 
-            $groupSQL = "";
-           
             $i = 0;
             foreach ( $groups as $group )
             {
@@ -2273,12 +2267,11 @@ class eZArticle
 
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups = $user->groups( true );
 
-            $groupSQL = "";
-           
             $i = 0;
             foreach ( $groups as $group )
             {
@@ -2314,12 +2307,11 @@ class eZArticle
     {
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
+        $groupSQL = "";
         if ( $user )
         {
             $groups =& $user->groups( true );
 
-            $groupSQL = "";
-           
             $i = 0;
             foreach ( $groups as $group )
             {
