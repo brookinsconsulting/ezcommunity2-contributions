@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.14 2001/02/09 14:54:28 gl Exp $
+// $Id: adlist.php,v 1.15 2001/02/12 15:45:52 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -42,7 +42,6 @@ if ( !isset( $Limit ) )
     
 // ads
 $adList =& $category->ads( "count", false, 0, $Limit );
-
 
 foreach ( $adList as $ad )
 {

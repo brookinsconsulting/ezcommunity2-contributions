@@ -11,6 +11,13 @@
     ?>
 
     <?
+    $CategoryID=5;
+    $Offset=0;
+    $Limit=1;
+        include( "ezarticle/user/smallarticlelist.php" );
+    ?>
+    
+    <?
         include( "ezpoll/user/votebox.php" );
     ?>
 
