@@ -55,21 +55,25 @@
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>
+</table>
 
 <br />
 
 <hr noshade="noshade" size="4" />
+
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
 	<input type="hidden" name="UserID" value="{user_id}" />
 	<input class="okbutton" type="submit" value="OK" />
 	<input type="hidden" name="RedirectURL" value="{redirect_url}" />
 	</form>
-
-	<form action="{redirect_url}">
-	<input type="submit" value="{intl-abort}">
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form action="/">
+	<input class="okbutton" type="submit" value="{intl-abort}">
 	</form>
 	</td>
 </tr>
-
 </table>
