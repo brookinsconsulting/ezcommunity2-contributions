@@ -23,14 +23,14 @@ switch ( $url_array[2] )
             {
                 print( "first time generated" );                
                 $GenerateStaticPage = "true";
-                include( "eztrade/productlist.php" );                
+                include( "eztrade/user/productlist.php" );
             }            
         }
         else
         {
             print( "uncached version" );
             $CategoryID = $url_array[3];        
-            include( "eztrade/productlist.php" );
+            include( "eztrade/user/productlist.php" );
         }
         
         break;
@@ -52,7 +52,7 @@ switch ( $url_array[2] )
             {
                 print( "first time generated" );                
                 $GenerateStaticPage = "true";
-                include( "eztrade/productview.php" );
+                include( "eztrade/user/productview.php" );
             }            
         }
         else
@@ -61,7 +61,7 @@ switch ( $url_array[2] )
             
             $ProductID = $url_array[3];
             $CategoryID = $url_array[4];
-            include( "eztrade/productview.php" );
+            include( "eztrade/user/productview.php" );
         }
         
         break;
@@ -80,38 +80,36 @@ switch ( $url_array[2] )
         if ( isset( $WishList ) )
         {
             print( "wishlist<br>" );
-            include( "eztrade/wishlist.php" );            
+            include( "eztrade/user/wishlist.php" );
         }
         else
         {
             print( "cart<br>" );            
-            include( "eztrade/cart.php" );
+            include( "eztrade/user/cart.php" );
         }
         
         break;
         
     case "wishlist" :
         $CartType = "WishList";        
-         include( "eztrade/wishlist.php" );    
+         include( "eztrade/user/wishlist.php" );
         break;
 
     case "customerlogin" :
-        include( "eztrade/customerlogin.php" );        
+        include( "eztrade/user/customerlogin.php" );
         break;
         
     case "checkout" :
-        include( "eztrade/checkout.php" );        
+        include( "eztrade/user/checkout.php" );
         break;
 
     case "ordersendt" :
-        include( "eztrade/ordersendt.php" );        
+        include( "eztrade/user/ordersendt.php" );
         break;
-
-        
 
     case "search" :
         
-        include( "eztrade/productsearch.php" );
+        include( "eztrade/user/productsearch.php" );
         break;
     default :
         print( "<h1>Sorry, Your PRODUCT page could not be found. </h1>" );
