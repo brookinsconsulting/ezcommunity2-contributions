@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.34 2001/03/07 14:51:19 jb Exp $
+// $Id: ezimage.php,v 1.35 2001/03/07 16:24:03 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -456,7 +456,7 @@ class eZImage
        {
            $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
        }
-       return file_exists( $path );
+       return file_exists( $path ) and is_file( $path );
     }
     /*!
       Returns the path and filename to the original image.
@@ -477,7 +477,7 @@ class eZImage
        {
            $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
        }
-       if ( !file_exists( $path ) )
+       if ( !file_exists( $path ) or !is_file( $path ) )
            $path = "/ezimagecatalogue/admin/images/failedimage.gif";
        return $path;
     }
@@ -658,7 +658,7 @@ class eZImage
        if ( get_class( $file ) == "ezimagefile" )
        {
            $name = $file->tmpName();
-           if ( !file_exists( $name ) )
+           if ( !file_exists( $name ) or !is_file( $name ) )
                return false;
            return true;
        }
@@ -679,7 +679,7 @@ class eZImage
        {
            $this->OriginalFileName = $file->name();
            $tmpname = $file->tmpName();
-           if ( !file_exists( $tmpname ) )
+           if ( !file_exists( $tmpname ) or !is_file( $tmpname ) )
                return false;
 
            $info = eZImageFile::information( $this->OriginalFileName );
@@ -830,7 +830,7 @@ class eZImage
     */
     function &width()
     {
-        if ( file_exists( $this->filePath( true ) ) )
+        if ( file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
         {
             $size = getimagesize( $this->filePath( true ) );
             return $size[0];
@@ -844,7 +844,7 @@ class eZImage
     */
     function &height()
     {
-        if ( file_exists( $this->filePath( true ) ) )
+        if ( file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
         {
             $size = getimagesize( $this->filePath( true ) );
             return $size[1];
