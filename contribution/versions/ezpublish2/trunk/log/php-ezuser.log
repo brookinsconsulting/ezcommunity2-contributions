@@ -1379,3 +1379,16 @@ Maintainer(s) : bf@ez.no
 
     * user/forgot.php: Removed critical debug exit()
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-05-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/userbox.php
+      classes/ezuser.php
+      sql/postgresql/ezuser.sql
+      user/login.php:
+    Added functionality which counts the number of logins a user performs.
+    It is also possible to redirect the user to any page at the n-th login.
+

@@ -429,3 +429,14 @@ Maintainer(s) : br@ez.no
 
     * classes/ezpageviewquery.php: Fixed bug in top visitor list.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-05-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezpageview.php
+      sql/postgresql/ezstats.sql
+      user/storestats.php:
+    Added code which will store the SectionID of all page views.
+

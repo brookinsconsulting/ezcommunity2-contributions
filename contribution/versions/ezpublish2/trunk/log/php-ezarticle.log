@@ -3353,3 +3353,19 @@ Maintainer(s) : bf@ez.no
 
     * user/frontpage.php: Bugfix, product id set after a $t->parse...
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-22  Baard Farstad  <bf@ez.no>
+
+    * admin/datasupplier.php
+      classes/ezqdomrenderer.php
+      user/articleview.php:
+    Fixed bug when adding image tag to non existant image.
+
+2002-05-22  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/authorlist.php
+      user/topiclist.php: fix with author count
+
