@@ -21,19 +21,26 @@
 <!-- END no_logo_tpl -->
 <!-- BEGIN logo_view_tpl -->
 
-<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" /><br />
+<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br />
 
 <!-- END logo_view_tpl -->
 
-<p class="boxtext">{intl-company_no}:</p>
-<div class="p">{company_no}:</div>
-
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%" valign="top">
 <!-- BEGIN address_item_tpl -->
 <p class="boxtext">{intl-address}:</p>
 <div class="p">{street1}</div>
 <div class="p">{street2}</div>
 <div class="p">{zip} {place}</div>
 <!-- END address_item_tpl -->
+	</td>
+	<td valign="top">
+	<p class="boxtext">{intl-company_no}:</p>
+	<div class="p">{company_no}:</div>
+	</td>
+</tr>
+</table>
 
 <br clear="all" />
 

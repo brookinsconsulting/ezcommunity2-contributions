@@ -33,7 +33,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "company_edit", "address_item_tpl", "address_item" );
-$t->set_var( "address_item", "&nbsp;" );
+$t->set_var( "address_item" , "" );
 $t->set_block( "company_edit", "image_view_tpl", "image_view" );
 $t->set_var( "image_view", "&nbsp;" );
 $t->set_block( "company_edit", "logo_view_tpl", "logo_view" );
