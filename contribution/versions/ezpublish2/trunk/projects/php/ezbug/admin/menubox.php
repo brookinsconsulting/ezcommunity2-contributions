@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/02/07 14:57:29 fh Exp $
+// $Id: menubox.php,v 1.4 2001/03/14 08:53:58 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 17:53:52 bf>
@@ -26,8 +26,8 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
-    array( "/bug/archive/", "{intl-bug_archive}" ),
     array( "/bug/unhandled/", "{intl-unhandled_bugs}" ),
+    array( "/bug/archive/", "{intl-bug_archive}" ),
     array( "/bug/priority/list/", "{intl-priority_overview}" ),
     array( "/bug/category/list/", "{intl-category_overview}" ),
     array( "/bug/module/list/0/", "{intl-module_overview}" ),
