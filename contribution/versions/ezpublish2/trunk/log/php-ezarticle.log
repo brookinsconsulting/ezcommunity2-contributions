@@ -3428,3 +3428,12 @@ Maintainer(s) : bf@ez.no
 
     * xmlrpc/category.php: added deletecache for current ID
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-07-30  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php:
+    Fixed bug when editing a table with rowspan or colspan set.
+
