@@ -10,7 +10,6 @@ $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
