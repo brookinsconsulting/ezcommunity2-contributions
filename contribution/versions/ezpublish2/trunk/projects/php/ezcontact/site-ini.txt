@@ -10,6 +10,8 @@ DocumentRoot:        The path to the root directory of eZContact
 Language:            The language used in eZContact
 CategoryImageWidth:  The width of images displayed in categories
 CategoryImageHeight: The height of images displayed in categories
+MaxPersonConsultationList  The maximum number of consultations to show when viewing a person
+MaxCompanyConsultationList The maximum number of consultations to show when viewing a company
 MaxPersonList:       The maximum number of persons to show in a personlist,
                      if the number is exceeded next/prev button are shown
 MaxCountryList:      The maximum number of countries to show in a countrylist,
@@ -37,6 +39,8 @@ DocumentRoot=./ezcontact/
 Language=no_NO
 CategoryImageWidth=100
 CategoryImageHeight=100
+MaxPersonConsultationList=5
+MaxCompanyConsultationList=5
 MaxPersonList=10
 MaxCountryList=10
 LastConsultations=5
