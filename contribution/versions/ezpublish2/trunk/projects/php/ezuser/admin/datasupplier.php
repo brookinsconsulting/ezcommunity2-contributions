@@ -196,8 +196,7 @@ else
 
         default :
         {
-            eZHTTPTool::header( "Location: /" );
-            exit();
+            include( "ezuser/admin/login.php" );
         }
         break;
 
