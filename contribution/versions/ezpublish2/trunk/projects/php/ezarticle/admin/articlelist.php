@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.26 2001/03/23 15:46:59 pkej Exp $
+// $Id: articlelist.php,v 1.27 2001/03/23 16:49:33 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -328,7 +328,7 @@ else
     $t->set_var( "previous", "" );
 }
         
-if ( $nextOffs <= $articleCount )
+if ( $nextOffs < $articleCount )
 {
     $t->set_var( "next_offset", $nextOffs  );
     $t->parse( "next", "next_tpl" );
