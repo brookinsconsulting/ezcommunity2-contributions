@@ -1,5 +1,6 @@
 <?php
-// $Id: unapprovededit.php,v 1.12 2001/10/10 13:18:28 jhe Exp $
+//
+// $Id: unapprovededit.php,v 1.13 2001/11/02 07:47:51 jhe Exp $
 //
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
@@ -38,6 +39,8 @@ include_once( "ezmail/classes/ezmail.php" );
 $locale = new eZLocale( $Language );
 
 require( "ezuser/admin/admincheck.php" );
+
+$user =& eZUser::currentUser();
 
 $message = new eZForumMessage();
 
@@ -87,13 +90,9 @@ for ( $i = 0; $i < count( $ActionValueArray ); $i++ )
             $forum = new eZForum( $message->forumID() );
             $forumUser =& $forum->moderator();
 
-            if ( get_class( $forumUser ) == "ezuser" )
-            {
-                $mail->setFrom( $forumUser->email() );
-                $mail->setBody( $body );
-
-                $mail->send();
-            }
+            $mail->setFrom( $user->email() );
+            $mail->setBody( $body );
+            $mail->send();
         }
         $message->delete();
     }
