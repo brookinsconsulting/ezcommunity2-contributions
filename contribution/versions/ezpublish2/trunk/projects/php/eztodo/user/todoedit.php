@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.5 2001/01/15 12:59:04 ce Exp $
+// $Id: todoedit.php,v 1.6 2001/01/15 13:25:04 ce Exp $
 //
 // Definition of todo list.
 //
@@ -248,6 +248,7 @@ if ( $Action == "update" && $error == false )
     }
 
     Header( "Location: /todo/todolist/" );
+    exit();
 }
 
 // Delete a todo in the database.
@@ -256,29 +257,8 @@ if ( $Action == "delete" )
     $todo = new eZTodo();
     $todo->get( $TodoID );
     $todo->delete();
-
     Header( "Location: /todo/todolist/" );
-}
-
-
-// Mark a todo as status or unstatus.
-if ( $Action == "status" )
-{
-    $todo = new eZTodo();
-    if ( $Status == "N" )
-    {
-        $todo->get( $TodoID );
-        $todo->setStatus( false );
-        $todo->update();
-        Header( "Location: /todo/todolist/" );
-    }
-    if ( $Status == "Y" )
-    {
-        $todo->get( $TodoID );
-        $todo->setStatus( true );
-        $todo->update();
-        Header( "Location: /todo/todolist/" );
-    }
+    exit();
 }
 
 if ( $Action == "new" || $error )

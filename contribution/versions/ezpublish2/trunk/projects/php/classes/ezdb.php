@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.26 2001/01/11 22:11:43 jb Exp $
+// $Id: ezdb.php,v 1.27 2001/01/15 13:25:04 ce Exp $
 //
 // Definition of eZDB class
 //
@@ -71,12 +71,17 @@ class eZDB
       Execute a query on the global MySQL database link.  If it returns an error,
       the script is halted and the attempted SQL query and MySQL error message are printed.
     */
-    function &query( $sql )
+    function &query( $sql, $print=false )
     {
         $result = mysql_query( $sql );
 
 //          eZLog::writeNotice( $sql );
 
+        if ( $print )
+        {
+            print( $sql . "<br>");
+        }
+        
         if ( $result )
         {
             return $result;

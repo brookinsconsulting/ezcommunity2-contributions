@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.9 2001/01/15 12:59:04 ce Exp $
+// $Id: eztodo.php,v 1.10 2001/01/15 13:25:04 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -102,6 +102,7 @@ class eZTodo
     function delete()
     {
         $this->dbInit();
+        
         $this->Database->query( "DELETE FROM eZTodo_Todo WHERE ID='$this->ID'" );
 
         return true;
