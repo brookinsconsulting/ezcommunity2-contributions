@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.88.2.2 2002/04/10 11:45:46 bf Exp $
+// $Id: ezimage.php,v 1.88.2.3 2002/04/22 12:58:54 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -352,7 +352,7 @@ class eZImage
         {
             $db =& eZDB::globalDatabase();
 
-            $db->begin( );
+            $db->begin();
 
             $categoryID = $value->id();
 

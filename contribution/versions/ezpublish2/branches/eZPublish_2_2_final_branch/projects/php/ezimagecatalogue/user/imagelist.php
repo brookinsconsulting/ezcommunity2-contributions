@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.42.2.4 2002/04/15 11:49:48 jhe Exp $
+// $Id: imagelist.php,v 1.42.2.5 2002/04/22 12:58:55 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -290,7 +290,7 @@ foreach ( $imageList as $image )
     $imagesPerRow = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerRow" );
     if ( count( $imageList ) == $counter + 1 )
     {
-        $colspan = ( $imagesPerRow-1 ) - ($imagesPerRow % 4);
+        $colspan = ( $imagesPerRow - 1 ) - ( $imagesPerRow % 4 );
         if ( $colspan > 0 )
         {
             $t->set_var( "col_span", $colspan );
@@ -304,45 +304,45 @@ foreach ( $imageList as $image )
     $can_write = false;
 
     $variationList = $image->variations();
-
-        for ( $i = 0; $i < count( $variationList ); $i++ )
-        {
-            if ( $variationList[$i]->height() == $image->height() &&
-                 $variationList[$i]->width() == $image->width() )
-            {
-                $value = array_slice( $variationList, $i, 1 );
-                $variationList = array_merge( $value, array_slice( $variationList, 0, $i - 1 ), array_slice( $variationList, $i + 1 ) );
-                break;
-            }
-        }
-        
-        $t->set_var( "variation", "" );
-
-        
-        $can_read = true;
-        if ( ( $j % $imagesPerRow ) == 0 )
-        {
-            $t->set_var( "begin_tr", "<tr>" );
-        }
-        else if ( ( $j % $imagesPerRow ) == ( $imagesPerRow - 1 ) )
-        {
-            $t->set_var( "end_tr", "</tr>" );
-        }
-
-        if ( isSet( $DetailView ) )
-        {
-            $t->parse( "detail_read", "detail_read_tpl" );
-        }
-        else
-        {
-            $t->parse( "read", "read_tpl" );
-        }
-        $j++;
     
+    for ( $i = 0; $i < count( $variationList ); $i++ )
+    {
+        if ( $variationList[$i]->height() == $image->height() &&
+             $variationList[$i]->width() == $image->width() )
+        {
+            $value = array_slice( $variationList, $i, 1 );
+            $variationList = array_merge( $value, array_slice( $variationList, 0, $i - 1 ), array_slice( $variationList, $i + 1 ) );
+            break;
+        }
+    }
+        
+    $t->set_var( "variation", "" );
+    
+    
+    $can_read = true;
+    if ( ( $j % $imagesPerRow ) == 0 )
+    {
+        $t->set_var( "begin_tr", "<tr>" );
+    }
+    else if ( ( $j % $imagesPerRow ) == ( $imagesPerRow - 1 ) )
+    {
+        $t->set_var( "end_tr", "</tr>" );
+    }
+    
+    if ( isSet( $DetailView ) )
+    {
+        $t->parse( "detail_read", "detail_read_tpl" );
+    }
+    else
+    {
+        $t->parse( "read", "read_tpl" );
+    }
+    $j++;
 
     // Check if user have write permission
-    if ( ( $user ) && eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", "w", $user ) &&
-         ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) ||
+    if ( ( $user ) &&
+         ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", "w", $user ) &&
+           ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) ) ||
          ( eZImage::isOwner( $user, $image->id() ) ) )
     {
         $can_write = true;
@@ -380,7 +380,6 @@ foreach ( $imageList as $image )
         if ( $can_read )
             $t->parse( "image", "image_tpl", true );
     }
-
 
     $counter++;
 }
@@ -431,7 +430,6 @@ else
 }
 
 $t->set_var( "image_dir", $ImageDir );
-
 $t->set_var( "main_category_id", $CategoryID );
 
 if ( $error == false )

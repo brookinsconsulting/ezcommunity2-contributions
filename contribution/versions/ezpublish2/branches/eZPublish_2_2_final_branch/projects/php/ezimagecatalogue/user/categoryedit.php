@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.29.2.1 2002/03/06 10:34:39 jhe Exp $
+// $Id: categoryedit.php,v 1.29.2.2 2002/04/22 12:58:55 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -395,7 +395,7 @@ $t->set_var( "section_name", $section->name() );
 $t->pparse( "output", "category_edit_tpl" );
 
 /******* FUNCTIONS ****************************/
-function changePermissions( $objectID, $groups , $permission )
+function changePermissions( $objectID, $groups, $permission )
 {
     eZObjectPermission::removePermissions( $objectID, "imagecatalogue_category", $permission );
     if ( count( $groups ) > 0 )
