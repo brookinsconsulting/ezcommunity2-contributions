@@ -12,6 +12,7 @@ include_once( "eztrade/classes/ezorder.php" );
 
 // eZ user
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 
 // include the server

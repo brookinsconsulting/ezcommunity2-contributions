@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.28 2001/03/15 17:37:26 bf Exp $
+// $Id: ezorder.php,v 1.29 2001/03/16 09:48:01 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -241,7 +241,7 @@ class eZOrder
 
         $this->Database->array_query( $order_array,
         "SELECT ID FROM eZTrade_Order
-         AND IsExported='0'" );
+         WHERE IsExported='0'" );
 
         for ( $i=0; $i < count( $order_array ); $i++ )
         {
