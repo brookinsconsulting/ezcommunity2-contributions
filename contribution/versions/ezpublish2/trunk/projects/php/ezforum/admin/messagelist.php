@@ -1,5 +1,5 @@
 <?
-// $Id: messagelist.php,v 1.11 2001/01/22 14:43:00 jb Exp $
+// $Id: messagelist.php,v 1.12 2001/01/25 14:15:02 th Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -43,6 +43,8 @@ $t->setAllStrings();
 $t->set_file( Array( "message_page" => "messagelist.tpl" ) );
 
 $t->set_block( "message_page", "message_item_tpl", "message_item" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $forum = new eZForum( $ForumID );
 $t->set_var( "forum_name", $forum->name() );

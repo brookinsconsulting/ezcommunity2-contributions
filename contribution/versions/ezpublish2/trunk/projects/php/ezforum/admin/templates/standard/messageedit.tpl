@@ -12,12 +12,10 @@
 </tr>
 </table>
 
+<hr noshade="noshade" size="4" />
 
 <form method="post" action="/forum/messageedit/{action_value}/{message_id}">
 
-<hr noshade="noshade" size="4" />
-
-<br />
 <p class="error">{error_msg}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.13 2001/01/24 18:54:43 bf Exp $
+// $Id: articlelist.php,v 1.14 2001/01/25 14:15:02 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -67,6 +67,7 @@ $t->set_block( "article_item_tpl", "absolute_placement_item_tpl", "absolute_plac
 $t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
 $t->set_block( "article_list_page_tpl", "next_tpl", "next" );
 
+$t->set_var( "site_style", $SiteStyle );
 
 $category = new eZArticleCategory( $CategoryID );
 

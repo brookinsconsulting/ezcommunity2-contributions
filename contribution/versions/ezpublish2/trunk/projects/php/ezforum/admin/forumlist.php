@@ -1,5 +1,5 @@
 <?
-// $Id: forumlist.php,v 1.10 2001/01/22 14:43:00 jb Exp $
+// $Id: forumlist.php,v 1.11 2001/01/25 14:15:02 th Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -42,6 +42,8 @@ $t->set_file(Array( "forum_page" => "forumlist.tpl"
                    ) );
 
 $t->set_block( "forum_page", "forum_item_tpl", "forum_item" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 // Forum list for current category
 $forum = new eZForum();

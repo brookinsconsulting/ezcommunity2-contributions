@@ -1,38 +1,4 @@
-<SCRIPT LANGUAGE="JavaScript1.2">
-<!--//
-
-	function MM_swapImgRestore() 
-	{
-		var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
-	}
-
-	function MM_preloadImages() 
-	{
-		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
-		var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
-		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
-	}
-
-	function MM_findObj(n, d) 
-	{
-		var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-		d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-		if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-		for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
-	}
-
-	function MM_swapImage() 
-	{
-		var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
-		if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
-	}
-	
-//-->
-</SCRIPT> 
-
-<div onLoad="MM_preloadImages('/ezarticle/admin/images/redigerminimrk.gif','/ezarticle/admin/images/slettminimrk.gif')"></div>
-
-<table width="100%" border="0">
+<table width="100%" border="0" alt="" />
 <tr>
 	<td valign="bottom">
 	<h1>{intl-head_line} - {current_category_name}</h1>
@@ -53,8 +19,7 @@
 
 <!-- BEGIN path_tpl -->
 
-
-<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 <a class="path" href="/article/archive/0/">{intl-topcategory}</a>
 
@@ -62,7 +27,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 <a class="path" href="/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
@@ -70,7 +35,7 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN category_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" alt="" />
 <tr>
 	<th>{intl-category}:</td>
 	<th>{intl-description}:</th>
@@ -87,33 +52,32 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
 	</td>
 </tr>
 <!-- END category_item_tpl -->
-<tr>
-        <td>
-	<input type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
-	</td>
-</tr>
-</form>
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<input type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
+</form>
 
 <!-- END category_list_tpl -->
 
 
 <!-- BEGIN article_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" alt="" />
 <tr>
 	<th>{intl-article}:</th>
 	<th>{intl-published}:</th>
 
 	<!-- BEGIN absolute_placement_header_tpl -->
-	<th>{intl-move_up}:</th>
-	<th>{intl-move_down}:</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 	<!-- END absolute_placement_header_tpl -->
 
 	<th colspan="2">&nbsp;</th>
@@ -122,12 +86,12 @@
 <form method="post" action="/article/articleedit/edit/" enctype="multipart/form-data">
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td class="{td_class}">
+	<td width="48%" class="{td_class}">
 	<a href="/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
-	<td class="{td_class}">
+	<td width="48%" class="{td_class}">
 	<!-- BEGIN article_is_published_tpl -->
 	{intl-is_published}
 	<!-- END article_is_published_tpl -->
@@ -137,52 +101,44 @@
 	&nbsp;
 	</td>
 	<!-- BEGIN absolute_placement_item_tpl -->
-	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/?MoveUp={article_id}">
-	{intl-move_up}
-	</a>
+	<td width="1%" class="{td_class}">
+	<a href="/article/archive/{category_id}/?MoveDown={article_id}"><img src="/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
 	</td>
-	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/?MoveDown={article_id}">
-	{intl-move_down}
-	</a>
+	<td width="1%" class="{td_class}">
+	<a href="/article/archive/{category_id}/?MoveUp={article_id}"><img src="/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
 	</td>
 	<!-- END absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">
 </tr>
 <!-- END article_item_tpl -->
-<tr>
-        <td>
-	<input type="submit" Name="DeleteArticles" value="{intl-deletearticles}">
-	</td>
-</tr>
+</table>
+<hr noshade="noshade" size="4" />
+
+<input type="submit" class="stdbutton" Name="DeleteArticles" value="{intl-deletearticels}">
 </form>
 
-</table>
 <!-- END article_list_tpl -->
 
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0" />
 <tr>
 	<td>
 
 <!-- BEGIN previous_tpl -->
-<a href="/article/archive/{category_id}/?Offset={prev_offset}">
-{intl-prev}
-</a>
+<a class="path" href="/article/archive/{category_id}/?Offset={prev_offset}">&lt;&lt; {intl-prev}</a>
 <!-- END previous_tpl -->
+
      </td>
      <td align="right">
 
 <!-- BEGIN next_tpl -->
-<a href="/article/archive/{category_id}/?Offset={next_offset}">
-{intl-next}
-</a>
+<a class="path" href="/article/archive/{category_id}/?Offset={next_offset}">{intl-next} &gt;&gt;</a>
 <!-- END next_tpl -->
+
      </td>
 </tr>
 </table>    

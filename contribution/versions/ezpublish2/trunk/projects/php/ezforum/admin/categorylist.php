@@ -1,5 +1,5 @@
 <?
-// $Id: categorylist.php,v 1.16 2001/01/22 14:43:00 jb Exp $
+// $Id: categorylist.php,v 1.17 2001/01/25 14:15:02 th Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -44,6 +44,7 @@ $t->set_file(array( "category_page" => "categorylist.tpl",
                     ) );
 $t->set_block( "category_page", "category_item_tpl", "category_item" );
 
+$t->set_var( "site_style", $SiteStyle );
 
 $category = new eZForumCategory();
 $categoryList = $category->getAll();

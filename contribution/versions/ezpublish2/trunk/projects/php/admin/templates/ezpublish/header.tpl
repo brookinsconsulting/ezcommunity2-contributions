@@ -41,7 +41,7 @@
 
 </head>
 
-<body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6">
+<body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onLoad="MM_preloadImages('/images/{site_style}/redigerminimrk.gif','/images/{site_style}/slettminimrk.gif','/images/{site_style}/downloadminimrk.gif')">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>

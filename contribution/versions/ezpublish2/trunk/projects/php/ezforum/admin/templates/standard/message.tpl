@@ -14,13 +14,13 @@
 
 <hr noshade="noshade" size="4" />
 
-	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+	<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+	<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
     <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+	<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">	
+	<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />	
     <a class="path" href="/forum/message/{message_id}/">{message_topic}</a>
 
 <hr noshade="noshade" size="4" />
@@ -52,14 +52,21 @@
 	{body}
 	</td>
 </tr>
+</table>
+<br />
+
+<table border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	<form method="post" action="/forum/messageedit/edit/{message_id}">
-	<input class="stdbutton" type="submit" value="{intl-edit}">
-	</forum>
+	<form class="method="post" action="/forum/messageedit/edit/{message_id}">
+	<input class="okbutton" type="submit" value="{intl-edit}">
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
 	<form method="post" action="/forum/messageedit/delete/{message_id}">
-	<input class="stdbutton" type="submit" value="{intl-delete}">
-	</forum>
+	<input class="okbutton" type="submit" value="{intl-delete}">
+	</form>
 	</td>
 </tr>
 

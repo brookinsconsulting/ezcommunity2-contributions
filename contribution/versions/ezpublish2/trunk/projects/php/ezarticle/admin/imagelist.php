@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.9 2001/01/22 14:42:59 jb Exp $
+// $Id: imagelist.php,v 1.10 2001/01/25 14:15:02 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -53,6 +53,8 @@ $article = new eZArticle( $ArticleID );
 $thumbnail = $article->thumbnailImage();
 
 $t->set_var( "article_name", $article->name() );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $images = $article->images();
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.2 2001/01/22 14:42:59 jb Exp $
+// $Id: filelist.php,v 1.3 2001/01/25 14:15:02 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Dec-2000 17:43:40 bf>
@@ -51,6 +51,8 @@ $article = new eZArticle( $ArticleID );
 
 
 $t->set_var( "article_name", $article->name() );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $files = $article->files();
 
