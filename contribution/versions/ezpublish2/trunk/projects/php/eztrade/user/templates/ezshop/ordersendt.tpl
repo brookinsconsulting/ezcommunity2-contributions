@@ -20,7 +20,7 @@
 <br />
 
 <!-- BEGIN billing_address_tpl -->
-<h3>{intl-billing_address}</h3>
+<h3>{intl-billing_address}:</h3>
 {billing_street1}<br />
 {billing_street2}<br />
 {billing_zip} {billing_place}<br />
@@ -28,7 +28,7 @@
 <!-- END billing_address_tpl -->
 
 <!-- BEGIN shipping_address_tpl -->
-<h3>{intl-shipping_address}</h3>
+<h3>{intl-shipping_address}:</h3>
 {shipping_street1}<br />
 {shipping_street2}<br />
 {shipping_zip} {shipping_place}<br />
