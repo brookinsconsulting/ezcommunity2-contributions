@@ -1,8 +1,7 @@
-2<?
+<?
 /*
   Editere firma.
 */
-
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
@@ -108,7 +107,7 @@ $message = "Registrer nytt kontaktfirma";
 
 $Online[] = $OnlineWeb;
 $Online[] = $OnlineEmail;
-$LoginName = $Name;
+$LoginName = $Login;
 
 $t->set_var( "name", "$Name" );
 $t->set_var( "description", "$Description" );
@@ -133,6 +132,8 @@ $t->set_var( "user_id", "$UserID" );
 
 $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "&nbsp;" );
+
+$t->set_var( "read_only", "readonly=readonly" );
 
 $PHONE_TYPE_ID = 5;
 $FAX_TYPE_ID = 8;
@@ -561,6 +562,7 @@ if ( $Action == "new" || $error)
     $t->set_var( "logo_edit", "&nbsp;" );
     $t->set_var( "image_edit", "&nbsp;" );
     $Action_value = "insert";
+    $t->set_var( "read_only", "" );
 
     $t->parse( "address_item", "address_item_tpl" );
     $t->parse( "phone_item", "phone_item_tpl" );

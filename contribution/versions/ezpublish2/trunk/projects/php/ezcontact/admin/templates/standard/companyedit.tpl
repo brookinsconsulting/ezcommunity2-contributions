@@ -63,6 +63,13 @@
 <tr>
 	<td>
 	<br />
+	<p class="boxtext">{intl-login}:</p>
+	<input type="text" {read_only} size="20" name="Login" value="{login}"/>
+	</td>
+</tr>
+<tr>
+	<td>
+	<br />
 	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password}"/>
 	</td>

@@ -1,9 +1,9 @@
 <?php
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
-header("Cache-Control: no-cache, must-revalidate"); 
-header("Pragma: no-cache");
+//  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+//  header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+//  header("Cache-Control: no-cache, must-revalidate"); 
+//  header("Pragma: no-cache");
 
 ob_start();
 
@@ -76,6 +76,9 @@ if ( $user )
 
         if ( $ini->read_var( "site", "eZCV" ) == "enabled" )
             include( "ezcv/admin/menubox.php" );
+
+        if ( $ini->read_var( "site", "eZClassified" ) == "enabled" )
+            include( "ezclassified/admin/menubox.php" );
 
         if ( $ini->read_var( "site", "eZSite" ) == "enabled" )
             include( "ezsite/admin/menubox.php" );
