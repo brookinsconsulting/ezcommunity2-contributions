@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.4 2000/09/01 13:28:59 ce-cvs Exp $
+    $Id: ezsession.php,v 1.5 2000/09/04 09:10:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -57,6 +57,7 @@ class eZSession
             array_query( $session_array, "SELECT * FROM SessionTable WHERE sid='$hash'" );
             if ( count( $session_array ) > 1 )
             {
+                print ( count( $session_array ) );
                 die( "Feil: Flere session med samme ID funnet i database, dette skal ikke være mulig. " );
             }
             else if ( count( $session_array ) == 1 )
