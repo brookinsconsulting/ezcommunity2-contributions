@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php 7145 2001-09-11 10:51:29Z bf $
+// $Id: datasupplier.php,v 1.13 2001/09/11 10:51:29 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,11 +28,12 @@ include_once( "classes/ezpublish.php" );
 $version = eZPublish::version();
 
 ?>
-<a href="http://developer.ez.no"><h1>About eZ publish v <? echo $version; ?> Content Management System</h1></a>
-<hr noshade="noshade" size="4" />
+<a href="http://ezcommunity.net/ezpublish2"><h1>About eZ publish v<? echo $version; ?></h1></a>
+ <h2>Content Management System</h2>
+ <hr noshade="noshade" size="4" />
 
 <p>
-<a href="http://developer.ez.no">eZ publish</a> is a web based application suite or a <a href="http://developer.ez.no">Content Management System</a>.
+<a href="http://ezcommunity.net/ezpublish2">eZ publish</a> is a web based application suite or a <a href="http://ezcommunity.net/ezpublish2">Content Management System</a>.
 It delivers functionality ranging from publishing of news, web logs and diaries, through web shop functionality like shopping carts and wishlists and forums to intranet functions like contact handling and bug reporting.
 </p>
 <p>
@@ -45,11 +46,13 @@ It supports statistics for page views, links followed and banner ads, both image
 The package lends itself easily to customization, from changing the look and feel by changing templates, localizing the languages and other internationalization issues to adding new functionality.
 </p>
 <p>
-The target audience for <a href="http://developer.ez.no">eZ publish</a> are <a href="http://developer.ez.no">e-commerce</a>, ASP (Application Service Providers), BSP (Business Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, polls, todo lists, appointments as well as personal web sites.
+The target audience for <a href="http://ezcommunity.net/ezpublish2">eZ publish</a> are <a href="http://ezcommunity.net/ezpublish2">e-commerce</a>, ASP (Application Service Providers), BSP (Business Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, polls, todo lists, appointments as well as personal web sites.
 </p>
 
 <p>
-It is released under the <a href="http://www.gnu.org/copyleft/gpl.html
-">GPL license</a> and can be downloaded from <a href="http://developer.ez.no">developer.ez.no</a>. You can get commercial support from <a href="http://ez.no">eZ systems</a> at
-<a href="http://ez.no">ez.no</a>.
+It is released under the <a href="http://www.gnu.org/copyleft/gpl.html">GPL license</a> and can be downloaded from <a href="http://ezcommunity.net/ezpublish2">ezcommunity.net</a>. 
+
+<? /* 
+You can get commercial support from <a href="http://brookinsconsulting.com/">Brookins Consulting</a> at <a href="http://brookinsconsulting.com/">Brookins Consulting</a>. 
+*/ ?>
 </p>
