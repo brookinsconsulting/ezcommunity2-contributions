@@ -55,7 +55,7 @@
 	<td align="center">
 	<form action="/newsfeed/search/" method="post">
 	<span class="path">Søk i nyhetsarkivet: </span><input type="text" name="SearchText" size="20" />	
-	<input type="submit" value="{search}" />
+	<input type="submit" value="{intl-search}" />
 	</form>
 	</td>
 </tr>
