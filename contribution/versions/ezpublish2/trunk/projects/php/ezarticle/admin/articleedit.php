@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.81 2001/05/04 11:40:21 bf Exp $
+// $Id: articleedit.php,v 1.82 2001/05/08 15:08:56 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -110,6 +110,7 @@ if ( $Action == "Insert" )
         $article->setDiscuss( true );
     else
         $article->setDiscuss( false );
+
     
     $article->store(); // to get the ID
 
@@ -154,7 +155,7 @@ if ( $Action == "Insert" )
         eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
     }
     
-    
+        
     // check if the contents is parseable
     if ( xmltree( $contents ) )
     // add document validation here
@@ -217,6 +218,8 @@ if ( $Action == "Insert" )
         {
             $article->setIsPublished( false );
         }
+
+        $article->store();
 
 
         // clear the cache files.
