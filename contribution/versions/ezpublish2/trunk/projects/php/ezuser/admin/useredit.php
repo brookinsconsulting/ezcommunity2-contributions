@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.31 2001/09/13 13:40:29 bf Exp $
+// $Id: useredit.php,v 1.32 2001/10/03 22:37:29 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -105,8 +105,8 @@ if ( $Action == "insert" )
                         foreach ( $GroupArray as $GroupID )
                         {
                             $group = new eZUserGroup();
-                            $user->get( $user->id() );
-                            $user->removeGroups();
+//                            $user->get( $user->id() );
+//                            $user->removeGroups();
                             $group->get( $GroupID );
                             if ( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
                             {
@@ -200,8 +200,8 @@ if ( $Action == "update" )
                         foreach ( $GroupArray as $GroupID )
                         {
                             $group = new eZUserGroup();
-                            $user->get( $user->id() );
-                            $user->removeGroups();
+//                            $user->get( $user->id() );
+//                            $user->removeGroups();
                             $group->get( $GroupID );
                             // does not work..
 //                            if ( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
@@ -213,7 +213,6 @@ if ( $Action == "update" )
                         }
 
                         $user->setGroupDefinition( $MainGroup );
-
                         eZHTTPTool::header( "Location: /user/userlist/" );
                         exit();
                     }
