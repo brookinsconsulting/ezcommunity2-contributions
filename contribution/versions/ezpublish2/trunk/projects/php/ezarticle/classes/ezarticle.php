@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.142 2001/08/15 10:43:39 ce Exp $
+// $Id: ezarticle.php,v 1.143 2001/08/15 11:02:30 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1895,31 +1895,46 @@ class eZArticle
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
-        $publishedCode = "";
-        if ( $fetchNonPublished == false )
-        {
-            $publishedCode = "AND Article.IsPublished = '1'";
-        }
-        else if ( $fetchNonPublished == "only" )
-        {
-            $publishedCode = "AND Article.IsPublished = '0'";
-        }
+        if ( $usePermission )
+           $permissionSQL = "( ( $loggedInSQL CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
+       else
+           $permissionSQL = "";
+
+
+       // fetch only published articles
+       if ( $fetchNonPublished  == true )  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '0' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '0' AND ";
+       }
+       // fetch only non-published articles
+       else                                  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '1' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '1' AND ";
+       }
 
         $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
-                  FROM eZArticle_Article AS Article,
+                  FROM eZArticle_ArticleCategoryDefinition as Definition,
+                       eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission,
+                       eZArticle_CategoryPermission as CategoryPermission,
                        eZArticle_Category AS Category
-                  WHERE (
-                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
-                        )
-                        $publishedCode
-                        AND Permission.ObjectID=Article.ID
+                  WHERE $permissionSQL
+                        $publishedSQL
+                        Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                         AND Category.ID=Link.CategoryID
                         AND Category.ID=Link.CategoryID
+                        AND Definition.ArticleID=Article.ID
+                        AND CategoryPermission.ObjectID=Definition.CategoryID
                         AND Category.ExcludeFromSearch = '0'";
-       
+
         $db->array_query( $article_array, $query  );
 
         return  $article_array[0][$db->fieldName("Count")];
@@ -1974,19 +1989,26 @@ class eZArticle
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
         if ( $usePermission )
-           $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' AND CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
+           $permissionSQL = "( ( $loggedInSQL CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
        else
            $permissionSQL = "";
         
-        $publishedCode = "";
-        if ( $fetchNonPublished == false )
-        {
-            $publishedCode = "AND Article.IsPublished = '1'";
-        }
-        else if ( $fetchNonPublished == "only" )
-        {
-            $publishedCode = "AND Article.IsPublished = '0'";
-        }
+       // fetch only published articles
+       if ( $fetchNonPublished  == false )  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '1' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '1' AND ";
+       }
+       // fetch only non-published articles
+       else                                  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '0' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '0' AND ";
+       }
 
         $query = "SELECT DISTINCT Article.ID as ArticleID, Article.Published, Article.Name
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
@@ -1996,8 +2018,8 @@ class eZArticle
                        eZArticle_CategoryPermission as CategoryPermission,
                        eZArticle_Category AS Category
                   WHERE $permissionSQL
-                        $publishedCode
-                        AND Permission.ObjectID=Article.ID
+                        $publishedSQL
+                        Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                         AND Category.ID=Link.CategoryID
                         AND Category.ExcludeFromSearch = '0'
