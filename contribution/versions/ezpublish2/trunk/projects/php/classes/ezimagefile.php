@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.6 2001/01/22 14:42:59 jb Exp $
+// $Id: ezimagefile.php,v 1.7 2001/03/05 15:39:37 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -97,21 +97,38 @@ class eZImageFile extends eZFile
         $ret = false;
         if ( $this->isImage() )
         {
-          $execstr = "convert -geometry \"$width" . "x" . "$height" . ">\" "  . $this->TmpFileName . " " . $dest;
+            $lock_file = $dest . ".lock";
+            if ( file_exists( $lock_file ) )
+            {
+                // If image file is locked we need to wait until it's finished
+                $i = 0;
+                while( file_exists( $lock_file ) and $i < 5*5 ) // Wait max 5 seconds
+                {
+                    usleep( 200000 ); // Sleep 1/5 of a second
+                    clearstatcache();
+                    $i++;
+                }
+                return "locked";
+            }
+            touch( $lock_file );
+            $ini =& INIFile::globalINI();
+            $image_prog = "convert";
+            if ( $ini->has_var( "classes", "ImageConversionProgram" ) )
+                $image_prog = $ini->read_var( "classes", "ImageConversionProgram" );
+            $execstr = "$image_prog -geometry \"$width" . "x" . "$height" . ">\" "  . $this->TmpFileName . " " . $dest;
 
-//            print( "<b>" .$execstr."</b>" );
-//            print( $err );
-          
-          $err = system( $execstr );
-          
-          if ( $err == "" )
-          {
-              $ret = true;
-          }
-          else
-          {
-              $ret = false;              
-          }
+            $err = system( $execstr, $ret_code );
+            unlink( $lock_file );
+
+            if ( $ret_code == 0 )
+            {
+                $ret = true;
+            }
+            else
+            {
+                print( "<br><b>error in scaleCopy: $err</b><br>" );
+                $ret = false;
+            }
         }
 
         return $ret;
@@ -126,11 +143,19 @@ class eZImageFile extends eZFile
         $ret = false;
         if ( $this->isImage() )
         {
-        
-          $execstr = "convert -quality 95 " . $this->TmpFileName . " " . $dest;
+            $ini =& INIFile::globalINI();
+            $image_prog = "convert";
+            if ( $ini->has_var( "classes", "ImageConversionProgram" ) )
+                $image_prog = $ini->read_var( "classes", "ImageConversionProgram" );
+            $execstr = "$image_prog -quality 95 " . $this->TmpFileName . " " . $dest;
 
-          $err = system( $execstr );
-          $ret = true;
+            $err = system( $execstr, $ret_code );
+            $ret = true;
+            if ( $ret_code == 0 )
+            {
+                print( "<br><b>error in convertCopy: $err</b><br>" );
+                $ret = false;
+            }
         }
         
         return $ret;
