@@ -41,7 +41,7 @@ CREATE TABLE eZAd_View (
   AdID int default NULL,
   ViewCount int NOT NULL,
   ViewOffsetCount int NOT NULL,
-  ViewPrice float NOT NULL,
+  ViewPrice decimal(10,2) NOT NULL,
   Date int default NULL,
   PRIMARY KEY (ID)
 );
@@ -674,7 +674,7 @@ CREATE TABLE eZBug_Priority (
 );
 
 INSERT INTO eZBug_Priority VALUES (1,'High',NULL);
-INSERT INTO eZBug_Priority VALUES (2,'Middels',NULL);
+INSERT INTO eZBug_Priority VALUES (2,'Medium',NULL);
 INSERT INTO eZBug_Priority VALUES (3,'Low',NULL);
 
 CREATE TABLE eZBug_Status (
@@ -808,16 +808,16 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 );
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
-  UserID int default '0',
-  CategoryID int default '0',
+  UserID int NOT NULL default '0',
+  CategoryID int NOT NULL default '0',
   PRIMARY KEY (UserID, CategoryID)
 );
 
 CREATE TABLE eZBulkMail_UserCategorySettings (
+  ID int NOT NULL,
   CategoryID int default '0',
   UserID int default '0',
   Delay int default '0',
-  ID int default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -1125,6 +1125,8 @@ CREATE TABLE eZForm_FormElement (
   Name varchar(255) default NULL,
   Required int default '0',
   ElementTypeID int default NULL,
+  Size int default '0',	
+  Break int default '0',		
   PRIMARY KEY (ID)
 );
 
@@ -1340,7 +1342,7 @@ CREATE TABLE eZLink_Link (
   Name varchar(100) default NULL,
   Description text,
   LinkGroup int default NULL,
-  KeyWords varchar(100) default NULL,
+  KeyWords text default NULL,
   Modified int NOT NULL,
   Accepted int,
   Created int default NULL,
@@ -2385,6 +2387,7 @@ CREATE TABLE eZTrade_Voucher (
   MailMethod int default '1',
   UserID int default '0',
   ProductID int default '0',
+  TotalValue int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -2401,6 +2404,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   FromName varchar(80) default NULL,
   FromOnlineID int default '0',
   FromAddressID int default '0',
+  ProductID int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -2551,6 +2555,13 @@ CREATE TABLE eZUser_Trustees (
   OwnerID int NOT NULL,
   UserID int NOT NULL,
   PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZUser_UserShippingLink (
+  ID int NOT NULL default '0',
+  UserID int default '0',
+  AddressID int default '0',
+  PRIMARY KEY  (ID)
 );
 
 INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');

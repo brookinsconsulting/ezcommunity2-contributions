@@ -198,6 +198,6 @@ CREATE TABLE eZUser_Photographer (
 CREATE INDEX UserGroupLink_UserID ON eZUser_UserGroupLink (UserID);
 CREATE INDEX UserGroupLink_GroupID ON eZUser_UserGroupLink (GroupID);
 
-
+CREATE UNIQUE INDEX User_Login ON eZUser_User (Login);  
 
 

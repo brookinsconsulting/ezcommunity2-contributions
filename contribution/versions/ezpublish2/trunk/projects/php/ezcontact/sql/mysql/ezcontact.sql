@@ -62,6 +62,9 @@ CREATE TABLE eZContact_CompanyType (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE INDEX CompanyType_ParentID ON eZContact_CompanyType (ParentID);
+CREATE INDEX CompanyType_Name ON eZContact_CompanyType (Name);
+
 CREATE TABLE eZContact_CompanyTypeDict (
   CompanyTypeID int NOT NULL,
   CompanyID int NOT NULL,

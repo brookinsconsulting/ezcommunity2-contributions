@@ -92,3 +92,11 @@ CREATE TABLE eZStats_Archive_RemoteHost (
   Count int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
+
+CREATE INDEX PageView_TimeValue ON eZStats_PageView (TimeValue);
+
+alter table eZTodo_Todo add IsPublic int(1) NOT NULL default '0';
+
+CREATE INDEX Trade_CartSessionID ON eZTrade_Cart (SessionID);
+CREATE INDEX TradeCategory_Name ON eZTrade_Category (Name);
+CREATE INDEX TradeCategory_ParentID ON eZTrade_Category (ParentID);

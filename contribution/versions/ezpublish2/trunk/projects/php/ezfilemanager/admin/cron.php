@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.3 2001/09/25 08:15:32 jhe Exp $
+// $Id: cron.php,v 1.4 2001/10/17 12:06:47 ce Exp $
 //
 // Created on: <01-Aug-2001 09:34:19 jhe>
 //
@@ -58,8 +58,6 @@ function addFile( $dir, $file )
         $virtualFile->setFile( $localFile );
         $virtualFile->setOriginalFileName( $file );
         $virtualFile->setUser( $user );
-        $virtualFile->addReadPermission( $readGroup );
-        $virtualFile->addWritePermission( $writeGroup );
         $virtualFile->store();
         $folder->addFile( $virtualFile );
     }

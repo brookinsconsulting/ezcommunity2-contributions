@@ -10,7 +10,6 @@ CREATE TABLE eZLink_Link (
   ID int NOT NULL ,
   Name varchar(100) default NULL,
   Description text,
-  LinkGroup int default NULL,
   KeyWords text default NULL,
   Modified int NOT NULL,
   Accepted int,

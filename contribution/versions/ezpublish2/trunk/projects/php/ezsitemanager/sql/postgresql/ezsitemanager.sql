@@ -45,11 +45,15 @@ CREATE TABLE eZSiteManager_Menu (
   Name varchar(40) default NULL,
   Link varchar(40) default NULL,
   Type int(11) default '1',
-  ParentID int(11) default '0'
+  ParentID int(11) default '0',
+  PRIMARY KEY  (ID)
 );
 
 CREATE TABLE eZSiteManager_MenuType (
   ID int(11) NOT NULL default '0',
-  Name varchar(30) default NULL
+  Name varchar(30) default NULL,
+  PRIMARY KEY  (ID)
 );
 
+alter table eZStats_Archive_RefererURL add Language varchar(5) default NULL;
+alter table eZStats_Archive_UniqueVisits add Language varchar(5) default NULL;

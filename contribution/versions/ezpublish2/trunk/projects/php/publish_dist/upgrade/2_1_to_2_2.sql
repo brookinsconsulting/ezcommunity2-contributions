@@ -572,12 +572,6 @@ alter table eZImageCatalogue_Image add PhotographerID int;
 alter table eZImageCatalogue_Image add Created int;
 
 
-# Speed up listing of categories;
-
-alter table eZArticle_ArticleCategoryLink add index ( ArticleID );
-alter table eZArticle_ArticleCategoryLink add index ( CategoryID );
-alter table eZArticle_ArticleCategoryLink add index ( Placement );
-
 # Product type
 alter table eZTrade_Product add ProductType int default 1;
 
@@ -704,16 +698,17 @@ alter table eZLink_Link change Title Name varchar(100);
 alter table eZLink_Category change Title Name varchar(100);
 
 # eZBulkMail
-# eZ forum
-alter table eZBulkMail_Mail add SentDateTmp int;
-update eZBulkMail_Mail set SentDateTmp= UNIX_TIMESTAMP( SentDate );
-alter table eZBulkMail_Mail drop SentDate; 
-alter table eZBulkMail_Mail change SentDateTmp SentDate int; 
 
 alter table eZBulkMail_SentLog add SentDateTmp int;
 update eZBulkMail_SentLog set SentDateTmp= UNIX_TIMESTAMP( SentDate );
 alter table eZBulkMail_SentLog drop SentDate; 
 alter table eZBulkMail_SentLog change SentDateTmp SentDate int; 
+
+# eZ forum
+alter table eZBulkMail_Mail add SentDateTmp int;
+update eZBulkMail_Mail set SentDateTmp= UNIX_TIMESTAMP( SentDate );
+alter table eZBulkMail_Mail drop SentDate; 
+alter table eZBulkMail_Mail change SentDateTmp SentDate int; 
 
 alter table eZBulkMail_Forgot add TimeTmp int;
 update eZBulkMail_Forgot set TimeTmp= UNIX_TIMESTAMP( Time );
@@ -908,39 +903,19 @@ alter table eZAd_View add ViewOffsetCount int;
 alter table eZTrade_OrderItem add ExpiryDate int;             
 
 #
-# Table structure for table 'eZTrade_VoucherSMail'
-#
- 
-CREATE TABLE eZTrade_VoucherSMail (
-  ID int(11) default '0',
-  VoucherID int(11) default '0',
-  AddressID int(11) default '0',
-  Description text,
-  PreOrderID int(11) default '0'
-) TYPE=MyISAM;
- 
-#
-# Table structure for table 'eZTrade_VoucherEMail'
-#
- 
-CREATE TABLE eZTrade_VoucherEMail (
-  ID int(11) default '0',
-  VoucherID int(11) default '0',
-  Email varchar(40) default NULL,
-  Description text,
-  PreOrderID int(11) default '0'
-) TYPE=MyISAM;
- 
-#
 # Table structure for table 'eZTrade_Voucher'
 #
  
 CREATE TABLE eZTrade_Voucher (
-  ID int(11) default '0',
+  ID int(11) NOT NULL default '0',
   Created int(11) default '0',
   Price float default '0',
-  UnAvailable int(11) default '0',
-  KeyNumber varchar(50) default NULL
+  Available int(11) default '0',
+  KeyNumber varchar(50) default NULL,
+  MailMethod int(11) default '1',
+  UserID int(11) default '0',
+  ProductID int(11) default '0',
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 #
@@ -1123,11 +1098,9 @@ CREATE TABLE eZTrade_VoucherUsed (
   VoucherID int(11) default '0',
   OrderID int(11) default '0',
   UserID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
-
-alter table eZTrade_Voucher add UserID int default 0; 
 create table eZTrade_ProductPriceRange( ID int NOT NULL, Min int default 0, Max int default 0, ProductID int default 0 );        
 
 alter table eZBulkMail_UserSubscriptionCategorySettings rename eZBulkMail_UserCategorySettings;  
@@ -1160,7 +1133,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   ID int(11) NOT NULL default '0',
   VoucherID int(11) default '0',
   OnlineID int(11) default '0',
-  AddressID int(11) default '0',
+  ToAddressID int(11) default '0',
   Description text,
   PreOrderID int(11) default '0',
   Price int(11) default '0',
@@ -1168,12 +1141,10 @@ CREATE TABLE eZTrade_VoucherInformation (
   ToName varchar(80) default NULL,
   FromName varchar(80) default NULL,
   FromOnlineID int(11) default '0',
-  ProductID int(11) default '0'
+  FromAddressID int(11) default '0',
+  ProductID int(11) default '0',
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
-
-alter table eZTrade_Voucher add VoucherInformationID int default 0;  
-#alter table eZTrade_Voucher add TotalValue float default 0;  
-
 
 CREATE TABLE eZForum_MessageWordLink (
   MessageID int(11) NOT NULL default '0',
@@ -1189,14 +1160,8 @@ CREATE TABLE eZForum_Word (
 
 alter table eZSession_SessionVariable change Value Value text;
 
-create table eZSiteManager_Menu( ID int NOT NULL, Name varchar(40), Link varchar(40), Type int default 1, ParentID int default 0 ); 
-
 alter table eZTrade_ProductImageLink change Placement Placement int default 0;  
 update eZTrade_ProductImageLink set Placement='0' where Placement IS NULL;
-alter table eZTrade_VoucherInformation add FromAddressID int default 0; 
-#alter table eZTrade_VoucherInformation add ProductID int default 0; 
-alter table eZTrade_VoucherInformation change AddressID ToAddressID int default 0;        
-
 alter table eZTrade_OrderOptionValue change OptionName OptionName text;
 alter table eZTrade_OrderOptionValue change ValueName ValueName text;
 
@@ -1282,10 +1247,207 @@ insert into eZUser_UserShippingLink (ID, AddressID, UserID) select eZTrade_Order
 
 ALTER TABLE eZLink_Hit CHANGE RemoteIP RemoteIP varchar(15);
 
-alter table eZTrade_Voucher add TotalValue int default 0;        
+CREATE TABLE eZBulkMail_CategoryDelay (
+  ID int(11) NOT NULL default '0',
+  CategoryID int(11) NOT NULL default '0',
+  AddressID int(11) NOT NULL default '0',
+  Delay int(11) default '0',
+  MailID int(11) default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZBulkMail_Offset (
+  ID int(11) NOT NULL default '0',
+  Hour int(11) default NULL,
+  Daily int(11) default NULL,
+  Weekly int(11) default NULL,
+  Monthly int(11) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+alter table eZBulkMail_Template add Description text;
+alter table eZBulkMail_UserCategoryDelay change ID ID int NOT NULL primary key;      
+
+DROP TABLE IF EXISTS eZFileManager_FileReadGroupLink; 
+DROP TABLE IF EXISTS eZFileManager_FileWriteGroupLink; 
+DROP TABLE IF EXISTS eZFileManager_FolderWriteGroupLink; 
+DROP TABLE IF EXISTS eZFileManager_FolderReadGroupLink; 
+
+CREATE TABLE eZForm_Form (
+  ID int(11) NOT NULL default '0',
+  Name varchar(255) default NULL,
+  Receiver varchar(255) default NULL,
+  CC varchar(255) default NULL,
+  Sender varchar(255) default NULL,
+  SendAsUser char(1) default NULL,
+  CompletedPage varchar(255) default NULL,
+  InstructionPage varchar(255) default NULL,
+  Counter int(11) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZForm_FormElement (
+  ID int(11) NOT NULL default '0',
+  Name varchar(255) default NULL,
+  Required int(1) default '0',
+  ElementTypeID int(11) default NULL,
+  Size int(11) default '0',
+  Break int(11) default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZForm_FormElementDict (
+  ID int(11) NOT NULL default '0',
+  Name varchar(255) default NULL,
+  FormID int(11) default NULL,
+  ElementID int(11) default NULL,
+  Placement int(11) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
 
 
-alter table eZBulkMail_UserCategoryLink drop ID;
+CREATE INDEX Message_TreeID ON eZForum_Message (TreeID);
+CREATE INDEX Message_PostingTime ON eZForum_Message (PostingTime);
+CREATE INDEX Message_ThreadID ON eZForum_Message (ThreadID);
+CREATE INDEX Message_Depth ON eZForum_Message (Depth);
+CREATE INDEX Message_ForumID ON eZForum_Message (ForumID);
+
+CREATE INDEX ForumWordLink_MessageID ON eZForum_MessageWordLink (MessageID);
+CREATE INDEX ForumWordLink_WordID ON eZForum_MessageWordLink (WordID);
+
+alter table eZForum_Word change ID ID int NOT NULL primary key;
+CREATE INDEX Word_Word ON eZForum_Word (Word);
+
+CREATE INDEX ImageCatalogue_ImageVariationGroup_VariationGroupID ON eZImageCatalogue_ImageVariation (VariationGroupID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ImageID ON eZImageCatalogue_ImageVariation (ImageID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ModificationID ON eZImageCatalogue_ImageVariation (Modification);
+
+CREATE TABLE eZMediaCatalogue_Attribute (
+  ID int(11) NOT NULL default '0',
+  TypeID int(11) default NULL,
+  Name varchar(150) default NULL,
+  Created int(11) default NULL,
+  Placement int(11) default '0',
+  Unit varchar(8) default NULL,
+  DefaultValue varchar(100) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZMediaCatalogue_AttributeValue (
+  ID int(11) NOT NULL auto_increment,
+  MediaID int(11) default NULL,
+  AttributeID int(11) default NULL,
+  Value varchar(200) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZMediaCatalogue_Media (
+  ID int(11) NOT NULL default '0',
+  Name varchar(100) default NULL,
+  Caption text,
+  Description text,
+  FileName varchar(100) default NULL,
+  OriginalFileName varchar(100) default NULL,
+  ReadPermission int(11) default '1',
+  WritePermission int(11) default '1',
+  UserID int(11) default NULL,
+  PhotographerID int(11) default NULL,
+  Created int(11) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZMediaCatalogue_MediaCategoryDefinition (
+  ID int(11) NOT NULL default '0',
+  MediaID int(11) default NULL,
+  CategoryID int(11) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZMediaCatalogue_MediaCategoryLink (
+  ID int(11) NOT NULL default '0',
+  CategoryID int(11) default NULL,
+  MediaID int(11) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZMediaCatalogue_MediaPermission (
+  ID int(11) NOT NULL default '0',
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZMediaCatalogue_Type (
+  ID int(11) NOT NULL default '0',
+  Name varchar(150) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZMediaCatalogue_TypeLink (
+  ID int(11) NOT NULL default '0',
+  TypeID int(11) default '0',
+  MediaID int(11) default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+alter table eZPoll_Poll drop Percent;
+alter table eZPoll_Poll drop Number;
+
+
+CREATE INDEX Session_Hash ON eZSession_Session (Hash);
+CREATE INDEX Session_Created ON eZSession_Session (Created);
+CREATE INDEX Session_LastAccessed ON eZSession_Session (LastAccessed);
+
+CREATE INDEX Session_VariableName ON eZSession_SessionVariable (Name);
+CREATE INDEX Session_SessionID ON eZSession_SessionVariable (SessionID);
+
+CREATE INDEX TradeProductOption_ValueID ON eZTrade_OptionValueContent (ValueID);
+
+alter table eZTrade_Order add CompanyID int default '0';
+alter table eZTrade_Order add PersonID int default '0';
+
+CREATE INDEX TradeProduct_Name ON eZTrade_Product (Name);
+CREATE INDEX TradeProduct_Keywords ON eZTrade_Product (Keywords);
+CREATE INDEX TradeProduct_Price ON eZTrade_Product (Price);
+CREATE INDEX TradeProductCategoryLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
+CREATE INDEX TradeProductCategoryLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
+CREATE INDEX TradeProductCategoryDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+
+CREATE TABLE eZTrade_ProductFormDict (
+  ID int(11) NOT NULL default '0',
+  ProductID int(11) default NULL,
+  FormID int(11) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
+CREATE INDEX TradeProductOptionLink_ProductID ON eZTrade_ProductOptionLink (ProductID);
+CREATE INDEX TradeProductOptionLink_OptionID ON eZTrade_ProductOptionLink (OptionID);
+
+alter table eZTrade_ProductPriceRange change ID ID int NOT NULL primary key;
+
+CREATE INDEX UserGroup_UserID ON eZUser_UserGroupLink (UserID);
+CREATE INDEX UserGroup_GroupID ON eZUser_UserGroupLink (GroupID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE TABLE eZSiteManager_Menu (
   ID int(11) NOT NULL default '0',
@@ -1300,8 +1462,7 @@ CREATE TABLE eZSiteManager_MenuType (
   Name varchar(30) default NULL
 ) TYPE=MyISAM;
 
-create table eZTrade_UserShippingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0, OrderID int default 0 );
-create table eZTrade_UserBillingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0, OrderID int default 0 );
+create table eZTrade_UserShippingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0 );
 
 insert into eZUser_UserShippingLink (ID, AddressID, UserID) select eZTrade_Order.ShippingAddressID, eZTrade_Order.ShippingAddressID, eZUser_UserAddressLink.UserID from eZTrade_Order, eZUser_UserAddressLink where eZTrade_Order.ShippingAddressID = eZUser_UserAddressLink.AddressID GROUP BY eZTrade_Order.ShippingAddressID;
 alter table eZTrade_Voucher add TotalValue int default 0;        
@@ -1314,18 +1475,9 @@ CREATE TABLE eZBulkMail_SubscriptionCategorySettings (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-CREATE TABLE eZBulkMail_SentLog (
-  ID int(11) NOT NULL,
-  MailID int(11) NOT NULL default '0',
-  Mail varchar(255) default NULL,
-  SentDate int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
 
 alter table eZAd_View change ViewPrice ViewPrice float(10,2) default 0;
 
 alter table eZLink_Link change KeyWords KeyWords text;
 
 
-alter table eZForm_FormElement add Break int default 0;
-alter table eZForm_FormElement add Size int default 0;

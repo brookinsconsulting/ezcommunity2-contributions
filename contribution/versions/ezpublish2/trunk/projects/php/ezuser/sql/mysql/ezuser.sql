@@ -70,7 +70,8 @@ CREATE TABLE eZUser_GroupPermissionLink (
 CREATE TABLE eZUser_Module (
   ID int NOT NULL,
   Name varchar(100) NOT NULL default '',
-  PRIMARY KEY (ID)
+  PRIMARY KEY (ID),
+  UNIQUE KEY Name (Name)
 );
 
 CREATE TABLE eZUser_Permission (
@@ -197,3 +198,5 @@ CREATE TABLE eZUser_Photographer (
 
 CREATE INDEX UserGroupLink_UserID ON eZUser_UserGroupLink (UserID);
 CREATE INDEX UserGroupLink_GroupID ON eZUser_UserGroupLink (GroupID);
+
+CREATE UNIQUE INDEX User_Login ON eZUser_User (Login);  

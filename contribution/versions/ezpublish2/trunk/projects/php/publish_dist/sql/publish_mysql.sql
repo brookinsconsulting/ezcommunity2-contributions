@@ -41,7 +41,7 @@ CREATE TABLE eZAd_View (
   AdID int default NULL,
   ViewCount int NOT NULL,
   ViewOffsetCount int NOT NULL,
-  ViewPrice float NOT NULL,
+  ViewPrice float(10,2) NOT NULL,
   Date int default NULL,
   PRIMARY KEY (ID)
 );
@@ -678,7 +678,7 @@ CREATE TABLE eZBug_Priority (
 );
 
 INSERT INTO eZBug_Priority VALUES (1,'High',NULL);
-INSERT INTO eZBug_Priority VALUES (2,'Middels',NULL);
+INSERT INTO eZBug_Priority VALUES (2,'Medium',NULL);
 INSERT INTO eZBug_Priority VALUES (3,'Low',NULL);
 
 CREATE TABLE eZBug_Status (
@@ -768,7 +768,7 @@ CREATE TABLE eZBulkMail_GroupCategoryLink (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_Forgot (
-  ID int NOT NULL,
+  ID int(11) NOT NULL,
   Mail varchar(255) NOT NULL,
   Password varchar(50) NOT NULL,
   Hash varchar(33),
@@ -812,16 +812,16 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
-  UserID int(11) default '0',
-  CategoryID int(11) default '0',
+  UserID int(11) NOT NULL default '0',
+  CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (UserID, CategoryID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_UserCategorySettings (
+  ID int(11) NOT NULL,
   CategoryID int(11) default '0',
   UserID int(11) default '0',
   Delay int(11) default '0',
-  ID int(11) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -1126,6 +1126,8 @@ CREATE TABLE eZForm_FormElement (
   Name varchar(255) default NULL,
   Required int(1) default '0',
   ElementTypeID int(11) default NULL,
+  Size int(11) default '0',	
+  Break int(11) default '0',		
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -1343,7 +1345,7 @@ CREATE TABLE eZLink_Link (
   Name varchar(100) default NULL,
   Description text,
   LinkGroup int default NULL,
-  KeyWords varchar(100) default NULL,
+  KeyWords text default NULL,
   Modified int NOT NULL,
   Accepted int,
   Created int default NULL,
@@ -1891,7 +1893,7 @@ CREATE TABLE eZSiteManager_Menu (
   Link varchar(40) default NULL,
   Type int(11) default '1',
   ParentID int(11) default '0'
-) TYPE=MyISAM
+) TYPE=MyISAM;
 
 CREATE TABLE eZSiteManager_MenuType (
   ID int(11) NOT NULL default '0',
@@ -2475,6 +2477,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   FromName varchar(80) default NULL,
   FromOnlineID int(11) default '0',
   FromAddressID int(11) default '0',
+  ProductID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2619,6 +2622,13 @@ CREATE TABLE eZUser_Trustees (
   OwnerID int(11) NOT NULL,
   UserID int(11) NOT NULL,
   PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZUser_UserShippingLink (
+  ID int(11) NOT NULL default '0',
+  UserID int(11) default '0',
+  AddressID int(11) default '0',
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');

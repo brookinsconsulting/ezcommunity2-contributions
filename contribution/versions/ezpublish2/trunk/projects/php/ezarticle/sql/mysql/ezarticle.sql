@@ -215,9 +215,19 @@ CREATE INDEX WordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
 CREATE INDEX WordLink_WordID ON eZArticle_ArticleWordLink (WordID);
 CREATE INDEX Word_Word ON eZArticle_Word (Word);
 CREATE UNIQUE INDEX Word_ID ON eZArticle_Word (ID);
+CREATE UNIQUE INDEX ArticleID ON eZArticle_ArticleImageDefinition (ArticleID);
 
 CREATE INDEX ArticlePermission_ObjectID ON eZArticle_ArticlePermission (ObjectID);
 CREATE INDEX ArticlePermission_GroupID ON eZArticle_ArticlePermission (GroupID);
+CREATE INDEX ArticlePermission_WritePermission ON eZArticle_ArticlePermission (WritePermission);
+CREATE INDEX ArticlePermission_ReadPermission ON eZArticle_ArticlePermission (ReadPermission);
 
 CREATE INDEX Def_ArticleID ON eZArticle_ArticleCategoryDefinition (ArticleID);
 CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
+
+CREATE INDEX ArticleKeyword_Keyword ON eZArticle_ArticleKeyword (Keyword);
+CREATE INDEX ArticleKeyword_ArticleID ON eZArticle_ArticleKeyword (ArticleID);
+
+CREATE INDEX ArticleAttribute_Placement ON eZArticle_Attribute (Placement);
+CREATE INDEX ArticleAttributeValue_ArticleID ON eZArticle_AttributeValue (ArticleID, AttributeID);
+

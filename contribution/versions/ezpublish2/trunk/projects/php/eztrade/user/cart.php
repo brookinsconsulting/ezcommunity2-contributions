@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.70 2001/10/12 11:42:48 ce Exp $
+// $Id: cart.php,v 1.71 2001/10/17 12:06:48 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -416,6 +416,7 @@ foreach ( $items as $item )
     $product =& $item->product();
 
     $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_number", $product->productNumber() );
     $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT ) );
     $t->set_var( "product_count", $item->count() );

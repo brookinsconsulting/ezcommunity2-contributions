@@ -45,11 +45,13 @@ CREATE TABLE eZSiteManager_Menu (
   Name varchar(40) default NULL,
   Link varchar(40) default NULL,
   Type int(11) default '1',
-  ParentID int(11) default '0'
+  ParentID int(11) default '0',
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZSiteManager_MenuType (
   ID int(11) NOT NULL default '0',
-  Name varchar(30) default NULL
+  Name varchar(30) default NULL,
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 

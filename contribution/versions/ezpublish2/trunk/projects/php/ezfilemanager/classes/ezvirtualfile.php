@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.51 2001/10/16 13:49:25 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.52 2001/10/17 12:06:47 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -108,9 +108,6 @@ class eZVirtualfile
         
         if ( isSet( $this->ID ) )
         {
-            $this->removeWritePermissions();
-            $this->removeReadPermissions();
-            
             $db->begin();
 
             $results[] = $db->query( "DELETE FROM eZFileManager_File WHERE ID='$this->ID'" );
@@ -553,156 +550,6 @@ class eZVirtualfile
     }
 
     /*!
-      Adds read permission to the user.
-    */
-    function addReadPermission( $value )
-    {
-        $db =& eZDB::globalDatabase();
-        
-        $db->lock( "eZFileManager_FileReadGroupLink" );
-        $nextID = $db->nextID( "eZFileManager_FileReadGroupLink", "ID" );
-        
-        $query = "INSERT INTO eZFileManager_FileReadGroupLink
-                  ( ID, FileID, GroupID )
-                  VALUES ( '$nextID', '$this->ID', '$value' )";
-        $db->unlock();
-        $result = $db->query( $query );
-        
-        if ( $result == false )
-            $db->rollback( );
-        else
-            $db->commit();
-    }
-
-    /*!
-      Adds write permission to the user.
-    */
-    function addWritePermission( $value )
-    {
-        $db =& eZDB::globalDatabase();
-       
-        $db->lock( "eZFileManager_FileWriteGroupLink" );
-        $nextID = $db->nextID( "eZFileManager_FileWriteGroupLink", "ID" );
-        
-        $query = "INSERT INTO eZFileManager_FileWriteGroupLink
-                 ( ID, FileID, GroupID )
-                 VALUES ( '$nextID', '$this->ID', '$value' )";
-        
-        $result = $db->query( $query );
-        $db->unlock();
-        if ( $result == false )
-            $db->rollback( );
-        else
-            $db->commit();
-    }
-
-    /*!
-      Check if the user have read permissions.
-
-    */
-    function hasReadPermissions( $user=false )
-    {
-        $db =& eZDB::globalDatabase();
-
-        $db->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
-
-        if ( $user )
-        {
-            if ( $userArrayID[0][$db->fieldName( "UserID" )] == $user->id() )
-            {
-                return true;
-            }
-            $groups = $user->groups();
-        }
-
-        $db->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
-
-        for ( $i=0; $i < count( $readPermissions ); $i++ )
-        {
-            if ( $readPermissions[$i][$db->fieldName( "GroupID" )] == 0 )
-            {
-                return true;
-            }
-            else
-            {
-                if ( count( $groups ) > 0 )
-                {
-                    foreach ( $groups as $group )
-                    {
-                        if ( $group->id() == $readPermissions[$i][$db->fieldName( "GroupID" )] )
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-       
-        return false;
-    }
-
-    /*!
-      Check if the user have read permissions.
-
-    */
-    function hasWritePermissions( $user=false )
-    {
-        $db =& eZDB::globalDatabase();
-
-        $db->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
-
-        if ( $user )
-        {
-            if ( $userArrayID[0][$db->fieldName( "UserID" )] == $user->id() )
-            {
-                return true;
-            }
-            $groups = $user->groups();
-        }
-       
-        $db->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
-
-        for ( $i=0; $i < count( $writePermissions ); $i++ )
-        {
-            if ( $writePermissions[$i][$db->fieldName( "GroupID" )] == 0 )
-            {
-                return true;
-            }
-            else
-            {
-                if ( count( $groups ) > 0 )
-                {
-                    foreach ( $groups as $group )
-                    {
-                        if ( $group->id() == $writePermissions[$i][$db->fieldName( "GroupID" )] )
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-       
-        return false;
-    }
-
-    /*!
-      Remove the read permissions from this eZVirtualFile object.
-
-    */
-    function removeReadPermissions()
-    {
-        $db =& eZDB::globalDatabase();
-
-        $db->begin();
-        $result = $db->query( "DELETE FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
-        if ( $result == false )
-            $db->rollback( );
-        else
-            $db->commit();
-    }
-
-    /*!
       Checks if a file exists in a virtual directory
     */
     function fileExists( $dir, $file )
@@ -714,76 +561,6 @@ class eZVirtualfile
             $directory = new eZVirtualFolder( $parent  );
             $ret = $directory->hasFile( $file );
         }
-        return $ret;
-    }
-    
-    /*!
-      Remove the write permissions from this eZVirtualFile object.
-
-    */
-    function removeWritePermissions()
-    {
-        $db =& eZDB::globalDatabase();
-
-        $db->begin();
-        $result = $db->query( "DELETE FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
-        if ( $result == false )
-            $db->rollback( );
-        else
-            $db->commit();
-    }
-
-    /*!
-      Returns all the read permission for this object.
-
-    */
-    function readPermissions( )
-    {
-        $db =& eZDB::globalDatabase();
-
-        $readPermissions = array();
-        $ret = false;
-
-        $db->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
-
-      
-        for ( $i=0; $i < count( $readPermissions ); $i++ )
-        {
-            if ( $readPermissions[$i][$db->fieldName( "GroupID" )] == 0 )
-            {
-                $ret[] = "Everybody";
-            }
-          
-            $ret[] = new eZUserGroup( $readPermissions[$i][$db->fieldName( "GroupID" )] );
-        }
-
-        return $ret;
-    }
-
-    /*!
-      Returns all the write permission for this object.
-
-    */
-    function writePermissions( )
-    {
-        $db =& eZDB::globalDatabase();
-
-        $writePermissions = array();
-        $ret = false;
-
-        $db->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
-
-      
-        for ( $i=0; $i < count( $writePermissions ); $i++ )
-        {
-            if ( $writePermissions[$i][$db->fieldName( "GroupID" )] == 0 )
-            {
-                $ret[] = "Everybody";
-            }
-          
-            $ret[] = new eZUserGroup( $writePermissions[$i][$db->fieldName( "GroupID" )] );
-        }
-
         return $ret;
     }
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.60 2001/10/16 09:21:04 ce Exp $
+// $Id: ezorder.php,v 1.61 2001/10/17 12:06:48 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -1154,7 +1154,11 @@ class eZOrder
         $shippingVAT = $this->ShippingVAT;
 
         if ( $shippingVAT && $shippingCost )
+        {
             $shippingVATPercentage = round( $shippingVAT / ( ( $shippingCost - $shippingVAT ) / 100 ), 0 );
+        }
+        else
+            $shippingVATPercentage = 0;
 
         $tax["$shippingVATPercentage"]["basis"] += $shippingCost - $shippingVAT;
         $tax["$shippingVATPercentage"]["tax"] += $shippingVAT;

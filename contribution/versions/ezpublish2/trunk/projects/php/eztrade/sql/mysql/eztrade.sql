@@ -400,7 +400,7 @@ CREATE TABLE eZTrade_ValueQuantityDict (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_Voucher (
-  ID int(11) default '0' NOT NULL,
+  ID int(11) NOT NULL default '0',
   Created int(11) default '0',
   Price float default '0',
   Available int(11) default '0',
@@ -408,7 +408,7 @@ CREATE TABLE eZTrade_Voucher (
   MailMethod int(11) default '1',
   UserID int(11) default '0',
   ProductID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_VoucherInformation (
@@ -425,7 +425,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   FromOnlineID int(11) default '0',
   FromAddressID int(11) default '0',
   ProductID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_VoucherUsed (
@@ -435,7 +435,7 @@ CREATE TABLE eZTrade_VoucherUsed (
   VoucherID int(11) default '0',
   OrderID int(11) default '0',
   UserID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_WishList (
@@ -463,15 +463,15 @@ CREATE TABLE eZTrade_WishListOptionValue (
 ) TYPE=MyISAM;
 
 
-CREATE INDEX Category_Name ON eZTrade_Category (Name);
-CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
-CREATE INDEX Product_Name ON eZTrade_Product (Name);
-CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
-CREATE INDEX Product_Price ON eZTrade_Product (Price);
-CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
-CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
-CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
-CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
-CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
+CREATE INDEX TradeCategory_Name ON eZTrade_Category (Name);
+CREATE INDEX TradeCategory_Parent ON eZTrade_Category (Parent);
+CREATE INDEX TradeProduct_Name ON eZTrade_Product (Name);
+CREATE INDEX TradeProduct_Keywords ON eZTrade_Product (Keywords);
+CREATE INDEX TradeProduct_Price ON eZTrade_Product (Price);
+CREATE INDEX TradeProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
+CREATE INDEX TradeProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
+CREATE INDEX TradeProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
+CREATE INDEX TradeProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
+CREATE INDEX TradeProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
-CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+CREATE INDEX TradeProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
