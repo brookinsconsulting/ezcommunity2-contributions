@@ -1,4 +1,4 @@
-<table width="100%" border="0">
+<table cellpadding="0" cellspacing="0" width="100%" border="0">
 <tr>
         <td valign="bottom">
         <h1>{intl-view_headline}</h1>
@@ -33,12 +33,21 @@
 	<!-- END no_birth_item_tpl -->
 	</td>
 </tr>
-<tr>
-	<td>
+</table>
 
-<table>
-<tr>
-	<td>
+<h2>{intl-companies}</h2>
+
+<!-- BEGIN company_item_tpl -->
+
+<a href="/contact/company/view/{company_id}/">{company_name}</a><br />
+
+<!-- END company_item_tpl -->
+<br />
+
+<p class="boxtext">{intl-description_headline}:</p>
+<div class="p">{description}</div>
+<br />
+
 <!-- BEGIN address_item_tpl -->
 <h2>{intl-addresses_headline}</h2>
 <br />
@@ -61,10 +70,6 @@
 <p>{intl-error_no_addresses}</p>
 <!-- END no_address_item_tpl -->
 
-	</td>
-</tr>
-<tr>
-	<td>
 
 <h2>{intl-telephone_headline}</h2>
 <!-- BEGIN phone_item_tpl -->
@@ -85,10 +90,6 @@
 <p>{intl-error_no_phones}</p>
 <!-- END no_phone_item_tpl -->
 
-	</td>
-</tr>
-<tr>
-	<td>
 
 <h2>{intl-online_headline}</h2>
 <!-- BEGIN online_item_tpl -->
@@ -108,39 +109,6 @@
 <p>{intl-error_no_onlines}</p>
 <!-- END no_online_item_tpl -->
 
-	</td>
-</tr>
-<tr>
-	<td>
-
-<p class="boxtext">{intl-description_headline}:</p>
-<div class="p">{description}</div>
-<br />
-	</td>
-</tr>
-</table>
-	</td>
-
-	<td valign="top">
-	<table>
-	<tr>
-		<td>
-		<h2>{intl-companies}</h2>
-		</td>
-	</tr>
-	<!-- BEGIN company_item_tpl -->
-	<tr>
-		<td>
-		<a href="/contact/company/view/{company_id}/">{company_name}</a>
-		</td>
-	</tr>
-	<!-- END company_item_tpl -->
-	</table>
-	</td>
-</tr>
-</table>
-
-
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="100%">
@@ -151,6 +119,7 @@
 	<!-- BEGIN no_project_status_tpl -->
 	{intl-no_project_status}
 	<!-- END no_project_status_tpl -->
+	<br /><br />
 	</td>
 </tr>
 </table>

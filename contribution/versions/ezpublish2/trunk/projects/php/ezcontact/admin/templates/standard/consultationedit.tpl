@@ -12,27 +12,27 @@
 <ul>
 
 <!-- BEGIN error_company_person_item_tpl -->
-<li>{intl-error_company_person}
+<li>{intl-error_company_person}</li>
 <!-- END error_company_person_item_tpl -->
 
 <!-- BEGIN error_no_company_person_item_tpl -->
-<li>{intl-error_no_company_person}
+<li>{intl-error_no_company_person}</li>
 <!-- END error_no_company_person_item_tpl -->
 
 <!-- BEGIN error_no_status_item_tpl -->
-<li>{intl-error_no_status}
+<li>{intl-error_no_status}</li>
 <!-- END error_no_status_item_tpl -->
 
 <!-- BEGIN error_short_description_item_tpl -->
-<li>{intl-error_short_description}
+<li>{intl-error_short_description}</li>
 <!-- END error_short_description_item_tpl -->
 
 <!-- BEGIN error_description_item_tpl -->
-<li>{intl-error_description}
+<li>{intl-error_description}</li>
 <!-- END error_description_item_tpl -->
 
 <!-- BEGIN error_email_notice_item_tpl -->
-<li>{intl-error_email_notice}
+<li>{intl-error_email_notice}</li>
 <!-- END error_email_notice_item_tpl -->
 
 </ul>
@@ -76,7 +76,7 @@
 <p>{intl-new_company_consultation_for} {company_name}</p>
 <!-- END company_contact_item_tpl -->
 <!-- BEGIN person_contact_item_tpl -->
-<p>{intl-new_person_consultation_for} {person_lastname}, {person_firstname}</p>
+<p>{intl-new_person_consultation_for} {person_firstname} {person_lastname}</p>
 <!-- END person_contact_item_tpl -->
 
 <!-- BEGIN consultation_item_tpl -->
@@ -87,12 +87,12 @@
 <!-- END consultation_date_item_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
-	    <td width="50%">
+	    <td width="50%" valign="top">
 	    <p class="boxtext">{intl-shortdescription}:</p>
-	    <input type="text" size="40" name="ShortDescription" value="{short_description}"/>
+	    <input type="text" size="30" name="ShortDescription" value="{short_description}"/><br /><br />
 	    </td>
 
-	    <td width="50%">
+	    <td width="50%" valign="top">
 	    <p class="boxtext">{intl-status}:</p>
 	    <!-- BEGIN status_item_tpl -->
 	    <select name="StatusID">
@@ -112,10 +112,10 @@
     <tr>
 	    <td width="50%" rowspan="2">
 	    <p class="boxtext">{intl-description}:</p>
-	    <textarea name="Description" cols="40" rows="20" wrap="soft">{description}</textarea>
+	    <textarea name="Description" cols="30" rows="20" wrap="soft">{description}</textarea>
 	    </td>
 
-	    <td>
+	    <td valign="top">
 	    <p class="boxtext">{intl-group_notice}:</p>
 	    <select multiple size="13" name="GroupNotice[]">
 	    <!-- BEGIN group_notice_select_tpl -->
@@ -125,7 +125,7 @@
 	    <td>
     </tr>
     <tr>
-	    <td width="50%">
+	    <td width="50%" valign="top">
 	    <p class="boxtext">{intl-email_notice}:</p>
 	    <input type="text" size="30" name="EmailNotice" value="{email_notification}"/>
 	    </td>

@@ -2,19 +2,7 @@
 <table width="100%" border="0">
 <tr>
 	<td rowspan="2" valign="bottom">
-	    <h1>{intl-person_list_headline}</h1>
-	</td>
-	<td align="right">
-	{intl-show_persons}:
-	<select name="LimitType">
-	<option value="all" {is_all_selected}>{intl-show_all}</option>
-	<option value="standalone" {is_without_selected}>{intl-without_relation}</option>
-	<option value="connected" {is_with_selected}>{intl-with_relation}</option>
-	</select>
-	</td>
-</tr>
-<tr>
-	<td>
+	<h1>{intl-person_list_headline}</h1>
 	</td>
 	<td align="right">
 	    	<input type="text" name="SearchText" size="12" value="{search_form_text}" />
@@ -27,6 +15,16 @@
 <hr noshade="noshade" size="4" />
 <br />
 
+	<p class="boxtext">{intl-show_persons}:</p>
+	<select name="LimitType">
+	<option value="all" {is_all_selected}>{intl-show_all}</option>
+	<option value="standalone" {is_without_selected}>{intl-without_relation}</option>
+	<option value="connected" {is_with_selected}>{intl-with_relation}</option>
+	</select>
+<br />
+<br />
+
+<!--
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td align="right">
@@ -59,7 +57,7 @@
 	</td>
 </tr>
 </table>
-
+-->
 
 
 <!-- BEGIN no_persons_tpl -->

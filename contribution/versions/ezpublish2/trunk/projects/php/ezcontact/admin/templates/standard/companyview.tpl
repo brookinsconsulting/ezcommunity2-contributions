@@ -99,7 +99,7 @@
 <p class="boxtext">{intl-description}:</p>
 
 <!-- BEGIN image_view_tpl -->
-<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="left" vspace="2" hspace="6" />
+<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" vspace="2" hspace="6" />
 <!-- END image_view_tpl -->
 
 <div class="p">{description}</div>

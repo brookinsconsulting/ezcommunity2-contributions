@@ -15,19 +15,19 @@
 <ul>
 
 <!-- BEGIN error_name_item_tpl -->
-<li>{intl-error_name}
+<li>{intl-error_name}</li>
 <!-- END error_name_item_tpl -->
 
 <!-- BEGIN error_address_item_tpl -->
-<li>{intl-error_address}{error_address_position}
+<li>{intl-error_address}{error_address_position}</li>
 <!-- END error_address_item_tpl -->
 
 <!-- BEGIN error_phone_item_tpl -->
-<li>{intl-error_phone}{error_phone_position}
+<li>{intl-error_phone}{error_phone_position}</li>
 <!-- END error_phone_item_tpl -->
 
 <!-- BEGIN error_online_item_tpl -->
-<li>{intl-error_online}{error_online_position}
+<li>{intl-error_online}{error_online_position}</li>
 <!-- END error_online_item_tpl -->
 
 </ul>

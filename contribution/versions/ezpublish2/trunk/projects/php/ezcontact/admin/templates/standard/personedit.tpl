@@ -13,27 +13,27 @@
 <ul>
 
 <!-- BEGIN error_firstname_item_tpl -->
-<li>{intl-error_firstname}
+<li>{intl-error_firstname}</li>
 <!-- END error_firstname_item_tpl -->
 
 <!-- BEGIN error_lastname_item_tpl -->
-<li>{intl-error_lastname}
+<li>{intl-error_lastname}</li>
 <!-- END error_lastname_item_tpl -->
 
 <!-- BEGIN error_birthdate_item_tpl -->
-<li>{intl-error_birthdate}
+<li>{intl-error_birthdate}</li>
 <!-- END error_birthdate_item_tpl -->
 
 <!-- BEGIN error_address_item_tpl -->
-<li>{intl-error_address}{error_address_position}
+<li>{intl-error_address}{error_address_position}</li>
 <!-- END error_address_item_tpl -->
 
 <!-- BEGIN error_phone_item_tpl -->
-<li>{intl-error_phone}{error_phone_position}
+<li>{intl-error_phone}{error_phone_position}</li>
 <!-- END error_phone_item_tpl -->
 
 <!-- BEGIN error_online_item_tpl -->
-<li>{intl-error_online}{error_online_position}
+<li>{intl-error_online}{error_online_position}</li>
 <!-- END error_online_item_tpl -->
 
 </ul>
