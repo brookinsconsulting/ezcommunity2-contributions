@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.10 2000/07/26 12:45:08 lw-cvs Exp $
+    $Id: category.php,v 1.11 2000/07/31 14:45:39 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,7 +8,7 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include_once( "ezforum/dbsettings.php" );
+include( "ezforum/dbsettings.php" );
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( "$DOCROOT/classes/ezforumforum.php" );
@@ -39,7 +39,7 @@ else
 }
 $t->parse( "navigation-bar", "navigation", true);
 
-$forums = $forum->getAllForums($category_id);
+$forums = $forum->getAllForums( $category_id );
         
 for ($i = 0; $i < count($forums); $i++)
 {
