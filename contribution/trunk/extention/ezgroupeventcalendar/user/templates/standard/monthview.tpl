@@ -1,21 +1,25 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
-<form method="get" action="/search/">
-  <tr>
-    <td align="left"> 
-     <h1>{month_name} - {current_year_number}</h1>
-    </td>
-  </tr>
-</form>
-</table>
+<h1 style="text-align: center;">{month_name} - {current_year_number}</h1>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
- <form method="post" action="/groupeventcalendar/monthview/">
+ <form method="post" action="{www_dir}{index}/groupeventcalendar/monthview/">
   <tr>
-    <td colspan="2">
+    <td colspan="2" align="right">
 	<table border="0" cellspacing="3" cellpadding="3">
 	  <tr>
-	    <td>
-	      <p class="gcalBoxText">{intl-group}:</p>
+            <td align="right" valign="bottom">
+              <input class="stdbutton" type="submit" Name="GetByGroup" value="{intl-show}">
+	    </td>
+	     <td align="right">
+		<div class="gcalBoxText">{intl-type}:</div>
+		<select name="GetByTypeID">
+		<option value="0">{intl-default_type}</option>
+		<!-- BEGIN type_item_tpl -->
+		<option {type_is_selected} value="{type_id}">{type_name}</option>
+		<!-- END type_item_tpl -->
+		</select>
+	    </td>
+	    <td align="right">
+	      <div class="gcalBoxText">{intl-group}:</div>
 		<select name="GetByGroupID">
 		<option value="0">{intl-default}</option>
 		<!-- BEGIN group_item_tpl -->
@@ -23,17 +27,6 @@
 		<!-- END group_item_tpl -->
 		</select>
              </td>
-	     <td>
-		<p class="gcalBoxText">{intl-type}:</p>
-		<select name="GetByTypeID">
-		<option value="0">{intl-default_type}</option>
-		<!-- BEGIN type_item_tpl -->
-		<option {type_is_selected} value="{type_id}">{type_name}</option>
-		<!-- END type_item_tpl -->
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	      <input class="stdbutton" type="submit" Name="GetByGroup" value="{intl-show}">
-	    </td>
 	  </tr>
 	</table>
     </td>
@@ -41,7 +34,8 @@
  </form>
   <tr>
 	<td colspan="2" align="right" style="padding:5px;">
-	  <form action="/groupeventcalendar/eventedit/edit/">
+	<div>
+	  <form action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
   	     <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
 		<input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
 		<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
@@ -52,19 +46,18 @@
 		<input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">
 		<!-- END new_event_form_tpl -->
 	  </form>
+	</div>
 	</td>
   </tr>
   <tr>
-	<td>
-	<a class="menu" href="/groupeventcalendar/monthview/{prev_year_number}/{prev_month_number}/">&lt;&lt; {intl-previous_month}</a>
+	<td align="left" style="padding-top: 10px; padding-bottom: 5px;">
+	<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{prev_year_number}/{prev_month_number}/">&lt;&lt;</a>&nbsp; <a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{prev_year_number}/{prev_month_number}/">{intl-previous_month}</a>
 	</td>
-	<td align="right">
-	<a class="menu" href="/groupeventcalendar/monthview/{next_year_number}/{next_month_number}/">{intl-next_month} &gt;&gt;</a>
+	<td align="right" style="padding-top: 10px; padding-bottom: 5px;">
+	<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{next_year_number}/{next_month_number}/">{intl-next_month}</a>&nbsp;<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{next_year_number}/{next_month_number}/">&gt;&gt;</a>
 	</td>
 </tr>
 </table>
-
-<br />
 
 <!-- BEGIN month_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="2">
@@ -85,11 +78,16 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
-      <a class="gcalBoxText" style="margin-left: 5px 5px 5px 5px;" href="/groupeventcalendar/dayview/{year_number}/{month_number_p}/{day_number}/{selected_group_id}/">{day_number}</a>
+     <!-- BEGIN day_link_tpl -->
+      <a class="gcalBoxText" style="margin-left: 5px 5px 5px 5px;" href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number_p}/{day_number}/{selected_group_id}/" title="Dayview">{day_number}</a>
+    <!-- END day_link_tpl -->
+    <!-- BEGIN day_no_link_tpl -->
+      <a class="gcalBoxText" style="margin-left: 5px 5px 5px 5px;" href="" onmouseover="window.status='No Events in Day'; return true" onmouseout="window.status=''; return true" title="No Events in Day">{day_number}</a>
+    <!-- END day_no_link_tpl -->
     </td>
     <td>
      <!-- BEGIN new_event_link_tpl -->
-      <div align="right"><a class="path" href="/groupeventcalendar/eventedit/new/{year_number}/{month_number_p}/{day_number}/">+</a></div>
+      <div align="right"><a class="path" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number_p}/{day_number}/">+</a></div>
      <!-- END new_event_link_tpl -->
 
      <!-- BEGIN no_new_event_link_tpl -->
@@ -113,7 +111,7 @@
 <!-- BEGIN public_appointment_tpl -->
  <tr valign="top">
    <td width="8"> <!-- <img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /> --> </td>
-   <td style="padding-bottom:5px;"><a class="small" href="/groupeventcalendar/eventview/{appointment_id}/"><!--{appointment_group} - -->{appointment_name}</a></td>
+   <td style="padding-bottom:5px;"><a class="small" href="{www_dir}{index}/groupeventcalendar/eventview/{appointment_id}/"><!--{appointment_group} - -->{appointment_name}</a></td>
  <tr>
 <!-- END public_appointment_tpl -->
 </table>
