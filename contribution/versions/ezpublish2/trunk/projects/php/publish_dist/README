@@ -315,10 +315,26 @@ alter table eZTrade_Order add IsActive int default 0;
 # set a group for eZ forum
 alter table eZForum_Forum add GroupID int default 0;
 
+# Permission to eZ imagecatalogue
+alter table eZImageCatalogue_Image add ReadPermission int DEFAULT '1';
+alter table eZImageCatalogue_Image add WritePermission int DEFAULT '1';
+alter table eZImageCatalogue_Image add UserID int;
 
+alter table eZImageCatalogue_Category add ReadPermission int DEFAULT '1';
+alter table eZImageCatalogue_Category add WritePermission int DEFAULT '1';
+alter table eZImageCatalogue_Category add UserID int;
+
+# Permission to eZ filemanager
+alter table eZFileManager_File add ReadPermission int DEFAULT '1';
+alter table eZFileManager_File add WritePermission int DEFAULT '1';
+alter table eZFileManager_File add UserID int;
+
+alter table eZFileManager_Folder add ReadPermission int DEFAULT '1';
+alter table eZFileManager_Folder add WritePermission int DEFAULT '1';
+alter table eZFileManager_Folder add UserID int;
+alter table eZForum_Forum add GroupID int default 0;
 
 ### BETA 2 - BETA 3
-
 #set a group for eZBugmodule
 alter table eZBug_Module add OwnerGroupID int default 0;
 INSERT INTO eZUser_Module VALUES (11, 'eZBug');
