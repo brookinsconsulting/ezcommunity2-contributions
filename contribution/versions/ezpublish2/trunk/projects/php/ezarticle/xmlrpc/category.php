@@ -9,12 +9,12 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
 // TODO: check permissions!!
 
-if( $Action == "category" ) // Dump category info!
+if( $Action == "data" ) // Dump category info!
 {
     $writeGroups = eZObjectPermission::getGroups( $ID, "article_category", 'w', false );
     $readGroups = eZObjectPermission::getGroups( $ID, "article_category", 'r', false );
     $category = new eZArticleCategory( $ID );
-    $ReturnData = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "category", $category->id() ),
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $category->id() ),
                                              "Name" => new eZXMLRPCString( $category->name( false ) ),
                                              "ParentID" => new eZXMLRPCInt( $category->parent( false ) ),
                                              "Description" => new eZXMLRPCString( $category->description( false ) ),
@@ -28,7 +28,7 @@ if( $Action == "category" ) // Dump category info!
                                              )
                                       );
 }
-else if( $Action == "storecategory" ) // save the category data!
+else if( $Action == "storedata" ) // save the category data!
 {
     $ID = $Data["ID"]->value();
     if( $ID == 0 )

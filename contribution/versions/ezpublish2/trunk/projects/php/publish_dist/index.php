@@ -7,8 +7,8 @@ header("Pragma: no-cache");
 include_once( "classes/ezbenchmark.php" );
 
 // Run benchmark test.
- $bench = new eZBenchmark();
- $bench->start();
+$bench = new eZBenchmark();
+$bench->start();
   
 $GLOBALS["DEBUG"] = true;
 

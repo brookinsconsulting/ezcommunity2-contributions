@@ -6,17 +6,15 @@ if ( $ReturnCatalogues == true )
 }
 else
 {
-    switch ( $URL_ARRAY[1] )
+    switch ( $RequestType )
     {
-        case "userlist" :
+        case "user" :
         {
-            $Action = $URL_ARRAY[1];
             include( "ezuser/xmlrpc/user.php" );
         } break;
         
-        case "grouplist" :
+        case "group" :
         {
-            $Action = $URL_ARRAY[1];
             include( "ezuser/xmlrpc/group.php" );
         } break;
 

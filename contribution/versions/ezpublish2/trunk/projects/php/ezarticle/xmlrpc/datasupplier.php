@@ -13,14 +13,14 @@ else
             {
                 include( "ezarticle/xmlrpc/categorylist.php" );
             }
-            else if( $Command == "retreive" )
+            else if( $Command == "data" )
             {
-                $Action == "category";
+                $Action = "data";
                 include( "ezarticle/xmlrpc/category.php" );
             }
             else if( $Command == "store" )
             {
-                $Action == "storecategory";
+                $Action = "storecategory";
                 include( "ezarticle/xmlrpc/category.php" );
             }
             else
