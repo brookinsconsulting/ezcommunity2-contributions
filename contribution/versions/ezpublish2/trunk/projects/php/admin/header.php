@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.32 2001/04/19 07:39:19 jb Exp $
+// $Id: header.php,v 1.33 2001/04/26 10:00:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -41,8 +41,9 @@ $ModuleTab = eZModuleHandler::activeTab();
 
 include_once( "ezsession/classes/ezpreferences.php" );
 $preferences = new eZPreferences();
-$modules =& $preferences->variableArray( "EnabledModules" );
-$single_module = $preferences->variable( "SingleModule" ) == "enabled";
+$modules =& eZModuleHandler::active();
+// $modules =& $preferences->variableArray( "EnabledModules" );
+$single_module = eZModuleHandler::useSingleModule();
 
 $t = new eZTemplate( "admin/templates/" . $SiteStyle,
                      "admin/intl/", $Language, "header.php" );
