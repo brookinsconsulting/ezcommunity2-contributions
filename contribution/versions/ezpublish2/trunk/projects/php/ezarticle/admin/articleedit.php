@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.91 2001/06/15 12:31:56 pkej Exp $
+// $Id: articleedit.php,v 1.92 2001/06/15 12:38:13 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -473,7 +473,7 @@ if ( $Action == "Update" )
                 case "Image":
                 {   
                     // add images
-                    eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
+                    eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
                     exit();
                 }
                 break;
@@ -481,7 +481,7 @@ if ( $Action == "Update" )
                 case "File":
                 {
                     // add files
-                    eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
+                    eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
                     exit();
                 }
                 break;
@@ -489,7 +489,7 @@ if ( $Action == "Update" )
                 case "Attribute":
                 {
                     // add attributes
-                    eZHTTPTool::header( "Location: /article/articleedit/attributelist/$articleID/" );
+                    eZHTTPTool::header( "Location: /article/articleedit/attributelist/$ArticleID/" );
                     exit();
                 }
                 break;
@@ -497,7 +497,7 @@ if ( $Action == "Update" )
                 case "Form":
                 {
                     // add form
-                    eZHTTPTool::header( "Location: /article/articleedit/formlist/$articleID/" );
+                    eZHTTPTool::header( "Location: /article/articleedit/formlist/$ArticleID/" );
                     exit();
                 }
                 break;

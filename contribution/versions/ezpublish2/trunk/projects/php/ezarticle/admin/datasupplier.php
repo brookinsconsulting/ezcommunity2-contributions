@@ -203,6 +203,16 @@ switch ( $url_array[2] )
             break;
 
             
+            case "formlist" :
+            {
+                $ArticleID = $url_array[4];
+                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
+                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                    include( "ezarticle/admin/formlist.php" );
+            }
+            break;
+
+            
             case "imageedit" :
             {
                 if ( isSet ( $Browse ) )
