@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.14 2001/02/09 16:08:29 gl Exp $
+// $Id: adedit.php,v 1.15 2001/02/17 13:09:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -69,6 +69,18 @@ if ( $Action == "Insert" )
     {
         $ad->setIsActive( false );
     }
+    
+    if ( $UseHTML == "on" )
+    {
+        $ad->setUseHTML( true );
+    }
+    else
+    {
+        $ad->setUseHTML( false );
+    }
+
+    $ad->setHTMLBanner( $HTMLBanner );    
+    
 
     $ad->setURL( $AdURL );
     

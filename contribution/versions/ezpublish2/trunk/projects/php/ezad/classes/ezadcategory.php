@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.15 2001/02/17 12:22:27 bf Exp $
+// $Id: ezadcategory.php,v 1.16 2001/02/17 13:09:00 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -473,20 +473,17 @@ class eZAdCategory
        
        $orderBySQL = "eZAd_View.ViewCount ASC";
 
+
+       // Banners not shown at all
        $this->Database->array_query( $ad_not_shown_array,
-       "SELECT Ad.ID, MAX(View.Date) AS LatestDate
-        FROM  eZAd_Ad as Ad, eZAd_View as View, eZAd_AdCategoryLink AS Link
-        WHERE IsActive='true' AND Link.AdID=Ad.ID AND View.AdID=Ad.ID AND Link.CategoryID='$this->ID'
-        GROUP BY Ad.ID HAVING LatestDate!=curdate() LIMIT $offset,$limit" );
+       "SELECT Ad.ID from eZAd_Ad as Ad left join eZAd_View as View ON Ad.ID=View.AdID, eZAd_AdCategoryLink AS Link
+        WHERE View.AdID IS NULL
+        AND IsActive='true'
+        AND Link.AdID=Ad.ID
+        AND View.Date IS NULL
+        AND Link.CategoryID='$this->ID' LIMIT $offset,$limit" );
 
-//       "SELECT Ad.ID from eZAd_Ad as Ad left join eZAd_View as View ON Ad.ID=View.AdID, eZAd_AdCategoryLink AS Link
-//        WHERE View.AdID IS NULL
-//        AND IsActive='true'
-//        AND Link.AdID=Ad.ID
-//        AND View.Date IS NULL
-//        AND Link.CategoryID='$this->ID' LIMIT $offset,$limit" );
-
-       If ( count( $ad_not_shown_array ) > 0 )
+       if ( count( $ad_not_shown_array ) > 0 )
        {
            for ( $i=0; $i < count($ad_not_shown_array); $i++ )
            {
@@ -494,8 +491,25 @@ class eZAdCategory
            }
        }
        else
-       {           
-           $this->Database->array_query( $ad_array, "
+       {
+           // banners not shown today
+           $this->Database->array_query( $ad_not_shown_array,
+           "SELECT Ad.ID, MAX(View.Date) AS LatestDate
+           FROM  eZAd_Ad as Ad, eZAd_View as View, eZAd_AdCategoryLink AS Link
+           WHERE IsActive='true' AND Link.AdID=Ad.ID AND View.AdID=Ad.ID AND Link.CategoryID='$this->ID'
+           GROUP BY Ad.ID HAVING LatestDate!=curdate() LIMIT $offset,$limit" );
+           
+
+           if ( count( $ad_not_shown_array ) > 0 )
+           {
+                 for ( $i=0; $i < count($ad_not_shown_array); $i++ )
+                 {
+                     $return_array[$i] = new eZAd( $ad_not_shown_array[$i]["ID"], false );
+                 }
+           }
+           else
+           {           
+               $this->Database->array_query( $ad_array, "
                 SELECT eZAd_Ad.ID AS AdID, eZAd_Ad.Name, eZAd_Category.ID, eZAd_Category.Name AS Count
                 FROM eZAd_Ad, eZAd_Category, eZAd_AdCategoryLink, eZAd_View
                 WHERE 
@@ -511,9 +525,10 @@ class eZAdCategory
                 eZAd_Category.ID='$this->ID'
                 GROUP BY eZAd_Ad.ID ORDER BY $orderBySQL LIMIT $offset,$limit" );
 
-           for ( $i=0; $i < count($ad_array); $i++ )
-           {
-               $return_array[$i] = new eZAd( $ad_array[$i]["AdID"], false );
+               for ( $i=0; $i < count($ad_array); $i++ )
+               {
+                   $return_array[$i] = new eZAd( $ad_array[$i]["AdID"], false );
+               }
            }
        }
 
