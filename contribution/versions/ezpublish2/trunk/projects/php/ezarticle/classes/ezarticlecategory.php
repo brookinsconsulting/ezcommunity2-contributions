@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.56 2001/04/10 13:39:52 jb Exp $
+// $Id: ezarticlecategory.php,v 1.57 2001/04/30 09:20:45 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -117,12 +117,15 @@ class eZArticleCategory
 
         $db =& eZDB::globalDatabase();
 
+
         $category = new eZArticleCategory( $catID );
         $categoryList = $category->getByParent( $category );
         foreach( $categoryList as $categoryItem )
         {
             eZArticleCategory::delete( $categoryItem->id() );
         }
+
+
 
         $categoryID = $category->id();
         foreach( $this->articles() as $article )
@@ -139,6 +142,7 @@ class eZArticleCategory
                              WHERE CategoryID='$categoryID' AND ArticleID='$articledID'" );
             }
         }
+
         $db->query( "DELETE FROM eZArticle_CategoryPermission WHERE ObjectID='$categoryID'" );
         $db->query( "DELETE FROM eZArticle_Category WHERE ID='$categoryID'" );
     }

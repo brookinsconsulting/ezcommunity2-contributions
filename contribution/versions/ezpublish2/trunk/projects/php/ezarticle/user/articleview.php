@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.34 2001/04/30 08:50:34 bf Exp $
+// $Id: articleview.php,v 1.35 2001/04/30 09:20:45 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -27,6 +27,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezmail.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
@@ -43,18 +44,9 @@ $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "Templ
 
 $t->setAllStrings();
 
-$StaticPage = false;
-if ( $url_array[2] == "static" || $url_array[2] == "articlestatic"  )
-{
-    $StaticPage = true;
-}
-
-if ( $StaticPage == true )    
-    $t->set_file( "article_view_page_tpl", "articlestatic.tpl"  );
-else
-    $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
-
-
+$t->set_file( array(
+    "article_view_page_tpl" => "articleview.tpl"
+    ) );
 
 // path
 $t->set_block( "article_view_page_tpl", "path_item_tpl", "path_item" );
@@ -150,35 +142,44 @@ if ( $article->get( $ArticleID ) )
         $t->set_var( "article_name", $article->name() );
     }
 
-        $t->set_var( "author_text", $article->authorText() );
-        $t->set_var( "author_id", $article->author( false ) );
+    if ( eZMail::validate( $article->authorEmail() ) )
+    {
+        $t->set_var( "author_email", $user->email() );
+    }
+    else
+    {
+        $author = $article->author();
+        $t->set_var( "author_email", $author->email() );
+    }
     
-        $categoryDef =& $article->categoryDefinition();
+    $t->set_var( "author_text", $article->authorText() );
 
-        $t->set_var( "category_definition_name", $categoryDef->name() );
+    
+    $t->set_var( "author_id", $article->author( false ) );
+    
+    $categoryDef =& $article->categoryDefinition();
 
-        $pageCount = $article->pageCount();
-        if ( $PageNumber > $pageCount )
+    $t->set_var( "category_definition_name", $categoryDef->name() );
+
+    $pageCount = $article->pageCount();
+    if ( $PageNumber > $pageCount )
         $PageNumber = $pageCount;
 
-        if ( $PageNumber == -1 )
-            $articleContents = $renderer->renderPage( -1 );
-        else
-            $articleContents = $renderer->renderPage( $PageNumber -1 );
-        
-        $t->set_var( "article_intro", $articleContents[0] );
-        $t->set_var( "article_body", $articleContents[1] );
+    if ( $PageNumber == -1 )
+        $t->set_var( "article_body", $renderer->renderPage( -1 ) );
+    else
+        $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
-        $t->set_var( "link_text", $article->linkText() );
+    $t->set_var( "link_text", $article->linkText() );
 
-        $t->set_var( "article_id", $article->id() );
+    $t->set_var( "article_id", $article->id() );
 
-        $locale = new eZLocale( $Language );
-        $published = $article->published();
+    $locale = new eZLocale();
+    $published = $article->published();
 
-        $t->set_var( "article_created", $locale->format( $published ) );
+    $t->set_var( "article_created", $locale->format( $published ) );
  
-        }
+}
 
 $files = $article->files();
 
