@@ -1,4 +1,3 @@
-
 <script language="JavaScript">
 
 <!--
@@ -115,9 +114,6 @@ Telefon:<br>
 	{phone_list}
 	</table>
 	</center>
-	</td>	
-</tr>
-</table>
 
 <input type="hidden" name="PID" value="{person_id}">
 <input type="hidden" name="Action" value="edit">
