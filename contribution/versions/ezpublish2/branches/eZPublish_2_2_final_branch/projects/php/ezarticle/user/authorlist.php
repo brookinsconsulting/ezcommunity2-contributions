@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.7.2.1 2002/05/22 10:34:54 jhe Exp $
+// $Id: authorlist.php,v 1.7.2.2 2002/05/23 09:12:28 jhe Exp $
 //
 // Created on: <16-Feb-2001 14:54:04 amos>
 //
@@ -39,7 +39,6 @@ $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "Templ
 $t->setAllStrings();
 
 $t->set_file( "author_list_tpl", "authorlist.tpl" );
-
 $t->set_block( "author_list_tpl", "author_item_tpl", "author_item" );
 
 if ( !isset( $Offset ) )
@@ -50,20 +49,23 @@ if ( !isset( $SortOrder ) )
     $SortOrder = "name";
 
 $authors =& eZArticle::authorList( $Offset, $Limit, $SortOrder );
-
 $db =& eZDB::globalDatabase();
 
 $t->set_var( "author_item", "" );
 $i = 0;
-foreach( $authors as $author )
+foreach ( $authors as $author )
 {
-    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-    $t->set_var( "author_id", $author[$db->fieldName("ContentsWriterID")] );
-    $t->set_var( "author_name", $author[$db->fieldName("ContentsWriter")] );
+    $articleCount = eZArticle::authorArticleCount( $author[$db->fieldName( "ContentsWriterID" )] );
+    if ( $articleCount > 0 )
+    {
+        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "author_id", $author[$db->fieldName( "ContentsWriterID" )] );
+        $t->set_var( "author_name", $author[$db->fieldName( "ContentsWriter" )] );
     
-    $t->set_var( "article_count", eZArticle::authorArticleCount( $author[$db->fieldName("ContentsWriterID")] ) );
-    $t->parse( "author_item", "author_item_tpl", true );
-    $i++;
+        $t->set_var( "article_count", $articleCount );
+        $t->parse( "author_item", "author_item_tpl", true );
+        $i++;
+    }
 }
 
 $t->pparse( "output", "author_list_tpl" );
