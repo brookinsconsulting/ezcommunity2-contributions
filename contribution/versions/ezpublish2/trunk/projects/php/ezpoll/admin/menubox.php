@@ -3,7 +3,12 @@
 </tr>
 <tr> 
     <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/poll/polllist/">Poll list</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/poll/polllist/">Poll list</a><br>
+	</td>
+</tr>
+<tr> 
+    <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/poll/polledit/new/">Ny poll</a><br>
 	</td>
 </tr>
 <tr>
