@@ -1,7 +1,6 @@
 <h1>{intl-head_line}</h1>
 
 <hr noshade size="4"/>
-
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
@@ -30,16 +29,17 @@
 <br />
 <!-- BEGIN main_image_tpl -->
 
-<table align="right" cellspacing="0" cellpadding="0" border="0">
+<table width="1%" align="right" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
+	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
 	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
 </tr>
 <tr>
 	<td class="pictext">
-	{main_image_caption}
+	{main_image_caption}<br />
+	<br />
 	</td>
 </tr>
 </table>
@@ -52,40 +52,72 @@
 
 <br clear="all" />
 
-<!-- BEGIN image_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="7">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
+	<td width="70%">
+<!-- BEGIN image_list_tpl -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN image_tpl -->
-<td class="bglight">
+<tr>
+<td width="1%" valign="top">
+
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
+	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
+</td>
+</tr>
+<tr>
+<td valign="top">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
-	</td>
+	<th valign="top">
+	<!-- {image_title}: -->
+	</th>
 </tr>
 <tr>
-	<td valign="top">
-	<p class="pictext">
+	<td valign="top" class="pictext">
 	{image_caption}
-	</p>
 	</td>
 </tr>
 </table>
-&nbsp;
 
 </td>
 
+</tr>
+
 <!-- END image_tpl -->
 
-</tr>
 </table>
 <br />
 <!-- END image_list_tpl -->
+	</td>
+	<td width="30%" valign="top">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN section_item_tpl -->
+<tr>
+	<th>
+	{section_name}:
+	</th>
+</tr>
+<!-- BEGIN link_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	&nbsp;<a href="{link_url}">{link_name}</a>
+	</td>
+</tr>
+<!-- END link_item_tpl -->
+<tr>
+	<td>&nbsp;
+	</td>
+</tr>
+<!-- END section_item_tpl -->
+</table>
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="70%" cellspacing="0" cellpadding="2" border="0" align="center">
+<table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
 <!-- BEGIN attribute_tpl -->
 <tr>
 	<th>
@@ -107,56 +139,60 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td>
+	<th colspan="3">
+	<br />
+	{option_name}:
+	</th>
+</tr>
+<tr>
+	<td width="20%">
 
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
+	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
 	<!-- BEGIN value_price_header_tpl -->
-	<tr>
-		<!-- BEGIN value_description_header_tpl -->
-		<th>
-		{description_header}:
-		</th>
-		<!-- END value_description_header_tpl -->
-		<!-- BEGIN value_price_header_item_tpl -->
-		<th>
-		Price:
-		</th>
-		<!-- END value_price_header_item_tpl -->
-		<!-- BEGIN value_currency_header_item_tpl -->
-		<th colspan="{currency_count}"> 
-		Alternative currency:
-		</th>
-		<!-- END value_currency_header_item_tpl -->
-	</tr>
+
+	<!-- BEGIN value_description_header_tpl -->
+
+	<!-- END value_description_header_tpl -->
+
+	<!-- BEGIN value_price_header_item_tpl -->
+
+	<!-- END value_price_header_item_tpl -->
+
+	<!-- BEGIN value_currency_header_item_tpl -->
+
+	<!-- END value_currency_header_item_tpl -->
 
 	<!-- END value_price_header_tpl -->
-	<tr>
+	<select name="OptionValueArray[]">
+
 	<!-- BEGIN value_tpl -->
 	<!-- BEGIN value_description_tpl -->
-	<td class="{value_td_class}">
-	{value_name}&nbsp;&nbsp;
-	</td>
+	<option value="{value_id}">{value_name}
 	<!-- END value_description_tpl -->
 	<!-- BEGIN value_price_item_tpl -->
-	<td class="{value_td_class}">
 	{value_price}
-	</td>
 	<!-- END value_price_item_tpl -->
+	<!-- BEGIN value_availability_item_tpl -->
+	({value_availability})
+	<!-- END value_availability_item_tpl -->
+	 </option>
 
 	<!-- BEGIN value_price_currency_list_tpl -->
 
 	<!-- BEGIN value_price_currency_item_tpl -->
-	<td class="{value_td_class}">
-	{alt_value_price}
-	</td>
+
 	<!-- END value_price_currency_item_tpl -->
 
 	<!-- END value_price_currency_list_tpl -->
 
-	</tr>
 	<!-- END value_tpl -->
-</table>
-
+	</select>
+	</td>
+	<td width="1%">
+	&nbsp;&nbsp;
+	</td>
+	<td width="79%">
+	{option_description}
 	</td>
 </tr>
 </table>
@@ -195,18 +231,16 @@
 </table>
 <br />
 
-{extra_product_info}
-<br />
+<!-- BEGIN quantity_item_tpl -->
+<p class="boxtext">{intl-availability}:</p>
+<div class="p">{product_quantity}</div>
+<!-- END quantity_item_tpl -->
+
+<div class="p">{extra_product_info}</p>
+
 
 <!-- BEGIN add_to_cart_tpl -->
-<!--
 
-<hr noshade="noshade" size="4" />
-
-<input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
-
-<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
--->
 <!-- END add_to_cart_tpl -->
 
 <br /><br />

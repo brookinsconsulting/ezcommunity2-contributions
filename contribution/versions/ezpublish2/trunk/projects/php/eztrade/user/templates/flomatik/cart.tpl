@@ -14,6 +14,9 @@
 	<th>{intl-product_image}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-product_options}:</th>
+	<!-- BEGIN product_available_header_tpl -->
+	<th>{intl-product_availability}:</th>
+	<!-- END product_available_header_tpl -->
 	<th>{intl-product_qty}:</th>
 
 	<td class="path" align="right">{intl-product_price}:</td>
@@ -32,9 +35,15 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	<div class="small">{option_name}: {option_value}<div>
+	<div class="small">{option_name}: {option_value}<!-- BEGIN cart_item_option_availability_tpl -->({option_availability})
+<!-- END cart_item_option_availability_tpl --><div>
         <!-- END cart_item_option_tpl -->
 	&nbsp;</td>
+	<!-- BEGIN product_available_item_tpl -->
+	<td class="{td_class}">
+	{product_availability}
+	</td>
+	<!-- END product_available_item_tpl -->
 	<td class="{td_class}">
 	<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
 	<input size="3" type="text" name="CartCountArray[]" value="{cart_item_count}" />
@@ -49,15 +58,22 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-vat}:</th>
+	<td colspan="3">&nbsp;</td>
+	<td align="right" colspan="2"><span class="boxtext">{intl-shipping}:</span></td>
+	<td align="right">
+	{shipping_sum}
+	</td>
+</tr>
+<tr>
+	<td colspan="3">&nbsp;</td>
+	<td align="right" colspan="2"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-total}:</th>
+	<td colspan="3">&nbsp;</td>
+	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -68,16 +84,17 @@
 <hr noshade="noshade" size="4" />
 <!-- BEGIN cart_checkout_tpl -->
 
-<table border="0">
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
-
+	<!-- BEGIN cart_checkout_button_tpl -->
 	<td>
 	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
+	<!-- END cart_checkout_button_tpl -->
 
+	<td>&nbsp;</td>
 	<td>
 	<input class="okbutton" type="submit" value="{intl-update}" />
-	
 	</td>
 </td>
 </table>

@@ -6,7 +6,7 @@
      <td align="right">
 	 <form action="/{module}/search/" method="post">
 	       <input type="text" name="Query">
-	       <input type="submit" name="search" value="{intl-search_button}">
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search_button}">
          </form>
      </td>
 </tr>
@@ -79,7 +79,7 @@
 <!-- BEGIN price_tpl -->
 <div class="spacer"><div class="pris">{product_price}</div></div>
 <!-- END price_tpl -->
-	<br />
+
 	</td>
 </tr>
 <!-- END product_tpl -->

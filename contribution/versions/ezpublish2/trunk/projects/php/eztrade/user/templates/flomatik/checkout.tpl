@@ -12,8 +12,11 @@
 	<th>{intl-picture}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
+	<!-- BEGIN product_available_header_tpl -->
+	<th>{intl-product_availability}:</th>
+	<!-- END product_available_header_tpl -->
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}</td>
+	<td class="path" align="right">&nbsp;&nbsp;{intl-price}:</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -28,11 +31,17 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	{option_name}:
-	{option_value}<br>
+	<span class="small">{option_name}: {option_value}<!-- BEGIN cart_item_option_availability_tpl -->({option_availability})
+<!-- END cart_item_option_availability_tpl --></span><br />
         <!-- END cart_item_option_tpl -->
 	&nbsp;
 	</td>
+	<!-- BEGIN product_available_item_tpl -->
+	<td class="{td_class}">
+	{product_availability}
+	<!-- BEGIN product_available_item_tpl -->
+	</td>
+	<!-- END product_available_item_tpl -->
 	<td class="{td_class}">
 	{cart_item_count}
 	</td>
@@ -52,7 +61,7 @@
 	</select>
 	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
-	<td align="right" colspan="2">
+	<td align="right" colspan="3">
 	<span class="boxtext">{intl-shipping_charges}:</span>
 	</td>
 
@@ -62,14 +71,14 @@
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-vat}:</span></td>
+	<td colspan="2" align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -81,7 +90,7 @@
 <p class="boxtext">{intl-billing_to}:</p>
 <select name="BillingAddressID">
 <!-- BEGIN billing_option_tpl -->
-<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place}, {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place} {country}</option>
 <!-- END billing_option_tpl -->
 </select>
 <!-- END billing_address_tpl -->
@@ -89,7 +98,7 @@
 <p class="boxtext">{intl-shipping_to}:</p>
 <select name="ShippingAddressID">
 <!-- BEGIN shipping_address_tpl -->
-<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place}, {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place} {country}</option>
 <!-- END shipping_address_tpl -->
 <!-- BEGIN wish_user_tpl -->
 <option value="{wish_user_address_id}">{wish_first_name} {wish_last_name}</option>
@@ -113,10 +122,13 @@
 <hr noshade="noshade" size="4" />
 
 
-<input type="hidden" name="ShippingCost" value="{shipping_cost}" />
+<input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
+<input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />
+<input type="hidden" name="TotalCost" value="{total_cost_value}" />
 
-
+<!-- BEGIN sendorder_item_tpl -->
 <input class="okbutton" type="submit" name="SendOrder" value="{intl-send}" />
+<!-- END sendorder_item_tpl -->
 
 </form>
 

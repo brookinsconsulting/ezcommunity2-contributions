@@ -29,6 +29,9 @@
 		  <th>{intl-product_options}:</th>
 		  <th>{intl-move_to_cart}:</th>
 		  <th>{intl-someone_has_bought_this}:</th>
+		  <!-- BEGIN product_available_header_tpl -->
+		  <th>{intl-product_availability}:</th>
+		  <!-- END product_available_header_tpl -->
 		  <th>{intl-product_qty}:</th>
 		  <td align="right"><b>{intl-product_price}:</b></td>
 		  <td align="right">&nbsp;</td>
@@ -39,10 +42,17 @@
 			<!-- END wishlist_image_tpl --> </td>
 		  <td class="{td_class}"> <a href="/trade/productview/{product_id}/">{product_name}</a> 
 		  </td>
-		  <td class="{td_class}"> <!-- BEGIN wishlist_item_option_tpl --> <div class="small">{option_name}: {option_value}</div>
+		  <td class="{td_class}"> <!-- BEGIN wishlist_item_option_tpl --> <div class="small">{option_name}: {option_value}<!-- BEGIN wishlist_item_option_availability_tpl -->({option_availability})
+<!-- END wishlist_item_option_availability_tpl --></div>
 			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
-		  <td class="{td_class}"> <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
+		  <td class="{td_class}">
+		  <!-- BEGIN move_to_cart_item_tpl -->
+		   <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
 			{intl-move_to_cart} </a> 
+		  <!-- END move_to_cart_item_tpl -->
+		  <!-- BEGIN no_move_to_cart_item_tpl -->
+		  &nbsp;
+		  <!-- END no_move_to_cart_item_tpl -->
                   </td>
 
   		  <td class="{td_class}">
@@ -57,6 +67,11 @@
 
    		  </td>
 
+		  <!-- BEGIN product_available_item_tpl -->
+		  <td class="{td_class}">
+		  {product_availability}
+		  </td>
+		  <!-- END product_available_item_tpl -->
   		  <td class="{td_class}">
 		  	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
 			<input size="3" type="text" name="WishlistCountArray[]" value="{wishlist_item_count}" />
@@ -65,12 +80,6 @@
 		  <td class="{td_class}" align="right"><a href="/trade/wishlist/remove/{wishlist_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{wishlist_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{wishlist_item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 		</tr>
 		<!-- END wishlist_item_tpl --> 
-		<tr> 
-		  <td colspan="3">&nbsp;</td>
-		  <th colspan="3">{intl-shipping}:</th>
-		  <td align="right"> {shipping_cost} </td>
-		  <td align="right">&nbsp;</td>
-		</tr>
 		<tr> 
 		  <td colspan="3">&nbsp;</td>
 		  <th colspan="3">{intl-total}:</th>

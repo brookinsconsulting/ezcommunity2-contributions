@@ -18,6 +18,9 @@
 		  <th>{intl-product_options}:</th>
 		  <th>{intl-move_to_cart}:</th>
 		  <th>{intl-someone_has_bought_this}:</th>
+		  <!-- BEGIN product_available_header_tpl -->
+		  <th>{intl-product_availability}:</th>
+		  <!-- END product_available_header_tpl -->
 		  <th>{intl-product_qty}:</th>
 		  <td align="right"><b>{intl-product_price}:</b></td>
 		</tr>
@@ -28,11 +31,17 @@
 		  <td class="{td_class}"> <a href="/trade/productview/{product_id}/">{product_name}</a> 
 		  </td>
 		  <td class="{td_class}"> <!-- BEGIN wishlist_item_option_tpl --> {option_name}: 
-			{option_value}<br>
+			{option_value}<!-- BEGIN wishlist_item_option_availability_tpl -->({option_availability})
+<!-- END wishlist_item_option_availability_tpl -->
 			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
 		  <td class="{td_class}"> 
+		  <!-- BEGIN move_to_cart_item_tpl -->
 		  <a href="/trade/viewwishlist/movetocart/{wishlist_item_id}/{wishlist_item_count}/"> 
 			{intl-move_to_cart} </a> 
+		  <!-- END move_to_cart_item_tpl -->
+		  <!-- BEGIN no_move_to_cart_item_tpl -->
+		  &nbsp;
+		  <!-- END no_move_to_cart_item_tpl -->
                   </td>
 
   		  <td class="{td_class}">
@@ -46,6 +55,12 @@
 		  <!-- END is_not_bought_tpl -->
 
    		  </td>
+
+		  <!-- BEGIN product_available_item_tpl -->
+		  <td class="{td_class}">
+		  {product_availability}
+		  </td>
+		  <!-- END product_available_item_tpl -->
 
   		  <td class="{td_class}">
 		  {wishlist_item_count}
