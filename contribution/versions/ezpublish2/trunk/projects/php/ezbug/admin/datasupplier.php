@@ -21,7 +21,7 @@ switch ( $url_array[2] )
     {
         $BugID = $url_array[3];
         
-        include( "ezbug/admin/bugpreview.php" );
+        include( "ezbug/user/bugview.php" );
     }
     break;
     
