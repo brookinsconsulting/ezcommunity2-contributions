@@ -10,6 +10,9 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
 
+// eZ user
+include_once( "ezuser/classes/ezuser.php" );
+
 
 // include the server
 include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
@@ -48,7 +51,10 @@ function version( )
 //
 function &newOrders( $args )
 {
-    if ( $args[0]->value() == "bf" && $args[1]->value() == "mofser" )
+    $user = new eZUser();
+    $user = $user->validateUser( $args[0]->value(), $args[1]->value() );
+    
+    if ( ( get_class( $user ) == "ezuser" ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
         $ini =& INIFile::globalINI();
 
