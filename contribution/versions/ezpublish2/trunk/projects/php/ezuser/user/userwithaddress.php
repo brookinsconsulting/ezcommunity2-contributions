@@ -1,10 +1,9 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.31 2001/01/29 11:14:57 ce Exp $
+// $Id: userwithaddress.php,v 1.32 2001/02/06 16:50:20 ce Exp $
 //
-// 
 //
-// Bård Farstad <bf@ez.no>
+// Christoffer A. Elo <ce@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
@@ -57,6 +56,7 @@ $t->set_block( "user_edit_tpl", "password_error_tpl", "password_error" );
 $t->set_block( "user_edit_tpl", "missing_address_error_tpl", "missing_address_error" );
 
 $t->set_block( "user_edit_tpl", "address_tpl", "address" );
+$t->set_block( "address_tpl", "delete_address_tpl", "delete_address" );
 $t->set_block( "address_tpl", "country_tpl", "country" );
 $t->set_block( "country_tpl", "country_option_tpl", "country_option" );
 
@@ -153,6 +153,7 @@ if ( count ( $AddressID ) != 0 )
 
 $user = eZUser::currentUser();
 
+// Set error checking.
 $error = false;
 $nameCheck = true;
 $emailCheck = true;
@@ -165,6 +166,7 @@ $street2Check = false;
 $zipCheck = true;
 $placeCheck = true;
 
+// If the user is trying to buy without having a address
 if ( $MissingAddress == true )
 {
     $t->parse( "error_missing_address", "error_missing_address_tpl" );
@@ -294,7 +296,6 @@ if ( ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) ) && 
         }
     }
     
-
     if( $error == true )
     {
         $t->parse( "errors_item", "errors_item_tpl" );
@@ -314,23 +315,28 @@ if ( ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) ) && 
 // Add a new address
 if ( isset( $NewAddress ) && $error == false )
 {
-    $address = new eZAddress();
+    $newAddress = new eZAddress();
     $country = new eZCountry( $CountryID );    
-    $address->setCountry( 0 );    
-    $address->store();
+    $newAddress->setCountry( 0 );    
+    $newAddress->store();
                 
     // add the address to the user.
-    $user->addAddress( $address );
-    
-    $Action = "Edit";
+    if ( get_class ( $user ) == "ezuser" )
+        $user->addAddress( $newAddress );
+
+    if ( $Action == "Insert" )
+        $Action = "Insert";
+    else
+        $Action = "Edit";                
+
 }
 
 // Delete address
 if ( isset( $DeleteAddress ) )
 {            
-    if ( count ( $AddressArrayID ) != 0 )
+    if ( count ( $DeleteAddressArrayID ) != 0 )
     {
-        foreach( $AddressArrayID as $ID )
+        foreach( $DeleteAddressArrayID as $ID )
         {
             $address = new eZAddress( $ID );
             $user->removeAddress( $address );
@@ -339,6 +345,7 @@ if ( isset( $DeleteAddress ) )
     $Action = "Edit";
 }
 
+// Insert a user with address
 if ( $Action == "Insert" && $error == false )
 {
     $user = new eZUser();
@@ -380,6 +387,14 @@ if ( $Action == "Insert" && $error == false )
     // Sets the main address
     $mainAddress = new eZAddress( $MainAddressID );
     $address->setMainAddress( $address, $user );
+
+    if ( isSet ( $NewAddress ) )
+    {
+        if ( get_class ( $newAddress ) == "ezaddress" )
+            $user->addAddress( $newAddress );
+        eZHTTPTool::header( "Location: /user/userwithaddress/edit/" );
+        exit();
+    }
     
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
@@ -390,6 +405,7 @@ if ( $Action == "Insert" && $error == false )
     exit();
 }
 
+// Update a user with address
 if ( $Action == "Update" )
 {
     $user = eZUser::currentUser();
@@ -404,7 +420,6 @@ if ( $Action == "Update" )
     
     for ( $i=0; $i<count($AddressID); $i++ )
     {
-        
         if ( $addressID == -1 )
         {
             $address = new eZAddress();
@@ -434,7 +449,6 @@ if ( $Action == "Update" )
     $mainAddress = new eZAddress( $MainAddressID );
     $address->setMainAddress( $mainAddress, $user );
 
-
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
         eZHTTPTool::header( "Location: $RedirectURL" );
@@ -450,6 +464,7 @@ $t->set_var( "readonly", "" );
 if ( $Action == "Update" )
     $action_value = "update";
 
+// Set up the default values when creating a new user
 if ( $Action == "New" )
 {
     if ( $error == false )
@@ -460,6 +475,9 @@ if ( $Action == "New" )
         $t->set_var( "street2_value", "" );
         $t->set_var( "zip_value", "" );
         $t->set_var( "place_value", "" );
+
+        $t->set_var( "delete_address", "" );
+        $t->set_var( "is_checked", "checked" );
 
         $t->parse( "address", "address_tpl" );
     }
@@ -499,6 +517,7 @@ if ( $Action == "New" )
 
 }
 
+// Set the values to the user when editing
 if ( $Action == "Edit" )
 {
     $user = eZUser::currentUser();
@@ -512,6 +531,8 @@ if ( $Action == "Edit" )
     $Email = $user->Email(  );
     $FirstName = $user->FirstName(  );
     $LastName = $user->LastName(  );
+
+    $t->parse( "delete_address", "delete_address_tpl" );
 
     $t->set_var( "login_value", $Login );
     if ( $Password == "" )

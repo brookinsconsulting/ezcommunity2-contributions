@@ -105,7 +105,9 @@
 
 <h2>{intl-address_number} {address_number} </h2> 
 <input type="checkbox" name="AddressArrayID[]" value="{address_id}">
+<!-- BEGIN delete_address_tpl -->
 <input type="hidden" name="AddressID[]" value="{address_id}"/>{intl-delete}
+<!-- END delete_address_tpl -->
 <input {is_checked} type="radio" name="MainAddressID" value="{address_id}">
 
 <p class="boxtext">{intl-street1}:</p>
