@@ -209,3 +209,39 @@ Maintainer(s) : jhe@ez.no
       user/messagesimplelist.php
       user/templates/standard/message.tpl: more internationalization
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-24  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/forumedit.php
+      admin/forumlist.php
+      admin/messageedit.php
+      admin/unapprovededit.php
+      classes/ezforumcategory.php
+      user/categorylist.php: fixed small bugs with <?php code
+
+    * admin/message.php
+      admin/messagelist.php: fixed bug with <> tags in forum message
+
+    * admin/datasupplier.php
+      admin/forumedit.php
+      admin/message.php
+      admin/messageedit.php
+      admin/messagelist.php
+      admin/search.php
+      classes/ezforumcategory.php
+      classes/ezforummessage.php
+      user/forumlist.php
+      user/message.php
+      user/messagebody.php
+      user/messageedit.php
+      user/messageform.php
+      user/messagepath.php
+      user/messagepermissions.php
+      user/messagereply.php
+      user/messagesearch.php
+      user/userlogin.php:
+    fixed problems with special characters, html-content and php-content
+

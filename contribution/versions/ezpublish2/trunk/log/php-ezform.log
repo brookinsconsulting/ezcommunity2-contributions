@@ -34,3 +34,13 @@ Maintainer(s) : pkej@ez.no
     * admin/intl/no_NO/form.php.ini
       admin/templates/standard/formrenderer.tpl: Layout
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-09-24  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezformrenderer.php:
+    This fixes the problem of missing the element names in front of the form
+    elements.
+

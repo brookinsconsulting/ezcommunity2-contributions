@@ -47,3 +47,22 @@ Maintainer(s) : vl@ez.no
     * classes/ezsection.php:
     Changes, fixed check in section if sections are enabled or not.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-09-24  Baard Farstad  <bf@ez.no>
+
+    * admin/datasupplier.php
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/templateedit.php.ini
+      admin/intl/en_GB/templatelist.php.ini
+      admin/menubox.php
+      admin/sqlquery.php
+      admin/templateedit.php
+      admin/templatelist.php
+      admin/templates/standard/sqlquery.tpl
+      admin/templates/standard/templateedit.tpl
+      admin/templates/standard/templatelist.tpl:
+    Added basic editor for templates in admin.
+

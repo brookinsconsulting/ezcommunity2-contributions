@@ -519,3 +519,39 @@ Maintainer(s) : ce@ez.no
       user/productlist.php:
     Fixed section and escape string on product category.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-24  Christofer Elo  <ce@ez.no>
+
+    * user/intl/en_GB/orderlist.php.ini
+      user/intl/en_GB/orderview.php.ini
+      user/orderlist.php
+      user/orderview.php
+      user/templates/standard/orderlist.tpl
+      user/templates/standard/orderview.tpl: Added files
+
+    * classes/ezvoucher.php
+      user/datasupplier.php
+      user/intl/en_GB/menubox.php.ini
+      user/intl/en_GB/voucher.php.ini
+      user/intl/en_GB/voucherview.php.ini
+      user/templates/standard/menubox.tpl
+      user/templates/standard/voucher.tpl
+      user/templates/standard/voucherview.tpl
+      user/voucher.php
+      user/voucherview.php
+      admin/intl/en_GB/voucheredit.php.ini
+      admin/templates/standard/voucheredit.tpl
+      admin/voucheredit.php
+      admin/voucherlist.php
+      classes/ezorder.php: Added voucher view, order view, order listr
+
+2001-09-24  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/customerview.php.ini
+      admin/templates/standard/customerview.tpl
+      admin/customerview.php:
+    Fixed showing multiple addresses in customer view.
+

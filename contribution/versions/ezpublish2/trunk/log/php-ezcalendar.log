@@ -117,3 +117,11 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/menubox.php.ini
       user/intl/no_NO/trustees.php.ini: more internationalization
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-09-24  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/dayview.php: small code standard fix
+

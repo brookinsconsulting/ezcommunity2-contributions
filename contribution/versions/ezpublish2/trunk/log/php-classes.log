@@ -92,3 +92,11 @@ Maintainer(s) : bf@ez.no
     * locale/lv_LV.ini
       locale/ru_RU.ini: Latvian and Russian locales
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-24  Baard Farstad  <bf@ez.no>
+
+    * eztexttool.php: Fixed export of eZ article articles to latex.
+

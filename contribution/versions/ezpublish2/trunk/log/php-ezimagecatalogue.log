@@ -234,3 +234,21 @@ Maintainer(s) : br@ez.no
 
     * classes/ezimagecategory.php: Changed some formating of code.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-24  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/imagelist.tpl:
+    Fixed export of eZ article articles to latex.
+
+2001-09-24  Jan Borsodi  <jb@ez.no>
+
+    * classes/ezimagecategory.php:
+    Added return value to get() function as this function is supposed to have.
+    Changed die() statement to simply print the error message and return as
+    normal.
+
+    * xmlrpc/datasupplier.php: Bugfixes to data, and storedata commands.
+

@@ -33,3 +33,26 @@ Maintainer(s) : br@ez.no
       admin/intl/fr_FR/visitorlist.php.ini
       admin/intl/fr_FR/yearreport.php.ini: updated fr_FR
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-09-24  Bjoern Reiten  <br@ez.no>
+
+    * admin/browserlist.php
+      classes/ezpageviewquery.php: added new function for calculating sum.
+
+    * admin/refererlist.php: moved eZList::drawNavigator
+
+    * admin/requestpagelist.php
+      admin/visitorlist.php: moved eZList::drawNavigator.
+
+2001-09-24  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * Attic/cron.php: small code standard fix
+
+    * admin/cron.php: moved cron.php
+
+    * Attic/cron.php
+      admin/Attic/archive.php: renamed file
+

@@ -881,3 +881,53 @@ Maintainer(s) : bf@ez.no
       user/templates/standard/articleview.tpl:
     Fixed loosing section id when returning from printerfriendly pageview.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-24  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezarticle.sql: SQL fix.
+
+    * admin/export.php: Export filter.
+
+    * admin/datasupplier.php
+      admin/menubox.php
+      classes/ezqdomrenderer.php:
+    Fixed export of eZ article articles to latex.
+
+2001-09-24  Bjoern Reiten  <br@ez.no>
+
+    * admin/templates/linmag/Attic/articleedit.tpl
+      admin/templates/linmag/Attic/articlelist.tpl
+      admin/templates/linmag/Attic/articlelog.tpl
+      admin/templates/linmag/Attic/articlepreview.tpl
+      admin/templates/linmag/Attic/attributeedit.tpl
+      admin/templates/linmag/Attic/attributelist.tpl
+      admin/templates/linmag/Attic/categoryedit.tpl
+      admin/templates/linmag/Attic/fileedit.tpl
+      admin/templates/linmag/Attic/filelist.tpl
+      admin/templates/linmag/Attic/formlist.tpl
+      admin/templates/linmag/Attic/imageedit.tpl
+      admin/templates/linmag/Attic/imagelist.tpl
+      admin/templates/linmag/Attic/imagemap.tpl
+      admin/templates/linmag/Attic/mailtemplate.tpl
+      admin/templates/linmag/Attic/mediaedit.tpl
+      admin/templates/linmag/Attic/medialist.tpl
+      admin/templates/linmag/Attic/search.tpl
+      admin/templates/linmag/Attic/sitemap.tpl
+      admin/templates/linmag/Attic/topiclist.tpl
+      admin/templates/linmag/Attic/typeedit.tpl
+      admin/templates/linmag/Attic/typelist.tpl
+      admin/templates/linmag/Attic/unpublishedlist.tpl:
+    removed, since it is not used in linmag.
+
+2001-09-24  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/categorylist.php:
+    $User is also supplied to the getByParent() function.
+
+    * classes/ezarticlecategory.php:
+    Current user in getByParent can now be supplied as a parameter instead of
+    being taken from eZUser::currentUser().
+
