@@ -26,10 +26,12 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
+    array( "/groupeventcalendar/categorylist/", "{intl-event_category_list}" ),
+    array( "/groupeventcalendar/categoryedit/new/", "{intl-new_event_category}" ),
     array( "/groupeventcalendar/typelist/", "{intl-event_type_list}" ),
     array( "/groupeventcalendar/typeedit/new/", "{intl-new_event_type}" ),
-	array( "/groupeventcalendar/editor/", "{intl-calendar_editor}" ),
-	array( "/groupeventcalendar/grpdspl/", "{intl-group_dspl}" )
+    array( "/groupeventcalendar/editor/", "{intl-calendar_editor}" ),
+    array( "/groupeventcalendar/grpdspl/", "{intl-group_dspl}" )
     );
 
 ?>
