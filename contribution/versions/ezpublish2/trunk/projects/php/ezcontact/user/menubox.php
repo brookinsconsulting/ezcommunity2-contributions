@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.8 2001/02/19 13:43:01 jb Exp $
+// $Id: menubox.php,v 1.9 2001/02/19 15:36:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -46,15 +46,23 @@ if ( get_class( $user ) == "ezuser" and
     $t->set_file( "menu_box_tpl", "menubox.tpl" );
     $t->set_block( "menu_box_tpl", "company_item_tpl", "company_item" );
     $t->set_block( "menu_box_tpl", "person_item_tpl", "person_item" );
+    $t->set_block( "menu_box_tpl", "company_new_tpl", "company_new" );
+    $t->set_block( "menu_box_tpl", "person_new_tpl", "person_new" );
     $t->set_block( "menu_box_tpl", "consultation_item_tpl", "consultation_item" );
 
     $t->set_var( "company_item", "" );
     $t->set_var( "person_item", "" );
+    $t->set_var( "company_new", "" );
+    $t->set_var( "person_new", "" );
     $t->set_var( "consultation_item", "" );
     if ( eZPermission::checkPermission( $user, "eZContact", "CompanyList" ) )
         $t->parse( "company_item", "company_item_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "PersonList" ) )
         $t->parse( "person_item", "person_item_tpl" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) )
+        $t->parse( "company_new", "company_new_tpl" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
+        $t->parse( "person_new", "person_new_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
         $t->parse( "consultation_item", "consultation_item_tpl" );
 

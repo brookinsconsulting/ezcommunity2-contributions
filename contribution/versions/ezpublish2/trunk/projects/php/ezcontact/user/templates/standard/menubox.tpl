@@ -21,6 +21,18 @@
 </tr>
 <tr>
 <!-- END consultation_item_tpl -->
+<!-- BEGIN company_new_tpl -->
+<tr>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/contact/company/new">{intl-company_new}</a></td>
+</tr>
+<!-- END company_new_tpl -->
+<!-- BEGIN person_new_tpl -->
+<tr>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/contact/person/new">{intl-person_new}</a></td>
+</tr>
+<!-- END person_new_tpl -->
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
