@@ -9,10 +9,18 @@
 <br />
 
 <!-- BEGIN line_item_tpl -->
-<p class="boxtext">{intl-name}:</p>
 <input type="hidden" name="ItemID" value="{item_id}">
 <input type="hidden" name="BackUrl" value="{back_url}">
-<input type="text" size="40" name="ItemName" value="{item_name}"/><br>
+
+<table>
+<tr>
+	<td>
+	<p class="boxtext">{intl-name}:</p>
+	<input type="text" size="40" name="ItemName" value="{item_name}"/><br>
+	</td>
+	{extra_type_input}
+</tr>
+</table>
 
 
 <hr noshade="noshade" size="4" />
