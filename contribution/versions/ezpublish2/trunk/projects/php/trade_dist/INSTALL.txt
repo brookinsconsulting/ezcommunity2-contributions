@@ -88,7 +88,7 @@ RewriteRule !\.(gif|css|jpg|png) /home/trade/www/admin/index.php
 
 ServerAdmin your_mail@domain.no 
 
-DocumentRoot /home/trade/admin/www 
+DocumentRoot /home/trade/www/admin 
 
 ServerName admin.trade.org 
 
