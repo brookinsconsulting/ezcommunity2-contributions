@@ -172,10 +172,6 @@ else
     include( "ezpoll/user/votebox.php" );
     ?>
 
-    <?
-    include( "ezquiz/user/menubox.php" );
-    ?>
-
    <hr noshade="noshade" size="4" />
 
     <?

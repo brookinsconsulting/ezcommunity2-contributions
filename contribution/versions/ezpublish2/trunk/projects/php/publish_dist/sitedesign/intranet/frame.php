@@ -158,8 +158,9 @@ else
     include( "ezarticle/user/smallarticlelist.php" );
     ?>
     
+
     <?
-    include( "ezpoll/user/votebox.php" );
+    include( "ezquiz/user/menubox.php" );
     ?>
 
 	<?

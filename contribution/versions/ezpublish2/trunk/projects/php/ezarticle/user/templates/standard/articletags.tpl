@@ -74,13 +74,7 @@
 <!-- END underline_tpl -->
 
 <!-- BEGIN strong_tpl -->
-<table align="left" width="30%">
-<tr>
-<td bgcolor="ddddee" >
-<font color="335522" ><strong>{contents}</strong></font>
-</td>
-</tr>
-</table>
+<font color="885522" ><strong>{contents}</strong></font>
 <!-- END strong_tpl -->
 
 <!-- BEGIN factbox_tpl -->
@@ -120,9 +114,15 @@
 <!-- END quote_tpl -->
 
 <!-- BEGIN pre_tpl -->
-<pre>
-{contents}
-</pre>
+<table width="100%" bgcolor="#eeeeee" >
+<tr>
+	<td>
+	<pre>
+	{contents}
+	</pre>
+	</td>
+</tr>
+</table>
 <!-- END pre_tpl -->
 
 <!-- BEGIN media_tpl -->
@@ -132,15 +132,21 @@
 
 <!-- BEGIN table_tpl -->
 <br clear="all" />
-<table width="100%" border="1" >
+<table width="100%" >
+<tr>
+<td bgcolor="#aaaaaa">
+<table width="100%" cellpadding="2" cellspacing="2">
 <!-- BEGIN tr_tpl -->
 <tr>
 <!-- BEGIN td_tpl -->
-	<td>
+	<td valign="top"  bgcolor="#ffffff">
 	{contents}
 	</td>
 <!-- END td_tpl -->
 </tr>
 <!-- END tr_tpl -->
+</table>
+</td>
+</tr>
 </table>
 <!-- END table_tpl -->
