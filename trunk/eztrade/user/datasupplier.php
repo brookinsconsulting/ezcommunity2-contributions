@@ -269,6 +269,15 @@ switch ( $url_array[2] )
     }
     break;
 
+	case "paypal" :
+    {
+        $orderID = $url_array[3];
+        $sessionID = $url_array[4];
+        include( "eztrade/user/paypalnotify.php" );
+
+    }
+    break;
+	
     case "confirmation" :
     {
         include( "eztrade/user/confirmation.php" );
