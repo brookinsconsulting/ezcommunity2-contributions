@@ -58,7 +58,7 @@
 	<input class="stdbutton" type="submit" name="NewType" value="{intl-add_type}" />
 	</td>
 <!-- END type_list_select_tpl -->
-	<td>&nbsp;</td>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
 	</td>

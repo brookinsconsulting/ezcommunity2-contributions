@@ -6,7 +6,7 @@
 <tr>
 	<!-- BEGIN letter_item_tpl -->
 	<td>
-	<a class="path" href="{www_dir}{index}/article/index/{letter}/">{letter}</a>
+	<a class="path" href="{www_dir}{index}/article/index/{letter}/?SectionIDOverride=2">{letter}</a>
 	</td>
 	<!-- END letter_item_tpl -->
 </tr>

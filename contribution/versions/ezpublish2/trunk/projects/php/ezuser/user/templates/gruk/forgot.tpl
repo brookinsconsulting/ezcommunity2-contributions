@@ -6,7 +6,6 @@
 
 <p>{intl-forgot-text}</p>
 
-<p>Hvis du ikke mottar e-posten innen kort tid kan det være fordi du ikke er registrert med en korrekt e-postadresse i systemet. Kontakt i så fall oss direkte.</p>
 <p class="boxtext">{intl-username}:</p>
 <input type="text" size="8" name="Login"/>
 <br /><br />

@@ -1,3 +1,4 @@
+<br /><br />
 <h2>{intl-headline}</h2>
 
 <hr noshade size="4" />
@@ -7,7 +8,7 @@
 <tr>
    	<th width="45%">{intl-topic}:</th>
     <th width="25%">{intl-author}:</th>
-    <th width="30%"><div align="right">{intl-time}:</div></th>
+    <th width="30%" class="right">{intl-time}:</th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->

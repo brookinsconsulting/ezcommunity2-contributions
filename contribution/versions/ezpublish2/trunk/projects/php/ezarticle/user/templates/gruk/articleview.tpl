@@ -34,7 +34,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="byline"><a class="byline" href="{www_dir}{index}/article/author/view/{author_id}">{author_text}</a></p>
+	<p class="byline"><a class="byline" href="mailto:{author_email}">{author_text}</a></p>
 	</td>
 	<td align="right">
 	<p class="byline">( {article_created} )</p>
