@@ -99,7 +99,7 @@ else
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td class="tdmini" width="99%">
-<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /><br />
+          <a href="<? print $GlobalSiteIni->WWWDir; ?>/"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /></a><br />
 	</td>
 	<td class="tdmini" width="1%" align="right">
 
