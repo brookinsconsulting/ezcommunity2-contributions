@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.53 2001/10/11 09:46:20 ce Exp $
+// $Id: messagelist.php,v 1.53.2.1 2001/11/15 15:07:05 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -46,6 +46,7 @@ $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateD
 
 $t->set_file( "messagelist", "messagelist.tpl" );
 
+$t->set_block( "messagelist", "header_list_tpl", "header_list" );
 $t->set_block( "messagelist", "read_access_tpl", "read_access" );
 $t->set_block( "messagelist", "no_access_tpl", "no_access" );
 
@@ -60,6 +61,7 @@ $t->set_block( "read_access_tpl", "messages_element_tpl", "messages_element" );
 $t->set_block( "read_access_tpl", "show_threads_tpl", "show_threads" );
 $t->set_block( "read_access_tpl", "hide_threads_tpl", "hide_threads" ); 
 
+$t->set_var( "header_list", "" );
 $t->setAllStrings();
 
 $session =& eZSession::globalSession();
@@ -157,10 +159,12 @@ if ( count( $categories ) > 0 )
     $t->set_var( "category_id", $category->id( ) );
     $t->set_var( "category_name", $category->name( ) );
 
+    $t->parse( "header_list", "header_list_tpl" );
+    
     // sections
     include_once( "ezsitemanager/classes/ezsection.php" );
 
-    $GlobalSectionID = eZForumCategory::sectionIDStatic( $category->id( )  );
+    $GlobalSectionID = eZForumCategory::sectionIDStatic( $category->id() );
 
     // init the section
     $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );

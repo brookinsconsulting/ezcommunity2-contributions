@@ -4,7 +4,6 @@
         <h1>{intl-message_view}</h1>
     </td>
     <td align="right">
-    <td align="right">
 	 <form action="{www_dir}{index}/forum/search/" method="get">
 	       <input class="searchbox" type="text" name="QueryString" size="10" />
 	       <input class="stdbutton" type="submit" value="{intl-search}" />
