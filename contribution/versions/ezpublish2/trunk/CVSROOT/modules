@@ -76,9 +76,8 @@ trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &
 
 # sites
 ezsystems	projects/php/ezsystems &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc &ezxml
-	projects/php/ezsystems &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc &ezxml
+
 akersmic	projects/php/akersmic &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc &ezxml
-	projects/php/ezsystems &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc &ezxml
 
 # site alias
 zez_modules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezmodule  
