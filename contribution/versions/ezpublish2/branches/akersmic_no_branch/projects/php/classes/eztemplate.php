@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztemplate.php,v 1.46.2.1.4.1 2002/03/05 15:59:26 ce Exp $
+// $Id: eztemplate.php,v 1.46.2.1.4.2 2002/03/05 16:01:50 ce Exp $
 //
 // Definition of eZTemplate class
 //
@@ -473,7 +473,7 @@ class eZTemplate
         $section =& eZSection::globalSectionObject( $GlobalSectionID );
         if ( $section->id() != 0 )
         {
-            $this->set_var( "global_section_name", $section->name() );
+            $this->set_var( "global_section_name", strtolower( $section->name() ) );
         }
         else
         {
