@@ -1,14 +1,14 @@
 <?php
 //
-// $Id: todoedit.php,v 1.23 2001/07/18 15:10:49 jhe Exp $
+// $Id: todoedit.php,v 1.24 2001/07/20 11:36:07 jakobn Exp $
 //
 // Definition of todo list.
 //
 // Created on: <04-Sep-2000 16:53:15 ce>
-// Modified on: <28-Mar-2001 21:08:00> by: Wojciech potaczek <Wojciech@Potaczek.pl> for todo status handling
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
