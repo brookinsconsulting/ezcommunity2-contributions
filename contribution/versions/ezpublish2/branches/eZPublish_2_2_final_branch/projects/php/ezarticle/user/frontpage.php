@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.3 2001/11/01 12:57:14 master Exp $
+// $Id: frontpage.php,v 1.28.2.4 2001/11/01 13:46:23 master Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -118,6 +118,9 @@ $productCount = 0;
 $adCount = 0;
 
 //$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+
+// section
+$t->set_var( "section_id", "$GlobalSectionID" );
 
 $rows =& $sectionObject->frontPageRows();
 

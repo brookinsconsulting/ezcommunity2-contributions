@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleheaderlist.php,v 1.11 2001/08/01 16:45:33 kaid Exp $
+// $Id: articleheaderlist.php,v 1.11.2.1 2001/11/01 13:46:51 master Exp $
 //
 // Created on: <26-Oct-2000 21:15:58 bf>
 //
@@ -31,10 +31,16 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
+
+$GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articleheaderlist.php" );
