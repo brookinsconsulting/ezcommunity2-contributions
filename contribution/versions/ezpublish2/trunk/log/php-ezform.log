@@ -755,3 +755,33 @@ Maintainer(s) : pkej@ez.no
       admin/templates/standard/pageedit.tpl
       classes/ezformelement.php: added updates
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/pageedit.php
+      sql/mysql/ezform.sql: small bugfixes
+
+    * admin/fixedvalues.php
+      admin/pageedit.php: fixed bug with elementtype
+
+    * classes/ezformtable.php: small bug
+
+    * admin/templates/standard/formrenderer.tpl: fixed small bug in heading
+
+    * admin/fixedvalues.php
+      classes/ezformelement.php: fixed bug
+
+    * admin/templates/standard/formrenderer.tpl:
+    removed header in drop-down, radio and checkbox
+
+    * user/formview.php
+      admin/formpreview.php
+      admin/pageedit.php
+      admin/tableedit.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformelement.php
+      classes/ezformrenderer.php: several bugfixes
+

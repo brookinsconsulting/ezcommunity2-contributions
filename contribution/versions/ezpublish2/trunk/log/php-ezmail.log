@@ -423,3 +423,27 @@ Maintainer(s) : fh@ez.no
       user/mailview.php
       user/menubox.php: Some restructuring, you can now read your IMAP mail.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-12-20  fh  <fh@zev.ez.no>
+
+    * classes/ezimapmail.php
+      classes/ezimapmailfolder.php
+      user/accountedit.php
+      user/configure.php
+      user/intl/en_GB/accountedit.php.ini
+      user/templates/standard/accountedit.tpl
+      user/templates/standard/configure.tpl: - setup IMAP accounts
+    - Read mail from all folder types
+    - functions for create/move/delete folders exist but are not in
+    UI yet.
+
+    * classes/ezimapmail.php
+      classes/ezimapmailfolder.php
+      classes/ezmailfunctions.php
+      classes/imapfunctions.php
+      user/datasupplier.php
+      user/maillist.php: Multiple folders now shows correct mail.
+

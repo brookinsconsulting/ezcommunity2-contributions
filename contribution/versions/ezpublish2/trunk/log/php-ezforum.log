@@ -925,3 +925,11 @@ Maintainer(s) : jhe@ez.no
     * user/templates/standard/messagesimplelist.tpl:
     added referer to hidden variable.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-12-20  Baard Farstad  <bf@ez.no>
+
+    * user/messagereply.php: Fixed correct reply address.
+
