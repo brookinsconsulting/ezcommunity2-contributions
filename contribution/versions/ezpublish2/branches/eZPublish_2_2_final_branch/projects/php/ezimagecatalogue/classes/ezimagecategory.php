@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44.2.3 2002/04/26 14:59:10 jb Exp $
+// $Id: ezimagecategory.php,v 1.44.2.4 2002/05/12 19:42:17 br Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -631,9 +631,9 @@ class eZImageCategory
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
+                    $groupSQL .= "( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
                 else
-                    $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
+                    $groupSQL .= " ( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
                 
                 $i++;
             }
@@ -644,28 +644,40 @@ class eZImageCategory
         if ( $usePermission )
         {
             if ( $check_write )
-                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' AND Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND ";
+                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND
+                                    Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' AND
+                                    Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND
+                                  Image.ID = Permission.ObjectID AND ";
             else
-                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
+                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND
+                                    Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND
+                                  Image.ID = Permission.ObjectID AND ";
+
+            $fromTablePermissionsSQL = ", eZImageCatalogue_ImagePermission as Permission, " .
+                 "eZImageCatalogue_CategoryPermission as CategoryPermission";
+
         }
         else
+        {
             $permissionSQL = "";
-        
+            $fromTablePermissionsSQL = "";
+        }
+
         $db->query_single( $file_array, "
                 SELECT COUNT( DISTINCT Image.ID ) AS Count
                 FROM eZImageCatalogue_Image as Image,
                      eZImageCatalogue_Category,
-                     eZImageCatalogue_ImageCategoryLink,
-                     eZImageCatalogue_ImagePermission as Permission,
-                     eZImageCatalogue_CategoryPermission as CategoryPermission
+                     eZImageCatalogue_ImageCategoryDefinition,
+                     eZImageCatalogue_ImageCategoryLink
+                     $fromTablePermissionsSQL
                 WHERE $permissionSQL
-                      eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
-                      AND eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
-                      AND eZImageCatalogue_Category.ID='$this->ID'",
-
-        array( "Limit" => $limit,
-               "Offset" => $offset ) );
-
+                      ( eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
+                        OR eZImageCatalogue_ImageCategoryDefinition.ImageID = Image.ID )
+                      AND ( eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
+                            OR eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryDefinition.CategoryID )
+                      AND eZImageCatalogue_Category.ID='$this->ID'
+                      AND eZImageCatalogue_ImageCategoryDefinition.CategoryID='$this->ID'
+                      AND eZImageCatalogue_ImageCategoryLink.CategoryID='$this->ID'" );
         return $file_array["Count"];
     } 
 
@@ -702,9 +714,9 @@ class eZImageCategory
                foreach ( $groups as $group )
                {
                    if ( $i == 0 )
-                       $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
+                       $groupSQL .= "( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
                    else
-                       $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
+                       $groupSQL .= " ( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
                    
                    $i++;
                }
@@ -719,10 +731,12 @@ class eZImageCategory
            if ( $check_write )
                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
                    "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' AND " .
-                   "Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND ";
+                   "Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND " .
+                   "Image.ID = Permission.ObjectID AND ";
            else
                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
-                   "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
+                   "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) AND " . 
+                   "Image.ID = Permission.ObjectID AND ";
        }
        else
        {
@@ -735,18 +749,17 @@ class eZImageCategory
                        Image.OriginalFileName
                 FROM eZImageCatalogue_Image as Image,
                      eZImageCatalogue_Category,
-                     eZImageCatalogue_ImageCategoryLink
+                     eZImageCatalogue_ImageCategoryLink,
+                     eZImageCatalogue_ImageCategoryDefinition
                      $fromTablePermissionsSQL
                 WHERE $permissionSQL
                       eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
                       AND eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
                       AND eZImageCatalogue_Category.ID='$catID'
-
                GROUP BY Image.ID, Image.OriginalFileName ORDER BY Image.OriginalFileName",
        array( "Limit" => $limit,
               "Offset" => $offset ) );
 
-       
        for ( $i = 0; $i < count( $file_array ); $i++ )
        {
            $return_array[$i] = new eZImage( $file_array[$i][$db->fieldName( "ImageID" )], false );

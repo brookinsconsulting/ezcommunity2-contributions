@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.1.2.1 2001/11/15 14:06:56 br Exp $
+// $Id: imageedit.php,v 1.1.2.2 2002/05/12 19:42:17 br Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -49,7 +49,7 @@ if ( isSet( $NewCategory ) )
 
 if ( isSet( $Cancel ) )
 {
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/$CurrentCategoryID/" );
     exit();
 }
 
@@ -323,7 +323,9 @@ if ( $Action == "Update" && $error == false )
     foreach ( $categories as $categoryItem )
     {
         if( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", 'w' ) )
+        {
             eZImageCategory::addImage( $image, $categoryItem );
+        }
     }
 
     $category->addImage( $image );
@@ -422,7 +424,7 @@ if ( $Action == "New" || ( $Action == "Insert" && $error == true ) )
 
     }
         
-// author select
+ // author select
 
     $author = new eZAuthor();
     $authorArray = $author->getAll();
@@ -628,6 +630,8 @@ foreach ( $groups as $group )
 
     $t->set_var( "is_write_selected1", "" );
     $t->set_var( "is_read_selected1", "" );
+    $t->set_var( "read_everybody", "" );
+    $t->set_var( "write_everybody", "" );
 
     if ( $readGroupArrayID )
     {
@@ -647,10 +651,9 @@ foreach ( $groups as $group )
             }
         }
     }
-
-    if ( $Action = "new" )
+    if ( $Action == "new" )
         $t->set_var( "read_everybody", "selected" );
-        $t->parse( "read_group_item", "read_group_item_tpl", true );
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
 
     if ( $writeGroupArrayID )
     {
