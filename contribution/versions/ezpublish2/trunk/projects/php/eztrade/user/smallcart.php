@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.3 2000/12/12 16:18:29 bf Exp $
+// $Id: smallcart.php,v 1.4 2000/12/13 10:40:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -30,7 +30,7 @@ include_once( "classes/ezcurrency.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
