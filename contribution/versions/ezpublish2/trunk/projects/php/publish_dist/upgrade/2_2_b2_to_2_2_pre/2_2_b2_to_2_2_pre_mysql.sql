@@ -83,3 +83,5 @@ INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
 INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select');
 INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
 INSERT INTO eZForm_FormElementType VALUES (5,'checkbox_item','HTML CheckBox');
+
+ALTER TABLE eZLink_Hit CHANGE RemoteIP RemoteIP varchar(15);
