@@ -33,6 +33,16 @@
 </tr>
 </table>
 
+<p class="boxtext">{intl-bug_reporter}:</p>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td class="bglight">
+	{reporter_name_value}
+	</td>
+</tr>
+</table>
+
+
 <p class="boxtext">{intl-bug_description}:</p>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
@@ -41,6 +51,7 @@
 	</td>
 </tr>
 </table>
+<br />
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
