@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.10 2001/09/28 09:36:51 br Exp $
+// $Id: unassigned.php,v 1.11 2001/10/12 12:59:22 br Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -79,8 +79,8 @@ if ( isSet( $Update ) )
     {
         if ( ( $CategoryArrayID[$i] != "-1" ) && ( is_numeric( $CategoryArrayID[$i] ) ) )
         {
-            $image = new eZImage( $ImageArrayID[$Offset + $i] );
-            $category = new eZImageCategory( $CategoryArrayID[$Offset + $i] );
+            $image = new eZImage( $ImageArrayID[$i] );
+            $category = new eZImageCategory( $CategoryArrayID[$i] );
             $category->addImage( &$image );
         }
     }
