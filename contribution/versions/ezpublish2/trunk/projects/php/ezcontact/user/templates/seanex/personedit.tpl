@@ -59,6 +59,10 @@
 <li>{intl-error_address}
 <!-- END error_address_item_tpl -->
 
+<!-- BEGIN error_address_item_tpl -->
+<li>{intl-error_loginname_exists}
+<!-- END error_address_item_tpl -->
+
 </ul>
 <!-- END errors_tpl -->
  
@@ -223,14 +227,10 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" name="AddCV" type="submit" value="{intl-add_cv}" />
-
-<hr noshade="noshade" size="4" />
-
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
-	<input class="okbutton" type="submit" value="{intl-ok}" />
+	<input class="stdbutton" name="AddCV" type="submit" value="{intl-ok}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>

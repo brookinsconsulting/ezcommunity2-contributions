@@ -76,6 +76,8 @@ $t->set_block( "errors_tpl", "error_passwordrepeat_item_tpl", "error_passwordrep
 $t->set_block( "errors_tpl", "error_password_too_short_item_tpl", "error_password_too_short_item" );
 $t->set_block( "errors_tpl", "error_email_not_valid_item_tpl", "error_email_not_valid_item" );
 $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
+$t->set_block( "errors_tpl", "error_userexists_item_tpl", "error_userexists_item" );
+
 
 $t->set_var( "firstname", "" );
 $t->set_var( "lastname", "" );
@@ -147,6 +149,7 @@ if( $Action == "insert" || $Action == "update" )
     $t->set_var( "error_passwordrepeat_item", "" );
     $t->set_var( "error_passwordmatch_item", "" );
     $t->set_var( "error_address_item", "" );
+    $t->set_var( "error_loginname_item", "&nbsp;" );
     
     if( empty( $Online[0] ) )
     {
@@ -188,8 +191,19 @@ if( $Action == "insert" || $Action == "update" )
     
     if( empty( $LoginName ) && empty( $UserID ) )
     {
+        
         $t->parse( "error_loginname_item", "error_loginname_item_tpl" );
         $error = true;
+    }
+    if ( $LoginName != 0 )
+    {
+        $user = new eZUser();
+        $user->setLogin( $Login );
+            if ( $user->exists( $user->login() ) )
+            {
+                $t->parse( "error_userexists_item", "error_userexists_item_tpl" );
+                $error = true;
+            }
     }
         
     if( empty( $Password ) && empty( $UserID ) )
