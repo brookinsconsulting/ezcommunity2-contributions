@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.8 2001/06/28 08:14:53 bf Exp $
+// $Id: ezarticletool.php,v 1.9 2001/07/11 14:15:15 bf Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -161,7 +161,7 @@ class eZArticleTool
         $articleCategory = $article->categoryDefinition();
         $articleCategories = $article->categories();
         $bulkMailCategories = array();
-        
+
         $bulkMailCategory = $articleCategory->bulkMailCategory();
         if( $bulkMailCategory != false )
             $bulkMailCategories[] = $bulkMailCategory;

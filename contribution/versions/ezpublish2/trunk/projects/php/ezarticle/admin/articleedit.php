@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.103 2001/07/11 07:38:30 bf Exp $
+// $Id: articleedit.php,v 1.104 2001/07/11 14:15:15 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -95,7 +95,8 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         {
             $article = new eZArticle( );
             $user =& eZUser::currentUser();
-            $article->setAuthor( $user );            
+            $article->setAuthor( $user );
+
         }
 
         $article->setName( $Name );
@@ -126,6 +127,85 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         else
             $article->setDiscuss( false );
 
+        // to get ID
+        $article->store();
+
+        // add to categories
+        $category = new eZArticleCategory( $CategoryID );
+        $article->setCategoryDefinition( $category );
+            
+
+        $article->setManualKeywords( $Keywords );
+
+        $categoryArray =& $article->categories();
+
+            // Calculate new and unused categories
+        $old_maincategory = $article->categoryDefinition();
+        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+        $article->categories( false ) ) );
+
+        $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+        $remove_categories = array_diff( $old_categories, $new_categories );
+        $add_categories = array_diff( $new_categories, $old_categories );
+
+        $categoryIDArray = array();
+
+        foreach ( $categoryArray as $cat )
+        {
+            $categoryIDArray[] = $cat->id();
+        }
+
+        // clear the cache files.
+        eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
+
+        foreach ( $remove_categories as $categoryItem )
+        {
+            eZArticleCategory::removeArticle( $article, $categoryItem );
+        }
+
+        // add to categories
+        $category = new eZArticleCategory( $CategoryID );
+        $category->addArticle( $article );
+        $article->setCategoryDefinition( $category );
+
+        foreach ( $add_categories as $categoryItem )
+        {
+            eZArticleCategory::addArticle( $article, $categoryItem );
+        }
+        
+
+        // add check for publishing rights here
+        if ( $IsPublished == "on" )
+        {
+            // check if the article is published now
+            if ( $article->isPublished() == false )
+            {
+                eZArticleTool::notificationMessage( $article );
+            }
+
+            $article->setIsPublished( true );
+        }
+        else
+        {
+            $article->setIsPublished( false );
+        }
+        
+        // Time publishing
+        if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
+        {
+            $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
+            
+            $article->setStartDate( &$startDate );
+        }
+        
+        if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
+        {
+            $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
+            
+            $article->setStopDate( &$stopDate );
+        }            
+        
         eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
         if( isset( $WriteGroupArray ) )
         {
@@ -167,44 +247,9 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
         }
 
-        // add check for publishing rights here
-        if ( $IsPublished == "on" )
-        {
-            // check if the article is published now
-            if ( $article->isPublished() == false )
-            {
-                eZArticleTool::notificationMessage( $article );
-            }
-
-            $article->setIsPublished( true );
-        }
-        else
-        {
-            $article->setIsPublished( false );
-        }
-
-        // Time publishing
-
-        print( $StartMonth . " " .  $StartDay );
-        if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
-        {
-            $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
-            
-            $article->setStartDate( &$startDate );
-            print( "valid" );
-        }
         
-        if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
-        {
-            $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
-            
-            $article->setStopDate( &$stopDate );
-        }
-
         // check if the contents is parseable
         if ( xmltree( $contents ) )
-        // TODO add document validation here:
-    //    if ( true )
         {
             // generate keywords
             $contents = strip_tags( $contents );
@@ -212,58 +257,20 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             $contents_array =& split( " ", $contents );
             $contents_array = array_unique( $contents_array );
 
+
             $keywords = "";
             foreach ( $contents_array as $word )
             {
                 $keywords .= $word . " ";
             }
 
+
             $article->setKeywords( $keywords );
 
 
             $article->store();
             $ArticleID = $article->id();
-            // add to categories
-            $category = new eZArticleCategory( $CategoryID );
-            $article->setCategoryDefinition( $category );
 
-            $article->setManualKeywords( $Keywords );
-
-            $categoryArray =& $article->categories();
-
-            // Calculate new and unused categories
-            $old_maincategory = $article->categoryDefinition();
-            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-                                                          $article->categories( false ) ) );
-
-            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
-            $remove_categories = array_diff( $old_categories, $new_categories );
-            $add_categories = array_diff( $new_categories, $old_categories );
-
-            $categoryIDArray = array();
-
-            foreach ( $categoryArray as $cat )
-            {
-                $categoryIDArray[] = $cat->id();
-            }
-
-            // clear the cache files.
-            eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
-
-            foreach ( $remove_categories as $categoryItem )
-            {
-                eZArticleCategory::removeArticle( $article, $categoryItem );
-            }
-
-            // add to categories
-            $category = new eZArticleCategory( $CategoryID );
-            $article->setCategoryDefinition( $category );
-
-            foreach ( $add_categories as $categoryItem )
-            {
-                eZArticleCategory::addArticle( $article, $categoryItem );
-            }
 
             if ( isset( $AddItem ) )
             {
@@ -319,15 +326,14 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
                 exit();
             }
 
-
-            // get the category to redirect to
+            // get the category to redirect to            
             $category = $article->categoryDefinition( );
             $categoryID = $category->id();
 
             if ( $article->isPublished() )
-                eZHTTPTool::header( "Location: /article/archive/$oldCategoryID/" );
+                eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
             else
-                eZHTTPTool::header( "Location: /article/unpublished/$oldCategoryID/" );
+                eZHTTPTool::header( "Location: /article/unpublished/$categoryID/" );
             exit();
         }
         else

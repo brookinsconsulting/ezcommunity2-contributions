@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.70 2001/06/29 07:08:37 bf Exp $
+// $Id: ezarticlecategory.php,v 1.71 2001/07/11 14:15:15 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -711,6 +711,8 @@ class eZArticleCategory
     */
     function addArticle( $value, $categoryid = false )
     {
+        $db =& eZDB::globalDatabase();
+
         if ( get_class( $value ) == "ezarticle" )
             $articleID = $value->id();
         else if ( is_numeric( $value ) )
@@ -721,7 +723,14 @@ class eZArticleCategory
         if ( !$categoryid )
             $categoryid = $this->ID;
 
-        $db =& eZDB::globalDatabase();
+        // check if article already exists in category.
+        $db->array_query( $qry, "SELECT ID FROM eZArticle_ArticleCategoryLink
+                                 WHERE CategoryID='$categoryid' AND ArticleID='$articleID'" );
+
+        if ( count( $qry ) > 0 )
+            return false;
+        
+        
         $db->array_query( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
                                  WHERE CategoryID='$categoryid'
                                  ORDER BY Placement DESC", array( "Limit" => 1, "Offset" => 0 ) );
