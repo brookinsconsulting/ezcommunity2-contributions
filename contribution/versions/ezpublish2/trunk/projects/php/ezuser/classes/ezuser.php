@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.47 2001/01/30 17:25:45 jb Exp $
+// $Id: ezuser.php,v 1.48 2001/02/02 13:57:03 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -534,10 +534,11 @@ class eZUser
     {
         $user =& $GLOBALS["eZCurrentUserObject"];
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( ( get_class( $user ) == "ezuser" ) and ( is_numeric( $user->id() ) ) )
         {
             return $user;
         }
+        
 
         $session =& eZSession::globalSession();
 
@@ -556,6 +557,7 @@ class eZUser
        
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
+                $user = false;
                 $user->logout();
             }
             else            

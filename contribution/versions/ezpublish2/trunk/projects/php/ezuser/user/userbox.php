@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.19 2001/01/22 14:43:02 jb Exp $
+// $Id: userbox.php,v 1.20 2001/02/02 13:57:03 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -26,11 +26,9 @@
 //require( "ezuser/user/usercheck.php" );
 
 
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-// $ini = new INIFile( "site.ini" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
@@ -43,6 +41,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 $user = eZUser::currentUser();
+
 if ( !$user ) 
 {
     $t = new eZTemplate( "ezuser/user/" .  $ini->read_var( "eZUserMain", "TemplateDir" ),
