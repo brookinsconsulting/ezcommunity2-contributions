@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.17 2000/07/25 20:07:50 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.18 2000/07/25 20:09:48 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -72,7 +72,7 @@ class eZforumMessage
             $optstr = "Parent='$Parent'";
         }
             
-        $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice
+        $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
                  FROM MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime DESC";
             
