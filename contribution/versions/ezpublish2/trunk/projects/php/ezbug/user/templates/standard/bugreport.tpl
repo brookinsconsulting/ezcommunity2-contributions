@@ -6,6 +6,10 @@
 <span class="error">{intl-all_fields_error}</span>
 <!-- END all_fields_error_tpl -->
 
+<!-- BEGIN email_error_tpl -->
+<span class="error">{intl-email_error}</span>
+<!-- END email_error_tpl -->
+
 <hr noshade="noshade" size="4">
 
 <br />

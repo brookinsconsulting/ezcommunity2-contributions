@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.4 2000/12/03 16:53:04 bf-cvs Exp $
+// $Id: bugreport.php,v 1.5 2000/12/03 17:16:15 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -47,22 +47,25 @@ $t->set_block( "bug_report_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "bug_report_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "bug_report_tpl", "email_address_tpl", "email_address" );
 $t->set_block( "bug_report_tpl", "all_fields_error_tpl", "all_fields_error" );
+$t->set_block( "bug_report_tpl", "email_error_tpl", "email_error" );
 
 if ( $Action == "Insert" )
 {
     $user = eZUser::currentUser();
 
-    if ( $user )
+    if ( ( $Name != "" ) && ( $Description != "" ) )
     {
-        if ( ( $Name != "" ) && ( $Description != "" ) )
+        $category = new eZBugCategory( $CategoryID );
+        $module = new eZBugModule( $ModuleID );
+        
+        $bug = new eZBug();
+        $bug->setName( $Name );
+        $bug->setDescription( $Description );
+        
+        if ( $user )
         {
-            $category = new eZBugCategory( $CategoryID );
-            $module = new eZBugModule( $ModuleID );
-            
-            $bug = new eZBug();
-            $bug->setName( $Name );
-            $bug->setDescription( $Description );
             $bug->setUser( $user );
+            
             $bug->setIsHandled( false );
             $bug->store();
             
@@ -74,8 +77,26 @@ if ( $Action == "Insert" )
         }
         else
         {
-            $AllFieldsError = true;
-        }
+            if ( $bug->setUserEmail( $Email ) )
+            {
+                $bug->setIsHandled( false );
+                $bug->store();
+                
+                $category->addBug( $bug );
+                $module->addBug( $bug );
+                
+                Header( "Location: /bug/reportsuccess/" );
+                exit();                
+            }
+            else
+            {
+                $EmailError = true;                
+            }            
+        }       
+    }
+    else
+    {
+        $AllFieldsError = true;
     }
 }
 
@@ -86,6 +107,15 @@ if ( $AllFieldsError == true )
 else
 {
     $t->set_var( "all_fields_error", "" );
+}
+
+if ( $EmailError == true )
+{
+    $t->parse( "email_error", "email_error_tpl" );
+}
+else
+{
+    $t->set_var( "email_error", "" );
 }
 
 $category = new eZBugCategory();

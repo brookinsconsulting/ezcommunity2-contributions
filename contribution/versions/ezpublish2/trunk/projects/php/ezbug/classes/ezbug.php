@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.4 2000/12/03 16:31:34 bf-cvs Exp $
+// $Id: ezbug.php,v 1.5 2000/12/03 17:16:15 bf-cvs Exp $
 //
 // Definition of eZBug class
 //
@@ -66,6 +66,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezmail.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -117,6 +118,7 @@ class eZBug
                                  IsClosed='$this->IsClosed',
                                  PriorityID='$this->PriorityID',
                                  StatusID='$this->StatusID',
+                                 UserEmail='$this->UserEmail',
                                  UserID='$this->UserID'" );
             $this->ID = mysql_insert_id();
         }
@@ -130,6 +132,7 @@ class eZBug
                                  Created='Created',
                                  PriorityID='$this->PriorityID',
                                  StatusID='$this->StatusID',
+                                 UserEmail='$this->UserEmail',
                                  UserID='$this->UserID'
                                  WHERE ID='$this->ID'" );
         }
@@ -175,6 +178,7 @@ class eZBug
                 $this->Name = $module_array[0][ "Name" ];
                 $this->Description = $module_array[0][ "Description" ];
                 $this->UserID = $module_array[0][ "UserID" ];
+                $this->UserEmail = $module_array[0][ "UserEmail" ];
                 $this->Created = $module_array[0][ "Created" ];
                 $this->IsHandled = $module_array[0][ "IsHandled" ];
                 $this->IsClosed = $module_array[0][ "IsClosed" ];
@@ -344,6 +348,27 @@ class eZBug
     }
 
     /*!
+      Sets the email address to the user.
+
+      False is returned if the e-mail address is not valid.
+    */
+    function setUserEmail( $mail )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       
+       if ( eZMail::validate( $mail ) )
+       {
+           $this->UserEmail = $mail;
+           $ret = true;
+       }
+       
+       return $ret;
+    }
+    
+    /*!
       Sets the description of the module.
     */
     function setDescription( $value )
@@ -494,6 +519,7 @@ class eZBug
     var $IsClosed;
     var $Created;
     var $UserID;
+    var $UserEmail;
     var $PriorityID;
     var $StatusID;    
     
