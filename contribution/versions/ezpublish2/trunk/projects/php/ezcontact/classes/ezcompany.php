@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.45 2000/12/14 11:03:50 ce Exp $
+// $Id: ezcompany.php,v 1.46 2000/12/14 11:18:12 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -194,7 +194,7 @@ class eZCompany
         $company_array = array();
         $return_array = array();
 
-        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='y$categoryID'" );
+        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
 
             foreach( $company_array as $companyItem )
             {

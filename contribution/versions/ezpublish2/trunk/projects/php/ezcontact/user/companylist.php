@@ -25,6 +25,7 @@ $t->set_file( array(
     "company_page_tpl" => "companylist.tpl" ) );
 
 $t->set_block( "company_page_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "company_page_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
 $t->set_block( "company_page_tpl", "company_list_tpl", "company_list" );
@@ -79,9 +80,43 @@ else
     $t->parse( "category_list", "category_list_tpl", true );
 }
 
+if ( $CategoryID )
+{
+    $category = new eZCompanyType( $CategoryID );
+
+    if ( $category->imageID() != 0 )
+    {
+        $image = new eZImage( $category->imageID() );
+
+        $ini = new INIFile( "site.ini" );
+        $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
+        $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
+    
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+    
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth = $variation->width();
+        $imageHeight = $variation->height();
+        $imageCaption = $image->caption();
+
+//    print( $imageURL );
+
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "image_item", "" );
+    }
+}
+
 $company = new eZCompany();
 
 $companyList = $company->getByCategory( $CategoryID );
+
 if ( count( $companyList ) == 0 )
 {
     $t->set_var( "error_msg", $errorIni->read_var( "strings", "error_msg" ) );
