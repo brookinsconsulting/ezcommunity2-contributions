@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkedit.php,v 1.66 2001/10/17 14:26:03 br Exp $
+// $Id: linkedit.php,v 1.67 2002/02/12 12:09:19 br Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -644,6 +644,9 @@ $catCount = count( $linkCategoryList );
 $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 $i = 0;
 
+$t->set_var( "link_category", "" );
+$t->set_var( "multiple_category", "" );
+
 foreach( $linkCategoryList as $linkCategoryItem )
 {
     $t->set_var("link_category_id", $linkCategoryItem[0]->id() );
@@ -686,6 +689,8 @@ $types = $type->getAll();
 if ( isset( $TypeID ) )
     $linkType = new eZLinkType( $TypeID );
 
+$t->set_var( "type", "" );
+
 foreach ( $types as $typeItem )
 {
     if ( get_class( $linkType ) == "ezlinktype"  )
@@ -726,7 +731,7 @@ if ( get_class( $linkType) == "ezlinktype" )
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
 
-        if ( $Action == "new" )
+        if ( isSet( $AttributeValue[$i] ) && $attribute->id() == $AttributeID[$i] )
             $t->set_var( "attribute_value", $AttributeValue[$i] );
         else
             $t->set_var( "attribute_value", $attribute->value( $editLink ) );
