@@ -64,7 +64,6 @@
  
 <!-- BEGIN person_item_tpl -->
 <h2>{intl-personal_headline}</h2>
-
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
 	    <td width="50%">
@@ -105,8 +104,8 @@
 </tr>
 </table>
 
-<p class="boxtext">{intl-comment_headline}:</p>
-<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
+<!--- <p class="boxtext">{intl-comment_headline}:</p>
+<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea> --->
 <input type="hidden" name="ContactTypeID" value="{cv_contact_type_id}" />
 <input type="hidden" name="UserID" value="{user_id}" />
 <!-- END person_item_tpl -->
