@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquery.php,v 1.8 2001/01/25 11:43:34 jb Exp $
+// $Id: ezquery.php,v 1.9 2001/01/25 13:49:29 jb Exp $
 //
 // Definition of eZQuery class
 //
@@ -67,6 +67,8 @@ class eZQuery
         {
             $queryArray[] = $match;
         }
+        if ( count( $queryArray ) == 0 )
+            $queryArray[] = "";
 
         $normalArray = array();
         $addArray = array();
