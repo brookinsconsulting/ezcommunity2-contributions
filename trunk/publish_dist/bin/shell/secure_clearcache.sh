@@ -17,6 +17,7 @@ ezuser
 ezaddress
 ezcalendar/user
 ezform
+ezquiz
 "
 
 for dir in $dirs
