@@ -74,15 +74,15 @@
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<td class="{td_class}">
-	{image_size}Kb
+	{image_size}&nbsp;Kb
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="/imagecatalogue/download/{image_id}/{original_image_name}/">download<br />{original_image_name}</a><br />
+	<a href="/imagecatalogue/download/{image_id}/{original_image_name}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-dl','','/ezimagecatalogue/user/{image_dir}/downloadminimrk.gif',1)"><img name="ezimg{image_id}-dl" border="0" src="/ezimagecatalogue/user/{image_dir}/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a><br />
 	</td>
 	<!-- END detail_read_tpl -->
 	<!-- BEGIN detail_write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top">{image_id}</a>
+	<a href="/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
@@ -97,43 +97,65 @@
 
 <hr noshade="noshade" size="4" />
 
-<table cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN write_menu_tpl -->
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-        <td>
+    <td>
 	<input class="stdbutton" type="submit" name="NewImage" value="{intl-new_image}">
 	</td>
-        <td>
+	<td>&nbsp;</td>
+    <td>
 	<input class="stdbutton" type="submit" name="NewCategory" value="{intl-new_category}">
 	</td>
-        <!-- BEGIN delete_categories_button_tpl -->
-        <td>
+</tr>
+</table>
+
+<!-- BEGIN default_delete_tpl -->
+
+<hr noshade="noshade" size="4" />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+
+    <!-- BEGIN delete_categories_button_tpl -->
+    <td>
 	<input class="stdbutton" type="submit" name="DeleteCategories" value="{intl-delete_categories}">
 	</td>
-        <!-- END delete_categories_button_tpl -->
-        <!-- BEGIN delete_images_button_tpl -->
-        <td>
+	<td>&nbsp;</td>
+	<!-- END delete_categories_button_tpl -->
+
+    <!-- BEGIN delete_images_button_tpl -->
+    <td>
 	<input class="stdbutton" type="submit" name="DeleteImages" value="{intl-delete_images}">
 	</td>
-        <!-- END delete_images_button_tpl -->
-</tr>
-<!-- END write_menu_tpl -->
-</form>
-<form method="post" action="/imagecatalogue/image/list/{main_category_id}/" enctype="multipart/form-data">
-<input type="hidden" name="Detail" value="{is_detail_view}">
-<tr>
-        <!-- BEGIN normal_view_button -->
-        <td>
-	<input class="stdbutton" type="submit" name="NormalView" value="{intl-normal_view}">
-	</td>
-        <!-- END normal_view_button -->
-        <!-- BEGIN detail_view_button -->
-        <td>
-	<input class="stdbutton" type="submit" name="DetailView" value="{intl-detail_view}">
-	</td>
-        <!-- END detail_view_button -->
+    <!-- END delete_images_button_tpl -->
 
 </tr>
-</form>
 </table>
+<!-- END default_delete_tpl -->
+
+<!-- END write_menu_tpl -->
+</form>
+
+
+<form method="post" action="/imagecatalogue/image/list/{main_category_id}/" enctype="multipart/form-data">
+<input type="hidden" name="Detail" value="{is_detail_view}">
+
+<!-- BEGIN normal_view_button -->
+
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="NormalView" value="{intl-normal_view}">
+
+<!-- END normal_view_button -->
+
+<!-- BEGIN detail_view_button -->
+
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="DetailView" value="{intl-detail_view}">
+
+<!-- END detail_view_button -->
+
+</form>
 
