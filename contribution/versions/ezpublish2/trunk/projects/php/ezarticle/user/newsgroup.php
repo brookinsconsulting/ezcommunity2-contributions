@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsgroup.php,v 1.5 2001/08/24 10:26:37 bf Exp $
+// $Id: newsgroup.php,v 1.6 2001/09/07 11:22:05 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -76,6 +76,8 @@ $t->set_block( "category_item_tpl", "end_without_break_tpl", "end_without_break"
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "no_image_tpl", "no_image" );
 
+// makes the section ID available in articleview template
+$t->set_var( "section_id", $GlobalSectionID );
 
 // image dir
 $t->set_var( "image_dir", $ImageDir );
@@ -117,6 +119,9 @@ foreach( $categoryList as $category )
         $t->set_var( "article_name", $article->name() );
         $t->set_var( "article_id", $article->id() );
 
+        $renderer = new eZArticleRenderer( $article );
+        $t->set_var( "article_intro", $renderer->renderIntro(  ) );
+        
         $published =& $article->published();
         $published =& $published->date();        
 
@@ -154,10 +159,6 @@ foreach( $categoryList as $category )
         {
             $t->parse( "no_image", "no_image_tpl" );
         }
-
-        $renderer = new eZArticleRenderer( $article );
-        
-        $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
 
         $t->parse( "article_item", "article_item_tpl", true );
