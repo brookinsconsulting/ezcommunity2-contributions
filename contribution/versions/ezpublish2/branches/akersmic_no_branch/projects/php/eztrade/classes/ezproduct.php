@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.8 2002/01/18 11:54:15 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.9 2002/01/18 11:55:37 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1603,8 +1603,8 @@ class eZProduct
 
         if ( !is_numeric( $productTypeID ) )
             $productTypeID = 0;
-
-
+            
+             
         // Build the ORDER BY
         $OrderBy = "eZTrade_ProductWordLink.Frequency DESC";
         switch( $sortMode )
@@ -1631,12 +1631,12 @@ class eZProduct
         // stop word frequency
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZTradeMain", "StopWordFrequency" );
-
+       
         $query = new eZQuery( "eZTrade_Word.Word", $queryText );
         $query->setIsLiteral( true );
 //        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
 //        $query->setStopWordPercent( 1 );
-        $searchSQL = $query->buildQuery();
+        $searchSQL = $query->buildQuery();        
 
         {
             $queryArray = explode( " ", trim( $queryText ) );
@@ -1645,7 +1645,7 @@ class eZProduct
 
             $count = 1;
             foreach ( $queryArray as $queryWord )
-            {
+            {                
                 $queryWord = trim( $queryWord );
 
                 switch ( $searchType )
@@ -1675,26 +1675,18 @@ class eZProduct
                          $attributeSQL
                          $albumSQL
                        ORDER BY $OrderBy";
-
+                        
                     }break;
 
                     default:
                     {
-
+                     
                         $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  )  AND ";
 
                         if ( $productTypeID != 0 )
                         {
-                            $typeTables = ",
-                      eZTrade_ProductTypeLink,
-                      eZTrade_Type";
-
                             $typeSQL = "                         AND
-                         eZTrade_Product.ID=eZTrade_ProductTypeLink.ProductID
-                         AND
-                         eZTrade_ProductTypeLink.TypeID=eZTrade_Type.ID
-                         AND
-                         eZTrade_Type.ID='$productTypeID'";
+                         eZTrade_Product.TypeID='$productTypeID'";
                         }
                         else
                         {
@@ -1706,7 +1698,6 @@ class eZProduct
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
                       eZTrade_Word
-                      $typeTables
                  WHERE
                        $searchSQL
                        ( eZTrade_Product.ID=eZTrade_ProductWordLink.ProductID
@@ -1716,7 +1707,7 @@ class eZProduct
                         )
                        ORDER BY $OrderBy";
 
-
+                        
                     }break;
                 }
 
@@ -1726,30 +1717,29 @@ class eZProduct
 //                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
 //                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
 //                if ( $WordFreq["Frequency"] <= $StopWordFrequency )
-
+                
                 $count += 1;
             }
             $count -= 1;
 
             $queryString = "SELECT ProductID, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
-
+            
             $db->array_query( $product_array, $queryString );
 
             $db->query( "DROP  TABLE eZTrade_SearchTemp" );
 
             $SearchTotalCount = count( $product_array );
             if ( $limit >= 0 )
-                $product_array =& array_slice( $product_array, $offset, $limit );
+                $product_array =& array_slice( $product_array, $offset, $limit );            
         }
 
         for ( $i=0; $i < count($product_array); $i++ )
         {
             $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName("ProductID")], false );
         }
-
+       
         return $return_array;
     }
-
 
     /*!
       Search through the products.
