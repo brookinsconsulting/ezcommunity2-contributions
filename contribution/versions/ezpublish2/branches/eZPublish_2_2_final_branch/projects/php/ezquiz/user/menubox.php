@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.6 2001/08/17 13:36:00 jhe Exp $
+// $Id: menubox.php,v 1.6.2.1 2001/12/06 10:22:35 jhe Exp $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
@@ -39,9 +39,7 @@ function createQuizMenu()
     global $quizMenuCachedFile;
     global $GenerateStaticPage;
 	global $GlobalSiteDesign;
-    
-
-        
+            
     include_once( "classes/eztemplate.php" );
     include_once( "ezquiz/classes/ezquizgame.php" );
     include_once( "ezquiz/classes/ezquizscore.php" );
@@ -73,7 +71,7 @@ function createQuizMenu()
 
     $game = new eZQuizGame();
     
-    if( eZUser::currentUser() != false )
+    if ( eZUser::currentUser() != false )
     {
         
         $t->parse( "my_quiz_item", "my_quiz_item_tpl" );
@@ -81,7 +79,7 @@ function createQuizMenu()
         $user =& eZUser::currentUser();
     }
     
-    if( true )
+    if ( true )
     {
         $t->parse( "quiz_menu_item", "quiz_menu_item_tpl" );
     }
@@ -89,23 +87,23 @@ function createQuizMenu()
     $games = $game->openGames( 0, 1 );
     $count = count( $games );
 
-    if( $count > 0 )
+    if ( $count > 0 )
     {
         $game = $games[0];
         $finished = false;
 
-        if( $userMenuUp )
+        if ( $userMenuUp )
         {
             $score = new eZQuizScore();
             $score->getUserGame( $user, $game );
 
-            if( $score->isFinishedGame() )
+            if ( $score->isFinishedGame() )
             {
                 $finished = true;
             }
         }
         
-        if( $finished == false )
+        if ( $finished == false )
         {
             $t->set_var( "game_id", $game->id() );
             $t->set_var( "game_name", $game->name() );
@@ -115,12 +113,12 @@ function createQuizMenu()
         
     }
     
-    if( $count == 0 || $finished )
+    if ( $count == 0 || $finished )
     {
         $games = $game->opensNext( 0, 1 );
         $count = count( $games );
 
-        if( $count >= 1 )
+        if ( $count >= 1 )
         {
             $game = $games[0];
             $t->set_var( "game_id", $game->id() );
@@ -130,7 +128,7 @@ function createQuizMenu()
             
             $locale = new eZLocale( $Language );
             
-            if( $start->day() != 0  )
+            if ( $start->day() != 0  )
             {
                 $t->set_var( "game_start_date", $locale->format( $start, true ) );
             }
@@ -152,7 +150,6 @@ function createQuizMenu()
     {
 		$t->pparse( "output", "menu_box_tpl" );
     }
-    
 }
 
 ?>
