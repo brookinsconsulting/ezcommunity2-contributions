@@ -58,15 +58,15 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-vat}:</th>
+	<td colspan="3">&nbsp;</td>
+	<td align="right" colspan="2"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-total}:</th>
+	<td colspan="3">&nbsp;</td>
+	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>

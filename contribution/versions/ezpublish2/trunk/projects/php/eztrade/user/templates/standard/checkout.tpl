@@ -16,7 +16,7 @@
 	<th>{intl-product_availability}:</th>
 	<!-- END product_available_header_tpl -->
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}</td>
+	<td class="path" align="right">&nbsp;&nbsp;{intl-price}:</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -61,7 +61,7 @@
 	</select>
 	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
-	<td align="right" colspan="2">
+	<td align="right" colspan="3">
 	<span class="boxtext">{intl-shipping_charges}:</span>
 	</td>
 
@@ -71,14 +71,14 @@
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-vat}:</span></td>
+	<td colspan="2" align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>

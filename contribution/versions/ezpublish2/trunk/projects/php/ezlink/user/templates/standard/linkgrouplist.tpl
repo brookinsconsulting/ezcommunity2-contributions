@@ -41,11 +41,11 @@
 </tr>
 <!-- BEGIN group_item_tpl -->
 <tr>
-	<td class="{td_class}" valign="top" width="80%">
+	<td class="{td_class}" valign="top">
 	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b><br />
-	<div class="spacer"><span class="p">{linkgroup_description}</span></div>
+<!--	<div class="spacer"><span class="p">{linkgroup_description}</span></div> -->
 	</td>
-    <td class="{td_class}" width="20%">
+    <td class="{td_class}">
 	<!-- BEGIN image_item_tpl -->
 	<a href="/link/group/{linkgroup_id}/">
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /></a>
@@ -71,8 +71,8 @@
 <tr>
 	<td valign="top" class="{td_class}">
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
-    <div class="spacer"><span class="p">{link_description}</span><br />
-	<span class="small">(Hits: {link_hits})</span></div>
+ 	<span class="p">{link_description}</span><br />
+	<span class="small">(Hits: {link_hits})</span>
    	</td>
 	<td valign="top"  class="{td_class}">
 	<!-- BEGIN link_image_item_tpl -->

@@ -82,18 +82,18 @@
 </tr>
 <!-- END order_item_tpl -->
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<td class="boxtext">{intl-shipping_and_handling}:</td>
+	<td>&nbsp;</td>
+	<td align="right" colspan="3" class="boxtext">{intl-shipping_and_handling}:</td>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<td class="boxtext">{intl-vat}:</td>
+	<td>&nbsp;</td>
+	<td align="right" colspan="3" class="boxtext">{intl-vat}:</td>
 	<td align="right">{order_vat_sum}</td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<td class="boxtext">{intl-total}:</td>
+	<td>&nbsp;</td>
+	<td align="right" colspan="3" class="boxtext">{intl-total}:</td>
 	<td align="right">{order_sum}</td>
 </tr>
 </table>
