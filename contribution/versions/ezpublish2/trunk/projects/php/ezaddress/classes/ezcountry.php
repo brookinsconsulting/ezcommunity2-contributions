@@ -1,13 +1,14 @@
 <?php
 // 
-// $Id: ezcountry.php,v 1.8 2001/07/13 14:48:18 jhe Exp $
+// $Id: ezcountry.php,v 1.9 2001/07/19 12:06:56 jakobn Exp $
 //
 // Definition of eZCountry class
 //
 // Created on: <31-Oct-2000 11:49:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
