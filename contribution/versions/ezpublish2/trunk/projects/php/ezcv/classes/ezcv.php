@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcv.php,v 1.3 2000/12/21 16:08:49 ce Exp $
+// $Id: ezcv.php,v 1.4 2000/12/21 19:25:37 pkej Exp $
 //
 // Definition of eZCV class
 //
@@ -35,6 +35,10 @@ include_once( "ezcv/classes/ezeducation.php" );
 include_once( "ezcv/classes/ezcertificate.php" );
 include_once( "ezcv/classes/ezextracurricular.php" );
 include_once( "ezcv/classes/ezcourse.php" );
+include_once( "ezcv/classes/ezsex.php" );
+include_once( "ezcv/classes/ezmaritalstatus.php" );
+include_once( "ezcv/classes/ezarmystatus.php" );
+include_once( "ezcv/classes/ezworkstatus.php" );
 include_once( "ezcontact/classes/ezperson.php" );
 
 class eZCV
@@ -1204,7 +1208,15 @@ class eZCV
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $this->Sex = $value;
+        if( is_numeric( $value ) )
+        {
+            $this->Sex = $value;
+        }
+        
+        if( get_class( $value ) == "ezsex" )
+        {
+            $this->Sex = $value->id();
+        }
     }
 
     /*!
@@ -1389,17 +1401,22 @@ class eZCV
      */
     function sexTypes()
     {
-        $this->dbInit();
-        $this->Database->array_query( $itemArray, $query="SHOW COLUMNS FROM eZCV_CV LIKE 'Sex'" );
-        $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
+        $object = new eZSex();
+        $items = $object->getAll();
         
-        $count=count( $items );
+        return $items;
+    }
+
+    /*!
+        Returns the sex name options
+     */
+    function sexName()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $object = new eZSex( $this->Sex );
         
-        for( $i=1; $i < $count - 1; $i++ )
-        {
-            $returnArray[]=$items[$i];
-        }
-        return $returnArray;
+        return $object->name();
     }
     
     
@@ -1408,18 +1425,22 @@ class eZCV
      */
     function maritalStatusTypes()
     {
-        $this->dbInit();
-        $this->Database->array_query( $itemArray, $query="SHOW COLUMNS FROM eZCV_CV LIKE 'MaritalStatus'" );
-        $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
+        $object = new eZMaritalStatus();
+        $items = $object->getAll();
         
-        $count=count( $items );
+        return $items;
+    }
+    
+    /*!
+        Returns the marital status name options
+     */
+    function maritalStatusName()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $object = new eZMaritalStatus( $this->MaritalStatus );
         
-        for( $i=1; $i < $count - 1; $i++ )
-        {
-            $returnArray[]=$items[$i];
-        }
-        
-        return $returnArray;
+        return $object->name();
     }
     
     
@@ -1428,18 +1449,22 @@ class eZCV
      */
     function armyStatusTypes()
     {
-        $this->dbInit();
-        $this->Database->array_query( $itemArray, $query="SHOW COLUMNS FROM eZCV_CV LIKE 'ArmyStatus'" );
-        $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
+        $object = new eZArmyStatus();
+        $items = $object->getAll();
         
-        $count=count( $items );
+        return $items;
+    }
+    
+    /*!
+        Returns the army status name options
+     */
+    function armyStatusName()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $object = new eZArmyStatus( $this->ArmyStatus );
         
-        for( $i=1; $i < $count - 1; $i++ )
-        {
-            $returnArray[]=$items[$i];
-        }
-        
-        return $returnArray;
+        return $object->name();
     }
     
     
@@ -1448,18 +1473,22 @@ class eZCV
      */
     function workStatusTypes()
     {
-        $this->dbInit();
-        $this->Database->array_query( $itemArray, $query="SHOW COLUMNS FROM eZCV_CV LIKE 'WorkStatus'" );
-        $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
+        $object = new eZWorkStatus();
+        $items = $object->getAll();
         
-        $count=count( $items );
+        return $items;
+    }
+    
+    /*!
+        Returns the work status name  options
+     */
+    function workStatusName()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $object = new eZWorkStatus( $this->WorkStatus );
         
-        for( $i=1; $i < $count - 1; $i++ )
-        {
-            $returnArray[]=$items[$i];
-        }
-        
-        return $returnArray;
+        return $object->name();
     }
     
     

@@ -22,7 +22,7 @@ CREATE TABLE eZCV_MaritalStatus
 DROP TABLE IF EXISTS eZCV_Sex;
 CREATE TABLE eZCV_Sex
 (
-    ID int(2) DEFAULT '0' NOT NULL auto_increment,
+    ID int(1) DEFAULT '0' NOT NULL auto_increment,
     Name varchar(32) DEFAULT 'unknown' NOT NULL,
     UNIQUE INDEX( NAME ),
     PRIMARY KEY(ID)
@@ -52,10 +52,10 @@ CREATE TABLE eZCV_CV
     ID int(11) DEFAULT '0' NOT NULL auto_increment,
     PersonID int(11) DEFAULT '0' NOT NULL,
     NationalityID int(11) DEFAULT '0' NOT NULL,
-    Sex enum( 'male', 'female', 'unknown' ) DEFAULT 'unknown' NOT NULL,
-    ArmyStatus enum( 'served', 'drafted', 'unknown', 'undrafted', 'released' ) DEFAULT 'unknown' NOT NULL,
-    MaritalStatus enum( 'unmarried', 'married', 'divorced', 'widow', 'widower', 'live-in' ) DEFAULT 'unmarried' NOT NULL,
-    WorkStatus enum( 'armed_services', 'studying', 'unemployed', 'freelance', 'employed', 'unknown' ) DEFAULT 'unknown' NOT NULL,
+    Sex             int(1) DEFAULT '0' NOT NULL REFERENCES SEX( ID ), 
+    ArmyStatus      int(2) DEFAULT '0' NOT NULL REFERENCES ArmyStatus( ID ),
+    MaritalStatus   int(2) DEFAULT '0' NOT NULL REFERENCES MaritalStatus( ID ),
+    WorkStatus      int(2) DEFAULT '0' NOT NULL REFERENCES WorkStatus( ID ),
     Children int(2) DEFAULT '0' NOT NULL,
     Comment text NOT NULL,
     Created timestamp NOT NULL,

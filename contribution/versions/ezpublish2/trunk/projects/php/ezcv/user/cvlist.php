@@ -198,10 +198,10 @@ if( $Action == "view" )
                                      
     $t->set_var( "cv_children", $cv->children() );    
 
-    $t->set_var( "cv_sex", $intl->read_var( "strings", "sex_" . $cv->sex() ) );
-    $t->set_var( "cv_marital_status", $intl->read_var( "strings", "marital_" . $cv->maritalStatus() ) );
-    $t->set_var( "cv_work_status", $intl->read_var( "strings", "work_" . $cv->workStatus() ) );
-    $t->set_var( "cv_army_status", $intl->read_var( "strings", "army_" . $cv->armyStatus() ) );
+    $t->set_var( "cv_sex", $cv->sexName() );
+    $t->set_var( "cv_marital_status", $cv->maritalStatusName() );
+    $t->set_var( "cv_work_status", $cv->workStatusName() );
+    $t->set_var( "cv_army_status", $cv->armyStatusName() );
     
     $addressses = $person->addresses( $person->id() );
     $phones = $person->phones( $person->id() );

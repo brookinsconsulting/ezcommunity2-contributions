@@ -446,8 +446,8 @@ if( is_numeric( $CVID ) )
     
     foreach( $SexTypes as $SexType )
     {
-        $t->set_var( "value", $SexType );
-        $t->set_var( "name", $intl->read_var( "strings", "sex_" . $SexType ) );
+        $t->set_var( "value", $SexType->id() );
+        $t->set_var( "name", $SexType->name() );
         $t->set_var( "selected", "" );
         if( $SexType == $Sex )
         {
@@ -460,8 +460,8 @@ if( is_numeric( $CVID ) )
     $MaritalTypes = $cv->maritalStatusTypes();
     foreach( $MaritalTypes as $MaritalType )
     {
-        $t->set_var( "value", $MaritalType );
-        $t->set_var( "name", $intl->read_var( "strings", "marital_" . $MaritalType ) );
+        $t->set_var( "value", $MaritalType->id() );
+        $t->set_var( "name", $MaritalType->name() );
         $t->set_var( "selected", "" );
         if( $MaritalType == $MaritalStatus )
         {
@@ -474,8 +474,8 @@ if( is_numeric( $CVID ) )
     $ArmyTypes = $cv->armyStatusTypes();
     foreach( $ArmyTypes as $ArmyType )
     {
-        $t->set_var( "value", $ArmyType );
-        $t->set_var( "name", $intl->read_var( "strings", "army_" . $ArmyType ) );
+        $t->set_var( "value", $ArmyType->id() );
+        $t->set_var( "name", $ArmyType->name() );
         $t->set_var( "selected", "" );
         
         if( $ArmyType == $ArmyStatus )
@@ -489,8 +489,8 @@ if( is_numeric( $CVID ) )
     $WorkTypes = $cv->workStatusTypes();
     foreach( $WorkTypes as $WorkType )
     {
-        $t->set_var( "value", $WorkType );
-        $t->set_var( "name", $intl->read_var( "strings", "work_" . $WorkType ) );
+        $t->set_var( "value", $WorkType->id() );
+        $t->set_var( "name", $WorkType->name() );
         $t->set_var( "selected", "" );
         
         if( $WorkType == $WorkStatus )
