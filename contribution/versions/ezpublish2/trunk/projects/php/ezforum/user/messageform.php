@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.4 2001/02/26 19:00:50 pkej Exp $
+// $Id: messageform.php,v 1.5 2001/03/06 19:44:07 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -101,7 +101,7 @@ if( $ShowMessageForm )
         {
             $MessageBody = $msg->body( false );
         }
-        
+
         $MessageNotice = $msg->emailNotice();
         $ForumID = $msg->forumId();
         
@@ -192,8 +192,10 @@ if( $ShowMessageForm )
             }
             break;
         }
-    
-    $t->set_var( "message_topic", htmlspecialchars( $MessageTopic ) );
+    $quote = chr(34);
+    $MessageTopic=ereg_replace( $quote, "&#034;",$MessageTopic); 
+
+    $t->set_var( "message_topic", eztexttool::htmlspecialchars( $MessageTopic ) );
     $t->set_var( "new_message_topic", $MessageTopic );
     $t->set_var( "message_body", htmlspecialchars( $MessageBody ) );
     $t->set_var( "new_message_body", $MessageBody );
