@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from version 1.0.5
 --------------------------
+* Added file uploads on articles.
+* Added dynamically updating of menues with static pages.
 * Added file upload to eZ article
 * Added word wrap of message replies in eZ forum. Nicer looking replies.
 * Removed strip tags from messages in eZ forum
