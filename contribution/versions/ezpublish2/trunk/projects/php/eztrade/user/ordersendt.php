@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.15 2001/02/02 20:49:16 bf Exp $
+// $Id: ordersendt.php,v 1.16 2001/02/06 16:50:05 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -76,10 +76,9 @@ if ( $currentUser->id() != $user->id() )
 
 if ( $user )
 {
-
-    // this is now an active 
-    $order->setIsSendt( true );
-    $order->store();
+//      // this is now an active 
+//      $order->setIsSendt( true );
+//      $order->store();
     
     $t->set_var( "customer_first_name", $user->firstName() );
     $t->set_var( "customer_last_name", $user->lastName() );
