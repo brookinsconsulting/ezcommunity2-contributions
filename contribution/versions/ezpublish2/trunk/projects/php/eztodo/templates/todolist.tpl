@@ -64,4 +64,4 @@
 
 <hr noshade size="4">
 
-<form action="/todo/todoedit/"><input class="okbutton" type="submit" value="Ny todo"></form>
+<form action="/todo/todoedit/"><input class="okbutton" type="submit" value="Ny to do"></form>
