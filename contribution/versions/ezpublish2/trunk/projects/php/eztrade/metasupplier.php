@@ -1,7 +1,4 @@
-
 <?
-//print $REQUEST_URI;
-
 switch ( $url_array[2] )
 {
     case "product" :
@@ -29,5 +26,4 @@ switch ( $url_array[2] )
         <?
         break;
 }
-
 ?>
