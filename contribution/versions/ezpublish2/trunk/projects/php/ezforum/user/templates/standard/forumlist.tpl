@@ -24,10 +24,10 @@
 
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-        <th>{intl-forum}</td>
-        <th>{intl-forum_description}</td>
-        <th>{intl-threads}</td>
-        <th>{intl-messages}</td>
+        <th>{intl-forum}:</th>
+        <th>{intl-forum_description}:</th>
+        <th>{intl-threads}:</th>
+        <th>{intl-messages}:</th>
     </tr>
     <!-- BEGIN forum_item_tpl -->
     <tr>

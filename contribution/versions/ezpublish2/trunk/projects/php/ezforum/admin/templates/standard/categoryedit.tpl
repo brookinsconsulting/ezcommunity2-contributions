@@ -53,10 +53,10 @@
 
 <p class="error">{error_msg}</p>
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" size="20" value="{category_name}" name="Name">
 
-<p class="boxtext">{intl-description}</p>
+<p class="boxtext">{intl-description}:</p>
 <input type="text" size="40" value="{category_description}" name="Description">
 
 <br /><br />

@@ -18,11 +18,11 @@
 
 <p class="error">{error_msg}</p>
 
-<p class="boxtext">{intl-title}</p>
+<p class="boxtext">{intl-title}:</p>
 <!-- {intl-titleedit} -->
 <input type="text" name="Title" size="40" value="{title}">
 
-<p class="boxtext">{intl-linkgroup}</p>
+<p class="boxtext">{intl-linkgroup}:</p>
 <!-- {intl-choosegroup} -->
 <select name="LinkGroupID">
 	<option value="0">{intl-topcat}</option>
@@ -31,17 +31,17 @@
 	<!-- END link_group_tpl -->
 </select>
 
-<p class="boxtext">{intl-url}</p>
+<p class="boxtext">{intl-url}:</p>
 <!-- {intl-urledit} -->
 http://<input type="text" name="Url" size="40" value="{url}">
 
-<p class="boxtext">{intl-key}</p>
+<p class="boxtext">{intl-key}:</p>
 <!-- {intl-search} -->
 <textarea rows="5" cols="40" name="Keywords">{keywords}</textarea>
 
 <br />
 
-<p class="boxtext">{intl-desc}</p>
+<p class="boxtext">{intl-desc}:</p>
 <!-- {intl-discedit} -->
 <textarea rows="5" cols="40" name="Description">{description}</textarea>
 <br />

@@ -44,11 +44,11 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<th>{intl-poll}</th>
-	<th>{intl-description}</th>
-	<th>{intl-enabled}</th>
-	<th>{intl-closed}</th>
-	<th>{intl-main}</th>
+	<th>{intl-poll}:</th>
+	<th>{intl-description}:</th>
+	<th>{intl-enabled}:</th>
+	<th>{intl-closed}:</th>
+	<th>{intl-main}:</th>
 	<th colspan="2">&nbsp;</td>
 </tr>
 <tr>

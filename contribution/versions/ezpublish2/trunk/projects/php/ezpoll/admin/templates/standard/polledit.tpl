@@ -38,15 +38,15 @@
 
 <hr noshade size="4"/>
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 
-<p class="boxtext">{intl-desc}</p>
+<p class="boxtext">{intl-desc}:</p>
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 
 <br /><br />
 
-<p class="checkhead">{intl-settings}</p>
+<p class="checkhead">{intl-settings}:</p>
 <div class="check"><input type="checkbox" name="IsEnabled" {is_enabled}>&nbsp;{intl-active}</div>
 <div class="check"><input type="checkbox" name="IsClosed" {is_closed}>&nbsp;{intl-finish}</div>
 <div class="check"><input type="checkbox" name="ShowResult" {show_result}>&nbsp;{intl-show_result}</div>
@@ -82,11 +82,11 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="50%">{intl-answers}</th>
+	<th width="50%">{intl-answers}:</th>
 <!--
 	<th>{intl-adjust}</th>
 -->
-	<td align="right"><span class="boxtext">{intl-total_votes}</span></td>
+	<td align="right"><span class="boxtext">{intl-total_votes}:</span></td>
 	<th colspan="3">&nbsp;</th>
 </tr>
 <tr>

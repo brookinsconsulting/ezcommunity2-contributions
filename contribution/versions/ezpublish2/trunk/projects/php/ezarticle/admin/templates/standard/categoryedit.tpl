@@ -8,7 +8,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-name}</p>
+	<p class="boxtext">{intl-name}:</p>
 	<input type="text" size="40" name="Name" value="{name_value}"/>
 	</td>	
 	<td>
@@ -20,7 +20,7 @@
 
 <br />
 
-<p class="boxtext">{intl-place}</p>
+<p class="boxtext">{intl-place}:</p>
 <select name="ParentID">
 <option value="0">topp</option>
 
@@ -30,7 +30,7 @@
 
 </select>
 
-<p class="boxtext">{intl-description}</p>
+<p class="boxtext">{intl-description}:</p>
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 

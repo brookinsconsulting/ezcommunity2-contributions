@@ -4,7 +4,7 @@
 
 <hr noshade size="4">
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 
 <!--

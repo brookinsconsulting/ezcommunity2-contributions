@@ -53,13 +53,13 @@
 
 <p class="error">{error_msg}</p>
 
-<p class="boxtext">{intl-forumname}</p>
+<p class="boxtext">{intl-forumname}:</p>
 <input type="text" size="20" name="Name" value="{forum_name}">
 
-<p class="boxtext">{intl-description}</p>
+<p class="boxtext">{intl-description}:</p>
 <input type="description" size="40" name="Description" value="{forum_description}">
 
-<p class="boxtext">{intl-category}</p>
+<p class="boxtext">{intl-category}:</p>
 <select name="CategorySelectID">
 
 	<!-- BEGIN category_item_tpl -->

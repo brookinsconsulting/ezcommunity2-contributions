@@ -19,17 +19,17 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-topic}</p>
+	<p class="boxtext">{intl-topic}:</p>
 	<input type="text" name="Topic" size="40">
 	</td>
 	<td>
-	<p class="boxtext">{intl-author}</p>
+	<p class="boxtext">{intl-author}:</p>
 	{user}
 	</td>
 </tr>
 </table>
 
-<p class="boxtext">{intl-text}</p>
+<p class="boxtext">{intl-text}:</p>
 <textarea wrap="soft" name="Body" rows="15" cols="40" class="body"></textarea>
 
 <br /><br />

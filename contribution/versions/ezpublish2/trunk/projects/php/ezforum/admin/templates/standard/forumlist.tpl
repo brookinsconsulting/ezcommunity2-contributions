@@ -57,8 +57,8 @@
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-name}	</th>
-	<th>{intl-description}</th>
+	<th>{intl-name}:</th>
+	<th>{intl-description}:</th>
 </tr>
 
 <!-- BEGIN forum_item_tpl -->

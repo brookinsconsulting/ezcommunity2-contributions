@@ -46,7 +46,7 @@
 </tr>
 <tr>
 	<td>
-	{intl-total_votes} {total_votes}
+	{intl-total_votes}: {total_votes}
 	</td>
 </tr>
 </table>

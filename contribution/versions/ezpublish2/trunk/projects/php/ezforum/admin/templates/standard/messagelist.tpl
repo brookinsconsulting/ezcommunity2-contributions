@@ -61,10 +61,10 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-     <th>{intl-subject}</th> 
-     <th>{intl-arthur}</th>
-     <th>{intl-time}</th>
-     <th>{intl-notice}</th>
+     <th>{intl-subject}:</th> 
+     <th>{intl-arthur}:</th>
+     <th>{intl-time}:</th>
+     <th>{intl-notice}:</th>
      <th colspan="2">&nbsp;</th>
 </tr>
 

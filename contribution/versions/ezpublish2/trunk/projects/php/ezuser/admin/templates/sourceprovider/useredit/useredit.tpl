@@ -10,23 +10,23 @@
 <h3 class="error">{error}</h3>
 <tr>
 	<td>
-	<p class="boxtext">{intl-firstname}</p>
+	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
 	<td>
-	<p class="boxtext">{intl-lastname}</p>
+	<p class="boxtext">{intl-lastname}:</p>
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
 	</td>
 </tr>
 </table>
 
-<p class="boxtext">{intl-email}</p>
+<p class="boxtext">{intl-email}:</p>
 <input type="text" size="40" name="Email" value="{email_value}"/>
 
-<p class="boxtext">{intl-login}</p>
+<p class="boxtext">{intl-login}:</p>
 <input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
 
-<p class="boxtext">{intl-groups}</p>
+<p class="boxtext">{intl-groups}:</p>
 <select name="GroupArray[]" multiple size="5">
 {group_item}
 </select>
@@ -36,11 +36,11 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-password}</p>
+	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
 	<td>
-	<p class="boxtext">{intl-verifypassword}</p>
+	<p class="boxtext">{intl-verifypassword}:</p>
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>

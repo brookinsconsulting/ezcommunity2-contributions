@@ -30,15 +30,15 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>        
    	<td>
-	<p class="boxtext">{intl-topic}</p>
+	<p class="boxtext">{intl-topic}:</p>
     {topic}
 	</td>
     <td>
-	<p class="boxtext">{intl-author}</p>
+	<p class="boxtext">{intl-author}:</p>
     {user}
 	</td>
 	<td>
-	<p class="boxtext">{intl-time}</p>
+	<p class="boxtext">{intl-time}:</p>
 	<span class="small">{postingtime}</span>
 	</td>
 </tr>
@@ -73,9 +73,9 @@
 
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
-	<th>{intl-reply-topic}</th>
-    <th>{intl-reply-author}</th>
-    <th>{intl-reply-time}</th>
+	<th>{intl-reply-topic}:</th>
+    <th>{intl-reply-author}:</th>
+    <th>{intl-reply-time}:</th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->

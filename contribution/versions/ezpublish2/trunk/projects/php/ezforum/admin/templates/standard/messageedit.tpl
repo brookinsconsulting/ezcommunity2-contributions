@@ -23,20 +23,20 @@
 
 <tr>
 	<td>
-	<p class="boxtext">{intl-topic}</p>
+	<p class="boxtext">{intl-topic}:</p>
 	<input type="text" size="40" name="Topic" value="{message_topic}">
 	</td>
 	<td>
-	<p class="boxtext">{intl-author}</p>
+	<p class="boxtext">{intl-author}:</p>
 	{message_user}
 	</td>
 </tr>
 </table>
 	
-<p class="boxtext">{intl-time}</p>
+<p class="boxtext">{intl-time}:</p>
 {message_postingtime}
 
-<p class="boxtext">{intl-body}</p>
+<p class="boxtext">{intl-body}:</p>
 <textarea rows="10" cols="80" name="Body">{message_body}</textarea>
 
 <br /><br />

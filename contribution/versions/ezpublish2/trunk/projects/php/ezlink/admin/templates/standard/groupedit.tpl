@@ -18,10 +18,10 @@
 
 <p class="error">{error_msg}</p>
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" name="Title" size="40" value="{title}">
 
-<p class="boxtext">{intl-where}</p>
+<p class="boxtext">{intl-where}:</p>
 <select name="ParentCategory">
 <option value="0">{intl-topcat}</option>
 <!-- BEGIN parent_category_tpl -->

@@ -7,11 +7,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	{intl-poll}
+	{intl-poll}:
 	</th>
 
 	<th>
-	{intl-description}
+	{intl-description}:
 	</th>
 </tr>
 <!-- BEGIN poll_item_tpl -->

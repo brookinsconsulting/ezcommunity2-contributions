@@ -39,10 +39,10 @@
 
 <hr noshade="noshade" size="4" />
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" value="{category_name}" name="Name">
 
-<p class="boxtext">{intl-description}</p>
+<p class="boxtext">{intl-description}:</p>
 <input type="text" value="{category_description}" name="Description">
 
 <br />

@@ -25,9 +25,9 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-   	<th>{intl-topic}</th>
-    <th>{intl-author}</th>
-    <th>{intl-time}</th>
+   	<th>{intl-topic}:</th>
+    <th>{intl-author}:</th>
+    <th>{intl-time}:</th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->
