@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.17 2000/12/13 11:04:28 bf Exp $
+// $Id: ezdb.php,v 1.18 2000/12/20 12:39:01 pkej Exp $
 //
 // Definition of eZDB class
 //
@@ -75,7 +75,9 @@ class eZDB
   
         if ( $result )
             return $result;
-                            
+        elseif( !$DEBUG )
+            return false;
+                             
         echo "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
         exit();
     }
