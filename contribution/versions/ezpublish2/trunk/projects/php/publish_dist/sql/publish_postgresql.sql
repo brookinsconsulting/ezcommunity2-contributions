@@ -677,13 +677,14 @@ CREATE TABLE eZBug_Status (
 INSERT INTO eZBug_Status VALUES (1,'Fixed');
 
 CREATE TABLE eZBug_ModulePermission (
-  ID int NOT NULL auto_increment,
+  ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
   ReadPermission int default '0',
   WritePermission int default '0',
   PRIMARY KEY (ID)
-);CREATE TABLE eZBulkMail_Category (
+);
+CREATE TABLE eZBulkMail_Category (
   ID int NOT NULL,
   Name varchar(200) default NULL,
   Description text,
@@ -2060,6 +2061,13 @@ CREATE TABLE eZTrade_PriceGroup (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTrade_ProductPriceRange (
+  ID int NOT NULL,
+  Min int default '0',
+  Max int default '0',
+  ProductID int default '0',
+  PRIMARY KEY (ID)
+);
 
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
@@ -2116,7 +2124,7 @@ CREATE TABLE eZTrade_ProductImageLink (
   ProductID int default NULL,
   ImageID int default NULL,
   Created int NOT NULL,
-  Placement int NOT NULL,
+  Placement int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
 

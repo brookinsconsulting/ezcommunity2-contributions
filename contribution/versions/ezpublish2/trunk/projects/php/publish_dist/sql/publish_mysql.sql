@@ -676,13 +676,14 @@ CREATE TABLE eZBug_Status (
 INSERT INTO eZBug_Status VALUES (1,'Fixed');
 
 CREATE TABLE eZBug_ModulePermission (
-  ID int(11) NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   ObjectID int(11) default NULL,
   GroupID int(11) default NULL,
   ReadPermission int(11) default '0',
   WritePermission int(11) default '0',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;CREATE TABLE eZBulkMail_Category (
+) TYPE=MyISAM;
+CREATE TABLE eZBulkMail_Category (
   ID int(11) NOT NULL,
   Name varchar(200) default NULL,
   Description text,
@@ -2285,6 +2286,14 @@ CREATE TABLE eZTrade_PriceGroup (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZTrade_ProductPriceRange (
+  ID int(11) NOT NULL,
+  Min int(11) default '0',
+  Max int(11) default '0',
+  ProductID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
@@ -2339,7 +2348,7 @@ CREATE TABLE eZTrade_ProductImageDefinition (
 CREATE TABLE eZTrade_ProductImageLink (
   ID int NOT NULL,
   ProductID int(11) default NULL,
-  Placement int(11) default NULL,
+  Placement int(11) default '0',
   ImageID int(11) default NULL,
   Created int(11) NOT NULL,
   PRIMARY KEY (ID)
