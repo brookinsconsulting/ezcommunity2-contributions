@@ -64,10 +64,10 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a class="h2" href="/article/articleview/{article_id}/">
-	<span class="noline">{article_name}</span>
-	</a><br /><br />
-	<div class="byline">{article_published}</div>
+	<a class="noline" href="/article/articleview/{article_id}/">
+	<div class="h2">{article_name}</div>
+	</a>
+	<span class="small">( {article_published} )</span>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
@@ -86,7 +86,7 @@
         <!-- END article_image_tpl -->
 
 
-	<p>
+	<p class="newslist">
 	{article_intro}
 	</p>
 	<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
