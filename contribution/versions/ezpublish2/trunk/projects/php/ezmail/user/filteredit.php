@@ -59,10 +59,12 @@ $t->set_var( "current_filter_id", "" );
 
 if( $FilterID != 0 ) // someone set us up the bomb
 {
+    $t->set_var( "current_filter_id", $FilterID );
     $filter = new eZMailFilterRule( $FilterID );
     $t->set_var( "match_value", $filter->match() );
     $headerid = $filter->headerType();
     $checkid = $filter->checkType();
+    $folderid = $filter->folderID();
 }
 
 $localINI = new INIFile( "ezmail/user/intl/" . $Language . "/filteredit.php.ini" );
@@ -116,6 +118,10 @@ foreach( $folders as $folderItem )
 {
     $t->set_var( "folder_id", $folderItem->id() );
     $t->set_var( "folder_name", $folderItem->name() );
+    if( isset( $folderid ) && $folderid == $folderItem->id() )
+        $t->set_var( "is_selected", "selected" );
+    else
+        $t->set_var( "is_selected", "" );
     $t->parse( "folder_item", "folder_item_tpl", true );
 }
 

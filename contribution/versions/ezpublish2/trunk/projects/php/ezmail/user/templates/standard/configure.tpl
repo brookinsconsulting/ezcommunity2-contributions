@@ -62,7 +62,7 @@
           </a>
 	</td>	
 	<td class="{td_class}">
-	<input type="checkbox" name="FiltertArrayID[]" value="{filter_id}" />
+	<input type="checkbox" name="FilterArrayID[]" value="{filter_id}" />
 	</td>
 </tr>
 <!-- END filter_item_tpl -->
@@ -73,6 +73,8 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
   <td><input class="stdbutton" type="submit" name="NewAccount" value="{intl-new}" /></td>
+  <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" name="NewFilter" value="{intl-new_filter}" /></td>
   <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" name="DeleteAccounts" value="{intl-delete}" /></td>
 </tr>
