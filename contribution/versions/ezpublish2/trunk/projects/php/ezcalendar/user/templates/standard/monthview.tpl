@@ -15,18 +15,15 @@
 </form>
 
 <!-- BEGIN month_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+<h2>{month_name} {year_number}</h2>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td rowspan="2">
-	<h2>{month_name} {year_number}</h2>
+	<td>
+	<a class="path" href="/calendar/monthview/{prev_year_number}/{prev_month_number}">&lt;&lt; {intl-previous_month}</a>
 	</td>
 	<td align="right">
-	<a href="/calendar/monthview/{prev_year_number}/{prev_month_number}">&lt;&lt; {intl-previous_month}</a>
-	</td>
-</tr>
-<tr>
-	<td align="right">
-	<a href="/calendar/monthview/{next_year_number}/{next_month_number}">{intl-next_month} &gt;&gt;</a>
+	<a class="path" href="/calendar/monthview/{next_year_number}/{next_month_number}">{intl-next_month} &gt;&gt;</a>
 	</td>
 </tr>
 </table>
@@ -59,7 +56,7 @@
 
 <br />
 <br />
-<div align="right"><a href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}">+</a></div>
+<div align="right"><a class="path" href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}">+</a></div>
 </td>
 <!-- END day_tpl -->
 
@@ -70,13 +67,13 @@
 
 <!-- END month_tpl -->
 
+<form action="/calendar/appointmentedit/edit/">
+
 <hr noshade size="4" />
 
-<form action="/calendar/appointmentedit/edit/">
 <input type="submit" name="GoDay" value="{intl-day}">
 <input type="submit" name="GoMonth" value="{intl-month}">
 <input type="submit" name="GoYear" value="{intl-year}">
-&nbsp;
 <input type="submit" name="GoToday" value="{intl-today}">
 </form>
 

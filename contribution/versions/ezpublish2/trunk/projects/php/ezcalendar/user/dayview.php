@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.31 2001/01/29 18:28:12 gl Exp $
+// $Id: dayview.php,v 1.32 2001/02/01 15:11:20 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -300,7 +300,7 @@ else
                 // a private appointment
                 if ( $appointment->isPrivate() == true && $appointment->userID() != $userID )
                 {
-                    $t->set_var( "td_class", "bgdark" );
+                    $t->set_var( "td_class", "bglight" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
 
                     $t->parse( "private_appointment", "private_appointment_tpl", true );
@@ -308,7 +308,7 @@ else
                 // a public appointment
                 else
                 {
-                    $t->set_var( "td_class", "bgdark" );
+                    $t->set_var( "td_class", "bglight" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
                     $t->set_var( "appointment_id", $appointment->id() );
                     $t->set_var( "appointment_name", $appointment->name() );
@@ -323,7 +323,7 @@ else
             // an empty space
             else if ( $appointmentId == -2 )
             {
-                $t->set_var( "td_class", "bglight" );
+                $t->set_var( "td_class", "bgdark" );
                 $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
 
                 $t->parse( "no_appointment", "no_appointment_tpl", true );

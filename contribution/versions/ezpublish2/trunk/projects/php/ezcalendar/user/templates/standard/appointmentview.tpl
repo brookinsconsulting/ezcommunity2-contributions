@@ -22,7 +22,7 @@
 	{intl-private}
 	<!-- END private_tpl -->
 	<!-- BEGIN public_tpl -->
-	{intl-public}
+	<i>{intl-public}</i>
 	<!-- END public_tpl -->
 	</th>
 </tr>
@@ -111,7 +111,6 @@
 <input type="submit" name="GoDay" value="{intl-day}">
 <input type="submit" name="GoMonth" value="{intl-month}">
 <input type="submit" name="GoYear" value="{intl-year}">
-&nbsp;
 <input type="submit" name="GoToday" value="{intl-today}">
 </form>
 

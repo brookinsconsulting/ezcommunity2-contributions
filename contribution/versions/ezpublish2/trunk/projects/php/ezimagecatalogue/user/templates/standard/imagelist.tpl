@@ -15,10 +15,10 @@
 <img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
-<br /><br />
-<div class="p">{current_category_description}</div>
 
 <hr noshade="noshade" size="4" />
+
+<p>{current_category_description}</p>
 
 <!-- BEGIN category_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
