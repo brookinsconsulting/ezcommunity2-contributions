@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.2 2001/05/30 08:30:01 pkej Exp $
+// $Id: quizplay.php,v 1.3 2001/05/30 08:50:43 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -47,7 +47,12 @@ if( isset( $SaveButton ) )
         $game = $question->game();
         $score = new eZQuizScore();
         $score->getUserGame( $user, $game );
-        $score->setNextQuestion( $QuestionNum );
+        if( $score->id() == 0 )
+        {
+            $score->setUser( $user );
+            $score->setGame( $game );
+        }
+        $score->setNextQuestion( $Placement );
         $score->store();
     }
 }
@@ -88,7 +93,6 @@ if( isset( $NextButton ) )
                 // Answered this question before!
                 
                 $QuestionNum = $score->nextQuestion();
-                echo $QuestionNum;
             }
             else
             {

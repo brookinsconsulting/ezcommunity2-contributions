@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizscore.php,v 1.1 2001/05/30 08:30:01 pkej Exp $
+// $Id: ezquizscore.php,v 1.2 2001/05/30 08:50:43 pkej Exp $
 //
 // eZQuizScore class
 //
@@ -272,7 +272,6 @@ class eZQuizScore
     function setTotalScore( $score )
     {
         $this->TotalScore = $score;
-        echo "total score: $score<br>";
     }
 
     /*!

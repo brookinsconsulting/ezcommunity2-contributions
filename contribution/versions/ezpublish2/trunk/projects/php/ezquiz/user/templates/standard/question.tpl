@@ -36,6 +36,7 @@
         <input type="hidden" name="QuizID" value="{game_id}" />
         <input type="hidden" name="QuestionID" value="{question_id}" />
         <input type="hidden" name="UserID" value="{user_id}" />
+        <input type="hidden" name="Placement" value="{placement}" />
         <input class="stdbutton" name="NextButton" type="submit" value="{intl-next}" />
         </td>
         <td>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizalternative.php,v 1.4 2001/05/30 08:30:01 pkej Exp $
+// $Id: ezquizalternative.php,v 1.5 2001/05/30 08:50:43 pkej Exp $
 //
 // eZQuizAlternative class
 //
@@ -159,7 +159,6 @@ class eZQuizAlternative
         $this->ID =& $alternativeArray[ "ID" ];
         $this->Name =& $alternativeArray[ "Name" ];
         $this->IsCorrect =& $alternativeArray[ "IsCorrect" ];
-echo $alternativeArray[ "QuestionID" ];
         $this->Question = new eZQuizQuestion( $alternativeArray[ "QuestionID" ] );
     }
 
@@ -264,7 +263,7 @@ echo $alternativeArray[ "QuestionID" ];
 
         if( get_class ( $this->Question ) == "ezquizquestion" )
         {
-            $ret = $this->Question->id();echo "here?";
+            $ret = $this->Question->id();
         }
         
         return $ret;
