@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.22 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: eztechgenerator.php,v 1.23 2000/11/01 09:43:08 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -102,11 +102,12 @@ class eZTechGenerator
 
     function &generateUnknowns( $tmpPage )
     {
+        print( "bla" );
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
         $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail))/", "&lt;", $tmpPage );
 
         // look-behind assertion is used here (?<!) 
-        // the expression must be fixed with eg just use the 3 last letters of the tag
+        // the expression must be fixed width eg just use the 3 last letters of the tag
 
         $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim|isp|tml|ava))>#", "&gt;", $tmpPage );
         // make better..
@@ -203,11 +204,23 @@ class eZTechGenerator
         return $tmpPage;
     }
 
+    /*!
+      \private
+      Converts the link tags to valid XML tags.
+    */
     function &generateLink( $tmpPage )
     {
         // convert <link ez.no ez systems> to valid xml
         // $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
         $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
+
+        // convert <ezanchor anchor> to <ezanchor href="anchor" />
+        $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<ezanchor href=\"\\1\" />", $tmpPage );
+        
+        // convert <mail adresse@domain.tld subject line, link text>
+        // to valid xml
+        $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
+        
         return $tmpPage;
     }
 

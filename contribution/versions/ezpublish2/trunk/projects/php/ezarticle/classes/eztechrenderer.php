@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.27 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: eztechrenderer.php,v 1.28 2000/11/01 09:43:08 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -303,6 +303,7 @@ class eZTechRenderer
         // ez anchor
         if ( $paragraph->name == "ezanchor" )
         {
+            print( "ancor" );
             foreach ( $paragraph->attributes as $anchorItem )
                 {
                     switch ( $anchorItem->name )
