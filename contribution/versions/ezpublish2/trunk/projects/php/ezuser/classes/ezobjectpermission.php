@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.3 2001/02/27 16:54:07 fh Exp $
+// $Id: ezobjectpermission.php,v 1.4 2001/02/27 16:59:35 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -94,17 +94,21 @@ class eZObjectPermission
         {
             $groups =& $user->groups( true );
             $first = true;
-            foreach( $groups as $groupItem )
+            if( count( $groups ) > 0 )
             {
-                if( $first == true )
+                foreach( $groups as $groupItem )
                 {
-                    $SQLGroups = "GroupID='$groupItem'";
+                    if( $first == true )
+                    {
+                        $SQLGroups = "GroupID='$groupItem' ";
+                    }
+                    else
+                    {
+                        $SQLGroups .= "OR GroupID='$groupItem' ";
+                    }
+                    $first = false;
                 }
-                else
-                {
-                    $SQLGroups .= "OR GroupID='$groupItem'";
-                }
-                $first = false;
+                $SQLGroups .= "OR GroupID = '-1' ";
             }
         }
 
