@@ -60,7 +60,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<img src="/ezarticle/admin/images/folder.gif" height="16" width="16" border="0" alt="" />
+	<img src="/ezarticle/admin/images/folder.gif" height="16" width="16" border="0" alt="" />&nbsp;
 	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
