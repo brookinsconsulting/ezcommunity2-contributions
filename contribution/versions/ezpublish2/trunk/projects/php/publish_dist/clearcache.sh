@@ -26,6 +26,7 @@ do
     if [ -d $dir ]; then
 	    echo "Clearing $dir"
         rm -f $dir/cache/*.cache
+	rm -f $dir/cache/*.php
 	if [ -d $dir/admin/cache/ ]; then
 	    rm -f $dir/admin/cache/*.cache
 	fi

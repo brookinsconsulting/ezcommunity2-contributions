@@ -31,8 +31,6 @@ $GlobalSiteIni =& $ini;
 
 
 
-
-/*
 // set character set
 include_once( "classes/ezlocale.php" );
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
@@ -40,7 +38,6 @@ $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
 if ( $iso != false )
     header( "Content-type: text/html;charset=$iso" );
-*/
 
 // Design
 include_once( "ezsession/classes/ezsession.php" );
@@ -65,13 +62,19 @@ else
 
 
 
-// do the statistics
-include_once( "ezstats/classes/ezpageview.php" );
+$StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 
-// create a global page view object for statistics
-// and store the stats
-$GlobalPageView = new eZPageView();
-$GlobalPageView->store();
+if ( $StoreStats == "enabled" )
+{
+    print( "storing stats" );
+    // do the statistics
+    include_once( "ezstats/classes/ezpageview.php" );
+
+    // create a global page view object for statistics
+    // and store the stats
+    $GlobalPageView = new eZPageView();
+    $GlobalPageView->store();
+}
 
 // parse the URI
 $meta_page = "";
