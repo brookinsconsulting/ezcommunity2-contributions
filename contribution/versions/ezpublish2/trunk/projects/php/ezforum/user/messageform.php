@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.7 2001/03/13 13:37:52 pkej Exp $
+// $Id: messageform.php,v 1.8 2001/03/13 14:14:16 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -101,7 +101,7 @@ if( $ShowMessageForm )
         }
         else
         {
-            $MessageBody = $msg->body( false );
+            $MessageBody = $msg->body( true );
         }
 
         $MessageNotice = $msg->emailNotice();

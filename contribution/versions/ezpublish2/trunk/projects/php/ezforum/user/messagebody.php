@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagebody.php,v 1.4 2001/03/04 19:35:05 fh Exp $
+// $Id: messagebody.php,v 1.5 2001/03/13 14:14:16 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -42,13 +42,13 @@ if( $ShowMessage == true )
     $msg = new eZForumMessage( $MessageID );
     $MessageTopic = $msg->topic();
     
-    if( $AllowHTML == "enabled" )
+    if( $AllowHTML == "ednabled" )
     {
         $MessageBody = $msg->body( false );
     }
     else
     {
-        $MessageBody = eZTextTool::nl2br( $msg->body( false ) );
+        $MessageBody = eZTextTool::nl2br( stripslashes( $msg->body( true ) ) );
     }
     $author = new eZUser ( $msg->userId() );
     $MessageNotice = $msg->emailNotice();
