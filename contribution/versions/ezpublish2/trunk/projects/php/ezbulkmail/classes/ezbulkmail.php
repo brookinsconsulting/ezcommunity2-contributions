@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.1 2001/04/17 09:55:29 fh Exp $
+// $Id: ezbulkmail.php,v 1.2 2001/04/17 11:46:24 fh Exp $
 //
 // eZBulkMail class
 //
@@ -184,6 +184,20 @@ class eZBulkMail
     function id()
     {
         return $this->ID;
+    }
+
+    /*!
+      \private
+      
+      Open the database for read and write. Gets all the database information from site.ini.
+    */
+    function dbInit()
+    {
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = eZDB::globalDatabase();
+            $this->IsConnected = true;
+        }
     }
 
     var $ID;
