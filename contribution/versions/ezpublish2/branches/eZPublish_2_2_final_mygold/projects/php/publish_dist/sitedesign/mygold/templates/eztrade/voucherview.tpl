@@ -44,6 +44,33 @@
   </tr>
   <!-- END email_information_tpl -->
 
+<!-- BEGIN smail_information_tpl -->
+<tr>
+     <td>
+     <b>{intl-name}:</b><br />
+     {to_name_value}
+     <br /><br />
+
+     <b>{intl-to_street}:</b><br />
+     {to_street1_value}
+     <br /><br />
+     <b>{intl-to_street}:</b><br />
+     {to_street2_value}
+     <br /><br />
+     <b>{intl-to_zip}:</b><br />
+     {to_zip_value}
+     <br /><br />
+     <b>{intl-to_place}:</b><br />
+     {to_place_value}
+     <br /><br />
+     <b>{intl-to_country}:</b><br />
+     {country_name}
+     <br /><br />
+     </td>
+</tr>
+<!-- END smail_information_tpl -->
+
+
   <!-- BEGIN used_list_tpl -->
   <tr align="left">
     <th>{intl-used}:</th>

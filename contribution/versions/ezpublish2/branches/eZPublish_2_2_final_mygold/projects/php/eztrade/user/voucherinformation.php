@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.6 2001/11/05 08:31:09 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.7 2001/11/08 09:36:54 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -131,21 +131,29 @@ if ( ( $product ) and ( isSet( $OK ) and $error == false ) )
     }
     else if ( $Mail == 2 )
     {
-        $toAddress = new eZAddress();
+        if ( is_numeric ( $ToAddressID ) )
+            $toAddress = new eZAddress( $ToAddressID );
+        else
+            $toAddress = new eZAddress();
         $toAddress->setName( $ToName );
         $toAddress->setStreet1( $ToStreet1 );
         $toAddress->setStreet2( $ToStreet2 );
         $toAddress->setZip( $ToZip );
         $toAddress->setPlace( $ToPlace );
+        $toAddress->setCountry( $ToCountryID );
         $toAddress->store();
         $voucherInfo->setToAddress( $toAddress );
 
-        $fromAddress = new eZAddress();
+        if ( is_numeric ( $FromAddressID ) )
+            $fromAddress = new eZAddress( $FromAddressID );
+        else
+            $fromAddress = new eZAddress();
         $fromAddress->setName( $FromName );
         $fromAddress->setStreet1( $FromStreet1 );
         $fromAddress->setStreet2( $FromStreet2 );
         $fromAddress->setZip( $FromZip );
         $fromAddress->setPlace( $FromPlace );
+        $toAddress->setCountry( $FromCountryID );
         $fromAddress->store();
         $voucherInfo->setFromAddress( $fromAddress );
     }
@@ -227,6 +235,7 @@ else if ( $product ) // Print out the addresses forms
             $t->set_var( "voucher_info_id", $info->id() );
 
             $t->set_var( "to_name_value", $toAddress->name() );
+            $t->set_var( "to_address_id", $toAddress->id() );
             $t->set_var( "to_street1_value", $toAddress->street1() );
             $t->set_var( "to_street2_value", $toAddress->street2() );
             $t->set_var( "to_zip_value", $toAddress->zip() );
@@ -238,6 +247,7 @@ else if ( $product ) // Print out the addresses forms
             $fromAddress =& $info->fromAddress();
 
             $t->set_var( "from_name_value", $fromAddress->name() );
+            $t->set_var( "from_address_id", $fromAddress->id() );
             $t->set_var( "from_street1_value", $fromAddress->street1() );
             $t->set_var( "from_street2_value", $fromAddress->street2() );
             $t->set_var( "from_zip_value", $fromAddress->zip() );
@@ -282,6 +292,7 @@ else if ( $product ) // Print out the addresses forms
 
 
 }
+
 
 $t->pparse( "output", "voucher_tpl" );
 ?>

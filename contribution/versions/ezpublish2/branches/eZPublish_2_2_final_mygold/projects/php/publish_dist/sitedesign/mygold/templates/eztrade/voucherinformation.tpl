@@ -66,6 +66,7 @@
      <td width="50%">
      <b>{intl-name}:</b><br />
      <input type="text" name="ToName" value="{to_name_value}" />
+     <input type="hidden" name="ToAddressID" value="{to_address_id}" />
      <br /><br />
 
      <b>{intl-to_street}:</b><br />
@@ -82,7 +83,7 @@
      <br /><br />
      <!-- BEGIN to_country_tpl -->
      <b>{intl-to_country}:</b><br />
-     <select name="ToCountryID[]" size="5">
+     <select name="ToCountryID" size="5">
      <!-- BEGIN to_country_option_tpl -->
      <option {is_selected} value="{country_id}">{country_name}</option>
      <!-- END to_country_option_tpl -->
@@ -93,6 +94,7 @@
      <td width="50%">
      <b>{intl-from_name}:</b><br />
      <input type="text" name="FromName" value="{from_name_value}" />
+     <input type="hidden" name="FromAddressID" value="{from_address_id}" />
      <br /><br />
 
      <b>{intl-from_street}:</b><br />
@@ -109,7 +111,7 @@
      <br /><br />
      <!-- BEGIN from_country_tpl -->
      <b>{intl-from_country}:</b><br />
-     <select name="FromCountryID[]" size="5">
+     <select name="FromCountryID" size="5">
      <!-- BEGIN from_country_option_tpl -->
      <option {is_selected} value="{country_id}">{country_name}</option>
      <!-- END from_country_option_tpl -->

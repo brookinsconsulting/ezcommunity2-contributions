@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherview.php,v 1.1.4.1 2001/10/25 08:19:00 ce Exp $
+// $Id: voucherview.php,v 1.1.4.2 2001/11/08 09:36:54 ce Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -79,6 +79,8 @@ $t->set_block( "voucher_edit_tpl", "view_voucher_tpl", "view_voucher" );
 $t->set_block( "voucher_edit_tpl", "error_tpl", "error" );
 $t->set_block( "view_voucher_tpl", "used_list_tpl", "used_list" );
 $t->set_block( "used_list_tpl", "used_item_tpl", "used_item" );
+$t->set_block( "view_voucher_tpl", "email_information_tpl", "email_information" );
+$t->set_block( "view_voucher_tpl", "smail_information_tpl", "smail_information" );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
@@ -97,18 +99,32 @@ if ( isSet ( $Key ) )
         $t->set_var( "voucher_price", $locale->format( $currency ) );
         $t->set_var( "voucher_created", $locale->format( $voucher->created() ) );
         $t->set_var( "voucher_id", $voucher->id() );
-
+        
         $voucherInfo =& $voucher->information();
+        $t->set_var( "sent_description", $voucherInfo->description() );
         
         if ( $voucherInfo->mailMethod() == 1 )
         {
             $mail =& $voucherInfo->toOnline();
             $t->set_var( "sent_email", $mail->url() );
-            $t->set_var( "sent_description", $voucherInfo->description() );
+
+            $t->set_var( "smail_information", "" );
+            $t->parse( "email_information", "email_information_tpl" );
         }
         else if ( $voucherInfo->mailMethod() == 2 )
         {
-            
+            $toAddress =& $voucherInfo->toAddress();
+            $t->set_var( "to_name_value", $toAddress->name() );
+            $t->set_var( "to_street1_value", $toAddress->street1() );
+            $t->set_var( "to_street2_value", $toAddress->street2() );
+            $t->set_var( "to_zip_value", $toAddress->zip() );
+            $t->set_var( "to_place_value", $toAddress->place() );
+            $toCountry =& $toAddress->country();
+            if ( $toCountry )
+                $t->set_var( "country_name", $toCountry->name() );
+
+            $t->set_var( "email_information", "" );
+            $t->parse( "smail_information", "smail_information_tpl" );
         }
 
         $usedList = $voucher->usedList();
