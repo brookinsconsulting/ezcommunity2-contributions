@@ -57,8 +57,8 @@
 
 <!-- {intl-owner_group -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<th class "boxtext" width="50%">{intl-write_groups}:</th>
-<th class "boxtext" width="50%">{intl-recursive}:</th>
+<th class "boxtext" width="100%">{intl-write_groups}:</th>
+<!-- <th class "boxtext" width="50%">{intl-recursive}:</th> -->
 <tr>
   <td>
     <select name="WriteGroupArray[]" multiple size="7">
@@ -69,7 +69,7 @@
     </select>
   </td>
   <td>
-    <input type="checkbox" name="Recursive" />
+<!--    <input type="checkbox" name="Recursive" /> -->
   </td>
 </tr>
 </table>
