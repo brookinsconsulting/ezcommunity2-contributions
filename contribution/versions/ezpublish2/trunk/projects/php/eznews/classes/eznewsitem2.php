@@ -1,7 +1,8 @@
 <?php
 
 
-
+class eZNewsItem
+{
 /*
     \code
     // Example - adding a front image to the object.
