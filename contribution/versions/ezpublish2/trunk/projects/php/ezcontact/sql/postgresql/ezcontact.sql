@@ -105,12 +105,6 @@ CREATE TABLE eZContact_ContactType (
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE eZContact_ImageType (
-  ID int NOT NULL,
-  Name varchar(50),
-  PRIMARY KEY (ID)
-);
-
 CREATE TABLE eZContact_Person (
   ID int NOT NULL,
   FirstName varchar(50),
@@ -152,17 +146,24 @@ CREATE TABLE eZContact_ProjectType (
   PRIMARY KEY (ID)
 );
 
+
 CREATE TABLE eZContact_UserCompanyDict (
   UserID int NOT NULL,
   CompanyID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (UserID,CompanyID)
 );
 
+CREATE UNIQUE INDEX eZContactUserCompanyDictCompanyID ON eZContact_UserCompanyDict(CompanyID);
+CREATE UNIQUE INDEX eZContactUserCompanyDictUserID ON eZContact_UserCompanyDict(UserID);
+
 CREATE TABLE eZContact_UserPersonDict (
   UserID int NOT NULL,
   PersonID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (UserID,PersonID)
 );
+
+CREATE UNIQUE INDEX eZContactUserPersonDictPersonID ON eZContact_UserPersonDict(PersonID);
+CREATE UNIQUE INDEX eZContactUserPersonDictUserID ON eZContact_UserPersonDict(UserID);
 
 CREATE TABLE eZContact_CompanyView (
   ID int NOT NULL,
