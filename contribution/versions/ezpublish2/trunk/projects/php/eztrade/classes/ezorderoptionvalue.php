@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderoptionvalue.php,v 1.13 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezorderoptionvalue.php,v 1.14 2001/08/30 11:38:31 ce Exp $
 //
 // Definition of eZOrderOptionValue class
 //
@@ -77,7 +77,7 @@ class eZOrderOptionValue
 		                         RemoteID,
 		                         ValueName )
                                VALUES
-                               ( '$nextID'
+                               ( '$nextID',
 		                         '$this->OrderItemID',
 		                         '$this->OptionName',
 		                         '$this->RemoteID',

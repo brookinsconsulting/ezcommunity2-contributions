@@ -205,6 +205,11 @@ CREATE TABLE eZTrade_OrderStatusType (
   PRIMARY KEY (ID)
 );
 
+INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
+INSERT INTO eZTrade_OrderStatusType VALUES (2,'intl-sendt');
+INSERT INTO eZTrade_OrderStatusType VALUES (3,'intl-payed');
+INSERT INTO eZTrade_OrderStatusType VALUES (4,'intl-undefined');
+
 CREATE TABLE eZTrade_PreOrder (
   ID int NOT NULL,
   Created int NOT NULL,

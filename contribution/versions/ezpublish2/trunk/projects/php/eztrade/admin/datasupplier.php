@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.36 2001/08/29 10:17:24 br Exp $
+// $Id: datasupplier.php,v 1.37 2001/08/30 11:38:31 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -38,8 +38,15 @@ $url_array = explode( "/", $REQUEST_URI );
 switch ( $url_array[2] )
 {
     case "orderlist" :
+    {
+        if ( $url_array[3] != "" )
+            $Offset = $url_array[3];
+        else
+            $Offset = 0;
+        
         include( "eztrade/admin/orderlist.php" );
-        break;
+    }
+    break;
 
     case "orderedit" :
         $OrderID = $url_array[3];

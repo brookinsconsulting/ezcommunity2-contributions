@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.26 2001/08/29 10:17:24 br Exp $
+// $Id: orderedit.php,v 1.27 2001/08/30 11:38:31 ce Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -223,70 +223,7 @@ foreach ( $items as $item )
         $t->set_var( "product_image_caption", $image->caption() );
     }
 
-    $priceobj = new eZCurrency();
-    
-    if ( $product->showPrice() == true and $product->hasPrice() )
-    {
-        $found_price = false;
-        if ( $ShowPriceGroups and $PriceGroup > 0 )
-        {
-            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-            if ( $price )
-            {
-                $found_price = true;
-                $priceobj->setValue( $price * $item->count() );
-            }
-        }
-        if ( !$found_price )
-        {
-            $priceobj->setValue( $product->price() * $item->count() );
-        }
-        $t->set_var( "product_price", $locale->format( $priceobj ) );
-    }
-    else
-    {
-        $priceobj->setValue( $product->price() * $item->count() );
-        $priceArray = "";
-        $options =& $product->options();
-        if ( count( $options ) == 1 )
-        {
-            $option = $options[0];
-            if ( get_class( $option ) == "ezoption" )
-            {
-                $optionValues =& $option->values();
-                if ( count( $optionValues ) > 1 )
-                {
-                    $i=0;
-                    foreach ( $optionValues as $optionValue )
-                    {
-                        $found_price = false;
-                        if ( $ShowPriceGroups and $PriceGroup > 0 )
-                        {
-                            $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                            if ( $priceArray[$i] )
-                            {
-                                $found_price = true;
-                                $priceArray[$i] = $priceArray[$i];
-                            }
-                        }
-                        if ( !$found_price )
-                        {
-                            $priceArray[$i] = $optionValue->price();
-                        }
-                        $i++;
-                    }
-                    $high = new eZCurrency( max( $priceArray ) );
-                    $low = new eZCurrency( min( $priceArray ) );
-                }
-            }
-        }
-        else
-        {
-            $t->set_var( "product_price", "" );
-        }
-    }
-    
-    $price = $priceobj->value();    
+    $price = $item->price() * $item->count();
 
     $currency->setValue( $price );
 

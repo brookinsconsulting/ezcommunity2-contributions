@@ -208,6 +208,10 @@ CREATE TABLE eZTrade_OrderStatusType (
   UNIQUE KEY Name(Name)
 ) TYPE=MyISAM;
 
+INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
+INSERT INTO eZTrade_OrderStatusType VALUES (2,'intl-sendt');
+INSERT INTO eZTrade_OrderStatusType VALUES (3,'intl-payed');
+INSERT INTO eZTrade_OrderStatusType VALUES (4,'intl-undefined');
 
 CREATE TABLE eZTrade_PreOrder (
   ID int NOT NULL,
@@ -475,3 +479,4 @@ CREATE TABLE eZTrade_WishListOptionValue (
   OptionValueID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
