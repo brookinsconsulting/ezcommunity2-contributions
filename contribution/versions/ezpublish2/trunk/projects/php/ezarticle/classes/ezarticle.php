@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.31 2001/02/08 14:31:13 jb Exp $
+// $Id: ezarticle.php,v 1.32 2001/02/16 14:21:40 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -671,8 +671,6 @@ class eZArticle
 
             $fileID = $value->id();
             
-            $this->Database->query( "DELETE FROM eZArticle_ArticleFileDefinition WHERE ArticleID='$this->ID' AND ThumbnailFileID='$fileID'" );
-
             $this->Database->query( "DELETE FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' AND FileID='$fileID'" );
         }
     }
