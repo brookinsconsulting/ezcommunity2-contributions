@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.53 2001/10/09 08:59:33 jhe Exp $
+// $Id: ezforum.php,v 1.54 2001/10/11 12:00:35 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -443,7 +443,7 @@ class eZForum
     /*!
       Returns every category which the forum is a part of.
     */
-    function categories()
+    function categories( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
         
@@ -455,7 +455,10 @@ class eZForum
         
         foreach ( $forum_array as $forum )
         {
-            $ret[] = new eZForumCategory( $forum[$db->fieldName( "CategoryID" )] );
+            if ( $as_object )
+                $ret[] = new eZForumCategory( $forum[$db->fieldName( "CategoryID" )] );
+            else
+                $ret[] = $forum[$db->fieldName( "CategoryID" )];
         }
         
         return $ret;

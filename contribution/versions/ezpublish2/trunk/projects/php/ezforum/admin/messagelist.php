@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagelist.php,v 1.21 2001/10/10 13:18:28 jhe Exp $
+// $Id: messagelist.php,v 1.22 2001/10/11 12:00:35 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -43,7 +43,7 @@ $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTem
                      "ezforum/admin/" . "/intl", $Language, "messagelist.php" );
 $t->setAllStrings();
 
-$t->set_file( Array( "message_page" => "messagelist.tpl" ) );
+$t->set_file( "message_page", "messagelist.tpl" );
 
 $t->set_block( "message_page", "message_item_tpl", "message_item" );
 
@@ -53,11 +53,14 @@ $forum = new eZForum( $ForumID );
 $t->set_var( "forum_name", $forum->name() );
 
 $categories = $forum->categories();
+
 if ( count( $categories ) > 0 )
 {
-    $category = new eZForumCategory( $categories[0]->id() );
+    $CategoryID = $categories[0]->id();
+    $category = new eZForumCategory( $CategoryID );
 
     $t->set_var( "category_name", $category->name() );
+    $t->set_var( "category_id", $CategoryID );
 }
 
 $locale = new eZLocale( $Language );
@@ -102,14 +105,23 @@ else
         $t->set_var( "message_id", $message->id() );
         
         $author = $message->user();
-        if ( $author->id() != 0 )
+
+        if ( $message->userName() )
+            $anonymous = $message->userName();
+        else
+            $anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+        
+        if ( $author->id() == 0 )
         {
-            $t->set_var( "message_user", $author->firstName() . " " . $author->lastName() );
+            $MessageAuthor = $anonymous;
         }
         else
         {
-            $t->set_var( "message_user", $AnonymousPoster );
+            $MessageAuthor = $author->firstName() . " " . $author->lastName();
         }
+        
+        $t->set_var( "message_user", $MessageAuthor );
+
         if ( $message->emailNotice() == "Y" )
             $t->set_var( "emailnotice", $true );
         else
@@ -130,7 +142,6 @@ $t->set_var( "link1-url", "");
 $t->set_var( "link2-url", "search.php");
 
 $t->set_var( "back-url", "admin/forum.php" );
-$t->set_var( "category_id", $CategoryID );
 $t->set_var( "forum_id", $ForumID );
 
 $t->pparse( "output", "message_page" );

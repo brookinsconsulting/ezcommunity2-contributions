@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.19 2001/10/10 13:18:28 jhe Exp $
+// $Id: messageedit.php,v 1.20 2001/10/11 12:00:35 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -181,7 +181,22 @@ if ( $Action == "edit" )
         $t->set_var( "message_postingtime", $locale->format( $msg->postingTime() ) );
         $t->set_var( "message_body", $msg->body() );
         $author = $msg->user();
-        $t->set_var( "message_user", $author->firstName() . " " . $author->lastName() );
+
+        if ( $msg->userName() )
+            $anonymous = $msg->userName();
+        else
+            $anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+
+        if ( $author->id() == 0 )
+        {
+            $MessageAuthor = $anonymous;
+        }
+        else
+        {
+            $MessageAuthor = $author->firstName() . " " . $author->lastName();
+        }
+
+        $t->set_var( "message_user", $MessageAuthor );
         $action_value = "update";
         $t->set_var( "message_id", $MessageID );
         $t->set_var( "forum_id", $msg->forumID() );

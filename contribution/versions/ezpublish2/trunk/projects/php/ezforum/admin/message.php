@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.36 2001/10/10 13:18:28 jhe Exp $
+// $Id: message.php,v 1.37 2001/10/11 12:00:35 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -66,7 +66,21 @@ $t->set_var( "message_topic", $message->topic() );
 
 $author = $message->user();
 
-$t->set_var( "user", $author->firstName() . " " . $author->lastName() );
+if ( $message->userName() )
+    $anonymous = $message->userName();
+else
+    $anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+
+if ( $author->id() == 0 )
+{
+    $MessageAuthor = $anonymous;
+}
+else
+{
+    $MessageAuthor = $author->firstName() . " " . $author->lastName();
+}
+
+$t->set_var( "user", $MessageAuthor );
 $t->set_var( "topic", $message->topic() );
 $t->set_var( "postingtime", $message->postingTime() );
 
@@ -110,7 +124,22 @@ foreach ( $messages as $message )
     $t->set_var( "message_id", $message->id() );
 
     $author = $message->user();
-    $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
+
+    if ( $message->userName() )
+        $anonymous = $message->userName();
+    else
+        $anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+    
+    if ( $author->id() == 0 )
+    {
+        $MessageAuthor = $anonymous;
+    }
+    else
+    {
+        $MessageAuthor = $author->firstName() . " " . $author->lastName();
+    }
+
+    $t->set_var( "user", $MessageAuthor );
 
     $t->parse( "message_item", "message_item_tpl", true );
     $i++;
