@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: masssubscribe.php,v 1.2 2001/05/15 10:31:16 ce Exp $
+// $Id: masssubscribe.php,v 1.3 2001/05/16 12:50:06 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <14-May-2001 15:02:02 ce>
@@ -76,9 +76,10 @@ if ( isSet ( $OK ) && ( count ( $CategoryArrayID ) > 0 ) )
                 
                 if ( $bulkMail->addressExists ( $email ) == false )
                 {
-                    $password = substr( md5( microtime() ), 0, 7 );
-                    $bulkMail->setEncryptetPassword( $passsword );
+                    $password = substr( md5( microtime() ), 0, 4 );
+                    $bulkMail->setEncryptetPassword( $password );
                     $bulkMail->store();
+
                 }
 
                 foreach( $CategoryArrayID as $CategoryID )
@@ -97,12 +98,13 @@ if ( isSet ( $OK ) && ( count ( $CategoryArrayID ) > 0 ) )
 
                             $category = new eZBulkMailCategory( $CategoryID );
                             $mailTemplate->set_var( "category_name", $category->name() );
-
+                            $mailTemplate->set_var( "password", $password );
+                            
                             $mail = new eZMail();
                             $mail->setSubject( $languageIni->read_var( "strings", "mail_subject" ) );
                             $mail->setTo( $email );
                             $mail->setBody( $mailTemplate->parse( "dummy", "send_mail_tpl" ) );
-
+                            
                             $mail->send();
                         }
                     }

@@ -12,7 +12,6 @@ $GLOBALS["DEBUG"] = true;
 
 $UsePHPSessions = false;
 
-apc_reset_cache();
 
 ob_start();
 // Turn on output buffering with gz compression
