@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.45 2001/03/04 15:00:28 fh Exp $
+// $Id: ezarticlecategory.php,v 1.46 2001/03/04 18:13:35 pkej Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -383,7 +383,7 @@ class eZArticleCategory
       $user is of type eZUser.
       $categoryID is the categoryID.
      */
-    function isAuthor( $user, $categoryID )
+    function isOwner( $user, $categoryID )
     {
         if( get_class( $user ) != "ezuser" )
             return false;
