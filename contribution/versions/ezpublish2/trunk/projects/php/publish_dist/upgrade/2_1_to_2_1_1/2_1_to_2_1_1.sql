@@ -492,3 +492,55 @@ CREATE TABLE eZLink_TypeLink (
   TypeID int(11),
   PRIMARY KEY(ID)
 );
+
+DROP TABLE IF EXISTS eZStats_Archive_RequestedPage;
+CREATE TABLE eZStats_Archive_RequestedPage (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Month int(11),
+  URI char(250),
+  Count int DEFAULT '0' NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZStats_Archive_PageView;
+CREATE TABLE eZStats_Archive_PageView (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Hour int(11),
+  Count int DEFAULT '0' NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZStats_Archive_UniqueVisits;
+CREATE TABLE eZStats_Archive_UniqueVisits (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Day int(11),
+  Count int DEFAULT '0' NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZStats_Archive_BrowserType;
+CREATE TABLE eZStats_Archive_BrowserType (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Browser char(250),
+  Count int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZStats_Archive_RefererURL;
+CREATE TABLE eZStats_Archive_RefererURL (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Month int(11),
+  Domain char(100) default NULL,
+  URI char(200) default NULL,
+  Count int DEFAULT '0' NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZStats_Archive_Users;
+CREATE TABLE eZStats_Archive_Users (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  UserID int(11),
+  Month int(11),
+  Count int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY(ID)
+);
