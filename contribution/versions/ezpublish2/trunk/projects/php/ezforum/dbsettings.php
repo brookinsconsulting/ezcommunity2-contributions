@@ -1,7 +1,7 @@
 <?
 $SERVER = "localhost";
 $USER = "zez";
-$PWD = "zez2zez";
+$PWD = "lp0De3";
 $DB = "zez";
 $DOCROOT = "ezforum";
 $PREFIX = "ezforum_";
