@@ -5,6 +5,12 @@ mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
 
+mod: ezbulkmail
+change: added module
+
+mod: ezmail
+change: added module
+
 mod: ezuser/admin, settings.php.ini
 changed: new file
 
