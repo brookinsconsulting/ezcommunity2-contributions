@@ -32,7 +32,7 @@ $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 if ( count( $linkGroup_array ) == 0 )
 {
-    $t->set_var( "group_list", "Ingen grupper funnet." );
+    $t->set_var( "group_list", "<p>Ingen grupper funnet!</p>" );
 
 }
 else
@@ -76,7 +76,6 @@ else
 
 if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
 {
-
                   if ( ( ( $i / 2 ) % 2 ) == 0 )
         {
             $t->set_var( "bg_color", "#f0f0f0" );
@@ -91,7 +90,7 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
 //    $t->set_var( "bg_color", "#ffffdd" );
 
     $t->set_var( "linkgroup_id", "incoming" );
-    $t->set_var( "linkgroup_title", "Innkommende linker" );
+    $t->set_var( "linkgroup_title", "<br>Innkommende linker" );
     $t->set_var( "linkgroup_parent", "" );
 
     
@@ -125,7 +124,7 @@ else
 
 if ( count( $link_array ) == 0 )
 {
-    $t->set_var( "link_list", "Ingen linker funnet." );
+    $t->set_var( "link_list", "<p>Ingen linker funnet!</p>" );
 }
 else
 {
