@@ -31,3 +31,5 @@ CREATE TABLE eZBulkMail_GroupCategoryLink (
   PRIMARY KEY (GroupID, CategoryID)
 ) TYPE=MyISAM;
 
+alter table eZBulkMail_SentLog add Mail varchar(255); 
+alter table eZBulkMail_SentLog drop AddressID; 
