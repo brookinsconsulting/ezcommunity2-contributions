@@ -1,9 +1,24 @@
-<!-- BEGIN first_page_tpl -->
-<form method="post">
-
 <h1>{intl-header}</h1>
 
 <hr noshade="noshade" size="4" />
+
+<!-- BEGIN first_page_tpl -->
+<form method="post">
+<!-- BEGIN err_msg_tpl -->
+<h1>{intl-errors_occured}:</h1><br />
+<!-- END err_msg_tpl -->
+
+<!-- BEGIN err_real_name_tpl -->
+<h3 class="error" >{intl-error_real_name}</h3><br />
+<!-- END err_real_name_tpl -->
+
+<!-- BEGIN err_send_to_tpl -->
+<h3 class="error" >{intl-error_send_to}</h3><br />
+<!-- END err_send_to_tpl -->
+
+<!-- BEGIN err_from_tpl -->
+<h3 class="error" >{intl-error_from}</h3><br />
+<!-- END err_from_tpl -->
 
 <h2>{Topic}</h2>
 <p>{Intro}</p>
@@ -42,52 +57,26 @@
 <input class="okbutton" type="submit" name="Submit" value="{intl-send}">
 <input class="okbutton" type="reset" name="Reset" value="{intl-reset}">
 </form>
+
 <!-- END first_page_tpl -->
+
+<!-- *** The second page *** -->
+
 <!-- BEGIN success_tpl -->
-<h1>{intl-this_message_is_send_to} {to_name}</h1>
-<hr noshade="noshade" size="4" />
-<p>{intl-mailsendto} {server_name}</p>
+<h2>{intl-this_message_is_send_to} {to_name}</h2>
+<p>{intl-mail_send_to} {server_name} {intl-mail_from}: <br />
+{from_name}</p>
 <br />
 <h2>{header_text}</h2>
 <p>{intro_text}</p>
 <br />
+<!-- BEGIN user_comment_tpl -->
 <p class="boxtext">{intl-the_users_comment}:</p>
 <div class="p">{user_comment}</div>
+<!-- END user_comment_tpl -->
 
 <p class="boxtext">{intl-url}:</p>
 <a href="http://{site_url}/article/view/{art_id}">http://{site_url}/article/view/{art_id}</a><br />
 <br />
 <a class="path" href="http://{site_url}/article/mailtofriend/{art_id}">&lt;&lt;&nbsp;back</a>
 <!-- END success_tpl -->
-<!-- BEGIN article_url_tpl -->
-http://{site_url}/article/view/{art_id}
-<!-- END article_url_tpl -->
-<!-- BEGIN mail_subject_tpl -->
-{intl-mail_subject_head} {server_name}
-<!-- END mail_subject_tpl -->
-<!-- BEGIN mail_body_tpl -->
-{intl-mailsendto} {server_name}
-
-{intl-the_article}:
-** {name} **
-{intro}
-
-{intl-the_users_comment}:
-{comment}
-
-{intl-url}:
-<!-- END mail_body_tpl -->
-<!-- BEGIN errormsg_tpl -->
-<h3 class="error">{intl-errors_occured}:</h3>
-<!-- END errormsg_tpl -->
-<!-- BEGIN errormsg_real_name_tpl -->
-<h3 class="error" >{intl-error_real_name}</h3>
-<!-- END errormsg_real_name_tpl -->
-
-<!-- BEGIN errormsg_send_to_tpl -->
-<h3 class="error" >{intl-error_send_to}</h3>
-<!-- END errormsg_send_to_tpl -->
-
-<!-- BEGIN errormsg_from_tpl -->
-<h3 class="error" >{intl-error_from}</h3>
-<!-- END errormsg_from_tpl -->
