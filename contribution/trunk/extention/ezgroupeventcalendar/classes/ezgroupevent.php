@@ -868,6 +868,91 @@ class eZGroupEvent
             $this->IsConnected = true;
         }
     }
+
+    /*!
+      Returns the comments for the event.
+    */
+    function forum( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT ForumID FROM
+                                            eZGroupEventCalendar_EventForumLink
+                                            WHERE EventID='$this->ID'" );
+        $forum = false;
+        if ( count( $res ) == 1 )
+	{
+          if ( $as_object )
+	    $forum = new eZForum( $res[0][$db->fieldName( "ForumID" )] );
+          else
+	    $forum = $res[0][$db->fieldName( "ForumID" )];
+	}
+        else
+	  { 
+            $forum = new eZForum();
+            $forum->setName( $db->escapeString( $this->Name ) );
+
+	    // NOTE:  Comment out the below line if you want to disable anonymous (not logged in) comments!!!
+	    $forum->setIsAnonymous(true);
+
+	    // NOTE:  Comment out the below line if you want moderated comments!!!
+	    $forum->setIsModerated(false);
+
+	    // NOTE:  Uncomment the below lines if you want moderated comments!!!
+	    //$forum->setIsModerated(true);
+	    //      $moderatorgroup = new eZUserGroup( 1 ); //should be a variable - administrator groupid
+	    //            $forum->setModerator( $moderatorgroup );
+
+            $forum->store();
+	    $ini =& INIFile::globalINI();
+	    $linkModules = $ini->read_var( "eZForumMain", "LinkModules" );
+	    $module_array = explode(',', $linkModules );
+	    unset ($linkModules);
+	    foreach ( $module_array as $module)
+	    {
+	      $moduleSubArray = explode( ':', $module );
+	      list($module_name, $forum_id) = $moduleSubArray;
+	      $linkModules[$module_name] = $forum_id;
+	    }
+            $category = new eZForumCategory( $linkModules['eZGroupEventCalendar'] );  
+	    $category->addForum( $forum );
+            $forumID = $forum->id();
+            $db->begin( );
+            $db->lock( "eZGroupEventCalendar_EventForumLink" );
+            $nextID = $db->nextID( "eZGroupEventCalendar_EventForumLink", "ID" );
+            $res = $db->query( "INSERT INTO eZGroupEventCalendar_EventForumLink
+                                ( ID, EventID, ForumID )
+                                VALUES
+                                ( '$nextID', '$this->ID', '$forumID' )" );
+            $db->unlock();
+            if ( $res == false )
+	      $db->rollback( );
+            else
+	      $db->commit();
+            if ( $as_object )
+	      $forum = new eZForum( $forumID );
+            else
+	      $forum = $forumID;
+	}
+      return $forum;
+    }
+
+    /*!
+      Returns the event which a review is connected to.
+    */
+    function eventIDFromForum( $ForumID )
+    {
+        $db =& eZDB::globalDatabase();
+        $EventID = 0;
+        $db->array_query( $result, "SELECT EventID FROM
+                                    eZGroupEventCalendar_EventForumLink
+                                    WHERE ForumID='$ForumID' GROUP BY EventID" );
+        if( count( $result ) > 0 )
+	{
+          $EventID = $result[0][$db->fieldName("EventID")];
+	}
+      return $EventID;
+    }
+
     
     var $ID;
     var $Name;

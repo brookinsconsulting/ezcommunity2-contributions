@@ -1,6 +1,10 @@
 <?
+include_once( "ezgroupeventcalendar/classes/ezgroupevent.php" );
+
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "eZGroupEventCalendarMain", "DefaultSection" );
+$UserComments = $ini->read_var( "eZGroupEventCalendarMain", "UserComments" );
+
 $Title = "Calendar";
 
 /*
@@ -88,16 +92,36 @@ switch ( $url_array[2] )
     case "eventview" :
     {
         $EventID = $url_array[3];
-
         include( "ezgroupeventcalendar/user/eventview.php" );
-    }
-	break;
-	
-	default;
+
+	if  (  ( $PrintableVersion != "enabled" ) &&  ( $UserComments == "enabled" ) )
 	{
-		eZHTTPTool::header( "Location: /error/404" );
-        exit();
+	    $RedirectURL = "/groupeventcalendar/eventview/$EventID/";
+	    $event = new eZGroupEvent( $EventID );
+	    if ( ( $event->id() >= 1 ) )
+	    {
+		for ( $i = 0; $i < count( $url_array ); $i++ )
+		{
+		  if ( ( $url_array[$i] ) == "parent" )
+		  {
+		     $next = $i + 1;
+		     $Offset = $url_array[$next];
+		   }
+		}
+
+	      $forum = $event->forum();
+	      $ForumID = $forum->id();
+       	      include( "ezforum/user/messagesimplelist.php" );
+	    }
 	}
+    }
+    break;
+	
+    default;
+    {
+       	eZHTTPTool::header( "Location: /error/404" );
+         exit();
+    }
 }
 
 ?>

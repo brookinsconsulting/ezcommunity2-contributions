@@ -38,6 +38,9 @@ include_once( "ezgroupeventcalendar/classes/ezgroupevent.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeditor.php" );
 
+include_once( "ezforum/classes/ezforum.php" );
+include_once( "ezforum/classes/ezforumcategory.php" );
+
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $SiteDesign = $ini->read_var( "site", "SiteDesign" );
