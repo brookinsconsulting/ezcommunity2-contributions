@@ -12,9 +12,6 @@
 </tr>
 </table>
 
-
-
-
 <hr noshade="noshade" size="4"/>
 
 <img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">

@@ -55,7 +55,7 @@
 	{image_number}
 	</td>
 	<td class="{td_class}">
-	{image_name}
+	{image_name}&nbsp;
 	</td>
 	<td class="{td_class}">
 	<img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />

@@ -31,7 +31,8 @@
 
 
 <p class="boxtext">{intl-keywords}:</p>
-<textarea rows="5" cols="40" name="Keywords" wrap="soft">{keywords_value}</textarea>
+<input name="Keywords" size="40" value="{keywords_value}" />
+
 <br /><br />
 
 <p class="boxtext">{intl-intro}:</p>

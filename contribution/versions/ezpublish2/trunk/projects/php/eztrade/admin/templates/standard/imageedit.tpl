@@ -14,7 +14,7 @@
 	<input type="text" size="40" name="Name" value="{name_value}"/>
 	
 	<p class="boxtext">{intl-imagetext}</p>
-	<input type="text" size="40" name="Caption" value="{caption_value}"/>
+	<textarea wrap="soft"rows="5" cols="40" name="Caption">{caption_value}</textarea>
 	
 	<p class="boxtext">{intl-file}</p>
 	<input size="40" name="userfile" type="file" />

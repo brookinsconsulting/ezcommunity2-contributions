@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.6 2000/11/02 12:21:06 bf-cvs Exp $
+// $Id: productlist.php,v 1.7 2000/12/21 16:45:33 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -27,10 +27,16 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+
+$CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
+
+$ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );
+$ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -129,7 +135,7 @@ foreach ( $productList as $product )
     $thumbnailImage = $product->thumbnailImage();
     if ( $thumbnailImage )
     {
-        $variation =& $thumbnailImage->requestImageVariation( 150, 150 );
+        $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
     
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
@@ -144,7 +150,8 @@ foreach ( $productList as $product )
     }
 
     $t->set_var( "product_name", $product->name() );
-    $t->set_var( "product_intro_text", $product->brief() );
+    
+    $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
     
     if ( $product->showPrice() == true  )
     {

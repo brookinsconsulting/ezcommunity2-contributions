@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.9 2000/12/21 13:00:29 bf Exp $
+// $Id: productview.php,v 1.10 2000/12/21 16:45:33 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -31,6 +31,14 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+
+$CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
+
+$MainImageWidth = $ini->read_var( "eZTradeMain", "MainImageWidth" );
+$MainImageHeight = $ini->read_var( "eZTradeMain", "MainImageHeight" );
+
+$SmallImageWidth = $ini->read_var( "eZTradeMain", "SmallImageWidth" );
+$SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -81,7 +89,7 @@ $product = new eZProduct( $ProductID );
 $mainImage = $product->mainImage();
 if ( $mainImage )
 {
-    $variation = $mainImage->requestImageVariation( 250, 250 );
+    $variation = $mainImage->requestImageVariation( $MainImageWidth, $MainImageHeight );
     
     $t->set_var( "main_image_id", $mainImage->id() );
     $t->set_var( "main_image_uri", "/" . $variation->imagePath() );
@@ -98,7 +106,16 @@ else
     $t->set_var( "main_image", "" );    
 }
 
-$t->set_var( "title_text", $product->name() );
+
+if ( $CapitalizeHeadlines == "enabled" )
+{
+    include_once( "classes/eztexttool.php" );
+    $t->set_var( "title_text", eZTextTool::capitalize( $product->name() ) );
+}
+else
+{        
+    $t->set_var( "title_text", $product->name() );
+} 
 $t->set_var( "intro_text", $product->brief() );
 $t->set_var( "description_text", nl2br( $product->description() ) );
 
@@ -119,11 +136,13 @@ foreach ( $images as $image )
             $t->set_var( "td_class", "bgdark" );
         }
     
+        $t->set_var( "image_name", $image->name() );
+
         $t->set_var( "image_caption", $image->caption() );
         $t->set_var( "image_id", $image->id() );
         $t->set_var( "product_id", $ProductID );
 
-        $variation = $image->requestImageVariation( 150, 150 );
+        $variation = $image->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
     
         $t->set_var( "image_url", "/" .$variation->imagePath() );
         $t->set_var( "image_width", $variation->width() );
@@ -170,13 +189,26 @@ if ( $type )
 {
     $attributes = $type->attributes();
 
+    $i=0;
     foreach ( $attributes as $attribute )
     {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "begin_tr", "<tr>" );
+            $t->set_var( "end_tr", "" );        
+        }
+        else
+        {
+            $t->set_var( "begin_tr", "" );
+            $t->set_var( "end_tr", "</tr>" );
+        }
+        
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
         $t->set_var( "attribute_value", $attribute->value( $product ) );
         
         $t->parse( "attribute", "attribute_tpl", true );
+        $i++;
     }
 }
 
