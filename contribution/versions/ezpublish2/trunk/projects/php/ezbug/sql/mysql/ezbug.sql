@@ -100,4 +100,3 @@ CREATE TABLE eZBug_Status (
 );
 
 INSERT INTO eZBug_Status VALUES (1,'Fixed');
-
