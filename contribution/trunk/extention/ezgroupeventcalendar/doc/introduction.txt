@@ -1,4 +1,9 @@
-eZGroupEventCalendar uses the following Javascript tools
+eZGroupEventCalendar Introduction
+
+
+Browser : Requirements : Client Side Scripting
+
+The calendar uses the following Javascript tools
 
 Dom Drag - Used for draggable calendar navigation div, and the Sort by Group div.
 http://www.youngpup.net/2001/domdrag
@@ -10,5 +15,21 @@ Overlib - Used for informational popups.
 http://www.bosrup.com/web/overlib/
 
 Known Bugs:
-Overlib and Dom Drag are incompatible. After dragging the navigation calendar or Sort By box, 
+Problem:
+Overlib and Dom Drag are incompatible. After dragging the navigation calendar or Sort By box,
 mousing over an event name will display the overlib div in the upper right hand corner.
+Solution: php switch vs patch?
+
+Calendar Edit Privileges
+
+By default all users of all groups are calendar editors, until the administrator changes the privileges in the calendar admin. Yet by default none of the groups have the calendar privileges until the administrated enables them in each group's eZUser : Group Administrator.
+
+You must .... steps to assign privileges
+1) Login to you administrator
+2) Select the eZUser Module
+3) Select the group list
+4) Edit a group
+5) Find the section called eZGroupEventCalendar and enable both options (read & write to root)
+6) Save your changes
+7) Your group now has calendar edit privileges, you can limit these privileges to individual users in each group in the eZGroupEvent Admin Module under Calendar Editors
+
