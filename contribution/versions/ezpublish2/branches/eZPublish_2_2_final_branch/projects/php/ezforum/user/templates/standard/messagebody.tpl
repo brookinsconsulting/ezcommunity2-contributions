@@ -19,7 +19,9 @@
 <p class="boxtext">{intl-body}:</p>
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>        
-   	<td class="bglight">{message_body}</td>
+<td class="bglight">
+{message_body}
+</td>
 </tr>
 </table>
 

@@ -23,7 +23,9 @@
 </table>
 
 <p class="boxtext">{intl-text}:</p>
-<textarea wrap="soft" name="NewMessageBody" class="box" rows="15" cols="40" class="body">{new_message_body}</textarea>
+<textarea wrap="soft" name="NewMessageBody" class="box" rows="15" cols="40" class="body">
+{new_message_body}
+</textarea>
 
 <!-- BEGIN message_body_info_tpl -->
 <p>{intl-tags_info} <b>{allowed_tags}</b>. </p>

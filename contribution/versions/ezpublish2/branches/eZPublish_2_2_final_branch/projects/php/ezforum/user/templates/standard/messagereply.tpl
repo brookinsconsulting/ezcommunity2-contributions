@@ -45,7 +45,9 @@
 </table>
 
 <p class="boxtext">{intl-text}:</p>
-<textarea wrap="soft" class="box" name="Body" rows="15" cols="40" rows="10">{body}</textarea>
+<textarea wrap="soft" class="box" name="Body" rows="15" cols="40" rows="10">
+{body}
+</textarea>
 <br /><br />
     
 <input type="checkbox" name="notice"> {intl-email_notice}
