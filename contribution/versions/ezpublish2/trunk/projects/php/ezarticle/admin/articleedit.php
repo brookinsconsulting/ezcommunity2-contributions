@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.65 2001/04/09 11:58:22 bf Exp $
+// $Id: articleedit.php,v 1.66 2001/04/10 09:46:12 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -288,7 +288,10 @@ if ( $Action == "Insert" )
         $category = $article->categoryDefinition( );
         $categoryID = $category->id();
 
-        eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+        if ( $article->isPublished() )
+            eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+        else
+            eZHTTPTool::header( "Location: /article/unpublished/$categoryID/" );
         exit();
     }
     else
@@ -479,7 +482,10 @@ if ( $Action == "Update" )
         $category = $article->categoryDefinition( );
         $categoryID = $category->id();
 
-        eZHTTPTool::header( "Location: /article/archive/$oldCategoryID/" );
+        if ( $article->isPublished() )
+            eZHTTPTool::header( "Location: /article/archive/$oldCategoryID/" );
+        else
+            eZHTTPTool::header( "Location: /article/unpublished/$oldCategoryID/" );
         exit();
     }
     else
