@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.12 2001/11/21 08:56:59 jhe Exp $
+// $Id: ezxml.php,v 1.13 2001/11/26 14:41:01 br Exp $
 //
 // Definition of eZXML class
 //
@@ -253,7 +253,7 @@ class eZXML
                 // content tag
                 $tagContent = substr( $xmlDoc, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
 
-                if ( trim( $tagContent ) != "" )
+//                if ( trim( $tagContent ) != "" )
                 {
                     unset( $subNode );
                     $subNode = new eZDOMNode();
