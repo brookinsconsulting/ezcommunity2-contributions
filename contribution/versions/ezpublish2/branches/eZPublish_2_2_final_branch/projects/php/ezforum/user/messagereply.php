@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.44.2.2 2001/12/10 13:02:03 jhe Exp $
+// $Id: messagereply.php,v 1.44.2.3 2001/12/20 11:35:55 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -118,7 +118,11 @@ if ( $StartAction == "reply" )
             }
         }
     }
+    
     $mail = new eZMail();
+    $replyAddress = $ini->read_var( "eZForumMain", "ReplyAddress" );
+    $mail->setFrom( $replyAddress );
+    
     foreach ( $messages as $message )
     {
         if ( $message->id() != $msg->id() )
