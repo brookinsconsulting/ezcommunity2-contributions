@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.61 2001/09/15 12:37:18 pkej Exp $
+// $Id: cart.php,v 1.62 2001/09/15 13:26:23 pkej Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -106,26 +106,33 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
             $j = 0;
 
             // First we track the maximum number of items available in stock.
-            $maxInStock = 0;
-
+            $maxInStock = false;
+            
             foreach( $optionValues as $optionValue )
             {
                 $value = $optionValue->optionValue();
-
-                if ( ( $value->totalQuantity() < $CartCountArray[$i] ) and
-                    ( $value->totalQuantity() < $maxInStock ) and
-                    ( $value->totalQuantity() != false ) )
+                
+                $totalQuantity = $value->totalQuantity();
+                
+                if ( $totalQuantity != false and
+                    $totalQuantity < $CartCountArray[$i] )
                 {
-                    $maxInStock = $valueOption->totalQuantity();
+                    if ( $maxInStock == false or $totalQuantity < $maxInStock )
+                    {
+                        $maxInStock = $totalQuantity;
+                    }
                 }
-
             }
-
-            if ( ( $product->totalQuantity() < $CartCountArray[$i] ) and
-                ( $product->totalQuantity() < $maxInStock ) and
-                ( $product->totalQuantity() != false ) )
+            
+            $totalQuantity = $product->totalQuantity();
+            
+            if ( $totalQuantity != false and
+                $totalQuantity < $CartCountArray[$i] )
             {
-                $maxInStock = $product->totalQuantity();
+                if ( $maxInStock == false or $totalQuantity < $maxInStock )
+                {
+                    $maxInStock = $totalQuantity;
+                }
             }
 
             // Next step is to actually set the info.
@@ -133,7 +140,7 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
             {
                 $value = $optionValue->optionValue();
 
-                if ( ( $CartCountArray[$i] > $maxInStock ) and ( $value->totalQuantity() != false ) )
+                if ( ( $CartCountArray[$i] > $maxInStock ) and ( $value->totalQuantity() != false ) and ( $maxInStock != false ) )
                 {
                     $optionValue->setCount( $maxInStock );
                 }
@@ -145,7 +152,7 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
                 $optionValue->store();
             }
 
-            if ( ( $CartCountArray[$i] > $maxInStock ) and ( $product->totalQuantity() != false ) )
+            if ( ( $CartCountArray[$i] > $maxInStock ) and ( $product->totalQuantity() != false ) and ( $maxInStock != false ) )
             {
                 $cartItem->setCount( $maxInStock );
             }
