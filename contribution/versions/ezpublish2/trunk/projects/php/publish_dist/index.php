@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.121 2001/11/09 10:09:54 jhe Exp $
+// $Id: index.php,v 1.122 2001/11/09 14:15:48 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -172,7 +172,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         $translatedURL = eZURLTranslator::translate( $REQUEST_URI );
         if ( $translatedURL )
         {
-            $REQUESTED_URI = $translatedURL;
+            $REQUEST_URI = $translatedURL;
             $url_array = explode( "/", $REQUEST_URI );
         }
     }
