@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: help_header.php,v 1.1 2001/04/20 13:00:00 bf Exp $
+// $Id: help_header.php,v 1.2 2001/04/20 14:14:09 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Apr-2001 15:13:40 bf>
@@ -61,9 +61,7 @@ $t->set_var( "site_url", $SiteURL );
 
 $t->set_var( "site_style", $SiteStyle );
 
-$t->set_var( "module_name", $moduleName );
-
-$t->set_var( "current_url", eZHTTPTool::removeVariable( $REQUEST_URI, "PrintableVersion" ) );
+$t->set_var( "module_name", $url_array[2] );
 
 $t->set_var( "charset", $iso );
 

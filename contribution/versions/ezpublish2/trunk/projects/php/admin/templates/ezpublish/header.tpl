@@ -43,6 +43,12 @@
     	}
 	}
 
+	function popup ( url, target ) 
+	{
+	    numbers = "width=500, height=400, left=4, top=4, toolbar=1, statusbar=0, scrollbars=1, resizable=1";
+	    newWin = window.open ( url, target, numbers );
+	    return false;
+	}
 	
 //-->
 </SCRIPT> 

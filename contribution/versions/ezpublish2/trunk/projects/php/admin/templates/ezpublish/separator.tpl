@@ -49,10 +49,9 @@
 		</a>
 		</td>
 
-
 		<!-- BEGIN help_tpl -->
 		<td>
-		<a target="_help_window" href="{help_url}">
+		<a target="_help_window" href="{help_url}" onclick="return popup('{help_url}','_help_window')">
 		<img src="/admin/images/{site_style}/icon-help.gif" width="32" height="32" border="0" alt="Help" />
 		</a>
 		</td>
