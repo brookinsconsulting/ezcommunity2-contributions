@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.26 2001/10/14 15:34:21 fh Exp $
+// $Id: ezbulkmail.php,v 1.27 2001/11/20 09:02:00 jhe Exp $
 //
 // eZBulkMail class
 //
@@ -298,9 +298,9 @@ class eZBulkMail
     /*!
       Returns the date that this mail was distributed
      */
-    function date(  )
+    function date()
     {
-        $dateTime = new eZDateTime( );
+        $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->SentDate );
         
         return $dateTime;
@@ -548,7 +548,7 @@ class eZBulkMail
             $db =& eZDB::globalDatabase();
             $db->begin();
             $timeStamp =& eZDateTime::timeStamp( true );
-            $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timestamp' WHERE ID='$this->ID'");
+            $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timeStamp' WHERE ID='$this->ID'");
             if ( $result == false )
                 $db->rollback( );
             else
@@ -644,7 +644,7 @@ class eZBulkMail
     function haveSentHourly( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Hour FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Hour"];
@@ -664,7 +664,7 @@ class eZBulkMail
     function haveSentDaily( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Daily FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Daily"];
@@ -682,7 +682,7 @@ class eZBulkMail
     function haveSentWeekly( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Weekly FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Weekly"];
@@ -700,7 +700,7 @@ class eZBulkMail
     function haveSentMonthly( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Monthly FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Monthly"];
@@ -754,7 +754,7 @@ class eZBulkMail
         $db->begin();
         $timeStamp =& eZDateTime::timeStamp( true );
         $id = $bulkMail->id();
-        $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timestamp' WHERE ID='$id'");
+        $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timeStamp' WHERE ID='$id'");
         if ( $result == false )
             $db->rollback( );
         else
@@ -816,7 +816,7 @@ class eZBulkMail
         $result = $db->query( "INSERT INTO eZBulkMail_SentLog
                   ( ID, SentDate, Mail, MailID )
                   VALUES
-                  ( '$nextID', '$timestamp', '$mail', '$this->ID' )
+                  ( '$nextID', '$timeStamp', '$mail', '$this->ID' )
                   " );
 
         $db->unlock();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.25 2001/10/16 13:46:00 jhe Exp $
+// $Id: ezbulkmailcategory.php,v 1.26 2001/11/20 09:02:00 jhe Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -428,7 +428,14 @@ class eZBulkMailCategory
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
 
-        return $result[$db->fieldName( "Count" )];
+        $count =  $result[$db->fieldName( "Count" )];
+        $result_array = array();
+        $db->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
+        foreach ( $result_array as $result )
+        {
+            $count += count( eZUserGroup::users( $result["GroupID"] ) );
+        }
+        return $count;
     }
     
     /*!
