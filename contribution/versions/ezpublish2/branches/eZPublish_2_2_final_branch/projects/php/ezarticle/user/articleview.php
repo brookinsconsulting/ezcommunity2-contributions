@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.7 2001/12/05 13:56:11 fh Exp $
+// $Id: articleview.php,v 1.84.2.8 2001/12/11 13:39:54 th Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -310,7 +310,7 @@ if ( $article->get( $ArticleID ) )
     
     $t->set_var( "article_intro", $articleContents[0] );
 
-    if ( $PageNumber == 1 )
+    if ( ( $PageNumber == 1 ) || (( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )))
            $t->parse( "article_intro", "article_intro_tpl" );
     else
         $t->set_var( "article_intro", "" );
