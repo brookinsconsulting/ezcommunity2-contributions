@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.2 2001/02/06 15:55:20 jb Exp $
+// $Id: ezlist.php,v 1.3 2001/02/09 11:43:21 jb Exp $
 //
 // Definition of eZList class
 //
@@ -77,6 +77,8 @@ class eZList
             $next_inactive = $variables["next_inactive"];
             $prev_inactive = $variables["previous_inactive"];
             $item = $variables["item"];
+            $item_inactive = $variables["item_inactive"];
+            $item_list = $variables["item_list"];
             $next_index = $variables["next_index"];
             $prev_index = $variables["previous_index"];
             $item_index = $variables["item_index"];
@@ -92,8 +94,12 @@ class eZList
             $next_inactive = "type_list_next_inactive";
         if ( empty( $prev_inactive ) )
             $prev_inactive = "type_list_previous_inactive";
+        if ( empty( $item_list ) )
+            $item_list = "type_list_item_list";
         if ( empty( $item ) )
             $item = "type_list_item";
+        if ( empty( $item_inactive ) )
+            $item_inactive = "type_list_inactive_item";
         if ( empty( $next_index ) )
             $next_index = "item_next_index";
         if ( empty( $prev_index ) )
@@ -109,7 +115,9 @@ class eZList
         {
             $t->set_block( $parent, $type_list . "_tpl", $type_list );
             $t->set_block( $type_list . "_tpl", $prev . "_tpl", $prev );
-            $t->set_block( $type_list . "_tpl", $item . "_tpl", $item );
+            $t->set_block( $type_list . "_tpl", $item_list . "_tpl", $item_list );
+            $t->set_block( $item_list . "_tpl", $item . "_tpl", $item );
+            $t->set_block( $item_list . "_tpl", $item_inactive . "_tpl", $item_inactive );
             $t->set_block( $type_list . "_tpl", $next . "_tpl", $next );
             $t->set_block( $type_list . "_tpl", $prev_inactive . "_tpl", $prev_inactive );
             $t->set_block( $type_list . "_tpl", $next_inactive . "_tpl", $next_inactive );
@@ -118,7 +126,6 @@ class eZList
         if ( $total_types > $max_types || $index > 0 )
         {
             $t->set_var( $prev, "" );
-            $t->set_var( $item, "" );
             $t->set_var( $next, "" );
             $t->set_var( $prev_inactive, "" );
             $t->set_var( $next_inactive, "" );
@@ -143,15 +150,56 @@ class eZList
             }
 
             $total = $total_types;
-            $i = 0;
-            while ( $total > 0 )
+            $i = 1;
+            while ( $total > 0 && $i <= 100 )
             {
-                $t->set_var( $item_index, $i*$max_types );
-                $t->set_var( $item_name, $i );
-                $t->parse( $item, $item . "_tpl", true );
-
-                $total = $total - $max_types;
-                $i++;
+                $cur_i = $i;
+                $t->set_var( $item, "" );
+                $t->set_var( $item_inactive, "" );
+                if ( $i <= 10 )
+                {
+                    $t->set_var( $item_index, ($i - 1)*$max_types );
+                    $t->set_var( $item_name, $i );
+                    $i++;
+                    $total = $total - $max_types;
+                }
+                else if ( $i <= 50 )
+                {
+                    $i_start = $i;
+                    $i_end = $i + 9;
+                    if ( $i_end > $total_types )
+                        $i_end = $total_types;
+                    $t->set_var( $item_index, ($i - 1)*$max_types );
+                    if ( $i_start != $i_end )
+                        $t->set_var( $item_name, $i_start . "-" . $i_end );
+                    else
+                        $t->set_var( $item_name, $i_start );
+                    $i += 10;
+                    $total = $total - $max_types*10;
+                }
+                else
+                {
+                    $i_start = $i;
+                    $i_end = $i + 49;
+                    if ( $i_end > $total_types )
+                        $i_end = $total_types;
+                    $t->set_var( $item_index, ($i - 1)*$max_types );
+                    if ( $i_start != $i_end )
+                        $t->set_var( $item_name, $i_start . "-" . $i_end );
+                    else
+                        $t->set_var( $item_name, $i_start );
+                    $i += 50;
+                    $total = $total - $max_types*50;
+                }
+                if ( ($cur_i - 1)*$max_types == $index )
+                {
+                    $t->parse( $item_inactive, $item_inactive . "_tpl" );
+                }
+                else
+                {
+                    $t->parse( $item, $item . "_tpl" );
+                }
+                $t->parse( $item_list, $item_list . "_tpl", true );
             }
 
             $t->parse( $type_list, $type_list . "_tpl" );
