@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.35 2001/09/28 13:23:39 ce Exp $
+// $Id: folderedit.php,v 1.36 2001/10/02 18:33:18 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -125,7 +125,9 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
         // update and not write
         if ( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false )
+        {
             $error = true;
+        }
 
         if ( $error )
             $t->parse( "error_write", "error_write_permission" );
@@ -236,8 +238,6 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
             $fileItem->store();
         }
     }
-
-
     eZHTTPTool::header( "Location: /filemanager/list/" . $ParentID );
     exit();
 }

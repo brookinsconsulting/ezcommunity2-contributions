@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.46 2001/09/28 10:14:40 jhe Exp $
+// $Id: filelist.php,v 1.47 2001/10/02 18:33:17 br Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -169,11 +169,12 @@ foreach ( $folderList as $folderItem )
     }
 
     if ( ( $user ) &&
-         ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) ) ||
+         ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) &&
+           eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) ) ||
          ( eZVirtualFolder::isOwner( $user, $folderItem->id() ) ) )
     {
         $t->parse( "folder_write", "folder_write_tpl" );
-        $deleteFolders = true;;
+        $deleteFolders = true;
     }
 
     $t->parse( "folder", "folder_tpl", true );

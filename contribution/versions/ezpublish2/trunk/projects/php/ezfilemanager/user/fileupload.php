@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.41 2001/09/28 08:18:31 jhe Exp $
+// $Id: fileupload.php,v 1.42 2001/10/02 18:33:17 br Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -175,7 +175,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         $t->parse( "errors", "errors_tpl" );
     }
 }
-
+ 
 if ( $Action == "Insert" && $error == false )
 {
     $uploadedFile = new eZVirtualFile();
@@ -230,7 +230,8 @@ if ( $Action == "Update" && $error == false )
     }    
 
     $uploadedFile->store();
-    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
+//    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
+    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ) // user had write permission
     {
         changePermissions( $FileID, $ReadGroupArrayID, 'r' );
         changePermissions( $FileID, $WriteGroupArrayID, 'w' );
