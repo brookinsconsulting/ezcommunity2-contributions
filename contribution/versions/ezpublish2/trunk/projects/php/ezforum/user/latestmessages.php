@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: latestmessages.php,v 1.1 2001/07/02 16:10:44 bf Exp $
+// $Id: latestmessages.php,v 1.2 2001/07/02 16:33:30 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Jul-2001 11:45:17 bf>
@@ -48,12 +48,17 @@ $user =& eZUser::currentUser();
 $db =& eZDB::globalDatabase();
 $messages =& eZForumMessage::lastMessages( 10 );
 
+$i=0;
 foreach ( $messages as $message )
 {
+    $nr = ( $i % 2 ) + 1;
+    $t->set_var( "alt_nr", $nr );
+
     $t->set_var( "message_id", $message[$db->fieldName( "ID" )] );
     $t->set_var( "message_topic", $message[$db->fieldName( "Topic" )] );
 
     $t->parse( "message", "message_tpl", true );
+    $i++;
 }
 $t->pparse( "output", "latest_messages_tpl" );
 
