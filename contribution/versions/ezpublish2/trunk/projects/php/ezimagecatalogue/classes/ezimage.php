@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.29 2001/02/09 10:03:02 bf Exp $
+// $Id: ezimage.php,v 1.30 2001/02/21 11:25:01 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -649,8 +649,6 @@ class eZImage
         
        if ( get_class( $file ) == "ezimagefile" )
        {
-           print( "storing image" );
-
            $this->OriginalFileName = $file->name();
 
            $suffix = "";

@@ -189,7 +189,14 @@ switch ( $url_array[2] )
         include( "eztrade/xmlrpc/xmlrpcserver.php" );
     }
     break;
-        
+
+    // XML rpc interface
+    case "xmlrpcimport" :
+    {
+        include( "eztrade/xmlrpc/xmlrpcserverimport.php" );
+    }
+    break;
+
         
     default :
         print( "<h1>Sorry, Your Product page could not be found. </h1>" );

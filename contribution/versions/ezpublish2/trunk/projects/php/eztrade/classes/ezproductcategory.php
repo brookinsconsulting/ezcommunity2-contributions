@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.25 2001/02/19 16:37:53 ce Exp $
+// $Id: ezproductcategory.php,v 1.26 2001/02/21 11:25:01 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -127,6 +127,7 @@ class eZProductCategory
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  SortMode='$this->SortMode',
+                                 RemoteID='$this->RemoteID',
                                  Parent='$this->Parent'" );
             $this->ID = mysql_insert_id();
         }
@@ -136,6 +137,7 @@ class eZProductCategory
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  SortMode='$this->SortMode',
+                                 RemoteID='$this->RemoteID',
                                  Parent='$this->Parent' WHERE ID='$this->ID'" );
         }
         
@@ -205,6 +207,7 @@ class eZProductCategory
                 $this->Description =& $category_array[0][ "Description" ];
                 $this->Parent =& $category_array[0][ "Parent" ];
                 $this->SortMode =& $category_array[0][ "SortMode" ];
+                $this->RemoteID =& $category_array[0][ "RemoteID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -342,7 +345,18 @@ class eZProductCategory
     /*!
       Returns the name of the category.
     */
-    function name()
+    function &name()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->Name;
+    }
+
+    /*!
+      Returns the remote ID of the category.
+    */
+    function remoteID()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -353,7 +367,7 @@ class eZProductCategory
     /*!
       Returns the group description.
     */
-    function description()
+    function &description()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -430,7 +444,7 @@ class eZProductCategory
     /*!
       Sets the name of the category.
     */
-    function setName( $value )
+    function setName( &$value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -439,9 +453,20 @@ class eZProductCategory
     }
 
     /*!
+      Sets the remote ID of the category.
+    */
+    function setRemoteID( &$value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->RemoteID = $value;
+    }
+
+    /*!
       Sets the description of the category.
     */
-    function setDescription( $value )
+    function setDescription( &$value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -452,7 +477,7 @@ class eZProductCategory
     /*!
       Sets the parent category.
     */
-    function setParent( $value )
+    function setParent( &$value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -482,7 +507,7 @@ class eZProductCategory
     /*!
       Adds a product to the category.
     */
-    function addProduct( $value )
+    function addProduct( &$value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -734,6 +759,7 @@ class eZProductCategory
     var $Description;
     var $OptionArray;
     var $SortMode;
+    var $RemoteID;
 
     ///  Variable for keeping the database connection.
     var $Database;

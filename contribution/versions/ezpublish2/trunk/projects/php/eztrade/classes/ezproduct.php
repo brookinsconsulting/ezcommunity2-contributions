@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.33 2001/02/20 16:12:48 bf Exp $
+// $Id: ezproduct.php,v 1.34 2001/02/21 11:25:01 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -134,7 +134,8 @@ class eZProduct
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
-                                 IsHotDeal='$this->IsHotDeal',
+                                 RemoteID='$this->RemoteID',
+                                 IsHotDeal='$this->IsHotDeal'
                                  VATTypeID='$this->VATTypeID'
                                  " );
 
@@ -192,6 +193,7 @@ class eZProduct
                 $this->ExternalLink =& $category_array[0][ "ExternalLink" ];
                 $this->Price =& $category_array[0][ "Price" ];
                 $this->IsHotDeal =& $category_array[0][ "IsHotDeal" ];
+                $this->RemoteID =& $category_array[0][ "RemoteID" ];
                 $this->VATTypeID =& $category_array[0][ "VATTypeID" ];
 
                 if ( $category_array[0][ "ShowPrice" ] == "true" )                    
@@ -273,7 +275,19 @@ class eZProduct
             $this->get( $this->ID );
 
        return htmlspecialchars( $this->Name );
+    }
+
+    /*!
+      Returns the remote ID of the product.
+    */
+    function &remoteID( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->RemoteID;
     }    
+
 
     /*!
       Returns the price of the product.
@@ -437,6 +451,18 @@ class eZProduct
 
        $this->Name =& $value;        
     }
+
+    /*!
+      Sets the remote ID.
+    */
+    function setRemoteID( $remoteID )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->RemoteID = $remoteID;        
+    }
+
 
     /*!
       Sets the brief description of the product.
@@ -1075,6 +1101,26 @@ class eZProduct
             
     }
 
+    /*!
+      Check if there are a product where RemoteID == $id. Return the product if true.
+    */
+    function getByRemoteID( $id )
+    {
+        $this->dbInit();
+
+        $product = false;
+               
+       $this->Database->array_query( $res, "SELECT ID FROM
+                                            eZTrade_Product
+                                            WHERE RemoteID='$id'" );
+
+       if ( count( $res ) == 1 )
+       {
+           $product = new eZProduct( $res[0]["ID"] );
+       }
+
+       return $product;
+    }
 
     /*!
       Returns the name of the product with the given id.
@@ -1161,6 +1207,7 @@ class eZProduct
     var $Discontinued;
     var $ExternalLink;
     var $IsHotDeal;
+    var $RemoteID;
     var $VATTypeID;
     
     ///  Variable for keeping the database connection.
