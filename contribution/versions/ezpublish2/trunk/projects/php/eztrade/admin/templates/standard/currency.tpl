@@ -46,13 +46,12 @@
 
 <hr noshade size="4" />
 
+<input class="stdbutton" type="submit" name="AddCurrency" value="{intl-add_currency}" />
 
-<input type="submit" name="Store" value="{intl-store}" />
-
-<input type="submit" name="AddCurrency" value="{intl-add_currency}" />
-
-<input type="submit" name="Delete" value="{intl-delete_selected}" />
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}" />
 
 <hr noshade="noshade" size="4" />
+
+<input class="okbutton" type="submit" name="Store" value="{intl-store}" />
 
 </form>

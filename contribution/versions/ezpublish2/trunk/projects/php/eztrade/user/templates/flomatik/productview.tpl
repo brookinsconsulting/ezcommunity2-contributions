@@ -109,26 +109,28 @@
 	</th>
 </tr>
 <tr>
-	<td width="20%">
+	<td width="40%">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 	<!-- BEGIN value_price_header_tpl -->
 
 	<!-- END value_price_header_tpl -->
 	<tr>
-	<td>
 	<!-- BEGIN value_tpl -->
-	{value_name}
-	<!-- BEGIN value_price_item_tpl -->
-	{value_price}
-	<!-- END value_price_item_tpl -->
+	<td>
+	{value_name}&nbsp;&nbsp;
 	</td>
+	<!-- BEGIN value_price_item_tpl -->
+	<td>
+	{value_price}
+	</td>
+	<!-- END value_price_item_tpl -->
 	</tr>
 	<!-- END value_tpl -->
 </table>
 	</td>
 
-	<td width="80%">
+	<td width="60%">
 	{option_description}
 	</td>
 </tr>
