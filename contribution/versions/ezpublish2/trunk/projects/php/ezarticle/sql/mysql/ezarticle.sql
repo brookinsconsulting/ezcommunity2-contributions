@@ -187,12 +187,14 @@ CREATE TABLE eZArticle_ArticleMediaLink (
 
 CREATE TABLE eZArticle_ArticleWordLink (
   ArticleID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
   WordID int(11) NOT NULL default '0'
 );
 
 
 CREATE TABLE eZArticle_Word (
   ID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
   Word varchar(50) NOT NULL default ''
 );
 
