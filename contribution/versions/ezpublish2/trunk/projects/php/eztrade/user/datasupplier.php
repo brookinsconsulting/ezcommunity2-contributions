@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.50 2001/10/01 16:14:59 bf Exp $
+// $Id: datasupplier.php,v 1.51 2001/10/05 19:22:40 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -66,7 +66,7 @@ switch ( $url_array[2] )
         {
             include_once( "classes/ezcachefile.php" );
             $CacheFile = new eZCacheFile( "eztrade/cache/",
-                                          array_merge( "productlist", $groupIDArray, $Offset, $PriceGroup ),
+                                          array_merge( "productlist", $CategoryID, $groupIDArray, $Offset, $PriceGroup ),
                                           "cache", "," );
             if ( $CacheFile->exists() )
             {
