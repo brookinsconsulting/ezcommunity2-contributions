@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.64 2001/08/30 11:06:37 ce Exp $
+// $Id: payment.php,v 1.65 2001/09/03 11:13:38 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -189,7 +189,7 @@ if ( $PaymentSuccess == "true" )
     {
         $product = $item->product();
 
-        // product price
+            // product price
 
         $priceobj = new eZCurrency();
         
@@ -202,6 +202,8 @@ if ( $PaymentSuccess == "true" )
                 $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
                 if ( $price )
                 {
+                    $price = $price * $item->count();
+                    
                     if ( $PricesIncludeVAT == "enabled" )
                     {
                         $totalVAT = $product->addVAT( $price );
@@ -211,45 +213,42 @@ if ( $PaymentSuccess == "true" )
                     {
                         $totalVAT = $product->extractVAT( $price );
                     }
-
-                    $found_price = true;
-                    $priceobj->setValue( $price * $item->count() );
                 }
+
+                $found_price = true;
             }
-            if ( !$found_price )
+        }
+        
+        if ( !$found_price )
+        {
+            if ( $PricesIncludeVAT == "enabled" )
             {
-                if ( $PricesIncludeVAT == "enabled" )
-                {
-                    $totalVAT += $product->addVAT( $product->price() );
-                    $price += $product->price() + $totalVAT;
-                }
-                else
-                {
-                    $totalVAT += $product->extractVAT( $product->price() );
-                    $price += $product->price();
-                }
-
-                $priceobj->setValue( $price * $item->count() );
+                $totalVAT += $product->addVAT( $item->price( true, true ) );
+                $price += $item->price(true, true) + $totalVAT;
+            }
+            else
+            {
+                $totalVAT += $product->extractVAT( $item->price( true, true ) );
+                $price += $item->price( true, true );
             }
         }
         else
         {
             if ( $PricesIncludeVAT == "enabled" )
             {
-                $totalVAT = $product->addVAT( $item->price() );
-                $price = $item->price() + $totalVAT;
+                $totalVAT = $product->addVAT( $item->price( true, true ) );
+                $price = $item->price( true, true ) + $totalVAT;
             }
             else
             {
-                $totalVAT = $product->extractVAT( $item->price() );
-                $price = $item->price();
+                $totalVAT = $product->extractVAT( $item->price( true, true ) );
+                $price = $item->price( true, true );
             }
-            $priceobj->setValue( $price * $item->count() );
         }
 
-        $price = $priceobj->value();
-
-        // create a new order item
+        $currency->setValue( $price );
+        
+// create a new order item
         $orderItem = new eZOrderItem();
         $orderItem->setOrder( $order );
         $orderItem->setProduct( $product );
@@ -262,31 +261,31 @@ if ( $PaymentSuccess == "true" )
             $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + ( $expiryTime * 86400 ) );
         else
             $orderItem->setExpiryDate( 0 );
-        
+    
         $orderItem->store();
-        
+    
         $optionValues =& $item->optionValues();
-
+    
         foreach ( $optionValues as $optionValue )
         {
             $option =& $optionValue->option();
             $value =& $optionValue->optionValue();
-
+        
             $orderOptionValue = new eZOrderOptionValue();
             $orderOptionValue->setOrderItem( $orderItem );
-
+        
             $orderOptionValue->setRemoteID( $optionValue->remoteID() );
- 
+        
             $descriptions =& $value->descriptions();
-            
+        
             $orderOptionValue->setOptionName( $option->name() );
             $orderOptionValue->setValueName( $descriptions[0] );
             // fix
-            
+        
             $orderOptionValue->store();
         }
     }
-
+    
     //
     // Send mail confirmation
     //  
@@ -488,43 +487,38 @@ if ( $PaymentSuccess == "true" )
                     }
 
                     $found_price = true;
-                    $priceobj->setValue( $price * $item->count() );
+                    $price = $price * $item->count();
                 }
             }
             if ( !$found_price )
             {
                 if ( $PricesIncludeVAT == "enabled" )
                 {
-                    $totalVAT = $product->addVAT( $product->price() );
-                    $price = $product->price() + $totalVAT;
+                    $totalVAT = $product->addVAT( $item->price( true, true ) );
+                    $price = $item->price( true, true ) + $totalVAT;
                 }
                 else
                 {
-                    $totalVAT = $product->extractVAT( $product->price() );
-                    $price = $product->price();
+                    $price = $item->price( true, true );
+                    $totalVAT = $product->extractVAT( $price );
                 }
 
-                $priceobj->setValue( $price * $item->count() );
             }
         }
         else
         {
             if ( $PricesIncludeVAT == "enabled" )
             {
-                $totalVAT = $product->addVAT( $item->price() );
+                $totalVAT = $product->addVAT( $item->price( true, true ) );
                 $price = $item->price() + $totalVAT;
             }
             else
             {
-                $totalVAT = $product->extractVAT( $item->price() );
-                $price = $item->price();
+                $totalVAT = $product->extractVAT( $item->price( true, true ) );
+                $price = $item->price( true, true );
             }
-            
-            $priceobj->setValue( $price * $item->count() );
         }
         
-        $price = $priceobj->value();    
-
         $currency->setValue( $price );
 
         $mailTemplate->set_var( "debug", $debug );
@@ -561,7 +555,7 @@ if ( $PaymentSuccess == "true" )
             $optionString = str_pad( $optionString, 36, " ", STR_PAD_LEFT );
             $valueString = substr( $optionValue->valueName(), 0, 38 );
             $valueString = str_pad( $valueString, 39, " " );
-    
+            
             $mailTemplate->set_var( "name", $optionString );
             $mailTemplate->set_var( "value", $valueString );
             $mailTemplate->parse( "option_item", "option_item_tpl", true );
@@ -691,10 +685,10 @@ if ( $PaymentSuccess == "true" )
         $values =& $item->optionValues();
         $selected_values = array();
         foreach ( $values as $value )
-        {
-            $option_value =& $value->optionValue();
-            $selected_values[] = $option_value->id();
-        }
+            {
+                $option_value =& $value->optionValue();
+                $selected_values[] = $option_value->id();
+            }
 
         $changed_quantity = false;
         if ( !(is_bool( $quantity ) and !$quantity) )
@@ -745,7 +739,7 @@ if ( $PaymentSuccess == "true" )
             deleteCache( $product, false, false, false );
         }
     }
-
+    
     //
     if ( is_file ( "checkout/user/postpayment.php" ) )
     {

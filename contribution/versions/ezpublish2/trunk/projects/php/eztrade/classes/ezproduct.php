@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.82 2001/08/30 20:14:36 br Exp $
+// $Id: ezproduct.php,v 1.83 2001/09/03 11:13:38 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -861,7 +861,7 @@ class eZProduct
             $db->begin();
             $db->lock( "eZTrade_ProductOptionLink" );
             $nextID = $db->nextID( "eZTrade_ProductOptionLink", "ID" );
-            $res = $db->query( "delete from eZTrade_ProductOptionLink where ProductID='$this->ID'" );
+            $res = $db->query( "delete from eZTrade_ProductOptionLink where ProductID='$this->ID' AND OptionID='$optionID'" );
             $res = $db->query( "INSERT INTO eZTrade_ProductOptionLink ( ID, ProductID, OptionID ) VALUES ( '$nextID', '$this->ID', '$optionID' )" );
             $db->unlock();
             if ( $res == false )

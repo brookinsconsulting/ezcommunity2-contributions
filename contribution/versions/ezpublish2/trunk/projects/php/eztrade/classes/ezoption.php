@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoption.php,v 1.25 2001/08/31 10:15:27 ce Exp $
+// $Id: ezoption.php,v 1.26 2001/09/03 11:13:38 ce Exp $
 //
 // Definition of eZOption class
 //
@@ -376,16 +376,21 @@ class eZOption
         }
     }
 
-    function getByRemoteID( $value )
+    function getByRemoteID( $id )
     {
         $db =& eZDB::globalDatabase();
-
-        $db->array_query( $option_array, "SELECT ID FROM eZTrade_Option WHERE RemoteID='$value'" );
-
-        if ( count ( $option_array ) == 1 )
-            return true;
-        else
-            return false;
+        
+        $value = false;
+        
+        $db->array_query( $res, "SELECT ID FROM
+                                            eZTrade_Option
+                                            WHERE RemoteID='$id'" );
+        if ( count( $res ) == 1 )
+        {
+            $value = new eZOption( $res[0][$db->fieldName("ID")] );
+        }
+        
+        return $value;
     }
 
     var $ID;

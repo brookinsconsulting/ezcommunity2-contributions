@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.17 2001/08/31 13:59:24 ce Exp $
+// $Id: ezcartitem.php,v 1.18 2001/09/03 11:13:38 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -251,7 +251,10 @@ class eZCartItem
                 // if not fetch the standard price
                 if ( !$found_price )
                 {
-                    $price = $value->price();
+                    if ( $calcCount == true )
+                        $price = $value->price() * $optionValue->count();
+                    else
+                        $price = $value->price();
                 }
             
                 $optionPrice += $price;
@@ -260,13 +263,13 @@ class eZCartItem
 
         if ( $calcCount == true )
         {
-            $price = ( $product->price() + $optionPrice )  * $this->count();
+            $price = ( $product->price() * $this->count() ) + $optionPrice;
         }
         else
         {
             $price = ( $product->price() + $optionPrice );
         }            
-
+        
         return $price;        
     }
 

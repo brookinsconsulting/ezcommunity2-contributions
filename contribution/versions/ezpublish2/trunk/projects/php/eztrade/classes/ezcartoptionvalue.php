@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.14 2001/08/31 13:59:24 ce Exp $
+// $Id: ezcartoptionvalue.php,v 1.15 2001/09/03 11:13:38 ce Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -86,7 +86,7 @@ class eZCartOptionValue
 		                         CartItemID='$this->CartItemID',
 		                         OptionID='$this->OptionID',
 		                         OptionValueID='$this->OptionValueID',
-		                         Count='$this->Count',
+		                         Count='$this->Count'
                                  WHERE ID='$this->ID'
                                  " );
         }

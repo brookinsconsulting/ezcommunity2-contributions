@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.32 2001/08/31 10:15:27 ce Exp $
+// $Id: ezoptionvalue.php,v 1.33 2001/09/03 11:13:38 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -384,7 +384,7 @@ class eZOptionValue
                                             WHERE RemoteID='$id'" );
         if ( count( $res ) == 1 )
         {
-            $value = new eZOptionValue( $res[0][$fieldName("ID")] );
+            $value = new eZOptionValue( $res[0][$db->fieldName("ID")] );
         }
         
         return $value;

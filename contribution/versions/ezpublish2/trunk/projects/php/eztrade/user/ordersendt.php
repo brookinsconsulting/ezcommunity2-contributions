@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.40 2001/08/31 11:28:38 ce Exp $
+// $Id: ordersendt.php,v 1.41 2001/09/03 11:13:38 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -234,48 +234,40 @@ foreach ( $items as $item )
                 }
 
                 $found_price = true;
-                $priceobj->setValue( $price * $item->count() );
+                $price = $price * $item->count();
             }
         }
 
         if ( !$found_price )
         {
-
             if ( $PricesIncludeVAT == "enabled" )
             {
-                $totalVAT = $product->addVAT( $product->price() );
-                $price = $product->price() + $totalVAT;
+                $totalVAT = $product->addVAT( $item->price( true, true ) );
+                $price = $item->price( true, true ) + $totalVAT;
             }
             else
             {
-                $totalVAT = $product->extractVAT( $product->price() );
-                $price = $product->price();
+                $totalVAT = $product->extractVAT( $item->price( true, true ) );
+                $price = $item->price( true, true );
             }
-
-            $priceobj->setValue( $price * $item->count() );
         }
-
-        $t->set_var( "product_price", $locale->format( $priceobj ) );
+        $currency->setValue( $price );
+        $t->set_var( "product_price", $locale->format( $currency ) );
     }
     else
     {
         if ( $PricesIncludeVAT == "enabled" )
         {
-            $totalVAT = $product->addVAT( $item->price() );
-            $price = $item->price() + $totalVAT;
+            $totalVAT = $product->addVAT( $item->price( true, true ) );
+            $price = $item->price( true, true ) + $totalVAT;
         }
         else
         {
-            $totalVAT = $product->extractVAT( $item->price() );
-            $price = $item->price();
+            $totalVAT = $product->extractVAT( $item->price( true, true ) );
+            $price = $item->price( true, true );
         }
-
-        $priceobj->setValue( $price );
-
     }
 
-    $price = $priceobj->value();
-   
     $currency->setValue( $price );
 
     $sum += $price;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.51 2001/08/31 13:59:24 ce Exp $
+// $Id: cart.php,v 1.52 2001/09/03 11:13:38 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -82,32 +82,33 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
             $cartItem->delete();
         }
     }
-    foreach ( $ValueCountArray as $valueID )
+    $i = 0;
+    foreach ( $ValueIDArray as $valueID )
     {
-        $valueItem = new eZCartOptionValue( $optionID );
-        $value =& $valueItem->optionValue();
+        $value = new eZCartOptionValue( $valueID );
+        $valueOption = $value->optionValue();
 
-        if ( ( $value->totalQuantity() < $ValueCountArray[$i] ) and ( $value->totalQuantity() != false ) )
+        if ( ( $valueOption->totalQuantity() < $ValueCountArray[$i] ) and ( $valueOption->totalQuantity() != false ) )
         {
-            $valueItem->setCount( $value->totalQuantity() );
+            $value->setCount( $valueOption->totalQuantity() );
         }
         else
         {
-            $valueItem->setCount( $ValueCountArray[$i] );
+//            print( $ValueCountArray[$i] );
+            $value->setCount( $ValueCountArray[$i] );
         }
 
-        $valueItem->store();
+        $value->store();
 
         $i++;
 
         // Check for negative entries
-        if ( ( $valueItem->count() < 1 ) )
+        if ( ( $value->count() < 1 ) )
         {
-//            $valueItem->delete();
+            $value->delete();
         }
     }
 }
-
 
 if ( isset( $ShopMore ) ) 
 {
@@ -311,7 +312,7 @@ $items = $cart->items( );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
-    
+
 $i = 0;
 $sum = 0.0;
 $totalVAT = 0.0;
@@ -388,6 +389,8 @@ foreach ( $items as $item )
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
             if ( $price )
             {
+                $price = $price * $item->count();
+                                    
                 $foundPriceGroup = true;
                 if ( $PricesIncludeVAT == "enabled" )
                 {
@@ -397,8 +400,8 @@ foreach ( $items as $item )
                 else
                 {
                     $totalVAT = $product->extractVAT( $price );
-                    $price = $item->price( true, false );
                 }
+
                 $found_price = true;
             }
         }
@@ -453,6 +456,7 @@ foreach ( $items as $item )
             $t->set_var( "option_value", $descriptions[0] );
 
             $t->set_var( "value_item_count", $optionValue->count() );
+            $t->set_var( "value_item_id", $optionValue->id() );
 
             $t->set_var( "cart_item_option_availability", "" );
 
@@ -465,12 +469,12 @@ foreach ( $items as $item )
                 if ( $PricesIncludeVAT == "enabled" )
                 {
                     $totalVAT += $product->addVAT( $value->price() );
-                    $optionPrice += $value->price() + $totalVAT;
+                    $optionPrice += ( $value->price() * $optionValue->count() ) + $totalVAT;
                 }
                 else
                 {
                     $totalVAT += $product->extractVAT( $value->price() );
-                    $optionPrice += $value->price();
+                    $optionPrice += $value->price() * $optionValue->count();
                 }
             }
             $price += $optionPrice;
@@ -565,6 +569,5 @@ else
 
 
 $t->pparse( "output", "cart_page_tpl" );
-
 ?>
 

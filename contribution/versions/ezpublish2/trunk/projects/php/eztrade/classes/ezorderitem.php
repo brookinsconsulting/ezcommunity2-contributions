@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.20 2001/08/30 07:47:03 ce Exp $
+// $Id: ezorderitem.php,v 1.21 2001/09/03 11:13:38 ce Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -170,7 +170,7 @@ class eZOrderItem
     /*!
       Returns the price of the order item.
     */
-    function price()
+    function price( )
     {
         return $this->Price;
     }

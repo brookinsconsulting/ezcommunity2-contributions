@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfreetradeimport.php,v 1.8 2001/08/31 10:15:27 ce Exp $
+// $Id: ezfreetradeimport.php,v 1.9 2001/09/03 11:13:38 ce Exp $
 //
 // ezfreetradeimport class
 //
@@ -344,9 +344,19 @@ class eZFreeTradeImport
         $this->dbImport->array_query( $links, "SELECT * FROM sku_variation" );
         foreach ( $links as $link )
         {
-            $product = new eZProduct( $link["SKU"] );
-            $option = new eZOption( $link["Variation"] );
-            $product->addOption( $option );
+            $product = eZProduct::getByRemoteID( $link["SKU"] );
+            $optionValue = eZOptionValue::getByRemoteID( $link["Variation"] );
+            if ( ( $product ) and ( $optionValue ) )
+            {
+                $option = $optionValue->option();
+                $product->addOption( $option );
+            }
+
+            if ( !$product )
+                print( "Product dosen't exists!: " . $link["SKU"] . "\n" );
+            if ( !$option )
+                print( "Option dosen't exists!: " . $link["Variation"] . "\n" );
+
         }
     }
     
@@ -365,8 +375,8 @@ class eZFreeTradeImport
                 $value1->setRemoteID( $value["ID"] );
                 $value1->store();
                 $value1->addDescription( $value["Name"] );
-                
-                $option = new eZOption( $value["Attribute"] );
+
+                $option = eZOption::getByRemoteID( $value["Attribute"] );
                 $option->addValue( $value1 );
             }
         }
