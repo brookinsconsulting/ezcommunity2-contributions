@@ -76,6 +76,7 @@ $positionList = $position->getByCategory( $CategoryID );
 
 if ( count ( $positionList ) == 0 )
 {
+    $t->set_var( "classified_list", "" );
 //    print( "Gjør noe slemt" );
 }
 else
@@ -92,7 +93,7 @@ else
 
         $company = $positionList[$i]->company();
 
-        print( $company );
+        $t->set_var( "company_name", $company->name() );
         
         $t->parse( "classified_item", "classified_item_tpl" );
     }

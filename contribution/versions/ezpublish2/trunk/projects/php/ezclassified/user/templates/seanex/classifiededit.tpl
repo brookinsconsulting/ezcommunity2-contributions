@@ -68,25 +68,25 @@
 <form method="post" action="/classified/classifiededit/{action_value}/{classified_id}/">
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" size="20" name="Name" value="{name}"/>
+<input type="text" size="20" name="Name" value="{classified_name}"/>
 
 <p class="boxtext">{intl-description}:</p>
-<textarea cols="40" rows="8" name="Description">{description}</textarea>
+<textarea cols="40" rows="8" name="Description">{classified_description}</textarea>
 
 <p class="boxtext">{intl-contact_person}:</p>
-<textarea cols="40" rows="8" name="ContactPerson">{contact_person}</textarea>
+<textarea cols="40" rows="8" name="ContactPerson">{classified_contact_person}</textarea>
 
 <p class="boxtext">{intl-pay}:</p>
-<input type="text" size="20" name="Pay" value="{pay}"/>
+<input type="text" size="20" name="Pay" value="{classified_pay}"/>
 
 <p class="boxtext">{intl-worktime}:</p>
-<input type="text" size="20" name="WorkTime" value="{worktime}"/>
+<input type="text" size="20" name="WorkTime" value="{classified_worktime}"/>
 
 <p class="boxtext">{intl-duration}:</p>
-<input type="text" size="20" name="Duration" value="{duration}"/>
+<input type="text" size="20" name="Duration" value="{classified_duration}"/>
 
 <p class="boxtext">{intl-workplace}:</p>
-<input type="text" size="20" name="WorkPlace" value="{workplace}"/>
+<input type="text" size="20" name="WorkPlace" value="{classified_workplace}"/>
 
 <p class="boxtext">{intl-category}:</p>
 <select multiple size="10" name="CategoryArray[]">

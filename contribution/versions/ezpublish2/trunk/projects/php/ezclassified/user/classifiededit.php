@@ -72,9 +72,6 @@ if ( $Action == "insert" )
     {
         $category = new eZCategory();
 
-
-
-
         for( $i=0; $i<count( $CategoryArray ); $i++ )
         {
             print( $CategoryArray[$i] );
@@ -135,20 +132,29 @@ $t->set_block( "company_view_tpl", "no_logo_tpl", "no_logo" );
 
 if ( $Action == "new" )
 {
-    $t->set_var( "name", "" );
-    $t->set_var( "description", "" );
-    $t->set_var( "pay", "" );
-    $t->set_var( "worktime", "" );
-    $t->set_var( "duration", "" );
-    $t->set_var( "workplace", "" );
-    $t->set_var( "contactperson", "" );
+    $t->set_var( "classified_name", "" );
+    $t->set_var( "classified_description", "" );
+    $t->set_var( "classified_pay", "" );
+    $t->set_var( "classified_worktime", "" );
+    $t->set_var( "classified_duration", "" );
+    $t->set_var( "classified_workplace", "" );
+    $t->set_var( "classified_contact_person", "" );
     $Action_value = "insert";
-    
 }
 
 // Redigering av firma.
 if ( $Action == "edit" )
 {
+    $position = new eZPosition( $PositionID );
+
+    $t->set_var( "classified_name", $position->name() );
+    $t->set_var( "classified_id", $position->id() );
+    $t->set_var( "classified_description", $position->description() );
+    $t->set_var( "classified_contact_person", $position->contactPerson() );
+    $t->set_var( "classified_pay", $position->pay() );
+    $t->set_var( "classified_worktime", $position->WorkTime() );
+    $t->set_var( "classified_duration", $position->Duration() );
+    $t->set_var( "classified_workplace", $position->WorkPlace() );
 
     // Template variabler.
     $Action_value = "update";

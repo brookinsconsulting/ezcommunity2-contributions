@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.3 2000/11/29 18:43:31 ce-cvs Exp $
+// $Id: ezclassified.php,v 1.4 2000/11/30 13:50:26 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -267,14 +267,11 @@ class eZClassified
                                      ClassifiedID='$this->ID'
                                    " );
 
-       print( count( $res_array ) );
        if ( count( $res_array ) == 1 )
        {
            if ( $res_array[0]["CompanyID"] != "NULL" )
            {
                $ret = new eZCompany( $res_array[0]["CompanyID"], false );
-               print( "ka" );
-               exit();
            }               
        }
        
