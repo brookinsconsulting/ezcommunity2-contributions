@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrssimporter.php,v 1.1.2.2 2001/11/19 11:52:28 bf Exp $
+// $Id: ezrssimporter.php,v 1.1.2.3 2001/11/19 16:56:19 bf Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -64,13 +64,12 @@ class eZRSSImporter
         $output = fread ( $fp, 10000000 );
         fclose( $fp );
         
-        $doc =& eZXML::domTree( $output );
+        $doc = eZXML::xmltree( $output );
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {
             if ( $child->name == "rss" )
             {
-                if ( count( $child->children ) > 0 )
                 foreach ( $child->children as $channel )
                 {
                     if ( $channel->name == "channel" )
@@ -85,7 +84,14 @@ class eZRSSImporter
                                 
                                 foreach ( $item->children as $value )
                                 {
-                                    $contentValue = $value->content;
+                                    $contentValue = "";
+                                    foreach ( $value->children as $content )
+                                    {
+                                        if ( $content->name = "text" )
+                                        {
+                                            $contentValue = $content->content;
+                                        }
+                                    }
 
                                     switch ( $value->name )
                                     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.9.2.3 2001/11/19 11:52:27 bf Exp $
+// $Id: ezbackslashimporter.php,v 1.9.2.4 2001/11/19 16:56:19 bf Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -68,7 +68,7 @@ class eZBackslashImporter
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {
-            if ( $child->name == "backslash" || $child->name == "linuxtoday" || $child->name == "RDF" )
+            if ( $child->name == "backslash" || $child->name == "linuxtoday" )
             {
                 foreach ( $child->children as $channel )
                 {
@@ -80,7 +80,15 @@ class eZBackslashImporter
                         
                         foreach ( $channel->children as $item )
                         {
-                            $content = $item->content;
+                            $content = "";
+                            foreach ( $item->children as $value )
+                            {
+                                if ( $value->name == "text" )
+                                {
+                                    $content = $value->content;
+                                }                                        
+                            }
+                            
                             switch ( $item->name )
                             {
                                 case "title" :

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.14.2.2 2001/11/19 11:52:28 bf Exp $
+// $Id: ezrdfimporter.php,v 1.14.2.3 2001/11/19 16:56:19 bf Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -63,16 +63,18 @@ class eZRDFImporter
         $fp = eZFile::fopen( $this->Site, "r" );
         $output = fread ( $fp, 10000000 );
         fclose( $fp );
-        $doc =& eZXML::domTree( $output );
+        $doc = eZXML::domTree( $output );
 
         if ( count( $doc->children ) > 0 )
         {
             foreach ( $doc->children as $child )
             {
-                if ( $child->name == "RDF" || $child->name == "rdf:RDF" )
+                print( $child->name );
+                if ( $child->name == "RDF" )
                 {
                     foreach ( $child->children as $channel )
                     {
+             
                         if ( $channel->name == "item" )
                         {
                             $title = "";
@@ -80,8 +82,14 @@ class eZRDFImporter
                             $description = "";
                             foreach ( $channel->children as $value )
                             {
-                                $contentValue = $value->content;
-
+                                $contentValue = "";
+                                foreach ( $value->children as $content )
+                                {
+                                    if ( $content->name = "text" )
+                                    {
+                                        $contentValue = $content->content;
+                                    }
+                                }
                                 switch ( $value->name )
                                 {
                                     case "title" :
