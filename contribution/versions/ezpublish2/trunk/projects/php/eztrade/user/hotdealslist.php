@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: hotdealslist.php,v 1.23 2001/09/17 08:38:40 pkej Exp $
+// $Id: hotdealslist.php,v 1.24 2001/09/17 10:46:36 pkej Exp $
 //
 // Created on: <12-Nov-2000 19:34:40 bf>
 //
@@ -167,7 +167,10 @@ foreach ( $productList as $product )
              $ShowPrice and $product->showPrice() == true )
     {
         $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
-        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
+        $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
+        
+        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) )
+         and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
         {
             $t->set_var( "product_price", "" );
         }
