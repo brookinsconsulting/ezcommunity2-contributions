@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.3 2000/09/30 10:17:32 bf-cvs Exp $
+// $Id: productview.php,v 1.4 2000/10/12 09:46:58 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -32,12 +32,15 @@ $t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" )
 $t->setAllStrings();
 
 $t->set_file( array(
-    "product_view_page" => "productview.tpl",
-    "image_item" => "imageitem.tpl",
-    "option_item" => "optionitem.tpl",
-    "path_item" => "pathitem.tpl",
-    "option_value_item" => "optionvalueitem.tpl"
+    "product_view_tpl" => "productview.tpl"
     ) );
+
+
+$t->set_block( "product_view_tpl", "path_tpl", "path" );
+$t->set_block( "product_view_tpl", "image_tpl", "image" );
+$t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
+$t->set_block( "product_view_tpl", "option_tpl", "option" );
+$t->set_block( "option_tpl", "value_tpl", "value" );
 
 $category = new eZProductCategory(  );
 $category->get( $CategoryID );
@@ -51,7 +54,7 @@ foreach ( $pathArray as $path )
 
     $t->set_var( "category_name", $path[1] );
     
-    $t->parse( "category_path", "path_item", true );
+    $t->parse( "path", "path_tpl", true );
 }
 
 $product = new eZProduct( $ProductID );
@@ -67,6 +70,8 @@ if ( $mainImage )
     $t->set_var( "main_image_caption", $mainImage->caption() );
 
     $mainImageID = $mainImage->id();
+
+    $t->parse( "main_image", "main_image_tpl" );    
 }
 else
 {
@@ -105,7 +110,7 @@ foreach ( $images as $image )
         $t->set_var( "image_width", $variation->width() );
         $t->set_var( "image_height", $variation->height() );
     
-        $t->parse( "image_list", "image_item", true );
+        $t->parse( "image", "image_tpl", true );
     
         $i++;
     }
@@ -113,13 +118,14 @@ foreach ( $images as $image )
 
 $options = $product->options();
 
-$t->set_var( "option_list", "" );
+$t->set_var( "option", "" );
+
 foreach ( $options as $option )
 {
     $values = $option->values();
 
     $valueText = "";
-    $t->set_var( "value_list", "" );    
+    $t->set_var( "value", "" );    
     foreach ( $values as $value )
     {
         $valueText .= $value->name() . "\n";
@@ -128,7 +134,7 @@ foreach ( $options as $option )
         $t->set_var( "value_name", $value->name() );
         $t->set_var( "value_id", $value->id() );
         
-        $t->parse( "value_list", "option_value_item", true );    
+        $t->parse( "value", "value_tpl", true );    
     }
 
     $t->set_var( "option_name", $option->name() );
@@ -136,12 +142,10 @@ foreach ( $options as $option )
     $t->set_var( "option_id", $option->id() );
     $t->set_var( "product_id", $ProductID );
 
-    $t->parse( "option_list", "option_item", true );    
+    $t->parse( "option", "option_tpl", true );    
 }
 
-
 $t->set_var( "product_id", $product->id() );
-
 
 if ( $GenerateStaticPage == "true" )
 {
@@ -156,7 +160,7 @@ if ( $GenerateStaticPage == "true" )
 }
 else
 {
-    $t->pparse( "output", "product_view_page" );
+    $t->pparse( "output", "product_view_tpl" );
 }
 
 

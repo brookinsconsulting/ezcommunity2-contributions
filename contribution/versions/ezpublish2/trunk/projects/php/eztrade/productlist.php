@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: productlist.php,v 1.7 2000/10/03 10:51:46 bf-cvs Exp $
+// $Id: productlist.php,v 1.8 2000/10/12 09:46:58 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// 
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -28,15 +28,16 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 $t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productlist/",
                      "eztrade/intl/", $Language, "productlist.php" );
 
-$t->setAllStrings();
+$t->set_file( "product_list_tpl", "productlist.tpl" );
 
-$t->set_file( array(
-    "product_list_page" => "productlist.tpl",
-    "product_item" => "productitem.tpl",
-    "product_image" => "productimage.tpl",
-    "path_item" => "pathitem.tpl",
-    "category_item" => "categoryitem.tpl"
-    ) );
+
+$t->set_block( "product_list_tpl", "path_tpl", "path" );
+$t->set_block( "product_list_tpl", "product_tpl", "product" );
+$t->set_block( "product_tpl", "product_image_tpl", "product_image" );
+$t->set_block( "product_list_tpl", "category_tpl", "category" );
+
+
+$t->setAllStrings();
 
 $category = new eZProductCategory(  );
 $category->get( $CategoryID );
@@ -45,14 +46,14 @@ $category->get( $CategoryID );
 // path
 $pathArray = $category->path();
 
-$t->set_var( "category_path", "" );
+$t->set_var( "path", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
 
     $t->set_var( "category_name", $path[1] );
     
-    $t->parse( "category_path", "path_item", true );
+    $t->parse( "path", "path_tpl", true );
 }
 
 $categoryList = $category->getByParent( $category );
@@ -89,7 +90,7 @@ foreach ( $categoryList as $categoryItem )
     }
 
     
-    $t->parse( "category_list", "category_item", true );
+    $t->parse( "category", "category_tpl", true );
     $i++;
 }
 
@@ -112,7 +113,7 @@ foreach ( $productList as $product )
         $t->set_var( "thumbnail_image_height", $variation->height() );
         $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
 
-        $t->parse( "product_thumbnail_image", "product_image" );
+        $t->parse( "product_image", "product_image_tpl" );
     }
     else
     {
@@ -137,7 +138,7 @@ foreach ( $productList as $product )
         $t->set_var( "td_class", "bgdark" );
     }
 
-    $t->parse( "product_list", "product_item", true );
+    $t->parse( "product", "product_tpl", true );
     $i++;
 }
 
@@ -155,7 +156,7 @@ if ( $GenerateStaticPage == "true" )
 }
 else
 {
-    $t->pparse( "output", "product_list_page" );
+    $t->pparse( "output", "product_list_tpl" );
 }
 
 

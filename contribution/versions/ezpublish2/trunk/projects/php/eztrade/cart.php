@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: cart.php,v 1.10 2000/10/10 16:24:02 bf-cvs Exp $
+// $Id: cart.php,v 1.11 2000/10/12 09:46:58 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// 
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -130,17 +130,17 @@ $t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" )
 $t->setAllStrings();
 
 $t->set_file( array(
-    "cart_page" => "cart.tpl"
+    "cart_page_tpl" => "cart.tpl"
     ) );
 
 
-$t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
-$t->set_block( "cart_page", "wishlist_header_tpl", "wishlist_header" );
-$t->set_block( "cart_page", "cart_checkout_tpl", "cart_checkout" );
-$t->set_block( "cart_page", "empty_cart_tpl", "empty_cart" );
+$t->set_block( "cart_page_tpl", "cart_header_tpl", "cart_header" );
+$t->set_block( "cart_page_tpl", "wishlist_header_tpl", "wishlist_header" );
+$t->set_block( "cart_page_tpl", "cart_checkout_tpl", "cart_checkout" );
+$t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
 
 
-$t->set_block( "cart_page", "cart_item_list_tpl", "cart_item_list" );
+$t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
 
@@ -237,7 +237,7 @@ else
 }
 
 
-$t->pparse( "output", "cart_page" );
+$t->pparse( "output", "cart_page_tpl" );
 
 ?>
 
