@@ -1,0 +1,111 @@
+How to write your own eZ publish module:
+---------------------------------------
+
+It's very simple....
+
+You create a new folder in the root e.g.
+
+ezexample
+
+The first two letters must be ez
+
+In the ezexample folder you need the following sub foledrs:
+
+ezexample/classes  : here you put your class files
+ezexample/admin    : here you put the admin files
+ezexample/user     : here you put the user files
+
+The datasupplier
+
+In both admin/ and user/ you need a file datasupplier.php. This file
+is responsible for serving your page requests.
+
+A minimal datasupplier could look like this:
+
+<php>
+switch ( $url_array[2] )
+{
+    case "mypage":
+    {
+
+    }
+    break;
+
+    default :
+    {
+        // go to default module page or show an error message
+        print( "Error: your page request was not found" );
+    }
+}
+</php>
+
+You need to alter the modfix.sh script to create a link for your admin 
+pages.
+
+You find a section which defines the modules which are implemented.
+There you add your own module like this:
+
+<pre> 
+files="
+...
+...
+ezexample
+"
+</pre>
+
+Then you have to add the cache dir:
+
+dirs="
+...
+...
+ezexample/admin/cache
+"
+
+Then of course you have to run the modfix.sh script which will create the
+links needed.
+
+You need to create a icon for your module. This must be a 32x32 gif
+with the name module_icon.gif and it should be placed in the folder
+ezexample/admin/images/module_icon.gif .
+
+Site.ini
+
+You have to add a block in the site ini which defines the template 
+folders and language settings.
+
+<pre>
+[eZExampleMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+Language=en_GB
+Preference=value
+</pre>
+
+Then you have to create the menubox.php which is placed in 
+ ezexample/admin/menubox.php . A minimal menubox is shown below.
+
+<php>
+$menuItems = array(
+    array( "/example/page/", "{intl-example_page}" )
+    );
+</php>
+
+
+Lanuguage files:
+
+You have to create a language file for the menubox.php file. This 
+should be placed in ezexample/admin/intl/en_GB/menubox.php.ini and
+could contain something like this:
+
+<pre>
+[strings]
+module_name=example
+</pre>
+
+
+
+
+And finally when you're done. You can send your code to the developers
+of eZ publish so they can add you module as an extension to eZ publish.
+Code can be sendt to <mail bf@ez.no eZ publish contribution, bf@ez.no>
+
