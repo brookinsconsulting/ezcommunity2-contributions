@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.6 2001/02/20 10:08:44 fh Exp $
+// $Id: bugview.php,v 1.7 2001/02/23 13:42:01 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -79,19 +79,23 @@ foreach ( $pathArray as $path )
 
 
 $t->set_var( "bug_id", $bug->id() );
-$t->set_var( "name_value", $bug->name() );
+
+$tmp = $bug->name();
+$t->set_var( "name_value", htmlspecialchars( $tmp ) );
 
 $bug_reporter = $bug->user();
 if( $bug_reporter )
 {
-    $t->set_var( "reporter_name_value", $bug_reporter->name() );
+    $tmp = $bug_reporter->name();
+    $t->set_var( "reporter_name_value", htmlspecialchars( $tmp ) );
 }
 else
 {
     $t->set_var( "reporter_name_value", "Unknown" );
 }
 
-$t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
+$tmp =  eZTextTool::nl2br( $bug->description() );
+$t->set_var( "description_value", htmlspecialchars( $tmp ) );
 $t->set_var( "action_value", "Update" );
 
 $date =& $bug->created();
@@ -112,8 +116,9 @@ else
 }
 
 if ( $status )
-{    
-    $t->set_var( "status_name", $status->name() );
+{
+    $tmp = $status->name();
+    $t->set_var( "status_name", htmlspecialchars( $tmp ) );
 }
 else
 {
@@ -121,8 +126,9 @@ else
 }
 
 if ( $module )
-{    
-    $t->set_var( "module_name", $module->name() );
+{
+    $tmp = $module->name();
+    $t->set_var( "module_name", htmlspecialchars( $tmp ) );
 }
 else
 {
@@ -130,8 +136,9 @@ else
 }
 
 if ( $category )
-{    
-    $t->set_var( "category_name", $category->name() );
+{
+    $tmp = $category->name();
+    $t->set_var( "category_name", htmlspecialchars( $tmp ) );
 }
 else
 {
@@ -167,7 +174,8 @@ if( count( $images ) > 0 )
         $t->set_var( "image_number", $i + 1 );
         $t->set_var( "image_id", $image->id() );
 
-        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . $image->caption() . "</a>" );
+        $tmp = $image->caption();
+        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . htmlspecialchars( $tmp ) . "</a>" );
         $t->parse( "screenshot_item", "screenshot_item_tpl", true );
     
         $i++;
@@ -198,8 +206,8 @@ if( count( $files ) > 0 )
 
         $t->set_var( "file_number", $i + 1 );
 //        $t->set_var( "file_id", $file->id() );
-        
-        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
+        $tmp = $file->name();
+        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . htmlspecialchars( $tmp ) . "</a>" );
     
         $t->parse( "patch_item", "patch_item_tpl", true );
     
@@ -223,8 +231,8 @@ foreach ( $logList as $log )
     
     $t->set_var( "log_date", $locale->format( $date ) );
     
-    
-    $t->set_var( "log_description", $log->description() );
+    $tmp = $log->description();
+    $t->set_var( "log_description", htmlspecialchars( $tmp ) );
     
     $t->parse( "log_item", "log_item_tpl", true );
 }
