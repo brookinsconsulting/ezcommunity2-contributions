@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.7 2002/01/08 09:59:34 kaid Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.8 2002/01/17 12:28:23 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -116,6 +116,18 @@ $GlobalSiteIni =& $ini;
 
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
+$GlobalSiteIni->UserIndex = "";
+if ( $index != "" )
+{
+    if ( $GlobalSiteIni->has_var( "eZXMLRPC", "UserIndex" ) )
+    {
+        $GlobalSiteIni->UserIndex = $GlobalSiteIni->read_var( "eZXMLRPC", "UserIndex" );
+    }
+    else
+    {
+        $GlobalSiteIni->UserIndex = "/index.php";
+    }
+}
 $GlobalSiteIni->WWWDir = $wwwDir;
 $GlobalSiteIni->SiteDir = $siteDir;
 unset($index);
@@ -136,7 +148,6 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezuser/classes/ezpermission.php" );
-
 
 
 //  eZLog::writeNotice( "XML-RPC connect." );
@@ -776,6 +787,35 @@ function &createURLArray( &$ids, $module, $type )
     }
     $ret = new eZXMLRPCArray( $arr );
     return $ret;
+}
+
+/*!
+  Rewrites the URL $url to work with non virtualhost setups.
+  Prepends WWWDir and UserIndex and returns it.
+  On virtualhost setups the url is simply returned.
+  Use this for ezpublish style urls ie urls which need the index.php set.
+*/
+function rewriteWebURL( $url )
+{
+    global $GlobalSiteIni;
+    if ( $GlobalSiteIni->UserIndex != "" )
+    {
+        $url = $GlobalSiteIni->WWWDir . $GlobalSiteIni->UserIndex . $url;
+    }
+    return $url;
+}
+
+/*!
+  Rewrites the URL $url to work with non virtualhost setups.
+  Prepends WWWDir and returns it.
+  On virtualhost setups the url is simply returned.
+  Use this for normal http urls ie image and file download
+*/
+function rewriteHTTPURL( $url )
+{
+    global $GlobalSiteIni;
+    $url = $GlobalSiteIni->WWWDir . $url;
+    return $url;
 }
 
 ob_end_flush();
