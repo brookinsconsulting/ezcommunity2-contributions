@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: welcome.php,v 1.12 2001/11/08 09:48:40 bf Exp $
+// $Id: welcome.php,v 1.13 2001/11/08 09:57:13 bf Exp $
 //
 // Created on: <13-Nov-2000 10:57:15 bf>
 //
