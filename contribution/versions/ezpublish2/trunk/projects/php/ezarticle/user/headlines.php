@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.9 2001/04/07 13:54:19 bf Exp $
+// $Id: headlines.php,v 1.10 2001/04/19 13:37:53 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -54,10 +54,26 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 // image dir
 $t->set_var( "image_dir", $ImageDir );
 
-$category = new eZArticleCategory( $CategoryID );
+$Limit = 10;
+$category = new eZArticleCategory( );
+
+if ( $CategoryID == 0 )
+{
+    // do not set offset for the main page news
+    // always sort by publishing date is the merged category
+    $article = new eZArticle();
+    $articleList =& $article->articles( "time", false, 0, $Limit );
+    $articleCount = $article->articleCount( false );
+}
+else
+{
+    $articleList =& $category->articles( $category->sortMode(), false, true, 0, $Limit );
+    $articleCount = $category->articleCount( false, true  );
+}
+
 
 // should we allow currentuser to go get articles with permissions or should we not??
-$articleList = $category->articles( $SortMode, false, true, 0, 5 );
+//$articleList = $category->articles( $SortMode, false, true, 0, 5 );
 
 $locale = new eZLocale( $Language );
 $i=0;
