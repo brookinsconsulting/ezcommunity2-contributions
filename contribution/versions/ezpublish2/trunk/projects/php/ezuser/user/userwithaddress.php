@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.38 2001/02/09 12:31:07 ce Exp $
+// $Id: userwithaddress.php,v 1.39 2001/02/09 15:25:00 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -395,6 +395,7 @@ if ( $Action == "Insert" && $error == false )
     else
     {
         $CountryID = $ini->read_var( "eZUserMain", "DefaultCountry" );
+
         $country = new eZCountry( $CountryID );
         $address->setCountry( $country );
     }
@@ -455,11 +456,15 @@ if ( $Action == "Update" )
         $address->setStreet2( $Street2[$i] );
         $address->setZip( $Zip[$i] );
         $address->setPlace( $Place[$i] );
-        
-        if ( isset( $CountryID[$i] ) )
+
+
+        if ( $SelectCountry == "enabled" )
         {
-            $country = new eZCountry( $CountryID[$i] );
-            $address->setCountry( $country );
+            if ( isset( $CountryID[$i] ) )
+            {
+                $country = new eZCountry( $CountryID[$i] );
+                $address->setCountry( $country );
+            }
         }
         else
         {
