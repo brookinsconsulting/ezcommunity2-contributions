@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.7 2001/01/22 14:43:01 jb Exp $
+// $Id: menubox.php,v 1.8 2001/03/08 18:58:28 jb Exp $
 //
 // 
 //
@@ -26,7 +26,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 
@@ -77,6 +77,10 @@ function createLinkMenu()
         ) );
 
     $t->set_block( "menu_box_tpl", "link_group_tpl", "link_group" );
+    $t->set_block( "menu_box_tpl", "no_link_group_tpl", "no_link_group" );
+
+    $t->set_var( "link_group", "" );
+    $t->set_var( "no_link_group", "" );
 
 // Lister alle kategorier
     $linkGroup = new eZLinkGroup();
@@ -86,6 +90,7 @@ function createLinkMenu()
     if ( count( $linkGroup_array ) == 0 )
     {
         $t->set_var( "group_list", "" );
+        $t->parse( "no_link_group", "no_link_group_tpl" );
     }
     else
     {
