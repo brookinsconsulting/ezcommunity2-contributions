@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.14 2001/03/19 16:08:57 bf Exp $
+// $Id: smallcart.php,v 1.15 2001/03/21 15:21:28 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -95,6 +95,7 @@ $currency = new eZCurrency();
 $i = 0;
 $sum = 0.0;
 $totalVAT = 0.0;
+$can_checkout = true;
 $t->set_var( "cart_item", "" );
 foreach ( $items as $item )
 {
@@ -125,9 +126,9 @@ foreach ( $items as $item )
         $optionValues =& $item->optionValues();
         $Quantity = $product->totalQuantity();
         
+        $min_quantity = false;
         if ( !$product->hasPrice() )
         {
-            $min_quantity = false;
             foreach ( $optionValues as $optionValue )
             {
                 $option =& $optionValue->option();
