@@ -34,7 +34,7 @@
         <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
 	        <td bgcolor="#c0c0c0" width="100%">
-		<a href="/article/articleview/{article_id}/">
+		<a class="noline" href="/article/articleview/{article_id}/">
                 <strong class="h2"><img src="/images/1x1.gif" width="3" height="1" border="0">&nbsp;{article_name}
                 </strong>
 		</a>
