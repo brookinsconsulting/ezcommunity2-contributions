@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.10 2001/12/18 11:41:01 pkej Exp $
+// $Id: pageedit.php,v 1.11 2001/12/18 16:32:46 pkej Exp $
 //
 // Definition of ||| class
 //
@@ -84,6 +84,8 @@ $elementTemplate->set_block( "element_list_tpl", "element_item_tpl", "element_it
 $elementTemplate->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
 $elementTemplate->set_block( "element_item_tpl", "fixed_values_tpl", "fixed_values" );
 $elementTemplate->set_block( "element_item_tpl", "table_edit_tpl", "table_edit" );
+$elementTemplate->set_block( "element_item_tpl", "text_block_edit_tpl", "text_block_edit" );
+$elementTemplate->set_block( "element_item_tpl", "numerical_edit_tpl", "numerical_edit" );
 $elementTemplate->set_block( "element_item_tpl", "size_tpl", "size" );
 $elementTemplate->set_block( "element_item_tpl", "table_size_tpl", "table_size" );
 $elementTemplate->set_block( "element_item_tpl", "break_tpl", "break" );
@@ -335,6 +337,8 @@ if ( $count > 0 )
         $elementTemplate->set_var( "typelist_item", "" );
         $elementTemplate->set_var( "break", "" );
         $elementTemplate->set_var( "table_edit", "" );
+        $elementTemplate->set_var( "text_block_edit", "" );
+        $elementTemplate->set_var( "numerical_edit", "" );
 
         $name = $currentType->name();
         foreach ( $types as $type )
@@ -353,6 +357,25 @@ if ( $count > 0 )
                 else
                 {
                     $elementTemplate->set_var( "fixed_values", "" );
+                }
+                
+                if ( $name == "text_block_item" )
+                {
+                    $elementTemplate->parse( "text_block_edit", "text_block_edit_tpl" );
+                }
+                else
+                {
+                    $elementTemplate->set_var( "text_block_edit", "" );
+                }
+                
+                if ( $name == "numerical_integer_item" ||
+                     $name == "numerical_float_item" )
+                {
+                    $elementTemplate->parse( "numerical_edit", "numerical_edit_tpl" );
+                }
+                else
+                {
+                    $elementTemplate->set_var( "numerical_edit", "" );
                 }
                 
                 $elementTemplate->set_var( "selected", "selected" );

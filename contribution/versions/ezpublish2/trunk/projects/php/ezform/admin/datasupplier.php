@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.10 2001/12/17 17:04:54 br Exp $
+// $Id: datasupplier.php,v 1.11 2001/12/18 16:32:46 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -74,6 +74,24 @@ switch ( $Operation )
                 $PageID = $url_array[5];
                 $ElementID = $url_array[6];
                 include( "ezform/admin/fixedvalues.php" );
+            }
+            break;
+
+            case "numericaledit":
+            {
+                $FormID = $url_array[4];
+                $PageID = $url_array[5];
+                $ElementID = $url_array[6];
+                include( "ezform/admin/numericaledit.php" );
+            }
+            break;
+
+            case "textedit":
+            {
+                $FormID = $url_array[4];
+                $PageID = $url_array[5];
+                $ElementID = $url_array[6];
+                include( "ezform/admin/textedit.php" );
             }
             break;
 
