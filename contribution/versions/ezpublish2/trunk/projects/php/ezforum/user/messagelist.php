@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.9 2000/12/19 13:52:04 ce Exp $
+// $Id: messagelist.php,v 1.10 2001/01/21 14:12:28 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -51,7 +51,7 @@ $t->setAllStrings();
 
 $forum = new eZForum( $ForumID );
 
-$categories = $forum->categories();
+$categories =& $forum->categories();
 
 if ( count( $categories ) > 0 )
 {
@@ -69,7 +69,7 @@ if ( !isset( $Offset ) )
 if ( !isset( $Limit ) )
     $Limit = 30;
 
-$messageList = $forum->messageTree( $Offset, $Limit );
+$messageList =& $forum->messageTree( $Offset, $Limit );
 
 if ( !$messageList )
 {
@@ -102,12 +102,12 @@ else
         $t->set_var( "topic", $message->topic() );
 
 
-        $time = $message->postingTime();
+        $time =& $message->postingTime();
         $t->set_var( "postingtime", $locale->format( $time  ) );
 
         $t->set_var( "message_id", $message->id() );
         
-        $user = $message->user();    
+        $user =& $message->user();    
         $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
         
         $t->set_var( "limit", $Limit );

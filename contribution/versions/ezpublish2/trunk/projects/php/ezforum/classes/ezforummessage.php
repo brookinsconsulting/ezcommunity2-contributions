@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.62 2001/01/20 19:30:42 bf Exp $
+// $Id: ezforummessage.php,v 1.63 2001/01/21 14:12:28 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -224,20 +224,20 @@ class eZForumMessage
             }
             else if( count( $message_array ) == 1 )
             {
-                $this->ID = $message_array[0][ "ID" ];
-                $this->ForumID = $message_array[0][ "ForumID" ];
-                $this->Topic = $message_array[0][ "Topic" ];
-                $this->Body = $message_array[0][ "Body" ];
-                $this->UserID = $message_array[0][ "UserID" ];
-                $this->ParentID = $message_array[0][ "Parent" ];
-                $this->PostingTime = $message_array[0][ "PostingTime" ];
-                $this->EmailNotice = $message_array[0][ "EmailNotice" ];
+                $this->ID =& $message_array[0][ "ID" ];
+                $this->ForumID =& $message_array[0][ "ForumID" ];
+                $this->Topic =& $message_array[0][ "Topic" ];
+                $this->Body =& $message_array[0][ "Body" ];
+                $this->UserID =& $message_array[0][ "UserID" ];
+                $this->ParentID =& $message_array[0][ "Parent" ];
+                $this->PostingTime =& $message_array[0][ "PostingTime" ];
+                $this->EmailNotice =& $message_array[0][ "EmailNotice" ];
 
-                $this->IsApproved = $message_array[0][ "IsApproved" ];
+                $this->IsApproved =& $message_array[0][ "IsApproved" ];
                 
-                $this->ThreadID = $message_array[0][ "ThreadID" ];
-                $this->TreeID = $message_array[0][ "TreeID" ];                
-                $this->Depth = $message_array[0][ "Depth" ];
+                $this->ThreadID =& $message_array[0][ "ThreadID" ];
+                $this->TreeID =& $message_array[0][ "TreeID" ];                
+                $this->Depth =& $message_array[0][ "Depth" ];
                 
                 
                 $this->State_ = "Coherent";
@@ -269,7 +269,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] = new eZForumMessage( $message["ID"] );
+            $ret[] =& new eZForumMessage( $message["ID"] );
         }
         
         return $ret;
@@ -366,13 +366,12 @@ class eZForumMessage
     }
 
     /*!
-      
+      Returns the topic of the message.
     */      
-    function topic()
+    function &topic()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
         
         return $this->Topic;
     }
@@ -439,7 +438,7 @@ class eZForumMessage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $user = new eZUser( $this->UserID );
+       $user =& new eZUser( $this->UserID );
         
        return $user;
     }
@@ -521,7 +520,7 @@ class eZForumMessage
     /*!
       Returns the postimg time as a eZTimeDate object.
     */
-    function postingTime()
+    function &postingTime()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -605,7 +604,7 @@ class eZForumMessage
         
         if ( $msg->parent() != 0 )
         {
-            $parent = $msg->parent();
+            $parent =& $msg->parent();
             $ret = $this->threadTop( $parent  );
         }
         else
@@ -616,6 +615,9 @@ class eZForumMessage
         return $ret;
     }
 
+    /*!
+    */
+//      SELECT Message.ID, Message.Topic FROM eZForum_Forum AS Forum, eZForum_Message AS Message WHERE Forum.ModeratorID='27' AND Message.ForumID=Forum.ID AND Message.IsApproved='0';          
 
     /*!
       \private
@@ -625,7 +627,7 @@ class eZForumMessage
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

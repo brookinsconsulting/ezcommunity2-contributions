@@ -10,6 +10,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "unapprovedlist":
+    {
+        include( "ezforum/admin/unapprovedlist.php" );
+    }
+    break;
+    
     case "messagelist":
     {
         $ForumID = $url_array[3];

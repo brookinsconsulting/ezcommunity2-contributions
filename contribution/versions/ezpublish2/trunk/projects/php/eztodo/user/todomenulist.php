@@ -1,5 +1,5 @@
 <?
-// $Id: todomenulist.php,v 1.4 2001/01/17 09:09:10 ce Exp $
+// $Id: todomenulist.php,v 1.5 2001/01/21 14:12:28 bf Exp $
 //
 // Definition of todo list.
 //
@@ -16,7 +16,6 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 $iniLanguage = new INIFile( "eztodo/user/intl/$Language/todolist.php.ini", false );
 
@@ -46,6 +45,7 @@ if ( $user )
 }
 
 $i=0;
+if ( count( $todo_array ) > 0 )
 foreach( $todo_array as $todoItem )
 {
     if ( ( $i %2 ) == 0 )

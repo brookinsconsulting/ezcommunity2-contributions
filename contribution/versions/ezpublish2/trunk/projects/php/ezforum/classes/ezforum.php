@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.10 2001/01/20 19:30:42 bf Exp $
+// $Id: ezforum.php,v 1.11 2001/01/21 14:12:28 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -281,7 +281,7 @@ class eZForum
 
        foreach ( $message_array as $message )
        {
-           $ret[] = new eZForumMessage( $message["ID"] );
+           $ret[] =& new eZForumMessage( $message["ID"] );
        }
        
        return $ret;
@@ -514,6 +514,8 @@ class eZForum
 
        return $ret;
     }
+
+    
     
     /*!
       \private

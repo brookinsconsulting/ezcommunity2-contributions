@@ -5,6 +5,8 @@
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
 
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/forum/categorylist/">{intl-categorylist}</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/forum/unapprovedlist/">{intl-unapproved_list}</a><br>
+
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/forum/categoryedit/new/">{intl-newcategory}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/forum/forumedit/new/">{intl-newforum}</a><br>
 

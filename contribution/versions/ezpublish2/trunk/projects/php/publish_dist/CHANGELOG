@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from version 1.0.5
 --------------------------
+* Added forum moderation
+* Added mailing when articles are published
 * Speeded up localisation of date and time
 * Added file uploads on articles.
 * Added dynamically updating of menues with static pages.
