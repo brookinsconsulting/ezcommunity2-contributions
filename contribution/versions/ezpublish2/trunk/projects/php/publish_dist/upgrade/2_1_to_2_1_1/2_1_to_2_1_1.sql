@@ -458,10 +458,10 @@ update eZArticle_Attribute set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table eZArticle_Attribute drop Created; 
 alter table eZArticle_Attribute change CreatedTmp Created int; 
 
-alter table eZArticle_Article add ExcludeFromSearchTmp int default '0';
-update eZArticle_Article set ExcludeFromSearchTmp='1' where ExcludeFromSearch='true';
-alter table eZArticle_Article drop ExcludeFromSearch;
-alter table eZArticle_Article change ExcludeFromSearchTmp ExcludeFromSearch int;
+alter table eZArticle_Category add ExcludeFromSearchTmp int default '0';
+update eZArticle_Category set ExcludeFromSearchTmp='1' where ExcludeFromSearch='true';
+alter table eZArticle_Category drop ExcludeFromSearch;
+alter table eZArticle_Category change ExcludeFromSearchTmp ExcludeFromSearch int;
 
 
 alter table eZArticle_CategoryReaderLink add CreatedTmp int;
