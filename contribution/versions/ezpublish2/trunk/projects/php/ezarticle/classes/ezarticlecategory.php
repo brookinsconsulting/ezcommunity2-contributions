@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.38 2001/02/26 20:46:12 bf Exp $
+// $Id: ezarticlecategory.php,v 1.39 2001/02/27 10:44:33 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -893,9 +893,11 @@ class eZArticleCategory
        $this->Database->array_query( $article_array, "
        select Article.ID AS ArticleID
        from eZArticle_Article as Article left join eZArticle_ArticleCategoryLink as Link
-       on Article.id=Link.articleid left join eZArticle_ArticleReaderLink as ReaderLink on Article.id=ReaderLink.articleid,
+       on Article.id=Link.articleid left join eZArticle_ArticleReaderLink as ReaderLink
+       on Article.id=ReaderLink.articleid,
        eZArticle_Category AS Category
-       where ( $loggedInSQL Article.ReadPermission=2  )
+       WHERE ( $loggedInSQL Article.ReadPermission=2  )
+       $publishedCode
        AND Link.CategoryID='$this->ID'
        AND Category.ID=Link.CategoryID 
        $excludedCode 
@@ -982,7 +984,8 @@ class eZArticleCategory
        from eZArticle_Article as Article left join eZArticle_ArticleCategoryLink as Link
        on Article.id=Link.articleid left join eZArticle_ArticleReaderLink as ReaderLink on Article.id=ReaderLink.articleid,
        eZArticle_Category AS Category
-       where ( $loggedInSQL Article.ReadPermission=2  )
+       WHERE ( $loggedInSQL Article.ReadPermission=2  )
+       $publishedCode
        AND Link.CategoryID='$this->ID'
        AND Category.ID=Link.CategoryID 
        $excludedCode " );       
