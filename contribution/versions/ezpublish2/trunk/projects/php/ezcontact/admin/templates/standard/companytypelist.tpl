@@ -45,6 +45,40 @@
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td align="right">
+<table>
+<tr>
+	<td align="right">
+	{intl-new_consultation}
+	</td>
+	<td>
+	<img src="/images/addmini.gif">
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	{intl-edit_person}
+	</td>
+	<td>
+	<img src="/images/redigermini.gif">
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	{intl-delete_person}
+	</td>
+	<td>
+	<img src="/images/slettmini.gif">
+	</td>
+</tr>
+</table>
+	</td>
+</tr>
+</table>
+
 <!-- END path_tpl -->
 
 <!-- BEGIN current_type_tpl -->
