@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41.2.1 2001/11/22 11:32:34 pkej Exp $
+// $Id: productlist.php,v 1.41.2.2 2002/11/21 08:42:39 vl Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -248,7 +248,7 @@ if ( $GenerateStaticPage == "true" )
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
     $output .= "?>\n";
     
-    $output = $t->parse( $target, "product_list_page_tpl" );
+    $output .= $t->parse( $target, "product_list_page_tpl" );
     print( $output );
     $CacheFile->store( $output );
 }
