@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.7 2001/07/19 12:36:31 jakobn Exp $
+// $Id: menubox.php,v 1.8 2001/08/29 19:12:43 fh Exp $
 //
 // Created on: <25-Nov-2000 17:53:52 bf>
 //
@@ -32,6 +32,7 @@ $menuItems = array(
     array( "/bulkmail/mailedit/", "{intl-new_mail}" ),
     array( "/bulkmail/templateedit/", "{intl-new_template}" ),
     array( "/bulkmail/masssubscribe/", "{intl-mass_subscribe}" ),
+    array( "/bulkmail/userlist/", "{intl-user_list}" )
     );
 
 ?>

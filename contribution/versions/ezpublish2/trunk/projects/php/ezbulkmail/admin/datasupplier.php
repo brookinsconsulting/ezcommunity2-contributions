@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.15 2001/08/17 13:35:58 jhe Exp $
+// $Id: datasupplier.php,v 1.16 2001/08/29 19:12:43 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -105,8 +105,17 @@ switch ( $url_array[2] )
     {
         include_once( "ezbulkmail/admin/masssubscribe.php" );
     }
-          break;
-    
+    break;
+
+    case "userlist":
+    {
+        $CategoryID = $url_array[3];
+        if( !is_numeric( $CategoryID ) )
+            $CategoryID = 0;
+        include_once( "ezbulkmail/admin/userlist.php" );
+    }
+    break;
+
     default:
     {
         eZHTTPTool::header( "Location: /error/404" );
