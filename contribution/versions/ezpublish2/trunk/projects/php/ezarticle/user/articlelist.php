@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.65 2001/09/10 11:04:11 nca Exp $
+// $Id: articlelist.php,v 1.66 2001/09/10 12:45:26 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -100,6 +100,8 @@ $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $t->set_block( "article_item_tpl", "article_date_tpl", "article_date" );
+$t->set_block( "article_item_tpl", "headline_with_link_tpl", "headline_with_link" );
+$t->set_block( "article_item_tpl", "headline_without_link_tpl", "headline_without_link" );
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
@@ -383,10 +385,14 @@ foreach ( $articleList as $article )
     if ( trim( $contents[1] ) == "" )
     {
         $t->set_var( "read_more", "" );
+        $t->parse( "headline_without_link", "headline_without_link_tpl" );
+        $t->set_var( "headline_with_link", "" );
     }
     else
     {
         $t->parse( "read_more", "read_more_tpl" );
+        $t->parse( "headline_with_link", "headline_with_link_tpl" );
+        $t->set_var( "headline_without_link", "" );
     }
 
 

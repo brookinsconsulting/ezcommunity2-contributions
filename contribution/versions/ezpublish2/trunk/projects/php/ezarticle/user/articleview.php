@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.74 2001/08/30 11:20:49 bf Exp $
+// $Id: articleview.php,v 1.75 2001/09/10 12:45:26 jhe Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -33,8 +33,7 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
-if ( !isset( $CategoryID ) )
-    $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
+$CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
 
 $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 

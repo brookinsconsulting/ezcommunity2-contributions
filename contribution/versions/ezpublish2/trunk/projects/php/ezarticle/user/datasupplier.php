@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.83 2001/09/07 17:33:55 fh Exp $
+// $Id: datasupplier.php,v 1.84 2001/09/10 12:45:26 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -245,9 +245,8 @@ switch ( $url_array[2] )
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
         $CategoryID = $url_array[5];
-        
         if ( $PageNumber != -1 )
-            if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ))
+            if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ) )
                 $PageNumber= 1;
         
         // if file exists... evrything is ok..
