@@ -14,9 +14,7 @@
     <tr>
     	<td class="{td_class}">
 	   {spacer}{spacer}
-		<a href="/forum/message/{message_id}/">
 		{topic}
-		</a>
 	</td>
     	<td class="{td_class}">
 	    {user}
@@ -24,6 +22,14 @@
     	<td class="{td_class}">
 	   <span class="small">{postingtime}</span>
 	   </td>
+    </tr>
+    <tr>
+    <td colspan="3">
+    <p>
+    {body}
+    </p>
+    <a href="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a>
+    </td>
     </tr>
     <!-- END message_item_tpl -->
 
@@ -39,10 +45,11 @@
 {next}
 </a>
 
-<form action="/forum/userlogin/new/{forum_id}">
+<form action="/forum/userlogin/newsimple/{forum_id}">
 
 <hr noshade size="4" />
 
 <input class="okbutton" type="submit" value="{intl-new-posting}" />
+<input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
 

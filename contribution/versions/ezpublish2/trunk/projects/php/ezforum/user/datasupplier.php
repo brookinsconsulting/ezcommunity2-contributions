@@ -5,10 +5,37 @@ switch ( $url_array[2] )
 
     case "userlogin" :
     {
-        $Action = $url_array[3];
-        $ForumID = $url_array[4];
-        $MessageID = $url_array[4];
-        include( "ezforum/user/userlogin.php" );
+        if ( $url_array[3] == "new" )
+        {         
+            $Action = $url_array[3];
+            $ForumID = $url_array[4];
+            $MessageID = $url_array[4];
+            include( "ezforum/user/userlogin.php" );
+        }
+
+        if ( $url_array[3] == "reply" )
+        {         
+            $Action = $url_array[3];
+            $ForumID = $url_array[4];
+            $MessageID = $url_array[4];
+            include( "ezforum/user/userlogin.php" );
+        }
+        
+        if ( $url_array[3] == "newsimple" )
+        {
+            $Action = "NewSimple";
+            $ForumID = $url_array[4];
+            $MessageID = $url_array[4];
+            include( "ezforum/user/userlogin.php" );
+        }
+
+        if ( $url_array[3] == "replysimple" )
+        {
+            $Action = "ReplySimple";
+            $ForumID = $url_array[4];
+            $MessageID = $url_array[5];
+            include( "ezforum/user/userlogin.php" );
+        }
     }    
     break;
 
@@ -50,6 +77,48 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "messagesimpleedit";
+    {
+        if ( $url_array[3] == "new" )
+        {
+            $Action = "new";
+            $ForumID = $url_array[4];
+            include( "ezforum/user/messagesimpleedit.php" );
+        }
+
+        if ( $url_array[3] == "insert" )
+        {
+            $Action = $url_array[3];
+            $ForumID = $url_array[4];
+            include( "ezforum/user/messagesimpleedit.php" );
+        }
+    }
+    break;
+
+
+    case "messagesimplereply";
+    {
+        if ( $url_array[3] == "new" )
+        {
+            $Action = "new";
+            $ForumID = $url_array[4];
+            $MessageID = $url_array[5];            
+            include( "ezforum/user/messagesimplereply.php" );
+        }
+
+        if ( $url_array[3] == "insert" )
+        {
+            $Action = $url_array[3];
+            
+            $ForumID = $url_array[4];
+            $MessageID = $url_array[5];
+            
+            include( "ezforum/user/messagesimplereply.php" );
+        }
+    }
+    break;
+
+    
     case "message":
     {
         $MessageID = $url_array[3];

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.4 2000/10/29 10:21:09 ce-cvs Exp $
+// $Id: userlogin.php,v 1.5 2000/11/21 16:20:22 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -34,6 +34,15 @@ include_once( "ezuser/classes/ezuser.php" );
 
 if ( eZUser::currentUser() )
 {
+    if ( $Action == "NewSimple" )
+    {
+        Header( "Location: /forum/messagesimpleedit/new/$ForumID/?RedirectURL=$RedirectURL" );
+    }
+
+    if ( $Action == "ReplySimple" )
+    {
+        Header( "Location: /forum/messagesimplereply/new/$ForumID/$MessageID/?RedirectURL=$RedirectURL" );
+    }
     
     if ( $Action == "new" )
     {
@@ -52,10 +61,20 @@ else
 
     $t->setAllStrings();
 
-    $t->set_file( array(        
+    $t->set_file( array(
         "user_login_tpl" => "userlogin.tpl"
         ) );
 
+    if ( $Action == "NewSimple" )
+    {
+        $t->set_var( "redirect_url", $RedirectURL );
+    }
+
+    if ( $Action == "ReplySimple" )
+    {
+        $t->set_var( "redirect_url", $RedirectURL );
+    }
+    
     if ( $Action == "new" )
     {
         $t->set_var( "redirect_url", "/forum/messageedit/new/$ForumID/" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimplelist.php,v 1.1 2000/11/19 09:41:03 bf-cvs Exp $
+// $Id: messagesimplelist.php,v 1.2 2000/11/21 16:20:22 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/eztexttool.php" );
 
 
 include_once( "classes/eztemplate.php" );
@@ -89,8 +90,11 @@ else
             $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
         else
             $t->set_var( "spacer", "" );
+
         
+            
         $t->set_var( "topic", $message->topic() );
+        $t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
         $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
         $t->set_var( "message_id", $message->id() );
         
@@ -132,9 +136,9 @@ else
 }
 
 
+$t->set_var( "redirect_url", $RedirectURL );
 
 $t->set_var( "newmessage", $newmessage );
-
 
 $t->set_var( "category_id", $category->id( ) );
 $t->set_var( "category_name", $category->name( ) );

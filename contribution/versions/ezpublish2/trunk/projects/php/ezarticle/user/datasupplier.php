@@ -89,6 +89,7 @@ switch ( $url_array[2] )
         
         if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
         {
+            $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
             $forum = $article->forum();
             $ForumID = $forum->id();
             include( "ezforum/user/messagesimplelist.php" );

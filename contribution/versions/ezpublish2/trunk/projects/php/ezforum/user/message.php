@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.8 2000/11/19 09:41:03 bf-cvs Exp $
+// $Id: message.php,v 1.9 2000/11/21 16:20:22 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -29,6 +29,7 @@ $ini = new INIFile( "site.ini" ); // get language settings
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
@@ -72,7 +73,7 @@ $t->set_var( "main-user", $user->firstName() . " " . $user->lastName() );
 $t->set_var( "topic", $message->topic() );
 
 $t->set_var( "main-postingtime", $locale->format( $message->postingTime() ));
-$t->set_var( "body", nl2br( $message->body() ) );
+$t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
 
 $t->set_var( "reply_id", $message->id() );
 
@@ -126,6 +127,8 @@ foreach ( $messages as $message )
     $t->parse( "message_item", "message_item_tpl", true );
     $i++;
 }
+
+$t->set_var( "redirect_url", $RedirectURL );
 
 $t->pparse( "output", "message_tpl" );
 
