@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.17 2000/11/21 16:38:46 pkej-cvs Exp $
+// $Id: ezcompanytype.php,v 1.18 2000/12/07 11:19:55 ce-cvs Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -100,6 +100,7 @@ class eZCompanyType
     function delete()
     {
         $this->dbInit();
+        $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$this->ID'" );
         $this->Database->query( "DELETE FROM eZContact_CompanyType WHERE ID='$this->ID'" );
     }
 

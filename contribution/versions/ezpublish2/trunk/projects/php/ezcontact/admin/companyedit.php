@@ -82,6 +82,11 @@ if( $Action == "delete" )
 {
     $company = new eZCompany();
     $company->get( $CompanyID );
+    $company->removeAddresses();
+    $company->removePhones();
+    $company->removeOnlines();
+    $company->removeImages();
+    $company->removeUser();
     $company->delete();
 
     header( "Location: /contact/company/list/" );
@@ -134,8 +139,8 @@ $t->set_var( "companyno", "$CompanyNo" );
 $t->set_var( "company_id", "$CompanyID" );
 $t->set_var( "password", "$Password" );
 $t->set_var( "repeat_password", "$RepeatPassword" );
-$t->set_var( "tele_phone_id", "$PhoneID" );
-$t->set_var( "fax_phone_id", "$FaxID" );
+$t->set_var( "tele_phone_id", "$Phone" );
+$t->set_var( "fax_phone_id", "$Fax" );
 $t->set_var( "email_online_id", "$MailID" );
 $t->set_var( "web_online_id", "$WebID" );
 $t->set_var( "address_id", "$AddressID" );

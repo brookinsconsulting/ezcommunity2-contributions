@@ -15,6 +15,11 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
+            case "test":
+            {
+                include( "ezcontact/admin/test.php" );
+                break;
+            }
 
             case "new":
             {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.37 2000/12/06 12:48:35 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.38 2000/12/07 11:19:55 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -118,43 +118,6 @@ class eZCompany
 
         if ( isSet( $this->ID ) )
         {
-            $this->Database->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_CompanyAddressDict.CompanyID AS 'DID'
-                                               FROM eZContact_Address, eZContact_CompanyAddressDict
-                                               WHERE eZContact_Address.ID=eZContact_CompanyAddressDict.AddressID AND eZContact_CompanyAddressDict.CompanyID='$this->ID' " );
-
-            foreach( $address_array as $addressItem )
-            {
-                $addressID = $addressItem["AID"];
-                $addressDictID = $addressItem["DID"];
-
-                $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
-                $this->Database->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$this->ID'" );
-            }
-
-            $this->Database->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_CompanyPhoneDict.CompanyID AS 'DID'
-                                     FROM eZContact_Phone, eZContact_CompanyPhoneDict
-                                     WHERE eZContact_Phone.ID=eZContact_CompanyPhoneDict.PhoneID AND eZContact_CompanyPhoneDict.CompanyID='$this->ID' " );
-
-            foreach( $phone_array as $phoneItem )
-                {
-                    $phoneID = $phoneItem["PID"];
-                    $phoneDictID = $phoneItem["DID"];
-                    $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
-                    $this->Database->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
-                }
-
-            $this->Database->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_CompanyOnlineDict.CompanyID AS 'DID'
-                                     FROM eZContact_Online, eZContact_CompanyOnlineDict
-                                     WHERE eZContact_Online.ID=eZContact_CompanyOnlineDict.OnlineID AND eZContact_CompanyOnlineDict.CompanyID='$this->ID' " );
-
-            foreach( $online_array as $onlineItem )
-                {
-                    $onlineID = $onlineItem["OID"];
-                    $onlineDictID = $onlineItem["DID"];
-                    $this->Database->query( "DELETE FROM eZContact_Online WHERE ID='$onlineID'" );
-                    $this->Database->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
-                }
-
             $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZContact_Company WHERE ID='$this->ID'" );
         }
@@ -292,7 +255,7 @@ class eZCompany
             $return_array = array();
 
             $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_UserCompanyDict WHERE UserID='$userID'" );
-            
+
             foreach( $company_array as $companyItem )
             {
                 $return_array[] = new eZCompany( $companyItem["CompanyID"] );
@@ -427,6 +390,28 @@ class eZCompany
     }
 
     /*!
+      Delete all address and the relation to the eZContact_Company
+    */
+    function removeAddresses()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        
+        $this->Database->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_CompanyAddressDict.CompanyID AS 'DID'
+                                               FROM eZContact_Address, eZContact_CompanyAddressDict
+                                               WHERE eZContact_Address.ID=eZContact_CompanyAddressDict.AddressID AND eZContact_CompanyAddressDict.CompanyID='$this->ID' " );
+        
+        foreach( $address_array as $addressItem )
+        {
+            $addressID = $addressItem["AID"];
+            $addressDictID = $addressItem["DID"];
+            $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
+            $this->Database->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$this->ID'" );
+        }
+    }
+
+    /*!
       Returns the phones that belong to this eZCompany object.
     */
     function phones( $companyID )
@@ -442,9 +427,9 @@ class eZCompany
                                                  WHERE CompanyID='$companyID'" );
 
         foreach( $phone_array as $phoneItem )
-            {
-                $return_array[] = new eZPhone( $phoneItem["PhoneID"] );
-            }
+        {
+            $return_array[] = new eZPhone( $phoneItem["PhoneID"] );
+        }
 
         return $return_array;
     }
@@ -473,6 +458,24 @@ class eZCompany
     }
 
     /*!
+      Delete all phones and the relation to the eZContact_Company
+    */
+    function removePhones()
+    {
+        $this->Database->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_CompanyPhoneDict.CompanyID AS 'DID'
+                                     FROM eZContact_Phone, eZContact_CompanyPhoneDict
+                                     WHERE eZContact_Phone.ID=eZContact_CompanyPhoneDict.PhoneID AND eZContact_CompanyPhoneDict.CompanyID='$this->ID' " );
+        
+        foreach( $phone_array as $phoneItem )
+        {
+            $phoneID = $phoneItem["PID"];
+            $phoneDictID = $phoneItem["DID"];
+            $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
+            $this->Database->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
+        }
+    }
+
+    /*!
       Returns the onlines that belong to this eZCompany object.
     */
     function onlines( $onlineID )
@@ -488,9 +491,9 @@ class eZCompany
                                                  WHERE CompanyID='$this->ID'" );
 
         foreach( $online_array as $onlineItem )
-            {
-                $return_array[] = new eZOnline( $onlineItem["OnlineID"] );
-            }
+        {
+            $return_array[] = new eZOnline( $onlineItem["OnlineID"] );
+        }
 
         return $return_array;
     }
@@ -520,6 +523,25 @@ class eZCompany
     }
 
     /*!
+      Delete all onlines and the relation to the eZContact_Company
+    */
+    function removeOnlines()
+    {
+            
+        $this->Database->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_CompanyOnlineDict.CompanyID AS 'DID'
+                                     FROM eZContact_Online, eZContact_CompanyOnlineDict
+                                     WHERE eZContact_Online.ID=eZContact_CompanyOnlineDict.OnlineID AND eZContact_CompanyOnlineDict.CompanyID='$this->ID' " );
+        
+        foreach( $online_array as $onlineItem )
+        {
+            $onlineID = $onlineItem["OID"];
+            $onlineDictID = $onlineItem["DID"];
+            $this->Database->query( "DELETE FROM eZContact_Online WHERE ID='$onlineID'" );
+            $this->Database->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
+        }
+    }
+    
+    /*!
       Adds a image to the current 
      */
     function addImage( $image )
@@ -538,7 +560,6 @@ class eZCompany
             $this->Database->query( "INSERT INTO eZContact_CompanyImageDict
                                      SET CompanyID='$this->ID', ImageID='$imageID'" );
         }
-
     }
 
     /*!
@@ -564,6 +585,18 @@ class eZCompany
        return $return_array;
     }
 
+    /*!
+      Delete all onlines and the relation to the eZContact_Company
+    */
+    function removeImages()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+        
+       $this->Database->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
+    }
 
     /*!
       Returns the logo image of the company as a eZImage object.
@@ -662,17 +695,18 @@ class eZCompany
 
         if( get_class( $user ) == "ezuser" )
         {
+            // Create person relation
             $userID = $user->id();
             
-            $checkQuery = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID=$userID";
+            $checkQuery = "SELECT CompanyID FROM eZContact_UserCompanyDict WHERE UserID=$userID";
             $this->Database->array_query( $user_array, $checkQuery );
             
             $count = count( $user_array );
             
             if( $count == 0 )
             {
-                $this->Database->query( "INSERT INTO eZContact_UserPersonDict
-                                SET PersonID='$this->ID', UserID='$userID'" );
+                $this->Database->query( "INSERT INTO eZContact_UserCompanyDict
+                                SET CompanyID='$this->ID', UserID='$userID'" );
             }
             $ret = true;
         }
@@ -745,6 +779,74 @@ class eZCompany
        }
        
        return $ret;
+    }
+
+    /*!
+      Remove all relation to eZClassified if eZClassified_Classified exists.
+    */
+    function removeClassified()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $found = false;
+        $this->dbInit();
+
+        $result = mysql_list_tables ( "seanex");
+
+        $i = 0;
+        while ( $i < mysql_num_rows ( $result ) )
+        {
+            $tb_names[$i] = mysql_tablename ( $result, $i );
+
+            if ( $tb_names[$i] == "eZClassified_Classified" )
+            {
+                $found = true;
+            }
+            $i++;
+        }
+
+        if ( $found == true )
+        {
+            $this->Database->array_query( $classifiedArray, "SELECT ClassifiedID FROM eZClassified_ClassifiedLink WHERE CompanyID='$this->ID'" );
+
+            if ( count( $classifiedArray != 0 ) )
+            {
+                foreach( $classifiedArray as $classifiedItem )
+                {
+                    $classified = new eZClassified( $classifiedItem["ClassifiedID"] );
+                    $classified->delete();
+                }
+                $this->Database->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
+                
+                return $return_array;
+            }
+        }
+    }
+
+    /*!
+      Remove all the user relation.
+    */
+    function removeUser()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $found = false;
+        $this->dbInit();
+
+        $this->Database->array_query( $userArray, "SELECT UserID FROM eZContact_UserCompanyDict WHERE CompanyID='$this->ID'" );
+
+        if ( count ( $userArray ) != 0 )
+        {
+            foreach( $userArray as $userItem )
+            {
+                $user = new eZUser( $userItem["UserID"] );
+                $user->delete();
+            }
+        }
+
+        $this->Database->query( "DELETE FROM eZContact_UserCompanyDict WHERE CompanyID='$this->ID'" );
     }
     
     

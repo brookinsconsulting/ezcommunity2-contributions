@@ -12,7 +12,6 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 //include_once( "");
 
-
 //  if( !eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "new" )
 //  {
 //      header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeAdd&tried=new&module=ezcontact" );
@@ -89,57 +88,50 @@ if( !$type->id() && $Action != "new"  )
 }
 
 
+if ( $Action == "delete" )
 {
-    if ( $Action == "delete" )
-    {
-        if ( eZPermission::checkPermission( $user, "eZContact", "TypeDelete" ) )
-        {
-            $type = new eZCompanyType();
-            $type->get( $TypeID );
-            $ParentID = $type->parentID(); 
-            $type->delete( );
-
-            header( "Location: /contact/companytype/list/$ParentID" );
-        }
-        else
-        {
-            header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeDelete&tried=delete&module=ezcontact" );
-        }
-    }
-
+    $type = new eZCompanyType();
+    $type->get( $TypeID );
+    $ParentID = $type->parentID(); 
+    $type->delete( );
     
-    $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                         "ezcontact/admin/intl/", $Language, "companytype.php" );
-    $t->setAllStrings();
+    header( "Location: /contact/companytype/list/$ParentID" );
+    exit();
+}
 
-    $t->set_file( array(
-        "type_page" => "companytypeedit.tpl",
-        ) );    
-    $t->set_block( "type_page", "current_type_tpl", "current_type" );
-    $t->set_block( "type_page", "path_tpl", "path" );
-    $t->set_block( "path_tpl", "path_item_tpl", "path_item" );
-    $t->set_block( "path_tpl", "current_path_item_tpl", "current_path_item" );
-    $t->set_block( "current_type_tpl", "parent_item_tpl", "parent_item" );
-    $t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
-    $t->set_block( "current_type_tpl", "no_image_item_tpl", "no_image_item" );
 
-    $t->set_var( "page_args", $args );
-    $t->set_var( "no_image_item", "" );
-    $t->set_var( "image_item", "" );
+$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     "ezcontact/admin/intl/", $Language, "companytype.php" );
+$t->setAllStrings();
+
+$t->set_file( array(
+    "type_page" => "companytypeedit.tpl",
+    ) );    
+$t->set_block( "type_page", "current_type_tpl", "current_type" );
+$t->set_block( "type_page", "path_tpl", "path" );
+$t->set_block( "path_tpl", "path_item_tpl", "path_item" );
+$t->set_block( "path_tpl", "current_path_item_tpl", "current_path_item" );
+$t->set_block( "current_type_tpl", "parent_item_tpl", "parent_item" );
+$t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
+$t->set_block( "current_type_tpl", "no_image_item_tpl", "no_image_item" );
+
+$t->set_var( "page_args", $args );
+$t->set_var( "no_image_item", "" );
+$t->set_var( "image_item", "" );
+$t->set_var( "path_item", "" );
+$t->set_var( "current_path_item", "" );
+
+if( empty( $TypeID ) || $TypeID == 0 )
+{
+    $t->parse( "path", "path_tpl" );
+}
+else
+{
+    $paths = $type->path( $TypeID );
+    $countingPaths = count( $path );
+
     $t->set_var( "path_item", "" );
-    $t->set_var( "current_path_item", "" );
-
-    if( empty( $TypeID ) || $TypeID == 0 )
-    {
-        $t->parse( "path", "path_tpl" );
-    }
-    else
-    {
-        $paths = $type->path( $TypeID );
-        $countingPaths = count( $path );
-
-        $t->set_var( "path_item", "" );
-        foreach( $paths as $path )
+    foreach( $paths as $path )
         {
             $t->set_var( "parent_id", $path[0] );
             if( $path[0] == $type->id() )
@@ -153,66 +145,66 @@ if( !$type->id() && $Action != "new"  )
             }
         }
 
-        $t->parse( "path", "path_tpl" );
-    }
+    $t->parse( "path", "path_tpl" );
+}
     
-    if( $Action == "edit" || $Action == "new" )
+if( $Action == "edit" || $Action == "new" )
+{
+    if( $Action == "edit" )
     {
-        if( $Action == "edit" )
-        {
-            $t->set_var( "action_value", "update" );
-        }
-        else
-        {
-            $t->set_var( "action_value", "insert" );
-        }
+        $t->set_var( "action_value", "update" );
+    }
+    else
+    {
+        $t->set_var( "action_value", "insert" );
+    }
 
-        $type = new eZCompanyType();
-        $type->get( $TypeID );
+    $type = new eZCompanyType();
+    $type->get( $TypeID );
 
-        $id = $type->id();
-        $name = $type->name();
-        $desc = $type->description();
-        $parentid = $type->parentID();
+    $id = $type->id();
+    $name = $type->name();
+    $desc = $type->description();
+    $parentid = $type->parentID();
         
-        $t->set_var( "current_id", $id );
-        $t->set_var( "current_name", $name );
-        $t->set_var( "current_description", $desc );
-        $t->set_var( "parent_id", $parentid );
+    $t->set_var( "current_id", $id );
+    $t->set_var( "current_name", $name );
+    $t->set_var( "current_description", $desc );
+    $t->set_var( "parent_id", $parentid );
 
-        $ImageID = $type->imageID();
+    $ImageID = $type->imageID();
         
-        if( is_numeric( $ImageID ) && $ImageID != 0 )
-        {
-            $ini = new INIFile( "site.ini" );
-            $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
-            $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
+    if( is_numeric( $ImageID ) && $ImageID != 0 )
+    {
+        $ini = new INIFile( "site.ini" );
+        $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
+        $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
 
-            $image = new eZImage( $ImageID );
+        $image = new eZImage( $ImageID );
 
-            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
             
-            $imageURL = "/" . $variation->imagePath();
-            $imageWidth = $variation->width();
-            $imageHeight = $variation->height();
-            $imageCaption = $image->caption();
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth = $variation->width();
+        $imageHeight = $variation->height();
+        $imageCaption = $image->caption();
             
-            $t->set_var( "image_width", $imageWidth );
-            $t->set_var( "image_height", $imageHeight );
-            $t->set_var( "image_url", $imageURL );
-            $t->set_var( "image_caption", $imageCaption );
-            $t->parse( "image_item", "image_item_tpl" );
-        }
-        else
-        {
-            $t->parse( "no_image_item", "no_image_item_tpl" );
-        }
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_image_item", "no_image_item_tpl" );
+    }
         
-        $categories = $type->getAll();
+    $categories = $type->getAll();
         
-        $selected = false;
+    $selected = false;
         
-        foreach( $categories as $category )
+    foreach( $categories as $category )
         {
             $t->set_var( "select_parent_id", $category->id() );
             $t->set_var( "select_parent_name", $category->name() );
@@ -228,24 +220,24 @@ if( !$type->id() && $Action != "new"  )
             $t->parse( "parent_item", "parent_item_tpl", true );
         }
 
-        if( count( $categories ) == 0 )
-        {
-            $t->set_var( "parent_item", "" );
-        }
+    if( count( $categories ) == 0 )
+    {
+        $t->set_var( "parent_item", "" );
+    }
         
-        if( $selected == false )
-        {
-            $t->set_var( "root_selected", "selected" );
-        }
-        else
-        {
-            $t->set_var( "root_selected", "" );
-        }
-
-        $t->parse( "current_type", "current_type_tpl" );
+    if( $selected == false )
+    {
+        $t->set_var( "root_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "root_selected", "" );
     }
 
-    $t->pparse( "output", "type_page" );
+    $t->parse( "current_type", "current_type_tpl" );
 }
+
+$t->pparse( "output", "type_page" );
+
 
 ?>
