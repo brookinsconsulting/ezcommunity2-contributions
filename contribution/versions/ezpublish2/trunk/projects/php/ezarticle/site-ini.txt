@@ -24,6 +24,7 @@ AdminListLimit:        Max length of article list in admin
 UserListLimit:         Max length of article list in user
 PublishNoticeReceiver: Who to notify about articles
 PublishNoticeSender:   Which address to send notify mails from
+PublishNoticePadding:  A number of spaces to add in front of each line when sending e-mail messages containing text from the article.
 AuthorLimit:           Max length of author list
 AuthorArticleLimit:    Max length of author's articles list
 UserSubmitArticles:    Enable/disble allowing article publishing in user
