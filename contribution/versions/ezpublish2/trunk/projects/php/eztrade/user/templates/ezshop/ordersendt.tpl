@@ -11,15 +11,15 @@
 <pre>
 {intl-visa_manual_confirmation}:
 
-{intl-print_out_this_page}.
+{intl-print_out_this_page}
 
-{intl-fill_in_the_info}.
+{intl-fill_in_the_info}
 
-{intl-make_a_copy}.
+{intl-make_a_copy}
 
 {intl-fax_it_to_us}
 
-{intl-were_exploring_options}.
+{intl-were_exploring_options}
 
 {intl-order_number}: {order_id}
 
