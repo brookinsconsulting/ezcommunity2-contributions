@@ -152,6 +152,14 @@ switch ( $url_array[2] )
         
     case "search" :
     {
+        if ( $url_array[3] == "parent" )
+        {
+            $QueryString = urldecode( $url_array[4] );
+            $Offset = $url_array[5];
+            if  ( !is_numeric( $Offset ) )
+                $Offset = 0;
+        }
+
         include( "ezforum/user/search.php" );
     }
     break;
