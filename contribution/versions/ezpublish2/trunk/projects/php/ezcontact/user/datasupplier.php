@@ -132,7 +132,6 @@ switch ( $url_array[2] )
 
     case "company":
     {
-        $CompanyID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )
         {
@@ -148,11 +147,15 @@ switch ( $url_array[2] )
             case "delete":
             case "insert":
             {
+                if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                    $CompanyID = $url_array[4];
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }
             case "view":
             {
+                if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                    $CompanyID = $url_array[4];
                 $PersonOffset = $url_array[5];
                 include( "ezcontact/admin/companyview.php" );
                 break;

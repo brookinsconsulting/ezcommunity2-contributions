@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.65 2001/03/09 11:17:30 jb Exp $
+// $Id: ezcompany.php,v 1.66 2001/03/09 16:27:36 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -193,6 +193,20 @@ class eZCompany
                 $ret = true;
             }
         }
+        return $ret;
+    }
+
+    /*!
+      \static
+      Returns true if the company exists.
+    */
+    function exists( $id )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+        $db->array_query( $qry_array, "SELECT ID FROM eZContact_Company WHERE ID='$id'", 0, 1 );
+        if ( count( $qry_array ) == 1 )
+            $ret = true;
         return $ret;
     }
 

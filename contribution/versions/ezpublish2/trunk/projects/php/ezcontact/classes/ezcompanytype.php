@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.25 2001/03/02 17:48:25 jb Exp $
+// $Id: ezcompanytype.php,v 1.26 2001/03/09 16:27:36 jb Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -35,6 +35,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
 
 class eZCompanyType
 {
@@ -97,8 +98,19 @@ class eZCompanyType
      */
     function delete()
     {
+        $sub_categories =& eZCompanyType::getByParentID( $this->ID );
+        foreach( $sub_categories as $category )
+        {
+            $category->delete();
+        }
+        $top_category = new eZCompanyType( 0 );
+        $companies =& eZCompany::getByCategory( $this->ID );
+        foreach( $companies as $company )
+        {
+            $company->removeCategories();
+            $top_category->addCompany( $company );
+        }
         $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$this->ID'" );
         $db->query( "DELETE FROM eZContact_CompanyType WHERE ID='$this->ID'" );
     }
 

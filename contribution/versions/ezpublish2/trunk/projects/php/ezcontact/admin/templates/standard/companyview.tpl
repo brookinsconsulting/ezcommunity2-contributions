@@ -1,14 +1,15 @@
+<!-- BEGIN company_information_tpl -->
 <table width="100%" border="0">
 <tr>
         <td valign="bottom">
         <h1>{intl-view_headline}</h1>
         </td>
-        <td rowspan="2" align="right">
-        <form action="/contact/company/search/" method="post">
-        <input type="text" name="SearchText" size="12" />       
-        <input class="stdbutton" type="submit" value="{intl-search}" />
-        </form> 
-        </td>
+<!--          <td rowspan="2" align="right"> -->
+<!--          <form action="/contact/company/search/" method="post"> -->
+<!--          <input type="text" name="SearchText" size="12" />        -->
+<!--          <input class="stdbutton" type="submit" value="{intl-search}" /> -->
+<!--          </form>  -->
+<!--          </td> -->
 </tr>
 </table>
 
@@ -245,3 +246,7 @@
 <input type="submit" name="Back" value="{intl-list}">
 -->
 </form>
+<!-- END company_information_tpl -->
+<!-- BEGIN no_company_tpl -->
+<h1>{intl-no_company_defined}{company_id}</h1>
+<!-- END no_company_tpl -->
