@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.15 2000/10/13 07:12:43 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.16 2000/10/13 08:22:43 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -691,7 +691,7 @@ class eZNewsUtility
     */
     function setID( $inID )
     {
-        $value = 0;
+        $value = false;
         
         if( ( !strcmp( $this->State_, "coherent" ) ) || ( !strcmp( $this->State_, "new" ) ) )
         {
@@ -699,6 +699,7 @@ class eZNewsUtility
             $value = true;
             $this->State_ = "dirty";
             $this->hasChanged = false;
+            $value = true;
         }
        
         return $value;
@@ -733,13 +734,26 @@ class eZNewsUtility
     function setName( $inName )
     {
         #echo "eZNewsUtility::setName( \$inName = $inName )<br>\n";
-        $this->dirtyUpdate();
         
-        $this->Name = $inName;
+        $value = false;
         
-        $this->alterState();
+        $oldName = $this->Name;
         
-        return true;
+        if( $oldName != $inName )
+        {
+            $this->dirtyUpdate();
+
+            $this->Name = $inName;
+
+            $this->alterState();
+            $value = true;
+        }
+        else
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
 
 

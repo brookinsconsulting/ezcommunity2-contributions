@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.7 2000/10/11 16:20:22 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.8 2000/10/13 08:22:43 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -37,7 +37,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function eZNewsArticle( $inData = "", $fetch = true )
     {
-        #echo "eZNewsArticle::eZNewsArticle( \$inData = $inData, \$fetch = $fetch )<br>";
+        #echo "eZNewsArticle::eZNewsArticle( \$inData = $inData, \$fetch = $fetch )<br />\n";
         eZNewsItem::eZNewsItem( $inData, $fetch );
     }
 
@@ -56,7 +56,7 @@ class eZNewsArticle extends eZNewsItem
     
     function storeThis( &$outID )
     {
-        #echo "eZNewsArticle::storeThis( \$outID = $outID )<br>";
+        #echo "eZNewsArticle::storeThis( \$outID = $outID )<br />\n";
         $value = false;
         
         eZNewsItem::storeThis( $outID );
@@ -106,7 +106,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function updateThis( &$outID )
     {
-        #echo "eZNewsArticle::updateThis( \$outID=$outID )<br>";
+        #echo "eZNewsArticle::updateThis( \$outID=$outID )<br />\n";
     
         $value = false;
         
@@ -159,7 +159,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function getThis( &$outID, $inData )
     {
-        #echo "eZNewsArticle::getThis( \$outID=$outID, \$inData=$inData )<br>";
+        #echo "eZNewsArticle::getThis( \$outID=$outID, \$inData=$inData )<br />\n";
         $value = false;
         
         eZNewsItem::getThis( $outID, $inData );
@@ -211,16 +211,44 @@ class eZNewsArticle extends eZNewsItem
 
     /*!
         Sets the author text field.
+        
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
+        
+        \$in
+            \$inAuthorText
+        \return
+            Returns true if successful.
+        
      */
-    function setAuthorText( $value )
+    function setAuthorText( $inAuthorText )
     {
+        #echo "eZNewsArticle::setAuthorText( \$inAuthorText = $inAuthorText )<br />\n";
+        $value = false;
+        
         $this->dirtyUpdate();
         
-        $this->AuthorText = $value;
-
-        $this->alterState();
+        $oldAuthorText = $this->AuthorText;
         
-        return true;
+        if( $inAuthorText != $oldAuthorText )
+        {
+            $this->AuthorText = $inAuthorText;
+
+            $this->alterState();
+            $value = true;
+
+            if( $this->isLogging() && $value )
+            {
+                $this->createLogItem( $this->ID . ": Author text has changed from $oldAuthorText to $inAuthorText", $this->Status );
+            }
+        }
+        else
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
 
 
@@ -230,6 +258,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function authorText()
     {
+        #echo "eZNewsArticle::authorText()<br />\n";
         $this->dirtyUpdate();
         
         return $this->AuthorText;
@@ -244,6 +273,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function createAuthorText()
     {
+        #echo "eZNewsArticle::createAuthorText()<br />\n";
         $user = eZUser::currentUser();
     
         return $user->firstName() . " " . $user->lastName();
@@ -252,26 +282,57 @@ class eZNewsArticle extends eZNewsItem
 
 
     /*!
-        Sets the meta field. 
+        Sets the meta field.
+        
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
+        
+        \in
+            \$inMeta    The new meta information.
+        \return
+            Returns true if successful.
      */
-    function setMeta( $value )
+    function setMeta( $inMeta )
     {
+        #echo "eZNewsArticle::setMeta( \$inMeta = $inMeta )<br />\n";
+        $value = false;
+        
         $this->dirtyUpdate();
         
-        $this->Meta = $value;
-
-        $this->alterState();
+        $oldMeta = $this->Meta;
         
-        return true;
+        if( $oldMeta != $inMeta )
+        {
+            $this->Meta = $inMeta;
+
+            $this->alterState();
+            $value = true;
+
+            if( $this->isLogging() && $value )
+            {
+                $this->createLogItem( $this->ID . ": Meta has changed from $oldMeta to $inMeta", $this->Status );
+            }
+        }
+        else
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
 
 
 
     /*!
-        Gets the meta field. 
+        Gets the meta field.
+        
+        \return
+            Returns the meta info.
      */
     function meta()
     {
+        #echo "eZNewsArticle::meta()<br />\n";
         $this->dirtyUpdate();
         
         return $this->Meta;
@@ -280,51 +341,116 @@ class eZNewsArticle extends eZNewsItem
 
     
     /*!
-        Sets the story. 
+        Sets the story field.
+        
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
+        
+        \in
+            \$inStory    The new story.
+        \return
+            Returns true if successful.
      */
-    function setStory( $value )
+    function setStory( $inStory )
     {
+        #echo "eZNewsArticle::setStory( \$inStory = $inStory )<br />\n";
+        $value = false;
+        
         $this->dirtyUpdate();
         
-        $this->Story = $value;
+        $oldStory = $this->Story;
         
-        $this->alterState();
+        if( $oldStory != $inStory )
+        {
+            $this->Story = $inStory;
+
+            if( $this->isLogging() && $value )
+            {
+                $this->createLogItem( $this->ID . ": Story has changed from $oldStory to $inStory", $this->Status );
+            }
+            $this->alterState();
+            
+            $value = true;
+        }
+        else
+        {
+            $value = true;
+        }
         
-        return true;
+        return $value;
     }
 
 
     
     /*!
-        Gets the story. 
+        Gets the story.
+        
+        \return
+            Returns the story.
      */
     function story()
     {
+        #echo "eZNewsArticle::story()<br />\n";
         $this->dirtyUpdate();
         
         return $this->Story;
     }
-    
-    
+
+
+
     /*!
         Sets the link text.
+        
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
+        
+        \in
+            \$inLinkText    The new story.
+        \return
+            Returns true if successful.
      */
-    function setLinkText( $value )
+    function setLinkText( $inLinkText )
     {
+        #echo "eZNewsArticle::setLinkText( \$inLinkText = $inLinkText )<br />\n";
+        $value = false;
+        
         $this->dirtyUpdate();
         
-        $this->LinkText = $value;
+        $oldLinkText = $this->LinkText;
+        
+        if( $oldLinkText != $inLinkText )
+        {
+            $this->LinkText = $inLinkText;
 
-        $this->alterState();        
+            if( $this->isLogging() && $value )
+            {
+                $this->createLogItem( $this->ID . ": Link text has changed from $oldLinkText to $inLinkText", $this->Status );
+            }
+            $this->alterState();
+            
+            $value = true;
+        }
+        else
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
     
     
     
     /*!
         Gets the link text.
+        
+        \return
+            Returns the link text.
      */
     function linkText()
     {
+        #echo "eZNewsArticle::linkText()<br />\n";
         $this->dirtyUpdate();
         
         return $this->LinkText;
@@ -341,6 +467,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function invariantCheck()
     {
+        #echo "eZNewsArticle::invariantCheck()<br />\n";
         $value=false;
         
         eZNewsItem::invariantCheck();

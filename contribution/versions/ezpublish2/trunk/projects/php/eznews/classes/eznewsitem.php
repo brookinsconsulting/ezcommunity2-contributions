@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.34 2000/10/13 07:12:43 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.35 2000/10/13 08:22:43 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -127,7 +127,7 @@ class eZNewsItem extends eZNewsUtility
     */
     function eZNewsItem( $inData = "", $fetch = true )
     {
-        #echo "eZNewsItem::eZNewsItem( \$inData = $inData \$fetch = $fetch )<br>\n";
+        #echo "eZNewsItem::eZNewsItem( \$inData = $inData \$fetch = $fetch )<br />\n";
         
         $this->CreatedAt = $this->createTimeStamp();
         $this->CreationIP = $this->createIP();
@@ -196,7 +196,7 @@ class eZNewsItem extends eZNewsUtility
     */
     function getThis( &$outID, &$inData )
     {
-        #echo "eZNewsItem::getThis( \$outID=$outID, \$inData=$inData )<br>\n";
+        #echo "eZNewsItem::getThis( \$outID=$outID, \$inData=$inData )<br />\n";
         $value = false;
         $itemArray = array();
         $outID = array();
@@ -230,8 +230,8 @@ class eZNewsItem extends eZNewsUtility
         $this->Database->array_query( $itemArray, $query );
         $count = count( $itemArray );
         
-    #echo $query . "<br>";
-    #echo $count . "<br>";
+    #echo $query . "<br />\n";
+    #echo $count . "<br />\n";
         switch( $count )
         {
             case 0:
@@ -289,7 +289,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function createLogItem( $changeText, $changeType  )
     {
-        #echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>\n";
+        #echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br />\n";
         
         $value = false;
         $doIt = false;
@@ -407,6 +407,10 @@ class eZNewsItem extends eZNewsUtility
         return $value;
     }
     
+    
+    /*!
+        This one needs some code...
+     */
     function removeImage( $ImageID )
     {
         $value = false;
@@ -467,7 +471,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setLog( $ChangeTicketID )
     {
-        #echo "eZNewsItem::setLog( \$ChangeTicketID = $ChangeTicketID )<br>\n";
+        #echo "eZNewsItem::setLog( \$ChangeTicketID = $ChangeTicketID )<br />\n";
         $value = true;
         if( !$this->isDirty() )
         {
@@ -507,13 +511,13 @@ class eZNewsItem extends eZNewsUtility
      */
     function printLogs()
     {
-        echo "eZNewsItem::printLogs()<br>\n";
+        #echo "eZNewsItem::printLogs()<br />\n";
         if( $this->ChangeTicketID )
         {
-            echo "Log items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            echo "Log items belonging to: " . $this->ID . " " . $this->Name . "<br />\n";
             foreach( $this->ChangeTicketID as $id )
             {
-                echo "$id <br>";
+                echo "$id <br />\n";
             }
         }
     }
@@ -525,13 +529,13 @@ class eZNewsItem extends eZNewsUtility
      */
     function printParents()
     {
-        echo "eZNewsItem::printParents()<br>\n";
+        #echo "eZNewsItem::printParents()<br />\n";
         if( $this->ParentID )
         {
-            echo "Parent items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            echo "Parent items belonging to: " . $this->ID . " " . $this->Name . "<br />\n";
             foreach( $this->ParentID as $id )
             {
-                echo "$id <br>";
+                echo "$id <br />\n";
             }
         }
     }
@@ -543,13 +547,13 @@ class eZNewsItem extends eZNewsUtility
      */
     function printFiles()
     {
-        echo "eZNewsItem::printFiles()<br>\n";
+        #echo "eZNewsItem::printFiles()<br />\n";
         if( $this->FileID )
         {
-            echo "File items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            echo "File items belonging to: " . $this->ID . " " . $this->Name . "<br />\n";
             foreach( $this->FileID as $id )
             {
-                echo "$id <br>";
+                echo "$id <br />\n";
             }
         }
     }
@@ -561,13 +565,13 @@ class eZNewsItem extends eZNewsUtility
      */
     function printImages()
     {
-        echo "eZNewsItem::printImages()<br>\n";
+        #echo "eZNewsItem::printImages()<br />\n";
         if( $this->ImageID )
         {
-            echo "Image items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            echo "Image items belonging to: " . $this->ID . " " . $this->Name . "<br />\n";
             foreach( $this->ImageID as $id )
             {
-                echo "$id <br>";
+                echo "$id <br />\n";
             }
         }
     }
@@ -595,7 +599,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setParent( $ParentID, $isCanonical = false )
     {
-        #echo "eZNewsItem::setParent( \$ParentID = $ParentID, \$isCanonical = $isCanonical )<br>\n";
+        #echo "eZNewsItem::setParent( \$ParentID = $ParentID, \$isCanonical = $isCanonical )<br />\n";
         $value = true;
         
         if( !$this->isDirty() )
@@ -746,7 +750,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeLogs()
     {
-        #echo "eZNewsItem::storeLogs()<br>\n";
+        #echo "eZNewsItem::storeLogs()<br />\n";
         
         #$this->printLogs();
 
@@ -783,7 +787,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateLogs()
     {
-        #echo "eZNewsItem::updateLogs()<br>\n";
+        #echo "eZNewsItem::updateLogs()<br />\n";
         $query =
         "
             DELETE FROM
@@ -866,7 +870,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeParents()
     {
-        #echo "eZNewsItem::storeParents()<br>\n";
+        #echo "eZNewsItem::storeParents()<br />\n";
         $this->dbInit();
 
         $nonCanonicalQuery =
@@ -924,7 +928,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateParents()
     {
-        #echo "eZNewsItem::updateParents()<br>\n";
+        #echo "eZNewsItem::updateParents()<br />\n";
         $this->dbInit();
 
         $query =
@@ -958,7 +962,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeThis( &$outID )
     {
-        #echo "eZNewsItem::storeThis( \$outID )<br>\n";
+        #echo "eZNewsItem::storeThis( \$outID )<br />\n";
         
         $value = false;
         
@@ -1031,7 +1035,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateThis( &$outID )
     {
-        #echo "eZNewsItem::updateThis( \$outID )<br>\n";
+        #echo "eZNewsItem::updateThis( \$outID )<br />\n";
         
         $value = false;
         
@@ -1091,12 +1095,16 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Deletes an item from the database.
         
+        Hmm, how much should we delete, and what about a hard delete?
+        
+        Should we promote children?
+        
         \return
             Returns true if the item exists and has been deleted.
      */
     function delete()
     {
-        #echo "eZNewsItem::delete()<br>\n";
+        #echo "eZNewsItem::delete()<br />\n";
         $value = false;
         $this->dbInit();
         
@@ -1268,7 +1276,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getWidows( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = "" )
     {
-        #echo "eZnewsItem::getWidows( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
+        #echo "eZnewsItem::getWidows( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br />\n";
         $this->dbInit();
         $value = false;
         
@@ -1367,7 +1375,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getChildren( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
-        #echo "eZnewsItem::getChildren( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
+        #echo "eZnewsItem::getChildren( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br />\n";
         global $childrenMax;
         
         $this->dbInit();
@@ -1471,7 +1479,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getChildrenGroups( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
-        #echo "eZnewsItem::getChildrenGroups( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
+        #echo "eZnewsItem::getChildrenGroups( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br />\n";
         $this->dbInit();
         $value = false;
         $continue = false;
@@ -1642,7 +1650,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getParents( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
-        #echo "eZnewsItem::getParents( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
+        #echo "eZnewsItem::getParents( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br />\n";
         $this->dbInit();
         $value = false;
 
@@ -1687,7 +1695,7 @@ class eZNewsItem extends eZNewsUtility
         $limits = $this->createLimit( $startAt, $noOfResults );
 
         $query = sprintf( $query, $this->ID, $orderBy, $limits );
-        #echo "$query<br>id: " . $this->ID . "<br>name: " . $this->Name . "<br>";
+        #echo "$query<br>id: " . $this->ID . "<br>name: " . $this->Name . "<br />\n";
 
         $this->Database->array_query( $itemArray, $query );
         
@@ -1754,7 +1762,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getImages( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
-        #echo "eZnewsItem::getImages( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
+        #echo "eZnewsItem::getImages( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br />\n";
         $this->dbInit();
         $value = false;
 
@@ -1922,7 +1930,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function isChangeType( $changeType )
     {
-        #echo "eZNewsItem::isChangeType( \$changeType = $changeType )<br>\n";
+        #echo "eZNewsItem::isChangeType( \$changeType = $changeType )<br />\n";
 
         $value = false;
         
@@ -2019,8 +2027,12 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Sets the CreatedAt of the object.
         
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
+        
         \in
-            \$inDescription    The new CreatedAt of this object
+            \$inCreatedAt    The new CreatedAt of this object
         \return
             Will always return true.
     */
@@ -2029,14 +2041,18 @@ class eZNewsItem extends eZNewsUtility
         $this->dirtyUpdate();
         
         $oldCreatedAt = $this->CreatedAt;
-        $this->CreatedAt = $inCreatedAt;
-
-        if( $this->isLogging() )
-        {
-            $this->createLogItem( $this->ID . ": Creation date changed from $oldCreatedAt to $inCreatedAt", $this->Status );
-        }
         
-        $this->alterState();
+        if( $oldCreatedAt != $inCreatedAt )
+        {
+            $this->CreatedAt = $inCreatedAt;
+
+            if( $this->isLogging() )
+            {
+                $this->createLogItem( $this->ID . ": Creation date changed from $oldCreatedAt to $inCreatedAt", $this->Status );
+            }
+
+            $this->alterState();
+        }
         
         return true;
     }
@@ -2061,8 +2077,12 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Sets the item type id of the object.
         
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
+        
         \in
-            \$inDescription    A valid item type id or name.
+            \$inItemTypeID    A valid item type id or name.
         \return
             Will return true if the item type id was changed.
     */
@@ -2074,19 +2094,26 @@ class eZNewsItem extends eZNewsUtility
         $it = new eZNewsItemType( $inItemTypeID, true );
         $itold = new eZNewsItemType( $this->ItemTypeID, true );
 
-        if( $it->isCoherent() )
+        if( $itold->name() != $it->name() )
         {
-            $this->dirtyUpdate();
-        
-            if( $this->isLogging() )
+            if( $it->isCoherent() )
             {
-                $this->createLogItem( $this->ID . ": Item Type changed from " . $itold->Name() . "(" . $itold->ID()  .")" . " to " . $it->Name() . "(" . $it->ID()  .")", $this->Status );
+                $this->dirtyUpdate();
+
+                if( $this->isLogging() )
+                {
+                    $this->createLogItem( $this->ID . ": Item Type changed from " . $itold->name() . "(" . $itold->ID()  .")" . " to " . $it->name() . "(" . $it->ID()  .")", $this->Status );
+                }
+
+                $this->ItemTypeID = $it->ID();
+
+                $this->alterState();
+
+                $value = true;
             }
-            
-            $this->ItemTypeID = $it->ID();
-        
-            $this->alterState();
-        
+        }
+        else
+        {
             $value = true;
         }
         
@@ -2131,6 +2158,7 @@ class eZNewsItem extends eZNewsUtility
     */
     function getCreatedAt()
     {
+        #echo "eZNewsItem::getCreatedAt()<br />\n";
         $this->dirtyUpdate();
         
         return $this->CreatedAt;
@@ -2146,6 +2174,7 @@ class eZNewsItem extends eZNewsUtility
     */
     function getFrontImage()
     {
+        #echo "eZNewsItem::getFrontImage()<br />\n";
         $this->dirtyUpdate();
         
         return $this->isFrontImage;
@@ -2156,6 +2185,10 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Sets the Status of the object.
         
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
+
         \in
             \$inDescription    A valid change type id or name.
         \return
@@ -2163,35 +2196,45 @@ class eZNewsItem extends eZNewsUtility
     */
     function setStatus( $inItemTypeID )
     {
+        #echo "eZNewsItem::setStatus( \$inItemTypeID = $inItemTypeID )<br />\n";
         $value = false;
         
-        #echo "set status: $inStatus <br>";
-        include_once( "eznews/classes/eznewschangetype.php" );
+
         $ct = new eZNewsChangeType( $inItemTypeID, true );
         $ctold = new eZNewsChangeType( $this->Status, true );
-
-        if( $ct->isCoherent() )
+        
+        if( $ct->ID() != $ctold->ID() )
         {
-            $this->dirtyUpdate();
-        
-            if( $this->isLogging )
+            if( $ct->isCoherent() )
             {
-                $this->createLogItem( $this->ID . ": Status changed from " . $ctold->Name() . "(" . $ctold->ID()  .")" . " to " . $ct->Name() . "(" . $ct->ID()  .")", $inItemTypeID );
+                $this->dirtyUpdate();
+
+                if( $this->isLogging )
+                {
+                    $this->createLogItem( $this->ID . ": Status changed from " . $ctold->Name() . "(" . $ctold->ID()  .")" . " to " . $ct->Name() . "(" . $ct->ID()  .")", $inItemTypeID );
+                }
+                else
+                {
+                    $this->Status = $ct->ID();
+                }
+                $this->alterState();
+
+                $value = true;
             }
-            else
-            {
-                $this->Status = $ct->ID();
-            }
-            $this->alterState();
-        
+        }
+        else
+        {
             $value = true;
         }
-        
         return $value;
     }
     
     /*!
         Enables logging on name changes.
+        
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
         
         \in
             \$inName    The new name of this item.
@@ -2200,20 +2243,30 @@ class eZNewsItem extends eZNewsUtility
      */
     function setName( $inName )
     {
+        #echo "eZNewsItem::setName( \$inName = $inName )<br />\n";
         $oldname = $this->name();
+        
+        echo "\$oldname = $oldname, \$inName = $inName<br />\n";
         
         $value = eZNewsUtility::setName( $inName );
         
-        if( $this->isLogging() && $value )
+        if( $oldname != $inName )
         {
-            $this->createLogItem( $this->ID . ": Name changed from $oldname to $inName", $this->Status );
+            if( $this->isLogging() && $value )
+            {
+                $this->createLogItem( $this->ID . ": Name changed from $oldname to $inName", $this->Status );
+            }
         }
-        
+
         return $value;
     }
 
     /*!
         Enables logging on id changes.
+        
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
         
         \in
             \$inID    The new id of this item.
@@ -2222,15 +2275,19 @@ class eZNewsItem extends eZNewsUtility
      */
     function setID( $inID )
     {
+        #echo "eZNewsItem::setID( \$inID = $inID )<br />\n";
         $oldid = $this->ID();
         
         $value = eZNewsUtility::setID( $inID );
         
-        if( $this->isLogging() && $value )
+        if( $oldid != $inID )
         {
-            $this->createLogItem( $this->ID . "(was " . $oldid . "): ID changed from $oldid to $inID", $this->Status );
+            if( $this->isLogging() && $value )
+            {
+                $this->createLogItem( $this->ID . "(was " . $oldid . "): ID changed from $oldid to $inID", $this->Status );
+            }
         }
-        
+
         return $value;
     }
 
@@ -2244,6 +2301,7 @@ class eZNewsItem extends eZNewsUtility
     */
     function status()
     {
+        #echo "eZNewsItem::status()<br />\n";
         $this->dirtyUpdate();
         
         return $this->Status;
@@ -2271,7 +2329,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function printObject()
     {
-        echo "eZNewsUtility::printObject()<br>\n";
+        #echo "eZNewsUtility::printObject()<br />\n";
         echo "ID = " . $this->ID . " \n";
         echo "Name = " . $this->Name . " \n";
         echo "ItemTypeID = " . $this->ItemTypeID . " \n";
@@ -2287,7 +2345,7 @@ class eZNewsItem extends eZNewsUtility
         echo "hasChanged = " . $this->hasChanged . " \n";       
         echo "checkCreator = " . $this->checkCreator . " \n";       
         echo "isLogging = " . $this->isLogging . " \n";       
-        echo "<br>\n";
+        echo "<br />\n";
         
         $this->printParents();
         $this->printLogs();

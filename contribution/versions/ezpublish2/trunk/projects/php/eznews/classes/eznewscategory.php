@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.6 2000/10/11 19:59:19 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.7 2000/10/13 08:22:43 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -20,6 +20,10 @@
 /*!
     This class is used for creating categories in the hiearchy of stories/articles.
  */
+
+/*!TODO
+    add delete to existing article etc when setting new descriptions.
+ */
  
 include_once( "classes/ezdb.php" );
 include_once( "eznews/classes/eznewsitem.php" );
@@ -31,7 +35,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function eZNewsCategory( $inData = "", $fetch = true )
     {
-        #echo "eZNewsCategory::eZNewsCategory( \$inData = $inData, \$fetch = $fetch )<br>\n";
+         #echo "eZNews "eZNewsCategory::eZNewsCategory( \$inData = $inData, \$fetch = $fetch )<br>\n";
 
         eZNewsItem::eZNewsItem( $inData, $fetch );
     }
@@ -50,7 +54,7 @@ class eZNewsCategory extends eZNewsItem
     */
     function storeThis( &$outID )
     {
-        #echo "eZNewsCategory::storeThis( \$outID=$outID )<br>\n";
+         #echo "eZNews "eZNewsCategory::storeThis( \$outID=$outID )<br>\n";
         $value = false;
         
         eZNewsItem::storeThis( $outID );
@@ -96,7 +100,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function updateThis( &$outID )
     {
-        #echo "eZNewsCategory::updateThis( \$outID=$outID )<br>\n";
+         #echo "eZNews "eZNewsCategory::updateThis( \$outID=$outID )<br>\n";
     
         $value = false;
         
@@ -145,7 +149,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function getThis( &$outID, $inData )
     {
-        #echo "eZNewsCategory::getThis( \$outID=$outID, \$inData=$inData )<br>\n";
+         #echo "eZNews "eZNewsCategory::getThis( \$outID=$outID, \$inData=$inData )<br>\n";
         $value = false;
         
         eZNewsItem::getThis( $outID, $inData );
@@ -191,14 +195,44 @@ class eZNewsCategory extends eZNewsItem
     
     /*!
         Sets the PublicDescriptionID text field.
-     */
-    function setPublicDescriptionID( $value )
-    {
-        $this->dirtyUpdate();
         
-        $this->PublicDescriptionID = $value;
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
 
-        $this->alterState();
+        \in
+            \$inPPID    A valid article type id or name.
+        \return
+            Will return true if the Status was changed.
+     */
+    function setPublicDescriptionID( $inPPID )
+    {
+         #echo "eZNews "eZNewsCategory::setPublicDescriptionID( \$inPPID=$inPPID )<br />\n";
+        $oldPPID = $this->PublicDescriptionID;
+        
+        $value = false;
+        
+        $oldObject = new eZNewsArticle( $oldPPID );
+        $newObject = new eZNewsArticle( $inPPID );
+        
+        if( $inPPID != $oldPPID )
+        {
+            $this->dirtyUpdate();
+        
+            $this->PublicDescriptionID = $inPPID;
+
+            $this->alterState();
+            $value = true;
+            
+            if( $this->isLogging )
+            {
+                $this->createLogItem( $this->ID . ": PublicDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
+            }
+        }
+        else
+        {
+            $value = true;
+        }
         
         return true;
     }
@@ -206,10 +240,14 @@ class eZNewsCategory extends eZNewsItem
 
     
     /*!
-        Gets the PublicDescriptionID field. 
+        Gets the PublicDescriptionID field.
+        
+        \return
+            Returns the public description id
      */
     function publicDescriptionID()
     {
+         #echo "eZNews "eZNewsCategory::publicDescriptionID()<br />\n";
         $this->dirtyUpdate();
         
         return $this->PublicDescriptionID;
@@ -219,14 +257,44 @@ class eZNewsCategory extends eZNewsItem
     
     /*!
         Sets the PrivateDescriptionID text field.
-     */
-    function setPrivateDescriptionID( $value )
-    {
-        $this->dirtyUpdate();
         
-        $this->PrivateDescriptionID = $value;
+        Will consider the work for done if the incoming
+        value equals the existing. But no change (and most
+        importantly) no logging will be performed.
 
-        $this->alterState();
+        \in
+            \$inPPID    A valid article type id or name.
+        \return
+            Will return true if the Status was changed.
+     */
+    function setPrivateDescriptionID( $inPPID )
+    {
+         #echo "eZNews "eZNewsCategory::setPrivateDescriptionID( \$inPPID=$inPPID )<br />\n";
+        $oldPPID = $this->PrivateDescriptionID;
+        
+        $value = false;
+        
+        $oldObject = new eZNewsArticle( $oldPPID );
+        $newObject = new eZNewsArticle( $inPPID );
+        
+        if( $inPPID != $oldPPID )
+        {
+            $this->dirtyUpdate();
+        
+            $this->PrivateDescriptionID = $inPPID;
+
+            $this->alterState();
+            $value = true;
+            
+            if( $this->isLogging )
+            {
+                $this->createLogItem( $this->ID . ": PrivateDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
+            }
+        }
+        else
+        {
+            $value = true;
+        }
         
         return true;
     }
@@ -234,10 +302,14 @@ class eZNewsCategory extends eZNewsItem
 
     
     /*!
-        Gets the PrivateDescriptionID field. 
+        Gets the PrivateDescriptionID field.
+        
+        \return
+            Returns the private description id.
      */
     function privateDescriptionID()
     {
+         #echo "eZNews "eZNewsCategory::privateDescriptionID()<br />\n";
         $this->dirtyUpdate();
         
         return $this->PrivateDescriptionID;
@@ -254,6 +326,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function invariantCheck()
     {
+         #echo "eZNews "eZNewsCategory::invariantCheck()<br />\n";
         $value=false;
         
         eZNewsItem::invariantCheck();
@@ -273,6 +346,5 @@ class eZNewsCategory extends eZNewsItem
     /*  This is the private information about this categoyr.
         Used to give instructions, etc. to the administrators. */
     var $PrivateDescriptionID = 0;
-    
 };
 ?>
