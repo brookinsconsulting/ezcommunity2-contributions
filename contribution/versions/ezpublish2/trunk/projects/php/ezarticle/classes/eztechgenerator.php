@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.31 2001/01/28 12:22:40 bf Exp $
+// $Id: eztechgenerator.php,v 1.32 2001/02/04 18:10:48 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -114,7 +114,7 @@ class eZTechGenerator
     function &generateUnknowns( $tmpPage )
     {
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail|module|bullet))/", "&lt;", $tmpPage );
+        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|iconlink|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail|module|bullet))/", "&lt;", $tmpPage );
 
         // look-behind assertion is used here (?<!) 
         // the expression must be fixed width eg just use the 3 last letters of the tag
@@ -224,6 +224,8 @@ class eZTechGenerator
         // $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
         $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
 
+        $tmpPage = preg_replace( "#(<iconlink\s+?([^ ]+)\s+?([^>]+)>)#", "<iconlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
+        
         // convert <ezanchor anchor> to <ezanchor href="anchor" />
         $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<ezanchor href=\"\\1\" />", $tmpPage );
         
@@ -490,6 +492,32 @@ class eZTechGenerator
             $pageContent .= "<link $href $text>";
         }
 
+        if ( $paragraph->name == "iconlink" )
+        {
+            foreach ( $paragraph->attributes as $imageItem )
+                {
+//                      print( $imageItem->name );
+                    switch ( $imageItem->name )
+                    {
+
+                        case "href" :
+                        {
+                            $href = $imageItem->children[0]->content;
+                        }
+                        break;
+
+                        case "text" :
+                        {
+                            $text = $imageItem->children[0]->content;
+                        }
+                        break;
+                                
+                    }
+                }
+                        
+            $pageContent .= "<iconlink $href $text>";
+        }
+        
         
         // mail
         if ( $paragraph->name == "mail" )

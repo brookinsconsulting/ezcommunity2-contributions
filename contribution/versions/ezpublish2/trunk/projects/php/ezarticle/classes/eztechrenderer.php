@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.50 2001/02/04 17:50:03 bf Exp $
+// $Id: eztechrenderer.php,v 1.51 2001/02/04 18:10:48 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -36,7 +36,8 @@
   Header text
   </header>
   <link ez.no text to the link> - anchor
-  <mail adresse@domain.tld?subject="subject line" link text> - anchor to email address with subject
+  <iconlink ez.no text to the link> - anchor
+  <mail adresse@domain.tld subject line, link text> - anchor to email address with subject
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large|original)
 
   <ezanchor anchorname>
@@ -355,6 +356,34 @@ class eZTechRenderer
             $pageContent .= "<a href=\"$href\">" . $text . "</a>";
         }
 
+        // link
+        if ( $paragraph->name == "iconlink" )
+        {
+            foreach ( $paragraph->attributes as $imageItem )
+                {
+                    switch ( $imageItem->name )
+                    {
+
+                        case "href" :
+                        {
+                            $href = $imageItem->children[0]->content;
+                        }
+                        break;
+
+                        case "text" :
+                        {
+                            $text = $imageItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+
+            if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
+                $href = "http://" . $href;
+
+            $pageContent .= "<img align=\"baseline\" src=\"/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a href=\"$href\">" . $text . "</a>";
+        }
+        
         // ez anchor
         if ( $paragraph->name == "ezanchor" )
         {
