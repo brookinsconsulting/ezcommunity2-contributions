@@ -2830,3 +2830,11 @@ Maintainer(s) : ce@ez.no
       classes/ezorder.php
       sql/mysql/eztrade.sql: updated code for payment.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-19  Baard Farstad  <bf@ez.no>
+
+    * user/productsearch.php: Fixed correct link on image in product search.
+
