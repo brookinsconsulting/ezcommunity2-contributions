@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.24 2001/02/24 13:52:20 pkej Exp $
+// $Id: messagereply.php,v 1.25 2001/02/26 09:45:12 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -40,9 +40,10 @@ if ( $StartAction == "reply" )
     // send mail to forum moderator
     $moderator = $forum->moderator();
 
+    $mail = new eZMail();
+    
     if ( $moderator )
     {
-        $mail = new eZMail();
 
         $mail->setSubject( $msg->topic() );
         $mail->setBody( $msg->body( false ) );
