@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61 2001/10/17 12:06:48 ce Exp $
+// $Id: ezorder.php,v 1.62 2001/11/29 13:03:17 pkej Exp $
 //
 // Definition of eZOrder class
 //
@@ -277,6 +277,64 @@ class eZOrder
 
         return $return_array;
     }
+
+    /*!
+      Fetches all active orders between two timestamps.
+
+      Note: Default limit is 40.
+    */
+    function &getAllBetweenTimestamps( $offset=0, $limit=40, $OrderBy = "Date", $fromTimeStamp, $toTimeStamp )
+    {
+        switch ( strtolower( $OrderBy ) )
+        {
+            case "no":
+            {
+                $OrderBy = "ID";
+                break;
+            }
+            case "created":
+            {
+                $OrderBy = "Date";
+                break;
+            }
+            case "modified":
+            {
+                $OrderBy = "Altered";
+                break;
+            }
+            case "status":
+            {
+                $OrderBy = "StatusID";
+                break;
+            }
+            default:
+            {
+                $OrderBy = "Date";
+                break;
+            }
+        }
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $order_array = array();
+
+        $db->array_query( $order_array,
+                          "SELECT eZTrade_Order.ID as ID
+                           FROM eZTrade_Order, eZTrade_OrderStatus
+                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID
+                           AND eZTrade_Order.Date > '$fromTimeStamp'
+                           AND eZTrade_Order.Date < '$toTimeStamp'
+                           ORDER BY $OrderBy",
+                           array( "Limit" => $limit, "Offset" => $offset ) );
+
+        for ( $i = 0; $i < count( $order_array ); $i++ )
+        {
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
+        }
+
+        return $return_array;
+    }
+
 
     /*!
       Fetch all the orders for the currenct user.
