@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumlist.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
+    $Id: forumlist.php,v 1.3 2000/10/17 14:16:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -31,6 +31,10 @@ $t->set_block( "forum_page", "forum_item_tpl", "forum_item" );
 $forum = new eZForum();
 
 $forumList = $forum->getAllByCategory( $CategoryID );
+
+$category = new eZForumCategory();
+$category->get( $CategoryID );
+$t->set_var( "category_name", $category->name() );
 
 if ( !$forumList )
 {

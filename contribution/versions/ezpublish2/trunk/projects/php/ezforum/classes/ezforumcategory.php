@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.20 2000/10/17 09:46:49 ce-cvs Exp $
+// $Id: ezforumcategory.php,v 1.21 2000/10/17 14:16:49 ce-cvs Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -97,6 +97,9 @@ class eZForumCategory
         print( $this->ID );
         $this->dbInit();
 
+        $forum = new eZForum();
+        $forum->get( $this->ID );
+        $forum->delete();
         $this->Database->query( "DELETE FROM eZForum_Category WHERE ID='$this->ID'" );
         
         return true;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.5 2000/10/17 11:52:58 bf-cvs Exp $
+// $Id: menubox.php,v 1.6 2000/10/17 14:16:49 ce-cvs Exp $
 //
 // 
 //
@@ -17,7 +17,6 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
 
-
 $PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
 
 // do the caching 
@@ -32,15 +31,16 @@ if ( $PageCaching == "enabled" )
     else
     {
         $GenerateStaticPage = "true";
-        createForumMenu();
+        createPage();
     }            
 }
 else
 {
-    createForumMenu();
+    
+    createPage();
 }
 
-function createForumMenu()
+function createPage()
 {
     include_once( "classes/eztemplate.php" );
     include_once( "classes/ezdb.php" );
@@ -55,12 +55,25 @@ function createForumMenu()
     $category = new eZForumCategory();
     $categories = $category->getAllCategories();
 
-    foreach( $categories as $category )
+    if ( !$categories )
     {
-        $t->set_var("id", $category->id() );
-        $t->set_var("name", $category->name() );
+        $ini = new INIFile( "site.ini" );
+        $Language = $ini->read_var( "eZForumMain", "Language" );
+        $nofound = new INIFile( "ezforum/intl/" . $Language . "/categorylist.php.ini", false );
+        $noitem =  $nofound->read_var( "strings", "noitem" );
         
-        $t->parse( "category", "category_tpl", true);
+        $t->set_var( "category", $noitem );
+    }
+    else
+    {
+
+        foreach( $categories as $category )
+            {
+                $t->set_var("id", $category->id() );
+                $t->set_var("name", $category->name() );
+        
+                $t->parse( "category", "category_tpl", true);
+            }
     }
 
 
@@ -79,6 +92,7 @@ function createForumMenu()
     {
         $t->pparse( "output", "categorylist_tpl" );
     }
+    
 }
 
 ?>

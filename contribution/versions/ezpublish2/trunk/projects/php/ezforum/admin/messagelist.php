@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: messagelist.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
+  $Id: messagelist.php,v 1.3 2000/10/17 14:16:49 ce-cvs Exp $
 
   Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -31,7 +31,9 @@ $t->set_file( Array( "message_page" => "messagelist.tpl" ) );
 $t->set_block( "message_page", "message_item_tpl", "message_item" );
 
 $forum = new eZForum( $ForumID );
+$t->set_var( "forum_name", $forum->name() );
 $category = new eZForumCategory( $forum->categoryID()  );
+$t->set_var( "category_name", $category->name() );
 
 $locale = new eZLocale( $Language );
 

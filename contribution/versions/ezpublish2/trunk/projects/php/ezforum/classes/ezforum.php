@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
+// $Id: ezforum.php,v 1.3 2000/10/17 14:16:49 ce-cvs Exp $
 //
 // 
 //
@@ -103,6 +103,9 @@ class eZForum
     {
         $this->dbInit();
 
+        $message = new eZForumMessage();
+        $message->get( $this->ID );
+        $message->delete();
         $this->Database->query( "DELETE FROM eZForum_Forum WHERE ID='$this->ID'" );
         
         return true;

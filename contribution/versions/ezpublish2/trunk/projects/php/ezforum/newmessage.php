@@ -1,57 +1,57 @@
 <?
-/*!
-    $Id: newmessage.php,v 1.16 2000/10/17 13:44:44 ce-cvs Exp $
+// 
+// $Id: newmessage.php,v 1.17 2000/10/17 14:16:49 ce-cvs Exp $
+//
+// 
+//
+// Lars Wilhelmsen <lw@ez.no>
+// Created on: <11-Sep-2000 22:10:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: <14-Jul-2000 12:52:43 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
-include( "ezforum/dbsettings.php" );
-include_once( "ezphputils.php");
-include_once( "$DOCROOT/classes/ezforumcategory.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
-include_once( "$DOCROOT/classes/ezsession.php" );
-include_once( "$DOCROOT/classes/eztemplate.php" );
+include_once( "classes/INIFile.php" );
 
-$msg = new eZforumMessage;
+$ini = new INIFile( "site.ini" ); // get language settings
+
+include_once( "ezforum/classes/ezforumcategory.php" );
+include_once( "ezforum/classes/ezforummessage.php" );
+
+$msg = new eZForumMessage();
 
 $session = new eZSession();
-$ini = new INIFile( "ezforum.ini" ); // get language settings
-$Language = $ini->read_var( "MAIN", "Language" );
+$ini = new INIFile( "site.ini" ); // get language settings
 
-$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "newmessage.php" );
+$Language = $ini->read_var( "eZForumMain", "Language" );
+
+$t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "newmessage.php" );
+
+$t->set_file(  "new_message_tpl", "newmessage.tpl"  );
+
 $t->setAllStrings();
 
-$t->set_file( Array( "newmessage" => "newmessage.tpl",
-                     "navigation-bottom" => "navigation-bottom.tpl" ) );
+$t->set_var( "category_id", $category_id );
 
-$t->set_var( "category_id", $category_id);
-$t->set_var( "docroot", $DOCROOT);
+$category = new eZForumCategory();
 
-if ( $session->validate( $AuthenticatedSession ) == 0)
-{
-    $UserId = $session->UserID();
-}
-else
-{
-    $UserId = 0;
-}
+$forum = new eZForum();
+$forum->get( $ForumID );
+$t->set_var( "forum_name", $forum->name() );
 
-$info = eZforumCategory::categoryForumInfo( $forum_id);
-$infoString = $info["CategoryName"] . "::" . $info["ForumName"];
-    
+$user = eZUser::currentUser();
+
+$category->get( $forum->categoryID() );
+$t->set_var( "category_name", $category->name() );
+
+$t->set_var( "user", $user->firstName(). " ". $user->lastName() );
+
 $t->set_var("info", $infoString );
-$t->set_var("forum_id", $forum_id);
-$t->set_var("user", eZUser::resolveUser( $UserId ) );
+$t->set_var("forum_id", $ForumID );
+$t->set_var( "category_id", $category->id() );
 
-$t->set_var( "link1-url", "main.php" );
-$t->set_var( "link2-url", "search.php");
 
-$t->set_var( "back-url", "forum.php");
-$t->parse( "navigation-bar-bottom", "navigation-bottom", true);
-    
-$t->pparse("output", "newmessage");
+$t->pparse( "output", "new_message_tpl" );
 ?>

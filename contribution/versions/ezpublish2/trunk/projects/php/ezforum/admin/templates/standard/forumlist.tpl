@@ -32,7 +32,30 @@
 
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
-<h1>{intl-headline}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td align="left" valign="bottom">
+    <h1>{intl-headline}</h1>
+    </td>
+    <td align="right">
+    <form action="/forum/search/" method="post">
+      <input type="text" name="criteria">
+      <input type="submit" name="search" value="{intl-search}">
+    </form>
+    </td>
+  </tr>
+</table>
+
+
+<hr noshade size="4" />
+
+	/
+	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
+	/
+    <a class="path" href="/forum/category/{category_id}/">{category_name}</a>
+
+<hr noshade size="4" />
+
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>

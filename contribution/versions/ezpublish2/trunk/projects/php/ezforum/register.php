@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: register.php,v 1.8 2000/10/17 13:44:44 ce-cvs Exp $
+    $Id: register.php,v 1.9 2000/10/17 14:16:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,8 +9,8 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include_once( "template.inc" );
-include_once( "ezphputils.php" );
+include_once( "classes/template.inc" );
+include_once( "common/ezphputils.php" );
 include_once( "classes/ezuser.php" );
 
 $t = new Template( "." );

@@ -1,119 +1,205 @@
 <?
-/*!
-    $Id: forum.php,v 1.53 2000/10/17 13:44:44 ce-cvs Exp $
+// 
+// $Id: forum.php,v 1.54 2000/10/17 14:16:49 ce-cvs Exp $
+//
+// 
+//
+// Lars Wilhelmsen <lw@ez.no>
+// Created on: <11-Sep-2000 22:10:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: <14-Jul-2000 12:57:16 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
-include( "ezforum/dbsettings.php" );
-include_once( "ezphputils.php" );
-include_once( "template.inc" );
-include_once( "class.INIFile.php" );
-include_once( "$DOCROOT/classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/ezsession.php" );
-include_once( "$DOCROOT/classes/eztemplate.php" );
+include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "ezforum.ini" ); // get language settings
-$Language = $ini->read_var( "MAIN", "Language" );
+$ini = new INIFile( "site.ini" ); // get language settings
 
-$msg = new eZforumMessage( $forum_id );
-$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "forum.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+include_once( "ezforum/classes/ezforummessage.php" );
+include_once( "ezforum/classes/ezforumcategory.php" );
+include_once( "ezforum/classes/ezforum.php" );
+
+$ini = new INIFile( "site.ini" ); // get language settings
+$Language = $ini->read_var( "eZForumMain", "Language" );
+
+
+$t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "forum.php" );
+
+$t->set_file( "forum_tpl", "forum.tpl"  );
+
+$t->set_block( "forum_tpl", "message_tpl", "message" );
+$t->set_block( "forum_tpl", "previous_tpl", "previous" );
+$t->set_block( "forum_tpl", "next_tpl", "next" );
+
 $t->setAllStrings();
 
-$t->set_file( Array("forum" => "forum.tpl",
-                    "elements" => "forum-elements.tpl",
-                    "preview" => "forum-preview.tpl",
-                    "navigation" => "navigation.tpl",
-                    "navigation-bottom" => "navigation-bottom.tpl",
-                    "login" => "login.tpl",
-                    "logout" => "logout.tpl"
-                   )
-            );
+$forum = new eZForum( $forum_id );
+$category = new eZForumCategory( $forum->categoryID()  );
+
+$t->set_var( "category_id", $category->id( ) );
+$t->set_var( "category_name", $category->name( ) );
+
+$t->set_var( "forum_id", $forum->id() );
+$t->set_var( "forum_name", $forum->name() );
 
 
-$session = new eZSession();
+// make to $Action .. elo!
 
-$t->set_var( "docroot", $DOCROOT );
-$t->set_var( "category_id", $category_id );
-$t->set_var( "forum_id", $forum_id );
-
-
-
-//navbar setup
-if ( $session->get( $AuthenticatedSession ) == 0 )
-{
-    $UserID = $session->UserID();
-
-    $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
-
-    $t->parse( "logout-message", "logout", true );
-}
-else
-{
-    $UserID = 0;
-    $t->set_var( "user", "Anonym" );
-    $t->parse( "logout-message", "login", true );
-}
-$t->parse( "navigation-bar", "navigation", true );
-
+$msg = new eZForumMessage( $forum_id );
 
 // new posting
-if ( $post )
+if ( $Action == "post" )
 {
-    $msg->newMessage();
-    $msg->setTopic( $Topic );
-    $msg->setBody( $Body );
-    $msg->setUserId( $UserID );
+    print( "post" );
+    $message = new eZForumMessage();
+
+    $message->setForumID( $forum_id );
+    $message->setTopic( $Topic );
+    $message->setBody( $Body );
+
+    $user = eZUser::currentUser();
+
+    print( $user->id() );
+    
+    $message->setUserId( $user->id() );
+
     if ( $notice )
-        $msg->enableEmailNotice();
+        $message->enableEmailNotice();
     else
-        $msg->disableEmailNotice();
-    $msg->store();
+        $message->disableEmailNotice();
+
+    $message->store();
+
+    // delete the cache file(s)
+
+    $dir = dir( "ezforum/cache/" );
+    $files = array();
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        { 
+            $files[] = $entry; 
+            $numfiles++; 
+        } 
+    } 
+    $dir->close();
+
+    foreach( $files as $file )
+        {
+            if ( ereg( "forum,([^,]+),.*", $file, $regArray  ) )
+            {
+                if ( $regArray[1] == $forum_id )
+                {
+                    unlink( "ezforum/cache/" . $file );
+                }
+            }
+        }    
+ 
+    Header( "Location: /forum/category/forum/$forum_id/" );
 }
 
-// reply
-if ( $reply )
-{
-    $msg->newMessage();    
-    $msg->setTopic( $Topic );
-    $msg->setBody( $Body );
-    $msg->setUserId( $UserID );
-    $msg->setParent( $parent );
-    if ( $notice )
-        $msg->enableEmailNotice();
-    else
-        $msg->disableEmailNotice();
-    $msg->store();
-}
+$locale = new eZLocale( $Language );
 
-// preview message
-if ( $preview )
+if ( !isset( $Offset ) )
+    $Offset = 0;
+
+if ( !isset( $Limit ) )
+    $Limit = 30;
+
+$messages = $forum->messageTree( $Offset, $Limit );
+
+if ( !$messages )
 {
-    $t->set_var( "topic", $Topic );
-    $t->set_var( "body", nl2br( $Body ) );
-    $t->set_var( "body-clean", $Body );
-    $t->set_var( "userid", $UserID );
-    $t->pparse( "output", "preview" );
+    $ini = new INIFile( "ezforum/intl/" . $Language . "/forum.php.ini", false );
+    $noitem =  $ini->read_var( "strings", "noitem" );
+
+    $t->set_var( "message", $noitem );
+    $t->set_var( "next", "" );
+    $t->set_var( "previous", "" );
 }
 else
 {
-    $messages = $msg->printHeaderTree( $forum_id, 0, 0, $DOCROOT, $category_id );
-    $t->set_var( "messages", $messages );
+
+    $level = 0;
+    $i = 0;
+    foreach ( $messages as $message )
+        {
+            if ( ( $i % 2 ) == 0 )
+                $t->set_var( "td_class", "bglight" );
+            else
+                $t->set_var( "td_class", "bgdark" );
     
-    $t->set_var( "newmessage", $newmessage);
+            $level = $message->depth();
+    
+            if ( $level > 0 )
+                $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
+            else
+                $t->set_var( "spacer", "" );
+    
+            $t->set_var( "topic", $message->topic() );
+            $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+            $t->set_var( "message_id", $message->id() );
 
-    $t->set_var( "link1-url", "newmessage.php" );
-    $t->set_var( "link2-url", "search.php" );
+            $user = $message->user();    
+            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
-    $t->set_var( "back-url", "category.php");
-    $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
+            $t->set_var( "limit", $Limit );
 
-    $t->pparse("output","forum");
+            $prevOffs = $Offset - $Limit;
+            $nextOffs = $Offset + $Limit;
+         
+            if ( $prevOffs >= 0 )
+            {
+                $t->set_var( "prev_offset", $prevOffs  );
+                $t->parse( "previous", "previous_tpl" );
+            }
+            else
+            {
+                $t->set_var( "previous", "" );
+            }
+    
+            if ( $nextOffs <= $forum->messageCount() )
+            {
+                $t->set_var( "next_offset", $nextOffs  );
+                $t->parse( "next", "next_tpl" );
+            }
+            else
+            {
+                $t->set_var( "next", "" );
+            }
+    
+    
+//    $t->set_var( "next_offset", $Offset + $Limit );    
+    
+            $t->parse( "message", "message_tpl", true );
+            $i++;
+        }
+} 
+    
+$t->set_var( "newmessage", $newmessage );
+
+
+if ( $GenerateStaticPage == "true" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+
+    $output = $t->parse( $target, "forum_tpl" );
+    // print the output the first time while printing the cache file.
+    
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
 }
+else
+{
+    $t->pparse( "output", "forum_tpl" );
+}
+
 
 ?>

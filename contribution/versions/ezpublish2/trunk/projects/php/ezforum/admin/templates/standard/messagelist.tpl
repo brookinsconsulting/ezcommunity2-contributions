@@ -33,46 +33,32 @@
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-  <tr>
+<tr>
     <td align="left" valign="bottom">
-		<h1>Forum</h1>
-	      </td>
-             <td bgcolor="#f0f0f0" align="center">
-               <br>
-               <form action="index.php" method="post">
-               <input type="hidden" name="page" value="{docroot}/main.php">
-               <input type="text" name="criteria">
-			   <input type="submit" name="search" value="{intl-search}">
-              </form>
-            </td>
-  </tr>
-</table>
-
-<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td bgcolor="ffffff"><img src="ezforum/images/1x1.gif" width="1" height="6" border="0"></td>
-</tr>
-<tr>
-	<td bgcolor="3c3c3c"><img src="ezforum/images/1x1.gif" width="1" height="4" border="0"></td>
-</tr>
-<tr>
-	<td bgcolor="ffffff"><img src="ezforum/images/1x1.gif" width="1" height="6" border="0"></td>
+        <h1>{intl-headline}</h1>
+    </td>
+    <td align="right">
+    <td align="right">
+	 <form action="/forum/search/" method="post">
+	       <input type="text" name="QueryString">
+	       <input type="submit" name="search" value="{intl-search}">
+         </form>
+     </td>
 </tr>
 </table>
 
-<a><img src="ezforum/images/pil.gif" width="10" height="10" border="0">&nbsp;<b>Sett inn path her!</b></a>
+<hr noshade size="4" />
 
-<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td bgcolor="ffffff"><img src="ezforum/images/1x1.gif" width="1" height="6" border="0"></td>
-</tr>
-<tr>
-	<td bgcolor="3c3c3c"><img src="ezforum/images/1x1.gif" width="1" height="4" border="0"></td>
-</tr>
-<tr>
-	<td bgcolor="ffffff"><img src="ezforum/images/1x1.gif" width="1" height="6" border="0"></td>
-</tr>
-</table>
+	/
+	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
+	/
+    <a class="path" href="/forum/category/{category_id}/">{category_name}</a>
+	/
+	<a class="path" href="/forum/category/forum/{forum_id}/">{forum_name}</a>
+
+<hr noshade size="4" />
+
+
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
    <tr>
@@ -106,11 +92,11 @@
      <td class="{td_class}">
      {emailnotice}&nbsp;
      </td class="{td_class}">
-     <td width="80" align="right" class="{td_class}">
+     <td width="1%" class="{td_class}">
 	 <a href="/forum/messageedit/edit/{category_id}/{forum_id}/{message_id}/"  onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
-     &nbsp;&nbsp;&nbsp;&nbsp;
+	 </td>
+     <td width="1%" class="{td_class}">
 	 <a href="/forum/messageedit/delete/{category_id}/{forum_id}/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="efm{message_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
-	 &nbsp;&nbsp;
 	 </td>
    </tr>
 

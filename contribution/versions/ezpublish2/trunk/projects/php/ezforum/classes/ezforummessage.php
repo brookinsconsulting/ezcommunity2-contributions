@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.53 2000/10/17 09:46:49 ce-cvs Exp $
+// $Id: ezforummessage.php,v 1.54 2000/10/17 14:16:49 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -131,7 +131,7 @@ class eZForumMessage
                     // update the whole tree's ThreeID.
                     $this->Database->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ) WHERE TreeID >= $parentID" );
 
-                    $this->Database->query( "INSERT INTO ezforum_Message SET
+                    $this->Database->query( "INSERT INTO eZForum_Message SET
 		                         ForumID='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
@@ -184,7 +184,7 @@ class eZForumMessage
     {
         $this->dbInit();
 
-        $this->Database->query( "DELETE FROM eZForum_Meessage WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZForum_Message WHERE ID='$this->ID'" );
         
         return true;
     }
