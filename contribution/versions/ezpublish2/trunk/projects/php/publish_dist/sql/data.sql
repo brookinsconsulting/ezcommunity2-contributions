@@ -834,13 +834,11 @@ INSERT INTO eZTrade_Category VALUES (1,0,'Here you will find some nice products.
 # Dumping data for table 'eZTrade_Order'
 #
 
-INSERT INTO eZTrade_Order VALUES (1,1,0.00,'3',1,1,0,'2001-03-09 10:05:53',1);
 
 #
 # Dumping data for table 'eZTrade_OrderItem'
 #
 
-INSERT INTO eZTrade_OrderItem VALUES (1,1,3,200.00,1);
 
 #
 # Dumping data for table 'eZTrade_OrderOptionValue'
@@ -850,8 +848,6 @@ INSERT INTO eZTrade_OrderItem VALUES (1,1,3,200.00,1);
 #
 # Dumping data for table 'eZTrade_OrderStatus'
 #
-
-INSERT INTO eZTrade_OrderStatus VALUES (1,0,20010309100553,0,1,'');
 
 #
 # Dumping data for table 'eZTrade_OrderStatusType'
@@ -920,8 +916,8 @@ INSERT INTO eZTrade_ShippingGroup VALUES (2,'Small packet',20010309094707);
 # Dumping data for table 'eZTrade_ShippingType'
 #
 
-INSERT INTO eZTrade_ShippingType VALUES (1,'Air mail',20010309094620,1);
-INSERT INTO eZTrade_ShippingType VALUES (2,'Snail mail',20010309094651,0);
+INSERT INTO eZTrade_ShippingType VALUES (1,'Air mail',20010309094620,1,1);
+INSERT INTO eZTrade_ShippingType VALUES (2,'Snail mail',20010309094651,0,1);
 
 #
 # Dumping data for table 'eZTrade_ShippingValue'

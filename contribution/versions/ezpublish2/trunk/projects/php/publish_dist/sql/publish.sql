@@ -1871,7 +1871,7 @@ CREATE TABLE eZTrade_OptionValue (
   OptionID int(11) default NULL,
   Placement int(11) NOT NULL default '1',
   Price float(10,2) NOT NULL default '0.00',
-  RemoteID int(11) NOT NULL default '0',
+  RemoteID varchar(100) NOT NULL default '',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2444,3 +2444,12 @@ CREATE TABLE eZUser_UserGroupLink (
 #
 
 INSERT INTO eZUser_UserGroupLink VALUES (1,1,1);
+
+
+## 
+## updated SQL
+alter table  eZTrade_ShippingType add VATTypeID int not null;
+alter table eZTrade_Order add ShippingVAT float not null;
+
+alter table eZTrade_Order add ShippingTypeID int not null;
+
