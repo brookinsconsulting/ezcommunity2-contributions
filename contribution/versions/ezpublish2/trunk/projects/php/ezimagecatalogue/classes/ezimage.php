@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.78 2001/09/04 15:18:14 ce Exp $
+// $Id: ezimage.php,v 1.79 2001/09/06 09:32:46 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -433,13 +433,15 @@ class eZImage
     function countUnassigned()
     {
         $db =& eZDB::globalDatabase();
+
         $db->query_single( $image, "SELECT COUNT(Image.ID) as Count, Link.ImageID
                                         FROM eZImageCatalogue_Image AS Image
                                         LEFT JOIN eZImageCatalogue_ImageCategoryLink AS Link
                                         ON Image.ID=Link.ImageID
                                         WHERE ImageID IS NULL
                                         GROUP By ImageID" );
-        return $image[ $db->fieldName( "Count" ) ];
+
+        return $image[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -1044,7 +1046,6 @@ class eZImage
         $db =& eZDB::globalDatabase();
 
         $res = array();
-        print "<br>ID: " . $this->ID . "<br>";
         $db->array_query( $res, "SELECT CategoryID, ImageID FROM
                                  eZImageCatalogue_ImageCategoryLink
                                  WHERE ImageID='$this->ID'" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.7 2001/08/17 13:35:59 jhe Exp $
+// $Id: unassigned.php,v 1.8 2001/09/06 09:32:46 ce Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -89,7 +89,10 @@ $t->set_var( "limit", $Limit );
 
 // Print out all the images
 $imageList =& eZImage::getUnassigned( $Offset, $Limit );
-$imageCount =& eZImage::countUnassigned();
+if ( $imageList )
+    $imageCount =& eZImage::countUnassigned();
+else
+$imageCount = 0;
 
 $t->set_var( "limit", $Limit );
 if ( $Offset > 0 )
@@ -116,85 +119,89 @@ else
 }
 
 
+
 $i = 0;
 $counter = 0;
-foreach ( $imageList as $image )
+if ( count ( $imageList ) > 0 )
 {
-    $t->set_var( "end_tr", "" );        
-    $t->set_var( "begin_tr", "" );
-
-    $t->set_var( "image_id", $image->id() );
-    $t->set_var( "original_image_name", $image->originalFileName() );
-    $t->set_var( "image_name", $image->name() );
-    $t->set_var( "image_caption", $image->name() );
-    $t->set_var( "image_url", $image->name() );
-
-    $width =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewWidth" );
-    
-    $height =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewHight" );
-    
-    $variation =& $image->requestImageVariation( $width, $height );
-
-    $t->set_var( "image_description",$image->description() ); 
-    $t->set_var( "image_alt", $image->name() );
-    $t->set_var( "image_src", "/" .$variation->imagePath() );
-    $t->set_var( "image_width", $variation->width() );
-    $t->set_var( "image_height", $variation->height() );
-    $t->set_var( "image_file_name", $image->originalFileName() );
-
-    if ( $image->fileExists( true ) )
+    foreach ( $imageList as $image )
     {
-        $imagePath =& $image->filePath( true );
-        $size = eZFile::filesize( $imagePath );
-    }
-    else
-    {
-        $size = 0;
-    }
-
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-    
-    $size = eZFile::siFileSize( $size );
-
-    $t->set_var( "image_size", $size["size-string"] );
-    $t->set_var( "image_unit", $size["unit"] );
-    $t->set_var( "image_caption", $image->caption() );
-
-    $t->set_var( "read", "" );
-    $t->set_var( "write", "" );
-
-    // Check if user have read permission
-    $t->set_var( "detail_read", "" );
-    $can_read = false;
-    $can_write = false;
-    if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) ||
-         eZImage::isOwner( $user, $image->id() ) )
-    {
-        $can_read = true;
-        if ( ( $i % 4 ) == 0 )
+        $t->set_var( "end_tr", "" );        
+        $t->set_var( "begin_tr", "" );
+        
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "original_image_name", $image->originalFileName() );
+        $t->set_var( "image_name", $image->name() );
+        $t->set_var( "image_caption", $image->name() );
+        $t->set_var( "image_url", $image->name() );
+        
+        $width =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewWidth" );
+        
+        $height =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewHight" );
+        
+        $variation =& $image->requestImageVariation( $width, $height );
+        
+        $t->set_var( "image_description",$image->description() ); 
+        $t->set_var( "image_alt", $image->name() );
+        $t->set_var( "image_src", "/" .$variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height", $variation->height() );
+        $t->set_var( "image_file_name", $image->originalFileName() );
+        
+        if ( $image->fileExists( true ) )
         {
-            $t->set_var( "begin_tr", "<tr>" );
+            $imagePath =& $image->filePath( true );
+            $size = eZFile::filesize( $imagePath );
         }
-        else if ( ( $i % 4 ) == 3 )
+        else
         {
-            $t->set_var( "end_tr", "</tr>" );
+            $size = 0;
         }
 
-        $t->parse( "detail_read", "detail_read_tpl" );
-        $i++;
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+    
+        $size = eZFile::siFileSize( $size );
+
+        $t->set_var( "image_size", $size["size-string"] );
+        $t->set_var( "image_unit", $size["unit"] );
+        $t->set_var( "image_caption", $image->caption() );
+
+        $t->set_var( "read", "" );
+        $t->set_var( "write", "" );
+
+        // Check if user have read permission
+        $t->set_var( "detail_read", "" );
+        $can_read = false;
+        $can_write = false;
+        if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) ||
+             eZImage::isOwner( $user, $image->id() ) )
+        {
+            $can_read = true;
+            if ( ( $i % 4 ) == 0 )
+            {
+                $t->set_var( "begin_tr", "<tr>" );
+            }
+            else if ( ( $i % 4 ) == 3 )
+            {
+                $t->set_var( "end_tr", "</tr>" );
+            }
+
+            $t->parse( "detail_read", "detail_read_tpl" );
+            $i++;
+        }
+
+
+        $t->parse( "detail_view", "detail_view_tpl", true );
+
+        $counter++;
     }
-
-
-    $t->parse( "detail_view", "detail_view_tpl", true );
-
-    $counter++;
 }
 
 if ( count( $imageList ) > 0 )
@@ -232,7 +239,6 @@ foreach ( $categoryList as $categoryItem )
 $t->set_var( "image_dir", $ImageDir );
 
 $t->pparse( "output", "image_list_page_tpl" );
-
 
 ?>
 
