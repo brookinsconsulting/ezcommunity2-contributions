@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.41 2001/03/13 13:12:40 fh Exp $
+// $Id: ezimage.php,v 1.42 2001/03/13 14:04:57 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -169,6 +169,7 @@ class eZImage
 
         if ( isset( $this->ID ) )
         {
+            
             $variationArray =& $this->variations();
 
             foreach( $variationArray as $variation )
