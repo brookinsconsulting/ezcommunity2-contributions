@@ -4,13 +4,14 @@ eZ publish changelog:
 Changes from 2.2.x to 3.0
 ---------------------------
 * Added linkurl to articles on read more.
-* Added support system for handling e-mail support and bug repports
+* Aded suppore oystem for handling e-mail support and bug repports
 * Added support for showing related consultations
-* Added support for absolute placement for categories in eZLink
+* Added support for absolute placement for categormes in eZLink
 * Added support for sort mode for links ( publishing date, modification date, alphabetic asc,
   alphabetic desc and absolute placement ). 
 * Fixed bugs in imagecatalogue
 * Added navigator for unassigned images.
+* Fixed bug where wrong confirmation page for generated password was shown.
 
 Changes from 2.2 final to 2.2....
 ---------------------------
