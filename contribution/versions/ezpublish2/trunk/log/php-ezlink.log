@@ -573,3 +573,30 @@ Maintainer(s) : br@ez.no
       user/intl/se_SE/success.php.ini
       user/intl/se_SE/suggestlink.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/unacceptedlist.php.ini: lang fixes
+
+    * admin/intl/hr_HR/attributeedit.php.ini
+      admin/intl/hr_HR/categoryedit.php.ini
+      admin/intl/hr_HR/categorylist.php.ini
+      admin/intl/hr_HR/linkcategorylist.php.ini
+      admin/intl/hr_HR/linkedit.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/noright.php.ini
+      admin/intl/hr_HR/search.php.ini
+      admin/intl/hr_HR/typeedit.php.ini
+      admin/intl/hr_HR/typelist.php.ini
+      admin/intl/hr_HR/unacceptedlist.php.ini
+      user/intl/hr_HR/categorylist.php.ini
+      user/intl/hr_HR/linkcategorylist.php.ini
+      user/intl/hr_HR/linklist.php.ini
+      user/intl/hr_HR/onepagelinklist.php.ini
+      user/intl/hr_HR/search.php.ini
+      user/intl/hr_HR/success.php.ini
+      user/intl/hr_HR/suggestlink.php.ini: Croatian (hr_HR) for 2.2.2
+

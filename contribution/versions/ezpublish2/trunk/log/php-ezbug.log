@@ -565,3 +565,34 @@ Maintainer(s) : vl@ez.no
       classes/ezbugsupport.php
       classes/ezbugsupportcategory.php: updated support script
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/bugedit.php.ini
+      admin/intl/hr_HR/buglist.php.ini
+      admin/intl/hr_HR/bugpreview.php.ini
+      admin/intl/hr_HR/categorylist.php.ini
+      admin/intl/hr_HR/confirmationmail.php.ini
+      admin/intl/hr_HR/mailgotbug.php.ini
+      admin/intl/hr_HR/mailreply.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/moduleedit.php.ini
+      admin/intl/hr_HR/modulelist.php.ini
+      admin/intl/hr_HR/prioritylist.php.ini
+      admin/intl/hr_HR/search.php.ini
+      admin/intl/hr_HR/statuslist.php.ini
+      admin/intl/hr_HR/unhandledbugs.php.ini
+      user/intl/hr_HR/buglist.php.ini
+      user/intl/hr_HR/bugreport.php.ini
+      user/intl/hr_HR/bugview.php.ini
+      user/intl/hr_HR/fileedit.php.ini
+      user/intl/hr_HR/imageedit.php.ini
+      user/intl/hr_HR/mailnewbug.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/reportsuccess.php.ini
+      user/intl/hr_HR/search.php.ini
+      user/intl/hr_HR/unhandledbugs.php.ini: Croatian (hr_HR) for 2.2.2
+

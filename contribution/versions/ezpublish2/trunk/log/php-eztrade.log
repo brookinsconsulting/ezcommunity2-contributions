@@ -2436,3 +2436,67 @@ Maintainer(s) : ce@ez.no
     * user/intl/en_GB/checkout.php.ini
       user/intl/no_NO/checkout.php.ini: added translations.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/en_GB/ordersendt.php.ini: lang fixes
+
+    * admin/intl/hr_HR/attributeedit.php.ini
+      admin/intl/hr_HR/categoryedit.php.ini
+      admin/intl/hr_HR/categorylist.php.ini
+      admin/intl/hr_HR/currency.php.ini
+      admin/intl/hr_HR/customerlist.php.ini
+      admin/intl/hr_HR/customerview.php.ini
+      admin/intl/hr_HR/formlist.php.ini
+      admin/intl/hr_HR/imageedit.php.ini
+      admin/intl/hr_HR/imagelist.php.ini
+      admin/intl/hr_HR/linklist.php.ini
+      admin/intl/hr_HR/linkselect.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/optionedit.php.ini
+      admin/intl/hr_HR/optionlist.php.ini
+      admin/intl/hr_HR/orderedit.php.ini
+      admin/intl/hr_HR/orderlist.php.ini
+      admin/intl/hr_HR/pricegroupedit.php.ini
+      admin/intl/hr_HR/pricegroups.php.ini
+      admin/intl/hr_HR/productedit.php.ini
+      admin/intl/hr_HR/productpreview.php.ini
+      admin/intl/hr_HR/productsearch.php.ini
+      admin/intl/hr_HR/shippingtypes.php.ini
+      admin/intl/hr_HR/typeedit.php.ini
+      admin/intl/hr_HR/typelist.php.ini
+      admin/intl/hr_HR/vattypes.php.ini
+      admin/intl/hr_HR/voucheredit.php.ini
+      admin/intl/hr_HR/voucherlist.php.ini
+      user/intl/hr_HR/cart.php.ini
+      user/intl/hr_HR/categorylist.php.ini
+      user/intl/hr_HR/checkout.php.ini
+      user/intl/hr_HR/customerlogin.php.ini
+      user/intl/hr_HR/extendedsearch.php.ini
+      user/intl/hr_HR/findwishlist.php.ini
+      user/intl/hr_HR/hotdealslist.php.ini
+      user/intl/hr_HR/mailorder.php.ini
+      user/intl/hr_HR/mastercard.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/orderlist.php.ini
+      user/intl/hr_HR/ordersendt.php.ini
+      user/intl/hr_HR/orderview.php.ini
+      user/intl/hr_HR/precheckout.php.ini
+      user/intl/hr_HR/productlist.php.ini
+      user/intl/hr_HR/productsearch.php.ini
+      user/intl/hr_HR/productview.php.ini
+      user/intl/hr_HR/sendwishlist.php.ini
+      user/intl/hr_HR/smallcart.php.ini
+      user/intl/hr_HR/smallproductlist.php.ini
+      user/intl/hr_HR/viewwishlist.php.ini
+      user/intl/hr_HR/visa.php.ini
+      user/intl/hr_HR/voucher.php.ini
+      user/intl/hr_HR/voucheremail.php.ini
+      user/intl/hr_HR/voucherinformation.php.ini
+      user/intl/hr_HR/voucherview.php.ini
+      user/intl/hr_HR/wishlist.php.ini
+      user/intl/hr_HR/wishlistmail.php.ini: Croatian (hr_HR) for 2.2.2
+

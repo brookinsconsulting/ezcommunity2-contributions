@@ -318,3 +318,25 @@ Maintainer(s) : br@ez.no
 
     * classes/ezpageview.php: small fixes to uninitialized variables.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/dayreport.php.ini
+      admin/intl/en_GB/yearreport.php.ini: lang fixes
+
+    * admin/intl/hr_HR/browserlist.php.ini
+      admin/intl/hr_HR/dayreport.php.ini
+      admin/intl/hr_HR/entryexitpages.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/monthreport.php.ini
+      admin/intl/hr_HR/overview.php.ini
+      admin/intl/hr_HR/pageviewlist.php.ini
+      admin/intl/hr_HR/productreport.php.ini
+      admin/intl/hr_HR/refererlist.php.ini
+      admin/intl/hr_HR/requestpagelist.php.ini
+      admin/intl/hr_HR/visitorlist.php.ini
+      admin/intl/hr_HR/yearreport.php.ini: Croatian (hr_HR) for 2.2.2
+

@@ -219,3 +219,15 @@ Maintainer(s) : ce@ez.no
     Set that this function return true or false, since some functions require
     that.
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/addresstype.php.ini
+      admin/intl/hr_HR/country.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/onlinetype.php.ini
+      admin/intl/hr_HR/phonetype.php.ini: Croatian (hr_HR) for 2.2.2
+

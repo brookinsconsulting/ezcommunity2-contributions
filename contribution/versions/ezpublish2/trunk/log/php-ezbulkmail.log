@@ -541,3 +541,29 @@ Maintainer(s) : fh@ez.no
 
     * admin/intl/es_MX/userlist.php.ini: es_MX update for 2.2.2
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/categoryedit.php.ini
+      admin/intl/hr_HR/categorylist.php.ini
+      admin/intl/hr_HR/mailedit.php.ini
+      admin/intl/hr_HR/maillist.php.ini
+      admin/intl/hr_HR/mailview.php.ini
+      admin/intl/hr_HR/masssubscribe.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/sendmail.php.ini
+      admin/intl/hr_HR/templateedit.php.ini
+      admin/intl/hr_HR/templatelist.php.ini
+      admin/intl/hr_HR/userlist.php.ini
+      user/intl/hr_HR/bulklist.php.ini
+      user/intl/hr_HR/categoryedit.php.ini
+      user/intl/hr_HR/mailview.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/subscriptionlist.php.ini
+      user/intl/hr_HR/subscriptionlogin.php.ini
+      user/intl/hr_HR/subscriptionmail.php.ini
+      user/intl/hr_HR/usermessages.php.ini: Croatian (hr_HR) for 2.2.2
+

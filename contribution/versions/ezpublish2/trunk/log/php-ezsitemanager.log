@@ -497,3 +497,24 @@ Maintainer(s) : vl@ez.no
       admin/intl/se_SE/templateedit.php.ini
       admin/intl/se_SE/templatelist.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/sqlquery.php.ini: lang fixes
+
+    * admin/intl/hr_HR/cacheadmin.php.ini
+      admin/intl/hr_HR/fileedit.php.ini
+      admin/intl/hr_HR/filelist.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/menuedit.php.ini
+      admin/intl/hr_HR/menulist.php.ini
+      admin/intl/hr_HR/sectionedit.php.ini
+      admin/intl/hr_HR/sectionlist.php.ini
+      admin/intl/hr_HR/siteconfig.php.ini
+      admin/intl/hr_HR/sqlquery.php.ini
+      admin/intl/hr_HR/templateedit.php.ini
+      admin/intl/hr_HR/templatelist.php.ini: Croatian (hr_HR) for 2.2.2
+

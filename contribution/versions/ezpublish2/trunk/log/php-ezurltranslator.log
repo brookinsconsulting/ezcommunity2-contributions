@@ -157,3 +157,12 @@ Maintainer(s) : vl@ez.no
     * admin/intl/se_SE/menubox.php.ini
       admin/intl/se_SE/urledit.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/urledit.php.ini: Croatian (hr_HR) for 2.2.2
+

@@ -598,3 +598,19 @@ Maintainer(s) : jhe@ez.no
 
     * user/templates/linmag/folderedit.tpl: Fixed template.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/browse.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/unassigned.php.ini
+      user/intl/hr_HR/filelist.php.ini
+      user/intl/hr_HR/fileupload.php.ini
+      user/intl/hr_HR/fileview.php.ini
+      user/intl/hr_HR/folderedit.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/search.php.ini: Croatian (hr_HR) for 2.2.2
+

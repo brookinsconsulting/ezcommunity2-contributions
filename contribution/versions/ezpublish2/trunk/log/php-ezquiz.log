@@ -173,3 +173,34 @@ Maintainer(s) : pkej@ez.no
 
     * admin/intl/es_MX/gamelist.php.ini: es_MX update for 2.2.2
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/questionedit.php.ini: lang fixes
+
+    * admin/intl/hr_HR/gameedit.php.ini
+      admin/intl/hr_HR/gamelist.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/questionedit.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/quiz.php.ini: Croatian (hr_HR) for 2.2.2
+
+2001-12-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/menubox.php: fixed errors in coding standard
+
+    * admin/gameedit.php
+      admin/questionedit.php
+      classes/ezquizalternative.php
+      classes/ezquizanswer.php
+      classes/ezquizgame.php
+      classes/ezquizquestion.php
+      classes/ezquizscore.php
+      classes/ezquiztool.php
+      sql/postgresql/ezquiz.sql
+      user/datasupplier.php
+      user/quizplay.php: fixed several bugs, db independency
+

@@ -307,3 +307,19 @@ Maintainer(s) : ce@ez.no
       admin/intl/se_SE/typeedit.php.ini
       admin/intl/se_SE/typelist.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/attributeedit.php.ini
+      admin/intl/hr_HR/browse.php.ini
+      admin/intl/hr_HR/categoryedit.php.ini
+      admin/intl/hr_HR/mediaedit.php.ini
+      admin/intl/hr_HR/medialist.php.ini
+      admin/intl/hr_HR/mediaview.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/typeedit.php.ini
+      admin/intl/hr_HR/typelist.php.ini: Croatian (hr_HR) for 2.2.2
+

@@ -813,3 +813,23 @@ Maintainer(s) : br@ez.no
       user/intl/se_SE/menubox.php.ini
       user/intl/se_SE/slideshow.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/browse.php.ini
+      admin/intl/hr_HR/categoryedit.php.ini
+      admin/intl/hr_HR/imageedit.php.ini
+      admin/intl/hr_HR/imagelist.php.ini
+      admin/intl/hr_HR/imageview.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/unassigned.php.ini
+      user/intl/hr_HR/categoryedit.php.ini
+      user/intl/hr_HR/imageedit.php.ini
+      user/intl/hr_HR/imagelist.php.ini
+      user/intl/hr_HR/imageview.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/slideshow.php.ini: Croatian (hr_HR) for 2.2.2
+

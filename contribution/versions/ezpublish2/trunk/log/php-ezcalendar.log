@@ -337,3 +337,20 @@ Maintainer(s) : jhe@ez.no
       admin/intl/se_SE/typeedit.php.ini
       admin/intl/se_SE/typelist.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/typeedit.php.ini
+      admin/intl/hr_HR/typelist.php.ini
+      user/intl/hr_HR/appointmentedit.php.ini
+      user/intl/hr_HR/appointmentview.php.ini
+      user/intl/hr_HR/dayview.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/monthview.php.ini
+      user/intl/hr_HR/trustees.php.ini
+      user/intl/hr_HR/yearview.php.ini: Croatian (hr_HR) for 2.2.2
+

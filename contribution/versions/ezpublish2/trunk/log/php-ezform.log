@@ -404,3 +404,15 @@ Maintainer(s) : pkej@ez.no
 
     * admin/templates/standard/formrenderer.tpl: Layout
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/fixedvalues.php.ini
+      admin/intl/hr_HR/form.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/errors.php.ini
+      user/intl/hr_HR/form.php.ini: Croatian (hr_HR) for 2.2.2
+

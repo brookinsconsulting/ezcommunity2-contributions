@@ -516,3 +516,13 @@ Maintainer(s) : bf@ez.no
       ezfile.php
       eztemplate.php: improved handling of $siteDir.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/linklist.php.ini
+      admin/intl/hr_HR/linkselect.php.ini
+      locale/hr_HR.ini: Croatian (hr_HR) for 2.2.2
+

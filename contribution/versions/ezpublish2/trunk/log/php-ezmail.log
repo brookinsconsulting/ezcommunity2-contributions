@@ -346,3 +346,22 @@ Maintainer(s) : fh@ez.no
 
     * classes/ezmail.php: added the stripemail() function
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/hr_HR/accountedit.php.ini
+      user/intl/hr_HR/configure.php.ini
+      user/intl/hr_HR/fileedit.php.ini
+      user/intl/hr_HR/filteredit.php.ini
+      user/intl/hr_HR/folderedit.php.ini
+      user/intl/hr_HR/folderlist.php.ini
+      user/intl/hr_HR/link.php.ini
+      user/intl/hr_HR/mailedit.php.ini
+      user/intl/hr_HR/maillist.php.ini
+      user/intl/hr_HR/mailview.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/search.php.ini: Croatian (hr_HR) for 2.2.2
+

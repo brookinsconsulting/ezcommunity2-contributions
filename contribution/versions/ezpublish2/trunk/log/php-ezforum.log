@@ -828,3 +828,33 @@ Maintainer(s) : jhe@ez.no
 
     * classes/ezforummessage.php: fixed htmlspecialchars bug
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/categoryedit.php.ini
+      admin/intl/hr_HR/categorylist.php.ini
+      admin/intl/hr_HR/forumedit.php.ini
+      admin/intl/hr_HR/forumlist.php.ini
+      admin/intl/hr_HR/mailreject.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/message.php.ini
+      admin/intl/hr_HR/messageedit.php.ini
+      admin/intl/hr_HR/messagelist.php.ini
+      admin/intl/hr_HR/noright.php.ini
+      admin/intl/hr_HR/search.php.ini
+      admin/intl/hr_HR/unapprovedlist.php.ini
+      user/intl/hr_HR/categorylist.php.ini
+      user/intl/hr_HR/forumlist.php.ini
+      user/intl/hr_HR/latestmessages.php.ini
+      user/intl/hr_HR/mailreply.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/message.php.ini
+      user/intl/hr_HR/messagelist.php.ini
+      user/intl/hr_HR/messagesimplelist.php.ini
+      user/intl/hr_HR/noaccess.php.ini
+      user/intl/hr_HR/search.php.ini
+      user/intl/hr_HR/userlogin.php.ini: Croatian (hr_HR) for 2.2.2
+

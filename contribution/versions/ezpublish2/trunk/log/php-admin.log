@@ -224,3 +224,14 @@ Maintainer(s) : bf@ez.no
 
     * intl/es_MX/header.php.ini: es_MX update for 2.2.2
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * intl/hr_HR/error.ini
+      intl/hr_HR/header.php.ini
+      intl/hr_HR/help_header.php.ini
+      intl/hr_HR/print_header.php.ini: Croatian (hr_HR) for 2.2.2
+

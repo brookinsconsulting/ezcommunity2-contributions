@@ -642,3 +642,30 @@ Maintainer(s) : jhe@ez.no
     * admin/consultationedit.php
       admin/consultationlist.php: fixed wrong use of $ini initialization
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/companyedit.php.ini
+      admin/intl/hr_HR/companystats.php.ini
+      admin/intl/hr_HR/companytype.php.ini
+      admin/intl/hr_HR/companyview.php.ini
+      admin/intl/hr_HR/consultationdetaillist.php.ini
+      admin/intl/hr_HR/consultationedit.php.ini
+      admin/intl/hr_HR/consultationlist.php.ini
+      admin/intl/hr_HR/consultationmail.ini
+      admin/intl/hr_HR/consultationtype.php.ini
+      admin/intl/hr_HR/error.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/nopermission.php.ini
+      admin/intl/hr_HR/personedit.php.ini
+      admin/intl/hr_HR/personview.php.ini
+      admin/intl/hr_HR/projecttype.php.ini
+      user/intl/hr_HR/companysearch.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/personsearch.php.ini
+      user/intl/hr_HR/search.php.ini
+      user/intl/hr_HR/urlsupplier.php.ini: Croatian (hr_HR) for 2.2.2
+

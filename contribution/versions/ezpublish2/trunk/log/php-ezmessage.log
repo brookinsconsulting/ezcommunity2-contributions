@@ -141,3 +141,14 @@ Maintainer(s) : bf@ez.no
       admin/intl/se_SE/messagelist.php.ini
       admin/intl/se_SE/messageview.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/messageedit.php.ini
+      admin/intl/hr_HR/messagelist.php.ini
+      admin/intl/hr_HR/messageview.php.ini: Croatian (hr_HR) for 2.2.2
+

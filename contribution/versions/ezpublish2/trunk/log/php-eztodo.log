@@ -344,3 +344,24 @@ Maintainer(s) : ce@ez.no
 
     * user/intl/es_MX/maillog.php.ini: es_MX update for 2.2.2
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/categorytypeedit.php.ini
+      admin/intl/hr_HR/categorytypelist.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/prioritytypeedit.php.ini
+      admin/intl/hr_HR/prioritytypelist.php.ini
+      admin/intl/hr_HR/statustypeedit.php.ini
+      admin/intl/hr_HR/statustypelist.php.ini
+      user/intl/hr_HR/maillog.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/sendmail.php.ini
+      user/intl/hr_HR/todoedit.php.ini
+      user/intl/hr_HR/todolist.php.ini
+      user/intl/hr_HR/todomenulist.php.ini
+      user/intl/hr_HR/todoview.php.ini: Croatian (hr_HR) for 2.2.2
+

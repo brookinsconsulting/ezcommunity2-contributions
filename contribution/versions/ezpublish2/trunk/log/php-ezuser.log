@@ -810,3 +810,34 @@ Maintainer(s) : bf@ez.no
     * user/userwithaddress.php:
     Fixed bugs with users which have more than one address.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/login.php.ini
+      user/intl/en_GB/forgot.php.ini
+      user/intl/en_GB/userwithaddress.php.ini: lang fixes
+
+    * admin/intl/hr_HR/authorlist.php.ini
+      admin/intl/hr_HR/groupedit.php.ini
+      admin/intl/hr_HR/grouplist.php.ini
+      admin/intl/hr_HR/login.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/passwordchange.php.ini
+      admin/intl/hr_HR/sessioninfo.php.ini
+      admin/intl/hr_HR/settings.php.ini
+      admin/intl/hr_HR/useredit.php.ini
+      admin/intl/hr_HR/userlist.php.ini
+      admin/intl/hr_HR/welcome.php.ini
+      user/intl/hr_HR/addressedit.php.ini
+      user/intl/hr_HR/forgot.php.ini
+      user/intl/hr_HR/forgotmessage.php.ini
+      user/intl/hr_HR/login.php.ini
+      user/intl/hr_HR/missingemailmessage.php.ini
+      user/intl/hr_HR/norights.php.ini
+      user/intl/hr_HR/userbox.php.ini
+      user/intl/hr_HR/useredit.php.ini
+      user/intl/hr_HR/userwithaddress.php.ini: Croatian (hr_HR) for 2.2.2
+

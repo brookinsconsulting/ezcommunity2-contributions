@@ -295,3 +295,23 @@ Maintainer(s) : vl@ez.no
     * user/intl/es_MX/headlines.php.ini
       user/intl/es_MX/menubox.php.ini: es_MX update for 2.2.2
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-12-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/hr_HR/categoryedit.php.ini
+      admin/intl/hr_HR/importnews.php.ini
+      admin/intl/hr_HR/menubox.php.ini
+      admin/intl/hr_HR/newsarchive.php.ini
+      admin/intl/hr_HR/newsedit.php.ini
+      admin/intl/hr_HR/newssearch.php.ini
+      admin/intl/hr_HR/sourcesiteedit.php.ini
+      admin/intl/hr_HR/unpublished.php.ini
+      user/intl/hr_HR/allcategories.php.ini
+      user/intl/hr_HR/headlines.php.ini
+      user/intl/hr_HR/menubox.php.ini
+      user/intl/hr_HR/newslist.php.ini
+      user/intl/hr_HR/search.php.ini: Croatian (hr_HR) for 2.2.2
+
