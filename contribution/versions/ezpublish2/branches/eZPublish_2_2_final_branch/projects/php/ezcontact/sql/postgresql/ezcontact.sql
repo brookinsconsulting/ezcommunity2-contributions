@@ -6,6 +6,10 @@ CREATE TABLE eZContact_Company (
   ContactType int DEFAULT '0' NOT NULL,
   CompanyNo varchar(20) DEFAULT '' NOT NULL,
   ContactID int DEFAULT '0',
+  Approved int DEFAULT '0',
+  ExpiryDate int DEFAULT '0',
+  SentWarning int DEFAULT '0',
+  UserID int,
   PRIMARY KEY (ID)
 );
 
@@ -163,6 +167,8 @@ CREATE TABLE eZContact_ProjectType (
   ID int NOT NULL,
   Name varchar(50) DEFAULT '' NOT NULL,
   ListOrder int DEFAULT '0' NOT NULL,
+  ExpiryTime int DEFAULT '0' NOT NULL,
+  WarningTime int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -197,4 +203,3 @@ CREATE TABLE eZContact_CompanyImageDict (
   ImageID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (CompanyID,ImageID)
 );
-

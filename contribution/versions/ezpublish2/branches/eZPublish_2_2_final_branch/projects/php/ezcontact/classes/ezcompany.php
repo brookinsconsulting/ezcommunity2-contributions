@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.82.2.1 2001/10/23 13:31:23 jhe Exp $
+// $Id: ezcompany.php,v 1.82.2.2 2002/05/06 13:39:53 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -89,7 +89,11 @@ class eZCompany
                                    CompanyNo,
                                    ContactID,
                                    ContactType,
-                                   CreatorID)
+                                   CreatorID,
+                                   Approved,
+                                   ExpiryDate,
+                                   SendWarning,
+                                   UserID)
                                   VALUES
                                   ('$this->ID',
                                    '$name',
@@ -97,7 +101,11 @@ class eZCompany
                                    '$this->CompanyNo',
                                    '$this->ContactID',
                                    '$type',
-                                   '$this->CreatorID')" );
+                                   '$this->CreatorID',
+                                   '$this->Approved',
+                                   '$this->ExpiryDate',
+                                   '$this->SentWarning',
+                                   '$this->UserID')" );
             $db->unlock();
             $name = strtolower( $name );
             $res[] = $db->query( "INSERT INTO eZContact_CompanyIndex
@@ -113,7 +121,11 @@ class eZCompany
                                   CompanyNo='$this->CompanyNo',
                                   ContactID='$this->ContactID',
                                   ContactType='$type',
-                                  CreatorID='$this->CreatorID'
+                                  CreatorID='$this->CreatorID',
+                                  Approved='$this->Approved',
+                                  ExpiryDate='$this->ExpiryDate',
+                                  SentWarning='$this->SendWarning',
+                                  UserID='$this->UserID'
                                   WHERE ID='$this->ID'" );
             $name = strtolower( $name );
             $res[] = $db->query( "UPDATE eZContact_CompanyIndex SET
@@ -225,6 +237,10 @@ class eZCompany
                 $this->ContactID = $company_array[0][$db->fieldName( "ContactID" )];
                 $type = $company_array[0][$db->fieldName( "ContactType" )];
                 $this->ContactType = $type == 2 ? "ezperson" : "ezuser";
+                $this->Approved = $company_array[0][$db->fieldName( "Approved" )];
+                $this->ExpiryDate = $company_array[0][$db->fieldName( "ExpiryDate" )];
+                $this->SentWarning = $company_array[0][$db->fieldName( "SendWarning" )];
+                $this->UserID = $company_array[0][$db->fieldName( "UserID" )];
                 $ret = true;
             }
         }
@@ -250,7 +266,7 @@ class eZCompany
       
       The companies are returned as an array of eZCompany objects.
     */
-    function &getAll( )
+    function &getAll()
     {
         $db =& eZDB::globalDatabase();
 
@@ -1037,10 +1053,12 @@ class eZCompany
         $db->begin();
         $res[] = $db->query( "DELETE FROM eZContact_CompanyProjectDict WHERE CompanyID='$this->ID'" );
 
-        if ( is_numeric( $value )  )
+        if ( is_numeric( $value ) )
         {
             if ( $value > 0 )
             {
+                $res[] = $db->query_single( $exp, "SELECT ExpiryTime FROM eZContact_ProjectType WHERE ID='$value'" );
+                $this->setExpiryDate( eZDateTime::timeStamp( true ) + $exp[$db->fieldName( "ExpiryTime" )] );
                 $checkQuery = "INSERT INTO eZContact_CompanyProjectDict
                                (CompanyID, ProjectID)
                                VALUES
@@ -1051,6 +1069,37 @@ class eZCompany
         eZDB::finish( $res, $db );
     }
 
+    function setExpiryDate( $date )
+    {
+        $this->ExpiryDate = $date;
+        $this->setSentWarning( false );
+    }
+
+    function expiryDate( $as_object = false )
+    {
+        return $as_object ? new eZDateTime( $this->ExpiryDate ) : $this->ExpiryDate;
+    }
+
+    function setSentWarning( $value )
+    {
+        $this->SentWarning = $value ? 1 : 0;
+    }
+
+    function sentWarning()
+    {
+        return $this->SentWarning == 1 ? true : false;
+    }
+
+    function setUser( $user )
+    {
+        $this->UserID = get_class( $user ) == "ezuser" ? $user->id() : $user;
+    }
+
+    function user( $as_object = false )
+    {
+        return $as_object ? new eZUser( $this->UserID ) : $this->UserID;
+    }
+    
     /*!
       Makes the person a part of the company.
     */
@@ -1258,6 +1307,10 @@ class eZCompany
     var $ContactID;
     var $PersonContactID;
     var $CompanyNo;
+    var $Approved;
+    var $ExpiryDate;
+    var $SentWarning;
+    var $UserID;
 }
 
 ?>
