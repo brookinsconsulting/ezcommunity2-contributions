@@ -17,7 +17,7 @@
 <!-- BEGIN form_list_tpl -->
 <!-- BEGIN form_start_tag_tpl -->
 <form action="{www_dir}{index}/form/form/process/{form_id}/" method="post">
-<h1>{form_name}</h1>
+<h2>{form_name}</h2>
 <hr noshade="noshade" size="4" />
 <br />
 <!-- END form_start_tag_tpl -->

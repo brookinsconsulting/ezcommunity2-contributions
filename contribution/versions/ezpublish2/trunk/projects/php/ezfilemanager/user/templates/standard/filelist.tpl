@@ -112,16 +112,17 @@
 </table>
 <!-- END file_list_tpl -->
 
-<table with="100%">
+<br />
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <!-- BEGIN prev_tpl -->
 <td align="left">
-<a href="{www_dir}{index}/filemanager/list/{folder_id}/{prev_offset}">{intl-previous}</a>
+<a class="path" href="{www_dir}{index}/filemanager/list/{folder_id}/{prev_offset}">&lt;&lt; {intl-previous}</a>
 </td>
 <!-- END prev_tpl -->
 <!-- BEGIN next_tpl -->
 <td align="right">
-<a href="{www_dir}{index}/filemanager/list/{folder_id}/{next_offset}">{intl-next}</a>
+<a class="path" href="{www_dir}{index}/filemanager/list/{folder_id}/{next_offset}">{intl-next} &gt;&gt;</a>
 </td>
 <!-- END next_tpl -->
 </tr>

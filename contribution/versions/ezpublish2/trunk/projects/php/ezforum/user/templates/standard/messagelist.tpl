@@ -15,6 +15,16 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
 	<td><p class="boxtext">({forum_start}-{forum_end}/{forum_total})</p></td>
+	<td align="right" valign="middle">
+	<form action="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{offset}" method="post">
+	<span class="boxtext">{intl-show}:&nbsp;</span><select name="ForumMessages">
+	<!-- BEGIN messages_element_tpl -->
+	<option value="{messages_number}" {is_selected} />{messages_number}</option>
+	<!-- END messages_element_tpl -->
+	</select>
+	<input class="stdbutton" type="submit" value="{intl-update}" />
+	</form>
+	</td>
      <td align="right">
      <form action="{www_dir}{index}/forum/messagelist/{forum_id}/" method="post">
            <!-- BEGIN hide_threads_tpl -->
@@ -38,16 +48,6 @@
         <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
-</td>
-<td align="right">
-<form action="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{offset}" method="post">
-<select name="ForumMessages">
-<!-- BEGIN messages_element_tpl -->
-<option value="{messages_number}" {is_selected} />{messages_number}</option>
-<!-- END messages_element_tpl -->
-</select>
-<input type="submit" value="{intl-update}" />
-</form>
 </td>
 </tr>
 </table>

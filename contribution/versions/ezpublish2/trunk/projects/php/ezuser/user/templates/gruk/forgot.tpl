@@ -4,8 +4,9 @@
 
 <hr noshade="noshade" size="4" />
 
-
 <p>{intl-forgot-text}</p>
+
+<p>Hvis du ikke mottar e-posten innen kort tid kan det være fordi du enda ikke er registrert med en e-postadresse i systemet. Kontakt i så fall oss direkte.</p>
 <p class="boxtext">{intl-username}:</p>
 <input type="text" size="8" name="Login"/>
 <br /><br />
