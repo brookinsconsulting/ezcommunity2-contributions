@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: browse.php,v 1.3 2001/05/16 09:09:35 ce Exp $
+// $Id: browse.php,v 1.4 2001/05/25 07:46:35 ce Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -41,7 +41,7 @@ $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
 $ImageDir = $ini->read_var( "eZImageCatalogueMain", "ImageDir" );
 
-$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
+$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "AdminTemplateDir" ),
                      "ezimagecatalogue/admin/intl/", $Language, "browse.php" );
 
 $t->set_file( "image_list_page_tpl", "browse.tpl" );
