@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.157 2001/09/04 13:56:38 bf Exp $
+// $Id: ezarticle.php,v 1.158 2001/09/04 14:26:06 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -749,6 +749,8 @@ class eZArticle
         $contents = str_replace ("!", " ", $contents );
         $contents = str_replace ("\"", " ", $contents );
         $contents = str_replace ("|", " ", $contents );
+        $contents = str_replace ("qdom", " ", $contents );
+        $contents = str_replace ("tech", " ", $contents );
 
         // strip &quot; combinations
         $contents = preg_replace("(&.+?;)", " ", $contents );
