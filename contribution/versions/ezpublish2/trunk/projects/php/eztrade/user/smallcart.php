@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.9 2001/03/14 17:21:57 jb Exp $
+// $Id: smallcart.php,v 1.10 2001/03/15 18:26:21 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -97,50 +97,53 @@ foreach ( $items as $item )
     $t->set_var( "cart_item_id", $item->id() );
     
     $product = $item->product();
-    
-    $price = $product->price() * $item->count();
-    
-    $currency->setValue( $price );
-
-    // product price
-    $price = $item->price();    
-    $currency->setValue( $price );
-    
-    $sum += $price;
-    $totalVAT += $product->vat( $price );
-    
-    $t->set_var( "product_id", $product->id() );
-    $t->set_var( "product_name", $product->name() );
-
-    $t->set_var( "cart_item_count", $item->count() );
-    
-    $t->set_var( "product_price", $locale->format( $currency ) );
-
-    $optionValues =& $item->optionValues();
-    $Quantity = $product->totalQuantity();
-    if ( !$product->hasPrice() )
+    if ( $product )
     {
-        $min_quantity = 0;
-        foreach ( $optionValues as $optionValue )
+        $price = $product->price() * $item->count();
+    
+        $currency->setValue( $price );
+
+        // product price
+        $price = $item->price();    
+        $currency->setValue( $price );
+    
+        $sum += $price;
+        $totalVAT += $product->vat( $price );
+    
+        $t->set_var( "product_id", $product->id() );
+        $t->set_var( "product_name", $product->name() );
+
+        $t->set_var( "cart_item_count", $item->count() );
+    
+        $t->set_var( "product_price", $locale->format( $currency ) );
+
+        $optionValues =& $item->optionValues();
+        $Quantity = $product->totalQuantity();
+        if ( !$product->hasPrice() )
         {
-            $option =& $optionValue->option();
-            $value =& $optionValue->optionValue();
-            $value_quantity = $value->totalQuantity();
-            if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+            $min_quantity = 0;
+            foreach ( $optionValues as $optionValue )
             {
-                if ( is_bool( $min_quantity ) )
-                    $min_quantity =  $value_quantity;
-                else
-                    $min_quantity = min( $min_quantity , $value_quantity );
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+                $value_quantity = $value->totalQuantity();
+                if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+                {
+                    if ( is_bool( $min_quantity ) )
+                        $min_quantity =  $value_quantity;
+                    else
+                        $min_quantity = min( $min_quantity , $value_quantity );
+                }
             }
         }
-    }
-    if ( !(is_bool( $min_quantity ) and !$min_quantity) and
-         $RequireQuantity and $min_quantity == 0 )
-        $can_checkout = false;
+        if ( !(is_bool( $min_quantity ) and !$min_quantity) and
+             $RequireQuantity and $min_quantity == 0 )
+            $can_checkout = false;
 
-    $t->parse( "cart_item", "cart_item_tpl", true );
-        
+        $t->parse( "cart_item", "cart_item_tpl", true );
+
+    }
+    
     $i++;
 }
 
