@@ -2,5 +2,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"lang="en">
 <head>
 <title>eZ trade</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-<link rel="stylesheet" type="text/css" href="/sp.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css" />
