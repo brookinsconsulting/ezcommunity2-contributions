@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.1 2000/09/20 08:31:24 bf-cvs Exp $
+// $Id: optionedit.php,v 1.2 2000/09/20 09:17:07 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -26,18 +26,40 @@ $DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
 include_once( $DOC_ROOT . "/classes/ezproduct.php" );
 include_once( $DOC_ROOT . "/classes/ezoption.php" );
+include_once( $DOC_ROOT . "/classes/ezoptionvalue.php" );
 
+$product = new eZProduct( $ProductID );
 
 if ( $Action == "Insert" )
 {
-    print( $Name );
+    $option = new eZOption();
+    $option->setName( $Name );
+    $option->setDescription( $Description );
 
-    $options = explode( "\n", $OptionValues );
+    $option->store();
+
+    $product->addOption( $option );
     
-    foreach ( $options as $option )
+    $optionArray = explode( "\n", $OptionValues );
+    
+    foreach ( $optionArray as $optionValue )
     {
-        print( $option . "<br>" );
+        $name = $optionValue;
+
+        $name = trim( $name );
+
+        if ( $name != "" )
+        {
+            $value = new eZOptionValue();
+
+            
+            $value->setName( $name );
+            $option->addValue( $value );
+        }
     }
+
+    Header( "Location: /trade/productedit/optionlist/$ProductID/" );
+    exit();    
 }
 
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/optionedit/",
@@ -49,10 +71,16 @@ $t->set_file( array(
     "option_edit_page" => "optionedit.tpl"
     ) );
 
+
+
+
 //default values
 $t->set_var( "name_value", "" );
+$t->set_var( "description_value", "" );
 $t->set_var( "option_values", "" );
 $t->set_var( "action_value", "Insert" );
+
+$t->set_var( "product_name", $product->name() );
 
 
 $t->set_var( "product_id", $ProductID );

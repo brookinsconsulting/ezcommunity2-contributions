@@ -1,4 +1,4 @@
-<h1>Opsjonsredigering</h1>
+<h1>Opsjonsredigering - {product_name}</h1>
 
 <form method="post" action="/trade/productedit/optionedit/{product_id}/">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -10,6 +10,16 @@
 <tr>
 	<td>
 	<input type="text" size="20" name="Name" value="{name_value}"/>
+	</td>
+</tr>
+<tr>
+	<td>
+	Beskrivelse:
+	</td>
+</tr>
+<tr>
+	<td>
+	<textarea rows="5" cols="20" name="Description">{description_value}</textarea>
 	</td>
 </tr>
 <tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionlist.php,v 1.1 2000/09/20 08:31:24 bf-cvs Exp $
+// $Id: optionlist.php,v 1.2 2000/09/20 09:17:07 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -45,6 +45,7 @@ $options = $product->options();
 
 foreach ( $options as $option )
 {
+    $t->set_var( "option_name", $option->name() );
 
     $t->parse( "option_list", "option_item", true );    
 }
