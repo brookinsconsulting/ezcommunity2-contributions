@@ -16,14 +16,21 @@
 
 <!-- BEGIN article_item_template -->
 
-{this_picture}
-<h2>{this_name}</h2>
-<p>
-{this_description}
-</p>
-<p class="pris">
-{this_price}
-</p>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	{this_picture}
+	<h2>{this_name}</h2>
+	<p>
+	{this_description}
+	</p>
+	<p class="pris">
+	{this_price}
+	</p>
+	</td>
+</tr>
+</table>
+<br />
 
 <hr noshade size="4" />
 
