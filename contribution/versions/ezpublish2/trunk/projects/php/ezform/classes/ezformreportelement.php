@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.23 2002/01/30 12:02:24 jhe Exp $
+// $Id: ezformreportelement.php,v 1.24 2002/01/30 12:05:11 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -640,7 +640,7 @@ class eZFormReportElement
         $db =& eZDB::globalDatabase();
         $element = $this->element();
         $reference = $this->reference();
-        if ( get_clss( $reference ) == "ezformelement" )
+        if ( get_class( $reference ) == "ezformelement" )
         {
             $db->array_query( $res, "SELECT Result, ResultID, ElementID FROM eZForm_FormElementResult
                                      WHERE (eZForm_FormElementResult.ElementID='" . $element->id() . "' OR
