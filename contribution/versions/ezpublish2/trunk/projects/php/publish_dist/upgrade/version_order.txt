@@ -9,4 +9,6 @@ pre_2_1_b1/
 From 2.1
 2_1_to_2_1_1 (2_1_1 was never released, 2_2_a was released instead.
 2_2_a_to_2_2_b1  
-
+2_2_b1_to_2_2_b2
+2_2_b2_to_2_2_pre
+2_2_pre1_to_2_2_final
