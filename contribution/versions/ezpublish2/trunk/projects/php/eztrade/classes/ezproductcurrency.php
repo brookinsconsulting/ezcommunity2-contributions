@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcurrency.php,v 1.8 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezproductcurrency.php,v 1.9 2001/08/23 10:38:05 pkej Exp $
 //
 // Definition of eZProductCurrency class
 //
@@ -74,7 +74,7 @@ class eZProductCurrency
 		                 Created,
 		                 PrefixSign )
                        VALUES
-		               ( '$nextID'
+		               ( '$nextID',
                          '$this->Name',
 		                 '$this->Sign',
 		                 '$this->Value',
