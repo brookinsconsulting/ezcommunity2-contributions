@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezimagevariation.php,v 1.27 2001/06/29 07:08:38 bf Exp $
+// $Id: ezimagevariation.php,v 1.28 2001/07/12 14:20:52 jhe Exp $
 //
 // Definition of eZImageVariation class
 //

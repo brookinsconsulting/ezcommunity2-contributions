@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezimagecategory.php,v 1.26 2001/06/28 09:43:35 jhe Exp $
+// $Id: ezimagecategory.php,v 1.27 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -77,6 +77,7 @@ class eZImageCategory
             $db->query( "INSERT INTO eZImageCatalogue_Category
                                      ( ID, Name, Description, UserID, ParentID ) VALUES
                                      ( '$this->ID', '$name', '$description', '$this->UserID', '$this->ParentID' )" );
+            $db->unlock();
         }
         else
         {
@@ -87,7 +88,6 @@ class eZImageCategory
                                      ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
 
-        $db->unlock();
     
         if ( $dbError == true )
             $db->rollback( );

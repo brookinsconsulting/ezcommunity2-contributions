@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezprojecttype.php,v 1.7 2001/05/05 11:16:03 bf Exp $
+// $Id: ezprojecttype.php,v 1.8 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of eZProjectType class
 //
@@ -54,7 +54,7 @@ class eZProjectType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZProjectType( $id="-1", $fetch=true )
+    function eZProjectType( $id = -1 )
     {
         if ( is_array( $id ) )
         {
@@ -63,10 +63,7 @@ class eZProjectType
         else if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -76,25 +73,31 @@ class eZProjectType
     function store( )
     {
         $db =& eZDB::globalDatabase();
-        $name = addslashes( $this->Name );
+        $db->begin();
+        $name = $db->escapeString( $this->Name );
         if ( !isSet( $this->ID ) )
         {
-            $db->query_single( $qry, "SELECT ListOrder from eZContact_ProjectType ORDER BY ListOrder DESC LIMIT 1" );
-            $listorder = $qry["ListOrder"] + 1;
+            $db->query_single( $qry, "SELECT ListOrder from eZContact_ProjectType ORDER BY ListOrder DESC",
+                               array( "Limit" => 1 ) );
+            $listorder = $qry[ $db->fieldName( "ListOrder" ) ] + 1;
             $this->ListOrder = $listorder;
-            $db->query( "INSERT INTO eZContact_ProjectType SET
-                                                  Name='$name',
-                                                  ListOrder='$listorder'" );
-			$this->ID = $db->insertID();
+
+            $db->lock( "eZContact_ProjectType" );
+            $this->ID = $db->nextID( "eZContact_ProjectType", "ID" );
+            $res[] = $db->query( "INSERT INTO eZContact_ProjectType
+                                  (ID, Name, ListOrder)
+                                  VALUES
+                                  ('$this->ID', '$name', '$listorder')" );
+            $db->unlock();
         }
         else
         {
-            $db->query( "UPDATE eZContact_ProjectType SET
+            $res[] = $db->query( "UPDATE eZContact_ProjectType SET
                                                   Name='$name',
                                                   ListOrder='$this->ListOrder'
                                                   WHERE ID='$this->ID'" );
         }
-
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -106,9 +109,11 @@ class eZProjectType
         if ( isSet( $this->ID ) )
         {
             $db =& eZDB::globalDatabase();
-            $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE ProjectID='$this->ID'" );
-            $db->query( "DELETE FROM eZContact_CompanyProjectDict WHERE ProjectID='$this->ID'" );
-            $db->query( "DELETE FROM eZContact_ProjectType WHERE ID='$this->ID'" );
+            $db->begin();
+            $res[] = $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE ProjectID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZContact_CompanyProjectDict WHERE ProjectID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZContact_ProjectType WHERE ID='$this->ID'" );
+            eZDB::finish( $res, $db );
         }
         return true;
     }
@@ -136,15 +141,14 @@ class eZProjectType
     */
     function fill( &$consulttype_array )
     {
-        $this->ID = $consulttype_array["ID"];
-        $this->Name = $consulttype_array["Name"];
-        $this->ListOrder = $consulttype_array["ListOrder"];
+        $this->ID = $consulttype_array[ $db->fieldName( "ID" ) ];
+        $this->Name = $consulttype_array[ $db->fieldName( "Name" ) ];
+        $this->ListOrder = $consulttype_array[ $db->fieldName( "ListOrder" ) ];
     }
 
     /*!
       Sets the name of the project type.
     */
-
     function setName( $name )
     {
         $this->Name = $name;
@@ -153,7 +157,6 @@ class eZProjectType
     /*!
       Returns the id of the project type.
     */
-
     function id()
     {
         return $this->ID;
@@ -162,7 +165,6 @@ class eZProjectType
     /*!
       Returns the name of the project type.
     */
-
     function name()
     {
         return $this->Name;
@@ -171,7 +173,6 @@ class eZProjectType
     /*!
       Returns the number of external items using this item.
     */
-
     function &count()
     {
         $db =& eZDB::globalDatabase();
@@ -181,37 +182,40 @@ class eZProjectType
         $db->query_single( $company_qry, "SELECT count( CompanyID ) as Count
                                           FROM eZContact_CompanyProjectDict
                                           WHERE ProjectID='$this->ID'" );
-        return $person_qry["Count"] + $company_qry["Count"];
+        return $person_qry[ $db->fieldName( "Count" ) ] + $company_qry[ $db->fieldName( "Count" ) ];
     }
 
     /*!
       Moves this item up one step in the order list, this means that it will swap place with the item above.
     */
-
     function moveUp()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ProjectType
-                                  WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
-        $listorder = $qry["ListOrder"];
-        $listid = $qry["ID"];
-        $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+                                  WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC",
+                                  array( "Limit" => 1 ) );
+        $listorder = $qry[ $db->fieldName( "ListOrder" ) ];
+        $listid = $qry[ $db->fieldName( "ID" ) ];
+        $res[] = $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
     }
 
     /*!
       Moves this item down one step in the order list, this means that it will swap place with the item below.
     */
-
     function moveDown()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ProjectType
-                                  WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
-        $listorder = $qry["ListOrder"];
-        $listid = $qry["ID"];
-        $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+                                  WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC",
+                                  array( "Limit" => 1 ) );
+        $listorder = $qry[ $db->fieldName( "ListOrder" ) ];
+        $listid = $qry[ $db->fieldName( "ID" ) ];
+        $res[] = $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZContact_ProjectType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -219,7 +223,6 @@ class eZProjectType
       Finds all project types.
       Returns an array with eZProjectType objects taken from the database.
     */
-
     function &findTypes( $as_object = true )
     {
         $qry_array = array();
@@ -241,7 +244,7 @@ class eZProjectType
         {
             foreach ( $qry_array as $qry )
             {
-                $ret_array[] = $qry["ID"];
+                $ret_array[] = $qry[ $db->fieldName( "ID" ) ];
             }
         }
         return $ret_array;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcontactsupplier.php,v 1.6 2001/06/28 08:14:54 bf Exp $
+// $Id: ezcontactsupplier.php,v 1.7 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of ezcontactsupplier class
 //
@@ -60,7 +60,7 @@ class eZContactSupplier
     {
         $ini =& INIFile::globalINI();
         $ret = false;
-        switch( $type )
+        switch ( $type )
         {
             case "company":
             {
@@ -72,7 +72,7 @@ class eZContactSupplier
                 $num_companies = eZCompany::countByCategory( $category );
                 $path = eZCompanyType::path( $category );
                 $category_path = array();
-                foreach( $path as $path_item )
+                foreach ( $path as $path_item )
                 {
                     $category_path[] = array( "id" => $path_item[0],
                                               "name" => $path_item[1] );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkattribute.php,v 1.6 2001/07/11 14:12:40 jhe Exp $
+// $Id: ezlinkattribute.php,v 1.7 2001/07/12 14:20:52 jhe Exp $
 //
 // Definition of eZLinkAttribute class
 //
@@ -260,6 +260,7 @@ class eZLinkAttribute
                                                 (ID, LinkID, AttributeID, Value)
                                                 VALUES
 		                                        ('$nextID','$linkID','$this->ID','$value')" );
+                $db->unlock();
             }
             if ( $res == false )
                 $db->rollback( );

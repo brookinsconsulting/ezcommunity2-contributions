@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezimage.php,v 1.65 2001/07/11 06:55:42 jhe Exp $
+// $Id: ezimage.php,v 1.66 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -143,6 +143,7 @@ class eZImage
                                              '$originalfilename',
                                              '$this->PhotographerID',
                                              '$timestamp' )");
+            $db->unlock();
         }
         else
         {
@@ -170,8 +171,6 @@ class eZImage
                                  " );
         }
         
-        $db->unlock();
-    
         if ( $res == false )
             $db->rollback( );
         else

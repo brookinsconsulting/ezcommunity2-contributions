@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezconsultation.php,v 1.15 2001/05/25 13:19:13 ce Exp $
+// $Id: ezconsultation.php,v 1.16 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -60,23 +60,12 @@ class eZConsultation
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZConsultation( $id="-1", $fetch=true )
+    function eZConsultation( $id = -1 )
     {
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -85,33 +74,37 @@ class eZConsultation
     */
     function store( )
     {
-        $db = eZDB::globalDatabase();
-        $date = $this->Date->mySQLDateTime();
-        $shortdesc = addslashes( $this->ShortDesc );
-        $description = addslashes( $this->Description );
-        if ( !isset( $this->ID ) )
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $date = $this->Date->timeStamp();
+        $shortdesc = $db->escapeString( $this->ShortDesc );
+        $description = $db->escapeString( $this->Description );
+        if ( !isSet( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZContact_Consultation set
-                                                  ShortDesc='$shortdesc',
-	                                              Description='$description',
-                                                  StateID='$this->State',
-                                                  EmailNotifications='$this->EmailNotice',
-	                                              Date='$date'" );
-			$this->ID = $db->insertID();
-            $this->State_ = "Coherent";
+            $db->lock( "eZContact_Consultation" );
+            $this->ID = $db->nextID( "eZContact_Consultation", "ID" );
+            $res[] = $db->query( "INSERT INTO eZContact_Consultation
+                                  (ID, ShortDesc, Description, StateID, EmailNotifications, Date)
+                                  VALUES
+                                  ('$this->ID',
+                                   '$shortdesc',
+                                   '$description',
+                                   '$this->State',
+                                   '$this->EmailNotice',
+	                               '$date')" );
+            $db->unlock();
         }
         else
         {
-            $db->query( "UPDATE eZContact_Consultation set
-                                                  ShortDesc='$shortdesc',
-	                                              Description='$description',
-                                                  StateID='$this->State',
-                                                  EmailNotifications='$this->EmailNotice',
-	                                              Date='$date'
-                                                  WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
+            $res[] = $db->query( "UPDATE eZContact_Consultation SET
+                                        ShortDesc='$shortdesc',
+                                        Description='$description',
+                                        StateID='$this->State',
+                                        EmailNotifications='$this->EmailNotice',
+                                        Date='$date'
+                                        WHERE ID='$this->ID'" );
         }
-
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -123,20 +116,21 @@ class eZConsultation
         if ( !$id )
             $id = $this->ID;
 
-        if ( isset( $id ) && is_numeric( $id ) )
+        if ( isSet( $id ) && is_numeric( $id ) )
         {
-            $db = eZDB::globalDatabase();
-            $db->query( "DELETE FROM eZContact_Consultation WHERE ID='$id'" );
+            $db =& eZDB::globalDatabase();
+            $res[] = $db->query( "DELETE FROM eZContact_Consultation WHERE ID='$id'" );
             $db->array_query( $qry_array, "SELECT ConsultationID FROM eZContact_ConsultationPersonUserDict WHERE ConsultationID='$id'" );
             if ( count( $qry_array ) > 0 )
             {
-                $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict WHERE ConsultationID='$id'" );
+                $res[] = $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict WHERE ConsultationID='$id'" );
             }
             $db->array_query( $qry_array, "SELECT ConsultationID FROM eZContact_ConsultationCompanyUserDict WHERE ConsultationID='$id'" );
             if ( count( $qry_array ) > 0 )
             {
-                $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict WHERE ConsultationID='$id'" );
+                $res[] = $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict WHERE ConsultationID='$id'" );
             }
+            eZDB::finish( $res, $db );
         }
         return true;
     }
@@ -144,28 +138,23 @@ class eZConsultation
     /*!
       Fetches the object information from the database.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $ret = false;
 
         if ( $id != "" )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             $db->query_single( $consult_array, "SELECT * FROM eZContact_Consultation WHERE ID='$id'" );
-            $this->ID = $consult_array["ID"];
-            $this->ShortDesc = $consult_array["ShortDesc"];
-            $this->Description = $consult_array["Description"];
-            $this->State = $consult_array["StateID"];
-            $this->EmailNotice = $consult_array["EmailNotifications"];
+            $this->ID = $consult_array[ $db->fieldName( "ID" ) ];
+            $this->ShortDesc = $consult_array[ $db->fieldName( "ShortDesc" ) ];
+            $this->Description = $consult_array[ $db->fieldName( "Description" ) ];
+            $this->State = $consult_array[ $db->fieldName( "StateID" ) ];
+            $this->EmailNotice = $consult_array[ $db->fieldName( "EmailNotifications" ) ];
             $this->Date = new eZDateTime();
-            $this->Date->setMySQLDateTime( $consult_array["Date"] );
+            $this->Date->setTimeStamp( $consult_array[ $db->fieldName( "Date" ) ] );
 
             $ret = true;
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -173,55 +162,51 @@ class eZConsultation
     /*!
       Sets the short description for the consultation.
     */
-
     function setShortDescription( $desc )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->ShortDesc = $desc;
     }
 
     /*!
       Sets the full description for the consultation.
     */
-
     function setDescription( $desc )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Description = $desc;
     }
 
     /*!
       Sets the state type for the consultation.
     */
-
     function setState( $state )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->State = $state;
     }
 
     /*!
       Adds a new group to the consultation, you can either use the group id or a eZUserGroup object.
     */
-
     function addGroup( $group )
     {
         if ( get_class( $group ) == "ezusergroup" )
             $groupid = $group->id();
         else
             $groupid = $group;
-        $db = eZDB::globalDatabase();
-        $db->query( "INSERT INTO eZContact_ConsultationGroupsDict
-                            SET ConsultationID='$this->ID', GroupID='$groupid'" );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZContact_ConsultationGroupsDict" );
+        $nextID = $db->nextID( "eZContact_ConsultationGroupsDict", "ID" );
+        $res = $db->query( "INSERT INTO eZContact_ConsultationGroupsDict
+                            (ID, ConsultationID, GroupID)
+                            VALUES
+                            ('$nextID', '$this->ID', '$groupid')" );
+        $db->unlock();
+        eZDB::finish( $res, $db );
     }
 
     /*!
       Removes an existing group from the consultation.
     */
-
     function removeGroup( $group )
     {
     }
@@ -229,18 +214,18 @@ class eZConsultation
     /*!
       Removes all groups from the consultation.
     */
-
     function removeGroups()
     {
-        $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_ConsultationGroupsDict
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZContact_ConsultationGroupsDict
                             WHERE ConsultationID='$this->ID'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
       Adds a new email to the consultation.
     */
-
     function addEmail( $email )
     {
     }
@@ -248,18 +233,14 @@ class eZConsultation
     /*!
       Sets the email list for the consultation.
     */
-
     function setEmail( $emails )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->EmailNotice = $emails;
     }
 
     /*!
       Removes an existing email from the consultation.
     */
-
     function removeEmail( $email )
     {
     }
@@ -267,72 +248,56 @@ class eZConsultation
     /*!
       Sets the date for the consultation.
     */
-
     function setDate( $date )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Date = $date;
     }
 
     /*!
       Returns the id for the consultation
     */
-
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->ID;
     }
 
     /*!
       Returns the short description for the consultation
     */
-
     function shortDescription()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->ShortDesc;
     }
 
     /*!
       Returns the full description for the consultation.
     */
-
     function description()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Description;
     }
 
     /*!
       Returns the state of the consultation, this usually tells if the consultation is under negotiation, closing or similar.
     */
-
     function state()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->State;
     }
 
     /*!
       Returns an array with eZUserGroup objects, these groups are used for sending an email reply.
     */
-
     function groupList()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT GroupID FROM eZContact_ConsultationGroupsDict
                                        WHERE ConsultationID='$this->ID'" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
-            {
-                $ret_array[] = new eZUserGroup( $qry["GroupID"] );
-            }
+        {
+            $ret_array[] = new eZUserGroup( $qry[ $db->fieldName( "GroupID" ) ] );
+        }
         return $ret_array;
     }
 
@@ -340,24 +305,22 @@ class eZConsultation
       Returns an array with eZUserGroup IDs.
       \sa groupList
     */
-
     function groupIDList()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT GroupID FROM eZContact_ConsultationGroupsDict
                                        WHERE ConsultationID='$this->ID'" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
-            {
-                $ret_array[] = $qry["GroupID"];
-            }
+        {
+            $ret_array[] = $qry[ $db->fieldName( "GroupID" ) ];
+        }
         return $ret_array;
     }
 
     /*!
       Returns an array with strings, these strings each contain an email address.
     */
-
     function emailList()
     {
         $emails = preg_split( "/[,;]/", $this->EmailNotice );
@@ -367,18 +330,14 @@ class eZConsultation
     /*!
       Returns the string with email notifications, this is an unparsed form, use emailList() to get them parsed.
     */
-
     function emails()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->EmailNotice;
     }
 
     /*!
       Returns an array with eZNotification objects, this array is built from both the groupList() and the emailList().
     */
-
     function notificators()
     {
     }
@@ -386,11 +345,8 @@ class eZConsultation
     /*!
       Returns the date of the consultation.
     */
-
     function date()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Date;
     }
 
@@ -398,7 +354,6 @@ class eZConsultation
       \static
       Finds all consultations on a specific state type.
     */
-
     function findConsultationsByState( $state )
     {
     }
@@ -407,12 +362,11 @@ class eZConsultation
       \static
       Returns true if the consultation given by $consultationid belongs to $user.
     */
-
     function belongsTo( $consultationid, $user )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         // Check company
         $db->array_query( $qry_array, "SELECT C.ID FROM eZContact_Consultation AS C,
                                                       eZContact_ConsultationCompanyUserDict AS CCUD
@@ -434,20 +388,19 @@ class eZConsultation
       \static
       Finds all companies which the user has consultations with and returns an array with IDs.
     */
-
     function findConsultedCompanies( $user )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT CompanyID FROM eZContact_ConsultationCompanyUserDict
                                        WHERE UserID='$user'
                                        GROUP BY CompanyID" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
-            {
-                $ret_array[] = new eZCompany( $qry["CompanyID"] );
-            }
+        {
+            $ret_array[] = new eZCompany( $qry[ $db->fieldName( "CompanyID" ) ] );
+        }
         return $ret_array;
     }
 
@@ -455,7 +408,6 @@ class eZConsultation
       \static
       Finds all persons which the user has consultations with and returns an array with IDs.
     */
-
     function findConsultedPersons( $user )
     {
         if ( get_class( $user ) == "ezuser" )
@@ -467,9 +419,9 @@ class eZConsultation
                                        GROUP BY PersonID" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
-            {
-                $ret_array[] = new eZPerson( $qry["PersonID"] );
-            }
+        {
+            $ret_array[] = new eZPerson( $qry[ $db->fieldName( "PersonID" ) ] );
+        }
         return $ret_array;
     }
 
@@ -477,38 +429,37 @@ class eZConsultation
       \static
       Finds all consultations on a specific contact person or company.
     */
-
     function findConsultationsByContact( $contact, $user, $is_person = true, $index = 0, $max = -1 )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
         if ( $max > 0 )
         {
-            $limit = "LIMIT $index, $max";
+            $limit = array( "Offset" => $index, "Limit" => $max );
         }
         else
         {
-            $limit = "";
+            $limit = array();
         }
 
         $qry_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $is_person )
         {
             $db->array_query( $qry_array, "SELECT CPUD.ConsultationID FROM eZContact_ConsultationPersonUserDict AS CPUD, eZContact_Consultation AS C
                                            WHERE CPUD.PersonID='$contact' AND CPUD.UserID='$user' AND CPUD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC $limit" );
+                                           ORDER BY C.Date DESC, C.ID DESC", $limit );
         }
         else
         {
             $db->array_query( $qry_array, "SELECT CPCD.ConsultationID FROM eZContact_ConsultationCompanyUserDict AS CPCD, eZContact_Consultation AS C
                                            WHERE CPCD.CompanyID='$contact' AND CPCD.UserID='$user' AND CPCD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC $limit" );
+                                           ORDER BY C.Date DESC, C.ID DESC", $limit );
         }
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZConsultation( $qry["ConsultationID"] );
+            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ConsultationID" ) ] );
         }
         return $ret_array;
     }
@@ -517,29 +468,28 @@ class eZConsultation
       \static
       Finds the n latest consultations.
     */
-
     function findLatestConsultations( $user, $max )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
         $qry_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT C.Date, C.ID
                                           FROM eZContact_ConsultationPersonUserDict AS CPUD, eZContact_Consultation AS C
                                            WHERE CPUD.UserID='$user' AND CPUD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC LIMIT $max" );
+                                           ORDER BY C.Date DESC, C.ID DESC", array( "Limit" => $max ) );
         $db->array_query_append( $qry_array,
                                           "SELECT C.Date, C.ID
                                            FROM eZContact_ConsultationCompanyUserDict AS CPCD, eZContact_Consultation AS C
                                            WHERE CPCD.UserID='$user' AND CPCD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC LIMIT $max" );
+                                           ORDER BY C.Date DESC, C.ID DESC", array( "Limit" => $max ) );
         arsort( $qry_array );
         $ret_array = array();
         $qry_array = array_slice( $qry_array, 0, $max );
         foreach ( $qry_array as $qry )
-            {
-                $ret_array[] = new eZConsultation( $qry["ID"] );
-            }
+        {
+            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ID" ) ] );
+        }
         return $ret_array;
     }
 
@@ -549,10 +499,10 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT count( ConsultationID ) as Count FROM eZContact_ConsultationCompanyUserDict
                                   WHERE CompanyID='$company' AND UserID='$user'" );
-        return $qry["Count"];
+        return $qry[ $db->fieldName( "Count" ) ];
     }
 
     /*!
@@ -561,10 +511,10 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT count( ConsultationID ) as Count FROM eZContact_ConsultationPersonUserDict
                                   WHERE PersonID='$person' AND UserID='$user'" );
-        return $qry["Count"];
+        return $qry[ $db->fieldName( "Count" ) ];
     }
 
     /*!
@@ -573,12 +523,12 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT CompanyID FROM eZContact_ConsultationCompanyUserDict
                                        WHERE ConsultationID='$this->ID' AND UserID='$user'" );
         if ( count( $qry_array ) == 1 )
         {
-            return $qry_array[0]["CompanyID"];
+            return $qry_array[0][ $db->fieldName( "CompanyID" ) ];
         }
         else
         {
@@ -592,12 +542,12 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT PersonID FROM eZContact_ConsultationPersonUserDict
                                        WHERE ConsultationID='$this->ID' AND UserID='$user'" );
         if ( count( $qry_array ) == 1 )
         {
-            return $qry_array[0]["PersonID"];
+            return $qry_array[0][ $db->fieldName( "PersonID" ) ];
         }
         else
         {
@@ -611,9 +561,16 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZContact_ConsultationPersonUserDict" );
+        $nextID = $db->nextID( "eZContact_ConsultationPersonUserDict", "ID" );
         $db->query( "INSERT INTO eZContact_ConsultationPersonUserDict
-                     SET ConsultationID='$this->ID', PersonID='$person', UserID='$user'" );
+                     (ID, ConsultationID, PersonID, UserID)
+                     VALUES
+                     ('$nextID', '$this->ID', '$person', '$user')" );
+        $db->unlock();
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -622,9 +579,16 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
-        $db->query( "INSERT INTO eZContact_ConsultationCompanyUserDict
-                     SET ConsultationID='$this->ID', CompanyID='$company', UserID='$user'" );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZContact_ConsultationCompanyUserDict" );
+        $nextID = $db->nextID( "eZContact_ConsultationCompanyUserDict", "ID" );
+        $res[] = $db->query( "INSERT INTO eZContact_ConsultationCompanyUserDict
+                              (ID, ConsultationID, PersonID, UserID)
+                              VALUES
+                              ('$nextID', '$this->ID', '$company', '$user')" );
+        $db->unlock();
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -633,9 +597,10 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict
-                     WHERE ConsultationID='$this->ID' AND PersonID='$person' AND UserID='$user'" );
+        $db =& eZDB::globalDatabase();
+        $res[] = $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict
+                              WHERE ConsultationID='$this->ID' AND PersonID='$person' AND UserID='$user'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -644,21 +609,21 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict
-                     WHERE ConsultationID='$this->ID' AND CompanyID='$company' AND UserID='$user'" );
+        $db =& eZDB::globalDatabase();
+        $res[] = $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict
+                              WHERE ConsultationID='$this->ID' AND CompanyID='$company' AND UserID='$user'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
       \static
       Returns the name of the state id.
     */
-
     function stateName( $state )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $state_row, "SELECT Name FROM eZContact_ConsultationType WHERE ID='$state'" );
-        return $state_row["Name"];
+        return $state_row[ $db->fieldName( "Name" ) ];
     }
 
     var $ID;
@@ -667,9 +632,6 @@ class eZConsultation
     var $State;
     var $Date;
     var $EmailNotice;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

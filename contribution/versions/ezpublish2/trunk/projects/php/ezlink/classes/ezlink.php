@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.64 2001/07/11 08:09:37 jhe Exp $
+// $Id: ezlink.php,v 1.65 2001/07/12 14:20:52 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -92,7 +92,6 @@ class eZLink
         $db->lock( "eZLink_Link" );
 
         $nextID = $db->nextID( "eZLink_Link", "ID" );
-
         $timeStamp =& eZDateTime::timeStamp( true );
 
         $res = $db->query( "INSERT INTO eZLink_Link 
@@ -490,21 +489,17 @@ class eZLink
             return false;
             
         $db =& eZDB::globalDatabase();
-
-        $res = $db->query( "DELETE FROM eZLink_LinkCategoryDefinition
-                            WHERE LinkID='$this->ID'" );
-
         $db->begin();
+
+        $res[] = $db->query( "DELETE FROM eZLink_LinkCategoryDefinition
+                            WHERE LinkID='$this->ID'" );
         $db->lock( "eZLink_LinkCategoryDefinition" );
         $nextID = $db->nextID( "eZLink_LinkCategoryDefinition", "ID" );
-        $res = $db->query( "INSERT INTO eZLink_LinkCategoryDefinition
+        $res[] = $db->query( "INSERT INTO eZLink_LinkCategoryDefinition
                            (ID, LinkID, CategoryID) VALUES
                            ('$nextID','$this->ID','$categoryID')" );
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();
-
+        $db->unlock();
+        eZDB::finish( $res, $db );
     }
 
     

@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezlinktype.php,v 1.1 2001/06/30 11:29:40 bf Exp $
+// $Id: ezlinktype.php,v 1.2 2001/07/12 14:20:52 jhe Exp $
 //
 // Definition of eZLinkType class
 //
@@ -58,6 +58,7 @@ class eZLinkType
             
             $res = $db->query( "INSERT INTO eZLink_Type (ID,Name) VALUES
      		                         ('$this->ID','$this->Name')" );
+            $db->unlock();
         }
         else
         {
@@ -65,7 +66,6 @@ class eZLinkType
     		                         Name='$this->Name' WHERE ID='$this->ID'" );
         }
 
-        $db->unlock();
     
         if ( $res == false )
             $db->rollback( );

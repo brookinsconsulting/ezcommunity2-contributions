@@ -1,7 +1,6 @@
-<?
-
+<?php
 // 
-// $Id: ezcompanytype.php,v 1.32 2001/06/29 15:20:05 ce Exp $
+// $Id: ezcompanytype.php,v 1.33 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -50,16 +49,12 @@ class eZCompanyType
     /*!
       Constructor of the eZCompanyType.
     */
-    function eZCompanyType( $id="-1", $fetch=true )
+    function eZCompanyType( $id = -1 )
     {
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
     
@@ -68,25 +63,34 @@ class eZCompanyType
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         
         $ret = false;
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
         if ( !isSet( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZContact_CompanyType set Name='$name', Description='$description',  ImageID='$this->ImageID', ParentID='$this->ParentID'" );
-
-			$this->ID = $db->insertID();
-
+            $db->lock( "eZContact_CompanyType" );
+			$this->ID = $db->nextID( "eZContact_CompanyType", "ID" );
+            $res[] = $db->query( "INSERT INTO eZContact_CompanyType
+                                  (ID, Name, Description, ImageID, ParentID)
+                                  VALUES
+                                  ('$this->ID',
+                                   '$name',
+                                   '$description',
+                                   '$this->ImageID',
+                                   '$this->ParentID'" );
+            $db->unlock();
             $ret = true;
         }
         else
         {
-            $db->query( "UPDATE eZContact_CompanyType set Name='$name', Description='$description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+            $res[] = $db->query( "UPDATE eZContact_CompanyType set Name='$name', Description='$description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
 
             $ret = true;
         }
+        eZDB::finish( $res, $db );
         return $ret;
     }
 
@@ -108,8 +112,10 @@ class eZCompanyType
             $company->removeCategories();
             $top_category->addCompany( $company );
         }
-        $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_CompanyType WHERE ID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZContact_CompanyType WHERE ID='$this->ID'" );
+        eZDB::finish( $res, $db );
     }
 
     /*
@@ -117,7 +123,7 @@ class eZCompanyType
     */  
     function get( $id )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
             $db->array_query( $company_type_array, "SELECT * FROM eZContact_CompanyType WHERE ID='$id'" );
@@ -128,11 +134,11 @@ class eZCompanyType
             }
             elseif( count( $company_type_array ) == 1 )
             {
-                $this->ID = $company_type_array[ 0 ][ "ID" ];
-                $this->Name = $company_type_array[ 0 ][ "Name" ];
-                $this->Description = $company_type_array[ 0 ][ "Description" ];
-                $this->ParentID = $company_type_array[ 0 ][ "ParentID" ];
-                $this->ImageID = $company_type_array[ 0 ][ "ImageID" ];
+                $this->ID = $company_type_array[ 0 ][ $db->fieldName( "ID" ) ];
+                $this->Name = $company_type_array[ 0 ][ $db->fieldName( "Name" ) ];
+                $this->Description = $company_type_array[ 0 ][ $db->fieldName( "Description" ) ];
+                $this->ParentID = $company_type_array[ 0 ][ $db->fieldName( "ParentID" ) ];
+                $this->ImageID = $company_type_array[ 0 ][ $db->fieldName( "ImageID" ) ];
            }
         }
     }
@@ -142,7 +148,7 @@ class eZCompanyType
      */
     function getAll( $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         switch( strtolower( $OrderBy ) )
         {
@@ -168,27 +174,27 @@ class eZCompanyType
         
         if( is_numeric( $LimitStart ) )
         {
-            $LimitClause = "LIMIT $LimitStart";
+            $LimitArray = array( "Offset" => $LimitStart );
             
             if( is_numeric( $LimitBy ) )
             {
-                $LimitClause = $LimitClause . ", $LimitBy";
+                $LimitArray =& array_merge( $LimitArray, array( "Limit" => $LimitBy ) );
             }
         }
         else
         {
-            $LimitClause = "";
+            $LimitArray = array();
         }
         
         $company_type_array = array();
         $return_array = array();
 
         
-        $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType $OrderBy $LimitClause" );
+        $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType $OrderBy", $LimitClause );
 
         foreach( $company_type_array as $companyTypeItem )
         {
-            $return_array[] = new eZCompanyType( $companyTypeItem["ID"] );
+            $return_array[] = new eZCompanyType( $companyTypeItem[ $db->fieldName( "ID" ) ] );
         }
         return $return_array;
     }
@@ -198,7 +204,7 @@ class eZCompanyType
      */
     function &getByParentID( $parent = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( get_class( $parent ) == "ezcompanytype" )
         {
@@ -233,14 +239,14 @@ class eZCompanyType
         
         if( is_numeric( $LimitStart ) )
         {
-            $LimitClause = "LIMIT $LimitStart";
+            $LimitArray = array( "Offset" => $LimitStart );
             
             if( is_numeric( $LimitBy ) )
             {
-                $LimitClause = $LimitClause . ", $LimitBy";
+                $LimitArray =& array_merge( $LimitArray, array( "Limit" => $LimitBy ) );
             }
             else
-                $LimitClause = "$LimitClause, -1";
+                $LimitArray =& array_merge( $LimitArray, array( "Limit" => -1 ) );
         }
         else
         {
@@ -250,11 +256,11 @@ class eZCompanyType
         $company_type_array = array();
         $return_array = array();
         
-        $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' $OrderBy $LimitClause" );
+        $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' $OrderBy", $LimitArray );
 
         foreach( $company_type_array as $companyTypeItem )
         {
-            $return_array[] =& new eZCompanyType( $companyTypeItem["ID"] );
+            $return_array[] =& new eZCompanyType( $companyTypeItem[ $db->fieldName( "ID" ) ] );
         }
         return $return_array;
     }
@@ -273,7 +279,7 @@ class eZCompanyType
         
         if( is_numeric( $id ) )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             
             $company_type_array = array();
             $db->array_query( $company_type_array, "SELECT ParentID FROM eZContact_CompanyType WHERE ParentID='$id'" );
@@ -293,8 +299,6 @@ class eZCompanyType
     */
     function path( $categoryID = 0 )
     {
-        $db = eZDB::globalDatabase();
-        
         if( $categoryID == 0 )
         {
             $categoryID = $this->ID;
@@ -309,10 +313,6 @@ class eZCompanyType
         if ( $parent != 0 )
         {
             $path = array_merge( $path, eZCompanyType::path( $parent ) );
-        }
-        else
-        {
-//              array_push( $path, $category->name() );
         }
 
         if ( $categoryID != 0 )
@@ -360,24 +360,25 @@ class eZCompanyType
     */
     function addCompany( $company )
     {
-       $ret = false;
-
-       if ( get_class( $company ) )
-       {
-           $db = eZDB::globalDatabase();
-
-           $companyID = $company->id();
-
-//             if ( $this->ID > 1 )
-           {
-               $db->query( "INSERT INTO eZContact_CompanyTypeDict
-                                    SET
-                                    CompanyID='$companyID',
-                                    CompanyTypeID='$this->ID'" );
-               $ret = true;
-           }
-       }
-       return $ret;
+        $ret = false;
+        
+        if ( get_class( $company ) )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            
+            $companyID = $company->id();
+            
+            $db->lock( "eZContact_CompanyTypeDict" );
+            $nextID = $db->nextID( "eZContact_CompanyTypeDict", "ID" );
+            $res[] = $db->query( "INSERT INTO eZContact_CompanyTypeDict
+                                  (ID, CompanyID, CompanyTypeID)
+                                  VALUE
+                                  ('$nextID', '$companyID', '$this->ID')" );
+            eZDB::finish( $res, $db );
+            $ret = true;
+        }
+        return $ret;
     }
 
     /*!
@@ -393,7 +394,6 @@ class eZCompanyType
         {
             $this->ImageID = $value;
         }
-        
     }
     
     

@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezperson.php,v 1.53 2001/05/05 11:16:03 bf Exp $
+// $Id: ezperson.php,v 1.54 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -46,15 +46,12 @@ class eZPerson
       If $id is set, the object's values are fetched from the
       database.
     */
-    function eZPerson( $id="", $fetch=true  )
+    function eZPerson( $id="" )
     {
         if( !empty( $id ) )
         {
             $this->ID = $id;
-            if( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
   
@@ -63,33 +60,45 @@ class eZPerson
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         $birth = "NULL";
-        if ( isset( $this->BirthDate ) and $this->BirthDate != "" )
+        if ( isSet( $this->BirthDate ) and $this->BirthDate != "" )
             $birth = "'$this->BirthDate'";
-        $firstname = addslashes( $this->FirstName );
-        $lastname = addslashes( $this->LastName );
-        $comment = addslashes( $this->Comment );
+        $firstname = $db->escapeString( $this->FirstName );
+        $lastname = $db->escapeString( $this->LastName );
+        $comment = $db->escapeString( $this->Comment );
         if( !isSet( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZContact_Person set
-                                                    FirstName='$firstname',
-                                                    LastName='$lastname',
-	                                                Comment='$comment',
-	                                                BirthDate=$birth,
-                                                    ContactTypeID='$this->ContactType'" );
-			$this->ID = $db->insertID();
+            $db->lock( "eZContact_Person" );
+            $this->ID = $db->nextID( "eZContact_Person", "ID" );
+            $res[] = $db->query( "INSERT INTO eZContact_Person
+                                  (ID,
+                                   FirstName,
+                                   LastName,
+                                   Comment,
+                                   BirthDate,
+                                   ContactTypeID)
+                                  VALUES
+                                  ('$this->ID',
+                                   '$firstname',
+                                   '$lastname',
+                                   '$comment',
+                                   '$birth',
+                                   '$this->ContactType')" );
+            $db->unlock();
         }
         else
         {
-            $db->query( "UPDATE eZContact_Person set
-                                                    FirstName='$firstname',
-                                                    LastName='$lastname',
-	                                                Comment='$comment',
-	                                                BirthDate=$birth,
-                                                    ContactTypeID='$this->ContactType'
-                                                    WHERE ID='$this->ID'" );
+            $res[] = $db->query( "UPDATE eZContact_Person set
+                                          FirstName='$firstname',
+                                          LastName='$lastname',
+	                                      Comment='$comment',
+	                                      BirthDate=$birth,
+                                          ContactTypeID='$this->ContactType'
+                                          WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
     }
 
 
@@ -98,12 +107,13 @@ class eZPerson
     */
     function delete( $id = false )
     {
-        $db = eZDB::globalDatabase();
-
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        
         if ( !$id )
             $id = $this->ID;
 
-        if( isset( $id ) && is_numeric( $id ) )
+        if ( isSet( $id ) && is_numeric( $id ) )
         {
             // Delete project state
             eZPerson::setProjectState( false, $id );
@@ -115,12 +125,12 @@ class eZPerson
                                                WHERE eZAddress_Address.ID=eZContact_PersonAddressDict.AddressID
                                                      AND eZContact_PersonAddressDict.PersonID='$id' " );
 
-            foreach( $address_array as $addressItem )
+            foreach ( $address_array as $addressItem )
             {
-                $addressDictID = $addressItem["DID"];
-                $db->query( "DELETE FROM eZAddress_Address WHERE ID='$addressDictID'" );
+                $addressDictID = $addressItem[ $db->fieldName( "DID" ) ];
+                $res[] = $db->query( "DELETE FROM eZAddress_Address WHERE ID='$addressDictID'" );
             }
-            $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$id'" );
            
             // Delete phone numbers.
 
@@ -129,12 +139,12 @@ class eZPerson
                                      WHERE eZAddress_Phone.ID=eZContact_PersonPhoneDict.PhoneID
                                        AND eZContact_PersonPhoneDict.PersonID='$id' " );
 
-            foreach( $phone_array as $phoneItem )
+            foreach ( $phone_array as $phoneItem )
             {
                 $phoneDictID = $phoneItem["DID"];
-                $db->query( "DELETE FROM eZAddress_Phone WHERE ID='$phoneDictID'" );
+                $res[] = $db->query( "DELETE FROM eZAddress_Phone WHERE ID='$phoneDictID'" );
             }
-            $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$id'" );
 
             // Delete online address.
 
@@ -143,17 +153,18 @@ class eZPerson
                                      WHERE eZAddress_Online.ID=eZContact_PersonOnlineDict.OnlineID
                                        AND eZContact_PersonOnlineDict.PersonID='$id' " );
 
-            foreach( $online_array as $onlineItem )
+            foreach ( $online_array as $onlineItem )
             {
-                $onlineDictID = $onlineItem["DID"];
-                $db->query( "DELETE FROM eZAddress_Online WHERE ID='$onlineDictID'" );
+                $onlineDictID = $onlineItem[ $db->fieldName( "DID" ) ];
+                $res[] = $db->query( "DELETE FROM eZAddress_Online WHERE ID='$onlineDictID'" );
             }
-            $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$id'" );
 
-            $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE PersonID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE PersonID='$id'" );
 
-            $db->query( "DELETE FROM eZContact_Person WHERE ID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_Person WHERE ID='$id'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -163,22 +174,22 @@ class eZPerson
     */
     function get( $id )
     {
-        $db = eZDB::globalDatabase();
-        if( $id != "" )
+        $db =& eZDB::globalDatabase();
+        if ( $id != "" )
         {
             $db->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
-            if( count( $person_array ) > 1 )
+            if ( count( $person_array ) > 1 )
             {
                 die( "Feil: Flere personer med samme ID funnet i database, dette skal ikke være mulig. " );
             }
-            else if( count( $person_array ) == 1 )
+            else if ( count( $person_array ) == 1 )
             {
-                $this->ID = $person_array[ 0 ][ "ID" ];
-                $this->FirstName = $person_array[ 0 ][ "FirstName" ];
-                $this->LastName = $person_array[ 0 ][ "LastName" ];
-                $this->ContactType = $person_array[ 0 ][ "ContactTypeID" ];
-                $this->BirthDate = $person_array[ 0 ][ "BirthDate" ];
-                $this->Comment = $person_array[ 0 ][ "Comment" ];
+                $this->ID = $person_array[ 0 ][ $db->fieldName( "ID" ) ];
+                $this->FirstName = $person_array[ 0 ][ $db->fieldName( "FirstName" ) ];
+                $this->LastName = $person_array[ 0 ][ $db->fieldName( "LastName" ) ];
+                $this->ContactType = $person_array[ 0 ][ $db->fieldName( "ContactTypeID" ) ];
+                $this->BirthDate = $person_array[ 0 ][ $db->fieldName( "BirthDate" ) ];
+                $this->Comment = $person_array[ 0 ][ $db->fieldName( "Comment" ) ];
             }
             if ( $this->BirthDate == "NULL" )
                 unset( $this->BirthDate );
@@ -190,16 +201,16 @@ class eZPerson
      */
     function getByUserID( $id )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $query = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID='$id'";
 
         $return_item = 0;
 
         $db->array_query( $person_array, $query );
-        foreach( $person_array as $personItem )
+        foreach ( $person_array as $personItem )
         {
-            $return_item = new eZPerson( $personItem["PersonID"], false );
+            $return_item = new eZPerson( $personItem[ $db->fieldName( "PersonID" ) ], false );
         }
         
         return $return_item;
@@ -207,11 +218,11 @@ class eZPerson
     
     function getAllCount( $search_types = "", $cond = "all" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( empty( $search_types ) )
         {
-            switch( $cond )
+            switch ( $cond )
             {
                 case "standalone":
                 {
@@ -239,14 +250,14 @@ class eZPerson
                     $qry = "SELECT count( ID ) AS Count FROM eZContact_Person
                             ORDER BY LastName, FirstName";
                     $db->query_single( $persons, $qry );
-                    return $persons["Count"];
+                    return $persons[ $db->fieldName( "Count" ) ];
                     break;
                 }
             }
         }
         else
         {
-            switch( $cond )
+            switch ( $cond )
             {
                 case "standalone":
                 {
@@ -292,24 +303,24 @@ class eZPerson
     */
     function getAll( $search_types = "", $limit_index = 0, $limit = 1, $cond = "all")
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $person_array = 0;
 
         if ( $limit >= 0 )
         {
-            $limit_text = "LIMIT $limit_index, $limit";
+            $limit_array = array( "Offset" => $limit_index, "Limit" => $limit );
         }
 
         if ( empty( $search_types ) )
         {
-            switch( $cond )
+            switch ( $cond )
             {
                 case "standalone":
                 {
                     $qry = "SELECT Person.ID
                             FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
                             ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NULL
-                            GROUP BY Person.ID $limit_text";
+                            GROUP BY Person.ID";
                     break;
                 }
                 case "connected":
@@ -317,14 +328,13 @@ class eZPerson
                     $qry = "SELECT Person.ID
                             FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
                             ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NOT NULL
-                            GROUP BY Person.ID $limit_text";
+                            GROUP BY Person.ID";
                     break;
                 }
                 case "all":
                 default:
                 {
-                    $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName
-                            $limit_text";
+                    $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName";
                     break;
                 }
             }
@@ -332,7 +342,7 @@ class eZPerson
         }
         else
         {
-            switch( $cond )
+            switch ( $cond )
             {
                 case "standalone":
                 {
@@ -367,14 +377,13 @@ class eZPerson
                     $query->buildQuery() .
                     ") 
                     GROUP BY A.ID
-                    ORDER BY A.LastName, A.FirstName
-                    $limit_text";
-            $db->array_query( $person_array, $qry );
+                    ORDER BY A.LastName, A.FirstName";
+            $db->array_query( $person_array, $qry, $limit_array );
         }
 
         foreach( $person_array as $personItem )
         {
-            $return_array[] = new eZPerson( $personItem["ID"] );
+            $return_array[] = new eZPerson( $personItem[ $db->fieldName( "ID" ) ] );
         }
         return $return_array;
     }
@@ -384,8 +393,10 @@ class eZPerson
     */
     function search( $query )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $person_array = 0;
+
+        $query = $db->escapeString( $query );
     
         $db->array_query( $person_array, "SELECT * FROM eZContact_Person
                                           WHERE FirstName LIKE '%$query%' OR
@@ -393,7 +404,7 @@ class eZPerson
     
         foreach( $person_array as $personItem )
         {
-            $return_array[] = new eZPerson( $personItem["ID"] );
+            $return_array[] = new eZPerson( $personItem[ $db->fieldName( "ID" ) ] );
         }
         return $return_array;
     }
@@ -404,7 +415,7 @@ class eZPerson
     function addresses()
     {
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $PersonID = $this->ID;
 
@@ -417,7 +428,7 @@ class eZPerson
 
         foreach( $address_array as $addressItem )
         {
-            $return_array[] = new eZAddress( $addressItem["AddressID"] );
+            $return_array[] = new eZAddress( $addressItem[ $db->fieldName( "AddressID" ) ] );
         }
 
         return $return_array;
@@ -430,7 +441,7 @@ class eZPerson
     {
         $ret = false;
        
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
@@ -443,8 +454,15 @@ class eZPerson
 
             if( $count == 0 )
             {
-                $db->query( "INSERT INTO eZContact_PersonAddressDict
-                                SET PersonID='$this->ID', AddressID='$addressID'" );
+                $db->begin();
+                $db->lock( "eZContact_PersonAddressDict" );
+                $nextID = $db->nextID( "eZContact_PersonAddressDict", "ID" );
+                $res[] = $db->query( "INSERT INTO eZContact_PersonAddressDict
+                                      (ID, PersonID, AddressID)
+                                      VALUES
+                                      ('$nextID', '$this->ID', '$addressID')" );
+                $db->unlock();
+                eZDB::finish( $res, $db );
             }
             $ret = true;
         }
@@ -456,15 +474,17 @@ class eZPerson
     */
     function removeAddresses()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $address_array, "SELECT AddressID FROM eZContact_PersonAddressDict
                                            WHERE PersonID='$this->ID'" );
         foreach( $address_array as $address )
         {
-            $id = $address["AddressID"];
+            $id = $address[ $db->fieldName( "AddressID" ) ];
             eZAddress::delete( $id );
         }
-        $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$this->ID'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$this->ID'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -476,7 +496,7 @@ class eZPerson
             $personID = $this->ID;
 
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $PersonID = $this->ID;
 
@@ -486,9 +506,9 @@ class eZPerson
                                          WHERE PPD.PhoneID = P.ID AND P.PhoneTypeID = PT.ID
                                                AND PersonID='$PersonID' AND PT.Removed=0" );
 
-        foreach( $phone_array as $phoneItem )
+        foreach ( $phone_array as $phoneItem )
         {
-            $return_array[] = new eZPhone( $phoneItem["PhoneID"] );
+            $return_array[] = new eZPhone( $phoneItem[ $db->fieldName( "PhoneID" ) ] );
         }
 
         return $return_array;
@@ -501,7 +521,7 @@ class eZPerson
     {
         $ret = false;
        
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if( get_class( $phone ) == "ezphone" )
         {
             $phoneID = $phone->id();
@@ -513,8 +533,15 @@ class eZPerson
             $count = count( $phone_array );
             if( $count == 0 )
             {
-                $db->query( "INSERT INTO eZContact_PersonPhoneDict
-                                SET PersonID='$this->ID', PhoneID='$phoneID'" );
+                $db->begin();
+                $db->lock( "eZContact_PersonPhoneDict" );
+                $nextID = $db->nextID( "eZContact_PersonPhoneDict", "ID" );
+                $res[] = $db->query( "INSERT INTO eZContact_PersonPhoneDict
+                                      (ID, PersonID, PhoneID)
+                                      VALUES
+                                      ('$nextID', '$this->ID', '$phoneID')" );
+                $db->unlock();
+                eZDB::finish( $res, $db );
             }
 
             $ret = true;
@@ -527,15 +554,17 @@ class eZPerson
     */
     function removePhones()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $phone_array, "SELECT PhoneID FROM
                                          eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
         foreach( $phone_array as $phone )
         {
-            $id = $phone["PhoneID"];
+            $id = $phone[ $db->fieldName( "PhoneID" ) ];
             eZPhone::delete( $id );
         }
-        $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -544,7 +573,7 @@ class eZPerson
     function onlines()
     {
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $PersonID = $this->ID;
 
@@ -556,7 +585,7 @@ class eZPerson
 
         foreach( $online_array as $onlineItem )
         {
-            $return_array[] = new eZOnline( $onlineItem["OnlineID"] );
+            $return_array[] = new eZOnline( $onlineItem[ $db->fieldName( "OnlineID" ) ] );
         }
 
         return $return_array;
@@ -567,15 +596,18 @@ class eZPerson
     */
     function removeOnlines()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $online_array, "SELECT OnlineID FROM eZContact_PersonOnlineDict
                                           WHERE PersonID='$this->ID'" );
         foreach( $online_array as $online )
         {
-            $id = $online["OnlineID"];
+            $id = $online[ $db->fieldName( "OnlineID" ) ];
             eZOnline::delete( $id );
         }
-        $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$this->ID'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$this->ID'" );
+        eZDB::finish( $res, $db );
+
     }
 
     /*!
@@ -588,12 +620,12 @@ class eZPerson
         {
             $found_mail = false;
             foreach ( $onlines as $online )
+            {
+                if ( $online->urlType() == "mailto" )
                 {
-                    if ( $online->urlType() == "mailto" )
-                    {
-                        return $online->url();
-                    }
+                    return $online->url();
                 }
+            }
         }
         return false;
     }
@@ -607,13 +639,13 @@ class eZPerson
         if ( count( $phones ) >= 1 )
         {
             foreach ( $phones as $phone )
+            {
+                /* FIXME please, don't use contants!!! */
+                if ( $phone->phoneTypeID() == 4 ) // 4 = Work phone
                 {
-                    /* FIXME please, don't use contants!!! */
-                    if ( $phone->phoneTypeID() == 4 ) // 4 = Work phone
-                    {
-                        return $phone->number();
-                    }
+                    return $phone->number();
                 }
+            }
         }
         return false;
     }
@@ -627,13 +659,13 @@ class eZPerson
         if ( count( $phones ) >= 1 )
         {
             foreach ( $phones as $phone )
+            {
+                /* FIXME please, don't use contants!!! */
+                if ( $phone->phoneTypeID() == 8 ) // 4 = Fax
                 {
-                    /* FIXME please, don't use contants!!! */
-                    if ( $phone->phoneTypeID() == 8 ) // 4 = Fax
-                    {
-                        return $phone->number();
-                    }
+                    return $phone->number();
                 }
+            }
         }
         return false;
     }
@@ -644,7 +676,7 @@ class eZPerson
     */
     function hasTitle( $companyID )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $checkQuery = "SELECT Title FROM eZContact_CompanyPersonDict
                                     WHERE CompanyID='$companyID' and PersonID='$this->ID'";
 
@@ -663,7 +695,7 @@ class eZPerson
     {
         $ret = false;
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $checkQuery = "SELECT Title FROM eZContact_CompanyPersonDict
                                     WHERE CompanyID='$companyID' and PersonID='$this->ID'";
 
@@ -675,7 +707,7 @@ class eZPerson
 
         if ( count( $title_array ) == 1 )
         {
-            $title = $title_array[0]["Title"];
+            $title = $title_array[0][ $db->fieldName( "Title" ) ];
         }
         else
         {
@@ -691,7 +723,7 @@ class eZPerson
     {
         $ret = false;
        
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if( get_class( $online ) == "ezonline" )
         {
@@ -705,8 +737,15 @@ class eZPerson
 
             if( $count == 0 )
             {
-                $db->query( "INSERT INTO eZContact_PersonOnlineDict
-                                SET PersonID='$this->ID', OnlineID='$onlineID'" );
+                $db->begin();
+                $db->lock( "eZContact_PersonOnlineDict" );
+                $nextID = $db->nextID( "eZContact_PersonOnlineDict", "ID" );
+                $res[] = $db->query( "INSERT INTO eZContact_PersonOnlineDict
+                                      (ID, PersonID, OnlineID)
+                                      VALUES
+                                      ('$nextID', '$this->ID', '$onlineID')" );
+                $db->unlock();
+                eZDB::finish( $res, $db );
             }
 
             $ret = true;
@@ -720,15 +759,15 @@ class eZPerson
     function user()
     {
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $user_array, "SELECT UserID
-                                                 FROM eZContact_UserPersonDict
-                                                 WHERE PersonID='$this->ID'" );
+                                            FROM eZContact_UserPersonDict
+                                            WHERE PersonID='$this->ID'" );
 
         foreach( $user_array as $userItem )
         {
-            $return_array[] = new eZUser( $userItem["UserID"] );
+            $return_array[] = new eZUser( $userItem[ $db->fieldName( "UserID" ) ] );
         }
 
         return $return_array;
@@ -741,7 +780,7 @@ class eZPerson
     {
         $ret = false;
         
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if( get_class( $user ) == "ezuser" )
         {
@@ -754,8 +793,15 @@ class eZPerson
             
             if( $count == 0 )
             {
-                $db->query( "INSERT INTO eZContact_UserPersonDict
-                                SET PersonID='$this->ID', UserID='$userID'" );
+                $db->begin();
+                $db->lock( "eZContact_UserPersonDict" );
+                $nextID = $db->nextID( "eZContact_UserPersonDict", "ID" );
+                $res[] = $db->query( "INSERT INTO eZContact_UserPersonDict
+                                      (ID, PersonID, UserID)
+                                      VALUES
+                                      ('$nextID', '$this->ID', '$userID')" );
+                $db->unlock();
+                eZDB::finish( $res, $db );
             }
             $ret = true;
         }
@@ -873,14 +919,14 @@ class eZPerson
     {
         $ret = "";
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $checkQuery = "SELECT ProjectID FROM eZContact_PersonProjectDict WHERE PersonID='$this->ID'";
         $db->array_query( $array, $checkQuery, 0, 1 );
 
         if( count( $array ) == 1 )
         {
-            $ret = $array[0]["ProjectID"];
+            $ret = $array[0][ $db->fieldName( "ProjectID" ) ];
         }
 
         return $ret;
@@ -893,18 +939,26 @@ class eZPerson
     {
         if ( !$id )
             $id = $this->ID;
-        $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE PersonID='$id'" );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        
+        $res[] = $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE PersonID='$id'" );
 
         if ( is_numeric( $value )  )
         {
             if ( $value > 0 )
             {
+                $db->lock( "eZContact_PersonProjectDict" );
+                $nextID = $db->nextID( "eZContact_PersonProjectDict", "ID" );
                 $checkQuery = "INSERT INTO eZContact_PersonProjectDict
-                               SET PersonID='$id', ProjectID='$value'";
-                $db->query( $checkQuery );
+                               (ID, PersonID, ProjectID)
+                               VALUES
+                               ('$nextID', '$id', '$value')";
+                $res[] = $db->query( $checkQuery );
+                $db->unlock();
             }
         }
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -928,9 +982,10 @@ class eZPerson
         if ( !$id )
             $id = $this->ID;
 
-        $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_CompanyPersonDict
-                     WHERE PersonID='$id'" );
+        $db =& eZDB::globalDatabase();
+        $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict
+                              WHERE PersonID='$id'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -941,7 +996,7 @@ class eZPerson
         if ( !$id )
             $id = $this->ID;
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $arr,
                           "SELECT CPD.CompanyID
                            FROM eZContact_CompanyPersonDict AS CPD, eZContact_Company AS C
@@ -952,14 +1007,14 @@ class eZPerson
         {
             foreach( $arr as $row )
             {
-                $ret[] = new eZCompany( $row["CompanyID"] );
+                $ret[] = new eZCompany( $row[ $db->fieldName( "CompanyID" ) ] );
             }
         }
         else
         {
             foreach( $arr as $row )
             {
-                $ret[] = $row["CompanyID"];
+                $ret[] = $row[ $db->fieldName( "CompanyID" ) ];
             }
         }
         return $ret;

@@ -1,5 +1,5 @@
 <?php
-// $Id: linkedit.php,v 1.61 2001/07/10 12:17:10 jhe Exp $
+// $Id: linkedit.php,v 1.62 2001/07/12 14:20:52 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -337,7 +337,6 @@ if ( $Action == "insert" )
                 $tkeywords = $Keywords;
                 $tdescription = $Description;
             }
-
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "ImageFile" ) )
             {
@@ -349,9 +348,7 @@ if ( $Action == "insert" )
                 
                 $link->setImage( $image );
             }
-
             $link->store();
-                
             if ( $TypeID == -1 )
             {
                 $link->removeType();
@@ -373,13 +370,11 @@ if ( $Action == "insert" )
                     }
                 }
             }
-    
+
             // Add to categories.
             $cat = new eZLinkCategory( $LinkCategoryID );
             $cat->addLink( $link );
-            
             $link->setCategoryDefinition( $cat );
-            
             if ( count( $CategoryArray ) > 0 )
             {
                 foreach ( $CategoryArray as $categoryItem )
@@ -391,7 +386,6 @@ if ( $Action == "insert" )
                     }
                 }
             }
-
             $linkID = $link->id();
             
             if ( isSet( $Browse ) )

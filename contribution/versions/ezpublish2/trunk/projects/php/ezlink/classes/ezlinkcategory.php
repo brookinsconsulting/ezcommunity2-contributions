@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezlinkcategory.php,v 1.6 2001/07/12 09:11:12 fh Exp $
+// $Id: ezlinkcategory.php,v 1.7 2001/07/12 14:20:52 jhe Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -148,17 +148,12 @@ class eZLinkCategory
         $db->lock( "eZLink_LinkCategoryLink" );
         
         $nextID = $db->nextID( "eZLink_LinkCategoryLink", "ID" );
-        $res = $db->query( "INSERT INTO eZLink_LinkCategoryLink
-                            (ID, LinkID, CategoryID)
-                            VALUES
-                            ('$nextID',
-                             '$linkID',
-                             '$categoryid')");
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();
-
+        $res[] = $db->query( "INSERT INTO eZLink_LinkCategoryLink
+                              (ID, LinkID, CategoryID)
+                              VALUES
+                              ('$nextID', '$linkID', '$categoryid') ");
+        $db->unlock();
+        eZDB::finish( $res, $db );
     }
     
     /*!

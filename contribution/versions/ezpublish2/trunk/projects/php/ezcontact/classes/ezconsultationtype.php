@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezconsultationtype.php,v 1.8 2001/05/05 11:16:03 bf Exp $
+// $Id: ezconsultationtype.php,v 1.9 2001/07/12 14:20:51 jhe Exp $
 //
 // Definition of eZConsultationType class
 //
@@ -54,15 +54,12 @@ class eZConsultationType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZConsultationType( $id="-1", $fetch=true )
+    function eZConsultationType( $id = -1 )
     {
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -71,26 +68,30 @@ class eZConsultationType
     */
     function store( )
     {
-        $db = eZDB::globalDatabase();
-        $name = addslashes( $this->Name );
+        $db =& eZDB::globalDatabase();
+        $name = $db->fieldName( $this->Name );
         if ( !isSet( $this->ID ) )
         {
-            $db->query_single( $qry, "SELECT ListOrder from eZContact_ConsultationType ORDER BY ListOrder DESC LIMIT 1" );
-            $listorder = $qry["ListOrder"] + 1;
+            $db->query_single( $qry, "SELECT ListOrder from eZContact_ConsultationType ORDER BY ListOrder DESC", array( "Limit" => 1 ) );
+            $listorder = $qry[ $db->fieldName( "ListOrder" ) ] + 1;
             $this->ListOrder = $listorder;
-            $db->query( "INSERT INTO eZContact_ConsultationType SET
-                                                  Name='$name',
-                                                  ListOrder='$listorder'" );
-			$this->ID = $db->insertID();
+            $db->begin();
+            $db->lock();
+			$this->ID = $db->nextID( "eZContact_ConsultationType", "ID" );
+            $res[] = $db->query( "INSERT INTO eZContact_ConsultationType
+                                  (ID, Name, ListOrder)
+                                  VALUES
+                                  ('$this->ID', '$name', '$listorder')" );
+            $db->unlock();
         }
         else
         {
-            $db->query( "UPDATE eZContact_ConsultationType SET
-                                                  Name='$name',
-                                                  ListOrder='$this->ListOrder'
-                                                  WHERE ID='$this->ID'" );
+            $res[] = $db->query( "UPDATE eZContact_ConsultationType SET
+                                          Name='$name',
+                                          ListOrder='$this->ListOrder'
+                                          WHERE ID='$this->ID'" );
         }
-
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -101,7 +102,7 @@ class eZConsultationType
     {
         if ( isSet( $this->ID ) )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             if ( $relations )
             {
                 $user = eZUser::currentUser();
@@ -109,12 +110,12 @@ class eZConsultationType
                 $db->array_query( $consultations, "SELECT A.ID FROM eZContact_Consultation AS A, eZContact_ConsultationPersonUserDict AS B
                                                    WHERE A.ID = B.ConsultationID AND B.UserID='$user_id' AND A.StateID='$this->ID'" );
                 foreach( $consultations as $consultation )
-                    {
-                        eZConsultation::delete( $consultation["ID"] );
-                    }
-//                  $db->query( "DELETE FROM eZContact_Consultation where StateID='$this->ID'" );
+                {
+                    eZConsultation::delete( $consultation[ $db->fieldName( "ID" ) ] );
+                }
             }
-            $db->query( "DELETE FROM eZContact_ConsultationType WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZContact_ConsultationType WHERE ID='$this->ID'" );
+            eZDB::finish( $res, $db );
         }
         return true;
     }
@@ -128,11 +129,11 @@ class eZConsultationType
 
         if ( $id != "" )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             $db->query_single( $consulttype_array, "SELECT * FROM eZContact_ConsultationType WHERE ID='$id'" );
-            $this->ID = $consulttype_array["ID"];
-            $this->Name = $consulttype_array["Name"];
-            $this->ListOrder = $consulttype_array["ListOrder"];
+            $this->ID = $consulttype_array[ $db->fieldName( "ID" ) ];
+            $this->Name = $consulttype_array[ $db->fieldName( "Name" ) ];
+            $this->ListOrder = $consulttype_array[ $db->fieldName( "ListOrder" ) ];
 
             $ret = true;
         }
@@ -142,7 +143,6 @@ class eZConsultationType
     /*!
       Sets the name of the consultation type.
     */
-
     function setName( $name )
     {
         $this->Name = $name;
@@ -151,7 +151,6 @@ class eZConsultationType
     /*!
       Returns the id of the consultation type.
     */
-
     function id()
     {
         return $this->ID;
@@ -160,7 +159,6 @@ class eZConsultationType
     /*!
       Returns the name of the consultation type.
     */
-
     function name()
     {
         return $this->Name;
@@ -169,10 +167,9 @@ class eZConsultationType
     /*!
       Returns the number of external items using this item.
     */
-
     function count()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT count( ID ) as Count FROM eZContact_Consultation WHERE StateID='$this->ID'" );
         return $qry["Count"];
     }
@@ -180,31 +177,36 @@ class eZConsultationType
     /*!
       Moves this item up one step in the order list, this means that it will swap place with the item above.
     */
-
     function moveUp()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ConsultationType
-                                  WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
-        $listorder = $qry["ListOrder"];
-        $listid = $qry["ID"];
-        $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+                                  WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC",
+                           array( "Limit" => 1 ) );
+        $listorder = $qry[ $db->fieldName( "ListOrder" ) ];
+        $listid = $qry[ $db->fieldName( "ID" ) ];
+        $res[] = $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
+
     }
 
     /*!
       Moves this item down one step in the order list, this means that it will swap place with the item below.
     */
-
     function moveDown()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ConsultationType
-                                  WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
-        $listorder = $qry["ListOrder"];
-        $listid = $qry["ID"];
-        $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+                                  WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC",
+                           array( "Limit" => 1 ) );
+        $listorder = $qry[ $db->fieldName( "ListOrder" ) ];
+        $listid = $qry[ $db->fieldName( "ID" ) ];
+        $res[] = $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZContact_ConsultationType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -212,17 +214,16 @@ class eZConsultationType
       Finds all consultation types.
       Returns an array with eZConsultationType objects taken from the database.
     */
-
     function findTypes()
     {
         $qry_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT ID FROM eZContact_ConsultationType ORDER BY ListOrder" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
-            {
-                $ret_array[] = new eZConsultationType( $qry["ID"] );
-            }
+        {
+            $ret_array[] = new eZConsultationType( $qry[ $db->fieldName( "ID" ) ] );
+        }
         return $ret_array;
     }
 
