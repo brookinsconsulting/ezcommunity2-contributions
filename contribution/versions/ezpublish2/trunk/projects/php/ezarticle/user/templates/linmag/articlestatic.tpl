@@ -48,7 +48,9 @@
 
 <!-- BEGIN article_intro_tpl -->
 <p>
+<b>
 {article_intro}
+</b>
 </p>
 <!-- END article_intro_tpl -->
 

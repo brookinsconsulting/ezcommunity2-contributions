@@ -47,7 +47,9 @@
 <!-- END article_header_tpl -->
 
 <p>
+<b>
 {article_intro}
+</b>
 </p>
 
 <p>
