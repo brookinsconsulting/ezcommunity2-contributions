@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.11.2.2 2002/02/06 15:55:10 jhe Exp $
+// $Id: ezpostgresqldb.php,v 1.11.2.3 2002/02/07 11:23:42 bf Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -224,7 +224,7 @@ class eZPostgreSQLDB
     {
         $str = str_replace ("'", "\'", $str );
         $str = str_replace ("\"", "\\\"", $str );
-        return mysql_escape_string( $str );
+        return $str;
     }
     
     /*!
