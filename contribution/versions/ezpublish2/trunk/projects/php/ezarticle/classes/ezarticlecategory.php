@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.86 2001/08/21 11:13:07 ce Exp $
+// $Id: ezarticlecategory.php,v 1.87 2001/08/24 13:30:47 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -345,14 +345,14 @@ class eZArticleCategory
             else
                 $permissionSQL = "";
 
-            $query = "SELECT Category.ID, Category.Name, Category.Placement 
+            $query = "SELECT Category.ID 
                       FROM eZArticle_Category as Category,
                            eZArticle_CategoryPermission as Permission
                       WHERE $permissionSQL
                             ParentID='$parentID'
                             AND Permission.ObjectID=Category.ID
                             $show_str
-                      GROUP BY Category.ID
+                      GROUP BY Category.ID, Category.Placement
                       ORDER BY $sortbySQL";
 
             $db->array_query( $category_array, $query, array( "Limit" => $max, "Offset" => $offset ) );
@@ -1020,7 +1020,7 @@ class eZArticleCategory
                $publishedSQL = " AND Article.IsPublished = '0' AND ";
        }
 
-       $query = "SELECT Definition.CategoryID, Article.ID as ArticleID, Article.Published, Article.Name, Link.Placement
+       $query = "SELECT Article.ID as ArticleID
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article as Article,
                        eZArticle_ArticleCategoryLink as Link,
@@ -1034,7 +1034,7 @@ class eZArticleCategory
                         AND Link.ArticleID=Article.ID
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
-                 GROUP BY Article.ID
+                 GROUP BY Article.ID, Article.Published
                  ORDER BY $OrderBy";
 
 

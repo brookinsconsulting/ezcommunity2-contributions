@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.153 2001/08/23 12:43:16 pkej Exp $
+// $Id: ezarticle.php,v 1.154 2001/08/24 13:30:47 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2085,7 +2085,7 @@ class eZArticle
        else
            $excludeSQL = "";
 
-        $query = "SELECT Article.ID as ArticleID, Article.Published, Article.Name
+        $query = "SELECT Article.ID as ArticleID
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
