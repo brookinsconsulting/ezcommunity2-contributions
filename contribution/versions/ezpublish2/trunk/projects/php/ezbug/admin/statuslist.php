@@ -5,6 +5,8 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZBugMain", "Language" );
+$LanguageIni = new INIFIle( "ezbug/admin/intl/" . $Language . "/statuslist.php.ini", false );
+
 
 include_once( "classes/eztemplate.php" );
 
@@ -20,7 +22,44 @@ $t->set_file( array(
 
 $t->set_block( "status_page", "status_item_tpl", "status_item" );
 
-$t->set_var( "site_style", $SiteStyle );
+//$t->set_var( "site_style", $SiteStyle );
+
+if( isset( $Ok ) )
+{
+    $i = 0;
+    if( count( $StatusID ) > 0 )
+    {
+        foreach( $StatusID as $itemID )
+        {
+            $status = new eZBugStatus( $itemID );
+            $status->setName( $StatusName[$i] );
+            $status->store();
+            $i++;
+        }
+    }
+}
+
+if( isset( $AddStatus ) )
+{
+    $newItem = new eZBugStatus();
+    $newName = $LanguageIni->read_var( "strings", "new_status" );
+    $newItem->setName($newName);
+    $newItem->store();
+}
+
+if( isset( $DeleteStatus ) )
+{
+    if( count( $StatusArrayID ) > 0 )
+    {
+        foreach( $StatusArrayID as $deleteItemID )
+        {
+            $item = new eZBugStatus( $StatusID[ $deleteItemID ] );
+            $item->delete();
+        }
+    }
+
+}
+
 
 $status = new eZBugStatus();
 $statusList = $status->getAll();
@@ -39,9 +78,10 @@ foreach( $statusList as $statusItem )
         
     $t->set_var( "status_id", $statusItem->id() );
     $t->set_var( "status_name", $statusItem->name() );
-
-    $i++;
+    $t->set_var( "index_nr", $i );
+    
     $t->parse( "status_item", "status_item_tpl", true );
+    $i++;
 } 
 
 $t->pparse( "output", "status_page" );
