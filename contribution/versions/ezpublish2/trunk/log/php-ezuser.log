@@ -996,3 +996,19 @@ Maintainer(s) : bf@ez.no
     * user/userwithaddress.php:
     Fixed user registration problem with multiple addresses.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-31  Christoffer Elo  <ce@ez.no>
+
+    * user/userwithaddress.php: Fixed a return bug
+
+2002-01-31  Baard Farstad  <bf@ez.no>
+
+    * user/login.php: Removed debug.
+
+2002-01-31  ceaker  <ceaker@zev.ez.no>
+
+    * user/login.php: *** empty log message ***
+

@@ -637,3 +637,12 @@ Maintainer(s) : fh@ez.no
       admin/categoryedit.php
       admin/categorylist.php: Fixes
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-01-31  Christoffer Elo  <ce@ez.no>
+
+    * admin/mailedit.php
+      admin/templates/standard/mailedit.tpl: Fixed a getTree
+

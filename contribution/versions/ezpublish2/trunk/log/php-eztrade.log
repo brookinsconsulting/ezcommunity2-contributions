@@ -3066,3 +3066,45 @@ Maintainer(s) : ce@ez.no
 
     * user/checkout.php: Fixed a exit()
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-31  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezorder.php: fixed comment bug.
+
+    * classes/ezorder.php: Fixed the Comment bug in eZTrade.
+
+2002-01-31  Thomas Hellstroem  <th@ez.no>
+
+    * user/intl/no_NO/sendwishlist.php.ini
+      user/intl/no_NO/wishlistmail.php.ini: Layout
+
+2002-01-31  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php: Added moderator to forum.
+
+2002-01-31  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezwishlistitem.php
+      user/viewwishlist.php: Fixed a bug in wishlist
+
+    * user/viewwishlist.php: added a check
+
+2002-01-31  Baard Farstad  <bf@ez.no>
+
+    * user/payment.php: Fixed mail.
+
+2002-01-31  Christoffer Elo  <ce@ez.no>
+
+    * user/checkout.php: Fixed comment
+
+2002-01-31  Baard Farstad  <bf@ez.no>
+
+    * user/productlist.php: Fixed image scaling.
+
+2002-01-31  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcart.php: Fixed a default value for paymentmethod
+

@@ -1005,3 +1005,13 @@ Maintainer(s) : jhe@ez.no
 
     * user/latestmessages.php: Fixes
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-01-31  Baard Farstad  <bf@ez.no>
+
+    * admin/unapprovedlist.php: Fixed approval.
+
+    * user/messagesimplelist.php: Fixed design.
+

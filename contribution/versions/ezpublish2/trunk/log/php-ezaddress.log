@@ -261,3 +261,11 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezaddress.php: Fixed a main address id bug
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2002-01-31  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezaddress.php: Fixed a return bug
+
