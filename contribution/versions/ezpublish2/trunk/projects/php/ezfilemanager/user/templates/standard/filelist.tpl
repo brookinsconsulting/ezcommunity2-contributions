@@ -23,11 +23,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt="">
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="/filemanager/list/0/">{intl-file_root}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="20" border="0" alt="">
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="/filemanager/list/{folder_id}/">{folder_name}</a>
 <!-- END path_item_tpl -->
 
@@ -43,7 +43,7 @@
 <tr>
         <!-- BEGIN folder_read_tpl -->
 	<td width="1%">
-	<img src="/ezfilemanager/user/{image_dir}/folder.gif" alt="" width="16" height="16" border="0" />
+	<img src="/images/folder.gif" alt="" width="16" height="16" border="0" />
 	</td>
 	<td width="98%">
 	<a href="/filemanager/list/{folder_id}/">{folder_name}</a><br />
@@ -51,7 +51,7 @@
         <!-- END folder_read_tpl -->
         <!-- BEGIN folder_write_tpl -->
 	<td width="1%">
-	<a href="/filemanager/folder/delete/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-slett','','/ezfilemanager/user/{image_dir}/slettminimrk.gif',1)"><img name="ezf{folder_id}-slett" border="0" src="/ezfilemanager/user/{image_dir}/slettmini.gif" width="16" height="16" align="top"></a><br />
+	<a href="/filemanager/folder/delete/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezf{folder_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a><br />
 	</td>
         <!-- END folder_write_tpl -->
 </tr>
@@ -76,7 +76,7 @@
 <tr>
 	<!-- BEGIN read_tpl -->
 	<td class="{td_class}" width="1%">
-	<img src="/ezfilemanager/user/{image_dir}/file.gif" border="0" alt="" width="16" height="16" border="0" />
+	<img src="/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="95%">
 	<a href="/filemanager/fileview/{file_id}/">{original_file_name}</a><br />
