@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: templateedit.php,v 1.4 2001/07/19 12:36:31 jakobn Exp $
+// $Id: templateedit.php,v 1.4.2.1 2001/10/29 17:19:01 fh Exp $
 //
 // Created on: <18-Apr-2001 17:15:33 fh>
 //
@@ -49,8 +49,8 @@ if( isset( $Ok ) ) // cancel pressed, redirect to templatelist page...
     $template->setFooter( $Footer );
     
     $template->store();
-//    eZHTTPTool::header( "Location: /bulkmail/templatelist/" );
-//    exit();
+    eZHTTPTool::header( "Location: /bulkmail/templatelist/" );
+    exit();
 }
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.26 2001/10/14 15:34:21 fh Exp $
+// $Id: ezbulkmail.php,v 1.26.2.1 2001/10/29 17:19:01 fh Exp $
 //
 // eZBulkMail class
 //
@@ -410,8 +410,7 @@ class eZBulkMail
         {
             $db->begin();
             $db->lock( "eZBulkMail_MailTemplateLink" );
-            $nextID = $db->nextID( "eZBulkMail_MailTemplateLink", "ID" );
-            $result = $db->query( "INSERT INTO eZBulkMail_MailTemplateLink ( ID, MailID, TemplateID ) VALUES ( '$nextID', '$this->ID', '$templateID' ) " );
+            $result = $db->query( "INSERT INTO eZBulkMail_MailTemplateLink ( MailID, TemplateID ) VALUES ( '$this->ID', '$templateID' ) " );
             $db->unlock();
             if ( $result == false )
                 $db->rollback( );
