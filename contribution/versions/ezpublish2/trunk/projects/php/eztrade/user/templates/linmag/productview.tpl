@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line}</h1>
+	<h1>Produktvisning</h1>
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/trade/search/" method="post">
@@ -12,12 +12,9 @@
 </tr>
 </table>
 
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="{www_dir}{index}/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>
+
 <!-- END path_tpl -->
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -180,17 +177,14 @@
 	<select name="OptionValueArray[]">
 
 	<!-- BEGIN value_tpl -->
-
 	<!-- BEGIN value_description_tpl -->
 	<option value="{value_id}">{value_name}
 	<!-- END value_description_tpl -->
-
 	<!-- BEGIN value_price_item_tpl -->
 	{value_price}
 	<!-- END value_price_item_tpl -->
-
 	<!-- BEGIN value_availability_item_tpl -->
-
+	({value_availability})
 	<!-- END value_availability_item_tpl -->
 	 </option>
 
@@ -237,6 +231,29 @@
 	<!-- END alternative_currency_list_tpl -->
 
 	<!-- END price_tpl -->	
+	<!-- BEGIN price_range_tpl -->
+	<p class="boxtext">{intl-price_range}:</p>
+	<!-- BEGIN price_range_min_unlimited_tpl -->
+	{intl-min}: {intl-unlimited}
+	<!-- END price_range_min_unlimited_tpl -->
+	<!-- BEGIN price_range_min_limited_tpl -->
+	{intl-min}: {price_min}
+	<!-- END price_range_min_limited_tpl -->
+	<!-- BEGIN price_range_max_unlimited_tpl -->
+	{intl-max}: {intl-unlimited}
+	<!-- END price_range_max_unlimited_tpl -->
+	<!-- BEGIN price_range_max_limited_tpl -->
+	{intl-max}: {price_max}
+	<!-- END price_range_max_limited_tpl -->
+	</td>
+</tr>
+<tr>
+       <td>&nbsp;</td>
+</tr>
+<tr>
+	<td>
+	<input type="text" name="PriceRange" size="8" />
+	<!-- END price_range_tpl -->
 	</td>
 	<td align="right" valign="top">
 	<!-- BEGIN external_link_tpl -->
@@ -257,9 +274,10 @@
 
 
 <!-- BEGIN add_to_cart_tpl -->
-
+<br />
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
+<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 <!-- END add_to_cart_tpl -->
 
 <br /><br />

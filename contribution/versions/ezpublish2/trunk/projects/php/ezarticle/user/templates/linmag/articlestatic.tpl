@@ -40,6 +40,10 @@
 </table>
 <!-- END article_header_tpl -->
 
+<!-- BEGIN article_topic_tpl -->
+
+<!-- END article_topic_tpl -->
+
 <!-- BEGIN article_intro_tpl -->
 <p>
 <b>
