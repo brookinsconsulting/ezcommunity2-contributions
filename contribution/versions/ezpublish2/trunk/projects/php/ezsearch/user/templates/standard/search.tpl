@@ -1,7 +1,7 @@
 <h1>{intl-site_search}</h1>
 <hr noshade="noshade" size="4" />
 
-<h2>Search for: "{search_text}"</h2>
+<h2>{intl-search_for}: "{search_text}"</h2>
 
 <!-- BEGIN search_type_tpl -->
 <table class="list" width="100%" cellpadding="4" cellspacing="0" border="0">
