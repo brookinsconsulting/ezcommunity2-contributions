@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforgot.php,v 1.2 2000/10/26 13:23:26 ce-cvs Exp $
+// $Id: ezforgot.php,v 1.3 2000/10/30 12:04:17 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -133,12 +133,12 @@ class eZForgot
       Chech if hash is true or not.
       Returnes false if unsuccessful.
     */
-    function check( $hash, $userID  )
+    function check( $hash )
     {
         $this->dbInit();
         $ret = false;
         
-        $this->Database->array_query( $forgot_array, "SELECT ID FROM eZUser_Forgot WHERE Hash='$hash' and UserID='$userID'" );
+        $this->Database->array_query( $forgot_array, "SELECT ID FROM eZUser_Forgot WHERE Hash='$hash'" );
 
         if ( count( $forgot_array ) == 1 )
         {
@@ -158,7 +158,7 @@ class eZForgot
     /*!
       Returns the users login.
     */
-    function UserID( )
+    function userID( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.6 2000/10/29 10:21:10 ce-cvs Exp $
+// $Id: useredit.php,v 1.7 2000/10/30 12:04:17 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -168,6 +168,14 @@ $actionValue = "insert";
 
 if ( $Action == "Edit" )
 {
+    if ( !$UserID )
+    {
+        $getUser = eZUser::currentUser();
+        if ( !$getUser )
+            Header( "Location: /user/login" );
+        else
+            $UserID = $getUser->id();
+    }
     $user = new eZUser();
     $user->get( $UserID );
 

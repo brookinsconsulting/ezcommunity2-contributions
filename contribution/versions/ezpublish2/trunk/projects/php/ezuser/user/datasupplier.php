@@ -30,6 +30,7 @@ switch ( $url_array[2] )
     case "forgot" :
     {
         $Action = $url_array[3];
+        $Hash = $url_array[4];
         include( "ezuser/user/forgot.php" );
     }
     break;
