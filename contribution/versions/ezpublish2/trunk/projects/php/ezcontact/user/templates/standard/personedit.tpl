@@ -144,7 +144,7 @@
     <td>
         <!-- BEGIN home_phone_item_tpl -->
         <p class="boxtext">{intl-home_phone}:</p>
-        <input type="text" size="20" name="Phone[]" value="{home_phone}"/>
+        <input class="limit" type="text" size="10" name="Phone[]" value="{home_phone}"/>
         <input type="hidden" name="PhoneTypeID[]" value="{cv_home_phone_type_id}">
         <input type="hidden" name="PhoneID[]" value="{cv_home_phone_id}">
         <!-- END home_phone_item_tpl -->
@@ -152,7 +152,7 @@
     <td>
         <!-- BEGIN work_phone_item_tpl -->
         <p class="boxtext">{intl-work_phone}:</p>
-        <input type="text" size="20" name="Phone[]" value="{work_phone}"/>
+        <input class="limit" type="text" size="10" name="Phone[]" value="{work_phone}"/>
         <input type="hidden" name="PhoneTypeID[]" value="{cv_work_phone_type_id}">
         <input type="hidden" name="PhoneID[]" value="{cv_work_phone_id}">
         <!-- END work_phone_item_tpl -->
@@ -160,7 +160,7 @@
     <td>
         <!-- BEGIN mobile_phone_item_tpl -->
         <p class="boxtext">{intl-mobile_phone}:</p>
-        <input type="text" size="20" name="Phone[]" value="{mobile_phone}"/>
+        <input class="limit" type="text" size="10" name="Phone[]" value="{mobile_phone}"/>
         <input type="hidden" name="PhoneTypeID[]" value="{cv_mobile_phone_type_id}">
         <input type="hidden" name="PhoneID[]" value="{cv_mobile_phone_id}">
         <!-- END mobile_phone_item_tpl -->
@@ -207,11 +207,11 @@
 <tr>
     <td>
         <p class="boxtext">{intl-password}:</p>
-        <input type="password" size="20" name="Password" value="{password}"/>
+        <input type="password" size="15" name="Password" value="{password}"/>
     </td>
     <td>
         <p class="boxtext">{intl-repeat_password}:</p>
-        <input type="password" size="20" name="PasswordRepeat" value="{password_repeat}"/>
+        <input type="password" size="15" name="PasswordRepeat" value="{password_repeat}"/>
     </td>
 </tr>
 </table>

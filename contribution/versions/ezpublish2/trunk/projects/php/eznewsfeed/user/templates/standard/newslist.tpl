@@ -16,16 +16,14 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2" align="center">
-	<br/>
+	<td class="tdmini" colspan="2" align="center">
 
 	<!-- Reklamebanner herfra! -->
 
-	<img src="/images/reklame.gif" width="468" height="60" align="center" border="0" alt="" /><br />
+	<img src="/images/reklame.gif" width="468" height="60" align="center" border="0" alt="" />
 
 	<!-- Reklamebanner fram til hit! -->
 
-	<br/>
 	</td>
 </tr>
 <!-- BEGIN news_item_tpl -->
@@ -62,10 +60,11 @@
 </table>
 <!-- END news_list_tpl -->
 
+<br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td align="center">
-	<br />
 
 	<!-- Reklamebanner herfra! -->
 
@@ -73,10 +72,11 @@
 
 	<!-- Reklamebanner fram til hit! -->
 
-	<br />
 	</td>
 </tr>
 </table>
+
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
