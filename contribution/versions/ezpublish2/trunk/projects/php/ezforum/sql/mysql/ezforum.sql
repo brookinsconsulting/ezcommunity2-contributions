@@ -58,3 +58,18 @@ CREATE TABLE eZForum_Word (
   Frequency float default 0.2,
   Word varchar(50) NOT NULL default ''
 );
+
+
+CREATE INDEX Forum_PostingTime ON eZForum_Message (PostingTime);
+CREATE INDEX Forum_TreeID ON eZForum_Message (ThreeID);
+CREATE INDEX Forum_ThreadID ON eZForum_Message (ThreadID);
+CREATE INDEX Forum_Depth ON eZForum_Message (Depth);
+CREATE INDEX Forum_ForumID ON eZForum_Message (ForumID);
+
+CREATE INDEX Forum_PostingTime ON eZForum_Message (PostingTime);
+CREATE INDEX ForumWordLink_MessageID ON eZForum_MessageWordLink (MessageID);
+CREATE INDEX ForumWordLink_WordID ON eZForum_MessageWordLink (WordID);
+CREATE INDEX ForumWord_Word ON eZForum_Word (Word);
+CREATE UNIQUE INDEX ForumWord_ID ON eZForum_Word (ID);
+
+
