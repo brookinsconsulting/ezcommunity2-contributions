@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.41 2001/08/02 13:09:42 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.42 2001/08/03 07:13:17 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -433,8 +433,6 @@ class eZVirtualfile
     {
         if ( get_class( $file ) == "ezfile" )
         {
-            print( "storing virtualfile" );
-
             $this->OriginalFileName = $file->name();
 
             $suffix = "";
@@ -670,9 +668,14 @@ class eZVirtualfile
     */
     function fileExists( $dir, $file )
     {
-        print "aaaaaaaaaaaaa";
-        $directory = new eZVirtualFolder( eZVirtualFolder::getByName( $dir ) );
-        return $directory->hasFile( $file );
+        $parent = eZVirtualFolder::getByName( $dir );
+        $ret = false;
+        if ( $parent )
+        {
+            $directory = new eZVirtualFolder( $parent  );
+            $ret = $directory->hasFile( $file );
+        }
+        return $ret;
     }
     
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.26 2001/08/02 13:09:42 jhe Exp $
+// $Id: ezvirtualfolder.php,v 1.27 2001/08/03 07:13:17 jhe Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -121,6 +121,10 @@ class eZVirtualFolder
 
                     return $folder->ID();
                 }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -132,6 +136,8 @@ class eZVirtualFolder
             for ( $i = 0; $i < count( $dirlist ); $i++ )
             {
                 $parent = eZVirtualFolder::getByName( $dirlist[$i], $parent, $create, $readgroup, $writegroup );
+                if ( !$parent )
+                    return false;
             }
             return $parent;
         }
@@ -545,7 +551,7 @@ class eZVirtualFolder
         $ret = false;
         foreach ( $file_array as $singlefile )
         {
-            $db->array_query( $folder_array, "SELECT ID FROM eZFileManager_Folder
+            $db->array_query( $folder_array, "SELECT ID FROM eZFileManager_FileFolderLink
                                               WHERE FolderID='" . $this->ID .
                                               "' AND FileID='" .
                                               $singlefile[$db->fieldName( "ID" )] .

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.1 2001/08/02 13:09:42 jhe Exp $
+// $Id: cron.php,v 1.2 2001/08/03 07:13:17 jhe Exp $
 //
 // Created on: <01-Aug-2001 09:34:19 jhe>
 //
@@ -48,7 +48,8 @@ function addFile( $dir, $file )
     global $ini;
     $readGroup = $ini->read_var( "eZFileManagerMain", "SyncronizeReadGroup" );
     $writeGroup = $ini->read_var( "eZFileManagerMain", "SyncronizeWriteGroup" );
-//    if ( !eZVirtualFile::fileExists( $dir->path,  $file ) )
+    $user = $ini->read_var( "eZFileManagerMain", "SyncronizedFilesOwner" );
+    if ( !eZVirtualFile::fileExists( $dir, $file ) )
     {
         $folder = new eZVirtualFolder( eZVirtualFolder::getByName( $dir, 0, true, $readGroup, $writeGroup ) );
         $virtualFile = new eZVirtualFile();
@@ -56,6 +57,7 @@ function addFile( $dir, $file )
         $localFile->getFile( $dir . "/" . $file );
         $virtualFile->setFile( $localFile );
         $virtualFile->setOriginalFileName( $file );
+        $virtualFile->setUser( new eZUser( $user ) );
         $virtualFile->addReadPermission( $readGroup );
         $virtualFile->addWritePermission( $writeGroup );
         $virtualFile->store();
