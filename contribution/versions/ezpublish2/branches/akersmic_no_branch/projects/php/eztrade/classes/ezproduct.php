@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.18 2002/01/29 14:17:32 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.19 2002/01/30 11:08:59 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1853,7 +1853,7 @@ class eZProduct
                          AND
                          eZTrade_ProductWordLink.WordID=eZTrade_Word.ID
                          AND
-                         eZTrade_Type.ID=eZTrade_Product.TypeID  
+                         eZTrade_Type.ID=eZTrade_Product.TypeID
                          $typeSQL
                         )
                        GROUP BY eZTrade_Product.ID

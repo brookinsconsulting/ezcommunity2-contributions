@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.11 2002/01/29 13:37:57 bf Exp $
+// $Id: productsearch.php,v 1.20.8.12 2002/01/30 11:08:59 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -194,6 +194,37 @@ eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "product_search_tpl" )
 
 $t->set_var( "url_query_string", $Query );
 $t->set_var( "query_string", htmlspecialchars( $Query ) );
+
+
+switch ( $SearchType )
+{
+    case "AdvancedMusic" :
+    {
+        $advQuery = "?MusicType=$MusicType&SearchType=$SearchType&AlbumTitle=$AlbumTitle&Artist=$Artist&Recording=$Recording";        
+    }
+    break;
+        
+    case "AdvancedDVD" :
+    {
+        $advQuery ="?SearchType=$SearchType&DVDTitle=$DVDTitle&DVDActor=$DVDActor";
+    }
+    break;
+
+    case "AdvancedMultimedia" :
+    {
+        $advQuery = "?MultimediaType=$MultimediaType&SearchType=$SearchType&GameTitle=$GameTitle";
+    }
+    break;
+
+    default:
+    {
+        $advQuery = "";
+    }
+    break;
+}
+
+
+$t->set_var( "adv_query", $advQuery );
 
 $t->set_var( "query", $Query );
 $t->set_var( "limit", $Limit );
