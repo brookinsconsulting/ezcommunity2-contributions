@@ -88,7 +88,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="33%">
-	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;{intl-status}</div>
+	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;{intl-done}</div>
 	</td>
 	<td width="33%">
 	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-view_others}</div>

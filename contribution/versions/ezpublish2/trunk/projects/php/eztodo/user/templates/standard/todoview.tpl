@@ -1,13 +1,13 @@
+<form method="post" action="/todo/todoedit/edit/{todo_id}/">
+
 <h1>{intl-headline}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<br />
-
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td  colspan="2">
-	<h2>{todo_name}</h2>
+	<h2>{todo_name}</h2><br />
 	</td>
 </tr>
 <tr>
@@ -61,9 +61,15 @@
 	</td>
 </tr>
 </table>
+<br />
 
-<form method="post" action="/todo/todoedit/edit/{todo_id}/">
+<!-- BEGIN mark_as_done -->
 <hr noshade size="4"/>
+<input class="stdbutton" type="submit" Name="Done" value="{intl-mark_as_done}">
+<!-- END mark_as_done -->
+
+<hr noshade size="4"/>
+
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
@@ -73,12 +79,6 @@
         <td>
 	<input class="okbutton" type="submit" Name="Edit" value="{intl-edit}">
 	</td>
-	<!-- BEGIN mark_as_done -->
-    <td>&nbsp;</td>
-	<td>
-	<input class="okbutton" type="submit" Name="Done" value="{intl-mark_as_done}">
-	</td>
-	<!-- END mark_as_done -->
 </tr>
 </table>
 </form>

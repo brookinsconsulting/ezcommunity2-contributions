@@ -24,6 +24,6 @@
 
 <hr noshade size="4"/>
 
-<input class="okbutton" type="submit" value="{intl-newcategory}">
+<input class="stdbutton" type="submit" value="{intl-newcategory}">
 
 </form>

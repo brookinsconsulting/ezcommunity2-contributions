@@ -1,3 +1,5 @@
+<form method="post" action="/bug/archive/{current_module_id}/">
+
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
@@ -14,8 +16,6 @@
 	<td>{current_module_description}</td>
 </tr>
 </table>
-
-<form method="post" action="/bug/archive/{current_module_id}/">
 
 <hr noshade="noshade" size="4" />
 
@@ -136,5 +136,6 @@
 
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_bugs}" />
 
-
 </form>
+<br /><br />
+

@@ -22,6 +22,6 @@
 
 <hr noshade size="4"/>
 
-<input class="okbutton" type="submit" value="{intl-newpriority}">
+<input class="stdbutton" type="submit" value="{intl-newpriority}">
 
 </form>
