@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.44.2.7 2002/03/04 09:07:30 bf Exp $
+// $Id: fileupload.php,v 1.44.2.8 2002/04/22 06:50:24 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -117,25 +117,25 @@ $readCheck = true;
 $fileCheck = true;
 
 $t->set_block( "errors_tpl", "error_write_permission", "write_permission" );
-$t->set_var( "write_permission", "&nbsp;" );
+$t->set_var( "write_permission", "" );
 
 $t->set_block( "errors_tpl", "error_upload_permission", "upload_permission" );
-$t->set_var( "upload_permission", "&nbsp;" );
+$t->set_var( "upload_permission", "" );
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
-$t->set_var( "error_name", "&nbsp;" );
+$t->set_var( "error_name", "" );
 
 $t->set_block( "errors_tpl", "error_file_upload_tpl", "error_file_upload" );
-$t->set_var( "error_file_upload", "&nbsp" );
+$t->set_var( "error_file_upload", "" );
 
 $t->set_block( "errors_tpl", "error_description_tpl", "error_description" );
-$t->set_var( "error_description", "&nbsp;" );
+$t->set_var( "error_description", "" );
 
 $t->set_block( "errors_tpl", "error_read_everybody_permission_tpl", "error_read_everybody_permission" );
-$t->set_var( "error_read_everybody_permission", "&nbsp;" );
+$t->set_var( "error_read_everybody_permission", "" );
 
 $t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
-$t->set_var( "error_write_everybody_permission", "&nbsp;" );
+$t->set_var( "error_write_everybody_permission", "" );
 
 
 if ( $Action == "Insert" || $Action == "Update" )
