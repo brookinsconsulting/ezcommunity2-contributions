@@ -5,6 +5,28 @@ mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
 ### 2.0 - 2.0.1 ####################
+mod: eztodo/admin, statustypeedit.php.ini
+change: added
+name=Name
+head_line=New status
+submit_text=OK
+
+mod: eztodo/admin, statustypeedit.php.ini
+change: added
+headline=Status overview
+newstatus=New status
+delete_selected=Delete selected status
+
+mod: eztodo/admin, menubox.php.ini
+change: added
+statustypelist=Status Overview
+
+mod: eztodo/user, todoedit.php.ini
+change: added
+mail_status=Status
+mail_status_changed=Status changed
+subject_status_changed=Status changed
+
 mod: ezuser/admin, userlist.php.ini
 change: added search=Search
 
