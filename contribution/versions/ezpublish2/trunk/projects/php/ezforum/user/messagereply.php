@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.8 2000/10/27 10:19:57 ce-cvs Exp $
+// $Id: messagereply.php,v 1.9 2000/11/01 19:07:19 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -27,7 +27,9 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
 
-include_once( "common/ezphputils.php" );
+$Language = $ini->read_var( "eZForumMain", "Language" );
+$ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );
+
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "classes/eztexttool.php" );
@@ -168,7 +170,7 @@ $t->set_var( "forum_id", $ForumID );
 
 $t->set_var( "msg_id", $msg->id() );
 
-$t->set_var( "topic", ("SV: " . stripslashes( $msg->topic() ) ) );
+$t->set_var( "topic", ( $ReplyPrefix . stripslashes( $msg->topic() ) ) );
 
 $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
