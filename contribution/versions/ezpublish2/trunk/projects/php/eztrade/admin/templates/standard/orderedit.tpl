@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.7 2001/09/26 07:44:20 br Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.8 2001/10/17 08:25:19 pkej Exp $ -->
 
 <h1>{intl-head_line} ({order_id})</h1>
 
@@ -56,60 +56,245 @@
 
 <h2>{intl-productlist}</h2>
 
-<!-- BEGIN order_item_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="3" border="0">
+<!-- BEGIN full_cart_tpl --><table class="list" width="100%" cellspacing="0" cellpadding="4" border="0"><!-- BEGIN cart_item_list_tpl -->
 <tr>
-	<th>{intl-image}:</th>
-	<th>{intl-productname}:</th>
-	<th>{intl-productnumber}:</th>
-	<th>{intl-option}:</th>
-	<th>{intl-count}:</th>
-	<td align="right"><b>{intl-price}:</b></td>
+    <th>&nbsp;</th>
+
+	<th>{intl-product_number}:</th>
+	<th>{intl-product_name}:</th>
+	<th class="right">{intl-product_price}:</th>
+
+	<!-- BEGIN header_savings_item_tpl -->
+	<th class="right">{intl-product_savings}:</th>
+	<!-- END header_savings_item_tpl -->
+
+	<th class="right">{intl-product_qty}:</th>
+
+	<!-- BEGIN header_ex_tax_item_tpl -->
+	<th class="right">{intl-product_total_ex_tax}:</th>
+	<!-- END header_ex_tax_item_tpl -->
+
+	<!-- BEGIN header_inc_tax_item_tpl -->
+	<th class="right">{intl-product_total_inc_tax}:</th>
+	<!-- END header_inc_tax_item_tpl -->
+
+	<th class="right">&nbsp;</th>
 </tr>
-<!-- BEGIN order_item_tpl -->
+
+<!-- BEGIN cart_item_tpl -->
+<tr>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}">{product_number}</td>
+    <td class="{td_class}"><a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a></td>
+    <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
+    
+	<!-- BEGIN cart_savings_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END cart_savings_item_tpl -->
+    
+    <td class="{td_class}" align="right">{product_count}
+	    <!--
+        <input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
+	    <input size="3" type="text" name="CartCountArray[]" value="{product_count}" />
+        -->
+    </td>
+    
+	<!-- BEGIN cart_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{product_total_ex_tax}</nobr></td>
+	<!-- END cart_ex_tax_item_tpl -->
+
+	<!-- BEGIN cart_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
+	<!-- END cart_inc_tax_item_tpl -->
+    
+    <td class="{td_class}"><!-- <input type="checkbox" name="CartSelectArray[]" value="{cart_item_id}" /> --></td>
+</tr>
+
+<!-- BEGIN cart_item_basis_tpl -->
+<tr>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}"><span class="small">{intl-basis_price} <nobr>{basis_price}<nobr/></span></td>
+    <td class="{td_class}" align="right">&nbsp;</td>
+    
+	<!-- BEGIN basis_savings_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END basis_savings_item_tpl -->
+    
+    <td class="{td_class}" align="right">&nbsp;</td>
+
+	<!-- BEGIN basis_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END basis_inc_tax_item_tpl -->
+    
+	<!-- BEGIN basis_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END basis_ex_tax_item_tpl -->
+
+    <td class="{td_class}">&nbsp;</td>
+</tr>
+<!-- END cart_item_basis_tpl -->
+
+<!-- BEGIN cart_item_option_tpl -->
+<tr>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}"><span class="small">{option_id} {option_name} {option_value} <nobr>{option_price}<nobr/></span></td>
+    <td class="{td_class}" align="right">&nbsp;</td>
+    
+	<!-- BEGIN option_savings_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END option_savings_item_tpl -->
+    
+    <td class="{td_class}" align="right">&nbsp;</td>
+
+	<!-- BEGIN option_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END option_inc_tax_item_tpl -->
+    
+	<!-- BEGIN option_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END option_ex_tax_item_tpl -->
+
+    <td class="{td_class}">&nbsp;</td>
+</tr>
+<!-- END cart_item_option_tpl -->
+
+<!-- END cart_item_tpl -->
+
+<!-- END cart_item_list_tpl -->
 
 <tr>
-	<td class="{td_class}">
-	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
-	</td>
-	<td class="{td_class}">
-	<a href="{www_dir}/trade/productedit/edit/{product_id}/">{product_name}&nbsp;</a>
-	</td>
-	<td class="{td_class}">
-	{product_number}&nbsp;
-	</td>
-	<td class="{td_class}">
-        <!-- BEGIN order_item_option_tpl -->
-	{option_name}:
-	{option_value}<br>
-        <!-- END order_item_option_tpl -->
-	&nbsp;
-	</td>
-	<td class="{td_class}">
-	{order_item_count}
-	</td>
-	<td class="{td_class}" align="right">
-	{product_price}
-	</td>
+    <td>&nbsp;</td>
+    
+    <th colspan="{subtotals_span_size}" class="right">{intl-subtotal}:</th>
+
+	<!-- BEGIN subtotal_ex_tax_item_tpl -->
+    <td align="right"><nobr>{subtotal_ex_tax}</nobr></td>
+	<!-- END subtotal_ex_tax_item_tpl -->
+
+	<!-- BEGIN subtotal_inc_tax_item_tpl -->
+    <td align="right"><nobr>{subtotal_inc_tax}</nobr></td>
+	<!-- END subtotal_inc_tax_item_tpl -->
+    
+    <td>&nbsp;</td>
 </tr>
-<!-- END order_item_tpl -->
+
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-shipping}:</th>
-	<td align="right">{shipping_cost}</td>
+    <td>&nbsp;</td>
+    <th colspan="{subtotals_span_size}" class="right">{intl-shipping}:</th>
+
+	<!-- BEGIN shipping_ex_tax_item_tpl -->
+    <td align="right"><nobr>{shipping_ex_tax}</nobr></td>
+	<!-- END shipping_ex_tax_item_tpl -->
+
+	<!-- BEGIN shipping_inc_tax_item_tpl -->
+    <td align="right"><nobr>{shipping_inc_tax}</nobr></td>
+	<!-- END shipping_inc_tax_item_tpl -->
+
+    <td>&nbsp;</td>
 </tr>
+
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-vat}:</th>
-	<td align="right">{vat_cost}</td>
+    <td>&nbsp;</td>
+    <th colspan="{subtotals_span_size}" class="right">{intl-total}:</th>
+
+	<!-- BEGIN total_ex_tax_item_tpl -->
+    <td align="right"><nobr>{total_ex_tax}</nobr></td>
+	<!-- END total_ex_tax_item_tpl -->
+
+	<!-- BEGIN total_inc_tax_item_tpl -->
+    <td align="right"><nobr>{total_inc_tax}</nobr></td>
+	<!-- END total_inc_tax_item_tpl -->
+
+    <td>&nbsp;</td>
 </tr>
-<tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-total}:</th>
-	<td align="right">{order_sum}</td>
-</tr>
+
 </table>
-<!-- END order_item_list_tpl -->
+
+<!-- BEGIN voucher_item_list_tpl -->
+
+<h2>{intl-voucher_list}:</h2>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-voucher_number}:</th>
+
+	<!-- BEGIN voucher_used_header_ex_tax_item_tpl -->
+	<th class="right">{intl-voucher_used_ex_tax}:</th>
+	<!-- END voucher_used_header_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_used_header_inc_tax_item_tpl -->
+	<th class="right">{intl-voucher_used_inc_tax}:</th>
+	<!-- END voucher_used_header_inc_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_header_ex_tax_item_tpl -->
+	<th class="right">{intl-voucher_left_ex_tax}:</th>
+	<!-- END voucher_left_header_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_header_inc_tax_item_tpl -->
+	<th class="right">{intl-voucher_left_inc_tax}:</th>
+	<!-- END voucher_left_header_inc_tax_item_tpl -->
+
+</tr>
+<!-- BEGIN voucher_item_tpl -->
+<tr>
+
+    <td class="{td_class}">{voucher_number}</td>
+
+	<!-- BEGIN voucher_used_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_used_ex_tax}</nobr></td>
+	<!-- END voucher_used_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_used_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_used_inc_tax}</nobr></td>
+	<!-- END voucher_used_inc_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_left_ex_tax}</nobr></td>
+	<!-- END voucher_left_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_left_inc_tax}</nobr></td>
+	<!-- END voucher_left_inc_tax_item_tpl -->
+
+</tr>
+<!-- END voucher_item_tpl -->
+
+</table>
+<!-- END voucher_item_list_tpl -->
+
+<!-- BEGIN tax_specification_tpl -->
+<br />
+<br />
+<br />
+<br />
+
+<h2>{intl-tax_list}:</h2>
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+<th class="right">{intl-tax_basis}:</th>
+<th class="right">{intl-tax_percentage}:</th>
+<th class="right">{intl-tax}:</th>
+</tr>
+
+<!-- BEGIN tax_item_tpl -->
+
+<tr>
+    <td class="{td_class}" align="right">{sub_tax_basis}</td>
+    <td class="{td_class}" align="right">{sub_tax_percentage} %</td>
+    <td class="{td_class}" align="right">{sub_tax}</td>
+</tr>
+<!-- END tax_item_tpl -->
+
+<tr>
+    <th colspan="2" class="right">{intl-total}:</th>
+    <td align="right">{tax}</td>
+</tr>
+
+</table>
+<!-- END tax_specification_tpl -->
+<!-- END full_cart_tpl -->
 
 <h2>{intl-order_status}</h2>
 
