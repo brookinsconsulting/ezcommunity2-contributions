@@ -24,3 +24,32 @@
 # character to interpose another module into the current module.  This
 # can be useful for creating a module that consists of many directories
 # spread out over the entire source repository.
+
+
+# PHP
+ezlink          projects/php/ezlink
+ezforum         projects/php/ezforum
+ezcontact       projects/php/ezcontact
+classes         projects/php/classes
+admin           projects/php/admin
+eztrade         projects/php/eztrade
+ezimagecatalogue        projects/php/ezimagecatalogue
+eznews          projects/php/eznews
+eznewsfeed	projects/php/eznewsfeed
+ezpoll          projects/php/ezpoll
+ezsession       projects/php/ezsession
+ezuser          projects/php/ezuser
+ezarticle       projects/php/ezarticle
+ezad            projects/php/ezad
+ezsite          projects/php/ezsite
+ezbug           projects/php/ezbug
+eztodo          projects/php/eztodo
+ezclassified    projects/php/ezclassified
+ 
+ 
+# Distribution
+publish_dist    projects/php/publish_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
+trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin
+
+
+
