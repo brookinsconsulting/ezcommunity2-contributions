@@ -3608,3 +3608,36 @@ Maintainer(s) : ce@ez.no
       admin/templates/standard/orderedit.tpl: updated payment:
     A transaction can now be larger than the amount which is reserved on paynet.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-05-02  Baard Farstad  <bf@ez.no>
+
+    * user/productsearch.php: Added failback search.
+
+    * classes/ezproduct.php: Added escaping.
+
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-05-08  Vidar Langseid  <vl@ez.no>
+
+    * user/customerlogin.php:
+    Fixed cross site bugs caused by the ?RedirectURL feature
+
+    * user/voucherview.php: fix cross site bug
+
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-06-12  Bjoern Reiten  <br@ez.no>
+
+    * classes/Attic/ezorderconfirmation.php:
+    Fixed bug with generation of mail and options.
+    If you had choosen many products from the same product id, but with
+    different options, one option combination would be shown for all
+    products in the mail.
+
