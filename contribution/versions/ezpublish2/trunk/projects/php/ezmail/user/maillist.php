@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.29 2002/02/07 11:06:03 fh Exp $
+// $Id: maillist.php,v 1.30 2002/02/07 17:13:13 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -54,20 +54,9 @@ if ( isSet( $NewFolder ) )
 
 if ( isSet( $Move ) && $FolderSelectID != -1 && count( $MailArrayID ) > 0 ) // really move to other folder
 {
-    // this should be avoided in the future (create transparant interface for moving)
-    if( $AccountType == "local" )
-    {
-        $folder = new eZMailFolder( $FolderSelectID );
-        foreach ( $MailArrayID as $mailitemID )
-            $folder->addMail( $mailitemID );
-    }
-    else if( $AccountType == "remote" )
-    {
-        foreach ( $MailArrayID as $mailitemID )
-            eZImapMailFolder::moveMail( $mailitemID, $FolderSelectID );
-        exit();
-    }
-
+    // todo, make the moveMail function general
+    foreach ( $MailArrayID as $mailitemID )
+        eZImapMailFolder::moveMail( $mailitemID, $FolderSelectID );
 }
 
 $ini =& INIFile::globalINI();

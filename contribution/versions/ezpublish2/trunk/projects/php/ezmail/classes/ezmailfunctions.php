@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmailfunctions.php,v 1.14 2002/01/20 17:14:06 fh Exp $
+// $Id: ezmailfunctions.php,v 1.15 2002/02/07 17:13:13 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,6 +31,110 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
  They are put here because they are general and to keep the classes from beeing
 crouded.*/
 
+/* Ok, here follows functions that are used to create a new mail. The mail is returned as a string */
+
+$internalMailParts = array(); // internal variable used to build the mail.
+
+/*!
+  Creates a mime encoded mail ready to send.
+  If you don't use the mail() function to send the mail set withToAndSubject to true
+  and the To and Subject header field will be included.
+ */
+function &createMimeMail( &$mail, $withToAndSubject = false )
+{
+    global $internalMailParts; 
+    if ( $mail->FilesAttached == true )
+    {
+        $files = $mail->files();
+        if( count( $files ) )
+        {
+            foreach ( $files as $file )
+            {
+//                    echo "Added attachment";
+                $filename = "ezfilemanager/files/" . $file->fileName();
+                $attachment = fread( eZFile::fopen( $filename, "r" ), eZFile::filesize( $filename ) );
+                add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
+            }
+        }
+    }
+        
+    $mime = "";
+    if( $withToAndSubject )
+    {
+        $mime .= "To: " . $mail->To . "\n";
+        $mime .= "Subject: " . $mail->Subject . "\n";
+    }
+    if ( !empty( $mail->From ) )
+    {
+        if ( !empty( $mail->FromName ) )
+            $mime .= "From: " . $mail->FromName . " <" . $mail->From . ">\n";
+        else
+            $mime .= "From: "  . $mail->From . "\n";
+    }
+    if ( !empty( $mail->Cc ) )
+        $mime .= "Cc: " . $mail->Cc . "\n";
+    if ( !empty( $mail->Bcc ) )
+        $mime .= "Bcc: " . $mail->Bcc . "\n";
+    if ( !empty( $mail->Bcc ) )
+        $mime .= "Reply-To: " . $mail->ReplyTo . "\n";
+    if ( !empty( $mail->BodyText ) )
+        add_attachment( $mail->BodyText, "", "text/plain");   
+
+    $mime .= "MIME-Version: 1.0\n" . build_multipart();
+    $internalMailParts = array();
+
+//    echo "Built mail $mime <BR>";
+    
+    return $mime;
+}
+
+     /*!
+       void add_attachment(string message, [string name], [string ctype])
+       Add an attachment to the mail object
+     */
+    function add_attachment( $message, $name = "", $ctype = "application/octet-stream" )
+    {
+        global $internalMailParts; 
+
+        $internalMailParts[] = array (
+            "ctype" => $ctype,
+            "message" => $message,
+            "encode" => $encode,
+            "name" => $name
+            );
+    }
+    
+    /*!
+      void build_message( array part )
+      Build message parts of an multipart mail
+    */
+    function build_message( &$part )
+    {
+        $message = $part["message"];
+        $message = chunk_split( base64_encode( $message ) );
+        $encoding = "base64";
+        return "Content-Type: " . $part["ctype"] . 
+            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
+            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
+    }
+    
+    /*!
+      void build_multipart()
+      Build a multipart mail
+    */
+    function build_multipart() 
+    {
+        global $internalMailParts; 
+        
+        $boundary = "b" . md5( uniqid( time() ) );
+        $multipart = "Content-Type: multipart/mixed;\n   boundary=$boundary\n\nThis is a MIME encoded message.\n\n--$boundary";
+        
+        for ( $i = count( $internalMailParts ) - 1; $i >= 0; $i-- )
+        {
+            $multipart .= "\n" . build_message( $internalMailParts[$i] ) . "--$boundary";
+        }
+        return $multipart .= "--\n";
+    }
 
 
 /*!
@@ -86,6 +190,7 @@ function getDecodedHeader( $headervalue )
   In case we find a multipart we just call ourselves recursivly.
   If not this is either a text part which we add to the main text body, or it is something else possibly an attachment.
   In addition to this there is also a special disposition part where attachments and inlines CAN be stored.
+  If imap is set, attachments are added only with the attachment info. This is because we can't save the data in the usual way since it can't be connected directly with a mail. However we may create som sort of caching for this to speed things up later.
   TODO:
   -If we get text/HTML we should strip the crappy html/header tags and show it as HTML.. for this we need some special function in eZMail
   either indication that the body of this mail is html or we need to store it completely seperatly from the usual body.

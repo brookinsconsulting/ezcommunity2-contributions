@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.6 2002/02/07 11:06:03 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.7 2002/02/07 17:13:13 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -163,16 +163,37 @@ class eZIMAPMailFolder
     function moveMail( $mailID, $newFolderID )
     {
         // there are lots of different cases for this one..
-        if( is_int( $mailID ) )// local
+        if( is_numeric( $mailID ) )// local
         {
             // 1. local to local
-            if( is_int( $newFolderID ) )
+            if( is_numeric( $newFolderID ) )
             {
-                // done in maillist.php right now..
+                include_once( "ezmail/classes/ezmailfolder.php" );
+                $folder = new eZMailFolder( $newFolderID );
+                $folder->addMail( $mailID );
             }
             else        // 2. local to imap
             {
-                // not supported yet.
+                $folderIDData = eZImapMailFolder::decodeFolderID( $newFolderID );
+                $mail = new eZMail( $mailID );
+                $mimeMail = createMimeMail( $mail, true );
+//                echo "Built mail $mimeMail <BR>";
+                
+                $account = new eZMailAccount( $folderIDData["AccountID"] );
+                $mailboxString = createServerString( $account->server(), $account->serverPort(), $folderIDData["FolderName"] );
+
+                $mbox = imapConnect( $account, $folderIDData["FolderName"] );
+                imap_append( $mbox, $mailboxString, $mimeMail );
+                if( !$ok )
+                {
+                    echo "imap_append failed: " . imap_last_error() . "\n";
+                }
+                else // delete the message
+                {
+                    $mail->delete();
+                }
+                
+                imap_close($mbox);
             }
         }
         else // remote
@@ -195,12 +216,11 @@ class eZIMAPMailFolder
 
                         $ok = imap_mail_move( $mbox, $mailIDData["MailID"], $folderIDData["FolderName"] );
                         if( !$ok )
-                            echo "imap_deletemail failed: " . imap_last_error() . "\n";
+                            echo "imap_mail_move failed: " . imap_last_error() . "\n";
 
                         imap_expunge( $mbox ); // really delete the mail.
                         imapDisconnect( $mbox );
                     }
-
                 }
                 else  // 5. imap to imap not same server
                 {

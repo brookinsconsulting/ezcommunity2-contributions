@@ -104,7 +104,7 @@ function imapGetMail( $account, $mailID )
     $mailstructure = imap_fetchstructure( $mbox, $mailID );
     disectThisPart( $mailstructure, "1", $mbox, $mailID, $mail );
 
-    echo "<pre>";print_r( $mail );echo "</pre>";
+//    echo "<pre>";print_r( $mail );echo "</pre>";
     
 //    echo imap_body( $mbox, $mailID ); 
 
@@ -156,7 +156,8 @@ function imapConnect( $account, $mailbox = "INBOX" )
     $port = $account->serverPort();
 
     $serverString = createServerString( $server, $port, $mailbox );
-    $mbox = imap_open( $serverString, $userName, $password );
+    $mbox = imap_open( $serverString, $userName, $password )
+         or die( "imap_open failed: " . imap_last_error() . "\n" );
 
     return $mbox;
 }
