@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.23 2001/10/14 14:11:33 br Exp $
+// $Id: adedit.php,v 1.23.2.1 2001/11/23 09:36:42 br Exp $
 //
 // Created on: <16-Nov-2000 13:02:32 bf>
 //
@@ -52,7 +52,7 @@ if ( isSet ( $Preview ) )
     }
 }
 
-$adUrl = strtolower( trim( $AdURL ) );
+$adUrl = trim( $AdURL );
 
 // Get images from the image browse function.
 if ( ( isSet ( $AddImages ) ) and ( is_numeric( $AdID ) ) and ( is_numeric ( $AdID ) ) )
