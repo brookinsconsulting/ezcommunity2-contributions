@@ -97,10 +97,6 @@
 
 <!-- BEGIN image_tpl -->
 <tr>
-<td>
-
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
 	<td valign="top">
 	<div class="feature">{image_name}</div>
 	</td>
@@ -109,22 +105,17 @@
 <tr>
 	<td>
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}" /></a>
+	<img src="{image_url}" border="0" alt="{image_name}" width="{image_width}" height="{image_height}" /></a>
 	</td>
 	<td><img src="/images/1x1.gif" height="1" width="12" border="0" alt="" /></td>
 	<td valign="top">
 	{image_caption}
 	</td>
 </tr>
-</table>
-&nbsp;
-
-</td>
-</tr>
 <!-- END image_tpl -->
 
 </table>
-
+<br />
 <form action="/trade/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
