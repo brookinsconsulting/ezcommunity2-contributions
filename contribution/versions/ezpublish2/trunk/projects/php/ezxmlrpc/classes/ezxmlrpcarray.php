@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcarray.php,v 1.3 2001/02/26 10:10:36 bf Exp $
+// $Id: ezxmlrpcarray.php,v 1.4 2001/02/26 17:23:03 bf Exp $
 //
 // Definition of eZXMLRPCArray class
 //
@@ -71,35 +71,41 @@ class eZXMLRPCArray
 
     /*!
       \private
+      \static
     */
     function serializeArray( $array )
     {
         $ret .= "<value><array><data>";
         foreach ( $array as $value )
         {
-            if ( gettype( $element ) == "array" )
+            switch( gettype($value) )
             {
-                $ret .= $this->serializeArray( $element );
-            }
-            else
-            {
-                switch( gettype($value) )
+                case "integer":
                 {
-                    case "integer":
-                        $ret .= "<value><int>$value</int></value>";
-                    break;
-                    
-                    case "object":
-                        if ( substr( get_class( $value ), 0, 8 ) == "ezxmlrpc" )
-                        {
-                            $ret .= $value->serialize( $value );
-                        }
-                        break;
-                        
-                    default:
-                        $ret .= "<value><string>$value</string></value>";
-                        break;
+                    $ret .= "<value><int>$value</int></value>";
                 }
+                break;
+                
+                case "array":
+                {
+                    $ret .= eZXMLRPCArray::serializeArray( $element );
+                }
+                break;
+                
+                case "object":
+                {
+                    if ( substr( get_class( $value ), 0, 8 ) == "ezxmlrpc" )
+                    {
+                        $ret .= $value->serialize( $value );
+                    }
+                }
+                break;
+                    
+                default:
+                {
+                    $ret .= "<value><string>$value</string></value>";
+                }
+                break;
             }
         }
 

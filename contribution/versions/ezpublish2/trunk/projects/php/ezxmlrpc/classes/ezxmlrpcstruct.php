@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcstruct.php,v 1.4 2001/02/26 10:10:36 bf Exp $
+// $Id: ezxmlrpcstruct.php,v 1.5 2001/02/26 17:23:03 bf Exp $
 //
 // Definition of eZXMLRPCStruct class
 //
@@ -82,34 +82,36 @@ class eZXMLRPCStruct
         {
             $ret .= "<member><name>" . ${key} . "</name>";
 
-            if ( gettype( $value ) == "array" )
-            {
-                $ret .= $value->serializeArray( $element );
-            }
-            else
-            {
-                $ret .= $value->serialize();
-            }
-
 			switch ( gettype($value) )
 			{
-				case "integer":                    
+				case "integer":
+                {
 					$ret .= "<value><int>$value</int></value>";
-					break;
-                    
+                }
+                break;
+                
 				case "object":
+                {
 					if ( substr( get_class($value),0,8) == "ezxmlrpc" )
 					{
 						$ret .= $value->serialize( $value );
-					}                    
-                    break;
-                    
+					}
+                }
+                break;
+                
+                case "array":
+                {
+                    $ret .= eZXMLRPCArray::serializeArray( $element );
+                }
+                break;                
+                
 				default:
+                {
 					$ret .= "<value><string>$value</string></value>";
-					break;
+                }
+                break;
             }
             
-            $ret .= $value->serialize();
             $ret .= "</member>";
         }
         
