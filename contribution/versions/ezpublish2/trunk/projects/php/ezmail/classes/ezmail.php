@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.22 2001/04/05 15:00:22 fh Exp $
+// $Id: ezmail.php,v 1.23 2001/05/02 14:47:32 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -892,6 +892,7 @@ class eZMail
     function &copyMail( $copyType = "normal", $attachments = false )
     {
         $copy = new eZMail();
+        $copy->UserID = $this->UserID;
 
         if( $copyType == "normal" || $copyType == "forward" )
         {
@@ -908,6 +909,7 @@ class eZMail
             {
                 $copy->From = $this->To;
             }
+            $copy->Subject = $this->Subject;
             $copy->BodyText = $this->BodyText;
             $copy->MessageID = $this->MessageID;
             $copy->References = $this->References;
@@ -915,10 +917,9 @@ class eZMail
         else if( $copyType == "reply" || $copyType == "replyall" )
         {
             $copy->To = $this->From;
-            $copy->Subject = "Re: " . $this->Subject();
+            $copy->Subject = "Re: " . $this->Subject;
             $copy->References = $this->MessageID;
             $copy->ReplyTo = $this->To;
-            $copy->UserID = $this->UserID;
 
             if( $copyType == "replyall" )
                 $copy->Cc = $this->Cc;

@@ -30,6 +30,36 @@ if( isset( $Reply ) )
     exit();
 }
 
+if( isset( $ReplyAll ) )
+{
+    $mail = new eZMail( $MailID );
+    $mail->setStatus( REPLIED, true );
+    $reply = $mail->copyMail( "replyall" );
+    $replyid = $reply->id();
+    $reply->setStatus( READ, true );
+    
+    $drafts = eZMailFolder::getSpecialFolder( DRAFTS );
+    $drafts->addMail( $reply );
+    
+    eZHTTPTool::header( "Location: /mail/mailedit/$replyid" );
+    exit();
+}
+
+if( isset( $Forward ) )
+{
+    $mail = new eZMail( $MailID );
+    $mail->setStatus( FORWARDED, true );
+    $reply = $mail->copyMail( "forward" );
+    $replyid = $reply->id();
+    $reply->setStatus( READ, true );
+    
+    $drafts = eZMailFolder::getSpecialFolder( DRAFTS );
+    $drafts->addMail( $reply );
+    
+    eZHTTPTool::header( "Location: /mail/mailedit/$replyid" );
+    exit();
+}
+
 if( isset( $Delete ) )
 {
     $mail = new eZMail( $MailID );
