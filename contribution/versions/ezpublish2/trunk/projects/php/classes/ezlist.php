@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.7 2001/02/14 19:38:58 jb Exp $
+// $Id: ezlist.php,v 1.8 2001/02/23 18:48:45 jb Exp $
 //
 // Definition of eZList class
 //
@@ -41,11 +41,335 @@
 */
 
 /*!TODO
-  Add functions for drawing lists too.
+  Document drawList() properly.
 */
+
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztexttool.php" );
 
 class eZList
 {
+
+    /*!
+      This code can be reused for simple type lists. It requires an object with the following functions:
+      name(): Used for reading the name of the type.
+      id(): Used for retrieving the id of the type in the database
+
+      The object list must be initialized in the $item_type_array variable.
+      Also these following variables must be set properly.
+      $language_file: The file used for reading language translations, for example: consultationtype.php
+      $page_path: The base name of the url, for example: /address/consultationtype
+      You can also enable item placement by setting the $move_item variable to true, to make sure an
+      item can be moved it must implement the moveUp() and moveDown() functions.
+      If the $SortPage variable is set all items will have hyperlinked names linked to the variable content.
+      If $Searchable is set to true a search button is added.
+      If $template_array, $variable_array and $block_array is set they are used for extending the
+      list with extra information.
+    */
+    function drawList( $params, $no_print = false )
+    {
+        if ( !is_array( $params ) )
+        {
+            print( "<br /><b>eZList::drawList() requires $" .
+                   "params to be an array</b><br />" );
+            return false;
+        }
+
+        if ( isset( $params["ini"] ) )
+            $ini =& $params["ini"];
+        if ( get_class( $ini ) != "inifile" )
+            $ini =& $GlobalSiteIni;
+
+        $module = $params["module"];
+        $module_main = $params["module_main"];
+        $place = $params["place"];
+        if ( $place == "" )
+            $place = "admin";
+        $template_dir = $params["templatedir"];
+        if ( $template_dir == "" )
+            $template_dir = "AdminTemplateDir";
+        $language_file = $params["language_file"];
+
+        if ( !isset( $params["typelist"] ) )
+            $template_dir = "classes/" . $ini->read_var( "classes", $template_dir );
+        else
+            $template_dir = "$DOC_ROOT/$place/" . $ini->read_var( $module_main, $template_dir );
+
+        $Language = $ini->read_var( $module_main, "Language" );
+        $DOC_ROOT = $ini->read_var( $module_main, "DocumentRoot" );
+
+        include_once( "classes/eztemplate.php" );
+
+        if ( !isset( $params["template"] ) or get_class( $params["template"] ) != "eztemplate" )
+            $t = new eZTemplate( $template_dir,
+                                 "$DOC_ROOT/$place/intl", $Language, $language_file );
+        else
+            $t =& $params["template"];
+
+        $item_error = true;
+
+        $HTTP_REFERER = $params["HTTP_REFERER"];
+        $BackUrl = $params["back_url"];
+        $page_path = $params["page_path"];
+
+        if( $HTTP_REFERER == "" )
+        {
+            if( $BackUrl == "" )
+            {
+                $back_command = "$page_path/list";
+            }
+            else
+            {
+                $back_command = $BackUrl;
+            }
+        }
+        else
+        {
+            $back_command = $HTTP_REFERER;
+        }
+
+        if ( !isset( $params["typelist"] ) )
+            $typelist = "typelist.tpl";
+        else
+            $typelist = $params["typelist"];
+
+        if ( isset( $params["template_array"] ) )
+            $template_array = $params["template_array"];
+        if ( isset( $params["variable_array"] ) )
+             $variable_array = $params["variable_array"];
+        if ( isset( $params["block_array"] ) )
+            $block_array = $params["block_array"];
+
+        if ( isset( $template_array ) and isset( $variable_array ) and
+             is_array( $template_array ) and is_array( $variable_array ) )
+        {
+            $standard_array = array( "list_page" => $typelist );
+            $t->set_file( array_merge( $standard_array, $template_array ) );
+            $t->set_file_block( $template_array );
+            if ( isset( $block_array ) and is_array( $block_array ) )
+                $t->set_block( $block_array );
+            $t->parse( $variable_array );
+        }
+        else
+        {
+            $t->set_var( "extra_type_header", "" );
+            $t->set_var( "extra_type_item", "" );
+            $t->set_file( "list_page", $typelist );
+        }
+
+        $t->set_block( "list_page", "list_item_tpl", "list_item" );
+        $t->set_block( "list_item_tpl", "line_item_tpl", "line_item" );
+        $t->set_block( "list_page", "no_line_item_tpl", "no_line_item" );
+        $t->set_block( "list_page", "search_item_tpl", "search_item" );
+
+        $t->set_block( "list_item_tpl", "name_header_item_tpl", "name_header_item" );
+        $t->set_block( "list_item_tpl", "custom_header_item_tpl", "custom_header_item" );
+        $t->set_block( "list_item_tpl", "header_move_down_tpl", "header_move_down" );
+        $t->set_block( "list_item_tpl", "header_separator_tpl", "header_separator" );
+        $t->set_block( "list_item_tpl", "header_move_up_tpl", "header_move_up" );
+        $t->set_block( "list_item_tpl", "delete_header_item_tpl", "delete_header_item" );
+
+        $t->set_block( "line_item_tpl", "type_item_tpl", "type_item" );
+        $t->set_block( "type_item_tpl", "item_plain_tpl", "item_plain" );
+        $t->set_block( "type_item_tpl", "item_linked_tpl", "item_linked" );
+        $t->set_block( "line_item_tpl", "item_move_up_tpl", "item_move_up" );
+        $t->set_block( "line_item_tpl", "item_separator_tpl", "item_separator" );
+        $t->set_block( "line_item_tpl", "item_move_down_tpl", "item_move_down" );
+        $t->set_block( "line_item_tpl", "no_item_move_up_tpl", "no_item_move_up" );
+        $t->set_block( "line_item_tpl", "no_item_separator_tpl", "no_item_separator" );
+        $t->set_block( "line_item_tpl", "no_item_move_down_tpl", "no_item_move_down" );
+        $t->set_block( "line_item_tpl", "delete_box_item_tpl", "delete_box_item" );
+
+        $t->set_block( "list_page", "delete_button_item_tpl", "delete_button_item" );
+
+        $t->set_var( "no_line_item", "" );
+        $t->set_var( "line_item", "" );
+        $t->set_var( "list_item", "" );
+        $t->set_var( "search_item", "" );
+
+        $ItemID = $params["item_id"];
+        $ItemName = $params["item_name"];
+        $Action = $params["action"];
+        $ListType = $params["list_type"];
+        $SearchText = $params["search_text"];
+        if ( isset( $params["searchable"] ) )
+            $Searchable = $params["searchable"];
+        $item_type_array =& $params["item_type_array"];
+
+        if ( isset( $params["form_command"] ) )
+            $item_form_command = $params["form_command"];
+        else
+            $itme_form_command = "$page_path/new";
+
+        $t->set_var( "item_up_command", "$page_path/up" );
+        $t->set_var( "item_down_command", "$page_path/down" );
+        $t->set_var( "item_edit_command", "$page_path/edit" );
+        $t->set_var( "item_delete_command", "$page_path/delete" );
+        $t->set_var( "item_view_command", "$page_path/view" );
+        $t->set_var( "item_list_command", "$page_path/list" );
+        $t->set_var( "item_new_command", "$page_path/new" );
+        $t->set_var( "item_form_command", $item_form_command );
+        $t->set_var( "item_id", $ItemID );
+        $t->set_var( "item_name", $ItemName );
+        $t->set_var( "back_url", $back_command );
+        $t->set_var( "item_back_command", $back_command );
+
+        $t->set_var( "action", $Action );
+        $t->set_var( "type", $ListType );
+
+        $SearchText = stripslashes( $SearchText );
+        $t->set_var( "search_form_text", $SearchText );
+        $t->set_var( "search_text", $search_encoded );
+
+        if ( isset( $Searchable ) )
+            $t->parse( "search_item", "search_item_tpl" );
+
+        $count = count( $item_type_array );
+
+        if ( isset( $params["func_call"] ) )
+            $func_call =& $params["func_call"];
+        if ( isset( $params["custom_func_call"] ) )
+            $custom_func_call =& $params["custom_func_call"];
+        if ( isset( $params["item_url"] ) )
+            $ItemUrl = $params["item_url"];
+        if ( isset( $params["move_item" ] ) )
+             $move_item = $params["move_item"];
+
+        $t->set_var( "name_header_item", "" );
+        $t->set_var( "custom_header_item", "" );
+        if ( isset( $params["header_names"] ) )
+        {
+            foreach( $params["header_names"] as $header )
+            {
+                $t->set_var( "custom_header", $header );
+                $t->parse( "custom_header_item", "custom_header_item_tpl", true );
+            }
+        }
+        else
+        {
+            $t->parse( "name_header_item", "name_header_item_tpl" );
+        }
+
+        $t->set_var( "delete_header_item", "" );
+        $t->set_var( "delete_box_item", "" );
+        $t->set_var( "delete_button_item", "" );
+        if ( !isset( $params["no_delete"] ) )
+        {
+            $t->parse( "delete_header_item", "delete_header_item_tpl" );
+            $t->parse( "delete_button_item", "delete_button_item_tpl" );
+        }
+
+        $i = 0;
+        foreach( $item_type_array as $item )
+        {
+            $t->set_var( "item_move_up", "" );
+            $t->set_var( "no_item_move_up", "" );
+            $t->set_var( "item_move_down", "" );
+            $t->set_var( "no_item_move_down", "" );
+            $t->set_var( "item_separator", "" );
+            $t->set_var( "no_item_separator", "" );
+
+            $t->set_var( "type_item", "" );
+            $t->set_var( "item_plain", "" );
+            $t->set_var( "item_linked", "" );
+
+            $t->set_var( "bg_color", ( $i %2 ) == 0 ? "bglight" : "bgdark" );
+
+            if ( isset( $func_call ) and is_array( $func_call ) )
+            {
+                reset( $func_call );
+                while( list($key,$val) = each( $func_call ) )
+                {
+                    $t->set_var( $key, eZTextTool::htmlspecialchars( $item->$val() ) );
+                }
+            }
+            else
+            {
+                $t->set_var( "item_id", $item->id() );
+                $t->set_var( "item_name", eZTextTool::htmlspecialchars( $item->name() ) );
+            }
+
+            if ( isset( $ItemUrl ) )
+            {
+                $t->set_var( "item_url_command", $ItemUrl );
+                $t->parse( "item_linked", "item_linked_tpl" );
+            }
+            else
+            {
+                $t->parse( "item_plain", "item_plain_tpl" );
+            }
+            $t->parse( "type_item", "type_item_tpl", true );
+
+            if ( isset( $custom_func_call ) and is_array( $custom_func_call ) )
+            {
+                $t->set_var( "item_plain", "" );
+                $t->set_var( "item_linked", "" );
+                reset( $custom_func_call );
+                while( list($key,$val) = each( $custom_func_call ) )
+                {
+                    $t->set_var( "item_name", eZTextTool::htmlspecialchars( $item->$val() ) );
+                    $t->parse( "item_plain", "item_plain_tpl" );
+                    $t->parse( "type_item", "type_item_tpl", true );
+                }
+            }
+
+            if ( $i > 0 && isset( $move_item ) )
+            {
+                $t->parse( "item_move_up", "item_move_up_tpl" );
+            }
+            else
+            {
+                $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
+            }
+
+            if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
+            {
+                $t->parse( "item_separator", "item_separator_tpl" );
+            }
+            else
+            {
+                $t->parse( "no_item_separator", "no_item_separator_tpl" );
+            }
+
+            if ( $i < $count - 1 && isset( $move_item ) )
+            {
+                $t->parse( "item_move_down", "item_move_down_tpl" );
+            }
+            else
+            {
+                $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
+            }
+            if ( !isset( $params["no_delete"] ) )
+                $t->parse( "delete_box_item", "delete_box_item_tpl" );
+
+            $t->parse( "line_item", "line_item_tpl", true );
+
+            $i++;
+        } 
+
+        if( $count < 1 )
+        {
+            $t->parse( "no_line_item", "no_line_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "list_item", "list_item_tpl" );
+        }
+
+        $t->setAllStrings();
+
+        $Max = $params["max"];
+        $Offset = $params["offset"];
+        $total_types = $params["total_types"];
+
+        if ( is_numeric( $total_types ) and $total_types >= 0 )
+            eZList::drawNavigator( $t, $total_types, $Max, $Offset, "list_page" );
+
+        if ( !$no_print )
+            $t->pparse( "output", "list_page" );
+        else
+            return $t->parse( "output", "list_page" );
+    }
 
     /*!
       Draws next/prev navigators by using a specified template.
