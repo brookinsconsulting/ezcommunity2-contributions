@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.24 2001/02/26 09:54:53 pkej Exp $
+// $Id: messageedit.php,v 1.25 2001/02/26 12:55:58 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -109,19 +109,15 @@ switch( $Action )
         $CheckMessageID = $MessageID;
         $CheckForumID = $msg->forumID();
 
-        $msg->readLock();
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
         if( $MessageDelete == false )
         {
-            $msg->unLock();
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
         
-        $msg->writeLock();
         $msg->delete();
-        $msg->unLock();
         
     }
     break;
@@ -217,20 +213,17 @@ switch( $Action )
         $CheckMessageID = $OriginalID;
         $ForumID = $msg->forumID();
         $CheckForumID = $ForumID;
-        $msg->readLock();
+
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
         if( $ForumPost == false )
         {
-            $msg->unLock();
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
 
         $msg->setIsTemporary( false );
-        $msg->writeLock();
         $msg->store();
-        $msg->unLock();
 
        
         if( $StartAction == "reply" )
@@ -274,13 +267,11 @@ switch( $Action )
 
         $CheckMessageID = $OriginalID;
         $CheckForumID = $msg->forumID();
-        $msg->readLock();
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
         if( $MessageEdit == false )
         {
-            $msg->unLock();
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
         
@@ -288,9 +279,7 @@ switch( $Action )
         $msg->setBody( $tmpmsg->body() );
         $msg->setEmailNotice( $tmpmsg->emailNotice() );
         
-        $msg->writeLock();
         $msg->store();
-        $msg->unLock();
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
     }
     
@@ -486,6 +475,12 @@ switch( $Action )
                     {
                         $msg = new eZForumMessage();
                         $msg->setForumID( $ForumID );
+                    }
+                    break;
+                    
+                    default:
+                    {
+                        $msg = new eZForumMessage( $OriginalID );
                     }
                     break;
                     
