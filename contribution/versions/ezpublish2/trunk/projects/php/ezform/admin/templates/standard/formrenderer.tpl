@@ -198,3 +198,7 @@
 <!-- BEGIN max_tpl -->
 {max}
 <!-- END max_tpl -->
+
+<!-- BEGIN median_tpl -->
+{median}
+<!-- END median_tpl -->

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.6 2002/01/21 17:42:52 jhe Exp $
+// $Id: ezformreportelement.php,v 1.7 2002/01/22 08:22:25 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -183,6 +183,12 @@ class eZFormReportElement
                 return $this->statMax( &$template );
             }
             break;
+
+            case 7:
+            {
+                return $this->statMedian( &$template );
+            }
+            break;
         }
     }
 
@@ -292,6 +298,34 @@ class eZFormReportElement
         $output = $template->parse( $target, "max_tpl" );
         return $output;
     }
+
+    function statMedian( &$template )
+    {
+        $template->set_var( "median", "" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT Result FROM eZForm_FormElementResult
+                                 WHERE ElementID='$this->ElementID'
+                                 ORDER BY (Result+0)" );
+        if ( count( $res ) == 0 )
+        {
+            $median = 0;
+        }
+        else
+        {
+            if ( count( $res ) % 2 == 0 )
+            {
+                $median = ( $res[(count( $res ) / 2 )]["Result"] + $res[(count( $res ) / 2 ) - 1]["Result"] ) / 2;
+            }
+            else
+            {
+                $median = $res[(count( $res ) / 2 ) - 1]["Result"];
+            }
+        }
+        $template->set_var( "median", $median );
+        $output = $template->parse( $target, "median_tpl" );
+        return $output;
+    }
     
     function types()
     {
@@ -302,7 +336,8 @@ class eZFormReportElement
             array( "Name" => "sum", "Description" => "intl-sum" ),
             array( "Name" => "average", "Description" => "intl-average" ),
             array( "Name" => "min", "Description" => "intl-min" ),
-            array( "Name" => "max", "Description" => "intl-max" )
+            array( "Name" => "max", "Description" => "intl-max" ),
+            array( "Name" => "median", "Description" => "intl-median" )
             );
         return $ret;
     }
