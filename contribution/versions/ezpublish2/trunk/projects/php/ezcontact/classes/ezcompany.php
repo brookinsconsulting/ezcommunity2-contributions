@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.32 2000/11/27 09:36:59 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.33 2000/11/27 14:15:18 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -474,7 +474,6 @@ class eZCompany
 
             $this->Database->query( "INSERT INTO eZContact_CompanyImageDict
                                      SET CompanyID='$this->ID', ImageID='$imageID'" );
-                 
         }
 
     }
@@ -566,6 +565,24 @@ class eZCompany
                                      LogoImageID='$imageID'" );
             }
         }
+    }
+
+    function deleteImage( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $this->Database->query( "UPDATE eZContact_CompanyImageDefinition SET CompanyImageID='0' WHERE CompanyID='$this->ID'" );
+    }
+
+    function deleteLogo( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $this->dbInit();
+       
+       $this->Database->query( "UPDATE eZContact_CompanyImageDefinition SET LogoImageID='0' WHERE CompanyID='$this->ID'" );
     }
 
 

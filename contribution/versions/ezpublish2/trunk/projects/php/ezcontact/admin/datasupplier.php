@@ -8,12 +8,6 @@ switch ( $url_array[2] )
     {
         switch ( $url_array[3] )
         {
-            case "list":
-            {
-                $CategoryID = $url_array[4];
-                include( "ezcontact/admin/companylist.php" );
-                break;
-            }
             case "new":
             {
                 $Action = "new";

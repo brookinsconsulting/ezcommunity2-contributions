@@ -99,13 +99,6 @@
 <input type="hidden" name="OnlineID[]" value="{email_online_id}">
 <!-- END email_item_tpl -->
 
-
-
-<!-- BEGIN logo_add_tpl -->
-	<p class="boxtext">{intl-logo}</p>
-	<input size="40" name="logo" type="file" />
-<!-- END logo_add_tpl -->
-
 <!-- BEGIN image_add_tpl -->
 	<p class="boxtext">{intl-image}</p>
 	<input size="40" name="image" type="file" />
@@ -119,7 +112,7 @@
        <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
         </td>
     <td>
-    	<p class="boxtext">{intl-logo}</p>
+    	<p class="boxtext">{intl-image}</p>
 	<input size="20" name="image" type="file" />
 	<input type="hidden" name="ImageID" value="{image_id}">
     </td>
@@ -130,6 +123,11 @@
 <tr>
 </table>
 <!-- END image_edit_tpl -->
+
+<!-- BEGIN logo_add_tpl -->
+	<p class="boxtext">{intl-logo}</p>
+	<input size="40" name="logo" type="file" />
+<!-- END logo_add_tpl -->
 
 <!-- BEGIN logo_edit_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -145,7 +143,7 @@
     </td>
     <td>
 	<p class="boxtext">{intl-delete}</p>
-	<input name="DeleteImage" type="checkbox" />
+	<input name="DeleteLogo" type="checkbox" />
     </td>
 <tr>
 </table>
@@ -158,9 +156,8 @@
 
 <input type="hidden" name="UserID" value="{user_id}" />
 <input class="okbutton" type="submit" value="OK" />
-</form>
-
-<form method="post" action="/contact/companylist/">
+<input class="okbutton" type="submit" name="Update" value="{intl-update}">
 <input class="okbutton" type="submit" name="Back" value="{intl-back}">
+
 </form>
 

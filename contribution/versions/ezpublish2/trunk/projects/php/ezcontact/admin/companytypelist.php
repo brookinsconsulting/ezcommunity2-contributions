@@ -52,7 +52,10 @@ else
     $t->set_block( "path_tpl", "path_item_tpl", "path_item" );
     $t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
     $t->set_block( "type_page", "company_item_tpl", "company_item" );
+    $t->set_block( "company_item_tpl", "image_view_tpl", "image_view" );
     $t->set_block( "type_page", "no_companies_tpl", "no_companies" );
+    $t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
+
     
     $t->set_var( "image_item", "" );
     
@@ -190,30 +193,6 @@ else
 
             $t->set_var( "type_id", $id );
 
-            $companyList = $company->getByCategory( $id );
-
-            for( $index = 0; $index < count( $companyList ); $index++ )
-            {
-                if ( ( $index %2 ) == 0 )
-                    $t->set_var( "td_class", "bglight" );
-                else
-                    $t->set_var( "td_class", "bgdark" );
-
-                $t->set_var( "company_id", $companyList[$index]->id() );
-                $t->set_var( "company_name", $companyList[$index]->name() );
-                
-                $logoObj = $companyList[$index]->logoImage();
-                
-                if ( get_class ( $logoObj ) == "ezimage" )
-                {
-                    $variationObj = $logoObj->requestImageVariation( 150, 150 );
-            
-                    $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
-                }
-                $companyListDone = true;
-            }
-
-
             if( empty( $name ) )
             {
                 $t->set_var( "type_name", "&nbsp;" );
@@ -243,10 +222,49 @@ else
         }
     }
 
+    // List all the companies.
+    $companyList = $company->getByCategory( $TypeID );
+
+    for( $index = 0; $index < count( $companyList ); $index++ )
+    {
+        if ( ( $index %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+        
+        $t->set_var( "company_id", $companyList[$index]->id() );
+        $t->set_var( "company_name", $companyList[$index]->name() );
+        
+        $logoObj = $companyList[$index]->logoImage();
+        
+        if ( get_class ( $logoObj ) == "ezimage" )
+        {
+            $variationObj = $logoObj->requestImageVariation( 150, 150 );
+            
+            $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
+            
+            $imageDone = true;
+        }
+        $companyListDone = true;
+    }
+    
+
     if ( $companyListDone == true )
     {
         $t->set_var( "no_companies", "" );
         $t->parse( "company_item", "company_item_tpl" );
+
+        if ( $imageDone == true )
+        {
+            $t->set_var( "no_image", "no_image_tpl" );
+            $t->parse( "image_view", "image_view_tpl" );
+        }
+        else
+        {
+            print( "ingen bilde" );
+            $t->set_var( "image_view", "" );
+            $t->parse( "no_image", "no_image_tpl" );
+        }
     }
     else
     {

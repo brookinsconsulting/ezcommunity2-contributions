@@ -159,7 +159,12 @@
 	{company_name}
 	</td>
 	<td class="{td_class}">
+	<!-- BEGIN image_view_tpl -->
         <img src="{company_logo_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<!-- END image_view_tpl -->
+	<!-- BEGIN no_image_tpl -->
+	<p>{intl-no_image}</p>
+	<!-- END no_image_tpl -->	
 	</td>
 	<td class="{td_class}" width="1%">
 	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>

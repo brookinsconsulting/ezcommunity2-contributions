@@ -254,47 +254,61 @@ if ( $Action == "update" )
         }
     }
 
+
+    $imageFile = new eZImageFile();
     
-    // Store or update images
-    if ( $logo != "" )
+    if ( $imageFile->getUploadedFile( "image" ) )
     {
-        // Upload images
-        $file = new eZImageFile();
-        if ( $file->getUploadedFile( "logo" ) )
-        {
-            $logo = new eZImage( $LogoID );
-            $logo->setName( "Logo" );
-            $logo->setImage( $file );
-            $logo->store();
-            
-            $company->setLogoImage( $logo );
-        }
-        else
-        {
-            print( $file->name() . " not uploaded successfully" );
-        }
+
+        $oldImage = new eZImage( $ImageID );
+
+        $companyImage = new eZImage();
+
+        $companyImage->setImage( $imageFile );
+        
+        $companyImage->store();
+
+        $company->setCompanyImage( $companyImage );
+    }
+    else
+    {
+        $companyImage = new eZImage( $ImageID );
+        $companyImage->store();
     }
 
-//      // Store or update images
-//      if ( $image != "" )
-//      {
-//          // Upload images
-//          $file = new eZImageFile();
-//          if ( $file->getUploadedFile( "image" ) )
-//          {
-//              $image = new eZImage( $ImageID );
-//              $image->setName( "Image" );
-//              $image->setImage( $file );
-//              $image->store();
-            
-//              $company->setLogoImage( $image );
-//          }
-//          else
-//          {
-//              print( $file->name() . " not uploaded successfully" );
-//          }
-//      }
+    // Upload image and logo
+    $logoFile = new eZImageFile();
+   
+    if ( $logoFile->getUploadedFile( "logo" ) )
+    {
 
+        $oldImage = new eZImage( $LogoID );
+
+        $companyLogo = new eZImage();
+
+        $companyLogo->setImage( $logoFile );
+        
+        $companyLogo->store();
+
+        $company->setLogoImage( $companyLogo );
+    }
+    else
+    {
+        $companyLogo = new eZImage( $LogoID );
+        $companyLogo->store();
+    }
+
+    if ( $DeleteImage == "on" )
+    {
+        $company->deleteImage( );
+    }
+
+    if ( $DeleteLogo == "on" )
+    {
+        $company->deleteLogo( );
+    }
+
+    
     // Update or store address
     $addressList = $company->addresses( $CompanyID );
 
@@ -374,8 +388,16 @@ if ( $Action == "update" )
 
     $company->store();
 
-    header( "Location: /contact/company/list/" );
-    exit();
+    if ( isSet( $Update ) )
+    {
+        header( "Location: /contact/company/edit/$CompanyID/" );
+        exit();
+    }
+    else
+    {
+        header( "Location: /contact/companytype/list" );
+        exit();
+    }
 }
 
 if ( $Action == "new" )
@@ -405,9 +427,11 @@ if ( $Action == "edit" )
     $t->set_var( "description", $company->comment() );
     $t->set_var( "companyno", $company->companyNo() );
 
+
+    // View logo.
     $logoImage = $company->logoImage();
 
-    if ( get_class ( $logoImage ) )
+    if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
     {
         $variation = $logoImage->requestImageVariation( 150, 150 );
         
@@ -418,10 +442,17 @@ if ( $Action == "edit" )
         $t->set_var( "logo_add", "" );
         $t->parse( "logo_edit", "logo_edit_tpl" );
     }
+    else
+    {
+        $t->set_var( "logo_edit", "" );
+        $t->parse( "logo_add", "logo_add_tpl" );
+    }
+    
 
+    // View company image.
     $companyImage = $company->companyImage();
     
-    if ( get_class ( $companyImage ) )
+    if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
     {
         $variation = $companyImage->requestImageVariation( 150, 150 );
         
@@ -431,6 +462,11 @@ if ( $Action == "edit" )
         
         $t->set_var( "image_add", "" );
         $t->parse( "image_edit", "image_edit_tpl" );
+    }
+    else
+    {
+        $t->set_var( "image_edit", "" );
+        $t->parse( "image_add", "image_add_tpl" );
     }
 
 
@@ -482,6 +518,7 @@ if ( $Action == "edit" )
 
     // Online list
     $onlineList = $company->onlines( $company->id() );
+
     if ( count ( $onlineList ) <= 2 )
     {
         for( $i=0; $i<count ( $onlineList ); $i++ )
@@ -497,10 +534,11 @@ if ( $Action == "edit" )
                 $t->set_var( "email", $onlineList[$i]->URL() );
             }
             
-            $t->parse( "web_item", "web_item_tpl" );
-            $t->parse( "email_item", "email_item_tpl" );
         }
     }
+    $t->parse( "web_item", "web_item_tpl" );
+    $t->parse( "email_item", "email_item_tpl" );
+
     // Template variabler.
     $Action_value = "update";
     
