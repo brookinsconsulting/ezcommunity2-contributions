@@ -47,11 +47,10 @@ ezsite          projects/php/ezsite
 ezbug           projects/php/ezbug
 eztodo          projects/php/eztodo
 ezclassified    projects/php/ezclassified
-ezabout		projects/php/ezabout 
  
 # Distribution
-publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezabout
-trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin &ezabout
+publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
+trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin
 
 # site alias
 zez_modules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin   
