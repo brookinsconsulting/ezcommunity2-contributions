@@ -40,6 +40,13 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "edit" :
+            {
+                $Action = "Edit";
+                $AppointmentID = $url_array[4];
+            }
+            break;
+
             default :
             {
                 $Action = $url_array[3];

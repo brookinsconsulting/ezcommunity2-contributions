@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.3 2001/01/15 13:54:28 gl Exp $
+// $Id: ezappointment.php,v 1.4 2001/01/17 10:19:20 ce Exp $
 //
 // Definition of eZAppointment class
 //
@@ -329,6 +329,19 @@ class eZAppointment
         
         return $this->Priority;
     }
+
+    /*!
+      Sets the appointment type.
+    */
+    function type( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $type = new eZAppointmentType( $this->AppointmentTypeID );
+       return $type;
+    }
+
 
     /*!
       Returns true if the appointment is public.

@@ -1,5 +1,5 @@
 
-<form method="post" action="/calendar/appointmentedit/">
+<form method="post" action="/calendar/appointmentedit/{action_value}/{appointment_id}/">
 
 <h1>{intl-appointment_edit}</h1>
 
@@ -80,13 +80,13 @@
 <p class="boxtext">{intl-priority}:</p>
 
 <select name="Priority">
-<option value="0">{intl-low_priority}</option>
-<option value="1" selected>{intl-normal_priority}</option>
-<option value="2">{intl-high_priority}</option>
+<option value="0" {0_selected}>{intl-low_priority}</option>
+<option value="1" {1_selected}>{intl-normal_priority}</option>
+<option value="2" {2_selected}>{intl-high_priority}</option>
 </select>
 
 <p class="boxtext">{intl-private_appointment}:</p>
-<input type="checkbox" name="IsPrivate" />
+<input {is_private} type="checkbox" name="IsPrivate" />
 
 <hr noshade="noshade" size="4" />
 

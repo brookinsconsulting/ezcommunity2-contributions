@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.2 2001/01/09 17:00:07 bf Exp $
+// $Id: appointmentedit.php,v 1.3 2001/01/17 10:19:20 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -123,11 +123,8 @@ if ( $Action == "Insert" )
         $appointment->setDuration( $duration );
         
         $appointment->store();
-        
     }
 }
-
-
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -143,6 +140,48 @@ $t->set_block( "appointment_edit_tpl", "value_tpl", "value" );
 
 $t->set_block( "appointment_edit_tpl", "month_tpl", "month" );
 $t->set_block( "appointment_edit_tpl", "day_tpl", "day" );
+
+if ( $Action == "Edit" )
+{
+    $appointment = new eZAppointment( $AppointmentID );
+    $t->set_var( "name_value", $appointment->name() );
+    $t->set_var( "description_value", $appointment->description() );
+
+    $type =& $appointment->type();
+    $typeID = $type->id();
+
+    $startTime =& $appointment->startTime();
+    $startHour = ( eZTime::addZero( $startTime->hour() ) );
+    $startMinute = ( eZTime::addZero( $startTime->minute() ) );
+    $t->set_var( "start_value", $startHour . $startMinute );
+
+    $stopTime =& $appointment->stopTime();
+    $stopHour = ( eZTime::addZero( $stopTime->hour() ) );
+    $stopMinute = ( eZTime::addZero( $stopTime->minute() ) );
+    $t->set_var( "stop_value", $stopHour . $stopMinute );
+
+    if ( $appointment->priority() == 0 )
+        $t->set_var( "0_selected", "selected" );
+    if ( $appointment->priority() == 1 )
+        $t->set_var( "1_selected", "selected" );
+    if ( $appointment->priority() == 2 )
+        $t->set_var( "2_selected", "selected" );
+
+    $dt =& $appointment->date();
+
+    $t->set_var( "year_value", $dt->year() );
+
+    if ( $appointment->isPrivate() )
+    {
+        $t->set_var( "is_private", "checked" );
+    }
+    else
+    {
+        $t->set_var( "is_private", "" );
+    }
+
+    $t->set_var( "action_value", "update" );
+}
 
 
 // print out error messages
@@ -165,10 +204,13 @@ else
     $t->set_var( "stop_time_error", "" );
 }
 
-$t->set_var( "action_value", "Insert" );
-$t->set_var( "name_value", "" );
-$t->set_var( "description_value", "" );
-$t->set_var( "private_checked", "" );
+if ( $Action == "New" )
+{
+    $t->set_var( "action_value", "Insert" );
+    $t->set_var( "name_value", "" );
+    $t->set_var( "description_value", "" );
+    $t->set_var( "private_checked", "" );
+}
 
 // print the appointment types
 $type = new eZAppointmentType();
@@ -180,6 +222,18 @@ foreach ( $typeList as $type )
         $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
     else
         $t->set_var( "option_level", "" );
+
+    if ( $typeID )
+    {
+        if ( $typeID == $type[0]->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
     
     $t->set_var( "option_name", $type[0]->name() );
     $t->set_var( "option_value", $type[0]->id() );
@@ -195,6 +249,18 @@ for ( $i=1; $i<13; $i++ )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
+
+    if ( $Action == "Edit" )
+    {
+        if ( $dt->month() == $i )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
     
     $dateTime->setMonth( $i );
     $t->set_var( "month_id", $i );
@@ -209,6 +275,18 @@ for ( $i=1; $i<32; $i++ )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
+
+    if ( $Action == "Edit" )
+    {
+        if ( $dt->day() == $i )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
     
     $t->set_var( "day_id", $i );
     $t->set_var( "day_name", $i );
@@ -216,13 +294,13 @@ for ( $i=1; $i<32; $i++ )
     $t->parse( "day", "day_tpl", true );
 }
 
-$t->set_var( "start_value", "" );
+//  $t->set_var( "start_value", "" );
 
-$t->set_var( "stop_value", "" );
+//  $t->set_var( "stop_value", "" );
 
 
-
-$t->set_var( "year_value", $dateTime->year() );
+if ( $Action != "Edit" )
+    $t->set_var( "year_value", $dateTime->year() );
 
 $t->pparse( "output", "appointment_edit_tpl" );
 
