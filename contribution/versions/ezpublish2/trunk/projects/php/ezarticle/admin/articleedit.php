@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.73 2001/04/26 15:18:12 jb Exp $
+// $Id: articleedit.php,v 1.74 2001/04/27 10:28:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -655,7 +655,7 @@ if ( $Action == "Edit" )
     {
         if ( !isset( $Contents[$i] ) )
         {
-            $t->set_var( "article_contents_$i", $content );
+            $t->set_var( "article_contents_$i", htmlspecialchars( $content ) );
         }
         $i++;
     }
