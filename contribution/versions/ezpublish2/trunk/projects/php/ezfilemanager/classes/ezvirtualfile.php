@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.3 2001/01/04 16:25:08 ce Exp $
+// $Id: ezvirtualfile.php,v 1.4 2001/01/04 19:18:00 jb Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -250,7 +250,7 @@ class eZVirtualfile
     /*!
       Returns a eZUser object.
     */
-    function user();
+    function user()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
