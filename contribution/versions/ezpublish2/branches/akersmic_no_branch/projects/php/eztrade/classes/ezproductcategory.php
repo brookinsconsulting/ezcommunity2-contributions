@@ -1,5 +1,5 @@
 <?php
-// $Id: ezproductcategory.php,v 1.52.8.3 2002/01/14 10:28:54 ce Exp $
+// $Id: ezproductcategory.php,v 1.52.8.4 2002/01/14 12:18:47 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -281,6 +281,31 @@ class eZProductCategory
         }
     }
 
+    /*!
+      Returns the categories with the category given as parameter as parent.
+
+    */
+    function &getByParentAsID( $parent, $sortby=name, $limit=20, $offset=0 )
+    {
+        if ( get_class( $parent ) == "ezproductcategory" )
+        {
+            $db =& eZDB::globalDatabase();
+
+            $return_array = array();
+            $category_array = array();
+
+            $parentID = $parent->id();
+
+            $db->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$parentID' ORDER BY Name", array( "Limit" => $limit, "Offset" => $offset ) );
+
+            return $category_array;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
     /*!
       Returns the categories with the category given as parameter as parent.
 

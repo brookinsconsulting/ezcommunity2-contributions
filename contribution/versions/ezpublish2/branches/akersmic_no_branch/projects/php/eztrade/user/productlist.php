@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41.8.2 2002/01/14 10:28:54 ce Exp $
+// $Id: productlist.php,v 1.41.8.3 2002/01/14 12:18:47 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -111,28 +111,31 @@ foreach ( $pathArray as $path )
     $SiteTitleAppend .= $path[1] . " - ";
 }
 
-$categoryList =& $category->getByParent( $category, "name", $Limit, $Offset );
+$categoryList =& $category->getByParentAsID( $category, "name", $Limit, $Offset );
 $TotalTypes =& $category->countByParent( $category );
+
 // categories
 $i = 0;
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "category_id", $categoryItem->id() );
-    $t->set_var( "category_name", $categoryItem->name() );
-    $t->set_var( "category_description", $categoryItem->description() );
+    $t->set_var( "category_id", $categoryItem["ID"] );
+    $t->set_var( "category_name", $categoryItem["Name"] );
+    $t->set_var( "category_description", "" );
 
-    $parent = $categoryItem->parent();
+
+    // get subcategories if only one letter, akersmic hack
+    $db =& eZDB::globalDatabase();
+
+    $sub_category_array = array();
+    $db->array_query( $sub_category_array,
+    "SELECT ID, Name FROM eZTrade_Category WHERE LENGTH(Name )=1 AND Parent='" . $categoryItem["ID"] . "' ORDER BY Name"  );
+
+    foreach ( $sub_category_array as $subCategory )
+    {
+        print( $subCategory["Name"] );
+    }
     
-    if ( $categoryItem->parent() != 0 )
-    {
-        $parent = $categoryItem->parent();
-        $t->set_var( "category_parent", $parent->name() );
-    }
-    else
-    {
-        $t->set_var( "category_parent", "&nbsp;" );
-    }
-
+    
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
