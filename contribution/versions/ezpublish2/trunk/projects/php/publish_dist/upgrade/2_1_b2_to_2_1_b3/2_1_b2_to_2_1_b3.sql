@@ -1,3 +1,21 @@
+#
+# Admin privelidges!! READ THIS!!
+#
+# When uppgrading to version 2.1 beta 3 initially nobody will be able to access the admin site.
+# This is because access to admin modules are now restricted and the default value is set to no
+# access. To fix this, give the admin group root privelidges (they will then be able to see all modules)
+# and give the admin groups access to the correct modules by giving them "ModuleEdit" on that module.
+# The procedure is as follows..
+# First run this file...
+# Then find the ID of the administrators group...
+# select * from eZUser_Group; 
+# It's most probably ID 1.
+# Now run:
+# update eZUser_Group set IsRoot='1' WHERE ID='xxx'; #where xxx is the id you just found.
+# You can now log in with your admin user and set the correct permissions...
+alter table eZUser_Group add IsRoot int(1) default '0';
+
+
 # 
 # Sections
 #
@@ -5,7 +23,6 @@ alter table eZArticle_Category add SectionID int not null;
 
 create table eZSection_Section( ID int primary key auto_increment, Name char(200) );  
 
-alter table eZUser_Group add IsRoot int(1) default '0';
 ALTER TABLE eZTrade_Link ADD ModuleType int(11) NOT NULL;
 CREATE TABLE eZModule_LinkModuleType
        (ID int(11) NOT NULL AUTO_INCREMENT,
