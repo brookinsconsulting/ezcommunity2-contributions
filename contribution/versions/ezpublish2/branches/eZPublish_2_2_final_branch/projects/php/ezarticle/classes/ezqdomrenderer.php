@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55.2.7 2002/01/04 21:17:02 kaid Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.8 2002/01/07 09:21:16 jhe Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -317,6 +317,8 @@ class eZQDomrenderer
                 $articleMedia =& $this->Article->media();
             
             $articleID = $this->Article->id();
+
+            $body = array();
             
             foreach ( $xml->children as $child )
             {
