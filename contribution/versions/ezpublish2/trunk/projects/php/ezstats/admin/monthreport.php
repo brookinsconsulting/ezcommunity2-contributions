@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: monthreport.php,v 1.8 2001/03/02 09:44:55 fh Exp $
+// $Id: monthreport.php,v 1.9 2001/03/21 13:46:32 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -202,8 +202,6 @@ else
 $t->parse( "month_previous", "month_previous_tpl" );
 
 $t->parse( "month", "month_tpl" );
-
-if ( $NextMonth );
 
 $t->pparse( "output", "month_report_tpl" );
 
