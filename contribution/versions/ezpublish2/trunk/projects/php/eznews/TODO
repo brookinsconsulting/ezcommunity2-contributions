@@ -1,0 +1,11 @@
+General:
+* Add templates for html.
+* Add general handlers.
+
+In all classes:
+* function store()
+  Add code for checking if the object is coherent or not. If it is
+  coherent, we need to UPDATE the object, instead of doing an insert.
+  
+  There might be exceptions in article and group, but for most the above
+  is correct.
