@@ -142,7 +142,7 @@ CREATE TABLE eZContact_Address (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Street1 char(50),
   Street2 char(50),
-  AddressType int(11),
+  AddressTypeID int(11),
   Place char(50),
   Zip char(10),
   CountryID int(11),
