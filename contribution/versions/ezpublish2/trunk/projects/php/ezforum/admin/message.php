@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.34 2001/09/24 11:53:43 jhe Exp $
+// $Id: message.php,v 1.35 2001/09/24 12:13:06 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 
 $ini =& INIFile::globalINI();
 
+$AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/ezlocale.php" );
@@ -67,8 +68,6 @@ $t->set_var( "forum_name", $forum->name() );
 $t->set_var( "message_id", $message->id() );
 $t->set_var( "message_topic", $message->topic() );
 
-$t->set_var( "topic", $message->topic() );
-
 $user = $message->user();
 
 $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
@@ -76,7 +75,11 @@ $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 $t->set_var( "topic", $message->topic() );
 
 $t->set_var( "postingtime", $message->postingTime() );
-$t->set_var( "body", nl2br( $message->body() ) );
+
+if ( $AllowHTML == "enabled" )
+    $t->set_var( "body", $message->body( true ) );
+else
+    $t->set_var( "body", nl2br( $message->body( false ) ) );
 
 $t->set_var( "reply_id", $message->id() );
 
@@ -94,7 +97,7 @@ $locale = new eZLocale( $Language );
 
 $level = 0;
 
-$i=0;
+$i = 0;
 foreach ( $messages as $message )
 {
     if ( ( $i % 2 ) == 0 )

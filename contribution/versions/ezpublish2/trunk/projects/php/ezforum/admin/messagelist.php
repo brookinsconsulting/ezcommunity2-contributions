@@ -1,5 +1,6 @@
 <?php
-// $Id: messagelist.php,v 1.19 2001/09/24 11:53:43 jhe Exp $
+//
+// $Id: messagelist.php,v 1.20 2001/09/24 12:13:06 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -81,43 +82,44 @@ else
     $level = 0;
     $i = 0;
     foreach ( $messages as $message )
+    {
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+        
+        $level = $message->depth();
+        
+        if ( $level > 0 )
+            $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
+        else
+            $t->set_var( "spacer", "" );
+        
+        $t->set_var( "message_topic", $message->topic() );
+        
+        $t->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
+        
+        $t->set_var( "message_id", $message->id() );
+        
+        $user = $message->user();
+        if ( $user->id() != 0 )
         {
-            if ( ( $i % 2 ) == 0 )
-                $t->set_var( "td_class", "bglight" );
-            else
-                $t->set_var( "td_class", "bgdark" );
-    
-            $level = $message->depth();
-    
-            if ( $level > 0 )
-                $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
-            else
-                $t->set_var( "spacer", "" );
-    
-            $t->set_var( "message_topic", $message->topic() );
-
-            $t->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
-
-            $t->set_var( "message_id", $message->id() );
-
-            $user = $message->user();
-            if ( $user->id() != 0 )
-            {
-                $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
-            }
-            else
-            {
-                $t->set_var( "message_user", $AnonymousPoster );
-            }
-            if ( $message->emailNotice() == "Y" )
-                $t->set_var( "emailnotice", $true );
-            else
-                $t->set_var( "emailnotice", $false );
-
-            $t->parse( "message_item", "message_item_tpl", true );
-            $i++;
+            $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
         }
-} 
+        else
+        {
+            $t->set_var( "message_user", $AnonymousPoster );
+        }
+        if ( $message->emailNotice() == "Y" )
+            $t->set_var( "emailnotice", $true );
+        else
+            $t->set_var( "emailnotice", $false );
+        
+        $t->parse( "message_item", "message_item_tpl", true );
+        $i++;
+    }
+}
+
 eZList::drawNavigator( $t, $messageCount, $AdminLimit, $Offset, "message_page" );
 
 $t->set_var( "forum_start", $Offset + 1 );
@@ -132,4 +134,5 @@ $t->set_var( "category_id", $CategoryID );
 $t->set_var( "forum_id", $ForumID );
 
 $t->pparse( "output", "message_page" );
+
 ?>
