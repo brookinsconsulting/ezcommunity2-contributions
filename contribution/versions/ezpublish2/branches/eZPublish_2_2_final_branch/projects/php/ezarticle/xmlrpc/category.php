@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.14.2.4 2002/07/05 13:16:16 gl Exp $
+// $Id: category.php,v 1.14.2.5 2002/07/24 08:01:46 gl Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -128,6 +128,7 @@ else if( $Command == "storedata" ) // save the category data!
         $category->setImage( $Data["ImageID"]->value() );
         $category->store();
         eZArticleTool::deleteCache( 0, $parentid, 0 );
+        eZArticleTool::deleteCache( 0, $ID, 0 );
 
         $ID = $category->id();
         eZObjectPermission::removePermissions( $ID, "article_category", 'r' );
