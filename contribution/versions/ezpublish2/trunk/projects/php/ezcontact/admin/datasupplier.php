@@ -8,7 +8,7 @@ switch ( $url_array[2] )
     {
         $CompanyID = $url_array[4];
         $Action = $url_array[3];
-        switch ( $url_array[3] )
+        switch ( $Action )
         {
             // intentional fall through
             case "new":
@@ -18,16 +18,6 @@ switch ( $url_array[2] )
             case "insert":
             {
                 include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
-            case "list":
-            {
-                include( "ezcontact/admin/companytypelist.php" );
-                break;
-            }
-            case "test":
-            {
-                include( "ezcontact/admin/test.php" );
                 break;
             }
             case "view":
@@ -57,11 +47,11 @@ switch ( $url_array[2] )
         break;
     }
 
-    case "companytype" :
+    case "companycategory" :
     {
         $TypeID = $url_array[4];
         $Action = $url_array[3];
-        switch( $url_array[3] )
+        switch( $Action )
         {
             // intentional fall through
             case "new":
@@ -71,11 +61,6 @@ switch ( $url_array[2] )
             case "insert":
             {
                 include( "ezcontact/admin/companytypeedit.php" );
-                break;
-            }
-            case "view":
-            {
-                include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
             case "list":
@@ -137,7 +122,10 @@ switch ( $url_array[2] )
             case "edit":
             case "update":
             case "delete":
+            case "confirm":
             case "insert":
+            case "up":
+            case "down":
             {
                 include( "ezcontact/admin/phonetypeedit.php" );
                 break;
@@ -145,11 +133,6 @@ switch ( $url_array[2] )
             case "list":
             {
                 include( "ezcontact/admin/phonetypelist.php" );
-                break;
-            }
-            case "view":
-            {
-                include( "ezcontact/admin/phonetypeview.php" );
                 break;
             }
             default:
@@ -172,7 +155,10 @@ switch ( $url_array[2] )
             case "edit":
             case "update":
             case "delete":
+            case "confirm":
             case "insert":
+            case "up":
+            case "down":
             {
                 include( "ezcontact/admin/addresstypeedit.php" );
                 break;
@@ -180,11 +166,6 @@ switch ( $url_array[2] )
             case "list":
             {
                 include( "ezcontact/admin/addresstypelist.php" );
-                break;
-            }
-            case "view":
-            {
-                include( "ezcontact/admin/addresstypeview.php" );
                 break;
             }
             default:
@@ -208,7 +189,10 @@ switch ( $url_array[2] )
             case "edit":
             case "update":
             case "delete":
+            case "confirm":
             case "insert":
+            case "up":
+            case "down":
             {
                 include( "ezcontact/admin/onlinetypeedit.php" );
                 break;
@@ -218,11 +202,135 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/onlinetypelist.php" );
                 break;
             }
-            case "view":
+            default:
             {
-                include( "ezcontact/admin/onlinetypeview.php" );
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
                 break;
             }
+        }
+        break;
+    }
+
+    case "consultation":
+    {
+        $ConsultationID = $url_array[4];
+        $Action = $url_array[3];
+        switch ( $Action )
+        {
+            // intentional fall through
+            case "new":
+            case "edit":
+            case "update":
+            case "delete":
+            case "insert":
+            {
+                include( "ezcontact/admin/consultationedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/consultationlist.php" );
+                break;
+            }
+            case "company":
+            {
+                $SubAction = $url_array[3];
+                $Action = $url_array[4];
+                $CompanyID = $url_array[5];
+//                  $ConsultationID = $url_array[5];
+                switch ( $Action )
+                {
+                    // intentional fall through
+                    case "new":
+                    case "edit":
+                    case "update":
+                    case "delete":
+                    case "insert":
+                    {
+                        include( "ezcontact/admin/consultationedit.php" );
+                        break;
+                    }
+                    case "list":
+                    {
+                        $ConsultationList = true;
+                        include( "ezcontact/admin/consultationlist.php" );
+                        break;
+                    }
+                    case "view":
+                    {
+                        include( "ezcontact/admin/consultationview.php" );
+                        break;
+                    }
+                }
+                break;
+            }
+            case "person":
+            {
+                $SubAction = $url_array[3];
+                $Action = $url_array[4];
+                $PersonID = $url_array[5];
+//                  $ConsultationID = $url_array[5];
+                switch ( $Action )
+                {
+                    // intentional fall through
+                    case "new":
+                    case "edit":
+                    case "update":
+                    case "delete":
+                    case "insert":
+                    {
+                        include( "ezcontact/admin/consultationedit.php" );
+                        break;
+                    }
+                    case "list":
+                    {
+                        $ConsultationList = true;
+                        include( "ezcontact/admin/consultationlist.php" );
+                        break;
+                    }
+                    case "view":
+                    {
+                        include( "ezcontact/admin/consultationview.php" );
+                        break;
+                    }
+                }
+                break;
+            }
+
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
+
+    case "consultationtype":
+    {
+        $ConsultationTypeID = $url_array[4];
+        $Action = $url_array[3];
+        switch ( $Action )
+        {
+            // intentional fall through
+            case "new":
+            case "edit":
+            case "update":
+            case "delete":
+            case "confirm":
+            case "insert":
+            case "up":
+            case "down":
+            {
+                include( "ezcontact/admin/consultationtypeedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/consultationtypelist.php" );
+                break;
+            }
+
             default:
             {
                 header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
