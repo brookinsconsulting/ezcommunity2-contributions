@@ -2353,3 +2353,12 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: Added reference.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-26  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/templates/standard/articleview.tpl:
+    fixed problem with downloading files
+

@@ -2332,3 +2332,21 @@ Maintainer(s) : ce@ez.no
       user/checkout.php
       user/ordersendt.php: Added payment metnod
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-26  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezproduct.php: fixed pricegroups.
+
+    * classes/ezproduct.php: fixed bug in pricegroup.
+
+    * user/payment.php: fixed redirections
+
+    * user/payment.php: fixed redirections.
+
+2001-11-26  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezoptionvalue.php: Fixed a quantity bug on option values
+

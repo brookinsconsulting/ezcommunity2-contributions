@@ -812,3 +812,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/es_MX/userlogin.php.ini: es_MX update for 2.2.2
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-26  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messagepath.php: fixed small bug in coding syntax
+
