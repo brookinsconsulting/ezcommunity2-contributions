@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.40 2001/09/28 08:03:17 jhe Exp $
+// $Id: fileupload.php,v 1.41 2001/09/28 08:18:31 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -141,7 +141,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
                eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) ||
              ( $Action == "Update" &&
-             eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false ) )
+               eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false ) )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
@@ -193,8 +193,8 @@ if ( $Action == "Insert" && $error == false )
     $uploadedFile->store();
     $FileID = $uploadedFile->id();
     $folder = new eZVirtualFolder( $FolderID );
-
-    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
+    
+    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ) // user had write permission
     {
         changePermissions( $FileID, $ReadGroupArrayID, 'r' );
         changePermissions( $FileID, $WriteGroupArrayID, 'w' );
