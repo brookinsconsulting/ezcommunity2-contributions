@@ -1,6 +1,11 @@
 eZ publish changelog:
 ---------------------
 
+Changes from version 1.0.3
+--------------------------
+* Fixed max one "RE:" in reply of messages in forum.
+* Fixed so that the forum code runs under the latest version of PHP
+
 Changes from version 1.0.2
 --------------------------
 * Added discussion on articles / news
