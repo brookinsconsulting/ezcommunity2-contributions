@@ -23,17 +23,17 @@
     </td>
 </tr>
 </table>
-
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN email_tpl -->
 <table width="1%">
   <tr>
     <td>
-      <b>{intl-to_name}:</b><br />
+      <b>{intl-name}:</b><br />
       <input type="text" name="ToName" value="{to_name}" />
     </td>
     <td>
-      <b>{intl-to_email}:</b><br />
+      <b>{intl-email}:</b><br />
       <input type="text" name="Email" value="{to_email}" />
     </td>
   </tr>
@@ -61,67 +61,102 @@
 
 
 <!-- BEGIN smail_tpl -->
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<table width="60%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-     <td width="50%">
-     <b>{intl-name}:</b><br />
-     <input type="text" name="ToName" value="{to_name_value}" />
-     <input type="hidden" name="ToAddressID" value="{to_address_id}" />
-     <br /><br />
-
-     <b>{intl-to_street}:</b><br />
-     <input type="text" size="20" name="ToStreet1" value="{to_street1_value}"/>
-     <br /><br />
-     <b>{intl-to_street}:</b><br />
-     <input type="text" size="20" name="ToStreet2" value="{to_street2_value}"/>
-     <br /><br />
-     <b>{intl-to_zip}:</b><br />
-     <input type="text" size="20" name="ToZip" value="{to_zip_value}"/>
-     <br /><br />
-     <b>{intl-to_place}:</b><br />
-     <input type="text" size="20" name="ToPlace" value="{to_place_value}"/>
-     <br /><br />
+  <td width="50%">
+    <table width="100%" cellpadding="1" cellspacing="0" bgcolor="#003366">
+    <tr>
+    <td>  
+    <table width="100%" cellpadding="10" cellspacing="0" bgcolor="#FFFFFF">
+    <tr>
+    <th style="padding-top: 1px; padding-bottom: 1px">{intl-to_header}</th>
+    </tr>
+    <tr>
+    <td width="1%">
+     <b class="medium">{intl-name}:</b><br />
+     <input class="medium" style="width: 100%" type="text" name="ToName" value="{to_name_value}" />
+     <br />
+     <b class="medium">{intl-street}:</b><br />
+     <input class="medium" style="width: 100%" type="text" name="ToStreet1" value="{to_street1_value}"/>
+     <br />
+     <table cellpadding="0" cellspacing="0" border="0" width="100%">
+     <tr>
+     <td width="30%">
+     <b class="medium">{intl-zip}:</b><br />     
+     <input class="medium" type="text" style="width: 100%" name="ToZip" value="{to_zip_value}"/>
+     </td>
+     <td>&nbsp;</td>
+     <td width="70%">
+     <b class="medium">{intl-place}:</b><br />          
+     <input class="medium" type="text" style="width: 100%" name="ToPlace" value="{to_place_value}"/>
+     </td>
+     </tr>
+     </table>
      <!-- BEGIN to_country_tpl -->
-     <b>{intl-to_country}:</b><br />
-     <select name="ToCountryID" size="5">
+     <b class="medium">{intl-country}:</b><br />
+     <select class="medium" style="width: 100%" name="ToCountryID[]">
      <!-- BEGIN to_country_option_tpl -->
      <option {is_selected} value="{country_id}">{country_name}</option>
      <!-- END to_country_option_tpl -->
      </select>
-     <br /><br />
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    
      <!-- END to_country_tpl -->
      </td>
-     <td width="50%">
-     <b>{intl-from_name}:</b><br />
-     <input type="text" name="FromName" value="{from_name_value}" />
-     <input type="hidden" name="FromAddressID" value="{from_address_id}" />
-     <br /><br />
-
-     <b>{intl-from_street}:</b><br />
-     <input type="text" size="20" name="FromStreet1" value="{from_street1_value}"/>
-     <br /><br />
-     <b>{intl-from_street}:</b><br />
-     <input type="text" size="20" name="FromStreet2" value="{from_street2_value}"/>
-     <br /><br />
-     <b>{intl-from_zip}:</b><br />
-     <input type="text" size="20" name="FromZip" value="{from_zip_value}"/>
-     <br /><br />
-     <b>{intl-from_place}:</b><br />
-     <input type="text" size="20" name="FromPlace" value="{from_place_value}"/>
-     <br /><br />
+  <td width="50%">
+    <table width="100%" cellpadding="1" cellspacing="0" bgcolor="#003366">
+    <tr>
+    <td>  
+    <table width="100%" cellpadding="10" cellspacing="0" bgcolor="#FFFFFF">
+    <tr>
+    <th style="padding-top: 1px; padding-bottom: 1px">{intl-to_header}</th>
+    </tr>
+    <tr>
+    <td>     
+     <b class="medium">{intl-name}:</b><br />
+     <input class="medium" style="width: 100%" type="text" size="20" name="FromName" value="{from_name_value}" />
+     <br />
+     <b class="medium" >{intl-street}:</b><br />
+     <input class="medium" style="width: 100%" type="text" size="20" name="FromStreet1" value="{from_street1_value}"/>
+     <br />     
+     <table cellpadding="0" cellspacing="0" border="0" width="100%">
+     <tr>
+     <td width="30%">
+     <b class="medium">{intl-zip}:</b><br />     
+     <input class="medium" type="text" style="width: 100%" name="FromZip" value="{from_zip_value}"/>
+     </td>
+     <td>&nbsp;</td>
+     <td width="70%">
+     <b class="medium">{intl-place}:</b><br />          
+     <input class="medium" type="text" style="width: 100%" name="FromPlace" value="{from_place_value}"/>
+     </td>
+     </tr>
+     </table>
      <!-- BEGIN from_country_tpl -->
-     <b>{intl-from_country}:</b><br />
-     <select name="FromCountryID" size="5">
+     <b class="medium">{intl-country}:</b><br />
+     <select class="medium" style="width: 100%"  name="FromCountryID[]">
      <!-- BEGIN from_country_option_tpl -->
      <option {is_selected} value="{country_id}">{country_name}</option>
      <!-- END from_country_option_tpl -->
      </select>
-     <br /><br />
+      </td>
+     </tr>
+     </table>
+      </td>
+     </tr>
+     </table>
+
+
      <!-- END from_country_tpl -->
      </td>
 </tr>
 </table>
-
+<hr noshade="noshade" size="1" />
 <b>{intl-text}:</b><br />
 <textarea name="Description" cols="40" rows="8">{description}</textarea>
 <br /><br />

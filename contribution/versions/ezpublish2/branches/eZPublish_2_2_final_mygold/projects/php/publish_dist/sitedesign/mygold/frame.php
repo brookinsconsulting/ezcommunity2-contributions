@@ -24,7 +24,7 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 ?>
 
 <link rel="stylesheet" type="text/css" href="<? print $wwwDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
-<script language="JavaScript1.2">
+<script language="JavaScript1.2" type="text/javascript">
 <!--//
 
    function MM_swapImgRestore()
@@ -72,7 +72,7 @@ else
 ?>" />
 
 <meta name="description" content="MyGold.com - Gold, Schmuck und Geschenke zu fairen Preisen. Hier finden Sie Ringe, Ketten, Ohrringe, Armreifen, Diamanten, Gold, Goldschmuck und mehr"/>
-<meta name="MSSmartTagsPreventParsing" content="TRUE">
+<meta name="MSSmartTagsPreventParsing" content="TRUE" />
 <meta name="author" content="MyGold.com"/>
 <meta name="copyright" content="MyGold.com &copy; 2001"/>
 <meta name="keywords" content="Schmuck, Gold, Goldschmuck, Ringe, Armband, Halskette, Fusskette, Armkette, Ohrring, Diamant, Brillant, Topas Amethist, Perlen, Collier, Memoire, Soltär, Blautopas, Rubin, Preise, günstig, Geschenk, Geschenkidee, MyGold, Impetex, Silber, Angebot, Shop, Gutschein, Wunschzettel, Zirkonia, Ketten, Safir, Schmuck, Webshop, Geschenke, Gutschein, Ohrringe, Halsketten, Ringe, Diamanten"/>

@@ -120,7 +120,8 @@
 	      <!-- END option_tpl -->
 	      &nbsp;
 	    </td>
-	    <td align="right" valign="bottom"> 
+	    <td align="center" valign="bottom"> 
+	      <hr noshade="noshade" size="1" />
     	      <table border="0"><tr><td align="left"> 
 	      <!-- BEGIN price_tpl -->
 	      {product_price}<br />
@@ -137,7 +138,7 @@
 	      <td class="small">{intl-min}:</td><td class="small">{intl-unlimited}</td></tr>
               <!-- END price_range_min_unlimited_tpl -->
               <!-- BEGIN price_range_min_limited_tpl -->
-	      <table class="small">
+	      <table class="small" border="0">
 	      <tr>
               <td class="small">{intl-min}:</td><td class="small">{price_min}</td></tr>
               <!-- END price_range_min_limited_tpl -->
@@ -148,8 +149,8 @@
               <tr><td class="small">{intl-max}:</td><td class="small">{price_max}</td></tr></table>
               <!-- END price_range_max_limited_tpl -->
               <!-- END price_range_tpl -->
-	      &nbsp;
 	      </td></tr></table>	      
+	      <hr noshade="noshade" size="1" />	      
 	    </td>
 	  </tr>
           <tr>
@@ -189,7 +190,6 @@
 
 <!-- BEGIN voucher_buttons_tpl -->
 <input class="okbutton" type="submit" name="Voucher" value="{intl-next}" />
- 
 <!-- END voucher_buttons_tpl -->
 
   <br /><br />

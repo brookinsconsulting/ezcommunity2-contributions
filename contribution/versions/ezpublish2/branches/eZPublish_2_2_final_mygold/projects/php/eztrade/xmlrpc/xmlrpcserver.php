@@ -1,7 +1,7 @@
 
 <?php
 //
-// $Id: xmlrpcserver.php,v 1.20.4.1 2001/11/08 14:36:54 ce Exp $
+// $Id: xmlrpcserver.php,v 1.20.4.2 2001/11/12 08:19:38 sascha Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -50,6 +50,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcdouble.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcresponse.php" );
+include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 
 // for payment information
 include_once( "eztrade/classes/ezcheckout.php" );
@@ -196,12 +197,12 @@ function &newOrders( $args )
 }
 
 
-function &vouchers( $args )
+function vouchers( $args )
 {
     $user = new eZUser();
     $user = $user->validateUser( $args[0]->value(), $args[1]->value() );
-    $return = eZXMLRPCBool( false );
-    
+    $return = new eZXMLRPCBool( false );
+
     if ( ( get_class( $user ) == "ezuser" ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
         

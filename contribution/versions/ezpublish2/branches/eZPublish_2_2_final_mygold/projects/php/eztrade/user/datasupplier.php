@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.4.2 2001/10/26 09:25:23 sascha Exp $
+// $Id: datasupplier.php,v 1.54.4.3 2001/11/12 08:19:38 sascha Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -318,7 +318,7 @@ switch ( $url_array[2] )
     // XML rpc interface
     case "xmlrpc" :
     {
-        include( "eztrade/xmlrpc/xmlrpcserverimport.php" );
+        include( "eztrade/xmlrpc/xmlrpcserver.php" );
     }
     break;
 
