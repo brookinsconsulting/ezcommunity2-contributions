@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.4 2002/02/26 13:48:38 br Exp $
+// $Id: categoryedit.php,v 1.5 2002/02/26 13:57:44 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -210,7 +210,7 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     {
         // recursivly edit permissions on all file and folders...
         $categories = array();
-        $categories[] = $folder; // set permission on self.
+        $categories[] = $category; // set permission on self.
         $images = array();
         getImagesAndCategories( $categories, $images, $category );
 
