@@ -320,9 +320,19 @@ alter table eZImageCatalogue_Image add ReadPermission int DEFAULT '1';
 alter table eZImageCatalogue_Image add WritePermission int DEFAULT '1';
 alter table eZImageCatalogue_Image add UserID int;
 
-alter table eZImageCatalogue_Category add ReadPermission int DEFAULT '1';
-alter table eZImageCatalogue_Category add WritePermission int DEFAULT '1';
-alter table eZImageCatalogue_Category add UserID int;
+#
+# Table structure for table 'eZImageCatalogue_Category'
+#
+CREATE TABLE eZImageCatalogue_Category (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(100),
+  Description text,
+  ParentID int(11),
+  UserID int(11),
+  WritePermission int(11) DEFAULT '1',
+  ReadPermission int(11) DEFAULT '1',
+  PRIMARY KEY (ID)
+);
 
 # Permission to eZ filemanager
 alter table eZFileManager_File add ReadPermission int DEFAULT '1';
