@@ -206,7 +206,7 @@ Put all the trade files in your apache documentroot.
 # cd /path/to/apache/documentroot/ 
 \layout LyX-Code
 
-# tar zxvf /path/to/trade-1.0.tar.gz
+# tar zxvf /path/to/eztrade-1.0.tar.gz
 \layout Itemize
 
 Edit site.ini and add all the modules you need, and set the username and
