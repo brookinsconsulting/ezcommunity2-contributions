@@ -29,6 +29,7 @@ switch ( $url_array[2] )
     case "imageview" :
     {
         $ImageID = $url_array[3];
+        $VariationID = $url_array[4];
         include( "ezimagecatalogue/user/imageview.php" );
     }
     break;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.24 2001/06/25 15:23:28 bf Exp $
+// $Id: ezimagevariation.php,v 1.25 2001/06/27 07:57:02 jhe Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -281,6 +281,14 @@ class eZImageVariation
     }
 
     /*!
+      Returns the variations id
+    */
+    function &id()
+    {
+        return $this->ID;
+    }
+    
+    /*!
       Sets the ImageID
     */
     function setImageID( $value )
@@ -330,7 +338,7 @@ class eZImageVariation
     
     
     /*!
-      Functino which displays an error message, used if the variation could not be created.
+      Function which displays an error message, used if the variation could not be created.
     */
     function createErrorImage()
     {
@@ -341,7 +349,7 @@ class eZImageVariation
         $imageVar->setHeight( 40 );
         return $imageVar;
     }
-    
+
     var $ID;
     var $ImageID;
     var $VariationGroupID;

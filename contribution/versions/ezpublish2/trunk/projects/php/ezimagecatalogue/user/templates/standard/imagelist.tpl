@@ -78,6 +78,13 @@
 	<td>
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
+	<td><table>
+	<!-- BEGIN image_variation_tpl -->
+	<tr><td>
+	<a href="/imagecatalogue/imageview/{image_id}/{variation_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/">{variation_width}x{variation_height}</a>
+	</td></tr>
+	<!-- END image_variation_tpl -->
+	</table>
 	<td class="{td_class}">
 	<span class="small">{image_caption}</span>
 	</td>

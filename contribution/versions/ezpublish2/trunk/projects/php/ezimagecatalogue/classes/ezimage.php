@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.56 2001/06/26 11:31:52 jhe Exp $
+// $Id: ezimage.php,v 1.57 2001/06/27 07:57:02 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -926,9 +926,9 @@ class eZImage
         
         $returnArray = array();
 
-        $db->array_query( $variationArray, "SELECT ID
-                                                        FROM eZImageCatalogue_ImageVariation
-                                                        WHERE ImageID='$this->ID'" );
+        $db->array_query( $variationArray, "SELECT ID, Width, Height
+                                            FROM eZImageCatalogue_ImageVariation
+                                            WHERE ImageID='$this->ID' ORDER BY Width, Height" );
 
         foreach ( $variationArray as $variation )
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.26 2001/06/25 15:23:28 bf Exp $
+// $Id: imagelist.php,v 1.27 2001/06/27 07:57:02 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -100,6 +100,7 @@ $t->set_block( "image_tpl", "write_tpl", "write" );
 
 $t->set_block( "detail_view_tpl", "detail_read_tpl", "detail_read" );
 $t->set_block( "detail_view_tpl", "detail_write_tpl", "detail_write" );
+$t->set_block( "detail_read_tpl", "image_variation_tpl", "variation" );
 
 $t->set_block( "image_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_tpl", "category" );
@@ -108,6 +109,7 @@ $t->set_block( "category_tpl", "category_write_tpl", "category_write" );
 $t->set_block( "category_tpl", "category_read_tpl", "category_read" );
 
 $t->set_var( "read", "" );
+$t->set_var( "variation", "" );
 $t->set_var( "write_menu", "" );
 
 $t->set_var( "delete_images_button" , "" );
@@ -269,6 +271,29 @@ foreach ( $imageList as $image )
     if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) ||
          eZImage::isOwner( $user, $image->id() ) )
     {
+        $variationList = $image->variations();
+
+        for ( $i = 0; $i < count( $variationList ); $i++ )
+        {
+            if ( $variationList[$i]->height() == $image->height() &&
+                 $variationList[$i]->width() == $image->width() )
+            {
+                $value = array_slice( $variationList, $i, 1 );
+                $variationList = array_merge( $value, array_slice( $variationList, 0, $i - 1 ), array_slice( $variationList, $i + 1 ) );
+                break;
+            }
+        }
+        
+        $t->set_var( "variation", "" );
+        foreach ( $variationList as $variation )
+        {
+            $t->set_var( "variation_id", $variation->id() );
+            $t->set_var( "variation_width", $variation->width() );
+            $t->set_var( "variation_height", $variation->height() );
+
+            $t->parse( "variation", "image_variation_tpl", true );
+        }
+
         $can_read = true;
         if ( ( $i % $imagesPerRow ) == 0 )
         {

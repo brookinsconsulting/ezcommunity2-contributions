@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.14 2001/03/05 16:16:04 bf Exp $
+// $Id: imageview.php,v 1.15 2001/06/27 07:57:02 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -57,32 +57,30 @@ $image = new eZImage( $ImageID );
 //    exit();
 //}
 
-if ( $ShowOriginal != "enabled" )
+if ( $ShowOriginal != "enabled" && !isset( $VariationID ) )
 {
     $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
     $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
-    
-    $t->set_var( "image_uri", "/" . $variation->imagePath() );
-    $t->set_var( "image_width", $variation->width() );
-    $t->set_var( "image_height", $variation->height() );
-    $t->set_var( "image_caption", $image->caption() );
-    $t->set_var( "image_name", $image->name() );
-    $t->set_var( "image_description", $image->description() );
-
-
-    $t->set_var( "referer_url", $RefererURL );
 }
-else
+else if ( isset( $VariationID ) )
 {
-    $t->set_var( "image_uri", $image->filePath( ) );
-    $t->set_var( "image_width", $image->width() );
-    $t->set_var( "image_height", $image->height() );
-    $t->set_var( "image_caption", $image->caption() );
-    $t->set_var( "image_name", $image->name() );
-    $t->set_var( "image_description", $image->description() );
-    
-    $t->set_var( "referer_url", $RefererURL );
+    $variation = new eZImageVariation( $VariationID );
+    if ( $variation->imageID() != $ImageID )
+    {
+        
+        $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
+        $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
+    }
 }
+
+$t->set_var( "image_uri", "/" . $variation->imagePath() );
+$t->set_var( "image_width", $variation->width() );
+$t->set_var( "image_height", $variation->height() );
+$t->set_var( "image_caption", $image->caption() );
+$t->set_var( "image_name", $image->name() );
+$t->set_var( "image_description", $image->description() );
+
+$t->set_var( "referer_url", $RefererURL );
 
 $t->pparse( "output", "image_view_tpl" );
 
