@@ -2,11 +2,11 @@
 
 <hr noshade size="4"/>
 <img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
-<a class="path" href="/trade/productlist/0/">{intl-top}</a>
+<a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
 <img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="/trade/productlist/{category_id}/">{category_name}</a>
+<a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
 <hr noshade size="4"/>
@@ -30,7 +30,7 @@
 <table align="right" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/trade/productview/{product_id}/">
+	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
 	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
 </tr>
@@ -57,7 +57,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
 	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
 	</td>
 </tr>
@@ -78,7 +78,7 @@
 </tr>
 </table>
 
-<form action="/trade/cart/add/{product_id}/" method="post">
+<form action="/{module}/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
 
@@ -156,6 +156,8 @@
 </table>
 <!-- END attribute_list_tpl -->
 
+{extra_product_info}
+
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN add_to_cart_tpl -->
@@ -165,11 +167,11 @@
 <!-- END add_to_cart_tpl -->
 
 <!-- BEGIN numbered_page_link_tpl -->
-<div align="center"><a class="path" href="/trade/productview/{product_id}/0/">| {intl-numbered_page} |</a></div>
+<div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<div align="center"> <a class="path" href="/trade/productprint/{product_id}/">| {intl-print_page} |</a></div>
+<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/">| {intl-print_page} |</a></div>
 <!-- END print_page_link_tpl -->
 
 </form>
