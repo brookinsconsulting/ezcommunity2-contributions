@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.13 2001/04/27 08:43:34 ce Exp $
+// $Id: articleedit.php,v 1.14 2001/05/02 13:09:52 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -26,7 +26,6 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
-include_once( "classes/ezmail.php" );
 include_once( "classes/ezcachefile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
