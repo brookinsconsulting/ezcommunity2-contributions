@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.36 2001/07/05 15:03:36 jhe Exp $
+// $Id: cart.php,v 1.37 2001/07/05 16:17:46 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -257,9 +257,7 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "cart_page_tpl" => "cart.tpl"
-    ) );
+$t->set_file( "cart_page_tpl", "cart.tpl" );
 
 
 $t->set_block( "cart_page_tpl", "cart_checkout_tpl", "cart_checkout" );
@@ -394,14 +392,14 @@ foreach ( $items as $item )
             if ( $price )
             {
                 $found_price = true;
-                $priceobj->setValue( $price );
+                $priceobj->setValue( $price * $item->count() );
             }
         }
         if ( !$found_price )
         {
-            $priceobj->setValue( $product->price() );
+            $priceobj->setValue( $product->price() * $item->count() );
         }
-        $t->set_var( "product_price", $locale->format( $priceobj ) );        
+        $t->set_var( "product_price", $locale->format( $priceobj ) );
     }
     else
     {

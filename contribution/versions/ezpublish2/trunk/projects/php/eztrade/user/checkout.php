@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.63 2001/07/05 15:03:36 jhe Exp $
+// $Id: checkout.php,v 1.64 2001/07/05 16:17:46 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -252,12 +252,6 @@ $can_checkout = true;
             }
         }
 
-
-
-
-
-
-
         $priceobj = new eZCurrency();
 
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
@@ -270,12 +264,12 @@ $can_checkout = true;
                 if ( $price )
                 {
                     $found_price = true;
-                    $priceobj->setValue( $price );
+                    $priceobj->setValue( $price * $item->count() );
                 }
             }
             if ( !$found_price )
             {
-                $priceobj->setValue( $product->price() );
+                $priceobj->setValue( $product->price() * $item->count() );
             }
             $t->set_var( "product_price", $locale->format( $priceobj ) );        
         }

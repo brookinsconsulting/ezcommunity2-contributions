@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.18 2001/07/05 15:03:36 jhe Exp $
+// $Id: smallcart.php,v 1.19 2001/07/05 16:17:46 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -122,12 +122,12 @@ foreach ( $items as $item )
                 if ( $price )
                 {
                     $found_price = true;
-                    $priceobj->setValue( $price );
+                    $priceobj->setValue( $price * $item->count() );
                 }
             }
             if ( !$found_price )
             {
-                $priceobj->setValue( $product->price() );
+                $priceobj->setValue( $product->price() * $item->count() );
             }
             $t->set_var( "product_price", $locale->format( $priceobj ) );        
         }
