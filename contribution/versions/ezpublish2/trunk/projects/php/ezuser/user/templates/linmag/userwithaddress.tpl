@@ -168,7 +168,7 @@
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td>
-<div class="boxtext"><input {info_paper_subscription} type="checkbox" name="InfoPaperSubscription" />&nbsp;Jeg er abonent av Linux Magazinet</div>
+<div class="boxtext"><input {info_paper_subscription} type="checkbox" name="InfoPaperSubscription" />&nbsp;Jeg er abonnent av Linux Magazinet</div>
 <td>
 <!-- BEGIN paper_subscription_number_tpl -->
 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
