@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.18 2001/03/01 14:06:25 jb Exp $
+// $Id: ezezrenderer.php,v 1.19 2001/07/19 12:19:21 jakobn Exp $
 //
 // Definition of eZEzRenderer class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 13:46:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -75,7 +75,6 @@
 */
 
 
-//  $tmpPage = "<mail adresse@domain.tld subject line, link text>";
 
 //  $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
 

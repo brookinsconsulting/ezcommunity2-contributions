@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.127 2001/07/19 10:43:26 bf Exp $
+// $Id: ezarticle.php,v 1.128 2001/07/19 12:19:21 jakobn Exp $
 //
 // Definition of eZArticle class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 13:50:24 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: ezimagemap.php,v 1.2 2001/07/09 11:29:55 jhe Exp $
+// $Id: ezimagemap.php,v 1.3 2001/07/19 12:19:21 jakobn Exp $
 //
-// Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <12-Jun-2001 17:41:10 jhe>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

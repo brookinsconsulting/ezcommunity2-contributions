@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.9 2001/01/22 14:42:59 jb Exp $
+// $Id: ezezgenerator.php,v 1.10 2001/07/19 12:19:21 jakobn Exp $
 //
 // Definition of eZEzGenerator class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 13:45:54 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: articlelinks.php,v 1.13 2001/05/21 12:17:39 ce Exp $
+// $Id: articlelinks.php,v 1.14 2001/07/19 12:19:21 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

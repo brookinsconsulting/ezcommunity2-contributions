@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezarticleattribute.php,v 1.6 2001/07/10 13:24:36 jb Exp $
+// $Id: ezarticleattribute.php,v 1.7 2001/07/19 12:19:21 jakobn Exp $
 //
 // Definition of eZArticleAttribute class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <01-Jun-2001 13:43:02 pkej>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

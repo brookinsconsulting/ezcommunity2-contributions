@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: topiclist.php,v 1.4 2001/07/03 13:29:52 bf Exp $
+// $Id: topiclist.php,v 1.5 2001/07/19 12:19:21 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <01-Jun-2001 11:58:53 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

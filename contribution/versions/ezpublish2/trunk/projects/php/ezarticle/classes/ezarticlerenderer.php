@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.9 2001/04/07 13:54:19 bf Exp $
+// $Id: ezarticlerenderer.php,v 1.10 2001/07/19 12:19:21 jakobn Exp $
 //
 // Definition of eZArticleRenderer class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:35:33 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

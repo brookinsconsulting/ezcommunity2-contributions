@@ -1,9 +1,12 @@
-<?
+<?php
 // 
-// $Id: search.php,v 1.1 2001/07/18 15:16:28 jb Exp $
+// $Id: search.php,v 1.2 2001/07/19 12:19:22 jakobn Exp $
+//
+// Created on: <23-Oct-2000 17:53:46 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

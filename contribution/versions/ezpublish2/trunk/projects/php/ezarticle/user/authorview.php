@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: authorview.php,v 1.8 2001/07/03 12:41:58 bf Exp $
+// $Id: authorview.php,v 1.9 2001/07/19 12:19:21 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 15:36:13 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

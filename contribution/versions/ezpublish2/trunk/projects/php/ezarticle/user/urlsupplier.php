@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: urlsupplier.php,v 1.1 2001/05/05 10:46:55 jb Exp $
+// $Id: urlsupplier.php,v 1.2 2001/07/19 12:19:21 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <04-May-2001 17:23:30 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

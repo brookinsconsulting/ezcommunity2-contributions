@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezarticlecategory.php,v 1.73 2001/07/18 15:14:37 jb Exp $
+// $Id: ezarticlecategory.php,v 1.74 2001/07/19 12:19:21 jakobn Exp $
 //
 // Definition of eZArticleCategory class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:05:56 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
