@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.57 2001/09/14 08:30:51 pkej Exp $
+// $Id: cart.php,v 1.58 2001/09/14 10:25:29 pkej Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -39,7 +39,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
 $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
-$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
@@ -57,6 +57,26 @@ if ( isset( $ShopMore ) )
 // Set some variables to defaults.
 $ShowCart = false;
 $ShowSavingsColumn = false;
+
+if ( isset( $DeleteSelected ) )
+{
+    if ( count( $CartSelectArray ) > 0 )
+    foreach ( $CartSelectArray as $cartID )
+    {
+        $cartItem = new eZCartItem( $cartID );
+        $optionValues =& $cartItem->optionValues();
+
+        foreach( $optionValues as $optionValue )
+        {
+            $optionValue->delete();
+        }
+
+        $cartItem->delete();
+    }
+    
+    eZHTTPTool::header( "Location: /trade/cart/" );
+    exit();
+}
 
 if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
 {
@@ -76,8 +96,6 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
             }
             
             $cartItem->delete();
-            
-            $delte = true;
         }
         else
         {
@@ -137,9 +155,8 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
             }
 
             $cartItem->store();
-
-            $i++;
         }
+        $i++;
     }
 }
 
@@ -337,7 +354,7 @@ $t->set_block( "cart_item_basis_tpl", "basis_savings_item_tpl", "basis_savings_i
 $t->set_block( "cart_item_basis_tpl", "basis_inc_tax_item_tpl", "basis_inc_tax_item" );
 $t->set_block( "cart_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_item" );
 
-$t->set_block( "cart_page_tpl", "tax_specification_tpl", "tax_specification" );
+$t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
 $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
 $t->set_block( "cart_page_tpl", "cart_checkout_tpl", "cart_checkout" );
