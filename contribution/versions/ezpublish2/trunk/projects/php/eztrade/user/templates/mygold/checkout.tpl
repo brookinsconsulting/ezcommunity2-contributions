@@ -76,18 +76,18 @@
 <!-- END cart_item_list_tpl -->
 
 <!-- BEGIN billing_address_tpl -->
-<p>{intl-billing_to}:</p>
+<p><b>{intl-billing_to}:</b></p>
 <select name="BillingAddressID">
 <!-- BEGIN billing_option_tpl -->
-<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place} {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {zip} {place}</option>
 <!-- END billing_option_tpl -->
 </select>
 <!-- END billing_address_tpl -->
 
-<p>{intl-shipping_to}:</p>
+<p><b>{intl-shipping_to}:</b></p>
 <select name="ShippingAddressID">
 <!-- BEGIN shipping_address_tpl -->
-<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place} {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {zip} {place}</option>
 <!-- END shipping_address_tpl -->
 <!-- BEGIN wish_user_tpl -->
 <option value="{wish_user_address_id}">{wish_first_name} {wish_last_name}</option>
@@ -98,7 +98,7 @@
 <hr noshade="noshade" size="1" />
 <br />
 
-{intl-payment_methods_description}:
+{intl-payment_methods_description}:&nbsp;
 
 <select name="PaymentMethod">
 <!-- BEGIN payment_method_tpl -->
