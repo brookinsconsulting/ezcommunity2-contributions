@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.42 2001/04/09 09:16:37 bf Exp $
+// $Id: messageedit.php,v 1.43 2001/04/23 11:39:02 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -310,6 +310,12 @@ switch( $Action )
                 $mail->setTo( $moderator->email() );
 
                 $mail->send();
+            }
+            
+            if( $forum->isModerated() )
+            {
+                $msg->setIsApproved ( false );
+                $msg->store();
             }
         }
         
