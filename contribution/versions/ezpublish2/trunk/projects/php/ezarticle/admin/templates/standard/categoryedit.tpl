@@ -7,6 +7,14 @@
 <p class="boxtext">{intl-name}</p>
 <input type="text" size="20" name="Name" value="{name_value}"/>
 
+<br />
+<input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
+<span class="boxtext">{intl-exclude_from_search}</span>
+
+
+
+
+
 <p class="boxtext">{intl-place}</p>
 <select name="ParentID">
 <option value="0">topp</option>

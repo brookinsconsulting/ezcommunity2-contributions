@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.5 2000/10/26 09:30:41 bf-cvs Exp $
+// $Id: groupedit.php,v 1.6 2000/10/28 12:29:01 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -38,6 +38,16 @@ if ( $Action == "insert" )
     $category->setName( $Name );
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
+
+    if ( $ExcludeFromSearch == "on" )
+    {
+        $category->setExcludeFromSearch( true );
+    }
+    else
+    {
+        $category->setExcludeFromSearch( false );
+    }
+    
     $category->store();
 
     $categoryID = $category->id();
@@ -57,6 +67,15 @@ if ( $Action == "update" )
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
 
+    if ( $ExcludeFromSearch == "on" )
+    {
+        $category->setExcludeFromSearch( true );
+    }
+    else
+    {
+        $category->setExcludeFromSearch( false );
+    }
+    
     $category->store();
 
     $categoryID = $category->id();
@@ -93,6 +112,7 @@ $categoryArray = $category->getAll( );
 $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
 $t->set_var( "action_value", "insert" );
+$t->set_var( "exclude_checked", "" );
 
 // edit
 if ( $Action == "edit" )
@@ -104,6 +124,11 @@ if ( $Action == "edit" )
     $t->set_var( "description_value", $category->description() );
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
+
+    if ( $category->excludeFromSearch() == true )
+    {
+        $t->set_var( "exclude_checked", "checked" );
+    }
 }
 
 foreach ( $categoryArray as $catItem )

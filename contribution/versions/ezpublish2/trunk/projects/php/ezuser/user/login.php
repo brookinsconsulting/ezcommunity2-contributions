@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.4 2000/10/28 11:54:14 ce-cvs Exp $
+// $Id: login.php,v 1.5 2000/10/28 12:29:01 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -45,14 +45,6 @@ $t->setAllStrings();
 $t->set_file( array(
     "login" => "login.tpl"
     ) );
-
-$session = new eZSession();
-
-// if no session exist create one.
-if ( !$session->fetch() )
-{
-    $session->store();
-}
 
 if ( $Action == "login" )
 {

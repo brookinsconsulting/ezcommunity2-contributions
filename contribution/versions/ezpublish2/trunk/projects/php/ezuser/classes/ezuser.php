@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.12 2000/10/26 13:23:26 ce-cvs Exp $
+// $Id: ezuser.php,v 1.13 2000/10/28 12:29:01 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -391,16 +391,16 @@ class eZUser
     */
     function loginUser( $user )
     {
-//          header ( "Pragma: no-cache" );
-//          header ("Cache-Control: no-cache, must-revalidate");
-
         $ret = false;
 
         if ( get_class( $user ) == "ezuser" )
         {
             $session = new eZSession();
             
-            $session->fetch();
+            if ( !$session->fetch() )
+            {
+                $session->store();
+            }
             
             $session->setVariable( "AuthenticatedUser", $user->id() );
             $ret = true;            
@@ -414,7 +414,6 @@ class eZUser
     */
     function logout( )
     {
-        header ("Pragma: no-cache");
         $session = new eZSession();
         $session->fetch();
         $session->setVariable( "AuthenticatedUser", "" );

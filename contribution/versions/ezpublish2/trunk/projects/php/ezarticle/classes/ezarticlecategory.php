@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.7 2000/10/26 19:19:57 bf-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.8 2000/10/28 12:29:01 bf-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -37,6 +37,7 @@ class eZArticleCategory
     function eZArticleCategory( $id=-1, $fetch=true )
     {
         $this->IsConnected = false;
+        $this->ExcludeFromSearch = "false";
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -67,6 +68,7 @@ class eZArticleCategory
             $this->Database->query( "INSERT INTO eZArticle_Category SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
+                                 ExcludeFromSearch='$this->ExcludeFromSearch',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
         }
@@ -75,6 +77,7 @@ class eZArticleCategory
             $this->Database->query( "UPDATE eZArticle_Category SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
+                                 ExcludeFromSearch='$this->ExcludeFromSearch',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
@@ -119,6 +122,7 @@ class eZArticleCategory
                 $this->Name = $category_array[0][ "Name" ];
                 $this->Description = $category_array[0][ "Description" ];
                 $this->ParentID = $category_array[0][ "ParentID" ];
+                $this->ExcludeFromSearch = $category_array[0][ "ExcludeFromSearch" ];
             }
                  
             $this->State_ = "Coherent";
@@ -154,9 +158,12 @@ class eZArticleCategory
     /*!
       Returns the categories with the category given as parameter as parent.
 
-      The categories are returned as an array of eZArticleCategory objects.
+      If $showAll is set to true every category is shown. By default the categories
+      set as exclude from search is excluded from this query.
+
+      The categories are returned as an array of eZArticleCategory objects.      
     */
-    function getByParent( $parent, $sortby=name )
+    function getByParent( $parent, $showAll=false, $sortby=name )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
@@ -166,9 +173,20 @@ class eZArticleCategory
             $category_array = array();
 
             $parentID = $parent->id();
-                 
-            $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category WHERE ParentID='$parentID' ORDER BY Name" );
-        
+
+            if ( $showAll == true )
+            {
+                $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
+                                          WHERE ParentID='$parentID'
+                                          ORDER BY Name" );
+            }
+            else
+            {
+                $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
+                                          WHERE ParentID='$parentID' AND ExcludeFromSearch='false'
+                                          ORDER BY Name" );
+            }
+
             for ( $i=0; $i<count($category_array); $i++ )
             {
                 $return_array[$i] = new eZArticleCategory( $category_array[$i]["ID"], 0 );
@@ -268,6 +286,26 @@ class eZArticleCategory
 
 
     /*!
+      Returns true if the category is to be excluded
+      from search, false if not.
+    */
+    function excludeFromSearch( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->ExcludeFromSearch  == "true" )
+       {
+           $ret = true;
+       }
+
+       return $ret;
+    }
+    
+
+
+    /*!
       Sets the name of the category.
     */
     function setName( $value )
@@ -303,6 +341,24 @@ class eZArticleCategory
        }
     }
 
+    /*!
+     Sets the exclude from search bit.
+     The argumen can be true or false.
+    */
+    function setExcludeFromSearch( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->ExcludeFromSearch = "true";
+       }
+       else
+       {
+           $this->ExcludeFromSearch = "false";           
+       }
+    }
 
     /*!
       Adds a article to the category.
@@ -330,8 +386,12 @@ class eZArticleCategory
 
     /*!
       Returns every article in a category as a array of eZArticle objects.
+
+      If $fetchNonPublished is set to true the articles which is not published is
+      also returned. If the $getExcludedArticles is set to true the articles which are
+      excluded from search is also returned.
     */
-    function articles( $sortMode=time, $fetchNonPublished=true )
+    function articles( $sortMode=time, $fetchNonPublished=true, $getExcludedArticles=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -347,26 +407,41 @@ class eZArticleCategory
            }
            break;
        }
-       
-       
+
        $return_array = array();
        $article_array = array();
 
        if ( $fetchNonPublished  == true )
        {
-           $this->Database->array_query( $article_array, "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_ArticleCategoryLink.ArticleID 
-                                                      FROM eZArticle_Article, eZArticle_ArticleCategoryLink
-                                                      WHERE CategoryID='$this->ID' AND eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
-                                                      ORDER BY $OrderBy" );
+           $this->Database->array_query( $article_array, "
+                SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
+                FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
+                WHERE 
+                eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                AND
+                eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
+                AND
+                eZArticle_Category.ID='$this->ID'
+                AND
+                eZArticle_Category.ExcludeFromSearch = 'false'
+                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
        }
        else
        {
-           $this->Database->array_query( $article_array, "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_ArticleCategoryLink.ArticleID 
-                                                      FROM eZArticle_Article, eZArticle_ArticleCategoryLink
-                                                      WHERE CategoryID='$this->ID' AND eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
-                                                      AND eZArticle_Article.IsPublished='true'
-                                                      ORDER BY $OrderBy" );
-           
+           $this->Database->array_query( $article_array, "
+                SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
+                FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
+                WHERE 
+                eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                AND
+                eZArticle_Article.IsPublished = 'true'
+                AND
+                eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
+                AND
+                eZArticle_Category.ID='$this->ID'
+                AND
+                eZArticle_Category.ExcludeFromSearch = 'false'
+                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
        }
  
        for ( $i=0; $i<count($article_array); $i++ )
@@ -377,34 +452,6 @@ class eZArticleCategory
        return $return_array;
     }
     
-    /*!
-      Returns every active article in a category as a array of eZArticle objects.
-    */
-    function activeArticles()
-    {
-//         if ( $this->State_ == "Dirty" )
-//              $this->get( $this->ID );
-
-//         $this->dbInit();
-       
-//         $return_array = array();
-//         $product_array = array();
-       
-//         $this->Database->array_query( $product_array, "SELECT eZTrade_Product.ID AS ProductID from eZTrade_ProductCategoryLink,
-//                                                               eZTrade_Product WHERE eZTrade_ProductCategoryLink.CategoryID='$this->ID' AND
-//                                                               eZTrade_Product.ShowProduct='true'
-//                                                               AND eZTrade_ProductCategoryLink.ProductID=eZTrade_Product.ID
-//                                                               GROUP BY eZTrade_Product.ID" );
-//         for ( $i=0; $i<count($product_array); $i++ )
-//         {
-//             $return_array[$i] = new eZProduct( $product_array[$i]["ProductID"], false );
-//         }
-       
-//         return $return_array;
-    }
-    
-
-
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
@@ -422,6 +469,7 @@ class eZArticleCategory
     var $Name;
     var $ParentID;
     var $Description;
+    var $ExcludeFromSearch;
 
     ///  Variable for keeping the database connection.
     var $Database;

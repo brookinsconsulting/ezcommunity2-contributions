@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.4 2000/10/25 18:44:32 bf-cvs Exp $
+// $Id: articlelist.php,v 1.5 2000/10/28 12:29:00 bf-cvs Exp $
 //
 // 
 //
@@ -65,7 +65,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$categoryList = $category->getByParent( $category );
+$categoryList = $category->getByParent( $category, true );
 
 
 // categories

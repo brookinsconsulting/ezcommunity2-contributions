@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.10 2000/10/27 15:41:48 bf-cvs Exp $
+// $Id: login.php,v 1.11 2000/10/28 12:29:01 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -49,20 +49,12 @@ $t->set_file( array(
 
 $t->set_block( "login_tpl", "error_message_tpl", "error_message" );
     
-$session = new eZSession();
-
-// if no session exist create one.
-if ( !$session->fetch() )
-{
-    $session->store();
-}
-
 if ( $Action == "login" )
 {
     $user = new eZUser();
     $user = $user->validateUser( $Username, $Password );
 
-    if ( ( $user )  && eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ))
+    if ( ( $user )  && eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
         eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
 
