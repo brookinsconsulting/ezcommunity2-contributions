@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.21 2001/03/05 13:30:17 gl Exp $
+// $Id: monthview.php,v 1.22 2001/03/12 13:55:47 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -76,9 +76,10 @@ $session->setVariable( "Year", $Year );
 $session->setVariable( "Month", $Month );
 
 $zMonth = addZero($Month);
+$isMyCalendar = ( $userID && $userID == $GetByUserID )? "-private" :"";
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "monthview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$GetByUserID" );
+                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$GetByUserID" . $isMyCalendar );
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 

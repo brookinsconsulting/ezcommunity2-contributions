@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.37 2001/03/05 15:13:14 fh Exp $
+// $Id: dayview.php,v 1.38 2001/03/12 13:55:47 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -84,9 +84,10 @@ $session->setVariable( "Day", $Day );
 
 $zMonth = addZero( $Month );
 $zDay = addZero( $Day );
+$isMyCalendar = ( $userID && $userID == $GetByUserID )? "-private" : "";
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "dayview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$zDay-$GetByUserID" );
+                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$zDay-$GetByUserID".$isMyCalendar );
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 

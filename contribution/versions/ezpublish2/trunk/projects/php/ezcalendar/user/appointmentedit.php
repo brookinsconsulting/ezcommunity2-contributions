@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.35 2001/03/08 14:40:23 fh Exp $
+// $Id: appointmentedit.php,v 1.36 2001/03/12 13:55:47 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -596,6 +596,8 @@ function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
     unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
     unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
+    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
+    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
 }
 
 //Adds a "0" in front of the value if it's below 10.
