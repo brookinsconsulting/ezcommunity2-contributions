@@ -104,46 +104,48 @@
 	<input size="40" name="image" type="file" />
 <!-- END image_add_tpl -->
 
+<br />
+
 <!-- BEGIN image_edit_tpl -->
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
-       <p class="boxtext">{image_name}</p>
+       <p class="boxtext">{image_name}:</p>
        <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
         </td>
     <td>
-    	<p class="boxtext">{intl-image}</p>
+    	<p class="boxtext">{intl-image}:</p>
 	<input size="20" name="image" type="file" />
 	<input type="hidden" name="ImageID" value="{image_id}">
     </td>
-    <td>
-	<p class="boxtext">{intl-delete}</p>
-	<input name="DeleteImage" type="checkbox" />
+    <td align="right">
+	<p class="boxtext">{intl-delete}: <input name="DeleteImage" type="checkbox" /></p>
     </td>
 <tr>
 </table>
 <!-- END image_edit_tpl -->
 
 <!-- BEGIN logo_add_tpl -->
-	<p class="boxtext">{intl-logo}</p>
+	<p class="boxtext">{intl-logo}:</p>
 	<input size="40" name="logo" type="file" />
 <!-- END logo_add_tpl -->
 
 <!-- BEGIN logo_edit_tpl -->
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
-       <p class="boxtext">{logo_name}</p>
+       <p class="boxtext">{logo_name}:</p>
        <img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
         </td>
     <td>
-    	<p class="boxtext">{intl-logo}</p>
+    	<p class="boxtext">{intl-logo}:</p>
 	<input size="20" name="logo" type="file" />
 	<input type="hidden" name="LogoID" value="{logo_id}">
     </td>
-    <td>
-	<p class="boxtext">{intl-delete}</p>
-	<input name="DeleteLogo" type="checkbox" />
+    <td align="right">
+	<p class="boxtext">{intl-delete}: <input name="DeleteLogo" type="checkbox" /></p>
     </td>
 <tr>
 </table>

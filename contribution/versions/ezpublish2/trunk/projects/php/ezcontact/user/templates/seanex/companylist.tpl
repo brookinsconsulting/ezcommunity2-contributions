@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<h1>{intl-headline}</h1>
+<h1>Bedriftsdatabase</h1>
 
 <hr noshade="noshade" size="4"/ >
 
