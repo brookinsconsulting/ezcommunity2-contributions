@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.28 2002/04/07 14:27:57 fh Exp $
+// $Id: datasupplier.php,v 1.29 2002/04/09 14:19:03 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -68,7 +68,7 @@ switch ( $url_array[2] )
 
     case "folderedit" :
     {
-        $FolderID = $url_array[3];
+        $FolderID = urldecode( $url_array[3] );
         if ( $FolderID == "" )
             $FolderID = 0;
         include( "ezmail/user/folderedit.php" );

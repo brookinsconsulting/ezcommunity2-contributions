@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.9 2002/04/07 14:27:57 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.10 2002/04/09 14:19:03 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -113,13 +113,19 @@ class eZIMAPMailFolder
      */
     function createMailBox( $account, $folderName )
     {
+        if ( get_class( $account ) != "ezmailaccount" ) 
+            $account = new eZMailAccount( $account ); 
+
         $mbox = imapConnect( $account );
         $server = $account->server();
 //        $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
         $ok = imap_createmailbox( $mbox, imap_utf7_encode( "{" . $server ."}" . $folderName ) );
 //
         if( !$ok )
+        {
             echo "imap_createmailbox failed: " . imap_last_error() . "\n";
+            exit();
+        }
         
         imapDisconnect( $mbox );
 
@@ -252,8 +258,7 @@ class eZIMAPMailFolder
     */
     function id()
     {
-//        return $this->ID;
-        return $this->encodeFolderID();
+        return $this->encodeFolderID( -1, -1, false );
     }
 
    /*!

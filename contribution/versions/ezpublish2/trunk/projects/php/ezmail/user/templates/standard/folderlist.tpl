@@ -26,7 +26,7 @@
 <!-- BEGIN folders_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{indent}<a href="{www_dir}{index}/mail/folder/{folder_id}">{folder_name}</a>
+	{indent}<a href="{www_dir}{index}/mail/folder/local/{folder_id}">{folder_name}</a>
 	</td>
 	<td class="{td_class}" align="right">
         {folder_unread_mail_total}

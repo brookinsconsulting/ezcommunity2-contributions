@@ -10,6 +10,9 @@
 <p class="boxtext">{intl-folder}:</p>
 <select name="ParentID">
 <option value="0">{intl-topfolder}</option>
+<!-- BEGIN top_imap_item_tpl -->
+<option value="{account_id}-">{imap_topfolder} {intl-topfolder}</option>
+<!-- END top_imap_item_tpl -->
 <!-- BEGIN folder_item_tpl -->
 <option value="{folder_parent_id}" {is_selected}>{folder_parent_name}</option>
 <!-- END folder_item_tpl -->
