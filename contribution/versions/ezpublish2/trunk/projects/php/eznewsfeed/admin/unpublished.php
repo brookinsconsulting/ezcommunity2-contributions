@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.4 2000/12/01 13:24:13 bf-cvs Exp $
+// $Id: unpublished.php,v 1.5 2000/12/03 16:22:15 th-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -92,8 +92,6 @@ $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 // news
 $t->set_block( "news_unpublished_page_tpl", "news_list_tpl", "news_list" );
 $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
-$t->set_block( "news_item_tpl", "news_is_published_tpl", "news_is_published" );
-$t->set_block( "news_item_tpl", "news_not_published_tpl", "news_not_published" );
 
 $category = new eZNewsCategory( $CategoryID );
 
@@ -164,17 +162,6 @@ foreach ( $newsList as $news )
         $t->set_var( "news_name", $news->name() );
 
     $t->set_var( "news_id", $news->id() );
-
-    if ( $news->isPublished() == true )
-    {
-        $t->parse( "news_is_published", "news_is_published_tpl" );
-        $t->set_var( "news_not_published", "" );        
-    }
-    else
-    {
-        $t->set_var( "news_is_published", "" );
-        $t->parse( "news_not_published", "news_not_published_tpl" );
-    }
 
     if ( ( $i % 2 ) == 0 )
     {

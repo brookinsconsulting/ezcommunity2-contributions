@@ -98,15 +98,14 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 </tr>
 <!-- END category_item_tpl -->
 </table>
-<hr noshade size="4"/>
-<!-- END category_list_tpl -->
+<br />
 
+<!-- END category_list_tpl -->
 
 <!-- BEGIN news_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-news}:</th>
-	<th>{intl-published}:</th>
 	<th>{intl-publish}:</th>
 	<th>{intl-delete}:</th>
 	<th colspan="2">&nbsp;</th>
@@ -118,15 +117,6 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	<a href="/newsfeed/news/{news_id}/">
 	{news_name}
 	</a>
-	</td>
-	<td class="{td_class}">
-	<!-- BEGIN news_is_published_tpl -->
-	{intl-is_published}
-	<!-- END news_is_published_tpl -->
-	<!-- BEGIN news_not_published_tpl -->
-	{intl-not_published}
-	<!-- END news_not_published_tpl -->
-	&nbsp;
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="NewsPublishIDArray[]" value="{news_id}" />

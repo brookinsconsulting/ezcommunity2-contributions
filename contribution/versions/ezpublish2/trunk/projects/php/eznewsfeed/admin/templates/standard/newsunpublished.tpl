@@ -95,9 +95,9 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eznf{category_id}-sl
 </tr>
 <!-- END category_item_tpl -->
 </table>
-<hr noshade size="4"/>
-<!-- END category_list_tpl -->
+<br />
 
+<!-- END category_list_tpl -->
 
 <!-- BEGIN news_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
