@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.14 2002/01/30 14:35:21 bf Exp $
+// $Id: productsearch.php,v 1.20.8.15 2002/03/06 15:33:17 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -108,10 +108,24 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
                                                                       "DVDActor" => $DVDActor,
                                                                       "MultimediaType" => $MultimediaType,
                                                                       "GameTitle" => $GameTitle                                                                      
-                                                                      ), $total_count );
+                                                                      ), $total_count, $ignoredWords );
 } 
 
 $t->set_var( "url_text", urlencode( $Query ) );
+
+$ignoredText = "";
+if ( count( $ignoredWords ) > 0 )
+{
+    foreach ( $ignoredWords as $w )
+    {
+        $ignoredText .= $w . " ";
+    }
+
+    $ignoredText = "Følgende ord ble ikke søkt på:  " . $ignoredText . "";
+    
+}
+$t->set_var( "ignored_text", $ignoredText );
+
 
 if ( ( $MaxSearchForProducts != 0 ) && ( $MaxSearchForProducts < $total_count ) )
 {

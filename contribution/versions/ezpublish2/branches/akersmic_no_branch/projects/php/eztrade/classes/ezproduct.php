@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.33 2002/02/26 12:13:32 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.34 2002/03/06 15:33:17 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1653,9 +1653,11 @@ class eZProduct
       if SearchExcludedArticles is set to "true" articles which is set non searchable will also be searched.
       $SearchTotalCount will return the total number of items found in the search
     */
-    function &search( &$queryText, $offset=0, $limit=10, $params = array(), &$SearchTotalCount )
+    function &search( &$queryText, $offset=0, $limit=10, $params = array(), &$SearchTotalCount, &$IngoredWords )
     {
         $db =& eZDB::globalDatabase();
+
+        $IngoredWords = array();
 
         $queryText = $db->escapeString( $queryText );
 
@@ -1701,10 +1703,11 @@ class eZProduct
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZTradeMain", "StopWordFrequency" );
 
+        $StopWordFrequency = 0.07;
         $query = new eZQuery( "eZTrade_Word.Word", $queryText );
         $query->setIsLiteral( true );
-//        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
-//        $query->setStopWordPercent( 1 );
+        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
+        $query->setStopWordPercent( $StopWordFrequency );
         $searchSQL = $query->buildQuery();
 
         {
@@ -1857,21 +1860,27 @@ class eZProduct
                     foreach ( $queryArray as $queryWord )
                     {
                         $queryWord = trim( $queryWord );
+                        // check if this is a stop word
+                        $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
+                        $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
 
-                        $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  )  AND ";
-
-                        if ( $productTypeID != 0 )
+                        if ( $WordFreq["Frequency"] <= $StopWordFrequency )
+//                        if ( false )
                         {
-                            $typeSQL = "                         AND
+                            $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  )  AND ";
+
+                            if ( $productTypeID != 0 )
+                            {
+                                $typeSQL = "                         AND
                          eZTrade_Product.TypeID='$productTypeID'";
-                        }
-                        else
-                        {
-                            $typeTables = "";
-                            $typeSQL = "";
-                        }
+                            }
+                            else
+                            {
+                                $typeTables = "";
+                                $typeSQL = "";
+                            }
 
-                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName )
+                            $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName )
 		SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name as TypeName
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
@@ -1890,15 +1899,15 @@ class eZProduct
                        ORDER BY $OrderBy LIMIT 800";
 
 
-                        $db->query( $queryString );
+                            $db->query( $queryString );
 
-                        // check if this is a stop word
-//                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
-//                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
-//                if ( $WordFreq["Frequency"] <= $StopWordFrequency )
-
-                        $count += 1;
-
+                            $count += 1;
+                        }
+                        else
+                        {
+                            $IngoredWords[] = $queryWord;
+                        }
+                        
                     }
                     $count -= 1;
 
