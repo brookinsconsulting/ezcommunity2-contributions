@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: passwordchange.php,v 1.7 2000/10/30 09:50:58 ce-cvs Exp $
+// $Id: passwordchange.php,v 1.8 2000/11/01 12:57:33 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -39,6 +39,11 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isSet( $Cancel ) )
+{
+    Header( "Location: /" );
+}
 
 // Template
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
