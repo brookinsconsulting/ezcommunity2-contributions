@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.19 2000/10/29 12:40:41 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.20 2000/10/31 21:02:40 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -226,6 +226,12 @@ class eZProduct
 
             $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
+
+            $options = $this->options();
+            foreach ( $options as $option )
+            {
+                $option->delete();
+            }            
             
             $this->Database->query( "DELETE FROM eZTrade_Product WHERE ID='$this->ID'" );
         }

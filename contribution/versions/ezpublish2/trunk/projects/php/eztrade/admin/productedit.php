@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.18 2000/10/31 20:54:25 bf-cvs Exp $
+// $Id: productedit.php,v 1.19 2000/10/31 21:02:40 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -74,6 +74,33 @@ if ( $Action == "Insert" )
     $parentCategory->addProduct( $product );
 
     $productID = $product->id();
+
+    // clear the cache files.
+    $dir = dir( "eztrade/cache/" );
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        {
+            if ( ereg( "productview,(.*),.*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $productID )
+                {
+                    unlink( "eztrade/cache/" . $entry );
+                }
+            }
+
+            if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $CategoryID )
+                {
+                    unlink( "eztrade/cache/" . $entry );
+                }
+            }
+            
+        } 
+    }
+    $dir->close();
+    
     
     // add options
     if ( isset( $Option ) )
@@ -157,12 +184,8 @@ if ( $Action == "Update" )
     $parentCategory->addProduct( $product );
 
 
-    // delete cache
-    // $cachedFile = "eztrade/cache/productview," .$ProductID . "," . $CategoryID .".cache";
-    
     // clear the cache files.
     $dir = dir( "eztrade/cache/" );
-
     while( $entry = $dir->read() )
     { 
         if ( $entry != "." && $entry != ".." )
@@ -238,7 +261,38 @@ if ( $Action == "Delete" )
 {
     $product = new eZProduct();
     $product->get( $ProductID );
-    $product->delete();    
+
+    $categories = $product->categories();
+
+    // clear the cache files.
+    $dir = dir( "eztrade/cache/" );
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        {
+            if ( ereg( "productview,(.*),.*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $productID )
+                {
+                    unlink( "eztrade/cache/" . $entry );
+                }
+            }
+            
+            foreach ( $categories as $category )
+            {
+                if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $category->id() )
+                    {
+                        unlink( "eztrade/cache/" . $entry );
+                    }
+                }
+            }
+        } 
+    }
+    $dir->close();
+    
+    $product->delete();
     
     Header( "Location: /trade/categorylist/" );
     exit();
