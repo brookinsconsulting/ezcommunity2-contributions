@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.25 2001/10/16 10:35:04 bf Exp $
+// $Id: frontpage.php,v 1.26 2001/10/16 13:28:22 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -199,6 +199,7 @@ $productOffset = 0;
 $adOffset = 0;
 $pageContents = "";
 // render the page elements
+if ( count( $page_elements ) > 0 )
 foreach ( $page_elements as $element )    
 {
     switch ( $element )
