@@ -894,3 +894,33 @@ CREATE TABLE eZTrade_Voucher (
   UnAvailable int(11) default '0',
   KeyNumber varchar(50) default NULL
 ) TYPE=MyISAM;
+
+#
+# Table structure for table 'eZTrade_CategoryPermission'
+#
+ 
+CREATE TABLE eZTrade_CategoryPermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+ 
+#
+# Table structure for table 'eZTrade_ProductPermission'
+#
+ 
+CREATE TABLE eZTrade_ProductPermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID),
+  KEY ProductPermissionObjectID(ObjectID),
+  KEY ProductPermissionGroupID(GroupID),
+  KEY ProductPermissionWritePermission(WritePermission),
+  KEY ProductPermissionReadPermission(ReadPermission)
+) TYPE=MyISAM;
