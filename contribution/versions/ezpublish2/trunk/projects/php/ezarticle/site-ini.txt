@@ -28,6 +28,7 @@ PublishNoticePadding:  A number of spaces to add in front of each line when send
 AuthorLimit:           Max length of author list
 AuthorArticleLimit:    Max length of author's articles list
 UserSubmitArticles:    Enable/disble allowing article publishing in user
+MixUnpublished:        Enable will show both published and unpublished articles in "Article Archive"
 
 Example group:
 [eZArticleMain]

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.25 2001/03/17 16:02:34 bf Exp $
+// $Id: articlelist.php,v 1.26 2001/03/23 15:46:59 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -233,8 +233,16 @@ if ( !isset( $Limit ) )
 // articles
 if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 {
-    $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
-    $articleCount = $category->articleCount( false, true  );
+    if( $ini->read_var( "eZArticleMain", "MixUnpublished" ) == "enabled" )
+    {
+        $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
+        $articleCount = $category->articleCount( true, true  );
+    }
+    else
+    {
+        $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
+        $articleCount = $category->articleCount( false, true  );
+    }
 }
 else
 {
