@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.10 2000/11/07 14:03:48 ce-cvs Exp $
+// $Id: userbox.php,v 1.11 2000/11/07 14:06:39 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -86,7 +86,7 @@ else
     }
     else
     {
-        $t->set_var( "user_edit_url", "/user/user/new/" );
+        $t->set_var( "user_edit_url", "/user/user/edit/" );
     }
     
 
