@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.10 2001/01/17 10:23:28 bf Exp $
+// $Id: ezmail.php,v 1.11 2001/01/20 23:29:27 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -108,6 +108,22 @@ class eZMail
     }
 
     /*!
+      Returns the from name.
+    */
+    function fromName()
+    {
+        return $this->FromName;
+    }
+
+    /*!
+      Sets the from name.      
+    */
+    function setFromName( $newFrom )
+    {
+        $this->FromName = $newFrom;
+    }
+
+    /*!
       Sets the from address.      
     */
     function setFrom( $newFrom )
@@ -171,7 +187,7 @@ class eZMail
         //  $headers .= "cc:birthdayarchive@php.net\n"; // CC to
         //  $headers .= "bcc:birthdaycheck@php.net, birthdaygifts@php.net\n"; // BCCs to
 
-        $headers .= "From: $this->From <$this->From>\n";
+        $headers .= "From: $this->FromName <$this->From>\n";
         $headers .= "X-Sender: <$this->From>\n"; 
         $headers .= "X-Mailer: eZ publish PHP\n"; // mailer
         $headers .= "X-Priority: 1\n"; // Urgent message!
@@ -197,6 +213,7 @@ class eZMail
     
     var $To;
     var $From;
+    var $FromName;
     var $Subject;
     var $Body;
     
