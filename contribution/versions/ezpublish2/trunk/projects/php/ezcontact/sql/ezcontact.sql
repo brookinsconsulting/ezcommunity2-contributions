@@ -45,7 +45,7 @@ CREATE TABLE eZContact_CompanyImageDict (
   CompanyID int(11) DEFAULT '0' NOT NULL,
   ImageID int(11) DEFAULT '0' NOT NULL,
   ImageTypeID int(11) DEFAULT '0' NOT NULL,
-  PRIMARY KEY (CompanyID, ImageID, ImageTypeID)
+  PRIMARY KEY (CompanyID, ImageID)
 );
 
 #
