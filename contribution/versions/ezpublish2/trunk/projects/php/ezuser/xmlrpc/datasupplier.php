@@ -12,6 +12,11 @@ else
         {
             include( "ezuser/xmlrpc/user.php" );
         } break;
+
+        case "author" :
+        {
+            include( "ezuser/xmlrpc/author.php" );
+        } break;
         
         case "group" :
         {
@@ -20,8 +25,7 @@ else
 
         default :
         {
-            $Error = new eZXMLRPCResponse( );
-            $Error->setError( 2, "Server function not found." );
+            $Error = true;
         } break;
     }
 }
