@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.2 2000/10/20 13:31:24 bf-cvs Exp $
+// $Id: articlepreview.php,v 1.3 2000/10/21 11:08:58 bf-cvs Exp $
 //
 // 
 //
@@ -34,6 +34,12 @@ $t->set_file( array(
     "article_preview_page_tpl" => "articlepreview.tpl"
     ) );
 
+$t->set_block( "article_preview_page_tpl", "page_menu_separator_tpl", "page_menu_separator" );
+
+$t->set_block( "article_preview_page_tpl", "page_link_tpl", "page_link" );
+$t->set_block( "article_preview_page_tpl", "next_page_link_tpl", "next_page_link" );
+$t->set_block( "article_preview_page_tpl", "prev_page_link_tpl", "prev_page_link" );
+
 $article = new eZArticle( $ArticleID );
 
 $renderer = new eZArticleRenderer( $article );
@@ -42,10 +48,52 @@ $t->set_var( "article_name", $article->name() );
 $t->set_var( "author_text", $article->authorText() );
 
 print( "Showing page: "  . $PageNumber . "<br>" );
-$t->set_var( "article_body", $renderer->renderPage( $PageNumber ) );
+$t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
 $t->set_var( "link_text", $article->linkText() );
 $t->set_var( "article_id", $article->id() );
+
+
+$pageCount = $article->pageCount();
+
+if ( $PageNumber > 1 )
+{
+    for ( $i=0; $i<$pageCount; $i++ )
+    {
+        $t->set_var( "article_id", $article->id() );    
+        $t->set_var( "page_number", $i+1 );
+
+        $t->parse( "page_link", "page_link_tpl", true );
+    }
+}
+else
+{
+    $t->set_var( "page_link", "" );
+    $t->set_var( "page_menu_separator", "" );
+    
+}
+
+if ( $PageNumber > 1 )
+{
+    $t->set_var( "prev_page_number", $PageNumber - 1 );    
+    $t->parse( "prev_page_link", "prev_page_link_tpl" );
+}
+else
+{
+    $t->set_var( "prev_page_link", "" );
+}
+
+if ( $PageNumber < $pageCount )
+{
+    $t->set_var( "next_page_number", $PageNumber + 1 );    
+    $t->parse( "next_page_link", "next_page_link_tpl" );
+}
+else
+{
+    $t->set_var( "next_page_link", "" );
+}
+
+
 
 $t->pparse( "output", "article_preview_page_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.7 2000/10/20 15:42:26 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.8 2000/10/21 11:08:58 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -169,6 +169,7 @@ class eZArticle
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
             
             $this->Database->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
         }
@@ -307,7 +308,7 @@ class eZArticle
 
        if ( get_class( $user ) == "ezuser" )
        {
-           $this->AuthorID = $uset->id();
+           $this->AuthorID = $user->id();
        }
     }
 

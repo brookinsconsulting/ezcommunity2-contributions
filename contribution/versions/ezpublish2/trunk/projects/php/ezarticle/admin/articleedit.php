@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.7 2000/10/20 15:42:26 bf-cvs Exp $
+// $Id: articleedit.php,v 1.8 2000/10/21 11:08:58 bf-cvs Exp $
 //
 // 
 //
@@ -24,10 +24,13 @@ include_once( "ezarticle/classes/ezarticlegenerator.php" );
 
 if ( $Action == "Insert" )
 {
+    $user = eZUser::currentUser();
     $category = new eZArticleCategory( $CategoryID );
         
     $article = new eZArticle( );
     $article->setName( $Name );
+    
+    $article->setAuthor( $user );
 
     $generator = new eZArticleGenerator();
     
@@ -51,6 +54,13 @@ if ( $Action == "Insert" )
     if ( isset( $Image ) )
     {
         Header( "Location: /article/articleedit/imagelist/$articleID/" );
+        exit();
+    }
+
+    // preview
+    if ( isset( $Preview ) )
+    {
+        Header( "Location: /article/articlepreview/$articleID/" );
         exit();
     }
     
@@ -88,6 +98,13 @@ if ( $Action == "Update" )
         exit();
     }
     
+
+    // preview
+    if ( isset( $Preview ) )
+    {
+        Header( "Location: /article/articlepreview/$ArticleID/" );
+        exit();
+    }
     
     Header( "Location: /article/archive/$CategoryID/" );
     exit();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.2 2000/10/20 14:02:24 bf-cvs Exp $
+// $Id: imageedit.php,v 1.3 2000/10/21 11:08:58 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -120,7 +120,7 @@ if ( $Action == "StoreDef" )
     }
 //  <form action="/article/articleedit/imageedit/new/{article_id}/" method="post">
      
-//      header( "Location: /article/articleedit/edit/" . $ArticleID . "/" );
+    header( "Location: /article/articleedit/edit/" . $ArticleID . "/" );
 }
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),

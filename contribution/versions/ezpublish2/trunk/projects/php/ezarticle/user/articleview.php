@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.3 2000/10/20 15:42:26 bf-cvs Exp $
+// $Id: articleview.php,v 1.4 2000/10/21 11:08:58 bf-cvs Exp $
 //
 // 
 //
@@ -58,13 +58,22 @@ $t->set_var( "link_text", $article->linkText() );
 $t->set_var( "article_id", $article->id() );
 
 
-for ( $i=0; $i<$pageCount; $i++ )
+if ( $PageNumber > 1 )
 {
-    $t->set_var( "article_id", $article->id() );    
-    $t->set_var( "page_number", $i+1 );
+    for ( $i=0; $i<$pageCount; $i++ )
+    {
+        $t->set_var( "article_id", $article->id() );    
+        $t->set_var( "page_number", $i+1 );
 
-    $t->parse( "page_link", "page_link_tpl", true );
+        $t->parse( "page_link", "page_link_tpl", true );
+    }
 }
+else
+{
+    $t->set_var( "page_link", "" );
+    
+}
+
 
 if ( $PageNumber > 1 )
 {

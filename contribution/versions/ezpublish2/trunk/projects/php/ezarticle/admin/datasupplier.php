@@ -18,7 +18,7 @@ switch ( $url_array[2] )
         $PageNumber= $url_array[4];
         
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
-            $PageNumber= 0;
+            $PageNumber= 1;
 
         include( "ezarticle/admin/articlepreview.php" );
     }
