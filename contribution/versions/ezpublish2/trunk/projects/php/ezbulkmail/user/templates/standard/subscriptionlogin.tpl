@@ -1,6 +1,9 @@
 <h1>{intl-subscription_login}</h1>
 
 <hr noshade="noshade" size="4" />
+<!-- BEGIN error_message_tpl -->
+<h3 class="error">{error_message}</h3>
+<!-- END error_message_tpl -->
 
 <form action="/bulkmail/login" method="post">
 

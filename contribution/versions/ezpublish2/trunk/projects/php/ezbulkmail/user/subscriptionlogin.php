@@ -72,6 +72,13 @@ if( isset( $Ok ) )
         }
         else // we have some sort of error... find out what it is, and present it to the user..
         {
+            $New = "new";
+            if( $subscriptionaddress->setEMail( $Email) == false )
+                $error = "emailerror";
+            else if( $Password == "" )
+                $error = "zeropassword";
+            else
+                $error = "unlikepasswords";
         }
 
         // send confirmation mail to that address
@@ -91,6 +98,8 @@ $t->set_var( "site_style", $SiteStyle );
 $t->set_block( "subscription_login_tpl", "second_password_tpl", "second_password" );
 $t->set_block( "subscription_login_tpl", "new_tpl", "new" );
 $t->set_block( "subscription_login_tpl", "login_tpl", "login" );
+$t->set_block( "subscription_login_tpl", "error_message_tpl", "error_message" );
+$t->set_var( "error_message" );
 $t->set_var( "new", "" );
 $t->set_var( "login", "" );
 $t->set_var( "second_password", "" );
@@ -105,6 +114,23 @@ if( isset( $New ) )
 else
 {
     $t->parse( "new", "new_tpl" );
+}
+
+if( isset( $error ) ) // parse the errors
+{
+    if( $error == "emailerror" )
+    {
+        $t->set_var( "error_message", $languageIni->read_var( "strings", "email_error" ) );
+    }
+    if( $error == "zeropassword")
+    {
+        $t->set_var( "error_message", $languageIni->read_var( "strings", "zero_password_error" ) );
+    }
+    else
+    {
+        $t->set_var( $languageIni->read_var( "strings", "unlike_passwords" ) );
+    }
+    $t->parse( "error_message", "error_message_tpl" );
 }
 
 $t->pparse( "output", "subscription_login_tpl" );
