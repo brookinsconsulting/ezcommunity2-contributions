@@ -12,11 +12,11 @@ Note that you can't cascade tags, ie. you can't have tags within tags. If you ne
     <dt>&lt;cpp> &lt;/cpp></dt>
     <dd><p>Insert c++ code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
     <dt>&lt;ezanchor <i>anchor</i>></dt>
-    <dd><p></p></dd>
+    <dd><p>Add an html anchor (&lt;a name="<i>anchor</i>">&lt;/a>) named <i>anchor</i> into the code.</p></dd>
     <dt>&lt;ezhtml> &lt;/ezhtml></dt>
-    <dd><p></p></dd>
-    <dt>&lt;header></dt>
-    <dd><p></p></dd>
+    <dd><p>Everything between these two tags will be rendered as html. Use these tags to create effects which you can't create with the normal tags.</p></dd>
+    <dt>&lt;header> &lt;/header></dt>
+    <dd><p>Creates a heading.</p></dd>
     <dt>&lt;html> &lt;/html></dt>
     <dd><p>Everything between these two tags will be rendered as html. Use these tags to create effects which you can't create with the normal tags.</p></dd>
     <dt>&lt;image <i>number</i> <i>position</i> <i>size</i>></dt>
@@ -53,7 +53,7 @@ Note that you can't cascade tags, ie. you can't have tags within tags. If you ne
     <dt>&lt;java> &lt;/java></dt>
     <dd><p>Insert java code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
     <dt>&lt;link <i>url text</i>></dt>
-    <dd><p></p></dd>
+    <dd><p>Creates a link. The url is <i>url</i> and the name of the link (the text used) is <i>text</i>. You can omit http:// in front of web sites.</p></dd>
     <dt>&lt;lisp> &lt;/lisp></dt>
     <dd><p>Insert lisp code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
     <dt>&lt;iconlink <i>url text</i>></dt>
@@ -69,15 +69,15 @@ Note that you can't cascade tags, ie. you can't have tags within tags. If you ne
     <dt>&lt;php> &lt;/php></dt>
     <dd><p>Insert php code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
     <dt>&lt;pre> &lt;/pre></dt>
-    <dd><p></p></dd>
+    <dd><p>The text between these tags are printed pre-formatted.</p></dd>
     <dt>&lt;shell> &lt;/shell></dt>
     <dd><p>Insert shell code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
     <dt>&lt;sql> &lt;/sql></dt>
     <dd><p>Insert sql code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
     <dt>&lt;strike> &lt;/pre></strike>
-    <dd><p></p></dd>
+    <dd><p>The text between these tags are printed strike through.</p></dd>
     <dt>&lt;underline> &lt;/pre></underline>
-    <dd><p></p></dd>
-   <dt>&lt;verbatim> &lt;/verbatim></dt>
-    <dd><p></p></dd>
+    <dd><p>The text between these tags are underlined.</p></dd>
+    <dt>&lt;verbatim> &lt;/verbatim></dt>
+    <dd><p>The texts between these tags are printed verbatim.</p></dd>
 </dl>
