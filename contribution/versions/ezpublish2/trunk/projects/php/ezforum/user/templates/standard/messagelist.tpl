@@ -80,7 +80,7 @@
 		</nobr>
 		</td>
 		<td width="99%">
-        &nbsp;<a href="{www_dir}{index}/forum/message/{message_id}/">{topic} {count_replies}</a>
+        &nbsp;<a href="{www_dir}{index}/forum/message/{message_id}/">{topic}</a> <span class="small">({count_replies})</span>
         </td>
 	</tr>
 	</table>
