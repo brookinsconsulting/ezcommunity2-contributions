@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.45 2001/08/17 13:35:58 jhe Exp $
+// $Id: bugedit.php,v 1.46 2001/09/07 20:06:24 fh Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -432,9 +432,12 @@ if ( $Action == "Edit" )
             }
             $t->set_var( "image_number", $i + 1 );
             $t->set_var( "image_id", $image->id() );
-
+            $caption = $image->caption();
+            if( $caption() == "" )
+                $caption = "-";
+            
             $t->set_var( "image_name", "<a href=\"$wwwDir$index/imagecatalogue/imageview/" . $image->id()
-                         . "?RefererURL=$wwwDir$index/bug/edit/edit/$BugID" ."\">" . $image->caption() . "</a>" );
+                         . "?RefererURL=$wwwDir$index/bug/edit/edit/$BugID" ."\">" . $caption . "</a>" );
             $t->parse( "image", "image_tpl", true );
     
             $i++;
