@@ -536,6 +536,8 @@ $t->set_var( "image_add", "" );
 $t->set_var( "image_edit", "" );
 $t->set_var( "logo_edit", "" );
 $t->set_var( "logo_add", "" );
+$t->set_var( "web_item", "" );
+$t->set_var( "email_item", "" );
 
 $t->set_var( "action_value", $Action_value );
 
