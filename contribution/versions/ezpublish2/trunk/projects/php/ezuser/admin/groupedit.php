@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.16 2001/03/14 09:59:57 fh Exp $
+// $Id: groupedit.php,v 1.17 2001/03/20 16:15:39 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -115,13 +115,13 @@ if ( $Action == "delete" )
     }
     else
     {
-        print( "Du har ikke rettigheter.");
+        print( "No rights.");
     }
 }
  
 if ( $Action == "update" )
 {
-    if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
+    if ( eZPermission::checkPermission( $user, "eZUser", "GroupModify" ) )
     {
         $permission = new eZPermission();
         $group = new eZUserGroup();
