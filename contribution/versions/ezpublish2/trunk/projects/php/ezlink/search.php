@@ -22,7 +22,9 @@ $t->set_file( array(
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-$linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
+print ( "oppe--->" . $LGID );
+
+$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );
 
 
 $link = new eZLink();
@@ -57,6 +59,10 @@ else
         $t->set_var( "link_accepted", $link_array[ $i ][ "Accepted" ] );
         $t->set_var( "link_url", $link_array[ $i ][ "Url" ] );
 
+        $LGID =  ( $link_array[ $i ][ "LinkGroup" ] );
+
+        $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );                       
+
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
 
@@ -77,10 +83,15 @@ if ( $Action == "search" )
     $tlink_message = "Søk resultater";
 }
 
+
+
 $t->set_var( "link_message", $tlink_message );
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOCUMENTROOT );
-                       
+
+$t->set_var( "printpath", $linkGroup->printPath( 0, $DOCUMENTROOT . "linklist.php" ) );                       
+
+
 $t->pparse( "output", "search_list" );
 
 

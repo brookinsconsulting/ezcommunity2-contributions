@@ -25,14 +25,15 @@ $t->set_file( array(
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-$linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
+// $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
 
 $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 
 if ( count( $linkGroup_array ) == 0 )
 {
-    $t->set_var( "group_list", "" );
+    $t->set_var( "group_list", "Ingen grupper funnet." );
+
 }
 else
 {
@@ -104,7 +105,7 @@ else
 
 if ( count( $link_array ) == 0 )
 {
-    $t->set_var( "link_list", "" );
+    $t->set_var( "link_list", "Ingen linker funnet." );
 }
 else
 {
@@ -135,7 +136,7 @@ else
     }
 }
 
-
+$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );  
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOCUMENTROOT );
                        

@@ -64,10 +64,13 @@ class eZLinkGroup
     /*
       Rekursiv funksjon, skriver ut hele pathen til gruppen.
     */
+
     function printPath( $id, $url )
     {
         $lg = new eZLinkGroup();
         $lg->get( $id );
+
+        $path = "";
 
         if ( $lg->parent() != 0 )
         {
@@ -75,15 +78,17 @@ class eZLinkGroup
         }
         else
         {
-            print( "/ <a href=\"index.php?page=$url&LGID=0\">" . "kategorier" . "</a>" );
+            $path .= "/ <a href=\"index.php?page=$url&LGID=0\">" . "kategorier" . "</a>";
         }
-        print( " / <a href=\"index.php?page=$url&LGID=$id\">" . $lg->title() . "</a>" );
+        $path .= " / <a href=\"index.php?page=$url&LGID=$id\">" . $lg->title() . "</a>";
+        print ( $path );
     }
 
 
     /*
       Henter ut parent
     */
+
     function getByParent( $id )
     {
         $this->dbInit();
@@ -171,6 +176,7 @@ class eZLinkGroup
     /*
       Setter navn.
     */
+
     function setTitle( $value )
     {
         $this->Title = ( $value );
@@ -187,6 +193,7 @@ class eZLinkGroup
     /*
       returnerer navn.
     */
+
     function Title()
     {
         return $this->Title;
@@ -217,9 +224,6 @@ var $Parent;
 
 }
 
-    
-
-
-
-
 ?>
+
+

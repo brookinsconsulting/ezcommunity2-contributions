@@ -148,6 +148,20 @@ class eZLink
 
         return $group_array;
     }
+
+    /*
+      Sjekker om urlen eksisterer
+    */
+    function checkUrl( $url )
+    {
+        $this->dbInit();
+
+        array_query( $url_array, "SELECT url FROM Link WHERE url='$url'" );
+
+        return count( $url_array );
+    }
+
+    
     
 
     /*
@@ -299,6 +313,7 @@ class eZLink
     var $Modified;
     var $Accepted;
     var $Url;
+    var $url_array;
 }
 
 

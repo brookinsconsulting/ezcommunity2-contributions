@@ -24,7 +24,7 @@ if ( $Action == "suggest" )
         $turl = $url;
         $tkeywords = $keywords;
         $tdescription = $description;
-                printRedirect( "../index.php?page=" . $DOCUMENTROOT . "suggestlink.php" );
+//      printRedirect( "../index.php?page=" . $DOCUMENTROOT . "suggestlink.php" );
     }
     else
     {
@@ -34,13 +34,23 @@ if ( $Action == "suggest" )
         $newlink->setDescription( $description );
         $newlink->setLinkGroup( $linkgroup );
         $newlink->setAccepted( "N" );
-
-        $newlink->store();
-        printRedirect( "../index.php?page=" . $DOCUMENTROOT . "linklist.php" );
-
+     
+        if ( $newlink->checkUrl( $url ) == 0 )
+        {
+            $newlink->store();
+//          printRedirect( "../index.php?page=" . $DOCUMENTROOT . "linklist.php" );
+        }
+        else
+        {
+            $terror_msg = "Linken finnes i databasen...";
+            
+            $ttitle = $title;
+            $turl = $url;
+            $tkeywords = $keywords;
+            $tdescription = $description;
+//          printRedirect( "../index.php?page=" . $DOCUMENTROOT . "suggestlink.php" );
+        }
     }
-   
-    
 }
 
 $t = new Template();
@@ -48,6 +58,8 @@ $t->set_file( array(
     "suggestlink" => $DOCUMENTROOT . "templates/suggestlink.tpl",
     "suggest_group_select" => $DOCUMENTROOT . "templates/suggestgroupselect.tpl"
     ));
+
+
 
 $groupselect = new eZLinkGroup();
 $grouplink_array = $groupselect->getAll( );
@@ -74,6 +86,8 @@ for ( $i=0; $i<count( $grouplink_array ); $i++ )
 }
 
 $t->set_var( "error_msg", $terror_msg );
+
+$t->set_var( "tjo", "001" );
 
 $t->set_var( "title", $ttitle );
 $t->set_var( "url", $turl );

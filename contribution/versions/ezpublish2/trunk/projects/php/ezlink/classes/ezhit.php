@@ -4,6 +4,7 @@ class eZHit
     /*
       Constructor
     */
+
     function eZHit()
     {
         
@@ -46,6 +47,7 @@ class eZHit
     /*
       Henter ut antall hits på en bestemt link.
      */
+
     function getLinkHits( $id )
     {
         $this->dbInit();        
@@ -53,7 +55,6 @@ class eZHit
         $count = count( $hit_array );
         return $count;
     }
-    
     function get( $id )
     {
         $this->dbInit();
@@ -64,6 +65,7 @@ class eZHit
     /*
       Setter link id'en
     */
+
     function setLink( $value )
     {
         $this->Link = ( $value );
@@ -80,6 +82,7 @@ class eZHit
     /*
       Returnerer description
     */
+
     function link()
     {
         return $this->Link;
@@ -101,7 +104,6 @@ class eZHit
         return $this->RemoteIP;
     }
     
-
     function dbInit()
     {
         require "ezlink/dbsettings.php";
