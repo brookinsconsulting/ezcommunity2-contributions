@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.37 2001/04/27 08:43:26 jb Exp $
+// $Id: ezdb.php,v 1.38 2001/05/03 07:49:54 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -117,11 +117,12 @@ class eZDB
 
     /*!
       Same as array_query() but expects to recieve 1 row only (no array), no more no less.
+      $column is the same as in array_query().
     */
-    function query_single( &$row, $sql )
+    function query_single( &$row, $sql, $column = false )
     {
         $array = array();
-        $ret = $this->array_query_append( $array, $sql, 1, 1 );
+        $ret = $this->array_query_append( $array, $sql, 1, 1, $column );
         $row = $array[0];
         return $ret;
     }
