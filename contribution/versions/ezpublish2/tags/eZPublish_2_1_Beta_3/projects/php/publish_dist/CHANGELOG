@@ -1,0 +1,285 @@
+eZ publish changelog:
+---------------------
+ 
+Changes from 2.1.0B2 to 2.1.0B2
+-------------------------------
+* Optimized eZ forum for speed.
+* Added Icons for new vs old messages in eZ forum.
+* Added buttons so the user can toggle the threading in eZ forum.
+* Added more file details in article view.
+* Bugfix: you can now have more than 2 digits on prices in eZ trade.
+* Added site map in article admin
+* Added range checking on article id edit/preview in admin
+* Fixed reply all/forward buttons in ezmail
+* Navigation buttons in the maillist in ezmail
+* Added possibility to give a usergroup "root" access.
+* Generalized the module linkage system
+* You can restrict the access of admin users to only the modules you want
+
+Changes from 2.1.0B1 to 2.1.0B2
+-------------------------------
+* Added new template for static pages.
+* Separated rendering of article intro and body in template.
+* Added possibility to enable/disable use of php sessions.
+* Added user configurable selection of published/unpublished/all articles in articlelist.
+* Added flat unpublished articles list (unpublished articles from all categories).
+* Added new module eZ urltranslator, enabled creation of easy to remember urls (e.g. /home/company_info ).
+* Added new module eZ sysinfo
+* Fixed division-by-zero in eZ stats day/month/year view.
+* Added password and email verification in eZBulkMail
+* Added possibility to automaticly send news updates through mail via ezbulkmail
+* Added support for dynamic menuboxes in the admin interface, this means that each module may have it's own menubox template.
+* Added workaround for Konqueror bug when uploading empty files.
+* Added version number textfield in eZ bug
+* Added possibility to subscribe usergroups to a bulkmail list. Also a list can be private or public
+* Added article indexing by keywords
+* Bugfix of infinite category loops when assigning categories to themselves or own subcategories.
+* Checkbox delete on consultations.
+* Improvements on company/person edit redirect.
+* Bug fixes.
+ 
+Changes from 2.0.0 to 2.1.0B1
+---------------------------
+* Added modular help system, you can have context sensitive help.
+* Changed the handling of modules in the admin interface, the user can now select
+  which modules are active at any time.
+* Fixed a counting bug in eZAd.
+* Added todo status in eZTodo module, now user can create/edit todo status.
+* Added article category placement.
+* Magic quotes are no longer needed (Must now be turned off).
+* Article discussion can now be turned on pr article.
+* Added article path in article view.
+* Added gzip comression to the output buffer to speed up data transfer.
+* Fixed locking issues which could make problems on high traffic sites.
+* Added support for grayscale converted images on article list.
+* Optimized INI file reading, uses cached .php files.
+* Next/Prev in company listing, ordering controllable by site.ini
+* New general link feature. It's possible to link one part of a module to another part
+  of any other ez module given that they have an url supplier. This means that one
+  can add "Related links" etc.. to articles.
+* Added availability (quantity) to products and product options. Various options can be
+  enabled/disabled to either show availability as a number or as a custom message.
+  It's also possible to restrict product buying to products which are available.
+* Removed usage of symlinks. Admin and user uses the same documentroot now.
+* Optimised eZ article. Is now much more capable of handling > 10.000 articles.
+* Fixed rendering of currencies with decimals, the integerpart was only rendered.
+* Fixed cron update of news feeds.
+* Fixed a reply/post error in forum where anonymous users could post when they shouldn't be able to.
+* Fixed the links in the e-mails sent when people posts to the forum.
+* Added the posibility to restrict the numbers of simultaneous logins on one account.
+* Moved stylesheets in admin to the template directories.
+* Lots of bug fixing.
+
+Changes from version 2.0 PRE 2 to 2.0.0
+---------------------------------------
+* Fixed better handling of special characters ( " ' / ) in eZ forum, eZ poll, 
+  eZ filemanager, eZ imagecatalogue, eZ bug
+* Fixed bug eZContact which caused companies to disappear (or look empty)
+  when they were created directly from a category.
+* Deletion of company categories is recursive. Any companies contained inside these
+  categories will be moved to the top level.
+
+Changes from version 2.0 PRE 1 to PRE 2
+---------------------------------------
+* Deletion of company, person and consultation in eZ contact has been fixed.
+* Various bugfixes in consultation edit.
+* Image views no longer displays error messages, instead a standard image explaining the fault is shown.
+* Companies no longer disappear if they have no category selected, they are placed at the top category.
+* eZ forum uses messagelist/1/2/3 instead of messagelist/1/?$Offset=2&Limit=3 in order to allow robots to index all postings to the forum.
+* Clicking on author name in an article will take you to a page listing all articles by the author.
+* Support for animated gifs/pngs in eZImageCatalogue.
+* Bugfix for files with uppercase letters in the suffix.
+* Added a small FAQ file.
+* Added info about windows installation.
+* Image list is improved, there's no longer images which take up more than one cell, they are also centered.
+* File sizes for images are shown correctly.
+* The login box in user/admin will remember the last page you were on and redirect to it when loggin in.
+* Productview will list extra images with title and description in one column.
+
+Changes from version 2.0 beta 3 to PRE 1
+----------------------------------------
+* Added eZObjectPermission to eZimagecatalogue and eZfilemanager
+* Added forums which accept anonymous posters.
+* Added better e-mails to forum moderators (now you'll actually get a link to the new posting:)
+* Added printable version in admin.
+* Added new permission system to eZ article, eZ image catalogue and eZ file manager.
+* Added support for multi column option value descriptions in eZ trade.
+* Fixed calculation of alternative currencies with 4 decimal points.
+* Fixed eZImage variation creation to avoid race conditions.
+* Small bugfixes around the board.
+
+Changes from version 2.0 beta 2 to version 2.0 beta 3
+-----------------------------------------------------
+* Added eZ error, for error handling ( 404, 403.. )
+* Added html tag to eZArticle, you can now write HTML code in the articles.
+* Added alternative currency to eZ trade
+* Added VAT handling in eZ trade
+* Added images to link groups and links
+* Added user posting of articles
+* Latest article cache is properly deleted when articles change.
+* Article placement is kept when updating the article.
+* Cache files for article are properly deleted when a category is newed, updated or deleted.
+* Prints URL on top of the page when shown an printer-friendly version of an article.
+* Cache for products has been improved.
+* Products in eZ trade are shown with multiple pages if the list is long, both user and admin.
+* Allowed for an easier way to change prices of products in admin.
+* Persons in eZcontact can be assigned to one or more companies.
+* Fixed the permission handling in all of eZ contact.
+* E-mail sending on consultations.
+* Added listing of article authors.
+* Made it possible to connect eZContact Persons to Companies as well as normal users.
+* Removed contact persons from eZContact Persons.
+* Better handling of new/delete in eZContact person/company.
+* Added explanation of fields in eZContact person and company edit.
+* More cleanup of templates and internationalization
+* Privilege based bug editing
+* Assign owners to bug modules recursively, e-mail to owners on new bugs
+* Unhadled bugs informs user of module they belong to.
+* Auto redirect URL hackers in bugs to default page.
+* Added banner ads in templates
+* eZ forum Added possibility to select HTML/non-html posting from the ini-file.
+* eZ forum Unified system, now all postings/editing are done through the same forms
+* eZ forum Preview of postings
+* eZ forum No duplicates possible (visually, they exist as temporary objects, temporaries might be duplicated in one case only).
+* eZ forum Deletion of temporaries missing.
+* eZ forum Probably no spamming possible.
+* eZ forum Permission checks for all operations w/regards to posting
+* eZ forum Added user side delete (no menu, yet).
+* eZ forum Anonymous posting has been prepared.
+* Cleaned up templates.
+* Documentation updated
+* Removed some status/type admin pages, added buttons in listings instead
+* Changed over to use mass update forms for category types and similar short lists with litle information
+* Deletion isn't done on an item to item basis, but with a checkboxes for each item then delete checked
+* Added proper deletion checks; now there are fewer cases where something belonging to objects in use can be deleted
+* Continued updating files/modules to use standard functionality and methods of doing stuff
+* Removed unsued files and clutter
+* Some Netscape layout fixes.
+* Quite a few language fixes
+* Fixed bugs in all modules
+
+Changes from version 2.0 beta 1 to version 2.0 beta 2
+-----------------------------------------------------
+* Forums can be assigned to certain user groups for posting and reading
+* Templates changed
+* Top referers and read pages working in stats
+* Yearly, daily and monthly reports in stats
+* Entry/exit pages analysed by stats
+* Cleaned up decoders in eZ news feed, will list themselves in a box for easy selection
+* Checkout is improved in trade
+* Limit items in hot deals list/columarization functionality added
+* Trade has some SSL mode fixes
+* Added XML-RPC interface to trade
+* Moved to specific caching code in a class, which improves reliability
+* INI files can now use comments and also accets CRs as well as LFs for return (ie. msdos editors)
+* Articles and products can be ordered in their categories
+* More lists supports paging (next/prev buttons)
+* Added local article modules and new article tags.
+* Added class for e-mail sending; works with lists of addresses.
+* Charsets used in headers are read from configuration file
+* Bugs shows date and who commited them
+* Continued updating files/modules to use standard functionality and methods of doing stuff
+* Small article list
+* Added mass delete functionality
+* Quite a few language fixes
+* Fixed bugs
+
+
+Changes from version 1.0.5 to version 2.0 beta 1
+------------------------------------------------
+* Merged eZ trade with eZ publish
+* Added about module
+* Added ad module
+* Added address module
+* Added bug tracking module
+* Added calendar module
+* Added contact module
+* Added file and image upload modules
+* Added newsfeed module
+* Added statistics module
+* Added todo module
+* Added cookie-less sessions 
+* Added absolute positioning of products and articles
+* Added choosable sort mode on article categories
+* Added choosable sort mode on product categories
+* Added previous/next paging of article lists (admin & user )
+* Added previous/next paging of product lists (admin & user )
+* Added RSS headlines
+* Added forum moderation with assignment of moderator
+* Added notification when articles are published
+* Added file uploads on articles.
+* Added dynamically updating of menues with static pages.
+* Added file upload to eZ article
+* Added word wrap of message replies in eZ forum. Nicer looking replies.
+* Added new tags in articles (bullet lists/includes of php files)
+* Added preferred layout for users
+* Added product types which lets products aquire certain attributes which can
+  be used for product comparision.
+* Added floating images to products.
+* Added hot deals list for products.
+* Made the menus in the admin module expandable/collapsable as well as moveable.
+  This is remembered by the preferences for each user. We've also changed the
+  design to a more sleek version.
+* Language updates
+* Removed java script which were a problem for lynx users.
+* Removed strip tags from messages in eZ forum
+* Speeded up many features among them database connections, localisation,
+  rendering of articles, templates and HTML.
+* Fixed bugs
+
+Changes from version 1.0.4
+--------------------------
+* Added Turkish translation
+* Speedup by 20-50%, due to more efficient ini file reading.
+* Fixed the article search.
+* Fixed a bug when changing the linkcatalog
+* Added tree list in linkedit and groupedit                              
+
+Changes from version 1.0.3
+--------------------------
+* Added French, German, Spanish and Czech translation
+* Added possibility to set session timeout to infinity (0)
+* Added clickable images in articlepreview in admin
+* Fixed a session timeout bug
+* Fixed max one "RE:" in reply of messages in forum.
+* Fixed so that the forum code runs under the latest version of PHP
+* Fixed bug in image view, referer page was not properly set
+* Fixed so that users can change their password
+* Fixed so that admin can read forum messages.
+* Fixed a config reading problem with eZPoll
+
+Changes from version 1.0.2
+--------------------------
+* Added discussion on articles / news
+* Added session timeout on user groups
+* Added session info, currently loggen in users
+* Added possibility to manually logout users
+* Added "goto" link in admin
+* Added delete button in linkedit
+* Added link hits in search list
+* Lots of bug fixes
+* Template cleanup
+
+Changes from version 1.0.1
+-------------------------
+* Added assignment of articles to multiple categories.
+* Added searchable articles.
+* Added showing of number of users registered.
+* Added welcome message.
+* Fixed some issues with cache coherence
+* Fixed a timestamp bug in eZ forum message.
+* Fixed deleting of cached printed version, when an article is updated.
+* Stripped tags from forum messages.
+
+Changes from version 1.0
+------------------------
+* Added printable version of the articles
+* Fixed broken search in links
+* Fixed broken search in article admin
+* Disabled the possibility to set an unactive poll to 
+  main poll.
+* Fixed editing of user addresses, if enabled.
+* Fixed editing and deleting of forum messsages in the admin interface.
+* Added more logging.
+* Fixed displaying of wrong author name in forum message view.
+* Fixed some translation errors
