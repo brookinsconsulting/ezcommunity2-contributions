@@ -64,7 +64,7 @@ ezsitemanager	projects/php/ezsitemanager
 ezquiz		projects/php/ezquiz
 
 # Distribution
-publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz
+publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz &ezform
 trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin &ezmodule
 
 # site alias
