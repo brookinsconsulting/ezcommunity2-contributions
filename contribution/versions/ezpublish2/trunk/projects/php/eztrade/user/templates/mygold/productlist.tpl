@@ -78,7 +78,24 @@
 	</tr>
 	<!-- END product_tpl -->
 	<!-- END product_list_tpl -->
-</table><br />
+</table>
+<table width="100%">
+    <tr>
+        <td class="spacer" width="1%">
+	    <a class="nav" href="#"><img src="/sitedesign/mygold/images/top.gif" width="10" height="15" border="0" alt="" /></a>
+	</td>
+	<td>
+	    <a class="nav" href="#">TOP</a>
+	</td>        
+	<td align="right">
+	    <a class="nav" href="#">TOP</a>
+	</td>
+        <td class="spacer" width="1%">
+	    <a class="nav" href="#"><img src="/sitedesign/mygold/images/top.gif" width="10" height="15" border="0" alt="" /></a>
+	</td>	        
+    </tr>
+</table>    	
+<br />
 <!-- BEGIN type_list_tpl -->
 <table cellpadding="0" cellspacing="0" border="0" align="center">
 	<tr> 

@@ -129,7 +129,7 @@
 </table>
 
 <p class="boxtext">{intl-auto_cookie_login}:</p>
-<input type="checkbox" name="AutoCookieLogin" {is_cookie_selected} />
+<input type="checkbox" name="AutoCookieLogin" {is_cookie_selected} /><br />{intl-cookie_explanation}
 
 <!-- BEGIN address_tpl -->
 <hr noshade="noshade" size="1" />
