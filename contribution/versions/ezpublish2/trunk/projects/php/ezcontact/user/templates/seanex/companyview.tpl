@@ -27,9 +27,9 @@
 <br />
 
 
-<p class="boxtext">{intl-telephone_headline}:</p>
 
 <!-- BEGIN phone_item_tpl -->
+<p class="boxtext">{intl-telephone_headline}:</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN phone_line_tpl -->
@@ -47,8 +47,8 @@
 <p>{intl-error_no_phones}</p>
 <!-- END no_phone_item_tpl -->
 
-<p class="boxtext">{intl-online_headline}:</p>
 <!-- BEGIN online_item_tpl -->
+<p class="boxtext">{intl-online_headline}:</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN online_line_tpl -->
