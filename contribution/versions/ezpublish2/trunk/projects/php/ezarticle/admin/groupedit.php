@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.7 2000/11/01 09:30:57 ce-cvs Exp $
+// $Id: groupedit.php,v 1.8 2000/11/01 11:44:53 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -41,6 +41,10 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 // Direct actions
 if ( $Action == "insert" )
 {
+    // clear the menu cache
+    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
+        unlink( "ezarticle/cache/menubox.cache" );
+
     $parentCategory = new eZArticleCategory();
     $parentCategory->get( $ParentID );
 
@@ -68,6 +72,10 @@ if ( $Action == "insert" )
 
 if ( $Action == "update" )
 {
+    // clear the menu cache
+    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
+        unlink( "ezarticle/cache/menubox.cache" );
+    
     $parentCategory = new eZArticleCategory();
     $parentCategory->get( $ParentID );
     
@@ -96,6 +104,10 @@ if ( $Action == "update" )
 
 if ( $Action == "delete" )
 {
+    // clear the menu cache
+    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
+        unlink( "ezarticle/cache/menubox.cache" );
+    
     $category = new eZArticleCategory();
     $category->get( $CategoryID );
 

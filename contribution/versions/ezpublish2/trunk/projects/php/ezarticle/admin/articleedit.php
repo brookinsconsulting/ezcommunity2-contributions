@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.20 2000/11/01 09:30:57 ce-cvs Exp $
+// $Id: articleedit.php,v 1.21 2000/11/01 11:44:53 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -34,6 +34,7 @@ include_once( "ezarticle/classes/ezarticlegenerator.php" );
 
 if ( $Action == "Insert" )
 {
+
     $user = eZUser::currentUser();
     $category = new eZArticleCategory( $CategoryID );
         

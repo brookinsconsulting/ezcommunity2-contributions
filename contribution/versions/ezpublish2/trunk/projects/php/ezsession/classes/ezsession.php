@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.8 2000/11/01 09:53:57 ce-cvs Exp $
+// $Id: ezsession.php,v 1.9 2000/11/01 11:44:53 ce-cvs Exp $
 //
 // Definition of eZSession class
 //
@@ -217,7 +217,7 @@ class eZSession
     /*!
       Returns the midification time of the session.
     */
-    function midified( )
+    function modified( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
