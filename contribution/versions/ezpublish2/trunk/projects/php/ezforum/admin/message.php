@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.12 2000/08/09 14:12:44 lw-cvs Exp $
+    $Id: message.php,v 1.13 2000/08/11 09:39:28 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -96,10 +96,8 @@ else
         $t->parse( "fields", "elements", true );
     }
 }
-$t->set_var( "link1-url", "admin/category.php");
-$t->set_var( "link1-caption", "Gå til topp");
+$t->set_var( "link1-url", "");
 $t->set_var( "link2-url", "search.php");
-$t->set_var( "link2-caption", "Søk");
 
 $t->set_var( "back-url", "admin/forum.php" );
 $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
