@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.12 2001/03/26 15:18:50 ce Exp $
+// $Id: customerlogin.php,v 1.13 2001/03/26 17:00:49 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -60,7 +60,7 @@ if ( $user  )
         foreach ( $addresses as $address )
         {
             $country =& $address->country();
-            if ( $country->id() == 0 )
+            if ( ( get_class( $country ) == "ezcountry" ) && ( $country->id() == 0 ) )
                 $countryError = true;
         }
 
