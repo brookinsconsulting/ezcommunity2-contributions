@@ -12,7 +12,7 @@
 </tr>
 <tr>
 	<td class="menuspacer">
-	&nbsp;
+	&nbsp;<br />
 	</td>
 </tr>
 <!-- END todo_item_tpl -->
