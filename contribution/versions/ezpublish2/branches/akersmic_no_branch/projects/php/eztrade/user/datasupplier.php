@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.5 2002/01/18 12:30:35 bf Exp $
+// $Id: datasupplier.php,v 1.54.8.6 2002/01/23 15:21:04 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -113,12 +113,14 @@ switch ( $url_array[2] )
             ob_start();
 
             $RedirectURL = "/trade/productview/$ProductID/";
-            $product = new eZProduct( );
+            $product = new eZProduct( );            
             if ( !$product->get( $ProductID ) )
             {
                 header( "Location: /error/404" );
                 exit();
             }
+
+            $ProductName = $product->name();
             
             if ( ( $product->id() >= 1 ) )
             {
