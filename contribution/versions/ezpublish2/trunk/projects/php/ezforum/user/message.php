@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.15 2001/01/22 14:43:00 jb Exp $
+// $Id: message.php,v 1.16 2001/02/12 14:59:45 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -51,6 +51,30 @@ $message = new eZForumMessage( $MessageID );
 
 $forum = new eZForum( $message->forumID() );
 
+$group =& $forum->group();
+
+if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
+{
+    $user = eZUser::currentUser();
+    if ( get_class ( $user ) == "ezuser" )
+    {
+        $groupList =& $user->groups();
+        
+        foreach ( $groupList as $userGroup )
+        {
+            if ( $userGroup->id() == $group->id() )
+            {
+                $readPermission = true;
+                break;
+            }
+        }
+    }
+}
+else
+{
+    $readPermission = true;
+}
+
 $categories = $forum->categories();
 
 if ( count( $categories ) > 0 )
@@ -60,7 +84,6 @@ if ( count( $categories ) > 0 )
     $t->set_var( "category_id", $category->id( ) );
     $t->set_var( "category_name", $category->name( ) );
 }
-
 
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
@@ -137,6 +160,7 @@ foreach ( $messages as $message )
 
 $t->set_var( "redirect_url", $RedirectURL );
 
-$t->pparse( "output", "message_tpl" );
+if ( $readPermission == true )
+    $t->pparse( "output", "message_tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.11 2001/01/22 14:43:00 jb Exp $
+// $Id: messagelist.php,v 1.12 2001/02/12 14:59:45 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -52,6 +52,31 @@ $t->setAllStrings();
 $forum = new eZForum( $ForumID );
 
 $categories =& $forum->categories();
+
+$group =& $forum->group();
+
+if ( get_class( $group ) == "ezusergroup" )
+{
+    $user = eZUser::currentUser();
+    if ( get_class ( $user ) == "ezuser" )
+    {
+        $groupList =& $user->groups();
+        
+        foreach ( $groupList as $userGroup )
+        {
+            if ( $userGroup->id() == $group->id() )
+            {
+                $readPermission = true;
+                break;
+            }
+        }
+    }
+}
+else
+{
+    $readPermission = true;
+}
+
 
 if ( count( $categories ) > 0 )
 {
@@ -150,6 +175,7 @@ $t->set_var( "newmessage", $newmessage );
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
 
-$t->pparse( "output", "messagelist" );
+if ( $readPermission == true )
+    $t->pparse( "output", "messagelist" );
 
 ?>

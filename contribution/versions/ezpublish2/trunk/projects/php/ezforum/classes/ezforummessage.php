@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.67 2001/01/30 11:17:42 bf Exp $
+// $Id: ezforummessage.php,v 1.68 2001/02/12 14:59:45 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -338,7 +338,7 @@ class eZForumMessage
 
       If the message is a top level message false is returned.
     */      
-    function parent()
+    function &parent()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -376,7 +376,7 @@ class eZForumMessage
     /*!
       
     */      
-    function setTopic( $newTopic )
+    function setTopic( &$newTopic )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -388,7 +388,7 @@ class eZForumMessage
     /*!
       Returns the body of the forum message.
     */      
-    function body( $htmlchars=true )
+    function &body( $htmlchars=true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -406,7 +406,7 @@ class eZForumMessage
     /*!
       
     */      
-    function setBody( $newBody )
+    function setBody( &$newBody )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.12 2001/01/22 14:43:00 jb Exp $
+// $Id: ezforum.php,v 1.13 2001/02/12 14:59:45 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -39,6 +39,7 @@ include_once( "classes/ezdb.php" );
 include_once( "classes/ezquery.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 
+include_once( "ezuser/classes/ezusergroup.php" );
 
 class eZForum
 {
@@ -82,6 +83,7 @@ class eZForum
 		                         Description='$this->Description',
 		                         IsModerated='$this->IsModerated',
 		                         ModeratorID='$this->ModeratorID',
+		                         GroupID='$this->GroupID',
 		                         Private='$this->Private'
                                  " );
 
@@ -96,6 +98,7 @@ class eZForum
 		                         Description='$this->Description',
 		                         IsModerated='$this->IsModerated',
 		                         ModeratorID='$this->ModeratorID',
+		                         GroupID='$this->GroupID',
 		                         Private='$this->Private'
                                  WHERE ID='$this->ID'
                                  " );
@@ -153,12 +156,13 @@ class eZForum
             }
             else if( count( $forum_array ) == 1 )
             {
-                $this->ID = $forum_array[0][ "ID" ];
-                $this->Name = $forum_array[0][ "Name" ];
-                $this->Description = $forum_array[0][ "Description" ];
-                $this->IsModerated = $forum_array[0][ "IsModerated" ];
-                $this->ModeratorID = $forum_array[0][ "ModeratorID" ];
-                $this->Private = $forum_array[0][ "Private" ];
+                $this->ID =& $forum_array[0][ "ID" ];
+                $this->Name =& $forum_array[0][ "Name" ];
+                $this->Description =& $forum_array[0][ "Description" ];
+                $this->IsModerated =& $forum_array[0][ "IsModerated" ];
+                $this->ModeratorID =& $forum_array[0][ "ModeratorID" ];
+                $this->GroupID =& $forum_array[0][ "GroupID" ];
+                $this->Private =& $forum_array[0][ "Private" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -351,7 +355,7 @@ class eZForum
     /*!
       Returns the name of the forum.
     */
-    function name()
+    function &name()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -375,7 +379,7 @@ class eZForum
     /*!
       
     */
-    function description()
+    function &description()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -414,7 +418,7 @@ class eZForum
     /*!
       Returns the forum moderator as a eZUser object.
     */
-    function moderator()
+    function &moderator()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -428,7 +432,26 @@ class eZForum
 
        return $user;
     }
-        
+
+
+    /*!
+      Returns the forum moderator as a eZUser object.
+    */
+    function &group()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $group = false;
+       
+       if ( $this->GroupID > 0 )
+       {
+           $group = new eZUserGroup( $this->GroupID );           
+       }
+
+       return $group;
+    }
+
     /*!
       Sets the forum to be moderated or not.
     */
@@ -446,7 +469,7 @@ class eZForum
     /*!
       Sets the forum moderator.
     */
-    function setModerator( $user )
+    function setModerator( &$user )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -456,6 +479,21 @@ class eZForum
            $this->ModeratorID = $user->id();
        }
     }
+
+    /*!
+      Sets the forum moderator.
+    */
+    function setGroup( &$group )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $group  ) == "ezusergroup" )
+       {
+           $this->GroupID = $group->id();
+       }
+    }
+
     
     /*!
       
@@ -536,7 +574,7 @@ class eZForum
     var $IsModerated;
     var $Private;
     var $ModeratorID;
-
+    var $GroupID;
 
     ///  Variable for keeping the database connection.
     var $Database;

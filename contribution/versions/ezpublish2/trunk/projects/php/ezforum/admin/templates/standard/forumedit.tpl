@@ -47,6 +47,15 @@
 	<!-- END moderator_item_tpl -->
 </select>
 
+<br />
+<p class="boxtext">{intl-read_group}:</p>
+<select name="GroupID">
+        <option value="0">{intl-everybody}</option>
+	<!-- BEGIN group_item_tpl -->
+	<option {is_selected} value="{group_id}">{group_name}</option>
+	<!-- END group_item_tpl -->
+</select>
+
 <br /><br />
 	
 <hr noshade="noshade" size="4" />

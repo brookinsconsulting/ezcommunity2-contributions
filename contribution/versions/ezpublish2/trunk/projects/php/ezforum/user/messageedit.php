@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.16 2001/01/23 13:16:57 jb Exp $
+// $Id: messageedit.php,v 1.17 2001/02/12 14:59:45 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -114,6 +114,31 @@ if ( !$user )
 }
 
 $forum = new eZForum( $ForumID );
+
+$group =& $forum->group();
+
+if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
+{
+    $user = eZUser::currentUser();
+    if ( get_class ( $user ) == "ezuser" )
+    {
+        $groupList =& $user->groups();
+        
+        foreach ( $groupList as $userGroup )
+        {
+            if ( $userGroup->id() == $group->id() )
+            {
+                $readPermission = true;
+                break;
+            }
+        }
+    }
+}
+else
+{
+    $readPermission = true;
+}
+
 $t->set_var( "forum_name", $forum->name() );
 $t->set_var( "forum_id", $ForumID );
 
@@ -128,5 +153,6 @@ $t->set_var( "category_id", $category->id() );
 $username = ( $user->firstName() . " " . $user->lastName() );
 $t->set_var( "user", $username );
 
-$t->pparse( "output", "messagepost" );
+if ( $readPermission == true )
+    $t->pparse( "output", "messagepost" );
 ?>

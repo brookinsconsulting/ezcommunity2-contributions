@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.15 2001/01/25 10:43:15 ce Exp $
+// $Id: forumedit.php,v 1.16 2001/02/12 14:59:45 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -32,6 +32,9 @@ $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", 
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+
+include_once( "ezuser/classes/ezusergroup.php" );
+
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
@@ -61,7 +64,9 @@ if ( $Action == "insert" )
                 $forum->setIsModerated( true );
             else
                 $forum->setIsModerated( false );            
-            
+
+            $group = new eZUserGroup( $GroupID );
+            $forum->setGroup( $group );
             
             $forum->store();
 
@@ -102,11 +107,13 @@ if ( $Action == "update" )
             if ( $IsModerated == "on" )
                 $forum->setIsModerated( true );
             else
-                $forum->setIsModerated( false );            
-
+                $forum->setIsModerated( false );
             
             $forum->setName( $Name );
             $forum->setDescription( $Description );
+
+            $group = new eZUserGroup( $GroupID );
+            $forum->setGroup( $group );
 
             $forum->store();
 
@@ -190,6 +197,7 @@ $t->set_file( array( "forum_page" => "forumedit.tpl"
 
 $t->set_block( "forum_page", "category_item_tpl", "category_item" );
 $t->set_block( "forum_page", "moderator_item_tpl", "moderator_item" );
+$t->set_block( "forum_page", "group_item_tpl", "group_item" );
 
 $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
 $headline =  $languageIni->read_var( "strings", "head_line_insert" );
@@ -235,6 +243,8 @@ if ( $Action == "edit" )
             $t->set_var( "forum_is_moderated", "checked" );
         else
             $t->set_var( "forum_is_moderated", "" );
+
+        $groupUser =& $forum->group();
             
         $action_value = "update";
 
@@ -271,9 +281,7 @@ $userList = $user->getAll();
 foreach( $userList as $userItem )
 {
     $t->set_var( "user_id", $userItem->id() );
-    
     $t->set_var( "user_name", $userItem->firstName() . " " . $userItem->lastName() );
-
 
     if ( $Action == "edit" )
     {
@@ -299,8 +307,25 @@ foreach( $userList as $userItem )
         $t->set_var( "is_selected", "" );
     }
 
-
     $t->parse( "moderator_item", "moderator_item_tpl", true );
+}
+
+$group = new eZUserGroup();
+$groupList =& $group->getAll();
+
+foreach( $groupList as $group )
+{
+    $t->set_var( "group_name", $group->name() );
+    $t->set_var( "group_id", $group->id() );
+
+    $t->set_var( "is_selected", "" );
+    if ( get_class( $group ) == "ezusergroup" )
+    {
+        if ( $groupUser->id() == $group->id() )
+            $t->set_var( "is_selected", "selected" );
+    }
+    
+    $t->parse( "group_item", "group_item_tpl", true );
 }
 
 

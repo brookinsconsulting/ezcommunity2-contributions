@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.21 2001/01/23 13:16:57 jb Exp $
+// $Id: messagereply.php,v 1.22 2001/02/12 14:59:45 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -161,6 +161,30 @@ $msg = new eZForumMessage( $ReplyID );
 $ForumID = $msg->forumID();
 $forum = new eZForum( $ForumID );
 
+$group =& $forum->group();
+
+if ( get_class( $group ) == "ezusergroup" )
+{
+    $user = eZUser::currentUser();
+    if ( get_class ( $user ) == "ezuser" )
+    {
+        $groupList =& $user->groups();
+        
+        foreach ( $groupList as $userGroup )
+        {
+            if ( $userGroup->id() == $group->id() )
+            {
+                $readPermission = true;
+                break;
+            }
+        }
+    }
+}
+else
+{
+    $readPermission = true;
+}
+
 $categories = $forum->categories();
 $category = new eZForumCategory( $categories[0]->id() );
 
@@ -195,5 +219,7 @@ $t->set_var("body", $text );
 $t->set_var( "category_id", $CategoryID );
 $t->set_var( "message_id", $ReplyID );
 
-$t->pparse("output", "replymessage");
+
+if ( $readPermission == true )
+    $t->pparse("output", "replymessage");
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forumlist.php,v 1.6 2001/01/22 14:43:00 jb Exp $
+// $Id: forumlist.php,v 1.7 2001/02/12 14:59:45 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -33,6 +33,9 @@ include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir"),
@@ -49,7 +52,7 @@ $category = new eZForumCategory( $CategoryID );
 $t->set_var( "category_id", $category->id( ) );
 $t->set_var( "category_name", $category->name( ) );
 
-$forumList = $category->forums( );
+$forumList =& $category->forums( );
 
 if ( !$forumList )
 {
@@ -76,8 +79,30 @@ foreach( $forumList as $forum )
     else
         $t->set_var( "td_class", "bgdark"  );
 
-    $t->parse( "forum_item", "forum_item_tpl", true );
+    $group =& $forum->group();
 
+    if ( get_class( $group ) == "ezusergroup" )
+    {
+        $user = eZUser::currentUser();
+        if ( get_class ( $user ) == "ezuser" )
+        {
+            $groupList =& $user->groups();
+
+            foreach ( $groupList as $userGroup )
+            {
+                if ( $userGroup->id() == $group->id() )
+                {
+                    $t->parse( "forum_item", "forum_item_tpl", true );
+                    break;
+                }
+            }
+        }
+    }
+    else
+    {
+        $t->parse( "forum_item", "forum_item_tpl", true );
+    }
+    
     $i++;
 }
 
