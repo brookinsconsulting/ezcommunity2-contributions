@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.22 2001/03/09 14:09:18 fh Exp $
+// $Id: articlelist.php,v 1.23 2001/03/09 23:15:59 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -47,7 +47,8 @@ if( isset( $DeleteArticles ) )
     {
         foreach( $ArticleArrayID as $TArticleID )
         {
-            if( eZObjectPermission::hasPermission( $TArticleID, "article_article", 'w' ) )
+            if( eZObjectPermission::hasPermission( $TArticleID, "article_article", 'w' )
+                || eZArticle::isAuthor( eZUser::currentUser(), $TArticleID ) )
             {
                 $article = new eZArticle( $TArticleID );
 
@@ -84,7 +85,8 @@ if( isset( $DeleteCategories ) )
             $categories[] = $ID;
             $category = new eZArticleCategory( $ID );
             $categories[] = $category->parent( false );
-            if( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) )
+            if( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) ||
+                eZArticleCategory::isOwner( eZUser::currentUser(), $ID ) )
                 $category->delete();
         }
         $categories = array_unique( $categories );
