@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: allcategories.php,v 1.3 2001/01/30 19:05:10 pkej Exp $
+// $Id: allcategories.php,v 1.4 2001/02/13 14:04:07 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Jan-2001 12:43:05 bf>
@@ -47,6 +47,8 @@ $t->set_file( array(
 // news
 $t->set_block( "news_archive_page_tpl", "news_list_tpl", "news_list" );
 $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
+
+$t->set_var( "news_list", "" );
 
 $category = new eZNewsCategory( );
 
