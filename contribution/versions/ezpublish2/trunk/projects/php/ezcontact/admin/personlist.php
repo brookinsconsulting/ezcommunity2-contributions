@@ -10,6 +10,7 @@ if ( !is_numeric( $Max ) )
 }
 
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezuritool.php" );
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),  "ezcontact/admin/intl", $Language, "personedit.php" );
 $t->setAllStrings();
@@ -56,8 +57,7 @@ if ( !isset( $SearchText ) )
 else
 {
     $search_encoded = $SearchText;
-    $search_encoded = preg_replace( "/[+]/", "%2B", $search_encoded );
-    $search_encoded = preg_replace( "/[ ]/", "+", $search_encoded );
+    $search_encoded = eZURITool::encode( $search_encoded );
     $t->set_var( "search_form_text", $SearchText );
     $t->set_var( "search_text", $search_encoded );
     $total_persons = $person->getAllCount( $SearchText );
