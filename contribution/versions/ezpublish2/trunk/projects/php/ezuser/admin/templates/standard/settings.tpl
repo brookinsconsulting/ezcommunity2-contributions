@@ -1,6 +1,6 @@
 <form method="post" action="/user/settings/{action_value}/">
 
-<h1>{intl-headline}{first_name} {last_name}</h1>
+<h1>{intl-headline} {first_name} {last_name}</h1>
 
 <hr noshade="noshade" size="4" />
 
