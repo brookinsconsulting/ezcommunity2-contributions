@@ -30,6 +30,15 @@ class eZCompanyType
     }
 
     /*
+      Sletter adressetypen fra databasen.
+     */
+    function delete()
+    {
+        $this->dbInit();
+        query( "DELETE FROM CompanyType WHERE ID='$this->ID'" );
+    }
+
+    /*
       Henter ut en firmatype med ID == $id
     */  
     function get( $id )

@@ -34,6 +34,15 @@ class eZPersonType
         query( "INSERT INTO PersonType set Name='$this->Name', Description='$this->Description'" );
     }
 
+    /*
+      Sletter adressetypen fra databasen.
+     */
+    function delete()
+    {
+        $this->dbInit();
+        query( "DELETE FROM PersonType WHERE ID='$this->ID'" );
+    }
+    
     /*!
 
   */

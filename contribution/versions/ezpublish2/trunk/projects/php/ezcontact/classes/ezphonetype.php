@@ -41,7 +41,17 @@ class eZPhoneType
         $this->dbInit();
         query( "INSERT INTO PhoneType set Name='$this->Name'" );
     }
-  
+
+    /*
+      Sletter adressetypen fra databasen.
+     */
+    function delete()
+    {
+        $this->dbInit();
+        query( "DELETE FROM PhoneType WHERE ID='$this->ID'" );
+    }
+
+    
     /*!
       Oppdaterer tabellen.
     */
