@@ -5,11 +5,7 @@
 	</td>
 	<td width="1%" align="center" valign="top">
 	<img src="/images/1x1.gif" width="80" height="10" border="0"><br />
-	<img src="/images/meny-links.gif" width="60" height="52" border="0"><br />
 	<img src="/images/1x1.gif" width="80" height="8" border="0"><br />
-	<a href="http://www.ez.no"><img src="/images/ezsystems-link.gif" width="56" height="64" border="0"></a><br />
-	<br />
-	<a href="http://zez.org"><img src="/images/zez-link.gif" width="56" height="68" border="0"></a><br />
 	</td>
   </tr>
   <tr> 
