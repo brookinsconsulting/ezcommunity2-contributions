@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelinks.php,v 1.7 2001/03/27 18:45:50 bf Exp $
+// $Id: articlelinks.php,v 1.8 2001/03/28 08:29:55 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
@@ -26,6 +26,8 @@
 $PageCaching =& $ini->read_var( "eZArticleMain", "PageCaching");
 
 $PureStatic = "false";
+
+unset( $CacheFile );
 
 if ( $PageCaching == "enabled" )
 {
@@ -125,9 +127,6 @@ if ( $PureStatic != "true" )
         $t->parse( "article_list", "article_list_tpl" );
     else
         $t->set_var( "article_list", "" );
-
-
-
 
     if ( $GenerateStaticPage == "true" )
     {
