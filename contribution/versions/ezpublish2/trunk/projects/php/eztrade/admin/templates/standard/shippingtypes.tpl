@@ -6,12 +6,12 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th >
+	<td>
 	&nbsp;
-	</th>
+	</td>
 
  	<!-- BEGIN type_item_tpl -->
-	<th colspan="2">
+	<td colspan="2">
 
 	 <input type="hidden" name="TypeID[]" value="{type_id}" />
 	 <input type="radio" name="DefaultTypeID" {default_checked} value="{type_id}" />
@@ -20,10 +20,22 @@
 
 	 <input type="checkbox" name="DeleteType[]" value="{type_id}" />
 
-	</th>
+	</td>
  	<!-- END type_item_tpl -->
 <tr>
-
+<tr>
+    <td>
+    &nbsp;
+    </td>
+    <!-- BEGIN header_item_tpl -->
+    <td>
+        {intl-first}:
+    </td>
+    <td>
+        {intl-additional}:
+    </td>
+    <!-- END header_item_tpl -->
+</tr>
 <!-- BEGIN group_item_tpl -->
 <tr>
 	<th class="{td_class}">

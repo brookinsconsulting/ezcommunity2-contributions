@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: shippingtypes.php,v 1.2 2001/02/23 14:43:50 bf Exp $
+// $Id: shippingtypes.php,v 1.3 2001/02/28 13:12:49 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Feb-2001 11:38:37 bf>
@@ -118,6 +118,7 @@ $t->set_file( array( "shipping_types_tpl" => "shippingtypes.tpl" ) );
 
 $t->set_block( "shipping_types_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "shipping_types_tpl", "group_item_tpl", "group_item" );
+$t->set_block( "shipping_types_tpl", "header_item_tpl", "header_item" );
 $t->set_block( "group_item_tpl", "type_group_item_tpl", "type_group_item" );
 
 
@@ -139,6 +140,7 @@ foreach ( $types as $type )
         $t->set_var( "default_checked", "" );
         
     $t->parse( "type_item", "type_item_tpl", true );
+    $t->parse( "header_item", "header_item_tpl", true );
 }
 
 $i=0;
