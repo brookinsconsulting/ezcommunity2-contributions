@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.4 2002/01/07 12:29:45 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.5 2002/01/10 17:47:07 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -464,7 +464,10 @@ switch ( $url_array[2] )
 
         $StaticRendering = true;
         $ArticleID = $url_array[3];
-        $PageNumber= $url_array[4];
+		if ( isset( $url_array[4] ) )
+	        $PageNumber = $url_array[4];
+		else
+			$PageNumber = "";
 
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
