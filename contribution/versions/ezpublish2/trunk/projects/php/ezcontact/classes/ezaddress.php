@@ -1,7 +1,7 @@
 <?
 
 //!! eZContact
-//!
+//! eZAddress handles addresses.
 /*!
 
 */
@@ -10,13 +10,13 @@ class eZAddress
 {
     /*!
 
-     */
+    */
     function eZAddress( )
     {
                 
     }
 
-    /*
+    /*!
       Lagrer en ny adresserad i databasen. 
     */  
     function store()
@@ -26,7 +26,7 @@ class eZAddress
         return mysql_insert_id();
     }
 
-    /*
+    /*!
       Oppdaterer informasjonen som ligger i databasen.
     */  
     function update()
@@ -35,10 +35,10 @@ class eZAddress
         query( "UPDATE eZContact_Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType' WHERE ID='$this->ID'" );
     }
   
-    /*
-      Henter ut en adresse med ID == $id
+    /*!
+      Fetches an address with object id==$id;
     */  
-    function get( $id )
+    function get( $id="" )
     {
         $this->dbInit();    
         if ( $id != "" )
@@ -55,12 +55,11 @@ class eZAddress
                 $this->Street2 = $address_array[ 0 ][ "Street2" ];
                 $this->Zip = $address_array[ 0 ][ "Zip" ];
                 $this->AddressType = $address_array[ 0 ][ "AddressType" ];
-
             }
         }
     }
 
-    /*
+    /*!
       Henter ut alle adressene lagret i databasen.
     */
     function getAll( )
@@ -73,7 +72,7 @@ class eZAddress
         return $address_array;
     }
 
-    /*
+    /*!
       Sletter adressen med ID == $id;
      */
     function delete()

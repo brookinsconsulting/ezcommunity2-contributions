@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.7 2000/09/28 09:33:18 pkej-cvs Exp $
+// $Id: eztemplate.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -33,9 +33,9 @@ class eZTemplate extends Template
     */
     function eZTemplate( $templateDir, $intlDir = "", $language = "", $phpFile = "" )
     {
-        $this->intlDir = $intlDir;
-        $this->language = $language;
-        $this->phpFile = $phpFile;
+        $this->intlDir =& $intlDir;
+        $this->language =& $language;
+        $this->phpFile =& $phpFile;
         $this->Template( $templateDir );
 //        print( $intlDir . "/" . $language . "/" . $phpFile . ".ini" );
         $this->ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
@@ -56,6 +56,8 @@ class eZTemplate extends Template
         }
     }
     
+    /*!
+    */
     function set_var2($varname, $value = "")
     {
         Template::set_var($varname, $value = "");        

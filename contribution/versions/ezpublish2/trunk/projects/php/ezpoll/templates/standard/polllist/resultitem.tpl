@@ -3,7 +3,7 @@
 	{choice_name}<br/>
 	</td>
 	<td>
-	Prosent stemme: {choice_procent}<br/>
+	Prosent stemme: {choice_percent}<br/>
 	</td>
 	<td>
 	Antall stemmer: {choice_vote}<br/>

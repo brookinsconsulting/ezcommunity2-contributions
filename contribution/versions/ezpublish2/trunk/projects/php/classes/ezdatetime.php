@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.7 2000/09/14 14:43:15 ce-cvs Exp $
+// $Id: ezdatetime.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -29,6 +29,9 @@
   \sa eZDate eZTime eZLocale
 */
 
+/*!TODO
+  Add support for MySQL timestamp import.
+*/
 
 class eZDateTime
 {

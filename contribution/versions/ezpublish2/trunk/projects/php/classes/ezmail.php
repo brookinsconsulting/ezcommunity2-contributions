@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.2 2000/09/15 13:11:06 bf-cvs Exp $
+// $Id: ezmail.php,v 1.3 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,6 +17,17 @@
 //!! eZCommon
 //! The eZMail class is a wrapper class for the mail() function in php.
 /*!
+
+  
+*/
+
+/*!TODO
+  Add support for file attachments
+  See:
+  http://www.phpwizard.net/resources/phpMisc/scripts/pretty/mail.php3
+  and http://phpclasses.upperdesign.com/browse.html/package/32
+  
+  Check verification of email addresses.
   
 */
 
@@ -103,6 +114,17 @@ class eZMail
             or warn( "Error: could not send email." );
     }
 
+    /*!
+      Static function for validating e-mail addresses.
+
+      Returns true if successful, false if not.
+    */
+    function validate( $address )
+    {  
+        $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
+        return $pos;
+    } 
+    
     var $To;
     var $From;
     var $Subject;

@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezquery.php,v 1.6 2000/09/15 12:47:35 bf-cvs Exp $
+// $Id: ezquery.php,v 1.7 2000/10/02 11:58:14 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZQuery class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -24,6 +24,7 @@
 class eZQuery
 {
     /*!
+      
     */
     function eZQuery( $fields, $queryText )
     {
@@ -32,6 +33,7 @@ class eZQuery
     }
 
     /*!
+      
     */
     function buildQuery( )
     {

@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezimage.php,v 1.9 2000/10/02 10:06:49 pkej-cvs Exp $
+// $Id: ezimage.php,v 1.10 2000/10/02 11:58:14 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZImage class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 11:22:21 bf>
@@ -151,12 +151,12 @@ class eZImage
             }
             else if( count( $image_array ) == 1 )
             {
-                $this->ID = $image_array[0][ "ID" ];
-                $this->Name = $image_array[0][ "Name" ];
-                $this->Caption = $image_array[0][ "Caption" ];
-                $this->Description = $image_array[0][ "Description" ];
-                $this->FileName = $image_array[0][ "FileName" ];
-                $this->OriginalFileName = $image_array[0][ "OriginalFileName" ];
+                $this->ID =& $image_array[0][ "ID" ];
+                $this->Name =& $image_array[0][ "Name" ];
+                $this->Caption =& $image_array[0][ "Caption" ];
+                $this->Description =& $image_array[0][ "Description" ];
+                $this->FileName =& $image_array[0][ "FileName" ];
+                $this->OriginalFileName =& $image_array[0][ "OriginalFileName" ];
 
                 $this->State_ = "Coherent";
             }
@@ -230,8 +230,11 @@ class eZImage
 
     /*!
       Returns the path and filename to the original image.
+
+      If $relative is set to true the path is returned relative.
+      Absolute is default.
     */
-    function filePath( $relative=false )
+    function &filePath( $relative=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -256,7 +259,7 @@ class eZImage
 
       The path to the file is returned.
     */
-    function requestImageVariation( $width, $height )
+    function &requestImageVariation( $width, $height )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -268,7 +271,7 @@ class eZImage
        {
            $group->get( $group->groupExists( $width, $height ) );
 
-           $ret = $variation->requestVariation( $this, $group );           
+           $ret =& $variation->requestVariation( $this, $group );
        }
        else
        {
@@ -276,7 +279,7 @@ class eZImage
            $group->setHeight( $height );
            $group->store();
            
-           $ret = $variation->requestVariation( $this, $group );           
+           $ret =& $variation->requestVariation( $this, $group );
        }
 
        return $ret;
@@ -331,7 +334,7 @@ class eZImage
       
       If the image is not of the type .jpg the image is converted.
     */
-    function setImage( $file )
+    function setImage( &$file )
     {
        if ( $this->State_ == "Dirty" )
            $this->get( $this->ID );
@@ -353,8 +356,7 @@ class eZImage
            
            $name = $regs[0] . "jpg";
            
-           $this->OriginalFileName = $name;
-           
+           $this->OriginalFileName =& $name;
        }
     }
     

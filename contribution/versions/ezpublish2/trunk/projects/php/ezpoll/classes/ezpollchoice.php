@@ -1,5 +1,5 @@
 <?// 
-// $Id: ezpollchoice.php,v 1.3 2000/09/25 07:33:47 ce-cvs Exp $
+// $Id: ezpollchoice.php,v 1.4 2000/10/02 11:58:15 bf-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -227,7 +227,18 @@ class eZPollChoice
         $this->PollID = $value;
     }
 
-        /*!
+    /*!
+      Fetches the number of votes for the current coice.
+    */
+    function voteCount( )
+    {
+        $this->dbInit();
+        $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE ChoiceID='$this->ID'" );
+        
+        return $votecount[0][ "NUMBER" ];
+    }
+    
+    /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
     */

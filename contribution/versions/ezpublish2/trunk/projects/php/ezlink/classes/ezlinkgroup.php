@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.22 2000/09/15 12:47:35 bf-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.23 2000/10/02 11:58:14 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZLinkGroup class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -14,9 +14,9 @@
 //
 
 //!! eZLink
-//! The eZLinkGroup class handles URL link groups.
+//! The eZLinkGroup class handles URL links.
 /*!
-
+  
   \sa eZLink eZHit eZQuery
 */
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.7 2000/09/19 15:50:46 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -114,17 +114,17 @@ class eZLocale
             $localeIni = new INIFile( "classes/locale/en_GB.ini", false );
         }
 
-        $this->CurrencySymbol = $localeIni->read_var( "RegionalSettings", "CurrencySymbol" );
-        $this->DecimalSymbol = $localeIni->read_var( "RegionalSettings", "DecimalSymbol" );
-        $this->ThousandsSymbol = $localeIni->read_var( "RegionalSettings", "ThousandsSymbol" );
-        $this->FractDigits = $localeIni->read_var( "RegionalSettings", "FractDigits" );
+        $this->CurrencySymbol =& $localeIni->read_var( "RegionalSettings", "CurrencySymbol" );
+        $this->DecimalSymbol =& $localeIni->read_var( "RegionalSettings", "DecimalSymbol" );
+        $this->ThousandsSymbol =& $localeIni->read_var( "RegionalSettings", "ThousandsSymbol" );
+        $this->FractDigits =& $localeIni->read_var( "RegionalSettings", "FractDigits" );
 
-        $this->PositivePrefixCurrencySymbol = $localeIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
-        $this->NegativePrefixCurrencySymbol = $localeIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
+        $this->PositivePrefixCurrencySymbol =& $localeIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
+        $this->NegativePrefixCurrencySymbol =& $localeIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
         
-        $this->TimeFormat = $localeIni->read_var( "RegionalSettings", "TimeFormat" );
-        $this->DateFormat = $localeIni->read_var( "RegionalSettings", "DateFormat" );
-        $this->ShortDateFormat = $localeIni->read_var( "RegionalSettings", "ShortDateFormat" );
+        $this->TimeFormat =& $localeIni->read_var( "RegionalSettings", "TimeFormat" );
+        $this->DateFormat =& $localeIni->read_var( "RegionalSettings", "DateFormat" );
+        $this->ShortDateFormat =& $localeIni->read_var( "RegionalSettings", "ShortDateFormat" );
 
     }
 
@@ -136,7 +136,7 @@ class eZLocale
       If isShort is set to false then the long version of the string is used,
       if it exists.
     */
-    function format( $obj, $isShort=true )
+    function &format( &$obj, $isShort=true )
     {
         $returnString = "<b>Locale error</b>: object or type not supported.";
 
@@ -210,14 +210,14 @@ class eZLocale
             {
                 $value = $obj->value();
 
-                $valueArray = explode( ".", $value );
+                $valueArray =& explode( ".", $value );
                 $fracts = $valueArray[1] . "<br>";
                 settype( $fracts, "integer" );
-                $integerValue = $valueArray[0];          
+                $integerValue =& $valueArray[0];          
 
-                $revInteger = strrev( $integerValue );                
-                $revInteger = ereg_replace( "([0-9]{3})", "\\1$this->ThousandsSymbol", $revInteger );
-                $integerValue = strrev( $revInteger );
+                $revInteger =& strrev( $integerValue );                
+                $revInteger =& ereg_replace( "([0-9]{3})", "\\1$this->ThousandsSymbol", $revInteger );
+                $integerValue =& strrev( $revInteger );
 
                 // remove leading .
                 if ( $integerValue[0] == "$this->ThousandsSymbol" )                    
@@ -248,7 +248,7 @@ class eZLocale
                     }                    
                 }
                 
-                $returnString = $value;
+                $returnString =& $value;
                 break;
             }
         }

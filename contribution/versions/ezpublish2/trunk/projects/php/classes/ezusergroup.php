@@ -1,5 +1,5 @@
 <?php
-// $Id: ezusergroup.php,v 1.7 2000/09/15 12:47:35 bf-cvs Exp $
+// $Id: ezusergroup.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
 // Lars Wilhelmsen <lw@ez.no>
 // eZ systems <http://www.ez.no/>
 //
@@ -8,11 +8,6 @@
 // (C) 2000 by Lars Wilhelmsen <lw@ez.no>, All rights reserved.
 
 
-//!! eZCommon
-//! The eZUserGroup class provides usergroup functions.
-/*!
-  
-*/
 
 class eZUserGroup
 {

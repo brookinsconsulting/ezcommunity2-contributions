@@ -1,13 +1,17 @@
-<?
-/*!
-    $Id: ezdb.php,v 1.7 2000/09/26 10:07:55 bf-cvs Exp $
-
-    Author: Bård Farstad <bf@ez.no>
-    
-    Created on: Created on: <14-Jul-2000 13:01:15 bf>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
+<?php
+// 
+// $Id: ezdb.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Bård Farstad <bf@ez.no>
+// Created on: Created on: <14-Jul-2000 13:01:15 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 //!! eZCommon
 //! The eZDB class provides database functions.
@@ -18,6 +22,10 @@
   
 */
 
+/*!TODO
+  Add a generic query builder for use with search. A more adwanced version of the query
+  class found in ezlink/class/ezquery.
+*/
 
 class eZDB
 {
@@ -35,10 +43,10 @@ class eZDB
         
         $ini = new INIFile( "site.ini" );
         
-        $this->Server = $ini->read_var( "eZTradeMain", "Server" );
-        $this->DB = $ini->read_var( "eZTradeMain", "Database" );
-        $this->User = $ini->read_var( "eZTradeMain", "User" );
-        $this->Password = $ini->read_var( "eZTradeMain", "Password" );
+        $this->Server =& $ini->read_var( "eZTradeMain", "Server" );
+        $this->DB =& $ini->read_var( "eZTradeMain", "Database" );
+        $this->User =& $ini->read_var( "eZTradeMain", "User" );
+        $this->Password =& $ini->read_var( "eZTradeMain", "Password" );
         
         mysql_pconnect( $this->Server, $this->User, $this->Password )
             or warn( "Error: could not connect to the database." );
@@ -51,15 +59,15 @@ class eZDB
       Execute a query on the global MySQL database link.  If it returns an error,
       the script is halted and the attempted SQL query and MySQL error message are printed.
     */
-    function query($sql)
+    function &query( $sql )
     {
-        $result = mysql_query($sql);
+        $result = mysql_query( $sql );
   
         if ( $result )
             return $result;
                             
-        echo "<code>" . htmlentities($sql) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
-        exit()					;
+        echo "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
+        exit();
     }
 
     /*
@@ -67,15 +75,15 @@ class eZDB
       array as an indexed associative array.  The array is cleared first.  The results start with
       the array start at 0, and the number of results can be found with the count() function.
     */
-    function array_query(&$array, $sql)
+    function array_query( &$array, $sql )
     {
         $array = array();
-        $r = $this->query($sql);
+        $result =& $this->query( $sql );
 
-        if ( count( $r ) > 0 )
+        if ( count( $result ) > 0 )
         { 
-            for($i = 0; $i < mysql_num_rows($r); $i++)
-                $array[$i] = mysql_fetch_array($r);
+            for($i = 0; $i < mysql_num_rows( $result ); $i++ )
+                $array[$i] =& mysql_fetch_array( $result );
         }
     }
 
@@ -83,15 +91,15 @@ class eZDB
       Differs from the above function only by not creating av empty array,
       but simply appends to the array passed as an argument.
      */    
-    function array_query_append(&$array, $sql)
+    function array_query_append( &$array, $sql)
     {
-        $result = query($sql);
+        $result =& query($sql);
 
         $offset = count( $array );
         if ( count( $result ) > 0 )
         { 
             for($i = 0; $i < mysql_num_rows($result); $i++)
-                $array[$i + $offset] = mysql_fetch_array($result);
+                $array[$i + $offset] =& mysql_fetch_array($result);
         }
     }
 

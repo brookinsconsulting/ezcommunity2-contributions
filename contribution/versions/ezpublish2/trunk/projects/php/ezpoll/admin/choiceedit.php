@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: choiceedit.php,v 1.1 2000/09/25 07:36:08 ce-cvs Exp $
+// $Id: choiceedit.php,v 1.2 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -84,7 +84,7 @@ if ( $Action == "edit" )
     $Offset =  $choice->offset();
     $Action_value = "update";
 
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini" );
+    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
 
 }
@@ -97,7 +97,7 @@ $t->set_var( "offset_value", $Offset );
 $t->set_var( "action_value", $Action_value );
 if ( !isset ( $headline ) )
 {
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini" );
+    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_insert" );
 }
 $t->set_var( "head_line", $headline );

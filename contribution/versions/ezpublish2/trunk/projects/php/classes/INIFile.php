@@ -134,7 +134,7 @@ class  INIFile
     } 
      
      //checks if a group exists 
-    function group_exists($group_name) 
+    function group_exists( $group_name )
     { 
         $group = $this->GROUPS[$group_name]; 
         if (empty($group)) return false; 
@@ -168,7 +168,7 @@ class  INIFile
      //empty a group
     function empty_group($group_name) 
     { 
-	unset( $this->GROUPS[$group_name] );
+        unset( $this->GROUPS[$group_name] );
         $this->GROUPS[$group_name] = array();
     } 
 

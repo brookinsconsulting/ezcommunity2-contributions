@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.2 2000/09/25 07:33:47 ce-cvs Exp $
+// $Id: ezpoll.php,v 1.3 2000/10/02 11:58:15 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -269,6 +269,18 @@ class eZPoll
         
         $this->IsClosed = $value;
     }
+
+    /*!
+      Fetches the total number of votes for the poll.
+    */
+    function totalVotes( )
+    {
+        $this->dbInit();
+        $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$this->ID'" );
+        
+        return $votecount[0][ "NUMBER" ];
+    }
+    
 
     /*!
       Private function.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.2 2000/09/22 12:51:34 bf-cvs Exp $
+// $Id: ezimagevariation.php,v 1.3 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -91,12 +91,12 @@ class eZImageVariation
             }
             else if( count( $image_variation_array ) == 1 )
             {
-                $this->ID = $image_variation_array[0][ "ID" ];
-                $this->ImageID = $image_variation_array[0][ "ImageID" ];
-                $this->VariationGroupID= $image_variation_array[0][ "VariationGroupID" ];
-                $this->ImagePath = $image_variation_array[0][ "ImagePath" ];
-                $this->Width = $image_variation_array[0][ "Width" ];
-                $this->Height = $image_variation_array[0][ "Height" ];
+                $this->ID =& $image_variation_array[0][ "ID" ];
+                $this->ImageID =& $image_variation_array[0][ "ImageID" ];
+                $this->VariationGroupID =& $image_variation_array[0][ "VariationGroupID" ];
+                $this->ImagePath =& $image_variation_array[0][ "ImagePath" ];
+                $this->Width =& $image_variation_array[0][ "Width" ];
+                $this->Height =& $image_variation_array[0][ "Height" ];
 
                 $this->State_ = "Coherent";
             }
@@ -124,12 +124,12 @@ class eZImageVariation
             }
             else if( count( $image_variation_array ) == 1 )
             {
-                $this->ID = $image_variation_array[0][ "ID" ];
-                $this->ImageID = $image_variation_array[0][ "ImageID" ];
-                $this->VariationGroupID= $image_variation_array[0][ "VariationGroupID" ];
-                $this->ImagePath = $image_variation_array[0][ "ImagePath" ];
-                $this->Width = $image_variation_array[0][ "Width" ];
-                $this->Height = $image_variation_array[0][ "Height" ];
+                $this->ID =& $image_variation_array[0][ "ID" ];
+                $this->ImageID =& $image_variation_array[0][ "ImageID" ];
+                $this->VariationGroupID =& $image_variation_array[0][ "VariationGroupID" ];
+                $this->ImagePath =& $image_variation_array[0][ "ImagePath" ];
+                $this->Width =& $image_variation_array[0][ "Width" ];
+                $this->Height =& $image_variation_array[0][ "Height" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -148,7 +148,7 @@ class eZImageVariation
 
       False is returned if the variation could not be created.
     */
-    function requestVariation( $image, $variationGroup )
+    function &requestVariation( &$image, &$variationGroup )
     {
         $ret = false;
         if ( ( get_class( $image ) == "ezimage" ) && ( get_class( $variationGroup ) == "ezimagevariationgroup" ) )
@@ -158,7 +158,7 @@ class eZImageVariation
             if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id() ) )
             {
                 
-                $ret = $variation;
+                $ret =& $variation;
             }
             else
             {
@@ -180,7 +180,7 @@ class eZImageVariation
 
                 $variation->store();
 
-                $ret = $variation;
+                $ret =& $variation;
             }
         }
         

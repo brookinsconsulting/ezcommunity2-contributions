@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.1 2000/09/29 11:55:27 ce-cvs Exp $
+// $Id: result.php,v 1.2 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -32,9 +32,11 @@ $t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) .
 $t->setAllStrings();
 
 $t->set_file( array(
-    "result" => "result.tpl",
-    "result_item" => "resultitem.tpl"
+    "result" => "result.tpl"
     ) );
+
+$t->set_block( "result", "result_item_tpl", "result_item" );
+$t->set_block( "result", "choice_item_tpl", "choice_item" );
 
 $poll = new eZPoll();
 $poll->get( $PollID );
@@ -48,24 +50,52 @@ $vote =  new eZVote();
 $total = 0;
 setType( $total, "double" );
 
+$i=1;
+foreach( $choiceList as $choiceItem )
+{
+    $t->set_var( "choice_name", $choiceItem->name() );
+    $t->set_var( "choice_number", $i );
+    
+    $t->parse( "choice_item", "choice_item_tpl", true );
+    $i++;
+}
+
+$i=1;
 foreach( $choiceList as $choiceItem )
 {
     $t->set_var( "choice_name", $choiceItem->name() );
     $t->set_var( "choice_id", $choiceItem->id() );
-    
-    $t->set_var( "choice_vote", $vote->getCountByChoiceID( $choiceItem->id() ) );
 
-    $value = $vote->getCountByChoiceID( $choiceItem->id() );
+    $t->set_var( "choice_vote", $choiceItem->voteCount() );
+    $t->set_var( "choice_number", $i );
+
+    $total = $poll->totalVotes();
+    if ( $total != 0 )
+    {
+        $percent = ( ( $choiceItem->voteCount() / $total ) * 100 );
+        setType( $percent, "integer" );
+        $t->set_var( "choice_percent", $percent );
+        $t->set_var( "choice_inverted_percent", 100 - $percent );
+        
+    }
+    else
+    {
+        $t->set_var( "choice_percent", 0 );
+        $t->set_var( "choice_inverted_percent", 100 );
+    }
+    
+    $value = $choiceItem->voteCount();
     
     setType( $value, "double" );
     setType( $total, "double" );
 
     $total = $total + $value;
     
-    $t->parse( "result_list", "result_item", true );
+    $t->parse( "result_item", "result_item_tpl", true );
+    $i++;    
 }
 
-$t->set_var( "total", $total );
+$t->set_var( "total_votes", $poll->totalVotes() );
 
 $t->pparse( "output", "result" );
 ?>

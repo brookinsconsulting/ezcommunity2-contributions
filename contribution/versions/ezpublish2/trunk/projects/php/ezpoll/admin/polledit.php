@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.1 2000/09/25 07:36:08 ce-cvs Exp $
+// $Id: polledit.php,v 1.2 2000/10/02 11:58:14 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -189,7 +189,7 @@ if ( $Action == "Edit" )
     }
 
     $Action_value = "update";
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini" );
+    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
 
 }
@@ -204,7 +204,7 @@ foreach( $pollChoiceList as $pollChoiceItem )
     $t->set_var( "choice_id", $pollChoiceItem->id() );
     $t->set_var( "poll_choice_name", $pollChoiceItem->name() );
     $vote = new eZVote();
-    $t->set_var( "poll_number", $vote->getCountByChoiceID( $PollID ) );
+    $t->set_var( "poll_number", $pollChoiceItem->voteCount() );
 
     $t->parse( "poll_choice_list", "poll_choice_item", true );
 }
@@ -220,7 +220,7 @@ $t->set_var( "document_root", $DOC_ROOT );
 $t->set_var( "action_value", $Action_value );
 if ( !isset ( $headline ) )
 {
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini" );
+    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_insert" );
 }
 $t->set_var( "head_line", $headline );
