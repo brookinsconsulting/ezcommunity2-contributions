@@ -52,10 +52,17 @@ if ( $user )
 
         $modules =& $preferences->variableArray( "EnabledModules" );
         $site_modules = $ini->read_array( "site", "EnabledModules" );
-        $modules = array_intersect( $modules, $site_modules );
-        $extra_modules = array_diff( $site_modules, $modules );
-        $modules = array_merge( $modules, $extra_modules );
-        $modules = array_diff( $modules, array( "" ) );
+        if ( $modules )
+        {
+            $modules = array_intersect( $modules, $site_modules );
+            $extra_modules = array_diff( $site_modules, $modules );
+            $modules = array_merge( $modules, $extra_modules );
+            $modules = array_diff( $modules, array( "" ) );
+        }
+        else
+        {
+            $modules = array_diff( $site_modules, array( "" ) );
+        }
 
         $uri =& $GLOBALS["REQUEST_URI"];
 
