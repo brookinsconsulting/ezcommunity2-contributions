@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.6 2001/02/14 13:18:36 bf Exp $
+// $Id: ezhttptool.php,v 1.7 2001/02/23 14:49:54 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -41,12 +41,16 @@ class eZHTTPTool
 
       Returns false if the variable is not set.
      */
-    function &getVar( $name )
+    function &getVar( $name, $onlyCheckPost=false )
     {
         $ret = false;
 
         $postVars = $GLOBALS["HTTP_POST_VARS"];
-        $getVars = $GLOBALS["HTTP_GET_VARS"];
+        
+        if ( $onlyCheckPost == false )
+        {
+            $getVars = $GLOBALS["HTTP_GET_VARS"];
+        }
 
         if ( isset( $postVars[$name] ) )
         {

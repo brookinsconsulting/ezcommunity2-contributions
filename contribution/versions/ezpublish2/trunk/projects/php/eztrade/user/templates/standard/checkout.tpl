@@ -115,6 +115,8 @@
 <hr noshade="noshade" size="4" />
 
 
+<input type="hidden" name="ShippingCost" value="{shipping_cost}" />
+
 
 <input class="okbutton" type="submit" name="SendOrder" value="{intl-send}" />
 

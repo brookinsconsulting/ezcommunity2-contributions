@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.37 2001/02/23 14:43:50 bf Exp $
+// $Id: checkout.php,v 1.38 2001/02/23 14:49:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -117,7 +117,7 @@ $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
 
-if ( $SendOrder == "true" ) 
+if ( isset( $SendOrder ) ) 
 {
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
@@ -137,8 +137,9 @@ if ( $SendOrder == "true" )
 
     $order->setShippingAddress( $shippingAddress );
     $order->setBillingAddress( $billingAddress );
+
     
-    $order->setShippingCharge( $ShippingCost );
+    $order->setShippingCharge( eZHTTPTool::getVar( "ShippingCost", true ) );
     $order->setPaymentMethod( $PaymentMethod );
 
     $order->store();
