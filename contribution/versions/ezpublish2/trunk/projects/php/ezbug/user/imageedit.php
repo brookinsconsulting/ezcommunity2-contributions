@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.1 2001/02/16 19:23:42 fh Exp $
+// $Id: imageedit.php,v 1.2 2001/02/19 18:33:54 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:32:36 fh>
@@ -43,7 +43,7 @@ if ( $Action == "Insert" )
 
     if ( $file->getUploadedFile( "userfile" ) )
     { 
-        $bug = new eZBut( $BugID );
+        $bug = new eZBug( $BugID );
         $image = new eZImage();
         $image->setName( $Name );
         $image->setCaption( $Caption );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.12 2001/02/16 14:22:41 fh Exp $
+// $Id: ezbug.php,v 1.13 2001/02/19 18:33:54 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -131,7 +131,7 @@ class eZBug
                                  Description='$this->Description',
                                  IsHandled='$this->IsHandled',
                                  IsClosed='$this->IsClosed',
-                                 Created='Created',
+                                 Created=Created,
                                  PriorityID='$this->PriorityID',
                                  StatusID='$this->StatusID',
                                  UserEmail='$this->UserEmail',
@@ -679,8 +679,9 @@ class eZBug
 
         if( get_class( $image ) == "ezimage" )
         {
+            $imageID = $image->id();
             $this->dbInit();
-            $this->Database->query( "INSERT INTO eZBug_BugImageLink SET BugID='$this->ID', ImageID='$Image->id()'" );
+            $this->Database->query( "INSERT INTO eZBug_BugImageLink SET BugID='$this->ID', ImageID='$imageID'" );
         }
     }
 

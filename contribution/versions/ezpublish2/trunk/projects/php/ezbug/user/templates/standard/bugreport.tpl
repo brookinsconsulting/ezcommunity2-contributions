@@ -48,7 +48,7 @@
 <br /><br />
 
 <!-- inserted files -->
-Avaliable patches:
+<p class="boxtext">{intl-avaliable_patches}:</p>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-file_id}:</th>
@@ -76,9 +76,36 @@ Avaliable patches:
 
 </table>
 <!-- inserted Images -->
+<p class="boxtext">{intl-avaliable_screenshots}:</p>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-image_id}:</th>
+	<th>{intl-image_name}:</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+</tr>
+
+<!-- BEGIN image_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{image_number}
+	</td>
+	<td width="97%" class="{td_class}">
+	{image_name}
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="/bug/report/imageedit/edit/{image_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<input type="checkbox" name="ImageArrayID[]" value="{image_id}" />
+	</td>
+</tr>
+<!-- END image_tpl -->
+
+</table>
 
 
-
+<!-- end of inserted images -->
 <hr noshade="noshade" size="4">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -97,6 +124,5 @@ Avaliable patches:
 	</td>
 </tr>
 </table>
-<!-- <input type="text" name="Action" value="{action_value}"> -->
 
 </form>

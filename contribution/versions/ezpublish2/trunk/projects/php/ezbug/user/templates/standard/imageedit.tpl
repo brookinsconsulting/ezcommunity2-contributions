@@ -1,4 +1,4 @@
-<form method="post" action="/bug/bugedit/imageedit/" enctype="multipart/form-data">
+<form method="post" action="/bug/report/imageedit/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-imageupload}: {bug_name}</h1>

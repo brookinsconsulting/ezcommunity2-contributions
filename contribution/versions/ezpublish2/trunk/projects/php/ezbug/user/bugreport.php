@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.10 2001/02/19 16:42:24 fh Exp $
+// $Id: bugreport.php,v 1.11 2001/02/19 18:33:54 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -52,6 +52,7 @@ $t->set_block( "bug_report_tpl", "email_address_tpl", "email_address" );
 $t->set_block( "bug_report_tpl", "all_fields_error_tpl", "all_fields_error" );
 $t->set_block( "bug_report_tpl", "email_error_tpl", "email_error" );
 $t->set_block( "bug_report_tpl", "file_tpl", "file" );
+$t->set_block( "bug_report_tpl", "image_tpl", "image" );
 
 // new inserts new bug
 // update, updates the bug with new values.
@@ -199,6 +200,7 @@ $modName = "";
 $t->set_var( "description_value", "" );
 $t->set_var( "title_value", "" );
 $t->set_var( "file", "" );
+$t->set_var( "image", "" );
 
 if( $Action == "Edit" ) // load values from database
 {
@@ -237,6 +239,28 @@ if( $Action == "Edit" ) // load values from database
         $t->parse( "file", "file_tpl", true );
     
         $i++;
+    }
+    // get the images
+    $images = $bug->images();
+    $i = 0;
+    foreach( $images as $image )
+    {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+        $t->set_var( "image_number", $i + 1 );
+        $t->set_var( "image_id", $image->id() );
+
+        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . $image->caption() . "</a>" );
+        $t->parse( "image", "image_tpl", true );
+    
+        $i++;
+
     }
 }
 
@@ -291,7 +315,7 @@ foreach ( $categories as $category )
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
-// list the categories
+// list the modules
 $modules = $module->getAll();
 foreach ( $modules as $module )
 {

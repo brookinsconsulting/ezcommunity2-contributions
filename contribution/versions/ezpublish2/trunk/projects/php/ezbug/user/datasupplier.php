@@ -112,28 +112,29 @@ switch ( $url_array[2] )
             break;
             case "imageedit" :
             {
-                if( $url_array[4] == "New")
+                if( $url_array[4] == "new")
                 {
                     $Action = "New";
                     $BugID = $url_array[5];
                     include( "ezbug/user/imageedit.php" );
                 }
-                else if( $url_array[4] == "Edit" )
+                else if( $url_array[4] == "edit" )
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
-                    $FileID = $url_array[5];
+                    $ImageID = $url_array[5];
                     include( "ezbug/user/imageedit.php" );
                 }
-                if( $url_array[4] == "Delete" )
+                else if( $url_array[4] == "delete" )
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];
-                    $FileID = $url_array[5];
+                    $ImageID = $url_array[5];
                     include( "ezbug/user/imageedit.php" );
                 }
                 else
                 {
+                    include( "ezbug/user/imageedit.php" );
                 }
             }
             break;
