@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.15 2001/02/20 19:12:25 pkej Exp $
+// $Id: ezforum.php,v 1.16 2001/02/22 17:43:40 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -48,8 +48,6 @@ class eZForum
     */
     function eZForum( $id="", $fetch=true )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -74,14 +72,15 @@ class eZForum
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZForum_Forum SET
+            $db->query( "INSERT INTO eZForum_Forum SET
 		                         Name='$this->Name',
 		                         Description='$this->Description',
 		                         IsModerated='$this->IsModerated',
+		                         IsAnonymous='$this->IsAnonymous',
 		                         ModeratorID='$this->ModeratorID',
 		                         GroupID='$this->GroupID',
 		                         Private='$this->Private'
@@ -93,10 +92,11 @@ class eZForum
         }
         else
         {
-            $this->Database->query( "UPDATE eZForum_Forum SET
+            $db->query( "UPDATE eZForum_Forum SET
 		                         Name='$this->Name',
 		                         Description='$this->Description',
 		                         IsModerated='$this->IsModerated',
+		                         IsAnonymous='$this->IsAnonymous',
 		                         ModeratorID='$this->ModeratorID',
 		                         GroupID='$this->GroupID',
 		                         Private='$this->Private'
@@ -114,16 +114,16 @@ class eZForum
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         // delete messages
-        $this->Database->query( "DELETE FROM eZForum_Message WHERE ForumID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_Message WHERE ForumID='$this->ID'" );
 
         // delete category assignments
-        $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE ForumID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_ForumCategoryLink WHERE ForumID='$this->ID'" );
 
         // delete the forum
-        $this->Database->query( "DELETE FROM eZForum_Forum WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_Forum WHERE ID='$this->ID'" );
         
         return true;
     }
@@ -133,10 +133,10 @@ class eZForum
     */
     function removeFromForums()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         // delete category assignments
-        $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE ForumID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_ForumCategoryLink WHERE ForumID='$this->ID'" );
     }
     
     /*!
@@ -144,12 +144,12 @@ class eZForum
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $forum_array, "SELECT * FROM eZForum_Forum WHERE ID='$id'" );
+            $db->array_query( $forum_array, "SELECT * FROM eZForum_Forum WHERE ID='$id'" );
             if ( count( $forum_array ) > 1 )
             {
                 die( "Error: Forum's with the same ID was found in the database. This shouldent happen." );
@@ -160,6 +160,7 @@ class eZForum
                 $this->Name =& $forum_array[0][ "Name" ];
                 $this->Description =& $forum_array[0][ "Description" ];
                 $this->IsModerated =& $forum_array[0][ "IsModerated" ];
+                $this->IsAnonymous =& $forum_array[0][ "IsAnonymous" ];
                 $this->ModeratorID =& $forum_array[0][ "ModeratorID" ];
                 $this->GroupID =& $forum_array[0][ "GroupID" ];
                 $this->Private =& $forum_array[0][ "Private" ];
@@ -193,9 +194,9 @@ class eZForum
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $message_array, "SELECT ID FROM
+       $db->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
                                                        WHERE ForumID='$this->ID' AND IsTemporary='0' ORDER BY PostingTime DESC" );
 
@@ -217,7 +218,7 @@ class eZForum
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        $query = new eZQuery( array( "Topic", "Body" ), $query );
                
@@ -225,7 +226,7 @@ class eZForum
              $query->buildQuery()  .
              ") ORDER BY PostingTime LIMIT $offset, $limit";       
 
-       $this->Database->array_query( $message_array, $query_str );
+       $db->array_query( $message_array, $query_str );
        $ret = array();
 
        foreach ( $message_array as $message )
@@ -242,14 +243,14 @@ class eZForum
     */
     function getQueryCount( $query  )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $message_array = 0;
 
         $query = new eZQuery( array( "Topic", "Body" ), $query );
 
         $query_str = "SELECT count(ID) AS Count FROM eZForum_Message WHERE (" . $query->buildQuery() . ") ORDER BY PostingTime";
         
-        $this->Database->array_query( $message_array, $query_str );
+        $db->array_query( $message_array, $query_str );
 
         $ret = 0;
         if ( count( $message_array ) == 1 )
@@ -269,7 +270,7 @@ class eZForum
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        $approvedCode = "";
        if ( $showUnApproved == false )
@@ -277,7 +278,7 @@ class eZForum
            $approvedCode = " AND IsApproved=1 ";
        }
 
-       $this->Database->array_query( $message_array, "SELECT ID FROM
+       $db->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
                                                        WHERE ForumID='$this->ID' $approvedCode  AND IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
@@ -301,9 +302,9 @@ class eZForum
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $message_array, "SELECT ID FROM
+       $db->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
                                                        WHERE ForumID='$this->ID' AND ThreadID='$threadID' AND IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
@@ -335,9 +336,9 @@ class eZForum
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $forum_array, "SELECT CategoryID FROM
+       $db->array_query( $forum_array, "SELECT CategoryID FROM
                                                        eZForum_ForumCategoryLink
                                                        WHERE ForumID='$this->ID'" );
 
@@ -416,6 +417,21 @@ class eZForum
     }
 
     /*!
+      Returns true if the forum allows anonymous posting.
+    */
+    function isAnonymous()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->IsAnonymous == 1 )
+           $ret = true;
+        
+        return $ret;
+    }
+
+    /*!
       Returns the forum moderator as a eZUser object.
     */
     function &moderator()
@@ -464,6 +480,20 @@ class eZForum
            $this->IsModerated = 1;
        else
            $this->IsModerated = 0;
+    }
+
+    /*!
+      Sets the forum to allow anonymous posting, or not.
+    */
+    function setIsModerated( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+           $this->IsAnonymous = 1;
+       else
+           $this->IsAnonymous = 0;
     }
 
     /*!
@@ -523,9 +553,9 @@ class eZForum
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $message_array, "SELECT ID FROM
+       $db->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
                                                        WHERE ForumID='$this->ID'  AND IsTemporary='0' GROUP BY ThreadID" );
 
@@ -542,9 +572,9 @@ class eZForum
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $message_array, "SELECT ID FROM
+       $db->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
                                                        WHERE ForumID='$this->ID' AND IsTemporary='0'" );
 
@@ -572,17 +602,13 @@ class eZForum
     var $Name;
     var $Description;
     var $IsModerated;
+    var $IsAnonymous;
     var $Private;
     var $ModeratorID;
     var $GroupID;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

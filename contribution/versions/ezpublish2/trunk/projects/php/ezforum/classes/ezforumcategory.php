@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.27 2001/01/25 10:43:16 ce Exp $
+// $Id: ezforumcategory.php,v 1.28 2001/02/22 17:43:40 pkej Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -48,8 +48,6 @@ class eZForumCategory
     */
     function eZForumCategory( $id="", $fetch=true )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -74,11 +72,11 @@ class eZForumCategory
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZForum_Category SET
+            $db->query( "INSERT INTO eZForum_Category SET
 		                         Name='$this->Name',
 		                         Description='$this->Description'
                                  " );
@@ -89,7 +87,7 @@ class eZForumCategory
         }
         else
         {
-            $this->Database->query( "UPDATE eZForum_Category SET
+            $db->query( "UPDATE eZForum_Category SET
 		                         Name='$this->Name',
 		                         Description='$this->Description'
                                  WHERE ID='$this->ID'
@@ -106,7 +104,7 @@ class eZForumCategory
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $forumList = $this->forums();
 
@@ -115,9 +113,9 @@ class eZForumCategory
             $forum->delete();
         }
 
-        $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE CategoryID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_ForumCategoryLink WHERE CategoryID='$this->ID'" );
         
-        $this->Database->query( "DELETE FROM eZForum_Category WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_Category WHERE ID='$this->ID'" );
         
         return true;
     }
@@ -128,12 +126,12 @@ class eZForumCategory
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZForum_Category WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZForum_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
@@ -160,13 +158,13 @@ class eZForumCategory
     */
     function getAll( )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = array();
 
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $category_array, "SELECT ID FROM
+        $db->array_query( $category_array, "SELECT ID FROM
                                                        eZForum_Category" );
                                                      
         $ret = array();
@@ -187,9 +185,9 @@ class eZForumCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $forum_array, "SELECT ForumID FROM
+       $db->array_query( $forum_array, "SELECT ForumID FROM
                                                        eZForum_ForumCategoryLink
                                                        WHERE CategoryID='$this->ID'" );
 
@@ -211,13 +209,13 @@ class eZForumCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        if ( get_class( $forum ) == "ezforum" )
        {
            $forumID = $forum->id();
            
-           $this->Database->array_query( $forum_array, "INSERT INTO
+           $db->array_query( $forum_array, "INSERT INTO
                                                        eZForum_ForumCategoryLink
                                                        SET CategoryID='$this->ID', ForumID='$forumID'" );
            
@@ -231,9 +229,9 @@ class eZForumCategory
     */
     function getAllCategories()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $category_array, "SELECT ID FROM eZForum_Category" );
+        $db->array_query( $category_array, "SELECT ID FROM eZForum_Category" );
 
         $ret = array();
         foreach( $category_array as $category )
@@ -314,12 +312,7 @@ class eZForumCategory
     var $Name;
     var $Description;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 ?>

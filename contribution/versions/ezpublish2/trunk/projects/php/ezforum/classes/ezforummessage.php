@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.71 2001/02/20 19:12:25 pkej Exp $
+// $Id: ezforummessage.php,v 1.72 2001/02/22 17:43:40 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -45,8 +45,6 @@ class eZForumMessage
     */
     function eZForumMessage( $id="", $fetch=true )
     {
-        $this->IsConnected = false;
-
         $this->IsApproved = true;
         $this->IsTemporary = false;
         
@@ -76,7 +74,7 @@ class eZForumMessage
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
@@ -85,7 +83,7 @@ class eZForumMessage
             { // new node
 
                 // find the biggest treeID
-                $this->Database->array_query( $result, "SELECT TreeID FROM eZForum_Message ORDER BY TreeID DESC LIMIT 1" );
+                $db->array_query( $result, "SELECT TreeID FROM eZForum_Message ORDER BY TreeID DESC LIMIT 1" );
 
                 $this->Depth = 0;
                 if ( count( $result ) > 0 )
@@ -98,7 +96,7 @@ class eZForumMessage
                 }
 
                 // get the biggest thread ID
-                $this->Database->array_query( $result, "SELECT ThreadID FROM eZForum_Message WHERE Parent='0' ORDER BY TreeID DESC LIMIT 1" );
+                $db->array_query( $result, "SELECT ThreadID FROM eZForum_Message WHERE Parent='0' ORDER BY TreeID DESC LIMIT 1" );
 
                 if ( count( $result ) > 0 )
                 {
@@ -109,7 +107,7 @@ class eZForumMessage
                     $this->ThreadID = 0;
                 }                
                      
-                $this->Database->query( "INSERT INTO eZForum_Message SET
+                $db->query( "INSERT INTO eZForum_Message SET
 		                         ForumID='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
@@ -131,7 +129,7 @@ class eZForumMessage
             { // child node
 
                 // find the TreeID, ThreadID and Depth of the parent
-                $this->Database->array_query( $result, "SELECT TreeID, ThreadID, Depth FROM eZForum_Message
+                $db->array_query( $result, "SELECT TreeID, ThreadID, Depth FROM eZForum_Message
                                                         WHERE ID='$this->ParentID'
                                                         ORDER BY TreeID DESC LIMIT 1" );
 
@@ -148,9 +146,9 @@ class eZForumMessage
                     $this->Depth = $d + 1;
                     
                     // update the whole tree''s ThreeID.
-                    $this->Database->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
+                    $db->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
 
-                    $this->Database->query( "INSERT INTO eZForum_Message SET
+                    $db->query( "INSERT INTO eZForum_Message SET
 		                         ForumID='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
@@ -176,7 +174,7 @@ class eZForumMessage
         }
         else
         {
-            $this->Database->query( "UPDATE eZForum_Message SET
+            $db->query( "UPDATE eZForum_Message SET
 		                         ForumID='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
@@ -200,25 +198,37 @@ class eZForumMessage
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->query( "DELETE FROM eZForum_Message WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_Message WHERE ID='$this->ID'" );
         
         return true;
     }
     
 
     /*!
+      Clones this eZForumMessage object.
+    */
+    function &clone()
+    {
+        $tmp = new eZForumMessage( $this->ID );
+        unset( $tmp->ID );
+        $tmp->State_ = "New";
+        
+        return $tmp;
+    }
+
+    /*!
       Fetches the object information from the database.
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $message_array, "SELECT * FROM eZForum_Message WHERE ID='$id'" );
+            $db->array_query( $message_array, "SELECT * FROM eZForum_Message WHERE ID='$id'" );
             if ( count( $message_array ) > 1 )
             {
                 die( "Error: Message's with the same ID was found in the database. This shouldn't happen." );
@@ -258,13 +268,11 @@ class eZForumMessage
     */
     function getAll( )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = array();
 
-        $this->dbInit();
-
-        $this->Database->array_query( $message_array, "SELECT ID FROM
+        $db->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message" );
                                                      
         $ret = array();
@@ -405,7 +413,7 @@ class eZForumMessage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Topic;
+        return stripslashes( $this->Topic );
     }
         
     /*!
@@ -417,7 +425,7 @@ class eZForumMessage
             $this->get( $this->ID );
         
         
-        $this->Topic = $newTopic;
+        $this->Topic = addslashes( $newTopic );
     }
         
     /*!
@@ -430,11 +438,11 @@ class eZForumMessage
        
        if ( $htmlchars == true )
        {           
-           return htmlspecialchars( $this->Body );
+           return htmlspecialchars( stripslashes( $this->Body ) );
        }
        else
        {
-           return $this->Body;
+           return stripslashes( $this->Body );
        }
     }
 
@@ -447,7 +455,7 @@ class eZForumMessage
             $this->get( $this->ID );
         
         
-        $this->Body = $newBody;
+        $this->Body = addslashes( $newBody );
     }
     
     /*!
@@ -597,7 +605,7 @@ class eZForumMessage
     */      
     function countMessages( $ID )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $query_id = mysql_query("SELECT COUNT(ID) AS Messages
                              FROM eZForum_Message
@@ -613,7 +621,7 @@ class eZForumMessage
     */      
     function countReplies( $ID )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
          
         $query_id = mysql_query("SELECT COUNT(ID) AS replies FROM eZForum_Message WHERE Parent='$ID' AND IsTemporary='0'")
              or die("could not count replies, dying");
@@ -628,7 +636,7 @@ class eZForumMessage
      */
     function threadTop( &$msg )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = 0;
         
@@ -650,13 +658,11 @@ class eZForumMessage
     */
     function getAllNotApproved( )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = array();
 
-        $this->dbInit();
-
-        $this->Database->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );
+        $db->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );
         $ret = array();
 
         foreach ( $message_array as $message )
@@ -673,13 +679,11 @@ class eZForumMessage
     */
     function getAllTemporary( )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = array();
 
-        $this->dbInit();
-
-        $this->Database->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsTemporary='1'" );
+        $db->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsTemporary='1'" );
         $ret = array();
 
         foreach ( $message_array as $message )
@@ -689,19 +693,6 @@ class eZForumMessage
         
         return $ret;
 
-    }
-
-    /*!
-      \private
-      Opens the database for read and write.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
     }
     
     var $ID;
@@ -724,12 +715,7 @@ class eZForumMessage
     // indicates the depth of the message in the tree
     var $Depth;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 ?>
