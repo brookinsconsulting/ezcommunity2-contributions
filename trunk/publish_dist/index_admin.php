@@ -155,18 +155,18 @@ if ( $user )
     {
         $HelpMode  = "enabled";
         
-        include( "admin/help_header.php" );
+        include( "design/admin/help_header.php" );
     }
     else
     {
         // html header
         if ( $PrintableVersion == "enabled" )
         {        
-            include( "admin/print_header.php" );
+            include( "design/admin/print_header.php" );
         }
         else
         {
-            include( "admin/header.php" );
+            include( "design/admin/header.php" );
         }
     }
               
@@ -249,7 +249,7 @@ if ( $user )
         if ( $PrintableVersion != "enabled" )
         {
             // break the column an draw a horizontal line
-            include( "admin/separator.php" );
+            include( "design/admin/separator.php" );
         }
 
         if ( eZFile::file_exists( $page ) )
@@ -279,24 +279,24 @@ if ( $user )
     }
     if ( $HelpMode == "enabled" )
     {
-        include( "admin/help_footer.php" );
+        include( "design/admin/help_footer.php" );
     }
     else
     {
         // html footer
         if ( $PrintableVersion == "enabled" )
         {
-            include( "admin/print_footer.php" );
+            include( "design/admin/print_footer.php" );
         }
         else
         {
-            include( "admin/footer.php" );
+            include( "design/admin/footer.php" );
         }
     }
 }
 else
 {
-    include( "admin/loginheader.php" );
+    include( "design/admin/loginheader.php" );
     
     if ( $moduleName == "" )
         $moduleName = "user";
@@ -321,7 +321,7 @@ else
     }
 
     // html footer
-    include( "admin/loginfooter.php" );
+    include( "design/admin/loginfooter.php" );
 }
 
 
