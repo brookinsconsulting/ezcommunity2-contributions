@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.20 2001/03/01 14:06:25 jb Exp $
+// $Id: forumedit.php,v 1.21 2001/03/05 12:01:00 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -277,11 +277,11 @@ if ( $Action == "edit" )
 
         if ( $forum->isAnonymous() == true )
         {
-            $t->set_var( "forum_is_anonymouse", "checked" );
+            $t->set_var( "forum_is_anonymous", "checked" );
         }
         else
         {
-            $t->set_var( "forum_is_anonymouse", "" );
+            $t->set_var( "forum_is_anonymous", "" );
         }
             
 
