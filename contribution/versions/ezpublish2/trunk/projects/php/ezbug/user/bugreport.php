@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.20 2001/03/13 13:51:10 fh Exp $
+// $Id: bugreport.php,v 1.21 2001/03/23 14:59:34 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -62,6 +62,7 @@ $t->set_block( "inserted_files_tpl", "file_tpl", "file" );
 $t->set_block( "inserted_images_tpl", "image_tpl", "image" );
 $t->set_var( "inserted_files", "" );
 $t->set_var( "inserted_images", "" );
+
 
 // new inserts new bug
 // update, updates the bug with new values.
@@ -255,12 +256,14 @@ if( isset( $DeleteSelected ) )
 /* user didn't press any buttons.. lets set up the view correctly then..*/
 $catName = "";
 $modName = "";
-$t->set_var( "description_value", "" );
-$t->set_var( "title_value", "" );
+
+$t->set_var( "description_value", $Description );
+$t->set_var( "title_value", $Name );
 $t->set_var( "file", "" );
 $t->set_var( "image", "" );
-$t->set_var( "private_checked", "" );
-$t->set_var( "usr_email", "" );
+if( $IsPrivate == "On" )
+    $t->set_var( "private_checked", "checked" );
+$t->set_var( "usr_email", $Email );
 
 if( $Action == "Edit" ) // load values from database
 {
