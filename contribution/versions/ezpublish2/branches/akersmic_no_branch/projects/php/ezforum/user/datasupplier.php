@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.23.2.1 2001/10/22 12:55:38 jhe Exp $
+// $Id: datasupplier.php,v 1.23.2.1.4.1 2002/03/01 16:05:43 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -64,7 +64,7 @@ switch ( $url_array[2] )
     case "userlogin":
     {
         $Action = $url_array[3];
-        
+
         switch ( $Action )
         {
             case "edit":
@@ -76,7 +76,7 @@ switch ( $url_array[2] )
             break;
         }
         if ( $url_array[3] == "new" )
-        {         
+        {
             $Action = $url_array[3];
             $ForumID = $url_array[4];
             $MessageID = $url_array[4];
@@ -84,12 +84,12 @@ switch ( $url_array[2] )
         }
 
         if ( $url_array[3] == "reply" )
-        {         
+        {
             $Action = $url_array[3];
             $ReplyToID = $url_array[4];
             include( "ezforum/user/userlogin.php" );
         }
-        
+
         if ( $url_array[3] == "newsimple" )
         {
             $ForumID = $url_array[4];
@@ -110,14 +110,14 @@ switch ( $url_array[2] )
         include( "ezforum/user/categorylist.php" );
     }
     break;
-        
+
     case "forumlist":
     {
         $CategoryID = $url_array[3];
         include( "ezforum/user/forumlist.php" );
     }
     break;
-    
+
     case "messagelist":
     {
         $ForumID = $url_array[3];
@@ -139,7 +139,7 @@ switch ( $url_array[2] )
         include( "ezforum/user/messagelistflat.php" );
     }
     break;
-    
+
     case "messagesimpleedit":
     case "messagesimplereply":
     case "reply":
@@ -149,7 +149,7 @@ switch ( $url_array[2] )
     {
         $Action = $url_array[3];
         $ID = $url_array[4];
-
+        $OriginalID = $ID;
         switch ( $Action )
         {
             case "reply":
@@ -174,7 +174,7 @@ switch ( $url_array[2] )
             {
                 $MessageID = $ID;
             }
-            break;          
+            break;
         }
         include( "ezforum/user/messageedit.php" );
 
@@ -187,7 +187,7 @@ switch ( $url_array[2] )
         include( "ezforum/user/message.php" );
     }
     break;
-        
+
     case "search" :
     {
         if ( $url_array[3] == "parent" )
@@ -206,7 +206,7 @@ switch ( $url_array[2] )
     {
         eZHTTPTool::header( "Location: /error/404?Info=" . errorPage( "forum_main", "/forum/categorylist/", 404 ) );
     }
-    break;        
+    break;
 }
 
 ?>

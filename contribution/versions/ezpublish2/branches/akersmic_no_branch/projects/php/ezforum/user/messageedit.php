@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.4.4.2 2002/02/15 13:05:48 ce Exp $
+// $Id: messageedit.php,v 1.58.2.4.4.3 2002/03/01 16:05:43 ce Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -241,10 +241,12 @@ switch ( $Action )
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
+
         if ( !$ForumPost )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
+
         $msg->setIsTemporary( false );
         $msg->store();
 
@@ -335,11 +337,8 @@ switch ( $Action )
                 }
             }
 
-            if ( $forum->isModerated() )
-            {
-                $msg->setIsApproved ( false );
-                $msg->store();
-            }
+            $msg->setIsApproved ( false );
+            $msg->store();
         }
 
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL&ProductID=$ProductID&ProductName=$ProductName&RedirectURL=$RedirectURL" );
