@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.39 2001/02/07 15:01:37 jb Exp $
+// $Id: articleedit.php,v 1.40 2001/02/08 11:24:42 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -208,7 +208,11 @@ if ( $Action == "Cancel" )
     $article = new eZArticle( $ArticleID );
 
     $category = $article->categoryDefinition( );
-    $categoryID = $category->id();
+    
+    if ( $category )
+    {
+        $categoryID = $category->id();
+    }
 
     eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
