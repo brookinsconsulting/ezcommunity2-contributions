@@ -440,3 +440,11 @@ Maintainer(s) : br@ez.no
       user/storestats.php:
     Added code which will store the SectionID of all page views.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-06-13  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php: fixed bgu in cron job
+
