@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.10 2001/11/19 16:10:53 bf Exp $
+// $Id: ezxml.php,v 1.11 2001/11/19 16:21:56 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -65,7 +65,6 @@ class eZXML
         // strip comments
         $xmlDoc =& eZXML::stripComments( $xmlDoc );
 
-        print( htmlspecialchars( $xmlDoc ));
         $domDocument = new eZDOMDocument();
         $domDocument->version = "1.0";
 
@@ -215,6 +214,14 @@ class eZXML
                                 $attrNode->name = $attributeName;
                                 $attrNode->type = 2;
                                 $attrNode->content = $attributeValue;
+
+                                unset( $nodeValue );
+                                $nodeValue = new eZDOMNode();
+                                $nodeValue->name = "text";
+                                $nodeValue->type = 3;
+                                $nodeValue->content = $attributeValue;
+                                
+                                $attrNode->children[] =& $nodeValue;
 
                                 $subNode->attributes[] =& $attrNode;
                                 
