@@ -32,7 +32,7 @@
    </a>   
    <!-- END image_link_tpl -->
    <!-- BEGIN ext_link_tpl -->
-   <a target="{target}" href="{www_dir}{index}{image_href}">
+   <a target="{target}" href="{image_href}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
    <!-- END ext_link_tpl -->
@@ -57,7 +57,7 @@
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
    <!-- END image_link_float_tpl -->
    <!-- BEGIN ext_link_float_tpl -->
-   <a href="{image_href}">
+   <a href="{www_dir}{index}{image_href}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
    <!-- END ext_link_float_tpl -->
    <!-- BEGIN no_link_float_tpl -->  
@@ -66,11 +66,11 @@
 <!-- END image_float_tpl -->
 
 <!-- BEGIN link_tpl -->
-<a href="{href}" target="{target}" >{link_text}</a>
+<a href="{www_dir}{index}{href}" target="{target}" >{link_text}</a>
 <!-- END link_tpl -->
 
 <!-- BEGIN popuplink_tpl -->
-<a href="{href}" target="_new" >{link_text}</a>
+<a href="{www_dir}{index}{href}" target="_new" >{link_text}</a>
 <!-- END popuplink_tpl -->
 
 
