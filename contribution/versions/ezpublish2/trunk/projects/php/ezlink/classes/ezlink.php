@@ -170,7 +170,7 @@ class eZLink
 
         array_query( $link_array, $query_str );
 
-        print( "<br>" . $query_str . "<br>". count( $link_array ) );
+//          print( "<br>" . $query_str . "<br>". count( $link_array ) );
         
         return $link_array;
     }
@@ -198,10 +198,7 @@ class eZLink
         array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
 
         return count( $url_array );
-    }
-
-    
-    
+    }    
 
     /*
       Setter tittel

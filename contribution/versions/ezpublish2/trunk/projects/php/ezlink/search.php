@@ -5,7 +5,7 @@
 */
 
 include_once( "template.inc" );
-require "ezlink/dbsettings.php";
+include( "ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
 
 require $DOCUMENTROOT . "classes/ezlinkgroup.php";
@@ -90,8 +90,6 @@ else
     }
 }
 
-
-
 $t->set_var( "hit_count", $thit_count );
 $t->set_var( "link_message", $tlink_message );
 $t->set_var( "linkgroup_id", $LGID );
@@ -99,8 +97,5 @@ $t->set_var( "document_root", $DOCUMENTROOT );
 
 $t->set_var( "printpath", $linkGroup->printPath( 0, $DOCUMENTROOT . "linklist.php" ) );                       
 
-
 $t->pparse( "output", "search_list" );
-
-
 ?>
