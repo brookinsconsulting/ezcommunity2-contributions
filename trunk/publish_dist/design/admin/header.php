@@ -113,8 +113,8 @@ $modules =& eZModuleHandler::active();
 // $modules =& $preferences->variableArray( "EnabledModules" );
 $single_module = eZModuleHandler::useSingleModule();
 
-$t = new eZTemplate( "admin/templates/" . $SiteStyle,
-                     "admin/intl/", $Language, "header.php" );
+$t = new eZTemplate( "design/admin/templates/" . $SiteStyle,
+                     "design/admin/intl/", $Language, "header.php" );
 
 
 $t->set_file( "header_tpl", "header.tpl" );

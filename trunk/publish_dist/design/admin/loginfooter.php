@@ -30,8 +30,8 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "classes/template.inc" );
 
-// $t = new Template( $siteDir . "admin/templates/" . $SiteStyle );
-$t = new eZTemplate( "admin/templates/" . $SiteStyle,
+// $t = new Template( $siteDir . "design/admin/templates/" . $SiteStyle );
+$t = new eZTemplate( "design/admin/templates/" . $SiteStyle,
                      "ezuser/admin/intl/", $Language, "menubox.php" );
 
 $t->set_file( array(

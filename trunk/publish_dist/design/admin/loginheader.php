@@ -33,7 +33,7 @@ $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
 
 
-$t = new eZTemplate( "admin/templates/" . $SiteStyle,
+$t = new eZTemplate( "design/admin/templates/" . $SiteStyle,
                      "ezuser/admin/intl/", $Language, "menubox.php" );
 $t->set_file( array(
     "header_tpl" => "loginheader.tpl"
