@@ -45,13 +45,16 @@
 <td class="{td_class}" valign="top" >
 <a href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
 <br />
+<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 
 <!-- BEGIN private_appointment_tpl -->
 {start_time} - {stop_time}<br />
 <!-- END private_appointment_tpl -->
 
 <!-- BEGIN public_appointment_tpl -->
-<a href="/calendar/appointmentview/{appointment_id}/">{start_time} - {stop_time}</a><br />
+<a class="small" href="/calendar/appointmentview/{appointment_id}/">{start_time} - {stop_time}</a><br />
+<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+
 <!-- END public_appointment_tpl -->
 
 <br />
