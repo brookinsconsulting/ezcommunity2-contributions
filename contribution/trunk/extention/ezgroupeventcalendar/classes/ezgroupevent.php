@@ -359,20 +359,17 @@ class eZGroupEvent
 			if ( $showPrivate == false )
 			{
 				$this->Database->array_query( $event_array,
-				"SELECT ID FROM eZGroupEventCalendar_Event
-				 WHERE ( Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups ) 
-                 OR ( Date LIKE '$stamp%' AND IsPrivate='0' AND GroupID='0' )
-                 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND $selectGroups)
-                 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND GroupID='0')
+				"SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date FROM eZGroupEventCalendar_Event
+				 WHERE ( Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups )
+                 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND $selectGroups )
                  ORDER BY Date ASC", true );
 			}
 			else
 			{
 				$this->Database->array_query( $event_array,
-				"SELECT ID FROM eZGroupEventCalendar_Event
-				WHERE ( Date LIKE '$stamp%' AND $selectGroups ) OR ( Date LIKE '$stamp%' AND GroupID='0' ) 
-                OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND $selectGroups)
-                OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND GroupID='0')
+				"SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date FROM eZGroupEventCalendar_Event
+				WHERE ( Date LIKE '$stamp%' AND $selectGroups )
+                OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND $selectGroups)
                 ORDER BY Date ASC" );
 			}
 			//			print(" SELECT ID FROM eZGroupEventCalendar_Event WHERE ( Date LIKE '$stamp%' AND GroupID='$groupID' ) ORDER BY Date ASC <br />");
@@ -434,8 +431,8 @@ class eZGroupEvent
 			else
 			{
 			        // kracker : Add Support for Events in All Groups
-			        // $selectGroups = "GroupID='$groupID'";
-			        $selectGroups = "GroupID='$groupID' OR GroupID=0";			  
+			         $selectGroups = "GroupID='$groupID'";
+			     //   $selectGroups = "GroupID='$groupID' OR GroupID=0";
 			}
 
 			$typeID  = $type->id(); 
@@ -445,7 +442,7 @@ class eZGroupEvent
             if ( $showPrivate == false )
             {
                 $this->Database->array_query( $event_array,
-                "SELECT ID FROM eZGroupEventCalendar_Event
+                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date FROM eZGroupEventCalendar_Event
                  WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups AND EventTypeID='$typeID' 
                  OR ( IsRecurring='1' AND $selectGroups AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' )
                  ORDER BY Date ASC", true );
@@ -453,7 +450,7 @@ class eZGroupEvent
             else
             {
                 $this->Database->array_query( $event_array,
-                "SELECT ID FROM eZGroupEventCalendar_Event
+                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date FROM eZGroupEventCalendar_Event
                  WHERE Date LIKE '$stamp%' AND $selectGroups AND EventTypeID='$typeID' 
                  OR ( IsRecurring='1' AND $selectGroups AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp')
                  ORDER BY Date ASC" );
@@ -462,8 +459,9 @@ class eZGroupEvent
             for ( $i=0; $i<count($event_array); $i++ )
             {
             	$recurCheck = filterRecurring($event_array[$i], $date);
-                if ($recurCheck)
-                 $return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
+                if (!$recurCheck) echo 'filtering out ' . $event->name() . ': '. $event->GroupID() . '<br>'; 
+                if ($recurCheck) {
+                 $return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 ); }
             }
 
             $ret =& $return_array;
@@ -499,7 +497,7 @@ class eZGroupEvent
             if ( $showPrivate == false )
             {
                 $this->Database->array_query( $event_array,
-                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RecurMonthlyType, RepeatTimes, RecurDay, RecurMonthlyTypeInfo, Date
+                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date
 		 FROM eZGroupEventCalendar_Event
                  WHERE ( Date LIKE '$stamp%' AND IsPrivate='0' )
 		 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' )
@@ -578,7 +576,7 @@ class eZGroupEvent
             if ( $showPrivate == false )
             {
                 $this->Database->array_query( $event_array,
-                "SELECT ID, GroupID FROM eZGroupEventCalendar_Event
+                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date FROM eZGroupEventCalendar_Event
                  WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND EventTypeID='$typeID'
                 OR ( IsRecurring='1' AND IsPrivate='0' AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' )
                  ORDER BY Date ASC", true );
@@ -586,7 +584,7 @@ class eZGroupEvent
             else
             {
                 $this->Database->array_query( $event_array,
-                "SELECT ID, GroupID FROM eZGroupEventCalendar_Event
+                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date FROM eZGroupEventCalendar_Event
                  WHERE Date LIKE '$stamp%' AND EventTypeID='$typeID'
                  OR ( IsRecurring='1' AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp')
                  ORDER BY Date ASC" );
