@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.17.2.2 2002/01/17 12:31:43 jb Exp $
+// $Id: image.php,v 1.17.2.3 2002/04/25 13:30:52 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -44,6 +44,24 @@ if( $Command == "info" )
         $ReturnData = new eZXMLRPCStruct( $ret );
     }
 }
+else if ( $Command == "permission" )
+{
+    $img = new eZImage( $ID );
+    $cat = $img->categoryDefinition();
+    $CategoryID = $cat->id();
+    $read_c = eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", "r", $User );
+    $edit_c = eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w', $User );
+    $read = ( eZObjectPermission::hasPermission( $ID, "imagecatalogue_image", "r", $User ) and
+              $read_c );
+    $edit = ( eZObjectPermission::hasPermission( $ID, "imagecatalogue_image", 'w', $User ) and
+              $edit_c );
+//     $read = eZObjectPermission::hasPermissionWithDefinition( $ID, "imagecatalogue_image", "r", $User, $CategoryID );
+//     $edit = eZObjectPermission::hasPermissionWithDefinition( $ID, "imagecatalogue_image", 'w', $User, $CategoryID );
+
+    $ret = array( "Read" => new eZXMLRPCBool( $read ),
+                  "Edit" => new eZXMLRPCBool( $edit ) );
+    $ReturnData = new eZXMLRPCStruct( $ret );
+}
 else if( $Command == "data" ) // Dump image info!
 {
     unset( $width );
@@ -57,7 +75,7 @@ else if( $Command == "data" ) // Dump image info!
             $height = $size["Height"]->value();
         }
     }
-    
+
     if ( isset( $width ) and isset( $height ) )
     {
         $writeGroups = eZObjectPermission::getGroups( $ID, "imagecatalogue_image", 'w', false );

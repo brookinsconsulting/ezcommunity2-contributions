@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.5 2001/10/16 14:01:06 jb Exp $
+// $Id: category.php,v 1.5.2.1 2002/04/25 13:30:52 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,8 +31,6 @@ include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
-// TODO: check permissions!!
-
 if( $Command == "info" )
 {
     $category = new eZImageCategory();
@@ -46,7 +44,16 @@ if( $Command == "info" )
         $ReturnData = new eZXMLRPCStruct( $ret );
     }
 }
-if( $Command == "data" ) // Dump category info!
+else if ( $Command == "permission" )
+{
+    $read = eZObjectPermission::hasPermission( $ID, "imagecatalogue_category", "r", $User );
+    $edit = eZObjectPermission::hasPermission( $ID, "imagecatalogue_category", 'w', $User );
+
+    $ret = array( "Read" => new eZXMLRPCBool( $read ),
+                  "Edit" => new eZXMLRPCBool( $edit ) );
+    $ReturnData = new eZXMLRPCStruct( $ret );
+}
+else if( $Command == "data" ) // Dump category info!
 {
 //      usleep( 5000000 );
     $writeGroups = eZObjectPermission::getGroups( $ID, "imagecatalogue_category", 'w', false );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.3 2002/04/23 11:31:58 bf Exp $
+// $Id: article.php,v 1.20.2.4 2002/04/25 13:30:51 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,6 +27,8 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticletool.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
@@ -45,6 +47,16 @@ if( $Command == "info" )
         $ret = array( "Name" => new eZXMLRPCString( $article->name( false ) ) );
         $ReturnData = new eZXMLRPCStruct( $ret );
     }
+}
+else if ( $Command == "permission" )
+{
+    $CategoryID = eZArticle::categoryDefinitionStatic( $ID );
+    $read = eZObjectPermission::hasPermissionWithDefinition( $ID, "article_article", "r", $User, $CategoryID );
+    $edit = eZObjectPermission::hasPermissionWithDefinition( $ID, "article_article", 'w', $User, $CategoryID );
+
+    $ret = array( "Read" => new eZXMLRPCBool( $read ),
+                  "Edit" => new eZXMLRPCBool( $edit ) );
+    $ReturnData = new eZXMLRPCStruct( $ret );
 }
 else if( $Command == "data" ) // return all the data in the category
 {
@@ -87,6 +99,13 @@ else if( $Command == "data" ) // return all the data in the category
         }
 
         $cat_def_id = $article->categoryDefinition( false );
+        $section_id = eZArticleCategory::sectionIDStatic( $cat_def_id );
+        $section_lang = false;
+        if ( $section_id != 0 )
+        {
+            $section = new eZSection( $section_id );
+            $section_lang = $section->language();
+        }
         $cats = $article->categories( false );
         $cats = array_diff( $cats, array( $cat_def_id ) );
 
@@ -112,6 +131,13 @@ else if( $Command == "data" ) // return all the data in the category
                       "Topic" => new eZXMLRPCInt( $article->topic( false ) )
 //                                             "PublishedDate" => new eZXMLRPCStruct(),
                       );
+        if ( $section_lang != false )
+        {
+            $charsetLocale = new eZLocale( $charsetLanguage );
+            $section_charset = $charsetLocale->languageISO();
+            $return["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                            "Charset" => $section_charset ) );
+        }
         $start_date = $article->startDate( false );
         if ( !is_bool( $start_date ) )
             $ret["StartDate"] = createDateTimeStruct( $article->startDate() );
