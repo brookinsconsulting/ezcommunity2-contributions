@@ -104,3 +104,38 @@ Maintainer(s) : vl@ez.no
 
     * site.ini: added a "<?php /*" to top line and "*/ ?>" to bottom line.
 
+Module : publish_dist
+Maintainer(s) : vl@ez.no
+2001-09-04  fh  <fh@zev.ez.no>
+
+    * site.ini: Added eZMail options
+
+2001-09-04  christoffer  <ce@zev.ez.no>
+
+    * site.ini: fix
+
+2001-09-04  fh  <fh@zev.ez.no>
+
+    * CHANGELOG: eZ mail update
+
+    * CHANGELOG: eZMail fixes..
+
+2001-09-04  pkej  <pkej@zev.ez.no>
+
+    * CHANGELOG: Added the latest changes which PKEJ have made to eZ articl.
+
+2001-09-04  jhe  <jhe@zev.ez.no>
+
+    * CHANGELOG: added feature
+
+2001-09-04  pkej  <pkej@zev.ez.no>
+
+    * site.ini:
+    Added LowerCaseManualKeywords in eZArticleMain. This is used to describe
+    if keywords in articleedit.php (manual keywords) should be stored with case
+    or not. If enabled the keywords are lower cased, else they keep their case.
+
+2001-09-04  kaid  <kaid@zev.ez.no>
+
+    * site.ini: added a "<?php /*" to top line and "*/ ?>" to bottom line.
+
