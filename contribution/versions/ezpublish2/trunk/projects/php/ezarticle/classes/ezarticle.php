@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.151 2001/08/21 10:30:06 jb Exp $
+// $Id: ezarticle.php,v 1.152 2001/08/21 15:10:51 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -1187,7 +1187,7 @@ class eZArticle
     /*!
       Adds an image to the article, unless the image is allready added for this article.
     */
-    function addImage( $value )
+    function addImage( $value, $placement = false )
     {
         $db =& eZDB::globalDatabase();
         
@@ -1201,9 +1201,11 @@ class eZArticle
     
             $db->lock( "eZArticle_ArticleImageLink" );
 
-            $db->array_query( $image_array, "SELECT COUNT(*) AS Count FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
-            $placement = $image_array[0][$db->fieldName("Count")] + 1;
-            
+            if ( is_bool( $placement ) )
+            {
+                $db->array_query( $image_array, "SELECT COUNT(*) AS Count FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+                $placement = $image_array[0][$db->fieldName("Count")] + 1;
+            }
             $nextID = $db->nextID( "eZArticle_ArticleImageLink", "ID" );
             $timeStamp = eZDateTime::timeStamp( true );
             
