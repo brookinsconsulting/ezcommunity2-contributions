@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sectionedit.php,v 1.1 2001/05/10 14:56:51 ce Exp $
+// $Id: sectionedit.php,v 1.2 2001/06/25 14:40:09 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <10-May-2001 16:17:29 ce>
@@ -67,7 +67,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     {
         if ( is_dir( "sitedesign/" . $Name ) == false );
         {
-            $session = new eZSession();
+            $session =& eZSession::globalSession();            
             $session->setVariable( "DirNotExists", "true" );
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sectionlist.php,v 1.1 2001/05/10 14:56:51 ce Exp $
+// $Id: sectionlist.php,v 1.2 2001/06/25 14:40:09 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <10-May-2001 15:33:23 ce>
@@ -50,12 +50,6 @@ if ( !$Offset )
 $t->set_var( "site_style", $SiteStyle );
 $sectionList =& eZSection::getAll( $Offset, $Limit );
 $totalCount =& eZSection::count();
-
-$session = new eZSession();
-if (  $session->variable( "DirNotExists" ) == true )
-{
-//    $t->parse( "warning_dir_not_exists", $
-}
 
 
 if ( count ( $sectionList ) > 0 )

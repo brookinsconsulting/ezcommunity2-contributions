@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsection.php,v 1.5 2001/06/23 11:09:44 bf Exp $
+// $Id: ezsection.php,v 1.6 2001/06/25 14:40:09 bf Exp $
 //
 // ezsection class
 //
@@ -161,7 +161,7 @@ class eZSection
         $return_array = array();
         $section_array = array();
         
-        $db->array_query( $section_array, "SELECT ID
+        $db->array_query( $section_array, "SELECT ID, Created
                                            FROM eZSiteManager_Section
                                            ORDER BY Created ASC",
                           array( "Limit" => $limit, "Offset" => $offset ) );

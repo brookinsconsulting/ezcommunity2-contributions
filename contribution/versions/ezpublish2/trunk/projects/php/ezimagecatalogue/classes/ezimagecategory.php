@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.16 2001/06/25 11:30:23 jhe Exp $
+// $Id: ezimagecategory.php,v 1.17 2001/06/25 14:40:09 bf Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -46,25 +46,13 @@ class eZImageCategory
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZImageCategory( $id=-1, $fetch=true )
+    function eZImageCategory( $id=-1 )
     {
-        $this->IsConnected = false;
         $this->ExcludeFromSearch = "false";
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -73,25 +61,39 @@ class eZImageCategory
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+
+        $db->begin( );
+        
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
         
         if ( !isset( $this->ID ) )
         {
-            $this->ID = $this->Database->nextID( "eZImageCatalogue_Category", "ID" );
-            $this->Database->query( "INSERT INTO eZImageCatalogue_Category
+            $db->lock( "eZImageCatalogue_Category" );
+
+            $this->ID = $db->nextID( "eZImageCatalogue_Category", "ID" );
+            
+            $db->query( "INSERT INTO eZImageCatalogue_Category
                                      ( ID, Name, Description, UserID, ParentID ) VALUES
                                      ( '$this->ID', '$name', '$description', '$this->UserID', '$this->ParentID' )" );
         }
         else
         {
-            $this->Database->query( "UPDATE eZImageCatalogue_Category SET
+            $db->query( "UPDATE eZImageCatalogue_Category SET
                                      Name='$name',
                                      Description='$description',
                                      UserID='$this->UserID',
                                      ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+    
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
+
         
         return true;
     }
@@ -101,7 +103,7 @@ class eZImageCategory
     */
     function delete( $catID=-1 )
     {
-        $this->dbInit();
+       
         if ( $catID == -1 )
             $catID = $this->ID;
         
@@ -120,8 +122,19 @@ class eZImageCategory
         }
 
         $categoryID = $category->id();
-        $this->Database->query( "DELETE FROM eZImageCatalogue_Category WHERE ID='$categoryID'" );
-        $this->Database->query( "DELETE FROM eZImageCatalogue_CategoryPermission WHERE ObjectID='$this->ID'" );
+
+        $db =& eZDB::globalDatabase();
+        
+        $db->begin( );
+        
+        $res1 = $db->query( "DELETE FROM eZImageCatalogue_Category WHERE ID='$categoryID'" );
+        $res2 = $db->query( "DELETE FROM eZImageCatalogue_CategoryPermission WHERE ObjectID='$this->ID'" );
+
+        if ( ( $res1 == false)  || ( $res2 == false ) )
+            $db->rollback( );
+        else
+            $db->commit();
+        
     }
     
     /*!
@@ -129,29 +142,23 @@ class eZImageCategory
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZImageCatalogue_Category WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZImageCatalogue_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID =& $category_array[0][ "ID" ];
-                $this->Name =& $category_array[0][ "Name" ];
-                $this->Description =& $category_array[0][ "Description" ];
-                $this->ParentID =& $category_array[0][ "ParentID" ];
-                $this->UserID =& $category_array[0][ "UserID" ];
+                $this->ID =& $category_array[0][$db->fieldName("ID")];
+                $this->Name =& $category_array[0][$db->fieldName("Name")];
+                $this->Description =& $category_array[0][$db->fieldName("Description")];
+                $this->ParentID =& $category_array[0][$db->fieldName("ParentID")];
+                $this->UserID =& $category_array[0][$db->fieldName("UserID")];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -162,16 +169,16 @@ class eZImageCategory
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $category_array = array();
         
-        $this->Database->array_query( $category_array, "SELECT ID FROM eZImageCatalogue_Category ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
-            $return_array[$i] = new eZImageCategory( $category_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName("ID")] );
         }
         
         return $return_array;
@@ -189,20 +196,20 @@ class eZImageCategory
     { 
         if ( get_class( $parent ) == "ezimagecategory" ) 
         { 
-            $this->dbInit(); 
+            $db =& eZDB::globalDatabase();
         
             $return_array = array(); 
             $category_array = array();
  
             $parentID = $parent->id(); 
 
-            $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category
+            $db->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
 
             for ( $i=0; $i<count($category_array); $i++ ) 
             { 
-                $return_array[$i] = new eZImageCategory( $category_array[$i]["ID"], 0 ); 
+                $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName("ID")], 0 ); 
             } 
 
             return $return_array; 
@@ -288,9 +295,6 @@ class eZImageCategory
     */
     function name( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
        if( $html )
            return htmlspecialchars( $this->Name );
        else
@@ -302,9 +306,6 @@ class eZImageCategory
     */
     function description( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
        if( $html )
            return htmlspecialchars( $this->Description );
        else
@@ -317,9 +318,6 @@ class eZImageCategory
     */
     function parent()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $this->ParentID != 0 )
        {
            return new eZImageCategory( $this->ParentID );
@@ -336,9 +334,6 @@ class eZImageCategory
     */
     function user()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( $this->UserID != 0 )
         {
             $ret = new eZUser( $this->UserID );
@@ -358,9 +353,9 @@ class eZImageCategory
         if( get_class( $user ) != "ezuser" )
             return false;
         
-        $database =& eZDB::globalDatabase();
-        $database->query_single( $res, "SELECT UserID from eZImageCatalogue_Category WHERE ID='$imagecategory'");
-        $userID = $res[ "UserID" ];
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT UserID from eZImageCatalogue_Category WHERE ID='$imagecategory'");
+        $userID = $res[$db->fieldName("UserID")];
         if(  $userID == $user->id() )
             return true;
 
@@ -373,9 +368,6 @@ class eZImageCategory
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -384,9 +376,6 @@ class eZImageCategory
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -395,31 +384,9 @@ class eZImageCategory
     */
     function setParent( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $value ) == "ezimagecategory" )
        {
            $this->ParentID = $value->id();
-       }
-    }
-
-    /*!
-     Sets the exclude from search bit.
-     The argumen can be true or false.
-    */
-    function setExcludeFromSearch( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( $value == true )
-       {
-           $this->ExcludeFromSearch = "true";
-       }
-       else
-       {
-           $this->ExcludeFromSearch = "false";           
        }
     }
 
@@ -428,9 +395,6 @@ class eZImageCategory
     */
     function setUser( $user )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( get_class( $user ) == "ezuser" )
         {
             $userID = $user->id();
@@ -446,9 +410,6 @@ class eZImageCategory
     */
     function addImage( $value, $categoryid = false )
     {        
-       if ( $this->State_ == "Dirty" )
-           $this->get( $this->ID );
-
        if ( get_class( $value ) == "ezimage" )
            $imageID = $value->id();
        else if ( is_numeric( $value ) )
@@ -462,11 +423,22 @@ class eZImageCategory
        $db =& eZDB::globalDatabase();
 
        $imageID = $value->id();
+
+       $db->begin( );
+       $db->lock( "eZImageCatalogue_ImageCategoryLink" );
+       $nextID = $db->nextID( "eZImageCatalogue_ImageCategoryLink", "ID" );
        
-       $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink ( CategoryID, ImageID )
-                 VALUES ( '$categoryid', '$imageID' )";
+       $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink ( ID, CategoryID, ImageID )
+                 VALUES ( '$nextID', '$categoryid', '$imageID' )";
        
-       $db->query( $query );
+       $res = $db->query( $query );
+
+       $db->unlock();
+       
+       if ( $res == false )
+           $db->rollback( );
+       else
+           $db->commit();        
     }
 
     /*!
@@ -487,11 +459,19 @@ class eZImageCategory
             $categoryid = $this->ID;
 
         $db =& eZDB::globalDatabase();
+        
         $query = "DELETE FROM eZImageCatalogue_ImageCategoryLink
                   WHERE CategoryID='$categoryid' AND
                         ImageID='$articleID'";
 
-        $db->query( $query );
+        $db->begin( );
+        
+        $res = $db->query( $query );
+
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();        
     }
 
     
@@ -505,16 +485,14 @@ class eZImageCategory
            $ini =& INIFile::globalINI();
            $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
        }
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
 
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        $return_array = array();
        $article_array = array();
 
-       $this->Database->array_query( $file_array, "
-                SELECT eZImageCatalogue_Image.ID AS ImageID, eZImageCatalogue_Image.Name, eZImageCatalogue_Category.ID, eZImageCatalogue_Category.Name
+       $db->array_query( $file_array, "
+                SELECT eZImageCatalogue_Image.ID AS ImageID
                 FROM eZImageCatalogue_Image, eZImageCatalogue_Category, eZImageCatalogue_ImageCategoryLink
                 WHERE 
                 eZImageCatalogue_ImageCategoryLink.ImageID = eZImageCatalogue_Image.ID
@@ -522,7 +500,9 @@ class eZImageCategory
                 eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
                 AND
                 eZImageCatalogue_Category.ID='$this->ID'
-                GROUP BY eZImageCatalogue_Image.ID ORDER BY eZImageCatalogue_Image.OriginalFileName LIMIT $offset,$limit" );
+                GROUP BY eZImageCatalogue_Image.ID, eZImageCatalogue_Image.OriginalFileName ORDER BY eZImageCatalogue_Image.OriginalFileName",
+       array( "Limit" => $limit,
+              "Offset" => $offset ) );
  
        for ( $i=0; $i<count($file_array); $i++ )
        {
@@ -537,15 +517,23 @@ class eZImageCategory
     */
     function addReadPermission( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+       $db =& eZDB::globalDatabase();
+
+       $db->begin( );
+       $db->lock( "eZImageCatalogue_CategoryReadGroupLink" );
+       $nextID = $db->nextID( "eZImageCatalogue_CategoryReadGroupLink", "ID" );
        
-       $this->dbInit();
+       $query = "INSERT INTO eZImageCatalogue_CategoryReadGroupLink ( ID, CategoryID, GroupID )
+                 VALUES ( '$nextID', '$this->ID', '$value' )";
        
-       $query = "INSERT INTO eZImageCatalogue_CategoryReadGroupLink ( CategoryID, GroupID )
-                 VALUES ( '$this->ID', '$value' )";
-       
-       $this->Database->query( $query );
+       $res = $db->query( $query );
+
+       $db->unlock();
+    
+       if ( $res == false )
+           $db->rollback( );
+       else
+           $db->commit();        
     }
 
     /*!
@@ -553,15 +541,23 @@ class eZImageCategory
     */
     function addWritePermission( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+       $db =& eZDB::globalDatabase();
        
-       $this->dbInit();
+       $db->begin( );
+       $db->lock( "eZImageCatalogue_CategoryReadGroupLink" );
+       $nextID = $db->nextID( "eZImageCatalogue_CategoryReadGroupLink", "ID" );
        
-       $query = "INSERT INTO eZImageCatalogue_CategoryWriteGroupLink ( CategoryID, GroupID )
-                 VALUES ( '$this->ID', '$value' )";
-            
-       $this->Database->query( $query );
+       $query = "INSERT INTO eZImageCatalogue_CategoryReadGroupLink ( ID, CategoryID, GroupID )
+                 VALUES ( '$nextID', '$this->ID', '$value' )";
+       
+       $res = $db->query( $query );
+
+       $db->unlock();
+    
+       if ( $res == false )
+           $db->rollback( );
+       else
+           $db->commit();       
     }
 
     /*!
@@ -569,16 +565,13 @@ class eZImageCategory
     */
     function hasReadPermissions( $user=false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+       $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Category WHERE ID='$this->ID'" );
+       $db->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Category WHERE ID='$this->ID'" );
 
        if ( $user )
        {
-           if ( $userArrayID[0]["UserID"] == $user->id() )
+           if ( $userArrayID[0][$db->fieldName("UserID")] == $user->id() )
            {
                return true;
            }
@@ -586,11 +579,11 @@ class eZImageCategory
            $groups = $user->groups();
        }
 
-       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
+       $db->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
 
        for ( $i=0; $i < count ( $readPermissions ); $i++ )
        {
-           if ( $readPermissions[$i]["GroupID"] == 0 )
+           if ( $readPermissions[$i][$db->fieldName("GroupID")] == 0 )
            {
                return true;
            }
@@ -601,10 +594,10 @@ class eZImageCategory
                    
                    foreach ( $groups as $group )
                    {
-                       if ( $group->id() == $readPermissions[$i]["GroupID"] )
+                       if ( $group->id() == $readPermissions[$i][$db->fieldName("GroupID")] )
                        {
                            return true;
-                   }
+                       }
                    }
                }
            }
@@ -618,16 +611,13 @@ class eZImageCategory
     */
     function hasWritePermissions( $user=false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+       $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Category WHERE ID='$this->ID'" );
+       $db->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Category WHERE ID='$this->ID'" );
 
        if ( $user )
        {
-           if ( $userArrayID[0]["UserID"] == $user->id() )
+           if ( $userArrayID[0][$db->fieldName("UserID")] == $user->id() )
            {
                return true;
            }
@@ -635,25 +625,24 @@ class eZImageCategory
            $groups = $user->groups();
        }
 
-       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
+       $db->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
 
        for ( $i=0; $i < count ( $writePermissions ); $i++ )
        {
-           if ( $writePermissions[$i]["GroupID"] == 0 )
+           if ( $writePermissions[$i][$db->fieldName("GroupID")] == 0 )
            {
                return true;
            }
            else
            {
                if ( count ( $groups ) > 0 )
-               {
-                   
+               {                   
                    foreach ( $groups as $group )
                    {
-                       if ( $group->id() == $writePermissions[$i]["GroupID"] )
+                       if ( $group->id() == $writePermissions[$i][$db->fieldName("GroupID")] )
                        {
                            return true;
-                   }
+                       }
                    }
                }
            }
@@ -668,24 +657,21 @@ class eZImageCategory
     */
     function readPermissions( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        $readPermissions = array();
        $ret = false;
 
-       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
+       $db->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
       
        for ( $i=0; $i < count ( $readPermissions ); $i++ )
        {
-           if ( $readPermissions[$i]["GroupID"] == 0 )
+           if ( $readPermissions[$i][$db->fieldName("GroupID")] == 0 )
            {
                $ret[] = "Everybody";
            }
           
-           $ret[] = new eZUserGroup( $readPermissions[$i]["GroupID"] );
+           $ret[] = new eZUserGroup( $readPermissions[$i][$db->fieldName("GroupID")] );
        }
 
        return $ret;
@@ -697,24 +683,21 @@ class eZImageCategory
     */
     function writePermissions( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        $writePermissions = array();
        $ret = false;
 
-       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
+       $db->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
       
        for ( $i=0; $i < count ( $writePermissions ); $i++ )
        {
-           if ( $writePermissions[$i]["GroupID"] == 0 )
+           if ( $writePermissions[$i][$db->fieldName("GroupID")] == 0 )
            {
                $ret[] = "Everybody";
            }
           
-           $ret[] = new eZUserGroup( $writePermissions[$i]["GroupID"] );
+           $ret[] = new eZUserGroup( $writePermissions[$i][$db->fieldName("GroupID")] );
        }
 
        return $ret;
@@ -726,12 +709,9 @@ class eZImageCategory
     */
     function removeReadPermissions()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+       $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $this->Database->query( "DELETE FROM eZImageCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
+       $db->query( "DELETE FROM eZImageCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
     }
 
 
@@ -741,41 +721,17 @@ class eZImageCategory
     */
     function removeWritePermissions()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        $this->Database->query( "DELETE FROM eZImageCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
     }
 
-
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
     var $ParentID;
     var $Description;
     var $UserID;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
