@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.2.2.2 2002/04/25 12:15:56 bf Exp $
+// $Id: cron.php,v 1.2.2.3 2003/04/09 10:34:09 br Exp $
 //
 // Created on: <08-Jun-2001 13:16:33 ce>
 //
@@ -34,7 +34,7 @@ if ( count ( $articleValidArray ) > 0 )
 {
     foreach ( $articleValidArray as $article )
     {
-	$article->setIsPublished( true );
+	$article->setIsPublished( true, false, true );
 	$d = 0;
 	$article->setStartDate( $d );
 	$article->store();
@@ -56,7 +56,7 @@ if ( count ( $articleUnValid ) > 0 )
 {
     foreach( $articleUnValid as $article )
     {
-	$article->setIsPublished( false );
+	$article->setIsPublished( false, false, true );
 	$d  = 0;
 	$article->setStopDate( $d );
 	$article->store();
