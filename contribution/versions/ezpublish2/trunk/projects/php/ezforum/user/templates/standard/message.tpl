@@ -46,7 +46,7 @@
 </table>
 
 
-<p class="boxtext">{intl-text}</p>
+<p class="boxtext">{intl-text}:</p>
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>        
    	<td class="bglight">
