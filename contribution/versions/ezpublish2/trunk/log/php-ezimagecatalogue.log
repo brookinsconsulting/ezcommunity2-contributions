@@ -408,3 +408,27 @@ Maintainer(s) : br@ez.no
       user/imageedit.php: -upload is upload (no move) in imagecatalogue
     -fixes and cleanups in filemanager
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-05  Baard Farstad  <bf@ez.no>
+
+    * user/menucategorylist.php: Fixed permission list.
+
+2001-10-05  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/en_US/categoryedit.php.ini
+      admin/intl/en_US/imageedit.php.ini
+      admin/intl/en_US/imagelist.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/fileupload.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/imagelist.php.ini: Added language files.
+
+    * admin/imageview.php: fixed AdminTemplateDir
+
+2001-10-05  Baard Farstad  <bf@ez.no>
+
+    * admin/categoryedit.php: Added correct template dir
+

@@ -137,3 +137,14 @@ Maintainer(s) : br@ez.no
 
     * admin/categoryedit.php: fixed session bug.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-05  Bjoern Reiten  <br@ez.no>
+
+    * admin/templates/standard/linkcategorylist.tpl
+      admin/linkedit.php: fixed bug when deleting a link.
+    when you are deleting a link, you will will come back to the category
+    where you deleted the link.
+

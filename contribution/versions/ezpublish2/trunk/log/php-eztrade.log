@@ -1021,3 +1021,26 @@ Maintainer(s) : ce@ez.no
     * user/categorylist.php
       user/smallproductlist.php: Addded small productlist
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-05  Bjoern Reiten  <br@ez.no>
+
+    * user/datasupplier.php: fixed cache bug.
+    Added $CategoryID to the name of the cachefile for productlist.
+
+    * user/searchsupplier.php:
+    function activeProductSearchCount shall be called with $SearchText
+    insead of Query
+
+    * classes/ezpricegroup.php
+      user/cart.php: fixed bug with pricegroups.
+    PriceGroupsEnabled was checked with "enabled" and should be "true" in
+    $ini->read_var ......
+
+2001-10-05  Baard Farstad  <bf@ez.no>
+
+    * admin/customerview.php
+      admin/intl/en_US/customerview.php.ini: Added translation removed debug.
+

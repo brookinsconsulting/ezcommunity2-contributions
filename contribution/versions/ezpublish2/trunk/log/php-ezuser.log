@@ -286,3 +286,11 @@ Maintainer(s) : bf@ez.no
 
     * admin/useredit.php: Additional groups are allowed again
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-05  Baard Farstad  <bf@ez.no>
+
+    * admin/useredit.php: Permission fix.
+
