@@ -484,7 +484,24 @@ alter table eZTrade_ShippingType add IsDefault int not null default 0;
 # Add description to link groups
 alter table eZLink_LinkGroup add Description text;
 
-# Alternative cuyrrency
+# Price groups
+CREATE TABLE eZTrade_PriceGroup (
+  ID int(11) NOT NULL auto_increment,
+  Name varchar(50) default NULL,
+  Description text,
+  Placement int(11) NOT NULL default '1',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_ProductPriceLink (
+  ProductID int(11) NOT NULL default '0',
+  PriceID int(11) NOT NULL default '0',
+  OptionID int(11) NOT NULL default '0',
+  Price float(10,2) default NULL,
+  PRIMARY KEY (ProductID,PriceID,OptionID)
+) TYPE=MyISAM;
+
+# Alternative currency
 create table eZTrade_AlternativeCurrency( ID int primary key auto_increment, Name char(100) not null, PrefixSign int not null default 0, Sign char(5) not null, Value float not null default 1 );
 alter table eZTrade_AlternativeCurrency add Created timestamp;
 
@@ -493,4 +510,4 @@ create table eZFileManager_FolderWriteGroupLink( ID int primary key auto_increme
 create table eZFileManager_FolderReadGroupLink( ID int primary key auto_increment, GroupID int, FolderID int );               
 
 create table eZFileManager_FileWriteGroupLink( ID int primary key auto_increment, GroupID int, FileID int );     
-create table eZFileManager_FileReadGroupLink( ID int primary key auto_increment, GroupID int, FileID int );               
+create table eZFileManager_FileReadGroupLink( ID int primary key auto_increment, GroupID int, FileID int );
