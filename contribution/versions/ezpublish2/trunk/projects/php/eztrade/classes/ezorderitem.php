@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.24 2001/09/15 15:53:01 pkej Exp $
+// $Id: ezorderitem.php,v 1.25 2001/09/17 11:34:35 pkej Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -339,7 +339,9 @@ class eZOrderItem
     */
     function localePrice( $calcCount=true, $withOptions=true, $calcVAT )
     {
-        $locale = new eZLocale( $inLanguage );
+        $ini =& INIFile::globalINI();
+        $Language = $ini->read_var( "eZTradeMain", "Language" );
+        $locale = new eZLocale( $Language );
         $currency = new eZCurrency();
         
         $price = $this->correctPrice( $calcCount, $withOptions, $calcVAT );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.46 2001/09/17 11:21:53 pkej Exp $
+// $Id: ordersendt.php,v 1.47 2001/09/17 11:34:36 pkej Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -43,6 +43,11 @@ $ShowExTaxColumn = $ini->read_var( "eZTradeMain", "ShowExTaxColumn" ) == "enable
 $ShowIncTaxColumn = $ini->read_var( "eZTradeMain", "ShowIncTaxColumn" ) == "enabled" ? true : false;
 $ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled" ? true : false;
 $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
+
+$locale = new eZLocale( $Language );
+$currency = new eZCurrency();
+    
+
 
 // Set some variables to defaults.
 $ShowCart = false;
@@ -219,8 +224,8 @@ if ( $user )
 $items = $order->items( $OrderType );
 
 
-$locale = new eZLocale( $Language );
-$currency = new eZCurrency();
+#$locale = new eZLocale( $Language );
+#$currency = new eZCurrency();
 
 $i = 0;
 $sum = 0.0;
@@ -452,9 +457,6 @@ if ( $ShowCart == true )
     
     $order->orderTotals( $tax, $total );
 
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
-    
     $t->set_var( "empty_cart", "" );
 
     $currency->setValue( $total["subinctax"] );
