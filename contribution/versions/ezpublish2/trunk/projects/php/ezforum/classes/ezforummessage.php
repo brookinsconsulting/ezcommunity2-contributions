@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.70 2001/02/20 19:01:55 pkej Exp $
+// $Id: ezforummessage.php,v 1.71 2001/02/20 19:12:25 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -602,7 +602,7 @@ class eZForumMessage
         $query_id = mysql_query("SELECT COUNT(ID) AS Messages
                              FROM eZForum_Message
                              WHERE ForumID='$ID'
-                             AND Parent IS NULL")
+                             AND Parent IS NULL  AND IsTemporary='0'")
              or die("eZForumMessage::countMessages($ID) failed, dying...");
         
         return mysql_result($query_id,0,"Messages");
@@ -615,7 +615,7 @@ class eZForumMessage
     {
         $this->dbInit();
          
-        $query_id = mysql_query("SELECT COUNT(ID) AS replies FROM eZForum_Message WHERE Parent='$ID'")
+        $query_id = mysql_query("SELECT COUNT(ID) AS replies FROM eZForum_Message WHERE Parent='$ID' AND IsTemporary='0'")
              or die("could not count replies, dying");
          
         return mysql_result($query_id,0,"replies");
@@ -656,7 +656,7 @@ class eZForumMessage
 
         $this->dbInit();
 
-        $this->Database->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0'" );
+        $this->Database->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );
         $ret = array();
 
         foreach ( $message_array as $message )

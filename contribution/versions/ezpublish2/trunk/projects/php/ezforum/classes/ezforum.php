@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.14 2001/02/20 19:01:55 pkej Exp $
+// $Id: ezforum.php,v 1.15 2001/02/20 19:12:25 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -197,7 +197,7 @@ class eZForum
 
        $this->Database->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
-                                                       WHERE ForumID='$this->ID' ORDER BY PostingTime DESC" );
+                                                       WHERE ForumID='$this->ID' AND IsTemporary='0' ORDER BY PostingTime DESC" );
 
        $ret = array();
 
@@ -279,7 +279,7 @@ class eZForum
 
        $this->Database->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
-                                                       WHERE ForumID='$this->ID' $approvedCode ORDER BY TreeID DESC LIMIT $offset,$limit" );
+                                                       WHERE ForumID='$this->ID' $approvedCode  AND IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
        $ret = array();
 
@@ -305,7 +305,7 @@ class eZForum
 
        $this->Database->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
-                                                       WHERE ForumID='$this->ID' AND ThreadID='$threadID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+                                                       WHERE ForumID='$this->ID' AND ThreadID='$threadID' AND IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
        $ret = array();
 
@@ -527,7 +527,7 @@ class eZForum
 
        $this->Database->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
-                                                       WHERE ForumID='$this->ID' GROUP BY ThreadID" );
+                                                       WHERE ForumID='$this->ID'  AND IsTemporary='0' GROUP BY ThreadID" );
 
        $ret = count( $message_array );
 
@@ -546,7 +546,7 @@ class eZForum
 
        $this->Database->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
-                                                       WHERE ForumID='$this->ID'" );
+                                                       WHERE ForumID='$this->ID' AND IsTemporary='0'" );
 
        $ret = count( $message_array );
 
