@@ -11,6 +11,8 @@ Changes from 2.2.7 to 2.2.8
 * Made keywords available in articleview.tpl and as a variable which can be used in frame.php
 * Fixed bug in todolist.
 * Added rollovertag.
+* Fixed bug with mail tag.
+* Added up / down arrows for images to an article.
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
