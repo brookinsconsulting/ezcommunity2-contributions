@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.6 2000/11/16 18:31:50 bf-cvs Exp $
+// $Id: newsarchive.php,v 1.7 2000/11/19 11:10:02 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -29,17 +29,6 @@ include_once( "eznewsfeed/classes/eznewsimporter.php" );
 
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
-
-//  $news = new eZNews( );
-
-//  $newsList = $news->newsList();
-
-//  foreach ( $newsList as $newsItem )
-//  {
-//      $intro = $newsItem->intro();
-    
-//      print( "<h2>". $newsItem->name() . "</h2><p>" . $newsItem->intro() . "</p>" );
-//  }
 
 $ini = new INIFIle( "site.ini" );
 
@@ -102,7 +91,6 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
-    
 
     if ( ( $i % 2 ) == 0 )
     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.1 2000/11/15 18:14:15 bf-cvs Exp $
+// $Id: eznewsimporter.php,v 1.2 2000/11/19 11:10:02 bf-cvs Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -44,11 +44,19 @@ include_once( "ezuser/classes/ezuser.php" );
 class eZNewsImporter
 {
     /*!
-      Constructor.
+      Create a new importer with the given decoder and site. Login and
+      password are default not used.
     */
-    function eZNewsImporter( $site )
+    function eZNewsImporter( $decoder, $site, $category,  $login="", $password="" )
     {
         $this->Site = $site;
+        $this->Decoder = $decoder;
+        $this->Login = $login;
+        $this->Password = $password;
+        if ( get_class( $category ) == "eznewscategory" )
+        {
+            $this->CategoryID = $category->id();
+        }
     }
 
     /*!
@@ -56,7 +64,9 @@ class eZNewsImporter
     */
     function importNews( )
     {
-        switch ( $this->Site )
+        $category = new eZNewsCategory( $this->CategoryID );
+        
+        switch ( $this->Decoder )
         {
             case "nyheter.no" :
             {
@@ -66,17 +76,32 @@ class eZNewsImporter
                 $importer->news();
             }
 
-            case "freshmeat.net" :
+            case "rdf" :
             {
                 include_once( "eznewsfeed/classes/ezrdfimporter.php" );
                 
-                $importer = new eZRDFImporter();
-                $importer->news();
+                $importer = new eZRDFImporter( $this->Site, $this->Login, $this->Password );
+                $newsList =& $importer->news();
+
+                foreach ( $newsList as $newsItem )
+                {
+                    if ( $newsItem->store() == true )
+                    {
+                        $category->addNews( $newsItem );
+                        print( "storing: -" .$newsItem->name() . "<br>");
+                    }
+                    else
+                    {
+                        print( "already stored: -" .$newsItem->name() . "<br>");
+                    }
+                }
             }
-            
         }
     }
 
+    var $Decoder;
     var $Site;
-    
+    var $Login;
+    var $Password;
+    var $CategoryID;
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.5 2000/11/17 10:45:11 bf-cvs Exp $
+// $Id: eznews.php,v 1.6 2000/11/19 11:10:02 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -95,15 +95,27 @@ class eZNews
     }
 
     /*!
-      Stores a product to the database.
+      Stores a news to the database. This function will not store two similar news items
+      to the database. If a news with the same title, description and url are already
+      stored the news is skipped.
     */
     function store()
     {
         $this->dbInit();
 
+        $ret = false;
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZNewsFeed_News SET
+            // check if the news is already stored.
+            $this->Database->array_query( $ret, "SELECT ID FROM eZNewsFeed_News WHERE
+		                         Name='$this->Name' AND
+                                 Intro='$this->Intro' AND
+                                 URL='$this->URL'
+                                 " );
+            
+            if ( count( $ret ) == 0 )
+            {
+                $this->Database->query( "INSERT INTO eZNewsFeed_News SET
 		                         Name='$this->Name',
                                  Intro='$this->Intro',
                                  IsPublished='$this->IsPublished',
@@ -114,9 +126,15 @@ class eZNews
                                  URL='$this->URL'
                                  " );
 
-            $this->ID = mysql_insert_id();
-
-            $this->State_ = "Coherent";
+                $this->ID = mysql_insert_id();
+                $ret = true;
+                $this->State_ = "Coherent";
+            }
+            else
+            {
+                print( "news exists" );
+                $ret = false;
+            }
         }
         else
         {
@@ -152,9 +170,10 @@ class eZNews
             }
 
             $this->State_ = "Coherent";
+            $ret = true;
         }
         
-        return true;
+        return $ret;
     }
 
     /*!
@@ -274,7 +293,7 @@ class eZNews
 
       The time is returned as a eZDateTime object.
     */
-    function &publishingDate()
+    function &originalPublishingDate()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.1 2000/11/16 15:26:52 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.2 2000/11/19 11:10:02 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -40,6 +40,9 @@ if ( $Action == "Insert" )
     $category->setName( $CategoryName );
     $category->setDescription( $CategoryDescription );
     $category->store();
+
+    Header( "Location: /newsfeed/archive/" );
+    exit();
 }
 
 $news = new eZNews( );

@@ -9,7 +9,6 @@
 <textarea cols="40" rows="5" wrap="soft" name="CategoryDescription">{category_description_value}</textarea>
 
 
-
 <hr noshade="noshade" size="4" />
 
 

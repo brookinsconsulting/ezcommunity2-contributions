@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.5 2000/11/17 10:45:11 bf-cvs Exp $
+// $Id: newsedit.php,v 1.6 2000/11/19 11:10:02 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -152,7 +152,7 @@ if ( $Action == "Edit" )
 }
 
 // category select
-$category = new eZArticleCategory();
+$category = new eZNewsCategory();
 $categoryArray = $category->getAll( );
 
 foreach ( $categoryArray as $catItem )

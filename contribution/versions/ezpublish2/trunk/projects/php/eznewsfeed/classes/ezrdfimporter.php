@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.2 2000/11/19 09:41:03 bf-cvs Exp $
+// $Id: ezrdfimporter.php,v 1.3 2000/11/19 11:10:02 bf-cvs Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -45,17 +45,20 @@ class eZRDFImporter
     /*!
       Constructor.
     */
-    function eZRDFImporter()
+    function eZRDFImporter( $site, $login="", $password="")
     {
-
+        $this->Site = $site;
+        $this->Login = $login;
+        $this->Password = $password;
     }
 
     /*!
       Returns the news items as an array.
     */
-    function news( )
-    {        
-        $fp = fopen( "http://freshmeat.net/backend/fm.rdf", "r" );
+    function &news( )
+    {
+        $return_array = array();
+        $fp = fopen( $this->Site, "r" );
         $output = fread ( $fp, 100000000 );
         fclose( $fp );
 
@@ -73,6 +76,10 @@ class eZRDFImporter
                         {
                             if ( $item->name == "item" )
                             {
+                                $title = "";
+                                $link = "";
+                                $description = "";
+                                
                                 foreach ( $item->children as $value )
                                 {
                                     $contentValue = "";
@@ -83,18 +90,48 @@ class eZRDFImporter
                                             $contentValue = $content->content;
                                         }
                                     }
-                                    
-                                    print( "<b>" . $value->name . "</b><br>");
-                                    print( $contentValue . "<br>" );                                    
+
+                                    switch ( $value->name )
+                                    {
+                                        case "title" :
+                                        {
+                                            $title = $contentValue;
+                                        }
+                                        break;
+
+                                        case "link" :
+                                        {
+                                            $link = $contentValue;
+                                        }
+                                        break;
+
+                                        case "description" :
+                                        {
+                                            $description = $contentValue;
+                                        }
+                                        break;                                        
+                                    }
                                 }
+
+                                $news = new eZNews(  );
+                                $news->setName( $title );
+                                $news->setIntro( $description );
+                                $news->setURL( $link );
+
+                                $return_array[] = $news;
                             }
                         }
                     }
                 }
             }
         }
+        
+        return $return_array;
     }
-    
+
+    var $Site;
+    var $Login;
+    var $Password;    
 }
 
 

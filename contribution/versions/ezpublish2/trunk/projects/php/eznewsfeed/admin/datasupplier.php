@@ -45,6 +45,12 @@ switch ( $url_array[2] )
         include( "eznewsfeed/admin/categoryedit.php" );
     }
     break;
+
+    case "importnews":
+    {
+        include( "eznewsfeed/admin/importnews.php" );
+    }
+    break;
     
 }
 

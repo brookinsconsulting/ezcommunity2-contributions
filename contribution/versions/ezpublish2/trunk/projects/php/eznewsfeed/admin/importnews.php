@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.1 2000/11/16 15:26:52 bf-cvs Exp $
+// $Id: importnews.php,v 1.2 2000/11/19 11:10:02 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -24,14 +24,77 @@
 //
 
 include_once( "eznewsfeed/classes/eznews.php" );
+include_once( "eznewsfeed/classes/eznewscategory.php" );
 include_once( "eznewsfeed/classes/eznewsimporter.php" );
+include_once( "eznewsfeed/classes/ezsourcesite.php" );
 
 include_once( "classes/ezdatetime.php" );
+
+if ( $Action == "ImportNews" )
+{
+    $sourceSite = new eZSourceSite();
+    
+    $sourceSiteList = $sourceSite->getAll();
+    
+    foreach ( $sourceSiteList as $site )
+    {
+        $newsImporter = new eZNewsImporter( $site->decoder(),
+                                            $site->url(),
+                                            $site->category(),
+                                            $site->login(),
+                                            $site->password() );
+        $newsImporter->importNews();
+    }    
+}
+
+$ini = new INIFIle( "site.ini" );
+
+$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
+                     "eznewsfeed/admin/intl/", $Language, "importnews.php" );
+
+$t->setAllStrings();
+
+$t->set_file( array(
+    "import_news_tpl" => "importnews.tpl"
+    ) );
+
+$t->set_block( "import_news_tpl", "source_site_list_tpl", "source_site_list" );
+$t->set_block( "source_site_list_tpl", "source_site_tpl", "source_site" );
+
+//  $newsCategory = new eZNewsCategory( 2 );
+
+$sourceSite = new eZSourceSite();
+
+//  $sourceSite->setName( "Freshmeat" );
+//  $sourceSite->setDecoder( "rdf" );
+//  $sourceSite->setURL( "http://freshmeat.net/backend/fm.rdf" );
+//  $sourceSite->setCategory( $newsCategory );
+//  $sourceSite->store();
+
+
+$sourceSiteList = $sourceSite->getAll();
+
+foreach ( $sourceSiteList as $site )
+{
+    $t->set_var( "source_site_id", $site->id() );
+    $t->set_var( "source_site_name", $site->name() );
+    $t->set_var( "source_site_url", $site->url() );
+    
+    $t->parse( "source_site", "source_site_tpl", true );
+}
+
+$t->parse( "source_site_list", "source_site_list_tpl" );
+
+$sourceSite = new eZSourceSite();
 
 //  $newsImporter = new eZNewsImporter( "nyheter.no" );
 //  $newsImporter->importNews();
 
-$newsImporter = new eZNewsImporter( "freshmeat.net" );
-$newsImporter->importNews();
+//  $newsImporter = new eZNewsImporter( "freshmeat.net" );
+//  $newsImporter->importNews();
+
+$t->pparse( "output", "import_news_tpl" );
 
 ?>

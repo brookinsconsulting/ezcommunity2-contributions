@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.3 2000/11/16 18:31:50 bf-cvs Exp $
+// $Id: eznewscategory.php,v 1.4 2000/11/19 11:10:02 bf-cvs Exp $
 //
-// Definition of eZArticleCategory class
+// Definition of eZNewsCategory class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:05:56 bf>
@@ -93,7 +93,7 @@ class eZNewsCategory
     }
 
     /*!
-      Deletes a eZArticleGroup object from the database.
+      Deletes a eZNewsCategory object from the database.
 
     */
     function delete()
@@ -102,7 +102,7 @@ class eZNewsCategory
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZNewsFeed_ArticleCategoryLink WHERE CategoryID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE CategoryID='$this->ID'" );
             
             $this->Database->query( "DELETE FROM eZNewsFeed_Category WHERE ID='$this->ID'" );            
         }
@@ -143,7 +143,7 @@ class eZNewsCategory
     /*!
       Returns all the categories found in the database.
 
-      The categories are returned as an array of eZArticleCategory objects.
+      The categories are returned as an array of eZNewsCategory objects.
     */
     function getAll()
     {
@@ -156,7 +156,7 @@ class eZNewsCategory
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
-            $return_array[$i] = new eZArticleCategory( $category_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZNewsCategory( $category_array[$i]["ID"], 0 );
         }
         
         return $return_array;
@@ -167,7 +167,7 @@ class eZNewsCategory
 
       If $showAll is set to true every category is shown. 
 
-      The categories are returned as an array of eZArticleCategory objects.      
+      The categories are returned as an array of eZNewsCategory objects.      
     */
     function getByParent( $parent, $showAll=false, $sortby=name )
     {
@@ -196,7 +196,7 @@ class eZNewsCategory
 
             for ( $i=0; $i<count($category_array); $i++ )
             {
-                $return_array[$i] = new eZArticleCategory( $category_array[$i]["ID"], 0 );
+                $return_array[$i] = new eZNewsCategory( $category_array[$i]["ID"], 0 );
             }
 
             return $return_array;
@@ -221,7 +221,7 @@ class eZNewsCategory
             $categoryID = $this->ID;
         }
             
-        $category = new eZArticleCategory( $categoryID );
+        $category = new eZNewsCategory( $categoryID );
 
         $path = array();
 
@@ -258,8 +258,8 @@ class eZNewsCategory
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Name;
+
+       return $this->Name;
     }
 
     /*!
@@ -283,7 +283,7 @@ class eZNewsCategory
 
        if ( $this->ParentID != 0 )
        {
-           return new eZArticleCategory( $this->ParentID );
+           return new eZNewsCategory( $this->ParentID );
        }
        else
        {
@@ -322,7 +322,7 @@ class eZNewsCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if ( get_class( $value ) == "ezarticlecategory" )
+       if ( get_class( $value ) == "eznewscategory" )
        {
            $this->ParentID = $value->id();
        }
@@ -355,7 +355,7 @@ class eZNewsCategory
     /*!
       Returns every news in a category as a array of eZNews objects.
 
-      If $fetchNonPublished is set to true the articles which is not published is
+      If $fetchNonPublished is set to true the news which is not published is
       also returned. 
     */
     function newsList( $sortMode="time",
