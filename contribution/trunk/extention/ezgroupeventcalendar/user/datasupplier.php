@@ -55,6 +55,61 @@ switch ( $url_array[2] )
     {
         switch ( $url_array[3] )
         {
+	    // filelist
+	    case "filelist" :
+	    {
+	        $EventID = $url_array[4];
+		include( "ezgroupeventcalendar/user/filelist.php" );
+		break;
+	    }
+
+	    //files
+	    case "fileedit" :
+	    {
+	      if ( isSet( $Browse ) )
+	      {
+		include( "ezfilemanager/admin/browse.php" );
+		break;
+	      }
+
+ 	      switch ( $url_array[4] )
+	      {
+
+	      case "new" :
+	      {
+		  $Action = "New";
+		  $EventID = $url_array[5];
+		  include( "ezgroupeventcalendar/user/fileedit.php" );
+	      }
+	      break;
+
+	      case "edit" :
+	      {
+		  $Action = "Edit";
+		  $EventID = $url_array[6];
+		  $FileID = $url_array[5];
+		  include( "ezgroupeventcalendar/user/fileedit.php" );
+	      }
+	      break;
+
+	      case "delete" :
+	      {
+		  $Action = "Delete";
+		  $EventID = $url_array[6];
+		  $FileID = $url_array[5];
+		  include( "ezgroupeventcalendar/user/fileedit.php" );
+	      }
+	      break;
+
+	      default :
+	      {
+	          include( "ezgroupeventcalendar/user/fileedit.php" );
+	      }
+	      }
+	  }
+	  break;
+
+
             case "new" :
             {
                 $Action = "New";
@@ -62,6 +117,8 @@ switch ( $url_array[2] )
                 $Month = $url_array[5];
                 $Day = $url_array[6];
                 $StartTime = $url_array[7];
+
+                include( "ezgroupeventcalendar/user/eventedit.php" );
             }
             break;
 
@@ -69,6 +126,8 @@ switch ( $url_array[2] )
             {
                 $Action = "Edit";
                 $EventID = $url_array[4];
+
+                include( "ezgroupeventcalendar/user/eventedit.php" );
             }
             break;
 
@@ -76,6 +135,8 @@ switch ( $url_array[2] )
             {
                 $Action = "Update";
                 $EventID = $url_array[4];
+
+                include( "ezgroupeventcalendar/user/eventedit.php" );
             }
             break;
 
@@ -83,16 +144,17 @@ switch ( $url_array[2] )
             {
                 $Action = "Insert";
                 $EventID = $url_array[4];
+
+                include( "ezgroupeventcalendar/user/eventedit.php" );
             }
             break;
 
             default :
             {
                 $Action = $url_array[3];
+		include( "ezgroupeventcalendar/user/eventedit.php" );
             }
         }
-
-        include( "ezgroupeventcalendar/user/eventedit.php" );
     }
     break;
 
