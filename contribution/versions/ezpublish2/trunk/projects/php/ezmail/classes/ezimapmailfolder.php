@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.10 2002/04/09 14:19:03 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.11 2002/04/17 10:45:53 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -52,14 +52,14 @@ class eZIMAPMailFolder
         {
             $elements = $this->decodeFolderID( $id );
             $this->Account = $elements["AccountID"]; //new eZMailAccount( $elements[0] );
-            $this->Name = $elements["FolderName"];
+            $this->Name = ereg_replace( "#", "/", $elements["FolderName"] );
         }
     }
 
     /*!
       \static
       Functions to encode more information into one url position. This allows us to use the same
-      templates for remote and local mail.
+      templates for remote and local mail. If encode is set, the folder ID is encoded as an URL.
     */
     function encodeFolderID( $accountID = -1 , $folderName = -1, $encode = true )
     {
@@ -94,8 +94,11 @@ class eZIMAPMailFolder
     /*!
       Deletes a eZImapMailFolder object from the imap server.
     */
-    function delete( $id = -1 )
+    function delete( $id )
     {
+        $info = eZIMAPMailFolder::decodeFolderID( $id );
+        $account = new eZMailAccount( $info["AccountID"] ); 
+        eZIMAPMailFolder::deleteMailBox( $account, $info["FolderName"] );
     }
 
     /*!
@@ -135,7 +138,7 @@ class eZIMAPMailFolder
     /*!
       \static
       IMAPMailFolder spesific. Deletes a mailbox on a server.
-      Foldername must be the full path to the mailbox you want to create.
+      Foldername must be the full path to the mailbox you want to delete.
      */
     function deleteMailBox( $account, $folderName )
     {

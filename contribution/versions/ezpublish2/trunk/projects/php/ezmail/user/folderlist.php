@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: folderlist.php,v 1.7 2002/04/09 20:10:05 fh Exp $
+// $Id: folderlist.php,v 1.8 2002/04/17 10:45:53 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -54,7 +54,17 @@ if( isset( $Move ) && count( $FolderArrayID ) > 0 && $FolderSelectID != -1)
 if( isset( $Delete ) && count( $FolderArrayID ) > 0 )
 {
     foreach( $FolderArrayID as $folderID )
-        eZMailFolder::delete( $folderID );
+    {
+        if( strstr( $folderID, "-" ) ) // remote folder
+        {
+            // possible bug: Delete parent before children, children delete won't work...
+            eZIMAPMailFolder::delete( $folderID );
+        }
+        else // local folder
+        {
+            eZMailFolder::delete( $folderID );
+        }
+    }
 }
 
 /** If user wants to create a folder **/
@@ -139,7 +149,7 @@ if( count( $imapAccounts ) > 0 )
             foreach( $folders as $folder ) // loop trough all folders in each IMAP account
             {
                 $t->set_var( "account_type", "remote" );
-                $t->set_var( "folder_id", $folder->encodeFolderID() );
+                $t->set_var( "folder_id", $folder->encodeFolderID(-1, -1, false) );
                 $t->set_var( "folder_name", $folder->name() );
                 $t->set_var( "folder_unread_mail_total", "UA" );
                 $t->set_var( "folder_mail_total", "UA" );
