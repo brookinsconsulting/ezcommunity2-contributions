@@ -361,8 +361,6 @@ INSERT INTO eZContact_ConsultationType VALUES (1,'Phone call',1);
 # Dumping data for table 'eZContact_PersonAddressDict'
 #
 
-INSERT INTO eZContact_PersonAddressDict VALUES (1,6);
-
 #
 # Dumping data for table 'eZContact_PersonOnlineDict'
 #

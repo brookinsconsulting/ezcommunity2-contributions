@@ -1000,7 +1000,6 @@ CREATE TABLE eZContact_PersonAddressDict (
   PRIMARY KEY (PersonID,AddressID)
 ) TYPE=MyISAM;
 
-INSERT INTO eZContact_PersonAddressDict VALUES (1,6);
 
 #
 # Table structure for table 'eZContact_PersonOnlineDict'
