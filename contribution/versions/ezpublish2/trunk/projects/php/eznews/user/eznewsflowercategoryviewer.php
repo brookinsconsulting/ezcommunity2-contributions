@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.1 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.2 2000/10/13 21:10:47 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -19,6 +19,10 @@
     This class will fetch the correct category and the correct objects.
     
     NOTE: We don't need a constructor in this class.
+ */
+
+/*!TODO
+    Add direction in renderPage() (of children)
  */
 
 include_once( "eznews/user/eznewscategoryviewer.php" );
@@ -55,6 +59,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
             $this->IniObject->set_block( "category", "articles_template", "articles" );
             $this->IniObject->set_block( "category", "no_articles_template", "no_articles" );
             $this->IniObject->set_block( "category", "article_item_template", "article_item" );
+            
             $this->IniObject->readUserTemplate( "eznewsflower/article", "view.php" );
             $this->IniObject->set_file( array( "article" => "view.tpl" ) );
             $this->IniObject->set_block( "article", "article_item_template", "article_item" );
@@ -63,17 +68,14 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
             if( $this->doChildren( $children ) )
             {
                 $this->IniObject->set_var( "article_items", $children );
+                $this->IniObject->parse( "articles", "articles_template" );
                 $this->IniObject->set_var( "article", "" );
                 $this->IniObject->set_var( "article_item", "" );
                 $this->IniObject->set_var( "no_articles", "" );
-               
             }
             else
             {
-                $this->IniObject->set_var( "article", "" );
                 $this->IniObject->set_var( "articles", "" );
-                $this->IniObject->set_var( "article_item", "" );
-                $this->IniObject->set_var( "article_items", "" );
                 $this->IniObject->parse( "no_articles", "no_articles_template" );
             }
            
@@ -81,7 +83,6 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
             $this->doThis();
             $this->IniObject->setAllStrings();
             $this->IniObject->parse( "this_item", "this_item_template" );
-            $this->IniObject->parse( "articles", "articles_template" );
             $outPage = $this->IniObject->parse( "output", "category" );
             $value = true;
         }
@@ -142,11 +143,11 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
         foreach( $childrenItems as $child )
         {
             $child->get( $outID );
-            
+
             if( $child->ItemTypeID() == $itemType->ID() && $changeType->ID() == $child->status() )
             {
                 $child = new eZNewsFlowerArticle( $child->id() );
-                
+                echo $child->name() . "<br>";
                 /* snitched from article class */
                 /* Why? Because the fsck template functions don't work across objects. */
                 
@@ -196,17 +197,46 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                 #$value = $viewer->initializeTemplate();
                 #$value = $viewer->renderPage( $outPage );
                 
+            
+                $i++;
             }
             
             $this->IniObject->set_var( "article", $outPage );
             $outChildren = $outChildren . $this->IniObject->parse( "article_item", "article_item_template", true );
-            
-            $i++;
         }
+        
         if( $i > 0 )
         {
             $value = true;
-        }       
+        }
+        else
+        {
+            $this->IniObject->set_var( "article_item", "" );
+            $this->IniObject->set_var( "article_image", "" );
+        }
+          
+        return $value;
+    }
+
+
+
+    /*!
+        This function will fill in the information about this category.
+        
+        \return
+            Returns true if successful.
+     */
+    function doThis()
+    {
+        $value = true;
+        
+        $publicDescription = new eZNewsArticle( $this->Item->publicDescriptionID() );
+        $this->IniObject->set_var( "this_public_description", $publicDescription->Story() );
+        
+        $privateDescription = new eZNewsArticle( $this->Item->privateDescriptionID() );
+        $this->IniObject->set_var( "this_private_description", $privateDescription->Story() );
+
+        $value = eZNewsCategoryViewer::doThis();
         return $value;
     }
 };
