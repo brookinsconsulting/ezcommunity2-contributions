@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.1 2000/12/04 10:47:56 bf-cvs Exp $
+// $Id: bugview.php,v 1.2 2001/01/28 11:04:55 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -29,7 +29,7 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 
@@ -119,6 +119,7 @@ else
 $bugLog = new eZBugLog();
 $logList = $bugLog->getByBug( $bug );
 
+
 foreach ( $logList as $log )
 {
     $date =& $log->created();
@@ -129,6 +130,11 @@ foreach ( $logList as $log )
     $t->set_var( "log_description", $log->description() );
     
     $t->parse( "log_item", "log_item_tpl", true );
+}
+
+if ( count( $logList  ) == 0 )
+{
+    $t->set_var( "log_item", "" );
 }
 
 $t->pparse( "output", "bug_edit_tpl" );

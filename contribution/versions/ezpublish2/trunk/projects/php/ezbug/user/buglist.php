@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.3 2001/01/28 11:00:20 bf Exp $
+// $Id: buglist.php,v 1.4 2001/01/28 11:04:55 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:36:41 bf>
@@ -33,7 +33,7 @@ include_once( "ezbug/classes/ezbug.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 
