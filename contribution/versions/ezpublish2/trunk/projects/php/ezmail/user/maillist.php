@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.14 2001/03/28 16:31:27 fh Exp $
+// $Id: maillist.php,v 1.15 2001/03/29 10:15:22 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -84,6 +84,7 @@ foreach( $mail as $mailItem )
         case READ : $t->set_var( "mail_status", '-' ); break;
         case REPLIED : $t->set_var( "mail_status", 'R' ); break;
         case FORWARDED : $t->set_var( "mail_status", 'F' ); break;
+        case MAIL_SENT : $t->set_var( "mail_status", 'S' ); break;
     }
     
     $siSize = $mailItem->siSize();

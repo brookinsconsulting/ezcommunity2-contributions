@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.15 2001/03/29 09:13:52 fh Exp $
+// $Id: ezmailaccount.php,v 1.16 2001/03/29 10:15:22 fh Exp $
 //
 // eZMailAccount class
 //
@@ -34,10 +34,23 @@
 
 */
 
+/* ATTENTION:
+   Lots of this code is build upon imap specific features. If you want to understand how this stuff works
+   you can find info here www.faqs.org about the protocols:
+    RFC821: Simple Mail Transfer Protocol (SMTP). 
+    RFC822: Standard for ARPA internet text messages. 
+    RFC2060: Internet Message Access Protocol (IMAP) Version 4rev1. 
+    RFC1939: Post Office Protocol Version 3 (POP3). 
+    RFC977: Network News Transfer Protocol (NNTP). 
+    RFC2076: Common Internet Message Headers. 
+    RFC2045 , RFC2046 , RFC2047 , RFC2048 & RFC2049: Multipurpose Internet Mail Extensions (MIME). 
+
+    To understand the return types from the imap functions take a look at the mail.h file in the mime c-klient library
+    found here: ftp://ftp.cac.washington.edu/imap
+ */
+
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfunctions.php" );
-
-
 
 class eZMailAccount
 {

@@ -39,6 +39,7 @@ if( isset( $Save ) )
 {
     $MailID = save_mail();
     $mail = new eZMail( $MailID );
+    $mail->setStatus( READ, true );
 
     $drafts = eZMailFolder::getSpecialFolder( DRAFTS );
     $drafts->addMail( $mail );
@@ -48,6 +49,7 @@ if( isset( $Send ) )
 {
     $MailID = save_mail();
     $mail = new eZMail( $MailID );
+    $mail->setStatus( MAIL_SENT, true );
     $mail->send();
 
     $sent = eZMailFolder::getSpecialFolder( SENT );
@@ -84,13 +86,24 @@ $t->set_var( "subject_value", "" );
 $t->set_var( "mail_body", "" );
 $t->set_var( "current_mail_id", "" );
 
+/** New mail, lets insert some default values **/
+if( $MailID == 0 )
+{
+    // put signature stuff here...
+}
+$user = eZUser::currentUser();
+$t->set_var( "from_value", $user->email() );
+
+/** We are editing an allready existant mail... lets insert it's values **/
 if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load values from disk!, check that this is really current users mail
 {
     $t->set_var( "current_mail_id", $MailID );
     
     $mail = new eZMail( $MailID );
     $t->set_var( "to_value", htmlspecialchars( $mail->to() ) );
-    $t->set_var( "from_value", htmlspecialchars( $mail->from() ) );
+
+    if( $mail->from() != "" )
+        $t->set_var( "from_value", htmlspecialchars( $mail->from() ) );
     $t->set_var( "subject_value", htmlspecialchars( $mail->subject() ) );
     $t->set_var( "mail_body", htmlspecialchars( $mail->body() ) );
     $t->set_var( "cc_value", htmlspecialchars( $mail->cc() ) );
@@ -142,7 +155,6 @@ function save_mail()
     $mail->setFrom( $From  ); // from NAME
     $mail->setCc( $Cc );
     $mail->setBcc( $Bcc );
-    $mail->setMessageID( );
 //    $mail->setReferences( );
 //    $mail->setReplyTo( $ );
     $mail->setSubject( $Subject );

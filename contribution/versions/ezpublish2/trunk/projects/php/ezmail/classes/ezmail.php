@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.16 2001/03/28 16:31:26 fh Exp $
+// $Id: ezmail.php,v 1.17 2001/03/29 10:15:22 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -44,7 +44,7 @@ define( "UNREAD", 0 );
 define( "READ", 1 );
 define( "REPLIED", 2 );
 define( "FORWARDED", 3 );
-
+define( "MAIL_SENT", 4 );
 
 class eZMail
 {
@@ -59,10 +59,8 @@ class eZMail
     {
         $this->IsConnected = false;
 
+        // array used when sending mail.. do not alter!!!
         $this->parts = array();
-        // default value
-        $this->IsPublished = "false";
-        
         if ( $id != "" )
         {
 
@@ -80,7 +78,10 @@ class eZMail
         else
         {
             $this->State_ = "New";
-            
+            // default values
+            $this->IsPublished = "false";
+            $this->UDate = time();
+
         }
     }
 
@@ -557,6 +558,7 @@ class eZMail
       1 - READ
       2 - REPLIED
       3 - FORWARDED
+      4 - MAIL_SENT
     */
     function status()
     {
@@ -571,6 +573,7 @@ class eZMail
      1 - READ
      2 - REPLIED
      3 - FORWARDED
+     4 - MAIL_SENT
      If direct write is set the data will be written directly to the database. No need for calling store() afterwords. In order to do this you must be sure that the object
      is allready in the database.
      */
@@ -1011,46 +1014,6 @@ class eZMail
     var $IsConnected;
     var $State_;
 }
-/*
-       The ADDRESS structure is a parsed form of a linked list of RFC 822
-addresses.  It contains the following information:
-
-char *personal;			personal name phrase
-char *adl;			at-domain-list (also called "source
-				 route")
-char *mailbox;			mailbox name
-char *host;			domain name of mailbox's host
-char *error;			error in address from smtp_mail(); if
-				 an error is returned from smtp_mail()
-				 for one of the recipient addresses
-				 the SMTP server's error text for that
-				 recipient can be found here.  If it
-				 is null then there was no error (or
-				 an error was found with a prior
-				 recipient
-ADDRESS *next;			pointer to next address in list
-
-
-     The ENVELOPE structure is a parsed form of the RFC 822 header.
-Its member names correspond to the RFC 822 field names.  It contains
-the following information:
-
-char *remail;			remail header if any
-ADDRESS *return_path;		error return address
-char *date;			message composition date string
-ADDRESS *from;			from address list
-ADDRESS *sender;		sender address list
-ADDRESS *reply_to;		reply address list
-char *subject;			message subject string
-ADDRESS *to;			primary recipient list
-ADDRESS *cc;			secondary recipient list
-ADDRESS *bcc;			blind secondary recipient list
-char *in_reply_to;		replied message ID
-char *message_id;		message ID
-char *newsgroups;		USENET newsgroups
-char *followup_to;		USENET reply newsgroups
-char *references;		USENET references
-*/
 
 ?>
 

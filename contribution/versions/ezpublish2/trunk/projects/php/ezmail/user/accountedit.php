@@ -24,7 +24,8 @@ if( isset( $Ok ) )
     }
 
     $account->setName( $Name );
-    $account->setPassword( $Password );
+    if( $Password != "" )
+        $account->setPassword( $Password );
     $account->setLoginName( $Login );
     $account->setServer( $Server );
     $account->setServerPort( $Port );

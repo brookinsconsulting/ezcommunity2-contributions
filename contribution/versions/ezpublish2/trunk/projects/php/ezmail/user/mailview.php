@@ -11,11 +11,11 @@ if( isset( $Reply ) )
 {
     $mail = new eZMail( $MailID );
     $mail->setStatus( REPLIED, true );
-    $reply = $mail->copyMail();
+    $reply = $mail->copyMail( "reply" );
     $replyid = $reply->id();
 
     $drafts = eZMailFolder::getSpecialFolder( DRAFTS );
-    $drafts->addMail( $mail );
+    $drafts->addMail( $reply );
     
     eZHTTPTool::header( "Location: /mail/mailedit/$replyid" );
     exit();

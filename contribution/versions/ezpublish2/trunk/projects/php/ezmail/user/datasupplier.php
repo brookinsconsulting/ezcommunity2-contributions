@@ -2,6 +2,7 @@
 include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezmail/classes/ezmailfolder.php" );
 
 switch( $url_array[2] )
 {
@@ -78,6 +79,10 @@ switch( $url_array[2] )
 
         foreach( $accounts as $account )
             $account->checkMail();
+
+        $inbox = eZMailFolder::getSpecialFolder( INBOX );
+        eZHTTPTool::header( "Location: /mail/folder/" . $inbox->id() . "/" );
+        exit();
 //        $server = "{" . "zap.ez.no" . "/pop3:" . "110" ."}";
 //        $mbox = imap_open( $server, "larson", "AcRXYJJA", OP_HALFOPEN)
 //             or die("can't connect: ".imap_last_error());
