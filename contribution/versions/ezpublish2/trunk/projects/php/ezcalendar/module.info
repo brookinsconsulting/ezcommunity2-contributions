@@ -1,0 +1,3 @@
+fileversion 1
+mandatory false
+requires eztemplate ezsession ezuser ezlocale ezdate eztime ezdatetime
