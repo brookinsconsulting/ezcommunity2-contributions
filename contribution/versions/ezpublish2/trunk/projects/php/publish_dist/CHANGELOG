@@ -19,7 +19,7 @@ Changes from 2.2 Beta 1 to 2.2 Beta 2
 * Added setting to mage consultations visible for everyone
 * Added posibility to add an appointment for an entire day in the calendar
 * Added setting to make consultations visible for everyone
-* Added upload permission setting to eZ filemanager folders.
+* Added upload permission setting to eZ filemanager folders and eZ imagecatalogue categories.
 * Added buttons for buy and file folder in person/company list
 
 Changes from 2.2 Alpha to 2.2 Beta 1
