@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.9 2000/10/08 13:07:10 bf-cvs Exp $
+// $Id: cart.php,v 1.10 2000/10/10 16:24:02 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -237,22 +237,7 @@ else
 }
 
 
-//  $cart->delete();
-
 $t->pparse( "output", "cart_page" );
-?>
-
-<?
-
-include_once( "ezcontact/classes/ezaddress.php" );
-
-$address = new eZAddress();
-
-$address->setStreet1( "Rødsåsen 39" );
-$address->setStreet2( "" );
-$address->setZip( "3928" );
-$address->setPlace( "Porsgrunn" );
-
-$address->store();
 
 ?>
+

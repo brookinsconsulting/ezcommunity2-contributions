@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.11 2000/10/06 09:39:42 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.12 2000/10/10 16:24:02 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -33,6 +33,10 @@
 
   \endcode
   \sa eZProductCategory eZOption
+*/
+
+/*!TODO
+  Add query builder to search. Use same as in eZLink.
 */
 
 include_once( "classes/ezdb.php" );
@@ -691,6 +695,31 @@ class eZProduct
        
        return $ret;
        
+    }
+
+    /*!
+      Searches through every product and returns the result as an array
+      of eZProduct objects.
+    */
+    function activeProductSearch( $query, $offset, $limit )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       $this->dbInit();
+
+       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_Product
+                                     WHERE
+                                     Name LIKE '%$query%' LIMIT $offset, $limit
+                                   " );
+
+       foreach ( $res_array as $product )
+       {
+           $ret[] = new eZProduct( $product["ID"] );
+       }
+       
+       return $ret;
     }
     
     

@@ -112,7 +112,8 @@ switch ( $url_array[2] )
         
 
     case "search" :
-        print( "<h1>Product search</h1>" );        
+        
+        include( "eztrade/productsearch.php" );
         break;
     default :
         print( "<h1>Sorry, Your PRODUCT page could not be found. </h1>" );
