@@ -45,7 +45,7 @@
 	<img src="/images/folder.gif" height="16" width="16" border="0" alt="" /><br />
 	</td>
 	<td class="{td_class}" valign="top" width="98%" colspan="2">
-	<span class="boxtext"><a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></span>
+	<span class="p"><a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></span>
 	</td>
 </tr>
 <tr>
@@ -83,7 +83,7 @@
 	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
 	</td>
 	<td valign="top" width="99%" colspan="2">
-	<span class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></span>
+	<span class="p"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></span>
 	</td>
 </tr>
     <td class="{td_class}" width="99%" valign="top" colspan="2">
