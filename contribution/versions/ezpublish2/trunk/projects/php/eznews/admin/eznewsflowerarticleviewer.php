@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.2 2000/10/14 05:22:49 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.3 2000/10/16 09:25:57 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -172,7 +172,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
 
                 $image = new eZImage();
                 $image->setName( $file );
-                $image->setCaption( "Bilde til artikkel: " . $this->Item->name() );
+                $image->setCaption( "Article picture: " . $this->Item->name() );
 
                 $image->setImage( $file );
 
@@ -197,6 +197,8 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
             $this->IniObject->set_block( "article", "article_image_template", "article_image" );
             $this->fillInCategories();
             $this->doThis( true );
+            
+            
         }
         
 
@@ -220,7 +222,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
      */
     function renderPage( &$outPage )
     {
-        echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
+        #echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
         $value = false;
         $continue = false;
 
@@ -229,11 +231,11 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
         global $form_delete;
         global $form_publish;
         global $form_preview;
-        echo "\$form_preview = $form_preview <br />\n";
-        echo "\$form_abort = $form_abort <br />\n";
-        echo "\$form_submit = $form_submit <br />\n";
-        echo "\$form_delete = $form_delete <br />\n";
-        echo "\$form_publish = $form_publish <br />\n";
+        #echo "\$form_preview = $form_preview <br />\n";
+        #echo "\$form_abort = $form_abort <br />\n";
+        #echo "\$form_submit = $form_submit <br />\n";
+        #echo "\$form_delete = $form_delete <br />\n";
+        #echo "\$form_publish = $form_publish <br />\n";
 
         #echo "\$this->Item->id() = " . $this->Item->id() . " <br />\n";
         
@@ -268,6 +270,16 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
             
             $adminObject = new eZNewsAdmin( "site.ini" );
             $value = $adminObject->doItem( $parentID );
+        }
+
+        if( $form_abort )
+        {
+            $item = $this->Item->getIsCanonical();
+            $this->Item->delete();
+            $this->Item->errors();
+            $this->Item->store( $outID );
+            $adminObject = new eZNewsAdmin( "site.ini" );
+            $value = $adminObject->doItem( $item );
         }
 
         if( $value == false )

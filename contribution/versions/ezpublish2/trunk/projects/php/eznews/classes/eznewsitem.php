@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.46 2000/10/14 05:22:50 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.47 2000/10/16 09:25:57 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -139,8 +139,7 @@ class eZNewsItem extends eZNewsUtility
         $this->CreatedAt = $this->createTimeStamp();
         $this->CreationIP = $this->createIP();
         $this->createCreatedBy();
-        $this->Name = $this->CreatedAt;
-        
+                
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
     }
 

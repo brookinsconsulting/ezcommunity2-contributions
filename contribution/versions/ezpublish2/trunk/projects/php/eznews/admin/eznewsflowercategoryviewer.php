@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.2 2000/10/14 05:22:49 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.3 2000/10/16 09:25:57 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -113,7 +113,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsViewer
             $publicDescription = new eZNewsArticle( $this->Item->publicDescriptionID() );
             $publicDescription->setAuthorText( "automatic" );
             $publicDescription->setParent( $this->Item->ID() );
-            $publicDescription->setStory( nl2br( htmlspecialchars( $PublicText ) ) );
+            $publicDescription->setStory(  htmlspecialchars( $PublicText ) );
             $publicDescription->setLinkText( "Public description" );
             $publicDescription->setMeta( "Plain text" );
             $publicDescription->setName( "Public description for " . $this->Item->name() );
@@ -133,7 +133,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsViewer
         }
         
 
-        $this->doThis();
+        $this->doThis( true );
         $this->IniObject->setAllStrings();
         $outPage = $this->IniObject->parse( "output", "category" );
         $value = true;
@@ -183,7 +183,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsViewer
             $article->setLinkText( "" );
             $article->setAuthorText( eZNewsArticle::createAuthorText() );
             $article->setStatus( "temporary" );
-            $article->setName( $this->Item->getCreatedAt() );
+            $article->setName( "" );
             $article->setMeta( "" );
             $article->setItemTypeID( "flowerarticle" );
             $article->Errors();
@@ -348,7 +348,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsViewer
         \return
             Returns true if successful.
      */
-    function doThis()
+    function doThis( $inEdit = false )
     {
         #echo "eZNewsFlowerCategoryViewer::doThis()<br />\n";
         $value = true;
