@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.21 2001/08/28 07:45:54 kaid Exp $
+// $Id: index_xmlrpc.php,v 1.22 2001/09/05 08:58:09 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -133,10 +133,21 @@ function Call( $args )
     $password = $call["Password"]->value();
     $GLOBALS["password"] =& $Password;
 
-    $User = new eZUser();
-    $User = $User->validateUser( $login, $password );
+    $User = eZUser::validateUser( $login, $password );
+//      if ( get_class( $User ) == "ezuser" )
+//      {
+//          $logged_in = eZUser::loginUser( $User );
+//          $cur = eZUser::currentUser();
+//          $session =& eZSession::globalSession();
+//  //          ob_start();
+//  //          print( $session->variable( "AuthenticatedUser" ) . "\n" );
+//  //          print_r( $cur );
+//  //          eZLog::writeNotice( "user: " . ob_get_contents() );
+//  //          ob_end_flush();
+//      }
+
     $GLOBALS["User"] =& $User;
-        
+
     if ( ( get_class( $User ) == "ezuser" ) and eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
     {
 //          eZLog::writeNotice( "XML-RPC logged in." );
