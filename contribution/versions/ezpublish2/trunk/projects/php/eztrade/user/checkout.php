@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.55 2001/03/21 10:19:54 ce Exp $
+// $Id: checkout.php,v 1.56 2001/03/21 10:22:19 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -405,7 +405,7 @@ foreach ( $addressArray as $address )
     $t->set_var( "is_selected", "" );
     $mainAddress = $address->mainAddress( $user );
 
-    if ( $mainAddress && $address )
+    if ( get_class( $mainAddress ) == "ezaddress" )
     {
         if ( $mainAddress->id() == $address->id() )
         {
