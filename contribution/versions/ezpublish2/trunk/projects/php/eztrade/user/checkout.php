@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.41 2001/03/08 08:01:49 ce Exp $
+// $Id: checkout.php,v 1.42 2001/03/08 14:48:13 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -185,7 +185,10 @@ if ( isset( $SendOrder ) )
 
             $orderOptionValue = new eZOrderOptionValue();
             $orderOptionValue->setOrderItem( $orderItem );
-            $orderOptionValue->setOptionName( $option->name() );
+
+            $descriptions =&$value->descriptions();
+            
+            $orderOptionValue->setOptionName( $descriptions[0] );
 
             // fix
 //            $orderOptionValue->setValueName( $value->name() );
@@ -342,8 +345,8 @@ foreach ( $types as $type )
                  
             $t->set_var( "option_name", $option->name() );
 
-            $description = $value->descriptions();
-            $t->set_var( "option_value", $description );
+            $descriptions = $value->descriptions();
+            $t->set_var( "option_value", $descriptions[0] );
             
             $t->parse( "cart_item_option", "cart_item_option_tpl", true );
         }

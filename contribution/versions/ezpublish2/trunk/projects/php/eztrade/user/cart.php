@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.19 2001/03/07 15:52:18 bf Exp $
+// $Id: cart.php,v 1.20 2001/03/08 14:48:13 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -51,6 +51,7 @@ include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 $cart = new eZCart();
 $session = new eZSession();
@@ -289,6 +290,27 @@ foreach ( $items as $item )
 
         $descriptions = $value->descriptions();
         $t->set_var( "option_value", $descriptions[0] );
+
+        // get the value price if exists
+        $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
+                                             $option->id(), $value->id() );
+        
+        if ( $price )
+        {
+            $found_price = true;
+            $price = new eZCurrency( $price );
+        }
+
+        // if not fetch the standard price
+        if ( !$found_price )
+        {
+            $price = new eZCurrency( $value->price() );
+        }
+
+        print( $locale->format( $price ) );
+        
+
+        
             
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
     }

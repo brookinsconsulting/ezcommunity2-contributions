@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.30 2001/01/30 17:25:12 jb Exp $
+// $Id: ezsession.php,v 1.31 2001/03/08 14:48:13 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -90,8 +90,6 @@ class eZSession
 //          $HTTP_SESSION_VARS["eZSession"] = $this->Hash;
 //          print( "new session" );
 
-
-        session_start();        
         session_register( "eZSession" );
         
         $GLOBALS["eZSession"] =& $this->Hash;
