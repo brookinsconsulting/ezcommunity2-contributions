@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: wishlist.php,v 1.7 2000/12/08 10:41:41 bf-cvs Exp $
+//
+// $Id: wishlist.php,v 1.8 2000/12/19 10:15:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -69,7 +69,7 @@ if ( !$wishlist )
     print( "creating a wishlist" );
     $wishlist = new eZWishlist();
     $wishlist->setUser( $user );
-    
+
     $wishlist->store();
 }
 
@@ -82,7 +82,7 @@ if ( $Action == "AddToBasket" )
     $product = new eZProduct( $ProductID );
 
     $wishlistItem = new eZWishlistItem();
-    
+
     $wishlistItem->setProduct( $product );
     $wishlistItem->setWishlist( $wishlist );
 
@@ -93,23 +93,23 @@ if ( $Action == "AddToBasket" )
         $i = 0;
         foreach ( $OptionValueArray as $value )
         {
-            
+
             $option = new eZOption( $OptionIDArray[$i] );
             $optionValue = new eZOptionValue( $value );
-        
+
             $wishlistOption = new eZWishlistOptionValue();
             $wishlistOption->setWishlistItem( $wishlistItem );
             $wishlistOption->setOption( $option );
             $wishlistOption->setOptionValue( $optionValue );
 
             $wishlistOption->store();
-        
+
             $i++;
         }
     }
 
     Header( "Location: /trade/wishlist/" );
-    
+
     exit();
 }
 
@@ -125,6 +125,24 @@ if ( $Action == "MoveToCart" )
     Header( "Location: /trade/wishlist/" );
     exit();
 }
+
+// SF
+
+if ( $Action == "RemoveFromWishlist" )
+{
+    $wishListItem = new eZWishListItem( );
+    if ( $wishListItem->get( $WishListItemID ) )
+    {
+        //$wishListItem->moveToCart();
+        $wishListItem->delete();
+    }
+
+    Header( "Location: /trade/wishlist/" );
+
+    exit();
+}
+
+// SF End
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "wishlist.php" );
@@ -150,7 +168,7 @@ $items = $wishlist->items( );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
-    
+
 $i = 0;
 $sum = 0.0;
 foreach ( $items as $item )
@@ -158,12 +176,12 @@ foreach ( $items as $item )
     $product = $item->product();
 
     $t->set_var( "wishlist_item_id", $item->id() );
-    
+
     $image = $product->thumbnailImage();
 
     if ( $image )
     {
-        $thumbnail =& $image->requestImageVariation( 35, 35 );        
+        $thumbnail =& $image->requestImageVariation( 35, 35 );
 
         $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
         $t->set_var( "product_image_width", $thumbnail->width() );
@@ -175,7 +193,7 @@ foreach ( $items as $item )
     {
         $t->set_var( "wishlist_image", "&nbsp;" );
     }
-        
+
     $currency->setValue( $product->price() );
 
     $sum += $product->price();
@@ -195,15 +213,15 @@ foreach ( $items as $item )
     {
         $option =& $optionValue->option();
         $value =& $optionValue->optionValue();
-                 
+
         $t->set_var( "option_name", $option->name() );
         $t->set_var( "option_value", $value->name() );
-            
+
         $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
     }
-        
+
     $t->parse( "wishlist_item", "wishlist_item_tpl", true );
-        
+
     $i++;
 }
 
@@ -220,11 +238,11 @@ $t->set_var( "wishlist_sum", $locale->format( $currency ) );
 if ( count( $items ) > 0 )
 {
     $t->parse( "wishlist_item_list", "wishlist_item_list_tpl" );
-    $t->set_var( "empty_wishlist", "" );    
+    $t->set_var( "empty_wishlist", "" );
 }
 else
 {
-    $t->parse( "empty_wishlist", "empty_wishlist_tpl" );    
+    $t->parse( "empty_wishlist", "empty_wishlist_tpl" );
     $t->set_var( "wishlist_item_list", "" );
 }
 
