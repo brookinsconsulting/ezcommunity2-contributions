@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.53 2001/10/10 12:33:46 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.54 2001/10/15 11:01:18 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -193,6 +193,7 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
         $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
         $this->Template->set_block( "articletags_tpl", "strong_tpl", "strong"  );
+        $this->Template->set_block( "articletags_tpl", "strike_tpl", "strike"  );
         $this->Template->set_block( "articletags_tpl", "factbox_tpl", "factbox"  );
         $this->Template->set_block( "articletags_tpl", "quote_tpl", "quote"  );
         $this->Template->set_block( "articletags_tpl", "pre_tpl", "pre"  );
@@ -910,6 +911,7 @@ class eZQDomrenderer
             case "bold" :
             case "italic" :                
             case "underline" :
+            case "strike" :
             case "strong" :
             case "factbox" :
             case "quote" :
@@ -953,6 +955,9 @@ class eZQDomrenderer
                     break;
                     case "strong" :
                         $pageContent = trim( $this->Template->parse( "strong", "strong_tpl" ) );
+                    break;
+                    case "strike" :
+                        $pageContent = trim( $this->Template->parse( "strike", "strike_tpl" ) );
                     break;
                     case "factbox" :
                         $pageContent = trim( $this->Template->parse( "factbox", "factbox_tpl" ) );

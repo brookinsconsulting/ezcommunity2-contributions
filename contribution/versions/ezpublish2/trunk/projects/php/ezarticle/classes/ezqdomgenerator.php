@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.36 2001/09/25 13:48:56 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.37 2001/10/15 11:01:17 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -818,6 +818,12 @@ class eZQDomGenerator
                 }
                 break;
 
+                case "strike" :
+                {                        
+                    $pageContent .= "<strike>" . $tmpContent . "</strike>";
+                }
+                break;
+                
                 case "strong" :
                 {                        
                     $pageContent .= "<strong>" . $tmpContent . "</strong>";

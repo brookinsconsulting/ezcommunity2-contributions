@@ -88,6 +88,10 @@
 <u>{contents}</u>
 <!-- END underline_tpl -->
 
+<!-- BEGIN strike_tpl -->
+<s>{contents}</s>
+<!-- END strike_tpl -->
+
 <!-- BEGIN strong_tpl -->
 <font color="885522" ><strong>{contents}</strong></font>
 <!-- END strong_tpl -->
