@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.16 2001/02/26 17:04:05 ce Exp $
+// $Id: fileupload.php,v 1.17 2001/02/26 17:20:14 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -97,6 +97,7 @@ $nameCheck = true;
 $descriptionCheck = false;
 $folderPermissionCheck = true;
 $readCheck = true;
+$fileCheck = true;
 
 $t->set_block( "errors_tpl", "error_write_permission", "write_permission" );
 $t->set_var( "write_permission", "&nbsp;" );
@@ -175,7 +176,6 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if ( $fileCheck )
     {
-        
         $file = new eZFile();
         if ( $file->getUploadedFile( "userfile" ) == false )
         {
@@ -198,7 +198,7 @@ if ( $Action == "Insert" && $error == false )
     
     $uploadedFile->setUser( $user );
     
-    $uploadedFile->setFile( $file );
+    $uploadedFile->setFile( &$file );
     
     $uploadedFile->store();
 
