@@ -32,6 +32,10 @@
 
 <!-- wishlist.tpl -->
 
+<!-- BEGIN public_wishlist_tpl -->
+<!-- END public_wishlist_tpl -->
+<!-- BEGIN non_public_wishlist_tpl -->
+<!-- END non_public_wishlist_tpl -->
 
 <body onLoad="MM_preloadImages('/eztrade/user/images/slettminimrk.gif')">
 

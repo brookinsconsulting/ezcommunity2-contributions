@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.4 2001/02/09 11:26:09 ce Exp $
+// $Id: ezaddress.php,v 1.5 2001/02/15 10:42:26 bf Exp $
 //
 // Definition of eZAddress class
 //
@@ -208,29 +208,32 @@ class eZAddress
     */
     function setMainAddress( $mainAddress, $user )
     {
-        if ( ( get_class ( $user ) == "ezuser" ) && ( get_class( $mainAddress ) == "ezaddress" ) )
-        {
-            $db =& eZDB::globalDatabase();
-
-            $userID = $user->id();
+        if ( get_class( $mainAddress ) == "ezaddress" )
             $addressID = $mainAddress->id();
+        else
+            $addressID = $mainAddress;
+        if ( get_class ( $user ) == "ezuser" )
+            $userID = $user->id();
+        else
+            $userID = $user;
 
-            $db->array_query( $checkForAddress, "SELECT UserID FROM eZAddress_AddressDefinition
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $checkForAddress, "SELECT UserID FROM eZAddress_AddressDefinition
                                      WHERE UserID='$userID'" );
 
-            if ( count ( $checkForAddress ) != 0 )
-            {
-                $db->query( "UPDATE eZAddress_AddressDefinition SET
+        if ( count ( $checkForAddress ) != 0 )
+        {
+            $db->query( "UPDATE eZAddress_AddressDefinition SET
                                          AddressID='$addressID',
                                          UserID='$userID'
                                          WHERE UserID='$userID'" );
-            }
-            else
-            {
-                $db->query( "INSERT INTO eZAddress_AddressDefinition SET
+        }
+        else
+        {
+            $db->query( "INSERT INTO eZAddress_AddressDefinition SET
                                          AddressID='$addressID',
                                          UserID='$userID' ");
-            }
         }
     }
     
@@ -240,18 +243,18 @@ class eZAddress
     function mainAddress( $user )
     {
         if ( get_class ( $user ) == "ezuser" )
-        {
-            $db =& eZDB::globalDatabase();
-
             $userID = $user->id();
+        else
+            $userID = $user;
 
-            $db->array_query( $addressArray, "SELECT AddressID FROM eZAddress_AddressDefinition
-                                     WHERE UserID='$userID'" );
+        $db =& eZDB::globalDatabase();
 
-            if ( count ( $addressArray ) == 1 )
-            {
-                return new eZAddress( $addressArray[0]["AddressID"] );
-            }
+        $db->array_query( $addressArray, "SELECT AddressID FROM eZAddress_AddressDefinition
+                                     WHERE UserID='$userID'", 0, 1 );
+
+        if ( count ( $addressArray ) == 1 )
+        {
+            return new eZAddress( $addressArray[0]["AddressID"] );
         }
     }
 
@@ -320,6 +323,10 @@ class eZAddress
        if ( get_class( $country ) == "ezcountry" )
        {
            $this->CountryID = $country->id();
+       }
+       else if ( is_numeric( $country ) )
+       {
+           $this->CountryID = $country;
        }
     }
 

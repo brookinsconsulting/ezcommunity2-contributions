@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.51 2001/02/09 11:05:49 ce Exp $
+// $Id: ezuser.php,v 1.52 2001/02/15 10:42:27 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -332,15 +332,16 @@ class eZUser
 
 
     /*!
+      \static
       Returns the eZUser object if a user with that login exits.
 
-      Falst (0) is returned if not.
+      False (0) is returned if not.
     */
     function exists( $login )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         $db->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'" );
 
@@ -680,7 +681,7 @@ class eZUser
     }
 
     /*!
-      Remove addreses from a user. The function also remove the address from the database.
+      Remove address from a user. The function also remove the address from the database.
     */
     function removeAddress( $address )
     {
@@ -696,26 +697,57 @@ class eZUser
 //                                  WHERE ID='$addressID'" );
         }
     }
-    
+
+    /*!
+      Remove all addresses from a user. The function also remove the addresses from the database.
+      If the $id is supplied it is used for looking up addresses.
+    */
+    function removeAddresses( $id = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( !$id )
+            $id = $this->ID;
+
+        $addresses = $this->addresses( $id, false );
+        foreach( $addresses as $address )
+        {
+            eZAddress::delete( $address );
+        }
+        $db->query( "DELETE FROM eZUser_UserAddressLink
+                     WHERE UserID='$id'" );
+    }
 
     /*!
       Returns the addresses a user has. It is returned as an array of eZAddress objects.      
+      If the $id is supplied it is used for looking up addresses.
     */
-    function addresses()
+    function addresses( $id = false, $as_object = true )
     {
-       $ret = array();
-       
         $db =& eZDB::globalDatabase();
 
-       $db->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
-                                WHERE UserID='$this->ID' ORDER BY AddressID" );
+        if ( !$id )
+            $id = $this->ID;
 
-       foreach ( $address_array as $address )
-       {
-           $ret[] = new eZAddress( $address["AddressID"] );
-       }
+        $db->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
+                                WHERE UserID='$id' ORDER BY AddressID" );
 
-       return $ret;
+        $ret = array();
+        if ( $as_object )
+        {
+            foreach ( $address_array as $address )
+            {
+                $ret[] = new eZAddress( $address["AddressID"] );
+            }
+        }
+        else
+        {
+            foreach ( $address_array as $address )
+            {
+                $ret[] = $address["AddressID"];
+            }
+        }
+
+        return $ret;
     }
 
     /*!

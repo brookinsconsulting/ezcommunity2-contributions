@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.23 2001/02/09 14:43:00 ce Exp $
+// $Id: ezorder.php,v 1.24 2001/02/15 10:42:26 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -30,11 +30,6 @@
 /*!
 
   \sa eZOrderItem eZOrderOptionValue eZDateTime
-*/
-
-/*!TODO
-  Fix address, should take an object as parameter.
-    
 */
 
 include_once( "classes/ezdb.php" );
@@ -205,7 +200,9 @@ class eZOrder
     }
 
     /*!
-      Fetches all the orders.
+      Fetches all active orders.
+
+      
 
       Note: Default limit is 40.
     */
@@ -216,8 +213,10 @@ class eZOrder
         $return_array = array();
         $order_array = array();
 
-        $this->Database->array_query( $order_array, "SELECT ID FROM eZTrade_Order
-                                                     LIMIT $offset, $limit" );
+        $this->Database->array_query( $order_array,
+        "SELECT ID FROM eZTrade_Order
+         WHERE IsActive='1'
+         LIMIT $offset, $limit" );
 
         for ( $i=0; $i<count( $order_array ); $i++ )
         {
@@ -239,7 +238,8 @@ class eZOrder
 
         $this->Database->array_query( $order_array,
         "SELECT ID FROM eZTrade_Order
-         WHERE IsExported='0'" );
+         WHERE IsActive='1' 
+         AND IsExported='0'" );
 
         for ( $i=0; $i<count( $order_array ); $i++ )
         {
@@ -372,6 +372,40 @@ class eZOrder
        $shippingAddress = new eZAddress( $this->ShippingAddressID );
        
        return $shippingAddress;
+    }
+
+    /*!
+      Returns the user to ship the goods to.
+
+      Returns false if unsuccessful.
+    */
+    function shippingUser()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       // check the owner of the address
+       
+       $this->dbInit();
+       
+       $address_array = array();
+
+       $retUser = false;
+       
+       $this->Database->array_query( $address_array,
+       "SELECT * FROM eZUser_UserAddressLink WHERE AddressID=$this->ShippingAddressID" );
+       
+       if ( count( $address_array ) == 1 )
+       {
+           $retUser = new eZUser( $address_array[0]["UserID"] );
+       }
+       else
+       {
+           print( "Error: eZOrder::shippingUser() " . count( $address_array ) . " uses found, should be 1." );
+       }
+
+       return $retUser;
+       
     }
 
     /*!

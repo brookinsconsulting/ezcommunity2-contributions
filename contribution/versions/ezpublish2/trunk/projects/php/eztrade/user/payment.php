@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.9 2001/02/09 15:49:50 ce Exp $
+// $Id: payment.php,v 1.10 2001/02/15 10:42:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -59,6 +59,11 @@ $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
 // fetch the cart
 $cart = new eZCart();
 $cart = $cart->getBySession( $session, "Cart" );
+
+if ( !$cart )
+{
+    header ("Location: /trade/cart/" );
+}
 
 $items = $cart->items();
 

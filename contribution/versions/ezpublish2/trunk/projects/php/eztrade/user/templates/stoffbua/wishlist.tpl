@@ -1,5 +1,5 @@
 <!-- wishlist.tpl --> 
-<!-- $Id: wishlist.tpl,v 1.1 2000/12/11 17:19:44 pkej Exp $ -->
+<!-- $Id: wishlist.tpl,v 1.2 2001/02/15 10:42:27 bf Exp $ -->
 
 <h1>{intl-wishlist}</h1>
 
@@ -9,6 +9,10 @@
 <h2>{intl-empty_wishlist}</h2>
 <!-- END empty_wishlist_tpl -->
 
+<!-- BEGIN public_wishlist_tpl -->
+<!-- END public_wishlist_tpl -->
+<!-- BEGIN non_public_wishlist_tpl -->
+<!-- END non_public_wishlist_tpl -->
 
 
 <!-- BEGIN wishlist_item_list_tpl -->

@@ -91,7 +91,9 @@ function &newOrders( $args )
                 $itemArray = array();
 
                 $items = $orderItem->items( $OrderType );
-                
+
+                $shippingUser = $orderItem->shippingUser();
+
                 foreach ( $items as $item )
                 {
                     $product = $item->product();
@@ -113,13 +115,15 @@ function &newOrders( $args )
                         "Date" => new eZXMLRPCString( $locale->format( $date ) ),
                         "Time" => new eZXMLRPCString( $locale->format( $time ) ),
                         "ShippingCharge" => new eZXMLRPCDouble( $orderItem->shippingCharge() ),
-                        "FirstName" => new eZXMLRPCString( $user->firstName() ),
-                        "LastName" => new eZXMLRPCString( $user->lastName()  ),
+                        "ShippingFirstName" => new eZXMLRPCString( $shippingUser->firstName() ),
+                        "ShippingLastName" => new eZXMLRPCString( $shippingUser->lastName() ),
                         "ShippingStreet1" => new eZXMLRPCString( $shippingAddress->street1() ),
                         "ShippingStreet2" => new eZXMLRPCString( $shippingAddress->street2() ),
                         "ShippingZip" => new eZXMLRPCString( $shippingAddress->zip() ),
                         "ShippingPlace" => new eZXMLRPCString( $shippingAddress->place() ),
                         "ShippingCountry" => new eZXMLRPCString(  $shippingCountry->name() ),
+                        "BillingFirstName" => new eZXMLRPCString( $user->firstName() ),
+                        "BillingLastName" => new eZXMLRPCString( $user->lastName()  ),
                         "BillingStreet1" => new eZXMLRPCString( $billingAddress->street1() ),
                         "BillingStreet2" => new eZXMLRPCString( $billingAddress->street2() ),
                         "BillingZip" => new eZXMLRPCString( $billingAddress->zip() ),

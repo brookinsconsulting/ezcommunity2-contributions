@@ -1,35 +1,28 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.14 2001/02/08 13:40:58 ce Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.15 2001/02/15 10:42:26 bf Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<h2>{intl-customerinfo}</h2>
-
+<p class="boxtext">{intl-billing_address}:</p>
 <div class="p">
 {customer_first_name} {customer_last_name} 
+{billing_street1}<br />
+{billing_street2}<br />
+{billing_zip} {billing_place}<br />
+{billing_country}
 </div>
 
 <p class="boxtext">{intl-shipping_address}:</p>
 <div class="p">
-<!-- BEGIN shipping_address_tpl -->
-{street1}<br />
-{street2}<br />
-{zip} {place}<br />
-{country}
-<!-- END shipping_address_tpl -->
+{shipping_first_name} {shipping_last_name} 
+{shipping_street1}<br />
+{shipping_street2}<br />
+{shipping_zip} {shipping_place}<br />
+{shipping_country}
 </div>
 
-<p class="boxtext">{intl-billing_address}:</p>
-<div class="p">
-<!-- BEGIN shipping_address_tpl -->
-{street1}<br />
-{street2}<br />
-{zip} {place}<br />
-{country}
-<!-- END shipping_address_tpl -->
-</div>
 
 <h2>{intl-customer_email}</h2>
 <div class="p">{customer_email}</div>

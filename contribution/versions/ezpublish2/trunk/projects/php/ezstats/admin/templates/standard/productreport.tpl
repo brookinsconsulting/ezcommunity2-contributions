@@ -51,6 +51,7 @@
 
 </table>
 
+<!--
 <h2>{intl-most_added_to_wishlist_products}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -74,7 +75,7 @@
 <!-- END most_added_to_wishlist_products_tpl -->
 
 </table>
-
+-->
 <h2>{intl-most_bought_products}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">

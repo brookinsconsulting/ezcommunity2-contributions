@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.19 2001/02/09 14:43:00 ce Exp $
+// $Id: ordersendt.php,v 1.20 2001/02/15 10:42:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -78,11 +78,11 @@ if ( $currentUser->id() != $user->id() )
 
 if ( $user )
 {
-    $t->set_var( "customer_first_name", $user->firstName() );
-    $t->set_var( "customer_last_name", $user->lastName() );
-
     // print out the addresses
     $billingAddress = $order->billingAddress();
+
+    $t->set_var( "customer_first_name", $user->firstName() );
+    $t->set_var( "customer_last_name", $user->lastName() );
 
     $t->set_var( "billing_street1", $billingAddress->street1() );
     $t->set_var( "billing_street2", $billingAddress->street2() );
@@ -96,6 +96,15 @@ if ( $user )
         $t->parse( "billing_address", "billing_address_tpl" );
     else
         $t->set_var( "billing_address", "" );
+
+    $shippingUser = $order->shippingUser();
+
+    if ( $shippingUser )
+    {
+        $t->set_var( "shipping_first_name", $shippingUser->firstName() );
+        $t->set_var( "shipping_last_name", $shippingUser->lastName() );
+        
+    }
 
     $shippingAddress = $order->shippingAddress();
 

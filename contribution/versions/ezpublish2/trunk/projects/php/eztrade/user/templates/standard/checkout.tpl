@@ -74,6 +74,9 @@
 <!-- BEGIN shipping_address_tpl -->
 <option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
 <!-- END shipping_address_tpl -->
+<!-- BEGIN wish_user_tpl -->
+<option value="{wish_user_address_id}">{wish_first_name} {wish_last_name}</option>
+<!-- END wish_user_tpl -->
 </select>
 
 <br /><br />

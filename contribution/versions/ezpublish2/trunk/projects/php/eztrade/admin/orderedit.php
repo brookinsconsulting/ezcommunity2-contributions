@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.12 2001/02/08 13:40:58 ce Exp $
+// $Id: orderedit.php,v 1.13 2001/02/15 10:42:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -116,27 +116,34 @@ if ( $user )
     $t->set_var( "customer_first_name", $user->firstName() );
     $t->set_var( "customer_last_name", $user->lastName() );
 
-// print out the addresses
-
+    // print out the addresses
     $shippingAddress =& $order->shippingAddress();
 
-    $t->set_var( "street1", $shippingAddress->street1() );
-    $t->set_var( "street2", $shippingAddress->street2() );
-    $t->set_var( "zip", $shippingAddress->zip() );
-    $t->set_var( "place", $shippingAddress->place() );
-    
+    $t->set_var( "shipping_street1", $shippingAddress->street1() );
+    $t->set_var( "shipping_street2", $shippingAddress->street2() );
+    $t->set_var( "shipping_zip", $shippingAddress->zip() );
+    $t->set_var( "shipping_place", $shippingAddress->place() );
+
+    $shippingUser = $order->shippingUser();
+
+    if ( $shippingUser )
+    {
+        $t->set_var( "shipping_first_name", $shippingUser->firstName() );
+        $t->set_var( "shipping_last_name", $shippingUser->lastName() );
+        
+    }
     $country = $shippingAddress->country();
-    $t->set_var( "country", $country->name() );
+    $t->set_var( "shipping_country", $country->name() );
 
     $billingAddress =& $order->billingAddress();
 
-    $t->set_var( "street1", $billingAddress->street1() );
-    $t->set_var( "street2", $billingAddress->street2() );
-    $t->set_var( "zip", $billingAddress->zip() );
-    $t->set_var( "place", $billingAddress->place() );
+    $t->set_var( "billing_street1", $billingAddress->street1() );
+    $t->set_var( "billing_street2", $billingAddress->street2() );
+    $t->set_var( "billing_zip", $billingAddress->zip() );
+    $t->set_var( "billing_place", $billingAddress->place() );
     
     $country = $billingAddress->country();
-    $t->set_var( "country", $country->name() );
+    $t->set_var( "billing_country", $country->name() );
     
 }
 

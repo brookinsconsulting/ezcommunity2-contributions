@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.10 2001/01/17 10:23:29 bf Exp $
+// $Id: wishlist.php,v 1.11 2001/02/15 10:42:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -207,16 +207,24 @@ if ( $Action == "Refresh" )
         $i++;
     }
 
-    // set public/private
-    if ( $IsPublic == "on" )
+    if ( isset( $IsPublicButton ) )
     {
-        $wishlist->setIsPublic( true );
+        $wishlist->setIsPublic( !$wishlist->isPublic() );
         $wishlist->store();
     }
     else
-    {
-        $wishlist->setIsPublic( false );
-        $wishlist->store();        
+    {        
+        // set public/private
+        if ( $IsPublic != "" )
+        {
+            $wishlist->setIsPublic( true );
+            $wishlist->store();
+        }
+        else
+        {
+            $wishlist->setIsPublic( false );
+            $wishlist->store();        
+        }
     }
 }
 
@@ -244,6 +252,9 @@ $t->set_file( array(
     ) );
 
 
+$t->set_block( "wishlist_page_tpl", "public_wishlist_tpl", "public_wishlist" );
+$t->set_block( "wishlist_page_tpl", "non_public_wishlist_tpl", "non_public_wishlist" );
+
 $t->set_block( "wishlist_page_tpl", "empty_wishlist_tpl", "empty_wishlist" );
 
 $t->set_block( "wishlist_page_tpl", "wishlist_image_tpl", "wishlist_image" );
@@ -258,13 +269,15 @@ $t->set_block( "wishlist_item_tpl", "is_not_bought_tpl", "is_not_bought" );
 
 
 
+$t->set_var( "public_wishlist", "" );
+$t->set_var( "non_public_wishlist", "" );
 if ( $wishlist->isPublic() == true )
 {
-    $t->set_var( "is_public_checked", "checked" );
+    $t->parse( "public_wishlist", "public_wishlist_tpl" );
 }
 else
 {
-    $t->set_var( "is_public_checked", "" );
+    $t->parse( "non_public_wishlist", "non_public_wishlist_tpl" );
 }
 
 // fetch the wishlist items

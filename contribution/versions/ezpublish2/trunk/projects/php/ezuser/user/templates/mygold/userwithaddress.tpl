@@ -1,8 +1,24 @@
-<form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
-<input type="hidden" name="bla" value="jaaa">
+<form method="post" action="/user/userwithaddress/new/">
+<!-- BEGIN new_user_tpl -->
 <h1>{intl-head_line}</h1>
+<!-- END new_user_tpl -->
+<!-- BEGIN edit_user_tpl -->
+<h1>{intl-edit_head_line}</h1>
+<!-- END edit_user_tpl -->
 
 <hr noshade="noshade" size="4" />
+
+<!-- BEGIN info_item_tpl -->
+<ul>
+    <!-- BEGIN info_updated_tpl -->
+    <li>{intl-info_update_user}
+    <!-- END info_updated_tpl -->
+</ul>
+
+<hr noshade size="4"/>
+
+<br />
+<!-- END info_item_tpl -->
 
 <!-- BEGIN errors_item_tpl -->
 <h3 class="error">{intl-error_headline}</h3>
@@ -65,7 +81,9 @@
 <br />
 <!-- END errors_item_tpl -->
 
-<br />
+<!-- BEGIN edit_user_info_tpl -->
+<h3>{intl-edit_usage}</h3>
+<!-- END edit_user_info_tpl -->
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -81,7 +99,12 @@
 </table>
 
 <p class="boxtext">{intl-login}:</p>
-<input {readonly} type="text" size="20" name="Login" value="{login_value}"/>
+<!-- BEGIN login_item_tpl -->
+<input type="text" size="20" name="Login" value="{login_value}"/>
+<!-- END login_item_tpl -->
+<!-- BEGIN disabled_login_item_tpl -->
+{login_value}<br />
+<!-- END disabled_login_item_tpl -->
 
 <p class="boxtext">{intl-email}:</p>
 <input type="text" size="20" name="Email" value="{email_value}"/>
@@ -104,11 +127,10 @@
 <!-- BEGIN address_tpl -->
 
 <h2>{intl-address_number} {address_number} </h2> 
-<input type="hidden" name="AddressArrayID[]" value="{address_id}">
 <!-- BEGIN delete_address_tpl -->
-<input type="checkbox" name="DeleteAddressArrayID[]" value="{address_id}">
-<input type="hidden" name="AddressID[]" value="{address_id}"/>{intl-delete}
+<input type="submit" name="DeleteAddressButton{address_id}" value="{intl-delete_this_address}">
 <!-- END delete_address_tpl -->
+<input type="hidden" name="AddressID[]" value="{address_id}"/>
 <input {is_checked} type="radio" name="MainAddressID" value="{address_id}"> {intl-main_address}
 
 <p class="boxtext">{intl-street1}:</p>
@@ -142,13 +164,17 @@
 <hr noshade="noshade" size="4" />
 
 <input type="submit" value="{intl-new_address}" name="NewAddress" />
-<input type="submit" value="{intl-delete_address}" name="DeleteAddress" />
 
 <hr noshade="noshade" size="4" />
 
 
 <input type="hidden" name="UserID" value="{user_id}" />
-<input class="okbutton" type="submit" value="OK" />
+<!-- BEGIN ok_button_tpl -->
+<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
+<!-- END ok_button_tpl -->
+<!-- BEGIN submit_button_tpl -->
+<input class="okbutton" type="submit" name="OK" value="{intl-submit}" />
+<!-- END submit_button_tpl -->
 
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>

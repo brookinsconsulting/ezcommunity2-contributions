@@ -1,9 +1,14 @@
 <!-- wishlist.tpl --> 
-<!-- $Id: wishlist.tpl,v 1.1 2000/10/24 19:03:13 bf-cvs Exp $ -->
+<!-- $Id: wishlist.tpl,v 1.2 2001/02/15 10:42:27 bf Exp $ -->
 
 <h1>{intl-wishlist}</h1>
 
 <hr noshade="noshade" size="4" />
+
+<!-- BEGIN public_wishlist_tpl -->
+<!-- END public_wishlist_tpl -->
+<!-- BEGIN non_public_wishlist_tpl -->
+<!-- END non_public_wishlist_tpl -->
 
 <!-- BEGIN empty_wishlist_tpl -->
 <h2>{intl-empty_wishlist}</h2>

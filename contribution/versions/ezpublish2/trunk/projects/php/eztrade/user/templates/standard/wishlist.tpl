@@ -8,7 +8,12 @@
       <h1>{intl-wishlist}</h1>
     </td>
     <td align="right">
-      <input type="checkbox" name="IsPublic" {is_public_checked} />&nbsp;{intl-is_public}
+      <!-- BEGIN public_wishlist_tpl -->
+      <input type="checkbox" name="IsPublic" checked/>&nbsp;{intl-is_public}
+      <!-- END public_wishlist_tpl -->
+      <!-- BEGIN non_public_wishlist_tpl -->
+      <input type="checkbox" name="IsPublic" />&nbsp;{intl-is_public}
+      <!-- END non_public_wishlist_tpl -->
     </td>
 <tr>
     <td colspan="2">

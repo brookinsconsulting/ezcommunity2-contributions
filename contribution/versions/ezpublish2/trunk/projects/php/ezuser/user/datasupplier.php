@@ -32,7 +32,7 @@ switch ( $url_array[2] )
                 $MissingAddress = true;
             else
                 $MissingAddress = false;
-            
+
             $UserID = $url_array[4];
             $Action = "Edit";
         }

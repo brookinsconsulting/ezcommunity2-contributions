@@ -6,24 +6,23 @@
 
 <p>{intl-email_notice}</p>
 
-<h2>{intl-customer_info}</h2>
-
-{customer_first_name} {customer_last_name} 
 
 <br />
 
 <!-- BEGIN billing_address_tpl -->
 <h3>{intl-billing_address}</h3>
+{customer_first_name} {customer_last_name} <br />
 {billing_street1}<br />
-{billing_street2}<br />
+<!-- {billing_street2}<br /> -->
 {billing_zip} {billing_place}<br />
 {billing_country}<br />
 <!-- END billing_address_tpl -->
 
 <!-- BEGIN shipping_address_tpl -->
 <h3>{intl-shipping_address}</h3>
+{shipping_first_name} {shipping_last_name} <br />
 {shipping_street1}<br />
-{shipping_street2}<br />
+<!-- {shipping_street2}<br /> -->
 {shipping_zip} {shipping_place}<br />
 {shipping_country}<br />
 <!-- END shipping_address_tpl -->

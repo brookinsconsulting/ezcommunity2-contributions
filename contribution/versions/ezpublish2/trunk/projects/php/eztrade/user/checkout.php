@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.34 2001/02/09 15:49:50 ce Exp $
+// $Id: checkout.php,v 1.35 2001/02/15 10:42:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -68,16 +68,14 @@ if ( !$session->fetch() )
 // set SSL mode and redirect if not already in SSL mode.
 if ( $ForceSSL == "enabled" )
 {
-    print( $session->variable( "SSLMode" ) );
-    
     $session->setVariable( "SSLMode", "enabled" );
     
     // force SSL if supposed to
     if ( $SERVER_PORT != '443' )
     {
-        print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
-        //      header ("Location: https://" . $HTTP_HOST . $REQUEST_URI );
-        //      exit;
+//          print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
+        header ("Location: https://" . $HTTP_HOST . $REQUEST_URI );
+        exit;
     }
 }
 
