@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: loginheader.php,v 1.7 2001/07/19 11:50:54 jakobn Exp $
+// $Id: loginheader.php,v 1.8 2001/10/12 09:22:00 master Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -25,6 +25,7 @@
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezpublish.php" );
 
 $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
@@ -50,6 +51,8 @@ $t->set_var( "module_name", $moduleName );
 $t->set_var( "charset", $iso );
 
 $t->setAllStrings();
+
+$t->set_var( "ezpublish_version", eZPublish::version() );
 
 $t->pparse( "output", "header_tpl" );
     
