@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherview.php,v 1.1 2001/09/24 10:19:16 ce Exp $
+// $Id: voucherview.php,v 1.1.2.1 2002/05/08 09:29:01 vl Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -29,6 +29,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -85,7 +86,7 @@ $currency = new eZCurrency();
 
 $t->set_var( "action_value", "Insert" );
 $t->set_var( "view_voucher", "" );
-$t->set_var( "voucher_key", "$Key" );
+$t->set_var( "voucher_key", eZTextTool::htmlspecialchars( $Key ) );
 $t->set_var( "error", "" );
 
 if ( isSet ( $Key ) )
