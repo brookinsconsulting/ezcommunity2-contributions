@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.13 2001/09/14 08:30:51 pkej Exp $
+// $Id: ezpricegroup.php,v 1.14 2001/09/14 12:48:14 pkej Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -219,6 +219,117 @@ class eZPriceGroup
         return false;
     }
 
+    /*
+        Returns the lowest price for an option.
+     */
+    function lowestPrice( $productid, $priceid, $optionid )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $ini =& INIFile::globalINI();
+        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
+
+        if ( $ShowPriceGroups == true )
+        {
+            if ( is_array( $priceid ) )
+            {
+                $first = true;
+                foreach( $priceid as $group )
+                {
+                    $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
+                    $first = false;
+                }
+                if ( $group_text )
+                    $group_text = " AND ( $group_text )";
+                else
+                    $group_text = "AND PriceID='$priceid'";
+            }
+            else
+            {
+                $group_text = "AND PriceID='$priceid'";
+            }
+
+            $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
+                                       WHERE ProductID='$productid' $group_text
+                                         AND OptionID='$optionid' ORDER BY Price" );
+
+            if ( count( $array ) > 0 )
+                return $array[0][$db->fieldName("Price")];
+            else
+            {
+                $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
+                                           WHERE OptionID='$optionid' ORDER BY Price" );
+
+                if ( count( $array ) > 0 )
+                    return $array[0][$db->fieldName("Price")];
+            }
+        }
+        else
+        {
+            $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
+                                       WHERE OptionID='$optionid' ORDER BY Price" );
+
+            if ( count( $array ) > 0 )
+                return $array[0][$db->fieldName("Price")];
+        }
+        return false;
+    }
+
+    /*
+        Returns the highest price for an option.
+     */
+    function highestPrice( $productid, $priceid, $optionid )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $ini =& INIFile::globalINI();
+        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
+
+        if ( $ShowPriceGroups == true )
+        {
+            if ( is_array( $priceid ) )
+            {
+                $first = true;
+                foreach( $priceid as $group )
+                {
+                    $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
+                    $first = false;
+                }
+                if ( $group_text )
+                    $group_text = " AND ( $group_text )";
+                else
+                    $group_text = "AND PriceID='$priceid'";
+            }
+            else
+            {
+                $group_text = "AND PriceID='$priceid'";
+            }
+
+            $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
+                                       WHERE ProductID='$productid' $group_text
+                                         AND OptionID='$optionid' ORDER BY Price DESC" );
+            if ( count( $array ) > 0 )
+                return $array[0][$db->fieldName("Price")];
+            else
+            {
+                $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
+                                           WHERE OptionID='$optionid' ORDER BY Price DESC" );
+                if ( count( $array ) > 0 )
+                    return $array[0][$db->fieldName("Price")];
+            }
+        }
+        else
+        {
+            $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
+                                       WHERE OptionID='$optionid' ORDER BY Price DESC" );
+echo "SELECT Price FROM eZTrade_OptionValue
+                                       WHERE OptionID='$optionid' ORDER BY Price DESC";
+            if ( count( $array ) > 0 )
+                return $array[0][$db->fieldName("Price")];
+        }
+        return false;
+    }
+
     /*!
       Returns the price of a product according to it's price group, option and value type.
     */
@@ -226,29 +337,35 @@ class eZPriceGroup
     {
         $db =& eZDB::globalDatabase();
         
-        if ( is_array( $priceid ) )
+        $ini =& INIFile::globalINI();
+        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
+
+        if ( $ShowPriceGroups == true )
         {
-            $first = true;
-            foreach( $priceid as $group )
+            if ( is_array( $priceid ) )
             {
-                $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
-                $first = false;
+                $first = true;
+                foreach( $priceid as $group )
+                {
+                    $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
+                    $first = false;
+                }
+                if ( $group_text )
+                    $group_text = " AND ( $group_text )";
+                else
+                    $group_text = "AND PriceID='$priceid'";
             }
-            if ( $group_text )
-                $group_text = " AND ( $group_text )";
             else
+            {
                 $group_text = "AND PriceID='$priceid'";
+            }
+
+            $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
+                                       WHERE ProductID='$productid' $group_text
+                                         AND OptionID='$optionid' AND ValueID='$valueid' ORDER BY Price" );
+            if ( count( $array ) == 1 )
+                return $array[0][$db->fieldName("Price")];
         }
-        else
-        {
-            $group_text = "AND PriceID='$priceid'";
-        }
-        
-        $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
-                                   WHERE ProductID='$productid' $group_text
-                                     AND OptionID='$optionid' AND ValueID='$valueid' ORDER BY Price" );
-        if ( count( $array ) == 1 )
-            return $array[0][$db->fieldName("Price")];
         return false;
     }
 

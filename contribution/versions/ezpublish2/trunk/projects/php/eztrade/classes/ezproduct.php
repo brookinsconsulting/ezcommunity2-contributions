@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.89 2001/09/14 12:29:11 ce Exp $
+// $Id: ezproduct.php,v 1.90 2001/09/14 12:48:14 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -385,6 +385,88 @@ class eZProduct
     }    
 
     /*!
+      Returns the correct price range of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function &correctPriceRange( &$inUser, $calcVAT )
+    {
+        if ( get_class( $inUser ) != "ezuser" )
+        {
+            $UserID = $inUser;
+            $inUser = new eZUser( $UserID );
+        }
+        
+        if ( get_class( $inUser ) == "ezuser" )
+        {
+            $groups = $inUser->groups( true );
+
+            $options = $this->options();
+
+            $lowPrice = "";
+            $maxPrice = "";
+
+            foreach ( $options as $option )
+            {
+                $tmpLowPrice = eZPriceGroup::lowestPrice( $this->ID, $groups, $option->id() );
+                $tmpMaxPrice = eZPriceGroup::highestPrice( $this->ID, $groups, $option->id() );
+
+                if ( $tmpLowPrice < $lowPrice or $lowPrice == "" )
+                {
+                    $lowPrice = $tmpLowPrice;
+                }
+                
+                if ( $tmpMaxPrice > $maxPrice or $maxPrice == "" )
+                {
+                    $maxPrice = $tmpMaxPrice;
+                }
+            }
+        }
+        
+        if ( empty( $lowPrice ) )
+        {
+            $lowPrice = $this->Price;
+        }
+        else
+        {
+            $lowPrice += $this->correctPrice( $inUser, $calcVAT );
+        }
+        
+        if ( empty( $maxPrice ) )
+        {
+            $maxPrice = $this->Price;
+        }
+        else
+        {
+            $maxPrice += $this->correctPrice( $inUser, $calcVAT );
+        }
+        
+        if ( $calcVAT == true )
+        {
+            if ( $this->excludedVAT() )
+            {
+                $tmpLow = $this->priceIncVAT( $lowPrice );
+                $tmpMax = $this->priceIncVAT( $maxPrice );
+                $lowPrice = $tmpLow["Price"];
+                $maxPrice = $tmpMax["Price"];
+            }
+        }
+        else
+        {
+            if ( $this->includesVAT() )
+            {
+                $lowPrice = $this->priceExVAT( $lowPrice );
+                $maxPrice = $this->priceExVAT( $maxPrice );
+            }
+
+        }
+        
+        $price["max"] = $maxPrice;
+        $price["min"] = $lowPrice;
+        
+        return $price;
+    }    
+
+    /*!
       Returns the correct localized price of the product.
     */
     function &localePrice( $inLanguage, &$inUser, $calcVAT )
@@ -392,10 +474,25 @@ class eZProduct
         $locale = new eZLocale( $inLanguage );
         $currency = new eZCurrency();
 
-        $price = $this->correctPrice( $this->id(), $inUser );
-
-        $currency->setValue( $price );
-        return $locale->format( $currency );
+        if ( $this->hasOptions() )
+        {
+            $highCurrency = new eZCurrency();
+            $lowCurrency = new eZCurrency();
+            
+            $prices = $this->correctPriceRange( $inUser, $calcVAT );
+            
+            $highCurrency->setValue( $prices["max"] );
+            $lowCurrency->setValue( $prices["min"] );
+            
+            $returnString = $locale->format( $lowCurrency ) . " - " .$locale->format( $highCurrency );
+        }
+        else
+        {
+            $price = $this->correctPrice( $inUser, $calcVAT );
+            $currency->setValue( $price );
+            $returnString = $locale->format( $currency );
+        }
+        return $returnString;
     }    
 
     /*!
@@ -961,6 +1058,25 @@ class eZProduct
        }
        
        return $return_array;
+    }
+
+    /*!
+      Returns true if the product has options.
+    */
+    function hasOptions()
+    {
+       $return_value = false;
+       $option_array = array();
+       $db =& eZDB::globalDatabase();
+       
+       $db->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
+
+       if ( count( $option_array ) > 0 )
+       {
+           $return_value = true;
+       }
+       
+       return $return_value;
     }
 
     /*!

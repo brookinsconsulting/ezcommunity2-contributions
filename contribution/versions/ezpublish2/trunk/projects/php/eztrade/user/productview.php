@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.60 2001/09/07 11:13:39 ce Exp $
+// $Id: productview.php,v 1.61 2001/09/14 12:48:14 pkej Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -40,7 +40,7 @@ $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "tr
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 $PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" ) == "true";
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 $locale = new eZLocale( $Language );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
@@ -344,41 +344,12 @@ foreach ( $options as $option )
             if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
                  $ShowPrice and $product->showPrice() == true  )
             {
-                $found_price = false;
-                if ( $ShowPriceGroups and $PriceGroup > 0 )
-                {
-                    $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
-                                                     $option->id(), $value->id() );
-                    $priceIncVAT = $product->priceIncVAT( $price );
-                    $priceIncVAT = $price + $priceIncVAT["VAT"];
 
-                    if ( $price )
-                    {
-                        $found_price = true;
+                $price = new eZCurrency( $value->correctPrice( $user, $PricesIncludeVAT,
+                    $product->includesVAT(), $product->vatPercentage(), $product->id() ) );
 
-                        $price = new eZCurrency( $price );
-                        $priceIncVAT = new eZCurrency( $priceIncVAT );
-                    }
-                }
-                if ( !$found_price )
-                {
-                    $price = new eZCurrency( $value->price() );
-                    $valuePrice = $value->price();
-                    $priceIncVAT = $valuePrice + $product->addVAT( $valuePrice );
-                    $priceIncVAT = new eZCurrency( $priceIncVAT );
-
-                }
-
-
-                if ( $price->value() == 0 )
-                    $t->set_var( "value_price", "" );
-                else
-                {
-                    if ( $PricesIncludeVAT == "enabled" )
-                        $t->set_var( "value_price", $locale->format( $priceIncVAT ) );
-                    else
-                        $t->set_var( "value_price", $locale->format( $price ) );
-                }
+                $t->set_var( "value_price", $value->localePrice( $Language, $user, $PricesIncludeVAT,
+                    $product->includesVAT(), $product->vatPercentage(), $product->id() ) );
 
                 $t->parse( "value_price_item", "value_price_item_tpl" );
 
@@ -556,55 +527,64 @@ $t->set_var( "add_to_cart", "" );
 if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
      $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
 {
-    $found_price = false;
-    if ( $ShowPriceGroups and $PriceGroup > 0 )
-    {
-        $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-        $priceIncVAT = $price + $product->addVAT( $price );
-        if ( $price )
-        {
-            $found_price = true;
-            $price = new eZCurrency( $price );
-            $priceIncVAT = new eZCurrency( $priceIncVAT );
-        }
-    }
-    if ( !$found_price )
-    {
-        $price = new eZCurrency( $product->price() );
-        $priceIncVAT = $product->price() + $product->addVAT( $product->price() );
-        $priceIncVAT = new eZCurrency( $priceIncVAT );
-    }
 
-    if ( $PricesIncludeVAT == "enabled" )
-        $t->set_var( "product_price", $locale->format( $priceIncVAT ) );
-    else
-        $t->set_var( "product_price", $locale->format( $price ) );
+    $t->set_var( "product_price", $product->localePrice( $Language, $user, $PricesIncludeVAT ) );
 
-
+    $price = new eZCurrency( $product->correctPrice( $user, $PricesIncludeVAT ) );
     // show alternative currencies
 
     $currency = new eZProductCurrency( );
     $currencies =& $currency->getAll();
 
-    foreach ( $currencies as $currency )
+    if ( $product->hasOptions() )
     {
-        $altPrice = $price;
-        $altPrice->setValue( $price->value() * $currency->value() );
+        $priceRange = $product->correctPriceRange( $user, $PricesIncludeVAT );
 
-        $locale->setSymbol( $currency->sign() );
-
-        if ( $currency->prefixSign() )
+        foreach ( $currencies as $currency )
         {
-            $locale->setPrefixSymbol( true );
+            $altMinPrice = $price;
+            $altMaxPrice = $price;
+
+            $altMinPrice->setValue( $priceRange["min"] * $currency->value() );
+            $altMaxPrice->setValue( $priceRange["max"] * $currency->value() );
+
+            $locale->setSymbol( $currency->sign() );
+
+            if ( $currency->prefixSign() )
+            {
+                $locale->setPrefixSymbol( true );
+            }
+            else
+            {
+                $locale->setPrefixSymbol( false );
+            }
+            
+            $t->set_var( "alt_price", $locale->format( $altMinPrice ) . " - " . $locale->format( $altMaxPrice ) );
+            $t->parse( "alternative_currency", "alternative_currency_tpl", true );
         }
-        else
+    }
+    else
+    {
+        foreach ( $currencies as $currency )
         {
-            $locale->setPrefixSymbol( false );
+            $altPrice = $price;
+            $altPrice->setValue( $price->value() * $currency->value() );
+
+            $locale->setSymbol( $currency->sign() );
+
+            if ( $currency->prefixSign() )
+            {
+                $locale->setPrefixSymbol( true );
+            }
+            else
+            {
+                $locale->setPrefixSymbol( false );
+            }
+
+            $t->set_var( "alt_price", $locale->format( $altPrice ) );
+
+            $t->parse( "alternative_currency", "alternative_currency_tpl", true );
         }
-
-        $t->set_var( "alt_price", $locale->format( $altPrice ) );
-
-        $t->parse( "alternative_currency", "alternative_currency_tpl", true );
     }
 
     if ( count( $currencies ) > 0 )
