@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: siteconfig.php,v 1.4 2001/07/29 23:31:10 kaid Exp $
+// $Id: siteconfig.php,v 1.5 2001/11/01 19:23:01 bf Exp $
 //
 // Created on: <12-Jul-2001 10:45:55 bf>
 //
@@ -31,7 +31,11 @@ include_once( "classes/ezfile.php" );
 
 if ( isset( $Store ) )
 {
-    $fp = eZFile::fopen( "site.ini", "w+");
+    if ( eZFile::file_exists( "site.ini" ) )
+        $fp = eZFile::fopen( "site.ini", "w+");
+    else
+        $fp = eZFile::fopen( "site.ini.php", "w+");
+    
     $Contents =& str_replace ("\r", "", $Contents );
     fwrite ( $fp, $Contents );
     fclose( $fp );
@@ -47,7 +51,11 @@ $t->setAllStrings();
 
 $t->set_file( "site_config_tpl", "siteconfig.tpl" );
 
-$lines = file( "site.ini" );
+if ( eZFile::file_exists( "site.ini" ) )
+    $lines = file( "site.ini" );
+else
+    $lines = file( "site.ini.php" );
+
 $contents = "";
 foreach ( $lines as $line )
 {
