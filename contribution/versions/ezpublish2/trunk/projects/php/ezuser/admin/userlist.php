@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.19 2001/02/01 13:03:04 th Exp $
+// $Id: userlist.php,v 1.20 2001/02/06 12:46:03 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -46,6 +46,8 @@ $t->set_file( array(
 
 
 $t->set_block( "user_list_page", "user_item_tpl", "user_item" );
+$t->set_block( "user_item_tpl", "user_email_item_tpl", "user_email_item" );
+$t->set_block( "user_item_tpl", "user_empty_email_item_tpl", "user_empty_email_item" );
 
 $t->set_block( "user_list_page", "group_item_tpl", "group_item" );
 
@@ -75,6 +77,9 @@ else
     $i=0;
     foreach( $userList as $userItem )
     {
+        $t->set_var( "user_email_item", "" );
+        $t->set_var( "user_empty_email_item", "" );
+
         if ( ( $i %2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
@@ -83,6 +88,16 @@ else
         $t->set_var( "first_name", $userItem->firstName() );
         $t->set_var( "last_name", $userItem->lastName() );
         $t->set_var( "login_name", $userItem->login() );
+        $email = $userItem->email();
+        if ( empty( $email ) )
+        {
+            $t->parse( "user_empty_email_item", "user_empty_email_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "email", $email );
+            $t->parse( "user_email_item", "user_email_item_tpl" );
+        }
         $t->set_var( "email", $userItem->email() );
         $t->set_var( "user_id", $userItem->id() );
         

@@ -46,9 +46,16 @@
 	{first_name} {last_name}
 	</td>
 
+	<!-- BEGIN user_email_item_tpl -->
 	<td class="{td_class}">
 	{email}
 	</td>
+	<!-- END user_email_item_tpl -->
+	<!-- BEGIN user_empty_email_item_tpl -->
+	<td class="{td_class}">
+	&nbsp;
+	</td>
+	<!-- END user_empty_email_item_tpl -->
 
 	<td class="{td_class}">
 	{login_name}
