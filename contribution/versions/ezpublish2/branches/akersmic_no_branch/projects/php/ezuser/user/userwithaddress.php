@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75.2.1 2001/11/01 13:05:52 ce Exp $
+// $Id: userwithaddress.php,v 1.75.2.1.4.1 2002/01/23 08:35:42 bf Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -24,7 +24,7 @@
 //
 
 
-require( "ezuser/user/usercheck.php" );
+//require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
