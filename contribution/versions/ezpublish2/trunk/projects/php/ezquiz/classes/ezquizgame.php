@@ -1,0 +1,293 @@
+<?
+// 
+// $Id: ezquizgame.php,v 1.1 2001/05/25 12:54:42 ce Exp $
+//
+// ezquizgame class
+//
+// Christoffer A. Elo <ce@ez.no>
+// Created on: <22-May-2001 13:45:37 ce>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+//!! ezquizgame
+//! ezquizgame documentation.
+/*!
+
+  Example code:
+  \code
+  \endcode
+
+*/
+
+include_once( "classes/ezdate.php" );
+include_once( "ezquiz/classes/ezquizquestion.php" );
+	      
+class eZQuizGame
+{
+
+    /*!
+      Constructs a new eZQuizGame object.
+
+      If $id is set the object's values are fetched from the
+      database.
+    */
+    function eZQuizGame( $id=-1, $fetch=true )
+    {
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                $this->get( $this->ID );
+            }
+        }
+    }
+
+    /*!
+      Stores a eZQuizGame object to the database.
+    */
+    function store()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $name =& addslashes( $this->Name );
+        $description =& addslashes( $this->Description );
+        $startDate =& $this->StartDate->mySQLDate();
+        $stopDate =& $this->StopDate->mySQLDate();
+        
+        if ( !isset( $this->ID ) )
+        {
+            $db->query( "INSERT INTO eZQuiz_Game SET
+                                     Name='$name',
+                                     Description='$description',
+                                     StartDate='$startDate',
+                                     StopDate='$stopDate'
+                                     " );
+
+			$this->ID = $db->insertID();
+        }
+        elseif ( is_numeric( $this->ID ) )
+        {
+            $db->query( "UPDATE eZQuiz_Game SET
+                                     Name='$name',
+                                     Description='$description',
+                                     StartDate='$startDate',
+                                     StopDate='$stopDate'
+                                     WHERE ID='$this->ID'" );
+        }
+        return true;
+    }
+
+    /*!
+      Deletes a eZQuizGame object from the database.
+    */
+    function delete( $catID=-1 )
+    {
+        if ( $catID == -1 )
+            $catID = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+
+        $db->query( "DELETE FROM eZQuiz_Game WHERE ID='$this->ID'" );
+    }
+
+    /*!
+      Fetches the object information from the database.
+
+      True is retuned if successful, false (0) if not.
+    */
+    function get( $id=-1 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = false;
+        if ( $id != "" )
+        {
+            $db->array_query( $quizArray, "SELECT * FROM eZQuiz_Game WHERE ID='$id'",
+                              0, 1 );
+            if( count( $quizArray ) == 1 )
+            {
+                $this->fill( &$quizArray[0] );
+                $ret = true;
+            }
+            elseif( count( $quizArray ) == 1 )
+            {
+                $this->ID = 0;
+            }
+        }
+        return $ret;
+    }
+
+    /*!
+      Fills in information to the object taken from the array.
+    */
+    function fill( &$quizArray )
+    {
+        $this->ID =& $quizArray[ "ID" ];
+        $this->Name =& $quizArray[ "Name" ];
+        $this->Description =& $quizArray[ "Description" ];
+        $this->StartDate = new eZDate();
+        $this->StartDate->setMySQLDate( $quizArray[ "StartDate" ] );
+        $this->StopDate = new eZDate();
+        $this->StopDate->setMySQLDate( $quizArray[ "StopDate" ] );
+    }
+
+    /*!
+      Returns all the categories found in the database.
+
+      The categories are returned as an array of eZQuizGame objects.
+    */
+    function getAll( $offset=0, $limit=20)
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $quizArray = array();
+        
+        $db->array_query( $quizArray, "SELECT ID
+                                           FROM eZQuiz_Game
+                                           ORDER BY StartDate DESC
+                                           LIMIT $offset, $limit" );
+        
+        for ( $i=0; $i < count($quizArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+
+    /*!
+      Returns the total count.
+     */
+    function count()
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+
+        $db->query_single( $result, "SELECT COUNT(ID) as Count
+                                     FROM eZQuiz_Game" );
+        $ret = $result["Count"];
+        return $ret;
+    }
+
+    /*!
+      Returns the object ID to the game. This is the unique ID stored in the database.
+    */
+    function id()
+    {
+        return $this->ID;
+    }
+
+    /*!
+      Returns the name of the game.
+    */
+    function name()
+    {
+        return htmlspecialchars( $this->Name );
+    }
+
+    /*!
+      Returns the description of the game.
+    */
+    function description()
+    {
+        return htmlspecialchars( $this->Description );
+    }
+
+    /*!
+      Returns the start date of the game.
+    */
+    function startDate()
+    {
+        return $this->Date;
+    }
+
+    /*!
+      Returns the stop date of the game.
+    */
+    function stopDate()
+    {
+        return $this->Date;
+    }
+
+    /*!
+      Sets the login.
+    */
+    function setName( &$value )
+    {
+       $this->Name = $value;
+    }
+
+    /*!
+      Sets the description.
+    */
+    function setDescription( &$value )
+    {
+        $this->Description = $value;
+    }
+
+    /*!
+      Sets the start date for the game.
+    */
+    function setStartDate( &$date )
+    {
+        if ( get_class ( $date ) == "ezdate" )
+            $this->StartDate = $date;
+    }
+
+    /*!
+      Sets the start date for the game.
+    */
+    function setStopDate( &$date )
+    {
+        if ( get_class ( $date ) == "ezdate" )
+            $this->StopDate = $date;
+    }
+
+    /*!
+      Returns every questions to this quiz game
+      The questions is returned as an array of eZQuizQuestion objects.
+    */
+    function questions()
+    {
+        $returnArray = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID'" );
+
+       for ( $i=0; $i < count($questionArray); $i++ )
+       {
+           $returnArray[$i] = new eZQuizQuestion( $questionArray[$i]["ID"], true );
+       }
+       return $returnArray;
+    }
+    
+
+    var $ID;
+    var $Name;
+    var $Description;
+    var $StartDate;
+    var $StopDate;
+}
+
+?>
