@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1.2.7 2003/07/22 07:57:59 br Exp $
+// $Id: cron.php,v 1.1.2.8 2003/09/04 14:33:03 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -60,7 +60,7 @@ while ( count( $newelements ) > 0 )
     {
         $browser = array();
         $db->array_query( $browser, "SELECT BrowserType FROM eZStats_BrowserType WHERE ID='" . $element[$db->fieldName("BrowserTypeID")] . "'" );
-        $browsername = $browser[0][$db->fieldName("BrowserType")];
+        $browsername = $db->escapeString( $browser[0][$db->fieldName("BrowserType")] );
         $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_BrowserType WHERE Browser='" . $browsername . "'");
 
         if ( count( $oldelements ) == 0 )
@@ -96,7 +96,7 @@ while ( count( $newelements ) > 0 )
     {
         $request = array();
         $db->array_query( $request, "SELECT URI FROM eZStats_RequestPage WHERE ID=" . $element[$db->fieldName("RequestPageID")] );
-        $requestname = $request[0][$db->fieldName("URI")];
+        $requestname = $db->escapeString( $request[0][$db->fieldName("URI")] );
         $date = new eZDateTime();
         $date->setTimeStamp( $element[$db->fieldName("Date")] );
         $month = new eZDateTime( $date->year(), $date->month() );
@@ -136,8 +136,8 @@ while ( count( $newelements ) > 0 )
         $refer = array();
         $db->array_query( $refer, "SELECT URI, Domain FROM eZStats_RefererURL WHERE ID=" . $element[$db->fieldName("RefererURLID")] );
 
-        $refername = $refer[0][$db->fieldName("URI")];
-        $domain = $refer[0][$db->fieldName("Domain")];
+        $refername = $db->escapeString( $refer[0][$db->fieldName("URI")] );
+        $domain = $db->escapeString( $refer[0][$db->fieldName("Domain")] );
     
         $date = new eZDateTime();
         $date->setTimeStamp( $element[$db->fieldName("Date")] );
@@ -181,8 +181,8 @@ while ( count( $newelements ) > 0 )
         $remote = array();
         $db->array_query( $remote, "SELECT IP, HostName FROM eZStats_RemoteHost WHERE ID=" . $element[$db->fieldName("RemoteHostID")] );
 
-        $remotename = $remote[0][$db->fieldName("IP")];
-        $hostname = $remote[0][$db->fieldName("HostName")];
+        $remotename = $db->escapeString( $remote[0][$db->fieldName("IP")] );
+        $hostname = $db->escapeString( $remote[0][$db->fieldName("HostName")] );
 
         $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RemoteHost WHERE IP='$remotename' AND HostName='$hostname'" );
     
@@ -190,13 +190,16 @@ while ( count( $newelements ) > 0 )
         {
             $remote_host_id = $element[$db->fieldName( "RemoteHostID" )];
             $db->array_query( $remote_host, "SELECT * FROM eZStats_RemoteHost WHERE ID='$remote_host_id'" );
+
+            $remoteHostIP = $db->escapeString( $remote_host[0][$db->fieldName( "IP" )] );
+            $remoteHostName = $db->escapeString( $remote_host[0][$db->fieldName( "HostName" )] );
         
             $db->lock( "eZStats_Archive_RemoteHost" );
             $nextid = $db->nextID( "eZStats_Archive_RemoteHost", "ID" );
         
             $res[] = $db->query( "INSERT INTO eZStats_Archive_RemoteHost (ID, IP, HostName, Count) VALUES ('$nextid', '" .
-                                 $remote_host[0][$db->fieldName( "IP" )] . "', '" . 
-                                 $remote_host[0][$db->fieldName( "HostName" )] . "', '1')" );
+                                  $remoteHostIP . "', '" . 
+                                  $remoteHostName . "', '1')" );
             $db->unlock();
         }
         else
@@ -217,7 +220,6 @@ $offset = 0;
 $newelements = array( "dummy" );
 while ( count( $newelements ) > 0 )
 {
-
     $db->array_query( $newelements, "SELECT Date, UserID FROM eZStats_PageView WHERE Date < " . $timestamp . " ORDER BY Date", array( "Limit" => $limit, "Offset" => $offset ) );
     $offset += $limit;
 
