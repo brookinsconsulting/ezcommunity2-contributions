@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.15 2001/02/26 16:24:12 fh Exp $
+// $Id: bugreport.php,v 1.16 2001/02/26 16:40:09 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -253,6 +253,8 @@ $t->set_var( "private_checked", "" );
 
 if( $Action == "Edit" ) // load values from database
 {
+        
+
     $bug = new eZBug( $BugID );
     $module = $bug->module();
     if( $module )
@@ -262,6 +264,13 @@ if( $Action == "Edit" ) // load values from database
     if( $category )
         $catName = $category->name();
 
+    $user = eZUser::currentUser();
+    if( $user )
+        $t->set_var( "usr_email", "" );
+    else
+        $t->set_var( "usr_email", $bug->userEmail() );
+
+    
     $t->set_var( "description_value", $bug->description() );
     $t->set_var( "title_value", $bug->name() );
 

@@ -40,13 +40,13 @@
 
 <!-- BEGIN email_address_tpl -->
 <p class="boxtext">{intl-email_address} ({intl-if_you_are_a registered_user_please_log_in}):</p>
-<input type="text" size="40" name="Email" />
+<input type="text" size="40" name="Email" value="{usr_email}/>
 <!-- END email_address_tpl -->
 
 <p class="boxtext">{intl-bug_description}:</p>
 <textarea name="Description" cols="40" rows="8" wrap="soft">{description_value}</textarea>
 <br /><br />
-  <input type="checkbox" name="IsPrivate" value="true" {private_checked}>&nbsp;{intl-private}</input>
+  <input type="checkbox" name="IsPrivate" value="true" {private_checked} />&nbsp;{intl-private}
 <br />
 
 
