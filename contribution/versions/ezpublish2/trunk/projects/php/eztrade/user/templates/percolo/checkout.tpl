@@ -66,13 +66,13 @@
 
 <tr>
 	<td colspan="3" rowspan="3" valign="top">
-	<div class="boxtext">{intl-shipping_method}:</div>
+	<div class="boxtext">Kundetype:</div>
 	<select name="ShippingTypeID">
 	<!-- BEGIN shipping_type_tpl -->
 	<option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
 	<!-- END shipping_type_tpl -->
 	</select>
-	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
+	<input class="stdbutton" type="submit" name="Recalculate" value="Regn ut fraktkostnad" />
 	</td>
 	<td align="right">
 	<span class="boxtext">{intl-shipping_charges}:</span>
