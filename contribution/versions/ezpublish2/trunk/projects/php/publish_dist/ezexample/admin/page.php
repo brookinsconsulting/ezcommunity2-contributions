@@ -1,4 +1,4 @@
-<h1>This is a eZ publish admin page</h1>
+<h1>This is an eZ publish admin page</h1>
 
 <form action="/example/page/" method="post">
 
