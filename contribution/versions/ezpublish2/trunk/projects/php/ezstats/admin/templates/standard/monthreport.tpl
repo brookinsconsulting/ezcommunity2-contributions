@@ -41,32 +41,36 @@
 
 <!-- BEGIN result_list_tpl -->
 
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
-	<b>{intl-total_page_views}</b>: {total_page_views}
+	<span class="boxtext">{intl-total_page_views}:</span> {total_page_views}
+	</td>
+	<td align="right">
+	<span class="boxtext">{intl-pages_pr_day}:</span> {pages_pr_day}
 	</td>
 </tr>
 <tr>
-	<td>
-	<b>{intl-pages_pr_day}</b>: {pages_pr_day}
+	<td colspan="2">
+	{month}
 	</td>
 </tr>
-<tr>
-{month}
-</tr>
+</table>
+
 <!-- BEGIN day_tpl -->
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="50%">
 		<!-- BEGIN day_link_tpl -->
-		<b>{intl-day}:</b> <a href="/stats/dayreport/{this_year}/{this_month}/{current_day}">{current_day}</a>
+		<span class="path"><a href="/stats/dayreport/{this_year}/{this_month}/{current_day}">{intl-day}: {current_day}</a></span>
 		<!-- END day_link_tpl -->
 		<!-- BEGIN no_day_link_tpl -->
-		<b>{intl-day}:</b> {current_day}
+		{intl-day}: {current_day}
 		<!-- END no_day_link_tpl -->
 		</td>
 		<td align="right">
@@ -93,47 +97,43 @@
 	</tr>
 	</table>
 	</td>
-<tr>
+</tr>
+</table>
 <!-- END day_tpl -->
 
-<tr>
-	<td>
 <!-- BEGIN month_tpl -->
-<table>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<!-- BEGIN month_previous_tpl -->
-	<td>
-	<a href="/stats/monthreport/{previous_year}/{previous_month}">{intl-previous}</a>
+	<td width="40%">
+	<a class="path" href="/stats/monthreport/{previous_year}/{previous_month}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END month_previous_tpl -->
 	
 	<!-- BEGIN month_previous_inactive_tpl -->
-	<td>
-	{intl-previous}
+	<td width="40%">
+	&nbsp;
 	</td>
 	<!-- END month_previous_inactive_tpl -->
 
+	<td width="20%" align="center">
+	<a class="path" href="/stats/yearreport/{this_year}">[ {intl-year_report} ]</a>
+	</td>
+
 	<!-- BEGIN month_next_tpl -->
-	<td>
-	<a href="/stats/monthreport/{next_year}/{next_month}">{intl-next}</a>
+	<td width="40%" align="right">
+	<a class="path" href="/stats/monthreport/{next_year}/{next_month}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END month_next_tpl -->
 
 	<!-- BEGIN month_next_inactive_tpl -->
-	<td>
-	{intl-next}
+	<td width="40%">
+	&nbsp;
 	</td>
 	<!-- END month_next_inactive_tpl -->
 
-	<td>
-	<a href="/stats/yearreport/{this_year}">{intl-year_report}</a>
-	</td>
 </tr>
 </table>
 <!-- END month_tpl -->
-	</td>
-</tr>
-
-</table>
 
 <!-- END result_list_tpl -->

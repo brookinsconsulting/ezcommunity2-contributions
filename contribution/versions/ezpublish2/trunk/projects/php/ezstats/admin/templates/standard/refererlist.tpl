@@ -18,7 +18,7 @@
 
 <!-- BEGIN referer_list_tpl -->
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
 	<th>
 	{intl-referer_domain}:
@@ -26,9 +26,9 @@
 	<th>
 	{intl-referer_uri}:
 	</th>
-	<th>
-	{intl-page_view_count}:
-	</th>
+	<td align="right">
+	<b>{intl-page_view_count}:</b>
+	</td>
 </tr>
 <!-- BEGIN referer_tpl -->
 <tr class="{bg_color}">
@@ -39,40 +39,38 @@
 	<td>
 	{referer_uri}
 	</td>
-	<td>
+	<td align="right">
 	{page_view_count}
 	</td>
 </tr>
 <!-- END referer_tpl -->
 
-<tr>
-	<td colspan="3">
 <!-- BEGIN type_list_tpl -->
-<table>
+<table border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a href="/stats/refererlist/top/{item_limit}/{item_previous_index}/{exclude_domain}">{intl-previous}</a>
+	<a class="path" href="/stats/refererlist/top/{item_limit}/{item_previous_index}/{exclude_domain}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END type_list_previous_tpl -->
 
 	<!-- BEGIN type_list_previous_inactive_tpl -->
-	<td>
-	{intl-previous}
-	</td>
+	<td>&nbsp;</td>
 	<!-- END type_list_previous_inactive_tpl -->
 
 	<!-- BEGIN type_list_item_list_tpl -->
 
 	<!-- BEGIN type_list_item_tpl -->
+	<td>&nbsp;|&nbsp;</td>
 	<td>
-	<a href="/stats/refererlist/top/{item_limit}/{item_index}/{exclude_domain}">{type_item_name}</a>
+	<a class="path" href="/stats/refererlist/top/{item_limit}/{item_index}/{exclude_domain}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>&nbsp;|&nbsp;</td>
 	<td>
-	{type_item_name}
+	&lt;&nbsp;{type_item_name}&nbsp;&gt;
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 
@@ -80,23 +78,18 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	<a href="/stats/refererlist/top/{item_limit}/{item_next_index}/{exclude_domain}">{intl-next}</a>
+	| <a class="path" href="/stats/refererlist/top/{item_limit}/{item_next_index}/{exclude_domain}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
 	<!-- BEGIN type_list_next_inactive_tpl -->
-	<td>
-	{intl-next}
-	</td>
+	<td>&nbsp;</td>
 	<!-- END type_list_next_inactive_tpl -->
 
 </tr>
 </table>
 <!-- END type_list_tpl -->
-	</td>
-</tr>
 
-</table>
 
 
 <!-- END referer_list_tpl -->

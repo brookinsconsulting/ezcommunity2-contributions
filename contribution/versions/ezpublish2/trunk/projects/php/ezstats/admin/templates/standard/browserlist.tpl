@@ -11,7 +11,7 @@
 
 <!-- BEGIN browser_list_tpl -->
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
 	<th>
 	{intl-browser_name}:
@@ -36,35 +36,34 @@
 	</td>
 </tr>
 <!-- END browser_tpl -->
+</table>
 
-<tr>
-	<td colspan="3">
 <!-- BEGIN type_list_tpl -->
-<table>
+<table border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a href="/stats/browserlist/top/{item_limit}/{item_previous_index}">{intl-previous}</a>
+	<a class="path" href="/stats/browserlist/top/{item_limit}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END type_list_previous_tpl -->
 
 	<!-- BEGIN type_list_previous_inactive_tpl -->
-	<td>
-	{intl-previous}
-	</td>
+	<td>&nbsp;</td>
 	<!-- END type_list_previous_inactive_tpl -->
 
 	<!-- BEGIN type_list_item_list_tpl -->
 
 	<!-- BEGIN type_list_item_tpl -->
+	<td>&nbsp;|&nbsp;</td>
 	<td>
-	<a href="/stats/browserlist/top/{item_limit}/{item_index}">{type_item_name}</a>
+	<a class="path" href="/stats/browserlist/top/{item_limit}/{item_index}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>&nbsp;|&nbsp;</td>
 	<td>
-	{type_item_name}
+	&lt;&nbsp;{type_item_name}&nbsp;&gt;
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 
@@ -72,23 +71,17 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	<a href="/stats/browserlist/top/{item_limit}/{item_next_index}">{intl-next}</a>
+	| <a class="path" href="/stats/browserlist/top/{item_limit}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
 	<!-- BEGIN type_list_next_inactive_tpl -->
-	<td>
-	{intl-next}
-	</td>
+	<td>&nbsp;</td>
 	<!-- END type_list_next_inactive_tpl -->
 
 </tr>
 </table>
 <!-- END type_list_tpl -->
-	</td>
-</tr>
-
-</table>
 
 
 <!-- END browser_list_tpl -->
