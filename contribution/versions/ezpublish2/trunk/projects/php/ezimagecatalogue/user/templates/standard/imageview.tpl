@@ -11,9 +11,10 @@
 	</td>
 </tr>
 <tr>
-        <td class="pictext">{image_description}</td>
+        <td class="pictext">{image_caption}</td>
 </tr>
 </table>
+<p>{image_description}</p>
 
 <br />
 
