@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucheredit.php,v 1.2 2001/09/07 09:54:44 ce Exp $
+// $Id: voucheredit.php,v 1.3 2001/09/24 10:19:15 ce Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -45,9 +45,12 @@ include_once( "eztrade/classes/ezvoucher.php" );
 if ( ( $Action == "Update" ) || ( isset ( $Update ) ) )
 {
     $voucher = new eZVoucher( $VoucherID );
-    $voucher->setPrice( $Name );
 
-    if ( $isAvailable == "on" )
+    setType( $Price, "integer" );
+    
+    $voucher->setPrice( $Price );
+
+    if ( $Available == "on" )
         $voucher->setAvailable( true );
     else
         $voucher->setAvailable( false );
@@ -100,29 +103,40 @@ if ( $Action == "Edit" )
     $usedList = $voucher->usedList();
 
     $count = count ( $usedList );
-    $i = 0;
 
-    if ( $voucher->mailMethod() == 1 )
+    $voucherInfo =& $voucher->information();
+
+    if ( $voucherInfo->mailMethod() == 1 )
     {
-        $mail =& $voucher->email();
-        $email =& $mail->email();
-        $t->set_var( "sent_email", $email->url() );
-        $t->set_var( "sent_description", $mail->description() );
+        $mail =& $voucherInfo->online();
+        $t->set_var( "sent_email", $mail->url() );
+        $t->set_var( "sent_description", $voucherInfo->description() );
     }
-    else if ( $voucher->mailMethod() == 2 )
+    else if ( $voucherInfo->mailMethod() == 2 )
     {
         
     }
-    
+
+    if ( $voucher->isAvailable() )
+        $t->set_var( "is_checked", "checked" );
+    else
+        $t->set_var( "is_checked", "" );
+
+    $i=0;
     foreach ( $usedList as $used )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+
         $currency->setValue( $used->price() );
         $t->set_var( "used_price", $locale->format( $currency ) );
         $t->set_var( "used_used", $locale->format( $used->used() ) );
 
         $order = $used->order();
 
-        $t->set_var( "used_order_id", $order->id() );
+        $t->set_var( "voucher_order_id", $order->id() );
         $t->parse( "used_item", "used_item_tpl", true );
         $i++;
     }

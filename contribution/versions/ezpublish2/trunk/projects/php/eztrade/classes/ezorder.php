@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.54 2001/09/21 15:10:55 bf Exp $
+// $Id: ezorder.php,v 1.55 2001/09/24 10:19:15 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -277,7 +277,116 @@ class eZOrder
     }
 
     /*!
+      Fetch all the orders for the currenct user.
+
+      Note: Default limit is 40.
     */
+    function getByUser( $offset=0, $limit=40, $OrderBy = "Date", $user=false )
+    {
+        switch ( strtolower( $OrderBy ) )
+        {
+            case "no":
+            {
+                $OrderBy = "ID";
+                break;
+            }
+            case "created":
+            {
+                $OrderBy = "Date";
+                break;
+            }
+            case "modified":
+            {
+                $OrderBy = "Altered";
+                break;
+            }
+            case "status":
+            {
+                $OrderBy = "StatusID";
+                break;
+            }
+            default:
+            {
+                $OrderBy = "Date";
+                break;
+            }
+        }
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $order_array = array();
+
+        $userID = $user->id();
+
+        $db->array_query( $order_array,
+                          "SELECT eZTrade_Order.ID as ID,
+                           eZTrade_Order.Date as Date,
+                           max( eZTrade_OrderStatus.Altered ) as Altered,
+                           max( eZTrade_OrderStatus.StatusID ) as StatusID
+                           FROM eZTrade_Order, eZTrade_OrderStatus
+                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND UserID='$userID'
+                           GROUP BY eZTrade_Order.ID, eZTrade_Order.Date
+                           ORDER BY $OrderBy",
+                           array( "Limit" => $limit, "Offset" => $offset ) );
+
+        for ( $i = 0; $i < count( $order_array ); $i++ )
+        {
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
+        }
+
+        return $return_array;
+    }
+
+        /*!
+      Fetch all the orders for the currenct user.
+
+      Note: Default limit is 40.
+    */
+    function getCountByUser( $user=false )
+    {
+        switch ( strtolower( $OrderBy ) )
+        {
+            case "no":
+            {
+                $OrderBy = "ID";
+                break;
+            }
+            case "created":
+            {
+                $OrderBy = "Date";
+                break;
+            }
+            case "modified":
+            {
+                $OrderBy = "Altered";
+                break;
+            }
+            case "status":
+            {
+                $OrderBy = "StatusID";
+                break;
+            }
+            default:
+            {
+                $OrderBy = "Date";
+                break;
+            }
+        }
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $order_array = array();
+
+        $userID = $user->id();
+
+        $db->query_single( $res,
+                          "SELECT COUNT(eZTrade_Order.ID) as Count
+                           FROM eZTrade_Order, eZTrade_OrderStatus
+                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND UserID='$userID'" );
+
+        return $res["Count"];
+    }
+
     function getByContact( $contact, $is_person = true, $offset = 0, $limit = 40 )
     {
         $db =& eZDB::globalDatabase();
@@ -870,6 +979,24 @@ class eZOrder
        }
 
        return $retPrice;       
+    }
+
+    /*!
+      Returns true if the user is the owner of this order.
+    */
+    function isOwner( &$user )
+    {
+       $db =& eZDB::globalDatabase();
+
+       $userID = $user->id();
+       $ret = false;
+       $db->query_single( $res, "SELECT ID FROM
+                                                    eZTrade_Order
+                                                    WHERE ID='$this->ID' AND UserID='$userID'" );
+       if ( is_numeric ( $res["ID"] ) )
+            $ret = true;
+
+       return $ret;       
     }
 
 

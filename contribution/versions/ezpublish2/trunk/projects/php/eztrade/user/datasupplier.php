@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.48 2001/09/21 14:28:49 jhe Exp $
+// $Id: datasupplier.php,v 1.49 2001/09/24 10:19:16 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -215,6 +215,19 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "voucherview" :
+    {
+        include( "eztrade/user/voucherview.php" );
+    }
+    break;
+
+    case "orderview" :
+    {
+        $OrderID = $url_array[3];
+        include( "eztrade/user/orderview.php" );
+    }
+    break;
+
     case "findwishlist" :
     {
         include( "eztrade/user/findwishlist.php" );
@@ -268,6 +281,18 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "orderlist" :
+    {
+        if ( $url_array[3] != "" )
+            $Offset = $url_array[3];
+        else
+            $Offset = 0;
+        
+        include( "eztrade/user/orderlist.php" );
+    }
+    break;
+
+
     case "extendedsearch" :
     {
         $Limit = 10;
@@ -303,7 +328,10 @@ switch ( $url_array[2] )
 
         
     default :
-        print( "<h1>Sorry, Your Product page could not be found. </h1>" );
+    {
+        eZHTTPTool::header( "Location: /error/404" );
+        exit();
+    }
         break;
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.9 2001/09/21 09:53:02 ce Exp $
+// $Id: ezvoucher.php,v 1.10 2001/09/24 10:19:16 ce Exp $
 //
 // eZVoucher class
 //
@@ -46,8 +46,7 @@
 
 include_once( "classes/ezdate.php" );
 
-include_once( "eztrade/classes/ezvoucheremail.php" );
-include_once( "eztrade/classes/ezvouchersmail.php" );
+include_once( "eztrade/classes/ezvoucherinformation.php" );
 include_once( "eztrade/classes/ezvoucherused.php" );
 	      
 class eZVoucher
@@ -306,7 +305,7 @@ class eZVoucher
     /*!
       Returns true if the voucher is avaiable
     */
-    function available()
+    function isAvailable()
     {
         if ( $this->Available == 1 )
             return true;
@@ -320,7 +319,7 @@ class eZVoucher
     function setPrice( $value )
     {
        $this->Price = $value;
-       setType( $this->Price, "double" );
+       setType( $this->Price, "integer" );
     }
 
     /*!
@@ -403,18 +402,39 @@ class eZVoucher
     /*!
       Get a voucher from a key number.
     */
-    function getFromKeyNumber( &$key )
+    function getFromKeyNumber( &$key, $available=true )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
         if ( !$key )
             return false;
-        
-        $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key' AND Available='1'" );
+
+        if ( $available )
+            $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key' AND Available='1'" );
+        else
+            $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key'" );
 
         if ( $res["ID"] )
         {
             $ret = new eZVoucher( $res["ID"] );
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Return the voucher information.
+    */
+    function information( )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+        
+        $db->query_single( $res, "SELECT ID FROM eZTrade_VoucherInformation WHERE VoucherID='$this->ID'" );
+
+        if ( $res["ID"] )
+        {
+            $ret = new eZVoucherInformation( $res["ID"] );
         }
 
         return $ret;

@@ -1,14 +1,24 @@
-<form method="post" action="{www_dir}{index}/trade/voucheredit/">
+<form method="post" action="{www_dir}{index}/trade/voucherview/">
 
 <h1>{intl-voucher_edit}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<p class="boxtext">{intl-price}:</p>
-<input type="text" size="8" name="Price" value="{voucher_price}"/>
+{intl-key}: <input type="text" size="20" name="Key" value="{voucher_key}"/>&nbsp;
+<input class="stdbutton" type="submit" name="ViewVoucher" value="{intl-view_voucher}" />
 
-<p class="boxtext">{intl-available}:</p>
-<input type="checkbox"  name="Available"  {is_checked} "/>
+<br /><br />
+
+<!-- BEGIN error_tpl -->
+<p class="error"> {intl-error_message}</p>
+<!-- END error_tpl -->
+
+
+<!-- BEGIN view_voucher_tpl -->
+
+<p class="boxtext">{intl-price}:</p>
+{voucher_price}
+
 
 <p class="boxtext">{intl-created}:</p>
 {voucher_created}
@@ -25,7 +35,7 @@
 </tr>
 <tr>
         <td>
-	<p class="boxtext">{intl-receiver_description}:</p>
+	<p class="boxtext">{intl-description}:</p>
 	{sent_description}
         </td>
 </tr>
@@ -43,7 +53,7 @@
 	{intl-used_price}:
 	</th>
 	<th>
-	{intl-order}:
+	{intl-view_order}:
 	</th>
 </tr>
 <!-- BEGIN used_item_tpl -->
@@ -55,7 +65,7 @@
        {used_price}       
        </td>
        <td class="{td_class}">
-       <a href="/trade/orderedit/{voucher_order_id}/">{voucher_order_id}</a>       
+       <a href="/trade/orderview/{voucher_order_id}/">{voucher_order_id}</a>       
        </td>
 </tr>
 <!-- END used_item_tpl -->
@@ -66,10 +76,6 @@
 <hr noshade="noshade" size="4" />
 
 
-<input type="hidden" name="VoucherID" value="{voucher_id}" />
-<input type="hidden" name="Action" value="{action_value}" />
-
-<input class="okbutton" name="Ok" type="submit" value="{intl-ok}" />
-<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
+<!-- END view_voucher_tpl -->
 
 </form>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherlist.php,v 1.1 2001/09/12 09:45:20 ce Exp $
+// $Id: voucherlist.php,v 1.2 2001/09/24 10:19:15 ce Exp $
 //
 // Created on: <20-Dec-2000 18:18:28 bf>
 //
@@ -83,7 +83,7 @@ foreach ( $voucherlist as $voucherItem )
     $currency->setValue( $voucherItem->price() );
     $t->set_var( "voucher_price", $locale->format( $currency ) );
 
-    if ( $voucherItem->available() )
+    if ( $voucherItem->isAvailable() )
     {
         $t->set_var( "voucher_is_not_available", "" );
         $t->parse( "voucher_is_available", "voucher_is_available_tpl" );

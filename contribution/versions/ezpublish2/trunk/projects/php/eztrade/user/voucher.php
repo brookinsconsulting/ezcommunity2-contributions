@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucher.php,v 1.3 2001/09/21 09:53:02 ce Exp $
+// $Id: voucher.php,v 1.4 2001/09/24 10:19:16 ce Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -31,11 +31,28 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezcctool.php" );
 include_once( "eztrade/classes/ezvoucher.php" );
 
+if ( isSet ( $Back ) )
+{
+    eZHTTPTool::header( "Location: /trade/checkout/" );
+    exit();
+}
+
+
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 $session->setVariable( "PayWithVocuher", "" );
+
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/user/intl/", $Language, "voucher.php" );
+
+$t->set_file( "voucher_tpl", "voucher.tpl" );
+
+$t->setAllStrings();
+
+$t->set_block( "voucher_tpl", "error_tpl", "error" );
+$t->set_var( "error", "" );
 
 if ( $Action == "Verify" )
 {
@@ -57,15 +74,11 @@ if ( $Action == "Verify" )
         exit();
 
     }
+    
+    $t->parse( "error", "error_tpl" );
     $PaymentSuccess = "false";
 }
 
-$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/user/intl/", $Language, "voucher.php" );
-
-$t->set_file( "voucher_tpl", "voucher.tpl" );
-
-$t->setAllStrings();
 
 // $ChargeTotal is the value to charge the customer with
 
