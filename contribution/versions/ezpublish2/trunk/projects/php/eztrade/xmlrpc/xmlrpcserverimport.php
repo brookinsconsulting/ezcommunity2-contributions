@@ -903,6 +903,8 @@ function insert( $args )
         eZLog::writeNotice( "Product: Updated product " . $product->productNumber() . " to the database" );
     else
         eZLog::writeNotice( "Product: Added product " . $product->productNumber() . " to the database" );
+
+    system( "./clearcache.sh" );
     
     return new eZXMLRPCInt( $productID );
 }
