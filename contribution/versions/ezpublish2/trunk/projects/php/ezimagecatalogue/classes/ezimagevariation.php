@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.10 2001/01/22 14:43:01 jb Exp $
+// $Id: ezimagevariation.php,v 1.11 2001/02/02 12:27:20 ce Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -119,9 +119,30 @@ class eZImageVariation
     }
 
     /*!
+      Delete the eZImageVariation object from the database and the filesystem.
+    */
+    function delete()
+    {
+        // Delete from the database
+        $this->dbInit();
+
+        if ( isset( $this->ID ) )
+        {
+            $this->Database->query( "DELETE FROM eZImageCatalogue_ImageVariation WHERE ID='$this->ID'" );
+        }
+
+        // Delete from the filesystem
+        if ( file_exists ( $this->imagePath( true ) ) )
+        {
+            unlink( $this->imagePath( true ) );
+        }
+    }
+
+
+    /*!
       Fetches the object information from the database.
     */
-    function getByGroupAndImage( $groupID, $imageID )
+    function &getByGroupAndImage( $groupID, $imageID )
     {
         $this->dbInit();
         $ret = false;
@@ -246,7 +267,7 @@ class eZImageVariation
     /*!
       Returns the ImageID
     */
-    function imageID()
+    function &imageID()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -257,7 +278,7 @@ class eZImageVariation
     /*!
       Returns the VariationGroupID
     */
-    function variationGroupID()
+    function &variationGroupID()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -268,7 +289,7 @@ class eZImageVariation
     /*!
       Returns the variation path
     */
-    function imagePath()
+    function &imagePath()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -279,7 +300,7 @@ class eZImageVariation
     /*!
       Returns the image width
     */
-    function width()
+    function &width()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -290,7 +311,7 @@ class eZImageVariation
     /*!
       Returns the image height
     */
-    function height()
+    function &height()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.4 2001/01/26 09:25:01 ce Exp $
+// $Id: ezimagecategory.php,v 1.5 2001/02/02 12:27:20 ce Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -100,7 +100,6 @@ class eZImageCategory
 
     /*!
       Deletes a eZArticleGroup object from the database.
-
     */
     function delete( $catID=-1 )
     {
@@ -719,15 +718,23 @@ class eZImageCategory
             $this->dbInit();
 
             $imageID = $value->id();
+
             
-            $query = "INSERT INTO
-                           eZImageCatalogue_ImageCategoryLink
-                      SET
-                           CategoryID='$this->ID',
-                           ImageID='$imageID'";
+            $this->Database->array_query( $checkArray, "SELECT ImageID
+                                                        FROM eZImageCatalogue_ImageCategoryLink
+                                                        WHERE CategoryID='$this->ID'" );
+
+            if ( count ( $checkArray ) == 1 )
+            {
+                $query = "UPDATE eZImageCatalogue_ImageCategoryLink SET CategoryID='$this->ID' WHERE ImageID='$imageID'";
+            }
+            else
+            {
+                $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink SET CategoryID='$this->ID', ImageID='$imageID'";
+            }
 
             $this->Database->query( $query );
-       }    
+       }
     }
 
     /*!

@@ -22,7 +22,6 @@ switch ( $url_array[2] )
 
             case "new" :
             {
-                unset( $CategoryID );
                 $Action = "New";
                 include( "ezimagecatalogue/user/imageedit.php" );
             }
@@ -68,7 +67,6 @@ switch ( $url_array[2] )
            
             case "new" :
             {
-                unset( $CategoryID );
                 $CurrentCategoryID = $url_array[4];
                 $Action = "New";
                 include( "ezimagecatalogue/user/categoryedit.php" );

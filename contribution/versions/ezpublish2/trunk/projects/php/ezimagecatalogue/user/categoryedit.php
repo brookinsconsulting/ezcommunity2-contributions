@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.8 2001/01/29 10:36:57 ce Exp $
+// $Id: categoryedit.php,v 1.9 2001/02/02 12:27:20 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -52,7 +52,6 @@ if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
-
 
 $t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
                      "ezimagecatalogue/user/intl/", $Language, "categoryedit.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.12 2001/01/29 10:36:57 ce Exp $
+// $Id: imagelist.php,v 1.13 2001/02/02 12:27:20 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -79,6 +79,8 @@ $t->set_block( "image_list_page_tpl", "normal_view_button", "normal_button" );
 $t->set_block( "image_list_page_tpl", "detail_view_button", "detail_button" );
 
 $t->set_block( "image_list_page_tpl", "write_menu_tpl", "write_menu" );
+$t->set_block( "write_menu_tpl", "delete_categories_button_tpl", "delete_categories_button" );
+$t->set_block( "write_menu_tpl", "delete_images_button_tpl", "delete_images_button" );
 
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "image_list_tpl", "detail_view_tpl", "detail_view" );
@@ -105,6 +107,7 @@ $user = eZUser::currentUser();
 
 $category = new eZImageCategory( $CategoryID );
 
+// Check if user have permission to the current category
 $readPermission = $category->checkReadPermission( $user );
 
 $error = true;
@@ -144,6 +147,7 @@ foreach ( $pathArray as $path )
 }
 
 
+// Print out all the categories
 $categoryList =& $category->getByParent( $category );
 
 $i=0;
@@ -159,6 +163,7 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_read", "" );
     $t->set_var( "category_write", "" );
 
+    // Check if user have read permission
     if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
     {
         $t->parse( "category_read", "category_read_tpl" );
@@ -167,6 +172,7 @@ foreach ( $categoryList as $categoryItem )
     {
     }
 
+    // Check if user have write permission
     if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
     {
         $t->parse( "category_write", "category_write_tpl" );
@@ -189,6 +195,7 @@ else
 }
 
 
+// Print out all the images
 $imageList =& $category->images();
 
 //$i=0;
@@ -248,6 +255,7 @@ foreach ( $imageList as $image )
     $t->set_var( "read", "" );
     $t->set_var( "write", "" );
 
+    // Check if user have read permission
     if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
     {
         if ( isSet ( $DetailView ) )
@@ -263,6 +271,7 @@ foreach ( $imageList as $image )
     {
     }
 
+    // Check if user have write permission
     if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
     {
         if ( isSet ( $DetailView ) )
@@ -279,6 +288,7 @@ foreach ( $imageList as $image )
         $t->set_var( "detail_write", "" );
     }
 
+    // Set the detail or normail view
     if ( isSet ( $DetailView ) )
     {
         $t->set_var( "is_detail_view", "true" );
@@ -302,12 +312,24 @@ foreach ( $imageList as $image )
     $i++;
 }
 
+// Print out the category/image menu
 if ( $category->id() != 0 )
 {
     $currentWritePermission = $category->checkWritePermission( $user );
 
     if ( ( $currentWritePermission == "User" ) || ( $currentWritePermission == "Group" ) || ( $currentWritePermission == "All" ) )
     {
+        if ( count ( $imageList ) > 0 && $DetailView )
+            $t->parse( "delete_images_button", "delete_images_button_tpl" );
+        else
+            $t->set_var( "delete_images_button", "" );
+
+        if ( count ( $categoryList ) > 0 && $DetailView )
+            $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
+        else
+            $t->set_var( "delete_categories_button", "" );
+
+        
         $t->parse( "write_menu", "write_menu_tpl" );
     }
 }
@@ -315,6 +337,16 @@ else
 {
     if ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) )
     {
+        if ( count ( $imageList ) > 0 && $DetailView )
+            $t->parse( "delete_images_button", "delete_images_button_tpl" );
+        else
+            $t->set_var( "delete_images_button", "" );
+
+        if ( count ( $categoryList ) > 0  && $DetailView )
+            $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
+        else
+            $t->set_var( "delete_categories_button", "" );
+
         $t->parse( "write_menu", "write_menu_tpl" );
     }
 }

@@ -1,5 +1,7 @@
 <form method="post" action="/imagecatalogue/image/new/" enctype="multipart/form-data">
 
+<input type="hidden" name="CategoryID" value="{main_category_id}">
+
 <h1>{intl-images}</h1>
 
 <!-- BEGIN current_category_tpl -->
@@ -15,10 +17,10 @@
 <img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
+<br /><br />
+<div class="p">{current_category_description}</div>
 
 <hr noshade="noshade" size="4" />
-
-<p>{current_category_description}</p>
 
 <!-- BEGIN category_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
@@ -99,15 +101,21 @@
 <!-- BEGIN write_menu_tpl -->
 <tr>
         <td>
-	<input type="hidden" name="CurrentCategoryID" value="{main_category_id}">
 	<input type="submit" name="NewImage" value="{intl-new_image}">
 	</td>
         <td>
 	<input type="submit" name="NewCategory" value="{intl-new_category}">
 	</td>
+        <!-- BEGIN delete_categories_button_tpl -->
         <td>
-	<input type="submit" name="Delete" value="{intl-delete}">
+	<input type="submit" name="DeleteCategories" value="{intl-delete_categories}">
 	</td>
+        <!-- END delete_categories_button_tpl -->
+        <!-- BEGIN delete_images_button_tpl -->
+        <td>
+	<input type="submit" name="DeleteImages" value="{intl-delete_images}">
+	</td>
+        <!-- END delete_images_button_tpl -->
 </tr>
 <!-- END write_menu_tpl -->
 </form>

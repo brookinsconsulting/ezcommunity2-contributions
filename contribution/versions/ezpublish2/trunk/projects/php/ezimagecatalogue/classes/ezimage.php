@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.27 2001/01/26 09:25:01 ce Exp $
+// $Id: ezimage.php,v 1.28 2001/02/02 12:27:20 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -134,6 +134,13 @@ class eZImage
         }
         else
         {
+            $variationArray =& $this->variations();
+
+            foreach( $variationArray as $variation )
+            {
+                $variation->delete();
+            }
+            
             $this->Database->query( "UPDATE eZImageCatalogue_Image SET
                                  Name='$this->Name',
                                  Caption='$this->Caption',
@@ -150,6 +157,33 @@ class eZImage
         $this->ID = mysql_insert_id();
 
         $this->State_ = "Coherent";
+    }
+
+    /*!
+      Delete the eZImageVariation object from the database and the filesystem.
+    */
+    function delete()
+    {
+        // Delete from the database
+        $this->dbInit();
+
+        if ( isset( $this->ID ) )
+        {
+            $variationArray =& $this->variations();
+
+            foreach( $variationArray as $variation )
+            {
+                $variation->delete();
+            }
+
+            $this->Database->query( "DELETE FROM eZImageCatalogue_Image WHERE ID='$this->ID'" );
+
+            // Delete from the filesystem
+            if ( file_exists ( $this->filePath( true ) ) )
+            {
+                unlink( $this->filePath( true ) );
+            }
+        }
     }
     
     /*!
@@ -341,8 +375,8 @@ class eZImage
         return $ret;
     }
 
-
-
+    
+    
     
     /*!
       Returns the id of the image.
@@ -360,7 +394,7 @@ class eZImage
     /*!
       Returns the name of the image.
     */
-    function name()
+    function &name()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -371,7 +405,7 @@ class eZImage
     /*!
       Returns the caption of the image.
     */
-    function caption()
+    function &caption()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -382,7 +416,7 @@ class eZImage
     /*!
       Returns the description of the image.
     */
-    function description()
+    function &description()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -393,7 +427,7 @@ class eZImage
     /*!
       Returns the filename of the image.
     */
-    function fileName()
+    function &fileName()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -404,7 +438,7 @@ class eZImage
     /*!
       Returns the original file name of the image.
     */
-    function originalFileName()
+    function &originalFileName()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -788,7 +822,7 @@ class eZImage
     /*!
       Returns the width of the image.
     */
-    function width()
+    function &width()
     {
         $size = getimagesize( $this->filePath( true ) );
         
@@ -798,13 +832,56 @@ class eZImage
     /*!
       Returns the height of the image.
     */
-    function height()
+    function &height()
     {
         $size = getimagesize( $this->filePath( true ) );
         
         return $size[1];
     }
-    
+
+    /*!
+      Returns every variation to a image as a array of eZVariation objects.
+    */
+    function &variations()
+    {
+        $this->dbInit();
+
+        $variationArray = array();
+
+        $this->Database->array_query( $variationArray, "SELECT ID
+                                                        FROM eZImageCatalogue_ImageVariation
+                                                        WHERE ImageID='$this->ID'" );
+
+        foreach ( $variationArray as $variation )
+        {
+            $returnArray[] =& new eZImageVariation( $variation["ID"] );
+        }
+
+        return $returnArray;
+    }
+
+    /*!
+      Returns the image's category.
+    */
+    function category( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $res, "SELECT CategoryID FROM
+                                            eZImageCatalogue_ImageCategoryLink
+                                            WHERE ImageID='$this->ID'" );
+       $category = false;
+       if ( count( $res ) == 1 )
+       {
+           $category = new eZImageCategory( $res[0]["CategoryID"] );
+       }
+
+       return $category;
+    }
+
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

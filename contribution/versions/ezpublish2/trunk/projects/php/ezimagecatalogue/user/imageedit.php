@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.9 2001/01/29 10:36:57 ce Exp $
+// $Id: imageedit.php,v 1.10 2001/02/02 12:27:20 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -29,6 +29,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 $user = eZUser::currentUser();
 
+$CurrentCategoryID = eZHTTPTool::getVar( "CategoryID" );
 $CategoryID = eZHTTPTool::getVar( "CategoryID" );
 
 if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
@@ -39,14 +40,19 @@ if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "
 
 if ( isSet ( $NewCategory ) )
 {
-    eZHTTPTool::header( "Location: /imagecatalogue/category/new/" . $CurrentCategoryID );
+    eZHTTPTool::header( "Location: /imagecatalogue/category/new/$CurrentCategoryID/" );
     exit();
 }
 
 if ( isSet ( $Cancel ) )
 {
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $MainCategoryID . "/" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
     exit();
+}
+
+if ( isSet ( $DeleteImages ) )
+{
+    $Action = "DeleteImages";
 }
 
 
@@ -189,7 +195,6 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $t->parse( "error_file_upload", "error_file_upload_tpl" );
             }
         }
-
     }
 
     if ( $error )
@@ -229,31 +234,41 @@ if ( $Action == "Update" && $error == false )
     $image = new eZImage( $ImageID );
     $image->setName( $Name );
     $image->setCaption( $Caption );
-    $image->store();
 
     $image->setDescription( $Description );
     $image->setReadPermission( $Read );
     $image->setWritePermission( $Write );
 
+    $category = new eZImageCategory( $CategoryID );
+    
+    $category->addImage( $image );
+
     if ( $fileOK )
+    {
         $image->setImage( $file );
+    }
     
     $image->store();
-        
+
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $MainCategoryID . "/" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
     exit();
 }
 
 // Delete a image
-if ( $Action == "Delete" )
+if ( $Action == "DeleteImages" )
 {
-    $image = new eZImage( $ImageID );
-        
-    $article->deleteImage( $image );
+    if ( count ( $ImageArrayID ) != 0 )
+    {
+        foreach ( $ImageArrayID as $ImageID )
+        {
+            $image = new eZImage( $ImageID );
+            $image->delete();
+        }
+    }
     
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $MainCategoryID . "/" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
     exit();    
 }
 
@@ -282,7 +297,6 @@ if ( $Action == "Edit" )
     $t->set_var( "image_description", $image->description() );
     $t->set_var( "action_value", "update" );
 
-    
     $t->set_var( "image_alt", $image->caption() );
 
     $variation = $image->requestImageVariation( 150, 150 );
@@ -322,7 +336,6 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "all_read_checked", "checked" );
     }
-
 }
 
 $category = new eZImageCategory() ;
@@ -342,7 +355,7 @@ foreach ( $categoryList as $categoryItem )
 
     $t->set_var( "selected", "" );
 
-    // Get the current category when makeing a new image
+    // Get the rigth category when updating
     if ( $CurrentCategoryID )
     {
         if ( $categoryItem[0]->id() == $CurrentCategoryID )
@@ -351,10 +364,11 @@ foreach ( $categoryList as $categoryItem )
         }
     }
 
-    // Get the rigth category when updating
-    if ( $CategoryID )
+    if ( $Action == "Edit" )
     {
-        if ( $categoryItem[0]->id() == $CurrentCategoryID )
+        $category =& $image->category();
+
+        if ( $category->id() == $categoryItem[0]->id() )
         {
             $t->set_var( "selected", "selected" );
         }
