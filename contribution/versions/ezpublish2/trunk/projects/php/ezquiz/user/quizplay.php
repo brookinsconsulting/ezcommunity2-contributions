@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.6 2001/05/30 12:56:46 pkej Exp $
+// $Id: quizplay.php,v 1.7 2001/05/30 14:19:37 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -38,7 +38,6 @@ $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir
                      "ezquiz/user/intl/", $Language, "quiz.php" );
 
 $intl = new INIFIle( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
-
 
 if( isset( $SaveButton ) )
 {

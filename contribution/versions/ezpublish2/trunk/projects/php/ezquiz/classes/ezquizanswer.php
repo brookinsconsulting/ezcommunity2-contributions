@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizanswer.php,v 1.2 2001/05/30 10:39:40 pkej Exp $
+// $Id: ezquizanswer.php,v 1.3 2001/05/30 14:19:37 pkej Exp $
 //
 // eZQuizAnswer class
 //
@@ -196,10 +196,16 @@ class eZQuizAnswer
             $QuestionID = $this->Alternative->QuestionID();
         }
         
+        if( get_class( $this->User ) == "ezuser" )
+        {
+            $UserID = $this->User->id();
+        }
+        
         $db =& eZDB::globalDatabase();
         $db->array_query( $result, "SELECT * FROM eZQuiz_Answer, eZQuiz_Alternative
                             WHERE eZQuiz_Answer.AlternativeID = eZQuiz_Alternative.ID
-                            AND eZQuiz_Alternative.QuestionID = '$QuestionID'" );
+                            AND eZQuiz_Alternative.QuestionID = '$QuestionID' AND eZQuiz_Answer.UserID = '$UserID'" );
+
         if( count( $result ) >= 1 )
         {
             $return = true;
