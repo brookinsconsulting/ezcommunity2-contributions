@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><html>
+<head>
+<title>Generated PHP documentation &copy; eZ systems as 2000</title>
+<style type="text/css">
+<!--
+
+td.header {
+    color : #eeeeee;
+    background-color : #446688;
+}
+
+td.tableHeader {
+    color : #eeeeee;
+    background-color : #7799aa;
+}
+
+td.classLinkLight {
+    background-color : #eeeeee;
+}
+
+td.classLinkDark {
+    background-color : #dddddd;
+}
+
+td.classDescription {
+    background-color : #eeeeee;
+}
+
+td.sourceListing {
+    background-color : #416141;
+    color : #de9562;
+    font-family: courier, monospace;
+}
+
+p.functionName {
+    background-color : #ffffff;
+    font-size : 14pt;	
+    font-weight : bold;
+    font-face : verdana, arial, helvetica;
+}
+
+p.functionAbs {
+    background-color : #ddeeee;
+}
+
+span.comment {
+    background-color : #315031;
+    color : #ffce20;
+    font-weight : none;
+}
+
+span.reservedWord {
+    background-color : #416141;
+    color : #83b6de;
+}
+
+span.specialChar {
+    background-color : #416141;
+    color : #e6be52;
+}
+
+span.variable {
+    background-color : #416141;
+    color : #00ffff;
+}
+
+p.functionDesc {
+    background-color : #eeeeee;
+}
+
+p.functionIndex
+{
+    background-color : #ffffff;
+}
+
+.light
+{
+    color : #eeeeee;
+}
+
+
+h3.fn, span.fn 
+{ 
+    margin-left: 1cm; 
+    text-indent: -1cm; 
+}
+
+a:link 
+{ 
+text-decoration: none; 
+}
+
+body 
+{ 
+  font-face: verdana, arial, helvetica; 
+  background: white; 
+  color: black; 
+}
+-->
+</style>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+<tr>
+	<td class="header">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+		<h1>eZ phpdoc - Class reference</h1>
+		</td>
+		<td valign="top" align="right">
+		<a class="light" href="index.html">Class list</a> | 
+		<a class="light" href="annotated.html">Annotated class list</a> |
+		<a class="light" href="function.html">Function list</a> |
+		<a class="light" href="structure.html">Structure</a>
+		</td>
+	</tr>
+	</table>
+	</td>
+</tr><tr><td><center><h1>eZTodo::eZTodo class reference</h1></center></td></tr><tr><td> The eZTodo handles the todo informasjon.  <a href="#999999">[more]</a></td></tr><tr><td>The source file: <a href="eztodo.src.html">[view the source]</a></td></tr><tr><td><h1>Members</h1><ul><li><a href="#0">eZTodo( $id=-1, $fetch=1 )
+</a></li><li><a href="#1">store()
+</a></li><li><a href="#2">delete()
+</a></li><li><a href="#3">update()
+</a></li><li><a href="#4">get( $id )
+</a></li><li><a href="#5">getAll()
+</a></li><li><a href="#6">getByUser( $id )
+</a></li><li><a href="#7">title()
+</a></li><li><a href="#8">setTitle( $value )
+</a></li><li><a href="#9">text()
+</a></li><li><a href="#10">setText( $value )
+</a></li><li><a href="#11">category()
+</a></li><li><a href="#12">setCategory( $value )
+</a></li><li><a href="#13">priority()
+</a></li><li><a href="#14">setPriority( $value )
+</a></li><li><a href="#15">due()
+</a></li><li><a href="#16">setDue( $value )
+</a></li><li><a href="#17">user()
+</a></li><li><a href="#18">setUser( $value )
+</a></li><li><a href="#19">owner()
+</a></li><li><a href="#20">setOwner( $value )
+</a></li><li><a href="#21">permission()
+</a></li><li><a href="#22">setPermission( $value )
+</a></li><li><a href="#23">id()
+</a></li><li><a href="#24">dbInit()
+</a></li></tr></td></ul><tr><td><hr noshade size="2"><a name="#999999"></a><h2>Detailed Description</h2></td></tr><tr><td class="classDescription">Handles the todo informasjon stoered in the database.
+</td></tr><tr><td><hr noshade size="2"><h2>Member Function Documentation</h2></td></tr><tr><td><a name="0"></a><p class="functionName">eZTodo::eZTodo( $id=-1, $fetch=1 )
+</p></td></tr><tr><td><p class="functionAbs">     eZTodo</p></td></tr><tr><td><p class="functionDesc">eZtodo Constructor.
+</p></td></tr><tr><td><a name="1"></a><p class="functionName">eZTodo::store()
+</p></td></tr><tr><td><p class="functionAbs">     store</p></td></tr><tr><td><p class="functionDesc">Stores the todo object to the database.
+Returnes the ID to the eZCompany object if the store is a success.
+</p></td></tr><tr><td><a name="2"></a><p class="functionName">eZTodo::delete()
+</p></td></tr><tr><td><p class="functionAbs">     delete</p></td></tr><tr><td><p class="functionDesc">Deletes the todo object in the database.
+</p></td></tr><tr><td><a name="3"></a><p class="functionName">eZTodo::update()
+</p></td></tr><tr><td><p class="functionAbs">     update</p></td></tr><tr><td><p class="functionDesc">Update the todo object in the database.
+</p></td></tr><tr><td><a name="4"></a><p class="functionName">eZTodo::get( $id )
+</p></td></tr><tr><td><p class="functionAbs">     get</p></td></tr><tr><td><p class="functionDesc">Gets the todo object from the database, where ID == $id
+</p></td></tr><tr><td><a name="5"></a><p class="functionName">eZTodo::getAll()
+</p></td></tr><tr><td><p class="functionAbs">     getAll</p></td></tr><tr><td><p class="functionDesc">Gets all the todo informasjon from the database.
+Returns the array in $todo_array ordered by title.
+</p></td></tr><tr><td><a name="6"></a><p class="functionName">eZTodo::getByUser( $id )
+</p></td></tr><tr><td><p class="functionAbs">     getByUser</p></td></tr><tr><td><p class="functionDesc">Gets all the todo infomasjon from a user, where ID == $id.
+Return the array in $todo_array ordered by title.
+</p></td></tr><tr><td><a name="7"></a><p class="functionName">eZTodo::title()
+</p></td></tr><tr><td><p class="functionAbs">     title</p></td></tr><tr><td><p class="functionDesc">Tilte of the todo.
+Returns the title of the todo as a string.
+</p></td></tr><tr><td><a name="8"></a><p class="functionName">eZTodo::setTitle( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setTitle</p></td></tr><tr><td><p class="functionDesc">Sets the title of the todo.
+The new title of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="9"></a><p class="functionName">eZTodo::text()
+</p></td></tr><tr><td><p class="functionAbs">     text</p></td></tr><tr><td><p class="functionDesc">Text of the todo.
+Returns the text of the todo as a string.
+</p></td></tr><tr><td><a name="10"></a><p class="functionName">eZTodo::setText( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setText</p></td></tr><tr><td><p class="functionDesc">Sets the text of the todo.
+The new text of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="11"></a><p class="functionName">eZTodo::category()
+</p></td></tr><tr><td><p class="functionAbs">     category</p></td></tr><tr><td><p class="functionDesc">Tilte of the category.
+Returns the category of the todo as a string.
+</p></td></tr><tr><td><a name="12"></a><p class="functionName">eZTodo::setCategory( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setCategory</p></td></tr><tr><td><p class="functionDesc">Sets the category of the todo.
+The new category of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="13"></a><p class="functionName">eZTodo::priority()
+</p></td></tr><tr><td><p class="functionAbs">     priority</p></td></tr><tr><td><p class="functionDesc">Priority of the todo.
+Returns the priority of the todo as a string.
+</p></td></tr><tr><td><a name="14"></a><p class="functionName">eZTodo::setPriority( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setPriority</p></td></tr><tr><td><p class="functionDesc">Sets the priority of the todo.
+The new priority of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="15"></a><p class="functionName">eZTodo::due()
+</p></td></tr><tr><td><p class="functionAbs">     due</p></td></tr><tr><td><p class="functionDesc">Due of the todo.
+Returns the due of the todo as a string.
+</p></td></tr><tr><td><a name="16"></a><p class="functionName">eZTodo::setDue( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setDue</p></td></tr><tr><td><p class="functionDesc">Sets the due of the todo.
+The new due of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="17"></a><p class="functionName">eZTodo::user()
+</p></td></tr><tr><td><p class="functionAbs">     user</p></td></tr><tr><td><p class="functionDesc">User of the todo.
+Returns the priority of the todo as a string.
+</p></td></tr><tr><td><a name="18"></a><p class="functionName">eZTodo::setUser( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setUser</p></td></tr><tr><td><p class="functionDesc">Sets the user of the todo.
+The new user of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="19"></a><p class="functionName">eZTodo::owner()
+</p></td></tr><tr><td><p class="functionAbs">     owner</p></td></tr><tr><td><p class="functionDesc">Owner of the todo.
+Returns the priority of the todo as a string.
+</p></td></tr><tr><td><a name="20"></a><p class="functionName">eZTodo::setOwner( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setOwner</p></td></tr><tr><td><p class="functionDesc">Sets the owner of the todo.
+The new owner of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="21"></a><p class="functionName">eZTodo::permission()
+</p></td></tr><tr><td><p class="functionAbs">     permission</p></td></tr><tr><td><p class="functionDesc">Permission of the todo.
+Returns the permission of the todo as a string.
+</p></td></tr><tr><td><a name="22"></a><p class="functionName">eZTodo::setPermission( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setPermission</p></td></tr><tr><td><p class="functionDesc">Sets the permission of the todo.
+The new permission of the todo is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="23"></a><p class="functionName">eZTodo::id()
+</p></td></tr><tr><td><p class="functionAbs">     id</p></td></tr><tr><td><p class="functionDesc">Id of the todo.
+Returns the id of the todo as a string.
+</p></td></tr><tr><td><a name="24"></a><p class="functionName">eZTodo::dbInit()
+</p></td></tr><tr><td><p class="functionAbs">     dbInit</p></td></tr><tr><td><p class="functionDesc">Private function.
+Open the database for read and write. Gets all the database informasjon from site.ini.
+</p></td></tr></table></body>
+</html>
