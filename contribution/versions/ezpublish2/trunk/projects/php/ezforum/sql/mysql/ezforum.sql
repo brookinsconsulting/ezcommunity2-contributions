@@ -37,9 +37,9 @@ CREATE TABLE eZForum_Message (
   Parent int default NULL,
   EmailNotice int NOT NULL default '0',
   PostingTime int NOT NULL,
-  TreeID int default NULL,
-  ThreadID int default NULL,
-  Depth int default NULL,
+  TreeID int NOT NULL,
+  ThreadID int NOT NULL,
+  Depth int NOT NULL,
   IsApproved int NOT NULL default '1',
   IsTemporary int NOT NULL default '0',
   PRIMARY KEY (ID)
@@ -60,13 +60,12 @@ CREATE TABLE eZForum_Word (
 );
 
 
+CREATE INDEX Forum_TreeID ON eZForum_Message (TreeID);
 CREATE INDEX Forum_PostingTime ON eZForum_Message (PostingTime);
-CREATE INDEX Forum_TreeID ON eZForum_Message (ThreeID);
 CREATE INDEX Forum_ThreadID ON eZForum_Message (ThreadID);
 CREATE INDEX Forum_Depth ON eZForum_Message (Depth);
 CREATE INDEX Forum_ForumID ON eZForum_Message (ForumID);
 
-CREATE INDEX Forum_PostingTime ON eZForum_Message (PostingTime);
 CREATE INDEX ForumWordLink_MessageID ON eZForum_MessageWordLink (MessageID);
 CREATE INDEX ForumWordLink_WordID ON eZForum_MessageWordLink (WordID);
 CREATE INDEX ForumWord_Word ON eZForum_Word (Word);
