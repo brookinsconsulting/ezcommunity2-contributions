@@ -107,7 +107,7 @@
 {classified_description}
 
 <p class="boxtext">{intl-contact_person}:</p>
-{classified_contact_person}
+<!-- {classified_contact_person} -->
 
 <p class="boxtext">{intl-pay}:</p>
 {classified_pay}

@@ -35,11 +35,11 @@ class eZPosition extends eZClassified
         {
                 $this->dbInit();
                 
+//                                                    ContactPerson='$this->ContactPerson',
                 $this->Database->query( "INSERT INTO eZClassified_Position SET
                                                   Duration='$this->Duration',
 	                                              WorkTime='$this->WorkTime',
 	                                              Pay='$this->Pay',
-                                                  ContactPerson='$this->ContactPerson',
                                                   WorkPlace='$this->WorkPlace',
                                                   PositionType='$this->PositionType',
                                                   InitiateType='$this->InitiateType',
@@ -50,11 +50,11 @@ class eZPosition extends eZClassified
         }
         elseif ( ( $this->Status_ ) == "Update" )
         {
+//                                                    ContactPerson='$this->ContactPerson',
             $this->Database->query( "UPDATE eZClassified_Position SET
                                                   Duration='$this->Duration',
 	                                              WorkTime='$this->WorkTime',
 	                                              Pay='$this->Pay',
-                                                  ContactPerson='$this->ContactPerson',
                                                   WorkPlace='$this->WorkPlace',
                                                   PositionType='$this->PositionType',
                                                   InitiateType='$this->InitiateType',
@@ -90,7 +90,7 @@ class eZPosition extends eZClassified
                 $this->WorkTime = $position_array[0]["WorkTime"];
                 $this->WorkPlace = $position_array[0]["WorkPlace"];
                 $this->Pay = $position_array[0]["Pay"];
-                $this->ContactPerson = $position_array[0]["ContactPerson"];
+//                  $this->ContactPerson = $position_array[0]["ContactPerson"];
                 $this->PositionType = $position_array[0]["PositionType"];
                 $this->InitiateType = $position_array[0]["InitiateType"];
                 $this->DueDate = $position_array[0]["DueDate"];
@@ -148,16 +148,16 @@ class eZPosition extends eZClassified
         $this->Pay = $value;
     }
 
-    /*!
-      Sets the name of the company.
-    */
-    function setContactPerson( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+//      /*!
+//        Sets the name of the company.
+//      */
+//      function setContactPerson( $value )
+//      {
+//          if ( $this->State_ == "Dirty" )
+//              $this->get( $this->ID );
 
-        $this->ContactPerson = $value;
-    }
+//          $this->ContactPerson = $value;
+//      }
 
     /*!
       Sets the position type
@@ -234,16 +234,16 @@ class eZPosition extends eZClassified
         return $this->Pay;
     }
 
-        /*!
-      Returnerer firmanavn.
-    */
-    function contactPerson()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+//          /*!
+//        Returnerer firmanavn.
+//      */
+//      function contactPerson()
+//      {
+//          if ( $this->State_ == "Dirty" )
+//              $this->get( $this->ID );
 
-        return $this->ContactPerson;
-    }
+//          return $this->ContactPerson;
+//      }
 
     /*!
       Returns position type.
@@ -282,7 +282,7 @@ class eZPosition extends eZClassified
     var $WorkTime;
     var $WorkPlace;
     var $Pay;
-    var $ContactPerson;
+//      var $ContactPerson;
     var $PositionType;
     var $InitiateType;
     var $DueDate;

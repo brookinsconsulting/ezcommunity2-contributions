@@ -76,7 +76,7 @@ switch ( $url_array[2] )
             $CategoryID = $url_array[4];
         }
 
-        if ( $url_array[3] == "Update" )
+        if ( $url_array[3] == "update" )
         {
             $Action = "Update";
             $CategoryID = $url_array[4];

@@ -65,7 +65,7 @@ if ( $Action == "insert" )
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
-    $position->setContactPerson( $ContactPerson );
+//      $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->setValidUntil( $Year, $Month, $Day );
     $position->store();
@@ -100,7 +100,7 @@ if ( $Action == "update" )
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
-    $position->setContactPerson( $ContactPerson );
+//      $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->setValidUntil( $Year, $Month, $Day );
 
@@ -166,7 +166,7 @@ if ( $Action == "new" )
     $t->set_var( "classified_worktime", "" );
     $t->set_var( "classified_duration", "" );
     $t->set_var( "classified_workplace", "" );
-    $t->set_var( "classified_contact_person", "" );
+//      $t->set_var( "classified_contact_person", "" );
     $t->set_var( "classified_year", "" );
     $t->set_var( "classified_month", "" );
     $t->set_var( "classified_day", "" );
@@ -181,7 +181,7 @@ if ( $Action == "edit" )
     $t->set_var( "classified_title", $position->title() );
     $t->set_var( "classified_id", $position->id() );
     $t->set_var( "classified_description", $position->description() );
-    $t->set_var( "classified_contact_person", $position->contactPerson() );
+//      $t->set_var( "classified_contact_person", $position->contactPerson() );
     $t->set_var( "classified_pay", $position->pay() );
     $t->set_var( "classified_worktime", $position->WorkTime() );
     $t->set_var( "classified_duration", $position->Duration() );

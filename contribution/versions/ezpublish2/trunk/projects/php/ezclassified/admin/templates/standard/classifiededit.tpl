@@ -105,7 +105,7 @@
 <textarea cols="40" rows="8" name="Description">{classified_description}</textarea>
 
 <p class="boxtext">{intl-contact_person}:</p>
-<textarea cols="40" rows="8" name="ContactPerson">{classified_contact_person}</textarea>
+<!-- <textarea cols="40" rows="8" name="ContactPerson">{classified_contact_person}</textarea> -->
 <br /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

@@ -81,7 +81,7 @@
 <div class="p">{classified_description}</div>
 
 <p class="boxtext">{intl-contact_person}:</p>
-<div class="p">{classified_contact_person}</div>
+<!-- <div class="p">{classified_contact_person}</div> -->
 <br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

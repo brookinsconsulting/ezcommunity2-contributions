@@ -52,7 +52,7 @@ $t->set_var( "classified_position_type", positionTypeName( $position->positionTy
 $t->set_var( "classified_initiate_type", initiateTypeName( $position->initiateType() ) );
 $t->set_var( "classified_id", $position->id() );
 $t->set_var( "classified_description", $position->description() );
-$t->set_var( "classified_contact_person", $position->contactPerson() );
+//  $t->set_var( "classified_contact_person", $position->contactPerson() );
 $t->set_var( "classified_pay", $position->pay() );
 $t->set_var( "classified_worktime", $position->WorkTime() );
 $t->set_var( "classified_duration", $position->Duration() );

@@ -74,7 +74,7 @@
 <textarea cols="40" rows="8" name="Description">{classified_description}</textarea>
 
 <p class="boxtext">{intl-contact_person}:</p>
-<textarea cols="40" rows="8" name="ContactPerson">{classified_contact_person}</textarea>
+<!-- <textarea cols="40" rows="8" name="ContactPerson">{classified_contact_person}</textarea> -->
 
 <p class="boxtext">{intl-pay}:</p>
 <input type="text" size="20" name="Pay" value="{classified_pay}"/>
