@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: exportform.php,v 1.1 2002/01/07 17:21:23 jhe Exp $
+// $Id: exportform.php,v 1.2 2002/01/07 18:07:08 jhe Exp $
 //
 // Created on: <07-Jan-2002 12:54:53 jhe>
 //
@@ -48,13 +48,19 @@ if ( count( $results ) > 0 )
         print $el->name() . "\t";
     }
     print "\r\n";
-    
+
     foreach ( $results as $res )
     {
         foreach ( $elements as $el )
         {
             $element = new eZFormElement( $el );
-            print $el->result( $res ) . "\t";
+            $resValue = $el->result( $res );
+            $resValue = str_replace( "\n", "<br>", $resValue );
+            $resValue = str_replace( "\r", "", $resValue );
+            if ( $resValue )
+                print $resValue . "\t";
+            else
+                print "\t";
         }
         print "\r\n";
     }
