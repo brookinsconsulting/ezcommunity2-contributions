@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.3 2000/11/02 16:45:28 bf-cvs Exp $
+// $Id: messagelist.php,v 1.4 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -48,7 +48,10 @@ $t->set_block( "messagelist", "message_item_tpl", "message_item" );
 $t->setAllStrings();
 
 $forum = new eZForum( $ForumID );
-$category = new eZForumCategory( $forum->categoryID()  );
+
+$categories = $forum->categories();
+
+$category = new eZForumCategory( $categories[0]->id() );
 
 $locale = new eZLocale( $Language );
 

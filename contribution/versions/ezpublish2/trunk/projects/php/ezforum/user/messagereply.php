@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.12 2000/11/15 14:04:17 bf-cvs Exp $
+// $Id: messagereply.php,v 1.13 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -157,8 +157,10 @@ $category = new eZForumCategory();
 $msg = new eZForumMessage( $ReplyID );
 $ForumID = $msg->forumID();
 $forum = new eZForum( $ForumID );
-$CategoryID = $forum->categoryID();
-$category = new eZForumCategory( $CategoryID );
+
+$categories = $forum->categories();
+$category = new eZForumCategory( $categories[0]->id() );
+
 $t->set_var( "category_name", $category->name() );
 
 $t->set_var( "forum_name", $forum->name() );

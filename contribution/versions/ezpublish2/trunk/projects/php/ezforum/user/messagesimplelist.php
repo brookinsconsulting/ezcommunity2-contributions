@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimplelist.php,v 1.2 2000/11/21 16:20:22 bf-cvs Exp $
+// $Id: messagesimplelist.php,v 1.3 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -51,7 +51,6 @@ $t->set_block( "message_list_tpl", "message_item_tpl", "message_item" );
 $t->setAllStrings();
 
 $forum = new eZForum( $ForumID );
-$category = new eZForumCategory( $forum->categoryID()  );
 
 $locale = new eZLocale( $Language );
 
@@ -139,9 +138,6 @@ else
 $t->set_var( "redirect_url", $RedirectURL );
 
 $t->set_var( "newmessage", $newmessage );
-
-$t->set_var( "category_id", $category->id( ) );
-$t->set_var( "category_name", $category->name( ) );
 
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );

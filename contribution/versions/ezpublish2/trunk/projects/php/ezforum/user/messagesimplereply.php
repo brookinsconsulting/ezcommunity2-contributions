@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplereply.php,v 1.1 2000/11/21 16:20:46 bf-cvs Exp $
+// $Id: messagesimplereply.php,v 1.2 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -166,9 +166,6 @@ $category = new eZForumCategory();
 $msg = new eZForumMessage( $MessageID );
 $ForumID = $msg->forumID();
 $forum = new eZForum( $ForumID );
-$CategoryID = $forum->categoryID();
-$category = new eZForumCategory( $CategoryID );
-$t->set_var( "category_name", $category->name() );
 
 $t->set_var( "forum_name", $forum->name() );
 $user = eZUser::currentUser();
@@ -190,7 +187,7 @@ $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 $text = eZTextTool::addPre( $msg->body() );
 
 $t->set_var("body", $text );
-$t->set_var( "category_id", $CategoryID );
+
 $t->set_var( "message_id", $MessageID );
 
 $t->set_var( "forum_id", $MessageID );

@@ -1,5 +1,5 @@
 <?
-// $Id: forumlist.php,v 1.6 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: forumlist.php,v 1.7 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -25,7 +25,6 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
@@ -34,8 +33,9 @@ include_once( "ezforum/classes/ezforum.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-$DOC_ROOT . "/admin/" . "/intl", $Language, "forumlist.php" );
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+"ezforum/admin/" . "/intl", $Language, "forumlist.php" );
+
 $t->setAllStrings();
 
 $t->set_file(Array( "forum_page" => "forumlist.tpl"
@@ -46,7 +46,9 @@ $t->set_block( "forum_page", "forum_item_tpl", "forum_item" );
 // Forum list for current category
 $forum = new eZForum();
 
-$forumList = $forum->getAllByCategory( $CategoryID );
+$category = new eZForumCategory( $CategoryID );
+
+$forumList = $category->forums();
 
 $category = new eZForumCategory();
 $category->get( $CategoryID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.2 2000/11/22 09:33:33 bf-cvs Exp $
+// $Id: messagesimpleedit.php,v 1.3 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
@@ -116,9 +116,6 @@ if ( !$user )
 $forum = new eZForum( $ForumID );
 $t->set_var( "forum_name", $forum->name() );
 $t->set_var( "forum_id", $ForumID );
-$category = new eZForumCategory( $forum->categoryID() );
-$t->set_var( "category_name", $category->name() );
-$t->set_var( "category_id", $category->id() );
 
 
 $username = ( $user->firstName() . " " . $user->lastName() );

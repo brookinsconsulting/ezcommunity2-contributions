@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.6 2000/11/19 09:41:03 bf-cvs Exp $
+// $Id: ezforum.php,v 1.7 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -114,6 +114,9 @@ class eZForum
         $message = new eZForumMessage();
         $message->get( $this->ID );
         $message->delete();
+
+        $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE ForumID='$this->ID'" );
+        
         $this->Database->query( "DELETE FROM eZForum_Forum WHERE ID='$this->ID'" );
         
         return true;
@@ -138,7 +141,6 @@ class eZForum
             else if( count( $forum_array ) == 1 )
             {
                 $this->ID = $forum_array[0][ "ID" ];
-                $this->CategoryID = $forum_array[0][ "CategoryID" ];
                 $this->Name = $forum_array[0][ "Name" ];
                 $this->Description = $forum_array[0][ "Description" ];
                 $this->Moderated = $forum_array[0][ "Moderated" ];
@@ -161,31 +163,6 @@ class eZForum
     */
     function getAll( )
     {
-
-    }
-
-        /*!
-      Returns every forum.
-    */
-    function getAllByCategory( $CategoryID )
-    {
-        $this->dbInit();
-
-        $ret = array();
-
-        $this->dbInit();
-
-        $this->Database->array_query( $forum_array, "SELECT ID FROM
-                                                       eZForum_Forum WHERE CategoryID='$CategoryID'" );
-                                                     
-        $ret = array();
-
-        foreach ( $forum_array as $forum )
-        {
-            $ret[] = new eZForum( $forum["ID"] );
-        }
-
-        return $ret;
 
     }
 
@@ -324,33 +301,35 @@ class eZForum
     {
         return $this->ID;
     }
-        
+
+
     /*!
-      
+      Returns every category which the forum is a part of.
     */
-    function categoryID()
+    function categories()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        
-        return $this->CategoryID;
+       $this->dbInit();
+
+       $this->Database->array_query( $forum_array, "SELECT CategoryID FROM
+                                                       eZForum_ForumCategoryLink
+                                                       WHERE ForumID='$this->ID'" );
+
+       $ret = array();
+
+       foreach ( $forum_array as $forum )
+       {
+           $ret[] = new eZForumCategory( $forum["CategoryID"] );
+       }
+       
+       return $ret;
     }
+
         
     /*!
-      
-    */
-    function setCategoryID( $newCategoryID )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
-       $this->CategoryID = $newCategoryID;
-    }
-        
-    /*!
-      
+      Returns the name of the forum.
     */
     function name()
     {
@@ -493,7 +472,6 @@ class eZForum
     }
 
     var $ID;
-    var $CategoryID;
     var $Name;
     var $Description;
     var $Moderated;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.23 2000/11/19 09:41:03 bf-cvs Exp $
+// $Id: ezforumcategory.php,v 1.24 2000/11/22 13:09:35 bf-cvs Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -112,6 +112,9 @@ class eZForumCategory
         $forum = new eZForum();
         $forum->get( $this->ID );
         $forum->delete();
+
+        $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE CategoryID='$this->ID'" );
+        
         $this->Database->query( "DELETE FROM eZForum_Category WHERE ID='$this->ID'" );
         
         return true;
@@ -196,6 +199,28 @@ class eZForumCategory
        }
        
        return $ret;
+    }
+
+    /*!
+      Adds a forum to the current category.
+    */
+    function addForum( $forum )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $this->dbInit();
+
+       if ( get_class( $forum ) == "ezforum" )
+       {
+           $forumID = $forum->id();
+           
+           $this->Database->array_query( $forum_array, "INSERT INTO
+                                                       eZForum_ForumCategoryLink
+                                                       SET CategoryID='$this->ID', ForumID='$forumID'" );
+           
+           $ret = array();
+       }
     }
     
         

@@ -1,17 +1,30 @@
 <?
-/*!
-    $Id: forumedit.php,v 1.7 2000/11/06 13:57:58 ce-cvs Exp $
+// $Id: forumedit.php,v 1.8 2000/11/22 13:09:34 bf-cvs Exp $
+//
+// Author: Lars Wilhelmsen <lw@ez.no>
+// Created on: Created on: <14-Jul-2000 13:41:35 lw>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
 
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: Created on: <18-Jul-2000 08:56:19 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", false );
 
@@ -31,11 +44,14 @@ if ( $Action == "insert" )
         $CategorySelectID != "" )
         {
             $forum = new eZForum();
-            $forum->setCategoryId( $CategorySelectID );
             $forum->setName( $Name );
             $forum->setDescription( $Description );
             
             $forum->store();
+
+            $category = new eZForumCategory( $CategorySelectID );
+            $category->addForum( $forum );
+            
             eZLog::writeNotice( "Forum created: $Name from IP: $REMOTE_ADDR" );                    
 
             Header( "Location: /forum/forumlist/$CategorySelectID" );
@@ -63,11 +79,16 @@ if ( $Action == "update" )
         {
             $forum = new eZForum();
             $forum->get( $ForumID );
-            $forum->setCategoryId( $CategorySelectID );
+
+            
             $forum->setName( $Name );
             $forum->setDescription( $Description );
 
             $forum->store();
+
+            $category = new eZForumCategory( $CategorySelectID );
+            $category->addForum( $forum );
+            
             eZLog::writeNotice( "Forum updated: $Name from IP: $REMOTE_ADDR" );
                         
             Header( "Location: /forum/forumlist/$CategorySelectID" );
@@ -93,10 +114,11 @@ if ( $Action == "delete" )
             $forum = new eZForum();
             $forum->get( $ForumID );
             $forumName = $forum->name();
+
             $forum->delete();
             eZLog::writeNotice( "Forum deleted: $forumName from IP: $REMOTE_ADDR" );
-            $CategoryID = $forum->categoryID();
-            Header( "Location: /forum/forumlist/$CategoryID" );
+            
+            Header( "Location: /forum/forumlist/" );
         }
         else
         {
@@ -137,26 +159,12 @@ if ( $Action == "new" )
     $action_value = "insert";
 }
 
-$forum = new eZForum( $ForumID );
-$CategoryID = $forum->categoryID();
-
-$category = new eZForumCategory();
-$categoryList = $category->getAll();
-foreach( $categoryList as $categoryItem )
-{
-    $t->set_var( "category_id", $categoryItem->id() );
-    $t->set_var( "category_name", $categoryItem->name() );
-    if ( $categoryItem->id() == $CategoryID )
-        $t->set_var( "is_selected", "selected" );
-    else
-        $t->set_var( "is_selected", "" );
-
-
-    $t->parse( "category_item", "category_item_tpl", true );
-}
 
 if ( $Action == "edit" )
 {
+    $forum = new eZForum( $ForumID );
+    $categories = $forum->categories();
+    
     $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
 
@@ -177,9 +185,35 @@ if ( $Action == "edit" )
     }
 }
 
+
+$category = new eZForumCategory();
+$categoryList = $category->getAll();
+foreach( $categoryList as $categoryItem )
+{
+    $t->set_var( "category_id", $categoryItem->id() );
+    $t->set_var( "category_name", $categoryItem->name() );
+
+
+    if ( count( $categories ) > 0 )
+    {
+        if ( $categoryItem->id() == $categories[0]->id() )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+
+
+    $t->parse( "category_item", "category_item_tpl", true );
+}
+
+
 $t->set_var( "action_value", $action_value );
 $t->set_var( "error_msg", $error_msg );
-$t->set_var( "docroot", $DOCROOT );
+
 $t->set_var( "category_id", $CategoryID );
 
 $t->set_var( "headline", $headline );
