@@ -89,8 +89,41 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <p class="boxtext">{intl-upload_image}:</p>
 <input size="40" name="ImageFile" type="file" />&nbsp;
 <br /><br /><input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
-<br /><br /><input class="stdbutton" type="submit" name="Attributes" value="{intl-attributes}" />
 <br /><br />
+
+<select name="TypeID">
+<option value="-1">{intl-no_attributes}</option>
+<!-- BEGIN type_tpl -->
+<option value="{type_id}" {selected}>{type_name}</option>
+<!-- END type_tpl -->
+</select>&nbsp;<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
+
+<br /><br />
+
+<!-- BEGIN attribute_list_tpl -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<th>{intl-attribute_name}:</th>
+	<th>{intl-attribute_value}:</th>
+</tr>
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<td>
+	{attribute_name}: 
+	</td>
+	<td>
+	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
+	<input type="text" name="AttributeValue[]" value="{attribute_value}" />
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<!-- END attribute_list_tpl -->
+
+<br />
+
+<hr noshade size="4" />
 
 
 <hr noshade size="4"/>

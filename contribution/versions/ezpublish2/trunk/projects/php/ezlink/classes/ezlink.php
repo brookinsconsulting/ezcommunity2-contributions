@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.56 2001/06/29 12:54:27 jhe Exp $
+// $Id: ezlink.php,v 1.57 2001/06/29 18:46:50 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -94,9 +94,18 @@ class eZLink
         $nextID = $db->nextID( "eZLink_Link", "ID" );
 
         $timeStamp =& eZDateTime::timeStamp( true );
-                    
+
         $res = $db->query( "INSERT INTO eZLink_Link 
-                ( ID, Title, Description, LinkGroup, KeyWords, Created, Modified, Url, ImageID, Accepted )
+                ( ID,
+                  Title,
+                  Description,
+                  LinkGroup,
+                  KeyWords,
+                  Created,
+                  Modified,
+                  Url,
+                  ImageID,
+                  Accepted )
                 VALUES
                 ( '$nextID',
                   '$title',
@@ -111,12 +120,40 @@ class eZLink
 
         $this->ID = $nextID;
 
+        print "INSERT INTO eZLink_Link 
+                ( ID,
+                  Title,
+                  Description,
+                  LinkGroup,
+                  KeyWords,
+                  Created,
+                  Modified,
+                  Url,
+                  ImageID,
+                  Accepted )
+                VALUES
+                ( '$nextID',
+                  '$title',
+                  '$description',
+                  '$this->LinkGroupID',
+                  '$keywords',
+                  '$timeStamp',
+                  '$timeStamp',
+                  '$url',
+                  '$this->ImageID',
+                  '$this->Accepted' )";
         $db->unlock();
     
         if ( $res == false )
-            $db->rollback( );
+        {
+            print "rollback";
+            $db->rollback();
+        }
         else
+        {
+            print "commit";
             $db->commit();
+        }
         
     }
 
@@ -296,10 +333,8 @@ class eZLink
         $link_array = array();
         $return_array = array();
         
-        $db->array_query( $link_array, "SELECT ID, Title
-                                        FROM eZLink_Link
-                                        WHERE Accepted='0'
-                                        ORDER BY Title",
+        $db->array_query( $link_array, "SELECT ID, Title FROM eZLink_Link
+                                        WHERE Accepted='0' ORDER BY Title",
                           array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i=0; $i < count( $link_array ); $i++ )
@@ -318,8 +353,7 @@ class eZLink
         $db =& eZDB::globalDatabase();
 
         $query = "SELECT count( ID ) AS Count 
-                  FROM eZLink_Link
-                  WHERE Accepted='0'";
+                  FROM eZLink_Link WHERE Accepted='0'";
 
         $db->array_query( $linkArray, $query );
         
@@ -338,8 +372,8 @@ class eZLink
         $return_array = array();
         
         $db->array_query( $link_array,
-        "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Created DESC",
-        array( "Limit" => $limit, "Offset" => $offset ) );
+            "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Created DESC",
+            array( "Limit" => $limit, "Offset" => $offset ) );
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
@@ -357,8 +391,8 @@ class eZLink
         $link_array = 0;
         
         $db->array_query( $link_array,
-        "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Title DESC",
-        array( "Limit" => $limit, "Offset" => $offset ) );
+            "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Title DESC",
+             array( "Limit" => $limit, "Offset" => $offset ) );
 
         return $link_array;
     }
@@ -470,11 +504,8 @@ class eZLink
         
         $nextID = $db->nextID( "eZLink_LinkCategoryDefinition", "ID");
         $db->query( "INSERT INTO eZLink_LinkCategoryDefinition
-                         (ID, LinkID, CategoryID )
-                         VALUES
-                         ('$nextID',
-                          '$this->ID;',
-                          '$categoryID')" );
+                     (ID, LinkID, CategoryID ) VALUES
+                     ('$nextID','$this->ID','$categoryID')" );
     }
 
     

@@ -96,7 +96,14 @@ switch ( $url_array[2] )
             case "insert" :
             {
                 $LinkID = $url_array[4];
-                $Action = "insert";
+                if ( isSet( $Update ) )
+                {
+                    $Action = "AttributeList";
+                }
+                else
+                {
+                    $Action = "insert";
+                }
                 include( "ezlink/admin/linkedit.php" );
             }
             break;

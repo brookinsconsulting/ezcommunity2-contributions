@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.51 2001/06/29 12:54:26 jhe Exp $
+// $Id: linkedit.php,v 1.52 2001/06/29 18:46:50 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -39,6 +39,9 @@ include( "ezlink/classes/ezlinkcategory.php" );
 include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
+
+include_once( "ezlink/classes/ezlinktype.php" );
+include_once( "ezlink/classes/ezlinkattribute.php" );
 
 include_once( "ezlink/classes/ezmeta.php" );
 require( "ezuser/admin/admincheck.php" );
@@ -130,9 +133,9 @@ if ( $Action == "update" )
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
     {
         if ( $Title != "" &&
-        $LinkGroupID != "" &&
-        $Accepted != "" &&
-        $Url != "" )
+             $LinkGroupID != "" &&
+             $Accepted != "" &&
+             $Url != "" )
         {
             $link = new eZLink();
             $link->get( $LinkID );
@@ -144,25 +147,25 @@ if ( $Action == "update" )
             $link->setUrl( $Url );
             
             $link->setCategoryDefinition( $LinkGroupID );
-
+            
             // Calculate new and unused categories
             
             $old_maincategory = $link->categoryDefinition();
             $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-                                                          $link->categories( false ) ) );
+            $link->categories( false ) ) );
             
             $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
+            
             $remove_categories = array_diff( $old_categories, $new_categories );
             $add_categories = array_diff( $new_categories, $old_categories );
-
+            
             $categoryIDArray = array();
             
             foreach ( $categoryArray as $cat )
             {
                 $categoryIDArray[] = $cat->id();
             }
-
+            
             foreach ( $remove_categories as $categoryItem )
             {
                 eZLinkCategory::removeLink( $link, $categoryItem );
@@ -171,7 +174,7 @@ if ( $Action == "update" )
             // add to categories
             $category = new eZLinkCategory( $LinkGroupID );
             $link->setCategoryDefinition( $category );
-
+            
             foreach ( $add_categories as $categoryItem )
             {
                 eZLinkCategory::addLink( $link, $categoryItem );
@@ -183,21 +186,21 @@ if ( $Action == "update" )
                 $link->setAccepted( false );
             
             $link->setUrl( $Url );
-
+            
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "ImageFile" ) )
             {
                 $image = new eZImage( );
                 $image->setName( "LinkImage" );
                 $image->setImage( $file );
-
+                
                 $image->store();
                 
                 $link->setImage( $image );
             }
-
+            
             $link->update();
-
+            
             if ( $DeleteImage )
             {
                 $link->deleteImage();
@@ -212,14 +215,14 @@ if ( $Action == "update" )
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
-
+            
             if ( isSet( $Attributes ) )
             {
                 $linkID = $link->id();
                 eZHTTPTool::header( "Location: /link/linkedit/attributeedit/$linkID/" );
                 exit();
             }
-           
+            
             eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
             exit();
         }
@@ -250,8 +253,6 @@ if ( $Action == "delete" )
             eZHTTPTool::header( "Location: /link/group/incoming" );
             exit();
         }
-       
-        
     }
     else
     {
@@ -290,7 +291,6 @@ if ( $Action == "insert" )
 
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkAdd") )
     {
-
         if ( $Title != "" &&
         $LinkGroupID != "" &&
         $Accepted != "" &&
@@ -329,14 +329,35 @@ if ( $Action == "insert" )
                 $link->setImage( $image );
             }
             
+            if ( $TypeID == -1 )
+            {
+                $link->removeType();
+            }
+            else
+            {
+                $link->setType( new eZLinkType( $TypeID ) );
+                
+                $i = 0;
+                if ( count( $AttributeValue ) > 0 )
+                {
+                    foreach ( $AttributeValue as $attribute )
+                    {
+                        $att = new eZLinkAttribute( $AttributeID[$i] );
+                        
+                        $att->setValue( $link, $attribute );
+                        
+                        $i++;
+                    }
+                }
+            }
+    
             $link->store();
-
             // Add to categories.
             $cat = new eZLinkCategory( $LinkGroupID );
             $cat->addLink( $link );
-
+            
             $link->setCategoryDefinition( $cat );
-
+            
             if ( count( $CategoryArray ) > 0 )
             {
                 foreach ( $CategoryArray as $categoryItem )
@@ -355,7 +376,7 @@ if ( $Action == "insert" )
             {
                 $categoryIDArray[] = $categor->id();
             }
-
+            
             if ( isSet( $Browse ) )
             {
                 $linkID = $link->id();
@@ -366,18 +387,18 @@ if ( $Action == "insert" )
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
-
+            
             if ( isSet( $Attributes ) )
             {
                 $linkID = $link->id();
                 eZHTTPTool::header( "Location: /link/linkedit/attributeedit/$linkID/" );
                 exit();
             }
-           
+            
             eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
             exit();
         }
-        else
+        else if ( !isSet( $Update ) )
         {
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
@@ -394,9 +415,7 @@ $t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTempl
 "ezlink/admin/" . "/intl", $Language, "linkedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "link_edit" => "linkedit.tpl"
-    ));
+$t->set_file( "link_edit", "linkedit.tpl" );
 
 $t->set_block( "link_edit", "link_group_tpl", "link_group" );
 
@@ -405,6 +424,10 @@ $t->set_block( "link_edit", "no_image_item_tpl", "no_image_item" );
 
 $t->set_block( "link_edit", "multiple_category_tpl", "multiple_category" );
 
+$t->set_block( "link_edit", "type_tpl", "type" );
+
+$t->set_block( "link_edit", "attribute_list_tpl", "attribute_list" );
+$t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 
 
 $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
@@ -449,10 +472,11 @@ if ( $Action == "edit" )
     }
     else
     {
-        $editlink = new eZLink();
-        
-
-        $editlink->get( $LinkID );
+        if ( !isSet( $editlink ) )
+        {
+            $editlink = new eZLink();
+            $editlink->get( $LinkID );
+        }
 
         $title = $editlink->Title;
 
@@ -515,8 +539,36 @@ if ( $Action == "edit" )
             $yes_selected = "";
             $no_selected = "selected";
         }
-   
     }
+}
+
+if ( $Action == "AttributeList" )
+{
+    $ttitle = $Title;
+    $tkeywords = $Keywords;
+    $tdescription = $Description;
+    $turl = $Url;
+    
+    $action_value = "update";
+    $message = "Rediger link";
+    $submit = "Rediger";
+    
+    $t->parse( "no_image_item", "no_image_item_tpl" );
+    $t->set_var( "image_item", "" );
+    
+    
+
+    if ( $Accepted == true )
+    {
+        $yes_selected = "selected";
+        $no_selected = "";
+    }
+    else
+    {
+        $yes_selected = "";
+        $no_selected = "selected";
+    }
+    $action_value = "insert";
 }
     
 // Selector
@@ -557,6 +609,62 @@ foreach( $linkGroupList as $linkGroupItem )
     
     $t->parse( "link_group", "link_group_tpl", true );
     $t->parse( "multiple_category", "multiple_category_tpl", true );
+}
+
+
+$type = new eZLinkType();
+$types = $type->getAll();
+
+if ( isSet( $TypeID ) )
+    $type = new eZLinkType( $TypeID );
+
+
+foreach ( $types as $typeItem )
+{
+    if ( $type )
+    {
+        if ( $type->id() == $typeItem->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    
+    $t->set_var( "type_id", $typeItem->id( ) );
+    $t->set_var( "type_name", $typeItem->name( ) );
+    
+    $t->parse( "type", "type_tpl", true );
+}
+
+
+if ( $type )    
+{
+    $attributes = $type->attributes();
+
+    foreach ( $attributes as $attribute )
+    {
+        $t->set_var( "attribute_id", $attribute->id( ) );
+        $t->set_var( "attribute_name", $attribute->name( ) );
+        $t->set_var( "attribute_value", $attribute->value( $link ) );
+        
+        $t->parse( "attribute", "attribute_tpl", true );
+    }
+}
+
+if ( count( $attributes ) > 0 || !isSet( $type ) )
+{
+    $t->parse( "attribute_list", "attribute_list_tpl" );
+}
+else
+{
+    $t->set_var( "attribute_list", "" );
 }
 
 
