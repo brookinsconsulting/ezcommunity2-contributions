@@ -167,6 +167,7 @@ function checkForm()
   </select>
 <!-- END billing_address_tpl -->
 <br /><br />
+<!-- BEGIN shipping_address_list_tpl -->
 <b>{intl-shipping_to}:</b><br />
   <select name="ShippingAddressID">
     <!-- BEGIN shipping_address_tpl -->
@@ -177,6 +178,7 @@ function checkForm()
     <!-- END wish_user_tpl -->
   </select>
   <br /><br />
+<!-- END shipping_address_list_tpl -->
 <b>{intl-comment}:</b><br />
 <textarea name="Comment" cols="40" rows="5"></textarea>
 

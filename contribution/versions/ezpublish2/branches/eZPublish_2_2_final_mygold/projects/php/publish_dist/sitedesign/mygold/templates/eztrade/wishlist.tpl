@@ -161,7 +161,7 @@
 <hr noshade="noshade" size="1" />
 
 <input class="okbutton" type="submit" name="DeleteItems" value="{intl-delete_slected}" />&nbsp;
-<input class="okbutton" type="submit" value="{intl-update}" />
+<input class="okbutton" type="submit" Name="Refresh" value="{intl-update}" />
 <!-- END full_wishlist_tpl -->
 
 
