@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.7 2001/07/29 23:31:09 kaid Exp $
+// $Id: ezbackslashimporter.php,v 1.8 2001/08/14 07:49:02 br Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -111,8 +111,8 @@ class eZBackslashImporter
                         }
 
                         $news = new eZNews();
-                        $news->setName( $db->escapeString( $title ) );
-                        $news->setURL( $db->escapeString( $link ) );
+                        $news->setName( $title );
+                        $news->setURL( $link );
 
                         if ( ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})", $publishingDate, $valueArray ) )
                         {

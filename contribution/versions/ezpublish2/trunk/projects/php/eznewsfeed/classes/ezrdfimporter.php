@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.11 2001/07/29 23:31:09 kaid Exp $
+// $Id: ezrdfimporter.php,v 1.12 2001/08/14 07:49:02 br Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -115,9 +115,9 @@ class eZRDFImporter
                                 }
 
                                 $news = new eZNews();
-                                $news->setName( $db->escapeString( $title ) );
-                                $news->setIntro( $db->escapeString( $description ) );
-                                $news->setURL( $db->escapeString($link ) );
+                                $news->setName( $title );
+                                $news->setIntro( $description );
+                                $news->setURL( $link );
 
                                 $dateTime = new eZDateTime();
                                 $news->setOriginalPublishingDate( $dateTime );
