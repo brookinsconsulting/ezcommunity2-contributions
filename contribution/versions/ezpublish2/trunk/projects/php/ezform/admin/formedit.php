@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.19 2001/12/18 14:11:46 pkej Exp $
+// $Id: formedit.php,v 1.20 2001/12/18 14:27:44 pkej Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -168,7 +168,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         $formInstructionPage = "no";
     }
 
-    if ( count( $errorMessages ) == 0 || isSet( $NewElement ) || isSet( $Update ) )
+    if ( count( $errorMessages ) == 0 || isSet( $NewElement ) || isSet( $Update ) || isSet( $OK ) )
     {
         $form->setName( $formName );
         
@@ -179,8 +179,10 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         }
         else
         {
-            $form->setReceiver( "" );
-            $form->setCC( "" );
+            $formReceiver = "";
+            $formCC = "";
+            $form->setReceiver( $formReceiver );
+            $form->setCC( $formCC );
         }
         
         if ( $DataHandlingDatabase == "database" )
@@ -199,7 +201,8 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         }
         else
         {
-            $form->setSender( "" );
+            $formSender = "";
+            $form->setSender( $formSender );
             $form->setSendAsUser( false );
         }
         
@@ -209,11 +212,13 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         }
         elseif ( $hasInstructions == "predefined" )
         {
-            $form->setInstructionPage( $ini->read_var( "eZFormMain", "DefaultInstructionPage" ) );
+            $formInstructionPage =& $ini->read_var( "eZFormMain", "DefaultInstructionPage" );
+            $form->setInstructionPage( $formInstructionPage );
         }
         else
         {
-            $form->setInstructionPage( "" );
+            $formInstructionPage = "";
+            $form->setInstructionPage( $formInstructionPage );
         }
 
         if ( $hasCompletion == "yes" )
@@ -222,11 +227,13 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         }
         elseif ( $hasCompletion == "predefined" )
         {
-            $form->setCompletedPage( $ini->read_var( "eZFormMain", "DefaultInstructionPage" ) );
+            $formCompletedPage =& $ini->read_var( "eZFormMain", "DefaultInstructionPage" );
+            $form->setCompletedPage( $formCompletedPage );
         }
         else
         {
-            $form->setCompletedPage( "" );
+            $formCompletedPage = "";
+            $form->setCompletedPage( $formCompletedPage );
         }
                 
         $form->store();
