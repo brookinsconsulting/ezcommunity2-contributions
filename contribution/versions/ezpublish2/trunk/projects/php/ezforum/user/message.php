@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.18 2001/03/01 14:06:25 jb Exp $
+// $Id: message.php,v 1.19 2001/03/13 14:32:34 pkej Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -97,7 +97,19 @@ $t->set_var( "topic", $message->topic() );
 
 $user = $message->user();
 
-$t->set_var( "main-user", $user->firstName() . " " . $user->lastName() );
+$anonymous=$ini->read_var( "eZForumMain", "AnonymousPoster" );
+
+if( $user->id() == 0 )
+{
+    $MessageAuthor = $anonymous;
+}
+else
+{
+    $MessageAuthor = $user->firstName() . " " . $user->lastName();
+}
+
+
+$t->set_var( "main-user", $MessageAuthor );
 
 $t->set_var( "topic", $message->topic() );
 
@@ -164,7 +176,16 @@ foreach ( $messages as $message )
 
     $user = $message->user();
     
-    $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+    if( $user->id() == 0 )
+    {
+        $MessageAuthor = $anonymous;
+    }
+    else
+    {
+        $MessageAuthor = $user->firstName() . " " . $user->lastName();
+    }
+    
+    $t->set_var( "user", $MessageAuthor );
 
     if( get_class( $viewer ) == "ezuser" )
     {
