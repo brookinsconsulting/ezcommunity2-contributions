@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: yearview.php,v 1.16 2001/04/20 15:32:00 gl Exp $
+// $Id: yearview.php,v 1.17 2001/07/20 11:57:16 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
