@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpreorder.php,v 1.10 2001/08/10 12:15:26 jhe Exp $
+// $Id: ezpreorder.php,v 1.11 2001/10/23 09:55:21 br Exp $
 //
 // Definition of eZPreOrder class
 //
@@ -73,11 +73,13 @@ class eZPreOrder
             $ret[] = $db->query( "INSERT INTO eZTrade_PreOrder
                                ( ID,
 		                         OrderID,
-		                         Created )
+		                         Created,
+                                 Verified )
                                VALUES
 		                       ( '$nextID',
                                  '$this->OrderID',
-		                         '$timeStamp' )" );
+		                         '$timeStamp',
+                                 '$this->Verified' )" );
             $db->unlock();
 			$this->ID = $nextID;
         }
@@ -85,6 +87,7 @@ class eZPreOrder
         {
             $ret[] = $db->query( "UPDATE eZTrade_PreOrder SET
 		                         Created=Created,
+                                 Verified=$this->Verified,
 		                         OrderID='$this->OrderID'
                                  WHERE ID='$this->ID'
                                  " );
@@ -126,9 +129,10 @@ class eZPreOrder
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][$db->fieldName("ID")];
-                $this->OrderID = $cart_array[0][$db->fieldName("OrderID")];
-                $this->Created = $cart_array[0][$db->fieldName("Created")];
+                $this->ID = $cart_array[0][$db->fieldName( "ID" )];
+                $this->OrderID = $cart_array[0][$db->fieldName( "OrderID" )];
+                $this->Created = $cart_array[0][$db->fieldName( "Created" )];
+                $this->Verified = $cart_array[0][$db->fieldName( "Verified" )];
                 $ret = true;
             }
         }
@@ -154,9 +158,10 @@ class eZPreOrder
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][$db->fieldName("ID")];
-                $this->OrderID = $cart_array[0][$db->fieldName("OrderID")];
-                $this->Created = $cart_array[0][$db->fieldName("Created")];
+                $this->ID = $cart_array[0][$db->fieldName( "ID" )];
+                $this->OrderID = $cart_array[0][$db->fieldName( "OrderID" )];
+                $this->Created = $cart_array[0][$db->fieldName( "Created" )];
+                $this->Verified = $cart_array[0][$db->fieldName( "Verified" )];
                 $ret = true;
             }
         }
@@ -182,7 +187,15 @@ class eZPreOrder
     {
         return $this->ID;
     }
-
+    
+    /*!
+      Returns status for Verified.
+    */
+    function verified()
+    {
+        return $this->Verified;
+    }
+    
     /*!
       Returns the order id. If 0 this pre order has not
       resulted in an order.
@@ -190,6 +203,14 @@ class eZPreOrder
     function orderID()
     {
         return $this->OrderID;
+    }
+    
+    /*!
+      Returns status for Verified.
+    */
+    function setVerified( $value )
+    {
+        $this->Verified = $value;
     }
     
     /*!
@@ -204,7 +225,7 @@ class eZPreOrder
     var $ID;
     var $Created;
     var $OrderID;
-
+    var $Verified;
 }
 
 ?>
