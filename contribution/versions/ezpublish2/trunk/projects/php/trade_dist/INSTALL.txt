@@ -102,7 +102,7 @@ ServerAlias admin.trade.org
 
 * Create a database, name it trade or whatever you like .
 
-# mysqladmin -uroot -p create database trade
+# mysqladmin -uroot -p create trade
 
 * Add a trade user in MySQL, to add a user you can use the MySQL client
 

@@ -185,7 +185,7 @@ Database install
 Create a database, name it trade or whatever you like .
 \layout LyX-Code
 
-# mysqladmin -uroot -p create database trade
+# mysqladmin -uroot -p create trade
 \layout Itemize
 
 Add a trade user in MySQL, to add a user you can use the MySQL client
