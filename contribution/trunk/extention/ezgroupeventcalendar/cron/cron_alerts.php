@@ -1,3 +1,4 @@
+#!/usr/local/bin/php -q
 <?
 // 
 // $Id: cron_alert.php,v 1.14.2.8 2004/09/29 05:58:00 ghb Exp $
@@ -37,6 +38,8 @@ elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
 else
 //	$siteDir = "./";
 $siteDir = "/home/web/ezcommunity.net/html/";
+$serverDateCMD = "/bin/date";
+$serverCalendarCronLog = 'bin/logs/calendar_even_notification_cron.log';
 
 if ( substr( php_uname(), 0, 7) == "Windows" )
     $separator = ";";
@@ -73,7 +76,7 @@ ini_set( "include_path", $includePath );
    // $events =& $event->getAll();
    // print( "event: " .  $event->name()."\n" );
 
-   $events->eventNotification();
+   $events->notification();
  }
 //------------------------------------------------
 
@@ -98,7 +101,7 @@ $today = date("F j, Y, g:i a");
 // What other information would be usefull here.
 // Emailed Users List Names, Email Adresses, UserID, Date, EventID
   
-system('/usr/bin/date >> '. $siteDir .'bin/logs/calendar_even_notification_cron.log');
+system( $serverDateCMD .' >> '. $siteDir . $serverCalendarCronLog);
 
 // print("#---------------------------------------------- \n");
 
