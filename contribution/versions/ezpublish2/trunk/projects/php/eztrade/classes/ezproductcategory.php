@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.16 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: ezproductcategory.php,v 1.17 2000/12/14 11:46:54 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -43,7 +43,7 @@
 
   // Fetches every category found in the database
 
-  $categoryArray = $category->getAll();
+  $categoryArray = $category->geAll();
 
   // Prints out every category's name and description , notice it's an array 
   // of objects.
@@ -272,6 +272,29 @@ class eZProductCategory
         
         return $path;
     }
+
+    function getTree( $parentID=0, $level=0 )
+    {
+        $category = new eZProductCategory( $parentID );
+
+        $categoryList = $category->getByParent( $category, true );
+        
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $return_array[] = new eZProductCategory( $category->id() ), $level ) );
+            
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+            }
+            
+        }
+
+        return $tree;
+    }
+
     
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.

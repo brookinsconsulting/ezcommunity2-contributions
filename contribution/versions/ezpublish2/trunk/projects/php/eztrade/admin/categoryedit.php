@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.7 2000/11/01 12:45:29 ce-cvs Exp $
+// $Id: categoryedit.php,v 1.8 2000/12/14 11:46:54 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -99,7 +99,7 @@ $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) )
 
 $category = new eZProductCategory();
 
-$categoryArray = $category->getAll( );
+$categoryArray = $category->getTree( );
 
 $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
@@ -123,10 +123,16 @@ if ( $Action == "Edit" )
 
 foreach ( $categoryArray as $catItem )
 {
-    if ( $CategoryID != $catItem->id() )
+    if ( $CategoryID != $catItem[0]->id() )
     {
-        $t->set_var( "option_value", $catItem->id() );
-        $t->set_var( "option_name", $catItem->name() );
+        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "option_name", $catItem[0]->name() );
+
+        if ( $catItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
+
 
         $t->parse( "value", "value_tpl", true );
     }

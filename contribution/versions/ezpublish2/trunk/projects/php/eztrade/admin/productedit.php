@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.22 2000/11/12 19:41:44 bf-cvs Exp $
+// $Id: productedit.php,v 1.23 2000/12/14 11:46:54 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -454,7 +454,7 @@ if ( $Action == "Edit" )
 }
 
 $category = new eZProductCategory();
-$categoryArray = $category->getAll( );
+$categoryArray = $category->getTree( );
 
 foreach ( $categoryArray as $catItem )
 {
@@ -462,8 +462,8 @@ foreach ( $categoryArray as $catItem )
     {
         $defCat = $product->categoryDefinition( );
         
-        if ( $product->existsInCategory( $catItem ) &&
-             ( $defCat->id() != $catItem->id() ) )
+        if ( $product->existsInCategory( $catItem[0] ) &&
+             ( $defCat->id() != $catItem[0]->id() ) )
         {
             $t->set_var( "multiple_selected", "selected" );
         }
@@ -472,7 +472,7 @@ foreach ( $categoryArray as $catItem )
             $t->set_var( "multiple_selected", "" );
         }
 
-        if ( $defCat->id() == $catItem->id() )
+        if ( $defCat->id() == $catItem[0]->id() )
         {
             $t->set_var( "selected", "selected" );
         }
@@ -499,8 +499,13 @@ foreach ( $categoryArray as $catItem )
 //              $t->set_var( "selected", "" );
 //      }
     
-    $t->set_var( "option_value", $catItem->id() );
-    $t->set_var( "option_name", $catItem->name() );
+    $t->set_var( "option_value", $catItem[0]->id() );
+    $t->set_var( "option_name", $catItem[0]->name() );
+
+    if ( $catItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+    else
+        $t->set_var( "option_level", "" );
 
     $t->parse( "value", "value_tpl", true );
     $t->parse( "multiple_value", "multiple_value_tpl", true );    
