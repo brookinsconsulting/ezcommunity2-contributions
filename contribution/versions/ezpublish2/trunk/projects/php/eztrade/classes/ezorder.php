@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.49 2001/09/15 12:37:17 pkej Exp $
+// $Id: ezorder.php,v 1.50 2001/09/15 15:15:01 pkej Exp $
 //
 // Definition of eZOrder class
 //
@@ -907,7 +907,7 @@ class eZOrder
     /*
         This function calculates the totals of the order contents.
      */
-    function orderTotals( &$tax, &$total, $user )
+    function orderTotals( &$tax, &$total )
     {
         $items = $this->items( );
         foreach( $items as $item )
@@ -915,8 +915,8 @@ class eZOrder
             $product =& $item->product();
             $vatPercentage = $product->vatPercentage();
             
-            $exTax = $item->correctPrice( true, true, $user, false );
-            $incTax = $item->correctPrice( true, true, $user, true );
+            $exTax = $item->correctPrice( true, true, false );
+            $incTax = $item->correctPrice( true, true, true );
 
             $totalExTax += $exTax;
             $totalIncTax += $incTax;

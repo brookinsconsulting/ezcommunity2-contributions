@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.22 2001/09/15 12:37:17 pkej Exp $
+// $Id: ezorderitem.php,v 1.23 2001/09/15 15:15:01 pkej Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -315,7 +315,7 @@ class eZOrderItem
       Returns the correct price of the product based on the logged in user, and the
       VAT status and use.
     */
-    function correctPrice( $calcCount=true, $withOptions=true, &$inUser, $calcVAT )
+    function correctPrice( $calcCount=true, $withOptions=true, $calcVAT )
     {
         echo $this->Price . ", " . $this->VAT . ", " . ( $this->Price - $this->VAT ) . "<br>\n";
         if( $calcVAT = true )
@@ -327,12 +327,12 @@ class eZOrderItem
     /*!
       Returns the correct localized price of the product.
     */
-    function localePrice( $calcCount=true, $withOptions=true, $inLanguage, &$inUser, $calcVAT )
+    function localePrice( $calcCount=true, $withOptions=true, $calcVAT )
     {
         $locale = new eZLocale( $inLanguage );
         $currency = new eZCurrency();
         
-        $price = $this->correctPrice( $calcCount, $withOptions, $inUser, $calcVAT );
+        $price = $this->correctPrice( $calcCount, $withOptions, $calcVAT );
         
         $currency->setValue( $price );
         return $locale->format( $currency );

@@ -156,6 +156,7 @@
 
     <td>&nbsp;</td>
 </tr>
+
 <!-- BEGIN vouchers_tpl --> 
 <tr>
         <!-- BEGIN voucher_item_tpl -->
@@ -181,6 +182,7 @@
         <!-- END voucher_item_tpl -->
 </tr>
 <!-- END vouchers_tpl --> 
+
 <tr>
     <td>&nbsp;</td>
     <th colspan="{subtotals_span_size}" class="right">{intl-total}:</th>
@@ -195,7 +197,19 @@
 
     <td>&nbsp;</td>
 </tr>
-
+<tr>
+	<th colspan="{totals_span_size}" class="right">{intl-shipping_method}:</th>
+    <td>&nbsp;</td>
+    <td align="right">
+	    <select name="ShippingTypeID">
+	    <!-- BEGIN shipping_type_tpl -->
+	    <option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
+	    <!-- END shipping_type_tpl -->
+	    </select>
+	    <input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
+    </td>
+    <td>&nbsp;</td>
+</tr>
 </table>
 
 <!-- BEGIN tax_specification_tpl -->
@@ -228,6 +242,8 @@
 </table>
 <!-- END tax_specification_tpl -->
 <!-- END full_cart_tpl -->
+
+
 
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.88 2001/09/15 13:26:23 pkej Exp $
+// $Id: checkout.php,v 1.89 2001/09/15 15:15:01 pkej Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -139,6 +139,8 @@ $t->set_block( "full_cart_tpl", "total_inc_tax_item_tpl", "total_inc_tax_item" )
 $t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
 $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
+$t->set_block( "full_cart_tpl", "shipping_type_tpl", "shipping_type" );
+
 $t->set_block( "checkout_page_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_page_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
@@ -210,6 +212,41 @@ if ( isSet( $SendOrder ) )
     }
 }
 
+// show the shipping types
+$type = new eZShippingType();
+$types = $type->getAll();
+
+$currentTypeID = eZHTTPTool::getVar( "ShippingTypeID" );
+    
+$currentShippingType = false;
+foreach ( $types as $type )
+{
+    $t->set_var( "shipping_type_id", $type->id() );
+    $t->set_var( "shipping_type_name", $type->name() );
+    
+    if ( is_numeric( $currentTypeID ) )
+    {
+        if ( $currentTypeID == $type->id() )
+        {
+            $currentShippingType = $type;
+            $t->set_var( "type_selected", "selected" );
+        }
+        else
+            $t->set_var( "type_selected", "" );            
+    }
+    else
+    {
+        if ( $type->isDefault() )
+        {
+            $currentShippingType = $type;
+            $t->set_var( "type_selected", "selected" );
+        }
+        else
+            $t->set_var( "type_selected", "" );
+    }
+
+    $t->parse( "shipping_type", "shipping_type_tpl", true );
+}
 
 $vat = true;
 if ( is_numeric( $BillingAddressID ) )
