@@ -203,10 +203,6 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<input class="stdbutton" type="submit" name="ShopMore" value="{intl-shopmore}" />
-	</td>
-	<td>&nbsp;</td>
-	<td>
 	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
 	</td>
 	<td>&nbsp;</td>
@@ -216,10 +212,18 @@
 </td>
 </table>
 <hr noshade="noshade" size="4" />
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input class="okbutton" type="submit" name="ShopMore" value="{intl-shopmore}" />
+	</td>
+	<td align="right">
 	<!-- BEGIN cart_checkout_button_tpl -->
 	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	<!-- END cart_checkout_button_tpl -->
-
+	</td>
+</tr>
+</table>
 <!-- END cart_checkout_tpl -->
 
 
