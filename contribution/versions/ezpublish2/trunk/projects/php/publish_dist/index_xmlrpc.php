@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.26 2001/09/29 12:35:14 kaid Exp $
+// $Id: index_xmlrpc.php,v 1.27 2001/10/01 14:16:59 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -66,7 +66,7 @@ $REQUEST_URI = $regs[1];
 ob_end_clean();
 ob_start();
 
-define( "EZPUBLISH_SERVER_VERSION", 0.2 );
+define( "EZPUBLISH_SERVER_VERSION", 2.2 );
 
 // Error codes
 define( "EZERROR_BAD_LOGIN", 1 );
@@ -76,6 +76,7 @@ define( "EZERROR_NO_RETURN_DATA", 4 );
 define( "EZERROR_NONEXISTING_OBJECT", 5 );
 define( "EZERROR_PHP_ERROR", 6 );
 define( "EZERROR_BAD_REQUEST_DATA", 7 );
+define( "EZERROR_NO_LOGIN", 8 );
 
 // include the server
 include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
@@ -134,12 +135,86 @@ function Call( $args )
 {
     $call = $args[0]->value();
 
-    $login = $call["User"]->value();
-    $GLOBALS["login"] =& $login;
-    $password = $call["Password"]->value();
-    $GLOBALS["password"] =& $Password;
+    if ( !isset( $call["Session"] ) )
+    {
+        $RefID = false;
+        if ( isset( $call["RefID" ] ) and is_object( $call["RefID"] ) )
+            $RefID = $call["RefID"];
+        $GLOBALS["RefID"] =& $RefID;
 
-    $User = eZUser::validateUser( $login, $password );
+        $Command = $call["Command"]->value();
+        $GLOBALS["Command"] =& $Command;
+
+        $REQUEST_URI = $call["URL"]->value();
+        $Module = $REQUEST_URI["Module"]->value();
+        $GLOBALS["Module"] =& $Module;
+        $RequestType = $REQUEST_URI["Type"]->value();
+        $GLOBALS["RequestType"] =& $RequestType;
+        if( isset( $REQUEST_URI["ID"] ) and is_object( $REQUEST_URI["ID"] ) )
+            $ID = $REQUEST_URI["ID"]->value();
+        else
+            $ID = 0;
+        $GLOBALS["ID"] =& $ID;
+
+        if ( $Command != "login" )
+        {
+            return createErrorMessage( EZERROR_NO_LOGIN );
+        }
+
+        // we need to login first
+        $login = $call["User"]->value();
+        $GLOBALS["login"] =& $login;
+        $password = $call["Password"]->value();
+        $GLOBALS["password"] =& $password;
+        $User = eZUser::validateUser( $login, $password );
+        if ( get_class( $User ) != "ezuser" )
+            return createErrorMessage( EZERROR_BAD_LOGIN );
+
+        $session =& $GLOBALS["eZSessionObject"];
+        $session = new eZSession();
+        $hash = md5( microtime() );
+        $GLOBALS["eZSessionCookie"] = $hash;
+
+        if ( !$session->fetch() )
+        {
+            $session->store();
+        }
+
+        if ( !eZUser::loginUser( $User ) )
+            return createErrorMessage( EZERROR_BAD_LOGIN );
+        $hash = $session->hash();
+
+        $ReturnData = new eZXMLRPCStruct( array( "Session" => new eZXMLRPCString( $hash ) ) );
+
+        // create the return struct...
+        $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
+                          "URL" => createURLStruct( $Module, $RequestType, $ID ),
+                          "Command" => new eZXMLRPCString( $Command ),
+                          "RefID" => $RefID,
+                          "Data" => $ReturnData
+                          );
+        $ret = new eZXMLRPCStruct( $ret_arr );
+        return $ret;
+    }
+
+    $hash = $call["Session"]->value();
+    $GLOBALS["hash"] =& $hash;
+    $GLOBALS["eZSessionCookie"] = $hash;
+    $session =& $GLOBALS["eZSessionObject"];
+    $session = new eZSession();
+    if ( !$session->fetch() )
+    {
+        $session->store();
+    }
+
+//      $login = $call["User"]->value();
+//      $GLOBALS["login"] =& $login;
+//      $password = $call["Password"]->value();
+//      $GLOBALS["password"] =& $password;
+
+//      $User = eZUser::validateUser( $login, $password );
+    $User = eZUser::currentUser();
+
 //      if ( get_class( $User ) == "ezuser" )
 //      {
 //          $logged_in = eZUser::loginUser( $User );
@@ -447,6 +522,13 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
             if ( $ID > 0 )
                 $id_text = $ID;
             $error_text = "Bad request data for command \"$Command\" for URL \"$Module:/$RequestType/$id_text\".\n";
+            break;
+        }
+        case EZERROR_NO_LOGIN:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "Client not logged in and no login data available\n";
             break;
         }
         case EZERROR_CUSTOM:
