@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.30 2001/04/18 15:20:39 th Exp $
+// $Id: header.php,v 1.31 2001/04/18 15:24:00 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -110,13 +110,13 @@ if ( $ModuleTab == true )
 
 $t->setAllStrings();
 
-$t->set_var( "module_count", count ($modules) );
+$t->set_var( "module_count", count ( $modules ) );
 
 $t->set_var( "menu_item", "" );
 
 $moduletab = $ini->read_var( "site", "ModuleTab" );
 
-if ( ( $moduletab == "enabled" ) && ( count ($modules) != 0 ) )
+if ( ( $moduletab == "enabled" ) && ( count ( $modules ) != 0 ) )
 {
 	$t->parse( "menu_item", "menu_tpl" );
 }

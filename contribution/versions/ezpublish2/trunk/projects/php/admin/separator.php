@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: separator.php,v 1.13 2001/04/18 15:20:39 th Exp $
+// $Id: separator.php,v 1.14 2001/04/18 15:24:00 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -55,12 +55,12 @@ $t->set_var( "current_url", $REQUEST_URI );
 
 $t->setAllStrings();
 
-$t->set_var( "module_count", count ($modules) );
+$t->set_var( "module_count", count ( $modules ) );
 $t->set_var( "left_spacer_item", "" );
 
 $moduletab = $ini->read_var( "site", "ModuleTab" );
 
-if ( ( $moduletab == "enabled" ) && ( count ($modules) != 0 ) )
+if ( ( $moduletab == "enabled" ) && ( count ( $modules ) != 0 ) )
 {
 	$t->parse( "left_spacer_item", "left_spacer_tpl" );
 }
