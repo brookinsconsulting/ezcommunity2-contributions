@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.3 2000/07/25 11:58:43 lw-cvs Exp $
+    $Id: message.php,v 1.4 2000/07/25 12:01:15 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,7 +21,7 @@ $t = new Template(".");
 $t->set_file( array("message" => "$DOCROOT/templates/message.tpl",
                     "elements" => "$DOCROOT/templates/message-elements.tpl",
                     "navigation" => "$DOCROOT/templates/navigation.tpl",
-                    "navigation-bottom" => "navigation-bottom.tpl" ) );
+                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl" ) );
 
 $t->set_var( "docroot", $DOCROOT);
 $t->set_var( "category_id", $category_id);
