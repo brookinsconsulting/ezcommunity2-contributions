@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.36 2001/02/09 11:05:49 ce Exp $
+// $Id: userwithaddress.php,v 1.37 2001/02/09 11:26:09 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -467,10 +467,7 @@ if ( $Action == "Update" )
             $CountryID = $ini->read_var( "eZUserMain", "DefaultCountry" );
             $country = new eZCountry( $CountryID );
             $address->setCountry( $country );
-            
         }
-
-                
         $address->store();
     }
 

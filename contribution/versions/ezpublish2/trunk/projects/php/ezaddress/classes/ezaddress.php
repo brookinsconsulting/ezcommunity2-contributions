@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.3 2001/02/09 11:05:49 ce Exp $
+// $Id: ezaddress.php,v 1.4 2001/02/09 11:26:09 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -223,7 +223,7 @@ class eZAddress
                 $db->query( "UPDATE eZAddress_AddressDefinition SET
                                          AddressID='$addressID',
                                          UserID='$userID'
-                                         WHERE UserID='$UserID'" );
+                                         WHERE UserID='$userID'" );
             }
             else
             {
