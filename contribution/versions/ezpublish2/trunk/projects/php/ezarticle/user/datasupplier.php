@@ -162,9 +162,12 @@ switch ( $url_array[2] )
         {
             $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
             $article = new eZArticle( $ArticleID );
-            $forum = $article->forum();
-            $ForumID = $forum->id();
-            include( "ezforum/user/messagesimplelist.php" );
+            if( $article->id() >= 1 )
+            {
+                $forum = $article->forum();
+                $ForumID = $forum->id();
+                include( "ezforum/user/messagesimplelist.php" );
+            }
         }        
     }
     break;
