@@ -635,9 +635,6 @@ CREATE TABLE eZSession_Session (
 # Dumping data for table 'eZSession_Session'
 #
 
-INSERT INTO eZSession_Session VALUES (1,'9fe562c032dc9fc54498626eb2019f6c');
-INSERT INTO eZSession_Session VALUES (2,'d0398e957e39baa51eb3a42a61f40a7c');
-
 #
 # Table structure for table 'eZSession_SessionVariable'
 #
@@ -652,10 +649,6 @@ CREATE TABLE eZSession_SessionVariable (
 #
 # Dumping data for table 'eZSession_SessionVariable'
 #
-
-INSERT INTO eZSession_SessionVariable VALUES (1,1,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (2,2,'VoteOnID1','true');
-INSERT INTO eZSession_SessionVariable VALUES (3,2,'AuthenticatedUser','27');
 
 #
 # Table structure for table 'eZUser_Forgot'
