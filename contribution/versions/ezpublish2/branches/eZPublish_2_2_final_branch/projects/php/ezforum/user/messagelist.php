@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.53.2.1 2001/11/15 15:07:05 jhe Exp $
+// $Id: messagelist.php,v 1.53.2.2 2002/01/04 09:04:07 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -324,4 +324,5 @@ else
 }
 
 $t->pparse( "output", "messagelist" );
+
 ?>

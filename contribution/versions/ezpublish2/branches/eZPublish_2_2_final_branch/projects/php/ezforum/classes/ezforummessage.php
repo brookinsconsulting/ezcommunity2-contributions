@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.104.2.3 2002/01/03 15:58:41 kaid Exp $
+// $Id: ezforummessage.php,v 1.104.2.4 2002/01/04 09:04:07 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -751,7 +751,8 @@ class eZForumMessage
                           "SELECT COUNT(*) AS Count
                            FROM eZForum_Message
                            WHERE ThreadID='$threadID'
-                           AND IsTemporary='0'" );
+                           AND IsTemporary='0'
+                           AND IsApproved='1'" );
 
         return $message_array[0][$db->fieldName( "Count" )];
     }
