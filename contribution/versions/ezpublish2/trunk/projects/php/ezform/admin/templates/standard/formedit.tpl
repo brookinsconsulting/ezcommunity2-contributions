@@ -92,10 +92,10 @@
 <!-- END typelist_item_tpl -->
     </select>
 <!-- BEGIN fixed_values_tpl -->
-    <td class="{td_class}"><a href="{www_dir}{index}/form/form/fixedvalues/{form_id}/{element_id}/">{intl-fixed_values}</a>
+    <td class="{td_class}"><a href="{www_dir}{index}/form/form/fixedvalues/{form_id}/{element_id}/">{intl-fixed_values}</a>    </td>
 <!-- END fixed_values_tpl -->
 
-    </td>
+
     <td width="1%" class="{td_class}" align="center">
         <input type="checkbox" {element_required} name="elementRequired[]" value="{element_id}" />
     </td>
