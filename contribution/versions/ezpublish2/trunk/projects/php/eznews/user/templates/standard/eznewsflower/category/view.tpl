@@ -7,9 +7,6 @@
 
 <p>{this_public_description}</p>
 
-<hr noshade size="3" />
-
-<br />
 
 <!-- BEGIN go_to_parent_template -->
 <!-- <a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a> -->

@@ -16,6 +16,9 @@
 <!-- END article_here_template -->
 
 <!-- BEGIN article_item_template -->
+<hr noshade size="3" />
+
+<br />
 
 {this_picture}
 <h2>{this_name}</h2>
@@ -27,9 +30,6 @@
 {this_price}
 </p>
 
-<hr noshade size="3" />
-
-<br />
 <!-- END article_item_template -->
 
 

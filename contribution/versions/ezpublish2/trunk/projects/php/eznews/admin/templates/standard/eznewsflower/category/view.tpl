@@ -67,12 +67,13 @@
 
 {article_items}
 </table>
+
+<!-- END articles_template -->
+
 <br />
 
 <hr noshade size="4" />
 
-<!-- END articles_template -->
-
-<a href="/{this_path}/{this_id}?edit+this">[{intl-edit_this_category}]</a><br />
-<a href="/{this_path}/{this_id}?create+article">[{intl-create_article}]</a><br />
+<a href="/{this_path}/{this_id}?edit+this">{intl-edit_this_category}</a><br />
+<a href="/{this_path}/{this_id}?create+article">{intl-create_article}</a><br />
 
