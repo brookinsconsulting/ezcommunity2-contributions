@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.18.2.5 2002/04/29 12:55:13 bf Exp $
+// $Id: headlines.php,v 1.18.2.6 2002/08/02 12:10:56 bf Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -55,153 +55,156 @@ else
     createHeadlinesMenu();
 }
 
-function createHeadlinesMenu( $menuCacheFile=false )
+if ( !function_exists( "createHeadlinesMenu" )  )
 {
-    global $ini;
-    global $Language;
-    global $GlobalSiteDesign;
-    global $CategoryID;
-    global $Limit;
+    function createHeadlinesMenu( $menuCacheFile=false )
+        {
+            global $ini;
+            global $Language;
+            global $GlobalSiteDesign;
+            global $CategoryID;
+            global $Limit;
 
 
-    include_once( "ezarticle/classes/ezarticlecategory.php" );
-    include_once( "ezarticle/classes/ezarticle.php" );
-    include_once( "ezarticle/classes/ezarticlerenderer.php" );
+            include_once( "ezarticle/classes/ezarticlecategory.php" );
+            include_once( "ezarticle/classes/ezarticle.php" );
+            include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
-    $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
-                         "ezarticle/user/intl/", $Language, "headlines.php" );
+            $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                                 "ezarticle/user/intl/", $Language, "headlines.php" );
 
-    $t->setAllStrings();
+            $t->setAllStrings();
 
-    $t->set_file( array(
-        "article_list_page_tpl" => "headlines.tpl"
-        ) );
+            $t->set_file( array(
+                              "article_list_page_tpl" => "headlines.tpl"
+                              ) );
 
 
 // product
-    $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
-    $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
-    $t->set_block( "article_item_tpl", "current_image_item_tpl", "current_image_item" );
+            $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
+            $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+            $t->set_block( "article_item_tpl", "current_image_item_tpl", "current_image_item" );
 
 
 // image dir
-    $t->set_var( "image_dir", $ImageDir );
+            $t->set_var( "image_dir", $ImageDir );
 
-    if ( !isset( $Limit ) )
-    {
-        $Limit = 10;
-    }
+            if ( !isset( $Limit ) )
+            {
+                $Limit = 10;
+            }
 
-    if ( !isset( $HeadlineOffset ) )
-    {
-        $HeadlineOffset = 0;
-    }
+            if ( !isset( $HeadlineOffset ) )
+            {
+                $HeadlineOffset = 0;
+            }
 
-    $category = new eZArticleCategory( $CategoryID );
+            $category = new eZArticleCategory( $CategoryID );
 
-    if ( $CategoryID == 0 )
-    {
-        // do not set offset for the main page news
-        // always sort by publishing date is the merged category
-        $article = new eZArticle();
-        $articleList =& $article->articles( "time", false, $HeadlineOffset, $Limit );
-        $articleCount = $article->articleCount( false );
-    }
-    else
-    {
-        $articleList =& $category->articles( $category->sortMode(), false, true, $HeadlineOffset, $Limit );
-        $articleCount = $category->articleCount( false, true  );    
-    }
+            if ( $CategoryID == 0 )
+            {
+                // do not set offset for the main page news
+                // always sort by publishing date is the merged category
+                $article = new eZArticle();
+                $articleList =& $article->articles( "time", false, $HeadlineOffset, $Limit );
+                $articleCount = $article->articleCount( false );
+            }
+            else
+            {
+                $articleList =& $category->articles( $category->sortMode(), false, true, $HeadlineOffset, $Limit );
+                $articleCount = $category->articleCount( false, true  );    
+            }
 
 
 // should we allow currentuser to go get articles with permissions or should we not??
 //$articleList = $category->articles( $SortMode, false, true, 0, 5 );
 
-    $locale = new eZLocale( $Language );
-    $i=0;
-    $t->set_var( "article_list", "" );
-    foreach ( $articleList as $article )
-    {
-        $t->set_var( "category_id", $CategoryID );
+            $locale = new eZLocale( $Language );
+            $i=0;
+            $t->set_var( "article_list", "" );
+            foreach ( $articleList as $article )
+            {
+                $t->set_var( "category_id", $CategoryID );
   
-        $t->set_var( "article_id", $article->id() );
-        $t->set_var( "article_name", $article->name() );
+                $t->set_var( "article_id", $article->id() );
+                $t->set_var( "article_name", $article->name() );
 
-        // category image/icon
-        $catDef = $article->categoryDefinition();
+                // category image/icon
+                $catDef = $article->categoryDefinition();
 
-        $image =& $catDef->image();
+                $image =& $catDef->image();
 
-        $t->set_var( "current_image_item", "" );
+                $t->set_var( "current_image_item", "" );
         
-        if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
-        {
-            $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
-            $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
+                if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+                {
+                    $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
+                    $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
 
-            $variation =& $image;
+                    $variation =& $image;
 
-            $imageURL = $variation->filePath( );
-            $imageWidth =& $variation->width();
-            $imageHeight =& $variation->height();
-            $imageCaption =& $image->caption();
+                    $imageURL = $variation->filePath( );
+                    $imageWidth =& $variation->width();
+                    $imageHeight =& $variation->height();
+                    $imageCaption =& $image->caption();
             
-            $t->set_var( "current_image_width", $imageWidth );
-            $t->set_var( "current_image_height", $imageHeight );
-            $t->set_var( "current_image_url", $imageURL );
-            $t->set_var( "current_image_caption", $imageCaption );
-            $t->parse( "current_image_item", "current_image_item_tpl" );
-        }
-        else
-        {
-            $t->set_var( "current_image_item", "" );
-        }
+                    $t->set_var( "current_image_width", $imageWidth );
+                    $t->set_var( "current_image_height", $imageHeight );
+                    $t->set_var( "current_image_url", $imageURL );
+                    $t->set_var( "current_image_caption", $imageCaption );
+                    $t->parse( "current_image_item", "current_image_item_tpl" );
+                }
+                else
+                {
+                    $t->set_var( "current_image_item", "" );
+                }
 
-        $published =& $article->published();
-        $date =& $published->date();
+                $published =& $article->published();
+                $date =& $published->date();
 
-        $t->set_var( "article_published", $locale->format( $date ) );    
+                $t->set_var( "article_published", $locale->format( $date ) );    
 
-        if ( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "td_class", "bglight" );
-            $t->set_var( "td_alt", "1" );
-        }
-        else
-        {
-            $t->set_var( "td_class", "bgdark" );
-            $t->set_var( "td_alt", "2" );
-        }
+                if ( ( $i % 2 ) == 0 )
+                {
+                    $t->set_var( "td_class", "bglight" );
+                    $t->set_var( "td_alt", "1" );
+                }
+                else
+                {
+                    $t->set_var( "td_class", "bgdark" );
+                    $t->set_var( "td_alt", "2" );
+                }
 
-        if ( $article->linkText() != "" )
-        {
-            $t->set_var( "article_link_text", $article->linkText() );
-        }
-        else
-        {
-            $t->set_var( "article_link_text", "more" );
-        }
+                if ( $article->linkText() != "" )
+                {
+                    $t->set_var( "article_link_text", $article->linkText() );
+                }
+                else
+                {
+                    $t->set_var( "article_link_text", "more" );
+                }
 
-        $t->parse( "article_item", "article_item_tpl", true );
-        $i++;
-    }
+                $t->parse( "article_item", "article_item_tpl", true );
+                $i++;
+            }
 
-    if ( count( $articleList ) > 0 )    
-        $t->parse( "article_list", "article_list_tpl" );
-    else
-        $t->set_var( "article_list", "" );
+            if ( count( $articleList ) > 0 )    
+                $t->parse( "article_list", "article_list_tpl" );
+            else
+                $t->set_var( "article_list", "" );
 
-    if ( get_class( $menuCacheFile ) == "ezcachefile" )
-    {
-        $output =& $t->parse( $target, "article_list_page_tpl" );
-        $menuCacheFile->store( $output );
-        print( $output );
-    }
-    else
-    {
-        $t->pparse( "output", "article_list_page_tpl" );
-    }
+            if ( get_class( $menuCacheFile ) == "ezcachefile" )
+            {
+                $output =& $t->parse( $target, "article_list_page_tpl" );
+                $menuCacheFile->store( $output );
+                print( $output );
+            }
+            else
+            {
+                $t->pparse( "output", "article_list_page_tpl" );
+            }
     
+        }
 }
 
 ?>
