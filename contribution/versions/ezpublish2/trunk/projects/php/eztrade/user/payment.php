@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.2 2001/02/06 16:50:05 bf Exp $
+// $Id: payment.php,v 1.3 2001/02/06 17:00:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -37,7 +37,6 @@ $shippingAddressID = $session->variable( "ShippingAddressID" );
 
 print( $billingAddressID ."<br>" );
 print( $shippingAddressID );
-    
 
 // create an order and empty the cart.
 // only do this if the payment was OK.
@@ -270,7 +269,6 @@ if ( $PaymentSuccess == "true" )
     $mailSubjectAdmin = $mailTemplate->parse( "subject_admin", "subject_admin_tpl" );
     $mailTemplate->set_var( "subject_admin", "" );
     
-    
     // Send E-mail    
     $mail = new eZMail();
     $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );
@@ -292,6 +290,5 @@ if ( $PaymentSuccess == "true" )
     
     Header( "Location: /trade/ordersendt/$order_id/" );
 }
-
 
 ?>
