@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.49 2001/06/21 09:08:37 ce Exp $
+// $Id: payment.php,v 1.50 2001/07/06 08:14:49 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -63,6 +63,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $DiscontinueQuantityless = $ini->read_var( "eZTradeMain", "DiscontinueQuantityless" ) == "true";
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
 
@@ -139,6 +140,7 @@ $preOrder = new eZPreOrder( $PreOrderID );
 // print( "Checkout number: " . $PreOrderID . "<br>" );
 
 $paymentMethod = $session->variable( "PaymentMethod" );
+$locale = new eZLocale( $Language );
 
 include( $instance->paymentFile( $paymentMethod ) );
 
@@ -185,8 +187,75 @@ if ( $PaymentSuccess == "true" )
         $product = $item->product();
 
         // product price
-        $price = $item->price( false );
-        
+
+
+    $priceobj = new eZCurrency();
+
+    if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
+         $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
+    {
+        $found_price = false;
+        if ( $ShowPriceGroups and $PriceGroup > 0 )
+        {
+            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+            if ( $price )
+            {
+                $found_price = true;
+                $priceobj->setValue( $price * $item->count() );
+            }
+        }
+        if ( !$found_price )
+        {
+            $priceobj->setValue( $product->price() * $item->count() );
+        }
+//        $t->set_var( "product_price", $locale->format( $priceobj ) );
+    }
+    else
+    {
+        $priceArray = "";
+        $priceArray = "";
+        $options =& $product->options();
+        if ( count ( $options ) == 1 )
+        {
+            $option = $options[0];
+            if ( get_class ( $option ) == "ezoption" )
+            {
+                $optionValues =& $option->values();
+                if ( count ( $optionValues ) > 1 )
+                {
+                    $i=0;
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $found_price = false;
+                        if ( $ShowPriceGroups and $PriceGroup > 0 )
+                        {
+                            $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
+                            if( $priceArray[$i] )
+                            {
+                                $found_price = true;
+                                $priceArray[$i] = $priceArray[$i];
+                            }
+                        }
+                        if ( !$found_price )
+                        {
+                            $priceArray[$i] = $optionValue->price();
+                        }
+                        $i++;
+                    }
+                    $high = new eZCurrency( max( $priceArray ) );
+                    $low = new eZCurrency( min( $priceArray ) );
+
+//                    $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+                }
+            }
+        }
+        else
+            $t->set_var( "product_price", "" );
+    }
+    
+    $price = $priceobj->value();    
+
+
         // create a new order item
         $orderItem = new eZOrderItem();
         $orderItem->setOrder( $order );
@@ -365,11 +434,75 @@ if ( $PaymentSuccess == "true" )
         
     $mailTemplate->parse( "shipping_address", "shipping_address_tpl" );
 
+
+    $totalPrice = 0;
     foreach( $items as $item )
     {
         $product = $item->product();
 
-        $price = $item->price();
+        $priceobj = new eZCurrency();
+
+        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
+             $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
+        {
+            $found_price = false;
+            if ( $ShowPriceGroups and $PriceGroup > 0 )
+            {
+                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+                if ( $price )
+                {
+                    $found_price = true;
+                    $priceobj->setValue( $price * $item->count() );
+                }
+            }
+            if ( !$found_price )
+            {
+                $priceobj->setValue( $product->price() * $item->count() );
+            }
+        }
+        else
+        {
+            $priceArray = "";
+            $options =& $product->options();
+            if ( count ( $options ) == 1 )
+            {
+                $option = $options[0];
+                if ( get_class ( $option ) == "ezoption" )
+                {
+                    $optionValues =& $option->values();
+                    if ( count ( $optionValues ) > 1 )
+                    {
+                        $i=0;
+                        foreach ( $optionValues as $optionValue )
+                        {
+                            $found_price = false;
+                            if ( $ShowPriceGroups and $PriceGroup > 0 )
+                            {
+                                $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
+                                if( $priceArray[$i] )
+                                {
+                                    $found_price = true;
+                                    $priceArray[$i] = $priceArray[$i];
+                                }
+                            }
+                            if ( !$found_price )
+                            {
+                                $priceArray[$i] = $optionValue->price();
+                            }
+                            $i++;
+                        }
+                        $high = new eZCurrency( max( $priceArray ) );
+                        $low = new eZCurrency( min( $priceArray ) );
+                        
+                    }
+                }
+            }
+        }
+        
+        $price = $priceobj->value();    
+        
+        $totalPrice += $price;
+
         $currency->setValue( $price );
 
         $mailTemplate->set_var( "debug", $debug );
@@ -411,7 +544,7 @@ if ( $PaymentSuccess == "true" )
         $mailTemplate->parse( "order_item", "order_item_tpl", true );
     }
 
-    $totalPrice = $order->totalPrice();
+//    $totalPrice = $order->totalPrice();
     $currency->setValue( $totalPrice );
     
     $priceString = substr(  $locale->format( $currency ), 0, 13 );
@@ -425,7 +558,7 @@ if ( $PaymentSuccess == "true" )
     $shippingPriceString = str_pad( $shippingPriceString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
 
-    $grandTotal = $order->totalPrice() + $order->shippingCharge();
+    $grandTotal = $totalPrice + $order->shippingCharge();
     $currency->setValue( $grandTotal );
 
     $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );
@@ -488,7 +621,7 @@ if ( $PaymentSuccess == "true" )
 
 	    $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     	//encrypt mailBody
-		$mytext = new ezgpg($mailBody, $mailKeyname, $wwwUser);
+		$mytext = new ezgpg( $mailBody, $mailKeyname, $wwwUser );
 		$mailBody=($mytext->body);
 		$mail->setBody( $mailBody );
 	}

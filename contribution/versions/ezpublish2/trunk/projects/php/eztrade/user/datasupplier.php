@@ -1,4 +1,4 @@
-<?
+<?php
 
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
