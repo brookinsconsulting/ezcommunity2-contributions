@@ -4,7 +4,7 @@
 	<h1>{intl-file_view}</h1>
 	</td>
 	<td align="right">
-	<form action="{www_dir}{index}/filemanager/search/" method="post">
+	<form action="{www_dir}{index}/filemanager/search/" method="get">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
