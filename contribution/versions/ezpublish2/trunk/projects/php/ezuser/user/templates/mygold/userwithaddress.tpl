@@ -114,8 +114,10 @@
 <p class="boxtext">{intl-street1}:</p>
 <input type="text" size="20" name="Street1[]" value="{street1_value}"/>
 
+<!--
 <p class="boxtext">{intl-street2}:</p>
 <input type="text" size="20" name="Street2[]" value="{street2_value}"/>
+-->
 
 <p class="boxtext">{intl-zip}:</p>
 <input type="text" size="20" name="Zip[]" value="{zip_value}"/>

@@ -72,7 +72,8 @@ function &newOrders( $args )
             $datetime =& $orderItem->date();
 
             $date = $datetime->date();
-            
+            $time = $datetime->time();
+
             $user =& $orderItem->user();
             
             if ( $user )
@@ -82,7 +83,6 @@ function &newOrders( $args )
 
                 $billingAddress =& $orderItem->billingAddress();
                 $billingCountry =& $billingAddress->country();
-
 
                 $checkout = new eZCheckout();
                 $instance =& $checkout->instance();                
@@ -105,12 +105,13 @@ function &newOrders( $args )
                                                               "TotalPrice" => new eZXMLRPCDouble( ($product->price() ) )
                                                               ) );
                 }
-                
+
                 $orders[] = new eZXMLRPCStruct(
                     array(
                         "OrderID" => new eZXMLRPCInt( $orderItem->id() ),
                         "PaymentMethod" => new eZXMLRPCString( $paymentMethod ),
                         "Date" => new eZXMLRPCString( $locale->format( $date ) ),
+                        "Time" => new eZXMLRPCString( $locale->format( $time ) ),
                         "ShippingCharge" => new eZXMLRPCDouble( $orderItem->shippingCharge() ),
                         "FirstName" => new eZXMLRPCString( $user->firstName() ),
                         "LastName" => new eZXMLRPCString( $user->lastName()  ),
