@@ -10,7 +10,7 @@
 
 <br />
 
-<h2>{intl-products_about_to_order}:</h2>
+<h2>{intl-products_about_to_order}</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
