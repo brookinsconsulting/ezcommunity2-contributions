@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.11 2001/05/08 12:46:38 bf Exp $
+// $Id: menubox.php,v 1.12 2001/07/02 07:10:41 bf Exp $
 //
 // 
 //
@@ -63,7 +63,7 @@ function createLinkMenu( $menuCacheFile=false )
     
     include_once( "classes/eztemplate.php" );
 
-    include_once( "ezlink/classes/ezlinkgroup.php" );
+    include_once( "ezlink/classes/ezlinkcategory.php" );
     include_once( "ezlink/classes/ezlink.php" );
     include_once( "ezlink/classes/ezhit.php" );
 
@@ -76,35 +76,35 @@ function createLinkMenu( $menuCacheFile=false )
         "menu_box_tpl" => "menubox.tpl"
         ) );
 
-    $t->set_block( "menu_box_tpl", "link_group_tpl", "link_group" );
-    $t->set_block( "menu_box_tpl", "no_link_group_tpl", "no_link_group" );
+    $t->set_block( "menu_box_tpl", "link_category_tpl", "link_category" );
+    $t->set_block( "menu_box_tpl", "no_link_category_tpl", "no_link_category" );
 
-    $t->set_var( "link_group", "" );
-    $t->set_var( "no_link_group", "" );
+    $t->set_var( "link_category", "" );
+    $t->set_var( "no_link_category", "" );
 
 // Lister alle kategorier
-    $linkGroup = new eZLinkGroup();
+    $linkCategory = new eZLinkCategory();
 
-    $linkGroup_array = $linkGroup->getByParent( 0 );
+    $linkCategory_array = $linkCategory->getByParent( 0 );
 
-    if ( count( $linkGroup_array ) == 0 )
+    if ( count( $linkCategory_array ) == 0 )
     {
-        $t->set_var( "group_list", "" );
-        $t->parse( "no_link_group", "no_link_group_tpl" );
+        $t->set_var( "category_list", "" );
+        $t->parse( "no_link_category", "no_link_category_tpl" );
     }
     else
     {
-        foreach( $linkGroup_array as $groupItem )
+        foreach( $linkCategory_array as $categoryItem )
         {
-            $link_group_id = $groupItem->id();
+            $link_category_id = $categoryItem->id();
             
-            $t->set_var( "linkgroup_id", $link_group_id );
-            $t->set_var( "linkgroup_title", $groupItem->title() );
+            $t->set_var( "linkcategory_id", $link_category_id );
+            $t->set_var( "linkcategory_name", $categoryItem->name() );
             
-            $t->parse( "link_group", "link_group_tpl", true );
+            $t->parse( "link_category", "link_category_tpl", true );
         }
     }
-    $t->set_var( "linkgroup_id", $LGID );
+    $t->set_var( "linkcategory_id", $LGID );
                        
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 

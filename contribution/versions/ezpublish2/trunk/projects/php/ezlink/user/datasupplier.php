@@ -34,12 +34,13 @@ switch ( $url_array[2] )
         include( "ezlink/user/success.php" );
         break;
 
+    case "category" :
     case "group" :
     {
         if ( $url_array[4] == "parent" )
             $Offset = $url_array[5];
-        $LinkGroupID = $url_array[3];
-        include( "ezlink/user/linkgrouplist.php" );
+        $LinkCategoryID = $url_array[3];
+        include( "ezlink/user/linkcategorylist.php" );
     }
     break;
 
@@ -52,7 +53,7 @@ switch ( $url_array[2] )
         }
         else
         {
-            $LinkGroupID = $url_array[3];
+            $LinkCategoryID = $url_array[3];
             include( "ezlink/user/suggestlink.php" );
         }
     }
