@@ -98,7 +98,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           // utøve rettigheter
           if ( $usrGroup->personDelete() == 'Y' )
           {
-              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage={document_root}personedit.php&Action=delete&PID={person_id}'); return false;\">Slette person</a>" );
+              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID={person_id}'); return false;\">Slette person</a>" );
           }
           else
           {
@@ -113,7 +113,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   // utøve rettigheter
   if ( $usrGroup->companyDelete() == 'Y' )
   {
-      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage={document_root}companyedit.php&Action=delete&CID={company_id}'); return false;\">Slette firma</a>" );
+      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT . "companyedit.php&Action=delete&CID={company_id}'); return false;\">Slette firma</a>" );
   }
   else
   {
