@@ -3,13 +3,9 @@
 
 $url_array = explode( "/", $REQUEST_URI );
 
-include_once( "ezuser/classes/ezuser.php" );
-$user = eZUser::currentUser();
-
-if( $user != 0 )
+if( $UserID > 0 )
 {
     $Add_User = false;
-    $UserID = $user->id();
 }
 else
 {
@@ -27,21 +23,23 @@ switch ( $url_array[2] )
         }
         elseif ( $url_array[3] == "new" )
         {
-            $Action = "new";
-            include( "ezcontact/user/personedit.php" );
+            if( $PersonID > 0 )
+            {
+                header("Redirect: contact/user/edit/$PersonID" );
+                exit();
+            }
+            else
+            {
+                $Action = "new";
+                include( "ezcontact/user/personedit.php" );
+            }
         }
         else if ( $url_array[3] == "insert" )
         {
-            if( $PersonID == $UserID )
+            if( $url_array[4] == 0 )
             {
-                $PersonID = $url_array[4];
                 $Action = "insert";
-                include( "ezcontact/user/personview.php" );
-            }
-            elseif( $UserID == 0 )
-            {
-                header("Redirect: login");
-                exit();
+                include( "ezcontact/user/personedit.php" );
             }
             else
             {
@@ -51,9 +49,7 @@ switch ( $url_array[2] )
         }
         else if ( $url_array[3] == "view" )
         {
-            $PersonID = $url_array[4];
-            
-            if( $PersonID == $UserID )
+            if( $PersonID == $url_array[4] )
             {
                 $Action = "view";
                 include( "ezcontact/user/personview.php" );
@@ -61,7 +57,6 @@ switch ( $url_array[2] )
             elseif( $UserID == 0 )
             {
                 header("Redirect: login");
-                exit();
             }
             else
             {
@@ -71,9 +66,7 @@ switch ( $url_array[2] )
         }
         else if ( $url_array[3] == "edit" )
         {
-            $PersonID = $url_array[4];
-
-            if( $PersonID == $UserID )
+            if( $PersonID == $url_array[4] )
             {
                 $Action = "edit";
                 include( "ezcontact/user/personedit.php" );
@@ -91,8 +84,7 @@ switch ( $url_array[2] )
         }
         else if ( $url_array[3] == "update" )
         {
-            $PersonID = $url_array[4];
-            if( $PersonID == $UserID )
+            if( $PersonID == $url_array[4] )
             {
                 $Action = "update";
                 include( "ezcontact/user/personedit.php" );
@@ -110,9 +102,7 @@ switch ( $url_array[2] )
         }
         else if ( $url_array[3] == "delete" )
         {
-            $PersonID = $url_array[4];
-            
-            if( $PersonID == $UserID )
+            if( $PersonID == $url_array[4] )
             {
                 $Action = "delete";
                 include( "ezcontact/user/persondelete.php" );

@@ -4,6 +4,9 @@
 <tr> 
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/user/new">{intl-add_cv}</a><br>
+<!-- BEGIN logged_in_person_menu_tpl -->
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/user/edit/{person_id}">{intl-edit_person_info}</a><br>
+<!-- END logged_in_person_menu_tpl -->
 	</td>
 </tr>
 <tr>

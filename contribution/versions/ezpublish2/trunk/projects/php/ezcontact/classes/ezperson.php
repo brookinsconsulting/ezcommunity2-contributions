@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.22 2000/11/14 18:06:04 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.23 2000/11/16 16:59:33 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -189,6 +189,24 @@ class eZPerson
         }
     }
     
+    /*
+        Fetches the person with the USER ID == $id
+     */
+    function getByUserID( $id )
+    {
+        $this->dbInit();
+        
+        $query = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID='$id'";
+
+        $this->Database->array_query( $person_array, $query );
+        foreach( $person_array as $personItem )
+        {
+            $return_array[] = new eZPerson( $personItem["PersonID"], false );
+        }
+        
+        return $return_array;
+    }
+    
     /*!
       Fetches all persons in the database.
     */
@@ -307,7 +325,7 @@ class eZPerson
         {
             $phoneID = $phone->id();
 
-            $this->Database->query( "INSERT INTO eZUser_PersonPhoneDict
+            $this->Database->query( "INSERT INTO eZContact_PersonPhoneDict
                                 SET PersonID='$this->ID', PhoneID='$phoneID'" );
 
             $ret = true;
@@ -354,7 +372,7 @@ class eZPerson
         {
             $onlineID = $online->id();
 
-            $this->Database->query( "INSERT INTO eZUser_PersonOnlineDict
+            $this->Database->query( "INSERT INTO eZContact_PersonOnlineDict
                                 SET PersonID='$this->ID', OnlineID='$onlineID'" );
 
             $ret = true;
@@ -365,7 +383,7 @@ class eZPerson
     /*!
       Returns the user that belong to this eZPerson object.
     */
-    function user( $userID )
+    function user()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -374,8 +392,8 @@ class eZPerson
         $this->dbInit();
 
         $this->Database->array_query( $user_array, "SELECT UserID
-                                                 FROM eZContact_PersonUserDict
-                                                 WHERE UserID='$this->userID'" );
+                                                 FROM eZContact_UserPersonDict
+                                                 WHERE PersonID='$this->ID'" );
 
         foreach( $user_array as $userItem )
         {
@@ -401,7 +419,7 @@ class eZPerson
         {
             $userID = $user->id();
 
-            $this->Database->query( "INSERT INTO eZUser_PersonUserDict
+            $this->Database->query( "INSERT INTO eZContact_UserPersonDict
                                 SET PersonID='$this->ID', UserID='$userID'" );
 
             $ret = true;
@@ -567,7 +585,7 @@ class eZPerson
     }
   
     /*!
-      Returns the birth day of this person.
+      Returns the birthday of this person.
     */
     function birthDate( )
     {
