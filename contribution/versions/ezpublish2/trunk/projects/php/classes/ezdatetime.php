@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdatetime.php,v 1.31 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezdatetime.php,v 1.32 2001/09/28 06:29:32 jhe Exp $
 //
 // Definition of eZDateTime class
 //
@@ -373,7 +373,7 @@ class eZDateTime
     /*!
       Returns the number of days in the current month.
     */
-    function daysInMonth( )
+    function daysInMonth()
     {
         return $this->Date->daysInMonth();
     }

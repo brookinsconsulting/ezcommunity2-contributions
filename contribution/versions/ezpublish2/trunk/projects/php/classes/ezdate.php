@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdate.php,v 1.27 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezdate.php,v 1.28 2001/09/28 06:29:32 jhe Exp $
 //
 // Definition of eZCompany class
 //
@@ -202,9 +202,9 @@ class eZDate
       Returns the day of week. ( 1..7 )
       If mondayFirst is true, the week starts on Monday, else on Sunday.
     */
-    function dayOfWeek( $mondayFirst=true )
+    function dayOfWeek( $mondayFirst = true )
     {
-        $weekday = date ( "w", mktime ( 1, 0, 0, $this->Month, $this->Day, $this->Year ) );
+        $weekday = date( "w", mktime( 1, 0, 0, $this->Month, $this->Day, $this->Year ) );
 
         if ( $mondayFirst == true )
         {

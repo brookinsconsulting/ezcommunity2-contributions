@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.41 2001/09/14 13:05:51 pkej Exp $
+// $Id: ezlocale.php,v 1.42 2001/09/28 06:29:32 jhe Exp $
 //
 // Definition of eZLocale class
 //
@@ -159,7 +159,7 @@ class eZLocale
       If isShort is set to false then the long version of the string is used,
       if it exists.
     */
-    function &format( &$obj, $isShort=true )
+    function &format( &$obj, $isShort = true )
     {
         $returnString = "<b>Locale error</b>: object or type not supported.";
 
@@ -172,7 +172,7 @@ class eZLocale
             {
                 $objClass = get_class( $obj );
 
-                if ( $isShort == true )
+                if ( $isShort )
                 {
                     $date = $this->ShortDateFormat;
                     $time = $this->ShortTimeFormat;
@@ -193,8 +193,9 @@ class eZLocale
                     $date =& str_replace( "%j", "" . $obj->day() . "", $date );
 
                     // D - day of the week, textual, 3 letters; i.e. "Fri"
-                    $date =& str_replace( "%D", "" . $this->dayName(
-                        $obj->dayOfWeek( $this->mondayFirst() ) ) . "", $date );
+                    $date =& str_replace( "%D", "" .
+                                          $this->dayName( $obj->dayOfWeek( $this->mondayFirst() ) ) .
+                                          "", $date );
 
                     // E - day of the week, textual, long; i.e. "Friday"
                     $date =& str_replace( "%E", "" . $this->dayName(
@@ -335,37 +336,31 @@ class eZLocale
                 case 2 :
                 {
                     $day = ( $this->mondayFirst() ) ? "tue" : "mon";
-                    $day = "tue";
                     break;
                 }
                 case 3 :
                 {
                     $day = ( $this->mondayFirst() ) ? "wed" : "tue";
-                    $day = "wed";
                     break;
                 }
                 case 4 :
                 {
                     $day = ( $this->mondayFirst() ) ? "thu" : "wed";
-                    $day = "thu";
                     break;
                 }
                 case 5 :
                 {
                     $day = ( $this->mondayFirst() ) ? "fri" : "thu";
-                    $day = "fri";
                     break;
                 }
                 case 6 :
                 {
                     $day = ( $this->mondayFirst() ) ? "sat" : "fri";
-                    $day = "sat";
                     break;
                 }
                 case 7 :
                 {
                     $day = ( $this->mondayFirst() ) ? "sun" : "sat";
-                    $day = "sun";
                     break;
                 }
             }
@@ -373,13 +368,13 @@ class eZLocale
 
         $name =& $this->LocaleIni->read_var( "RegionalSettings", $long . $day );
 
-        if ( $name == false )
+        if ( $name )
         {
-            return $errorString;
+            return $name;
         }
         else
         {
-            return $name;
+            return $errorString;
         }
     }
 
@@ -555,7 +550,7 @@ class eZLocale
       $hour must be between 0 and 23.
       If $uppercase is true, the string will be returned in upper case, else in lower case.
     */
-    function ampm( $hour, $uppercase=true )
+    function ampm( $hour, $uppercase = true )
     {
         if ( $hour < 12 )
             $ret = "AM";
