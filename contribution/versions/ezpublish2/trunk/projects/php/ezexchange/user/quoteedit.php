@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.8 2001/02/05 16:12:28 jb Exp $
+// $Id: quoteedit.php,v 1.9 2001/02/05 16:15:06 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -229,7 +229,7 @@ function matchAllAll( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$module, &
         showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                     $product_name, $ProductID, $CategoryID );
 
-        exit();
+//          exit();
 
         $quote->delete();
         $offer->delete();
@@ -259,7 +259,7 @@ function matchAllPartial( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$modul
         showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                     $product_name, $ProductID, $CategoryID );
 
-        exit();
+//          exit();
 
         if ( $quote->quantity() == $offer->quantity() )
         {
@@ -297,7 +297,7 @@ function matchPartialAll( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$modul
         showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                     $product_name, $ProductID, $CategoryID );
 
-        exit();
+//          exit();
 
         if ( $quote->quantity() == $offer->quantity() )
         {
@@ -330,7 +330,7 @@ function matchPartialPartial( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$m
     showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                 $product_name, $ProductID, $CategoryID );
 
-    exit();
+//      exit();
 
     if ( $quote->quantity() == $min_quantity )
     {
