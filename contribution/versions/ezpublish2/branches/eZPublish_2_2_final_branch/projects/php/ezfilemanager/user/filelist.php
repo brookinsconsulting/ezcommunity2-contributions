@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.49.2.5 2002/03/04 09:07:30 bf Exp $
+// $Id: filelist.php,v 1.49.2.6 2002/03/04 13:26:58 bf Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -33,7 +33,6 @@ include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
-
 
 $ini =& INIFile::globalINI();
 
@@ -119,6 +118,7 @@ if ( $folder->id() != 0 )
     $t->set_var( "current_folder_description", $folder->description() );
     $t->set_var( "folder_id", $folder->id() );
     $t->set_var( "folder_name", $folder->name() );
+    $t->set_var( "folder_description", $folder->description() );
     $t->parse( "current_folder", "current_folder_tpl" );
 
     $parent = $folder->parent();
@@ -158,6 +158,7 @@ $deleteFolders = false;
 
 foreach ( $folderList as $folderItem )
 {
+    $t->set_var( "folder_description", $folderItem->description() );
     $t->set_var( "folder_name", $folderItem->name() );
     $t->set_var( "folder_id", $folderItem->id() );
 
@@ -214,6 +215,10 @@ foreach ( $fileList as $file )
     $t->set_var( "file_url", $filename );
     $t->set_var( "file_description", $file->description() );
 
+    $fileOwner =& $file->user();
+    if ( $fileOwner )
+        $t->set_var( "file_owner", $fileOwner->firstName() . " " . $fileOwner->lastName() );
+    
     $filePath = $file->filePath( true );
 
     $size = $file->siFileSize();
