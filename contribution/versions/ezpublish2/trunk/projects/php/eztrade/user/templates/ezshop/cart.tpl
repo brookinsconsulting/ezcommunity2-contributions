@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.1 2000/10/31 20:28:05 bf-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.2 2000/11/01 17:26:25 pkej-cvs Exp $ -->
 
 <h1>{intl-cart}</h1>
 
@@ -14,12 +14,12 @@
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Bilde:</th>
-	<th>Varenavn:</th>
-	<th>Opsjoner:</th>
-	<th>Antall:</th>
+	<th>{intl-product_image}:</th>
+	<th>{intl-product_name}:</th>
+	<th>{intl-product_options}:</th>
+	<th>{intl-product_qty}:</th>
 
-	<td class="path" align="right">Pris:</td>
+	<td class="path" align="right">{intl-product_price}:</td>
 	<td class="path" align="right">&nbsp;</td>
 </tr>
 
@@ -54,14 +54,14 @@
 
 <tr>
 	<td colspan="3">&nbsp;</td>
-	<th>Frakt:</th>
+	<th>{intl-shipping}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
 	<td colspan="3">&nbsp;</td>
-	<th>Totalt:</th>
+	<th>{intl-total}:</th>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -74,12 +74,12 @@
 <tr>
 	<!-- BEGIN cart_checkout_tpl -->
 	<td>
-	<input class="okbutton" type="submit" name="DoCheckOut" value="Gå til kasse" />
+	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
 	<!-- END cart_checkout_tpl -->
 
 	<td>
-	<input class="okbutton" type="submit" value="Oppdater" />
+	<input class="okbutton" type="submit" value="{intl-update}" />
 	
 	</td>
 </td>
