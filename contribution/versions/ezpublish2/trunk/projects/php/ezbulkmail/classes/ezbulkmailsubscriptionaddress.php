@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.8 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.9 2001/05/15 09:24:46 ce Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -236,7 +236,20 @@ class eZBulkMailSubscriptionAddress
     {
         if( get_class( $categoryID ) == "ezbulkmailcategory" )
             $categoryID = $categoryID->id();
-        $this->Database->query( "INSERT INTO eZBulkMail_SubscriptionLink SET AddressID='$this->ID', CategoryID='$categoryID'" );
+
+        $db = eZDB::globalDatabase();
+        $db->array_query( $check, "SELECT AddressID
+                                               FROM eZBulkMail_SubscriptionLink
+                                               WHERE CategoryID='$categoryID'
+                                               AND AddressID='$this->ID'
+                                               " );
+        if ( count ( $check ) == 0 )
+        {
+            $db->query( "INSERT INTO eZBulkMail_SubscriptionLink SET AddressID='$this->ID', CategoryID='$categoryID'" );
+            return true;
+        }
+        else
+            return false;
     }
 
     /*!
@@ -281,7 +294,7 @@ class eZBulkMailSubscriptionAddress
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
