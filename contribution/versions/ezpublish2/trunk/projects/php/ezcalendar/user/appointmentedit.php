@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.29 2001/02/16 16:16:53 gl Exp $
+// $Id: appointmentedit.php,v 1.30 2001/02/19 12:29:19 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -230,7 +230,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( $Action == "Update" )
             $appointment = new eZAppointment( $AppointmentID );
         else
-            $appointment = new eZAppointment( );
+            $appointment = new eZAppointment();
         
         $appointment->setDescription( $Description );
         $appointment->setType( $type );
@@ -293,14 +293,8 @@ if ( $Action == "Insert" || $Action == "Update" )
 
             $min = $startArray[3];
             settype( $min, "integer" );
-// This causes trouble when you want e.g. 14:03
-//            if ( $min < 6 )
-//                $min = $min*10;
 
             $startTime->setMinute( $min );
-
-//            if ( $startTime->isGreater( $dayStartTime ) )
-//                $StartTimeError = true;
         }
         else
         {
@@ -316,32 +310,31 @@ if ( $Action == "Insert" || $Action == "Update" )
 
             $min = $stopArray[3];
             settype( $min, "integer" );
-// This causes trouble when you want e.g. 14:03
-//            if ( $min < 6 )
-//                $min = $min*10;
 
             $stopTime->setMinute( $min );
-
-//            if ( $dayStopTime->isGreater( $stopTime ) )
-//                $StopTimeError = true;
         }
         else
         {
             $StopTimeError = true;
         }
 
-        if ( $stopTime->isGreater( $startTime, true ) )
-            $StopTimeError = true;
-
         $datetime = new eZDateTime( $Year, $Month, $Day );
         $datetime->setSecondsElapsedHMS( $startTime->hour(), $startTime->minute(), 0 );
 
         $appointment->setDateTime( $datetime );
 
-        $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
-        $stopTime->minute() - $startTime->minute() );
 
-        $appointment->setDuration( $duration );
+        if ( $stopTime->isGreater( $startTime, true ) )
+        {
+            $StopTimeError = true;
+        }
+        else
+        {
+            $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
+                                    $stopTime->minute() - $startTime->minute() );
+
+            $appointment->setDuration( $duration );
+        }
 
         if ( $TitleError == false && $StartTimeError == false && $StopTimeError == false )
         {
@@ -354,6 +347,21 @@ if ( $Action == "Insert" || $Action == "Update" )
 
             eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
             exit();
+        }
+        else
+        {
+            $t->set_var( "name_value", $appointment->name() );
+            $t->set_var( "description_value", $appointment->description() );
+
+            if ( $appointment->isPrivate() )
+                $t->set_var( "is_private", "checked" );
+            else
+                $t->set_var( "is_private", "" );
+
+            $appStartTime =& $appointment->startTime();
+            $appStopTime =& $appointment->stopTime();
+            $t->set_var( "start_value", addZero( $appStartTime->hour() ) . addZero( $appStartTime->minute() ) );
+            $t->set_var( "stop_value", addZero( $appStopTime->hour() ) . addZero( $appStopTime->minute() ) );
         }
     }
 }
@@ -458,7 +466,8 @@ $tmpdate = new eZDate( $Year, $Month, $Day );
 
 if ( $Action == "New" )
 {
-    $t->set_var( "action_value", "Insert" );
+    $t->set_var( "action_value", "insert" );
+    $t->set_var( "appointment_id", "new" );
     $t->set_var( "name_value", "" );
     $t->set_var( "description_value", "" );
     $t->set_var( "is_private", "" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.13 2001/01/25 10:35:34 gl Exp $
+// $Id: ezappointment.php,v 1.14 2001/02/19 12:29:19 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -331,7 +331,7 @@ class eZAppointment
     /*!
       Returns the date and time of the appointment.
     */
-    function dateTime(  )
+    function dateTime()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -345,7 +345,7 @@ class eZAppointment
     /*!
       Returns the duration of the appointment as a eZTime object.
     */
-    function duration(  )
+    function duration()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -382,19 +382,15 @@ class eZAppointment
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-       
+
        $date = new eZDateTime();
        $date->setMySQLTimeStamp( $this->Date );
 
-       $duration = new eZTime();
-       $duration->setMySQLTime( $this->Duration );
+       $start = $this->startTime();
+       $time = $start->add( $this->duration() );
 
-       $start  = $this->startTime();
-       $time = $start->add( $duration );
-       
        return $time;
     }
-
 
     /*!
       Returns the priority, can be 0,1,2.
@@ -418,7 +414,6 @@ class eZAppointment
        $type = new eZAppointmentType( $this->AppointmentTypeID );
        return $type;
     }
-
 
     /*!
       Returns true if the appointment is private.
