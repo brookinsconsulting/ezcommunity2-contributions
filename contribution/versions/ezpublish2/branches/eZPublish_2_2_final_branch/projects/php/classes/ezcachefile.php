@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.14.2.1 2002/02/18 18:51:31 master Exp $
+// $Id: ezcachefile.php,v 1.14.2.2 2002/02/27 09:39:14 bf Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -54,11 +54,6 @@ class eZCacheFile
         if ( !is_array( $component ) )
             $component = array( $component );
 
-	//EP -- additional caching parameters -------------------
-	$component[] = $GLOBALS["GlobalSectionID"] ;
-	//$component[] = $GLOBALS["HTTP_HOST"]; // future - multihost configuration
-	//-------------------------------------------------------
-	
         $this->Components = $component;
         $this->Suffix = $suffix;
         $this->Separator = $separator;
