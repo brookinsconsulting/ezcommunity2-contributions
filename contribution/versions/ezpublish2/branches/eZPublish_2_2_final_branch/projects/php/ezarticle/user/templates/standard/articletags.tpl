@@ -57,7 +57,7 @@
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
    <!-- END image_link_float_tpl -->
    <!-- BEGIN ext_link_float_tpl -->
-   <a href="{www_dir}{index}{image_href}">
+   <a href="{image_href}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
    <!-- END ext_link_float_tpl -->
    <!-- BEGIN no_link_float_tpl -->  
