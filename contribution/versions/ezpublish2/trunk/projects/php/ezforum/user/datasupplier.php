@@ -12,10 +12,6 @@ switch ( $url_array[2] )
     }    
     break;
 
-    case "" :
-        include( "ezforum/main.php" );
-        break;
-
     case "categorylist":
     {
         include( "ezforum/user/categorylist.php" );
@@ -92,7 +88,12 @@ switch ( $url_array[2] )
         include( "ezforum/newmessage.php" );                
     }    
     break;
-        
+
+    default :
+    {
+        print( "<h1>Error 404 - forum file not found </h1>" );
+    }
+    break;        
 }
 
 ?>
