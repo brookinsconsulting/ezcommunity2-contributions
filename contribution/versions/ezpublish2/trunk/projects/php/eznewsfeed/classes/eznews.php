@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.3 2000/11/16 11:04:46 bf-cvs Exp $
+// $Id: eznews.php,v 1.4 2000/11/16 15:53:21 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -538,7 +538,7 @@ class eZNews
 
        $this->dbInit();
 
-       $OrderBy = "eZNewsFeed_News.PublishingDate ASC";
+       $OrderBy = "eZNewsFeed_News.PublishingDate DESC";
        switch( $sortMode )
        {
            case "alpha" :
@@ -572,7 +572,7 @@ class eZNews
                     GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy
                     LIMIT $offset,$limit" );
        }
- 
+
        for ( $i=0; $i<count($news_array); $i++ )
        {
            $return_array[$i] = new eZNews( $news_array[$i]["NewsID"], false );

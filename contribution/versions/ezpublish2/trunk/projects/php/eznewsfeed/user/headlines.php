@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.1 2000/11/16 11:05:04 bf-cvs Exp $
+// $Id: headlines.php,v 1.2 2000/11/16 15:53:21 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -47,18 +47,17 @@ $t->set_file( array(
     "headlines_page_tpl" => "headlines.tpl"
     ) );
 
-$t->set_block( "headlines_page_tpl", "head_line_tpl", "head_line" );
+$t->set_block( "headlines_page_tpl", "head_line_item_tpl", "head_line_item" );
 
 $newsList = $news->newsList();
 
+
 foreach ( $newsList as $newsItem )
 {
-    $intro = $newsItem->intro();
-    
     $t->set_var( "head_line", $newsItem->name() );
     $t->set_var( "head_line_url", $newsItem->url() );
     
-    $t->pparse( "head_line", "head_line_tpl" );    
+    $t->parse( "head_line_item", "head_line_item_tpl", true );
 }
 
 
