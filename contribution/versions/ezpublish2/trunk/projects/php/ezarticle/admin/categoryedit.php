@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.8 2001/03/01 14:06:24 jb Exp $
+// $Id: categoryedit.php,v 1.9 2001/03/01 17:24:51 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -353,26 +353,28 @@ $tree = $category->getTree();
 
 foreach( $tree as $item )
 {
-    $t->set_var( "option_value", $item[0]->id() );
-    $t->set_var( "option_name", $item[0]->name() );
+    if( eZObjectPermission::hasPermission( $item[0]->id(), "article_category", 'w' ) )
+    {
+        $t->set_var( "option_value", $item[0]->id() );
+        $t->set_var( "option_name", $item[0]->name() );
     
-    if ( $item[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $item[1] ) );
-    else
-        $t->set_var( "option_level", "" );
+        if ( $item[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $item[1] ) );
+        else
+            $t->set_var( "option_level", "" );
 
-    if ( $item[0]->id() == $parentID )
-    {
-        $t->set_var( "selected", "selected" );
-        $selected = true;
+        if ( $item[0]->id() == $parentID )
+        {
+            $t->set_var( "selected", "selected" );
+            $selected = true;
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }            
+
+        $t->parse( "value", "value_tpl", true );
     }
-    else
-    {
-        $t->set_var( "selected", "" );
-    }            
-
-
-    $t->parse( "value", "value_tpl", true );
 }
 
 // group selector
