@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.52 2001/01/19 12:15:26 jb Exp $
+// $Id: ezcompany.php,v 1.53 2001/01/20 23:18:55 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -92,6 +92,7 @@ class eZCompany
             $db->query( "INSERT INTO eZContact_Company set Name='$this->Name',
 	                                              Comment='$this->Comment',
                                                   CompanyNo='$this->CompanyNo',
+                                                  ContactType='$this->ContactType',
 	                                              CreatorID='$this->CreatorID'" );
             $this->ID = mysql_insert_id();
             
@@ -102,6 +103,7 @@ class eZCompany
             $db->query( "UPDATE eZContact_Company set Name='$this->Name',
                                             	 Comment='$this->Comment',
                                                  CompanyNo='$this->CompanyNo',
+                                                 ContactType='$this->ContactType',
                                                	 CreatorID='$this->CreatorID' WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
@@ -192,6 +194,7 @@ class eZCompany
                 $this->Comment = $company_array[0]["Comment"];
                 $this->CreatorID = $company_array[0]["CreatorID" ];        
                 $this->CompanyNo = $company_array[0]["CompanyNo"];
+                $this->ContactType = $company_array[0]["ContactType"];
                      
                 $ret = true;
             }
@@ -308,7 +311,7 @@ class eZCompany
     /*!
       Removes the company from every user category.
     */
-    function removeCategoryies()
+    function removeCategories()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -322,11 +325,14 @@ class eZCompany
     /*!
       Returns the categories that belong to this eZCompany object.
     */
-    function categories( $companyID )
+    function categories( $companyID = false, $as_object = true )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
+
+        if ( !$companyID )
+            $companyID = $this->ID;
+
         $return_array = array();
         $db = eZDB::globalDatabase();
 
@@ -335,10 +341,12 @@ class eZCompany
                                                  WHERE CompanyID='$companyID'" );
 
         foreach( $categories_array as $categoriesItem )
-            {
+        {
+            if ( $as_object )
                 $return_array[] = new eZCompanyType( $categoriesItem["CompanyTypeID"] );
-            }
-
+            else
+                $return_array[] = $categoriesItem["CompanyTypeID"];
+        }
         return $return_array;
     }
    
@@ -346,10 +354,13 @@ class eZCompany
     /*!
       Returns the address that belong to this eZCompany object.
     */
-    function addresses( $companyID )
+    function addresses( $companyID = false )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
+
+        if ( !$companyID )
+            $companyID = $this->ID;
         
         $return_array = array();
         $db = eZDB::globalDatabase();
@@ -415,11 +426,14 @@ class eZCompany
     /*!
       Returns the phones that belong to this eZCompany object.
     */
-    function phones( $companyID )
+    function phones( $companyID = false )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
+        if ( !$companyID )
+            $companyID = $this->ID;
+
         $return_array = array();
         $db = eZDB::globalDatabase();
 
@@ -480,11 +494,14 @@ class eZCompany
     /*!
       Returns the onlines that belong to this eZCompany object.
     */
-    function onlines( $onlineID )
+    function onlines( $onlineID = false )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
+        if ( !$onlineID )
+            $onlineID = $this->ID;
+
         $return_array = array();
         $db = eZDB::globalDatabase();
 
@@ -852,6 +869,28 @@ class eZCompany
     }
 
 
+    /*!
+        Set the contact for this object to $value.
+     */
+    function setContact( $value )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->ContactType = $value;
+    }
+
+    /*!
+      Returns the contact for this company.
+    */
+    function contact( )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ContactType;
+    }
+
     /*
       Henter ut alle firma i databasen hvor en eller flere tilhørende personer    
       inneholder søkestrengen.
@@ -874,11 +913,57 @@ class eZCompany
         return $return_array;
     }    
 
+    /*!
+      Returns the project state of this company.
+    */
+    function projectState()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = "";
+
+        $db = eZDB::globalDatabase();
+
+        $checkQuery = "SELECT ProjectID FROM eZContact_CompanyProjectDict WHERE CompanyID='$this->ID'";
+        $db->array_query( $array, $checkQuery, 0, 1 );
+
+        if( count( $array ) == 1 )
+        {
+            $ret = $array[0]["ProjectID"];
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Returns the project state of this company.
+    */
+    function setProjectState( $value )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $db = eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZContact_CompanyProjectDict WHERE CompanyID='$this->ID'" );
+
+        if ( is_numeric( $value )  )
+        {
+            if ( $value > 0 )
+            {
+                $checkQuery = "INSERT INTO eZContact_CompanyProjectDict
+                               SET CompanyID='$this->ID', ProjectID='$value'";
+                $db->query( $checkQuery );
+            }
+        }
+    }
+
     var $ID;
     var $CreatorID;
     var $Name;
     var $Comment;
     var $Online;
+    var $ContactType;
     var $CompanyNo;
 
     /// Indicates the state of the object. In regard to database information.
