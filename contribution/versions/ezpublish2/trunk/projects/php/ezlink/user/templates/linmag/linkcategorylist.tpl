@@ -16,7 +16,7 @@
 
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<a class="path" href="{www_dir}{index}/link/category/0/">{intl-top}</a>
+<a class="path" href="{www_dir}{index}/link/linklist/0/">{intl-top}</a>
 
 <!-- END path_tpl -->
 
@@ -90,7 +90,6 @@
 	<!-- END link_image_item_tpl -->
 	</td>
 </tr>
-
 <!-- BEGIN attribute_list_tpl -->
 <tr>
 	<td colspan="2" class="{td_class}" align="center">
