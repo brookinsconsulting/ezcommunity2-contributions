@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcarray.php,v 1.6 2001/06/27 13:58:25 jb Exp $
+// $Id: ezxmlrpcarray.php,v 1.7 2001/06/29 12:11:16 bf Exp $
 //
 // Definition of eZXMLRPCArray class
 //
@@ -90,9 +90,16 @@ class eZXMLRPCArray
     /*!
       Returns the array value.
     */
-    function value()
+    function value($arg = -1)
     {
-        return $this->Array;
+		if ($arg == -1)
+        {
+	        return $this->Array;
+		}
+        else
+        {
+	        return $this->Array[$arg]->Value();
+		}
     }
 
     /*!
