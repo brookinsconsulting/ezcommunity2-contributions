@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.15 2002/01/23 10:11:38 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.16 2002/01/23 13:04:52 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -249,6 +249,7 @@ class eZProduct
             }
         }
 
+        
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
         $contents = str_replace ("(", " ", $contents );
@@ -276,6 +277,23 @@ class eZProduct
 
         $contents_array =& split( " ", $contents );
 
+        $norwegianWordArray = array();
+        foreach ( $contents_array as $word )
+        {
+            $pos = strpos( $word, "ø" );
+            if ( is_numeric( strpos( $word, "ø" ) ) ||
+                 is_numeric( strpos( $word, "å" ) ) ||
+                 is_numeric( strpos( $word, "æ" ) ) )
+            {
+                $nWord = str_replace( "ø","o", $word );
+                $nWord = str_replace( "å","a", $nWord );
+                $nWord = str_replace( "æ","oe", $nWord );
+
+                $norwegianWordArray[] = $nWord;
+            }
+        }
+        $contents_array = array_merge( $contents_array, $norwegianWordArray );
+        
         $totalWordCount = count( $contents_array );
         $wordCount = array_count_values( $contents_array );
 
