@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.15 2000/08/03 10:33:25 lw-cvs Exp $
+    $Id: category.php,v 1.16 2000/08/09 10:28:06 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -62,7 +62,7 @@ for ($i = 0; $i < count( $forums ); $i++)
                    );
 
     $t->set_var( "messages", eZforumMessage::countMessages( $t->get_var( "forum_id" ) ) );
-    $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
+    $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
 
     $t->parse("forums","elements",true);
 }

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.30 2000/08/04 07:59:35 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.31 2000/08/09 10:28:07 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -458,9 +458,9 @@ class eZforumMessage
             $t->set_var( "link",$link );
 
             if ( ($i % 2) != 0)
-                $t->set_var( "color", "#eeeeee");
+                $t->set_var( "color", "#dcdcdc");
             else
-                $t->set_var( "color", "#bbbbbb");
+                $t->set_var( "color", "#f0f0f0");
     
             $messages .= $t->parse( "messages", "elements", true );
             $messages .= $this->printHeaderTree( $forum_id, $Id, $level, $document_root, $category_id );
