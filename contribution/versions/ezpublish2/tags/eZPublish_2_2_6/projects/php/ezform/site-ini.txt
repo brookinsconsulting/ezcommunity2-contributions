@@ -1,0 +1,6 @@
+Example eZForm section:
+
+[eZFormMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+Language=en_GB
