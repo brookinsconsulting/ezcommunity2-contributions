@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.12 2000/11/02 11:55:16 ce-cvs Exp $
+// $Id: pollist.php,v 1.13 2000/11/06 10:59:50 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -52,6 +52,10 @@ if ( $Action == "StoreMainPoll" )
     {
         $errorMsg = $errorIni->read_var( "strings", "poll_closed" );
     }
+    else if ( !$mainPoll->isEnabled() )
+    {
+        $errorMsg = $errorIni->read_var( "strings", "poll_not_enabled" );
+    }
     else
     {
         $mainPoll->setMainPoll( $mainPoll );
@@ -79,7 +83,7 @@ if ( !$pollList )
 {
     $ini = new INIFile( "ezpoll/" . "/admin/" . "intl/" . $Language . "/pollist.php.ini", false );
     $nopolls =  $ini->read_var( "strings", "nopolls" );
-    $t->set_var( "poll_list", "" );
+    $t->set_var( "poll_item", "" );
 }
 
 $mainPoll = $poll->mainPoll();
