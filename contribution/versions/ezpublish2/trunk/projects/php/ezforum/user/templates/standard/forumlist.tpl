@@ -22,6 +22,7 @@
 
 <hr noshade size="4" />
 
+<!-- BEGIN view_forums_tpl -->
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
         <th>{intl-forum}:</th>
@@ -49,5 +50,6 @@
     <!-- END forum_item_tpl -->
 
 </table>
+<!-- END view_forums_tpl -->
 <br />
 

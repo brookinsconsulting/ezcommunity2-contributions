@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forumlist.php,v 1.9 2001/03/05 14:39:04 fh Exp $
+// $Id: forumlist.php,v 1.10 2001/03/08 10:04:34 pkej Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -45,7 +45,8 @@ $t->setAllStrings();
 
 $t->set_file( "forumlist", "forumlist.tpl" );
 
-$t->set_block( "forumlist", "forum_item_tpl", "forum_item" );
+$t->set_block( "forumlist", "view_forums_tpl", "view_forums" );
+$t->set_block( "view_forums_tpl", "forum_item_tpl", "forum_item" );
 
 $category = new eZForumCategory( $CategoryID );
 
@@ -63,6 +64,7 @@ if ( !$forumList )
 }
 
 $i=0;
+$j=0; // The number of viewable forums for this session.
 foreach( $forumList as $forum )
 {
     $t->set_var( "forum_id", $forum->id() );
@@ -93,6 +95,7 @@ foreach( $forumList as $forum )
                 if ( $userGroup->id() == $group->id() )
                 {
                     $t->parse( "forum_item", "forum_item_tpl", true );
+                    $j++;
                     break;
                 }
             }
@@ -101,12 +104,24 @@ foreach( $forumList as $forum )
     else
     {
         $t->parse( "forum_item", "forum_item_tpl", true );
+        $j++;
     }
     
     $i++;
 }
-if( count( $groupList ) == 1 )
-    $t->set_var( "forum_item", "" );
+
+if( $j == 0 && $i > 0 )
+{
+    $t->set_var( "view_forums", $t->Ini->read_var( "strings", "no_forums_for_you" ) );
+}
+elseif( $j == 0 && $i == 0 )
+{
+    $t->set_var( "view_forums", $t->Ini->read_var( "strings", "no_forums" ) );
+}
+else
+{
+    $t->parse( "view_forums", "view_forums_tpl" );
+}
 
 $t->set_var( "category_id", $CategoryID );
 
