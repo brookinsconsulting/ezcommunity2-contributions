@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.40 2001/02/26 17:36:56 jb Exp $
+// $Id: ezproduct.php,v 1.41 2001/02/28 10:09:20 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -118,9 +118,17 @@ class eZProduct
         if ( $this->Discontinued == true )
             $discontinued = "true";
         else
-            $discontinued = "false";            
+            $discontinued = "false";
 
-        
+        if ( isset( $this->Price ) and $this->Price != "" and is_numeric( $this->Price ) )
+        {
+            $price = "'$this->Price'";
+        }
+        else
+        {
+            $price = "NULL";
+        }
+
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTrade_Product SET
@@ -129,7 +137,7 @@ class eZProduct
                                  Description='$this->Description',
                                  Keywords='$this->Keywords',
                                  ProductNumber='$this->ProductNumber',
-                                 Price='$this->Price',
+                                 Price=$price,
                                  ShowPrice='$showPrice',
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
@@ -152,7 +160,7 @@ class eZProduct
                                  Description='$this->Description',
                                  Keywords='$this->Keywords',
                                  ProductNumber='$this->ProductNumber',
-                                 Price='$this->Price',
+                                 Price=$price,
                                  ShowPrice='$showPrice',
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
@@ -198,11 +206,13 @@ class eZProduct
                 $this->RemoteID =& $category_array[0][ "RemoteID" ];
                 $this->VATTypeID =& $category_array[0][ "VATTypeID" ];
                 $this->ShippingGroupID =& $category_array[0][ "ShippingGroupID" ];
+                if ( $this->Price == "NULL" )
+                    unset( $this->Price );
 
-                if ( $category_array[0][ "ShowPrice" ] == "true" )                    
+                if ( $category_array[0][ "ShowPrice" ] == "true" )
                     $this->ShowPrice = true;
                 else
-                    $this->ShowPrice = false;                    
+                    $this->ShowPrice = false;
 
                 if ( $category_array[0][ "ShowProduct" ] == "true" )
                     $this->ShowProduct = true;
@@ -213,7 +223,7 @@ class eZProduct
                     $this->Discontinued = true;
                 else
                     $this->Discontinued = false;
-                
+
                 $this->State_ = "Coherent";
                 $ret = true;
             }
@@ -301,6 +311,14 @@ class eZProduct
             $this->get( $this->ID );
 
        return $this->Price;
+    }    
+
+    /*!
+      Returns the price of the product.
+    */
+    function hasPrice()
+    {
+       return isset( $this->Price );
     }    
 
     /*!

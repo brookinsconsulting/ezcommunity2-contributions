@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.17 2001/02/22 14:28:45 jb Exp $
+// $Id: categorylist.php,v 1.18 2001/02/28 10:09:20 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -185,9 +185,13 @@ foreach ( $productList as $product )
 
     $t->set_var( "product_name", $product->name() );
 
-    $price = new eZCurrency( $product->price() );
+    $t->set_var( "product_price", "" );
+    if ( $product->hasPrice() )
+    {
+        $price = new eZCurrency( $product->price() );
 
-    $t->set_var( "product_price", $locale->format( $price ) );
+        $t->set_var( "product_price", $locale->format( $price ) );
+    }
     $t->set_var( "product_active_item", "" );
     $t->set_var( "product_inactive_item", "" );
     if ( $product->showProduct() )
