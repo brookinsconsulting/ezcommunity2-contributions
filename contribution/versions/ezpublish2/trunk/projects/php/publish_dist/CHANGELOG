@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.1 to
 -----------------
+* Added mail to friend script
 * Added time publising on eZ article
 * Added site map and special front page in eZ article (user site)
 * Added dynamic generation of site title and meta information.
