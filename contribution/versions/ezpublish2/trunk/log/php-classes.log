@@ -831,3 +831,11 @@ Maintainer(s) : bf@ez.no
 
     * ezcachefile.php: removed debug.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2003-04-11  Bjoern Reiten  <br@ez.no>
+
+    * ezpublish.php: updated version.
+

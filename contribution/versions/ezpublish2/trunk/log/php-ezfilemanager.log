@@ -797,3 +797,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/folderedit.php: removed debug.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2003-04-11  Bjoern Reiten  <br@ez.no>
+
+    * user/filedownload.php: fixed suffix in eZ filemanager.
+
