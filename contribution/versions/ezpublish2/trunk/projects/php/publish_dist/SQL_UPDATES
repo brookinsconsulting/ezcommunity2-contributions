@@ -512,14 +512,6 @@ CREATE TABLE eZTrade_GroupPriceLink (
 create table eZTrade_AlternativeCurrency( ID int primary key auto_increment, Name char(100) not null, PrefixSign int not null default 0, Sign char(5) not null, Value float not null default 1 );
 alter table eZTrade_AlternativeCurrency add Created timestamp;
 
-# Add multipe group permission in ezfilemanager
-create table eZFileManager_FolderWriteGroupLink( ID int primary key auto_increment, GroupID int, FolderID int );     
-create table eZFileManager_FolderReadGroupLink( ID int primary key auto_increment, GroupID int, FolderID int );               
-
-create table eZFileManager_FileWriteGroupLink( ID int primary key auto_increment, GroupID int, FileID int );     
-create table eZFileManager_FileReadGroupLink( ID int primary key auto_increment, GroupID int, FileID int );
-
-alter table eZBug_Bug add IsPrivate enum('true','false') default 'false'; 
 
 ### BETA 3 - PRE 1
 #sync permission stuff with filemanager  
@@ -545,3 +537,17 @@ CREATE TABLE eZArticle_ArticleWriteGroupLink (
   Created timestamp(14),
   PRIMARY KEY (ID)
 );  
+
+alter table eZBug_Bug add IsPrivate enum('true','false') default 'false'; 
+
+# Permission for eZArticle
+create table eZArticle_ArticlePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
+create table eZArticle_CategoryPermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
+
+# Permission for eZImageCatalogue
+create table eZImageCatalogue_ImagePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
+create table eZImageCatalogue_CategoryPermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );      
+
+# Permission for eZFileManager
+create table eZFileManager_FilePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
+create table eZFileManager_FolderPermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );      

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.13 2001/02/02 12:27:20 ce Exp $
+// $Id: imagelist.php,v 1.14 2001/02/28 13:03:23 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlog.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
@@ -46,6 +47,9 @@ $t->set_file( "image_list_page_tpl", "imagelist.tpl" );
 
 $t->setAllStrings();
 
+$user = eZUser::currentUser();
+
+// Set detail or normal mode
 if ( isSet ( $DetailView ) )
 {
     $session =& eZSession::globalSession();
@@ -101,18 +105,13 @@ $t->set_var( "read", "" );
 $t->set_var( "write_menu", "" );
 
 
-
-
-$user = eZUser::currentUser();
-
 $category = new eZImageCategory( $CategoryID );
 
 // Check if user have permission to the current category
-$readPermission = $category->checkReadPermission( $user );
 
 $error = true;
 
-if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "r", $user ) )
 {
     $error = false;
 }
@@ -124,6 +123,7 @@ if ( $CategoryID == 0 )
 }
 
 $t->set_var( "current_category", "" );
+
 if ( $category->id() != 0 )
 {
     $t->set_var( "current_category_description", $category->description() );
@@ -157,28 +157,19 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_id", $categoryItem->id() );
     $t->set_var( "category_description", $categoryItem->description() );
 
-    $writePermission = $categoryItem->checkWritePermission( $user );
-    $readPermission = $categoryItem->checkReadPermission( $user );
-
     $t->set_var( "category_read", "" );
     $t->set_var( "category_write", "" );
 
     // Check if user have read permission
-    if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "r", $user ) )
     {
         $t->parse( "category_read", "category_read_tpl" );
     }
-    else
-    {
-    }
 
     // Check if user have write permission
-    if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) )
     {
         $t->parse( "category_write", "category_write_tpl" );
-    }
-    else
-    {
     }
 
     $t->parse( "category", "category_tpl", true );
@@ -217,17 +208,18 @@ foreach ( $imageList as $image )
         $t->set_var( "end_tr", "" );        
     }
 
+
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "original_image_name", $image->originalFileName() );
     $t->set_var( "image_name", $image->name() );
     $t->set_var( "image_caption", $image->name() );
     $t->set_var( "image_url", $image->name() );
 
-    $width = $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewWidth" );
+    $width =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewWidth" );
     
-    $height = $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewHight" );
+    $height =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewHight" );
     
-    $variation = $image->requestImageVariation( $width, $height );
+    $variation =& $image->requestImageVariation( $width, $height );
 
     $t->set_var( "image_alt", $image->name() );
     $t->set_var( "image_src", "/" .$variation->imagePath() );
@@ -235,8 +227,7 @@ foreach ( $imageList as $image )
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
 
-
-    $imagePath = $variation->imagePath( true );
+    $imagePath =& $variation->imagePath( true );
 
     $size = filesize( $imagePath );
 
@@ -249,14 +240,12 @@ foreach ( $imageList as $image )
         $t->set_var( "image_size", $size );
     }
 
-    $writePermission = $image->checkWritePermission( $user );
-    $readPermission = $image->checkReadPermission( $user );
 
     $t->set_var( "read", "" );
     $t->set_var( "write", "" );
 
     // Check if user have read permission
-    if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+    if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) )
     {
         if ( isSet ( $DetailView ) )
         {
@@ -267,12 +256,9 @@ foreach ( $imageList as $image )
             $t->parse( "read", "read_tpl" );
         }
     }
-    else
-    {
-    }
 
     // Check if user have write permission
-    if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
+    if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) )
     {
         if ( isSet ( $DetailView ) )
         {
@@ -307,17 +293,13 @@ foreach ( $imageList as $image )
         $t->parse( "image", "image_tpl", true );
         $t->parse( "detail_button", "detail_view_button" );
     }
-
-
     $i++;
 }
 
 // Print out the category/image menu
 if ( $category->id() != 0 )
 {
-    $currentWritePermission = $category->checkWritePermission( $user );
-
-    if ( ( $currentWritePermission == "User" ) || ( $currentWritePermission == "Group" ) || ( $currentWritePermission == "All" ) )
+    if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "w", $user ) )
     {
         if ( count ( $imageList ) > 0 && $DetailView )
             $t->parse( "delete_images_button", "delete_images_button_tpl" );
@@ -328,7 +310,6 @@ if ( $category->id() != 0 )
             $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
         else
             $t->set_var( "delete_categories_button", "" );
-
         
         $t->parse( "write_menu", "write_menu_tpl" );
     }
@@ -351,7 +332,6 @@ else
     }
 }
 
-
 if ( count( $imageList ) > 0 )
 {
     $t->parse( "image_list", "image_list_tpl" );
@@ -368,7 +348,14 @@ $t->set_var( "image_dir", $ImageDir );
 $t->set_var( "main_category_id", $CategoryID );
 
 if ( $error == false )
+{
     $t->pparse( "output", "image_list_page_tpl" );
+}
+else
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
 
 
 ?>

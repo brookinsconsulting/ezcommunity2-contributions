@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.7 2001/02/23 12:34:08 fh Exp $
+// $Id: ezimagecategory.php,v 1.8 2001/02/28 13:03:23 ce Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -78,8 +78,6 @@ class eZImageCategory
             $this->Database->query( "INSERT INTO eZImageCatalogue_Category SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
-                                 ReadPermission='$this->ReadPermission',
-                                 WritePermission='$this->WritePermission',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
@@ -89,8 +87,6 @@ class eZImageCategory
             $this->Database->query( "UPDATE eZImageCatalogue_Category SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
-                                 ReadPermission='$this->ReadPermission',
-                                 WritePermission='$this->WritePermission',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
@@ -145,8 +141,6 @@ class eZImageCategory
                 $this->Name =& $category_array[0][ "Name" ];
                 $this->Description =& $category_array[0][ "Description" ];
                 $this->ParentID =& $category_array[0][ "ParentID" ];
-                $this->ReadPermission =& $category_array[0][ "ReadPermission" ];
-                $this->WritePermission =& $category_array[0][ "WritePermission" ];
                 $this->UserID =& $category_array[0][ "UserID" ];
             }
                  
@@ -273,150 +267,6 @@ class eZImageCategory
         return $tree;
     }
 
-    /*!
-      Check what read permission the user have to this eZImageCategory object.
-
-      Returns:
-      User - if the user owns the file
-      Group - if the user is member of the group
-      All - if the file can be read by everybody
-      False - if the user don't have access
-    */
-    function checkReadPermission( &$currentUser )
-    {
-        $ret = false;
-
-        $read = eZImageCategory::readPermission();
-        
-        if ( get_class( $currentUser ) == "ezuser" )
-        {
-            if ( $read == "User" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    if ( $currentUser->id() == $this->UserID )
-                    {
-                        $ret = "User";
-                    }
-                    else
-                    {
-                        return $ret;
-                    }
-                }
-            }
-            else if ( $read == "Group" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    $currentGroups = $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
-                    {
-                        $user = new eZUser( $this->UserID );
-                        $userGroups = $user->groups();
-                            
-                        foreach( $userGroups as $userGroup )
-                        {
-                            if ( $Groups->id() == $userGroup->id() )
-                            {
-                                $ret = "Group";
-                            }
-                            else
-                            {
-                                return $ret;
-                            }
-                        }
-                    }
-                }
-            }
-            else if ( $read == "All" )
-            {
-                $ret = "Group";
-            }
-        }
-        else
-        {
-            if ( $read == "All" )
-            {
-                $ret = "All";
-            }
-        }
-
-        return $ret;
-
-    }
-
-    /*!
-      Check what write permission the user have to this eZImageCategory object.
-
-      Returns:
-      User - if the user owns the file
-      Group - if the user is member of the group
-      All - if the file can be write by everybody
-      False - if the user don't have access
-    */
-    function checkWritePermission( &$currentUser )
-    {
-        $ret = false;
-
-        $write = eZImageCategory::writePermission();
-        
-        if ( get_class( $currentUser ) == "ezuser" )
-        {
-            if ( $write == "User" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    if ( $currentUser->id() == $this->UserID )
-                    {
-                        $ret = "User";
-                    }
-                    else
-                    {
-                        return $ret;
-                    }
-                }
-            }
-            else if ( $write == "Group" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    $currentGroups = $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
-                    {
-                        $user = new eZUser( $this->UserID );
-                        $userGroups = $user->groups();
-                            
-                        foreach( $userGroups as $userGroup )
-                        {
-                            if ( $Groups->id() == $userGroup->id() )
-                            {
-                                $ret = "Group";
-                            }
-                            else
-                            {
-                                return $ret;
-                            }
-                        }
-                    }
-                }
-            }
-            else if ( $write == "All" )
-            {
-                $ret = "Group";
-            }
-        }
-        else
-        {
-            if ( $write == "All" )
-            {
-                $ret = "All";
-            }
-        }
-
-
-        return $ret;
-    }
-
     
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
@@ -467,75 +317,6 @@ class eZImageCategory
        }
     }
 
-    /*!
-      Returns the writePermission permission of the virtual folder.
-    */
-    function writePermission()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch( $this->WritePermission )
-       {
-           case 1:
-           {
-               $ret = "User";
-           }
-           break;
-
-           case 2:
-           {
-               $ret = "Group";
-           }
-           break;
-           
-           case 3:
-           {
-               $ret = "All";
-           }
-           break;
-
-           default:
-               $ret = "User";
-       }
-
-       return $ret;
-    }
-
-    /*!
-      Returns the read permission of the virtual folder.
-    */
-    function readPermission()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch( $this->ReadPermission )
-       {
-           case 1:
-           {
-               $ret = "User";
-           }
-           break;
-
-           case 2:
-           {
-               $ret = "Group";
-           }
-           break;
-           
-           case 3:
-           {
-               $ret = "All";
-           }
-           break;
-
-           default:
-               $ret = "User";
-       }
-       
-       return $ret;
-    }
 
     /*!
       Returns a eZUser object.
@@ -610,86 +391,6 @@ class eZImageCategory
     }
 
     /*!
-      Sets the writePermission permission of the virtual folder.
-
-      1 = User
-      2 = Group
-      3 = All
-      
-    */
-    function setWritePermission( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch ( $value )
-       {
-           case "User":
-           {
-               $value = 1;
-           }
-           break;
-           
-           case "Group":
-           {
-               $value = 2;
-           }
-           break;
-           
-           case "All":
-           {
-               $value = 3;
-           }
-           break;
-           
-           default:
-               $value = 1;
-       }
-       
-       $this->WritePermission = $value;
-    }
-
-    /*!
-      Sets the read permission of the virtual folder.
-
-      1 = User
-      2 = Group
-      3 = All
-      
-    */
-    function setReadPermission( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch ( $value )
-       {
-           case "User":
-           {
-               $value = 1;
-           }
-           break;
-           
-           case "Group":
-           {
-               $value = 2;
-           }
-           break;
-           
-           case "All":
-           {
-               $value = 3;
-           }
-           break;
-           
-           default:
-               $value = 1;
-       }
-       
-       $this->ReadPermission = $value;
-    }
-
-    /*!
       Sets the user of the file.
     */
     function setUser( $user )
@@ -719,11 +420,6 @@ class eZImageCategory
 
             $imageID = $value->id();
 
-            
-/*            $this->Database->array_query( $checkArray, "SELECT ImageID
-                                                        FROM eZImageCatalogue_ImageCategoryLink
-                                                        WHERE CategoryID='$this->ID'" );
-*/
             $this->Database->query( "DELETE FROM eZImageCatalogue_ImageCategoryLink WHERE ImageID='$imageID'" );
             
             $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink SET CategoryID='$this->ID', ImageID='$imageID'";
@@ -768,6 +464,222 @@ class eZImageCategory
     }
 
     /*!
+      Adds read permission to the user.
+    */
+    function addReadPermission( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+       
+       $query = "INSERT INTO eZImageCatalogue_CategoryReadGroupLink SET CategoryID='$this->ID', GroupID='$value'";
+            
+       $this->Database->query( $query );
+    }
+
+    /*!
+      Adds write permission to the user.
+    */
+    function addWritePermission( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+       
+       $query = "INSERT INTO eZImageCatalogue_CategoryWriteGroupLink SET CategoryID='$this->ID', GroupID='$value'";
+            
+       $this->Database->query( $query );
+    }
+
+    /*!
+      Check if the user have read permissions. Returns true if the user have permissions. False if not.
+    */
+    function hasReadPermissions( $user=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Category WHERE ID='$this->ID'" );
+
+       if ( $user )
+       {
+           if ( $userArrayID[0]["UserID"] == $user->id() )
+           {
+               return true;
+           }
+           
+           $groups = $user->groups();
+       }
+
+       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
+
+       for ( $i=0; $i < count ( $readPermissions ); $i++ )
+       {
+           if ( $readPermissions[$i]["GroupID"] == 0 )
+           {
+               return true;
+           }
+           else
+           {
+               if ( count ( $groups ) > 0 )
+               {
+                   
+                   foreach ( $groups as $group )
+                   {
+                       if ( $group->id() == $readPermissions[$i]["GroupID"] )
+                       {
+                           return true;
+                   }
+                   }
+               }
+           }
+       }
+       
+       return false;
+    }
+
+    /*!
+      Check if the user have write permissions. Returns true if the user have permissions. False if not.
+    */
+    function hasWritePermissions( $user=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Category WHERE ID='$this->ID'" );
+
+       if ( $user )
+       {
+           if ( $userArrayID[0]["UserID"] == $user->id() )
+           {
+               return true;
+           }
+           
+           $groups = $user->groups();
+       }
+
+       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
+
+       for ( $i=0; $i < count ( $writePermissions ); $i++ )
+       {
+           if ( $writePermissions[$i]["GroupID"] == 0 )
+           {
+               return true;
+           }
+           else
+           {
+               if ( count ( $groups ) > 0 )
+               {
+                   
+                   foreach ( $groups as $group )
+                   {
+                       if ( $group->id() == $writePermissions[$i]["GroupID"] )
+                       {
+                           return true;
+                   }
+                   }
+               }
+           }
+       }
+       
+       return false;
+    }
+    
+    /*!
+      Returns all the read permission for this object.
+
+    */
+    function readPermissions( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $readPermissions = array();
+       $ret = false;
+
+       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
+      
+       for ( $i=0; $i < count ( $readPermissions ); $i++ )
+       {
+           if ( $readPermissions[$i]["GroupID"] == 0 )
+           {
+               $ret[] = "Everybody";
+           }
+          
+           $ret[] = new eZUserGroup( $readPermissions[$i]["GroupID"] );
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Returns all the write permission for this object.
+
+    */
+    function writePermissions( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $writePermissions = array();
+       $ret = false;
+
+       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
+      
+       for ( $i=0; $i < count ( $writePermissions ); $i++ )
+       {
+           if ( $writePermissions[$i]["GroupID"] == 0 )
+           {
+               $ret[] = "Everybody";
+           }
+          
+           $ret[] = new eZUserGroup( $writePermissions[$i]["GroupID"] );
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Remove the read permissions from this eZVirtualFolder object.
+
+    */
+    function removeReadPermissions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZImageCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
+    }
+
+
+    /*!
+      Remove the write permissions from this eZVirtualFolder object.
+
+    */
+    function removeWritePermissions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZImageCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
+    }
+
+
+    /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
     */
@@ -784,8 +696,6 @@ class eZImageCategory
     var $Name;
     var $ParentID;
     var $Description;
-    var $ReadPermission;
-    var $WritePermission;
     var $UserID;
 
     ///  Variable for keeping the database connection.

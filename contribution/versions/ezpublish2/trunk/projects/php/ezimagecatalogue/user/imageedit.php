@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.13 2001/02/23 12:34:08 fh Exp $
+// $Id: imageedit.php,v 1.14 2001/02/28 13:03:23 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -26,6 +26,7 @@
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $user = eZUser::currentUser();
 
@@ -34,7 +35,7 @@ $CategoryID = eZHTTPTool::getVar( "CategoryID" );
 
 if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
 {
-    eZHTTPTool::header( "Location: /" );
+    eZHTTPTool::header( "Location: /error/403/" );
     exit();
 }
 
@@ -86,38 +87,21 @@ $t->set_file( array(
 $t->set_block( "image_edit_page", "value_tpl", "value" );
 $t->set_block( "image_edit_page", "image_tpl", "image" );
 $t->set_block( "image_edit_page", "errors_tpl", "errors" );
+
+$t->set_block( "image_edit_page", "write_group_item_tpl", "write_group_item" );
+$t->set_block( "image_edit_page", "read_group_item_tpl", "read_group_item" );
+
 $t->set_var( "errors", "&nbsp;" );
 
 $t->set_var( "name_value", "$Name" );
 $t->set_var( "image_description", "$Description" );
 $t->set_var( "caption_value", "$Caption" );
 
-
-if ( $Read == "Group" )
-    $t->set_var( "group_read_checked", "checked" );
-else if ( $Read == "All" )
-    $t->set_var( "all_read_checked", "checked" );
-else if ( $Read == "User" )
-    $t->set_var( "user_read_checked", "checked" );
-else
-    $t->set_var( "user_read_checked", "checked" );
-
-if ( $Write == "Group" )
-    $t->set_var( "group_write_checked", "checked" );
-else if ( $Write == "All" )
-    $t->set_var( "all_write_checked", "checked" );
-else if ( $Write == "User" )
-    $t->set_var( "user_write_checked", "checked" );
-else
-    $t->set_var( "user_write_checked", "checked" );
-
 $error = false;
 $nameCheck = true;
 $captionCheck = true;
 $descriptionCheck = true;
 $fileCheck = true;
-$writeCheck = true;
-$readCheck = true;
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
@@ -125,17 +109,18 @@ $t->set_var( "error_name", "&nbsp;" );
 $t->set_block( "errors_tpl", "error_caption_tpl", "error_caption" );
 $t->set_var( "error_caption", "&nbsp;" );
 
-$t->set_block( "errors_tpl", "error_write_check_tpl", "error_write_check" );
-$t->set_var( "error_write_check", "&nbsp;" );
-
-$t->set_block( "errors_tpl", "error_read_check_tpl", "error_read_check" );
-$t->set_var( "error_read_check", "&nbsp;" );
-
 $t->set_block( "errors_tpl", "error_file_upload_tpl", "error_file_upload" );
 $t->set_var( "error_file_upload", "&nbsp" );
 
 $t->set_block( "errors_tpl", "error_description_tpl", "error_description" );
 $t->set_var( "error_description", "&nbsp;" );
+
+$t->set_block( "errors_tpl", "error_read_everybody_permission_tpl", "error_read_everybody_permission" );
+$t->set_var( "error_read_everybody_permission", "&nbsp;" );
+
+$t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
+$t->set_var( "error_write_everybody_permission", "&nbsp;" );
+
 
 // Check for errors when inserting or updating.
 if ( $Action == "Insert" || $Action == "Update" )
@@ -163,26 +148,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( empty ( $Description ) )
         {
             $t->parse( "error_description", "error_description_tpl" );
-            $error = true;
-        }
-    }
-
-    if ( $writeCheck )
-    {
-        
-        if ( empty ( $Write ) )
-        {
-            $t->parse( "error_write_check", "error_write_check_tpl" );
-            $error = true;
-        }
-    }
-
-    if ( $readCheck )
-    {
-        
-        if ( empty ( $Read ) )
-        {
-            $t->parse( "error_read_check", "error_read_check_tpl" );
             $error = true;
         }
     }
@@ -218,13 +183,37 @@ if ( $Action == "Insert" && $error == false )
     $image->setName( $Name );
     $image->setCaption( $Caption );
     $image->setDescription( $Description );
-    $image->setReadPermission( $Read );
-    $image->setWritePermission( $Write );
     $image->setUser( $user );
 
     $image->setImage( $file );
 
     $image->store();
+
+    if ( count ( $ReadGroupArrayID ) > 0 )
+    {
+        foreach ( $ReadGroupArrayID as $Read )
+        {
+            if ( $Read == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Read );
+
+            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "r" );
+        }
+    }
+
+    if ( count ( $WriteGroupArrayID ) > 0 )
+    {
+        foreach ( $WriteGroupArrayID as $Write )
+        {
+            if ( $Write == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Write );
+            
+            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "w" );
+        }
+    }
 
     $category = new eZImageCategory( $CategoryID );
     
@@ -244,8 +233,6 @@ if ( $Action == "Update" && $error == false )
     $image->setCaption( $Caption );
 
     $image->setDescription( $Description );
-    $image->setReadPermission( $Read );
-    $image->setWritePermission( $Write );
 
     $category = new eZImageCategory( $CategoryID );
     
@@ -326,40 +313,70 @@ if ( $Action == "Edit" )
     $t->set_var( "image_file_name", $image->originalFileName() );
     $t->parse( "image", "image_tpl" );
 
-    $write = $image->writePermission();
+    $objectPermission = new eZObjectPermission();
+    
+    $readGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "r", false );
 
-    if ( $write == "User" )
-    {
-        $t->set_var( "user_write_checked", "checked" );
-    }
-    else if ( $write == "Group" )
-    {
-        $t->set_var( "group_write_checked", "checked" );
-    }
-    else if ( $write == "All" )
-    {
-        $t->set_var( "all_write_checked", "checked" );
-    }
-
-    $read = $image->readPermission();
-
-    if ( $read == "User" )
-    {
-        $t->set_var( "user_read_checked", "checked" );
-    }
-    else if ( $read == "Group" )
-    {
-        $t->set_var( "group_read_checked", "checked" );
-    }
-    else if ( $read == "All" )
-    {
-        $t->set_var( "all_read_checked", "checked" );
-    }
+    $writeGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "w", false );
 }
 
 $category = new eZImageCategory() ;
 
-$categoryList = $category->getTree( );
+$categoryList =& $category->getTree( );
+
+// Print out all the groups.
+$groups =& $user->groups();
+
+foreach ( $groups as $group )
+{
+    $t->set_var( "group_id", $group->id() );
+    $t->set_var( "group_name", $group->name() );
+
+    $t->set_var( "is_write_selected1", "" );
+    $t->set_var( "is_read_selected1", "" );
+
+    if ( $readGroupArrayID )
+    {
+        foreach ( $readGroupArrayID as $readGroup )
+        {
+            if ( $readGroup == $group->id() )
+            {
+                $t->set_var( "is_read_selected1", "selected" );
+            }
+            elseif ( $readGroup == -1 )
+            {
+                $t->set_var( "read_everybody", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_read_selected", "" );
+            }
+        }
+    }
+
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
+
+    if ( $writeGroupArrayID )
+    {
+        foreach ( $writeGroupArrayID as $writeGroup )
+        {
+            if ( $writeGroup == $group->id() )
+            {
+                $t->set_var( "is_write_selected1", "selected" );
+            }
+            elseif ( $writeGroup == -1 )
+            {
+                $t->set_var( "write_everybody", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_write_selected", "" );
+            }
+        }
+    }
+    
+    $t->parse( "write_group_item", "write_group_item_tpl", true );
+}
 
 // Make a category list
 foreach ( $categoryList as $categoryItem )

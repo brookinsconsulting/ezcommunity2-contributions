@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/01/22 14:43:01 jb Exp $
+// $Id: menubox.php,v 1.3 2001/02/28 13:03:23 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -41,6 +41,18 @@ $t->setAllStrings();
 $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
+
+$t->set_block( "menu_box_tpl", "user_login_tpl", "user_login" );
+
+
+if ( $user )
+{
+    $t->parse( "user_login", "user_login_tpl" );
+}
+else
+{
+    $t->set_var( "user_login", "" );
+}
     
 $t->pparse( "output", "menu_box_tpl" );
 

@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.10 2001/02/27 17:47:16 ce Exp $
+// $Id: todolist.php,v 1.11 2001/02/28 13:03:24 ce Exp $
 //
 // Definition of todo list.
 //
@@ -113,7 +113,6 @@ else
 $showID = $session->variable( "ShowTodoID" );
 
 // User selector.
-$user = new eZUser();
 $userList = $user->getAll();
 
 foreach( $userList as $userItem )
@@ -128,7 +127,6 @@ foreach( $userList as $userItem )
 
     if ( $GetByUserID == $user->id() )
     {
-            
         if ( $user->id() == $userItem->id() )
         {
             $t->set_var( "user_is_selected", "selected" );

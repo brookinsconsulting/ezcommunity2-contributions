@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.14 2001/02/26 17:40:00 ce Exp $
+// $Id: folderedit.php,v 1.15 2001/02/28 13:03:23 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -87,20 +87,24 @@ $descriptionCheck = true;
 
 $t->set_block( "errors_tpl", "error_write_permission", "error_write" );
 $t->set_var( "error_write", "" );
+
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
+
 $t->set_block( "errors_tpl", "error_description_tpl", "error_description" );
 $t->set_var( "error_description", "&nbsp;" );
+
 $t->set_block( "errors_tpl", "error_parent_check_tpl", "error_parent_check" );
 $t->set_var( "error_parent_check", "&nbsp;" );
+
 $t->set_block( "errors_tpl", "error_read_everybody_permission_tpl", "error_read_everybody_permission" );
 $t->set_var( "error_read_everybody_permission", "&nbsp;" );
+
 $t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
 $t->set_var( "error_write_everybody_permission", "&nbsp;" );
 
 if ( $Action == "Insert" || $Action == "Update" )
 {
-    
     if ( count ( $ReadGroupArrayID ) > 1 )
     {
         foreach ( $ReadGroupArrayID as $Read )
@@ -133,7 +137,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
         else
         {
-            $user = eZUser::currentUser();
             $parentFolder = new eZVirtualFolder( $FolderID );
             
             if ( $parentFolder->hasWritePermissions( $user ) == false )
@@ -179,7 +182,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     }
 }
 
-
+// Insert a folder.
 if ( $Action == "Insert" && $error == false )
 {
     $folder = new eZVirtualFolder();
@@ -214,6 +217,7 @@ if ( $Action == "Insert" && $error == false )
     exit();
 }
 
+// Update a folder.
 if ( $Action == "Update" && $error == false )
 {
     $folder = new eZVirtualFolder( $FolderID );
@@ -282,10 +286,9 @@ if ( $Action == "Edit" )
     if ( $parent )
         $parentID = $parent->id();
 
-    $readPermissionList = $folder->readPermissions();
+    $readPermissionList =& $folder->readPermissions();
 
-    $writePermissionList = $folder->writePermissions();
-
+    $writePermissionList =& $folder->writePermissions();
 
     $t->set_var( "action_value", "update" );
 }
@@ -301,7 +304,6 @@ if ( count ( $folderList ) == 0 )
 }
 
 // Print out all the groups.
-
 $groups = $user->groups();
 
 foreach ( $groups as $group )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.30 2001/02/21 11:25:01 ce Exp $
+// $Id: ezimage.php,v 1.31 2001/02/28 13:03:23 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -881,6 +881,222 @@ class eZImage
 
        return $category;
     }
+
+    /*!
+      Adds read permission to the user.
+    */
+    function addReadPermission( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+       
+       $query = "INSERT INTO eZImageCatalogue_ImageReadGroupLink SET ImageID='$this->ID', GroupID='$value'";
+            
+       $this->Database->query( $query );
+    }
+
+    /*!
+      Adds write permission to the user.
+    */
+    function addWritePermission( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+       
+       $query = "INSERT INTO eZImageCatalogue_ImageWriteGroupLink SET ImageID='$this->ID', GroupID='$value'";
+            
+       $this->Database->query( $query );
+    }
+
+    /*!
+      Check if the user have read permissions. Returns true if the user have permissions. False if not.
+    */
+    function hasReadPermissions( $user=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Image WHERE ID='$this->ID'" );
+
+       if ( $user )
+       {
+           if ( $userArrayID[0]["UserID"] == $user->id() )
+           {
+               return true;
+           }
+           
+           $groups = $user->groups();
+       }
+
+       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_ImageReadGroupLink WHERE ImageID='$this->ID'" );
+
+       for ( $i=0; $i < count ( $readPermissions ); $i++ )
+       {
+           if ( $readPermissions[$i]["GroupID"] == 0 )
+           {
+               return true;
+           }
+           else
+           {
+               if ( count ( $groups ) > 0 )
+               {
+                   
+                   foreach ( $groups as $group )
+                   {
+                       if ( $group->id() == $readPermissions[$i]["GroupID"] )
+                       {
+                           return true;
+                   }
+                   }
+               }
+           }
+       }
+       
+       return false;
+    }
+
+    /*!
+      Check if the user have write permissions. Returns true if the user have permissions. False if not.
+    */
+    function hasWritePermissions( $user=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZImageCatalogue_Image WHERE ID='$this->ID'" );
+
+       if ( $user )
+       {
+           if ( $userArrayID[0]["UserID"] == $user->id() )
+           {
+               return true;
+           }
+           
+           $groups = $user->groups();
+       }
+
+       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_ImageWriteGroupLink WHERE ImageID='$this->ID'" );
+
+       for ( $i=0; $i < count ( $writePermissions ); $i++ )
+       {
+           if ( $writePermissions[$i]["GroupID"] == 0 )
+           {
+               return true;
+           }
+           else
+           {
+               if ( count ( $groups ) > 0 )
+               {
+                   
+                   foreach ( $groups as $group )
+                   {
+                       if ( $group->id() == $writePermissions[$i]["GroupID"] )
+                       {
+                           return true;
+                   }
+                   }
+               }
+           }
+       }
+       
+       return false;
+    }
+    
+    /*!
+      Returns all the read permission for this object.
+
+    */
+    function readPermissions( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $readPermissions = array();
+       $ret = false;
+
+       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_ImageReadGroupLink WHERE ImageID='$this->ID'" );
+      
+       for ( $i=0; $i < count ( $readPermissions ); $i++ )
+       {
+           if ( $readPermissions[$i]["GroupID"] == 0 )
+           {
+               $ret[] = "Everybody";
+           }
+          
+           $ret[] = new eZUserGroup( $readPermissions[$i]["GroupID"] );
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Returns all the write permission for this object.
+
+    */
+    function writePermissions( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $writePermissions = array();
+       $ret = false;
+
+       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZImageCatalogue_ImageWriteGroupLink WHERE ImageID='$this->ID'" );
+      
+       for ( $i=0; $i < count ( $writePermissions ); $i++ )
+       {
+           if ( $writePermissions[$i]["GroupID"] == 0 )
+           {
+               $ret[] = "Everybody";
+           }
+          
+           $ret[] = new eZUserGroup( $writePermissions[$i]["GroupID"] );
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Remove the read permissions from this eZVirtualFolder object.
+
+    */
+    function removeReadPermissions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZImageCatalogue_ImageWriteGroupLink WHERE FolderID='$this->ID'" );
+    }
+
+
+    /*!
+      Remove the write permissions from this eZVirtualFolder object.
+
+    */
+    function removeWritePermissions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZImageCatalogue_ImageWriteGroupLink WHERE FolderID='$this->ID'" );
+    }
+
 
     /*!
       Private function.
