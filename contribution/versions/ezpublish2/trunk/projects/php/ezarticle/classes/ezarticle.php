@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.111 2001/07/04 10:38:51 bf Exp $
+// $Id: ezarticle.php,v 1.112 2001/07/04 14:22:09 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -107,15 +107,15 @@ class eZArticle
         $linktext = $db->escapeString( $this->LinkText );
         $keywords = $db->escapeString( $this->Keywords );
 
-        if ( is_object( $this->StartDate ) )
+        if ( is_object( $this->StartDate ) and $this->StartDate->isValid() )
             $startDate = $this->StartDate->timeStamp();
         else
-            $startDate = $this->StartDate;
+            $startDate = "";
         
-        if ( is_object( $this->StopDate ) )
+        if ( is_object( $this->StopDate ) and $this->StopDate->isValid() )
             $stopDate = $this->StopDate->timeStamp();
         else
-            $stopDate = $this->StopDate;
+            $stopDate = "";
         
         if ( !isset( $this->ID ) )
         {
@@ -795,7 +795,7 @@ class eZArticle
     */
     function setTopic( $topic )
     {
-        $this->TopicID = $topic->id();
+        $this->TopicID = is_numeric( $topic ) ? $topic : $topic->id();
     }
 
     /*!
@@ -1001,14 +1001,16 @@ class eZArticle
     {
         if ( get_class( $value ) == "ezimage" )
         {
-            $db =& eZDB::globalDatabase();
-
             $imageID = $value->id();
-            
-            $db->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID' AND ThumbnailImageID='$imageID'" );
-
-            $db->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' AND ImageID='$imageID'" );
         }
+        else
+            $imageID = $value;
+
+        $db =& eZDB::globalDatabase();
+            
+        $db->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID' AND ThumbnailImageID='$imageID'" );
+
+        $db->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' AND ImageID='$imageID'" );
     }
     
     /*!
@@ -1118,37 +1120,41 @@ class eZArticle
 
     /*!
       Adds an file to the article.
+      $value can either be a eZVirtualFile or an ID
     */
     function addFile( $value )
     {
         if ( get_class( $value ) == "ezvirtualfile" )
         {
-            $db =& eZDB::globalDatabase();
-        
             $fileID = $value->id();
+        }
+        else
+            $fileID = $value;
 
-            $db->begin( );
+        $db =& eZDB::globalDatabase();
+
+        $db->begin( );
     
-            $db->lock( "eZArticle_ArticleFileLink" );
+        $db->lock( "eZArticle_ArticleFileLink" );
 
-            $nextID = $db->nextID( "eZArticle_ArticleFileLink", "ID" );
+        $nextID = $db->nextID( "eZArticle_ArticleFileLink", "ID" );
 
-            $timeStamp = eZDateTime::timeStamp( true );
+        $timeStamp = eZDateTime::timeStamp( true );
 
-            $res = $db->query( "INSERT INTO eZArticle_ArticleFileLink
+        $res = $db->query( "INSERT INTO eZArticle_ArticleFileLink
                          ( ID, ArticleID, FileID, Created ) VALUES ( '$nextID', '$this->ID', '$fileID', '$timeStamp' )" );
             
-            $db->unlock();
+        $db->unlock();
             
-            if ( $res == false )
-                $db->rollback( );
-            else
-                $db->commit();            
-        }
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();            
     }
 
     /*!
       Deletes an file from the article.
+      $value can either be a eZVirtualFile or an ID
 
       NOTE: the file does not get deleted from the file catalogue.
     */
@@ -1156,12 +1162,14 @@ class eZArticle
     {
         if ( get_class( $value ) == "ezvirtualfile" )
         {
-            $db =& eZDB::globalDatabase();
-
             $fileID = $value->id();
             
-            $db->query( "DELETE FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' AND FileID='$fileID'" );
         }
+        else
+            $fileID = $value;
+
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' AND FileID='$fileID'" );
     }
     
     /*!
@@ -1654,6 +1662,7 @@ class eZArticle
             
             
             $res[] = $db->query( $query );
+
 
             $db->unlock();
     
