@@ -31,10 +31,10 @@
 	<br /><br />
 
 	</td>
+ 	<!-- END type_item_tpl -->
 	<td>
 	&nbsp;
 	</td>
- 	<!-- END type_item_tpl -->
 <tr>
 <tr>
     <td>
