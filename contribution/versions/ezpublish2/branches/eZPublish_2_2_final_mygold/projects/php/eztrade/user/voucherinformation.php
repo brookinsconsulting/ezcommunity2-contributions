@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.3 2001/10/22 12:22:58 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.4 2001/10/22 12:56:23 sascha Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -56,6 +56,7 @@ $t->set_block( "voucher_tpl", "smail_tpl", "smail" );
 $t->set_block( "voucher_tpl", "price_to_high_tpl", "price_to_high" );
 $t->set_block( "voucher_tpl", "price_to_low_tpl", "price_to_low" );
 
+$GLOBALS["DEBUG"] = true;
 
 setType( $PriceRange, "integer" );
 
