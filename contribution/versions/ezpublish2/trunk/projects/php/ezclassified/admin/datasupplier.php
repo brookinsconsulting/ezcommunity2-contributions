@@ -87,8 +87,31 @@ switch ( $url_array[2] )
             $Action = "Delete";
             $CategoryID = $url_array[4];
         }
-        
+
         include( "ezclassified/admin/classifiedcategoryedit.php" );
+    }
+    break;
+
+    case "person" :
+    {
+        $ClassifiedID = $url_array[4];
+        $CompanyID = $url_array[5];
+        $PersonID = $url_array[6];
+
+        $Action = $url_array[3];
+        if ( $Action == "new" ||
+        $Action == "insert" ||
+        $Action == "edit" ||
+        $Action == "update" ||
+        $Action == "delete" )
+        {
+            include( "ezclassified/admin/classifiedpersonedit.php" );
+        }
+        else
+        {
+            // Show error page
+            print( "Unkown page \"$Action\"" );
+        }
     }
     break;
 
