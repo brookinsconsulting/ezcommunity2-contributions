@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: topiclist.php,v 1.4.2.1 2002/04/25 12:15:57 bf Exp $
+// $Id: topiclist.php,v 1.4.2.2 2002/05/22 10:34:54 jhe Exp $
 //
 // Created on: <03-Sep-2001 15:35:07 bf>
 //
@@ -44,8 +44,7 @@ $t->set_block( "topic_page_tpl", "topic_list_tpl", "topic_list" );
 $t->set_block( "topic_list_tpl", "topic_item_tpl", "topic_item" );
 $t->set_block( "topic_item_tpl", "article_item_tpl", "article_item" );
 
-
-$topic = new eZTopic( );
+$topic = new eZTopic();
 
 if ( $topic->get( $TopicID ) )
 {
@@ -57,7 +56,8 @@ else
 }
 
 $t->set_var( "topic_item", "" );
-$i=0;
+$i = 0;
+
 foreach ( $topicArray as $topic )
 {
     $t->set_var( "id", $topic->id() );
@@ -91,6 +91,7 @@ foreach ( $topicArray as $topic )
     $t->parse( "topic_item", "topic_item_tpl", true );
     $i++;
 }
+
 $t->parse( "topic_list", "topic_list_tpl" );
 
 $t->pparse( "output", "topic_page_tpl" );

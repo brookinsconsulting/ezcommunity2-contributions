@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.7 2001/08/17 13:35:58 jhe Exp $
+// $Id: authorlist.php,v 1.7.2.1 2002/05/22 10:34:54 jhe Exp $
 //
 // Created on: <16-Feb-2001 14:54:04 amos>
 //
@@ -61,7 +61,7 @@ foreach( $authors as $author )
     $t->set_var( "author_id", $author[$db->fieldName("ContentsWriterID")] );
     $t->set_var( "author_name", $author[$db->fieldName("ContentsWriter")] );
     
-    $t->set_var( "article_count", (int)$author[$db->fieldName("Count")] );
+    $t->set_var( "article_count", eZArticle::authorArticleCount( $author[$db->fieldName("ContentsWriterID")] ) );
     $t->parse( "author_item", "author_item_tpl", true );
     $i++;
 }
