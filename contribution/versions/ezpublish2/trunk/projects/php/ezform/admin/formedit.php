@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.21 2001/12/18 14:32:05 pkej Exp $
+// $Id: formedit.php,v 1.22 2001/12/18 14:43:41 pkej Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -108,7 +108,7 @@ if ( isSet( $NewPage ) )
 
 $errorMessages = array();
 
-if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement ) )
+if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) )
 {
     // CHANGE THIS NOW!
     if ( empty( $formSender ) )
@@ -168,7 +168,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         $formInstructionPage = "no";
     }
 
-    if ( count( $errorMessages ) == 0 || isSet( $NewElement ) || isSet( $Update ) || isSet( $OK ) )
+    if ( count( $errorMessages ) == 0 || isSet( $Update ) || isSet( $OK ) )
     {
         $form->setName( $formName );
         
@@ -184,14 +184,14 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
             $form->setReceiver( $formReceiver );
             $form->setCC( $formCC );
         }
-        
+
         if ( $DataHandlingDatabase == "database" )
         {
             $form->setUseDatabaseStorage( true );
         }
         else
         {
-            $form->setUseDatabaseStorage( true );
+            $form->setUseDatabaseStorage( false );
         }
         
         if ( $DataSender == "predefined" )
@@ -227,7 +227,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         }
         elseif ( $hasCompletion == "predefined" )
         {
-            $formCompletedPage =& $ini->read_var( "eZFormMain", "DefaultInstructionPage" );
+            $formCompletedPage =& $ini->read_var( "eZFormMain", "DefaultRedirectPage" );
             $form->setCompletedPage( $formCompletedPage );
         }
         else
@@ -308,13 +308,6 @@ else
 
 if ( $form->completedPage() != "" )
 {
-    $t->set_var( "form_completed_page", $form->completedPage() );
-    $t->set_var( "hasCompletion-yes-checked", "checked" );
-    $t->set_var( "hasCompletion-no-checked", "" );
-    $t->set_var( "hasCompletion-predefinend-checked", "" );
-}
-else
-{
     if ( $ini->read_var( "eZFormMain", "DefaultRedirectPage" ) == $form->completedPage() )
     {
         $t->set_var( "form_completed_page", "" );
@@ -325,11 +318,18 @@ else
     }
     else
     {
-        $t->set_var( "form_completed_page", "" );
-        $t->set_var( "hasCompletion-yes-checked", "" );
+        $t->set_var( "form_completed_page", $form->completedPage() );
+        $t->set_var( "hasCompletion-yes-checked", "checked" );
+        $t->set_var( "hasCompletion-no-checked", "" );
         $t->set_var( "hasCompletion-predefinend-checked", "" );
-        $t->set_var( "hasCompletion-no-checked", "checked" );
     }
+}
+else
+{
+    $t->set_var( "form_completed_page", "" );
+    $t->set_var( "hasCompletion-yes-checked", "" );
+    $t->set_var( "hasCompletion-predefinend-checked", "" );
+    $t->set_var( "hasCompletion-no-checked", "checked" );
 }
 
 if ( $ini->read_var( "eZFormMain", "UseDefaultRedirectPage" ) == "enabled" )
@@ -341,13 +341,6 @@ if ( $ini->read_var( "eZFormMain", "UseDefaultRedirectPage" ) == "enabled" )
 
 if ( $form->instructionPage() != "" )
 {
-    $t->set_var( "form_instruction_page", $form->instructionPage() );
-    $t->set_var( "hasInstructions-yes-checked", "checked" );
-    $t->set_var( "hasInstructions-no-checked", "" );
-    $t->set_var( "hasInstructions-predefinend-checked", "" );
-}
-else
-{
     if ( $ini->read_var( "eZFormMain", "DefaultInstructionPage" ) == $form->instructionPage() )
     {
         $t->set_var( "form_instruction_page", "" );
@@ -358,11 +351,18 @@ else
     }
     else
     {
-        $t->set_var( "form_instruction_page", "" );
-        $t->set_var( "hasInstructions-yes-checked", "" );
+        $t->set_var( "form_instruction_page", $form->instructionPage() );
+        $t->set_var( "hasInstructions-yes-checked", "checked" );
+        $t->set_var( "hasInstructions-no-checked", "" );
         $t->set_var( "hasInstructions-predefinend-checked", "" );
-        $t->set_var( "hasInstructions-no-checked", "checked" );
     }
+}
+else
+{
+    $t->set_var( "form_instruction_page", "" );
+    $t->set_var( "hasInstructions-yes-checked", "" );
+    $t->set_var( "hasInstructions-predefinend-checked", "" );
+    $t->set_var( "hasInstructions-no-checked", "checked" );
 }
 
 if ( $ini->read_var( "eZFormMain", "UseDefaultInstructionPage" ) == "enabled" )
@@ -394,7 +394,9 @@ else
     $t->set_var( "check_send_in_DataHandling", "checked" );    
 }
 
-if ( $form->useDatabaseStorage() == true )
+print_r( $form );
+
+if ( $form->useDatabaseStorage() )
 {
     $t->set_var( "check_database_in_DataHandling", "checked" );    
 }
