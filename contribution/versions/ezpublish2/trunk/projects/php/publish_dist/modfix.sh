@@ -34,6 +34,7 @@ ezaddress/admin/cache
 ezcalendar/user/cache
 ezbug/user/cache
 ezbug/admin/cache
+ezexample/admin/cache
 "
 
 for dir in $dirs
@@ -68,6 +69,7 @@ eznewsfeed
 eztrade
 ezaddress
 ezbug
+ezexample
 "
 
 for file in $files
