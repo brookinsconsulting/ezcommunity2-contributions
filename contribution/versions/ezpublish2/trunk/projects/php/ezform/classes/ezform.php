@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.18 2001/12/21 11:57:33 jhe Exp $
+// $Id: ezform.php,v 1.19 2002/01/07 17:21:23 jhe Exp $
 //
 // ezform class
 //
@@ -206,7 +206,7 @@ class eZForm
 
       The objects are returned as an array of eZForm objects.
     */
-    function &getAll( $offset=0, $limit=20 )
+    function &getAll( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
         
@@ -215,23 +215,18 @@ class eZForm
 
         if ( $limit == false )
         {
-            $db->array_query( $formArray, "SELECT ID
-                                           FROM eZForm_Form
-                                           ORDER BY Name DESC
-                                           " );
+            $db->array_query( $formArray, "SELECT * FROM eZForm_Form ORDER BY Name DESC" );
 
         }
         else
         {
-            $db->array_query( $formArray, "SELECT ID
-                                           FROM eZForm_Form
-                                           ORDER BY Name DESC",
+            $db->array_query( $formArray, "SELECT * FROM eZForm_Form ORDER BY Name DESC",
                                            array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
-            $returnArray[$i] = new eZForm( $formArray[$i][$db->fieldName( "ID" )] );
+            $returnArray[$i] = new eZForm( $formArray[$i] );
         }
 
         return $returnArray;

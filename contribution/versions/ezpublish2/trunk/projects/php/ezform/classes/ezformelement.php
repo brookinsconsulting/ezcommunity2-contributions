@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.27 2002/01/07 12:00:24 jhe Exp $
+// $Id: ezformelement.php,v 1.28 2002/01/07 17:21:23 jhe Exp $
 //
 // ezformelement class
 //
@@ -572,6 +572,30 @@ class eZFormElement
         return $returnArray;
     }
 
+    function getAllResults( $getAll = true )
+    {
+        $result = array();
+        $db =& eZDB::globalDatabase();
+        if ( !getAll )
+            $where = "WHERE IsRegistered=1";
+
+        $db->array_query( $qa, "SELECT UserHash FROM eZForm_FormResults $where" );
+
+        foreach ( $qa as $q )
+        {
+            $result[] = $q[$db->fieldName( "UserHash" )];
+        }
+        return $result;
+    }
+
+    function getResult( $resultID, $elementID )
+    {
+        $result = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $q, "SELECT Result FROM eZForm_FormElementResult WHERE ElementID='$elementID' AND ResultID='$resultID'" );
+        return $q[$db->fieldName( "Result" )];
+    }
+    
     /*!
       Returns the value of the element
     */

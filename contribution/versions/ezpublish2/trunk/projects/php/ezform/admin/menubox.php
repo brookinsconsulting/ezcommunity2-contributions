@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.2 2001/07/19 13:03:50 jakobn Exp $
+// $Id: menubox.php,v 1.3 2002/01/07 17:21:23 jhe Exp $
 //
 // Created on: <22-May-2001 13:37:47 ce>
 //
@@ -27,7 +27,8 @@
 
 $menuItems = array(
     array( "/form/form/list/", "{intl-form_list}" ),
-    array( "/form/form/new/", "{intl-new_form}" )
+    array( "/form/form/new/", "{intl-new_form}" ),
+    array( "/form/export/", "{intl-export_form}" )
     );
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.12 2001/12/19 16:23:55 pkej Exp $
+// $Id: datasupplier.php,v 1.13 2002/01/07 17:21:23 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,20 @@ $Action = $url_array[3];
 
 switch ( $Operation )
 {
+    case "export":
+    {
+        if ( is_numeric( $Action ) )
+        {
+            $FormID = $Action;
+            include( "ezform/admin/exportform.php" );
+        }
+        else
+        {
+            include( "ezform/admin/exportformlist.php" );
+        }
+    }
+    break;
+    
     case "form":
     {
         $FormID = $url_array[4];
