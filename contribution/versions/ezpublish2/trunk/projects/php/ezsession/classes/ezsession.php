@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.43 2001/06/08 09:00:37 bf Exp $
+// $Id: ezsession.php,v 1.44 2001/06/20 17:50:12 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -83,12 +83,14 @@ class eZSession
     {
         $db =& eZDB::globalDatabase();
 
+        $dbError = false;
+        $db->begin( );
+    
+        // lock the table
+        $db->lock( "eZSession_Session" );
+
         // set the cookie
         $this->Hash = md5( microTime() );
-
-//          session_register( "eZSession" );
-//          $HTTP_SESSION_VARS["eZSession"] = $this->Hash;
-//          print( "new session" );
 
         if ( $GLOBALS["UsePHPSessions"] == true )
         {
@@ -102,33 +104,46 @@ class eZSession
         
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZSession_Session SET
-                                 Created=now(),
-                                 LastAccessed=now(),
-                                 SecondLastAccessed=now(),
-		                         Hash='$this->Hash'
-                                 " );
+            $nextID = $db->nextID( "eZSession_Session", "ID" );
 
-			$this->ID = $db->insertID();
+            $dateTime = new eZDateTime( );
+            $timeStamp = $dateTime->timeStamp();
 
-            $this->setVariable( "SessionIP", $remoteIP );
+            $res = $db->query( "INSERT INTO eZSession_Session
+                                    ( ID, Created, LastAccessed, Hash )
+                             VALUES ( '$nextID',
+                                      '$timeStamp',
+                                      '$timeStamp',
+                                      '$this->Hash'
+                                    )" );
+            if ( $res == false )
+                $dbError = true;
+
+			$this->ID = $nextID;
             $this->HasRefreshed = true;
-
         }
         else
         {
+            $dateTime = new eZDateTime( );
+            $timeStamp = $dateTime->timeStamp();
+            
             $db->query( "UPDATE eZSession_Session SET
                                  Created=Created,
-                                 SecondLastAccessed=LastAccessed,
-                                 LastAccessed=now(),
+                                 LastAccessed='$timeStamp',
 		                         Hash='$this->Hash'
                                  WHERE ID='$this->ID'
                                  " );
             $this->HasRefreshed = true;
-
-            $this->setVariable( "SessionIP", $remoteIP );
-
         }
+
+        $db->unlock();
+    
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
+
+        $this->setVariable( "SessionIP", $remoteIP );
         
         return true;
     }
@@ -168,11 +183,12 @@ class eZSession
     */
     function fill( $session_array )
     {
-        $this->ID =& $session_array[ "ID" ];
-        $this->Hash =& $session_array[ "Hash" ];
-        $this->LastAccessed =& $session_array[ "LastAccessed" ];
-        $this->SecondLastAccessed =& $session_array[ "SecondLastAccessed" ];
-        $this->Created =& $session_array[ "Created" ];
+        $db =& eZDB::globalDatabase();
+
+        $this->ID =& $session_array[$db->fieldName("ID")];
+        $this->Hash =& $session_array[$db->fieldName("Hash")];
+        $this->LastAccessed =& $session_array[$db->fieldName("LastAccessed")];
+        $this->Created =& $session_array[$db->fieldName( "Created") ];
     }
 
     /*!
@@ -240,18 +256,32 @@ class eZSession
     */
     function refresh( )
     {
-        $db =& eZDB::globalDatabase();
-
         if ( !$this->HasRefreshed )
         {
+            $db =& eZDB::globalDatabase();
+            
+            $db->begin( );
+            
+            $dateTime = new eZDateTime( );
+            $timeStamp = $dateTime->timeStamp();
+            
             // update session
-            $db->query( "UPDATE eZSession_Session SET
+            $ret = $db->query( "UPDATE eZSession_Session SET
                                  Created=Created,
-                                 SecondLastAccessed=LastAccessed,
-                                 LastAccessed=now()
+                                 LastAccessed='$timeStamp'
                                  WHERE ID='$this->ID'
                                  " );
-            $this->HasRefreshed = true;
+
+            if ( $ret == false )
+            {
+                $db->rollback( );
+
+            }
+            else
+            {
+                $db->commit();            
+                $this->HasRefreshed = true;
+            }
         }
     }
         
@@ -296,7 +326,7 @@ class eZSession
     function lastAccessed( )
     {
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->LastAccessed );
+       $dateTime->setTimeStamp( $this->LastAccessed );
        
        return $dateTime;
     }
@@ -307,7 +337,7 @@ class eZSession
     function created( )
     {
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->Created );
+       $dateTime->setTimeStamp( $this->Created );
        
        return $dateTime;
     }
@@ -337,14 +367,14 @@ class eZSession
         if ( !is_bool( $group ) )
             $group_sql = "GroupName='$group'";
         else
-            $group_sql = "GroupName IS NULL";
+            $group_sql = "GroupName=''";
         $db->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'
                                                     AND $group_sql" );
 
         if ( count( $value_array ) == 1 )
         {
-            $ret = $value_array[0]["Value"];
+            $ret = $value_array[0][$db->fieldName("Value")];
             $this->StoredVariables[$group][$name] = $ret;
         }
 
@@ -367,7 +397,7 @@ class eZSession
 
         foreach ( $value_array as $value )
         {
-            $ret[] =& $value["ID"];
+            $ret[] =& $value[$db->fieldName("ID")];
         }
 
         return $ret;
@@ -384,21 +414,15 @@ class eZSession
         $db =& eZDB::globalDatabase();
 
         $value_array = array();
-        $db->array_query( $value_array, "SELECT ID, UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
-                                                    FROM eZSession_Session WHERE ID='$this->ID'" );
 
+        $timeStamp = eZDateTime::timeStamp( true );
+        $db->array_query( $value_array, "SELECT ( $timeStamp - LastAccessed ) AS Idle 
+                                                    FROM eZSession_Session WHERE ID='$this->ID'" );
         $ret = false;            
         if ( count( $value_array ) == 1 )
         {
-            $now = $value_array[0]["NOW"];
-            $lastAccessed = $value_array[0]["LAST"];
+            $ret = $value_array[0][$db->fieldName("Idle")];
 
-            $diff = $now - $lastAccessed;
-//             print( "$lastAccessed - $now = $diff<br>" );
-//             echo "now: " .  date( "l dS of F Y h:i:s A", $now ) . "<br>";
-//             echo "last: " .  date( "l dS of F Y h:i:s A", $lastAccessed ) . "<br>";
-
-            $ret = $diff;
             $this->StoredIdle = $ret;
         }
 
@@ -435,7 +459,14 @@ class eZSession
     function setVariable( $name, $value, $group = false )
     {
 //          print( "setvar: " . (is_bool( $group ) ? ($group ? "true" : "false") : $group ) . "<br>" );
+        
         $db =& eZDB::globalDatabase();
+
+        $dbError = false;
+        $db->begin( );
+    
+        // lock the table
+        $db->lock( "eZSession_SessionVariable" );
 
         if ( isset( $this->StoredVariables[$group][$name] ) )
         {
@@ -446,11 +477,15 @@ class eZSession
             $group_sql = "GroupName='$group'";
         else
         {
-            $group_sql = "GroupName IS NULL";
+            $group_sql = "GroupName=''";
         }
-        $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
-                                                    WHERE SessionID='$this->ID' AND Name='$name'
-                                                    AND $group_sql" );
+
+        $query = "SELECT ID FROM eZSession_SessionVariable
+         WHERE SessionID='$this->ID' AND Name='$name'
+         AND $group_sql";
+
+        $db->array_query( $value_array, $query );
+        
         if ( count( $value_array ) == 1 )
         {
             $valueID = $value_array[0]["ID"];
@@ -461,16 +496,30 @@ class eZSession
         else
         {
             if ( is_bool( $group ) )
-                $group_sql = "NULL";
+                $group_sql = "";
             else
                 $group_sql = "'$group'";
-            $db->query( "INSERT INTO eZSession_SessionVariable SET
-		                         SessionID='$this->ID',
-		                         Name='$name',
-		                         Value='$value',
-                                 GroupName=$group_sql
+
+            $nextID = $db->nextID( "eZSession_SessionVariable", "ID" );
+
+            $res = $db->query( "INSERT INTO eZSession_SessionVariable ( ID, SessionID, Name, Value, GroupName ) VALUES
+                                      ( '$nextID',
+                                        '$this->ID',
+		                                '$name',
+		                                '$value',
+                                        '$group_sql' )
                                  " );
-        }       
+            if ( $res == false )
+                $dbError = true;
+        }
+
+        $db->unlock();
+    
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
+        
     }
 
     /*!
@@ -497,7 +546,6 @@ class eZSession
     var $Modified;
     var $Created;
     var $LastAccessed;
-    var $SecondLastAccessed;
 
     var $StoredVariables;
     var $StoredIdle;
