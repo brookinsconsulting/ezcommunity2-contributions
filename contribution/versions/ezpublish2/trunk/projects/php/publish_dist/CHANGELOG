@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.1.0B1 to 2.1.0B2
 -------------------------------
+* Added new template for static pages.
+* Separated rendering of article intro and body in template.
 * Added possibility to enable/disable use of php sessions.
 * Added user configurable selection of published/unpublished/all articles in articlelist.
 * Added flat unpublished articles list (unpublished articles from all categories).
