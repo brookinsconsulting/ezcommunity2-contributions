@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezorder.php,v 1.61.2.5 2002/09/18 12:54:37 br Exp $
+//
+// $Id: ezorder.php,v 1.61.2.6 2003/06/03 06:18:07 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -74,10 +74,10 @@ class eZOrder
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $this->TextPaymentMethod = $db->escapeString( $this->PaymentMethod );
         $comment = $db->escapeString( $this->Comment );
-        
+
         if ( !isSet( $this->ID ) )
         {
             $timeStamp =& eZDateTime::timeStamp( true );
@@ -127,9 +127,9 @@ class eZOrder
 
 //              $user =& eZUser::currentUser();
 //              print( $user->id() );
-            
+
             $status->setAdmin( $user );
-            $status->store();            
+            $status->store();
         }
         else
         {
@@ -165,7 +165,7 @@ class eZOrder
         $items = $this->items();
         $db->begin();
 
-        if  ( $items )
+        if ( $items )
         {
             $i = 0;
             foreach ( $items as $item )
@@ -178,10 +178,10 @@ class eZOrder
         $ret[] = $db->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
 
         eZDB::finish( $ret, $db );
-            
+
         return true;
     }
-    
+
 
     /*!
       Fetches the object information from the database.
@@ -191,7 +191,7 @@ class eZOrder
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $cart_array, "SELECT * FROM eZTrade_Order WHERE ID='$id'" );
@@ -226,7 +226,7 @@ class eZOrder
 
       Note: Default limit is 40.
     */
-    function &getAll( $offset=0, $limit=40, $OrderBy = "Date" )
+    function &getAll( $offset = 0, $limit = 40, $OrderBy = "Date" )
     {
         switch ( strtolower( $OrderBy ) )
         {
@@ -275,7 +275,7 @@ class eZOrder
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName( "ID" )], 0 );
         }
 
         return $return_array;
@@ -286,7 +286,7 @@ class eZOrder
 
       Note: Default limit is 40.
     */
-    function &getByUser( $offset=0, $limit=40, $OrderBy = "Date", $user=false )
+    function &getByUser( $offset = 0, $limit = 40, $OrderBy = "Date", $user = false )
     {
         switch ( strtolower( $OrderBy ) )
         {
@@ -337,7 +337,7 @@ class eZOrder
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName( "ID" )], 0 );
         }
 
         return $return_array;
@@ -348,7 +348,7 @@ class eZOrder
 
       Note: Default limit is 40.
     */
-    function &getCountByUser( $user=false )
+    function &getCountByUser( $user = false )
     {
         switch ( strtolower( $OrderBy ) )
         {
@@ -386,10 +386,10 @@ class eZOrder
         $userID = $user->id();
 
         $db->query_single( $res,
-                          "SELECT COUNT(eZTrade_Order.ID) as Count
-                           FROM eZTrade_Order, eZTrade_OrderStatus, eZTrade_PreOrder
-                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND
-                           eZTrade_Order.ID = eZTrade_PreOrder.OrderID AND UserID='$userID' " );
+                           "SELECT COUNT(eZTrade_Order.ID) as Count
+                            FROM eZTrade_Order, eZTrade_OrderStatus, eZTrade_PreOrder
+                            WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND
+                            eZTrade_Order.ID = eZTrade_PreOrder.OrderID AND UserID='$userID' " );
 
         return $res[$db->fieldName( "Count" )];
     }
@@ -397,7 +397,7 @@ class eZOrder
     function &getByContact( $contact, $is_person = true, $offset = 0, $limit = 40 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $order_array = array();
 
@@ -405,7 +405,7 @@ class eZOrder
             $condition = "PersonID";
         else
             $condition = "CompanyID";
-        
+
         $db->array_query( $order_array,
                           "SELECT eZTrade_Order.ID FROM eZTrade_Order, eZTrade_PreOrder WHERE $condition='$contact' AND " .
                           "eZTrade_Order.ID = eZTrade_PreOrder.OrderID",
@@ -425,11 +425,11 @@ class eZOrder
     function &getByCustomer( $user )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $order_array = array();
 
-        $userID = $user->id();        
+        $userID = $user->id();
         $db->array_query( $order_array,
                           "SELECT eZTrade_Order.ID FROM eZTrade_Order, eZTrade_PreOrder WHERE
                            UserID='$userID' AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
@@ -441,7 +441,7 @@ class eZOrder
 
         return $return_array;
     }
-    
+
     /*!
       Fetches new orders, orders which is not exported.
     */
@@ -453,17 +453,17 @@ class eZOrder
         $order_array = array();
 
         $db->array_query( $order_array,
-        "SELECT eZTrade_Order.ID FROM eZTrade_Order, eZTrade_PreOrder
-         WHERE IsExported='0' AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
+                          "SELECT eZTrade_Order.ID FROM eZTrade_Order, eZTrade_PreOrder
+                           WHERE IsExported='0' AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
 
-        for ( $i=0; $i < count( $order_array ); $i++ )
+        for ( $i = 0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")] );
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName( "ID" )] );
         }
 
         return $return_array;
     }
-    
+
     /*!
       Does a search in the order database.
 
@@ -478,13 +478,13 @@ class eZOrder
 
         $db->array_query( $order_array, "SELECT eZTrade_Order.ID
                                          FROM eZTrade_Order, eZTrade_PreOrder
-                                         WHERE ID LIKE '%$queryText%' AND
+                                         WHERE eZTrade_Order.ID LIKE '%$queryText%' AND
                                          eZTrade_Order.ID = eZTrade_PreOrder.OrderID",
                                          array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName( "ID" )], 0 );
         }
 
         return $return_array;
@@ -499,13 +499,13 @@ class eZOrder
 
         $db->array_query( $order_array, "SELECT count(eZTrade_Order.ID) as Count
                                                      FROM eZTrade_Order, eZTrade_PreOrder
-                                                     WHERE ID LIKE '%$queryText%' AND
+                                                     WHERE eZTrade_Order.ID LIKE '%$queryText%' AND
                                                      eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
 
         $ret = 0;
         if ( count( $order_array ) == 1 )
         {
-            $ret = $order_array[0][$db->fieldName("Count")];
+            $ret = $order_array[0][$db->fieldName( "Count" )];
         }
 
         return $ret;
@@ -525,7 +525,7 @@ class eZOrder
         $ret = 0;
         if ( count( $order_array ) == 1 )
         {
-            $ret = $order_array[0][$db->fieldName("Count")];
+            $ret = $order_array[0][$db->fieldName( "Count" )];
         }
 
         return $ret;
@@ -539,8 +539,8 @@ class eZOrder
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Date );
         return $dateTime;
-    }    
-    
+    }
+
     /*!
       Returns the object id.
     */
@@ -557,7 +557,7 @@ class eZOrder
     function &user()
     {
        $ret = false;
-       
+
        $user = new eZUser( );
        if ( $user->get( $this->UserID ) )
            $ret = $user;
@@ -580,14 +580,14 @@ class eZOrder
     {
        return $this->ShippingVAT;
     }
-    
+
     /*!
       Returns the shipping address.
     */
     function &shippingAddress()
     {
        $shippingAddress = new eZAddress( $this->ShippingAddressID );
-       
+
        return $shippingAddress;
     }
 
@@ -611,21 +611,21 @@ class eZOrder
     function &shippingUser()
     {
        // check the owner of the address
-        
+
         $db =& eZDB::globalDatabase();
-       
+
         $address_array = array();
-        
+
         $retUser = false;
 
         if ( $this->PersonID == 0 && $this->CompanyID == 0 )
         {
             $db->array_query( $address_array,
             "SELECT * FROM eZUser_UserShippingLink WHERE AddressID='$this->ShippingAddressID'" );
-            
+
             if ( count( $address_array ) == 1 )
             {
-                $retUser = new eZUser( $address_array[0][$db->fieldName("UserID")] );
+                $retUser = new eZUser( $address_array[0][$db->fieldName( "UserID" )] );
             }
             else
             {
@@ -642,7 +642,7 @@ class eZOrder
     function &billingAddress()
     {
        $billingAddress = new eZAddress( $this->BillingAddressID );
-       
+
        return $billingAddress;
     }
 
@@ -666,10 +666,10 @@ class eZOrder
        {
            $ret = new eZShippingType( $this->ShippingTypeID );
        }
-       
+
        return $ret;
     }
-    
+
     /*!
       Returns the payment method text.
     */
@@ -705,7 +705,7 @@ class eZOrder
     {
         return $this->CompanyID;
     }
-    
+
     /*!
       Sets the payment method.
     */
@@ -725,7 +725,7 @@ class eZOrder
         }
         $this->PaymentMethod = $value;
     }
-    
+
 
     /*!
       Sets the user.
@@ -796,7 +796,7 @@ class eZOrder
     {
        $this->ShippingCharge = $value;
 
-       setType( $this->ShippingCharge, "double" );       
+       setType( $this->ShippingCharge, "double" );
     }
 
     /*!
@@ -839,7 +839,7 @@ class eZOrder
     {
        $this->ShippingTypeID = $type;
     }
-    
+
     /*!
       Sets the order to be exported or not. This is used for integration with
       other systems. So you know if you have fetched this order or not.
@@ -849,7 +849,7 @@ class eZOrder
        if ( $value == true )
            $this->IsExported = 1;
        else
-           $this->IsExported = 0;       
+           $this->IsExported = 0;
     }
 
     /*!
@@ -866,7 +866,7 @@ class eZOrder
             $this->PersonID = $id;
         }
     }
-            
+
     /*!
       Sets the company we are shopping for
     */
@@ -877,7 +877,7 @@ class eZOrder
             $this->CompanyID = $id;
         }
     }
-            
+
     /*!
       Returns the initial status as a eZOrderStatus object.
     */
@@ -885,16 +885,16 @@ class eZOrder
     {
         $db =& eZDB::globalDatabase();
         $statusType = new eZOrderStatusType();
-       
+
         $statusType->getByName( "intl-initial" );
-        
+
         $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
                                                     ORDER BY Altered DESC" );
         $ret = false;
         if ( count( $status_array ) )
         {
-            $ret = new eZOrderStatus( $status_array[0][$db->fieldName("ID")]);
+            $ret = new eZOrderStatus( $status_array[0][$db->fieldName( "ID" )]);
         }
         return $ret;
     }
@@ -906,16 +906,16 @@ class eZOrder
     {
         $db =& eZDB::globalDatabase();
         $statusType = new eZOrderStatusType();
-        
+
         $statusType->getByName( "intl-initial" );
-       
+
         $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
                                                     ORDER BY Altered DESC" );
         $ret = false;
         if ( count( $status_array ) )
         {
-            $ret = new eZOrderStatus( $status_array[0][$db->fieldName("ID")] );
+            $ret = new eZOrderStatus( $status_array[0][$db->fieldName( "ID" )] );
         }
         return $ret;
     }
@@ -928,16 +928,16 @@ class eZOrder
         $db =& eZDB::globalDatabase();
 
         $statusType = new eZOrderStatusType();
-        
+
         $statusType->getByName( "intl-initial" );
-       
+
         $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
                                                     ORDER BY Altered" );
         $ret = array();
         foreach ( $status_array as $status )
         {
-           $ret[] = new eZOrderStatus( $status[$db->fieldName("ID")] );
+           $ret[] = new eZOrderStatus( $status[$db->fieldName( "ID" )] );
         }
         return $ret;
 
@@ -949,7 +949,7 @@ class eZOrder
     function &items()
     {
         $ret = array();
-       
+
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $order_array, "SELECT * FROM
@@ -961,13 +961,12 @@ class eZOrder
            $return_array = array();
            foreach ( $order_array as $item )
            {
-               $return_array[] = new eZOrderItem( $item[$db->fieldName("ID")] );               
+               $return_array[] = new eZOrderItem( $item[$db->fieldName( "ID" )] );
            }
            $ret = $return_array;
         }
-        
-        return $ret;       
-       
+
+        return $ret;
     }
 
     /*!
@@ -976,7 +975,7 @@ class eZOrder
     function &usedVouchers()
     {
         $ret = array();
-       
+
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $order_array, "SELECT ID FROM
@@ -988,13 +987,12 @@ class eZOrder
            $return_array = array();
            foreach ( $order_array as $item )
            {
-               $return_array[] = new eZVoucherUsed( $item[$db->fieldName("ID")] );               
+               $return_array[] = new eZVoucherUsed( $item[$db->fieldName( "ID" )] );
            }
            $ret = $return_array;
         }
-        
-        return $ret;       
-       
+
+        return $ret;
     }
 
 
@@ -1005,16 +1003,16 @@ class eZOrder
     {
         $retPrice = 0;
         $db =& eZDB::globalDatabase();
-        
+
         $db->array_query( $order_item_array, "SELECT Price, Count FROM
                                               eZTrade_OrderItem
                                               WHERE OrderID='$this->ID'" );
-        
+
         foreach ( $order_item_array as $item )
         {
             $price = $item[$db->fieldName("Price")];
 //            $price = $price * $item["Count"];
-            
+
             $retPrice += $price;
         }
         return $retPrice;
@@ -1025,9 +1023,9 @@ class eZOrder
     */
     function totalPriceIncVAT()
     {
-       return $this->totalPrice() + $this->totalVAT();       
+       return $this->totalPrice() + $this->totalVAT();
     }
-    
+
     /*!
       Returns the total VAT on an order. Without the shipping charge.
     */
@@ -1049,7 +1047,7 @@ class eZOrder
            $retPrice += $price;
        }
 
-       return $retPrice;       
+       return $retPrice;
     }
 
     /*!
@@ -1062,11 +1060,11 @@ class eZOrder
        $userID = $user->id();
        $ret = false;
        $db->query_single( $res, "SELECT ID FROM eZTrade_Order
-                                                    WHERE ID='$this->ID' AND UserID='$userID'" );
-       if ( is_numeric ( $res[$db->fieldName( "ID" )] ) )
+                                 WHERE ID='$this->ID' AND UserID='$userID'" );
+       if ( is_numeric( $res[$db->fieldName( "ID" )] ) )
            $ret = true;
 
-       return $ret;       
+       return $ret;
     }
 
 
@@ -1079,22 +1077,22 @@ class eZOrder
         $ret = array();
 
         $db->array_query( $product_array,
-        "SELECT ProductID, Count(ProductID) AS Count, Sum( Count ) AS RealCount
-        FROM eZTrade_OrderItem GROUP BY ProductID
-        ORDER BY RealCount DESC" );
-        
+                          "SELECT ProductID, Count(ProductID) AS Count, Sum( Count ) AS RealCount
+                           FROM eZTrade_OrderItem GROUP BY ProductID
+                           ORDER BY RealCount DESC" );
+
         foreach ( $product_array as $item )
         {
-            $ret[] = array( "ProductID" => $item[$db->fieldName("ProductID")],
-                            "Count" => $item[$db->fieldName("Count")],
-                            "RealCount" => $item[$db->fieldName("RealCount")] );
+            $ret[] = array( "ProductID" => $item[$db->fieldName( "ProductID" )],
+                            "Count" => $item[$db->fieldName( "Count" )],
+                            "RealCount" => $item[$db->fieldName( "RealCount" )] );
         }
-        
-        return $ret;        
+
+        return $ret;
     }
 
     /*!
-      
+
     */
     function &expiringOrders( $startdate, $time = 86400 )
     {
@@ -1109,7 +1107,7 @@ class eZOrder
                                     WHERE ExpiryDate >= '" . $startdate . "'
                                     AND ExpiryDate < '" . $enddate . "'" );
         $return_array = array();
-        
+
         foreach ( $orders as $order )
         {
             $return_array[] = $order[$db->fieldName( "ID" )];
@@ -1130,8 +1128,8 @@ class eZOrder
 
     /*!
         This function calculates the totals of the order contents.
-        
-        
+
+
      */
     function orderTotals( &$tax, &$total )
     {
@@ -1139,8 +1137,8 @@ class eZOrder
 
         $tax = "";
         $total = "";
-        
-        foreach( $items as $item )
+
+        foreach ( $items as $item )
         {
             $product =& $item->product();
             $vatPercentage = $product->vatPercentage();
@@ -1149,7 +1147,7 @@ class eZOrder
 
             $totalExTax += $exTax;
             $totalIncTax += $incTax;
-            
+
             $tax["$vatPercentage"]["basis"] += $exTax;
             $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
             $tax["$vatPercentage"]["percentage"] = $vatPercentage;
@@ -1158,7 +1156,7 @@ class eZOrder
         $total["subinctax"] = $totalIncTax;
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;
-        
+
         $shippingCost = $this->ShippingCharge;
         $shippingVAT = $this->ShippingVAT;
 
@@ -1185,8 +1183,8 @@ class eZOrder
 
     /*!
         This function calculates the totals of the order contents.
-        
-        
+
+
      */
     function voucherTotal( &$tax, &$total, $voucherItem=false )
     {
@@ -1197,17 +1195,15 @@ class eZOrder
             $voucher =& $voucherItem->voucher();
         else
             $voucher =& $voucherItem;
-        
+
         $product =& $voucher->product();
         $vatPercentage = $product->vatPercentage();
-
-        
         $exTax = $voucherItem->correctPrice( false );
         $incTax = $voucherItem->correctPrice( true );
-        
+
         $totalExTax += $exTax;
         $totalIncTax += $incTax;
-        
+
         $tax["$vatPercentage"]["basis"] += $exTax;
         $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
         $tax["$vatPercentage"]["percentage"] = $vatPercentage;
@@ -1215,7 +1211,6 @@ class eZOrder
         $total["subinctax"] = $totalIncTax;
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;
-        
         $total["inctax"] = $total["subinctax"];
         $total["extax"] = $total["subextax"];
         $total["tax"] = $total["subtax"];
@@ -1235,17 +1230,17 @@ class eZOrder
         $user_array = array();
 
         $db->array_query( $user_array, "SELECT eZTrade_Order.UserID, eZUser_User.FirstName FROM eZTrade_Order, eZTrade_PreOrder, eZUser_User
-                                        WHERE eZTrade_Order.UserID=eZUser_User.ID AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID 
+                                        WHERE eZTrade_Order.UserID=eZUser_User.ID AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID
                                         GROUP BY eZTrade_Order.UserID, eZUser_User.FirstName ORDER BY eZUser_User.FirstName " );
 
         for ( $i = 0; $i < count( $user_array ); $i++ )
         {
-            $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName("UserID")] );
+            $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName( "UserID" )] );
         }
 
         return $return_array;
     }
-    
+
     var $ID;
     var $UserID;
     var $ShippingAddressID;
@@ -1260,7 +1255,6 @@ class eZOrder
     var $CompanyID;
     var $IsVATInc;
     var $Comment;
-    
     var $ShippingTypeID;
     var $OrderStatus_;
     var $IsExported;
