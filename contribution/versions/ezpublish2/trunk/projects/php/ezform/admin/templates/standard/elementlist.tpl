@@ -26,10 +26,10 @@
 
     <td class="{td_class}">&nbsp;
     <!-- BEGIN fixed_values_tpl -->
-    <a href="{www_dir}{index}/form/form/fixedvalues/{form_id}/{element_id}/">{intl-fixed_values}</a>
+    <a href="{www_dir}{index}/form/form/fixedvalues/{form_id}/{page_id}/{element_id}/">{intl-fixed_values}</a>
     <!-- END fixed_values_tpl -->
     <!-- BEGIN table_edit_tpl -->
-    <a href="{www_dir}{index}/form/form/tableedit/{form_id}/{element_id}/">{intl-edit_table}</a>
+    <a href="{www_dir}{index}/form/form/tableedit/{form_id}/{page_id}/{element_id}/">{intl-edit_table}</a>
     <!-- END table_edit_tpl -->
     </td>
 

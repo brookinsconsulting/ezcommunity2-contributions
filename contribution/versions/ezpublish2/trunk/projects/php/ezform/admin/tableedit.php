@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.4 2001/12/14 13:39:24 jhe Exp $
+// $Id: tableedit.php,v 1.5 2001/12/14 14:06:08 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -35,7 +35,7 @@ $ini =& INIFile::globalINI();
 
 if ( isSet( $Cancel ) )
 {
-    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+    eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID/" );
     exit();
 }
 
@@ -44,17 +44,16 @@ $table = new eZFormTable( $TableID );
 if ( $Action == "up" )
 {
     $table->moveUp( $ElementID );
-    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$TableID/" );
+    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$PageID/$TableID/" );
     exit();
 }
 
 if ( $Action == "down" )
 {
     $table->moveDown( $ElementID );
-    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$TableID/" );
+    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$PageID/$TableID/" );
     exit();
 }
-
 
 if ( isSet( $DeleteSelected ) )
 {
@@ -107,12 +106,11 @@ if ( isSet( $OK ) || isSet( $Update ) )
         $element->setRequired( $required );
         
         $element->store();
-
-        if ( isSet( $OK ) )
-        {
-            eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
-            exit();
-        }
+    }
+    if ( isSet( $OK ) )
+    {
+        eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID/" );
+        exit();
     }
 }
 

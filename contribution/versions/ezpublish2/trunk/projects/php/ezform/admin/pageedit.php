@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.1 2001/12/14 13:10:44 br Exp $
+// $Id: pageedit.php,v 1.2 2001/12/14 14:06:08 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -97,6 +97,7 @@ $elementTemplate->set_var( "typelist_item", "" );
 $elementTemplate->set_var( "checked", "" );
 
 $elementTemplate->set_var( "form_id", $FormID );
+$elementTemplate->set_var( "page_id", $PageID );
 
 $form = new eZForm( $FormID );
 

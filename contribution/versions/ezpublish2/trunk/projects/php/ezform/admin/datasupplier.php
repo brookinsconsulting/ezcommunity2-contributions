@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.7 2001/12/14 13:39:24 jhe Exp $
+// $Id: datasupplier.php,v 1.8 2001/12/14 14:06:08 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -89,8 +89,10 @@ switch ( $Operation )
                     $Action = "down";
                     $pos++;
                 }
-                
+
                 $FormID = $url_array[$pos];
+                $pos++;
+                $PageID = $url_array[$pos];
                 $pos++;
                 $TableID = $url_array[$pos];
                 include( "ezform/admin/tableedit.php" );
