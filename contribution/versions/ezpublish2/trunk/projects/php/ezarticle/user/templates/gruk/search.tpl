@@ -1,6 +1,5 @@
-<table width="100%" border="0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
-	<td valign="bottom">
 	<td>
 	<h1>{intl-head_line}</h1>
 	</td>
@@ -29,11 +28,9 @@
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Article:</th>
-	<th>
-	<div align="right">
+	<th>Artikkel:</th>
+	<th class="right">
 	{intl-publishing_date}:
-	</div>
 	</th>
 </tr>
 

@@ -71,6 +71,9 @@
 <a href="{www_dir}{index}{href}">{link_text}</a>
 <!-- END link_tpl -->
 
+<!-- BEGIN eksternlink_tpl -->
+<a href="{www_dir}{index}{href}" target="_blank">{link_text}</a>
+<!-- END eksternlink_tpl -->
 
 <!-- BEGIN bold_tpl -->
 <b>{contents}</b>
