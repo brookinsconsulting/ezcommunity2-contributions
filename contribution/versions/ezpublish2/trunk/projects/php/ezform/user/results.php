@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: results.php,v 1.6 2002/01/25 09:14:08 jhe Exp $
+// $Id: results.php,v 1.7 2002/01/25 10:29:34 jhe Exp $
 //
 // Created on: <10-Jan-2002 08:58:22 jhe>
 //
@@ -154,6 +154,13 @@ if ( isSet( $Search ) )
         case "less":
         {
             $t->set_var( "less_selected", "selected" );
+            $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
+        }
+        break;
+
+        case "between":
+        {
+            $t->set_var( "between_selected", "selected" );
             $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
         }
         break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.36 2002/01/25 09:14:08 jhe Exp $
+// $Id: ezformelement.php,v 1.37 2002/01/25 10:29:34 jhe Exp $
 //
 // ezformelement class
 //
@@ -684,6 +684,19 @@ class eZFormElement
             case "less":
             {
                 $whereStr = "Result < $searchString";
+            }
+            break;
+
+            case "between":
+            {
+                $whereArray = split( '[ -]', $searchString, 2 );
+                if ( strlen( $whereArray[1] ) > strlen( $whereArray[0] ) )
+                {
+                    $whereArray[0] = str_pad( $whereArray[0], strlen( $whereArray[1] ), "0", STR_PAD_LEFT );
+                }
+                
+                $whereStr = "SUBSTRING(Result,1," . strlen( $whereArray[0] ) . ") >= " . $whereArray[0] . " AND
+                             SUBSTRING(Result,1," . strlen( $whereArray[1] ) . ") <= " . $whereArray[1];
             }
             break;
         }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewreport.php,v 1.3 2002/01/25 09:14:08 jhe Exp $
+// $Id: viewreport.php,v 1.4 2002/01/25 10:29:34 jhe Exp $
 //
 // Created on: <21-Jan-2002 09:40:52 jhe>
 //
@@ -103,6 +103,7 @@ $t->set_var( "equal_selected", "" );
 $t->set_var( "not_selected", "" );
 $t->set_var( "greater_selected", "" );
 $t->set_var( "less_selected", "" );
+$t->set_var( "between_selected", "" );
 
 if ( isSet( $Operator ) )
     $t->set_var( $Operator . "_selected", "selected" );

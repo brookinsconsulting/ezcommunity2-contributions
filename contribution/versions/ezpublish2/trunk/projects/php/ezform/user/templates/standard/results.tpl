@@ -17,7 +17,8 @@
 	<option value="not" {not_selected}>{intl-not}</option>
 	<option value="greater" {greater_selected}>{intl-greater}</option>
 	<option value="less" {less_selected}>{intl-less}</option>
-	</select>	
+	<option value="between" {between_selected}>{intl-between}</option>
+	</select>
 	<input class="searchbox" type="text" name="SearchText" size="10" value="{search_text}" />
 	<input class="stdbutton" type="submit" name="Search" value="{intl-search}" />
 	</form>
