@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.17 2001/03/05 14:27:05 ce Exp $
+// $Id: linkgrouplist.php,v 1.18 2001/03/05 14:31:52 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -130,7 +130,6 @@ else
         
         if ( $image )
         {
-            print( "en" );
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
             
