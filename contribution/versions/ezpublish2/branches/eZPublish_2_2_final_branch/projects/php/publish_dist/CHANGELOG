@@ -6,6 +6,7 @@ Changes from 2.2.9 to 2.2.10
 * Fixed bug. Now setting envelope information when sending mail with ezmail
 * Fixed bug. In moderated forums, notifications are now sendt when message is approved (not when
   message is submitted)
+* Fixed bug with escape of strings in cron job for eZ stats.
 
 Changes from 2.2.8 to 2.2.9
 ---------------------------
