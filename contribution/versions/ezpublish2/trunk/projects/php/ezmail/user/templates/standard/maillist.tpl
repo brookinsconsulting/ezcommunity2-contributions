@@ -1,11 +1,11 @@
 <h1>{intl-mail} - {current_folder_name}</h1>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 
 <form method="post" action="/mail/folder/{current_folder_id}" enctype="multipart/form-data" >
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-        <th widht="1%">&nbsp;</th>
+    <th widht="1%">&nbsp;</th>
 	<th width="40%">{intl-subject}:</th>
 	<th width="26%">{intl-sender}:</th>
 	<th width="7%">{intl-size}:</th>
@@ -28,7 +28,7 @@
 	{mail_size}
 	</td>
 	<td class="{td_class}">
-	{mail_date}
+	<span class="small">{mail_date}</span>
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN mail_edit_item_tpl -->
@@ -75,11 +75,13 @@
 
 </table>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-  <td><input class="stdbutton" type="submit" name="Move" value="{intl-move}" /></td>
+  <td><input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}" /></td>
+  <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" name="Move" value="{intl-move}:" /></td>
   <td>&nbsp;</td>
   <td>
     <select name="FolderSelectID">
@@ -89,10 +91,9 @@
 	<!-- END folder_item_tpl -->
     </select>
   </td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}" /></td>
 </tr>
 </table>
 
 </form>
+
+

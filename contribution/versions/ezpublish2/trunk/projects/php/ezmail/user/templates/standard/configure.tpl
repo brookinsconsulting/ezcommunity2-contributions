@@ -1,11 +1,11 @@
-<h1>{intl-configure}</h1>
-
-<hr noshade="noshade" size="4">
-
 <form method="post" action="/mail/config/" enctype="multipart/form-data" >
 
+<h1>{intl-configure}</h1>
+
+<hr noshade="noshade" size="4" />
+
 <h2>{intl-account_setup}:</h2>
-<hr noshade="noshade" size="4">
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="33%">{intl-name}:</th>
@@ -44,7 +44,7 @@
 <br />
 
 <h2>{intl-filters_setup}:</h2>
-<hr noshade="noshade" size="4">
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="98%">{intl-name}:</th>
@@ -68,18 +68,20 @@
 <!-- END filter_item_tpl -->
 </table>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="DeleteAccounts" value="{intl-delete}" />
+
+<hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
   <td><input class="stdbutton" type="submit" name="NewAccount" value="{intl-new}" /></td>
   <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" name="NewFilter" value="{intl-new_filter}" /></td>
-  <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" name="DeleteAccounts" value="{intl-delete}" /></td>
 </tr>
 </table>
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Ok" value="{intl-ok}" />
 
 </form>

@@ -1,13 +1,13 @@
 <h1>{intl-folderlist}</h1>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 
 <form method="post" action="/mail/folderlist/" enctype="multipart/form-data" >
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="88%">{intl-name}:</th>
-	<th width="5%">{intl-unread_mail}</th>
-	<th width="5%">{intl-total_mail}</th>
+	<th width="5%">{intl-unread_mail}:</th>
+	<th width="5%">{intl-total_mail}:</th>
 	<th width="1%">&nbsp;</th>
 	<th width="1%">&nbsp;</th>
 </tr>
@@ -42,11 +42,23 @@
 
 </table>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-  <td><input class="stdbutton" type="submit" name="Move" value="{intl-move}" /></td>
+  	<td><input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" /></td>
+	<td>&nbsp;</td>
+	<td><input class="stdbutton" type="submit" name="EmptyTrash" value="{intl-empty_trash}" /></td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4" />
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td><input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}" /></td>
+  <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" name="Move" value="{intl-move}:" /></td>
   <td>&nbsp;</td>
   <td>
     <select name="FolderSelectID">
@@ -56,13 +68,7 @@
 	<!-- END folder_item_tpl -->
     </select>
   </td>
-  <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}" /></td>
-  <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" /></td>
 </tr>
 </table>
-<hr noshade="noshade" size="4">
-<input class="stdbutton" type="submit" name="EmptyTrash" value="{intl-empty_trash}" />
 
 </form>

@@ -20,7 +20,8 @@
 <input type="text" size="40" name="Subject" value="{subject_value}"/>
 
 <p class="boxtext">{intl-body}:</p>
-<textarea name="MailBody" cols="70" rows="20" wrap="soft">{mail_body}</textarea>
+<textarea name="MailBody" cols="40" rows="20" wrap="soft">{mail_body}</textarea>
+<br /><br />
 
 <!-- BEGIN inserted_attachments_tpl -->
 <h2>{intl-attachments}:</h2>
@@ -52,9 +53,11 @@
 <hr noshade="noshade" size="4" />
 <table cellspace="0" cellpadding="0" border="0">
 <tr>
-  <td><input class="stdbutton" type="submit" Name="AddAttachment" value="{intl-add_attachment}" /></td>
+  <td><input class="stdbutton" type="submit" Name="Preview" value="{intl-preview}" /></td>
   <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" Name="AddAttachment" value="{intl-add_attachment}" /></td>
   <!-- BEGIN attachment_delete_tpl -->
+  <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" Name="DeleteAttachments" value="{intl-delete_attachments}" /></td>
   <!-- END attachment_delete_tpl -->
 </tr>
@@ -63,13 +66,11 @@
 <hr noshade="noshade" size="4" />
 <table cellspace="0" cellpadding="0" border="0">
 <tr>
-  <td><input class="stdbutton" type="submit" Name="Send" value="{intl-send}" /></td>
-  <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" Name="Preview" value="{intl-preview}" /></td>
+  <td><input class="okbutton" type="submit" Name="Send" value="{intl-send}" /></td>
   <td>&nbsp;</td>  
-  <td><input class="stdbutton" type="submit" Name="Save" value="{intl-save}" /></td>
+  <td><input class="okbutton" type="submit" Name="Save" value="{intl-save}" /></td>
   <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" Name="Cancel" value="{intl-cancel}" /></td>
+  <td><input class="okbutton" type="submit" Name="Cancel" value="{intl-cancel}" /></td>
 </tr>
 </table>
 </form>
