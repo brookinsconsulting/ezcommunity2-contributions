@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.60 2001/05/04 15:12:54 ce Exp $
+// $Id: checkout.php,v 1.61 2001/05/05 11:29:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -129,8 +129,6 @@ if ( isset( $SendOrder ) )
 
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
 
-    print( $session->variable( "PaymentMethod" ) );
-    exit();
     eZHTTPTool::header( "Location: /trade/payment/" );
     exit();
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.25 2001/05/05 11:16:04 bf Exp $
+// $Id: ezmail.php,v 1.26 2001/05/05 11:29:46 bf Exp $
 //
 // Definition of eZMail class
 //
@@ -28,10 +28,17 @@
 
 //!! eZMail
 /*!
-Example code:
-\code
 
-\endcode
+  Functions that are used when sending mail have ideas from:
+    Sascha Schumann <sascha@schumann.cx>
+    Tobias Ratschiller <tobias@dnet.it
+  extended and modified to fit eZPublish needs by
+    Frederik Holljen <fh@ez.no>
+  
+  Example code:
+  \code
+
+  \endcode
 */
 
 include_once( "ezmail/classes/ezmailfolder.php" );
@@ -47,7 +54,6 @@ define( "MAIL_SENT", 4 );
 
 class eZMail
 {
-/************* CONSTRUCTORS DESTRUCTORS (virtual) ************************/    
     /*!
       Constructs a new eZMail object.
 
@@ -99,7 +105,6 @@ class eZMail
         return true;
     }
 
-/***************** Get / fetch from database *******************************/
     /*!
       Stores a mail to the database.
     */
@@ -207,7 +212,6 @@ class eZMail
         return $ret;
     }
     
-/****************** BORING SET AND GET FUNCTIONS ***************************/    
     /*!
       Returns the object ID.
     */
@@ -959,13 +963,6 @@ class eZMail
         $this->Size = $size;
     }
     
-    /***************** FUNCTIONS THAT ARE USED WHEN SENDING MAIL, IDEAS FROM:
-                       Sascha Schumann <sascha@schumann.cx>
-                       Tobias Ratschiller <tobias@dnet.it
-                       extended and modified to fit eZPublish needs by
-                       Frederik Holljen <fh@ez.no>
-    *****************************/
-
     /*!
       Sends the mail with the values specified.
      */
@@ -1011,7 +1008,6 @@ class eZMail
             "name" => $name
             );
     }
-
     
     /*!
       \private
@@ -1048,10 +1044,6 @@ class eZMail
     }
 
 
-    /****************** END MAIL SENDING FUNCTIONS ***********************/
-
-
-
     /*!
       \private
       
@@ -1061,22 +1053,26 @@ class eZMail
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
 
-    // this variable is only used during the buildup of a mail that is beeing sent. NEVER access directly!!!
+    /// this variable is only used during the buildup of a mail that is beeing sent. NEVER access directly!!!
     var $parts;
 
     /* Mail specific variables */
     var $To;
-    var $From; // email adress
-    var $FromName; // users name
+    /// email adress
+    var $From;
+    /// users name
+    var $FromName; 
     var $Cc;
     var $Bcc;
-    var $MessageID; // used with the reference.
-    var $References; // used to thread mail, originally from News
+    /// used with the reference.
+    var $MessageID;
+    /// used to thread mail, originally from News
+    var $References; 
     var $ReplyTo;
     
     var $Subject;
@@ -1086,6 +1082,7 @@ class eZMail
     var $UDate;
     
     var $Status;
+    
     /* database specific variables */
     var $ID;
     var $UserID;

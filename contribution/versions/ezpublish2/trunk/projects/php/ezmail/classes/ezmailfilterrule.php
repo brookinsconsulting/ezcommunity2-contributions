@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.9 2001/05/05 11:16:04 bf Exp $
+// $Id: ezmailfilterrule.php,v 1.10 2001/05/05 11:29:47 bf Exp $
 //
 // eZMailFilterRule class
 //
@@ -100,7 +100,6 @@ class eZMailFilterRule
         return true;
     }
 
-/***************** Get / fetch from database *******************************/
     /*!
       Stores a mail to the database.
     */
@@ -179,7 +178,6 @@ class eZMailFilterRule
         return $ret;
     }
     
-/****************** BORING SET AND GET FUNCTIONS ***************************/    
     /*!
       Returns the object ID.
     */
@@ -345,19 +343,18 @@ class eZMailFilterRule
     /*!
       Applies the filter rule to a mail. Returns true if the filter was successfull.
 
-define( "FILTER_EQUALS", 0 );
-define( "FILTER_NEQUALS", 1 );
-define( "FILTER_CONTAINS", 2 );
-define( "FILTER_NCONTAINS", 3 );
-define( "FILTER_REGEXP", 4 );
-
+      define( "FILTER_EQUALS", 0 );
+      define( "FILTER_NEQUALS", 1 );
+      define( "FILTER_CONTAINS", 2 );
+      define( "FILTER_NCONTAINS", 3 );
+      define( "FILTER_REGEXP", 4 );
      */
     function applyFilter( &$mail )
     {
-        /** Get the array of elements to search in **/
+        // Get the array of elements to search in
         $searchArray =& $this->buildSearchArray( $mail );
-        /** Loop through the elements and run the required tests. Exit at once when we find a match.
-            This is not good coding practice, but it's the best way to do it here **/
+        // Loop through the elements and run the required tests. Exit at once when we find a match.
+        // This is not good coding practice, but it's the best way to do it here 
         switch( $this->CheckType )
         {
             case FILTER_EQUALS :

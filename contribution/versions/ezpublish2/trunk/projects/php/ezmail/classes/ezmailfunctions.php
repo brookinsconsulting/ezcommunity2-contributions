@@ -212,18 +212,6 @@ function &decode( $enctype, &$value )
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /******* FUNCTIONS BELOW THIS POINT ARE NOT USED AT THE MOMENT ******************/
 
 function get_mime_type(&$structure)

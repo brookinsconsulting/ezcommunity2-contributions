@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.24 2001/05/05 11:16:04 bf Exp $
+// $Id: ezmailaccount.php,v 1.25 2001/05/05 11:29:47 bf Exp $
 //
 // eZMailAccount class
 //
@@ -56,7 +56,6 @@ include_once( "classes/ezhttptool.php" );
 
 class eZMailAccount
 {
-/************* CONSTRUCTORS DESTRUCTORS (virtual) ************************/    
     /*!
       constructor
     */
@@ -103,7 +102,6 @@ class eZMailAccount
         return true;
     }
 
-/***************** Get / fetch from database *******************************/
     /*!
       Stores a mail to the database.
     */
@@ -194,9 +192,6 @@ class eZMailAccount
         }
         return $ret;
     }
-
-    
-/****************** BORING SET AND GET FUNCTIONS ***************************/
 
     /*
       Returns the ID of this object.
@@ -363,9 +358,9 @@ class eZMailAccount
         return $this->DeleteFromServer;
     }
 
-  /*!
-    1- Mail gets deleted from server after download
-    0-Leaves the mail alone.
+    /*!
+      1- Mail gets deleted from server after download
+      0-Leaves the mail alone.
     */
     function setDeleteFromServer( $value )
     {
@@ -374,9 +369,9 @@ class eZMailAccount
 
         $this->DeleteFromServer = $value;
     }
-
-  /*!
-    Returns 1 if the account is active. Inactive accounts should not be checked.
+    
+    /*!
+      Returns 1 if the account is active. Inactive accounts should not be checked.
     */
     function isActive()
     {
@@ -386,8 +381,8 @@ class eZMailAccount
         return $this->IsActive;
     }
 
-  /*!
-    Sets the account active. Inactive accounts will not be checked.
+    /*!
+      Sets the account active. Inactive accounts will not be checked.
    */
     function setIsActive( $value )
     {
@@ -419,7 +414,6 @@ class eZMailAccount
         $this->ServerType = $value;
     }
 
-/********** INTERESTING FUNCTIONS *********************/
     /*!
       \static
       
@@ -463,7 +457,7 @@ class eZMailAccount
         return $return_array; 
     }
 
-    /*
+    /*!
       Checks if there is any new mail in this accounts. Downloads according to the setup, and filters it
       to the correct folder if filters are enabled. Currently this function only works for pop3.
      */
@@ -479,10 +473,10 @@ class eZMailAccount
             exit();
         }
 
-//debug!!!!        
-//        $struct = imap_fetchstructure( $mbox, 1 );
-//        echo "<pre>"; print_r( $struct ); echo "</pre>";
-//        exit;
+        //debug!!!!        
+        //        $struct = imap_fetchstructure( $mbox, 1 );
+        //        echo "<pre>"; print_r( $struct ); echo "</pre>";
+        //        exit;
 
         // get the inbox... we will be adding mail to this.
         $inbox = eZMailFolder::getSpecialFolder( INBOX );

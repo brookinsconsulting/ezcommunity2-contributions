@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.20 2001/05/05 11:16:04 bf Exp $
+// $Id: ezmailfolder.php,v 1.21 2001/05/05 11:29:47 bf Exp $
 //
 // eZMailFolder class
 //
@@ -45,7 +45,6 @@ define( "TRASH", 4 );
 
 class eZMailFolder
 {
-/************* CONSTRUCTORS DESTRUCTORS (virtual) ************************/    
     /*!
       constructor
     */
@@ -93,7 +92,6 @@ class eZMailFolder
             $mailItem->delete();
     }
 
-/***************** Get / fetch from database *******************************/
     /*!
       Stores a mail to the database.
     */
@@ -166,8 +164,6 @@ class eZMailFolder
         }
         return $ret;
     }
-
-/****************** BORING SET AND GET FUNCTIONS ***************************/
 
     /*!
       Returns the object ID.
@@ -247,13 +243,13 @@ class eZMailFolder
     }
 
     /*!
-     Returns the type of this folder. Valid types are:
-     0 - Normal user created folder
-     1 - Inbox
-     2 - Outbox
-     3 - Sent mail
-     4 - Drafts
-     5 - Trash
+      Returns the type of this folder. Valid types are:
+      0 - Normal user created folder
+      1 - Inbox
+      2 - Outbox
+      3 - Sent mail
+      4 - Drafts
+      5 - Trash
     */
     function folderType()
     {
@@ -262,15 +258,15 @@ class eZMailFolder
 
         return $this->FolderType;
     }
-
-  /*!
-     Sets the type of this folder. Valid types are:
-     0 - Normal user created folder
-     1 - Inbox
-     2 - Outbox
-     3 - Sent mail
-     4 - Drafts
-     5 - Trash
+    
+    /*!
+      Sets the type of this folder. Valid types are:
+      0 - Normal user created folder
+      1 - Inbox
+      2 - Outbox
+      3 - Sent mail
+      4 - Drafts
+      5 - Trash
     */
     function setFolderType( $value )
     {
@@ -280,10 +276,9 @@ class eZMailFolder
         $this->FolderType = $value;
     }
 
-/****** INTERESTING FUNCTIONS *******************/
     /*!
       Adds a mail to this folder
-     */
+    */
     function addMail( $mail, $removeFromOld = true )
     {
        if ( $this->State_ == "Dirty" )
