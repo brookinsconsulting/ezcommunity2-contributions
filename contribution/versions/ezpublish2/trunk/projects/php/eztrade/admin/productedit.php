@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.26 2001/01/24 15:51:26 ce Exp $
+// $Id: productedit.php,v 1.27 2001/01/24 18:54:44 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -90,7 +90,8 @@ if ( $Action == "Insert" )
     $category->addProduct( $product );
     
     $product->setCategoryDefinition( $category );
-    
+
+    if ( count( $CategoryArray ) > 0 )
     foreach ( $CategoryArray as $categoryItem )
     {
         if ( $categoryItem != $CategoryID )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.12 2000/12/21 13:00:29 bf Exp $
+// $Id: categorylist.php,v 1.13 2001/01/24 18:54:44 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -30,7 +30,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
@@ -57,11 +57,33 @@ $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "category_list_page_tpl", "product_list_tpl", "product_list" );
 $t->set_block( "product_list_tpl", "product_item_tpl", "product_item" );
 
+
+// move up / down
+$t->set_block( "product_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
+$t->set_block( "product_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
+
+
 $category = new eZProductCategory(  );
 $category->get( $ParentID );
 
+// move products  up / down
+
+if ( $category->sortMode() == "absolute_placement" )
+{
+    if ( is_numeric( $MoveUp ) )
+    {
+        $category->moveUp( $MoveUp );
+    }
+
+    if ( is_numeric( $MoveDown ) )
+    {
+        $category->moveDown( $MoveDown );
+    }
+}
+
+
 // path
-$pathArray = $category->path();
+$pathArray =& $category->path();
 
 $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
@@ -73,7 +95,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$categoryList = $category->getByParent( $category );
+$categoryList =& $category->getByParent( $category );
 
 // categories
 $i=0;
@@ -109,11 +131,21 @@ else
 
 
 // products
-$productList = $category->products();
+$productList =& $category->products( $category->sortMode(), true );
 
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "product_list", "" );
+
+if ( $category->sortMode() == "absolute_placement" )
+{
+    $t->parse( "absolute_placement_header", "absolute_placement_header_tpl" );
+}
+else
+{
+    $t->set_var( "absolute_placement_header", "" );
+}
+
 foreach ( $productList as $product )
 {
     $t->set_var( "product_name", $product->name() );
@@ -123,6 +155,8 @@ foreach ( $productList as $product )
     $t->set_var( "product_price", $locale->format( $price ) );
     $t->set_var( "product_id", $product->id() );
 
+    $t->set_var( "category_id", $category->id() );
+    
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
@@ -130,6 +164,15 @@ foreach ( $productList as $product )
     else
     {
         $t->set_var( "td_class", "bgdark" );
+    }
+
+    if ( $category->sortMode() == "absolute_placement" )
+    {
+        $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "absolute_placement_item", "" );
     }
 
     $t->parse( "product_item", "product_item_tpl", true );

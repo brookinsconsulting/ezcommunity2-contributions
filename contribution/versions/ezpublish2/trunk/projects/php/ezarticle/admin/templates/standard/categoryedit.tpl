@@ -39,10 +39,10 @@
 	<p class="boxtext">{intl-sort_mode}:</p>
 	<select name="SortMode">
 
-	<option value="1">{intl-publishing_date}</option>
-	<option value="2">{intl-alphabetic_asc}</option>
-	<option value="3">{intl-alphabetic_desc}</option>
-	<option value="4">{intl-absolute_placement}</option>
+	<option {1_selected} value="1">{intl-publishing_date}</option>
+	<option {2_selected} value="2">{intl-alphabetic_asc}</option>
+	<option {3_selected} value="3">{intl-alphabetic_desc}</option>
+	<option {4_selected} value="4">{intl-absolute_placement}</option>
 
 	</select>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.9 2001/01/24 15:40:22 ce Exp $
+// $Id: categoryedit.php,v 1.10 2001/01/24 18:54:44 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -55,6 +55,8 @@ if ( $Action == "Insert" )
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
 
+    $category->setSortMode( $SortMode );
+    
     $category->store();
 
     Header( "Location: /trade/categorylist/" );
@@ -71,6 +73,8 @@ if ( $Action == "Update" )
     $category->setName( $Name );
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
+
+    $category->setSortMode( $SortMode );
 
     $category->store();
 
@@ -130,6 +134,11 @@ $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
 $t->set_var( "action_value", "insert" );
 
+$t->set_var( "1_selected", "" );
+$t->set_var( "2_selected", "" );
+$t->set_var( "3_selected", "" );
+$t->set_var( "4_selected", "" );
+
 // edit
 if ( $Action == "Edit" )
 {
@@ -140,6 +149,34 @@ if ( $Action == "Edit" )
     $t->set_var( "description_value", $category->description() );
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
+
+    switch ( $category->sortMode() )
+    {
+        case "time" :
+        {
+            $t->set_var( "1_selected", "selected" );
+        }
+        break;
+
+        case "alpha" :
+        {
+            $t->set_var( "2_selected", "selected" );
+        }
+        break;
+
+        case "alphadesc" :
+        {
+            $t->set_var( "3_selected", "selected" );
+        }
+        break;
+
+        case "absolute_placement" :
+        {
+            $t->set_var( "4_selected", "selected" );
+        }
+        break;
+        
+    }
 
     $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );

@@ -83,3 +83,15 @@ alter table eZArticle_Category add SortMode int not null default 1;
 # abolute placement of articles
 alter table eZArticle_ArticleCategoryLink add Placement int not null;    
 update eZArticle_ArticleCategoryLink set Placement=ArticleID;  
+
+# User defines sorting of products pr category
+alter table eZTrade_Category add SortMode int not null default 1;   
+
+# Absolute placement of products pr category.
+alter table eZTrade_ProductCategoryLink add Placement int not null;   
+update eZTrade_ProductCategoryLink set Placement=ProductID;       
+
+# Dates for products
+alter table eZTrade_Product add Published timestamp; 
+alter table eZTrade_Product add Altered timestamp;    
+

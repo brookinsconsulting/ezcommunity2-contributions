@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.12 2001/01/24 11:53:53 bf Exp $
+// $Id: articlelist.php,v 1.13 2001/01/24 18:54:43 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -102,8 +102,6 @@ foreach ( $pathArray as $path )
     
     $t->parse( "path_item", "path_item_tpl", true );
 }
-
-
 
 $categoryList =& $category->getByParent( $category, true );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.10 2001/01/24 16:18:05 gl Exp $
+// $Id: ezadcategory.php,v 1.11 2001/01/24 18:54:43 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -468,7 +468,6 @@ class eZAdCategory
 
            for ( $i=0; $i<count($ad_array); $i++ )
            {
-               print( $ad_array[$i]["Count"] . "<-<br>" );
                $return_array[$i] = new eZAd( $ad_array[$i]["AdID"], false );
            }
        }

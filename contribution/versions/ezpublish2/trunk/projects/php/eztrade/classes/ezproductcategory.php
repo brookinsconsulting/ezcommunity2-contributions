@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.20 2001/01/24 15:40:23 ce Exp $
+// $Id: ezproductcategory.php,v 1.21 2001/01/24 18:54:44 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -126,6 +126,7 @@ class eZProductCategory
             $this->Database->query( "INSERT INTO eZTrade_Category SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
+                                 SortMode='$this->SortMode',
                                  Parent='$this->Parent'" );
             $this->ID = mysql_insert_id();
         }
@@ -134,6 +135,7 @@ class eZProductCategory
             $this->Database->query( "UPDATE eZTrade_Category SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
+                                 SortMode='$this->SortMode',
                                  Parent='$this->Parent' WHERE ID='$this->ID'" );
         }
         
@@ -198,10 +200,11 @@ class eZProductCategory
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "ID" ];
-                $this->Name = $category_array[0][ "Name" ];
-                $this->Description = $category_array[0][ "Description" ];
-                $this->Parent = $category_array[0][ "Parent" ];
+                $this->ID =& $category_array[0][ "ID" ];
+                $this->Name =& $category_array[0][ "Name" ];
+                $this->Description =& $category_array[0][ "Description" ];
+                $this->Parent =& $category_array[0][ "Parent" ];
+                $this->SortMode =& $category_array[0][ "SortMode" ];
             }
                  
             $this->State_ = "Coherent";
@@ -217,7 +220,7 @@ class eZProductCategory
 
       The categories are returned as an array of eZProductCategory objects.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         
@@ -239,7 +242,7 @@ class eZProductCategory
 
       The categories are returned as an array of eZProductCategory objects.
     */
-    function getByParent( $parent, $sortby=name )
+    function &getByParent( $parent, $sortby=name )
     {
         if ( get_class( $parent ) == "ezproductcategory" )
         {
@@ -272,7 +275,7 @@ class eZProductCategory
 
       See detailed description for an example of usage.
     */
-    function path( $categoryID=0 )
+    function &path( $categoryID=0 )
     {
         if ( $categoryID == 0 )
         {
@@ -299,7 +302,7 @@ class eZProductCategory
         return $path;
     }
 
-    function getTree( $parentID=0, $level=0 )
+    function &getTree( $parentID=0, $level=0 )
     {
         $category = new eZProductCategory( $parentID );
 
@@ -361,7 +364,7 @@ class eZProductCategory
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
-    function parent()
+    function &parent()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -376,6 +379,53 @@ class eZProductCategory
        }
     }
 
+    /*!
+      Returns the sort mode.
+
+      1 - publishing date
+      2 - alphabetic
+      3 - alphabetic desc
+      3 - absolute placement      
+    */
+    function &sortMode()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       switch( $this->SortMode )
+       {
+           case 1 :
+           {
+               $SortMode = "time";
+           }
+           break;
+           
+           case 2 :
+           {
+               $SortMode = "alpha";
+           }
+           break;
+           
+           case 3 :
+           {
+               $SortMode = "alphadesc";
+           }
+           break;
+           
+           case 4 :
+           {
+               $SortMode = "absolute_placement";
+           }
+           break;
+           
+           default :
+           {
+               $SortMode = "time";
+           }           
+       }
+       
+       return $SortMode;
+    }
 
     /*!
       Sets the name of the category.
@@ -413,6 +463,21 @@ class eZProductCategory
        }
     }
 
+    /*!
+      Sets the sort mode.
+
+      1 - publishing date
+      2 - alphabetic
+      3 - alphabetic desc
+      3 - absolute placement      
+    */
+    function setSortMode( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->SortMode = $value;
+    }
 
     /*!
       Adds a product to the category.
@@ -442,19 +507,76 @@ class eZProductCategory
     /*!
       Returns every product to a category as a array of eZProduct objects.
     */
-    function &products()
+    function &products( $sortMode="time",
+                        $fetchNonActive=false,
+                        $offset=0,
+                        $limit=50 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        $this->dbInit();
+
+       switch( $sortMode )
+       {
+           case "time" :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+           break;
+
+           case "alpha" :
+           {
+               $OrderBy = "eZTrade_Product.Name ASC";
+           }
+           break;
+
+           case "alphadesc" :
+           {
+               $OrderBy = "eZTrade_Product.Name DESC";
+           }
+           break;
+
+           case "absolute_placement" :
+           {
+               $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
+           }
+           break;
+           
+           default :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+       }       
        
        $return_array = array();
        $product_array = array();
+
+       if ( $fetchNonActive  == true )
+       {
+           $nonActiveCode = "";
+       }
+       else
+       {
+           $nonActiveCode = " eZTrade_Product.ShowProduct='true' AND";
+       }
        
-       $this->Database->array_query( $product_array, "SELECT ProductID
-                                                      FROM eZTrade_ProductCategoryLink
-                                                      WHERE CategoryID='$this->ID'" );
+
+       $this->Database->array_query( $product_array, "
+                SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name, eZTrade_Category.ID, eZTrade_Category.Name
+                FROM eZTrade_Product, eZTrade_Category, eZTrade_ProductCategoryLink
+                WHERE 
+                eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+                AND
+                $nonActiveCode
+                eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
+                AND
+                eZTrade_Category.ID='$this->ID'
+                GROUP BY eZTrade_Product.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
+       
+//         $this->Database->array_query( $product_array, "SELECT ProductID
+//                                                        FROM eZTrade_ProductCategoryLink
+//                                                        WHERE CategoryID='$this->ID'" );
 
        for ( $i=0; $i<count($product_array); $i++ )
        {
@@ -534,6 +656,73 @@ class eZProductCategory
     }
 
     /*!
+      Moves the product placement with the given ID up.
+    */
+    function moveUp( $id )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $db =& eZDB::globalDatabase();
+
+       $db->query_single( $qry, "SELECT * FROM eZTrade_ProductCategoryLink
+                                  WHERE ProductID='$id' AND CategoryID='$this->ID'" );
+
+       if ( is_numeric( $qry["ID"] ) )
+       {
+           $linkID = $qry["ID"];
+           
+           $placement = $qry["Placement"];
+           
+           $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
+                                    WHERE Placement<'$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement DESC LIMIT 1" );
+
+           $newPlacement = $qry["Placement"];
+           $listid = $qry["ID"];
+
+           if ( is_numeric( $listid ) )
+           {           
+               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+           }           
+       }       
+    }
+
+    /*!
+      Moves the product placement with the given ID down.
+    */
+    function moveDown( $id )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $db =& eZDB::globalDatabase();
+
+       $db->query_single( $qry, "SELECT * FROM eZTrade_ProductCategoryLink
+                                  WHERE ProductID='$id' AND CategoryID='$this->ID'" );
+
+       if ( is_numeric( $qry["ID"] ) )
+       {
+           $linkID = $qry["ID"];
+           
+           $placement = $qry["Placement"];
+           
+           $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
+                                    WHERE Placement>'$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
+
+           $newPlacement = $qry["Placement"];
+           $listid = $qry["ID"];
+
+           if ( is_numeric( $listid ) )
+           {
+               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+           }
+       }       
+    }
+    
+    
+    /*!
       \private
       Open the database for read and write. Gets all the database information from site.ini.
     */
@@ -541,7 +730,7 @@ class eZProductCategory
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
@@ -551,6 +740,7 @@ class eZProductCategory
     var $Parent;
     var $Description;
     var $OptionArray;
+    var $SortMode;
 
     ///  Variable for keeping the database connection.
     var $Database;

@@ -53,6 +53,8 @@
 	<tr>
 	<th>{intl-category}:</th>
 	<th>{intl-description}:</th>
+
+
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -92,6 +94,11 @@
 	<tr>
 	<th>{intl-product}:</th>
 	<td class="path" align="right">{intl-price}:</td>
+	<!-- BEGIN absolute_placement_header_tpl -->
+	<th>{intl-move_up}:</th>
+	<th>{intl-move_down}:</th>
+	<!-- END absolute_placement_header_tpl -->
+
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -104,6 +111,18 @@
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
+	<!-- BEGIN absolute_placement_item_tpl -->
+	<td class="{td_class}">
+	<a href="/trade/categorylist/parent/{category_id}/?MoveUp={product_id}">
+	{intl-move_up}
+	</a>
+	</td>
+	<td class="{td_class}">
+	<a href="/trade/categorylist/parent/{category_id}/?MoveDown={product_id}">
+	{intl-move_down}
+	</a>
+	</td>
+	<!-- END absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
 	<a href="/trade/productedit/edit/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-red','','/eztrade/images/redigerminimrk.gif',1)"><img name="ezti{product_id}-red" border="0" src="/eztrade/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
