@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfolder.php,v 1.30 2001/10/03 08:44:34 fh Exp $
+// $Id: ezmailfolder.php,v 1.31 2001/12/18 12:32:07 fh Exp $
 //
 // eZMailFolder class
 //
@@ -183,8 +183,11 @@ class eZMailFolder
   /*!
     Returns the name of the folder
   */
-    function name()
+    function name( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->Name );
+
         return $this->Name;
     }
 

@@ -55,25 +55,12 @@ function imapGetFolderTree( $account )
   TODO:
   - fetch email address correctly. (not just name)
   - fetch email date.
+  - offset, range
  */
 function imapGetMailList( $account )
 {
     $mbox = imapConnect( $account );
 
-//    $folders = imap_listmailbox ($mbox, "{mail.ez.no:143}", "*");
-//    
-//    if ($folders == false) {
-//        echo "Call failed<br>\n";
-//    } else {
-//        while (list ($key, $val) = each ($folders)) {
-//            echo $val."<br>\n";
-//        }
-//    }
-    
-//    echo "<p><h1>CHECK </h1>\n";
-//    echo "<pre>"; print_r( imap_check($mbox) ); echo "</pre>";
-
-//    echo "<p><h1>HEADERS </h1>\n";
     $MC = imap_check($mbox); 
     $MN = $MC->Nmsgs; 
     $overview = imap_fetch_overview( $mbox, "1:$MN", 0 );
@@ -92,29 +79,11 @@ function imapGetMailList( $account )
             $mailItem->setStatus( UNREAD );
 
         $mail[] = $mailItem;
-        echo "<pre>";print_r( $mailHeader ); echo "</pre>";
+//        echo "<pre>";print_r( $mailHeader ); echo "</pre>";
     }
-    
-//    echo "<pre>";print_r( $mail ); echo "</pre>";
-
-
-//    echo "<p><h1>Headers in INBOX $mbox</h1>\n";
-//    $headers = imap_headers( $mbox );
-
-//    if ( $headers == false )
-//    {
-//        echo "Call failed<br>\n";
-//    }
-//    else
-//    {
-//        echo "<pre>";print_r( $headers ); echo "</pre>";
-//        while (list ($key,$val) = each ($headers))
-//        {
-//            echo $val."<br>\n";
-//        }
-//    }
 
     imapDisconnect( $mbox );
+    return $mail;
 }
 
 
@@ -149,11 +118,28 @@ function imapFetchAttachment()
 {
 }
 
+/*!
+  Functions to encode more information into one url position. This allows us to use the same
+  templates for remote and local mail.
+ */
+function encodeFolderID( $accountID, $folderName )
+{
+    return rawurlencode( $accountID . "-" . $folderName );
+}
+
+/*!
+  Returns an array with the 
+ */
+function decodeFolderID( $codedString )
+{
+    $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
+    return $elements;
+}
 /*********** INTERAL HELPER FUNCTIONS ******************/
 
 function createServerString( $server, $port )
 {
-    echo "{" . "$server:$port" . "}";
+//    echo "{" . "$server:$port" . "}";
     return "{" . "$server:$port" . "}";
 }
 
@@ -164,7 +150,7 @@ function imapConnect( $account )
         $account = new eZMailAccount( $account );
 
     $server = $account->server();
-    $server = "194.248.148.68"; // temporary hack, I have a DNS fail here...
+//    $server = "194.248.148.68"; // temporary hack, I have a DNS fail here...
     $userName = $account->loginName();
     $password = $account->password();
     $port = $account->serverPort();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.48 2001/12/16 13:24:18 fh Exp $
+// $Id: ezmail.php,v 1.49 2001/12/18 12:32:07 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -243,8 +243,11 @@ class eZMail
     /*!
       Returns the receiver address.
     */
-    function to()
+    function to( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->To );
+        
         return $this->To;
     }
 
@@ -260,8 +263,10 @@ class eZMail
     /*!
       Returns the receiver address.
     */
-    function replyTo()
+    function replyTo( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->ReplyTo );
         return $this->ReplyTo;
     }
 
@@ -277,8 +282,11 @@ class eZMail
     /*! 
       Returns the receiver address. Wrapper function
     */
-    function receiver()
+    function receiver( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->To );
+
         return $this->To;
     }
 
@@ -294,8 +302,10 @@ class eZMail
     /*!
       Returns the from address.
     */
-    function from()
+    function from( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->From );
         return $this->From;
     }
 
@@ -311,8 +321,10 @@ class eZMail
     /*!
       Returns a string containing all cc adresses.
      */
-    function cc()
+    function cc( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->Cc );
         return $this->Cc;
     }
 
@@ -327,8 +339,10 @@ class eZMail
     /*!
       Returns a string containing all bcc adresses.
      */
-    function bcc()
+    function bcc( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->Bcc );
         return $this->Bcc;
     }
 
@@ -376,8 +390,10 @@ class eZMail
     /*!
       Returns the from name.
     */
-    function fromName()
+    function fromName( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->FromName );
         return $this->FromName;
     }
 
@@ -392,8 +408,10 @@ class eZMail
     /*!
       Returns the sender address.
     */
-    function sender()
+    function sender( $asHTML = true  )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->From );
         return $this->From;
     }
 
@@ -408,8 +426,10 @@ class eZMail
     /*!
       Returns the subject.
     */
-    function subject()
+    function subject( $asHTML = true )
     {
+        if( $asHTML )
+            return htmlspecialchars( $this->Subject );
         return $this->Subject;
     }
 
@@ -424,8 +444,10 @@ class eZMail
     /*!
       returns the body.
     */
-    function body()
+    function body( $asHTML = true )
     {
+        if( $asHTML )
+            return nl2br( htmlspecialchars( $asHTML ) );
         return $this->BodyText;
     }
 
