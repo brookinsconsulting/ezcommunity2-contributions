@@ -784,6 +784,11 @@ Where the x is the version of php you've downloaded.
 \layout Subsubsection
 
 Configuration
+\begin_inset LatexCommand \label{chptr: PHP configuration}
+
+\end_inset 
+
+
 \layout Standard
 
 You'll need either an apache module or a command line (CGI) version of PHP
@@ -864,9 +869,16 @@ es
  This is used by eZ mail module.
  This parameters require ssl support.
  Imap does also have bindings to kerberos.
- This causes some linking problems on RedHat Linux.
- The workaround for this problem is to type this command before you compile
- : 
+ This caused some linking problems on RedHat Linux 7.0 and RedHat Linux 7.1.
+ Either you have to install the kerberos updates
+\begin_float footnote 
+\layout Standard
+
+Installing the kerberos updates and the other updates for these operating
+ systems is highly recommended
+\end_float 
+ released by RedHat or apply type this command before you compile php :
+ 
 \family typewriter 
 \size footnotesize 
 
@@ -1062,7 +1074,12 @@ $ cd php-4.0.6
 
 \layout Standard
 
-Apply the kerberos workaround:
+Apply the kerberos workaround if necessary (se chapter 
+\begin_inset LatexCommand \ref{chptr: PHP configuration}
+
+\end_inset 
+
+ for more info):
 \layout Standard
 
 
@@ -2757,13 +2774,18 @@ When compiling php and other support programs (like ImageMagick) you need
  Please note that you must compile php on your own.
 \layout Subsubsection
 
-I am getting linking errors when trying to build PHP
+I am getting linking errors regarding kerberos when trying to build PHP
 \layout Standard
 
 The PHP module you have compiled will be linked agains kerberos.
- This causes some linking problems on RedHat Linux.
- The workaround for this problem is to type this command before you compile
- :
+ This may cause some linking problems on RedHat Linux.
+ The workaround for this problem is to type this command before you compile.
+ See chapter 
+\begin_inset LatexCommand \ref{chptr: PHP configuration}
+
+\end_inset 
+
+ for more info) :
 \layout Standard
 
 

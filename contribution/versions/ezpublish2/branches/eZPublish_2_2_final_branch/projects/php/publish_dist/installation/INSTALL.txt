@@ -57,7 +57,7 @@ Chapter 2 Installing eZ publish (standard method)
     2.6 Troubleshooting
         2.6.1 Problems During Installation
             2.6.1.1 Missing Compiler/Can not Compile (C++/C)
-            2.6.1.2 I am getting linking errors when trying to build PHP
+            2.6.1.2 I am getting linking errors regarding kerberos when trying to build PHP
         2.6.2 Problems After Installation
             2.6.2.1 Permission Denied
             2.6.2.2 Can not see Images
@@ -417,7 +417,7 @@ you need to move into the directory you extracted php into:
 
     # cd php-4.0.x
 
-2.2.1.2 Configuration
+2.2.1.2 Configuration<chptr: PHP configuration>
 
 You'll need either an apache module or a command line (CGI)
 version of PHP to use eZ publish on your website. We recommend
@@ -457,11 +457,13 @@ work properly.
 --with-imap This configures PHP to include imap support.
   This is used by eZ mail module. This parameters require
   ssl support. Imap does also have bindings to kerberos.
-  This causes some linking problems on RedHat Linux. The
-  workaround for this problem is to type this command before
-  you compile : 
-  
-  $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
+  This caused some linking problems on RedHat Linux 7.0
+  and RedHat Linux 7.1. Either you have to install the kerberos
+  updates([footnote] Installing the kerberos updates and the other
+updates for these operating systems is highly recommended)  released by RedHat or apply type this command before you
+compile php : 
+
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
 
 --with-openssl This will enable ssl support in PHP
 
@@ -543,7 +545,8 @@ Now, enter the source directory
 $ cd php-4.0.6
 
 
-Apply the kerberos workaround:
+Apply the kerberos workaround if necessary (se chapter [chptr: PHP configuration]
+for more info):
 
 $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5
 -lpam"
@@ -1127,11 +1130,14 @@ it listed some sites where you can download pre-compiled
 versions of software for some different Unix versions. Please
 note that you must compile php on your own.
 
-2.6.1.2 I am getting linking errors when trying to build PHP
+2.6.1.2 I am getting linking errors regarding kerberos when trying
+  to build PHP
 
 The PHP module you have compiled will be linked agains kerberos.
-This causes some linking problems on RedHat Linux. The workaround
-for this problem is to type this command before you compile :
+This may cause some linking problems on RedHat Linux. The
+workaround for this problem is to type this command before
+you compile. See chapter [chptr: PHP configuration]
+for more info) :
 
 $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5
 -lpam"

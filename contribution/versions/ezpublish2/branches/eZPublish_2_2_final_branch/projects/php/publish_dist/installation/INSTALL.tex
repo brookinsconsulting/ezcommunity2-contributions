@@ -116,8 +116,8 @@ A line starting with a hash-sign {}``\#'' are input from the user
 to the shell.
 
 
-\chapter{\label{chpt: dedicated server}Installing eZ publish (standard\footnote{%
-An alternative install method is described in chapter \ref{chpt: nVH}
+\chapter{\label{chpt: dedicated server}Installing eZ publish (standard%
+\footnote{An alternative install method is described in chapter \ref{chpt: nVH}
 } method)}
 
 This chapter is mainly intended for installation on a Red Hat Linux
@@ -240,8 +240,8 @@ following command (RPM based systems {}``rpm -qa | grep <name of
 program/library>''. If you need to know where you can find the different
 files from that package you can follow up on the previous command
 with the following {}``rpm -ql <rpm name>''. RPM name is one of
-the returned names from the previous command, example\footnote{%
-A line starting with a hash-sign \char`\"{}\#\char`\"{} are input
+the returned names from the previous command, example%
+\footnote{A line starting with a hash-sign \char`\"{}\#\char`\"{} are input
 from the user to the shell.
 }:\\
 
@@ -375,7 +375,7 @@ to move into the directory you extracted php into:\\
 \texttt{\footnotesize ~~~~\# cd php-4.0.x}{\footnotesize \par}
 
 
-\subsubsection{Configuration}
+\subsubsection{Configuration\label{chptr: PHP configuration}}
 
 You'll need either an apache module or a command line (CGI) version
 of PHP to use eZ publish on your website. We recommend you use PHP
@@ -403,15 +403,19 @@ used.\\
 default. you can also turn this feature on and off on a directory
 by directory basis in either the {}``.htaccess'' files (if you use
 them) or in the setup of the virtual server in {}``httpd.conf''.
-\item [IMORTANT]: From version 2.1\footnote{%
-eZ publish versions prior to 2.1 required magic quotes to be enabled
+\item [IMORTANT]: From version 2.1%
+\footnote{eZ publish versions prior to 2.1 required magic quotes to be enabled
 } onwards magic quotes must be turned off for eZ publish to work properly.\\
 ({\footnotesize http://www.php.net/manual/en/install.configure.php\#install.configure.enable-magic-quotes})
 \item [--with-imap]This configures PHP to include imap support. This is
 used by eZ mail module. This parameters require ssl support. Imap
-does also have bindings to kerberos. This causes some linking problems
-on RedHat Linux. The workaround for this problem is to type this command
-before you compile : \texttt{\footnotesize }~\\
+does also have bindings to kerberos. This caused some linking problems
+on RedHat Linux 7.0 and RedHat Linux 7.1. Either you have to install
+the kerberos updates%
+\footnote{Installing the kerberos updates and the other updates for these operating
+systems is highly recommended
+} released by RedHat or apply type this command before you compile
+php : \texttt{\footnotesize }~\\
 \texttt{\footnotesize }~\\
 \texttt{\footnotesize \$ export LDFLAGS=\char`\"{}-L/usr/kerberos/lib
 -lkrb5 -lgssapi\_krb5~-lpam\char`\"{}}{\footnotesize \par}
@@ -500,7 +504,8 @@ Now, enter the source directory
 \texttt{\footnotesize \$ cd php-4.0.6}\\
 
 
-Apply the kerberos workaround:
+Apply the kerberos workaround if necessary (se chapter \ref{chptr: PHP configuration}
+for more info):
 
 \texttt{\footnotesize \$ export LDFLAGS=\char`\"{}-L/usr/kerberos/lib
 -lkrb5 -lgssapi\_krb5 -lpam\char`\"{}}\\
@@ -683,8 +688,8 @@ you can read to check for errors.
 \paragraph{Explanation of the Rewrite Rules}
 
 A rewrite rule contains three arguments. The third argument is optional.
-The first argument describes a (reg exp\footnote{%
-For an introduction to regular expressions, take a look at http://zez.org/article/articleview/11/
+The first argument describes a (reg exp%
+\footnote{For an introduction to regular expressions, take a look at http://zez.org/article/articleview/11/
 }) pattern which is applied to the URI. If the URI match the regular
 expression, the URI is substituted with the second argument . A last
 argument can be used to give mod\_rewrite special flags so that it's
@@ -911,8 +916,8 @@ Then we need to send the SQL data into the database:\\
 < sql/data\_mysql.sql}~\\
 {\footnotesize \par}
 
-Finally we run clearcache\footnote{%
-A new feature in eZ publish 2.2 is the possibility of clearing the
+Finally we run clearcache%
+\footnote{A new feature in eZ publish 2.2 is the possibility of clearing the
 cache from the admin site
 } to make sure that everything presented is cached correctly:\\
 
@@ -1081,11 +1086,13 @@ you can download pre-compiled versions of software for some different
 Unix versions. Please note that you must compile php on your own.
 
 
-\subsubsection{I am getting linking errors when trying to build PHP}
+\subsubsection{I am getting linking errors regarding kerberos when trying to build
+PHP}
 
 The PHP module you have compiled will be linked agains kerberos. This
-causes some linking problems on RedHat Linux. The workaround for this
-problem is to type this command before you compile :
+may cause some linking problems on RedHat Linux. The workaround for
+this problem is to type this command before you compile. See chapter
+\ref{chptr: PHP configuration} for more info) :
 
 \texttt{\footnotesize \$ export LDFLAGS=\char`\"{}-L/usr/kerberos/lib
 -lkrb5 -lgssapi\_krb5 -lpam\char`\"{}}{\footnotesize \par}
@@ -1120,8 +1127,8 @@ php.ini.
 php module, apache dies immediately.}
 
 RedHat as released new versions of the openssl packages for RedHat
-7.x\footnote{%
-The problem described here may only apply to RedHat 7.0
+7.x%
+\footnote{The problem described here may only apply to RedHat 7.0
 }. If these erratas is installed before you compile php, your php module
 will be linked agains these. This will however brake mod\_ssl, which
 is linked to the old openssl libraries. There are two different ways
@@ -2137,8 +2144,8 @@ the ezPublish screen, now with sample articles.
 
 Not very much information is available for this webserver. We have
 however received reports that since IIS does not have a mod\_rewrite
-module you may use this hack\footnote{%
-Since eZ publish now can be run without mod\_rewrite you may take
+module you may use this hack%
+\footnote{Since eZ publish now can be run without mod\_rewrite you may take
 look at chapter \ref{chpt: nVH} as it may provide you with a better
 solution
 } instead:
@@ -2151,8 +2158,8 @@ solution
 (here comes the not so elegant part)
 
 - In the virtual hosts config for the user site, change the custom
-errors\footnote{%
-The eZ publish developers want to point out that this does NOT seem
+errors%
+\footnote{The eZ publish developers want to point out that this does NOT seem
 to be a secure workaround. This workaround should not be used in an
 environment where the server might be exposed to untrusted users (i.e
 the internet)
