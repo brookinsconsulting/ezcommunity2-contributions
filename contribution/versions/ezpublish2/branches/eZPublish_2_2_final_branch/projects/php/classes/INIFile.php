@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.47.2.3 2002/03/25 17:43:22 master Exp $
+// $Id: INIFile.php,v 1.47.2.4 2002/03/25 18:25:26 master Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -351,26 +351,26 @@ class INIFile
 	
 	// EP: multilingual interface in administrator ---------------------------------------------------
 	
-	if ( $var_name == "Language" and $GLOBALS["SCRIPT_NAME"] == "/index_admin.php" )
-	{
-	    global $Language;
-	    
-	    include_once( "ezsession/classes/ezsession.php" );
-            $session =& eZSession::globalSession();
-            $session->fetch();
-	
-	    if ( isset ( $Language ))
-	    {	    
-		$session->setVariable( "AdminSiteLanguage", $Language );
-	    }
-
-            $Language =& $session->variable( "AdminSiteLanguage" );	    
-	}
-									    
-        if ( $Language <> "" )
-        {
-	    return $Language;
-        }
+//	if ( $var_name == "Language" and $GLOBALS["SCRIPT_NAME"] == "/index_admin.php" )
+//	{
+//	    global $Language;
+//	    
+//	    include_once( "ezsession/classes/ezsession.php" );
+//            $session =& eZSession::globalSession();
+//            $session->fetch();
+//	
+//	    if ( isset ( $Language ))
+//	    {	    
+//		$session->setVariable( "AdminSiteLanguage", $Language );
+//	    }
+//
+//            $Language =& $session->variable( "AdminSiteLanguage" );	    
+//	}
+//									    
+//        if ( $Language <> "" )
+//        {
+//	    return $Language;
+//        }
 	
 	// EP --------------------------------------------------------------------------------------------
 														    
