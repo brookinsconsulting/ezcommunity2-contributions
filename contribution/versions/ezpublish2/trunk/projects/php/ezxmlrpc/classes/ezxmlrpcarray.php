@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcarray.php,v 1.2 2001/01/25 14:03:39 bf Exp $
+// $Id: ezxmlrpcarray.php,v 1.3 2001/02/26 10:10:36 bf Exp $
 //
 // Definition of eZXMLRPCArray class
 //
@@ -75,16 +75,31 @@ class eZXMLRPCArray
     function serializeArray( $array )
     {
         $ret .= "<value><array><data>";
-        foreach ( $array as $element )
+        foreach ( $array as $value )
         {
-
             if ( gettype( $element ) == "array" )
             {
                 $ret .= $this->serializeArray( $element );
             }
             else
             {
-                $ret .= $element->serialize();
+                switch( gettype($value) )
+                {
+                    case "integer":
+                        $ret .= "<value><int>$value</int></value>";
+                    break;
+                    
+                    case "object":
+                        if ( substr( get_class( $value ), 0, 8 ) == "ezxmlrpc" )
+                        {
+                            $ret .= $value->serialize( $value );
+                        }
+                        break;
+                        
+                    default:
+                        $ret .= "<value><string>$value</string></value>";
+                        break;
+                }
             }
         }
 

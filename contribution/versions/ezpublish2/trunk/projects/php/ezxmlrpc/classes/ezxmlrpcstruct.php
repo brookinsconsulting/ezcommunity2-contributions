@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcstruct.php,v 1.3 2001/02/21 09:32:51 ce Exp $
+// $Id: ezxmlrpcstruct.php,v 1.4 2001/02/26 10:10:36 bf Exp $
 //
 // Definition of eZXMLRPCStruct class
 //
@@ -89,6 +89,24 @@ class eZXMLRPCStruct
             else
             {
                 $ret .= $value->serialize();
+            }
+
+			switch ( gettype($value) )
+			{
+				case "integer":                    
+					$ret .= "<value><int>$value</int></value>";
+					break;
+                    
+				case "object":
+					if ( substr( get_class($value),0,8) == "ezxmlrpc" )
+					{
+						$ret .= $value->serialize( $value );
+					}                    
+                    break;
+                    
+				default:
+					$ret .= "<value><string>$value</string></value>";
+					break;
             }
             
             $ret .= $value->serialize();
