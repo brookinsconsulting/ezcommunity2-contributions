@@ -1,13 +1,18 @@
 <?
-/*!
-    $Id: ezsession.php,v 1.8 2000/09/14 15:36:09 bf-cvs Exp $
+// 
+// $Id: ezsession.php,v 1.9 2000/09/25 15:10:12 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Bård Farstad <bf@ez.no>, Lars Wilhelmsen <lw@ez.no>
+// Created on: <14-Jul-2000 13:06:16 lw>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
-    Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
-    
-    Created on: Created on: <14-Jul-2000 13:06:16 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
 
 //!! eZCommon
 //! The eZSession class provides session handling.
@@ -17,9 +22,6 @@
 
 class eZSession
 {
-    var $ID;
-    var $Hash;
-    var $UserID;
 
    /*!
       Constructor.
@@ -52,11 +54,15 @@ class eZSession
     /*!
       Henter ut en session dersom $AuthenticatedSession er satt og
       den fortsatt er gyldig.
-      -- foreløpig må vi ha en sessioncookie som parameter.. hmm, liker ikke dette
      */
-    function get( $hash )
+    function get( $hash="" )
     {
-        $ret = 1;
+        $ret = true;
+
+        if ( $hash == "" )
+        {
+            $hash = $GLOBALS["AuthenticatedSession"];
+        }
         
         $this->dbInit();
         if ( $hash != "" )
@@ -72,9 +78,8 @@ class eZSession
                 $this->ID = $session_array[ 0 ][ "id" ];
                 $this->Hash = $session_array[ 0 ][ "sid" ];
                 $this->UserID = $session_array[ 0 ][ "usr" ];
-                $ret = 0;
+                $ret = false;
             }
-            
         }
         return $ret;
     }
@@ -96,22 +101,23 @@ class eZSession
     }  
 
     /*!
-    Returnerer hash.
-  */
+      Returnerer hash.
+    */
     function hash( )
     {
         return $this->Hash;
     }
 
     /*!
-    Returnerer brukerid'en til gjeldende session.
-  */
+      Returnerer brukerid'en til gjeldende session.
+    */
     function userID(  )
     {
         return $this->UserID;
     }  
   
-    // alias for get. returns 0 (true) if validated, and 1 (false) if the session was not found in the DB
+    // alias for get. returns 0 (true) if validated, and 1 (false)
+    // if the session was not found in the DB
     function validate( $hash )
     {
         return $this->get( $hash );
@@ -146,6 +152,9 @@ class eZSession
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
     
+    var $ID;
+    var $Hash;
+    var $UserID;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfile.php,v 1.3 2000/09/25 15:05:13 pkej-cvs Exp $
+// $Id: ezfile.php,v 1.4 2000/09/25 15:10:12 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -20,7 +20,7 @@
   \code
     $file = new eZFile();
 
-    if ( $file->getFile( $HTTP_POST_FILES['userfile'] ) )
+    if ( $file->getFile( "userfile" ) )
     {
         print( $file->name() . " uploaded successfully" );
     }
@@ -46,7 +46,7 @@ class eZFile
     /*!
       Fetches the uploaded file information.
 
-      The $name_var variable must be of type $HTTP_POST_FILES[].
+      The $name_var variable is refering to the html <input .. variable>
 
       See the example for more details.
     */
