@@ -9,16 +9,18 @@ The software uses caching and other optimization techniques to speed up
 page serving. It handles users, user preferences and user tracking
 through a user database and both cookie-based and non-cookie sessions.
 
-It supports statistics for page views, links followed and banner ads.
+It supports statistics for page views, links followed and banner ads,
+both images and HTML with presentation logic.
 
 The package lends itself easily to customization, from changing the look
 and feel by changing templates, localizing the languages and other
 internationalization issues to adding new functionality.
 
 The target audience for eZ publish are e-commerce, ASP (Application
-Service Providers), news publishing, intranets, bug reporting, content
-management, discussion boards, FAQ and knowledge handling, file and image
-management, group ware, calendaring, appointments.
+Service Providers), BSP (Business Service Providers), news publishing,
+intranets, bug reporting, content management, discussion boards, FAQ and
+knowledge handling, file and image management, group ware, calendaring,
+polls, todo lists, appointments as well as personal web sites.
 
 
 
