@@ -31,12 +31,12 @@ $date = new eZDate();
 
 if( is_object( $user ) )
 {
-    $checkObject = $user;
+    $checkObject =& $user;
     $UserID = $user->id();
 }
 elseif( is_object( $group ) )
 {
-    $checkObject = $group;
+    $checkObject =& $group;
 }
 
 if( is_object( $checkObject ) )
@@ -44,7 +44,7 @@ if( is_object( $checkObject ) )
     $listPermission = eZPermission::checkPermission( $checkObject, "eZCV", "CVList" );
     $viewPermission = eZPermission::checkPermission( $checkObject, "eZCV", "CVView" );
 
-    if( $Action == "list" && !$listPermission )
+    if( $Action != "list" && !$listPermission )
     {
         header( "Location: /cv/error" );
     }
