@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.64 2001/09/08 13:58:21 bf Exp $
+// $Id: articlelist.php,v 1.65 2001/09/10 11:04:11 nca Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -232,7 +232,7 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "image_url", $imageURL );
         $t->set_var( "image_caption", $imageCaption );
         $t->set_var( "no_image", "" );
-        $t->parse( "image_item", "image_item_tpl" );
+//        $t->parse( "image_item", "image_item_tpl" );
     }
     else
     {
