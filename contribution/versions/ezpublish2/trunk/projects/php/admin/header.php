@@ -26,7 +26,19 @@ function verify( msg, url )
 <?
 // This page should have templates, but because of speed concerns
 // we have not implemented this yet. So this code looks ugly.
+include_once( "classes/INIFile.php" );
+$ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZUserMain", "Language" );
+
+
+$LanguageIni = new INIFIle( "intl/" . $Language . "/header.php.ini", false );
+
+$userLogin = $LanguageIni->read_var( "strings", "login_user" );
+$status = $LanguageIni->read_var( "strings", "status" );
+$passwordChange = $LanguageIni->read_var( "strings", "password_change" );
+
 $user = eZUser::currentUser();
+
 if ( $user )
 {
     $firstName =& $user->firstName();
@@ -44,7 +56,7 @@ if ( $user )
 if ( $user )
 {        
 ?>
-     <div class="top">Innlogget bruker:</div><div class="topusername"><? print( $firstName . " " . $lastName ); ?></div>
+     <div class="top"><? echo $userLogin ?></div><div class="topusername"><? print( $firstName . " " . $lastName ); ?></div>
 <?
 }
 ?>
@@ -55,9 +67,9 @@ if ( $user )
 {        
 ?>
 <!--
-    <img src="/images/<? echo $SiteStyle; ?>//topmenu-arrow.gif" width="20" height="10"><a class="topmenu">Brukerstatus</a><br />
+    <img src="/images/<? echo $SiteStyle; ?>//topmenu-arrow.gif" width="20" height="10"><a class="topmenu">$status</a><br />
 -->
-    <img src="/images/<? echo $SiteStyle; ?>/topmenu-arrow.gif" width="20" height="10" border="0"><a href="/user/passwordchange/" class="topmenu">Endre passord</a></td>
+    <img src="/images/<? echo $SiteStyle; ?>/topmenu-arrow.gif" width="20" height="10" border="0"><a href="/user/passwordchange/" class="topmenu"><? echo $passwordChange ?></a></td>
 <?
 }
 ?>
