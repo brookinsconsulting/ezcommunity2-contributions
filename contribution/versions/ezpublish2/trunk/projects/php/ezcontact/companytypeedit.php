@@ -33,7 +33,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setDescription( $CompanyTypeDescription );
             $type->store(); 
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "companytypelist.php" ); 
+            Header( "Location: /contact/companytypelist/" ); 
         }
 
         // Oppdatere firma type.
@@ -46,7 +46,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setDescription( $CompanyTypeDescription );
             $type->update();
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "companytypelist.php" ); 
+            Header( "Location: /contact/companytypelist/" ); 
         }
 
         // Slette firma type.
@@ -56,7 +56,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->get( $CID );
             $type->delete( );
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "companytypelist.php" ); 
+            Header( "Location: /contact/companytypelist/" ); 
         }
 
         // Setter template.
@@ -102,7 +102,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
-    Header( "Location: index.php?page=common/error.php" );
+    Header( "Location: /common/error/" );
 }
 
 ?>

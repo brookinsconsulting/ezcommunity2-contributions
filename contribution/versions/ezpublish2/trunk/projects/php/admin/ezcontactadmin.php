@@ -6,10 +6,10 @@
 </tr>
 <tr bgcolor="#C8B4B4"> 
 <td>
-<a class="small" href="index.php?page=../ezcontact/phonetypelist.php">Kontakt typer</a><br>
-<a class="small" href="index.php?page=../ezcontact/addresstypelist.php">Addresse typer</a><br>
-<a class="small" href="index.php?page=../ezcontact/persontypelist.php">Person typer</a><br>
-<a class="small" href="index.php?page=../ezcontact/companytypelist.php">Firma typer</a><br>
+<a class="small" href="/contact/phonetypelist/">Kontakt typer</a><br>
+<a class="small" href="/contact/addresstypelist/">Addresse typer</a><br>
+<a class="small" href="/contact/persontypelist/">Person typer</a><br>
+<a class="small" href="/contact/companytypelist/">Firma typer</a><br>
 
 </td>
 </tr>

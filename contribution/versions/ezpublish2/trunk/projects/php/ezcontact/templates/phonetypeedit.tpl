@@ -1,4 +1,4 @@
-<form method="post" action="index.php?page={document_root}phonetypeedit.php">
+<form method="post" action="/contact/phonetypeedit/">
 <h1>{intl-headline}</h1>
 
 <p>{intl-name}<br>

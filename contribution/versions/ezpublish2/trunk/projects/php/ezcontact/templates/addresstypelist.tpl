@@ -34,4 +34,4 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 {address_type_list}
 </table><br>
-<a href="index.php?page={document_root}addresstypeedit.php&AID={address_type_id}">{intl-newaddress}</a>
+<a href="/contact/addresstypeedit/?AID={address_type_id}">{intl-newaddress}</a>

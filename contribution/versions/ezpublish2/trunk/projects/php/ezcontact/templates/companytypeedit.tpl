@@ -1,4 +1,4 @@
-<form method="post" action="index.php?page={document_root}companytypeedit.php">
+<form method="post" action="/contact/companytypeedit/">
 <h1>{intl-headline}</h1>
 
 <p>
