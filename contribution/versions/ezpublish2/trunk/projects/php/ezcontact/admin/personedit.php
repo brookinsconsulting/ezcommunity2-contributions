@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.54 2001/10/08 14:02:05 jhe Exp $
+// $Id: personedit.php,v 1.55 2001/10/11 08:05:58 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -67,6 +67,17 @@ function unlink_wild( $dir, $rege )
 
 $user =& eZUser::currentUser();
 
+if ( isSet( $CompanyEdit ) )
+{
+    $item_type = "company";
+    $item_id = $CompanyID;
+}
+else
+{
+    $item_type = "person";
+    $item_id = $PersonID;
+}
+
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -83,9 +94,6 @@ if ( isSet( $OK ) )
 {
     if ( isSet( $CompanyEdit ) )
     {
-        $item_type = "company";
-        $item_id = $CompanyID;
-        
         if ( $Action == "edit" || $Action == "update" )
         {
             if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
@@ -107,8 +115,6 @@ if ( isSet( $OK ) )
     }
     else
     {
-        $item_type = "person";
-        $item_id = $PersonID;
         if ( $Action == "edit" || $Action == "update" )
         {
             if ( !eZPermission::checkPermission( $user, "eZContact", "PersonModify" ) )
@@ -503,6 +509,21 @@ if ( !$confirm )
             }
         }
 
+        if ( is_numeric( $CompanyID ) )
+        {
+            if ( isSet( $DeleteImage ) )
+            {
+                print( "deleteimage $CompanyID" );
+                eZCompany::deleteImage( $CompanyID );
+            }
+            
+            if ( isSet( $DeleteLogo ) )
+            {
+                print( "deletelogo $CompanyID" );
+                eZCompany::deleteLogo( $CompanyID );
+            }
+        }
+        
         if ( $error && isSet( $OK ) )
         {
             $t->set_var( "action_value", $Action );
@@ -600,7 +621,6 @@ if ( !$confirm )
             {
                 print( $file->name() . " not uploaded successfully" );
             }
-
             $item =& $company;
         }
         else
@@ -814,22 +834,6 @@ if ( !$confirm )
         if ( isSet( $CompanyEdit ) )
         {
             $t->set_var( "company_id", $CompanyID );
-
-            if ( is_numeric( $CompanyID ) )
-            {
-                if ( isSet( $DeleteImage ) )
-                {
-                    print( "deleteimage $CompanyID" );
-                    eZCompany::deleteImage( $CompanyID );
-                }
-
-                if ( isSet( $DeleteLogo ) )
-                {
-                    print( "deletelogo $CompanyID" );
-                    eZCompany::deleteLogo( $CompanyID );
-                }
-            }
-
             $t->set_var( "user_id", $user->id() );
             $t->set_var( "name", eZTextTool::htmlspecialchars( $Name ) );
             $t->set_var( "comment", eZTextTool::htmlspecialchars( $Comment ) );
@@ -1281,7 +1285,7 @@ if ( !$confirm )
             }
 
             $t->set_var( "image_item", "&nbsp;" );
-            if ( ( get_class ( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
+            if ( ( get_class( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
             {
                 $variation = $companyImage->requestImageVariation( 150, 150 );
                 if ( get_class( $variation ) == "ezimagevariation" )
@@ -1311,6 +1315,6 @@ if ( !$confirm )
     $t->parse( "edit_item", "edit_tpl" );
 }
 
-$t->pparse( "output", "person_edit"  );
+$t->pparse( "output", "person_edit" );
 
 ?>

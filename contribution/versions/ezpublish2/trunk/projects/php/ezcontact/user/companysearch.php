@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companysearch.php,v 1.10 2001/09/20 11:34:24 jhe Exp $
+// $Id: companysearch.php,v 1.11 2001/10/11 08:05:58 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -164,7 +164,7 @@ if ( $results == true )
         unSet( $logoObj );
         $logoObj = $companyArray[$i]->logoImage();
         
-        if ( get_class ( $logoObj ) == "ezimage" )
+        if ( get_class( $logoObj ) == "ezimage" )
         {
             $variationObj = $logoObj->requestImageVariation( 150, 150 );
             

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.81 2001/10/10 13:19:26 jhe Exp $
+// $Id: ezcompany.php,v 1.82 2001/10/11 08:05:58 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -669,7 +669,7 @@ class eZCompany
         $ret = false;
         $db =& eZDB::globalDatabase();
         $db->begin();
-        if ( get_class ( $image ) == "ezimage" )
+        if ( get_class( $image ) == "ezimage" )
         {
             $imageID =& $image->id();
 
@@ -836,13 +836,10 @@ class eZCompany
             }
             else
             {
-                $db->lock( "eZContact_CompanyImageDefinition" );
-                $nextID = $db->nextID( "eZContact_CompanyImageDefinition", "ID" );
                 $res[] = $db->query( "INSERT INTO eZContact_CompanyImageDefinition
-                                      (ID, CompanyID, CompanyImageID)
+                                      (CompanyID, CompanyImageID)
                                       VALUES
-                                      ('$nextID', '$id', '$imageID')" );
-                $db->unlock();
+                                      ('$id', '$imageID')" );
             }
             eZDB::finish( $res, $db );
         }
@@ -864,8 +861,8 @@ class eZCompany
 
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0][ $db->fieldName( "CompanyImageID" ) ] != "NULL"
-            and $res_array[0][ $db->fieldName( "CompanyImageID" ) ] != "0" )
+            if ( $res_array[0][$db->fieldName( "CompanyImageID" )] != "NULL"
+            and $res_array[0][$db->fieldName( "CompanyImageID" )] != "0" )
             {
                 $ret = new eZImage( $res_array[0][$db->fieldName( "CompanyImageID" )], false );
             }
