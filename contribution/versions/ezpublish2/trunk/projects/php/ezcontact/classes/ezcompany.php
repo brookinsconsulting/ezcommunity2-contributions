@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.30 2000/11/22 15:11:35 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.31 2000/11/23 11:10:58 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -153,22 +153,8 @@ class eZCompany
                     $this->Database->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
                 }
 
-            $this->Database->array_query( $companyType_array, "SELECT eZContact_CompanyType.ID AS 'OID', eZContact_CompanyTypeDict.CompanyID AS 'DID'
-                                     FROM eZContact_CompanyType, eZContact_CompanyTypeDict
-                                     WHERE eZContact_CompanyType.ID=eZContact_CompanyTypeDict.CompanyTypeID AND eZContact_CompanyTypeDict.CompanyID='$this->ID' " );
-
-            foreach( $companyType_array as $companyTypeItem )
-                {
-                    $companyTypeID = $companyTypeItem["OID"];
-                    $companyTypeDictID = $companyTypeItem["DID"];
-                    $this->Database->query( "DELETE FROM eZContact_CompanyType WHERE ID='$companyTypeID'" );
-                    $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$this->ID'" );
-                }
-
-            
+            $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZContact_Company WHERE ID='$this->ID'" );
-
-            
         }
         return true;
     }

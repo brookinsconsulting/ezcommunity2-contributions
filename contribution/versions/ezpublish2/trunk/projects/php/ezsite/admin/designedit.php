@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: designedit.php,v 1.5 2000/11/22 12:17:49 ce-cvs Exp $
+// $Id: designedit.php,v 1.6 2000/11/23 11:10:58 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -60,6 +60,8 @@ if ( $Action == "update" )
         $image->store();
 
         $ImageID = $image->id();
+
+        $FilePath = $image->filePath();
     }
     else
     {
@@ -142,7 +144,10 @@ if ( $Action == "update" )
         $iniUpdate->set_var( "eZSiteMain", "color3", $color3 );
 
     if ( $ImageID != "" )
+    {
         $iniUpdate->set_var( "eZSiteMain", "image_id", $ImageID );
+        $iniUpdate->set_var( "eZSiteMain", "img_src", $FilePath );
+    }
     
     $iniUpdate->save_data();
     
