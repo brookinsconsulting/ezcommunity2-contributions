@@ -152,13 +152,18 @@ class eZBulkMailCategory
 
       The categories are returned as an array of eZBulkMailCategory objects.
     */
-    function getAll()
+    function getAll( $withPrivate = true )
     {
         $db = eZDB::globaldatabase();
         $return_array = array();
         $category_array = array();
+
+        $privateSQL = "";
+        if( $withPrivate == false )
+            $privateSQL = "WHERE IsPublic='1'";
+            
         
-        $db->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category $privateSQL ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {

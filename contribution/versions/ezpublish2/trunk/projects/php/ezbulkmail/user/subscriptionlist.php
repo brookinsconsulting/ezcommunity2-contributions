@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: subscriptionlist.php,v 1.2 2001/04/24 12:19:03 fh Exp $
+// $Id: subscriptionlist.php,v 1.3 2001/04/27 22:16:35 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 13:36:21 fh>
@@ -74,7 +74,7 @@ $t->set_var( "current_email", "" );
 /** List all the avaliable categories if there is a valid current address **/
 $haystack = $subscriptionaddress->subscriptions( false );
         
-$categories = eZBulkMailCategory::getAll();
+$categories = eZBulkMailCategory::getAll( false );
 foreach( $categories as $categoryitem )
 {
     $t->set_var( "category_name", $categoryitem->name() );
