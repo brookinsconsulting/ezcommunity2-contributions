@@ -751,7 +751,7 @@ INSERT INTO eZFileManager_FilePermission VALUES (1,1,-1,1,1);
 # Dumping data for table 'eZFileManager_Folder'
 #
 
-INSERT INTO eZFileManager_Folder VALUES (1,'FIle archive','FIles for the people!',0,1,1,1,1);
+INSERT INTO eZFileManager_Folder VALUES (1,'FIle archive','FIles for the people!',0,1,1,1);
 
 #
 # Dumping data for table 'eZFileManager_FolderPermission'
@@ -1399,10 +1399,6 @@ INSERT INTO eZTrade_CategoryPermission VALUES (2,1,-1,1,0);
 # Dumping data for table 'eZTrade_OrderStatusType'
 #
 
-INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
-INSERT INTO eZTrade_OrderStatusType VALUES (2,'intl-sendt');
-INSERT INTO eZTrade_OrderStatusType VALUES (3,'intl-payed');
-INSERT INTO eZTrade_OrderStatusType VALUES (4,'intl-undefined');
 
 #
 # Dumping data for table 'eZTrade_PreOrder'
