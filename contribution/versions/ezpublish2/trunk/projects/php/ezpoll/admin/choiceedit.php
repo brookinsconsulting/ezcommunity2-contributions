@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: choiceedit.php,v 1.6 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: choiceedit.php,v 1.7 2000/12/08 13:21:26 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -29,11 +29,10 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezpoll.php" );
-include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
-include_once( $DOC_ROOT . "/classes/ezvote.php" );
+include_once( "ezpoll/classes/ezpoll.php" );
+include_once( "ezpoll/classes/ezpollchoice.php" );
+include_once( "ezpoll/classes/ezvote.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
@@ -75,8 +74,8 @@ if ( $Action == "delete" )
     exit();
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
-                     $DOC_ROOT . "/admin/intl/", $Language, "choiceedit.php" );
+$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "AdminTemplateDir" ),
+                     "ezpoll/admin/intl/", $Language, "choiceedit.php" );
 
 $t->setAllStrings();
 
@@ -96,7 +95,7 @@ if ( $Action == "edit" )
     $Offset =  $choice->offset();
     $Action_value = "update";
 
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
+    $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
 
 }
@@ -109,7 +108,7 @@ $t->set_var( "action_value", $Action_value );
 
 if ( !isset ( $headline ) )
 {
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
+    $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_insert" );
 }
 

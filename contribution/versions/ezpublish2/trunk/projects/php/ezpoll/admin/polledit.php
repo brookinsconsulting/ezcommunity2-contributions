@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.16 2000/11/23 10:52:02 ce-cvs Exp $
+// $Id: polledit.php,v 1.17 2000/12/08 13:21:26 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -191,7 +191,7 @@ if ( $Action == "Delete" )
     exit();
 }
 
-$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
+$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "AdminTemplateDir" ),
                      "ezpoll/admin/intl/", $Language, "polledit.php" );
 
 $t->setAllStrings();

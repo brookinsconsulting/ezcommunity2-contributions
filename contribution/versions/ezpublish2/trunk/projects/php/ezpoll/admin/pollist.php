@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.13 2000/11/06 10:59:50 ce-cvs Exp $
+// $Id: pollist.php,v 1.14 2000/12/08 13:21:26 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -62,7 +62,7 @@ if ( $Action == "StoreMainPoll" )
     }
 }
 
-$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
+$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "AdminTemplateDir" ),
                      "ezpoll/admin/intl/", $Language, "pollist.php" );
 
 $t->setAllStrings();
