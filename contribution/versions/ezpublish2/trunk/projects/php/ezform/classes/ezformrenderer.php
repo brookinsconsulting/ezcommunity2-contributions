@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.13 2001/10/09 11:18:18 bf Exp $
+// $Id: ezformrenderer.php,v 1.14 2001/10/09 12:17:17 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -114,18 +114,34 @@ class eZFormRenderer
         $output = "";
         if( get_class( $element ) == "ezformelement" )
         {
+            $subItems =& $element->fixedValues();
+            $this->Template->set_var( "sub_item", "" );
+
+            $type =& $element->elementType();
+
+            $name = $type->name();
+
             $elementType = $element->elementType();
             $type = $elementType->name();
             $type = str_replace( " ", "_", $type );
 
             $elementName = "eZFormElement_" . $element->id();
+            
+            $this->Template->set_var( "field_name", $elementName );
+            $this->Template->set_var( "field_value", $elementValue );
+
+            $this->Template->set_var( $name . "_sub_item", "" );
+                
+            foreach ( $subItems as $subItem )
+            {
+                $this->Template->set_var( "sub_value", $subItem->value() );
+                $this->Template->parse( $name . "_sub_item", $name . "_sub_item_tpl", true );
+            }
+            
 
             global $$elementName;
 
             $elementValue = str_replace( "eZFormElement_", "", $$elementName );
-
-            $this->Template->set_var( "field_name", $elementName );
-            $this->Template->set_var( "field_value", $elementValue );
 
             $output =& $this->Template->parse( $target, $type . "_tpl" );
         }
@@ -173,21 +189,6 @@ class eZFormRenderer
             {
                 $elementCounter++;
 
-
-                $subItems =& $element->fixedValues();
-                $this->Template->set_var( "sub_item", "" );
-
-                $type =& $element->elementType();
-
-                $name = $type->name();
-
-                $this->Template->set_var( $name . "_sub_item", "" );
-                
-                foreach ( $subItems as $subItem )
-                {
-                    $this->Template->set_var( "sub_value", $subItem->value() );
-                    $this->Template->parse( $name . "_sub_item", $name . "_sub_item_tpl", true );
-                }                
 
                 $output = $this->renderElement( $element );
 
@@ -311,7 +312,7 @@ class eZFormRenderer
         global $formName;
         global $formSender;
         global $redirectTo;
-        
+
         $formSent = false;
         
         $form = new eZForm( $FormID );
@@ -366,7 +367,7 @@ class eZFormRenderer
                 $content .= $element->name() . ":\n " . $value . "\n\n";
             }
         }
-            
+
         if ( $emailDefaults == false )
         {
             $mail->setSubject( $form->name() );
