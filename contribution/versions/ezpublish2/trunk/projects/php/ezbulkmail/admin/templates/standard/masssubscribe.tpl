@@ -12,7 +12,7 @@
 </tr>
 <!-- BEGIN new_email_item_tpl -->
 <tr>
-        <td>{new_email}</td>
+        <td>{new_email} {intl-to} {new_category}</td>
 </tr>
 <!-- END new_email_item_tpl -->
 </table>

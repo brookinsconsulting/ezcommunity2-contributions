@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: masssubscribe.php,v 1.3 2001/05/16 12:50:06 ce Exp $
+// $Id: masssubscribe.php,v 1.4 2001/05/16 13:09:13 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <14-May-2001 15:02:02 ce>
@@ -67,38 +67,47 @@ if ( isSet ( $OK ) && ( count ( $CategoryArrayID ) > 0 ) )
 
     if ( count ( $addresses ) > 0 )
     {
+        $mailTemplate = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "TemplateDir" ),
+                                        "ezbulkmail/admin/intl", $Language, "sendmail.php" );
+        
+        $languageIni = new INIFile( "ezbulkmail/admin/intl/$Language/sendmail.php.ini" );
+        $mailTemplate->setAllStrings();
+        $mailTemplate->set_file( "send_mail_tpl", "sendmail.tpl" );
+        $mailTemplate->set_block( "send_mail_tpl", "mail_password_tpl", "mail_password" );
+        $t->set_var( "mail_password", "" );
+        
         foreach ( $addresses as $address )
         {
             $email = trim( $address );
             if ( eZMail::validate( $email ) )
             {
                 $bulkMail = eZBulkMailSubscriptionAddress::getByEmail( $email );
-                
+
+                $sendPassword = false;
                 if ( $bulkMail->addressExists ( $email ) == false )
                 {
                     $password = substr( md5( microtime() ), 0, 4 );
                     $bulkMail->setEncryptetPassword( $password );
                     $bulkMail->store();
-
+                    $sendPassword = true;
                 }
 
+               
                 foreach( $CategoryArrayID as $CategoryID )
                 {
                     if ( $bulkMail->subscribe( $CategoryID ) )
                     {
-                        $new[] = $email;
+                        $category = new eZBulkMailCategory( $CategoryID );
+                        $new[] = array( $email, $category->name() );
                         if ( $SendMail == "on" )
                         {
-                            $mailTemplate = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "TemplateDir" ),
-                                                            "ezbulkmail/admin/intl", $Language, "sendmail.php" );
-                            
-                            $languageIni = new INIFile( "ezbulkmail/admin/intl/$Language/sendmail.php.ini" );
-                            $mailTemplate->setAllStrings();
-                            $mailTemplate->set_file( "send_mail_tpl", "sendmail.tpl" );
-
-                            $category = new eZBulkMailCategory( $CategoryID );
                             $mailTemplate->set_var( "category_name", $category->name() );
-                            $mailTemplate->set_var( "password", $password );
+
+                            if ( $sendPassword )
+                            {
+                                $mailTemplate->set_var( "password", $password );
+                                $mailTemplate->parse( "mail_password", "mail_password_tpl" );
+                            }
                             
                             $mail = new eZMail();
                             $mail->setSubject( $languageIni->read_var( "strings", "mail_subject" ) );
@@ -121,7 +130,8 @@ if ( isSet ( $OK ) && ( count ( $CategoryArrayID ) > 0 ) )
     {
         foreach ( $new as $email )
         {
-            $t->set_var( "new_email", $email );
+            $t->set_var( "new_email", $email[0] );
+            $t->set_var( "new_category", $email[1] );
             $t->parse( "new_email_item", "new_email_item_tpl", true );
         }
         $t->parse( "new_email_list", "new_email_list_tpl", true );
@@ -156,7 +166,7 @@ if ( count ( $categoryList ) > 0 )
     {
         $t->set_var( "category_id", $category->id() );
         $t->set_var( "category_name", $category->name() );
-        $t->parse( "category_item", "category_item_tpl" );
+        $t->parse( "category_item", "category_item_tpl", true );
     }
 }
     

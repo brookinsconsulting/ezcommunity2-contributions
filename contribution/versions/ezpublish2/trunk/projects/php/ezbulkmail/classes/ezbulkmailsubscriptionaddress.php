@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.9 2001/05/15 09:24:46 ce Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.10 2001/05/16 13:09:13 ce Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -66,7 +66,7 @@ class eZBulkMailSubscriptionAddress
         {
             $this->Database->query( "INSERT INTO eZBulkMail_SubscriptionAddress SET
                                  EMail='$this->EMail',
-                                 Password='$password'
+                                 Password=PASSWORD('$password')
                                  " );
 			$this->ID = $this->Database->insertID();
         }
