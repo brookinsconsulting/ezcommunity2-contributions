@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: choiceedit.php,v 1.2 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: choiceedit.php,v 1.3 2000/10/06 09:59:31 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -23,6 +23,8 @@ $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 include_once( $DOC_ROOT . "/classes/ezpoll.php" );
 include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
 include_once( $DOC_ROOT . "/classes/ezvote.php" );
+
+require( "ezuser/admin/admincheck.php" );
 
 // Insert
 if ( $Action == "insert" )
@@ -62,7 +64,6 @@ if ( $Action == "delete" )
     exit();
 }
 
-
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/choiceedit/",
                      $DOC_ROOT . "/admin/intl/", $Language, "choiceedit.php" );
 
@@ -89,20 +90,20 @@ if ( $Action == "edit" )
 
 }
 
-
 $t->set_var( "choice_id", $ChoiceID );
 $t->set_var( "poll_id", $PollID );
 $t->set_var( "name_value", $Name );
 $t->set_var( "offset_value", $Offset );
 $t->set_var( "action_value", $Action_value );
+
 if ( !isset ( $headline ) )
 {
     $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_insert" );
 }
+
 $t->set_var( "head_line", $headline );
 
 $t->pparse( "output", "choice_edit_page" );
-
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.3 2000/10/03 12:28:55 bf-cvs Exp $
+// $Id: polledit.php,v 1.4 2000/10/06 09:59:31 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -24,8 +24,7 @@ include_once( $DOC_ROOT . "/classes/ezpoll.php" );
 include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
 include_once( $DOC_ROOT . "/classes/ezvote.php" );
         
-
-
+require( "ezuser/admin/admincheck.php" );
 
 // Insert
 if ( $Action == "Insert" )
@@ -57,45 +56,9 @@ if ( $Action == "Insert" )
     {
         $poll->setShowResult ( false );
     }
-    
-//      else
-//      {
-//          $poll->setIsClosed ( "false" );
-//      }
-//      if ( $Anonymous == "on" )
-//      {
-//          $poll->setAnonymous ( "true" );
-//      }
-//      else
-//      {
-//          $poll->setAnonymous ( "false" );
-//      }
-//      if ( $Number == "on" )
-//      {
-//          $poll->setNumber ( "true" );
-//      }
-//      else
-//      {
-//          $poll->setAnonymous ( "false" );
-//      }
-//      if ( $Percent == "on" )
-//      {
-//          $poll->setPercent ( "true" );
-//      }
-//      else
-//      {
-//          $poll->setAnonymous ( "false" );
-//      }
 
     $poll->setName( $Name );
     $poll->setDescription( $Description );
-//    $poll->setIsClosed($Closed );
-    
-//      $poll->setShowResult = $ShowResult; // Not included in eZPoll
-//      $poll->setAnonymous = $Anonymus; // Not included in eZPoll
-//      $poll->setNumber = $Number; // Not included in eZPoll
-//      $poll->setPercent = $Percent; // Not included in eZPoll
-
     $poll->store();
 
     $pollID = $poll->id();

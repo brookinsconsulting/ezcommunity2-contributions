@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polllist.php,v 1.3 2000/10/03 13:08:56 bf-cvs Exp $
+// $Id: polllist.php,v 1.4 2000/10/06 09:59:31 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -22,12 +22,7 @@ $Language = $ini->read_var( "eZPollMain", "Language" );
 
 include_once( "ezpoll/classes/ezpoll.php" );
 
-if ( isset( $MainPollID ) )
-{
-    $tmpPoll = new eZPoll( $MainPollID );
-    $tmpPoll->setMainPoll( $tmpPoll );
-}
-
+require( "ezuser/admin/admincheck.php" );
 
 $t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polllist/",
                      "ezpoll/admin/intl/", $Language, "polllist.php" );
@@ -84,5 +79,4 @@ foreach( $pollList as $pollItem )
 }
 
 $t->pparse( "output", "poll_list_page" );
-
 ?>
