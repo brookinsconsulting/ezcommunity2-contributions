@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.14 2002/01/23 16:14:08 jhe Exp $
+// $Id: ezformreportelement.php,v 1.15 2002/01/24 08:49:04 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -303,7 +303,7 @@ class eZFormReportElement
         $t->set_var( "sum", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->query_single( $res, "SELECT SUM(eZForm_FormElementResult.Result) as Sum
+        $db->query_single( $res, "SELECT SUM(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')) as Sum
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
         $t->set_var( "sum", $res[$db->fieldName( "Sum" )] );
@@ -316,7 +316,7 @@ class eZFormReportElement
         $t->set_var( "average" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->query_single( $res, "SELECT AVG(eZForm_FormElementResult.Result) as Avg
+        $db->query_single( $res, "SELECT AVG(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')) as Avg
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
         $t->set_var( "average", $res[$db->fieldName( "Avg" )] );
@@ -329,7 +329,7 @@ class eZFormReportElement
         $t->set_var( "min" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->query_single( $res, "SELECT MIN(eZForm_FormElementResult.Result) as Min
+        $db->query_single( $res, "SELECT MIN(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')+0) as Min
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
         $t->set_var( "min", $res[$db->fieldName( "Min" )] );
@@ -342,7 +342,7 @@ class eZFormReportElement
         $t->set_var( "max" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->query_single( $res, "SELECT MAX(eZForm_FormElementResult.Result) as Max
+        $db->query_single( $res, "SELECT MAX(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')+0) as Max
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
         $t->set_var( "max", $res[$db->fieldName( "Max" )] );
@@ -355,9 +355,10 @@ class eZFormReportElement
         $t->set_var( "median", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->array_query( $res, "SELECT Result FROM eZForm_FormElementResult
+        $db->array_query( $res, "SELECT (REPLACE((TRIM(Result)), char(160), '')+0) AS Result
+                                 FROM eZForm_FormElementResult
                                  WHERE ElementID='$this->ElementID'
-                                 ORDER BY (Result+0)" );
+                                 ORDER BY Result" );
         if ( count( $res ) == 0 )
         {
             $median = 0;
@@ -383,9 +384,10 @@ class eZFormReportElement
         $t->set_var( "percentile", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->array_query( $res, "SELECT Result FROM eZForm_FormElementResult
+        $db->array_query( $res, "SELECT (REPLACE((TRIM(Result)), char(160), '')+0) AS Result
+                                 FROM eZForm_FormElementResult
                                  WHERE ElementID='$this->ElementID'
-                                 ORDER BY (Result+0)" );
+                                 ORDER BY Result" );
 
         $pos = round( ( count( $res ) / 100 ) * $percentile );
         $t->set_var( "percentile", $percentile );
