@@ -649,9 +649,7 @@ CREATE TABLE eZBug_Status (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZBug_Status VALUES (1,'Fixed');
-
-CREATE TABLE eZBulkMail_Category (
+INSERT INTO eZBug_Status VALUES (1,'Fixed');CREATE TABLE eZBulkMail_Category (
   ID int(11) NOT NULL,
   Name varchar(200) default NULL,
   Description text,
