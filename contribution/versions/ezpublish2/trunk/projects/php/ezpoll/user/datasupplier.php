@@ -29,5 +29,12 @@ switch ( $url_array[2] )
         include( "ezpoll/user/votebox.php" );
     }
     break;
+    case "votepage" :
+    {
+        $PollID = $url_array[3];
+        include( "ezpoll/user/votepage.php" );
+    }
+    break;
+
 }
 ?>
