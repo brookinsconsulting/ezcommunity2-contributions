@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.17 2001/10/02 14:39:51 ce Exp $
+// $Id: frontpage.php,v 1.18 2001/10/02 15:29:02 pkej Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -127,12 +127,14 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
         $value = $row->settingByID( $row->settingID() );
         if ( $value == "2column" )
         {
-            $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
+            $category = new eZArticleCategory( $row->categoryID() );
+            $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 2;
         }
         if ( $value == "1column" || $value == "1short" )
         {
-            $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
+            $category = new eZArticleCategory( $row->categoryID() );
+            $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 1;
         }
             
@@ -142,12 +144,14 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
         }
         if ( $value == "1columnProduct" )
         {
-            $productList =& array_merge( $productList, eZProductCategory::products( "time", false, $offsetProductArray[$row->categoryID()], 1, false, $row->categoryID() ) );
+            $category = new eZProductCategory( $row->categoryID() );
+            $productList =& array_merge( $productList, eZProductCategory::products( $category->sortMode(), false, $offsetProductArray[$row->categoryID()], 1, false, $row->categoryID() ) );
             $offsetProductArray[$row->categoryID()] = $offsetProductArray[$row->categoryID()] + 1;
         }
         if ( $value == "2columnProduct" )
         {
-            $productList =& array_merge( $productList, eZProductCategory::products( "time", false, $offsetProductArray[$row->categoryID()], 2, false, $row->categoryID() ) );
+            $category = new eZProductCategory( $row->categoryID() );
+            $productList =& array_merge( $productList, eZProductCategory::products( $category->sortMode(), false, $offsetProductArray[$row->categoryID()], 2, false, $row->categoryID() ) );
             $offsetProductArray[$row->categoryID()] = $offsetProductArray[$row->categoryID()] + 2;
         }
         $page_elements[] = $value;
@@ -172,7 +176,9 @@ else
     $sectionObject->setOverrideVariables();
 
     if ( !$articleList )
-        $articleList =& $category->articles( $category->sortMode(), false, true, 0, $articleCount );
+    {
+        $articleList =& $category->articles( $category->sortMode(), false, 0, $articleCount );
+    }
     $articleCount = $articleCount;
 }
 
