@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.117 2001/11/12 08:02:06 ce Exp $
+// $Id: articleedit.php,v 1.118 2002/01/28 18:03:11 master Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -209,7 +209,21 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             {
                 $article->setIsPublished( false );
             }
-        
+
+	    //EP translation inside articles
+	    if ( $Urltranslator )
+	    {
+		$category = $article->categoryDefinition();
+    		$url1 = "/article/articleview/" . $article->id() . "/1/" . $category->id();
+	    
+		include_once( "ezurltranslator/classes/ezurltranslator.php" );
+		$urltranslator = new eZURLTranslator();
+		$urltranslator->getbydest ( $url1 );
+
+		$urltranslator->setSource ( $Urltranslator );
+		$urltranslator->store();
+	    }
+	            
             // Time publishing
             if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
             {
@@ -351,6 +365,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             $category = $article->categoryDefinition( );
             $categoryID = $category->id();
 
+
             if ( $article->isPublished() )
             {
                 eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
@@ -401,6 +416,7 @@ $t->set_block( "publish_dates_tpl", "un_published_tpl", "un_published" );
 
 $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 
+$t->set_block( "article_edit_page_tpl", "urltranslator_tpl", "urltranslator" );    
 
 $Locale = new eZLocale( $Language );
 if ( $ErrorParsing == true )
@@ -417,6 +433,11 @@ $t->set_var( "article_is_published", "" );
 
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
+
+//EP new article
+$t->set_var( "article_url", "" );
+$t->set_var( "article_urltranslator", "" );
+
 $t->set_var( "article_keywords", stripslashes( $Keywords ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
 $t->set_var( "article_contents_1", stripslashes( $Contents[1] ) );
@@ -531,7 +552,7 @@ if ( $Action == "Edit" )
     
     if ( !isset( $Name ) )        
         $t->set_var( "article_name", $article->name() );
-
+	
     $generator = new eZArticleGenerator();
     
     $contentsArray = $generator->decodeXML( $article->contents() );
@@ -545,8 +566,28 @@ if ( $Action == "Edit" )
         }
         $i++;
     }
-    $t->set_var( "article_keywords", $article->manualKeywords() );
+    
+    // EP - article edit get translation
+    
+    if ( $ini->read_var( "eZArticleMain", "AdminURLTranslator" ) == "enabled" )
+    {
+	$category = $article->categoryDefinition();
+	$url1 = "/article/articleview/" . $article->id() . "/1/" . $category->id();
+	$t->set_var( "article_url", $url1 );
 
+        include_once( "ezurltranslator/classes/ezurltranslator.php" );
+        $urltranslator = new eZURLTranslator();
+        $urltranslator->getbydest ( $url1 );
+        $t->set_var( "article_urltranslator", $urltranslator->source() );
+	
+        $t->parse( "urltranslator", "urltranslator_tpl" );
+    }
+    else
+    {
+	$t->set_var( "urltranslator", "" );
+    }                       
+    
+    $t->set_var( "article_keywords", $article->manualKeywords() );
     $t->set_var( "author_text", $article->authorText() );
     $t->set_var( "author_email", $article->authorEmail() );
 
@@ -742,6 +783,7 @@ foreach ( $groupList as $groupItem )
         $t->set_var( "selected", "" );
     $t->parse( "group_item", "group_item_tpl", true );
 }
+
 
 $t->pparse( "output", "article_edit_page_tpl" );
 
