@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.51 2001/06/04 13:07:38 bf Exp $
+// $Id: ezimage.php,v 1.52 2001/06/25 11:30:23 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -127,16 +127,26 @@ class eZImage
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZImageCatalogue_Image SET
-                                 Name='$name',
-                                 Caption='$caption',
-                                 Description='$description',
-                                 FileName='$filename',
-                                 UserID='$this->UserID',
-                                 WritePermission='$this->WritePermission',
-                                 ReadPermission='$this->ReadPermission',
-                                 OriginalFileName='$originalfilename'
-                                 " );
+            $this->ID = $this->Database->nextID( "eZImageCatalogue_Image", "ID" );
+            $this->Database->query( "INSERT INTO eZImageCatalogue_Image
+                                           ( ID,
+                                             Name,
+                                             Caption,
+                                             Description,
+                                             FileNAme,
+                                             UserID,
+                                             WritePermission,
+                                             ReadPermission,
+                                             OriginalFileName )
+                                    VALUES ( '$this->ID',
+                                             '$name',
+                                             '$caption',
+                                             '$description',
+                                             '$filename',
+                                             '$this->UserID',
+                                             '$this->WritePermission',
+                                             '$this->ReadPermission',
+                                             '$originalfilename' )");
         }
         else
         {
@@ -160,8 +170,6 @@ class eZImage
                                  " );
         }
         
-		$this->ID = $this->Database->insertID();
-
         $this->State_ = "Coherent";
     }
 
@@ -235,6 +243,84 @@ class eZImage
         }
 
         return $ret;
+    }
+
+    /*!
+      Returns true if the image is assigned to the category given
+      as argument. False if not.
+    */
+    function existsInCategory( $category )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( get_class( $category ) == "ezimagecategory" )
+       {
+           $this->dbInit();
+           $catID = $category->id();
+
+           $this->Database->array_query( $ret_array, "SELECT ID FROM eZImageCatalogue_ImageCategoryLink
+                                    WHERE ImageID='$this->ID' AND CategoryID='$catID'" );
+
+           if ( count( $ret_array ) == 1 )
+           {
+               $ret = true;
+           } 
+       }
+       return $ret;
+    }
+    
+    /*!
+      Set's the images defined category. This is the main category for the image.
+      Additional categories can be added with eZImageCategory::addImage();
+    */
+    function setCategoryDefinition( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+        if ( get_class( $value ) == "ezimagecategory" )
+        {
+            $this->dbInit();
+
+            $categoryID = $value->id();
+
+            $this->Database->query( "DELETE FROM eZImageCatalogue_ImageCategoryDefinition
+                                     WHERE ImageID='$this->ID'" );
+            
+            $query = "INSERT INTO eZImageCatalogue_ImageCategoryDefinition ( CategoryID, ImageID )
+                      VALUES ( '$categoryID', '$this->ID' )";
+            
+            $this->Database->query( $query );
+        }
+    }
+
+    /*!
+      Returns the image's definition category.
+    */
+    function categoryDefinition( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+        $this->dbInit();
+
+        $this->Database->array_query( $res, "SELECT CategoryID FROM
+                                            eZImageCatalogue_ImageCategoryDefinition
+                                            WHERE ImageID='$this->ID'" );
+
+        $category = false;
+        if ( count( $res ) == 1 )
+        {
+            $category = new eZImageCategory( $res[0]["CategoryID"] );
+        }
+        else
+        {
+            print( "<br><b>Failed to get image category definition for ID $this->ID</b></br>" );
+        }
+
+        return $category;
     }
 
     /*!
@@ -967,7 +1053,7 @@ class eZImage
        
        $this->dbInit();
        
-       $query = "INSERT INTO eZImageCatalogue_ImageReadGroupLink SET ImageID='$this->ID', GroupID='$value'";
+       $query = "INSERT INTO eZImageCatalogue_ImageReadGroupLink ( ImageID, GroupID ) VALUES ( '$this->ID', '$value' )";
             
        $this->Database->query( $query );
     }
@@ -982,7 +1068,7 @@ class eZImage
        
        $this->dbInit();
        
-       $query = "INSERT INTO eZImageCatalogue_ImageWriteGroupLink SET ImageID='$this->ID', GroupID='$value'";
+       $query = "INSERT INTO eZImageCatalogue_ImageWriteGroupLink ( ImageID, GroupID ) VALUES ( '$this->ID', '$value' )";
             
        $this->Database->query( $query );
     }
@@ -1076,7 +1162,7 @@ class eZImage
                        if ( $group->id() == $writePermissions[$i]["GroupID"] )
                        {
                            return true;
-                   }
+                       }
                    }
                }
            }

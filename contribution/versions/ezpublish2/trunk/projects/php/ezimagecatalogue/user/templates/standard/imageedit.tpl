@@ -56,6 +56,17 @@
 <!-- END value_tpl -->
 </select>
 
+<p class="boxtext">{intl-additional_category}:</p>
+
+<select multiple size="{num_select_categories}" name="CategoryArray[]">
+
+<!-- BEGIN multiple_value_tpl -->
+<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
+<!-- END multiple_value_tpl -->
+
+</select>
+
+
 <p class="boxtext">{intl-imagefile}:</p>
 <input size="40" class="box" name="userfile" type="file" />
 

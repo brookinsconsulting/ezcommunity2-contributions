@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.15 2001/05/31 13:50:07 virt Exp $
+// $Id: ezimagecategory.php,v 1.16 2001/06/25 11:30:23 jhe Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -79,20 +79,18 @@ class eZImageCategory
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZImageCatalogue_Category SET
-		                         Name='$name',
-                                 Description='$description',
-                                 UserID='$this->UserID',
-                                 ParentID='$this->ParentID'" );
-			$this->ID = $this->Database->insertID();
+            $this->ID = $this->Database->nextID( "eZImageCatalogue_Category", "ID" );
+            $this->Database->query( "INSERT INTO eZImageCatalogue_Category
+                                     ( ID, Name, Description, UserID, ParentID ) VALUES
+                                     ( '$this->ID', '$name', '$description', '$this->UserID', '$this->ParentID' )" );
         }
         else
         {
             $this->Database->query( "UPDATE eZImageCatalogue_Category SET
-		                         Name='$name',
-                                 Description='$description',
-                                 UserID='$this->UserID',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+                                     Name='$name',
+                                     Description='$description',
+                                     UserID='$this->UserID',
+                                     ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -179,65 +177,65 @@ class eZImageCategory
         return $return_array;
     }
 
-    /*!
-      Returns the categories with the category given as parameter as parent.
-
+    /*! 
+      Returns the categories with the category given as parameter as parent. 
+      
       If $showAll is set to true every category is shown. By default the categories
       set as exclude from search is excluded from this query.
-
+      
       The categories are returned as an array of eZImageCategory objects.      
-    */
+    */  
     function getByParent( $parent  )
-    {
-        if ( get_class( $parent ) == "ezimagecategory" )
-        {
-            $this->dbInit();
+    { 
+        if ( get_class( $parent ) == "ezimagecategory" ) 
+        { 
+            $this->dbInit(); 
         
-            $return_array = array();
+            $return_array = array(); 
             $category_array = array();
-
-            $parentID = $parent->id();
+ 
+            $parentID = $parent->id(); 
 
             $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
 
-            for ( $i=0; $i<count($category_array); $i++ )
-            {
-                $return_array[$i] = new eZImageCategory( $category_array[$i]["ID"], 0 );
-            }
+            for ( $i=0; $i<count($category_array); $i++ ) 
+            { 
+                $return_array[$i] = new eZImageCategory( $category_array[$i]["ID"], 0 ); 
+            } 
 
-            return $return_array;
-        }
-        else
-        {
-            return array();
-        }
-    }
+            return $return_array; 
+        } 
+        else 
+        { 
+            return array(); 
+        } 
+    } 
 
     /*!
-      Returns the current path as an array of arrays.
-
-      The array is built up like: array( array( id, name ), array( id, name ) );
-
-      See detailed description for an example of usage.
-    */
-    function path( $categoryID=0 )
-    {
-        if ( $categoryID == 0 )
-        {
-            $categoryID = $this->ID;
-        }
+      Returns the current path as an array of arrays.  
+      
+      The array is built up like: array( array( id, name ), array( id, name ) );  
+      
+      See detailed description for an example of usage.  
+    */  
+    function path( $categoryID=0 ) 
+    { 
+        if ( $categoryID == 0 ) 
+        { 
+            $categoryID = $this->ID; 
+        } 
             
-        $category = new eZImageCategory( $categoryID );
+        $category = new eZImageCategory( $categoryID ); 
 
-        $path = array();
+        $path = array(); 
 
         $parent = $category->parent();
 
-        if ( $parent != 0 )
+        if ( $parent != 0 ) 
         {
-            $path = array_merge( $path, $this->path( $parent->id() ) );
+            $path = array_merge( $path, $this->path( $parent->id() ) ); 
         }
         else
         {
@@ -250,6 +248,9 @@ class eZImageCategory
         return $path;
     }
 
+    /*!
+      Recursive function that returns an array containing an int (tree position) and an array ( all items on that level )
+     */
     function getTree( $parentID=0, $level=0 )
     {
         $category = new eZImageCategory( $parentID );
@@ -439,34 +440,65 @@ class eZImageCategory
     }
 
     /*!
-      Adds a file to the folder.
+      \static
+      Adds a file to the category.
+      Can be used as a static function if $categoryid is supplied
     */
-    function addImage( $value )
-    {
+    function addImage( $value, $categoryid = false )
+    {        
        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
+           $this->get( $this->ID );
+
        if ( get_class( $value ) == "ezimage" )
-       {
-            $this->dbInit();
+           $imageID = $value->id();
+       else if ( is_numeric( $value ) )
+           $imageID = $value;
+       else
+           return false;
 
-            $imageID = $value->id();
+       if ( !$categoryid )
+           $categoryid = $this->ID;
+           
+       $db =& eZDB::globalDatabase();
 
-            $this->Database->query( "DELETE FROM eZImageCatalogue_ImageCategoryLink WHERE ImageID='$imageID'" );
-            
-            $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink SET CategoryID='$this->ID', ImageID='$imageID'";
-
-            $this->Database->query( $query );
-       }
+       $imageID = $value->id();
+       
+       $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink ( CategoryID, ImageID )
+                 VALUES ( '$categoryid', '$imageID' )";
+       
+       $db->query( $query );
     }
 
     /*!
-      Returns every images in a category as a array of eZImage objects.
-
+      \static
+      Removes an image from the category.
+      Can be used as a static function if $categoryid is supplied
     */
-    function images( $sortMode="time",
-                       $offset=0,
-                       $limit=0 )
+    function removeImage( $value, $categoryid = false )
+    {
+        if ( get_class( $value ) == "ezimage" )
+            $imageID = $value->id();
+        else if ( is_numeric( $value ) )
+            $imageID = $value;
+        else
+            return false;
+
+        if ( !$categoryid )
+            $categoryid = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+        $query = "DELETE FROM eZImageCatalogue_ImageCategoryLink
+                  WHERE CategoryID='$categoryid' AND
+                        ImageID='$articleID'";
+
+        $db->query( $query );
+    }
+
+    
+    /*!
+      Returns every images in a category as a array of eZImage objects.
+    */
+    function images( $sortMode="time", $offset=0, $limit=0 )
     {
        if ( $limit == 0 )
        {
@@ -498,7 +530,7 @@ class eZImageCategory
        }
        
        return $return_array;
-    }
+    } 
 
     /*!
       Adds read permission to the user.
@@ -510,8 +542,9 @@ class eZImageCategory
        
        $this->dbInit();
        
-       $query = "INSERT INTO eZImageCatalogue_CategoryReadGroupLink SET CategoryID='$this->ID', GroupID='$value'";
-            
+       $query = "INSERT INTO eZImageCatalogue_CategoryReadGroupLink ( CategoryID, GroupID )
+                 VALUES ( '$this->ID', '$value' )";
+       
        $this->Database->query( $query );
     }
 
@@ -525,7 +558,8 @@ class eZImageCategory
        
        $this->dbInit();
        
-       $query = "INSERT INTO eZImageCatalogue_CategoryWriteGroupLink SET CategoryID='$this->ID', GroupID='$value'";
+       $query = "INSERT INTO eZImageCatalogue_CategoryWriteGroupLink ( CategoryID, GroupID )
+                 VALUES ( '$this->ID', '$value' )";
             
        $this->Database->query( $query );
     }

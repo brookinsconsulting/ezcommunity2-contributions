@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariationgroup.php,v 1.10 2001/05/05 11:16:04 bf Exp $
+// $Id: ezimagevariationgroup.php,v 1.11 2001/06/25 11:30:23 jhe Exp $
 //
 // Definition of eZImageVariationGroup class
 //
@@ -70,13 +70,11 @@ class eZImageVariationGroup
     {
         $this->dbInit();
 
-        $this->Database->query( "INSERT INTO eZImageCatalogue_ImageVariationGroup SET
-                                 Width='$this->Width',
-                                 Height='$this->Height'
-                                 " );
+        $this->ID = $this->Database->nextID( "eZImageCatalogue_ImageVariationGroup", "ID" );
         
-		$this->ID = $this->Database->insertID();
-		
+        $this->Database->query( "INSERT INTO eZImageCatalogue_ImageVariationGroup 
+                                 ( ID, Width, Height ) VALUES ( '$this->ID', '$this->Width', '$this->Height' )" );
+        
         $this->State_ = "Coherent";
     }
     

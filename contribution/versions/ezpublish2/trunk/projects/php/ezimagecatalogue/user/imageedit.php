@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.24 2001/04/23 10:53:53 fh Exp $
+// $Id: imageedit.php,v 1.25 2001/06/25 11:30:23 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -84,6 +84,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "image_edit_page", "value_tpl", "value" );
+$t->set_block( "image_edit_page", "multiple_value_tpl", "multiple_value" );
 $t->set_block( "image_edit_page", "image_tpl", "image" );
 $t->set_block( "image_edit_page", "errors_tpl", "errors" );
 
@@ -252,8 +253,14 @@ if ( $Action == "Insert" && $error == false )
 
     $category = new eZImageCategory( $CategoryID );
     
-    $category->addImage( $image );
+    $image->setCategoryDefinition( $category );
 
+    $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
+    
+    foreach ( $categories as $categoryItem )
+    {
+        eZImageCategory::addImage( $image, $categoryItem );
+    }
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
@@ -297,10 +304,29 @@ if ( $Action == "Update" && $error == false )
         }
     }
 
-    $category = new eZImageCategory( $CategoryID );
-    
-    $category->addImage( $image );
 
+    $categoryArray = $image->categories();
+    // Calculate new and unused categories
+    $old_maincategory = $image->categoryDefinition();
+    $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                  $image->categories( false ) ) );
+
+    $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+    $remove_categories = array_diff( $old_categories, $new_categories );
+    $add_categories = array_diff( $new_categories, $old_categories );
+
+    foreach ( $add_categories as $categoryItem )
+    {
+        eZImageCategory::addImage( $image, $CategoryID );
+    }
+    $category = new eZArticleCategory( $CategoryID );
+    $image->setCategoryDefinition( $category );
+    foreach ( $remove_categories as $categoryItem )
+    {
+        eZImageCategory::removeImage( $image, $CategoryID );
+    }
+    
     if ( $fileOK )
     {
         $image->setImage( $file );
@@ -383,9 +409,82 @@ if ( $Action == "Edit" )
     $writeGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "w", false );
 }
 
-$category = new eZImageCategory() ;
 
+
+$category = new eZImageCategory() ;
 $categoryList =& $category->getTree( );
+
+$tree = new eZImageCategory();
+$treeArray =& $tree->getTree();
+$user =& eZUser::currentUser();
+
+$catCount = count( $treeArray );
+$t->set_var( "num_select_categories", min( $catCount, 10 ) );
+
+foreach ( $treeArray as $catItem )
+{
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "image_category", 'w', $user ) == true  ||
+         eZImageCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
+    {
+        if ( $Action == "Edit" )
+        {
+            $defCat = $image->categoryDefinition( );
+        
+            if ( get_class( $defCat ) == "ezimagecategory" )
+            {
+                if ( $image->existsInCategory( $catItem[0] ) &&
+                ( $defCat->id() != $catItem[0]->id() ) )
+                {
+                    $t->set_var( "multiple_selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "multiple_selected", "" );
+                }
+            }
+            else
+            {
+                $t->set_var( "selected", "" );
+            }
+            
+            if ( get_class( $defCat ) == "ezimagecategory" )
+            {
+                if ( $defCat->id() == $catItem[0]->id() )
+                {
+                    $t->set_var( "selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "selected", "" );
+                }
+            }
+            else
+            {
+                $t->set_var( "selected", "" );
+            }
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+            $t->set_var( "multiple_selected", "" );
+        }
+        
+    
+        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "option_name", $catItem[0]->name() );
+        
+        if ( $catItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
+        
+        
+        $t->parse( "value", "value_tpl", true );
+        $t->parse( "multiple_value", "multiple_value_tpl", true );
+    }
+}
+
+
 
 // Print out all the groups.
 $groups =& eZUserGroup::getAll();
@@ -440,7 +539,7 @@ foreach ( $groups as $group )
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
 
-// Make a category list
+/* Make a category list
 foreach ( $categoryList as $categoryItem )
 {
     if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' )
@@ -481,7 +580,7 @@ foreach ( $categoryList as $categoryItem )
         $t->parse( "value", "value_tpl", true );
     }
 }
-
+*/
 $t->pparse( "output", "image_edit_page" );
 
 ?>

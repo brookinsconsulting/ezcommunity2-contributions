@@ -308,8 +308,15 @@ CREATE TABLE eZArticle_ArticleFormDict (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_ArticleFormDict'
+# Table structure for table 'eZImageCatalogue_ImageCategoryDefinition'
 #
+DROP TABLE IF EXISTS eZImageCatalogue_ImageCategoryDefinition
+CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
+  ID int(11) NOT NULL auto_increment,
+  ImageID int,
+  CategoryID int,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
 #
 # Table structure for table 'eZImageCatalogue_ImageMap'
