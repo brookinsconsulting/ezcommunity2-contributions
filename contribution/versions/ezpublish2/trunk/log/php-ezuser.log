@@ -1029,3 +1029,14 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezobjectpermission.php: fixed problem with permissions
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-02-08  Baard Farstad  <bf@ez.no>
+
+    * classes/ezuser.php: Fixed group string function.
+
+    * classes/ezobjectpermission.php
+      classes/ezuser.php: Fixed security problem.
+

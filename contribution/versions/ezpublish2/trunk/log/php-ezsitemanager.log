@@ -556,3 +556,11 @@ Maintainer(s) : vl@ez.no
     * admin/templatelist.php
       sql/postgresql/ezsitemanager.sql: fixed psql problems
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2002-02-08  Baard Farstad  <bf@ez.no>
+
+    * admin/cacheadmin.php: Added clearcache for windows.
+

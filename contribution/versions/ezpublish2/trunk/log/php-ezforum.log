@@ -1046,3 +1046,11 @@ Maintainer(s) : jhe@ez.no
       user/messagereply.php
       user/messagesimplelist.php: fixed bug with html in forum messages
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-08  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezforum.sql: Added indeces.
+

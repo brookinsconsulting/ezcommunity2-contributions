@@ -2791,3 +2791,16 @@ Maintainer(s) : bf@ez.no
 
     * classes/eztechrenderer.php: Fixed check for array.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-08  Baard Farstad  <bf@ez.no>
+
+    * admin/cron.php
+      classes/ezarticle.php: Fixed time publishing.
+
+    * classes/ezarticle.php
+      user/articleview.php
+      user/datasupplier.php: Fixed permission bug in author view.
+

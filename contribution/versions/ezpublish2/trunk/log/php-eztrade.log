@@ -3189,3 +3189,11 @@ Maintainer(s) : ce@ez.no
     * admin/orderedit.php
       admin/pricegroupedit.php: fixed problem with redirectin on nVH
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-08  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/eztrade.sql: Added indeces.
+
