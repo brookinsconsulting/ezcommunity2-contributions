@@ -10,28 +10,46 @@
 <!-- BEGIN errors_tpl -->
 <h3 class="error">{intl-error_headline}</h3>
 <ul>
+    <!-- BEGIN error_name_item_tpl -->
+    <li>{intl-error_name}
+    <!-- END error_name_item_tpl -->
 
-<!-- BEGIN error_name_item_tpl -->
-<li>{intl-error_name}
-<!-- END error_name_item_tpl -->
+    <!-- BEGIN error_companyno_item_tpl -->
+    <li>{intl-error_companyno}
+    <!-- END error_companyno_item_tpl -->
 
-<!-- BEGIN error_companyno_item_tpl -->
-<li>{intl-error_companyno}
-<!-- END error_companyno_item_tpl -->
+    <!-- BEGIN error_address_item_tpl -->
+    <li>{intl-error_address}
+    <!-- END error_address_item_tpl -->
 
-<!-- BEGIN error_email_item_tpl -->
-<li>{intl-error_email}
-<!-- END error_email_item_tpl -->
+    <!-- BEGIN error_email_item_tpl -->
+    <li>{intl-error_email}
+    <!-- END error_email_item_tpl -->
 
-<!-- BEGIN error_address_item_tpl -->
-<li>{intl-error_address}
-<!-- END error_address_item_tpl -->
+    <!-- BEGIN error_email_not_valid_item_tpl -->
+    <li>{intl-error_email_not_valid}
+    <!-- END error_email_not_valid_item_tpl -->
+
+    <!-- BEGIN error_password_item_tpl -->
+    <li>{intl-error_password}
+    <!-- END error_password_item_tpl -->
+
+    <!-- BEGIN error_password_too_short_item_tpl -->
+    <li>{intl-error_password_too_short}
+    <!-- END error_password_too_short_item_tpl -->
+
+    <!-- BEGIN error_loginname_item_tpl -->
+    <li>{intl-error_loginname}
+    <!-- END error_loginname_item_tpl -->
 
 </ul>
+
+<hr noshade size="4"/>
+
+<br />
 <!-- END errors_tpl -->
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<h3 class="error">{error}</h3>
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
@@ -40,6 +58,16 @@
 	<td>
 	<p class="boxtext">{intl-orgno}:</p>
 	<input type="text" size="20" name="CompanyNo" value="{companyno}"/>
+	</td>
+</tr>
+<tr>
+	<td>
+	<p class="boxtext">{intl-password}:</p>
+	<input type="password" size="20" name="Password" value="{password}"/>
+	</td>
+	<td>
+	<p class="boxtext">{intl-repeat_password}:</p>
+	<input type="password" size="20" name="RepeatPassword" value="{repeat_password}"/>
 	</td>
 </tr>
 </table>
@@ -81,6 +109,7 @@
 <p class="boxtext">{intl-address}:</p>
 <input type="text" size="20" name="Street1" value="{street1}"/><br>
 <input type="text" size="20" name="Street2" value="{street2}"/>
+<input type="hidden" name="AddressTypeID" value="{address_type_id}">
 
 <br /><br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -105,7 +134,7 @@
 <!-- BEGIN phone_item_tpl -->
 	<p class="boxtext">{intl-telephone}:</p>
 	<input type="text" size="20" name="Phone[]" value="{telephone}"/>
-	<input type="hidden" name="PhoneTypeID[]" value="1">
+	<input type="hidden" name="PhoneTypeID[]" value="{phone_type_id}">
 	<input type="hidden" name="PhoneID[]" value="{tele_phone_id}">
 <!-- END phone_item_tpl -->
 	</td>
@@ -113,7 +142,7 @@
 <!-- BEGIN fax_item_tpl -->
 	<p class="boxtext">{intl-fax}:</p>
 	<input type="text" size="20" name="Phone[]" value="{fax}"/>
-	<input type="hidden" name="PhoneTypeID[]" value="2">
+	<input type="hidden" name="PhoneTypeID[]" value="{fax_type_id}">
 	<input type="hidden" name="PhoneID[]" value="{fax_phone_id}">
 <!-- END fax_item_tpl -->
 	</td>
@@ -126,18 +155,18 @@
     <td width="50%">
 <!-- BEGIN web_item_tpl -->
 	<p class="boxtext">{intl-web}:</p>
-	<input type="text" size="20" name="Online[]" value="{web}"/>
+	<input type="text" size="20" name="OnlineWeb" value="{web}"/>
 	<input type="hidden" name="URLType[]" value="http">
-	<input type="hidden" name="OnlineTypeID[]" value="1">
+	<input type="hidden" name="OnlineTypeID[]" value="{web_type_id}">
 	<input type="hidden" name="OnlineID[]" value="{web_online_id}">
 <!-- END web_item_tpl -->
 	</td>
 	<td>
 <!-- BEGIN email_item_tpl -->
 	<p class="boxtext">{intl-email}:</p>
-	<input type="text" size="20" name="Online[]" value="{email}"/>
+	<input type="text" size="20" name="OnlineEmail" value="{email}"/>
 	<input type="hidden" name="URLType[]" value="mailto">
-	<input type="hidden" name="OnlineTypeID[]" value="2">
+	<input type="hidden" name="OnlineTypeID[]" value="{email_type_id}">
 	<input type="hidden" name="OnlineID[]" value="{email_online_id}">
 <!-- END email_item_tpl -->
 	</td>
