@@ -52,6 +52,7 @@ ezstats		projects/php/ezstats
 ezxmlrpc	projects/php/ezxmlrpc
 ezmail		projects/php/ezmail
 ezaddress	projects/php/ezaddress
+ezexchange	projects/php/ezexchange
  
 # Distribution
 publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar
