@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.6 2001/12/17 13:29:17 br Exp $
+// $Id: pageedit.php,v 1.7 2001/12/17 14:18:21 br Exp $
 //
 // Definition of ||| class
 //
@@ -54,17 +54,6 @@ if ( isSet( $Cancel ) )
     exit();
 }
 
-if ( isSet( $OK ) && count( $errorMessages ) == 0 )
-{
-  eZHTTPTool::header( "Location: /form/form/edit/$FormID" );
-  exit();
-}
-
-if ( isSet( $Preview ) && count( $errorMessages ) == 0 )
-{
-    eZHTTPTool::header( "Location: /form/form/preview/$FormID/" );
-    exit();
-}
 
 $Language = $ini->read_var( "eZFormMain", "Language" );
 
@@ -140,6 +129,113 @@ if ( isSet( $DeleteSelected ) )
         $element->delete();
     }
 }
+
+
+$errorMessages = array();
+
+if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
+{
+    $page->setName( $PageName );
+    
+    if ( isSet( $NewElement ) || isSet( $Update ) )
+    {
+        $existingElementCount = $page->numberOfElements();
+        $existingElementCount++;
+        
+        if ( isSet( $NewElement ) )
+        {
+            $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
+            $newElementName = $newElementName . " " . $existingElementCount;
+            $element = new eZFormElement();
+            $element->setName( $newElementName );
+            $element->store();
+        }
+        
+        if ( isSet( $element ) )
+        {
+            $page->addElement( $element );
+        }
+
+        $elementCount = count( $elementID );
+        $elementTypeError = false;
+        
+        for ( $i = 0; $i < $elementCount; $i++ )
+        {
+            $element = new eZFormElement( $elementID[$i] );
+            $elementType = new eZFormElementType( $elementTypeID[$i] );
+            $element->setElementType( $elementType );
+
+            if ( $elementType->id() == 0 && $elementTypeError == false )
+            {
+                $errorMessages[] = "all_elements_must_have_type";
+                $elementTypeError = true;
+            }
+
+            $element->setName( $elementName[$i] );
+            $element->setSize( $Size[$i] );
+
+
+            $required = false;
+            $break = false;
+            if ( count( $elementRequired ) > 0 )
+            {
+                foreach ( $elementRequired as $requiredID )
+                {
+                    if ( $elementID[$i] == $requiredID )
+                    {
+                        $element->setRequired( true );
+                        $required = true;
+                    }
+                }
+            }
+            if ( count( $ElementBreak ) > 0 )
+            {
+                foreach ( $ElementBreak as $breakID )
+                {
+                    if ( $elementID[$i] == $breakID )
+                    {
+                        $element->setBreak( true );
+                        $break = true;
+                    }
+                }
+            }
+
+            $element->setBreak( $break );
+            $element->setRequired( $required );
+
+            $element->store();
+
+            if ( $elementType->name() == "table_item" )
+            {
+                $table = new eZFormTable( $element->ID() );
+                $table->setCols( $Size[$i] );
+                $table->setRows( $Rows[$i] );
+                $table->setElementID( $element->id() );
+                $table->store();
+            }
+        }
+
+        if ( isSet( $OK ) && count( $errorMessages ) == 0 )
+        {
+            eZHTTPTool::header( "Location: /form/form/list/" );
+            exit();
+        }
+
+        if ( isSet( $Preview ) && count( $errorMessages ) == 0 )
+        {
+            eZHTTPTool::header( "Location: /form/form/preview/$FormID/" );
+            exit();
+        }
+    }
+}
+
+
+
+
+
+
+
+
 
 
 if ( $page->numberOfElements() == 0 )
