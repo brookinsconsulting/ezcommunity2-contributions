@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: eztopic.php,v 1.9 2001/09/03 13:28:30 bf Exp $
+//
+// $Id: eztopic.php,v 1.9.2.1 2002/04/25 11:42:50 bf Exp $
 //
 // Definition of eZTopic class
 //
@@ -28,7 +28,7 @@
 //!! eZUser
 //! eZTopic handles article topics
 /*!
-  
+
   \sa eZArticle eZArticeCategory
 */
 
@@ -43,11 +43,11 @@ class eZTopic
     */
     function eZTopic( $id=-1 )
     {
-        if ( $id != -1 )
-        {
-            $this->ID = $id;
-            $this->get( $this->ID );
-        }
+	if ( $id != -1 )
+	{
+	    $this->ID = $id;
+	    $this->get( $this->ID );
+	}
     }
 
     /*!
@@ -55,48 +55,48 @@ class eZTopic
     */
     function store()
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $db->begin( );
-        
-        $name = $db->escapeString( $this->Name );
-        $description = $db->escapeString( $this->Description );
+	$db->begin( );
 
-        if ( !isSet( $this->ID ) )
-        {
-            $db->lock( "eZArticle_Topic" );
-            $nextID = $db->nextID( "eZArticle_Topic", "ID" );
+	$name = $db->escapeString( $this->Name );
+	$description = $db->escapeString( $this->Description );
 
-            $timeStamp =& eZDateTime::timeStamp( true );            
-            
-            $res = $db->query( "INSERT INTO eZArticle_Topic
-                         ( ID, Name, Created, Description )
-                         VALUES
-                         ( '$nextID',
-		                   '$name',
-                           '$timeStamp',
-                           '$description' )
-                       " );
-            
+	if ( !isSet( $this->ID ) )
+	{
+	    $db->lock( "eZArticle_Topic" );
+	    $nextID = $db->nextID( "eZArticle_Topic", "ID" );
+
+	    $timeStamp =& eZDateTime::timeStamp( true );
+
+	    $res = $db->query( "INSERT INTO eZArticle_Topic
+			 ( ID, Name, Created, Description )
+			 VALUES
+			 ( '$nextID',
+				   '$name',
+			   '$timeStamp',
+			   '$description' )
+		       " );
+
 			$this->ID = $nextID;
-        }
-        else
-        {
-            $res = $db->query( "UPDATE eZArticle_Topic SET
-		                 Name='$name',
-                         Created=Created, 
-                         Description='$description'
-                        WHERE ID='$this->ID'" );
-        }
+	}
+	else
+	{
+	    $res = $db->query( "UPDATE eZArticle_Topic SET
+				 Name='$name',
+			 Created=Created,
+			 Description='$description'
+			WHERE ID='$this->ID'" );
+	}
 
-        $db->unlock();
-    
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();
-        
-        return true;
+	$db->unlock();
+
+	if ( $res == false )
+	    $db->rollback( );
+	else
+	    $db->commit();
+
+	return true;
     }
 
     /*!
@@ -104,18 +104,18 @@ class eZTopic
     */
     function delete()
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        if ( isset( $this->ID ) )
-        {
-            $db->query( "UPDATE eZArticle_Article SET TopicID=0 WHERE TopicID='$this->ID'" );
-            $db->query( "DELETE FROM eZArticle_Topic WHERE ID='$this->ID'" );
-            
-        }
-        
-        return true;
+	if ( isset( $this->ID ) )
+	{
+	    $db->query( "UPDATE eZArticle_Article SET TopicID=0 WHERE TopicID='$this->ID'" );
+	    $db->query( "DELETE FROM eZArticle_Topic WHERE ID='$this->ID'" );
+
+	}
+
+	return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
 
@@ -123,30 +123,30 @@ class eZTopic
     */
     function get( $id=-1 )
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $ret = false;
-        if ( $id != "" )
-        {
-            $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE ID='$id'" );
-            if( count( $author_array ) == 1 )
-            {
-                $this->ID =& $author_array[0][$db->fieldName("ID")];
-                $this->Name =& $author_array[0][$db->fieldName("Name")];
-                $this->Description =& $author_array[0][$db->fieldName("Description")];
-                $ret = true;
-            }
-            elseif( count( $author_array ) == 1 )
-            {
-                $this->ID = 0;
-            }
-        }
-        return $ret;
+	$ret = false;
+	if ( $id != "" )
+	{
+	    $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE ID='$id'" );
+	    if( count( $author_array ) == 1 )
+	    {
+		$this->ID =& $author_array[0][$db->fieldName("ID")];
+		$this->Name =& $author_array[0][$db->fieldName("Name")];
+		$this->Description =& $author_array[0][$db->fieldName("Description")];
+		$ret = true;
+	    }
+	    elseif( count( $author_array ) == 1 )
+	    {
+		$this->ID = 0;
+	    }
+	}
+	return $ret;
     }
 
 
     /*!
-        \static
+	\static
       Fetches an eZTopic object from the database with the same name as entered.
 
       Always returns an object of type eZTopic, but with ID 0 if a suitable information
@@ -154,23 +154,23 @@ class eZTopic
     */
     function &getByName( $name )
     {
-        $db =& eZDB::globalDatabase();
-        
-        $topic =& new eZTopic();
+	$db =& eZDB::globalDatabase();
 
-        $name = $db->fieldName( $name );
+	$topic =& new eZTopic();
 
-        if( $name != "" )
-        {
-            $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE Name='$name'" );
+	$name = $db->fieldName( $name );
 
-            if( count( $author_array ) == 1 )
-            {
-                $topic =& new eZTopic( $author_array[0][$db->fieldName("ID")] );
-            }
-        }
-        
-        return $topic;
+	if( $name != "" )
+	{
+	    $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE Name='$name'" );
+
+	    if( count( $author_array ) == 1 )
+	    {
+		$topic =& new eZTopic( $author_array[0][$db->fieldName("ID")] );
+	    }
+	}
+
+	return $topic;
     }
 
     /*!
@@ -178,22 +178,22 @@ class eZTopic
     */
     function &getAll(  )
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $return_array = array();
-        $topic_array = array();
+	$return_array = array();
+	$topic_array = array();
 
 
-        $db->array_query( $topic_array, "SELECT ID, Name FROM eZArticle_Topic
-                                        ORDER By Name" );
+	$db->array_query( $topic_array, "SELECT ID, Name FROM eZArticle_Topic
+					ORDER By Name" );
 
-        foreach ( $topic_array as $topic )
-        {
-            $return_array[] = new eZTopic( $topic[$db->fieldName("ID")] );
-        }
-        return $return_array;
+	foreach ( $topic_array as $topic )
+	{
+	    $return_array[] = new eZTopic( $topic[$db->fieldName("ID")] );
+	}
+	return $return_array;
     }
-
+    
     /*!
       Returns all articles with the current topic.
     */
@@ -204,32 +204,115 @@ class eZTopic
         $return_array = array();
         $article_array = array();
 
-        $db->array_query( $article_array, "SELECT ID, Name FROM eZArticle_Article WHERE TopicID='$this->ID'
-                                        ORDER By Name" );
 
-        foreach ( $article_array as $article )
+        $ExcludeCategories = "";
+
+        $return_array = array();
+        $article_array = array();
+
+        $user =& eZUser::currentUser();
+        $currentUserSQL = "";
+        $groupSQL = "";
+        $usePermission = true;
+        if ( $user )
         {
-            $return_array[] = new eZArticle( $article[$db->fieldName("ID")] );
+            $groups =& $user->groups( false );
+
+            foreach ( $groups as $group )
+            {
+                $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
+                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
+                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                            ";
+            }
+            $currentUserID = $user->id();
+            $currentUserSQL = "Article.AuthorID=$currentUserID OR";
+
+            if ( $user->hasRootAccess() )
+                $usePermission = false;
         }
-        return $return_array;
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) ";
+
+        if ( $usePermission )
+            $permissionSQL = $loggedInSQL;
+        else
+            $permissionSQL = "";
+
+        $excludeSQL = " AND Category.ExcludeFromSearch = '0'";
+
+        // fetch only published articles
+        if ( $fetchNonPublished  == true )
+        {
+            $excludeSQL = "";
+            if ( $permissionSQL == "" )
+                $publishedSQL = " Article.IsPublished = '0' AND ";
+            else
+                $publishedSQL = " AND Article.IsPublished = '0' AND ";
+        }
+        // fetch only non-published articles
+        else
+        {
+            if ( $permissionSQL == "" )
+                $publishedSQL = " Article.IsPublished = '1' AND ";
+            else
+                $publishedSQL = " AND Article.IsPublished = '1' AND ";
+        }
+
+        // fetch only published articles
+        if ( $fetchNonPublished  == "pending" )
+        {
+            if ( $permissionSQL == "" )
+                $publishedSQL = " Article.IsPublished = '2' AND ";
+            else
+                $publishedSQL = " AND Article.IsPublished = '2' AND ";
+        }
+
+
+        if ($ExcludeCategories && $ExcludeCategories<>"") $excludeSQL .= " AND Category.ID NOT IN (".$ExcludeCategories.")";
+
+        $query = "SELECT Article.ID as ID
+                  FROM eZArticle_ArticleCategoryDefinition as Definition,
+                       eZArticle_Article AS Article,
+                       eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_ArticlePermission AS Permission,
+                       eZArticle_CategoryPermission as CategoryPermission,
+                       eZArticle_Category AS Category
+                  WHERE TopicID='$this->ID' AND
+                        $permissionSQL
+                        $publishedSQL
+                        Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Category.ID=Link.CategoryID
+                        $excludeSQL
+                        AND Definition.ArticleID=Article.ID
+                        AND CategoryPermission.ObjectID=Definition.CategoryID
+                 GROUP BY Article.ID, Article.IsPublished ORDER BY Article.Name";
+
+	$db->array_query( $article_array, $query );
+
+	foreach ( $article_array as $article )
+	{
+	    $return_array[] = new eZArticle( $article[$db->fieldName("ID")] );
+	}
+	return $return_array;
     }
-    
+
     /*!
       Returns the object id.
     */
     function id()
     {
-        return $this->ID;
+	return $this->ID;
     }
-    
+
     /*!
       Returns the name.
     */
     function name( $html = true )
     {
-        if( $html )
-            return htmlspecialchars( $this->Name );
-        return $this->Name;
+	if( $html )
+	    return htmlspecialchars( $this->Name );
+	return $this->Name;
     }
 
 
@@ -248,7 +331,7 @@ class eZTopic
     {
        $this->Name = $value;
     }
-    
+
     /*!
       Sets the description.
     */
@@ -256,7 +339,7 @@ class eZTopic
     {
        $this->Description = $value;
     }
-    
+
     var $ID;
     var $Name;
     var $Description;
