@@ -7,6 +7,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
 // test with another server:
 
+/*
 $client = new eZXMLRPCClient( "betty.userland.com", "/rpc2" );
 
 $call = new eZXMLRPCCall( );
@@ -31,6 +32,8 @@ else
 
     print( "The server returned: " . $result->value() . "<br>" );
 }
+
+*/
 
 // Local test
 
