@@ -140,6 +140,10 @@ if( $results == true )
     $i;
     foreach( $companyArray as $company )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "item_color", "bglight" );
+        else
+            $t->set_var( "item_color", "bgdark" );
         $i++;
         $t->set_var( "item_name", $company->name() );
         $t->set_var( "item_id", $company->id() );
