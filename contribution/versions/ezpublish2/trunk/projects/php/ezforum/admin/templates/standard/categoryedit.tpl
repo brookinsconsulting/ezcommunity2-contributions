@@ -25,6 +25,13 @@
 <p class="boxtext">{intl-description}:</p>
 <input type="text" class="box" size="40" value="{category_description}" name="Description">
 
+<p class="boxtext">{intl-section_select}:</p>
+<select name="SectionID">
+<!-- BEGIN section_item_tpl -->
+<option value="{section_id}" {section_is_selected}>{section_name}</option>
+<!-- END section_item_tpl -->
+</select>
+
 <br /><br />
 
 <hr noshade="noshade" size="4" />

@@ -1,5 +1,5 @@
 <?php
-// $Id: categoryedit.php,v 1.17 2001/07/19 13:17:54 jakobn Exp $
+// $Id: categoryedit.php,v 1.18 2001/09/21 11:12:52 jhe Exp $
 //
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
 //
@@ -36,10 +36,11 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezcachefile.php" );
 
 include_once( "ezforum/classes/ezforumcategory.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-if ( isset ( $DeleteCategories ) )
+if ( isset( $DeleteCategories ) )
 {
     $Action = "DeleteCategories";
 }
@@ -57,17 +58,17 @@ if ( $Action == "insert" )
                                       array( "menubox",
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
         
-        if ( $Name != "" &&
-        $Description != "" )
+        if ( $Name != "" && $Description != "" )
         {
             $cat = new eZForumCategory();
             $cat->setName( $Name );
             $cat->setDescription( $Description );
+            $cat->setSectionID( $SectionID );
    
             $cat->store();
             eZLog::writeNotice( "Forum category created: $Name from IP: $REMOTE_ADDR" );
@@ -95,7 +96,7 @@ if ( $Action == "delete" )
                                       array( "menubox",
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -129,16 +130,16 @@ if ( $Action == "DeleteCategories" )
                                   array( "menubox",
                                          NULL ),
                                   "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
 
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryDelete" ) )
     {
-        if ( count ( $CategoryArrayID ) != 0 )
+        if ( count( $CategoryArrayID ) != 0 )
         {
-            foreach( $CategoryArrayID as $CategoryID )
+            foreach ( $CategoryArrayID as $CategoryID )
             {
                 $cat = new eZForumCategory( $CategoryID );
                 $categoryName = $cat->name();
@@ -166,7 +167,7 @@ if ( $Action == "update" )
                                       array( "menubox",
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -178,6 +179,7 @@ if ( $Action == "update" )
             $cat->get( $CategoryID );
             $cat->setName( $Name );
             $cat->setDescription( $Description );
+            $cat->setSectionID( $SectionID );
             $cat->store();
             eZLog::writeNotice( "Forum category updated: $Name from IP: $REMOTE_ADDR" );
             eZHTTPTool::header( "Location: /forum/categorylist/" );
@@ -199,10 +201,9 @@ $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTem
                      "ezforum/admin/" . "/intl", $Language, "categoryedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array( "category_page" => "categoryedit.tpl"
-                     ) );
+$t->set_file( "category_page", "categoryedit.tpl" );
 
-$t->set_block( "category_page", "category_edit_tpl", "category_edit" );
+$t->set_block( "category_page", "section_item_tpl", "section_item" );
 
 $t->set_var( "category_name", "" );
 $t->set_var( "category_description", "" );
@@ -216,7 +217,6 @@ if ( $Action == "new" )
         eZHTTPTool::header( "Location: /forum/norights" );
         exit();
     }
- 
     $action_value = "insert";
 }
 
@@ -240,12 +240,35 @@ if ( $Action == "edit" )
         $t->set_var( "category_name", $cat->name() );
         $t->set_var( "category_description", $cat->description() );
         $action_value = "update";
+        $sectionID = $cat->sectionID();
     }
 }
+
+
+$sectionList =& eZSection::getAll();
+
+if ( count( $sectionList ) > 0 )
+{
+    foreach ( $sectionList as $section )
+    {
+        $t->set_var( "section_id", $section->id() );
+        $t->set_var( "section_name", $section->name() );
+        
+        if ( $sectionID == $section->id() )
+            $t->set_var( "section_is_selected", "selected" );
+        else
+            $t->set_var( "section_is_selected", "" );
+        
+        $t->parse( "section_item", "section_item_tpl", true );
+    }
+}
+else
+    $t->set_var( "section_item", "" );
 
 $t->set_var( "action_value", $action_value );
 $t->set_var( "error_msg", $error_msg );
 $t->set_var( "headline", $headline );
 
 $t->pparse( "output", "category_page" );
+
 ?>

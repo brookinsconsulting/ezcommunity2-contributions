@@ -1,8 +1,9 @@
 CREATE TABLE eZForum_Category (
+  ID int NOT NULL,
   Name varchar(20) default NULL,
   Description varchar(40) default NULL,
   IsPrivate int default NULL,
-  ID int NOT NULL,
+  SectionID int default 1,
   PRIMARY KEY (ID)
 );
 

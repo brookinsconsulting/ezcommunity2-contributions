@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforumcategory.php,v 1.38 2001/07/19 13:17:54 jakobn Exp $
+// $Id: ezforumcategory.php,v 1.39 2001/09/21 11:12:52 jhe Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -48,7 +48,6 @@ class eZForumCategory
     {
         if ( $id != "" )
         {
-            $this->ID = $id;
             $this->get( $this->ID );
         }
     }
@@ -60,23 +59,24 @@ class eZForumCategory
     {
         $db =& eZDB::globalDatabase();
 
-        $db->begin( );
+        $db->begin();
         
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
 
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZForum_Category" );
             $nextID = $db->nextID( "eZForum_Category", "ID" );
 
             $res = $db->query( "INSERT INTO eZForum_Category
-                         ( ID,  Name, Description, IsPrivate )
+                         ( ID,  Name, Description, IsPrivate, SectionID )
                          VALUES
                          ( '$nextID',
                            '$name',
                            '$description',
-                           '$this->IsPrivate' )" );
+                           '$this->IsPrivate',
+                           '$this->SectionID')" );
 
 			$this->ID = $nextID;
         }
@@ -85,7 +85,8 @@ class eZForumCategory
             $res = $db->query( "UPDATE eZForum_Category SET
 		                         Name='$name',
 		                         Description='$description',
-		                         IsPrivate='$this->IsPrivate'
+		                         IsPrivate='$this->IsPrivate',
+                                 SectionID='$this->SectionID'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -109,7 +110,7 @@ class eZForumCategory
 
         $forumList = $this->forums();
 
-        foreach( $forumList as $forum )
+        foreach ( $forumList as $forum )
         {
             $forum->delete();
         }
@@ -138,9 +139,10 @@ class eZForumCategory
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][$db->fieldName("ID")];
-                $this->Name = $category_array[0][$db->fieldName("Name")];
-                $this->Description = $category_array[0][$db->fieldName("Description")];
+                $this->ID = $category_array[0][$db->fieldName( "ID" )];
+                $this->Name = $category_array[0][$db->fieldName( "Name" )];
+                $this->Description = $category_array[0][$db->fieldName( "Description" )];
+                $this->SectionID = $category_array[0][$db->fieldName( "SectionID" )];
 
                 $ret = true;
             }
@@ -155,20 +157,18 @@ class eZForumCategory
     /*!
       Returns every category as an array of eZForumCategory objects.
     */
-    function getAll( )
+    function getAll()
     {
         $ret = array();
 
         $db =& eZDB::globalDatabase();
-
-        $db->array_query( $category_array, "SELECT ID FROM
-                                                   eZForum_Category" );
-                                                     
+        $db->array_query( $category_array, "SELECT ID FROM eZForum_Category" );
+                                                    
         $ret = array();
 
         foreach ( $category_array as $category )
         {
-            $ret[] = new eZForumCategory( $category[$db->fieldName("ID")] );
+            $ret[] = new eZForumCategory( $category[$db->fieldName( "ID" )] );
         }
         
         return $ret;
@@ -189,7 +189,7 @@ class eZForumCategory
 
        foreach ( $forum_array as $forum )
        {
-           $ret[] = new eZForum( $forum[$db->fieldName("ForumID")] );
+           $ret[] = new eZForum( $forum[$db->fieldName( "ForumID" )] );
        }
        
        return $ret;
@@ -261,6 +261,22 @@ class eZForumCategory
     }
 
     /*!
+      Sets the section of the category
+    */
+    function setSectionID( $value )
+    {
+        $this->SectionID = $value;
+    }
+
+    /*!
+      Returns the section of the category
+    */
+    function sectionID()
+    {
+        return $this->SectionID;
+    }
+
+    /*!
       Returns the forum name.
     */
     function name()
@@ -288,6 +304,7 @@ class eZForumCategory
     var $Name;
     var $Description;
     var $IsPrivate;
+    var $SectionID;
 
 }
 ?>
