@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.44 2000/12/13 07:15:01 ce Exp $
+// $Id: ezcompany.php,v 1.45 2000/12/14 11:03:50 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -47,7 +47,7 @@ include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
-include_once( "ezclassified/classes/ezclassified.php" );
+// include_once( "ezclassified/classes/ezclassified.php" );
 
 // include_once( "ezcontact/classes/ezonline.php" );
 
@@ -194,7 +194,7 @@ class eZCompany
         $company_array = array();
         $return_array = array();
 
-        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
+        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='y$categoryID'" );
 
             foreach( $company_array as $companyItem )
             {
