@@ -42,6 +42,7 @@ ezsession       projects/php/ezsession
 ezuser          projects/php/ezuser
 ezarticle       projects/php/ezarticle
 ezad            projects/php/ezad
+ezcv            projects/php/ezcv
 ezsite          projects/php/ezsite
 ezbug           projects/php/ezbug
 eztodo          projects/php/eztodo
