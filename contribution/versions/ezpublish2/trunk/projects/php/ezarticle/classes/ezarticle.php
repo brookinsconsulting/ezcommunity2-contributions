@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.68 2001/04/26 10:44:38 ce Exp $
+// $Id: ezarticle.php,v 1.69 2001/04/26 11:54:04 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -848,7 +848,7 @@ class eZArticle
     /*!
       Does a search in the article archive.
     */
-    function search( $queryText, $sortMode=time, $fetchNonPublished=true )
+    function search( $queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -921,7 +921,7 @@ class eZArticle
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                     AND
                     eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
+                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset, $limit" );
 
 
        for ( $i=0; $i < count($article_array); $i++ )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.8 2001/04/26 10:44:38 ce Exp $
+// $Id: search.php,v 1.9 2001/04/26 11:54:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -41,6 +41,7 @@ else
 }
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+$Limit = $ini->read_var( "eZArticleMain", "UserListLimit" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "search.php" );
@@ -63,12 +64,15 @@ $t->set_var( "current_category_description", $category->description() );
 
 $t->set_var( "search_text", $SearchText );
 
+if( !isset ( $Offset ) )
+    $Offset = 0;
+
 // articles
 
 if ( $SearchText )
 {
     $article = new eZArticle();
-    $articleList = $article->search( $SearchText, "time", false );
+    $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit );
     $totalCount = $article->searchCount( $SearchText, "time", false );
 
     $t->set_var( "url_text", urlencode ( $SearchText ) );
@@ -104,7 +108,6 @@ if ( count ( $articleList ) > 0 )
         $i++;
     }
 }
-$Limit = 10;
 
 eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "article_list_page_tpl" );
 
