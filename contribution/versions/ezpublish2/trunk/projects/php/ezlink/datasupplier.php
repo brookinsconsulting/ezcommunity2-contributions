@@ -1,5 +1,7 @@
 <?
+
 $PageCaching = $ini->read_var( "eZLinkMain", "PageCaching");
+
 switch ( $url_array[2] )
 {
     case "gotolink" :
