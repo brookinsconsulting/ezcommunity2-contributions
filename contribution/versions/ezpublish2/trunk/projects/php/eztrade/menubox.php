@@ -11,7 +11,7 @@
 </tr>
 <tr>
 	<td>
-	<a class="small" href="/trade/product/">
+	<a class="menu" href="/trade/product/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Shop main test 
 	</a>
@@ -19,7 +19,7 @@
 </tr>
 <tr>
 	<td>
-	<a class="small" href="/trade/productlist/">
+	<a class="menu" href="/trade/productlist/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Product list
 	</a>
@@ -27,7 +27,7 @@
 </tr>
 <tr>
 	<td>
-	<a class="small" href="/trade/search/">
+	<a class="menu" href="/trade/search/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Search
 	</a>
