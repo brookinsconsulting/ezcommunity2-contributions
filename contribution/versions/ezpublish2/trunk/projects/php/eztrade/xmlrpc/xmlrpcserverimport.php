@@ -28,7 +28,7 @@ $server->registerFunction( "assignToCategoies" );
 $server->processRequest();
 
 // Add a product to the rigth categories.
-function &addToGroup( $groupName, $product, $parentName, $design, $material )
+function &addToGroup( $groupName, $product, $parentName, $design, $material, $parentCheck )
 {
     $db =& eZDB::globalDatabase();
     $db->array_query( $checkArray, "SELECT ID FROM eZTrade_Category WHERE RemoteID='$groupName'" );
@@ -43,15 +43,21 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
     // Create the parent
     $parentArray = createIfNotExists( $parentName, $place->id() );
     $parent = $parentArray[0];
+    $parentID = $parent->id();
+    
+    if ( $parentCheck )
+    {
+        $db->array_query( $checkArray, "SELECT ID FROM eZTrade_Category WHERE Parent='$parentID' AND RemoteID='$groupName'" );
+    }
 
     $categoryID = $checkArray[0]["ID"];
 
     if ( count ( $checkArray ) == 0 )
     {
         $category = new eZProductCategory();
-        $category = $category->getByRemoteID( $groupName );
+        $category = $category->getByRemoteID( $groupName, $parentID );
 
-        if ( ( get_class( $category ) != "ezproductcategory" ) || ( $cateogry->id() == 0 ) )
+        if ( ( get_class( $category ) != "ezproductcategory" ) || ( $category->id() == 0 ) )
         {
             $category = new eZProductCategory();
             $category->setRemoteID( $groupName );
@@ -74,7 +80,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
     {
         $product->setCategoryDefinition( $productCategory );
 
-        addProductToGroup( $productCategory, $product );
+        addProductToGroup( $productCategory, $product, true );
 
 //          // 
 //          if ( $categoryCreated )
@@ -422,29 +428,25 @@ function belongsTo( $category )
 
     if ( isPartOf( $ringArray, $category ) )
     {
-        return "Ringe";
+        $ret[] = "Ringe";
     }
     if ( isPartOf( $halsArray, $category ) )
     {
-        return "Halsschmuck";
+        $ret[] = "Halsschmuck";
     }
-    if ( isPartOf( $orhArray, $category ) )
+    if ( isPartOf( $ketten, $category ) )
     {
-        return "Ohrschmuck";
-    }
-        if ( isPartOf( $ketten, $category ) )
-    {
-        return "Ketten";
+        $ret[] = "Ketten";
     }
     if ( isPartOf( $armArray, $category ) )
     {
-        return "Armschmuck";
+        $ret[] = "Armschmuck";
     }
     if ( isPartOf( $ansteArray, $category ) )
     {
-        return "Ansteckschmuck";
+        $ret[] = "Ansteckschmuck";
     }
-
+    return $ret;
 }
 
 // check if a category is a part of the categoryArray
@@ -734,7 +736,7 @@ function insert( $args )
             }
             else
             {
-               $value->setRemoteID( $optionStruct["RemoteID"]->value() ); 
+                $value->setRemoteID( $optionStruct["RemoteID"]->value() ); 
             }
             if ( $struct["productShowPrice"]->value() == false )
             {
@@ -770,10 +772,19 @@ function insert( $args )
     }
 
     // Find out what category this product belongs to.
-    $parent = belongsTo( $productCategory );
+    $parents = belongsTo( $productCategory );
 
     // Add the product to the group.
-    $category = addToGroup( $productCategory, $product, $parent, $oldDesign, $oldCategoryName );
+
+    if ( count ( $parents ) > 1 )
+    {
+        foreach ( $parents as $parent )
+        {
+            $category = addToGroup( $productCategory, $product, $parent, $oldDesign, $oldCategoryName, true );
+        }
+    }
+    elseif ( count ( $parents ) == 1 )
+        $category = addToGroup( $productCategory, $product, $parents[0], $oldDesign, $oldCategoryName, true );
 
 //      if ( $update == true )
 //      {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.35 2001/03/26 18:35:47 jb Exp $
+// $Id: ezproductcategory.php,v 1.36 2001/03/27 11:09:04 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -529,7 +529,6 @@ class eZProductCategory
                                              ORDER BY Placement DESC LIMIT 1", 0, 1 );
         $placement = count( $qry ) == 1 ? $qry[0]["Placement"] + 1 : 1;
 
-        print( "her" );
         $query = "INSERT INTO eZTrade_ProductCategoryLink
                   SET CategoryID='$categoryid',
                       ProductID='$prodID',
@@ -829,16 +828,27 @@ class eZProductCategory
     /*!
       Check if there are a category where RemoteID == $id. Return the category if true.
     */
-    function getByRemoteID( $id )
+    function getByRemoteID( $id, $parent=false )
     {
         $this->dbInit();
 
         $category = false;
-               
-        $this->Database->array_query( $res, "SELECT ID FROM
+
+        if ( $parent )
+        {
+            $this->Database->array_query( $res, "SELECT ID FROM
+                                            eZTrade_Category
+                                            WHERE Parent='$parent' AND RemoteID='$id'" );
+
+        }
+        else
+        {
+            $this->Database->array_query( $res, "SELECT ID FROM
                                             eZTrade_Category
                                             WHERE RemoteID='$id'" );
-
+                
+        }
+        
        if ( count( $res ) == 1 )
        {
            $category = new eZProductCategory( $res[0]["ID"] );
