@@ -229,6 +229,10 @@ switch ( $url_array[2] )
 
         if ( isset( $Store ) )
             $Action = "Store";
+
+        if ( isset( $Delete ) )
+            $Action = "DeleteSelected";
+        
         
         include( "eztrade/admin/shippingtypes.php" );
     }        

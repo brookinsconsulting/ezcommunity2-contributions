@@ -44,7 +44,14 @@
 
 <tr>
 	<td colspan="3">&nbsp;</td>
-	<th>{intl-shipping_charges}:</th>
+	<th>{intl-shipping_charges}:
+
+	<select name="ShippingTypeID">
+	<!-- BEGIN shipping_type_tpl -->
+	<option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
+	<!-- END shipping_type_tpl -->
+	</th>
+
 	<td align="right">
 	{shipping_cost}
 	</td>
@@ -71,7 +78,7 @@
 <br />
 <select name="BillingAddressID">
 <!-- BEGIN billing_option_tpl -->
-<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place}, {country}</option>
 <!-- END billing_option_tpl -->
 </select>
 <!-- END billing_address_tpl -->
@@ -79,7 +86,7 @@
 <h2>{intl-shipping_to}:</h2>
 <select name="ShippingAddressID">
 <!-- BEGIN shipping_address_tpl -->
-<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place}, {country}</option>
 <!-- END shipping_address_tpl -->
 <!-- BEGIN wish_user_tpl -->
 <option value="{wish_user_address_id}">{wish_first_name} {wish_last_name}</option>
@@ -100,11 +107,17 @@
 
 <br /><br />
 
+
+<hr noshade="noshade" size="4" />
+
+<input type="submit" name="Recalculate" value="{intl-recalculate}" />
+
 <hr noshade="noshade" size="4" />
 
 
-<input type="hidden" name="SendOrder" value="true" />
-<input class="okbutton" type="submit" value="{intl-send}" />
+
+<input class="okbutton" type="submit" name="SendOrder" value="{intl-send}" />
+
 </form>
 
 

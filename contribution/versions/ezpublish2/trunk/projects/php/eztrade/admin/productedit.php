@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.35 2001/02/23 10:07:13 bf Exp $
+// $Id: productedit.php,v 1.36 2001/02/23 14:43:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -469,6 +469,7 @@ if ( $Action == "Edit" )
         $t->set_var( "is_hot_deal_checked", "checked" );
 
     $VatType =& $product->vatType();    
+    $ShippingGroup =& $product->shippingGroup();    
 }
 
 $category = new eZProductCategory();
@@ -559,6 +560,15 @@ $groups =& $group->getAll();
 
 foreach ( $groups as $group )
 {
+    if ( $ShippingGroup  and  ( $ShippingGroup->id() == $group->id() ) )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    
     $t->set_var( "shipping_group_id", $group->id() );
     
     $t->set_var( "shipping_group_name", $group->name() );

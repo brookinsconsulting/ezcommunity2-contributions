@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: shippingtypes.php,v 1.1 2001/02/22 14:57:42 bf Exp $
+// $Id: shippingtypes.php,v 1.2 2001/02/23 14:43:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Feb-2001 11:38:37 bf>
@@ -38,7 +38,13 @@ include_once( "eztrade/classes/ezshippinggroup.php" );
 
 if ( $Action == "Store" )
 {
-    $i =0;
+    if ( is_numeric( $DefaultTypeID ) )
+    {
+        $type = new eZShippingType( $DefaultTypeID );
+        $type->setAsDefault();        
+    }
+        
+    $i = 0;
     foreach ( $TypeID as $id )
     {
         $shippingType = new eZShippingType( $id );
@@ -84,6 +90,25 @@ if ( $Action == "AddGroup" )
     $shippingType->store();
 }
 
+
+if ( $Action == "DeleteSelected" )
+{
+    if ( count( $DeleteType ) > 0 )
+    foreach ( $DeleteType as $id )
+    {
+        $shippingType = new eZShippingType( $id );
+        $shippingType->delete();
+    }
+
+    if ( count( $DeleteGroup ) > 0 )
+    foreach ( $DeleteGroup as $id )
+    {
+        $shippingGroup = new eZShippingGroup( $id );
+        $shippingGroup->delete();
+    }
+}
+
+
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "shippingtypes.php" );
 
@@ -108,6 +133,11 @@ foreach ( $types as $type )
 {
     $t->set_var( "shipping_type_name", $type->name() );
     $t->set_var( "type_id", $type->id() );
+    if ( $type->isDefault() )
+        $t->set_var( "default_checked", "checked" );
+    else
+        $t->set_var( "default_checked", "" );
+        
     $t->parse( "type_item", "type_item_tpl", true );
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezshippinggroup.php,v 1.1 2001/02/22 14:57:42 bf Exp $
+// $Id: ezshippinggroup.php,v 1.2 2001/02/23 14:43:50 bf Exp $
 //
 // Definition of eZShippingGroup class
 //
@@ -128,6 +128,8 @@ class eZShippingGroup
     {
         $db =& eZDB::globalDatabase();
 
+        $db->query( "DELETE FROM eZTrade_ShippingValue WHERE ShippingGroupID='$this->ID'" );
+        
         $db->query( "DELETE FROM eZTrade_ShippingGroup WHERE ID='$this->ID'" );
     }
 
@@ -178,7 +180,7 @@ class eZShippingGroup
                 AddValue='$addValue',
                  ShippingTypeID='$typeID', ShippingGroupID='$this->ID'" );
             }
-        }        
+        }
     }
 
     /*!

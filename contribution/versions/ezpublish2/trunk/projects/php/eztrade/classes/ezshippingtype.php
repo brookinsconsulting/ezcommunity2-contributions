@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezshippingtype.php,v 1.1 2001/02/22 14:57:42 bf Exp $
+// $Id: ezshippingtype.php,v 1.2 2001/02/23 14:43:50 bf Exp $
 //
 // Definition of eZShippingType class
 //
@@ -62,6 +62,7 @@ class eZShippingType
         {
             $db->query( "INSERT INTO eZTrade_ShippingType SET
 		                 Name='$this->Name',
+		                 IsDefault='$this->IsDefault',
 		                 Created=now()" );
         
             $this->ID = mysql_insert_id();
@@ -70,6 +71,7 @@ class eZShippingType
         {
             $db->query( "UPDATE eZTrade_ShippingType SET
                         Name='$this->Name',
+  	                    IsDefault='$this->IsDefault',
   	                    Created=Created
                         WHERE ID='$this->ID'" );
         }
@@ -96,6 +98,7 @@ class eZShippingType
             {
                 $this->ID =& $shipping_array[0][ "ID" ];
                 $this->Name =& $shipping_array[0][ "Name" ];
+                $this->IsDefault =& $shipping_array[0][ "IsDefault" ];
             }
         }
     }
@@ -127,8 +130,32 @@ class eZShippingType
     {
         $db =& eZDB::globalDatabase();
 
+        $db->query( "DELETE FROM eZTrade_ShippingValue WHERE ShippingTypeID='$this->ID'" );
+
         $db->query( "DELETE FROM eZTrade_ShippingType WHERE ID='$this->ID'" );
     }
+
+    /*!
+      Sets this shipping type to be the default shipping type.
+    */
+    function setAsDefault()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='0', Created=Created" );
+        $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='1', Created=Created WHERE ID='$this->ID'" );
+    }
+
+    /*!
+      Returns true if this is the default type.
+    */
+    function isDefault()
+    {
+        if ( $this->IsDefault == 0 )
+            return false;
+        else
+            return true;
+    }    
 
     /*!
       Returns the object ID to the option. This is the unique ID stored in the database.
@@ -157,6 +184,7 @@ class eZShippingType
 
     var $ID;
     var $Name;
+    var $IsDefault;
 }
 
 ?>

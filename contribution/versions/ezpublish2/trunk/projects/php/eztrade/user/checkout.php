@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.36 2001/02/20 16:12:48 bf Exp $
+// $Id: checkout.php,v 1.37 2001/02/23 14:43:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -28,13 +28,13 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
-$ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
 $ForceSSL = $ini->read_var( "eZTradeMain", "ForceSSL" );
 
 include_once( "ezuser/classes/ezuser.php" );
@@ -48,6 +48,11 @@ include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
+
+// shipping
+include_once( "eztrade/classes/ezshippingtype.php" );
+include_once( "eztrade/classes/ezshippinggroup.php" );
+
 
 include_once( "eztrade/classes/ezcheckout.php" );
 
@@ -74,7 +79,7 @@ if ( $ForceSSL == "enabled" )
     if ( $SERVER_PORT != '443' )
     {
 //          print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
-        header ("Location: https://" . $HTTP_HOST . $REQUEST_URI );
+        eZHTTPTool::hheader("Location: https://" . $HTTP_HOST . $REQUEST_URI );
         exit;
     }
 }
@@ -84,7 +89,7 @@ if ( $ForceSSL == "enabled" )
 $cart = $cart->getBySession( $session, "Cart" );
 if ( !$cart )
 {
-    Header( "Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/" );
 }
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
@@ -103,15 +108,17 @@ $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
 $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
+                
+$t->set_block( "cart_item_list_tpl", "shipping_type_tpl", "shipping_type" );
+
 $t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
+
 if ( $SendOrder == "true" ) 
 {
-    $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
-    
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
@@ -139,7 +146,7 @@ if ( $SendOrder == "true" )
     $order_id = $order->id();
 
     // fetch the cart items
-    $items = $cart->items( $CartType );
+    $items = $cart->items(  );
 
     foreach( $items as $item )
     {
@@ -193,10 +200,51 @@ if ( $SendOrder == "true" )
 }
 
 
+
+// show the shipping types
+
+$type = new eZShippingType();
+$types = $type->getAll();
+
+$currentTypeID = eZHTTPTool::getVar( "ShippingTypeID" );
+    
+$currentShippingType = false;
+foreach ( $types as $type )
+{
+    $t->set_var( "shipping_type_id", $type->id() );
+    $t->set_var( "shipping_type_name", $type->name() );
+
+    
+    if ( is_numeric( $currentTypeID ) )
+    {
+        if (  $currentTypeID == $type->id() )
+        {
+            $currentShippingType = $type;
+            $t->set_var( "type_selected", "selected" );
+        }
+        else
+            $t->set_var( "type_selected", "" );            
+    }
+    else
+    {
+        if ( $type->isDefault() )
+        {
+            $currentShippingType = $type;
+            $t->set_var( "type_selected", "selected" );
+        }
+        else
+            $t->set_var( "type_selected", "" );
+    }
+
+    $t->parse( "shipping_type", "shipping_type_tpl", true );
+}
+
+
+
 // print the cart contents
 {
 // fetch the cart items
-    $items = $cart->items( $CartType );
+    $items = $cart->items( );
 
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
@@ -205,6 +253,8 @@ if ( $SendOrder == "true" )
     $sum = 0.0;
     $totalVAT = 0.0;
 
+    $ShippingCostValues = array();
+    
     foreach ( $items as $item )
     {
         $product = $item->product();
@@ -264,7 +314,8 @@ if ( $SendOrder == "true" )
         $currency->setValue( $price );
 
         $sum += $price;
-        
+
+        // VAT handling
         $totalVAT += $product->vat() * $item->count();
         
         $t->set_var( "product_name", $product->name() );
@@ -292,11 +343,13 @@ if ( $SendOrder == "true" )
         }
         
         $t->parse( "cart_item", "cart_item_tpl", true );
-        
+
         $i++;
     }
 
-    $shippingCost = $ShippingCost;
+
+    $shippingCost = $cart->shippingCost( $currentShippingType );
+
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
@@ -306,8 +359,8 @@ if ( $SendOrder == "true" )
     
     $currency->setValue( $totalVAT );
     $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
-
 }
+
 
 $t->parse( "cart_item_list", "cart_item_list_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.5 2001/02/20 16:12:48 bf Exp $
+// $Id: smallcart.php,v 1.6 2001/02/23 14:43:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -33,7 +33,6 @@ include_once( "ezuser/classes/ezuser.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -122,12 +121,7 @@ foreach ( $items as $item )
     $i++;
 }
 
-$shippingCost = $ShippingCost;
 
-$currency->setValue( $shippingCost );
-$t->set_var( "shipping_cost", $locale->format( $currency ) );
-
-$sum += $shippingCost;
 $currency->setValue( $sum );
 $t->set_var( "cart_sum", $locale->format( $currency ) );
 $currency->setValue( $totalVAT );

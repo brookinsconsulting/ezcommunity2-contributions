@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.38 2001/02/23 10:07:13 bf Exp $
+// $Id: ezproduct.php,v 1.39 2001/02/23 14:43:50 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1261,7 +1261,7 @@ class eZProduct
        $ret = false;
        if ( is_numeric( $this->ShippingGroupID ) and ( $this->ShippingGroupID > 0 ) )
        {
-           $ret = new eZShippingGroupID( $this->ShippingGroupID );
+           $ret = new eZShippingGroup( $this->ShippingGroupID );
        }
 
        return $ret;

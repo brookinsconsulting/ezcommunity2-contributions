@@ -14,7 +14,12 @@
 	<th colspan="2">
 
 	 <input type="hidden" name="TypeID[]" value="{type_id}" />
+	 <input type="radio" name="DefaultTypeID" {default_checked} value="{type_id}" />
+
 	 <input type="text" size="15" name="TypeName[]" value="{shipping_type_name}" />
+
+	 <input type="checkbox" name="DeleteType[]" value="{type_id}" />
+
 	</th>
  	<!-- END type_item_tpl -->
 <tr>
@@ -24,6 +29,7 @@
 	<th class="{td_class}">
 	 <input type="hidden" name="GroupID[]" value="{group_id}" />
 	 <input type="text" size="15" name="GroupName[]" value="{shipping_group_name}" />
+	 <input type="checkbox" name="DeleteGroup[]" value="{group_id}" />
 
 	</th>
        <!-- BEGIN type_group_item_tpl -->

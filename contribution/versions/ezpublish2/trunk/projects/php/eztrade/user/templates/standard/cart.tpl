@@ -50,13 +50,6 @@
 
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-shipping}:</th>
-	<td align="right">
-	{shipping_cost}
-	</td>
-</tr>
-<tr>
-	<td colspan="2">&nbsp;</td>
 	<th colspan="2">{intl-vat}:</th>
 	<td align="right">
 	{cart_vat_sum}

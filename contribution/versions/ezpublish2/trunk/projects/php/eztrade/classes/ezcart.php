@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.11 2001/02/09 14:43:00 ce Exp $
+// $Id: ezcart.php,v 1.12 2001/02/23 14:43:50 bf Exp $
 //
 // Definition of eZCart class
 //
@@ -256,6 +256,69 @@ class eZCart
        }
 
        return $ret;       
+    }
+
+    /*!
+      Calculates the shipping cost with the given
+      shippint type.
+
+      The argument must be a eZShippingType object.
+    */
+    function shippingCost( $shippingType )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $items =& $this->items( );
+       $ShippingCostValues = array();
+       
+       foreach ( $items as $item )
+       {
+           $product =& $item->product();
+           $shippingGroup =& $product->shippingGroup();
+           $values =& $shippingGroup->startAddValue( $shippingType );
+           
+           for ( $i=0; $i<$item->count(); $i++  )
+           {
+               $ShippingCostValues[] = $values;
+
+           }
+       }
+
+       
+       // find the max start value
+       $max = 0;
+       $maxIndex = -1;
+       $i=0;
+       foreach ( $ShippingCostValues as $value )
+       {
+           if ( $value["StartValue"] > $max )
+           {
+               $maxIndex = $i;
+               $max = $value["StartValue"];
+           }
+           
+           $i++;
+       }
+
+       // calculate the shipping cost.
+       $cost = 0;
+       $i=0;
+       foreach ( $ShippingCostValues as $value )
+       {
+           if ( $i == $maxIndex )
+           {
+               $cost += $max;
+           }
+           else
+           {
+               $cost += $value["AddValue"];
+           }
+        
+           $i++;
+       }
+
+       return $cost;
     }
 
     /*!
