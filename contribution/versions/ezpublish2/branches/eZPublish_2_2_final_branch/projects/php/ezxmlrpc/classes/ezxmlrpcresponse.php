@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxmlrpcresponse.php,v 1.15.2.2 2001/11/16 16:21:00 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.15.2.3 2001/12/10 12:29:48 bf Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -88,7 +88,7 @@ class eZXMLRPCResponse
         }
         */
 
-        $domTree =& eZXML::domTree( $stream );
+        $domTree =& eZXML::domTree( $stream, array( "TrimWhiteSpace" => true ) );
         
         foreach ( $domTree->children as $response )
         {

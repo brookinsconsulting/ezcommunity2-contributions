@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.8.2.5 2001/11/19 11:28:51 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.8.2.6 2001/12/10 12:29:48 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -202,7 +202,7 @@ class eZXMLRPCCall
 //        $domTree =& qdom_tree( $rawResponse );
 //        $domTree =& xmltree( $rawResponse );
  
-        $domTree =& eZXML::domTree( $rawResponse );
+        $domTree =& eZXML::domTree( $rawResponse, array( "TrimWhiteSpace" => true ) );
 
 //        print_r( $domTree ); 
         
