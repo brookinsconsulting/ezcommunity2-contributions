@@ -14,7 +14,6 @@ if ( !$session->get( $AuthenticatedSession ) )
     die( "Du må logge deg på." );    
 }        
 
-
 // Legg til
 if ( $Action == "insert" )
 {
@@ -27,15 +26,14 @@ if ( $Action == "insert" )
     $note->setUserID( $usr->id() );
 
     $note->store();
-        
-    print( "inserting" ); 
-
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "noteslist.php " );
 }
 
 // Oppdatere
 if ( $Action == "update" )
 {
     $note = new eZNote();
+    print( "-->".$NID );
     $note->get( $NID );
     $note->setTitle( $Title );
     $note->setBody( $Body );
@@ -64,7 +62,8 @@ $t->set_file( array(
 
 
 $t->set_var( "message", "Legg til ny notat" );
-$t->set_var( "action", "insert" );
+//$t->set_var( "action", "insert" );
+$action = "insert";
 $t->set_var( "submit_text", "legg til" );
 
 $t->set_var( "title", "" );
@@ -74,14 +73,17 @@ if ( $Action == "edit" )
 {
     $note = new eZNote();
     $note->get( $NID );
-    $note->title( $Title );
-    $note->Body( $Body );
 
+    $t->set_var( "note_id", $NID );
+    $t->set_var( "title", $note->title() );
+    $t->set_var( "body", $note->body() );
+
+    $action = "update";
     $t->set_var( "submit_text", "Lagre endringer" );
-    $t->set_var( "action_value", "update" );
     $t->set_var( "message", "Rediger notat" );
 }
-    
+
+$t->set_var( "action_value", $action );
 $t->set_var( "document_root", $DOCUMENTROOT );
 
 $t->pparse( "output", "note_edit" );

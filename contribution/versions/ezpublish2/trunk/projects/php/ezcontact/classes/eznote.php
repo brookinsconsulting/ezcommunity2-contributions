@@ -37,7 +37,7 @@ class eZNote
     function update()
     {
         $this->dbInit();
-        query( "UPDATE Note set Title='$this->Title' Body='$this->Body' WHERE ID='$this->ID'" );
+        query( "UPDATE Note set Title='$this->Title', Body='$this->Body' WHERE ID='$this->ID'" );
     }
 
 

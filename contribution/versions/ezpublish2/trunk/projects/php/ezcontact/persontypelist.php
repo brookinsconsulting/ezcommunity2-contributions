@@ -31,7 +31,7 @@ for ( $i=0; $i<count( $persontype_array ); $i++ )
     else
     {
         $t->set_var( "bg_color", "#dddddd" );
-    }  
+    }
 
     $t->set_var( "persontype_id", $persontype_array[$i][ "ID" ] );
     $t->set_var( "persontype_name", $persontype_array[$i][ "Name" ] );

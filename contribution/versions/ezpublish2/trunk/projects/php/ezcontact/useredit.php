@@ -7,21 +7,6 @@ require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezusergroup.php";
 
 
-// sjekke session
-{
-    include( $DOCUMENTROOT . "checksession.php" );
-}
-
-$t = new Template( "." );
-$t->set_file( array(
-    "user_edit_page" => $DOCUMENTROOT . "templates/useredit.tpl",
-    "user_group_select" => $DOCUMENTROOT . "templates/usergroupselect.tpl"
-    ) );    
-
-$t->set_var( "submit_text", "Legg til" );
-$t->set_var( "action_value", "insert" );
-$t->set_var( "user_id", "" );
-
 // Slett
 if ( $Action == "delete" )
 {
@@ -41,10 +26,13 @@ if ( $Action == "insert" )
   }
   else
   {
-    $user = new eZUser( $Login, $Pwd );
+    $user = new eZUser( );
+    $user->setLogin( $Login );
+    $user->setPassword( $Pwd );
     $user->setGroup( $UserGroup );
     $user->store();
   }
+   printRedirect( "../index.php?page=" . $DOCUMENTROOT . "userlist.php" );  
 }
 
 // Oppdater
@@ -56,10 +44,32 @@ if ( $Action == "update" )
   $user->setLogin( $Login );
   $user->setGroup( $UserGroup );
 
+  if (( $Pwd == $PwdVer ) && $Pwd != "" )
+  {
+      $user->setPassword( $Pwd );
+  }
+
+
   $user->update();
 
    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "userlist.php" );
 }
+
+// sjekke session
+{
+    include( $DOCUMENTROOT . "checksession.php" );
+}
+
+$t = new Template( "." );
+$t->set_file( array(
+    "user_edit_page" => $DOCUMENTROOT . "templates/useredit.tpl",
+    "user_group_select" => $DOCUMENTROOT . "templates/usergroupselect.tpl"
+    ) );    
+
+$t->set_var( "submit_text", "Legg til" );
+$t->set_var( "action_value", "insert" );
+$t->set_var( "user_id", "" );
+
 // Editer
 if ( $Action == "edit" )
 {

@@ -1,7 +1,9 @@
 <?
+
 include  "template.inc";
 require "ezphputils.php";
 require "ezcontact/dbsettings.php";
+
 require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezusergroup.php";

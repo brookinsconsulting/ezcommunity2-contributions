@@ -48,7 +48,13 @@ class eZUser
     function update()
     {
         $this->dbInit();
-        query( "Update Usr set Login='$this->User', Pwd=PASSWORD('$this->Password'), Grp='$this->Group' WHERE ID='$this->ID'" );
+        query( "Update Usr set Login='$this->User', Grp='$this->Group' WHERE ID='$this->ID'" );
+
+        if ( $this->Password != "" )
+        {
+            query( "Update Usr set Pwd=PASSWORD('$this->Password')  WHERE ID='$this->ID'" );
+        }
+        
     }
   
     /*

@@ -2,12 +2,10 @@
 include  "template.inc";
 require "ezphputils.php";
 require "ezcontact/dbsettings.php";
+
 require  $DOCUMENTROOT . "classes/ezsession.php";
 require  $DOCUMENTROOT . "classes/ezuser.php";
 require  $DOCUMENTROOT . "classes/ezusergroup.php";
-
-
-
 
 // Slette
 if ( $Action == "delete" )
@@ -127,18 +125,18 @@ if ( $Action == "update" )
   printRedirect( "../index.php?page=" . $DOCUMENTROOT . "usergrouplist.php" );
 }
 
+// sjekke session
+{
+  include(  $DOCUMENTROOT . "checksession.php" );
+}
 
 $t = new Template( "." );
-$t->set_file( "user_page",  $DOCUMENTROOT . "templates/usergroupedit.tpl" );           
+$t->set_file( array( "user_page" =>  $DOCUMENTROOT . "templates/usergroupedit.tpl" ) );   
 
 $t->set_var( "submit_text", "Legg til" );
 $t->set_var( "action_value", "insert" );
 $t->set_var( "user_group_id", "" );
 
-// sjekke session
-{
-  include(  $DOCUMENTROOT . "checksession.php" );
-}
 
 if ( $Action == "edit" )
 {
