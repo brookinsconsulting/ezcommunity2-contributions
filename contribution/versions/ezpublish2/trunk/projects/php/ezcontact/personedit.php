@@ -186,7 +186,7 @@ $t->set_file( array(
                     ) );
 
 
-$message = "Legg til ny kontakt person informasjon";
+$message = "Registrer ny kontaktperson";
 $submit_text = "Legg til";
 $action_value = "insert";
 
@@ -262,7 +262,7 @@ if ( $Action == "edit" )
     print( $CompanyID );
     $Comment = $editPerson->comment();
 
-    $message = "Rediger kontakt person informasjon";
+    $message = "Rediger personinformasjon";
     $submit_text = "Endre informasjon";    
     $action_value = "update";
     $person_id = $PID;

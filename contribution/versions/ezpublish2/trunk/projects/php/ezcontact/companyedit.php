@@ -213,6 +213,8 @@ $company = new eZCompany();
 $addressType = new eZAddressType();
 $phoneType = new eZPhoneType();
 
+$message = "Registrer nytt kontaktfirma";
+
 $company_type_array = $companyType->getAll( );
 $address_type_array = $addressType->getAll( );
 $phone_type_array = $phoneType->getAll();
@@ -276,6 +278,8 @@ if ( $Action == "edit" )
     $CompanyName = $company->name();
     $Comment = $company->comment();
     $CompanyType = $company->contactType();
+
+    $message = "Rediger firmainformasjon";
 
     $phone = new eZPhone( );
     
@@ -373,7 +377,7 @@ $t->set_var( "phone_edit_id", $PhoneID );
 
 $t->set_var( "submit_text", "lagre endringer" );
 
-$t->set_var( "message", "Nytt kontakfirma" );
+$t->set_var( "message", $message );
 $t->set_var( "document_root", $DOCUMENTROOT );
 
 $t->set_var( "edit_mode", $Action );
