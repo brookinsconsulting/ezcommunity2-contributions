@@ -191,7 +191,8 @@ Add a publish user in MySQL, to add a user you can use the MySQL client
 mysql>grant all on publish.* to publish@localhost identified by "secret";
 \layout Itemize
 
-Dump all the sql data from sql/publish.sql into your database
+Dump all the sql data from sql/publish.sql into your database.
+ Remember that this command will remove the existing publish tables.
 \layout LyX-Code
 
 # mysql -uroot -p publish < sql/publish.sql

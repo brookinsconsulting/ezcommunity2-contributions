@@ -107,7 +107,8 @@ ServerAlias admin.publish.org
 
 mysql>grant all on publish.* to publish@localhost identified by "secret";
 
-* Dump all the sql data from sql/publish.sql into your database
+* Dump all the sql data from sql/publish.sql into your database. Remember
+  that this command will remove the existing publish tables.
 
 # mysql -uroot -p publish < sql/publish.sql
 
