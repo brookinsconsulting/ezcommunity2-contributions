@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.20 2001/06/27 11:59:41 jhe Exp $
+// $Id: ezimagecategory.php,v 1.21 2001/06/27 13:53:51 jb Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -212,6 +212,28 @@ class eZImageCategory
     }
     
     /*! 
+      Returns the number of categories in the the category given as parameter as parent.
+    */  
+    function countByParent( $parent  )
+    { 
+        if ( get_class( $parent ) == "ezimagecategory" ) 
+        { 
+            $db =& eZDB::globalDatabase();
+        
+            $parentID = $parent->id(); 
+
+            $db->query_single( $count, "SELECT count( ID ) AS Count FROM eZImageCatalogue_Category
+                                        WHERE ParentID='$parentID'", "Count" );
+
+            return $count;
+        } 
+        else 
+        { 
+            return 0;
+        } 
+    } 
+
+    /*! 
       Returns the categories with the category given as parameter as parent. 
       
       If $showAll is set to true every category is shown. By default the categories
@@ -219,7 +241,7 @@ class eZImageCategory
       
       The categories are returned as an array of eZImageCategory objects.      
     */  
-    function getByParent( $parent  )
+    function getByParent( $parent, $offset = 0, $max = -1 )
     { 
         if ( get_class( $parent ) == "ezimagecategory" ) 
         { 
@@ -232,7 +254,8 @@ class eZImageCategory
 
             $db->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category
                                           WHERE ParentID='$parentID'
-                                          ORDER BY Name" );
+                                          ORDER BY Name", array( "Limit" => $max,
+                                                                 "Offset" => $offset ) );
 
             for ( $i=0; $i<count($category_array); $i++ ) 
             { 
@@ -507,6 +530,32 @@ class eZImageCategory
     }
 
     
+    /*!
+      Returns every images in a category as a array of eZImage objects.
+    */
+    function imageCount()
+    {
+        if ( $limit == 0 )
+        {
+            $ini =& INIFile::globalINI();
+            $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
+        }
+
+        $db =& eZDB::globalDatabase();
+
+        $db->query_single( $count, "
+                SELECT count( DISTINCT eZImageCatalogue_Image.ID ) AS Count
+                FROM eZImageCatalogue_Image, eZImageCatalogue_Category, eZImageCatalogue_ImageCategoryLink
+                WHERE 
+                eZImageCatalogue_ImageCategoryLink.ImageID = eZImageCatalogue_Image.ID
+                AND
+                eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
+                AND
+                eZImageCatalogue_Category.ID='$this->ID'", "Count" );
+
+        return $count;
+    } 
+
     /*!
       Returns every images in a category as a array of eZImage objects.
     */
