@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.98 2001/09/21 14:28:48 jhe Exp $
+// $Id: ezarticlecategory.php,v 1.99 2001/09/21 15:25:44 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1108,7 +1108,7 @@ class eZArticleCategory
        if ( $user )
        {
            $groups =& $user->groups( false );
-           
+
            foreach ( $groups as $group )
            {
                $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
