@@ -1,29 +1,24 @@
 <!-- wishlist.tpl -->
-
 <form action="/trade/wishlist/" method="post">
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr>
-    <td>
-      <h1>{intl-wishlist}</h1>
-    </td>
-    <td align="right">
-     
-     <!-- BEGIN public_wishlist_tpl -->
-      {intl-public_wishlist_text}
-      <input class="okbutton" type="submit" name="IsPublicButton" value="{intl-non_public_wishlist}" />
-      <!-- END public_wishlist_tpl -->
-      <!-- BEGIN non_public_wishlist_tpl -->
-      {intl-non_public_wishlist_text}
-      <input class="okbutton" type="submit" name="IsPublicButton" value="{intl-public_wishlist}" />
-      <!-- END non_public_wishlist_tpl -->
-      
-    </td>
-<tr>
-    <td colspan="2">
-
-      <hr noshade="noshade" size="1" />
-      <!-- BEGIN empty_wishlist_tpl -->
+    <tr>
+	<td>
+    	    <h1>{intl-wishlist}</h1>
+	</td>
+	<td align="right">
+	    <!-- BEGIN public_wishlist_tpl -->
+    	    {intl-public_wishlist_text}
+    	    <input class="okbutton" type="submit" name="IsPublicButton" value="{intl-non_public_wishlist}" />
+    	    <!-- END public_wishlist_tpl -->
+    	    <!-- BEGIN non_public_wishlist_tpl -->
+    	    {intl-non_public_wishlist_text}
+    	    <input class="okbutton" type="submit" name="IsPublicButton" value="{intl-public_wishlist}" />
+    	    <!-- END non_public_wishlist_tpl -->
+	</td>
+    <tr>
+	<td colspan="2">
+	    <hr noshade="noshade" size="1" />
+    	    <!-- BEGIN empty_wishlist_tpl -->
       <h2>{intl-empty_wishlist}</h2>
       <!-- END empty_wishlist_tpl --> <!-- BEGIN wishlist_item_list_tpl -->
       <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -34,9 +29,7 @@
 		  <th>{intl-action}:</th>
 		  <th>{intl-someone_has_bought_this}:</th>
 		  <!-- BEGIN product_available_header_tpl -->
-
 		  <!-- END product_available_header_tpl -->
-		  <th>{intl-product_qty}:</th>
 		  <th align="right">{intl-product_price}:</th>
 		  <th>&nbsp;</th>
 		</tr>
@@ -96,20 +89,21 @@
     </td>
   </tr>
 </table>
-<input type="hidden" name="Action" value="Refresh" />
+</form>
+
 <!-- BEGIN wishlist_checkout_tpl -->
-<table border="0" width="100%">
-<tr>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
 	<td>
-          
-	  <input class="okbutton" type="submit" value="{intl-update}" />
+	    <form action="/trade/sendwishlist/" method="post">
+	        <input type="submit" value="{intl-send_wishlist}" />
+	    </form>
 	</td>
-</tr>
-<tr>
-	<td align="center">
-	  <a href="/trade/sendwishlist/">{intl-send_wishlist}</a>
+    </tr>
+    <tr>
+	<td>
+	    {intl-explain}
 	</td>
-</td>
+    </tr>
 </table>
 <!-- END wishlist_checkout_tpl -->
-</form>
