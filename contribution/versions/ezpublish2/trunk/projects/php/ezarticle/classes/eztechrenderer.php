@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.34 2000/11/02 16:41:00 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.35 2000/11/02 18:11:54 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -142,6 +142,7 @@ class eZTechRenderer
             $articleID = $this->Article->id();
 
             $i=0;
+            $this->$PrevTag = "";
             foreach ( $xml->root->children as $child )
             {
                 if ( $child->name == "intro" )
@@ -159,6 +160,7 @@ class eZTechRenderer
 
                         $intro = $this->renderImage( $intro, $paragraph, $articleImages );
 
+                        $this->PrevTag = $paragraph->name;
                     }
                 }
             }
@@ -186,6 +188,7 @@ class eZTechRenderer
             $intro = "";
             $body = "";
 
+            $this->$PrevTag = "";
             $articleImages = $this->Article->images();
             $articleID = $this->Article->id();
             
@@ -205,6 +208,8 @@ class eZTechRenderer
                         $intro = $this->renderLink( $intro, $paragraph );
 
                         $intro = $this->renderImage( $intro, $paragraph, $articleImages );
+
+                        $this->PrevTag = $paragraph->name;
                     }
 
                 }
@@ -220,6 +225,7 @@ class eZTechRenderer
             foreach ( $body as $page )
             {
                 $pageContent = "";
+                $this->$PrevTag = "";
                 // loop on the contents of the pages
                 if ( count( $page->children ) > 0 )
                 foreach ( $page->children as $paragraph )
@@ -233,6 +239,8 @@ class eZTechRenderer
                     $pageContent = $this->renderLink( $pageContent, $paragraph );
 
                     $pageContent = $this->renderImage( $pageContent, $paragraph, $articleImages );
+
+                    $this->PrevTag = $paragraph->name;
                 }
 
                 
@@ -263,7 +271,10 @@ class eZTechRenderer
         {
             $paragraph_text = $paragraph->content;
             if ( $paragraph_text[0] == "\n" )
-                $paragraph_text[0] = " ";
+            {
+                if ( $this->PrevTag != "link" )
+                    $paragraph_text[0] = " ";
+            }
             $pageContent .= eZTextTool::nl2br( $paragraph_text );
         }
         return $pageContent;
@@ -955,6 +966,7 @@ class eZTechRenderer
         return $string;
     }
     var $Article;
+    var $PrevTag;
 }
 
 ?>
