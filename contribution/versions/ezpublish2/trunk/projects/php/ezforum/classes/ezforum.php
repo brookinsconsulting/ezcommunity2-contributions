@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.46 2001/09/07 20:51:22 fh Exp $
+// $Id: ezforum.php,v 1.47 2001/09/17 13:13:32 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -92,7 +92,7 @@ class eZForum
                            '$this->ModeratorID',
                            '$this->GroupID',
                            '$this->IsPrivate' )" );
-
+            
             $this->ID = $nextID;
         }
         else
@@ -105,10 +105,8 @@ class eZForum
                                          ModeratorID='$this->ModeratorID',
                                          GroupID='$this->GroupID',
                                          IsPrivate='$this->IsPrivate'
-                                 WHERE ID='$this->ID'
-                                 " );
+                                         WHERE ID='$this->ID'" );
         }
-
 
         $db->unlock();
     
@@ -153,7 +151,7 @@ class eZForum
     /*!
       Fetches the object information from the database.
     */
-    function get( $id="" )
+    function get( $id = "" )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -211,7 +209,7 @@ class eZForum
 
        foreach ( $message_array as $message )
        {
-           $ret[] = new eZForumMessage( $message[$db->fieldName("ID")] );
+           $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
        }
 
        return $ret;
@@ -322,7 +320,7 @@ class eZForum
                                           $approvedCode
                                           ORDER BY TreeID
                                           DESC",
-            array( "Limit" => $limit, "Offset" => $offset ) );
+                              array( "Limit" => $limit, "Offset" => $offset ) );
        }
        else
        {
@@ -550,7 +548,6 @@ class eZForum
     */
     function setPrivate( $newPrivate )
     {
-
         $this->IsPrivate = $newPrivate;
     }
 
@@ -583,9 +580,10 @@ class eZForum
     {
        $db =& eZDB::globalDatabase();
 
-       $unapprovedSQL = "";
        if ( $countUnapproved == false )
            $unapprovedSQL = "AND IsApproved='1'";
+       else
+           $unapprovedSQL = "";
 
        if ( $showReplies )
        {

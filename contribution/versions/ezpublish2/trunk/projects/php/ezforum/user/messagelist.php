@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.41 2001/09/05 09:06:47 jhe Exp $
+// $Id: messagelist.php,v 1.42 2001/09/17 13:13:32 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -187,7 +187,7 @@ else if ( $showThreads == "Show" )
     $t->set_var( "show_threads", "" );
     $t->parse( "hide_threads", "hide_threads_tpl" );
     $messageList =& $forum->messageTreeArray( $Offset, $UserLimit );
-    $messageCount =& $forum->messageCount();
+    $messageCount =& $forum->messageCount( false, true );
 }
 
 if ( !$messageList )
