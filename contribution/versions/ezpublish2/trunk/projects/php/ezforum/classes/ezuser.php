@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.3 2000/07/14 13:07:07 lw-cvs Exp $
+    $Id: ezuser.php,v 1.4 2000/07/18 09:42:02 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -79,7 +79,7 @@ class eZUser {
     function get($id)
     {
         //$id = addslashes($id);
-        //$this->id = $id;
+        $this->id = $id;
         
         openDB();
         $query_id = mysql_query("SELECT group_id,first_name, last_name, nick_name, email, state,
@@ -504,7 +504,7 @@ class eZUser {
     }
     
     /*!
-      genAuthHash() : generates a new unique authentication hash
+      generateAuthHash() : generates a new unique authentication hash
     */
     function generateAuthHash()
     {
@@ -560,6 +560,65 @@ class eZUser {
     function sessionHash()
     {
         return $this->sid;
+    }
+
+    function getByEmail( $email )
+    {
+        openDB();
+
+        
+        $query_id = mysql_query("SELECT Id FROM UserTable WHERE email='$email'")
+             or die("could not look up email in UserTable, dying...");
+
+        if ( mysql_num_rows( $query_id ) == 1)
+        {
+            $this->get( mysql_result( $query_id, 0, "Id" ) );
+            return 0;
+        } else if (mysql_num_rows( $query_id) > 1)
+        {
+            // duplicate records - something is *really* wrong.
+            die("Duplicate email records when trying to fetch Id, dying.");
+        }
+        else
+        {
+            // No records found.
+            return 1;
+        }
+    }
+
+    /*!
+      Looks up a user - generates a new security hash,
+      sends a mail to the user with a url to a page
+      where he/she can set a new password.
+
+      Returns 0 for success / 1 for failure (user not found)
+     */
+    function passwordEmail( $email )
+    {
+        if ( $this->getByEmail( $email ) == 0) // OK
+        {
+            $this->generateAuthHash();
+            $this->store();
+            $msg = new eZMail();
+
+            $msg->setTo( $email );
+            $msg->setSubject( "eZ Forum @ " . $SERVER_NAME . "; New password." );
+            $msg->setFrom("webmaster@" . $SERVER_NAME );
+            $msg->setBody("Hei!\nVed hjelp av denne linken, kan du opprette et nytt passord:\n" .
+                          "http://" . $SERVER_NAME .
+                          "/index.php?page=$DOCROOT/recreate.php&id=$this->AuthHash\n\n" .
+                          "Med Vennlig hilsen\n\n" .
+                          "webmaster@" . $SERVER_NAME);
+
+            $msg->send();
+
+            return 0;
+        }
+        else // failure
+        {
+            echo "passwordEmail() failure";
+            return 1;
+        }
     }
 }
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: login.php,v 1.3 2000/07/14 13:28:24 lw Exp $
+    $Id: login.php,v 1.4 2000/07/18 09:42:02 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -30,8 +30,7 @@ if ( $login )
     }
     else
     {
-        //error message
-        printRedirect( "/index.php?page=$DOCROOT/loginfailed.php" );
+        printRedirect( "/index.php?page=$DOCROOT/main.php&login=failed" );
     }
 }
 ?>

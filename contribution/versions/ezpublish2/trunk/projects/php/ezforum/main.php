@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: main.php,v 1.2 2000/07/18 09:42:02 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -66,6 +66,15 @@ if ( $session->validate( $AuthenticatedSession ) == 0   )
 }
 else
 {
+    if ( $login == "failed" )
+    {
+        $t->set_var( "login-msg", "Påloggingen var mislykket, prøv igjen.");
+    }
+    else
+    {
+        $t->set_var( "login-msg", "");
+    }
+    
     $t->parse( "loginlogout", "login", true);
 }
 
