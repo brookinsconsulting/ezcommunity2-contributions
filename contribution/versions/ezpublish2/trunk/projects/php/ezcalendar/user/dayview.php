@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.46 2001/09/17 10:26:54 jhe Exp $
+// $Id: dayview.php,v 1.47 2001/09/19 10:52:59 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -54,9 +54,13 @@ if ( isSet( $GetByUser ) )
     $userID = $GetByUserID;
 
 if ( ( $session->variable( "ShowOtherCalendarUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+{
     $session->setVariable( "ShowOtherCalendarUsers", $userID );
+}
 else
+{
     $userID = $session->variable( "ShowOtherCalendarUsers" );
+}
 
 $tmpUser = new eZUser( $userID );
 $date = new eZDate();

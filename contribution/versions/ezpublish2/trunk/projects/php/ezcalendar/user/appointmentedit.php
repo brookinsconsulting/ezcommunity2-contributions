@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.55 2001/09/19 09:52:54 jhe Exp $
+// $Id: appointmentedit.php,v 1.56 2001/09/19 10:52:59 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -117,15 +117,13 @@ else
 
 if ( $userID == false )
     $app = false;
-else if ( $Action == "New"  )
+else if ( $Action == "New" )
     $app = new eZAppointment();
 else
     $app = new eZAppointment( $AppointmentID );
 
 if ( isSet( $TrusteeUser ) && count( $TrusteeUser ) > 0 )
     $session->setVariable( "ShowOtherCalendarUsers", $TrusteeUser[0] );
-else
-    $session->setVariable( "ShowOtherCalendarUsers", $userID );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -208,7 +206,7 @@ if ( $Action == "DeleteAppointment" )
                 $year = addZero( $datetime->year() );
                 $month = addZero( $datetime->month() );
                 $day = addZero( $datetime->day() );
-                deleteCache( "default", $Language, $year, $month, $day, $appointment->UserID() );
+                deleteCache( "default", $Language, $year, $month, $day, $appointment->userID() );
             }
             else
             {
@@ -389,12 +387,12 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $year = addZero( $datetime->year() );
                 $month = addZero( $datetime->month() );
                 $day = addZero( $datetime->day() );
-                deleteCache( "default", $Language, $year, $month, $day, $userID );
+                deleteCache( "default", $Language, $year, $month, $day, $trusteduser->id() );
                 if ( $beginDate )
                 {
                     deleteCache( "default", $Language, addZero( $beginDate->year() ),
                                  addZero( $beginDate->month() ),
-                                 addZero( $beginDate->day() ), $userID );
+                                 addZero( $beginDate->day() ), $trusteduser->id() );
                 }
             }
             else
@@ -700,8 +698,6 @@ if ( $Action == "New" )
             $t->set_var( "own_selected", "" );
             $t->set_var( "user_name", "" );
             $sessionUser = $session->variable( "ShowOtherCalendarUsers" );
-            print $sessionUser;
-            die();
             $trusteeArray = $user->getByTrustee( -1, true );
             foreach ( $trusteeArray as $trustee )
             {
