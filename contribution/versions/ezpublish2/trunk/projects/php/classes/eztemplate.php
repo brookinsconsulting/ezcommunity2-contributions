@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.17 2001/01/24 09:12:54 jb Exp $
+// $Id: eztemplate.php,v 1.18 2001/01/24 10:13:43 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -57,7 +57,7 @@ class eZTemplate
 
         if ( empty( $this->style ) || empty( $this->module_dir ) )
         {
-            $this->CacheFile = "";
+            $this->CacheSuffix = "";
             $this->CacheDir = "";
         }
         else
@@ -65,7 +65,7 @@ class eZTemplate
             $this->CacheDir = $module_dir . "/cache";
             if ( !empty( $state ) )
                 $state = "-" . $state;
-            $this->CacheFile = $this->CacheDir . "/" . $phpFile . "-" . $style ."-" . $language . $state . ".cache";
+            $this->CacheSuffix = $style ."-" . $language . $state . ".cache";
         }
     }
 
@@ -84,15 +84,24 @@ class eZTemplate
         }
     }
 
+    function &cacheFile()
+    {
+        $CacheFile = $this->CacheDir . "/" . $this->files[0] . "-" . $this->CacheSuffix;
+        return $CacheFile;
+    }
+
     function hasCache()
     {
-        if ( empty( $this->CacheFile ) )
+        if ( empty( $this->CacheSuffix ) )
             return false;
-        if ( file_exists( $this->CacheFile ) )
+        if ( empty( $this->files[0] ) )
+            return false;
+        $CacheFile =& $this->cacheFile();
+        if ( file_exists( $CacheFile ) )
         {
-            $template_m = filemtime( $this->root );
+            $template_m = filemtime( $this->filename( $this->files[0] ) );
             $lang_m = filemtime( $this->languageFile );
-            $cache_m = filemtime( $this->CacheFile );
+            $cache_m = filemtime( $CacheFile );
             if ( $template_m <= $cache_m && $lang_m <= $cache_m )
                 return true;
         }
@@ -101,12 +110,15 @@ class eZTemplate
 
     function &cache()
     {
-        if ( empty( $this->CacheFile ) )
+        if ( empty( $this->CacheSuffix ) )
             return false;
-        if ( file_exists( $this->CacheFile ) )
+        if ( empty( $this->files[0] ) )
+            return false;
+        $CacheFile =& $this->cacheFile();
+        if ( file_exists( $CacheFile ) )
         {
-            $fd = fopen( $this->CacheFile, "r" );
-            $str =& fread( $fd, filesize( $this->CacheFile ) );
+            $fd = fopen( $CacheFile, "r" );
+            $str =& fread( $fd, filesize( $CacheFile ) );
             fclose( $fd );
             return $str;
         }
@@ -115,21 +127,23 @@ class eZTemplate
 
     function &storeCache( $target, $handle, $print = true )
     {
-        if ( empty( $this->CacheFile ) )
+        if ( empty( $this->CacheSuffix ) )
             return false;
         $str =& $this->parse( $target, $handle );
+        $CacheFile =& $this->cacheFile();
         if ( !file_exists( $this->CacheDir ) )
         {
             print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot create cache file</b><br />" );
         }
         else
         {
-            $fd = fopen( $this->CacheFile, "w" );
+            $fd = fopen( $CacheFile, "w" );
             fwrite( $fd, $str );
             fclose( $fd );
         }
         if ( $print )
         {
+            print "<br><b>".$this->files[0]."</b><br>";
             print $str;
         }
         return $str;
@@ -161,8 +175,9 @@ class eZTemplate
     var $module_dir;
     var $state;
     var $languageFile;
-    var $CacheFile;
+    var $CacheSuffix;
     var $CacheDir;
+    var $files = array();
 
     var $classname = "Template";
 
@@ -238,6 +253,7 @@ class eZTemplate
             while(list($h, $f) = each($handle))
             {
                 $this->file[$h] = $this->filename($f);
+                $this->files[] = $f;
             }
         }
     }
