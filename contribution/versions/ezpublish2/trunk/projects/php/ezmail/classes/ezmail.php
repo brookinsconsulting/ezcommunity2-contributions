@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.32 2001/07/10 11:27:43 fh Exp $
+// $Id: ezmail.php,v 1.33 2001/07/11 10:41:18 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -941,7 +941,7 @@ class eZMail
     function build_multipart() 
     {
         $boundary = "b".md5(uniqid(time()));
-        $multipart = "Content-Type: multipart/mixed; boundary = $boundary\n\nThis is a MIME encoded message.\n\n--$boundary";
+        $multipart = "Content-Type: multipart/mixed;\n   boundary=$boundary\n\nThis is a MIME encoded message.\n\n--$boundary";
         
         for($i = count( $this->parts )-1; $i >= 0; $i--) 
         {
