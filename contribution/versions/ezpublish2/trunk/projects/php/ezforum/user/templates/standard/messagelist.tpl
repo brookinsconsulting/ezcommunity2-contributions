@@ -1,9 +1,21 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-headline} - ({forum_start}-{forum_end}/{forum_total})</h1>
+        <h1>{intl-headline}</h1>
      </td>
-     <td align="center">
+     <td align="right">
+        <form action="/forum/search/" method="post">
+           <input type="text" name="QueryString" size="12" />
+           <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
+        </form>
+     </td>
+  </tr>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+	<td><p class="boxtext">({forum_start}-{forum_end}/{forum_total})</p></td>
+     <td align="right">
      <form action="/forum/messagelist/{forum_id}/" method="post">
            <!-- BEGIN hide_threads_tpl -->
            <input class="stdbutton" type="submit" name="HideThreads" value="{intl-hide_threads}" />
@@ -13,13 +25,7 @@
            <!-- END show_threads_tpl -->
      </form>
      </td>
-     <td align="right">
-        <form action="/forum/search/" method="post">
-           <input type="text" name="QueryString" size="12" />
-           <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
-        </form>
-     </td>
-  </tr>
+</tr>
 </table>
 
 <hr noshade size="4" />
@@ -46,29 +52,32 @@
 <!-- BEGIN message_item_tpl -->
 <tr>
     <td class="{td_class}">
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-		<td width="1%">{spacer}{spacer}</td>
-		<td width="99%">
-		<!-- BEGIN new_icon_tpl -->
-                <img src="/images/message_new.gif" width="16" height="16" border="0" />&nbsp;
+		<td width="1%" valign="top">
+		{spacer}{spacer}
+				<!-- BEGIN new_icon_tpl -->
+                <img src="/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
-                <img src="/images/message.gif" width="16" height="16" border="0" />&nbsp;
+                <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
 		<!-- END old_icon_tpl -->	
+
+		</td>
+		<td width="99%" valign="top">
 
                 <a href="/forum/message/{message_id}/">{topic} {count_replies}</a>
                 </td>
 	</tr>
 	</table>
     </td>
-    <td class="{td_class}">
+    <td class="{td_class}" valign="top">
         {user}
     </td>
-    <td class="{td_class}" align="right">
+    <td class="{td_class}" align="right" valign="top">
         <span class="small">{postingtime}</span>
     </td>
-    <td class="{td_class}" align="right">
+    <td class="{td_class}" align="right" valign="top">
 		&nbsp;
         <!-- BEGIN edit_message_item_tpl -->
         <nobr><a href="/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>

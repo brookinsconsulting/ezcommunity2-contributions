@@ -6,7 +6,7 @@
      <td align="right">
         <form action="/forum/search/" method="post">
            <input type="text" name="QueryString" size="12" />
-           <input type="submit" name="search" value="{intl-search}" />
+           <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
         </form>
      </td>
   </tr>
@@ -21,19 +21,21 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-   	<th>{intl-name}:</th>
+   	<th colspan="2" width="1%">{intl-name}:</th>
    	<th>{intl-desc}:</th>
 </tr>
 
 
 <!-- BEGIN category_item_tpl -->
 <tr bgcolor="{color}">
-    <td class={td_class}>
-        <img src="/images/folder.gif" width="16" height="16" border="0" /> &nbsp;
-        <a href="/forum/forumlist/{category_id}/">{category_name}</a>
+    <td class={td_class} valign="top">
+    <img src="/images/folder.gif" width="16" height="16" border="0" />
+	</td>
+    <td class={td_class} valign="top">
+    <a href="/forum/forumlist/{category_id}/">{category_name}</a>
     </td>
-    <td class={td_class}>
-        {category_description}
+    <td class={td_class} valign="top">
+    {category_description}
     </td>
 </tr>
 <!-- END category_item_tpl -->

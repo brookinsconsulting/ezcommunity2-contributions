@@ -49,22 +49,22 @@
 <!-- BEGIN detail_view_tpl -->
 <tr>
 	<!-- BEGIN detail_read_tpl -->
-	<td valign="top">
+	<td class="{td_class}" valign="top" width="1%">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/browse/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}" valign="top" width="77%">
 	{image_caption}
 	</td>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}" valign="top" width="20%">
 	{image_size}&nbsp;{image_unit}
 	</td>
 	<!-- BEGIN multi_images_tpl -->
-	<td>
+	<td class="{td_class}" valign="top" width="1%">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
 	</td>
 	<!-- END multi_images_tpl -->
 	<!-- BEGIN single_images_tpl -->
-	<td>
+	<td class="{td_class}" valign="top" width="1%">
 	<input type="radio" name="ImageID" value="{image_id}">
 	</td>
 	<!-- END single_images_tpl -->
@@ -77,8 +77,8 @@
 
 <hr noshade="noshade" size="4" />
 
-<input type="submit" name="AddImages" value="{intl-add_images}">&nbsp;
-<input type="submit" name="Cancel" value="{intl-cancel}">
+<input class="okbutton" type="submit" name="AddImages" value="{intl-add_images}">&nbsp;
+<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}">
 </form>
 
 

@@ -25,26 +25,28 @@
 <!-- BEGIN view_forums_tpl -->
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-        <th>{intl-forum}:</th>
+        <th colspan="2">{intl-forum}:</th>
         <th>{intl-forum_description}:</th>
         <th>{intl-threads}:</th>
         <th>{intl-messages}:</th>
     </tr>
     <!-- BEGIN forum_item_tpl -->
     <tr>
-	<td class="{td_class}">
-	    <img src="/images/forum.gif" width="16" height="16" border="0" /> &nbsp;
+	<td class="{td_class}" valign="top">
+	    <img src="/images/forum.gif" width="16" height="16" border="0" alt="Forum" />
+	</td>
+	<td class="{td_class}" valign="top">
 	    <a href="/forum/messagelist/{forum_id}/">
 	    {name}
 	    </a>
         </td>
-	<td class="{td_class}">
+	<td class="{td_class}" valign="top">
 	    {description}
         </td>
-	<td class="{td_class}">
+	<td class="{td_class}" valign="top">
 	    {threads}
         </td>
-	<td class="{td_class}">
+	<td class="{td_class}" valign="top">
 	    {messages}
         </td>
     </tr>

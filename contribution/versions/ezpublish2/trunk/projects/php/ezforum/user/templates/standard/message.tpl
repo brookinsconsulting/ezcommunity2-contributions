@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{topic}</h1>
+        <h1>{intl-message_view}</h1>
     </td>
     <td align="right">
     <td align="right">
@@ -30,16 +30,15 @@
 
 <br />
 
-<p class="boxtext">{intl-topic}:</p>
-<span class="p">{topic}</span>
-<br /><br />
+<h2>{topic}</h2>
+<br />
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>        
-   	<td>
+   	<td valign="top">
 	<p class="boxtext">{intl-author}:</p>
     {main-user}
 	</td>
-	<td align="right">
+	<td align="right" valign="top">
 	<p class="boxtext">{intl-time}:</p>
 	<span class="small">{main-postingtime}</span>
 	</td>
@@ -101,30 +100,32 @@
 
     <!-- BEGIN message_item_tpl -->
 <tr>
-    	<td class="{td_class}">
+    	<td class="{td_class}" valign="top">
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 
-		<td width="1%">{spacer}{spacer}</td>
-		<td width="99%">
+		<td width="1%" valign="top">
+		{spacer}{spacer}
 		<!-- BEGIN new_icon_tpl -->
-                <img src="/images/message_new.gif" width="16" height="16" border="0" />&nbsp;
+                <img src="/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
-                <img src="/images/message.gif" width="16" height="16" border="0" />&nbsp;
+                <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
 		<!-- END old_icon_tpl -->	
+		</td>
+		<td width="99%" valign="top">
 		<a class="{link_color}" href="/forum/message/{message_id}/">{reply_topic}</a>
 		</td>
 	</tr>
 	</table>
 	</td>
-    	<td class="{td_class}">
+    	<td class="{td_class}" valign="top">
 	{user}
 	</td>
-    	<td class="{td_class}" align="right">
+    	<td class="{td_class}" align="right" valign="top">
 	<span class="small">{postingtime}</span>
 	</td>
-    <td class="{td_class}" align="right">
+    <td class="{td_class}" align="right" valign="top">
 	&nbsp;
         <!-- BEGIN edit_message_item_tpl -->
         <nobr><a href="/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
