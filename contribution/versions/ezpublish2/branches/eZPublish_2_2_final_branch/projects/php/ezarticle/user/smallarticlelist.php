@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallarticlelist.php,v 1.11 2001/10/16 07:27:42 jhe Exp $
+// $Id: smallarticlelist.php,v 1.11.2.1 2001/10/23 07:22:48 th Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -69,6 +69,7 @@ function createSmallArticleList( $generateStaticPage = false )
     global $Offset;
     global $Limit;
     global $Language;
+	global $DefaultLinkText;
 
     $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                          "ezarticle/user/intl/", $Language, "smallarticlelist.php" );
@@ -105,18 +106,24 @@ function createSmallArticleList( $generateStaticPage = false )
 
         $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
+	    $contents =& $renderer->renderPage();
+
         if ( $article->linkText() != "" )
         {
             $t->set_var( "article_link_text", $article->linkText() );
-        	$t->parse( "read_more_item", "read_more_tpl" );
-			
+        	$t->parse( "read_more_item", "read_more_tpl" );		
         }
-        else
+        else if ( !( trim( $contents[1] ) == "" && count( $article->attributes( false ) ) <= 0 ))
         {
             $t->set_var( "article_link_text", $DefaultLinkText );
-            $t->set_var( "read_more_item", "" );
+        	$t->parse( "read_more_item", "read_more_tpl" );
         }
-
+		else
+		{
+            $t->set_var( "article_link_text", "" );
+        	$t->parse( "read_more_item", "read_more_tpl" );
+		}
+		
         $t->parse( "article_item", "article_item_tpl", true );
         $i++;
     }
