@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugpriority.php,v 1.8 2001/07/19 12:29:04 jakobn Exp $
+// $Id: ezbugpriority.php,v 1.9 2001/08/09 14:17:42 jhe Exp $
 //
 // Definition of eZBugPriority class
 //
@@ -102,14 +102,15 @@ class eZBugPriority
     function delete()
     {
         $db =& eZDB::globalDatabase();
-        
+        $db->begin();
         if ( isSet( $this->ID ) )
         {
             // remove all bugs from the database that have this priority.
-            $db->query( "DELETE FROM eZBug_Bug WHERE PriorityID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_Bug WHERE PriorityID='$this->ID'" );
             // remove the priority itself. 
-            $db->query( "DELETE FROM eZBug_Priority WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_Priority WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
     

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.13 2001/07/20 11:18:28 jakobn Exp $
+// $Id: mailedit.php,v 1.14 2001/08/09 14:17:42 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,9 +31,9 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
-if( isset( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
-    if( $MailID != 0 )
+    if ( $MailID != 0 )
     {
         $mail = new eZMail( $MailID );
         $folderID = $mail->folder( false );
@@ -47,14 +47,14 @@ if( isset( $Cancel ) )
     exit();
 }
 
-if( isset( $AddAttachment ) )
+if ( isSet( $AddAttachment ) )
 {
     $MailID = save_mail();
     eZHTTPTool::header( "Location: /mail/fileedit/$MailID" );
     exit();
 }
 
-if( isset( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
+if ( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
 {
     foreach( $AttachmentArrayID as $attachmmentID )
     {
@@ -64,11 +64,11 @@ if( isset( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
     }
 }
 
-if( isset( $Preview ) )
+if ( isSet( $Preview ) )
 {
 }
 
-if( isset( $Save ) )
+if ( isSet( $Save ) )
 {
     $MailID = save_mail();
     $mail = new eZMail( $MailID );
@@ -78,12 +78,12 @@ if( isset( $Save ) )
     $drafts->addMail( $mail );
 }
 
-if( isset( $Send ) )
+if ( isSet( $Send ) )
 {
     $MailID = save_mail();
     // give error message if no valid users where supplied...
     $mail = new eZMail( $MailID );
-    if( $mail->to() == "" && $mail->bcc() == "" && $mail->cc() == "" )
+    if ( $mail->to() == "" && $mail->bcc() == "" && $mail->cc() == "" )
     {
         $error = "no_address";
     }
@@ -101,9 +101,9 @@ if( isset( $Send ) )
     }
 }
 
-if( isset( $CcButton ) )
+if ( isSet( $CcButton ) )
     $showcc = true;
-if( isset( $BccButton ) )
+if ( isSet( $BccButton ) )
     $showbcc = true;
 
 $ini =& INIFile::globalINI();
@@ -115,9 +115,7 @@ $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir
 $languageIni = new INIFIle( "ezmail/user/intl/" . $Language . "/mailedit.php.ini", false );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "mail_edit_page_tpl" => "mailedit.tpl"
-    ) );
+$t->set_file( "mail_edit_page_tpl", "mailedit.tpl" );
 
 $t->set_block( "mail_edit_page_tpl", "error_message_tpl", "error_message" );
 $t->set_block( "mail_edit_page_tpl", "attachment_delete_tpl", "attachment_delete" );
@@ -141,33 +139,33 @@ $t->set_var( "cc_single", "" );
 $t->set_var( "bcc_single", "" );
 
 /** New mail, lets insert some default values **/
-if( $MailID == 0 )
+if ( $MailID == 0 )
 {
     // put signature stuff here...
 }
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $t->set_var( "from_value", $user->email() );
 
 /** We are editing an allready existant mail... lets insert it's values **/
-if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load values from disk!, check that this is really current users mail
+if ( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load values from disk!, check that this is really current users mail
 {
     $t->set_var( "current_mail_id", $MailID );
     
     $mail = new eZMail( $MailID );
     $t->set_var( "to_value", htmlspecialchars( $mail->to() ) );
 
-    if( $mail->from() != "" )
+    if ( $mail->from() != "" )
         $t->set_var( "from_value", htmlspecialchars( $mail->from() ) );
     $t->set_var( "subject_value", htmlspecialchars( $mail->subject() ) );
     $t->set_var( "mail_body", htmlspecialchars( $mail->body() ) );
     
-    if( $mail->cc() != ""  )
+    if ( $mail->cc() != ""  )
     {
         $showcc = true;
         $t->set_var( "cc_value", htmlspecialchars( $mail->cc() ) );
     }
 
-    if( $mail->bcc() != "" )
+    if ( $mail->bcc() != "" )
     {
         $showbcc = true;
         $t->set_var( "bcc_value", htmlspecialchars( $mail->bcc() ) );
@@ -175,7 +173,7 @@ if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load 
 
     $files = $mail->files();
     $i = 0;
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $t->set_var( "file_name", htmlspecialchars( $file->originalFileName() ) );
         $t->set_var( "file_id", $file->id() );
@@ -188,13 +186,13 @@ if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load 
         $t->parse( "attachment", "attachment_tpl", true );
         $i++;
     }
-    if( $i > 0 )
+    if ( $i > 0 )
     {
         $t->parse( "attachment_delete", "attachment_delete_tpl" );
         $t->parse( "inserted_attachments", "inserted_attachments_tpl", false );
     }
 }
-else if( $MailID == 0 && ( $showcc || $showbcc ) ) //mail not saved, but there is data
+else if ( $MailID == 0 && ( $showcc || $showbcc ) ) //mail not saved, but there is data
 {
     $t->set_var( "to_value", htmlspecialchars( $To ) );
     $t->set_var( "from_value", htmlspecialchars( $From ) );
@@ -202,22 +200,22 @@ else if( $MailID == 0 && ( $showcc || $showbcc ) ) //mail not saved, but there i
     $t->set_var( "bcc_value", htmlspecialchars( $Bcc ) );
     $t->set_var( "subject_value",  htmlspecialchars( $Subject ) );
     $t->set_var( "mail_body", htmlspecialchars( $MailBody ) );
-    if( $Cc != "" )
+    if ( $Cc != "" )
         $showcc = true;
-    if( $Bcc != "" )
+    if ( $Bcc != "" )
         $showbcc = true;
 }
 
 // check if we have any errors... if yes. show them to the user
-if( isset( $error ) )
+if ( isSet( $error ) )
 {
     $t->set_var( "mail_error_message", $languageIni->read_var( "strings", "address_error" ) );
     $t->parse( "error_message", "error_message_tpl", true );
 }
 
-if( isset( $showcc ) )
+if ( isSet( $showcc ) )
         $t->parse( "cc_single", "cc_single_tpl", false );
-if( isset( $showbcc ) )
+if ( isSet( $showbcc ) )
         $t->parse( "bcc_single", "bcc_single_tpl", false );
 
 $t->pparse( "output", "mail_edit_page_tpl" );
@@ -231,7 +229,7 @@ function save_mail()
 {
     global $To, $From, $Cc, $Bcc, $Subject, $MailBody, $MailID; // instead of passing them as arguments..
 
-    if( $MailID == 0 )
+    if ( $MailID == 0 )
     {
         $mail = new eZMail();
         $mail->setOwner( eZUser::currentUser() );

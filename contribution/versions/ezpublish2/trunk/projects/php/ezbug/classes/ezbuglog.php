@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbuglog.php,v 1.7 2001/07/19 12:29:04 jakobn Exp $
+// $Id: ezbuglog.php,v 1.8 2001/08/09 14:17:42 jhe Exp $
 //
 // Definition of eZBugLog class
 //
@@ -35,7 +35,6 @@
 */
 
 include_once( "classes/ezdb.php" );
-
 include_once( "ezuser/classes/ezuser.php" );
 
 class eZBugLog
@@ -46,11 +45,11 @@ class eZBugLog
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZBuglog( $id=-1 )
+    function eZBugLog( $id = -1 )
     {
         if ( $id != -1 )
         {
-            $this->get( $this->ID );
+            $this->get( $id );
         }
     }
 
@@ -67,11 +66,12 @@ class eZBugLog
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZBug_Log" );
+            $timestamp = eZDateTime::timeStamp( true );
 			$this->ID = $db->nextID( "eZBug_Log", "ID" );
             $res = $db->query( "INSERT INTO eZBug_Log
-                                (ID, Description, BugID, UserID)
+                                (ID, Description, BugID, UserID, Created)
                                 VALUES
-                                ('$this->ID','$description','$this->BugID','$this->UserID')" );
+                                ('$this->ID','$description','$this->BugID','$this->UserID', '$timestamp')" );
             $db->unlock();
         }
         else
@@ -79,10 +79,10 @@ class eZBugLog
             $res = $db->query( "UPDATE eZBug_Log SET
                                 Description='$description',
                                 BugID='$this->BugID',
-                                Created='Created',
                                 UserID='$this->UserID'
                                 WHERE ID='$this->ID'" );
         }
+        
         if ( $res == false )
             $db->rollback();
         else
@@ -97,18 +97,20 @@ class eZBugLog
     function delete()
     {
         $db =& eZDB::globalDatabase();
-
-        if ( isset( $this->ID ) )
+        $db->begin();
+        
+        if ( isSet( $this->ID ) )
         {
-            $db->query( "DELETE FROM eZBug_Log WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_Log WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
     
     /*!
       Fetches the object information from the database.
     */
-    function get( $id="" )
+    function get( $id = "" )
     {
         $db =& eZDB::globalDatabase();        
         if ( $id != "" )
@@ -120,11 +122,11 @@ class eZBugLog
             }
             else if ( count( $module_array ) == 1 )
             {
-                $this->ID = $module_array[0][ $db->fieldName( "ID" ) ];
-                $this->Description = $module_array[0][  $db->fieldName( "Description" ) ];
-                $this->UserID = $module_array[0][ $db->fieldName( "UserID" ) ];
-                $this->BugID = $module_array[0][ $db->fieldName( "BugID" ) ];
-                $this->Created = $module_array[0][ $db->fieldName( "Created" ) ];
+                $this->ID = $module_array[0][$db->fieldName( "ID" )];
+                $this->Description = $module_array[0][$db->fieldName( "Description" )];
+                $this->UserID = $module_array[0][$db->fieldName( "UserID" )];
+                $this->BugID = $module_array[0][$db->fieldName( "BugID" )];
+                $this->Created = $module_array[0][$db->fieldName( "Created" )];
             }
         }
     }
@@ -145,7 +147,7 @@ class eZBugLog
         
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZBug( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZBug( $module_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -173,7 +175,7 @@ class eZBugLog
         
             for ( $i = 0; $i < count( $module_array ); $i++ )
             {
-                $return_array[$i] = new eZBugLog( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
+                $return_array[$i] = new eZBugLog( $module_array[$i][$db->fieldName( "ID" )] );
             }
         }
         return $return_array;
@@ -207,7 +209,6 @@ class eZBugLog
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->Created );
-       
        return $dateTime;
     }
 
@@ -265,7 +266,7 @@ class eZBugLog
     var $Created;
     var $UserID;
     var $BugID;
-    
+    var $Created;
 }
 
 ?>

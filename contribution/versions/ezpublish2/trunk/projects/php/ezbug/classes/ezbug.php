@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbug.php,v 1.30 2001/08/08 12:34:55 jhe Exp $
+// $Id: ezbug.php,v 1.31 2001/08/09 14:17:42 jhe Exp $
 //
 // Definition of eZBug class
 //
@@ -106,6 +106,8 @@ class eZBug
 
         $db->begin();
         
+        $timeStamp = eZDateTime::timeStamp( true );
+        
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZBug_Bug" );
@@ -149,7 +151,6 @@ class eZBug
                                 Description='$description',
                                 IsHandled='$this->IsHandled',
                                 IsClosed='$this->IsClosed',
-                                Created=Created,
                                 PriorityID='$this->PriorityID',
                                 StatusID='$this->StatusID',
                                 UserEmail='$useremail',
@@ -180,13 +181,10 @@ class eZBug
             $db->begin();
             $res[] = $db->query( "DELETE FROM eZBug_BugModuleLink WHERE BugID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZBug_BugCategoryLink WHERE BugID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_Log WHERE BugID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZBug_Bug WHERE ID='$this->ID'" );
-
-            if ( in_array( false, $res ) )
-                $db->rollback();
-            else
-                $db->commit();
         }
+        eZDB::finish( $res, $db );
         return true;
     }
     
@@ -257,7 +255,7 @@ class eZBug
         $module_array = array();
         
         $db->array_query( $module_array, "SELECT ID FROM eZBug_Bug
-                                          WHERE IsHandled='false'
+                                          WHERE IsHandled=0
                                           ORDER BY Created" );
         
         for ( $i = 0; $i < count( $module_array ); $i++ )
@@ -282,7 +280,7 @@ class eZBug
     */
     function name( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Name );
        else
            return $this->Name;
@@ -305,7 +303,7 @@ class eZBug
     */
     function description( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Description );
        else
            return $this->Description;
@@ -331,7 +329,7 @@ class eZBug
     function isHandled()
     {
        $ret = false;
-       if ( $this->IsHandled == "true" )
+       if ( $this->IsHandled == 1 )
        {
            $ret = true;
        }
@@ -344,7 +342,7 @@ class eZBug
     function isClosed()
     {
        $ret = false;
-       if ( $this->IsClosed == "true" )
+       if ( $this->IsClosed == 1 )
        {
            $ret = true;
        }
@@ -358,13 +356,11 @@ class eZBug
     function isPrivate()
     {
         $ret = false;
-        if ( $this->IsPrivate == "true" )
+        if ( $this->IsPrivate == 1 )
         {
             $ret = true;
         }
         return $ret;
-
-        return $IsPrivate;
     }
     
     /*!
@@ -439,11 +435,11 @@ class eZBug
     {
        if ( $value == true )
        {
-           $this->IsHandled = "true";
+           $this->IsHandled = 1;
        }
        else
        {
-           $this->IsHandled = "false";           
+           $this->IsHandled = 0;           
        }
     }
 
@@ -454,11 +450,11 @@ class eZBug
     {
        if ( $value == true )
        {
-           $this->IsClosed = "true";
+           $this->IsClosed = 1;
        }
        else
        {
-           $this->IsClosed = "false";           
+           $this->IsClosed = 0;           
        }
     }
     
@@ -501,7 +497,7 @@ class eZBug
      */
     function setOwner( $user )
     {
-       if( get_class( $user ) == "ezuser" )
+       if ( get_class( $user ) == "ezuser" )
        {
            $this->OwnerID = $user->id();
        }
@@ -517,13 +513,13 @@ class eZBug
      */
     function setIsPrivate( $priv )
     {
-        if ( $priv == true )
+        if ( $priv )
         {
-            $this->IsPrivate = "true";
+            $this->IsPrivate = 1;
         }
         else
         {
-            $this->IsPrivate = "false";           
+            $this->IsPrivate = 0;           
         }
     }
 
@@ -540,7 +536,7 @@ class eZBug
      */
     function version( $asHTML = true )
     {
-        if( $asHTML )
+        if ( $asHTML )
             return htmlspecialchars( $this->Version );
         return $this->Version;
     }
@@ -585,7 +581,7 @@ class eZBug
 
       If the bug is not assigned to any module false is returned.
     */
-    function module( $IDOnly=false )
+    function module( $IDOnly = false )
     {
         $db =& eZDB::globalDatabase();
         
@@ -596,8 +592,8 @@ class eZBug
         $ret = false;
         if ( count( $module_array ) == 1 )
         {
-            $ret = $IDOnly ? $module_array[0][ $db->fieldName( "ModuleID" ) ] :
-                new eZBugModule( $module_array[0][ $db->fieldName( "ModuleID" ) ] );
+            $ret = $IDOnly ? $module_array[0][$db->fieldName( "ModuleID" )] :
+                new eZBugModule( $module_array[0][$db->fieldName( "ModuleID" )] );
         }
         return $ret;
     }
@@ -617,7 +613,7 @@ class eZBug
         $ret = false;
         if ( count( $category_array ) == 1 )
         {
-            $ret = new eZBugCategory( $category_array[0][ $db->fieldName( "CategoryID" ) ] );
+            $ret = new eZBugCategory( $category_array[0][$db->fieldName( "CategoryID" )] );
         }
 
         return $ret;
@@ -681,7 +677,7 @@ class eZBug
 
         foreach( $bug_array as $bugItem )
         {
-            $ret[] = new eZBug( $bugItem[ $db->fieldName( "ID" ) ] );
+            $ret[] = new eZBug( $bugItem[$db->fieldName( "ID" )] );
         }
         return $ret;
     }
@@ -709,7 +705,7 @@ class eZBug
      */
     function addImage( $image )
     {
-        if( get_class( $image ) == "ezimage" )
+        if ( get_class( $image ) == "ezimage" )
         {
             $imageID = $image->id();
             $db =& eZDB::globalDatabase();
@@ -733,7 +729,7 @@ class eZBug
      */
     function deleteImage( $image )
     {
-        if( get_class( $image ) == "ezimage" )
+        if ( get_class( $image ) == "ezimage" )
         {
             $db =& eZDB::globalDatabase();
             $imageID = $image->id();
@@ -761,7 +757,7 @@ class eZBug
         
         for ( $i = 0; $i < count( $image_array ); $i++ )
         {
-            $return_array[$i] = new eZImage( $image_array[$i][ $db->fieldName( "ImageID" ) ], false );
+            $return_array[$i] = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
         }
         return $return_array;
     } 
@@ -826,11 +822,21 @@ class eZBug
        
        for ( $i = 0; $i < count( $file_array ); $i++ )
        {
-           $return_array[$i] = new eZVirtualFile( $file_array[$i][ $db->fieldName( "FileID" ) ], false );
+           $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName( "FileID" )], false );
        }
        return $return_array;
     }
 
+    /*!
+      \static
+      Checks if a bug exists
+    */
+    function bugExists( $id )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT ID FROM eZBug_Bug WHERE ID='$id'" );
+        return ( count( $res ) == 1 );
+    }
     
     var $ID;
     var $Name;
@@ -843,7 +849,7 @@ class eZBug
     var $PriorityID;
     var $StatusID;    
     var $OwnerID;
-    var $IsPrivate="false";
+    var $IsPrivate=0;
     var $Version;
     
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugcategory.php,v 1.10 2001/07/19 12:29:04 jakobn Exp $
+// $Id: ezbugcategory.php,v 1.11 2001/08/09 14:17:42 jhe Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -78,7 +78,7 @@ class eZBugCategory
         $description = $db->escapeString( $this->Description );
 
         $db->begin();
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZBug_Category" );
 			$this->ID = $db->nextID( "eZBug_Category", "ID" );
@@ -113,7 +113,7 @@ class eZBugCategory
     {
         $db =& eZDB::globalDatabase();
         
-        if ( isset( $this->ID ) )
+        if ( isSet( $this->ID ) )
         {
             $db->begin();
             // delete from BugCategoryLink
@@ -146,9 +146,9 @@ class eZBugCategory
             }
             else if ( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "ID" ];
-                $this->Name = $category_array[0][ "Name" ];
-                $this->Description = $category_array[0][ "Description" ];
+                $this->ID = $category_array[0][$db->fieldName( "ID" )];
+                $this->Name = $category_array[0][$db->fieldName( "Name" )];
+                $this->Description = $category_array[0][$db->fieldName( "Description" )];
             }
         }
     }
@@ -167,9 +167,9 @@ class eZBugCategory
         
         $db->array_query( $category_array, "SELECT ID FROM eZBug_Category ORDER BY Name" );
         
-        for ( $i=0; $i<count($category_array); $i++ )
-        {
-            $return_array[$i] = new eZBugCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
+        for ( $i = 0; $i < count( $category_array ); $i++ )
+        { 
+            $return_array[$i] = new eZBugCategory( $category_array[$i][$db->fieldName( "ID" )], 0 ); 
         }
         
         return $return_array;
@@ -273,27 +273,28 @@ class eZBugCategory
        $return_array = array();
        $bug_array = array();
 
-       if ( $fetchUnhandled == false )
+       if ( $fetchUnhandled )
        {
-           $excludedCode = " AND eZBug_Category.ExcludeFromSearch = 'false' ";
+           $excludedCode = " AND eZBug_Bug.IsHandled=0 ";
        }
        else
        {
            $excludedCode = "";           
        }
        
-
        $db->array_query( $bug_array, "
-                SELECT eZBug_Bug.ID AS BugID, eZBug_Bug.Name, eZBug_Category.ID, eZBug_Category.Name
-                FROM eZBug_Bug, eZBug_Category, eZBug_BugCategoryLink
-                WHERE 
-                eZBug_BugCategoryLink.BugID = eZBug_Bug.ID
-                AND
-                eZBug_Category.ID = eZBug_BugCategoryLink.CategoryID
-                AND
-                eZBug_Category.ID='$this->ID'
-                $excludedCode  
-                GROUP BY eZBug_Bug.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
+                         SELECT eZBug_Bug.ID AS BugID,
+                                eZBug_Category.ID,
+                         FROM eZBug_Bug, eZBug_Category, eZBug_BugCategoryLink
+                         WHERE 
+                         eZBug_BugCategoryLink.BugID = eZBug_Bug.ID
+                         AND
+                         eZBug_Category.ID = eZBug_BugCategoryLink.CategoryID
+                         AND
+                         eZBug_Category.ID='$this->ID'
+                         $excludedCode 
+                         GROUP BY eZBug_Bug.ID, eZBug_Category.ID ORDER BY $OrderBy",
+                         array( "Limit" => $limit, "Offset" => $offset ) );
  
        for ( $i = 0; $i < count( $bug_array ); $i++ )
        {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugmodule.php,v 1.24 2001/07/19 12:29:04 jakobn Exp $
+// $Id: ezbugmodule.php,v 1.25 2001/08/09 14:17:42 jhe Exp $
 //
 // Definition of eZBugModule class
 //
@@ -117,7 +117,7 @@ class eZBugModule
     function delete()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
         if ( isSet( $this->ID ) )
         {
             // delete all bugs!
@@ -131,18 +131,20 @@ class eZBugModule
 
             // delete the modules that have this module as parent.
             $doomedModules = $this->getByParent( $this );
-            if( count( $doomedModules ) > 0 )
+            if ( count( $doomedModules ) > 0 )
             {
-                foreach( $doomedModules as $module )
+                foreach ( $doomedModules as $module )
                 {
                     $module->delete();
                 }
             }
 
-            $db->query( "DELETE FROM eZBug_ModulePermission WHERE ObjectID='$this->ID'" );
-            $db->query( "DELETE FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
-            $db->query( "DELETE FROM eZBug_Module WHERE ID='$this->ID'" );            
+            $res[] = $db->query( "DELETE FROM eZBug_ModulePermission WHERE ObjectID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_Module WHERE ID='$this->ID'" );            
         }
+
+        eZDB::finish( $res, $db );
         return true;
     }
     
@@ -162,11 +164,11 @@ class eZBugModule
             }
             else if ( count( $module_array ) == 1 )
             {
-                $this->ID = $module_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name = $module_array[0][ $db->fieldName( "Name" ) ];
-                $this->Description = $module_array[0][ $db->fieldName( "Description" ) ];
-                $this->ParentID = $module_array[0][ $db->fieldName( "ParentID" ) ];
-                $this->OwnerGroupID = $module_array[0][ $db->fieldName( "OwnerGroupID" ) ];
+                $this->ID = $module_array[0][$db->fieldName( "ID" )];
+                $this->Name = $module_array[0][$db->fieldName( "Name" )];
+                $this->Description = $module_array[0][$db->fieldName( "Description" )];
+                $this->ParentID = $module_array[0][$db->fieldName( "ParentID" )];
+                $this->OwnerGroupID = $module_array[0][$db->fieldName( "OwnerGroupID" )];
             }
         }
     }
@@ -187,7 +189,7 @@ class eZBugModule
         
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZBugModule( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZBugModule( $module_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         
         return $return_array;
@@ -220,12 +222,12 @@ class eZBugModule
         {
             if ( is_array( $recursive ) )
             {
-                $mod = new eZBugModule( $module_array[$i][ $db->fieldName( "ID" ) ] );
+                $mod = new eZBugModule( $module_array[$i][$db->fieldName( "ID" )] );
                 $recursive = $mod->getByParent( $mod, "name", $recursive );
             }
             else
             {
-                $return_array[$i] = new eZBugModule( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
+                $return_array[$i] = new eZBugModule( $module_array[$i][$db->fieldName( "ID" )], 0 );
             }
         }
         
@@ -455,8 +457,8 @@ class eZBugModule
                 eZBug_Module.ID='$this->ID'
                 GROUP BY eZBug_Bug.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
         
-        for ( $i=0; $i<count($bug_array); $i++ )
-        {
+        for ( $i=0; $i < count( $bug_array ); $i++ )
+        { 
             $return_array[$i] = new eZBug( $bug_array[$i][ $db->fieldName( "BugID" ) ], false );
         }
         
@@ -539,17 +541,17 @@ class eZBugModule
         $return_value = false;
         $db =& eZDB::globalDatabase();
 
-        if( get_class( $moduleID ) == "ezbugmodule" )
+        if ( get_class( $moduleID ) == "ezbugmodule" )
             $moduleID = $moduleID->id();
 
-        if( $check_for_self == true && $moduleID == $this->ID )
+        if ( $check_for_self == true && $moduleID == $this->ID )
             return true;
         
-        while( $moduleID != 0 )
+        while ( $moduleID != 0 )
         {
             $db->query_single( $result, "SELECT ParentID FROM eZBug_Module WHERE ID='$moduleID'" );
             $moduleID = $result[ $db->fieldName( "ParentID" ) ];
-            if( $moduleID == $this->ID )
+            if ( $moduleID == $this->ID )
                 return true;
         }
         return $return_value;

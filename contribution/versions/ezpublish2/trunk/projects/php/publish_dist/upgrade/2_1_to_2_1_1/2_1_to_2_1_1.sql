@@ -799,3 +799,10 @@ CREATE TABLE eZTrade_ProductPermissionLink (
   GroupID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
+
+alter table eZBug_Bug change Created Created int;
+alter table eZBug_Bug change IsHandled IsHandled int default 0;
+alter table eZBug_Bug change IsClosed IsClosed int default 0;
+alter table eZBug_Bug change IsPrivate IsPrivate int default 0;
+
+alter table eZBug_Log change Created Created int;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugstatus.php,v 1.8 2001/07/19 12:29:04 jakobn Exp $
+// $Id: ezbugstatus.php,v 1.9 2001/08/09 14:17:42 jhe Exp $
 //
 // Definition of eZBugStatus class
 //
@@ -133,7 +133,7 @@ class eZBugStatus
             {
                 die( "Error: Status's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $status_array ) == 1 )
+            else if ( count( $status_array ) == 1 )
             {
                 $this->ID = $status_array[0][ $db->fieldName( "ID" ) ];
                 $this->Name = $status_array[0][ $db->fieldName( "Name" ) ];
@@ -157,7 +157,7 @@ class eZBugStatus
         
         for ( $i = 0; $i < count( $status_array ); $i++ )
         {
-            $return_array[$i] = new eZBugStatus( $status_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZBugStatus( $status_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -188,9 +188,6 @@ class eZBugStatus
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 

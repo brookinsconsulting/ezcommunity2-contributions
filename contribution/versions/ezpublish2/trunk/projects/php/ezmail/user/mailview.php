@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.14 2001/07/29 23:31:08 kaid Exp $
+// $Id: mailview.php,v 1.15 2001/08/09 14:17:42 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,7 +31,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
-if( isset( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     $mail = new eZMail( $MailID );
     $folderID = $mail->folder( false );
@@ -39,7 +39,7 @@ if( isset( $Cancel ) )
     exit();
 }
 
-if( isset( $Reply ) )
+if ( isSet( $Reply ) )
 {
     $mail = new eZMail( $MailID );
     $mail->setStatus( REPLIED, true );
@@ -54,7 +54,7 @@ if( isset( $Reply ) )
     exit();
 }
 
-if( isset( $ReplyAll ) )
+if ( isSet( $ReplyAll ) )
 {
     $mail = new eZMail( $MailID );
     $mail->setStatus( REPLIED, true );
@@ -69,7 +69,7 @@ if( isset( $ReplyAll ) )
     exit();
 }
 
-if( isset( $Forward ) )
+if ( isSet( $Forward ) )
 {
     $mail = new eZMail( $MailID );
     $mail->setStatus( FORWARDED, true );
@@ -84,7 +84,7 @@ if( isset( $Forward ) )
     exit();
 }
 
-if( isset( $Delete ) )
+if ( isSet( $Delete ) )
 {
     $mail = new eZMail( $MailID );
     $folderID = $mail->folder( false );
@@ -113,7 +113,7 @@ $t->set_var( "cc_value", "" );
 $t->set_var( "bcc_value", "" );
 
 $mail = new eZMail( $MailID );
-if( $mail->status() == UNREAD )
+if ( $mail->status() == UNREAD )
     $mail->setStatus( READ, true );
 $t->set_var( "current_mail_id", $MailID );
 
@@ -123,35 +123,37 @@ $t->set_var( "subject", htmlspecialchars( $mail->subject() ) );
 $t->set_var( "mail_body", nl2br( htmlspecialchars( $mail->body() ) ) );
 $t->set_var( "date", date("D M d H:i Y ", $mail->uDate() ) );
 
-if( $mail->cc() != "" )
+if ( $mail->cc() != "" )
 {
     $t->set_var( "cc", htmlspecialchars( $mail->cc() ) );
     $t->parse( "cc_value", "cc_value_tpl", false );
 }
 
-if( $mail->bcc() != "" )
+if ( $mail->bcc() != "" )
 {
     $t->set_var( "bcc", htmlspecialchars( $mail->bcc() ) );
     $t->parse( "bcc_value", "bcc_value_tpl", false );
 }
 
-    $files = $mail->files();
-    $i = 0;
-    foreach( $files as $file )
-    {
-        $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" /*. $file->originalFileName()*/ . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
-        $t->set_var( "file_id", $file->id() );
+$files = $mail->files();
+$i = 0;
+foreach ( $files as $file )
+{
+    $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" /*. $file->originalFileName()*/ . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
+    $t->set_var( "file_id", $file->id() );
+    
+    $size = $file->siFileSize();
+    $t->set_var( "file_size", $size["size-string"] . $size["unit"] );
+    
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+    
+    $t->parse( "attachment", "attachment_tpl", true );
+    $i++;
+}
 
-        $size = $file->siFileSize();
-        $t->set_var( "file_size", $size["size-string"] . $size["unit"] );
-        
-        ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
-        
-        $t->parse( "attachment", "attachment_tpl", true );
-        $i++;
-    }
-    if( $i > 0 )
-        $t->parse( "inserted_attachments", "inserted_attachments_tpl", false );
+if ( $i > 0 )
+    $t->parse( "inserted_attachments", "inserted_attachments_tpl", false );
 
 $t->pparse( "output", "mail_view_page_tpl" );
+
 ?>

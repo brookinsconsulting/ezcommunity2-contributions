@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.11 2001/08/02 13:09:42 jhe Exp $
+// $Id: cron.php,v 1.12 2001/08/09 14:17:41 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -71,7 +71,11 @@ include( "ezarticle/admin/cron.php" );
 // fetch the latest newsheadlines.
 include_once( "ezmail/classes/ezmail.php" );
 
+// syncronize local files
 include( "ezfilemanager/admin/cron.php" );
+
+// add bug report mails to eZBug
+include( "ezbug/admin/cron.php" );
 
 // uncomment the next line to fetch news by cron
 

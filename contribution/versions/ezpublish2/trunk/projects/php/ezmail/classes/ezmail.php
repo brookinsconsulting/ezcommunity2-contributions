@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.37 2001/08/08 12:34:56 jhe Exp $
+// $Id: ezmail.php,v 1.38 2001/08/09 14:17:42 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -34,7 +34,7 @@
     Sascha Schumann <sascha@schumann.cx>
     Tobias Ratschiller <tobias@dnet.it
   extended and modified to fit eZ publish needs by
-    Frederik Holljen <fh@ez.no>
+     Frederik Holljen <fh@ez.no>
   
   Example code:
   \code
@@ -78,7 +78,6 @@ class eZMail
             // default values
             $this->IsPublished = "false";
             $this->UDate = time();
-
         }
     }
 
@@ -89,7 +88,7 @@ class eZMail
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        if( $id == -1 )
+        if ( $id == -1 )
             $id = $this->ID;
         
         // DELETE ALL ATTACHMENTS
@@ -185,7 +184,7 @@ class eZMail
             {
                 die( "Error: Mails with the same ID was found in the database. This should not happen." );
             }
-            else if( count( $mail_array ) == 1 )
+            else if ( count( $mail_array ) == 1 )
             {
                 $this->ID = $mail_array[0][ $db->fieldName("ID") ];
                 $this->UserID = $mail_array[0][ $db->fieldName("UserID") ];
@@ -441,7 +440,7 @@ class eZMail
     function setOwner( $newOwner )
     {
 
-        if( get_class( $newOwner ) == "ezuser" )
+        if ( get_class( $newOwner ) == "ezuser" )
             $this->UserID = $newOwner->id();
         else
             $this->UserID = $newOwner;
@@ -473,7 +472,7 @@ class eZMail
         $size = $this->Size;
         $shortsize = $this->Size;
 
-        while( list($unit_key,$val) = each( $units ) )
+        while ( list($unit_key,$val) = each( $units ) )
         {
             if ( $size >= $val )
             {
@@ -544,7 +543,7 @@ class eZMail
     {
         $this->Status = $status;
         $db =& eZDB::globalDatabase();
-        if( $directWrite == true )
+        if ( $directWrite == true )
             $db->query( "UPDATE eZMail_Mail SET Status='$status' where ID='$this->ID'" );
     }
     
@@ -595,7 +594,7 @@ class eZMail
         $db->query_single( $res, "SELECT count(*) as Count FROM eZMail_FetchedMail WHERE UserID='$userID' AND MessageID='$mailident'" );
 
         $ret = true;
-        if( $res[$db->fieldName("Count")] == 0 )
+        if ( $res[$db->fieldName("Count")] == 0 )
             $ret = false;
         
         return $ret;    
@@ -629,12 +628,12 @@ class eZMail
         $db =& eZDB::globalDatabase();
         $db->array_query( $res, "SELECT FolderID FROM eZMail_MailFolderLink WHERE MailID='$this->ID'" );
 
-        if( count( $res ) > 0 )
+        if ( count( $res ) > 0 )
         {
-            if( $AsObject == true )
-                return new eZMailFolder( $res[0][$db->fieldName("FolderID")] );
+            if ( $AsObject == true )
+                return new eZMailFolder( $res[0][$db->fieldName( "FolderID" )] );
 
-            return $res[0][$db->fieldName("FolderID")];
+            return $res[0][$db->fieldName( "FolderID" )];
         }
 
         return false;
@@ -646,11 +645,11 @@ class eZMail
      */
     function getByUser( $user = false, $onlyUnread = false )
     {
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
             $user = eZUser::currentUser();
 
         $unreadOnlySQL = "";
-        if( $onlyUnread == false )
+        if ( $onlyUnread == false )
         {
             $unreadOnlySQL = "AND Status='0'";
         }
@@ -662,9 +661,9 @@ class eZMail
         $query = "SELECT ID FROM eZMail_Mail WHERE UserID='$userid' $unreadOnlySQL";
         $database->array_query( $res, $query );
 
-        for ( $i=0; $i < count($res); $i++ )
+        for ( $i = 0; $i < count( $res ); $i++ )
         {
-            $return_array[$i] = new eZMail( $res[$i][$db->fieldName("ID")] );
+            $return_array[$i] = new eZMail( $res[$i][$db->fieldName( "ID" )] );
         }
 
         return $return_array;
@@ -684,8 +683,8 @@ class eZMail
            $db->begin();
            $fileID = $file->id();
            
-           $db->query( "INSERT INTO eZMail_MailAttachmentLink ( MailID, FileID ) VALUES (
-                           '$this->ID', '$fileID'" );
+           $db->query( "INSERT INTO eZMail_MailAttachmentLink ( MailID, FileID )
+                        VALUES ('$this->ID', '$fileID')" );
 
            $this->calculateSize();
        }
@@ -717,9 +716,9 @@ class eZMail
        $db =& eZDB::globalDatabase();
        $db->array_query( $file_array, "SELECT FileID FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID'" );
  
-       for ( $i=0; $i<count($file_array); $i++ )
-       {
-           $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName("FileID")], false );
+       for ( $i = 0; $i < count( $file_array ); $i++ )
+       { 
+           $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName( "FileID" )], false );
        }
  
        return $return_array;
@@ -730,7 +729,7 @@ class eZMail
      */
     function addImage( $image )
     {
-        if( get_class( $image ) == "ezimage" )
+        if ( get_class( $image ) == "ezimage" )
         {
             $imageID = $image->id();
             $db =& eZDB::globalDatabase();
@@ -743,7 +742,7 @@ class eZMail
      */
     function deleteImage( $image )
     {
-        if( get_class( $image ) == "ezimage" )
+        if ( get_class( $image ) == "ezimage" )
         {
             $imageID = $image->id();
             $image->delete();
@@ -763,26 +762,26 @@ class eZMail
        $db =& eZDB::globalDatabase();
        $db->array_query( $image_array, "SELECT ImageID FROM eZMail_MailImageLink WHERE MailID='$this->ID'" );
  
-       for ( $i=0; $i<count($image_array); $i++ )
-       { 
+       for ( $i = 0; $i < count( $image_array ); $i++ )
+       {
            $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
-       } 
+       }
        return $return_array;
     }
 
-    /*! 
-      \static 
-       
-      Returns true if the given account belongs to the given user. 
-     */ 
-    function isOwner( $user, $mailID ) 
-    { 
-        if( get_class( $user ) == "ezuser" ) 
+    /*!
+      \static  
+      
+      Returns true if the given account belongs to the given user.
+     */
+    function isOwner( $user, $mailID )
+    {
+        if ( get_class( $user ) == "ezuser" ) 
             $user = $user->id(); 
         
         $db =& eZDB::globalDatabase(); 
         $db->query_single( $res, "SELECT UserID from eZMail_Mail WHERE ID='$mailID'" );
-        if( $res[$db->fieldName("UserID")] == $user )
+        if ( $res[$db->fieldName( "UserID" )] == $user )
             return true;
         
         return false;
@@ -797,12 +796,13 @@ class eZMail
      */
     function &copyMail( $copyType = "normal", $attachments = false )
     {
+        $ini =& INIFile::globalINI();
         $copy = new eZMail();
         $copy->UserID = $this->UserID;
 
-        if( $copyType == "normal" || $copyType == "forward" )
+        if ( $copyType == "normal" || $copyType == "forward" )
         {
-            if( $copyType == "normal" )
+            if ( $copyType == "normal" )
             {
                 $copy->To = $this->To;
                 $copy->From = $this->From;
@@ -820,20 +820,20 @@ class eZMail
             $copy->MessageID = $this->MessageID;
             $copy->References = $this->References;
         }
-        else if( $copyType == "reply" || $copyType == "replyall" )
+        else if ( $copyType == "reply" || $copyType == "replyall" )
         {
             $copy->To = $this->From;
-            $copy->Subject = "Re: " . $this->Subject;
+            $copy->Subject = $ini->read_var( "eZMailMain", "ReplyPrefix" ) . $this->Subject;
             $copy->References = $this->MessageID;
             $copy->ReplyTo = $this->To;
 
-            if( $copyType == "replyall" )
+            if ( $copyType == "replyall" )
                 $copy->Cc = $this->Cc;
 
             $sentnsArray = explode( "\n", $this->BodyText );
             $resultArray = array();
 
-            foreach( $sentnsArray as $sentence )
+            foreach ( $sentnsArray as $sentence )
                 $resultArray[] = "> " . $sentence . "\n";
 
             $copy->BodyText = implode( "", $resultArray );
@@ -859,7 +859,7 @@ class eZMail
         $size += strlen( $this->BodyText );
 
         $files = $this->files();
-        foreach( $files as $file )
+        foreach ( $files as $file )
             $size += $file->fileSize();
 
         $this->Size = $size;
@@ -873,7 +873,7 @@ class eZMail
         if ( $this->$FilesAttached == true )
         {
             $files = $this->files();
-            foreach( $files as $file )
+            foreach ( $files as $file )
             {
                 $filename = "ezfilemanager/files/" . $file->fileName();
                 $attachment = fread( eZFile::fopen( $filename, "r"), eZFile::filesize( $filename ) );
@@ -882,24 +882,24 @@ class eZMail
         }
         
         $mime = "";
-        if( !empty( $this->From ) )
+        if ( !empty( $this->From ) )
         {
-            if( !empty( $this->FromName ) )
+            if ( !empty( $this->FromName ) )
                 $mime .= "From: " . $this->FromName . " <" . $this->From . ">\n";
             else
                 $mime .= "From: "  . $this->From . "\n";
         }
-        if( !empty( $this->Cc ) )
+        if ( !empty( $this->Cc ) )
             $mime .= "Cc: " . $this->Cc . "\n";
-        if( !empty( $this->Bcc ) )
+        if ( !empty( $this->Bcc ) )
             $mime .= "Bcc: " . $this->Bcc . "\n";
-        if( !empty( $this->Bcc ) )
+        if ( !empty( $this->Bcc ) )
             $mime .= "Reply-To: " . $this->ReplyTo . "\n";
-        if( !empty( $this->BodyText ) )
+        if ( !empty( $this->BodyText ) )
             $this->add_attachment( $this->BodyText, "", "text/plain");   
 
-        $mime .= "MIME-Version: 1.0\n".$this->build_multipart();
-        mail( $this->To, $this->Subject, "", $mime);
+        $mime .= "MIME-Version: 1.0\n" . $this->build_multipart();
+        mail( $this->To, $this->Subject, "", $mime );
         $this->parts = array();
     }
     
@@ -909,7 +909,7 @@ class eZMail
        void add_attachment(string message, [string name], [string ctype])
        Add an attachment to the mail object
      */
-    function add_attachment($message, $name = "", $ctype = "application/octet-stream")
+    function add_attachment( $message, $name = "", $ctype = "application/octet-stream" )
     {
         $this->parts[] = array (
             "ctype" => $ctype,
@@ -925,13 +925,13 @@ class eZMail
       void build_message( array part )
       Build message parts of an multipart mail
     */
-    function build_message($part)
+    function build_message( $part )
     {
         $message = $part["message"];
-        $message = chunk_split(base64_encode($message));
+        $message = chunk_split( base64_encode( $message ) );
         $encoding = "base64";
-        return "Content-Type: ".$part["ctype"].
-            ($part["name"]?"; name = \"".$part["name"]."\"" : "").
+        return "Content-Type: " . $part["ctype"] . 
+            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
             "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
     }
     
@@ -943,12 +943,12 @@ class eZMail
     */
     function build_multipart() 
     {
-        $boundary = "b".md5(uniqid(time()));
+        $boundary = "b" . md5( uniqid( time() ) );
         $multipart = "Content-Type: multipart/mixed;\n   boundary=$boundary\n\nThis is a MIME encoded message.\n\n--$boundary";
         
-        for($i = count( $this->parts )-1; $i >= 0; $i--) 
+        for ( $i = count( $this->parts ) - 1; $i >= 0; $i-- )
         {
-            $multipart .= "\n".$this->build_message($this->parts[$i])."--$boundary";
+            $multipart .= "\n".$this->build_message( $this->parts[$i] )."--$boundary";
         }
         return $multipart.= "--\n";
     }

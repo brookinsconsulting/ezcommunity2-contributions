@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.43 2001/07/29 23:31:01 kaid Exp $
+// $Id: bugedit.php,v 1.44 2001/08/09 14:17:41 jhe Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -26,11 +26,11 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
-include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
@@ -65,11 +65,10 @@ if ( isSet ( $Cancel ) )
 $t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                      "ezbug/admin/intl", $Language, "bugedit.php" );
 $t->setAllStrings();
-$t->set_var( "site_style", $SiteStyle );
 
-$t->set_file( array(
-    "bug_edit_tpl" => "bugedit.tpl"
-    ) );
+$t->set_file( "bug_edit_tpl", "bugedit.tpl" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $t->set_block( "bug_edit_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "bug_edit_tpl", "category_item_tpl", "category_item" );
@@ -88,7 +87,7 @@ $t->set_var( "program_version", "" );
 
 if ( $Action == "Insert" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
 
     if ( $user )
     {
@@ -105,7 +104,7 @@ if ( $Action == "Insert" )
         else
             $bug->setIsClosed( false );
 
-        if( $IsPrivate == 'on' )
+        if ( $IsPrivate == 'on' )
             $bug->setIsPrivate( true );
         else
             $bug->setIsPrivate( false );
@@ -122,7 +121,7 @@ if ( $Action == "Update" )
 
     if ( $user )
     {
-        if ( isset( $Update ) )
+        if ( isSet( $Update ) )
         {        
             $category = new eZBugCategory( $CategoryID );
             $module = new eZBugModule( $ModuleID );
@@ -130,7 +129,7 @@ if ( $Action == "Update" )
             $priority = new eZBugPriority( $PriorityID );
             $status = new eZBugStatus( $StatusID );
 
-            if( $OwnerID != -1 )
+            if ( $OwnerID != -1 )
                 $owner = new eZUser( $OwnerID );
             else
                 $owner = NULL;
@@ -159,7 +158,7 @@ if ( $Action == "Update" )
                 $bug->setIsClosed( false );
             }
 
-            if( $IsPrivate == 'on'  )
+            if ( $IsPrivate == 'on'  )
             {
                 $bug->setIsPrivate( true );
             }
@@ -180,7 +179,7 @@ if ( $Action == "Update" )
             $category->addBug( $bug );
             $module->addBug( $bug );
 
-            if( $LogMessage != "" )
+            if ( $LogMessage != "" )
             {
                 $log = new eZBugLog();
                 $log->setDescription( $LogMessage );
@@ -190,7 +189,7 @@ if ( $Action == "Update" )
             }
 
             // check if the owner has changed
-            if( get_class( $owner ) == "ezuser" && $OwnerID != $CurrentOwnerID )
+            if ( get_class( $owner ) == "ezuser" && $OwnerID != $CurrentOwnerID )
             {
                 sendAssignedMail( $bug, $owner->email(), $ini, $Language );
             }
@@ -242,7 +241,7 @@ if ( $Action == "Update" )
             }
 
             $Action = "Edit";
-            if( !isset( $InsertImage) && !isset( $InsertFile ) && !isset( $DeleteSelected ) )
+            if( !isSet( $InsertImage) && !isSet( $InsertFile ) && !isSet( $DeleteSelected ) )
             {
                 if ( $isHandled )
                 {
@@ -259,7 +258,7 @@ if ( $Action == "Update" )
         }
         else
         {
-            if( !isset( $InsertImage) && !isset( $InsertFile ) && !isset( $DeleteSelected ) )
+            if( !isSet( $InsertImage) && !isSet( $InsertFile ) && !isSet( $DeleteSelected ) )
             {
                 Header( "Location: /bug/archive/" );
                 exit();
@@ -272,21 +271,21 @@ if ( $Action == "Update" )
 $t->set_var( "bug_date", "" );    
 $t->set_var( "action_value", "Insert" );
 
-if( isset( $InsertFile ) ) 
+if( isSet( $InsertFile ) ) 
 {
     $Action = "";
     eZHTTPTool::header( "Location: /bug/report/fileedit/new/$BugID" );
     exit();
 }
 
-if( isset( $InsertImage ) )
+if( isSet( $InsertImage ) )
 {
     $Action = "";
     eZHTTPTool::header( "Location: /bug/report/imageedit/new/$BugID" );
     exit();
 }
 
-if( isset( $DeleteSelected ) )
+if( isSet( $DeleteSelected ) )
 {
     $bug = new eZBug( $BugID );
     if( count( $ImageArrayID ) > 0 )
@@ -342,9 +341,7 @@ if ( $Action == "Edit" )
         $t->parse( "program_version", "program_version_tpl", false );
     }
 
-    $bugLog = new eZBugLog();
-    $logList = $bugLog->getByBug( $bug );
-
+    $logList = eZBugLog::getByBug( $bug );
     $cat =& $bug->category();
     if ( $cat )
     {
@@ -364,7 +361,7 @@ if ( $Action == "Edit" )
     if ( $pri )
         $priorityID = $pri->id();
     
-    if( $bug->isClosed() == true )
+    if ( $bug->isClosed() == true )
     {
         $t->set_var( "is_closed", "checked" );
     }
@@ -373,7 +370,7 @@ if ( $Action == "Edit" )
         $t->set_var( "isclosed", "" );
     }
 
-    if( $bug->isPrivate() == true )
+    if ( $bug->isPrivate() == true )
     {
         $t->set_var( "is_private", "checked" );
     }
@@ -386,11 +383,11 @@ if ( $Action == "Edit" )
 // get the files
     $files = $bug->files();
     
-    if( count( $files ) > 0 )
+    if ( count( $files ) > 0 )
     {
         $t->parse( "file_headers", "file_headers_tpl" );
         $i = 0;
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             if ( ( $i % 2 ) == 0 )
             {
@@ -419,11 +416,11 @@ if ( $Action == "Edit" )
 
     // get the images
     $images = $bug->images();
-    if( count( $images ) > 0  )
+    if ( count( $images ) > 0  )
     {
         $t->parse( "image_headers", "image_headers_tpl" );
         $i = 0;
-        foreach( $images as $image )
+        foreach ( $images as $image )
         {
             if ( ( $i % 2 ) == 0 )
             {
@@ -459,17 +456,12 @@ if ( $Action == "Edit" )
         foreach ( $logList as $log )
         {
             $date =& $log->created();
-        
             $t->set_var( "log_date", $locale->format( $date ) );
-        
-        
             $t->set_var( "log_description", $log->description() );
-        
             $t->parse( "log_item", "log_item_tpl", true );
         }
     }
 }
-
 
 $category = new eZBugCategory();
 $module = new eZBugModule();

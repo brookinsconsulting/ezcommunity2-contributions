@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.58 2001/08/03 14:08:19 jhe Exp $
+// $Id: payment.php,v 1.59 2001/08/09 14:17:42 jhe Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -121,7 +121,7 @@ $items = $cart->items();
 $ChargeTotal = $session->variable( "TotalCost" ) ;
 
 // Check if we want to include vat or not.
-if( $session->variable( "IncludeVAT" ) == "true" )
+if ( $session->variable( "IncludeVAT" ) == "true" )
     $vat = true;
 else
 $vat = false;
@@ -306,7 +306,7 @@ if ( $PaymentSuccess == "true" )
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
 
     // Setup the template for email
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
