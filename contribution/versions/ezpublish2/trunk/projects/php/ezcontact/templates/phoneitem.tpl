@@ -1,2 +1,2 @@
 <a href="javascript:Update( '{phone_number}', '{phone_id}', '{phone_type_id}' )">{phone_number}</a> - {phone_type_name}
-<a href="index.php4?page={document_root}companyedit.php4&Action=edit_phone">endre</a><br>
+<a href="index.php4?page={document_root}companyedit.php4&PhoneAction=DeletePhone&PhoneID={phone_id}">slett</a><br>

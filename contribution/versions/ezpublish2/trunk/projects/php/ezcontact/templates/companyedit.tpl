@@ -6,11 +6,11 @@
       document.CompanyEdit.PhoneNumber.value = number;
       document.CompanyEdit.PhoneID.value = phoneID;
       document.CompanyEdit.PhoneType.selectedIndex = phoneTypeID;
+      document.CompanyEdit.PhoneAction.value = 'UpdatePhone';
    }
 //-->
 
 </script>
-
 
 <h1>{message}</h1>
 
@@ -22,7 +22,7 @@ Kontakt firma type:
 </select>
 <br>
 Firmanavn:<br>
-<input type="text" name="CompanyName" value="{first_name}"><br>
+<input type="text" name="CompanyName" value="{company_name}"><br>
 
 Adresse type:
 <br>
@@ -37,7 +37,6 @@ Adresse:<br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
 
-
 Telefon:<br>
 <select name="PhoneType">
 {phone_type}
@@ -45,7 +44,8 @@ Telefon:<br>
 
 <input type="text" name="PhoneNumber" value="{phone_edit_number}">
 <input type="hidden" name="PhoneID" value="{phone_edit_id}">
-<input type="submit" name="{phone_action}" value="{phone_action_value}">
+<input type="hidden" name="PhoneAction" value="{phone_action}">
+<input type="submit" value="{phone_action_value}">
 <br>
 
 {phone_list}

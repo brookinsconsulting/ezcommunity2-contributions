@@ -47,10 +47,8 @@ if ( $Action == "insert" )
   $phone = new eZPhone();
 }
 
-if ( isset( $AddPhone ) )
+if ( $PhoneAction == "AddPhone" )
 {
-    print( "Add phone" . $PhoneNumber ." - " . $PhoneType );
-
     $phone = new eZPhone( );
     $phone->setNumber( $PhoneNumber );
     $phone->setType( $PhoneType );
@@ -60,8 +58,27 @@ if ( isset( $AddPhone ) )
 
     $dict->setCompanyID( $CID );
     $dict->setPhoneID( $pid );
-    $dict->store();    
+    $dict->store();
 }
+
+
+if ( $PhoneAction == "UpdatePhone" )
+{
+    $phone = new eZPhone( );
+    $phone->get( $PhoneID );
+    
+    $phone->setNumber( $PhoneNumber );
+    $phone->setType( $PhoneType );
+    $phone->update();
+}
+
+if ( $PhoneAction == "DeletePhone" )
+{
+    $phone = new eZPhone( );
+    $phone->get( $PhoneID );
+    $phone->delete();
+}
+
 
 // Slette fra company list
 if ( $Action == "delete" )
@@ -140,6 +157,7 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
   $t->parse( "address_type", "address_type_select", true );
 }
 
+$phone_select_dict = "";
 // telefon type selector
 for ( $i=0; $i<count( $phone_type_array ); $i++ )
 {
@@ -154,28 +172,23 @@ for ( $i=0; $i<count( $phone_type_array ); $i++ )
   {
     $t->set_var( "is_selected", "" );    
   }
+
+  $phone_select_dict[ $phone_type_array[$i][ "ID" ] ] = $i;
   
   $t->parse( "phone_type", "phone_type_select", true );
 }
 
+
+
 // redigering av firma
 if ( $Action == "edit" )
 {
-
     $company = new eZCompany();
     $company->get( $CID );
 
     $phone = new eZPhone( );
-//      $phone->setNumber( "35 53 35 47" );
-//      $phone->setType( $PhoneType );
-//      $pid = $phone->store();    
     
     $dict = new eZCompanyPhoneDict();
-
-//      $dict->setCompanyID( $CID );
-//      $dict->setPhoneID( $pid );
-//      $dict->store(); 
-    
     
     $dict_array = $dict->getByCompany( $CID );
 
@@ -188,14 +201,17 @@ if ( $Action == "edit" )
         $t->set_var( "phone_number", $phone->number() );
         $t->set_var( "phone_type_name", $phoneType->name() );
 
-        $t->set_var( "phone_type_id", $i );
+        $t->set_var( "phone_type_id", $phone_select_dict[ $phoneType->id() ] );
+        
         $t->parse( "phone_list", "phone_item", true );                
     }
 
     $t->set_var( "phone_action", "AddPhone" );
-    $t->set_var( "phone_action_value", "Legg til" );
-    
+    $t->set_var( "phone_edit_id", "-1" );
+    $t->set_var( "phone_action_value", "Legg til" );    
 }
+
+
 
 $t->set_var( "comment", $Comment );
 

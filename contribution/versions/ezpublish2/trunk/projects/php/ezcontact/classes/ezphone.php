@@ -22,6 +22,26 @@ class eZPhone
     }
 
     /*
+      Oppdaterer  
+    */
+    function update()
+    {
+        $this->dbInit();
+        
+        query( "UPDATE Phone set Number='$this->Number', Type='$this->Type' WHERE ID='$this->ID' " );
+    }
+
+    /*
+      Sletter.
+    */
+    function delete()
+    {
+        $this->dbInit();
+        
+        query( "DELETE FROM Phone WHERE ID='$this->ID' " );
+    }
+    
+    /*
       Henter ut telefonnummer med ID == $id
     */  
     function get( $id )
