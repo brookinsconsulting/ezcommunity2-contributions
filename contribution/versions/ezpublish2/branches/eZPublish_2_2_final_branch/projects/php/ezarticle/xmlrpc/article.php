@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.1 2002/01/16 16:30:59 jb Exp $
+// $Id: article.php,v 1.20.2.2 2002/01/17 12:31:07 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -419,8 +419,8 @@ else if ( $Command == "search" )
                                                  "CategoryName" => new eZXMLRPCString( $cat->name( false ) ),
                                                  "Location" => createURLStruct( "ezarticle", "article", $item->id() ),
                                                  "CategoryLocation" => createURLStruct( "ezarticle", "category", $cat->id() ),
-                                                 "WebURL" => new eZXMLRPCString( $wwwDir . "/article/articleview/$itemid/1/$catid/" ),
-                                                 "CategoryWebURL" => new eZXMLRPCString( $wwwDir . "/article/archive/$catid/" )
+                                                 "WebURL" => new eZXMLRPCString( rewriteWebURL( "/article/articleview/$itemid/1/$catid/" ) ),
+                                                 "CategoryWebURL" => new eZXMLRPCString( rewriteWebURL( "/article/archive/$catid/" ) )
                                                  ) );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );

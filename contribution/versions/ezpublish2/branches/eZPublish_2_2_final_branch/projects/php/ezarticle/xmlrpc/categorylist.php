@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.20.2.1 2002/01/16 16:30:59 jb Exp $
+// $Id: categorylist.php,v 1.20.2.2 2002/01/17 12:31:07 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -214,8 +214,8 @@ else if ( $Command == "search" )
         $element["CategoryName"] = new eZXMLRPCString( $cat->name( false ) );
         $element["Location"] =  createURLStruct( "ezarticle", "category", $item->id() );
         $element["CategoryLocation"] = createURLStruct( "ezarticle", "category", $catid );
-        $element["WebURL"] = new eZXMLRPCString( $wwwDir . "/article/archive/$itemid/" );
-        $element["CategoryWebURL"] = new eZXMLRPCString( $wwwDir . "/article/archive/$catid/" );
+        $element["WebURL"] = new eZXMLRPCString( rewriteWebURL( "/article/archive/$itemid/" ) );
+        $element["CategoryWebURL"] = new eZXMLRPCString( rewriteWebURL( "/article/archive/$catid/" ) );
         $elements[] = new eZXMLRPCStruct( $element );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
