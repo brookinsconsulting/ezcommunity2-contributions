@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.26 2001/03/13 13:24:44 bf Exp $
+// $Id: ezorder.php,v 1.27 2001/03/15 12:58:32 jb Exp $
 //
 // Definition of eZOrder class
 //
@@ -225,7 +225,7 @@ class eZOrder
          WHERE IsActive='1'
          LIMIT $offset, $limit" );
 
-        for ( $i=0; $i<count( $order_array ); $i++ )
+        for ( $i=0; $i < count( $order_array ); $i++ )
         {
             $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
         }
@@ -248,7 +248,7 @@ class eZOrder
          WHERE IsActive='1' 
          AND IsExported='0'" );
 
-        for ( $i=0; $i<count( $order_array ); $i++ )
+        for ( $i=0; $i < count( $order_array ); $i++ )
         {
             $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
         }
@@ -273,7 +273,7 @@ class eZOrder
                                                      WHERE ID LIKE '%$queryText%'
                                                       LIMIT $offset, $limit" );
 
-        for ( $i=0; $i<count( $order_array ); $i++ )
+        for ( $i=0; $i < count( $order_array ); $i++ )
         {
             $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
         }

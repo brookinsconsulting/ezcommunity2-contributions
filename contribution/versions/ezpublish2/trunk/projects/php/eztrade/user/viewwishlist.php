@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.5 2001/03/14 17:21:57 jb Exp $
+// $Id: viewwishlist.php,v 1.6 2001/03/15 12:58:32 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -32,6 +32,10 @@ include_once( "ezuser/classes/ezuser.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
+$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
+$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
+$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -126,8 +130,13 @@ $t->set_block( "wishlist_page_tpl", "wishlist_image_tpl", "wishlist_image" );
 
 
 $t->set_block( "wishlist_page_tpl", "wishlist_item_list_tpl", "wishlist_item_list" );
+$t->set_block( "wishlist_item_list_tpl", "product_available_header_tpl", "product_available_header" );
 $t->set_block( "wishlist_item_list_tpl", "wishlist_item_tpl", "wishlist_item" );
+$t->set_block( "wishlist_item_tpl", "product_available_item_tpl", "product_available_item" );
+$t->set_block( "wishlist_item_tpl", "move_to_cart_item_tpl", "move_to_cart_item" );
+$t->set_block( "wishlist_item_tpl", "no_move_to_cart_item_tpl", "no_move_to_cart_item" );
 $t->set_block( "wishlist_item_tpl", "wishlist_item_option_tpl", "wishlist_item_option" );
+$t->set_block( "wishlist_item_option_tpl", "wishlist_item_option_availability_tpl", "wishlist_item_option_availability" );
 
 $t->set_block( "wishlist_item_tpl", "is_bought_tpl", "is_bought" );
 $t->set_block( "wishlist_item_tpl", "is_not_bought_tpl", "is_not_bought" );
@@ -145,7 +154,9 @@ else
 // fetch the wishlist items
 $items = $wishlist->items( );
 
-
+$t->set_var( "product_available_header", "" );
+if ( $ShowQuantity )
+    $t->parse( "product_available_header", "product_available_header_tpl" );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
@@ -154,6 +165,7 @@ $i = 0;
 $sum = 0.0;
 foreach ( $items as $item )
 {
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
     $product = $item->product();
 
     $t->set_var( "wishlist_item_id", $item->id() );
@@ -192,29 +204,77 @@ foreach ( $items as $item )
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
 
+    $Quantity = $product->totalQuantity();
+    if ( !$product->hasPrice() )
+    {
+        $Quantity = 0;
+        foreach ( $optionValues as $optionValue )
+        {
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();
+            $value_quantity = $value->totalQuantity();
+            if ( $value_quantity > 0 )
+                $Quantity = $value_quantity;
+        }
+    }
+    $t->set_var( "product_available_item", "" );
+    if ( $ShowQuantity )
+    {
+        $NamedQuantity = $Quantity;
+        if ( $ShowNamedQuantity )
+            $NamedQuantity = eZProduct::namedQuantity( $Quantity );
+        $t->set_var( "product_availability", $NamedQuantity );
+        $t->parse( "product_available_item", "product_available_item_tpl" );
+    }
     $t->set_var( "wishlist_item_count", $item->count() );
     
     $t->set_var( "product_price", $locale->format( $currency ) );
 
-    if ( ( $i % 2 ) == 0 )
-        $t->set_var( "td_class", "bglight" );
-    else
-        $t->set_var( "td_class", "bgdark" );
-
     $optionValues =& $item->optionValues();
 
     $t->set_var( "wishlist_item_option", "" );
+    $min_quantity = $Quantity;
     foreach ( $optionValues as $optionValue )
     {
         $option =& $optionValue->option();
         $value =& $optionValue->optionValue();
+        $value_quantity = $value->totalQuantity();
 
         $t->set_var( "option_name", $option->name() );
-        /* *** FIX THIS!!!!! *** */
-//          $t->set_var( "option_value", $value->name() );
-        $t->set_var( "option_value", "" );
+
+        $descriptions =& $value->descriptions();
+        $t->set_var( "option_value", $descriptions[0] );
+
+        $t->set_var( "wishlist_item_option_availability", "" );
+        if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+        {
+            if ( is_bool( $min_quantity ) )
+                $min_quantity =  $value_quantity;
+            else
+                $min_quantity = min( $min_quantity , $value_quantity );
+            $named_quantity = $value_quantity;
+            if ( $ShowNamedQuantity )
+                $named_quantity = eZProduct::namedQuantity( $value_quantity );
+            if ( $ShowOptionQuantity )
+            {
+                $t->set_var( "option_availability", $named_quantity );
+                $t->parse( "wishlist_item_option_availability", "wishlist_item_option_availability_tpl" );
+            }
+        }
 
         $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
+    }
+
+    $t->set_var( "move_to_cart_item", "" );
+    $t->set_var( "no_move_to_cart_item", "" );
+    if ( (is_bool( $min_quantity ) and !$min_quantity) or
+         !$RequireQuantity or ( $RequireQuantity and $min_quantity > 0 ) )
+    {
+        $t->parse( "move_to_cart_item", "move_to_cart_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_move_to_cart_item", "no_move_to_cart_item_tpl" );
     }
 
     $t->parse( "wishlist_item", "wishlist_item_tpl", true );

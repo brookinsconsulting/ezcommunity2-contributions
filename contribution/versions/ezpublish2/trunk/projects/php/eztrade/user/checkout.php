@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.51 2001/03/14 17:21:57 jb Exp $
+// $Id: checkout.php,v 1.52 2001/03/15 12:58:32 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -193,8 +193,6 @@ if ( isset( $SendOrder ) )
             $orderOptionValue->setOptionName( $option->name() );
             $orderOptionValue->setValueName( $descriptions[0] );
             // fix
-
-            
             $orderOptionValue->store();
         }
     }

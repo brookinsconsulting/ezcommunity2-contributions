@@ -60,7 +60,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 	<!-- BEGIN quantity_item_tpl -->
 	<td valign="top">
-	<p class="boxtext">{intl-quantity}:</p>
+	<p class="boxtext">{intl-availability}:</p>
 	<input type="text" size="10" name="Quantity" value="{quantity_value}" />
 	</td>
 	<!-- END quantity_item_tpl -->

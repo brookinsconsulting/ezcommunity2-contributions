@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.20 2001/03/14 10:41:49 pkej Exp $
+// $Id: payment.php,v 1.21 2001/03/15 12:58:32 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -353,8 +353,36 @@ if ( $PaymentSuccess == "true" )
     $order->store();
     $cart->clear();
 
+    // Decrease product/option quantity
+    $order_items = $order->items();
+    foreach( $order_items as $order_item )
+    {
+        $product =& $order_item->product();
+        $count = $order_item->count();
+        $quantity = $product->totalQuantity();
+//          if ( !(is_bool( $quantity ) and !$quantity) )
+//          {
+//              $product->setTotalQuantity( max( $quantity - $count, 0 ) );
+//              $product->store();
+//          }
+        $options =& $product->options();
+        foreach( $options as $option )
+        {
+            $option_values =& $option->values();
+            foreach( $option_values as $option_value )
+            {
+                $value_quantity = $option_value->totalQuantity();
+//                  if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+//                  {
+//                      $option_value->setTotalQuantity( max( $value_quantity - $count, 0 ) );
+//                      $option_value->store();
+//                  }
+            }
+        }
+    }
+
     $orderID = $order->id();
-    
+
     eZHTTPTool::header( "Location: /trade/ordersendt/$orderID/" );
     exit();
 }
