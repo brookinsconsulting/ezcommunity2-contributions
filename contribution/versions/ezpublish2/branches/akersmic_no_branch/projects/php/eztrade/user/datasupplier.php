@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.7 2002/02/05 15:30:55 ce Exp $
+// $Id: datasupplier.php,v 1.54.8.8 2002/02/26 12:13:32 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -161,6 +161,7 @@ switch ( $url_array[2] )
             include( "eztrade/user/productview.php" );
         }
 
+        /*
         include_once( "eztrade/user/similarproducts.php" );
         $similarCode =& similarProducts( $SimilarCategoryID );
 
@@ -169,6 +170,7 @@ switch ( $url_array[2] )
         ob_start();
         $tmpBuffer =& str_replace( "<!-- SIMILAR -->", $similarCode, $tmpBuffer );
         print( $tmpBuffer );
+        */
     }
     break;
 

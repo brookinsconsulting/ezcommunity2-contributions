@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.17 2002/02/15 13:05:49 ce Exp $
+// $Id: productlist.php,v 1.41.8.18 2002/02/26 12:13:32 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -65,7 +65,17 @@ $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "productlist.php" );
 
-$t->set_file( "product_list_page_tpl", "productlist.tpl" );
+$sectionOverride = "_sectionoverride_$GlobalSectionID";
+$TemplateDir =  $ini->read_var( "eZTradeMain", "TemplateDir" );
+
+if ( eZFile::file_exists( "eztrade/user/$TemplateDir/productlist" . $sectionOverride  . ".tpl" ) )
+{
+    $t->set_file( "product_list_page_tpl", "productlist" . $sectionOverride  . ".tpl"  );
+}
+else
+{
+    $t->set_file( "product_list_page_tpl", "productview.tpl" );
+}
 
 $t->set_block( "product_list_page_tpl", "price_tpl", "price" );
 $t->set_block( "product_list_page_tpl", "path_tpl", "path" );
@@ -262,10 +272,53 @@ if ( ( count ( $productList ) == 0 ) and count ( $categoryList ) == 0 )
     eZList::drawNavigator( $t, 0, 0, 0, "product_list_page_tpl" );
 }
 
+switch( $GlobalSectionID )
+{
+    case 1:
+    {
+        $filename = "sitedesign/am/staticpages/";
+    }
+    break;
+    case 2:
+    {
+        $filename = "sitedesign/am/staticpages/musikk_content.html";
+    }
+    break;
+    case 3:
+    {
+        $filename = "sitedesign/am/staticpages/dvd_content.html";
+    }
+    break;
+    case 4:
+    {
+        $filename = "sitedesign/am/staticpages/hifi_content.html";
+    }
+    break;
+    case 5:
+    {
+        $filename = "sitedesign/am/staticpages/multimedia_content.html";
+    }
+    break;
+}
+
+if ( file_exists ( $filename ) )
+{
+    $file = eZFile::fopen( $filename, "r" );
+    if ( $file )
+    {
+        $content =& fread( $file, eZFile::filesize( $filename ) );
+        fclose( $file );
+    }
+}
+
+$t->set_var( "static_page", $content );
+
+/*
 $SimilarCategoryID = 28;
 include_once( "eztrade/user/similarproducts.php" );
 $similarCode = similarProducts( $SimilarCategoryID );
 $t->set_var( "similar_products", $similarCode );
+*/
 
 if ( $GenerateStaticPage == "true" )
 {

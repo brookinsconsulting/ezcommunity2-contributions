@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.32 2002/02/15 13:05:49 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.33 2002/02/26 12:13:32 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1857,7 +1857,6 @@ class eZProduct
                     foreach ( $queryArray as $queryWord )
                     {
                         $queryWord = trim( $queryWord );
-
 
                         $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  )  AND ";
 

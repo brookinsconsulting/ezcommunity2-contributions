@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: biglist.php,v 1.1.2.2 2002/02/15 13:05:49 ce Exp $
+// $Id: biglist.php,v 1.1.2.3 2002/02/26 12:13:32 ce Exp $
 //
 // Created on: <12-Dec-2000 14:43:08 bf>
 //
@@ -28,100 +28,117 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezlist.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+
+include_once( "classes/ezcachefile.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
-include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezproductcategory.php" );
-
-$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-		     "eztrade/user/intl/", $Language, "categorytreelist.php" );
-
-$t->set_file( "category_list_page_tpl", "biglist.tpl" );
-
-$t->set_block( "category_list_page_tpl", "category_list_tpl", "category_list" );
-$t->set_block( "category_list_page_tpl", "navigator_top_tpl", "navigator_top" );
-$t->set_block( "category_list_tpl", "top_category_tpl", "top_category" );
-$t->set_block( "category_list_page_tpl", "product_item_tpl", "product_item" );
-$t->set_block( "category_list_page_tpl", "category_item_tpl", "category_item" );
-
-$t->setAllStrings();
-
-if ( !isSet( $Limit ) or !is_numeric( $Limit ) )
-    $Limit = 20;
-if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
-    $Offset = 0;
-if ( !isSet( $ParentID ) or !is_numeric( $ParentID ) )
-    $ParentID = 5957;
-
-$sub = new eZProductCategory(  );
-$sub->get( $ParentID );
-
-
-$t->set_var( "parent_id", $ParentID );
-$t->set_var( "product_list", "" );
-$t->set_var( "product_item", "" );
-$t->set_var( "category_item", "" );
-$t->set_var( "module", "$module" );
-
-$products =& $sub->activeProducts( $sub->sortMode(), $Offset, $Limit );
-$TotalTypes =& $sub->productCount( $sub->sortMode() );
-if ( $TotalTypes > 0 )
+function &bigList( $CategoryID, $ParentID, $Offset=0, $module )
 {
+    $bigListCacheFile = new eZCacheFile( "eztrade/cache/biglist/",
+					 array_merge( "list", $CategoryID, $ParentID, $Offset ),
+					 "cache", "," );
+    if ( $bigListCacheFile->exists() )
+    {
+	return $bigListCacheFile->contents();
+    }
+    else
+    {
+	global $ini, $IntlDir, $Language;
+	$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+			     "eztrade/user/intl/", $Language, "categorytreelist.php" );
+
+	$t->set_file( "category_list_page_tpl", "biglist.tpl" );
+
+	$t->set_block( "category_list_page_tpl", "category_list_tpl", "category_list" );
+	$t->set_block( "category_list_page_tpl", "navigator_top_tpl", "navigator_top" );
+	$t->set_block( "category_list_tpl", "top_category_tpl", "top_category" );
+	$t->set_block( "category_list_page_tpl", "product_item_tpl", "product_item" );
+	$t->set_block( "category_list_page_tpl", "category_item_tpl", "category_item" );
+
+	$t->setAllStrings();
+
+	if ( !isSet( $Limit ) or !is_numeric( $Limit ) )
+	    $Limit = 20;
+	if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
+	    $Offset = 0;
+	if ( !isSet( $ParentID ) or !is_numeric( $ParentID ) )
+	    $ParentID = 5957;
+
+	$sub = new eZProductCategory(  );
+	$sub->get( $ParentID );
+
+
+	$t->set_var( "parent_id", $ParentID );
+	$t->set_var( "product_list", "" );
+	$t->set_var( "product_item", "" );
+	$t->set_var( "category_item", "" );
+	$t->set_var( "module", "$module" );
+
+	$products =& $sub->activeProducts( $sub->sortMode(), $Offset, $Limit );
+	$TotalTypes =& $sub->productCount( $sub->sortMode() );
+	if ( $TotalTypes > 0 )
+	{
 // sub categories
-    foreach ( $products as $product )
-    {
-        $t->set_var( "product_id", $product->id() );
-        $t->set_var( "product_name", $product->name() );
-        $t->parse( "product_item", "product_item_tpl", true );
-    }
-}
-else
-{
-    $db =& eZDB::globalDatabase();
-    $db->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$ParentID' ORDER BY Name", array( "Limit" => $Limit, "Offset" => $Offset ) );
-    $db->query_single( $count, "SELECT COUNT(ID) as Count FROM eZTrade_Category WHERE Parent='$ParentID'" );
-    $TotalTypes = $count["Count"];
-    if ( count ( $category_array ) > 0 )
-    {
-        foreach ( $category_array as $category )
-        {
-            $t->set_var( "category_id", $category["ID"] );
-            $t->set_var( "category_name", $category["Name"] );
-            $t->parse( "category_item", "category_item_tpl", true );
-        }
-    }
-}
+	    foreach ( $products as $product )
+	    {
+		$t->set_var( "product_id", $product->id() );
+		$t->set_var( "product_name", $product->name() );
+		$t->parse( "product_item", "product_item_tpl", true );
+	    }
+	}
+	else
+	{
+	    $db =& eZDB::globalDatabase();
+	    $db->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$ParentID' ORDER BY Name", array( "Limit" => $Limit, "Offset" => $Offset ) );
+	    $db->query_single( $count, "SELECT COUNT(ID) as Count FROM eZTrade_Category WHERE Parent='$ParentID'" );
+	    $TotalTypes = $count["Count"];
+	    if ( count ( $category_array ) > 0 )
+	    {
+		foreach ( $category_array as $category )
+		{
+		    $t->set_var( "category_id", $category["ID"] );
+		    $t->set_var( "category_name", $category["Name"] );
+		    $t->parse( "category_item", "category_item_tpl", true );
+		}
+	    }
+	}
 
-eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "navigator_top_tpl" );
-$buttom =& $t->parse( "navigator_top", "navigator_top_tpl" );
-$t->set_var( "navigator_buttom", "$buttom" );
+	eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "navigator_top_tpl" );
+	$buttom =& $t->parse( "navigator_top", "navigator_top_tpl" );
+	$t->set_var( "navigator_buttom", "$buttom" );
 
-$category = new eZProductCategory(  );
-$category->get( $CategoryID );
+	$category = new eZProductCategory(  );
+	$category->get( $CategoryID );
 
-$categoryList =& $category->getByParent( $category, "name", 100 );
+	$categoryList =& $category->getByParent( $category, "name", 100 );
 
 // categories
-foreach ( $categoryList as $categoryItem )
-{
-    $t->set_var( "top_category_id", $categoryItem->id() );
-    $t->set_var( "top_category_name", $categoryItem->name() );
+	foreach ( $categoryList as $categoryItem )
+	{
+	    $t->set_var( "top_category_id", $categoryItem->id() );
+	    $t->set_var( "top_category_name", $categoryItem->name() );
 
-    $subItemList =& $category->getByParent( $categoryItem );
-    $t->parse( "top_category", "top_category_tpl", true );
-}
+	    $subItemList =& $category->getByParent( $categoryItem );
+	    $t->parse( "top_category", "top_category_tpl", true );
+	}
 
-if ( count( $categoryList ) == 0 )
-{
-    $t->set_var( "category_list", "" );
-}
-else
-{
-    $buttom =& $t->parse( "category_list", "category_list_tpl" );
-    $t->set_var( "list_buttom", "$buttom" );
-}
+	if ( count( $categoryList ) == 0 )
+	{
+	    $t->set_var( "category_list", "" );
+	}
+	else
+	{
+	    $buttom =& $t->parse( "category_list", "category_list_tpl" );
+	    $t->set_var( "list_buttom", "$buttom" );
+	}
 
-$t->pparse( "output", "category_list_page_tpl" );
+	$output =& $t->parse( "output", "category_list_page_tpl" );
+	$bigListCacheFile->store( $output );
+	return $output;
+    }
+}
 ?>

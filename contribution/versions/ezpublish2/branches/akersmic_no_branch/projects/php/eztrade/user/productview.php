@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.10 2002/02/15 13:05:49 ce Exp $
+// $Id: productview.php,v 1.77.2.2.4.11 2002/02/26 12:13:32 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -61,31 +61,6 @@ $locale = new eZLocale( $Language );
 
 
 $product = new eZProduct( $ProductID );
-switch( $product->typeID() )
-{
-    case 1;
-    {
-        $SimilarCategoryID = 134;
-    }
-    break;
-    case 2;
-    {
-        $SimilarCategoryID = 135;
-    }
-    break;
-    case 5;
-    {
-        $SimilarCategoryID = 13331;
-    }
-    break;
-    case 4;
-    {
-        $SimilarCategoryID = 13370;
-    }
-    break;
-    default:
-        $SimilarCategoryID = 134;
-}
 
 if ( $CategoryID == "" )
 {
@@ -146,7 +121,6 @@ else
 {
     $t->set_file( "product_view_tpl", "productview.tpl" );
 }
-
 
 $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
@@ -536,6 +510,46 @@ if ( isSet( $func_array ) and is_array( $func_array ) )
         $func( $t, $ProductID );
     }
 }
+
+switch( $GlobalSectionID )
+{
+    case 1:
+    {
+        $filename = "sitedesign/am/staticpages/";
+    }
+    break;
+    case 2:
+    {
+        $filename = "sitedesign/am/staticpages/musikk_content.html";
+    }
+    break;
+    case 3:
+    {
+        $filename = "sitedesign/am/staticpages/dvd_content.html";
+    }
+    break;
+    case 4:
+    {
+        $filename = "sitedesign/am/staticpages/hifi_content.html";
+    }
+    break;
+    case 5:
+    {
+        $filename = "sitedesign/am/staticpages/multimedia_content.html";
+    }
+    break;
+}
+
+if ( file_exists ( $filename ) )
+{
+    $file = eZFile::fopen( $filename, "r" );
+    if ( $file )
+    {
+        $content =& fread( $file, eZFile::filesize( $filename ) );
+        fclose( $file );
+    }
+}
+$t->set_var( "content", "$content" );
 
 $SiteTitleAppend = $product->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $product->brief() ) );

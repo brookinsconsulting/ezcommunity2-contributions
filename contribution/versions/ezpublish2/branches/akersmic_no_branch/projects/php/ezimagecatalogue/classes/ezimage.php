@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezimage.php,v 1.88 2001/10/12 10:45:09 ce Exp $
+//
+// $Id: ezimage.php,v 1.88.8.1 2002/02/26 12:13:32 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -35,13 +35,13 @@
 
     // userfile is the name of the input in the html form
     if ( $file->getUploadedFile( "userfile" ) )
-    { 
+    {
         $image = new eZImage();
         $image->setName( $Name );
         $image->setCaption( $Caption );
 
         $image->setImage( $file );
-        
+
         $image->store();
     }
     else
@@ -55,7 +55,7 @@
     // can also use code like $mainImage = new eZImage( 2 );
     // where 2 is the id of the image in the catalogue.
     $mainImage = $product->mainImage();
-    
+
     if ( $mainImage )
     {
         $variation = $mainImage->requestImageVariation( 250, 250 );
@@ -68,9 +68,9 @@
     }
     else
     {
-        $t->set_var( "main_image", "" );    
+        $t->set_var( "main_image", "" );
     }
-    
+
     \endcode
   \sa eZImageVariation eZImageVariationGroup eZImageFile
 */
@@ -111,14 +111,14 @@ class eZImage
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
         $caption = $db->escapeString( $this->Caption );
         $filename = $db->escapeString( $this->FileName );
         $originalfilename = $db->fieldName( $this->OriginalFileName );
         $keywords = $db->escapeString( $this->Keywords );
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZImageCatalogue_Image" );
@@ -164,7 +164,7 @@ class eZImage
                     $variation->delete();
                 }
             }
-            
+
             $res = $db->query( "UPDATE eZImageCatalogue_Image SET
                                  Name='$name',
                                  Caption='$caption',
@@ -179,7 +179,7 @@ class eZImage
                                  WHERE ID='$this->ID'
                                  " );
         }
-        
+
         if ( $res == false )
             $db->rollback();
         else
@@ -251,7 +251,7 @@ class eZImage
             $db->query( "DELETE FROM eZImageCatalogue_ImageCategoryLink WHERE ImageID='$this->ID'" );
             $db->query( "DELETE FROM eZImageCatalogue_ImageCategoryDefinition WHERE ImageID='$this->ID'" );
             $db->query( "DELETE FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
-            
+
             // Delete from the filesystem
             if ( eZFile::file_exists( $this->filePath( true ) ) )
             {
@@ -259,7 +259,7 @@ class eZImage
             }
         }
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -295,7 +295,7 @@ class eZImage
 
         return $ret;
     }
-    
+
     /*!
         \static
       Fetches an image from the database if one with the same "original filename" is found.
@@ -337,11 +337,11 @@ class eZImage
            if ( count( $ret_array ) == 1 )
            {
                $ret = true;
-           } 
+           }
        }
        return $ret;
     }
-    
+
     /*!
       Set's the images defined category. This is the main category for the image.
       Additional categories can be added with eZImageCategory::addImage();
@@ -365,15 +365,15 @@ class eZImage
 
             $query = "INSERT INTO eZImageCatalogue_ImageCategoryDefinition ( ID, CategoryID, ImageID )
                       VALUES ( '$nextID', '$categoryID', '$this->ID' )";
-            
+
             $res = $db->query( $query );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
-                $db->commit();            
+                $db->commit();
         }
     }
 
@@ -458,7 +458,7 @@ class eZImage
         $ret = false;
 
         $read = $this->readPermission();
-        
+
         if ( get_class( $currentUser ) == "ezuser" )
         {
             if ( $read == "User" )
@@ -484,7 +484,7 @@ class eZImage
                     {
                         $user = new eZUser( $this->UserID );
                         $userGroups =& $user->groups();
-                            
+
                         foreach( $userGroups as $userGroup )
                         {
                             if ( $Groups->id() == $userGroup->id() )
@@ -528,9 +528,9 @@ class eZImage
     function checkWritePermission( &$currentUser )
     {
         $ret = false;
-        
+
         $write = $this->writePermission();
-        
+
         if ( get_class( $currentUser ) == "ezuser" )
         {
 
@@ -557,7 +557,7 @@ class eZImage
                     {
                         $user = new eZUser( $this->UserID );
                         $userGroups =& $user->groups();
-                            
+
                         foreach( $userGroups as $userGroup )
                         {
                             if ( $Groups->id() == $userGroup->id() )
@@ -586,9 +586,9 @@ class eZImage
         }
 
         return $ret;
-    }    
-    
-    
+    }
+
+
     /*!
       Returns the id of the image.
     */
@@ -599,7 +599,7 @@ class eZImage
         else
             return;
     }
-    
+
     /*!
       Returns the name of the image.
     */
@@ -631,7 +631,7 @@ class eZImage
            return htmlspecialchars( $this->Description );
        else
            return $this->Description;
-    }    
+    }
 
     /*!
       Returns the filename of the image.
@@ -648,7 +648,7 @@ class eZImage
     {
         return $this->OriginalFileName;
     }
-    
+
     function &fileExists( $relative=false )
     {
        if ( $relative == true )
@@ -659,7 +659,7 @@ class eZImage
        {
            $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
        }
-       
+
        $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
 
        return eZFile::file_exists( $relPath ) and is_file( $relPath );
@@ -673,7 +673,7 @@ class eZImage
     function &filePath( $relative=false )
     {
        $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
-       
+
        if ( $relative == true )
        {
            $path = "ezimagecatalogue/catalogue/" . $this->FileName;
@@ -698,7 +698,7 @@ class eZImage
     function &imagePath( $relative=false )
     {
         return $this->filePath( $relative );
-    }    
+    }
 
     /*!
       Returns the eZImageVariation object to a scaled version of the image.
@@ -727,10 +727,10 @@ class eZImage
            $group->setHeight( $height );
            $group->store();
 
-           
+
            $ret =& $variation->requestVariation( $this, $group, $convertToGray, $allow_error );
        }
-       
+
        return $ret;
     }
 
@@ -752,7 +752,7 @@ class eZImage
                $ret = "Group";
            }
            break;
-           
+
            case 3:
            {
                $ret = "All";
@@ -784,7 +784,7 @@ class eZImage
                $ret = "Group";
            }
            break;
-           
+
            case 3:
            {
                $ret = "All";
@@ -794,7 +794,7 @@ class eZImage
            default:
                $ret = "User";
        }
-       
+
        return $ret;
     }
 
@@ -807,11 +807,11 @@ class eZImage
         {
             $ret = new eZUser( $this->UserID );
         }
-        
+
         return $ret;
     }
 
-    
+
     /*!
       Sets the image name.
     */
@@ -843,7 +843,7 @@ class eZImage
     {
         $this->OriginalFileName = $value;
     }
-    
+
     /*!
       Returns true if the file is a valid image.
     */
@@ -861,7 +861,7 @@ class eZImage
 
     /*!
       Makes a copy of the image and stores the image in the catalogue.
-      
+
       If the image is not of the type .jpg or .gif the image is converted to .jpg.
     */
     function setImage( &$file )
@@ -893,10 +893,10 @@ class eZImage
            $this->FileName = basename( $file->tmpName() ) . $postfix;
 
            $name = $file->name();
-           
+
            $this->OriginalFileName =& $name;
            $this->NewImage = true;
-           
+
            return true;
        }
        return false;
@@ -908,7 +908,7 @@ class eZImage
       1 = User
       2 = Group
       3 = All
-      
+
     */
     function setWritePermission( $value )
     {
@@ -919,23 +919,23 @@ class eZImage
                $value = 1;
            }
            break;
-           
+
            case "Group":
            {
                $value = 2;
            }
            break;
-           
+
            case "All":
            {
                $value = 3;
            }
            break;
-           
+
            default:
                $value = 1;
        }
-       
+
        $this->WritePermission = $value;
     }
 
@@ -945,7 +945,7 @@ class eZImage
       1 = User
       2 = Group
       3 = All
-      
+
     */
     function setReadPermission( $value )
     {
@@ -956,23 +956,23 @@ class eZImage
                $value = 1;
            }
            break;
-           
+
            case "Group":
            {
                $value = 2;
            }
            break;
-           
+
            case "All":
            {
                $value = 3;
            }
            break;
-           
+
            default:
                $value = 1;
        }
-       
+
        $this->ReadPermission = $value;
     }
 
@@ -988,7 +988,7 @@ class eZImage
             $this->UserID = $userID;
         }
     }
-    
+
     /*!
       Returns the width of the image.
     */
@@ -1023,7 +1023,7 @@ class eZImage
     function &variations()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
 
         $db->array_query( $variationArray, "SELECT ID, Width, Height
@@ -1053,7 +1053,7 @@ class eZImage
 
         if ( count( $res ) > 0 )
             $category = array();
-    
+
         for ( $i = 0; $i < count( $res ); $i++ )
         {
             array_push( $category, $res[$i][$db->fieldName("CategoryID")] );
@@ -1073,7 +1073,7 @@ class eZImage
     {
         if( get_class( $user ) != "ezuser" )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZImageCatalogue_Image WHERE ID='$image'");
         $userID = $res[$db->fieldName("UserID")];
@@ -1091,7 +1091,7 @@ class eZImage
         if ( get_class( $author ) == "ezauthor" )
             $this->PhotographerID = $author->id();
         else if ( is_numeric( $author ) )
-            $this->PhotographerID = $author;        
+            $this->PhotographerID = $author;
     }
 
     /*!
@@ -1179,6 +1179,28 @@ class eZImage
 
         return new eZImage( $res["ID"] );
     }
+
+    /*!
+      Check if there are a product where RemoteID == $id. Return the product if true.
+    */
+    function getByOriginalFileName( $id )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $product = false;
+
+        $db->array_query( $res, "SELECT ID FROM
+                                            eZImageCatalogue_Image
+                                            WHERE OriginalFileName='$id'" );
+
+        if ( count( $res ) > 0 )
+        {
+            $product = new eZImage( $res[0][$db->fieldName( "ID" )] );
+        }
+
+        return $product;
+    }
+
 
     var $ID;
     var $Name;

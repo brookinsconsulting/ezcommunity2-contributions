@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: messagesimplelist.php,v 1.15.8.3 2002/02/25 08:30:44 ceaker Exp $
+//
+// $Id: messagesimplelist.php,v 1.15.8.4 2002/02/26 12:13:32 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -48,6 +48,7 @@ $t->set_file( "messagelist", "messagesimplelist.tpl"  );
 
 
 $t->set_block( "messagelist", "message_list_tpl", "message_list" );
+$t->set_block( "messagelist", "no_messages_tpl", "no_messages" );
 
 $t->set_block( "message_list_tpl", "message_item_tpl", "message_item" );
 
@@ -67,13 +68,12 @@ $messageCount =& $forum->messageCount();
 
 if ( !$messageList )
 {
-    $errorIni = new INIFile( "ezforum/user/intl/" . $Language . "/messagesimplelist.php.ini", false );
-    $noitem =& $errorIni->read_var( "strings", "noitem" );
-
-    $t->set_var( "message_list", $noitem );
+    $t->parse( "no_messages", "no_messages_tpl" );
+    $t->set_var( "message_list", "" );
 }
 else
 {
+    $t->set_var( "no_messages", "" );
     $level = 0;
     $i = 0;
     foreach ( $messageList as $message )
@@ -82,23 +82,23 @@ else
             $t->set_var( "td_class", "1" );
         else
             $t->set_var( "td_class", "2" );
-        
+
         $level = $message->depth();
-        
+
         if ( $level > 0 )
             $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
         else
-            $t->set_var( "spacer", "" );        
-            
+            $t->set_var( "spacer", "" );
+
         $t->set_var( "topic", htmlspecialchars( $message->topic() ) );
         $t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
         $time =& $message->postingTime();
         $t->set_var( "postingtime", $locale->format( $time ) );
         $t->set_var( "message_id", $message->id() );
-        
+
         $muser =& $message->user();
         $t->set_var( "user", $muser->firstName() . " " . $muser->lastName() );
-        
+
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
     }
