@@ -18,7 +18,7 @@
     {file_owner}
 
     <p class="boxtext">{intl-file_size}:</p>
-    {file_size}Kb
+    {file_size}{size_unit}
 
 </tr>
 </table>
