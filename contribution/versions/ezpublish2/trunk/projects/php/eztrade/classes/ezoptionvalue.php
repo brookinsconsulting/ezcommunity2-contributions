@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.17 2001/03/11 12:59:04 bf Exp $
+// $Id: ezoptionvalue.php,v 1.18 2001/03/12 13:45:45 jb Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -91,6 +91,7 @@ class eZOptionValue
         {
             $db->query( "UPDATE eZTrade_OptionValue SET
 		                         Price=$price,
+                                 RemoteID='$this->RemoteID',
                                  OptionID='$this->OptionID'
                                  WHERE ID='$this->ID'" );
         }

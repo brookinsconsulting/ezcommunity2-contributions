@@ -37,6 +37,7 @@
 <tr>
 	<th>
 	{intl-value} {value_pos}:
+	<input type="hidden" name="OptionValueID[{value_index}]" value="{option_value_id}" />
 	</th>
 	<!-- BEGIN value_item_tpl -->
 	<td>

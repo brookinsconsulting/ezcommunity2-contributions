@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.15 2001/03/12 12:17:27 bf Exp $
+// $Id: optionedit.php,v 1.16 2001/03/12 13:45:45 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -71,6 +71,8 @@ if ( isset( $Delete ) )
         foreach( $OptionDelete as $del )
         {
             unset( $OptionValue[$del] );
+            unset( $OptionValueID[$del] );
+            $OptionValueID = array_values( $OptionValueID );
             unset( $OptionPrice[$del] );
             unset( $OptionMainPrice[$del] );
         }
@@ -110,22 +112,26 @@ if ( isset( $OK ) )
     $option->removeHeaders();
     $option->addHeader( $OptionValueDescription );
 
-    $option->removeValues();
+//      $option->removeValues();
     $i = 0;
     foreach ( $OptionValue as $name )
     {
         if ( $name != "" )
         {
+            if ( is_numeric( $OptionValueID[$i] ) and $OptionValueID[$i] > 0 )
+                $value = new eZOptionValue( $OptionValueID[$i] );
+            else
             $value = new eZOptionValue();
             $value->setPrice( $OptionMainPrice[$i] );
-            $option->addValue( $value );
-            
+            $value->setOptionID( $option->ID );
+            $value->store();
+
             $value->removeDescriptions();
             $value->addDescription( $name );
             $option_price = $OptionPrice[$i];
 
-//            eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
-            
+            eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
+
             reset( $option_price );
             while( list($group,$price) = each( $option_price ) )
             {
@@ -220,6 +226,7 @@ if ( $Action == "Edit" )
         $OptionValue[$i] = $value->descriptions();
         $OptionValue[$i][] = "";
         $OptionMainPrice[] = $value->price();
+        $OptionValueID[$i] = $value->id();
         $valueid = $value->id();
         $ValueID[] = $valueid;
         $prices = eZPriceGroup::prices( $ProductID, $OptionID, $value->id() );
@@ -241,6 +248,7 @@ if ( $Action == "Edit" )
 if ( isset( $NewValue ) )
 {
     $OptionValue[] = array();
+    $OptionValueID[] = "";
     $ValueID[] = "";
     $option_price = array();
     for( $i = 0; $i < $count; ++$i )
@@ -253,6 +261,7 @@ if ( isset( $NewValue ) )
 while( max( count( $OptionValue ), count( $ValueID ), count( $OptionPrice ) ) < $MinValues )
 {
     $OptionValue[] = array();
+    $OptionValueID[] = "";
     $ValueID[] = "";
     $option_price = array();
     for( $i = 0; $i < $count; ++$i )
@@ -294,6 +303,7 @@ foreach ( $OptionValue as $value )
 {
     $t->set_var( "value_pos", $index + 1 );
     $t->set_var( "value_index", $index );
+    $t->set_var( "option_value_id", $OptionValueID[$index] );
     $t->set_var( "value_item", "" );
     reset( $value );
     $value_item = each( $value );
