@@ -45,6 +45,14 @@ include_once( "ezsession/classes/ezsession.php" );
 
 $user =& eZUser::currentUser();
 
+
+
+/*
+        <span class="LayerMenuItem"><a href="{www_dir}{index}/preferences">Preferences</a></span>
+        <span class="LayerMenuItem"><a href="{www_dir}{index}/logout">{logout}</a></span>
+        <span>&nbsp;</span>
+*/
+
 if ( !$user ) 
 {
     if ( !isset( $IntlDir ) )
@@ -144,13 +152,33 @@ else
 
     if ( !$user )
     {
+
+      // user menu box  
+$user_menu = array( array( 'Link' => '/preferences', 'Name' => 'Preferences' ), array( 'Link' => '/user/logout', 'Name' => 'Logout' ), '&nbsp;' );
+
+      $user_menu_box = renderSilverMenu($user_menu, true);
+
+      $t->set_var( "user_menu_box", $user_menu_box );
+
+      /*
+        $user_menu_box
         $t->set_var( "user_auth_url", "/user/login/login/" );
 	$t->set_var( "logout", 'Login' );
+      */
     }
     else
     {
-        $t->set_var( "user_auth_url", "/user/login/logout/" );
+      // user menu box
+      $user_menu = array( array( 'Link' => '/preferences', 'Name' => 'Preferences' ), array( 'Link' => '/user/logout', 'Name' => 'Logout' ), '&nbsp;', '<br />' );
+
+      $user_menu_box = renderSilverMenu($user_menu, true);
+
+      $t->set_var( "user_menu_box", $user_menu_box );
+
+      /*
+         $t->set_var( "user_auth_url", "/user/login/logout/" );
 	 $t->set_var( "logout", 'Logout' );
+      */
     }
 
 

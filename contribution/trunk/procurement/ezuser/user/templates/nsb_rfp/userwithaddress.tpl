@@ -86,6 +86,13 @@
     <!-- BEGIN error_missing_region_tpl -->
     <li>{intl-error_missing_region}</li>
     <!-- END error_missing_region_tpl -->
+    
+    <!-- BEGIN error_missing_company_tpl -->
+    <li>{intl-error_missing_company}</li>
+    <!-- END error_missing_company_tpl -->
+    <!-- BEGIN error_missing_phone_tpl -->
+    <li>{intl-error_missing_phone}</li>
+    <!-- END error_missing_phone_tpl -->
 </ul>
 
 <hr noshade size="4"/>
@@ -97,22 +104,22 @@
 
 <br />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td>
-	<p class="boxtext">{intl-firstname}:</p>
+	<td valign="top">
+	<span class="boxtext">{intl-firstname}:</span><br />
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
-	<td>
-	<p class="boxtext">{intl-lastname}:</p>
+	<td valign="top">
+	<span class="boxtext">{intl-lastname}:</span><br />
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
 	</td>
 </tr>
 <tr>
         <!-- BEGIN companies_tpl -->
-	<td colspan="2">
- 	<p class="boxtext">{intl-companyname}:</p>
-        <select multiple size="4" name="CompanyID[]">
+	<td colspan="1" valign="top">
+ 	<span class="boxtext">{intl-companyname}:</span><br />
+        <select multiple size="7" name="CompanyID[]">
         <!-- BEGIN company_select_tpl -->
         <option value="{company_id}" {is_selected}>{company_level}{company_name}</option>
         <!-- END company_select_tpl -->
@@ -120,16 +127,8 @@
 	</td>
         <!-- END companies_tpl -->
 
-	<!-- BEGIN company_name_single_tpl -->
-        <td colspan="2">
-        <p class="boxtext">{intl-companyname}:</p>
-	<input type="text" size="20" name="CompanyName" value="{company_name_value}"/>	
-        </td>
-	<!-- END company_name_single_tpl -->
-</tr>
-<tr>
-        <td>
-	<div style="padding-top: 10px; padding-bottom: 5px;"><span class="boxtext">{intl-login}:</span>
+       	<td colspan="1" valign="top">
+	<div style="padding-top: 10px; padding-bottom: 5px;"><span class="boxtext">{intl-login}:</span><br />
 	<!-- BEGIN login_item_tpl -->
 	<br /><br /><input type="text" size="20" name="Login" value="{login_value}"/>
 	<!-- END login_item_tpl -->
@@ -137,18 +136,26 @@
 	{login_value}<br />
 	<!-- END disabled_login_item_tpl -->
 	</div>
-        </td>
-        <td>
-	<p class="boxtext">{intl-email}:</p>
+
+	<br />
+
+	<span class="boxtext">{intl-email}:</span><br />
 	<input type="text" size="20" name="Email" value="{email_value}"/>
+	</td>
+
+	<!-- BEGIN company_name_single_tpl -->
+        <td colspan="2">
+        <span class="boxtext">{intl-companyname}:</span><br />
+	<input type="text" size="20" name="CompanyName" value="{company_name_value}"/>	
         </td>
+	<!-- END company_name_single_tpl -->
 </tr>
 <tr>
-	<td style="padding-top: 10px;">
+	<td style="" valign="top">
 	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
-	<td>
+	<td valign="top">
 	<p class="boxtext">{intl-verifypassword}:</p>
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
@@ -223,7 +230,6 @@
 <!-- END country_tpl -->
 
 <!-- END address_tpl -->
-<br />
 
 <h2>{intl-telephone_headline}</h2>
 <p>{intl-telephone_information}</p>
@@ -232,7 +238,7 @@
 <!-- BEGIN phone_table_item_tpl -->
 <tr>
     <!-- BEGIN phone_item_tpl -->
-    <td>
+    <td valign="top">
         <p class="boxtext">{intl-phone_pos}&nbsp;{phone_position}:</p>
         <select name="PhoneTypeID[]">
             <option value="-1">{intl-unknown_type}</option>
@@ -244,7 +250,7 @@
         <input type="text" class="halfbox" size="20" name="Phone[]" value="{phone_number}" />
         <input type="hidden" name="PhoneID[]" value="{phone_id}" /><br />
         <input type="checkbox" name="PhoneDelete[]" value="{phone_index}" />
-        <span class="boxtext">{intl-delete}</span><br />
+        <span class="boxtext">{intl-delete}</span>
     </td>
     <!-- END phone_item_tpl -->
 </tr>
@@ -259,7 +265,7 @@
 <!-- BEGIN online_table_item_tpl -->
 <tr>
     <!-- BEGIN online_item_tpl -->
-    <td>
+    <td valign="top">
         <p class="boxtext">{intl-online_pos}&nbsp;{online_position}:</p>
         <select name="OnlineTypeID[]">
             <option value="-1">{intl-unknown_type}</option>
@@ -271,7 +277,7 @@
         <input type="text" class="halfbox" size="20" name="Online[]" value="{online_value}" />
         <input type="hidden" name="OnlineID[]" value="{online_id}"><br />
         <input type="checkbox" name="OnlineDelete[]" value="{online_index}" />
-        <span class="boxtext">{intl-delete}</span><br />
+        <span class="boxtext">{intl-delete}</span>
     </td>
     <!-- END online_item_tpl -->
 </tr>

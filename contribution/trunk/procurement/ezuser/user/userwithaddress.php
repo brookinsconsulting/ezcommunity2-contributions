@@ -153,6 +153,8 @@ $t->set_block( "errors_item_tpl", "error_missing_address_tpl", "error_missing_ad
 $t->set_block( "errors_item_tpl", "error_missing_country_tpl", "error_missing_country" );
 
 $t->set_block( "errors_item_tpl", "error_missing_region_tpl", "error_missing_region" );
+$t->set_block( "errors_item_tpl", "error_missing_company_tpl", "error_missing_company" );
+$t->set_block( "errors_item_tpl", "error_missing_phone_tpl", "error_missing_phone" );
 
 $t->set_block( "user_edit_tpl", "new_user_tpl", "new_user" );
 $t->set_block( "user_edit_tpl", "edit_user_tpl", "edit_user" );
@@ -247,6 +249,9 @@ $street2Check = false;
 $zipCheck = true;
 $placeCheck = true;
 $addressCheck = true;
+$companyCheck = true;
+$phoneCheck = true;
+
 
 // If the user is trying to buy without having a address
 if ( $MissingAddress == true )
@@ -313,6 +318,10 @@ if ( isSet( $OK ) or isSet( $OK_x ) )
         }
     }
 
+    if ($phoneCheck)
+    {
+    }
+
     if ( $firstNameCheck and $FirstName == "" )
     {
         $t->parse( "error_first_name", "error_first_name_tpl" );
@@ -330,6 +339,20 @@ if ( isSet( $OK ) or isSet( $OK_x ) )
     {
         $t->parse( "error_comany_name", "error_comany_name_tpl" );
         $error = true;
+    }
+
+    if ($companyCheck)
+    {
+     if (empty($CompanyID) || (in_array(-1, $CompanyID) && sizeof($CompanyID)==1 ) )
+     {
+      $t->parse( "error_missing_company", "error_missing_company_tpl" );
+
+      $error = true;
+     }
+     else
+     {
+      $t->set_var( "error_missing_company", "");
+     }
     }
 
     if ( $emailCheck )
@@ -487,6 +510,14 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
     }
     */
     //    $user_insert->setCompanyName( $CompanyName );
+    for ($i=0; $i<sizeof($CompanyID); $i++)
+    {
+    	if ($CompanyID[$i] == 0)
+        {
+         unset($CompanyID[$i]);
+         break;
+        }
+    }
     $user_insert->setCompanies( $CompanyID );
     //    die($CompanyID[0]);
     $user_insert->setSignature( $Signature );
