@@ -232,7 +232,7 @@ if ( $Action == "insert" )
 }
 
 // Oppdaterer et firma.
-if ( $Action == "update" && $error == false )
+if ( $Action == "update" )
 {
     $company = new eZCompany();
     $company->get( $CompanyID  );
