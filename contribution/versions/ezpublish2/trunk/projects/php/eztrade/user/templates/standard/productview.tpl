@@ -123,7 +123,7 @@
 <!-- BEGIN add_to_cart_tpl -->
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
-<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
+<!-- <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" /> -->
 <!-- END add_to_cart_tpl -->
 
 

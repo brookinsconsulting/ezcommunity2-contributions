@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: wishlist.php,v 1.4 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: wishlist.php,v 1.5 2000/11/01 19:22:11 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -60,8 +60,8 @@ $user = eZUser::currentUser();
 
 if ( !$user )
 {
-    print( "You must be a user for adding products to the wishlist.. Create one? >> add redirect." );
-    print( "bf@ez.no <- fix :)." );
+    Header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
+    exit();
 }
 
 $wishlist = $wishlist->getByUser( $user );
