@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelinks.php,v 1.2 2001/01/22 14:42:59 jb Exp $
+// $Id: articlelinks.php,v 1.3 2001/01/26 09:14:12 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
@@ -57,7 +57,7 @@ $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
 
-$articleList = $category->articles( "alpha", false, true );
+$articleList = $category->articles( $category->sortMode(), false, true );
 
 $locale = new eZLocale( $Language );
 $i=0;
