@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkcategorylist.php,v 1.6 2001/07/10 12:17:10 jhe Exp $
+// $Id: linkcategorylist.php,v 1.7 2001/07/10 12:39:42 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -246,7 +246,7 @@ else
             }
         }
 
-        if ( count( $attributes ) > 0 )
+        if ( count( $attributes ) > 0 and $type )
         {
             $t->parse( "attribute_list", "attribute_list_tpl" );
         }
