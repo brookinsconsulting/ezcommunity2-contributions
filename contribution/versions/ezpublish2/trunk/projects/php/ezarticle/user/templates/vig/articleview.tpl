@@ -2,22 +2,16 @@
 
 
 <!-- END article_url_item_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<h1>{article_name}</h1>
-	</td>
-</tr>
-</table>
-
-<hr noshade="noshade" size="4" />
+<h1>{article_name}</h1>
 
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
 
-<br />
 <!-- BEGIN article_header_tpl -->
+
+<p class="intro">{article_intro}</p>
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -30,8 +24,6 @@
 </table>
 <!-- END article_header_tpl -->
 
-{article_intro}
------------------------
 <p>
 {article_body}
 </p>

@@ -29,10 +29,9 @@
 </tr>
 </table>
 <!-- END article_header_tpl -->
-STATIC
 
-{article_intro}
------------------------
+<p>{article_intro}</p>
+
 <p>
 {article_body}
 </p>

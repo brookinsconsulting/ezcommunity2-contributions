@@ -54,6 +54,7 @@
 </tr>
 </table>
 
+<br />
 <form action="/forum/userlogin/newsimple/{forum_id}">
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
