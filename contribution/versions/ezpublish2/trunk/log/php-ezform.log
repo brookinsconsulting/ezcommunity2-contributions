@@ -1405,3 +1405,11 @@ Maintainer(s) : pkej@ez.no
 
     * classes/ezformrenderer.php: Added related products
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-07-03  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/reportsetup.php.ini: lang fixes
+

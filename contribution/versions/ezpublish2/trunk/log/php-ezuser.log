@@ -1402,3 +1402,17 @@ Maintainer(s) : bf@ez.no
       user/templates/standard/forgotmessage.tpl:
     Added better userlogic to the forgot password page
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-07-03  Bjoern Reiten  <br@ez.no>
+
+    * user/userwithaddress.php:
+    fix, do not add the user to the anonymous group when the user
+    already exist.
+
+2002-07-03  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/Attic/extsearch.php.ini: lang fixes
+

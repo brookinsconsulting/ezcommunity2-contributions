@@ -731,3 +731,20 @@ Maintainer(s) : br@ez.no
       admin/intl/no_NO/linkcategorylist.php.ini
       admin/intl/no_NO/linkedit.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2002-05-08  Vidar Langseid  <vl@ez.no>
+
+    * admin/unacceptedlist.php
+      user/suggestlink.php: Fixed cross site bug
+
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2002-07-03  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezlink.php: Added escapeString to some variables
+
