@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.15 2001/05/07 14:19:14 fh Exp $
+// $Id: articleedit.php,v 1.16 2001/06/29 15:15:42 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -137,7 +137,7 @@ if ( $Action == "Cancel" )
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
-$t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articleedit.php" );
 
 $t->setAllStrings();

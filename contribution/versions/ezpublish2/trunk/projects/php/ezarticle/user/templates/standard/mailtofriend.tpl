@@ -78,16 +78,16 @@ http://{site_url}/article/view/{art_id}
 {intl-url}:
 <!-- END mail_body_tpl -->
 <!-- BEGIN errormsg_tpl -->
-<h1>{intl-errors_occured}:</h1><br />
+<h3 class="error">{intl-errors_occured}:</h3>
 <!-- END errormsg_tpl -->
 <!-- BEGIN errormsg_real_name_tpl -->
-<h3 class="error" >{intl-error_real_name}</h3><br />
+<h3 class="error" >{intl-error_real_name}</h3>
 <!-- END errormsg_real_name_tpl -->
 
 <!-- BEGIN errormsg_send_to_tpl -->
-<h3 class="error" >{intl-error_send_to}</h3><br />
+<h3 class="error" >{intl-error_send_to}</h3>
 <!-- END errormsg_send_to_tpl -->
 
 <!-- BEGIN errormsg_from_tpl -->
-<h3 class="error" >{intl-error_from}</h3><br />
+<h3 class="error" >{intl-error_from}</h3>
 <!-- END errormsg_from_tpl -->
