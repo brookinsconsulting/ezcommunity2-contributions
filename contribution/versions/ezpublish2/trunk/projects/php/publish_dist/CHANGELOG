@@ -1,6 +1,13 @@
 eZ publish changelog:
 ---------------------
 
+Changes from version 2.0 PRE 2 to 
+------------------------------------------------
+* Fixed bug eZContact which caused companies to disappear (or look empty)
+  when they were created directly from a category.
+* Deletion of company categories is recursive. Any companies contained inside these
+  categories will be moved to the top level.
+
 Changes from version 2.0 PRE 1 to PRE 2
 ------------------------------------------------
 * Deletion of company, person and consultation in eZ contact has been fixed.
