@@ -1,5 +1,5 @@
 <?
-// $Id: linkcategorylist.php,v 1.1 2001/06/30 11:29:40 bf Exp $
+// $Id: linkcategorylist.php,v 1.2 2001/06/30 11:56:31 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -200,7 +200,6 @@ else
         $t->set_var( "link_id", $linkItem->id() );
         $t->set_var( "link_name", $linkItem->name() );
         $t->set_var( "link_description", $linkItem->description() );
-        $t->set_var( "link_categoryid", $linkItem->linkcategoryid() );
         $t->set_var( "link_keywords", $linkItem->keywords() );
         $t->set_var( "link_created", $linkItem->created() );
         $t->set_var( "link_modified", $linkItem->modified() );

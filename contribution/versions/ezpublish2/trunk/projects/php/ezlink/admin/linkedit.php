@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.53 2001/06/30 11:29:40 bf Exp $
+// $Id: linkedit.php,v 1.54 2001/06/30 11:56:31 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -59,7 +59,8 @@ if ( isSet( $Back ) )
 {
     $link = new eZLink();
     $link->get( $LinkID );
-    $LinkCategoryID = $link->linkCategoryID();
+    $catDef = $link->categoryDefinition();
+    $LinkCategoryID = $catDef->id();
 
     eZHTTPTool::header( "Location: /link/category/$LinkCategoryID/" );
     exit();
@@ -141,7 +142,6 @@ if ( $Action == "update" )
             
             $link->setName( $Name );
             $link->setDescription( $Description );
-            $link->setLinkCategoryID( $LinkCategoryID );
             $link->setKeyWords( $Keywords );
             $link->setUrl( $Url );
             
@@ -173,11 +173,13 @@ if ( $Action == "update" )
             // add to categories
             $category = new eZLinkCategory( $LinkCategoryID );
             $link->setCategoryDefinition( $category );
+            $category->addLink( $link );
             
             foreach ( $add_categories as $categoryItem )
             {
                 eZLinkCategory::addLink( $link, $categoryItem );
             }
+
             
             if ( $Accepted == "1" )
                 $link->setAccepted( true );
@@ -244,7 +246,6 @@ if ( $Action == "delete" )
     {
         $deletelink = new eZLink();
         $deletelink->get( $LinkID );
-        $LinkCategoryID = $deletelink->linkCategoryID();
         $deletelink->delete();
 
         if ( $deletelink->accepted() == false )
@@ -267,7 +268,6 @@ if ( $Action == "DeleteLinks" )
         {
             $deletelink = new eZLink();
             $deletelink->get( $LinkID );
-            $LinkCategoryID = $deletelink->linkCategoryID();
             $deletelink->delete();
             
         }
@@ -299,7 +299,6 @@ if ( $Action == "insert" )
 
             $link->setName( $Name );
             $link->setDescription( $Description );
-            $link->setLinkCategoryID( $LinkCategoryID );
             $link->setKeyWords( $Keywords );
             if ( $Accepted == "1" )
                 $link->setAccepted( true );
@@ -368,18 +367,13 @@ if ( $Action == "insert" )
                     }
                 }
             }
+
             $linkID = $link->id();
-            $categoryArray = $link->categories();
-            $categoryIDArray = array();
-            foreach ( $categoryArray as $categor )
-            {
-                $categoryIDArray[] = $categor->id();
-            }
             
             if ( isSet( $Browse ) )
             {
                 $linkID = $link->id();
-                $session = new eZSession();
+                $session = eZSession::globalSession();
                 $session->setVariable( "SelectImages", "single" );
                 $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
                 $session->setVariable( "NameInBrowse", $link->name() );
@@ -434,7 +428,7 @@ $headline = $languageIni->read_var( "strings", "headline_insert" );
 
 $linkselect = new eZLinkCategory();
 
-$linkCategoryList = $linkselect->getTree();
+$linkCategoryList =& $linkselect->getTree();
 
 // Template variables.
 $message = "Legg til link";
@@ -479,11 +473,12 @@ if ( $Action == "edit" )
 
         $name = $editlink->Name;
 
-        $LinkCategoryID = $editlink->linkCategoryID();
+        $cateDef = $editlink->categoryDefinition();
+        $LinkCategoryID = $cateDef->id();
+        $LinkCategoryIDArray = $editlink->categories( false );
 
         $name = $editlink->name();
         $description = $editlink->description();
-        $linkcategory = $editlink->linkCategoryID();
         $keywords = $editlink->keyWords();
         $accepted = $editlink->accepted();
         $url = $editlink->url();
@@ -569,7 +564,7 @@ if ( $Action == "AttributeList" )
     }
     $action_value = "insert";
 }
-    
+
 // Selector
 $link_select_dict = "";
 $catCount = count( $linkCategoryList );
@@ -596,7 +591,8 @@ foreach( $linkCategoryList as $linkCategoryItem )
 
     $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
 
-    if ( $CategoryArray[$i] == $linkCategoryItem[0]->id() )
+    if ( is_array($LinkCategoryIDArray ) and  in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
+         and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
     {
         $t->set_var( "multiple_selected", "selected" );
         $i++;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.58 2001/06/30 11:29:40 bf Exp $
+// $Id: ezlink.php,v 1.59 2001/06/30 11:56:31 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -542,19 +542,18 @@ class eZLink
         {
             foreach ( $category_array as $category )
             {
-                $ret[] = new eZLinkCategory( $category["CategoryID"] );
+                $ret[] = new eZLinkCategory( $category[$db->fieldName("CategoryID")] );
             }
         }
         else
         {
             foreach ( $category_array as $category )
             {
-                $ret[] = $category["CategoryID"];
+                $ret[] = $category[$db->fieldName("CategoryID")];
             }
         }
         return $ret;
-    } 
-
+    }
     
     /*!
       Sets the link name.
@@ -572,13 +571,6 @@ class eZLink
         $this->Description = $value;
     }
 
-    /*!
-      Sets the linkcategoryID.
-    */
-    function setLinkCategoryID( $value )
-    {
-        $this->LinkCategoryID = $value;
-    }
 
     /*!
       Sets the link keywords.
@@ -622,14 +614,6 @@ class eZLink
     function &description()
     {
         return htmlspecialchars( $this->Description );
-    }
-
-    /*!
-      Returns the linkcategoryID.
-    */
-    function linkCategoryID()
-    {
-        return htmlspecialchars( $this->LinkCategoryID );
     }
 
     /*!
@@ -736,7 +720,6 @@ class eZLink
     var $ID;
     var $Name;
     var $Description;
-    var $LinkCategoryID;
     var $KeyWords;
     var $Created;
     var $Modified;
