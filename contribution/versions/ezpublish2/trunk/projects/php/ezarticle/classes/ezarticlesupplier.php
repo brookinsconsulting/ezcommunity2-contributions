@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlesupplier.php,v 1.1 2001/05/05 10:46:42 jb Exp $
+// $Id: ezarticlesupplier.php,v 1.2 2001/05/15 06:48:54 bf Exp $
 //
 // Definition of eZArticleSupplier class
 //
@@ -89,7 +89,7 @@ class eZArticleSupplier
                                                "url" => $url );
                 }
                 $article_array = array();
-                $article_url = "/article/articleview";
+                $article_url = "/article/view";
                 foreach( $articles as $article )
                 {
                     $id = $article->id();
@@ -133,7 +133,7 @@ class eZArticleSupplier
                 {
                     include_once( "ezarticle/classes/ezarticle.php" );
                     $article = new eZArticle( $id );
-                    $article_url = "/article/articleview";
+                    $article_url = "/article/view";
                     $cat = $article->categoryDefinition();
                     $cat = $cat->id();
                     $url = "$article_url/$id/$cat/1";
