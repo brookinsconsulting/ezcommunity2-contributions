@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: imageview.php,v 1.15 2001/06/27 07:57:02 jhe Exp $
+// $Id: imageview.php,v 1.16 2001/07/20 11:06:39 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezimagevariationgroup.php,v 1.13 2001/07/12 14:20:52 jhe Exp $
+// $Id: ezimagevariationgroup.php,v 1.14 2001/07/20 11:06:38 jakobn Exp $
 //
 // Definition of eZImageVariationGroup class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 17:28:47 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: unassigned.php,v 1.3 2001/06/21 10:03:50 bf Exp $
+// $Id: unassigned.php,v 1.4 2001/07/20 11:06:38 jakobn Exp $
 //
-// Christoffer A. Elo
-// Created on: <15-May-2001 15:01:28 ce>
+// Created on: <26-Oct-2000 19:40:18 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
