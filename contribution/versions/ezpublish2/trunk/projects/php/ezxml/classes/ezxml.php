@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.19 2001/12/11 10:02:45 bf Exp $
+// $Id: ezxml.php,v 1.20 2001/12/11 10:09:57 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -161,7 +161,6 @@ class eZXML
 
                     if ( $colonPos > 0 )
                         $justName = substr( $justName, $colonPos + 1, strlen( $justName ) );
-
                     
                     
                     // remove trailing / from the name if exists
@@ -171,12 +170,11 @@ class eZXML
                     }
 
 
-
                     // check for CDATA
                     $cdataSection = "";
                     $isCDATASection = false;
                     $cdataPos = strpos( $xmlDoc, "<![CDATA[", $pos );
-                    if ( $cdataPos == $pos )
+                    if ( $cdataPos == $pos && $pos > 0)
                     {
                         $isCDATASection = true;
                         $endTagPos = strpos( $xmlDoc, "]]>", $cdataPos );
@@ -257,7 +255,7 @@ class eZXML
                             }
                         }
                     }
-                    
+
                     // check it it's a oneliner: <tagname /> or a cdata section
                     if ( $isCDATASection == false )
                     if ( $tagName[strlen($tagName) - 1]  != "/" )
