@@ -4,6 +4,7 @@ eZ publish changelog:
 Changes from 2.1.0B1 to 2.1.0B2
 -------------------------------
 * Added new module eZ sysinfo
+* Fixed division-by-zero in eZ stats day/month/year view.
  
 Changes from 2.0.0 to 2.1.0B1
 ---------------------------
