@@ -25,13 +25,6 @@
 	</div>
 	</td>
 </tr>
-<tr>
-	<td>
-	<div class="leftmenu">
-	<a href="/article/index">{intl-index}</a>
-	</div>
-	</td>
-</tr>
 
 <!-- BEGIN submit_article_tpl -->
 <tr>
