@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.10 2001/12/23 08:41:31 jhe Exp $
+// $Id: formview.php,v 1.11 2002/01/04 10:20:58 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -145,6 +145,7 @@ if ( isSet( $OK ) )
     $output =& $renderer->verifyPage( $currentPage );
     if ( $output == "" )
     {
+        $renderer->storePage( $currentPage );
         if ( $form->receiver() != "" )
         {
             $renderer->sendForm();
