@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.3 2001/02/19 22:13:10 gl Exp $
+// $Id: typeedit.php,v 1.4 2001/02/20 10:54:10 gl Exp $
 //
 // Gunnstein Lye <gl@ez.no>
 // Created on: <20-Dec-2000 18:24:06 gl>
@@ -106,9 +106,25 @@ $t->set_file( array( "type_edit_tpl" => "typeedit.tpl" ) );
 $t->set_block( "type_edit_tpl", "parent_item_tpl", "parent_item" );
 
 
-$type = new eZAppointmentType();
-$typeList = $type->getTree();
+$t->set_var( "parent_is_selected", "selected" );
 
+if ( $Action == "Edit" )
+{
+    $type = new eZAppointmentType( $TypeID );
+    if ( $type->parentID() != 0 )
+        $t->set_var( "parent_is_selected", "" );
+}
+else
+{
+    $type = new eZAppointmentType();
+}
+
+$t->set_var( "parent_name", "No parent" );
+$t->set_var( "parent_id", "0" );
+$t->parse( "parent_item", "parent_item_tpl", true );
+
+
+$typeList = $type->getTree();
 foreach ( $typeList as $typeSubList )
 {
     $typeItem = $typeSubList[0];
@@ -125,14 +141,16 @@ foreach ( $typeList as $typeSubList )
     $t->set_var( "parent_id", $typeItem->id() );
     $t->set_var( "parent_is_selected", "" );
 
-    $t->parse( "parent_item", "parent_item_tpl", true );
+    if ( $Action == "Edit" && $type->parentID() == $typeItem->id() )
+        $t->set_var( "parent_is_selected", "selected" );
+
+    if ( $type->id() != $typeItem->id() )
+        $t->parse( "parent_item", "parent_item_tpl", true );
 }
 
 
 if ( $Action == "Edit" )
 {
-    $type = new eZAppointmentType( $TypeID );
-
     $t->set_var( "header", $LanguageIni->read_var( "strings", "edit_appointment_type" ) );
     $t->set_var( "name_value", $type->name() );
     $t->set_var( "description_value", $type->description() );
@@ -142,7 +160,6 @@ if ( $Action == "Edit" )
 else
 {
     $t->set_var( "header", $LanguageIni->read_var( "strings", "new_appointment_type" ) );
-    $t->set_var( "parent_id", "" );
     $t->set_var( "description_value", "" );
     $t->set_var( "name_value", "" );
     $t->set_var( "type_id", "" );
