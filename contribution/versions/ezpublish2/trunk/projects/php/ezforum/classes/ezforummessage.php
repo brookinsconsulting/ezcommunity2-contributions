@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.15 2000/07/25 10:55:37 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.16 2000/07/25 14:33:54 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -74,7 +74,7 @@ class eZforumMessage
             
         $query_string = "SELECT Id,Topic, Body, UserId,
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime";
+                 FROM MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime DESC";
             
         $query_id = mysql_query( $query_string )
              or die("eZforumMessage::getHeaders() failed, dying...");
