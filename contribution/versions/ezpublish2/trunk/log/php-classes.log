@@ -538,3 +538,12 @@ Maintainer(s) : bf@ez.no
 
     * ezdb.php: small improvement in eZDB::finish
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-12-12  Kai Duebbert  <kai@duebbert.de>
+
+    * INIFile.php:
+    better error message, if site.ini or site.ini.php are not found
+

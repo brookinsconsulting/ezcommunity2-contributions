@@ -2522,3 +2522,15 @@ Maintainer(s) : bf@ez.no
 
     * user/menubox.php: Fixed menubox
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-12  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezarticle.php: delete forum from eZArticle_ArticleForumLink.
+
+    * user/articlelist.php: Added nl2br on current categories.
+
+    * user/articlelist.php: added nl2br on current category description.
+

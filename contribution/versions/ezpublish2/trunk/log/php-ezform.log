@@ -416,3 +416,22 @@ Maintainer(s) : pkej@ez.no
       user/intl/hr_HR/errors.php.ini
       user/intl/hr_HR/form.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-12  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformtable.php: added ezformtable
+
+    * user/intl/en_GB/form.php.ini
+      user/intl/no_NO/form.php.ini
+      admin/formedit.php
+      admin/intl/en_GB/menubox.php.ini
+      admin/templates/standard/formrenderer.tpl
+      classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformrenderer.php
+      user/datasupplier.php
+      user/formview.php: bugfixes, from 2.2.x branch
+

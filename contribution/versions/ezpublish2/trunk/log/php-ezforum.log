@@ -916,3 +916,12 @@ Maintainer(s) : jhe@ez.no
     Added referer url for replay messages, and redirect to the referer url
     at the end.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-12-12  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/standard/messagesimplelist.tpl:
+    added referer to hidden variable.
+

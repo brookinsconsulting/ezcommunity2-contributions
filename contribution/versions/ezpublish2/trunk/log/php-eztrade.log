@@ -2521,3 +2521,12 @@ Maintainer(s) : ce@ez.no
       admin/templates/standard/categorylist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-12-12  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php:
+    Fixed extended search to exclude unavailable products.
+
