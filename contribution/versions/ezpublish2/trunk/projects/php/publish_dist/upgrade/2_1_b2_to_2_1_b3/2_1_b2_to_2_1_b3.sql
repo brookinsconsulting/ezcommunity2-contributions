@@ -28,3 +28,5 @@ ALTER TABLE eZSession_SessionVariable ADD GroupName char(50);
 ALTER TABLE eZSession_Preferences ADD GroupName char(50);
 ALTER TABLE eZSession_SessionVariable ADD INDEX (GroupName,Name);
 ALTER TABLE eZSession_Preferences ADD INDEX (GroupName,Name);
+
+alter table eZTrade_CartOptionValue add RemoteID varchar(100);

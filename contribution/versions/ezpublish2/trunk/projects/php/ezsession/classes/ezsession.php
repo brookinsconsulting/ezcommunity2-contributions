@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.37 2001/05/04 12:35:04 jb Exp $
+// $Id: ezsession.php,v 1.38 2001/05/04 15:12:54 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -341,6 +341,7 @@ class eZSession
         $db->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'
                                                     AND $group_sql" );
+
         if ( count( $value_array ) == 1 )
         {
             $ret = $value_array[0]["Value"];
@@ -419,7 +420,10 @@ class eZSession
         if ( !is_bool( $group ) )
             $group_sql = "GroupName='$group'";
         else
+        {
             $group_sql = "GroupName IS NULL";
+            $group = "NULL";
+        }
         $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'
                                                     AND $group_sql" );
