@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.130 2001/07/25 10:34:45 jb Exp $
+// $Id: ezarticle.php,v 1.131 2001/07/25 11:31:45 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1682,7 +1682,6 @@ class eZArticle
 
 //          $qry = preg_replace( "/\n/m", "", $queryString );
         $qry = $queryString;
-        print( $qry ."\n" );
         $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );        
 
         for ( $i=0; $i < count($article_array); $i++ )
