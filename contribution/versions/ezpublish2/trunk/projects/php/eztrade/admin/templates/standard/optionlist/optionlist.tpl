@@ -3,19 +3,31 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<tr>
-	<td>
+	<th>
 	Opsjoner for: {product_name}
-	</td>
+	</th>
 
-	<td>
+	<th>
 	Rediger:
-	</td>
+	</th>
 
-	<td>
+	<th>
 	Slett:
-	</td>
+	</th>
 </tr>
-{option_list}
+<!-- BEGIN option_tpl -->
+<tr>
+	<td class="{td_class}">
+	{option_name}
+	</td>
+	<td class="{td_class}">
+	<a href="/trade/productedit/optionedit/edit/{option_id}/{product_id}/">[ Rediger ]</a>
+	</td>
+	<td class="{td_class}">
+	<a href="/trade/productedit/optionedit/delete/{option_id}/{product_id}/">[ Slett ]</a>
+	</td>	
+</tr>
+<!-- END option_tpl -->
 </table>
 
 <br/>
