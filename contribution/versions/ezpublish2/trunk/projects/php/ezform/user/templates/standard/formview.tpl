@@ -1,4 +1,4 @@
-{form}
-
 {error}
+
+{form}
 
