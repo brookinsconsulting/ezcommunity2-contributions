@@ -33,16 +33,15 @@
 <!-- BEGIN time_table_tpl -->
 <tr>
 	<td width="10%">
-	{hour_value} : {minute_value}
+	<a href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}/{start_time}">{short_time}</a>
 	</td>	
 
 	<!-- BEGIN appointment_tpl -->
 	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
 	<a href="/calendar/appointmentview/{appointment_id}/">{appointment_name}</a>
 	<a href="/calendar/appointmentedit/edit/{appointment_id}/">{edit_button}</a>
-<!--	<a href="/calendar/appointmentview/{appointment_id}/">{delete_button}</a><br /> -->
         <!-- BEGIN delete_check_tpl -->
-        <input type="checkbox" name="AppointmentArrayID[]" value={appointment_id}><br />
+        <input type="checkbox" name="AppointmentArrayID[]" value={appointment_id}>{intl-delete}<br />
         <!-- END delete_check_tpl -->
 	{appointment_description}<br />
 	</td>
