@@ -108,6 +108,12 @@ a:hover.nav
 	text-decoration: none;
 }
 
+a:link.th, a:active.th, a:visited.th
+{
+	font-family:  Arial, helvetica, Swiss, Futura, sans-serif;	
+	color : #FFFFFF;
+}
+
 form
 {
 	margin-top: 0px;

@@ -233,7 +233,7 @@
 			<img src="/sitedesign/mygold/images/menu_arrow.gif" width="15" height="16" name="ring_hilfe_arrow" alt="" />
 		    </td>
 		    <td>
-			<a class="nav" href="/article/articleuncached/22/" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('ring_hilfe_arrow','','/sitedesign/mygold/images/menu_arrow_o.gif',0)">Ringgröße</a>
+			<a class="nav" href="/ringgroesse/" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('ring_hilfe_arrow','','/sitedesign/mygold/images/menu_arrow_o.gif',0)">Ringgröße</a>
 		    </td>
 		</tr>
 		<tr>

@@ -1,87 +1,54 @@
-<?php
-// 
-// $Id: index.php,v 1.119 2001/10/17 15:24:00 bf Exp $
-//
-// Created on: <09-Nov-2000 14:52:40 ce>
-//
-// This source file is part of eZ publish, publishing software.
-//
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
-//
+<?
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+header("Cache-Control: no-cache, must-revalidate"); 
+header("Pragma: no-cache");
 
-header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
-header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-header( "Cache-Control: no-cache, must-revalidate" ); 
-header( "Pragma: no-cache" );
+include_once( "classes/ezbenchmark.php" );
 
-// Tell PHP where it can find our files.
-if ( file_exists( "sitedir.ini" ) )
-{
-    include_once( "sitedir.ini" );
-}
-
-// Preparing variables for nVH setup
-if ( isSet( $siteDir ) and $siteDir != "" )
-{
-    $includePath = ini_get( "include_path" );
-    $includePath .= ":" . $siteDir;
-    ini_set( "include_path", $includePath );
- 
-    // For non-virtualhost, non-rewrite setup
-    if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
-    {
-        $wwwDir = $regs[1];
-        $index = $regs[2];
-    }
- 
-    // Remove url parameters
-    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
-    {
-        $REQUEST_URI = $req[1];
-    }
-    else
-    {
-        $REQUEST_URI = "/";
-    }
-}
-else
-{
-    $wwwDir = "";
-    $index = "";
-}
-
-
-// Remove url parameters
-ereg( "([^?]+)", $REQUEST_URI, $regs );
-$REQUEST_URI = $regs[1];
-
+// Run benchmark test.
+// $bench = new eZBenchmark();
+// $bench->start();
   
-$GLOBALS["DEBUG"] = false;
-$UsePHPSessions = false;
+$GLOBALS["DEBUG"] = true;
+
+// Check for bots and disable cookieless Session if they show up
+
+$UsePHPSessions = 2;
+$BotIPArray = array( "193.7.255.130", "194.231.30", "199.172.149", "216.239.46", "209.202.148.12", "66.35.208.60", 
+                     "198.3.103", "216.35.116", "216.35.103", "217.13.201.25", "209.73.162.191", "18.29.1.50",
+                     "212.185.44.12", "216.239.46" );
+		     
+$checkIP3 =  explode ( ".", $GLOBALS["REMOTE_ADDR"] );
+$checkIP3 =  $checkIP3[0].".".$checkIP3[1].".".$checkIP3[2];
+
+foreach( $BotIPArray as $botIP )
+{
+    $checkLength =  explode ( ".", $botIP );
+    
+    if ( ( count ( $checkLength ) == 3 ) AND ( $UsePHPSessions != 0 ) )
+    {
+        $botIP    =  $checkLength[0].".".$checkLength[1].".".$checkLength[2];
+        $checkIP3 == $botIP ? $UsePHPSessions = 0 : $UsePHPSessions = 1;
+    }
+    elseif ( ( count ( $checkLength ) > 3 ) AND ( $UsePHPSessions != 0 ) )
+    {
+        $GLOBALS["REMOTE_ADDR"] == $botIP ? $UsePHPSessions = 0 : $UsePHPSessions = 1;
+    }
+}
+								    
+// END
+								    
 
 ob_start();
 // Turn on output buffering with gz compression
 //ob_start("ob_gzhandler");
-
+//ob_start("ob_gzhandler");
 
 if ( $UsePHPSessions == true )
 {
-    // start session handling
-    session_start();
+//    // start session handling
+//    session_start();
 }
 
 // settings for sessions
@@ -97,26 +64,39 @@ $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
 
-// Set the global nVH variables.
-$GlobalSiteIni->Index = $index;
-$GlobalSiteIni->WWWDir = $wwwDir;
-unset($index);
-unset($wwwDir);
+// set character set
+include_once( "classes/ezlocale.php" );
+// $Language = $ini->read_var( "eZCalendarMain", "Language" );
+$Locale = new eZLocale( $Language );
+$iso = $Locale->languageISO();
+if ( $iso != false )
+    header( "Content-type: text/html;charset=$iso" );
 
 // Design
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
-// File functions
-include_once( "classes/ezfile.php" );
 
 $session =& eZSession::globalSession();
 
 //
+// the section setting code below is obsolete and will
+// be removed in 2.1 final
 unset( $siteDesign );
 unset( $GlobalSiteDesign );
-$siteDesign =& $ini->read_var( "site", "SiteDesign" );
+if ( $session->fetch() == false )
+{
+    $siteDesign =& $ini->read_var( "site", "SiteDesign" );
+}
+else
+{
+    $siteDesign =& $session->variable( "SiteDesign" );
 
+    if ( $siteDesign == "" )
+    {
+        $siteDesign =& $ini->read_var( "site", "SiteDesign" );
+    }
+}
 // Store the site design in a global variable
 $GlobalSiteDesign = $siteDesign;
 
@@ -128,14 +108,10 @@ if ( $StoreStats == "enabled" )
     // do the statistics
     include_once( "ezstats/classes/ezpageview.php" );
 
-    // if we are using nVH setup, we need to store our stats here
-    if ( isSet( $siteDir ) and $siteDir != "" )
-    {
-        // create a global page view object for statistics
-        // and store the stats
-        $GlobalPageView = new eZPageView();
-        $GlobalPageView->store();
-    }
+    // create a global page view object for statistics
+    // and store the stats
+    $GlobalPageView = new eZPageView();
+    $GlobalPageView->store();
 }
 
 // parse the URI
@@ -181,11 +157,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             $REQUEST_URI = "/article/archive/0/";
         }
-        else
-        {
-            $REQUEST_URI = $ini->read_var( "site", "DefaultPage" );
-        }
-        
         if ( $user )
         {
             $mainGroup = $user->groupDefinition( true );
@@ -258,14 +229,46 @@ if ( ( $requireUserLogin == "disabled" ) ||
             // $SiteTitleAppend = string which will be appended to the site title
             // $SiteDescriptionOverride = string which will override the meta content information
         }
-        else
+        elseif ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
         {
-            // the default page to load
-            if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
-            {
-                include( $ini->read_var( "site", "DefaultPage" ) );
-            }
+	    if ( $url_array[1] == "sitemap" )
+	    {
+	        include("sitedesign/mygold/sitemap.php");
+	    }
+	    elseif ( $url_array[1] == "feedback" )
+	    {
+	        if ( $url_array[2] == "sendmail" )
+	        {
+	            include("feedback/sendmail.php");
+	        }
+	        else
+	        {
+	            include("feedback/feedback.php");
+	        }
+	    }
+	    elseif ( $url_array[1] == "callback" )
+	    {
+	        if ( $url_array[2] == "sendmail" )
+	        {
+	            include("callback/sendmail.php");
+	        }
+	        else
+	        {
+	            include("callback/callback.php");
+	        }
+	    }
+	    elseif ( $url_array[1] == "ringgroesse" )
+	    {
+        	include("ringgroesse/ringgroesse.php");
+	    }	    
+	    else
+	    {
+	        include( $ini->read_var( "site", "DefaultPage" ) );
+	    }
         }
+
+
+																								    
 
         // set character set
         include_once( "classes/ezlocale.php" );
@@ -273,6 +276,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         if ( $languageOverride != "" )
         {
             $Language = $languageOverride;
+            print( $Language );
         }
         else
         {
@@ -312,10 +316,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
             if ( $DEBUG == true )
             {
-//                print( "Section Debug $GlobalSectionID: <br>" );
-//                print( "sitedesign: " . $sectionObject->siteDesign() . " <br>" );
-//                print( "template: " . $sectionObject->templateStyle() . " <br>" );
-//                print( "language: " . $sectionObject->language() . " <br>" );
+                print( eZSection::siteDesign( $GlobalSectionID ) );
             }
 
         
@@ -381,5 +382,10 @@ else
 $db =& eZDB::globalDatabase();
 $db->close();
 
+// $bench->stop();
+
+// $bench->printResults();
+
 ob_end_flush();
+
 ?>
