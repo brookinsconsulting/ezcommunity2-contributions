@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.19 2001/02/23 16:05:02 pkej Exp $
+// $Id: messageedit.php,v 1.20 2001/02/24 13:04:48 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -55,6 +55,23 @@ switch( $Action )
     }
     break;
     
+    case "delete":
+    {
+        $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                             "ezforum/user/intl", $Language, "message.php" );
+
+        $t->set_file( "page", "messagedelete.tpl"  );
+    }
+    break;
+    case "preview":
+    {
+        $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                             "ezforum/user/intl", $Language, "message.php" );
+
+        $t->set_file( "page", "messagepreview.tpl"  );
+    }
+    break;
+
     case "preview":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -85,6 +102,58 @@ $Errors = false;
 
 switch( $Action )
 {
+    case "dodelete":
+    {
+        $msg = new eZForumMessage( $MessageID );
+        
+        $CheckMessageID = $MessageID;
+        $CheckForumID = $msg->forumID();
+
+        $msg->readLock();
+        include( "ezforum/user/messagepermissions.php" );
+
+        include_once( "classes/ezhttptool.php" );
+        if( $MessageDelete == false )
+        {
+            $msg->unLock();
+            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+        }
+        
+        $msg->writeLock();
+        $msg->delete();
+        $msg->unLock();
+        
+    }
+    break;
+    
+    case "delete":
+    {
+        $ActionValue = "dodelete";
+        $StartAction = "delete";
+        $EndAction = "dodelete";
+
+        $msg = new eZForumMessage( $MessageID );
+
+        $CheckMessageID = $MessageID;
+        $CheckForumID = $msg->forumID();
+        include( "ezforum/user/messagepermissions.php" );
+
+        include_once( "classes/ezhttptool.php" );
+        if( $MessageDelete == false )
+        {
+            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+        }
+        
+        $doParse = true;
+        $ShowPath = true;
+        $isPreview = false;
+        include_once( "ezforum/user/messagepath.php" );
+
+        $ShowMessage = true;
+        include_once( "ezforum/user/messagebody.php" );
+   }
+    break;
+    
     case "completed":
     {
         $msg = new eZForumMessage( $MessageID );
@@ -139,16 +208,20 @@ switch( $Action )
 
         $CheckMessageID = $OriginalID;
         $CheckForumID = $msg->forumID();
+        $msg->readLock();
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
         if( $ForumPost == false )
         {
+            $msg->unLock();
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
 
         $msg->setIsTemporary( false );
+        $msg->writeLock();
         $msg->store();
+        $msg->unLock();
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
     }
     break;
@@ -161,11 +234,13 @@ switch( $Action )
 
         $CheckMessageID = $OriginalID;
         $CheckForumID = $msg->forumID();
+        $msg->readLock();
         include( "ezforum/user/messagepermissions.php" );
 
+        include_once( "classes/ezhttptool.php" );
         if( $MessageEdit == false )
         {
-            include_once( "classes/ezhttptool.php" );
+            $msg->unLock();
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
         
@@ -173,9 +248,9 @@ switch( $Action )
         $msg->setBody( $tmpmsg->body() );
         $msg->setEmailNotice( $tmpmsg->emailNotice() );
         
+        $msg->writeLock();
         $msg->store();
-        
-        include_once( "classes/ezhttptool.php" );
+        $msg->unLock();
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
     }
     
