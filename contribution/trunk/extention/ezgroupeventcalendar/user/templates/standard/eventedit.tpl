@@ -130,7 +130,12 @@ onFocus="this.className='gcalTextFocusFrm'"
 </div>
 
 <div class="gcalGroupBoxFrm" style="padding: 3px;">
-<span class="boxtext">{intl-type}:</span>
+<table border="0" cellpadding="0" cellspacing="0" width="62%">
+<tr>
+<td valign="top">
+  <span class="boxtext">{intl-type}:</span>
+</td>
+<td valign="top">
   <select name="TypeID">
   <option></option>
   <!-- BEGIN value_tpl -->
@@ -138,33 +143,50 @@ onFocus="this.className='gcalTextFocusFrm'"
   <!-- END value_tpl -->
   </select>
   <br />
-
+</td>
+</tr>
+<tr>
+<td valign="top">
   <span class="boxtext">{intl-category}:</span>
+</td>
+<td valign="top">
    <select name="CategoryID">
    <option></option>
    <!-- BEGIN category_value_tpl -->
      <option value="{option_category_value}" {category_is_selected}>{option_category_level}{category_name}</option>
    <!-- END category_value_tpl -->
    </select>
-
-   <br />
+</td>
+</tr>
+<tr>
+<td valign="top">
    <span class="boxtext">{intl-priority}:</span>
+</td>
+<td valign="top">
    <select name="Priority">
-   <option value="0" {0_selected}>{intl-lowest_priority}</option>
-   <option value="1" {1_selected}>{intl-low_priority}</option>
-   <option value="2" {2_selected}>{intl-normal_priority}</option>
-   <option value="3" {3_selected}>{intl-medium_priority}</option>
-   <option value="4" {4_selected}>{intl-high_priority}</option>
-   <option value="5" {5_selected}>{intl-highest_priority}</option>
+      <option value="0" {0_selected}>{intl-lowest_priority}</option>
+      <option value="1" {1_selected}>{intl-low_priority}</option>
+      <option value="2" {2_selected}>{intl-normal_priority}</option>
+      <option value="3" {3_selected}>{intl-medium_priority}</option>
+      <option value="4" {4_selected}>{intl-high_priority}</option>
+      <option value="5" {5_selected}>{intl-highest_priority}</option>
    </select>
-
-   <br />
+</td>
+</tr>
+<tr>
+<td valign="top">
    <span class="boxtext">{intl-status}:</span>
+</td>
+<td valign="top">
    <select name="Status">
    <option value="0" {0_status_selected}>{intl-tentative_status}</option>
    <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
    <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
    </select>
+</td>
+</tr>
+</table>
+
 </div>
 </div> <!-- end gcalWrapFrm -->
 
