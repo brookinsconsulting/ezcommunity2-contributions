@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.49 2001/11/02 06:35:01 br Exp $
+// $Id: imageedit.php,v 1.50 2001/11/05 10:34:37 jhe Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -513,9 +513,9 @@ $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 
 foreach ( $treeArray as $catItem )
 {
-    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "imagecatalogue_category", 'w', $user ) == true
-         || eZObjectPermission::hasPermission( $catItem[0]->id(), "imagecatalogue_category", 'u' )
-         || eZImageCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "imagecatalogue_category", 'w', $user ) ||
+         eZObjectPermission::hasPermission( $catItem[0]->id(), "imagecatalogue_category", 'u' ) ||
+         eZImageCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {
         if ( $Action == "Edit" )
         {
@@ -523,8 +523,7 @@ foreach ( $treeArray as $catItem )
 
             if ( get_class( $defCat ) == "ezimagecategory" )
             {
-                if ( $image->existsInCategory( $catItem[0] ) &&
-                ( $defCat->id() != $catItem[0]->id() ) )
+                if ( $image->existsInCategory( $catItem[0] ) && $defCat->id() != $catItem[0]->id() )
                 {
                     $t->set_var( "multiple_selected", "selected" );
                 }
