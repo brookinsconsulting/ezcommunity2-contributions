@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.35 2002/01/24 17:10:05 jhe Exp $
+// $Id: ezformelement.php,v 1.36 2002/01/25 09:14:08 jhe Exp $
 //
 // ezformelement class
 //
@@ -657,6 +657,12 @@ class eZFormElement
             }
             break;
 
+            case "starts":
+            {
+                $whereStr = "Result LIKE '$searchString%'";
+            }
+            break;
+            
             case "substring":
             {
                 $whereStr = "Result LIKE '%$searchString%'";

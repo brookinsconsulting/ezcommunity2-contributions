@@ -4,7 +4,7 @@
 	<h1>{form_name}</h1>
 	</td>
 	<td align="right">
-	<form action="{www_dir}{index}/form/report/{report_id}/" method="post">
+	<form action="{www_dir}{index}/form/report/{report_id}/" method="get">
         <select name="ElementID">
 <!-- BEGIN element_tpl -->
         <option value="{element_id}" {selected}>{element_name}</option>
@@ -12,6 +12,7 @@
         </select>
 	<select name="Operator">
 	<option value="substring" {substring_selected}>{intl-substring}</option>
+	<option value="starts" {starts_selected}>{intl-starts}</option>
 	<option value="equal" {equal_selected}>{intl-equal}</option>
 	<option value="not" {not_selected}>{intl-not}</option>
 	<option value="greater" {greater_selected}>{intl-greater}</option>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: results.php,v 1.5 2002/01/17 08:48:20 jhe Exp $
+// $Id: results.php,v 1.6 2002/01/25 09:14:08 jhe Exp $
 //
 // Created on: <10-Jan-2002 08:58:22 jhe>
 //
@@ -106,6 +106,7 @@ foreach ( $elements as $element )
 $t->set_var( "search_text", $SearchText );
 
 $t->set_var( "substring_selected", "" );
+$t->set_var( "starts_selected", "" );
 $t->set_var( "equal_selected", "" );
 $t->set_var( "not_selected", "" );
 $t->set_var( "greater_selected", "" );
@@ -122,6 +123,13 @@ if ( isSet( $Search ) )
         }
         break;
 
+        case "starts":
+        {
+            $t->set_var( "starts_selected", "selected" );
+            $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
+        }
+        break;
+        
         case "equal":
         {
             $t->set_var( "equal_selected", "selected" );

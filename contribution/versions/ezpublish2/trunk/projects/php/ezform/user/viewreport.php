@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewreport.php,v 1.2 2002/01/24 17:10:05 jhe Exp $
+// $Id: viewreport.php,v 1.3 2002/01/25 09:14:08 jhe Exp $
 //
 // Created on: <21-Jan-2002 09:40:52 jhe>
 //
@@ -98,10 +98,14 @@ foreach ( $elements as $element )
 $t->set_var( "search_text", $SearchText );
 
 $t->set_var( "substring_selected", "" );
+$t->set_var( "starts_selected", "" );
 $t->set_var( "equal_selected", "" );
 $t->set_var( "not_selected", "" );
 $t->set_var( "greater_selected", "" );
 $t->set_var( "less_selected", "" );
+
+if ( isSet( $Operator ) )
+    $t->set_var( $Operator . "_selected", "selected" );
 
 $renderer =& new eZFormRenderer( $form );
 

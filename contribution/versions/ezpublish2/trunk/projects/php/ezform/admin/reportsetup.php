@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.5 2002/01/22 17:37:48 jhe Exp $
+// $Id: reportsetup.php,v 1.6 2002/01/25 09:14:08 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -178,7 +178,7 @@ foreach ( $elements as $element )
 }
 
 $t->setAllStrings();
-    
+
 $t->pparse( "output", "report_setup_tpl" );
 
 ?>

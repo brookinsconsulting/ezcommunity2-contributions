@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.17 2002/01/24 17:41:51 jhe Exp $
+// $Id: ezformreportelement.php,v 1.18 2002/01/25 09:14:08 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -167,8 +167,12 @@ class eZFormReportElement
     function analyze( &$template, $resultArray = false )
     {
         $resultString = "";
-        if ( $resultArray )
+        if ( is_array( $resultArray ) )
         {
+            if ( count( $resultArray ) == 0 )
+            {
+                $resultString = "AND eZForm_FormElementResult.ID < 0 ";
+            }
             $i = 0;
             foreach ( $resultArray as $result )
             {
@@ -255,6 +259,12 @@ class eZFormReportElement
             case "Graph":
             {
                 return $this->statGraph( &$template, $resultString );
+            }
+            break;
+
+            case "Min25Median75Max":
+            {
+                return $this->statMin25Median75Max( &$template, $resultString );
             }
             break;
         }
@@ -554,6 +564,61 @@ class eZFormReportElement
         $output = $t->parse( $target, "graph_table_tpl" );
         return $output;
     }
+
+    function statMin25Median75Max( &$t, $resultString )
+    {
+        $t->set_var( "min25median75max", "" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT MIN(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')+0) as Min
+                                  FROM eZForm_FormElementResult
+                                  WHERE ElementID='$this->ElementID'
+                                  $resultString" );
+        $t->set_var( "min", $res[$db->fieldName( "Min" )] );
+        $db->array_query( $res, "SELECT (REPLACE((TRIM(Result)), char(160), '')+0) AS Result
+                                 FROM eZForm_FormElementResult
+                                 WHERE ElementID='$this->ElementID'
+                                 $resultString
+                                 ORDER BY Result" );
+        $pos = round( ( count( $res ) / 100 ) * 25 );
+        $t->set_var( "25", $res[$pos - 1]["Result"] );
+        $db->array_query( $res, "SELECT (REPLACE((TRIM(Result)), char(160), '')+0) AS Result
+                                 FROM eZForm_FormElementResult
+                                 WHERE ElementID='$this->ElementID'
+                                 $resultString
+                                 ORDER BY Result" );
+        if ( count( $res ) == 0 )
+        {
+            $median = 0;
+        }
+        else
+        {
+            if ( count( $res ) % 2 == 0 )
+            {
+                $median = ( $res[(count( $res ) / 2 )]["Result"] + $res[(count( $res ) / 2 ) - 1]["Result"] ) / 2;
+            }
+            else
+            {
+                $median = $res[(count( $res ) / 2 ) - 1]["Result"];
+            }
+        }
+        $t->set_var( "median", $median );
+        $db->array_query( $res, "SELECT (REPLACE((TRIM(Result)), char(160), '')+0) AS Result
+                                 FROM eZForm_FormElementResult
+                                 WHERE ElementID='$this->ElementID'
+                                 $resultString
+                                 ORDER BY Result" );
+        $pos = round( ( count( $res ) / 100 ) * 75 );
+        $t->set_var( "75", $res[$pos - 1]["Result"] );
+        $db->query_single( $res, "SELECT MAX(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')+0) as Max
+                                  FROM eZForm_FormElementResult
+                                  WHERE ElementID='$this->ElementID'
+                                  $resultString" );
+        $t->set_var( "max", $res[$db->fieldName( "Max" )] );
+        $output = $t->parse( $target, "min25median75max_tpl" );
+        return $output;
+        
+    }
     
     function types( $no = -1 )
     {
@@ -570,7 +635,8 @@ class eZFormReportElement
             array( "Name" => "25percentile", "Description" => "intl-25percentile" ),
             array( "Name" => "75percentile", "Description" => "intl-75percentile" ),
             array( "Name" => "Cross-reference", "Description" => "intl-cross_reference" ),
-            array( "Name" => "Graph", "Description" => "intl-graphical_representation" )
+            array( "Name" => "Graph", "Description" => "intl-graphical_representation" ),
+            array( "Name" => "Min25Median75Max", "Description" => "intl-min25median75max" )
             );
         
         if ( $no > -1 )

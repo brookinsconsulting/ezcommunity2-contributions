@@ -246,3 +246,7 @@
 <!-- END graph_row_tpl -->
 </table>
 <!-- END graph_table_tpl -->
+
+<!-- BEGIN min25median75max_tpl -->
+{min} - {25} - {median} - {75} - {max}
+<!-- END min25median75max_tpl -->
