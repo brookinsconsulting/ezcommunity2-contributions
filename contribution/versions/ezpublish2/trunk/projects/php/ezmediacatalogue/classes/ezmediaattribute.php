@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediaattribute.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: ezmediaattribute.php,v 1.2 2001/07/26 10:43:30 ce Exp $
 //
 // Definition of eZMediaAttribute class
 //
@@ -70,6 +70,7 @@ class eZMediaAttribute
             $res = $db->query( "INSERT INTO eZMediaCatalogue_Attribute
                                             (ID,
                                              Name,
+                                             DefaultValue,
                                              TypeID,
                                              Placement,
                                              Unit,
@@ -77,6 +78,7 @@ class eZMediaAttribute
                                             VALUES
                                             ('$this->ID',
                                              '$this->Name',
+                                             '$this->DefaultValue',
                                              '$this->TypeID',
                                              '$place',
                                              '$this->Unit',
@@ -87,6 +89,7 @@ class eZMediaAttribute
         {
             $res = $db->query( "UPDATE eZMediaCatalogue_Attribute SET
 		                                    Name='$this->Name',
+		                                    DefaultValue='$this->DefaultValue',
                                             Created=Created,
 		                                    Unit='$this->Unit',
 		                                    TypeID='$this->TypeID' WHERE ID='$this->ID'" );
@@ -122,6 +125,7 @@ class eZMediaAttribute
             {
                 $this->ID =& $attribute_array[0][ $db->fieldName( "ID" ) ];
                 $this->Name =& $attribute_array[0][ $db->fieldName( "Name" ) ];
+                $this->DefaultValue =& $attribute_array[0][ $db->fieldName( "DefaultValue" ) ];
                 $this->TypeID =& $attribute_array[0][ $db->fieldName( "TypeID" ) ];
                 $this->Placement =& $attribute_array[0][ $db->fieldName( "Placement" ) ];
                 $this->Unit =& $attribute_array[0][ $db->fieldName( "Unit" ) ];
@@ -182,6 +186,14 @@ class eZMediaAttribute
     }
 
     /*!
+      Returns the devault value of the attribute.
+    */
+    function defaultValue()
+    {
+        return $this->DefaultValue;
+    }
+
+    /*!
       Returns the measuring unit of the attribute.
     */
     function unit()
@@ -205,6 +217,14 @@ class eZMediaAttribute
     function setName( $value )
     {
         $this->Name = $value;
+    }
+
+    /*!
+      Sets the default value of the attribute.
+    */
+    function setDefaultValue( $value )
+    {
+        $this->DefaultValue = $value;
     }
 
     /*!
@@ -344,6 +364,7 @@ class eZMediaAttribute
     var $Name;
     var $Placement;
     var $Unit;
+    var $DefaltValue;
 
 }
 

@@ -16,6 +16,9 @@
 	<th>
 	{intl-attribute_name}:
 	</th>
+	<th>
+	{intl-attribute_default_value}:
+	</th>
 	<th colspan="4">&nbsp;</th>
 </tr>
 <!-- BEGIN attribute_tpl -->
@@ -23,6 +26,9 @@
 	<td width="1%">
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
 	<input class="halfbox" type="text" name="AttributeName[]" value="{attribute_name}" />
+	</td>
+	<td>
+	<input class="halfbox" type="text" name="AttributeDefault[]" value="{attribute_default}" />
 	</td>
 <!-- BEGIN item_move_down_tpl -->
 	<td width="1%"><a href="/media/typeedit/down/{type_id}/{attribute_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>

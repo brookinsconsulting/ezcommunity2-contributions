@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: mediaedit.php,v 1.2 2001/07/26 10:43:30 ce Exp $
 //
 // Created on: <24-Jul-2001 13:35:07 ce>
 //
@@ -207,19 +207,26 @@ if ( $Action == "Insert" || $Action == "Update" )
     if ( $error )
     {
         $t->parse( "errors", "errors_tpl" );
-        foreach( $WriteGroupArrayID as $unf )
+        if ( count ( $WriteGroupArrayID ) != 0 )
         {
-            if( $unf == 0 )
-                $writeGroupArrayID[] = -1;
-            else
-                $writeGroupArrayID[] = $unf;
+            foreach( $WriteGroupArrayID as $unf )
+            {
+                if( $unf == 0 )
+                    $writeGroupArrayID[] = -1;
+                else
+                    $writeGroupArrayID[] = $unf;
+            }
         }
-        foreach( $ReadGroupArrayID as $unf )
+
+        if ( count ( $ReadGroupArrayID ) != 0 )
         {
-            if( $unf == 0 )
-                $readGroupArrayID[] = -1;
-            else
-                $readGroupArrayID[] = $unf;
+            foreach( $ReadGroupArrayID as $unf )
+            {
+                if( $unf == 0 )
+                    $readGroupArrayID[] = -1;
+                else
+                    $readGroupArrayID[] = $unf;
+            }
         }
     }
 }
@@ -628,7 +635,10 @@ if ( get_class( $mediaType) == "ezmediatype" )
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
 
-        $t->set_var( "attribute_value", $attribute->value( $media ) );
+        if ( !$attribute->value( $media ) )
+            $t->set_var( "attribute_value", $attribute->defaultValue() );
+        else
+            $t->set_var( "attribute_value", $attribute->value( $media ) );
         
         $t->parse( "attribute", "attribute_tpl", true );
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: typeedit.php,v 1.2 2001/07/26 10:43:30 ce Exp $
 //
 // Created on: <29-Jan-2001 11:44:23 jhe>
 //
@@ -65,11 +65,11 @@ if ( ( $Action == "Update" ) || ( isset ( $Update ) ) )
     $i =0;
     if ( count( $AttributeName ) > 0 )
     {
-
         foreach ( $AttributeName as $attribute )
         {
             $att = new eZMediaAttribute( $AttributeID[$i] );
             $att->setName( $attribute );
+            $att->setDefaultValue( $AttributeDefault[$i] );
             $att->store();
 
             $i++;
@@ -189,6 +189,7 @@ if ( $Action == "Edit" )
 
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
+        $t->set_var( "attribute_default", $attribute->defaultValue( ) );
 
         $t->set_var( "is_1_selected", "" );
         $t->set_var( "is_2_selected", "" );
