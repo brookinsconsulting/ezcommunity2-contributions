@@ -968,7 +968,5 @@ if (frm.IsRecurring.checked) {
 </tr>
 </table>
 
-<hr noshade size="4" />
-
 </form>
 <!-- END no_error_tpl -->
