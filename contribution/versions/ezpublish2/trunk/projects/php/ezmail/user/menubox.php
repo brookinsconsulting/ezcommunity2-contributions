@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/03/24 20:28:05 fh Exp $
+// $Id: menubox.php,v 1.4 2001/03/26 10:15:21 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <23-Mar-2001 10:57:04 fh>
@@ -49,6 +49,14 @@ if( eZUser::currentUser() )
 
     // get the inbox!
     $inbox = eZMailFolder::getSpecialFolder( INBOX );
+    if( $inbox )
+    {
+        $t->set_var( "folder_id", $inbox->id() );
+        $t->set_var( "folder_name", $inbox->name() );
+        $t->parse( "mail_folder", "mail_folder_tpl", true );
+    }
+
+    $inbox = eZMailFolder::getSpecialFolder( DRAFTS );
     if( $inbox )
     {
         $t->set_var( "folder_id", $inbox->id() );

@@ -39,6 +39,15 @@ switch( $url_array[2] )
         include( "ezmail/user/mailedit.php" );
     }
     break;
+
+    case "fileedit" :
+    {
+        $MailID = $url_array[3];
+        if( $MailID == "" )
+            $MailID = 0;
+        include( "ezmail/user/fileedit.php" );
+    }
+    break;
     
     case "config" :
     {

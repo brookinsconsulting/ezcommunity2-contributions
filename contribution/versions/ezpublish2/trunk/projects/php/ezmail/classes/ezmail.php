@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.8 2001/03/25 19:25:21 fh Exp $
+// $Id: ezmail.php,v 1.9 2001/03/26 10:15:21 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -81,17 +81,16 @@ class eZMail
     */
     function delete( $id = -1 )
     {
-        $this->dbInit();
-
+        $db = eZDB::globalDatabase();
 
         // DELETE ALL ATTACHMENTS
-        if ( isset( $this->ID ) )
+        if ( $id == -1 )
         {
-            $this->Database->query( "DELETE FROM eZMail_Mail WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZMail_Mail WHERE ID='$this->ID'" );
         }
         else
         {
-            $this->Database->query( "DELETE FROM eZMail_Mail WHERE ID='$id'" );
+            $db->query( "DELETE FROM eZMail_Mail WHERE ID='$id'" );
         }
         
         return true;

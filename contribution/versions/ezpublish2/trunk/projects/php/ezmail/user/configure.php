@@ -35,7 +35,6 @@ if( isset( $Ok ) )
     }
 }
 
-
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
 

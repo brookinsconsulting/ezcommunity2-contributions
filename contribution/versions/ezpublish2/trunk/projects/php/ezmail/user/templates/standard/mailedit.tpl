@@ -8,19 +8,19 @@
 <input type="text" size="40" name="To" value="{to_value}"/>
 
 <p class="boxtext">{intl-from}:</p>
-<input type="text" size="40" name="To" value="{from_value}"/>
+<input type="text" size="40" name="From" value="{from_value}"/>
 
 <p class="boxtext">{intl-cc}:</p>
-<input type="text" size="40" name="To" value="{cc_value}"/>
+<input type="text" size="40" name="Cc" value="{cc_value}"/>
 
 <p class="boxtext">{intl-bcc}:</p>
-<input type="text" size="40" name="To" value="{bcc_value}"/>
+<input type="text" size="40" name="Bcc" value="{bcc_value}"/>
 
 <p class="boxtext">{intl-subject}:</p>
-<input type="text" size="40" name="To" value="{subject_value}"/>
+<input type="text" size="40" name="Subject" value="{subject_value}"/>
 
 <p class="boxtext">{intl-body}:</p>
-<textarea name="MailBody[]" cols="70" rows="20" wrap="soft">{mail_body}</textarea>
+<textarea name="MailBody" cols="70" rows="20" wrap="soft">{mail_body}</textarea>
 
 <!-- BEGIN inserted_attachments_tpl -->
 <h2>{intl-attachments}:</h2>
