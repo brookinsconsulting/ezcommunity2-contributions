@@ -34,3 +34,12 @@ Maintainer(s) : fh@ez.no
       user/intl/fr_FR/mailview.php.ini
       user/intl/fr_FR/menubox.php.ini: updated fr_FR
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * user/mailview.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+

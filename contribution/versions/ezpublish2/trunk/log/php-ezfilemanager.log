@@ -235,3 +235,12 @@ Maintainer(s) : jhe@ez.no
       user/folderedit.php
       user/intl/en_GB/folderedit.php.ini: bug in editing of folders
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * user/templates/standard/filelist.tpl
+      user/templates/standard/search.tpl: fixed missing nVH tags
+

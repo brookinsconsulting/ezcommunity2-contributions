@@ -148,3 +148,14 @@ Maintainer(s) : bf@ez.no
       ezdatetime.php
       ezlocale.php: bugfix when using sunday as first day of week
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * INIFile.php
+      ezhttptool.php
+      eztemplate.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+

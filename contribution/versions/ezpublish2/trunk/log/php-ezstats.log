@@ -56,3 +56,22 @@ Maintainer(s) : br@ez.no
     * Attic/cron.php
       admin/Attic/archive.php: renamed file
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/yearreport.tpl
+      admin/intl/cn_CN/yearreport.php.ini
+      admin/intl/de_DE/yearreport.php.ini
+      admin/intl/en_GB/yearreport.php.ini
+      admin/intl/en_US/yearreport.php.ini
+      admin/intl/es_AR/yearreport.php.ini
+      admin/intl/es_MX/yearreport.php.ini
+      admin/intl/fi_FI/yearreport.php.ini
+      admin/intl/fr_FR/yearreport.php.ini
+      admin/intl/it_IT/yearreport.php.ini
+      admin/intl/no_NO/yearreport.php.ini
+      admin/intl/zh_TW/yearreport.php.ini: fixed bug "wrong intl key"
+

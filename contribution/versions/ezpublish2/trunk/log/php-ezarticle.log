@@ -1031,3 +1031,16 @@ Maintainer(s) : bf@ez.no
 
     * user/topiclist.php: Fixed language variable.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezezrenderer.php
+      classes/eztechrenderer.php
+      modules/content.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+
+    * user/sitemap.php: initialization of $Language was missing
+

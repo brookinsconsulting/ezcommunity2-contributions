@@ -805,3 +805,12 @@ Maintainer(s) : ce@ez.no
       user/templates/standard/ordersendt.tpl: Added voucher to payment method
     Added voucherview on ordersent
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/optionedit.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+

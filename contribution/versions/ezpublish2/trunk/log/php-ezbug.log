@@ -68,3 +68,14 @@ Maintainer(s) : vl@ez.no
       sql/postgresql/ezbug.sql:
     Removed auto_increment statement from eZBug_ModulePermission
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/bugedit.php
+      user/bugreport.php
+      user/bugview.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+

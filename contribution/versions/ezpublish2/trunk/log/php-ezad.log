@@ -39,3 +39,12 @@ Maintainer(s) : br@ez.no
     * sql/mysql/ezad.sql
       sql/postgresql/ezad.sql: Added missing SQL tables/fields.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * user/adlist.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+

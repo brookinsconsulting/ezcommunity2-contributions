@@ -33,3 +33,16 @@ Maintainer(s) : bf@ez.no
       header.php
       intl/en_GB/header.php.ini: Added display of eZ publish version.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * footer.php
+      loginfooter.php
+      print_footer.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+
+    * templates/ezpublish/loginheader.tpl: fixed title to english
+

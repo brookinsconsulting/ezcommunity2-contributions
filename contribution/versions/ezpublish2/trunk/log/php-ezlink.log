@@ -99,3 +99,12 @@ Maintainer(s) : br@ez.no
       user/linkcategorylist.php
       user/menubox.php: Layout
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-09-29  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/intl/tr_TR/menubox.php:
+    $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
+
