@@ -13,6 +13,8 @@
 \setlength\parskip{\smallskipamount}
 \setlength\parindent{0pt}
 \usepackage{graphics}
+\IfFileExists{url.sty}{\usepackage{url}}
+                      {\newcommand{\url}{\texttt}}
 
 \makeatletter
 
@@ -33,7 +35,7 @@
 
 \begin{document}
 
-\title{eZ publish 2.1 Installation Guide}
+\title{eZ publish 2.2 Installation Guide}
 
 
 \author{\resizebox*{0.75\columnwidth}{!}{\includegraphics{screenshots/2.0/ezpublish.eps}} }
@@ -55,7 +57,7 @@ its primary point of distribution and information is http://developer.ez.no/
 
 \begin{quote}
 \textbf{{}``He who asks is a fool for five minutes, but he who does
-not ask remains a fool forever.{}''} - \-
+not ask remains a fool forever.''} - \-
 \end{quote}
 eZ publish is a content management system, among a lot of other things.
 This installation manual will try to cover the job of installing eZ
@@ -107,7 +109,7 @@ our hosting partners at eZ systems web site (\texttt{\footnotesize http://en.ez.
 It is possible to order pre-configured hardware from eZ systems. You
 can order through or web shop (\texttt{\footnotesize http://sourceprovider.com/}).
 
-A line starting with a hash-sign {}``\#{}'' are input from the user
+A line starting with a hash-sign {}``\#'' are input from the user
 to the shell.
 
 
@@ -151,10 +153,10 @@ aren't present on your system already:
 \begin{itemize}
 \item MySQL (http://www.mysql.com) version 3.23 or later. (eZ publish requires
 MySQL for storage of its data.)
-\item libXml2 (http://xmlsoft.org/\#Downloads) version 2.2.7, 2.2.8 or 2.2.9.
-(Needed by eZ article. If you wish to use the default article renderer
-you need libXml2 installed. You can create your own renderers if you
-don't want to use the default.)
+\item libXml2 (http://xmlsoft.org/\#Downloads) version 2.4.1 is recommended
+but versions as old as 2.2.9 is known to work. (Needed by eZ article.
+If you wish to use the default article renderer you need libXml2 installed.
+You can create your own renderers if you don't want to use the default.)
 \item libQdom (http://www.trolltech.com) is a part of QT, you need version
 2.2.3 or later. (Needed by eZ news feed's parsers. If you wish to
 include headlines from external sites (example developer.ez.no or
@@ -167,11 +169,15 @@ need only the command line version.)
 recommended to run the latest Apache release, though eZ publish shouldn't
 be very picky with the Apache versions. We've used eZ publish with
 Apache 1.3.13, some have reported that Apache 1.3.9 isn't useful.)
+\item mod\_rewrite. This apache module is included in all recent versions
+of RedHat Linux. If you use an other distro, you may need to recompile
+apache with mod\_rewrite
 \item Any and all modules you need for apache in addition to mod\_php. (http://modules.apache.org/)
-\item PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the
-source code version from this site, for windows you can just download
-the binary. (eZ publish uses references for objects and foreach loops.
-Only version 4.0.4pl1 and later supports both of these features satisfactorily.)
+\item PHP (http://www.php.net/) version 4.0.4pl1 or later. Version 4.0.6
+is recommended. You need the source code version from this site, for
+windows you can just download the binary. (eZ publish uses references
+for objects and foreach loops. Only version 4.0.4pl1 and later supports
+both of these features satisfactorily.)
 \item eZ publish (http://developer.ez.no/) verision 2.0 or later stable
 releases.
 \end{itemize}
@@ -192,10 +198,10 @@ almost nothing to the user, except deciding what to install.
 
 To check if a package is available on your system you can run the
 following command (RPM based systems {}``rpm -qa | grep <name of
-program/library>{}''. If you need to know where you can find the
-different files from that package you can follow up on the previous
-command with the following {}``rpm -ql <rpm name>{}''. RPM name
-is one of the returned names from the previous command, example:\\
+program/library>''. If you need to know where you can find the different
+files from that package you can follow up on the previous command
+with the following {}``rpm -ql <rpm name>''. RPM name is one of
+the returned names from the previous command, example:\\
 
 
 \texttt{\footnotesize ~~~~\# pkej@vogol:/etc/httpd > rpm -qa |
@@ -268,8 +274,8 @@ Windows installation is described in its own chapter \ref{chptr: windows}.
 On other systems you should read the documentation for that system
 to learn how to find out what software is already installed.
 
-You could try to use the command {}``find{}'' to find the software.
-It is used thus: {}``find . -name \textbackslash{}{*}<program name>\textbackslash{}{*}{}''
+You could try to use the command {}``find'' to find the software.
+It is used thus: {}``find . -name \textbackslash{}{*}<program name>\textbackslash{}{*}''
 from the /usr/, /local/ , /lib/, /share/ directories. In extreme cases
 you could try from the root of the system, but this will take a long
 time and will also hog resources on your computer. Therefore we urge
@@ -282,8 +288,8 @@ to find the software already installed.
 If you've found pre-compiled versions of all the software packaged
 for use with an installation tool, you just have to install that software
 using the tool. Instructioins for its usage is often found using the
-command {}``man <installation tool name>{}'' or by reading your
-system's documentation or the supplier's website.
+command {}``man <installation tool name>'' or by reading your system's
+documentation or the supplier's website.
 
 If you've had to download source code you will find instructions on
 how to compile and install the software you've downloaded at the software
@@ -315,6 +321,12 @@ You should always do a search of the forums before posting any questions.
 
 \section{PHP}
 
+Important : YOU NEED TO RECOMPILE PHP. No known Linux distros does
+yet have all the php features required by eZ~publish. This means
+that you need to compile the php module from source.\\
+You may find precompiled binaries for your system at the eZ publish web site,  \url{http://developer.ez.no}.
+Take a look at the {}``Contributions'' section in the download area.
+
 
 \subsection{Unpacking}
 
@@ -334,11 +346,11 @@ to move into the directory you extracted php into:\\
 
 \subsection{Configuration}
 
-You'll need either an apache module or a command line version of PHP
-to use eZ publish on your website. We recommend you use PHP as an
-apache module. You will also need the command line version if you
-want to use the cron jobs for periodical updates of the eZ news feed
-module.
+You'll need either an apache module or a command line (CGI) version
+of PHP to use eZ publish on your website. We recommend you use PHP
+as an apache module. You will also need the command line version if
+you want to use the cron jobs for periodical updates of the eZ news
+feed module.
 
 Thus for our recommended installation of PHP you need both the command
 line and module versions of PHP.
@@ -358,15 +370,24 @@ used.\\
 ({\footnotesize http://www.php.net/manual/en/install.configure.php\#install.configure.with-mysql})
 \item [--disable-magic-quotes]This tells PHP to disable magic quotes by
 default. you can also turn this feature on and off on a directory
-by directory basis in either the {}``.htaccess{}'' files (if you
-use them) or in the setup of the virtual server in {}``httpd.conf{}''.
-From version 2.1 onwards magic quotes must be turned off for eZ publish
-to work properly.\\
+by directory basis in either the {}``.htaccess'' files (if you use
+them) or in the setup of the virtual server in {}``httpd.conf''. 
+\item [IMORTANT]: From version 2.1 onwards magic quotes must be turned off
+for eZ publish to work properly.\\
 ({\footnotesize http://www.php.net/manual/en/install.configure.php\#install.configure.enable-magic-quotes})
 \item [--with-dom]This configures PHP to include libxml. {\footnotesize }\\
 {\footnotesize (http://www.php.net/manual/en/install.configure.php\#install.configure.with-dom)}{\footnotesize \par}
 \item [--with-qtdom]This configures PHP to include libqdom. It isn't up
 on the PHP site with a link, but it works as --with-dom.
+\item [--with-imap]This configures PHP to include imap support. This is
+used by eZ mail module. This parameters require ssl support. Imap
+does also have bindings to kerberos. This causes some linking problems
+on RedHat Linux. The workaround for this problem is to type this command
+before you compile : \texttt{\footnotesize }~\\
+\texttt{\footnotesize }~\\
+\texttt{\footnotesize \$ export LDFLAGS=\char`\"{}-L/usr/kerberos/lib
+-lkrb5 -lgssapi\_krb5~-lpam\char`\"{}}{\footnotesize \par}
+\item [--with-openssl]This will enable ssl support in PHP
 \end{description}
 You should also go through the web page: {\footnotesize http://www.php.net/manual/en/install.configure.php}
 and make sure that there isn't other functionality you would like
@@ -397,13 +418,13 @@ to learn how you configure for the web server you will be using.
 
 \subsubsection{Creating the Configuration}
 
-Now you just have to run the {}``./configure{}'' program with the
+Now you just have to run the {}``./configure'' program with the
 apropriate configuration directives which we discussed in the preceeding
 sections, for an apache module you'd do the following:\\
 
 
 \texttt{\footnotesize ~~~\# ./configure -{}-enable-trans-sid -{}-with-mysql}~\\
-\texttt{\footnotesize ~~~~-{}-with-apxs} {\selectlanguage{english}}\texttt{\footnotesize -{}-with-dom
+\texttt{\footnotesize ~~~~-{}-with-apxs} \foreignlanguage{english}{}\texttt{\footnotesize -{}-with-dom
 -{}-with-qtdom}~\\
 {\footnotesize \par}
 
@@ -418,7 +439,7 @@ that line to:\\
 
 \subsection{Compilation}
 
-To compile you need to run the command {}``make{}'':\\
+To compile you need to run the command {}``make'':\\
 
 
 \texttt{\footnotesize ~~~~\# make}{\footnotesize \par}
@@ -430,6 +451,81 @@ To install your new PHP package you need to run the following command:\\
 
 
 \texttt{\footnotesize ~~~~\# make install}{\footnotesize \par}
+
+
+\subsection{Compiling the php module on RedHat 7.x, step by step}
+
+First download the source from www.php.net. You should get a file
+called something like
+
+php-4.0.6.tar.gz\\
+
+
+First, unpack the tarball:
+
+\$ tar -xzf php-4.0.6.tar.gz\\
+
+
+Now, enter the source directory
+
+\$ cd php-4.0.6\\
+
+
+Apply the kerberos workaround:
+
+\$ export LDFLAGS=\char`\"{}-L/usr/kerberos/lib -lkrb5 -lgssapi\_krb5
+-lpam\char`\"{}\\
+
+
+Run the configure script:
+
+\texttt{\footnotesize \$ ./configure -{}-with-apxs=/usr/sbin/apxs
+-{}-enable-ftp -{}-with-xml -{}-with-dom -{}-enable-trans-sid -{}-with-config-file-path=/etc/httpd
+-{}-with-mysql=/usr -{}-with-pgsql=/usr -{}-enable-inline-optimization
+-{}-with-ttf -{}-with-qtdom -{}-with-gd -{}-enable-gd-native-ttf -{}-with-imap
+-{}-includedir=/usr -{}-with-openssl=/usr -{}-with-zlib-dir=/usr -{}-with-openssl=shared,/usr}~\\
+{\footnotesize \par}
+
+Compile the module:
+
+\texttt{\footnotesize \$ make}\\
+
+
+Install the module, either automaticly or manually.\\
+Manually : 
+
+\texttt{\footnotesize \$ su}{\footnotesize \par}
+
+\texttt{\footnotesize \# cp .libs/libphp.so /usr/lib/apache}{\footnotesize \par}
+
+Automaticly:
+
+\texttt{\footnotesize \$ su}{\footnotesize \par}
+
+\texttt{\footnotesize \# make install}\\
+
+
+Restart apache:
+
+\texttt{\footnotesize \# /etc/rc.d/init.d/httpd restart}\\
+
+
+Verify that everything went OK.\\
+Verify that apache was able to start:
+
+\texttt{\footnotesize \# ps ax | grep httpd}\\
+
+
+Check the apache log
+
+\texttt{\footnotesize \# tail -f 50 /var/log/httpd/error\_log}~\\
+{\footnotesize \par}
+
+IMPORTANT
+
+When compiling php, please read chapter \ref{chptr: Troubleshooting}.
+Especially, take note of chapter \ref{chptr: openssl problem on redhat}.
+It might save you for hours with debugging
 
 
 \chapter{Apache Configuration}
@@ -445,17 +541,17 @@ that is using two virtual hosts.
 
 This set up is based on having two different virtual hosts for your
 administration back-end and the main site. The main site would typically
-be known as {}``www.yoursite.com{}'' and the administration would
-be {}``admin.yoursite.com{}''; the names are up to you, theoretically
-you could have different names, for example {}``mysite.yoursite.com{}''
-and {}``administration.mysite.com{}''.
+be known as {}``www.yoursite.com'' and the administration would
+be {}``admin.yoursite.com''; the names are up to you, theoretically
+you could have different names, for example {}``mysite.yoursite.com''
+and {}``administration.mysite.com''.
 
-The virtual host is configured through the {}``httpd.conf{}'' file
+The virtual host is configured through the {}``httpd.conf'' file
 which is the main configuration of Apache. Following is an example
 of such a host, modify it to reflect your own installation and preferences,
-but before that be sure to add the {}``NameVirtualServer{}'' directive
+but before that be sure to add the {}``NameVirtualServer'' directive
 to the configuration file. The directive is {}``NameVirtualServer
-ip-address{}'' where the ip address is the address where the server
+ip-address'' where the ip address is the address where the server
 will receive requests (http://httpd.apache.org/docs/mod/core.html\#namevirtualhost).
 
 You should consider using the utility which we have online for creating
@@ -540,18 +636,18 @@ online tool.
 \texttt{\footnotesize ~~</VirtualHost>}~\\
 {\footnotesize \par}
 
-The format of the {}``httpd.conf{}'' file is covered at http://httpd.apache.org/docs/
+The format of the {}``httpd.conf'' file is covered at http://httpd.apache.org/docs/
 for a complete understanding of the above information you'll need
 to read that documentation.
 
-The directory {}``/your/apache/documentroot/publish\_dist{}'' is
-the directory where you extracted eZ publish.
+The directory {}``/your/apache/documentroot/publish\_dist'' is the
+directory where you extracted eZ publish.
 
 
 \subsubsection{Error Checking}
 
 You can check that everything is correct with your rewrite rules by
-running {}``apache -s{}'', which will check for virtual hosts. There
+running {}``apache -s'', which will check for virtual hosts. There
 should also be an error log (consult the apache documentation) which
 you can read to check for errors.
 
@@ -568,24 +664,24 @@ The rewrite rules do the following:\\
 \texttt{\footnotesize ~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
 {\footnotesize \par}
 
-This says that everything served from {}``/filemanager/filedownload/{}''
-should be redirected to fetch information from {}``publish\_dist/ezfilemanager/files{}''.
+This says that everything served from {}``/filemanager/filedownload/''
+should be redirected to fetch information from {}``publish\_dist/ezfilemanager/files''.
 In other words, when people downloads a file from the filemanager,
 the file is served from the directory specified in the second part.
 
-The {}``\^{ }{}'' just after {}``RewriteRule{}'' says that evertything
+The {}``\^{ }'' just after {}``RewriteRule'' says that evertything
 which starts with this, in other words it is a start of line marker.
 When working with an URL that is from the root of your site, ie. the
 part from the first slash after your domain name.
 
-The {}``\${}'' sign is used to mark the end of line, in order to
-remember the full line.
+The {}``\$'' sign is used to mark the end of line, in order to remember
+the full line.
 
-The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}{}''}
+The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}''}
 means that everything which is matched shall be of the specific mime
-type ({}``application/oct-stream{}'', ie. binary download). The
-{}``S=1{}'' part means that if we match this rule, we should skip
-one rule ahead before trying to match again.
+type ({}``application/oct-stream'', ie. binary download). The {}``S=1''
+part means that if we match this rule, we should skip one rule ahead
+before trying to match again.
 
 The next rewrite rule:\\
 
@@ -611,11 +707,11 @@ host section:\\
 {\footnotesize \par}
 
 \emph{NOTE: It isn't possible to use the form http://mysite.com/admin
-at all; since the admin module assumes that the url {}``/{}'' is
-the start of the admin pages. If you do change eZ publish code in
-order to do this anyway; please send the code to bf@ez.no for future
-inclusion. The only correct way to access the admin site is through
-its own virtual host address.}
+at all; since the admin module assumes that the url {}``/'' is the
+start of the admin pages. If you do change eZ publish code in order
+to do this anyway; please send the code to bf@ez.no for future inclusion.
+The only correct way to access the admin site is through its own virtual
+host address.}
 
 
 \subsection{Configuring Through .htaccess}
@@ -638,15 +734,15 @@ In your main directory (/path/to/index.php/) create a file called
 
 \texttt{\footnotesize ~~~~Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~RewriteEngine On} {\selectlanguage{english}}
+\texttt{\footnotesize ~~~~RewriteEngine On} \foreignlanguage{english}{}
 
-\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$} {\selectlanguage{english}}
+\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$} \foreignlanguage{english}{}
 
 \texttt{\footnotesize ~~~~/publish/ezstats/user/storestats.php
-{[}S=2{]}} {\selectlanguage{english}}
+{[}S=2{]}} \foreignlanguage{english}{}
 
 \texttt{\footnotesize ~~~~\# The two lines above should appear
-on the} {\selectlanguage{english}}
+on the} \foreignlanguage{english}{}
 
 \texttt{\footnotesize ~~~~\# same line in your configuration file.}{\footnotesize \par}
 
@@ -702,7 +798,7 @@ The next step is to move the files to your document root:\\
 {\footnotesize \par}
 
 When all this is done you need to tell eZ publish a little about the
-site you're running. You'll need to edit the {}``site.ini{}'' file
+site you're running. You'll need to edit the {}``site.ini'' file
 which you will find in the document root:\\
 
 
@@ -713,10 +809,10 @@ which you will find in the document root:\\
 
 Instead of vi you can use your preferred text editor. You'll need
 to add information about the username, hostname and password of your
-database. More information on what you can do with {}``site.ini{}''
-can be found in the {}``eZ publish Customisation Guide{}''.
+database. More information on what you can do with {}``site.ini''
+can be found in the {}``eZ publish Customisation Guide''.
 
-The next important step is to run the script {}``secure\_modfix.sh{}''.
+The next important step is to run the script {}``secure\_modfix.sh''.
 \\
 
 
@@ -780,8 +876,8 @@ First we need to add files and images which are needed by the database.\\
 \texttt{\footnotesize ~~~~\# tar zpxvf data.tar.gz}~\\
 {\footnotesize \par}
 
-Then we need to run {}``secure\_modfix.sh{}'' to make sure that
-everything is readable.\\
+Then we need to run {}``secure\_modfix.sh'' to make sure that everything
+is readable.\\
 
 
 \texttt{\footnotesize ~~~~\# ./secure\_modfix.sh}~\\
@@ -804,10 +900,10 @@ cached correctly:\\
 \subsection{Updating the Installation}
 
 This section is for users who are updating from a previous version
-of eZ publish. There should be several files ending with {}``.sql{}''
-in the directory {}``updates{}''. Run the files needed to update
-your version to the current. You need to apply all the updates for
-every version since your version.
+of eZ publish. There should be several files ending with {}``.sql''
+in the directory {}``updates''. Run the files needed to update your
+version to the current. You need to apply all the updates for every
+version since your version.
 
 
 \chapter{Now What?}
@@ -822,9 +918,8 @@ the public site might be different.
 be admin/publish. Remember to change the password.
 
 The next manual you should read is the {}``eZ publish Customisation
-Guide{}'', it tells you how to configure the software to use the
-functionality you want, as well as how you change the templates to
-suit your needs.
+Guide'', it tells you how to configure the software to use the functionality
+you want, as well as how you change the templates to suit your needs.
 
 When you're finished with the design and the initial testing you can
 head over to \texttt{\footnotesize http://zez.org/} for articles about
@@ -845,7 +940,7 @@ well as keeping abreast of new developments.
 \item Consider this: all eZ publish sites has an admin site, perhaps you
 should call the admin host something different than admin?
 \item Check that you've downloaded and read the configuration manual. A
-quick tip is to read through the file {}``site.ini{}'' and change
+quick tip is to read through the file {}``site.ini'' and change
 any e-mail addresses, passwords etc. to fit your own choices.
 \item Log in on your admin site (\texttt{\footnotesize http://admin.yoursite.com/}).
 You will be presented with a page which will list any install problems.
@@ -854,7 +949,7 @@ any instructions. If that fails, read the FAQ. Then go to \texttt{\footnotesize 
 and search the forum for anyone who have had the same problem. Also
 check the bug list for any open bugs covering your problem. Finally
 you should register to the mailing list and try asking for help there.
-\item If everything is okay go to the {}``user{}'' module and change the
+\item If everything is okay go to the {}``user'' module and change the
 e-mail address of the site administrator immediatly.
 \item Change the password of the administration user to something only you
 know.
@@ -865,7 +960,7 @@ about features of the software.
 site.
 \end{enumerate}
 
-\chapter{Troubleshooting}
+\chapter{\label{chptr: Troubleshooting}Troubleshooting}
 
 
 \section{Problems During Installation}
@@ -879,13 +974,22 @@ and goes unrecognized by configure (PHP). Link the files to /usr/local/lib/libxm
 
 \subsection{Missing Compiler/Can not Compile (C++/C)}
 
-The ImageMagick package requires the GCC compiler. You'll need to
-download that compiler and install it on your system. In the introduction
-(see chapter \ref{chptr: introduction}) I listed some sites where
+When compiling php and other support programs (like ImageMagick) you
+need the GCC compiler. It is recommended that you use the GCC compiler
+which was shipped with your Linux distro/unix system. In the introduction
+(see chapter \ref{chptr: introduction}) it listed some sites where
 you can download pre-compiled versions of software for some different
-Unix versions.
+Unix versions. Please note that you must compile php on your own.
 
-If you can't find a pre-compiled version try the GCC Home Page (http://gcc.gnu.org/).
+
+\subsection{I am getting linking errors when trying to build PHP}
+
+The PHP module you have compiled will be linked agains kerberos. This
+causes some linking problems on RedHat Linux. The workaround for this
+problem is to type this command before you compile :
+
+\texttt{\footnotesize \$ export LDFLAGS=\char`\"{}-L/usr/kerberos/lib
+-lkrb5 -lgssapi\_krb5 -lpam\char`\"{}}{\footnotesize \par}
 
 
 \section{Problems After Installation}
@@ -897,14 +1001,14 @@ If you can't find a pre-compiled version try the GCC Home Page (http://gcc.gnu.o
 
 \texttt{\small Permission denied in classes/INIFile.php on line 80}{\small \par}
 
-If you get this error message you need to run the {}``secure\_modfix.sh{}''
+If you get this error message you need to run the {}``secure\_modfix.sh''
 script.
 
 
 \subsection{Can not see Images}
 
 ImageMagick is not working, make sure that it is working by using
-the command line command {}``convert{}''.
+the command line command {}``convert''.
 
 
 \subsection{Warning about Temp Directory}
@@ -913,12 +1017,31 @@ If you get any such warning you need to set the temp directory in
 php.ini.
 
 
+\subsection{\label{chptr: openssl problem on redhat}After installing my new
+php module, apache dies immediately.}
+
+RedHat as released new versions of the openssl packages for RedHat
+7.x. If these erratas is installed before you compile php, your php
+module will be linked agains these. This will however brake mod\_ssl,
+which is linked to the old openssl libraries. There is two different
+ways to fix this:\\
+Uninstall mod\_ssl:
+
+\# rpm -e mod\_ssl\\
+\\
+Or you may download the apache source rpm from redhat. Then recompile
+and install it.\\
+
+
+If this doesn't help, look for clues in /var/log/httpd/error\_messages
+
+
 \chapter{Installing on RAQ 3\label{chptr: raq 3}}
 
 \emph{Installing ezPublish on raq3 without messing up the GUI or voiding
 the warranty.}
 
-This is untested by eZ systems, and we provide this {}``as is{}''
+This is untested by eZ systems, and we provide this {}``as is''
 without any form of guarantee or endorsement, either explicitly or
 implicitly.
 
@@ -995,7 +1118,7 @@ Extract the zlib archive:\\
 And install it:\\
 
 
-\texttt{\footnotesize ~~~~\# ./configure -{}-shared} {\selectlanguage{english}}
+\texttt{\footnotesize ~~~~\# ./configure -{}-shared} \foreignlanguage{english}{}
 
 \texttt{\footnotesize ~~~~\# make }{\footnotesize \par}
 
@@ -1053,7 +1176,7 @@ After making the changes save the file and go back to the shell. Now
 compile GD:\\
 
 
-\texttt{\footnotesize ~~~~\# make} {\selectlanguage{english}\texttt{\footnotesize }}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\# make} \foreignlanguage{english}{\texttt{\footnotesize }}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~\# make install}\texttt{\small }~\\
 {\small \par}
@@ -1112,7 +1235,7 @@ run /sbin/ldconfig again.
 Apache: (Your milage may vary, be wary of paths)
 
 edit /etc/httpd/conf/httpd.conf and add the Loadmodules lines like
-this: {\selectlanguage{english}}\\
+this: \foreignlanguage{english}{}\\
 
 
 \texttt{\footnotesize ~~~~\# Extra Modules}{\footnotesize \par}
@@ -1241,7 +1364,7 @@ This is a bit tougher! Enable SSL for the site in your GUI. Generate
 your certificates. Disable SSL in the GUI. Add this to the end of
 your extrasites.conf
 
-\texttt{\footnotesize ~~~~\#attempt to modify} {\selectlanguage{english}\texttt{\footnotesize }}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\#attempt to modify} \foreignlanguage{english}{\texttt{\footnotesize }}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~SSL Listen xxx.xxx.xxx.xxx:443}{\footnotesize \par}
 
@@ -1292,8 +1415,8 @@ if I have time: chris@net.ai
 \chapter{Installing on Windows }
 
 Please download and read the Windows documentation from the eZ publish
-site (http://developer.ez.no). Check the {}``File Archive{}'' link
-under {}``Downloads{}'' . It covers all the steps needed for a working
+site (http://developer.ez.no). Check the {}``File Archive'' link
+under {}``Downloads'' . It covers all the steps needed for a working
 installation under Windows using Apache.
 
 
@@ -1301,7 +1424,7 @@ installation under Windows using Apache.
 
 Thanks to Mark Polsen for giving us this information.
 
-This is untested by eZ systems, and we provide this {}``as is{}''
+This is untested by eZ systems, and we provide this {}``as is''
 without any form of guarantee or endorsement, either explicitly or
 implicitly.
 

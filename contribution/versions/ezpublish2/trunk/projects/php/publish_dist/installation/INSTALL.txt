@@ -1,6 +1,6 @@
 
 
-eZ publish 2.1 Installation Guide
+eZ publish 2.2 Installation Guide
 
 
 
@@ -42,6 +42,7 @@ Chapter 3 Compile Configuration
             3.1.2.5 Creating the Configuration
         3.1.3 Compilation
         3.1.4 Installation
+        3.1.5 Compiling the php module on RedHat 7.x, step by step
 Chapter 4 Apache Configuration
     4.1 Dual Virtual Host
         4.1.1 Configuring Through httpd.conf
@@ -64,10 +65,12 @@ Chapter 7 Troubleshooting
     7.1 Problems During Installation
         7.1.1 FreeBSD 4.2 and libxml2
         7.1.2 Missing Compiler/Can not Compile (C++/C)
+        7.1.3 I am getting linking errors when trying to build PHP
     7.2 Problems After Installation
         7.2.1 Permission Denied
         7.2.2 Can not see Images
         7.2.3 Warning about Temp Directory
+        7.2.4 After installing my new php module, apache dies immediately.
 Chapter 8 Installing on RAQ 3
     8.1 Getting SSL to Work
 Chapter 9 Installing on Windows 
@@ -184,11 +187,11 @@ if they aren't present on your system already:
 * MySQL (http://www.mysql.com) version 3.23 or later. (eZ
   publish requires MySQL for storage of its data.)
 
-* libXml2 (http://xmlsoft.org/#Downloads) version 2.2.7,
-  2.2.8 or 2.2.9. (Needed by eZ article. If you wish to
-  use the default article renderer you need libXml2 installed.
-  You can create your own renderers if you don't want to
-  use the default.)
+* libXml2 (http://xmlsoft.org/#Downloads) version 2.4.1 is
+  recommended but versions as old as 2.2.9 is known to work.
+  (Needed by eZ article. If you wish to use the default
+  article renderer you need libXml2 installed. You can create
+  your own renderers if you don't want to use the default.)
 
 * libQdom (http://www.trolltech.com) is a part of QT, you
   need version 2.2.3 or later. (Needed by eZ news feed's
@@ -207,14 +210,19 @@ if they aren't present on your system already:
   versions. We've used eZ publish with Apache 1.3.13, some
   have reported that Apache 1.3.9 isn't useful.)
 
+* mod_rewrite. This apache module is included in all recent
+  versions of RedHat Linux. If you use an other distro,
+  you may need to recompile apache with mod_rewrite
+
 * Any and all modules you need for apache in addition to
   mod_php. (http://modules.apache.org/)
 
-* PHP (http://www.php.net/) version 4.0.4pl1 or later, you
-  need the source code version from this site, for windows
-  you can just download the binary. (eZ publish uses references
-  for objects and foreach loops. Only version 4.0.4pl1 and
-  later supports both of these features satisfactorily.)
+* PHP (http://www.php.net/) version 4.0.4pl1 or later. Version
+  4.0.6 is recommended. You need the source code version
+  from this site, for windows you can just download the
+  binary. (eZ publish uses references for objects and foreach
+  loops. Only version 4.0.4pl1 and later supports both of
+  these features satisfactorily.)
 
 * eZ publish (http://developer.ez.no/) verision 2.0 or later
   stable releases.
@@ -360,6 +368,14 @@ Compile Configuration
 
 3.1 PHP
 
+Important : YOU NEED TO RECOMPILE PHP. No known Linux distros
+does yet have all the php features required by eZ publish.
+This means that you need to compile the php module from
+source.
+You may find precompiled binaries for your system at [http://developer.ez.no||the eZ publish web site, ].
+Take a look at the "Contributions"
+section in the download area.
+
 3.1.1 Unpacking
 
 After you have downloaded PHP you need to unpack it somewhere
@@ -378,11 +394,11 @@ you need to move into the directory you extracted php into:
 
 3.1.2 Configuration
 
-You'll need either an apache module or a command line version
-of PHP to use eZ publish on your website. We recommend you
-use PHP as an apache module. You will also need the command
-line version if you want to use the cron jobs for periodical
-updates of the eZ news feed module.
+You'll need either an apache module or a command line (CGI)
+version of PHP to use eZ publish on your website. We recommend
+you use PHP as an apache module. You will also need the
+command line version if you want to use the cron jobs for
+periodical updates of the eZ news feed module.
 
 Thus for our recommended installation of PHP you need both
 the command line and module versions of PHP.
@@ -406,9 +422,10 @@ tool:
   quotes by default. you can also turn this feature on and
   off on a directory by directory basis in either the ".htaccess"
   files (if you use them) or in the setup of the virtual
-  server in "httpd.conf".
-  From version 2.1 onwards magic quotes must be turned off
-  for eZ publish to work properly.
+  server in "httpd.conf". 
+
+IMORTANT : From version 2.1 onwards magic quotes must be
+  turned off for eZ publish to work properly.
   (http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quotes)
 
 --with-dom This configures PHP to include libxml. 
@@ -417,6 +434,17 @@ tool:
 --with-qtdom This configures PHP to include libqdom. It
   isn't up on the PHP site with a link, but it works as
   --with-dom.
+
+--with-imap This configures PHP to include imap support.
+  This is used by eZ mail module. This parameters require
+  ssl support. Imap does also have bindings to kerberos.
+  This causes some linking problems on RedHat Linux. The
+  workaround for this problem is to type this command before
+  you compile : 
+  
+  $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
+
+--with-openssl This will enable ssl support in PHP
 
 You should also go through the web page: http://www.php.net/manual/en/install.configure.php
 and make sure that there isn't other functionality you would
@@ -475,6 +503,81 @@ command:
 
 
     # make install
+
+3.1.5 Compiling the php module on RedHat 7.x, step by step
+
+First download the source from www.php.net. You should get
+a file called something like
+
+php-4.0.6.tar.gz
+
+
+First, unpack the tarball:
+
+$ tar -xzf php-4.0.6.tar.gz
+
+
+Now, enter the source directory
+
+$ cd php-4.0.6
+
+
+Apply the kerberos workaround:
+
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5
+-lpam"
+
+
+Run the configure script:
+
+$ ./configure --with-apxs=/usr/sbin/apxs --enable-ftp --with-xml
+--with-dom --enable-trans-sid --with-config-file-path=/etc/httpd
+--with-mysql=/usr --with-pgsql=/usr --enable-inline-optimization
+--with-ttf --with-qtdom --with-gd --enable-gd-native-ttf
+--with-imap --includedir=/usr --with-openssl=/usr --with-zlib-dir=/usr
+--with-openssl=shared,/usr
+
+
+Compile the module:
+
+$ make
+
+
+Install the module, either automaticly or manually.
+Manually : 
+
+$ su
+
+# cp .libs/libphp.so /usr/lib/apache
+
+Automaticly:
+
+$ su
+
+# make install
+
+
+Restart apache:
+
+# /etc/rc.d/init.d/httpd restart
+
+
+Verify that everything went OK.
+Verify that apache was able to start:
+
+# ps ax | grep httpd
+
+
+Check the apache log
+
+# tail -f 50 /var/log/httpd/error_log
+
+
+IMPORTANT
+
+When compiling php, please read chapter [chptr: Troubleshooting].
+Especially, take note of chapter [chptr: openssl problem on redhat].
+It might save you for hours with debugging
 
 Apache Configuration
 
@@ -910,7 +1013,7 @@ developments.
 13. Check that ImageMagick is working. Try to upload an image
   to your site.
 
-Troubleshooting
+<chptr: Troubleshooting>Troubleshooting
 
 7.1 Problems During Installation
 
@@ -922,14 +1025,22 @@ to /usr/local/lib/libxml.a|so.
 
 7.1.2 Missing Compiler/Can not Compile (C++/C)
 
-The ImageMagick package requires the GCC compiler. You'll
-need to download that compiler and install it on your system.
-In the introduction (see chapter [chptr: introduction])
-I listed some sites where you can download pre-compiled
-versions of software for some different Unix versions.
+When compiling php and other support programs (like ImageMagick)
+you need the GCC compiler. It is recommended that you use
+the GCC compiler which was shipped with your Linux distro/unix
+system. In the introduction (see chapter [chptr: introduction])
+it listed some sites where you can download pre-compiled
+versions of software for some different Unix versions. Please
+note that you must compile php on your own.
 
-If you can't find a pre-compiled version try the GCC Home
-Page (http://gcc.gnu.org/).
+7.1.3 I am getting linking errors when trying to build PHP
+
+The PHP module you have compiled will be linked agains kerberos.
+This causes some linking problems on RedHat Linux. The workaround
+for this problem is to type this command before you compile :
+
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5
+-lpam"
 
 7.2 Problems After Installation
 
@@ -951,6 +1062,24 @@ by using the command line command "convert".
 
 If you get any such warning you need to set the temp directory
 in php.ini.
+
+7.2.4 <chptr: openssl problem on redhat>After installing
+  my new php module, apache dies immediately.
+
+RedHat as released new versions of the openssl packages for
+RedHat 7.x. If these erratas is installed before you compile
+php, your php module will be linked agains these. This will
+however brake mod_ssl, which is linked to the old openssl
+libraries. There is two different ways to fix this:
+Uninstall mod_ssl:
+
+# rpm -e mod_ssl
+
+Or you may download the apache source rpm from redhat. Then
+recompile and install it.
+
+
+If this doesn't help, look for clues in /var/log/httpd/error_messages
 
 Installing on RAQ 3<chptr: raq 3>
 

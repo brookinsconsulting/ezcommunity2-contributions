@@ -35,7 +35,7 @@
 
 \layout Title
 
-eZ publish 2.1 Installation Guide
+eZ publish 2.2 Installation Guide
 \layout Author
 
 
@@ -288,7 +288,8 @@ MySQL (http://www.mysql.com) version 3.23 or later.
  (eZ publish requires MySQL for storage of its data.)
 \layout Itemize
 
-libXml2 (http://xmlsoft.org/#Downloads) version 2.2.7, 2.2.8 or 2.2.9.
+libXml2 (http://xmlsoft.org/#Downloads) version 2.4.1 is recommended but versions
+ as old as 2.2.9 is known to work.
  (Needed by eZ article.
  If you wish to use the default article renderer you need libXml2 installed.
  You can create your own renderers if you don't want to use the default.)
@@ -314,12 +315,19 @@ Apache (http://httpd.apache.org/) latest 1.3 release.
  1.3.9 isn't useful.)
 \layout Itemize
 
+mod_rewrite.
+ This apache module is included in all recent versions of RedHat Linux.
+ If you use an other distro, you may need to recompile apache with mod_rewrite
+\layout Itemize
+
 Any and all modules you need for apache in addition to mod_php.
  (http://modules.apache.org/)
 \layout Itemize
 
-PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the source code
- version from this site, for windows you can just download the binary.
+PHP (http://www.php.net/) version 4.0.4pl1 or later.
+ Version 4.0.6 is recommended.
+ You need the source code version from this site, for windows you can just
+ download the binary.
  (eZ publish uses references for objects and foreach loops.
  Only version 4.0.4pl1 and later supports both of these features satisfactorily.)
 \layout Itemize
@@ -655,6 +663,28 @@ Compile Configuration
 \layout Section
 
 PHP
+\layout Standard
+
+Important : YOU NEED TO RECOMPILE PHP.
+ No known Linux distros does yet have all the php features required by eZ\SpecialChar ~
+publish.
+ This means that you need to compile the php module from source.
+\newline 
+You may find precompiled binaries for your system at 
+\begin_inset LatexCommand \url[the eZ publish web site, ]{http://developer.ez.no}
+
+\end_inset 
+
+.
+ Take a look at the 
+\begin_inset Quotes eld
+\end_inset 
+
+Contributions
+\begin_inset Quotes erd
+\end_inset 
+
+ section in the download area.
 \layout Subsection
 
 Unpacking
@@ -698,8 +728,8 @@ Where the x is the version of php you've downloaded.
 Configuration
 \layout Standard
 
-You'll need either an apache module or a command line version of PHP to
- use eZ publish on your website.
+You'll need either an apache module or a command line (CGI) version of PHP
+ to use eZ publish on your website.
  We recommend you use PHP as an apache module.
  You will also need the command line version if you want to use the cron
  jobs for periodical updates of the eZ news feed module.
@@ -754,8 +784,11 @@ httpd.conf
 \end_inset 
 
 .
- From version 2.1 onwards magic quotes must be turned off for eZ publish
- to work properly.
+ 
+\layout Description
+
+IMORTANT : From version 2.1 onwards magic quotes must be turned off for eZ
+ publish to work properly.
 \newline 
 (
 \size footnotesize 
@@ -775,6 +808,26 @@ es
 
 --with-qtdom This configures PHP to include libqdom.
  It isn't up on the PHP site with a link, but it works as --with-dom.
+\layout Description
+
+--with-imap This configures PHP to include imap support.
+ This is used by eZ mail module.
+ This parameters require ssl support.
+ Imap does also have bindings to kerberos.
+ This causes some linking problems on RedHat Linux.
+ The workaround for this problem is to type this command before you compile
+ : 
+\family typewriter 
+\size footnotesize 
+
+\newline 
+
+\newline 
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5\SpecialChar ~
+-lpam"
+\layout Description
+
+--with-openssl This will enable ssl support in PHP
 \layout Standard
 
 You should also go through the web page: 
@@ -923,6 +976,167 @@ To install your new PHP package you need to run the following command:
 \SpecialChar ~
 \SpecialChar ~
 # make install
+\layout Subsection
+
+Compiling the php module on RedHat 7.x, step by step
+\layout Standard
+
+First download the source from www.php.net.
+ You should get a file called something like
+\layout Standard
+
+php-4.0.6.tar.gz
+\newline 
+
+\layout Standard
+
+First, unpack the tarball:
+\layout Standard
+
+$ tar -xzf php-4.0.6.tar.gz
+\newline 
+
+\layout Standard
+
+Now, enter the source directory
+\layout Standard
+
+$ cd php-4.0.6
+\newline 
+
+\layout Standard
+
+Apply the kerberos workaround:
+\layout Standard
+
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
+\newline 
+
+\layout Standard
+
+Run the configure script:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ ./configure --with-apxs=/usr/sbin/apxs --enable-ftp --with-xml --with-dom
+ --enable-trans-sid --with-config-file-path=/etc/httpd --with-mysql=/usr
+ --with-pgsql=/usr --enable-inline-optimization --with-ttf --with-qtdom
+ --with-gd --enable-gd-native-ttf --with-imap --includedir=/usr --with-openssl=/
+usr --with-zlib-dir=/usr --with-openssl=shared,/usr
+\newline 
+
+\layout Standard
+
+Compile the module:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ make
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Install the module, either automaticly or manually.
+\newline 
+Manually : 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ su
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# cp .libs/libphp.so /usr/lib/apache
+\layout Standard
+
+Automaticly:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ su
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# make install
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Restart apache:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# /etc/rc.d/init.d/httpd restart
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Verify that everything went OK.
+\newline 
+Verify that apache was able to start:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# ps ax | grep httpd
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Check the apache log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# tail -f 50 /var/log/httpd/error_log
+\newline 
+
+\layout Standard
+
+IMPORTANT
+\layout Standard
+
+When compiling php, please read chapter 
+\begin_inset LatexCommand \ref{chptr: Troubleshooting}
+
+\end_inset 
+
+.
+ Especially, take note of chapter 
+\begin_inset LatexCommand \ref{chptr: openssl problem on redhat}
+
+\end_inset 
+
+.
+ It might save you for hours with debugging
 \layout Chapter
 
 Apache Configuration
@@ -2387,6 +2601,11 @@ Check that ImageMagick is working.
  Try to upload an image to your site.
 \layout Chapter
 
+
+\begin_inset LatexCommand \label{chptr: Troubleshooting}
+
+\end_inset 
+
 Troubleshooting
 \layout Section
 
@@ -2404,19 +2623,33 @@ The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
 Missing Compiler/Can not Compile (C++/C)
 \layout Standard
 
-The ImageMagick package requires the GCC compiler.
- You'll need to download that compiler and install it on your system.
+When compiling php and other support programs (like ImageMagick) you need
+ the GCC compiler.
+ It is recommended that you use the GCC compiler which was shipped with
+ your Linux distro/unix system.
  In the introduction (see chapter 
 \begin_inset LatexCommand \ref{chptr: introduction}
 
 \end_inset 
 
-) I listed some sites where you can download pre-compiled versions of software
+) it listed some sites where you can download pre-compiled versions of software
  for some different Unix versions.
+ Please note that you must compile php on your own.
+\layout Subsection
+
+I am getting linking errors when trying to build PHP
 \layout Standard
 
-If you can't find a pre-compiled version try the GCC Home Page (http://gcc.gnu.org
-/).
+The PHP module you have compiled will be linked agains kerberos.
+ This causes some linking problems on RedHat Linux.
+ The workaround for this problem is to type this command before you compile
+ :
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+$ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
 \layout Section
 
 Problems After Installation
@@ -2467,6 +2700,36 @@ Warning about Temp Directory
 \layout Standard
 
 If you get any such warning you need to set the temp directory in php.ini.
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{chptr: openssl problem on redhat}
+
+\end_inset 
+
+After installing my new php module, apache dies immediately.
+\layout Standard
+
+RedHat as released new versions of the openssl packages for RedHat 7.x.
+ If these erratas is installed before you compile php, your php module will
+ be linked agains these.
+ This will however brake mod_ssl, which is linked to the old openssl libraries.
+ There is two different ways to fix this:
+\newline 
+Uninstall mod_ssl:
+\layout Standard
+
+# rpm -e mod_ssl
+\newline 
+
+\newline 
+Or you may download the apache source rpm from redhat.
+ Then recompile and install it.
+\newline 
+
+\layout Standard
+
+If this doesn't help, look for clues in /var/log/httpd/error_messages
 \layout Chapter
 
 Installing on RAQ 3
