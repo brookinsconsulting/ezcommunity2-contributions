@@ -7,6 +7,9 @@
 	</td>
 </tr>
 <tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+<tr>
 	<td>
 <!-- BEGIN level_1_category_tpl -->
 
@@ -16,7 +19,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td class="menuspacer">&nbsp;<br />&nbsp;</td>
 </tr>
 
 <!-- END top_category_tpl -->

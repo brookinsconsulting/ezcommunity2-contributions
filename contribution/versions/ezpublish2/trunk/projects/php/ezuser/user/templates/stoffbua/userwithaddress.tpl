@@ -104,14 +104,14 @@
 <!-- BEGIN address_tpl -->
 
 <h2>{intl-address_number} {address_number} </h2> 
-<input type="checkbox" name="AddressArrayID[]" value="{address_id}">
-{intl-delete}: <input type="hidden" name="AddressID[]" value="{address_id}"/><br />
-{intl-main_address}: <input {is_checked} type="radio" name="MainAddressID" value="{address_id}"> <br />
+
+<input type="hidden" name="AddressID[]" value="{address_id}"/>
+<input {is_checked} type="radio" name="MainAddressID" value="{address_id}"> {intl-main_address}<br />
+<input type="checkbox" name="AddressArrayID[]" value="{address_id}"> {intl-delete} 
+
 
 <p class="boxtext">{intl-street1}:</p>
-<input type="text" size="20" name="Street1[]" value="{street1_value}"/>
-
-<p class="boxtext">{intl-street2}:</p>
+<input type="text" size="20" name="Street1[]" value="{street1_value}"/><br />
 <input type="text" size="20" name="Street2[]" value="{street2_value}"/>
 
 <p class="boxtext">{intl-zip}:</p>
@@ -132,7 +132,7 @@
 <!-- END address_tpl -->
 
 
-<br />
+<br /><br />
 
 <hr noshade="noshade" size="4" />
 
