@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.99 2001/11/22 15:48:41 pkej Exp $
+// $Id: checkout.php,v 1.100 2002/01/22 20:47:19 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -92,9 +92,10 @@ if ( !$session->fetch() )
 
 // get the cart or create it
 $cart = $cart->getBySession( $session, "Cart" );
-if ( !$cart )
+if ( !$cart || !$cart->items() )
 {
     eZHTTPTool::header( "Location: /trade/cart/" );
+    exit();
 }
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
