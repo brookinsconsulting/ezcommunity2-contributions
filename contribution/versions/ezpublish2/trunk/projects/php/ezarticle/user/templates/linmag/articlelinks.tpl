@@ -2,10 +2,10 @@
 <table width="100%" cellspacing="5" cellpadding="1" border="0">
 
 <tr>
-	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}/link/category/0/">Linker</a></td>
+	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}/link/category/0/">{intl-linker}</a></td>
 </tr>
 <tr>
-	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}/filemanager/list/">Nedlastning</a></td>
+	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}/filemanager/list/">{intl-nedlastning}</a></td>
 </tr>
 
 <!-- BEGIN article_item_tpl -->
