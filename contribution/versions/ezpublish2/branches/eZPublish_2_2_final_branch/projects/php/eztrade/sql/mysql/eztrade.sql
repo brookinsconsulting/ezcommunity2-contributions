@@ -478,3 +478,11 @@ CREATE INDEX TradeProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID)
 CREATE INDEX TradeProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
 CREATE INDEX TradeProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+
+CREATE INDEX TradeAttributeValue_ProductID ON eZTrade_AttributeValue (ProductID);
+CREATE INDEX TradeAttributeValue_AttributeID ON eZTrade_AttributeValue (AttributeID);
+
+
+CREATE INDEX TradeCart_Session ON eZTrade_Cart (SessionID);
+
+CREATE INDEX TradeCartOptionValue_CartItemID ON eZTrade_CartOptionValue (CartItemID);

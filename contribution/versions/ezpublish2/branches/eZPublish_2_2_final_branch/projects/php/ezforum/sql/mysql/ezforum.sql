@@ -62,9 +62,15 @@ CREATE INDEX Forum_ThreadID ON eZForum_Message (ThreadID);
 CREATE INDEX Forum_Depth ON eZForum_Message (Depth);
 CREATE INDEX Forum_ForumID ON eZForum_Message (ForumID);
 
+CREATE INDEX ForumMessage_IsTemporary ON eZForum_Message (IsTemporary);
+CREATE INDEX ForumMessage_IsApproved ON eZForum_Message (IsApproved);
+CREATE INDEX ForumMessage_PostingTime ON eZForum_Message (PostingTime);
+CREATE INDEX ForumMessage_TreeID ON eZForum_Message (TreeID);
+
 CREATE INDEX ForumWordLink_MessageID ON eZForum_MessageWordLink (MessageID);
 CREATE INDEX ForumWordLink_WordID ON eZForum_MessageWordLink (WordID);
 CREATE INDEX ForumWord_Word ON eZForum_Word (Word);
 CREATE UNIQUE INDEX ForumWord_ID ON eZForum_Word (ID);
 
 
+CREATE INDEX eZForumForumCategoryLink_ForumID ON eZForum_ForumCategoryLink (ForumID);
