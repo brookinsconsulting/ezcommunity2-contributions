@@ -197,7 +197,7 @@
     <td>
         <!-- BEGIN web_item_tpl -->
         <p class="boxtext">{intl-web}:</p>
-        <input type="text" size="20" name="Online[]" value="{web}"/>
+        http://<input type="text" size="20" name="Online[]" value="{web}"/>
         <input type="hidden" name="URLType[]" value="http">
         <input type="hidden" name="OnlineTypeID[]" value="{cv_web_online_type_id}">
         <input type="hidden" name="OnlineID[]" value="{cv_web_online_id}">
