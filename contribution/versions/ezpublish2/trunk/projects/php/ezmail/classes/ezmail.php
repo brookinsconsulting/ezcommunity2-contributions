@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.28 2001/05/10 08:37:49 ce Exp $
+// $Id: ezmail.php,v 1.29 2001/05/14 14:20:32 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -478,6 +478,18 @@ class eZMail
         return $this->BodyText;
     }
 
+    /*!
+      Sets the body.
+    */
+    function setBody( $newBody )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->BodyText = $newBody;
+    }
+
+    
     /*!
       Sets the body.
     */
