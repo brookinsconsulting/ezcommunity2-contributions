@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.10 2001/01/24 18:54:44 bf Exp $
+// $Id: categoryedit.php,v 1.11 2001/02/04 16:45:49 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -150,6 +150,7 @@ if ( $Action == "Edit" )
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
 
+    $parent = $category->parent();
     switch ( $category->sortMode() )
     {
         case "time" :
@@ -189,6 +190,23 @@ foreach ( $categoryArray as $catItem )
     {
         $t->set_var( "option_value", $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
+
+        if ( $Action == "Edit" )
+        {
+            if ( $catItem[0]->id() == $parent->id() )
+            {
+                $t->set_var( "selected", "selected" );
+            }
+            else
+            {            
+                $t->set_var( "selected", "" );
+            }
+            
+        }
+        else
+        {            
+            $t->set_var( "selected", "" );
+        }
 
         if ( $catItem[1] > 0 )
             $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );

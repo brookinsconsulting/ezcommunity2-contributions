@@ -16,7 +16,7 @@
 	<select name="ParentID">
 	<option value="0">topp</option>
 	<!-- BEGIN value_tpl -->
-	<option value="{option_value}">{option_level}{option_name}</option>
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
 	<!-- END value_tpl -->
 	</select>
 	
