@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsoutput.php,v 1.1 2000/10/12 11:08:20 pkej-cvs Exp $
+// $Id: eznewsoutput.php,v 1.2 2000/10/12 11:27:46 pkej-cvs Exp $
 //
 // Definition of eZNewsOutput class
 //
@@ -40,7 +40,7 @@ class eZNewsOutput extends eZTemplate
 
         $this->AdminLanguagePath = $DocumentPath . "/admin/intl/";
         $this->AdminTemplatePath = $DocumentPath . "/admin/" . $TemplatePath;
-        $this->LanguagePath = $DocumentPath . "/intl/" . $Language;
+        $this->LanguagePath = $DocumentPath . "/intl/";
         $this->TemplatePath = $DocumentPath . $TemplatePath;
         $this->DocumentPath = $DocumentPath;
         $this->Language = $Language;
