@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.1 2000/10/02 15:47:07 ce-cvs Exp $
+// $Id: ezusergroup.php,v 1.2 2000/10/10 15:02:54 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -213,6 +213,27 @@ class eZUserGroup
     }
 
     /*!
+      Returns the users who is a member of the eZUserGroup object.
+    */
+    function users( $GroupID )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = array();
+        $this->dbInit();
+
+        $this->Database->array_query( $user_array, "SELECT * FROM eZUser_UserGroupLink
+                                                   WHERE GroupID='$GroupID'" );
+        foreach ( $user_array as $user )
+        {
+            $ret[] = new eZUser( $user["UserID"] );
+        }
+        
+        return $ret;
+    }
+
+    /*!
       Returns the user group name.
     */
     function name()
@@ -298,7 +319,6 @@ class eZUserGroup
             $this->IsConnected = true;
         }
     }
-    
 
     var $ID;
     var $Name;

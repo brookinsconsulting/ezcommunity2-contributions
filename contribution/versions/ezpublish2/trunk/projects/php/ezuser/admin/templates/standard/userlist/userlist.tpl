@@ -37,6 +37,29 @@
 <hr noshade size="4">
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+
+
+
+<tr>
+	<td>
+
+
+	<form method="post" action="/user/userlist/">
+
+	<select name="GroupID">
+	<option {is_selected} value="0">Alle</option>
+	<!-- BEGIN group_item_tpl -->
+	<option {is_selected} value="{group_id}">{group_name}</option>
+	<!-- END group_item_tpl -->
+	</select>
+	<input class="stdbutton" type="submit" value="Vis">
+
+	</form>
+
+
+	</td>
+</tr>
+
 <tr>
 	<th>
 	{intl-name}
@@ -55,7 +78,24 @@
 	</th>
 
 </tr>
+<!-- BEGIN user_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	{first_name} {last_name}
+	</td>
 
-{user_list}
+	<td class="{td_class}">
+	{login_name}
+	</td>
+
+	<td class="{td_class}" width="1%">
+	<a href="/user/useredit/edit/{user_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{user_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+
+	<td class="{td_class}" width="1%">
+	<a href="/user/useredit/delete/{user_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{user_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	</td>	
+</tr>
+<!-- END user_item_tpl -->
 
 </table>

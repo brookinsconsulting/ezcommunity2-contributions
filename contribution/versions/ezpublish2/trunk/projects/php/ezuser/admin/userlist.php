@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.4 2000/10/08 13:07:11 bf-cvs Exp $
+// $Id: userlist.php,v 1.5 2000/10/10 15:02:54 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -31,13 +31,26 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "Temp
 $t->setAllStrings();
 
 $t->set_file( array(
-    "user_list_page" => "userlist.tpl",
-    "user_item" => "useritem.tpl"
-    ) );
+    "user_list_page" => "userlist.tpl"
+      ) );
+
+
+$t->set_block( "user_list_page", "user_item_tpl", "user_item" );
+
+$t->set_block( "user_list_page", "group_item_tpl", "group_item" );
 
 $user = new eZUser();
 
-$userList = $user->getAll();
+if ( $GroupID == 0 )
+{
+    $userList = $user->getAll();
+}
+else
+{
+    $usergroup = new eZUserGroup();
+    $userList = $usergroup->users( $GroupID );
+}
+
 
 $i=0;
 foreach( $userList as $userItem )
@@ -52,8 +65,27 @@ foreach( $userList as $userItem )
     $t->set_var( "login_name", $userItem->login() );
     $t->set_var( "user_id", $userItem->id() );
 
-    $t->parse( "user_list", "user_item", true );
+    $t->parse( "user_item", "user_item_tpl", true );
     $i++;
+}
+
+$group = new eZUserGroup();
+$groupList = $group->getAll();
+
+foreach( $groupList as $groupItem )
+{
+    if ( $groupItem->id() == $GroupID )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+    $t->set_var( "group_name", $groupItem->name() );
+    $t->set_var( "group_id", $groupItem->id() );
+
+    $t->parse( "group_item", "group_item_tpl", true );
 }
 
 $t->pparse( "output", "user_list_page" );
