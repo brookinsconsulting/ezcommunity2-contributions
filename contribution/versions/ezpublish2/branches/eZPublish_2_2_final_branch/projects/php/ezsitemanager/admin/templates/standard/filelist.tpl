@@ -12,7 +12,7 @@
 	{file_name}  
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/sitemanager/file/edit/{file_name}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsitemanager{file_name}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezsitemanager{file_name}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a> 
+	<a href="{www_dir}{index}/sitemanager/file/edit/{file_name}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsitemanager{file_name}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezsitemanager{file_name}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a> 
 	</td>
 	<td align="right" class="{td_class}" width="1%">
 	<input type="checkbox" name="FileDeleteArray[]" value="{file_name}" />

@@ -101,25 +101,25 @@
 
 	<!-- BEGIN person_buy_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/contact/person/buy/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{person_id}-red','','/admin/images/button-cart-ro.gif',1)"><img name="ezb{person_id}-red" border="0" src="{www_dir}/admin/images/button-cart.gif" width="16" height="16" align="top" alt="Buy" /></a>
+	<a href="{www_dir}{index}/contact/person/buy/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{person_id}-red','','{www_dir}/admin/images/button-cart-ro.gif',1)"><img name="ezb{person_id}-red" border="0" src="{www_dir}/admin/images/button-cart.gif" width="16" height="16" align="top" alt="Buy" /></a>
 	</td>
 	<!-- END person_buy_button_tpl -->
 
 	<!-- BEGIN person_folder_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/contact/person/folder/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{person_id}-red','','/admin/images/button-folder-ro.gif',1)"><img name="ezf{person_id}-red" border="0" src="{www_dir}/admin/images/button-folder.gif" width="16" height="16" align="top" alt="Folder" /></a>
+	<a href="{www_dir}{index}/contact/person/folder/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{person_id}-red','','{www_dir}/admin/images/button-folder-ro.gif',1)"><img name="ezf{person_id}-red" border="0" src="{www_dir}/admin/images/button-folder.gif" width="16" height="16" align="top" alt="Folder" /></a>
 	</td>
 	<!-- END person_folder_button_tpl -->
 
 	<!-- BEGIN person_consultation_button_tpl -->
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','{www_dir}/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_consultation_button_tpl -->
 
 	<!-- BEGIN person_edit_button_tpl -->
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','{www_dir}/admin/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_edit_button_tpl -->
 

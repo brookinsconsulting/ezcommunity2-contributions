@@ -148,7 +148,7 @@
 
 	<!-- BEGIN person_consultation_button_tpl -->
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','{www_dir}/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_consultation_button_tpl -->
 </tr>

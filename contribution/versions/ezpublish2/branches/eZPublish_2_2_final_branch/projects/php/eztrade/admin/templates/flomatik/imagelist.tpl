@@ -38,7 +38,7 @@
 	<input type="radio" {thumbnail_image_checked} name="ThumbnailImageID" value="{image_id}" />
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/trade/productedit/imageedit/edit/{image_id}/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/trade/productedit/imageedit/edit/{image_id}/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">

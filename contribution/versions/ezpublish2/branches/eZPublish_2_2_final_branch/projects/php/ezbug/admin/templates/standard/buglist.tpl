@@ -72,7 +72,7 @@
 	</td>-->
 
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/bug/module/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{module_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/bug/module/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{module_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 </tr>
 <!-- END module_item_tpl -->
@@ -121,7 +121,7 @@
 	</td>
 
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="{www_dir}/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','{www_dir}/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="{www_dir}/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="BugArrayID[]" value="{bug_id}">

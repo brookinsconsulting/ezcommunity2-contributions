@@ -36,7 +36,7 @@
 	</td>
 
 	<td width="1%">
-	<a href="{www_dir}{index}/sitemanager/section/edit/{section_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsitemanager{section_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezsitemanager{section_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/sitemanager/section/edit/{section_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsitemanager{section_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezsitemanager{section_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">

@@ -54,7 +54,7 @@
 	  {category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	  <a href="{www_dir}{index}/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	  <a href="{www_dir}{index}/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="CategoryArrayID[]" value="{category_nr}">
@@ -95,7 +95,7 @@
 	</td>
 
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="NewsDeleteIDArray[]" value="{news_id}" />

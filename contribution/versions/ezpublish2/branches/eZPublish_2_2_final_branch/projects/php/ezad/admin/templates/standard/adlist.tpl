@@ -52,7 +52,7 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
@@ -108,7 +108,7 @@
 	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="AdArrayID[]" value="{ad_id}">

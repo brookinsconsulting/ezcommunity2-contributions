@@ -148,11 +148,11 @@
 	</td>
 
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','{www_dir}/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="{www_dir}{index}/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','{www_dir}/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>	
 
 </tr>

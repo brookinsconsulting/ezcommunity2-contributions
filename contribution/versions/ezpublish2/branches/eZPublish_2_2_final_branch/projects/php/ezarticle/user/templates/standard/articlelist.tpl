@@ -115,7 +115,7 @@
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 
-	| <a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a>
+	| <a class="path" href="{www_dir}{index}/article/archive/{category_def_id}/">{category_def_name}</a>
         <!-- END read_more_tpl -->
 
 	<!-- BEGIN article_topic_tpl -->

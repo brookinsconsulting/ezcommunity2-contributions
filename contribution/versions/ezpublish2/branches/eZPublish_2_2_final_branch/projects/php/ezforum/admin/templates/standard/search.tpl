@@ -48,7 +48,7 @@
 	</td>
 
      <td width="1%" class="{td_class}">
-	 <a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="" alt="Edit" /></a>
+	 <a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="" alt="Edit" /></a>
      </td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="MessageArrayID[]" value="{message_id}">

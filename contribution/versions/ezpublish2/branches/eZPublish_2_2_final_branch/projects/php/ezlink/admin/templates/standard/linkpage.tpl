@@ -30,10 +30,10 @@
 	</td>
 
 	<td width="1%" class="{bg_color}">
-	<a href="{www_dir}{index}/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{bg_color}">
-	<a href="#" onClick="verify( '{intl-delete}', '/link/groupedit/delete/{linkgroup_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="ela{linkgroup_id}-slett" border="0" src="{www_dir}/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top" border="0" alt="Delete" /></a>
+	<a href="#" onClick="verify( '{intl-delete}', '/link/groupedit/delete/{linkgroup_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-slett','','{www_dir}/admin/images/{site_style}/slettminimrk.gif',1)"><img name="ela{linkgroup_id}-slett" border="0" src="{www_dir}/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top" border="0" alt="Delete" /></a>
 	</td>
 
 </tr>
@@ -56,10 +56,10 @@
 	(Hits:&nbsp;{link_hits})
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="#" onClick="verify( '{intl-deletelink}', '/link/linkedit/delete/{link_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="el{link_id}-slett" border="0" src="{www_dir}/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top" border="0" alt="Delete" /></a>
+	<a href="#" onClick="verify( '{intl-deletelink}', '/link/linkedit/delete/{link_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-slett','','{www_dir}/admin/images/{site_style}/slettminimrk.gif',1)"><img name="el{link_id}-slett" border="0" src="{www_dir}/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top" border="0" alt="Delete" /></a>
 	</td>
 </tr>
 <!-- END link_list_tpl -->

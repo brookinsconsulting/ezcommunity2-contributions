@@ -39,7 +39,7 @@
     </td>
     
     <td width="1%" class={td_class}>
-        <a href="{www_dir}{index}/forum/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ef{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+        <a href="{www_dir}{index}/forum/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{category_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ef{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
     </td>
      <td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">

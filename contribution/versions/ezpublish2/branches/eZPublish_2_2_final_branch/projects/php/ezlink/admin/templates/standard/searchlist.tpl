@@ -34,11 +34,11 @@
 	</td>
 
 	<td class="{td_class}" width="1%" bgcolor="{bg_color}">
-	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/ezlink/images/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/ezlink/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','{www_dir}/ezlink/images/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/ezlink/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 
 	<td class="{td_class}" width="1%" bgcolor="{bg_color}">
-	<a href="{www_dir}{index}/link/linkedit/delete/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-slett','','/ezlink/images/slettminimrk.gif',1)"><img name="el{link_id}-slett" border="0" src="{www_dir}/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/link/linkedit/delete/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-slett','','{www_dir}/ezlink/images/slettminimrk.gif',1)"><img name="el{link_id}-slett" border="0" src="{www_dir}/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 
         

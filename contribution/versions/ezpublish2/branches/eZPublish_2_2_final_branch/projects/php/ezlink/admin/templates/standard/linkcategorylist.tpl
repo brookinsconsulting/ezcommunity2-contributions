@@ -59,7 +59,7 @@
 	<!-- END no_image_tpl -->
         </td>
 	<td width="1%" class="{bg_color}">
-	<a href="{www_dir}{index}/link/categoryedit/edit/{linkcategory_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkcategory_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkcategory_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/link/categoryedit/edit/{linkcategory_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkcategory_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkcategory_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{bg_color}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{linkcategory_id}">
@@ -103,7 +103,7 @@
 	(Hits:&nbsp;{link_hits})
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="LinkArrayID[]" value="{link_id}">

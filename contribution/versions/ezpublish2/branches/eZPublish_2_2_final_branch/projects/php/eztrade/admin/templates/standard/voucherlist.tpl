@@ -31,7 +31,7 @@
 	<!-- END voucher_is_not_available_tpl -->
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/trade/voucheredit/edit/{voucher_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{voucher_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{voucher_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/trade/voucheredit/edit/{voucher_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{voucher_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{voucher_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="DeleteArrayID[]" value="{voucher_id}" />
