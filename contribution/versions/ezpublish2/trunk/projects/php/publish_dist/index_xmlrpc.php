@@ -63,6 +63,11 @@ function Call( $args )
         eZLog::writeNotice( "XML-RPC logged in." );
         $version = $call["Version"]->value();
 
+        // Get caller ID if any
+        $caller = false;
+        if ( is_object( $call["Caller"] ) )
+            $caller = $call["Caller"]->value();
+
         // decode URL
         $REQUEST_URI = $call["URL"]->value();
         $Module = $REQUEST_URI["Module"]->value();
