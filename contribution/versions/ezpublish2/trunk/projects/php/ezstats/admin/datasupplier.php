@@ -62,6 +62,15 @@ switch ( $url_array[2] )
     }
     break;
     
+    case "entryexitreport" :
+    {
+        $Year = $url_array[3];
+        $Month = $url_array[4];
+        
+        include( "ezstats/admin/entryexitpages.php" );
+    }
+    break;
+    
 }
 
 ?>

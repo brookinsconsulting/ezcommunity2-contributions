@@ -20,3 +20,6 @@
 <br />
 <br />
 <a href="/stats/productreport/{this_year}/{this_month}/">{intl-product_report}</a>
+
+<br />
+<a href="/stats/entryexitreport/{this_year}/{this_month}/">{intl-entry_exit_report}</a>
