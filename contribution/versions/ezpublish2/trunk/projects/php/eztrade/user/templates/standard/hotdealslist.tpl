@@ -30,7 +30,8 @@
 <tr>
 	<td class="menuspacer">&nbsp;</td>
 </tr>
-</table>
+
 
 <!-- END product_list_tpl -->
 
+</table>
