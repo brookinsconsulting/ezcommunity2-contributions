@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezcartitem.php,v 1.27 2001/10/10 12:30:18 ce Exp $
+//
+// $Id: ezcartitem.php,v 1.27.4.1 2002/06/10 08:43:42 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -79,11 +79,11 @@ class eZCartItem
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_CartItem" );
-            $nextID = $db->nextID( "eZTrade_CartItem", "ID" );            
+            $nextID = $db->nextID( "eZTrade_CartItem", "ID" );
 
             $res = $db->query( "INSERT INTO eZTrade_CartItem
                       ( ID, ProductID, CartID, Count, WishListItemID, VoucherInformationID )
@@ -96,7 +96,7 @@ class eZCartItem
                         '$this->VoucherInformationID' )
                       " );
             $db->unlock();
-            
+
 			$this->ID = $nextID;
         }
         else
@@ -115,9 +115,9 @@ class eZCartItem
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -126,7 +126,7 @@ class eZCartItem
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $cart_array, "SELECT * FROM eZTrade_CartItem WHERE ID='$id'" );
@@ -160,25 +160,25 @@ class eZCartItem
         $voucherInformation =& $this->voucherInformation();
         if ( $voucherInformation )
             $voucherInformation->delete();
-        
+
         $res[] = $db->query( "DELETE FROM eZTrade_CartOptionValue WHERE CartItemID='$this->ID'" );
 
         $res[] = $db->query( "DELETE FROM eZTrade_CartItem WHERE ID='$this->ID'" );
-        
+
         if ( in_array( false, $res ) )
             $db->rollback( );
         else
-            $db->commit();            
+            $db->commit();
 
         return true;
     }
-    
+
     /*!
       Returns the object id.
     */
     function id()
     {
-        return $this->ID;        
+        return $this->ID;
     }
 
     /*!
@@ -195,7 +195,7 @@ class eZCartItem
            $ret = $prod;
        }
 
-       return $ret;       
+       return $ret;
     }
 
     /*!
@@ -211,7 +211,7 @@ class eZCartItem
            $ret = $cart;
        }
 
-       return $ret;       
+       return $ret;
     }
 
     /*!
@@ -229,16 +229,16 @@ class eZCartItem
     {
         $ini =& INIFile::globalINI();
         $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
-        
+
         $locale = new eZLocale( $inLanguage );
         $currency = new eZCurrency();
-        
+
         $price = $this->correctPrice( $calcCount, $withOptions, $calcVAT );
-        
+
         $currency->setValue( $price );
         return $locale->format( $currency );
-    }    
-    
+    }
+
     /*!
       Returns the correct price of the product based on the logged in user, and the
       VAT status and use.
@@ -247,7 +247,7 @@ class eZCartItem
     {
         $optionValues =& $this->optionValues();
         $product =& $this->product();
-            
+
         $optionPrice = 0.0;
         if ( $withOptions )
         {
@@ -255,16 +255,16 @@ class eZCartItem
             {
                 $option =& $optionValue->option();
                 $value =& $optionValue->optionValue();
-                    
+
                 $price = $value->correctPrice( $calcVAT, $product );
-                        
+
                 if ( $calcCount == true )
                     $price = $price * $optionValue->count();
-                    
+
                 $optionPrice+=$price;
             }
         }
-            
+
         if ( $calcCount == true )
         {
             $price = ( $product->correctPrice( $calcVAT ) * $this->count() ) + $optionPrice;
@@ -288,9 +288,64 @@ class eZCartItem
             }
         }
 
-        return $price;        
+        return $price;
     }
-    
+
+    /*!
+      Returns the correct localized price of the product.
+    */
+    function localeSavings( $calcCount=true, $withOptions=true, $calcVAT )
+    {
+        $ini =& INIFile::globalINI();
+        $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
+
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+
+        $price = $this->correctSavings( $calcCount, $withOptions, $calcVAT );
+
+        $currency->setValue( $price );
+        return $locale->format( $currency );
+    }
+
+    /*!
+      Returns the correct savings of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function correctSavings( $calcCount=true, $withOptions=true, $calcVAT )
+    {
+        $optionValues =& $this->optionValues();
+        $product =& $this->product();
+
+        $optionPrice = 0.0;
+        if ( $withOptions )
+        {
+            foreach ( $optionValues as $optionValue )
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+
+                $price = $value->correctSavings( $calcVAT, $product );
+
+                if ( $calcCount == true )
+                    $price = $price * $optionValue->count();
+
+                $optionPrice+=$price;
+            }
+        }
+
+        if ( $calcCount == true )
+        {
+            $price = ( $product->correctSavings( $calcVAT ) * $this->count() ) + $optionPrice;
+        }
+        else
+        {
+            $price = ( $product->correctSavings( $calcVAT ) + $optionPrice );
+        }
+
+        return $price;
+    }
+
     /*!
       Returns the price of the cart item.
 
@@ -300,30 +355,30 @@ class eZCartItem
     {
         $optionValues =& $this->optionValues();
         $product =& $this->product();
-            
+
         $optionPrice = 0.0;
         if ( $withOptions )
         {
             foreach ( $optionValues as $optionValue )
             {
                 $option =& $optionValue->option();
-                $value =& $optionValue->optionValue();            
-                    
+                $value =& $optionValue->optionValue();
+
                 // the pricegroup is set in the datasupplier
-                    
+
                 $PriceGroup = $GLOBALS["PriceGroup"];
-                    
+
                 // get the value price if exists
                 $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
                 $option->id(), $value->id() );
-                    
+
                 $found_price = false;
-                    
+
                 if ( $price )
                 {
                     $found_price = true;
                 }
-                    
+
                 // if not fetch the standard price
                 if ( !$found_price )
                 {
@@ -332,11 +387,11 @@ class eZCartItem
                     else
                         $price = $value->price();
                 }
-                    
+
                 $optionPrice += $price;
             }
         }
-            
+
         if ( $calcCount == true )
         {
             $price = ( $product->price() * $this->count() ) + $optionPrice;
@@ -345,7 +400,7 @@ class eZCartItem
         {
             $price = ( $product->price() + $optionPrice );
         }
-        return $price;        
+        return $price;
     }
 
     /*!
@@ -356,7 +411,7 @@ class eZCartItem
        if ( get_class( $product ) == "ezproduct" )
        {
            $this->ProductID = $product->id();
-       }        
+       }
     }
 
     /*!
@@ -367,7 +422,7 @@ class eZCartItem
        if ( get_class( $cart ) == "ezcart" )
        {
            $this->CartID = $cart->id();
-       }        
+       }
     }
 
     /*!
@@ -422,12 +477,12 @@ class eZCartItem
     }
 
     /*!
-      Returns the wishlist item as a eZWishListItem object. 0 if the 
+      Returns the wishlist item as a eZWishListItem object. 0 if the
     */
     function &wishListItem()
     {
        $ret = false;
-       
+
        if ( ( $this->WishListItemID != 0 ) && is_numeric( $this->WishListItemID ) )
        {
            $ret = new eZWishListItem( $this->WishListItemID );
@@ -435,7 +490,7 @@ class eZCartItem
 
        return $ret;
     }
-    
+
     /*!
       Returns the voucher information.
     */
@@ -450,7 +505,7 @@ class eZCartItem
 
        return $ret;
     }
-    
+
     /*!
       Returns all the option values as an array of eZCartOptionValue objects.
 
@@ -460,7 +515,7 @@ class eZCartItem
     {
        $return_array = array();
        $db =& eZDB::globalDatabase();
-       
+
        $db->array_query( $res_array, "SELECT ID FROM eZTrade_CartOptionValue
                                      WHERE
                                      CartItemID='$this->ID'
@@ -472,13 +527,13 @@ class eZCartItem
        }
        return $return_array;
     }
-    
+
     var $ID;
     var $ProductID;
     var $CartID;
     var $Count;
     var $VoucherInformationID;
-    
+
     /// ID to a wishlist item. Indicates which wishlistitem the cart item comes from. 0 if added from product.
     var $WishListItemID;
 }
