@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumedit.php,v 1.5 2000/10/21 11:33:47 ce-cvs Exp $
+    $Id: forumedit.php,v 1.6 2000/10/23 06:58:23 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -119,7 +119,7 @@ $t->set_var( "forum_id", $ForumID );
 
 if ( $Action == "new" )
 {
-    if ( !eZPermission::checkPermission( $user, "eZForum", "ForumModifyAdd" ) )
+    if ( eZPermission::checkPermission( $user, "eZForum", "ForumModifyAdd" ) )
     {
         Header( "Location: /forum/norights" );
     }
