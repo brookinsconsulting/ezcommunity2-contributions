@@ -25,7 +25,7 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 
 ?>
 
-<link rel="stylesheet" type="text/css" href="/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
+<link rel="stylesheet" type="text/css" href="<? print $wwwDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
 
 <script language="JavaScript1.2">
 <!--//
