@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementfixedvalue.php,v 1.1 2001/10/09 09:04:27 ce Exp $
+// $Id: ezformelementfixedvalue.php,v 1.2 2002/01/03 07:58:53 jhe Exp $
 //
 // ezformelementtype class
 //
@@ -111,7 +111,7 @@ class eZFormElementFixedValue
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -121,7 +121,7 @@ class eZFormElementFixedValue
             $db->array_query( $formArray, "SELECT * FROM eZForm_FormElementFixedValues WHERE ID='$id'",
                               0, 1 );
                               
-            if( count( $formArray ) == 1 )
+            if ( count( $formArray ) == 1 )
             {
                 $this->fill( &$formArray[0] );
                 $ret = true;
