@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.73 2001/10/16 14:08:37 jhe Exp $
+// $Id: ezlink.php,v 1.74 2001/10/17 14:25:08 br Exp $
 //
 // Definition of eZLink class
 //
@@ -724,12 +724,6 @@ class eZLink
 
         $db->array_query( $result, "SELECT ImageID FROM eZLink_Link WHERE ID='$this->ID'" );
 
-        foreach ( $result as $item )
-        { 
-            $image = new eZImage( $item[$db->fieldName("ImageID")] ); 
-            $image->delete(); 
-        } 
-         
         $db->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" ); 
     } 
  
