@@ -1,0 +1,137 @@
+This file contains all changes in intl files since version 2.0 beta3
+Example:
+mod: bug/user, fileedit.php.ini
+change: added user_edit=Some text
+--------------------------------------------------------------------
+mod: ezforum/ admin, forumedit.php.ini
+change: added
+no_moderator=No moderator selected
+
+mod: ezforum/ admin, search.php.ini
+change: added
+deletemessages=Delete selected messages
+
+mod: ezforum/ user, mailreply.php.ini
+change: added
+moderator_subject=Message posted to your moderated forum
+moderator_info_message_1=You are the moderator of the forum
+moderator_info_message_4=The new message is presented below
+
+mod: ezbug/ admin, mailreply.php.ini
+change:
+added bug_handled=BUG HANDLED
+
+mod: admin, print_header.php.ini
+change: added
+site=Site
+user_name=User name
+back_to_normal_view=Back to normal view
+
+mod: ezforum/admin, forumedit.php.ini
+change: added forum_is_anonymous=Anonymous posting allowed
+
+mod: ezarticle/admin, categoryedit.php.ini
+change: added write_groups=Groups with write access
+
+mod: trade, optionedit.php.ini
+change: added main_price=Price
+
+mod: stats/admin, dayreport.php.ini
+change: removed
+january_month=January
+february_month=February
+march_month=March
+april_month=April
+may_month=May
+june_month=June
+july_month=July
+august_month=August
+september_month=September
+october_month=October
+november_month=November
+december_month=December
+
+mod: stats/admin, monthreport.php.ini
+change: removed
+january_month=January
+february_month=February
+march_month=March
+april_month=April
+may_month=May
+june_month=June
+july_month=July
+august_month=August
+september_month=September
+october_month=October
+november_month=November
+december_month=December
+
+mod: stats/admin, yearreport.php.ini
+change: removed
+january_month=January
+february_month=February
+march_month=March
+april_month=April
+may_month=May
+june_month=June
+july_month=July
+august_month=August
+september_month=September
+october_month=October
+november_month=November
+december_month=December
+
+mod: ezerror/admin, menubox.php.ini
+Change: added menubox.php.ini
+
+mod: ezcalendar/user, dayview.php.ini
+change: added
+previous_day=Previous day
+next_day=Next day
+
+mod: eztrade/admin, optionedit.php.ini
+change: added
+value_description=Value description
+value_header=Header
+new_description=New description
+
+mod: eztrade/admin, optionlist.php.ini
+change: added
+delete_selected=Delete selected options
+
+mod: ezcontact/admin personedit.php.ini
+change: added
+top_category=Top
+
+mod: ezbug/admin, mailreply.php.ini
+change: added bug_title=Bug title, original_bug_report=Original bug report
+
+mod: ezcontact/admin personedit.php.ini
+change: added
+new_consultation=New consultation with person
+edit_person=Edit person information
+delete_person=Delete person
+show_persons=Show persons
+show_all=Everybody
+without_relation=Without company relation
+with_relation=With company relation
+reload=Reload
+
+mod: ezcontact/admin companytype.php.ini
+change: added
+new_consultation=New consultation with company
+edit_person=Edit company/category information
+delete_person=Delete company/category
+
+mod: ezcontact/admin companyedit.php.ini
+change: added
+error_logo=Invalid image format for company logo
+error_image=Invalid image format for company image
+
+mod: eztodo/user todolist.php.ini
+change: added
+show=Show
+show_all=Show all
+show_not_done=Show not done
+show_done=Show done
+category_all=All categories

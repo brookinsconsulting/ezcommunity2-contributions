@@ -1,0 +1,799 @@
+<html>
+
+
+eZ publish Installation Guide
+
+
+<a href="icons/ezpublish.gif"><img src="icons/ezpublish.gif" border="0" width="" height=""/></a>
+
+
+
+<p>
+
+<a href="icons/ezsystems.gif"><img src="icons/ezsystems.gif" border="0" width="" height=""/></a>
+
+
+The double squares and eZ are trademarks belonging to eZ systems of Norway,
+ registration number NO 981 601 564 (http://www.brreg.no/oppslag/enhet/detalj.ssc?o
+rgnr=981601564).
+</p>
+<p>
+All images and text herein is Copyright 2001 eZ systems.
+</p>
+<p>
+eZ publish is a software package released under the GPL lisence (http://www.gnu.or
+g/copyleft/gpl.html), its primary point of distribution and information is
+ http://devel.ez.no/
+</p>
+<p>
+
+
+
+
+<a name="Introduction"></a><a name="1"></a><h1>1 Introduction</h1>
+
+
+
+
+
+
+He who asks is a fool for five minutes, but he who does not ask remains
+ a fool forever.
+
+
+ - \SpecialChar \-
+
+</p>
+<p>
+eZ publish is a content management system, among a lot of other things.
+ This installation manual will try to cover the job of installing eZ publish
+ on your server.
+</p>
+<p>
+This manual covers installation on a Red Hat Linux system; most of what
+ is described here can also be applied to other installations, especially
+ if your system uses RPM for installation.
+ For other systems you would need to do a lot of compiling yourself to make
+ this work, or apply the system's own package manager.
+</p>
+<p>
+Finding packages can be done dirctly from vendor sites, though you might
+ not be guaranteed that you'll find the package you need.
+ In such instances you need to download the source directly from the software
+ developer.
+</p>
+<p>
+Different distribution sites for different Unix systems are:
+
+AIX http://www-frec.bull.com/docs/download.htm
+
+Debian http://www.debian.org/distrib/ftplist
+
+IRIX http://freeware.sgi.com/
+
+HP-UX http://hpux.connect.org.uk/
+
+Red Hat Linux http://www.redhat.com/apps/download and http://rpmfind.net.
+
+SCOOpen Server/Unixware http://www.sco.com/skunkware/
+
+SuSE Linux http://www.suse.com/us/support/download/index.html
+
+Sun http://www.sunfreeware.com/
+</p>
+<p>
+You can also try 
+
+The Written Word
+
+ 
+(ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/) 
+for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel, IRIX 6.2, 6.5, Digital
+ UNIX 4.0D, HP-UX 10.20, and HP-UX.
+</p>
+<p>
+The addresses to the software developers will be given where apropriate
+ in the text.
+</p>
+<p>
+A line starting with a hash-sign 
+
+#
+
+ are input from the user to the shell.
+<a name="Pre-Configured Hosting"></a><a name="1.1"></a><h1>1.1 Pre-Configured Hosting</h1></p>
+<p>
+It is possible to get pre-configured hosting services where you can install
+ and manage your eZ publish site with ease.
+ Read more about our hosting partners at eZ systems web site 
+(http://en.ez.no/article/articlestatic/73)
+.
+<a name="Pre-Configured Hardware"></a><a name="1.2"></a><h1>1.2 Pre-Configured Hardware</h1></p>
+<p>
+It is possible to order pre-configured hardware from eZ systems.
+ You can order through or web shop 
+(http://sourceprovider.com/)
+.
+<a name="Pre-requisites"></a><a name="2"></a><h1>2 Pre-requisites</h1>
+
+
+<a name="Needed Privileges"></a><a name="2.1"></a><h1>2.1 Needed Privileges</h1></p>
+<p>
+For the standard installation (and for the moment the only method) of eZ
+ publish you will need to have the following privileges on your system:
+
+Access to Apache's httpd.conf
+
+</p>
+<p>
+You will have to install the gcc compiler on your system, see chapter 
+
+
+ for a list of sites providing software for different Unixes.
+Access to compiler
+
+</p>
+<p>
+You must run certain scripts during installation.
+ Some of them are just creating links to different directories; you might
+ therefore just create those links via FTP.
+Access to a shell
+
+</p>
+<p>
+Only needed if you want to use the eZ news feed module for regular updates
+ of headlines imported from other sites.
+Access to cron jobs
+
+Access to Apache's modules
+
+Access to a MySQL database
+
+You might also need the privilege to add new libraries to your system.
+</p>
+<p>
+You might also use other web servers than apache, but then you're on your
+ own since we haven't tested eZ publish on other configurations.
+ If you do try another web server, please keep a log of what you do and
+ submit it to us (pkej@ez.no) for inclusion in future versions of this manual.
+<a name="Needed Software"></a><a name="2.2"></a><h1>2.2 Needed Software</h1></p>
+<p>
+You also need to download and install the following packages, if they aren't
+ present on your system already:
+
+</p>
+<p>
+eZ publish requires MySQL for storage of its data.
+MySQL (http://www.mysql.com) version 3.23 or later.
+
+</p>
+<p>
+Needed by eZ article.
+ If you wish to use the default article renderer you need libXml2 installed.
+ You can create your own renderers if you don't want to use the default.
+libXml2 (http://xmlsoft.org/#Downloads) version 2.2.7 or later.
+
+</p>
+<p>
+Needed by eZ news feeds parsers.
+ If you wish to include headlines from external sites (example developer.ez.no
+ or slashdot.org) then you need this installed.
+ You can create your own parsers if you don't want to use the default.
+libQdom (http://www.trolltech.com) is a part of QT, you need version 2.2.3 or
+ later.
+
+</p>
+<p>
+Needed by eZ article, eZ image catalogue, and all modules using images.
+ You need only the command line version.
+ImageMagick (http://www.imagemagick.org/) newest version
+
+</p>
+<p>
+It is always recommended to run the latest Apache release, though eZ publish
+ shouldn't be very picky with the Apache versions.
+ We've used eZ publish with Apache 1.3.13, some have reported that Apache
+ 1.3.9 isn't useful.
+Apache (http://httpd.apache.org/) latest 1.3 release.
+
+Any and all modules you need for apache in addition to mod_php.
+ (http://modules.apache.org/)
+
+</p>
+<p>
+eZ publish uses references for objects and foreach loops.
+ Only version 4.0.4pl1 and later supports both of these features satisfactorily.
+PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the source code
+ version.
+
+eZ publish (http://developer.ez.no/) verision 2.0 or later stable releases.
+</p>
+<p>
+The libraries and php will appear pre-compiled for Linux i386 on http://develope
+r.ez.no in the future.
+ The software is listed in the order of installation.
+<a name="Which Software is Already Installed?"></a><a name="2.3"></a><h1>2.3 Which Software is Already Installed?</h1><a name="Systems Using RPM"></a><a name="2.3.1"></a><h1>2.3.1 Systems Using RPM</h1></p>
+<p>
+RPM is a system for distributing pre-compiled software.
+ The packages also contain pre-configured settings and initialisation files,
+ leaving almost nothing to the user, except deciding what to install.
+</p>
+<p>
+To check if a package is available on your system you can run the following
+ command (RPM based systems 
+
+rpm -qa | grep <name of program/library>
+
+.
+ If you need to know where you can find the different files from that package
+ you can follow up on the previous command with the following 
+
+rpm -ql <rpm name>
+
+.
+ RPM name is one of the returned names from the previous command, example:
+ 
+</p>
+<p>
+
+# pkej@vogol:/etc/httpd > rpm -qa | grep libxml
+</p>
+<p>
+
+libxml-1.8.7-80
+</p>
+<p>
+
+libxmld-1.8.7-80
+</p>
+<p>
+
+# pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80
+</p>
+<p>
+
+/usr/bin/xml-config
+</p>
+<p>
+
+/usr/lib/libxml.so.1
+</p>
+<p>
+
+/usr/lib/libxml.so.1.8.7
+</p>
+<p>
+
+/usr/share/doc/packages/libxml
+</p>
+<p>
+
+/usr/share/doc/packages/libxml/AUTHORS
+</p>
+<p>
+
+/usr/share/doc/packages/libxml/COPYING
+</p>
+<p>
+
+/usr/share/doc/packages/libxml/COPYING.LIB
+</p>
+<p>
+
+/usr/share/doc/packages/libxml/NEWS
+</p>
+<p>
+
+/usr/share/doc/packages/libxml/README
+</p>
+<p>
+
+/usr/share/doc/packages/libxml/TODO
+</p>
+<p>
+You should test for qt, libxml and imagemagik to check if those are installed
+ and working.
+<a name="IRIX"></a><a name="2.3.2"></a><h1>2.3.2 IRIX</h1></p>
+<p>
+By accessing the software manager (you must be root) you can get a list
+ of installed software, scroll or search that list to find the packages
+ you're interested in.
+ Double click on the tabs to the left to get information about where specific
+ files are installed.
+<a name="Other Systems"></a><a name="2.3.3"></a><h1>2.3.3 Other Systems</h1></p>
+<p>
+On other systems you should read the documentation for that system to learn
+ how to find out what software is already installed.
+</p>
+<p>
+You could try to use the command 
+
+find
+
+ to find the software.
+ It is used thus: 
+
+find .
+ -name 
+*<program name>
+*
+
+ from the /usr/, /local/ , /lib/, /share/ directories.
+ In extreme cases you could try from the root of the system, but this will
+ take a long time and will also hog resources on your computer.
+ Therefore we urge you to learn how to use the proper installation features
+ of your system to find the software already installed.
+<a name="Installation of Required Software"></a><a name="2.4"></a><h1>2.4 Installation of Required Software</h1></p>
+<p>
+If you've found pre-compiled versions of all the software packaged for use
+ with an installation tool, you just have to install that software using
+ the tool.
+ Instructioins for its usage is often found using the command 
+
+man <installation tool name>
+
+ or by reading your system's documentation or the supplier's website.
+</p>
+<p>
+If you've had to download source code you will find instructions on how
+ to compile and install the software you've downloaded at the software developer
+'s website.
+ This requires a bit of knowledge and you should only undertake this if
+ you feel confident about the job.
+</p>
+<p>
+This manual will only cover configuration of the software needed and compilation
+ of PHP to use the other software.
+<a name="Important Notice"></a><a name="2.4.1"></a><h1>2.4.1 Important Notice</h1></p>
+<p>
+You should read all the README, INSTALL and similar files found with the
+ software packages you download.
+ They often contain tips on how to configure, compile and install the software
+ on your system.
+ It will save you a lot of time and aggravation if you follow instructions
+ supplied with the software.
+</p>
+<p>
+If problems arise during installation of the software, please turn to the
+ suppliers support forums, mailing list archives and FAQs, your questions
+ will often be answered there.
+ If the supplier's forums doesn't seem to help you, you should check the
+ support forums at our site.
+</p>
+<p>
+You should always do a search of the forums before posting any questions.
+<a name="Compile Configuration"></a><a name="3"></a><h1>3 Compile Configuration</h1><a name="PHP"></a><a name="3.1"></a><h1>3.1 PHP</h1><a name="Unpacking"></a><a name="3.1.1"></a><h1>3.1.1 Unpacking</h1></p>
+<p>
+After you have downloaded PHP you need to unpack it somewhere where you
+ can compile and configure the software.
+ To unpack run the command:
+
+
+# tar zxvf php-4.0.x.tar.gz
+</p>
+<p>
+Where the x is the version of php you've downloaded.
+ Then you need to move into the directory you extracted php into:
+
+
+# cd php-4.0.x
+<a name="Configuration"></a><a name="3.1.2"></a><h1>3.1.2 Configuration</h1></p>
+<p>
+You'll need either an apache module or a command line version of PHP to
+ use eZ publish on your website.
+ We recommend you use PHP as an apache module.
+ You will also need the command line version if you want to use the cron
+ jobs for periodical updates of the eZ news feed module.
+</p>
+<p>
+Thus for our recommended installation of PHP you need both the command line
+ and module versions of PHP.
+<a name="Common"></a><a name="3.1.2.1"></a><h1>Common</h1></p>
+<p>
+Both the command line and apache module versions need to have the following
+ configurations added to the configuration tool:
+
+--enable-trans-sid This lets PHP use session id's which don't rely on cookies.
+ It does not disable normal cookie based sessions.
+(
+http://www.php.net/manual/en/install.configure.php#install.configure.enable-trans-sid
+)
+
+--with-mysql This tells PHP that the mysql functionality should be used.
+(
+http://www.php.net/manual/en/install.configure.php#install.configure.with-mysql
+)
+
+--enable-magic-quotes This tells PHP to enable magic quotes by default.
+ you can also turn this feature on and off on a directory by directory basis
+ in either the 
+
+.htaccess
+
+ files (if you use them) or in the setup of the virtual server in 
+
+httpd.conf
+
+.
+(
+http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quot
+es
+)
+
+--with-dom This configures PHP to include libxml.
+ 
+
+(http://www.php.net/manual/en/install.configure.php#install.configure.with-dom)
+
+--with-qtdom This configures PHP to include libqdom.
+ It isn't up on the PHP site with a link, but it works as --with-dom.
+</p>
+<p>
+You should also go through the web page: 
+http://www.php.net/manual/en/install.configure.php
+ and make sure that there isn't other functionality you would like to have
+ included.
+<a name="Command Line"></a><a name="3.1.2.2"></a><h1>Command Line</h1></p>
+<p>
+The default is to create a command line version of PHP.
+ Therefore you don't need to add more configuration options for this.
+<a name="Apache Module"></a><a name="3.1.2.3"></a><h1>Apache Module</h1></p>
+<p>
+To build an apache module you need to add:
+
+--with-apxs This compiles PHP as an apache module.
+
+ 
+(http://www.php.net/manual/en/install.configure.php#install.configure.with-apxs)
+<a name="Other Web Servers"></a><a name="3.1.2.4"></a><h1>Other Web Servers</h1></p>
+<p>
+We haven't tested our software with other web servers than apache.
+ If you need to try out other web servers, read this document 
+http://www.php.net/manual/en/install.configure.php#install.configure.servers
+ to learn how you configure for the web server you will be using.
+<a name="Creating the Configuration"></a><a name="3.1.2.5"></a><h1>Creating the Configuration</h1></p>
+<p>
+Now you just have to run the 
+
+./configure
+
+ program with the apropriate configuration directives which we discussed
+ in the preceeding sections, for an apache module you'd do the following:
+
+
+# ./configure --enable-trans-sid --with-mysql --with-magic-quotes --with-apxs
+ --with-dom --with-qtdom
+</p>
+<p>
+Remember that to compile a script/cgi version you'd need to change that
+ line to:
+
+
+# ./configure --enable-trans-sid --with-mysql --with-magic-quotes --with-dom
+ --with-qtdom
+<a name="Compilation"></a><a name="3.1.3"></a><h1>3.1.3 Compilation</h1></p>
+<p>
+To compile you need to run the command 
+
+make
+
+:
+
+
+make
+<a name="Installation"></a><a name="3.1.4"></a><h1>3.1.4 Installation</h1></p>
+<p>
+To install your new PHP package you need to run the following command:
+
+
+make install
+<a name="Apache Configuration"></a><a name="4"></a><h1>4 Apache Configuration</h1></p>
+<p>
+For the moment we have only one solution for configuring apache.
+ There are other methods, and we'll document them in the future.
+<a name="Dual Virtual Host"></a><a name="4.1"></a><h1>4.1 Dual Virtual Host</h1></p>
+<p>
+This set up is based on having two different virtual hosts for your administrati
+on back-end and the main site.
+ The main site would typically be known as 
+
+www.yoursite.com
+
+ and the administration would be 
+
+admin.yoursite.com
+
+; the names are up to you, theoretically you could have different names,
+ for example 
+
+mysite.yoursite.com
+
+ and 
+
+administration.mysite.com
+
+.
+</p>
+<p>
+The virtual host is configured through the 
+
+httpd.conf
+
+ file which is the main configuration of Apache.
+ Following is an example of such a host, remember to exchange everything
+ within brackets (
+
+[
+
+ and 
+
+]
+
+) with your preferred and local settings and also remove the brackets.
+</p>
+<p>
+
+# User site 
+</p>
+<p>
+
+<VirtualHost yourdomain.org> 
+</p>
+<p>
+
+<Directory [/your/apache/documentroot/]> 
+</p>
+<p>
+
+Options FollowSymLinks Indexes ExecCGI 
+</p>
+<p>
+
+AllowOverride None 
+</p>
+<p>
+
+</Directory>
+</p>
+<p>
+
+RewriteEngine On
+</p>
+<p>
+</p>
+<p>
+This line and the next should be written on the same line in your apache.conf
+ file.
+
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+[/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1 [T="application/
+oct-stream",S=1]
+</p>
+<p>
+
+RewriteRule !
+.(gif|css|jpg|png)$ [/your/apache/documentroot]/index.php
+</p>
+<p>
+
+ServerAdmin [your_mail@domain.no]
+</p>
+<p>
+
+DocumentRoot [/your/apache/documentroot/]
+</p>
+<p>
+
+ServerName [yourdomain.org]
+</p>
+<p>
+
+ServerAlias [www.yourdomain.org]
+</p>
+<p>
+
+</VirtualHost>
+</p>
+<p>
+
+# Admin site 
+</p>
+<p>
+
+<VirtualHost admin.yourdomain.org> 
+</p>
+<p>
+
+<Directory [/your/apache/documentroot]/admin> 
+</p>
+<p>
+
+Options FollowSymLinks Indexes ExecCGI 
+</p>
+<p>
+
+AllowOverride None 
+</p>
+<p>
+
+</Directory> 
+</p>
+<p>
+
+RewriteEngine On 
+</p>
+<p>
+
+RewriteRule !
+.(gif|css|jpg|png)$ [/your/apache/documentroot]/admin/index.php
+</p>
+<p>
+
+ServerAdmin [your_mail@domain.no]
+</p>
+<p>
+
+DocumentRoot [/your/apache/documentroot/]admin
+</p>
+<p>
+
+ServerName [admin.yourdomain.org]
+</p>
+<p>
+
+ServerAlias [admin.yourdomain.org]
+</p>
+<p>
+
+</VirtualHost>
+</p>
+<p>
+The format of the 
+
+httpd.conf
+
+ file is covered at http://httpd.apache.org/docs/ for a complete understanding
+ of the above information you'll need to read that documentation.
+ You should note that you can't use any rewrite ruels inside the <directory>
+ part within the <VirtualHost>.
+</p>
+<p>
+If you didn't compile PHP with magic quotes; or other software relies on
+ PHP not using magic quotes you can add the following line into each virtual
+ host section:
+
+
+php_value magic_quotes_gpc 1
+<a name="eZ publish Installation"></a><a name="5"></a><h1>5 eZ publish Installation</h1><a name="Database"></a><a name="5.1"></a><h1>5.1 Database</h1></p>
+<p>
+Now you need to create a database in MySQL, the default name we use is publish,
+ but you can change that to whatever pleases you.
+
+
+# mysqladmin create publish
+</p>
+<p>
+Add a publish user in MySQL.
+ To add a user you can use the MySQL client to log on to mysql and then
+ create the user:
+
+
+# mysql>grant all on publish.* to publish@localhost identified by "secret";
+</p>
+<p>
+where secret is your password.
+ Then you need to add the default eZ publish data into your newly created
+ database: 
+
+
+# mysql -uroot -p publish < sql/publish.sql
+<a name="Program Files"></a><a name="5.2"></a><h1>5.2 Program Files</h1></p>
+<p>
+The next step is to install the eZ publish package in your document root
+ directory.
+ First you need to unpack the software in a temporary directory:
+
+
+# cd /tmp
+
+
+# tar zxvf /path/to/ezpublish-2.0.tar.gz
+</p>
+<p>
+The next step is to move the files to your document root:
+
+
+# mv /tmp/publish_dist /your/apache/documentroot
+</p>
+<p>
+When all this is done you need to tell eZ publish a little about the site
+ you're running.
+ You'll need to edit the 
+
+site.ini
+
+ file which you will find in the document root:
+
+
+# cd /your/apache/documentroot
+
+
+# vi site.ini
+</p>
+<p>
+Instead of vi you can use your preferred text editor.
+ You'll need to add information about the username, hostname and password
+ of your database.
+ More information on what you can do with 
+
+site.ini
+
+ can be found in the 
+
+eZ publish Customisation Guide
+
+.
+</p>
+<p>
+The next important step is to run the script modfix.
+ This script will create symbolic links needed and set permissions.
+
+
+# ./modfix.sh
+<a name="Now What?"></a><a name="6"></a><h1>6 Now What?</h1></p>
+<p>
+After installing eZ publish you can test your site through the URL http://www.you
+rsite.com/ and you can administrate your site from the URL http://admin.yoursite.co
+m/, of course, if you did anything different the names of the admin and
+ the public site might be different.
+</p>
+<p>
+
+NOTE: 
+The default user name and password for your site will be admin/publish.
+ Remember to change the password.
+</p>
+<p>
+The next manual you should read is the 
+
+eZ publish Customisation Guide
+
+, it tells you how to configure the software to use the functionality you
+ want, as well as how you change the templates to suit your needs.
+</p>
+<p>
+When you're finished with the design and the initial testing you can head
+ over to http://zez.org/ for articles about community building as well as
+ programming, or you can visit http://developer.ez.no for updates, articles
+ about eZ publish and how to work with it, as well as keeping abreast of
+ new developments.
+<a name="Trouble Shooting"></a><a name="7"></a><h1>7 Trouble Shooting</h1><a name="Problems During Installation"></a><a name="7.1"></a><h1>7.1 Problems During Installation</h1><a name="FreeBSD 4.2 and libxml2"></a><a name="7.1.1"></a><h1>7.1.1 FreeBSD 4.2 and libxml2</h1></p>
+<p>
+The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
+ and goes unrecognized by configure (PHP).
+ Link the fiels to /usr/local/lib/libxml.a|so.
+<a name="Missing Compiler/Can not Compile (C++/C)"></a><a name="7.1.2"></a><h1>7.1.2 Missing Compiler/Can not Compile (C++/C)</h1></p>
+<p>
+The ImageMagick package requires the GCC compiler.
+ You'll need to download that compiler and install it on your system.
+ In the introduction (see chapter 
+
+
+) I listed some sites where you can download pre-compiled versions of software
+ for some different Unix versions.
+</p>
+<p>
+If you can't find a pre-compiled version try the GCC Home Page (http://gcc.gnu.org
+/).
+<a name="Problems After Installation"></a><a name="7.2"></a><h1>7.2 Problems After Installation</h1><a name="Permission Denied"></a><a name="7.2.1"></a><h1>7.2.1 Permission Denied</h1></p>
+<p>
+
+Warning: fopen("site.ini","r+")
+</p>
+<p>
+
+Permission denied in classes/INIFile.php on line 80
+</p>
+<p>
+If you get this error message you need to run the modfix.sh script.
+</p></html>
