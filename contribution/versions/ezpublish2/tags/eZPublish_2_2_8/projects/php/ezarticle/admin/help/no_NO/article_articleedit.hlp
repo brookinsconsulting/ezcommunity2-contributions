@@ -1,0 +1,374 @@
+<p>
+Dette er on-line hjelpedokumentet for eZ article: Artikkelredigering. 
+Her beskrives de ulike taggene som kan brukes i en artikkel.
+Den helt konkrete stilen (skrifttype, størrelse og andre egenskaper) på hver tag kan defineres i articletags-malen og nettstedets eget CSS stilark.
+</p>
+
+<p>
+Noen tagger har ekstra attributter, vist i kursiv; de som også er vist med fet skrift er obligatoriske, de andre er valgfrie eller antas å ha en bestemt standardverdi hvis de ikke er definert.
+</p>
+
+<h2>Grunnleggende formateringtagger</h2>
+
+<p>
+Alle de grunnleggende formateringtaggene kan ha undertagger, d.v.s. andre tagger inne i seg, <i>unntatt</i> header-taggen. Alle disse taggene må også ha korrekte sluttagger. Sluttaggene er alltid skrevet med samme tittel som starttaggene men med en / foran seg, og uten noen attributter (obligatoriske eller ikke).
+</p>
+
+<p>
+<b>&lt;header </b><i>nivå</i><b>&gt;</b> tekst <b>&lt;/header&gt;</b>
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;header </b><i>1</i><b>&gt;</b>Eksempel<b>&lt;/header&gt;</b>
+	</td>
+	<td width="50%">
+	<h1>Eksempel</h1>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;header&gt;</b> viser en overskrift med størrelse fra 1 til 5. Attributten "nivå" kan utelates og vil da bli satt til 1 automatisk, og dette er gjerne den største overskriften (avhengig av CSS stilark).
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;bold&gt;</b>Eksempel<b>&lt;/bold&gt;</b>
+	</td>
+	<td width="50%">
+	<b>Eksempel</b>
+	</td>
+</tr>
+</table>
+
+<p>
+Taggen <b>&lt;bold&gt;</b> viser fet tekst.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;italic&gt;</b>Eksempel<b>&lt;/italic&gt;</b>
+	</td>
+	<td width="50%">
+	<i>Eksempel</i>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;italic&gt;</b> viser kursiv tekst.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;underline&gt;</b>Eksempel<b>&lt;/underline&gt;</b>
+	</td>
+	<td width="50%">
+	<u>Eksempel</u>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;underline&gt;</b> viser understreket tekst.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;strike&gt;</b>Eksempel<b>&lt;/strike&gt;</b>
+	</td>
+	<td width="50%">
+	<s>Eksempel</s>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;strike&gt;</b> viser overstrøket tekst.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;strong&gt;</b>Eksempel<b>&lt;/strong&gt;</b>
+	</td>
+	<td width="50%">
+	<strong>Eksempel</strong>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;strong&gt;</b> viser teksten som "strong". Dette er en gammel HTML-tag som vanligvis viser teksten som fet, men dette kan redefineres i articletags-malen og/eller CSS stilarket.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;pre&gt;</b>Eksempel<b>&lt;/pre&gt;</b>
+	</td>
+	<td width="50%">
+	<pre>Eksempel</pre>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;pre&gt;</b> viser teksten med en "fast bredde"-skrifttype, og uten linjeskift utenom der det er eksplisitt definert.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;quote&gt;</b>Eksempel<b>&lt;/quote&gt;</b>
+	</td>
+	<td width="50%">
+	<blockquote>Eksempel</blockquote>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;quote&gt;</b> viser teksten som "sitat", d.v.s. som innrykket eller som ellers definert i articletags-malen og/eller CSS stilarket.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;factbox&gt;</b>Eksempel<b>&lt;/factbox&gt;</b>
+	</td>
+	<td width="50%" bgcolor="#f0f0f0">
+	Eksempel
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;factbox&gt;</b> viser teksten i en boks som har design avhengig av articletags-malen og/eller CSS stilarket. Som standard er denne boksen høyrejustert på artikkelsiden. <b>&lt;factbox&gt;</b> taggen kan inneholde andre tagger.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;bullet&gt;</b><br />
+	Eksempel<br />
+	Eksempel<br />
+	Eksempel<br />
+	<b>&lt;/bullet&gt;</b>
+	</td>
+	<td width="50%">
+	<ul>
+		<li>Eksempel</li>
+		<li>Eksempel</li>
+		<li>Eksempel</li>
+	</ul>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;bullet&gt;</b> viser en punktmerket liste.
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;list&gt;</b><br />
+	Eksempel<br />
+	Eksempel<br />
+	Eksempel<br />
+	<b>&lt;/list&gt;</b>
+	</td>
+	<td width="50%">
+	<ol>
+		<li>Eksempel</li>
+		<li>Eksempel</li>
+		<li>Eksempel</li>
+	</ol>
+	</td>
+</tr>
+</table>
+<p>
+Taggen <b>&lt;list&gt;</b> viser en nummerert liste.
+</p>
+
+<h2>Bildetagger</h2>
+
+<p>
+Bilder kan plasseres hvor som helst i en artikkel. Bildetagger skrives inn i et enkelt format og oversettes til XML før lagring.
+Hvis det er behov for mer avanserte bildefinesser så må bildetaggene skrives rett i XML-form. Bildetagger har ikke sluttagger.
+</p>
+
+<b>&lt;image <i>id</i></b> <i>justering størrelse link</i><b>&gt;</b>
+
+<p>
+Den eneste obligatoriske attributten er "id" som spesifiserer hvilket nummer bildet har i den gjeldende artikkelens bildeliste.
+Hvis de ikke er spesifiserte vil "justering" bli satt til <i>center</i> og "størrelse" bli satt til <i>medium</i>.
+</p>
+
+<ul>
+<li>
+De tilgjengelige justeringsattributtverdiene er: <i>left, right, center</i> og <i>float</i>.
+</li>
+
+<li>
+De tilgjengelige størrelsesattributtverdiene er: <i>small, medium, large</i> og <i>original</i>.
+</li>
+</ul>
+
+<p>
+"Link"-attributten gjør det mulig å spesifisere en link, ved hjelp av å oppgi en URL, som det hoppes til hvis noen klikker på bildet. Hvis dette ikke er spesifisert vil et klikk bare vise en større utgave av bildet.
+</p>
+
+<b>&lt;image <i>id="id"</i></b> <i>align="justering" size="størrelse" caption="bildetekst" href="URL" target="mål"</i><b>&gt;</b>
+<p>
+Hvis bildetaggen skrives i avansert XML-form er det også mulig å spesifisere en egen bildetekst (i steden for den generelle som eventuelt henger sammen med bildet), en URL, og et mål (d.v.s. nettleservindu) for den eventuelt nye linken. Hvis bildetekstvariablen er satt til "_blank" vil ingen bildetekst vises (selv om den generelle teksten er satt til noe). Alle de ekstra verdiene er valgfrie.
+</p>
+
+<h2>Hyperlinktagger</h2>
+
+<p>
+<b>&lt;link <i>URL linktekst</i>&gt;</b>
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;link <i>ez.no The creators of eZ publish</i>&gt;</b>
+	</td>
+	<td width="50%">
+	<a href="http://ez.no">The creators of eZ publish</a>
+	</td>
+</tr>
+</table>
+
+<p>
+Denne taggen lager en link til en annen webside. Linken åpnes i det aktive nettleservinduet.
+</p>
+
+<p>
+"URL" attributten er "internettadressen" til linken, og "linktekst"-attributten er teksten som kan klikkes for å aktivere linken. "Linktekst"-attributten kan inneholde flere ord.
+</p>
+
+<p>
+<b>&lt;popuplink <i>URL linktekst</i>&gt;</b>
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;popuplink <i>developer.ez.no For mer tekniske info...</i>&gt;</b>
+	</td>
+	<td width="50%">
+	<a href="http://developer.ez.no" target="_blank">For mer tekniske info...</a>
+	</td>
+</tr>
+</table>
+
+<p>
+Denne taggen lager en link til en annen webside, og åpnes denne linken i et nytt nettleservinduet.
+</p>
+
+<p>
+"URL"-attributten er "internettadressen" til linken, og "linktekst"-attributten er teksten som kan klikkes for å aktivere linken. "Linktekst"-attributten kan inneholde flere ord.
+</p>
+
+<p>
+<b>&lt;mail <i>addresse tittel, linktekst</i>&gt;</b>
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;mail <i>info@ez.no Spørsmål, Spør oss!</i>&gt;</b>
+	</td>
+	<td width="50%">
+	<a href="mailto:info@ez.no">Spør oss!</a>
+	</td>
+</tr>
+</table>
+
+<p>
+Denne taggen lager en link som åpner en brukers e-postprogram når den blir klikket på og fyller inn den definerte e-postadressen automatisk i programmet. Noen nettleser/e-postprogram-kombinasjoner gjør det også mulig å spesifisere e-postens tittel.
+</p>
+
+<p>
+"Adresse"-attributten er den ønskede e-postadressen for linken. "Tittel"-attributten kan inneholde flere ord delt av vanlige mellomrom, og dette gjør at det blir nødvendig å avslutte "tittel" med å bruke en <b>,</b> (komma), selv om det ikke er definert noen "tittel" (bare sett en enkelt <b>,</b> i steden for). "linktekst"-attributten er teksten som kan klikkes for å aktivere linken, og den kan inneholde flere ord.
+</p>
+
+<h2>Tabelltagger</h2>
+
+<p>
+<b>&lt;table </b><i>bredde kantlinje</i><b>&gt;&lt;tr&gt;&lt;td&gt;</b> celledata <b>&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</b>
+</p>
+
+<table cellpadding="4" cellspacing="0" border="1" width="100%">
+<tr>
+	<td width="50%">
+	<b>&lt;table </b><i>50% 2</i><b>&gt;<br />
+	&lt;tr&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;</b> celle 1 <b>&lt;/td&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;</b> celle 2 <b>&lt;/td&gt;<br />
+	&lt;/tr&gt;<br />
+	&lt;tr&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;</b> celle 3 <b>&lt;/td&gt;<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;</b> celle 4 <b>&lt;/td&gt;<br />
+	&lt;/tr&gt;<br />
+	&lt;/table&gt;</b>
+	</td>
+	<td width="50%">
+	
+		<table width="50%" border="2" cellpadding="2" cellspacing="0">
+		<tr>
+			<td>celle 1</td>
+			<td>celle 2</td>
+		</tr>
+		<tr>
+			<td>celle 3</td>
+			<td>celle 4</td>
+		</tr>
+		</table>			
+
+	</td>
+</tr>
+</table>
+
+<p>
+<b>&lt;table&gt;</b>-taggene, inkludert <b>&lt;tr&gt;</b> og <b>&lt;td&gt;</b>, setter opp en tabell. "Bredde"-attributten i hoved <b>&lt;table&gt;</b>-taggen definerer den totale bredden på tabellen (enten i % eller i absolutt pixelbredde) og "kantlinje"-attributten definerer tykkelsen på en eventuelt synlig kantlinje. <b>&lt;tr&gt;</b>-taggene definerer tabellens vertikale rader og <b>&lt;td&gt;</b>-taggene horisontale celler. De ulike taggene må flettes riktig for at tabellen skal opptegnes riktig.
+</p>
+
+<h2>Objekttagger</h2>
+
+<p>
+Alle objekttaggene krever at objekter av et eller annet slag har blitt lagt til artikkelen. Taggene i seg selv gir ingen opplastingsmulighet, objektene må hentes inn separat.
+</p>
+
+<b>&lt;file <i>id</i>&gt;</b>
+<p>
+Denne taggen lager en link til en opplastet fil. "Id"-attributten er nummeret på fila i den gjeldende artikkelens filliste.
+</p>
+
+<b>&lt;media <i>id</i>&gt;</b>
+<p>
+Denne taggen plasserer et mediaobjekt i artikkelen. "Id"-attributten er nummeret på mediaobjektet i den gjeldende artikkelens medialiste.
+</p>
+
+<b>&lt;form&gt;</b>
+<p>
+Denne taggen plasserer en utvalgt form i artikkelen. En artikkel kan bare inneholde en form.
+</p>
+
+<h2>Avanserte tagger</h2>
+<p>
+<b>&lt;html&gt;</b> hvilkensomhelst HTML kode <b>&lt;/html&gt;</b>
+</p>
+<p>
+
+<b>&lt;html&gt;</b>-tagger gjør det mulig å putte ren HTML-kode inn i artikkelen. Dette gjør det mulig å lage avansert formatering i artikkelen, men det krever god HTML-kunnskap.
+</p>
+
+<p>
+<b>OBS:</b> Vær oppmerksom på at bruk av <b>&lt;html&gt;</b>-taggen kan redusere muligheten for god eksport av en artikkel til et annet dokumentformat. Den (vanligvis) beste løsningen hvis det er behov for spesiell formatering i en artikkel er å lage egne spesialtagger (hvis det er mulig).
+</p>
+
+<h2>Spesialtagger</h2>
+<p>
+En nettside kan ha en rekke egne spesialtagger tilgjengelig gjennom articletags-malen og/eller CSS stilarket. Disse spesialtaggene bør (hvis mulig) dokumenteres av den som implementerer dem. En spesialtag kan være så avansert som vanlig HTML tillater.
+</p>
