@@ -616,3 +616,13 @@ Maintainer(s) : ce@ez.no
     * admin/cacheadmin.php
       admin/datasupplier.php: coding standard fixes
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : ce@ez.no
+2002-09-27  Vidar Langseid  <vl@ez.no>
+
+    * admin/sectionedit.php:
+    Bugfix : You may now add/edit ads in SectionEdit even though you don't have any
+    productcategories in eZ trade.
+
