@@ -700,3 +700,16 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/messagelist.php.ini
       user/intl/no_NO/noaccess.php.ini: updatet no_NO
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/templates/standard/message.tpl: fixed <form> tag|
+
+2001-11-14  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/message.tpl
+      user/templates/linmag/messagelist.tpl: fixed template blocks.
+

@@ -623,3 +623,11 @@ Maintainer(s) : bf@ez.no
     * user/userwithaddress.php:
     Fixed a bug when someone tries to delete a adderss
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-14  Chris Mason  <chris@net.ai>
+
+    * user/userbox.php: Change logout redirect to $RedirectURL
+

@@ -412,3 +412,22 @@ Maintainer(s) : bf@ez.no
 
     * ezlog.php: Conflict fixes.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-14  Christoffer Elo  <ce@ez.no>
+
+    * ezhttptool.php: Fixed the IE cookie bug
+
+2001-11-14  Baard Farstad  <bf@ez.no>
+
+    * ezhttptool.php: Added function for setting cookie.
+
+    * ezhttptool.php: Added custom setcookie function.
+
+2001-11-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * INIFile.php
+      ezinifile.php: added parameter in constructor for choosing caching
+

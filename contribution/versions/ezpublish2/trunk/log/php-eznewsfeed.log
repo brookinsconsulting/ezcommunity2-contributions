@@ -201,3 +201,13 @@ Maintainer(s) : vl@ez.no
     * user/templates/linmag/headlines.tpl:
     set links to be opened in a new window.
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-14  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezbackslashimporter.php: fixed bug in backslashimporter.
+
+    * classes/ezbackslashimporter.php: Fixed bug in backslashimporter.
+

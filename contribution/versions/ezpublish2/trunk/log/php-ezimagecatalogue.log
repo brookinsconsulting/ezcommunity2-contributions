@@ -686,3 +686,31 @@ Maintainer(s) : br@ez.no
     Bugfix: Whenever a category in the root is renamed the update info sends
     correct information back ie the current category list is no longer empty.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-11-14  Bjoern Reiten  <br@ez.no>
+
+    * admin/templates/standard/unassigned.tpl
+      admin/unassigned.php: Added drawnavigator on unasigned images.
+
+    * admin/templates/standard/unassigned.tpl
+      admin/unassigned.php: Added drawnavigator on unassigned links.
+
+    * classes/ezimagecategory.php:
+    Fixed bug when a user with rootaccess try to list images in a category
+    when there is no permissions in a table.
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini:
+    Added translaion on error message.
+
+    * classes/ezimagecategory.php:
+    Fixed bug when using user has root access and there is images in the category,
+    but none in imagepermissions.
+
+2001-11-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/imageedit.php: fixed bug
+

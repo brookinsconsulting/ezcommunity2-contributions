@@ -1955,3 +1955,16 @@ Maintainer(s) : ce@ez.no
 
     * user/checkout.php: fixed bug when wish_user is emty.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-14  Christoffer Elo  <ce@ez.no>
+
+    * admin/imageedit.php
+      admin/intl/en_GB/imageedit.php.ini
+      admin/templates/standard/imageedit.tpl
+      admin/templates/standard/imagelist.tpl: fix
+
+    * classes/ezcart.php: Fixed the IE cookie bug
+

@@ -499,3 +499,15 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/folderedit.php.ini
       user/intl/no_NO/search.php.ini: updatet no_NO
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-14  Christoffer Elo  <ce@ez.no>
+
+    * user/filedownload.php: fix
+
+2001-11-14  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/filelist.tpl: fixed parent category block.
+

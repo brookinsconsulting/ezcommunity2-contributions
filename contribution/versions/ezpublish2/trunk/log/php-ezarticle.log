@@ -2069,3 +2069,17 @@ Maintainer(s) : bf@ez.no
       admin/templates/standard/medialist.tpl
       classes/ezarticle.php: Added linkurl to articles
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-14  Christoffer Elo  <ce@ez.no>
+
+    * admin/help/en_GB/article_articleedit.hlp
+      admin/help/no_NO/article_articleedit.hlp
+      admin/imageedit.php: fix
+
+    * admin/help/en_GB/article_articleedit.hlp
+      admin/help/no_NO/article_articleedit.hlp:
+    Updated the help files for eZ article
+

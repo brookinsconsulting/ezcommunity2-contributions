@@ -444,3 +444,11 @@ Maintainer(s) : vl@ez.no
       admin/templates/standard/supportcategoryedit.tpl:
     removed verify password field in support category edit
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php: added parameter in constructor for choosing caching
+
