@@ -1,5 +1,5 @@
 <?
-// $Id: linklist.php,v 1.34 2001/01/22 14:43:01 jb Exp $
+// $Id: linklist.php,v 1.35 2001/01/25 15:37:27 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -51,6 +51,8 @@ $t->set_file( array(
 
 $t->set_block( "link_page", "group_list_tpl", "group_list" );
 $t->set_block( "link_page", "link_list_tpl", "link_list" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
