@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.51 2000/10/13 15:10:31 bf-cvs Exp $
+// $Id: forum.php,v 1.52 2000/10/13 15:38:08 ce-cvs Exp $
 //
 // 
 //
@@ -164,7 +164,7 @@ foreach ( $messages as $message )
     }
     
     
-    $t->set_var( "next_offset", $Offset + $Limit );    
+//    $t->set_var( "next_offset", $Offset + $Limit );    
     
     $t->parse( "message", "message_tpl", true );
     $i++;

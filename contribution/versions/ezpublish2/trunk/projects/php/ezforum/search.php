@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.11 2000/10/13 09:38:34 bf-cvs Exp $
+// $Id: search.php,v 1.12 2000/10/13 15:38:08 ce-cvs Exp $
 //
 // 
 //
@@ -34,6 +34,12 @@ $t->set_file( "search_tpl", "search.tpl" );
 
 $t->set_block( "search_tpl", "message_tpl", "message" );
 
+$t->set_block( "search_tpl", "previous_tpl", "previous" );
+$t->set_block( "search_tpl", "next_tpl", "next" );
+
+
+if ( isSet( $URLQueryString ) )
+    $QueryString = urldecode( $URLQueryString );
 
 $t->set_var( "query_text", $QueryString );
 
@@ -51,6 +57,7 @@ if ( $QueryString != "" )
     
     // do a search in all forums
     $messages = $forum->search( $QueryString, $Offset, $Limit );
+    $total_count = $forum->getQueryCount( $QueryString );
 
     $locale = new eZLocale( $Language );
 
@@ -64,23 +71,46 @@ if ( $QueryString != "" )
             $t->set_var( "td_class", "bgdark" );
     
         $t->set_var( "message_topic", $message->topic() );
-
+        
         $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
 
         $t->set_var( "message_id", $message->id() );
-
+        
         $user = $message->user();
-    
+        
         $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
+        $prevOffs = $Offset - $Limit;
+        $nextOffs = $Offset + $Limit;
+        
+        if ( $prevOffs >= 0 )
+        {
+            $t->set_var( "prev_offset", $prevOffs  );
+            $t->parse( "previous", "previous_tpl" );
+        }
+        else
+        {
+        $t->set_var( "previous", "" );
+        }
+        
+        if ( $nextOffs <= $total_count )
+        {
+            $t->set_var( "next_offset", $nextOffs  );
+            $t->parse( "next", "next_tpl" );
+        }
+        else
+        {
+            $t->set_var( "next", "" );
+        }
+        
         $t->set_var( "limit", $Limit );
-        $t->set_var( "prev_offset", $Offset - $Limit );
-        $t->set_var( "next_offset", $Offset + $Limit );    
-    
+        
         $t->parse( "message", "message_tpl", true );
         $i++;
     }
 }
+
+$t->set_var( "query_string", urlencode( $QueryString ) );
 
 
 $t->pparse("output","search_tpl");

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.25 2000/10/13 12:52:25 ce-cvs Exp $
+// $Id: ezforumforum.php,v 1.26 2000/10/13 15:38:08 ce-cvs Exp $
 //
 // 
 //
@@ -233,6 +233,29 @@ class eZForumForum
        
        return $ret;
     }
+
+
+    /*!
+      Returns the total count of a query.
+    */
+    function getQueryCount( $query  )
+    {
+        $this->dbInit();
+        $message_array = 0;
+
+        $query = new eZQuery( array( "Topic", "Body" ), $query );
+
+        $query_str = "SELECT count(Id) AS Count FROM ezforum_MessageTable WHERE (" . $query->buildQuery() . ") ORDER BY PostingTime";
+        
+        $this->Database->array_query( $message_array, $query_str );
+
+        $ret = 0;
+        if ( count( $message_array ) == 1 )
+            $ret = $message_array[0]["Count"];
+
+        return $ret;
+    }
+
 
     /*!
       Returns all the messages and submessages as a tree.
