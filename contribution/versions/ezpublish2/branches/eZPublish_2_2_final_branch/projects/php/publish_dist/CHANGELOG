@@ -15,6 +15,11 @@ Changes from 2.2.3 to 2.2.4
 * Fixed problem with redirecting on nVH setup n eZ bug
 * Fixed bug where file tag did not appear inside factbox and bold
 * Fixed bug where image edit was shown without the correct permissions
+* Fixed bug with escape of characters in the comment field in checkout
+* Fixed bug with categories in eZ imagecatalogue
+* Fixed bug with xml in eZ newsfeed
+* Fixed bug with referers in eZ stats
+* Fixed bug with attributes in eZ link
 
 Changes from 2.2.2 to 2.2.3
 ---------------------------
