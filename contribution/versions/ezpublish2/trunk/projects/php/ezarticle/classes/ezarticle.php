@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.114 2001/07/06 11:14:01 bf Exp $
+// $Id: ezarticle.php,v 1.115 2001/07/09 11:39:02 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1339,6 +1339,8 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
 
+        $queryText = $db->escapeString( $queryText );
+        
         // Build the ORDER BY
         $OrderBy = "Article.Published DESC";
         switch( $sortMode )

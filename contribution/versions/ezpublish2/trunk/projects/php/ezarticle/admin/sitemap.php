@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sitemap.php,v 1.3 2001/07/02 12:43:25 bf Exp $
+// $Id: sitemap.php,v 1.4 2001/07/09 11:39:02 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -73,7 +73,7 @@ foreach ( $treeArray as $catItem )
 
         $category = new eZArticleCategory( $catItem[0]->id() );
 
-        $articleList =& $category->articles( 1, false, true, 0, 50 );
+        $articleList =& $category->articles( "time", false, true, 0, 50 );
 
         foreach ( $articleList as $article )
         {
