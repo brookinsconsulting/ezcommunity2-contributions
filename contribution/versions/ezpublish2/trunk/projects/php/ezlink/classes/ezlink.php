@@ -45,7 +45,7 @@ class eZLink
     }
 
     /*
-      Sletter fra databasen
+      Sletter linker og tilhørende hits.
     */
 
     function delete( )
