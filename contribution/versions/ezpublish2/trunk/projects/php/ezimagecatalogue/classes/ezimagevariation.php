@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.25 2001/06/27 07:57:02 jhe Exp $
+// $Id: ezimagevariation.php,v 1.26 2001/06/28 10:31:30 jb Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -165,7 +165,7 @@ class eZImageVariation
 
       False is returned if the variation could not be created.
     */
-    function &requestVariation( &$image, &$variationGroup, $convertToGray = false )
+    function &requestVariation( &$image, &$variationGroup, $convertToGray = false, $allow_error = false )
     {
         $ret = false;
 
@@ -184,7 +184,7 @@ class eZImageVariation
             else
             {
                 if ( !$image->fileExists( true ) )
-                    return eZImageVariation::createErrorImage();
+                    return $allow_error ? false : eZImageVariation::createErrorImage();
 
                 $imageFile = new eZImageFile();
                 $imageFile->getFile( $image->filePath( true ) );
@@ -208,17 +208,17 @@ class eZImageVariation
                     }
                     else
                     {
-                        return eZImageVariation::createErrorImage();
+                        return $allow_error ? false : eZImageVariation::createErrorImage();
                         print( "<br><b>Timeout when retrieveing variation</b><br>" );
                     }
                 }
                 else if ( $result )
                 {
                     if ( !file_exists( $dest ) or !is_file( $dest ) )
-                        return eZImageVariation::createErrorImage();
+                        return $allow_error ? false : eZImageVariation::createErrorImage();
                     $size = GetImageSize( $dest );
                     if ( !$size )
-                        return eZImageVariation::createErrorImage();
+                        return $allow_error ? fales : eZImageVariation::createErrorImage();
 
                     $variation->setWidth( $size[0] );
                     $variation->setHeight( $size[1] );
@@ -233,7 +233,7 @@ class eZImageVariation
                     $ret =& $variation;
                 }
                 else
-                    return eZImageVariation::createErrorImage();
+                    return $allow_error ? false : eZImageVariation::createErrorImage();
             }
         }
         

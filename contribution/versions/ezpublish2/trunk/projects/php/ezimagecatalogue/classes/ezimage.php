@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.59 2001/06/28 09:43:35 jhe Exp $
+// $Id: ezimage.php,v 1.60 2001/06/28 10:31:30 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -616,7 +616,7 @@ class eZImage
 
       False is returned if the original image does not exist.
     */
-    function &requestImageVariation( $width, $height, $convertToGray = false )
+    function &requestImageVariation( $width, $height, $convertToGray = false, $allow_error = false )
     {
        $group = new eZImageVariationGroup();
        $variation = new eZImageVariation();
@@ -625,7 +625,7 @@ class eZImage
        {
            $group->get( $group->groupExists( $width, $height ) );
 
-           $ret =& $variation->requestVariation( $this, $group, $convertToGray );
+           $ret =& $variation->requestVariation( $this, $group, $convertToGray, $allow_error );
        }
        else
        {
@@ -634,7 +634,7 @@ class eZImage
            $group->store();
 
            
-           $ret =& $variation->requestVariation( $this, $group, $convertToGray );
+           $ret =& $variation->requestVariation( $this, $group, $convertToGray, $allow_erro );
        }
        
        return $ret;
