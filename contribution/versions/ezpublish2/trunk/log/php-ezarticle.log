@@ -3293,3 +3293,21 @@ Maintainer(s) : bf@ez.no
     * user/templates/standard/articletags.tpl: Added fixes for nvh setup.
     link_tpl and popuplink_tpl should work again now
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-08  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php
+      xmlrpc/category.php
+      xmlrpc/categorylist.php: Removed DE debug output.
+
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-10  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php: Fixed section info for update message.
+
