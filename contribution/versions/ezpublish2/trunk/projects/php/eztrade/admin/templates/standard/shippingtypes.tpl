@@ -12,7 +12,7 @@
 
  	<!-- BEGIN type_item_tpl -->
 	<td colspan="2">
-
+	<p class="boxtext">{intl-shipping_type}:</p>
 	 <input type="hidden" name="TypeID[]" value="{type_id}" />
 	 <input type="radio" name="DefaultTypeID" {default_checked} value="{type_id}" />
 
@@ -28,7 +28,7 @@
 	<!-- END vat_item_tpl -->
 
 	</select>
-
+	<br /><br />
 
 	</td>
  	<!-- END type_item_tpl -->
@@ -38,12 +38,12 @@
     &nbsp;
     </td>
     <!-- BEGIN header_item_tpl -->
-    <td>
+    <th>
         {intl-first}:
-    </td>
-    <td>
+    </th>
+    <th>
         {intl-additional}:
-    </td>
+    </th>
     <!-- END header_item_tpl -->
 </tr>
 <!-- BEGIN group_item_tpl -->
