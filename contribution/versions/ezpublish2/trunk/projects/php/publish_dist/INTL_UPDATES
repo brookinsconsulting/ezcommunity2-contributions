@@ -4,18 +4,22 @@ mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
 mod: ezforum/ admin, forumedit.php.ini
-change: added no_moderator=No moderator selected
+change: added
+no_moderator=No moderator selected
 
 mod: ezforum/ admin, search.php.ini
-change: added deletemessages=Delete selected messages
+change: added
+deletemessages=Delete selected messages
 
 mod: ezforum/ user, mailreply.php.ini
-change: added moderator_subject=Message posted to your moderated forum
-change: added moderator_info_message_1=You are the moderator of the forum
-change: added moderator_info_message_4=The new message is presented below
+change: added
+moderator_subject=Message posted to your moderated forum
+moderator_info_message_1=You are the moderator of the forum
+moderator_info_message_4=The new message is presented below
 
 mod: ezbug/ admin, mailreply.php.ini
-change: added bug_handled=BUG HANDLED
+change:
+added bug_handled=BUG HANDLED
 
 mod: admin, print_header.php.ini
 change: added
@@ -111,6 +115,7 @@ show_persons=Show persons
 show_all=Everybody
 without_relation=Without company relation
 with_relation=With company relation
+reload=Reload
 
 mod: ezcontact/admin companytype.php.ini
 change: added

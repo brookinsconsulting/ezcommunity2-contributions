@@ -5,7 +5,7 @@
 	<h1>{intl-person_list_headline}</h1>
 	</td>
 	<td align="right">
-	    	<input type="text" name="SearchText" size="12" value="{search_form_text}" />
+	    <input type="text" name="SearchText" size="12" value="{search_form_text}" />
 		<input class="stdbutton" type="submit" value="{intl-search}" />
 	</td>
 </tr>
@@ -15,12 +15,15 @@
 <hr noshade="noshade" size="4" />
 <br />
 
+<form action="/contact/person/list/" method="post">
 	<p class="boxtext">{intl-show_persons}:</p>
-	<select name="LimitType">
-	<option value="all" {is_all_selected}>{intl-show_all}</option>
-	<option value="standalone" {is_without_selected}>{intl-without_relation}</option>
-	<option value="connected" {is_with_selected}>{intl-with_relation}</option>
+    <select name="LimitType">
+	    <option value="all" {is_all_selected}>{intl-show_all}</option>
+	    <option value="standalone" {is_without_selected}>{intl-without_relation}</option>
+	    <option value="connected" {is_with_selected}>{intl-with_relation}</option>
 	</select>
+    <input class="stdbutton" type="submit" value="{intl-reload}" />
+</form>
 <br />
 <br />
 
@@ -165,7 +168,6 @@
 <!-- END person_list_tpl -->
 
 <!-- END person_table_tpl -->
-
 <!-- BEGIN person_new_button_tpl -->
 <form method="post" action="/contact/person/new">
 
