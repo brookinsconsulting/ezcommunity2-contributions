@@ -104,17 +104,24 @@
 <tr>
 	<th colspan="2">
 	<br />
-	{option_name}
+	{option_name}:
 	</th>
 </tr>
 <tr>
 	<td width="20%">
 
 	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
+	<!-- BEGIN value_price_header_tpl -->
+
+	<!-- END value_price_header_tpl -->
 	<select name="OptionValueArray[]">
-	
+
 	<!-- BEGIN value_tpl -->
-	<option value="{value_id}">{value_name}</option>
+	<option value="{value_id}">{value_name}
+	<!-- BEGIN value_price_item_tpl -->
+	{value_price}
+	<!-- END value_price_item_tpl -->
+	 </option>
 	<!-- END value_tpl -->
 	</select>
 	</td>
@@ -138,6 +145,15 @@
 	<!-- BEGIN price_tpl -->
 	<p class="boxtext">{intl-price}:</p>
 	{product_price}
+
+	<!-- BEGIN alternative_currency_list_tpl -->
+	<p class="boxtext">{intl-alternative_currency}:</p>
+	<!-- BEGIN alternative_currency_tpl -->
+	{alt_price}<br />
+	<!-- END alternative_currency_tpl -->
+
+	<!-- END alternative_currency_list_tpl -->
+
 	<!-- END price_tpl -->	
 	</td>
 	<td align="right">
@@ -151,13 +167,14 @@
 <br />
 
 {extra_product_info}
+<br />
+
+<hr noshade="noshade" size="4" />
 
 <!-- BEGIN add_to_cart_tpl -->
-<!--
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
 <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
--->
 <!-- END add_to_cart_tpl -->
 
 <br /><br />
@@ -167,7 +184,7 @@
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/">| {intl-print_page} |</a></div>
+<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/{category_id}/">| {intl-print_page} |</a></div>
 <!-- END print_page_link_tpl -->
 
 </form>
