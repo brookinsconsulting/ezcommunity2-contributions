@@ -140,3 +140,17 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/folderedit.php.ini
       user/templates/standard/fileupload.tpl: more internationalization
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-22  Unknown  <master@open.lv>
+
+    * user/filelist.php
+      user/fileview.php: sections was patched for admin interface
+
+    * user/filelist.php
+      user/fileview.php: sections in file manager
+
+    * classes/ezvirtualfolder.php: small bug fixed in getsectiondIDstatic
+

@@ -871,3 +871,13 @@ Maintainer(s) : bf@ez.no
 
     * user/templates/standard/articlelist.tpl: Layout
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-22  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/articleprint.tpl
+      user/templates/standard/articleview.tpl:
+    Fixed loosing section id when returning from printerfriendly pageview.
+

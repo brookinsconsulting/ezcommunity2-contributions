@@ -83,3 +83,12 @@ Maintainer(s) : bf@ez.no
       admin/intl/fr_FR/linkselect.php.ini
       locale/fr_FR.ini: updated fr_FR
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-22  Unknown  <master@open.lv>
+
+    * locale/lv_LV.ini
+      locale/ru_RU.ini: Latvian and Russian locales
+

@@ -215,3 +215,14 @@ Maintainer(s) : br@ez.no
     * admin/templates/standard/browse.tpl:
     Fixed nested <form> bug in the template. Didn't work in IE.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-22  Unknown  <master@open.lv>
+
+    * user/imageview.php
+      user/imagelist.php: Some section implementation but very basical
+
+    * classes/ezimagecategory.php: added sectionIDstatic
+
