@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.15 2001/01/30 15:11:26 jb Exp $
+// $Id: ezvirtualfile.php,v 1.16 2001/02/02 15:51:41 fh Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -759,6 +759,23 @@ class eZVirtualfile
            
            $this->Database->query( $query );
        }
+    }
+
+    /*!
+      \public
+      Returns folder that owns this file.
+    */
+    function folder()
+    {
+        $this->dbInit();
+        $result_array = array();
+        $this->Database->array_query( $result_array, "SELECT FolderID FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
+        
+        foreach( $result_array as $item )
+        {
+            $return_array[] = new eZVirtualFolder( $item[ "FolderID" ] );
+        }
+        return $return_array;
     }
     
     /*!

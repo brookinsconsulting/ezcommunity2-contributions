@@ -2,6 +2,19 @@
 
 <hr noshade="noshade" size="4" />
 
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
+<a class="path" href="/filemanager/list/0/">{intl-file_root}</a>
+
+<!-- BEGIN path_item_tpl -->
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
+<a class="path" href="/filemanager/list/{folder_id}/">{folder_name}</a>
+<!-- END path_item_tpl -->
+
+<br />
+
+
+<hr noshade="noshade" size="4" />
+
 <br />
 
 <!-- BEGIN view_tpl -->

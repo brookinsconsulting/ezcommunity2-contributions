@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.5 2001/01/30 15:11:00 jb Exp $
+// $Id: fileview.php,v 1.6 2001/02/02 15:51:41 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -48,6 +48,8 @@ $t->set_block( "file_view", "view_tpl", "view" );
 $t->set_block( "file_view", "delete_tpl", "delete" );
 $t->set_block( "file_view", "edit_tpl", "edit" );
 $t->set_block( "file_view", "download_tpl", "download" );
+$t->set_block( "file_view", "path_item_tpl", "path_item" );
+
 
 $t->set_var( "delete", "" );
 $t->set_var( "edit", "" );
@@ -56,6 +58,22 @@ $t->set_var( "download", "" );
 if ( $FileID != 0 )
 {
     $file = new eZVirtualFile( $FileID );
+
+   // path
+    $folder = $file->folder();
+    $pathArray = $folder[0]->path();
+
+    $t->set_var( "path_item", "" );
+    foreach ( $pathArray as $path )
+    {
+        $t->set_var( "folder_id", $path[0] );
+
+        $t->set_var( "folder_name", $path[1] );
+    
+        $t->parse( "path_item", "path_item_tpl", true );
+    }
+
+
 
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_id", $file->id() );
