@@ -1,0 +1,132 @@
+<h1>{intl-bug_view}</h1>
+
+<hr noshade="noshade" size="4">
+<!-- BEGIN path_tpl -->
+
+
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+
+<a class="path" href="/bug/archive/0/">{intl-top_level}</a>
+
+<!-- END path_tpl -->
+
+<!-- BEGIN path_item_tpl -->
+
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+
+<a class="path" href="/bug/archive/{module_id}/">{module_name}</a>
+<!-- END path_item_tpl -->
+
+<hr noshade="noshade" size="4" />
+
+<br />
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td width="50%">
+	<p class="boxtext">{intl-bug_title}:</p>
+	{name_value}
+	<br /><br />
+	</td>
+	<td width="50%">
+	<p class="boxtext">{intl-bug_date}:</p>
+	{bug_date}
+	<br /><br />
+	</td>
+</tr>
+<tr>
+	<td width="50%">
+	<p class="boxtext">{intl-bug_module}:</p>
+	{module_name}
+	</td>
+	<td width="50%">
+	<p class="boxtext">{intl-bug_category}:</p>
+	{category_name}
+	</td>
+</tr>
+</table>
+
+<p class="boxtext">{intl-bug_reporter}:</p>
+<div class="p">{reporter_name_value}</div>
+
+<p class="boxtext">{intl-bug_description}:</p>
+<table cellspacing="0" cellpadding="4" border="0" width="100%">
+<tr>
+	<td class="bglight">
+	{description_value}
+	</td>
+</tr>
+</table>
+
+<br />
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td>
+	<p class="boxtext">{intl-assigned_priority}:</p>
+	{priority_name}
+	</td>
+
+	<td>
+	<p class="boxtext">{intl-assigned_status}:</p>
+	{status_name}
+	</td>
+</tr>
+</table>
+
+<br />
+<p class="boxtext">{intl-is_closed}:</p>
+<!-- BEGIN yes_tpl -->
+<div class="p">{intl-yes}</div>
+<!-- END yes_tpl -->
+<!-- BEGIN no_tpl -->
+<div class="p">{intl-no}</div>
+<!-- END no_tpl -->
+
+<!-- BEGIN screenshots_tpl -->
+<h2>{intl-screenshots}</h2>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-image_id}:</th>
+	<th>{intl-image_name}:</th>
+</tr>
+<!-- BEGIN screenshot_item_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{image_number}
+	</td>
+	<td width="99%" class="{td_class}">
+	{image_name}
+	</td>
+</tr>
+<!-- END screenshot_item_tpl -->
+</table>
+<!-- END screenshots_tpl -->
+
+<!-- BEGIN patches_tpl -->
+<h2>{intl-patches}</h2>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-file_id}:</th>
+	<th>{intl-file_name}:</th>
+</tr>
+<!-- BEGIN patch_item_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{file_number}
+	</td>
+	<td width="99%" class="{td_class}">
+	{file_name}
+	</td>
+</tr>
+<!-- END patch_item_tpl -->
+</table>
+<!-- END patches_tpl -->
+
+<br />
+<!-- BEGIN log_item_tpl -->
+<p class="boxtext">{log_date}:</p>
+<div class="p">{log_description}</div>
+<!-- END log_item_tpl -->	
+
+<br />

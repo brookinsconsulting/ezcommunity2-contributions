@@ -1,0 +1,36 @@
+        **** Explanation of site.ini variables ****
+
+The name of the group in site.ini for eZForum is eZForumMain.
+It contains these variables:
+
+AdminTemplateDir:       Relative path to template files in admin
+TemplateDir:            Relative path to template files in user
+Language:               The language used in eZForum
+AllowHTML:              Turn on HTML messages with "enable", else the html tags will be turned into html entities.
+AllowedTags:            When posting html the tags spcified here are the ones which the user can use in her messages
+AnonymousPoster:        The text to be shown when a poster is anonymous.
+DocumentRoot:           
+FutureDate:             This is the text to be used when an message isn't posted yet instead of a posting time.
+MessageLimit:           The number of messages shown in message listings.
+PageCaching:            Turn on page caching (faster) with "enable".
+ReplyEndTag:            This is the tag to end an reply block with.
+ReplyPrefix:            This is the prefix to use on a message when it is a reply.
+ReplyStartTag:          This is the tag to start an reply block with.
+ReplyTags:              If this is turned off, the normal ">" tags are pasted in front of text. Enable this if you allow html posting, make sure that the reply tags are allowed. (See example below).
+
+Example group:
+[eZForumMain]
+AdminTemplateDir=templates/standard/
+Language=en_GB
+TemplateDir=templates/standard/
+DocumentRoot=./ezforum/
+ReplyPrefix=RE: 
+PageCaching=disabled
+MessageLimit=30
+FutureDate=In the future
+AllowedTags=<a>,<i>,<b>,<blockquote>,<p>,<div>
+ReplyStartTag=<blockquote type="cite">
+ReplyEndTag=</blockquote>
+ReplyTags=disabled
+AllowHTML=disabled
+AnonymousPoster=Anonymous
