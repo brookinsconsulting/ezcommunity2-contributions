@@ -65,17 +65,20 @@ class eZLinkGroup
     /*
       Rekursiv funksjon, skriver ut hele pathen til gruppen.
     */
-    function printPath( $id )
+    function printPath( $id, $url )
     {
-
         $lg = new eZLinkGroup();
         $lg->get( $id );
 
-          if ( $lg->parent() != 0 )
+        if ( $lg->parent() != 0 )
         {
-            $this->printPath( $lg->parent() );
+            $this->printPath( $lg->parent(),  $url );
         }
-        print( "/" . $lg->Title() );
+        else
+        {
+            print( "/ <a href=\"index.php?page=$url&LGID=0\">" . "linker" . "</a>" );
+        }
+        print( " / <a href=\"index.php?page=$url&LGID=$this->ID\">" . $lg->title() . "</a>" );
     }
 
 

@@ -29,7 +29,7 @@ $linkgroup = new eZLinkGroup();
 $linkgroup->get ( $LGID );
 
 
-$linkgroup->printPath( $LGID );
+$linkgroup->printPath( $LGID, $DOCUMENTROOT . "admin/linklist.php" );
 
 $linkgroup_array = $linkgroup->getByParent( $LGID );
 

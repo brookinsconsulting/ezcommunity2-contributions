@@ -13,7 +13,6 @@ require $DOCUMENTROOT . "classes/ezlink.php";
 require $DOCUMENTROOT . "classes/ezhit.php";
 
 
-
 // Slett
 if ( $Action == "delete" )
 {

@@ -4,8 +4,6 @@
   listlink.php viser alle kategorier
 */
 
-
-
 include "template.inc";
 require "ezlink/dbsettings.php";
 require "ezphputils.php";
@@ -22,15 +20,11 @@ $t->set_file( array(
     "link_item" => $DOCUMENTROOT . "templates/linkitemuser.tpl"
     ) );
 
-
-
 // Lister alle kategorier
 $linkgroup = new eZLinkGroup();
 $linkgroup->get ( $LGID );
 
-
-$linkgroup->printPath( $LGID );
-
+$linkgroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
 
 $linkgroup_array = $linkgroup->getByParent( $LGID );
 
