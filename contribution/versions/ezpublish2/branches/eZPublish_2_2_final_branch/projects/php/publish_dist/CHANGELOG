@@ -15,7 +15,8 @@ Changes from 2.2.8 to 2.2.9
 * Fixed security bug with variable check in messagebody in eZ forum.
 * Fixed security bug with variable check in search in eZ filemanager.
 * improved class eZHit in eZ link.
-* Fixed bug with eZAd view count in frame.php and frontpage
+* Fixed bug with eZAd view count in frame.php and frontpage.
+* Added optimalisation on classes in eZ imagecatalogue.
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
