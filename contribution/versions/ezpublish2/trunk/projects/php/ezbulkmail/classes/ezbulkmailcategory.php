@@ -127,6 +127,24 @@ class eZBulkMailCategory
     }
 
     /*!
+      Fetches the category with the given name. If not found false is returned
+    */
+    function getByName( $name )
+    {
+        $db = eZDB::globaldatabase();
+        $category_array = array();
+
+        $name = addslashes( $name );
+        $db->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category WHERE Name='$name'" );
+
+        $return_value = false;
+        if( count( $category_array ) == 1 )
+            $return_value = new eZBulkMailCategory( $category_array[0]["ID"] );
+        
+        return $return_value;
+    }
+    
+    /*!
       Returns all the categories found in the database.
 
       The categories are returned as an array of eZBulkMailCategory objects.

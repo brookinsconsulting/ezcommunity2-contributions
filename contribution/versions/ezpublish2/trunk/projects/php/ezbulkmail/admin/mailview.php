@@ -17,7 +17,6 @@ if( isset( $Edit ) )
 
 if( isset( $Send ) )
 {
-    echo "Sending in action";
     $mail = new eZBulkMail( $MailID );
     $category = $mail->category();
     if( is_object( $category ) )
