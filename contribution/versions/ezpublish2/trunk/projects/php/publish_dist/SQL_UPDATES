@@ -559,3 +559,7 @@ DROP TABLE IF EXISTS eZArticle_ArticleReaderLink;
 ALTER TABLE eZArticle_Article DROP ReadPermission;
 ALTER TABLE eZArticle_Category DROP ReadPermission;
 ALTER TABLE eZArticle_Article DROP OwnerGroupID;
+ALTER TABLE eZArticle_Category DROP OwnerGroupID;
+
+#all categories should have an owner.
+ALTER TABLE eZArticle_Category ADD OwnerID int(11) DEFAULT '0'; 
