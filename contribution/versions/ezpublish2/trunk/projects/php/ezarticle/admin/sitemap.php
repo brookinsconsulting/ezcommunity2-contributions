@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sitemap.php,v 1.2 2001/05/14 15:31:15 fh Exp $
+// $Id: sitemap.php,v 1.3 2001/07/02 12:43:25 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -63,6 +63,8 @@ foreach ( $treeArray as $catItem )
     {    
         $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $catItem[1] );
 
+        $t->set_var( "category_id", $catItem[0]->id() );
+
         $t->set_var( "option_value", "archive/" . $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
         $t->set_var( "option_level", $option_level );
@@ -75,6 +77,7 @@ foreach ( $treeArray as $catItem )
 
         foreach ( $articleList as $article )
         {
+            $t->set_var( "article_id", $article->id() );
             $t->set_var( "option_level", "&nbsp;&nbsp;&nbsp;&nbsp;" . $option_level );
         
             $t->set_var( "option_value", "articlepreview/".$article->id() );

@@ -56,5 +56,7 @@
 
 <form action="/article/articleedit/edit/{article_id}/" method="post">
 <input class="okbutton" type="submit" value="{intl-edit}" />
+<input class="okbutton" type="submit" name="PublishArticle" value="{intl-publish}" />
+
 </form>
 

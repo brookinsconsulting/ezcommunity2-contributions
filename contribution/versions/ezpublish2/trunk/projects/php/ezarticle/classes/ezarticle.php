@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.104 2001/06/29 13:47:48 jb Exp $
+// $Id: ezarticle.php,v 1.105 2001/07/02 12:43:25 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1804,7 +1804,7 @@ class eZArticle
             {
                 case "count":
                 {
-                    $sort_text = "ORDER BY Count";
+                    $sort_text = "ORDER BY count( eZArticle_Article.ID )";
                     break;
                 }
                 default:
@@ -1885,11 +1885,11 @@ class eZArticle
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
         
 
-        $query = "SELECT A.ID , A.Name, Author.Name as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
+        $query = "SELECT A.ID, A.Name, Author.Name as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
                      FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryLink as ACL, eZArticle_ArticlePermission AS P, eZUser_Author as Author
                      WHERE A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND A.ContentsWriterID=Author.ID AND
                      IsPublished='1' AND ContentsWriterID='$authorid' AND $loggedInSQL
-                     A.ID=P.ObjectID GROUP BY A.ID $sort_text ";
+                     A.ID=P.ObjectID GROUP BY A.ContentsWriterID $sort_text ";
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
@@ -1931,9 +1931,8 @@ class eZArticle
                      eZArticle_ArticlePermission AS P,
                      eZUser_Author as Author
                      WHERE A.ContentsWriterID=Author.ID AND IsPublished='1' AND ContentsWriterID='$authorid' AND $loggedInSQL
-                     A.ID=P.ObjectID GROUP BY A.ID";
+                     A.ID=P.ObjectID GROUP BY A.ContentsWriterID";
 
-        
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query );
         return count( $qry_array );

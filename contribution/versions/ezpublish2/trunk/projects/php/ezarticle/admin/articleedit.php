@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.94 2001/06/29 07:08:37 bf Exp $
+// $Id: articleedit.php,v 1.95 2001/07/02 12:43:25 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -280,6 +280,28 @@ if ( $Action == "Insert" )
     }
 }
 
+
+// article published from preview
+if ( isset( $PublishArticle ) )
+{
+    $article = new eZArticle( );
+
+    if ( $article->get(  $ArticleID ) )
+    {
+        $article->setIsPublished( true );
+        $article->store();        
+    }
+    
+    $category =& $article->categoryDefinition( );
+    
+    if ( $category )
+    {
+        $categoryID = $category->id();
+    }        
+    
+    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+    exit();
+}
 
 if ( $Action == "Cancel" )
 {
