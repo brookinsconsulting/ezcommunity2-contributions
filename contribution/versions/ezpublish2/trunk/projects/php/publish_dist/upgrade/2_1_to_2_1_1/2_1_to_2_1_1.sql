@@ -399,6 +399,11 @@ update eZLink_Link set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table eZLink_Link drop Created; 
 alter table eZLink_Link change CreatedTmp Created int; 
 
+
+DROP TABLE IF EXISTS eZLink_Category;
+alter table eZLink_LinkGroup RENAME to eZLink_Category;
+
+
 # eZ urltranslator
 alter table eZURLTranslator_URL add CreatedTmp int;
 update eZURLTranslator_URL set CreatedTmp= UNIX_TIMESTAMP( Created );
@@ -605,7 +610,7 @@ CREATE TABLE eZLink_Type (
   PRIMARY KEY(ID)
 );
 
-DROP TABLE IF EXISTS eZLink_LinkType;
+DROP TABLE IF EXISTS eZLink_TypeLink;
 CREATE TABLE eZLink_TypeLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   LinkID int(11),
@@ -695,8 +700,7 @@ INSERT INTO eZLink_LinkCategoryDefinition ( LinkID, CategoryID ) SELECT ID, Link
 ALTER TABLE eZLink_Link DROP LinkGroup;
 
 alter table eZLink_Link change Title Name varchar(100);
-ALTER TABLE eZLink_Category add ImageID int;
-ALTER TABLE eZLink_Category add Description varchar(200);
+alter table eZLink_Category change Title Name varchar(100);
 
 # eZBulkMail
 # eZ forum

@@ -1,3 +1,4 @@
+
 CREATE TABLE eZAd_Ad(
   ID int NOT NULL,
   Name varchar(150) default NULL,
