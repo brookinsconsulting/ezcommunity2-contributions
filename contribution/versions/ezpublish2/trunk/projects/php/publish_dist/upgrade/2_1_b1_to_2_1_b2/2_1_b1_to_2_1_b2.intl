@@ -8,7 +8,7 @@ change: added yes, no, category_is_public, ok,single_list_select
 multi_list_site=Use multilist
 
 mod: ezbulkmail/admin categoryedit.php.ini
-change: added subscibed_usergroups and public_list
+change: added subscibed_usergroups and public_list,select_categories
 
 mod: ezbug/user bugreport.php.ini
 change: added program_version=Program version
