@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.22 2001/02/01 12:05:02 th Exp $
+// $Id: polledit.php,v 1.23 2001/02/08 17:02:33 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -123,7 +123,7 @@ if ( $Action == "Update" )
     $poll = new eZPoll();
     $poll->get( $PollID );
 
-    if ( $IsEnabled == "on" )
+    if ( $IsEnabled== "on" )
     {
         $poll->setIsEnabled ( true );
     }
@@ -163,17 +163,43 @@ if ( $Action == "Update" )
     $poll->setDescription( $Description );
     $poll->store();
 
+    if( count( $PollChoiceID ) > 0 )
+    {
+        $i = 0;
+        foreach( $PollChoiceID as $itemID )
+        {
+            $item = new eZPollChoice( $itemID );
+            $item->setName( $PollChoiceName[$i] );
+            $item->store();
+            $i++;
+        }
+    }
     // clear the menu cache
     if ( file_exists("ezpoll/cache/menubox.cache" )  )
         unlink( "ezpoll/cache/menubox.cache" );
     
     if ( isset ( $Choice ) )
     {
-        eZHTTPTool::header( "Location: /poll/choiceedit/new/" . $PollID . "/" );
-        exit();
+        //  eZHTTPTool::header( "Location: /poll/choiceedit/new/" . $PollID . "/" );
+        //exit();
+        $item = new eZPollChoice();
+        $item->setName( "Language Error" );
+        $item->setPollID( $PollID );
+        $item->store();
+    }
+    if( isset( $DeleteChoice ) )
+    {
+        if( count( $PollArrayID ) > 0 )
+        {
+            foreach( $PollArrayID as $itemIndex )
+            {
+                $item = new eZPollChoice( $PollChoiceID[$itemIndex] );
+                $item->delete();
+            }
+        }
     }
 
-    eZHTTPTool::header( "Location: /poll/pollist/" );
+    eZHTTPTool::header( "Location: /poll/polledit/edit/$PollID" );
     exit();
 }
 
@@ -270,7 +296,8 @@ foreach( $pollChoiceList as $pollChoiceItem )
     $t->set_var( "poll_choice_name", $pollChoiceItem->name() );
     $vote = new eZVote();
     $t->set_var( "poll_number", $pollChoiceItem->voteCount() );
-
+    $t->set_var( "index_nr", $i );
+    
     $t->parse( "poll_choice", "poll_choice_tpl", true );
     $i++;
 }

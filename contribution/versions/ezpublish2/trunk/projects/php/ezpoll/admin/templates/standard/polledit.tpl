@@ -62,7 +62,9 @@
 	<!-- BEGIN poll_choice_tpl -->
 	<tr>
 		<td class="{td_class}">
-			{poll_choice_name}
+		<input type="hidden" name="PollChoiceID[]" value="{choice_id}" />
+		<input type="text" name="PollChoiceName[]" value="{poll_choice_name}" />
+
 		</td>
 <!--
 		<td class="{td_class}">&nbsp;</td>
@@ -70,12 +72,8 @@
 		<td class="{td_class}" align="right">
 		{poll_number}
 		</td>
-		<td class="{td_class}" >&nbsp;</td>
 		<td class="{td_class}" width="1%">
-		<a href="/poll/choiceedit/edit/{poll_id}/{choice_id}/"onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezpoll{choice_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
-		</td>
-		<td class="{td_class}" width="1%">
-		<a href="#" onClick="verify( '{intl-delete}', '/poll/choiceedit/delete/{poll_id}/{choice_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezpoll{choice_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+		<input type="checkbox" name="PollArrayID[]" value="{index_nr}">
 		</td>	
 	</tr>	
 	<!-- END poll_choice_tpl -->
@@ -84,7 +82,17 @@
 
 <hr noshade size="4"/>
 
-<input class="stdbutton" type="submit" name="Choice" value="{intl-newanswer}">
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+     <td>
+     <input class="stdbutton" type="submit" name="Choice" value="{intl-newanswer}">
+     </td>
+     <td>&nbsp;</td>
+     <td>
+     <input type="submit" class="stdbutton" Name="DeleteChoice" value="{intl-removeanswer}">
+     </td>
+</tr>
+</table>
 
 <hr noshade size="4"/>
 
