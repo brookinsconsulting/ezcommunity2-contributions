@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.6 2001/01/21 18:15:51 jb Exp $
+// $Id: yearview.php,v 1.7 2001/01/22 12:53:46 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -99,7 +99,6 @@ for ( $month=1; $month<13; $month++ )
         
         for ( $day=1; $day<=7; $day++ )
         {
-                
             $date->setDay( 1 );
             $firstDay = $date->dayOfWeek();
 

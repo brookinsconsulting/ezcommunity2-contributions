@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.12 2001/01/21 18:15:51 jb Exp $
+// $Id: monthview.php,v 1.13 2001/01/22 12:53:46 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -102,15 +102,24 @@ $t->set_var( "week", "" );
 
 
 
-// draw the week day header. Using 2001 because it starts on a monday.
-$hDate = new eZDate();
-$hDate->setYear( 2001 );
-$hDate->setMonth( 1 );
+// Draw the week day header.
+$headerDate = new eZDate();
+$headerDate->setYear( 2001 );
+if ( $Locale->mondayFirst() )
+{
+    // January 2001 starts on a Monday
+    $headerDate->setMonth( 1 );
+}
+else
+{
+    // April 2001 starts on a Sunday
+    $headerDate->setMonth( 4 );
+}
 
 for ( $week_day=1; $week_day<=7; $week_day++ )
 {
-    $hDate->setDay( $week_day );
-    $t->set_var( "week_day_name", $Locale->dayName( $hDate->dayName(), false ) );
+    $headerDate->setDay( $week_day );
+    $t->set_var( "week_day_name", $Locale->dayName( $headerDate->dayName(), false ) );
 
     $t->parse( "week_day", "week_day_tpl", true );
 }
@@ -132,10 +141,10 @@ for ( $week=0; $week<6; $week++ )
         {
             $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
 
+            // this month
             if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
                  ( $currentDay <= $date->daysInMonth() ) )
             {
-                // this month
                 $date->setDay( $currentDay );
 
                 // fetch the appointments for today
@@ -154,72 +163,91 @@ for ( $week=0; $week<6; $week++ )
                     $t->parse( "appointment", "appointment_tpl", true );
                 }
 
+                // set special colours for today and weekend
                 if ( $tmpDate->equals( $today ) )
+                {
                     $t->set_var( "td_class", "bgcurrent" );
-                else if ( $day > 5 )
+                }
+                else if ( $day == 7 )
+                {
                     $t->set_var( "td_class", "bgweekend" );
+                }
+                else if ( $day == 6 )
+                {
+                    if ( $Locale->mondayFirst() == true )
+                        $t->set_var( "td_class", "bgweekend" );
+                    else
+                        $t->set_var( "td_class", "bglight" );
+                }
+                else if ( $day == 1 )
+                {
+                    if ( $Locale->mondayFirst() == false )
+                        $t->set_var( "td_class", "bgweekend" );
+                    else
+                        $t->set_var( "td_class", "bglight" );
+                }
                 else
+                {
                     $t->set_var( "td_class", "bglight" );
+                }
 
                 $t->set_var( "day_number", $currentDay );
                 $t->set_var( "month_number", $Month );
                 $t->set_var( "year_number", $Year );
             }
-            else
+            else   // previous or next month
             {
+                $prevNextDate = new eZDate( $date->year(), $date->month(), $date->day() );
+
                 // prevous month
                 if ( ( $currentDay <= $date->daysInMonth() ) )
                 {
-                    $prevMonth = new eZDate( $date->year(), $date->month(), $date->day() );
-
                     if ( $date->month() == 1 )
                     {
-                        $prevMonth->setYear( $date->year() - 1 );
-                        $prevMonth->setMonth( 12 );     
+                        $prevNextDate->setYear( $date->year() - 1 );
+                        $prevNextDate->setMonth( 12 );     
                     }
                     else
                     {
-                        $prevMonth->setMonth( $date->month() - 1 );
+                        $prevNextDate->setMonth( $date->month() - 1 );
                     }
 
-                    $t->set_var( "appointment", "" );
+                    $prevNextDate->setDay( $prevNextDate->daysInMonth() - $firstDay + $day + 1 );
+                    $t->set_var( "day_number", $prevNextDate->day() );
+                    $t->set_var( "month_number", $prevNextDate->month() );
+                    $t->set_var( "year_number", $prevNextDate->year() );
 
-                    $prevMonth->setDay( $prevMonth->daysInMonth() - $firstDay + $day + 1 );
-                    $t->set_var( "day_number", $prevMonth->day() );
-                    $t->set_var( "month_number", $prevMonth->month() );
-                    $t->set_var( "year_number", $prevMonth->year() );
+                    $t->set_var( "appointment", "" );
                 }
                 else
                 {
                     // next month
-                    $nextMonth = new eZDate( $date->year(), $date->month(), $date->day() );
-
-                    $t->set_var( "appointment", "" );
-
                     if ( $date->month() == 12 )
                     {
-                        $nextMonth->setYear( $date->year() + 1 );
-                        $nextMonth->setMonth( 1 );     
+                        $prevNextDate->setYear( $date->year() + 1 );
+                        $prevNextDate->setMonth( 1 );     
                     }
                     else
                     {
-                        $nextMonth->setMonth( $date->month() + 1 );
+                        $prevNextDate->setMonth( $date->month() + 1 );
                     }
 
                     $tmp = ( $firstDay + $date->daysInMonth() ) % 7;
                     if ( $tmp == 0 )
                         $tmp = 7;
 
-                    $nextMonth->setDay( ( 7 - $tmp - 6 ) + $day );
-                    $t->set_var( "day_number", $nextMonth->day() );
-                    $t->set_var( "month_number", $nextMonth->month() );
-                    $t->set_var( "year_number", $nextMonth->year() );
-                }
-                
-                $t->set_var( "td_class", "bgdark" );                
+                    $prevNextDate->setDay( ( 7 - $tmp - 6 ) + $day );
+                    $t->set_var( "day_number", $prevNextDate->day() );
+                    $t->set_var( "month_number", $prevNextDate->month() );
+                    $t->set_var( "year_number", $prevNextDate->year() );
 
+                    $t->set_var( "appointment", "" );
+                }
+                $t->set_var( "td_class", "bgdark" );
+                if ( $prevNextDate->equals( $today ) )
+                    $t->set_var( "td_class", "bgcurrent" );
             }
-            $t->parse( "day", "day_tpl", true );            
+            $t->parse( "day", "day_tpl", true );
         }
     }
     $t->parse( "week", "week_tpl", true );
