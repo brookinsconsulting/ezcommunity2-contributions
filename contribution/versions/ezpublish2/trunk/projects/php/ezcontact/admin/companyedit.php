@@ -101,15 +101,18 @@ if( $Action == "delete" )
     $company->removePhones();
     $company->removeOnlines();
     $company->removeImages();
-    $company->removeUser();
-    $company->removeClassified();
+    if ( $userCreate )
+    {
+        $company->removeUser();
+    }
+//      $company->removeClassified();
 
     $category = $company->categories( $CompanyID );
     $CategoryID = $category[0]->id();
 
     $company->delete();
     
-    header( "Location: /contact/company/list/$CategoryID" );
+    header( "Location: /contact/companycategory/list/$CategoryID" );
 }
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
@@ -119,6 +122,9 @@ $t->setAllStrings();
 $t->set_file( array(                    
     "company_edit" => "companyedit.tpl"
     ) );
+
+$t->set_block( "company_edit", "login_tpl", "login_item" );
+$t->set_block( "company_edit", "password_tpl", "password_item" );
 
 $t->set_block( "company_edit", "company_item_tpl", "company_item" );
 
@@ -145,6 +151,15 @@ $Online[] = $OnlineWeb;
 $Online[] = $OnlineEmail;
 $LoginName = $Login;
 
+$error = false;
+$emailCheck = true; // For future reference, this needs to read info about what we should check...
+$passwordCheck = false; // For future reference, this needs to read info about what we should check...
+$loginCheck = false; // For future reference, this needs to read info about what we should check...
+$nameCheck = true; // For future reference, this needs to read info about what we should check...
+$companyNoCheck = true; // For future reference, this needs to read info about what we should check...
+$addressCheck = true; // For future reference, this needs to read info about what we should check...
+$userCreate = false;
+
 $t->set_var( "name", "$Name" );
 $t->set_var( "description", "$Description" );
 $t->set_var( "street1", "$Street1" );
@@ -157,14 +172,20 @@ $t->set_var( "email", $Online[1] );
 $t->set_var( "web", $Online[0] );
 $t->set_var( "companyno", "$CompanyNo" );
 $t->set_var( "company_id", "$CompanyID" );
-$t->set_var( "password", "$Password" );
-$t->set_var( "repeat_password", "$RepeatPassword" );
+if ( $userCreate )
+{
+    $t->set_var( "password", "$Password" );
+    $t->set_var( "repeat_password", "$RepeatPassword" );
+}
 $t->set_var( "tele_phone_id", "$Phone" );
 $t->set_var( "fax_phone_id", "$Fax" );
 $t->set_var( "email_online_id", "$MailID" );
 $t->set_var( "web_online_id", "$WebID" );
 $t->set_var( "address_id", "$AddressID" );
-$t->set_var( "user_id", "$UserID" );
+if ( $userCreate )
+{
+    $t->set_var( "user_id", "$UserID" );
+}
 $t->set_var( "login", "$Login" );
 
 $t->set_var( "address_action_type", "hidden" );
@@ -184,14 +205,23 @@ $t->set_var( "email_type_id", "$EMAIL_TYPE_ID" );
 $t->set_var( "web_type_id", "$WEB_TYPE_ID" );
 $t->set_var( "address_type_id", "$ADDRESS_TYPE_ID" );
 
+if ( !$loginCheck )
+{
+    $t->set_var( "login_item", "" );
+}
+else
+{
+    $t->parse( "login_item", "login_tpl" );
+}
 
-$error = false;
-$emailCheck = true; // For future reference, this needs to read info about what we should check...
-$passwordCheck = true; // For future reference, this needs to read info about what we should check...
-$loginCheck = true; // For future reference, this needs to read info about what we should check...
-$nameCheck = true; // For future reference, this needs to read info about what we should check...
-$companyNoCheck = true; // For future reference, this needs to read info about what we should check...
-$addressCheck = true; // For future reference, this needs to read info about what we should check...
+if ( !$passwordCheck )
+{
+    $t->set_var( "password_item", "" );
+}
+else
+{
+    $t->parse( "password_item", "password_tpl" );
+}
 
 if( $Action == "insert" || $Action == "update" )
 {
@@ -227,7 +257,7 @@ if( $Action == "insert" || $Action == "update" )
         $t->set_var( "error_password_too_short_item", "&nbsp;" );
         $t->set_var( "error_passwordrepeat_item", "&nbsp;" );
         $t->set_var( "error_passwordmatch_item", "&nbsp;" );
-        
+
         if( empty( $Password ) && empty( $UserID ) )
         {
             $t->parse( "error_password_item", "error_password_item_tpl" );
@@ -325,7 +355,7 @@ if( $Action == "insert" || $Action == "update" )
     
 }
 
-if( $Action == "insert" && $error == false )
+if( $Action == "insert" && $error == false && $userCreate )
 {
     $user = new eZUser();
     $user->setFirstName( $Name );
@@ -358,9 +388,12 @@ if( $Action == "insert" && $error == false )
     $company->store();
 
     // add the user
-    if ( get_class( $user ) == "ezuser" )
+    if ( $userCreate )
     {
-        //  $company->addUser( $user );
+        if ( get_class( $user ) == "ezuser" )
+        {
+            //  $company->addUser( $user );
+        }
     }
 
     // adresss
@@ -448,7 +481,7 @@ if( $Action == "insert" && $error == false )
 
     // Add to user object
     $company->addAddress( $address );
-    header( "Location: /contact/company/list/" );
+    header( "Location: /contact/companycategory/list/" );
     exit();
 }
 
