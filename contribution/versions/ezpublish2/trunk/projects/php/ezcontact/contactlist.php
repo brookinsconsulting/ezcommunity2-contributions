@@ -30,6 +30,9 @@ else
     $company_array = $company->getAll( );
 }
 
+if ( count( $company_array ) == 0 )
+    $t->set_var( "company_list", "<h2>Ingen treff.</h2>", true );
+
 for ( $i=0; $i<count( $company_array ); $i++ )
 {
   if ( ( $i % 2 ) == 0 )

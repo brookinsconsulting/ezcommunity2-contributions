@@ -58,6 +58,7 @@ if ( $Action == "insert" )
   $newPerson->setOwner( $usr->id() );
   $pid = $newPerson->store();
 
+  $PhoneNumber = "";
   $Action = "edit";
   $PID = $pid;
   
@@ -88,6 +89,7 @@ if ( $PhoneAction == "AddPhone" )
     $phone_dict->setPersonID( $PID );
     $phone_dict->setPhoneID( $pid );
     $phone_dict->store();
+    $PhoneNumber = "";    
 }
 
 // Oppdatere telefon
@@ -99,6 +101,7 @@ if ( $PhoneAction == "UpdatePhone" )
     $phone->setNumber( $PhoneNumber );
     $phone->setType( $PhoneType );
     $phone->update();
+    $PhoneNumber = "";    
 }
 
 // Slette telefon
@@ -130,6 +133,10 @@ if ( $AddressAction == "AddAddress" )
     $dict->setPersonID( $PID );
     $dict->setAddressID( $aid );
     $dict->store();
+
+    $Street1 = "";
+    $Street2= "";
+    $Zip = "";    
 }
 
 // legge til adresse
@@ -142,6 +149,10 @@ if ( $AddressAction == "UpdateAddress" )
     $address->setZip( $Zip );    
     $address->setAddressType( $AddressType );
     $address->update();
+
+    $Street1 = "";
+    $Street2= "";
+    $Zip = "";    
 }
 
 // slette adresse

@@ -78,7 +78,8 @@ if ( $Action == "update" )
 
     $company->setComment( $Comment );
 
-    $company->update();    
+    $company->update();
+
 }
 
 
@@ -104,6 +105,7 @@ if ( $PhoneAction == "AddPhone" )
     $dict->setCompanyID( $CID );
     $dict->setPhoneID( $pid );
     $dict->store();
+    $PhoneNumber = "";
 }
 
 if ( $PhoneAction == "UpdatePhone" )
@@ -114,6 +116,8 @@ if ( $PhoneAction == "UpdatePhone" )
     $phone->setNumber( $PhoneNumber );
     $phone->setType( $PhoneType );
     $phone->update();
+
+    $PhoneNumber = "";    
 }
 
 if ( $PhoneAction == "DeletePhone" )
@@ -142,6 +146,10 @@ if ( $AddressAction == "AddAddress" )
     $dict->setCompanyID( $CID );
     $dict->setAddressID( $pid );
     $dict->store();
+
+    $Street1 = "";
+    $Street2= "";
+    $Zip = "";    
 }
 
 
@@ -160,6 +168,10 @@ if ( $AddressAction == "UpdateAddress" )
 //      $dict->setCompanyID( $CID );
 //      $dict->setAddressID( $pid );
 //      $dict->store();
+    $Street1 = "";
+    $Street2= "";
+    $Zip = "";
+
 }
 
 
