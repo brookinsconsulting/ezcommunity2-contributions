@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.5 2001/05/15 13:18:46 bf Exp $
+// $Id: ezcountry.php,v 1.6 2001/06/26 14:35:57 ce Exp $
 //
 // Definition of eZCountry class
 //
@@ -38,7 +38,7 @@ class eZCountry
     /*!
       Constructs a new eZCountry object.
     */
-    function eZCountry( $id="", $fetch=true )
+    function eZCountry( $id="" )
     {
         if ( is_array( $id ) )
         {
@@ -48,11 +48,7 @@ class eZCountry
         {
 
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -63,17 +59,19 @@ class eZCountry
     {
         $db =& eZDB::globalDatabase();
 
-        $ret = false;
-        $name = addslashes( $this->Name );
+        $name = $db->escapeString( $this->Name );
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZAddress_Country
-                    SET ISO='$this->ISO',
-                    Name='$name'" );            
+            $db->lock( "eZAddress_Country" );
+            $nextID = $db->nextID( "eZAddress_Country", "ID" );
 
-			$this->ID = $db->insertID();
+            $result = $db->query( "INSERT INTO eZAddress_Country
+                    ( ID, ISO, Name )
+                    VALUES ( '$nextID', '$this->ISO', '$name' )" );
 
-            $ret = true;
+			$this->ID = $nextID;
+            if ( $result == false )
+                $dbError = true;
         }
         else
         {
@@ -82,11 +80,18 @@ class eZCountry
                     Name='$name'
                     WHERE ID='$this->ID'" );            
 
-            $ret = true;            
         }        
+        $db->unlock();
 
-        
-        return $ret;
+        if ( $dbError == true )
+        {
+            $db->rollback( );
+        }
+        else
+        {
+            $db->commit();
+        }
+        return $dbError;
     }
 
   
@@ -99,11 +104,7 @@ class eZCountry
         if ( $id != "" )
         {
             $db->array_query( $country_array, "SELECT * FROM eZAddress_Country WHERE ID='$id'" );
-            if ( count( $country_array ) > 1 )
-            {
-                die( "Feil: Flere countryer med samme ID funnet i database, dette skal ikke være mulig. " );
-            }
-            else if ( count( $country_array ) == 1 )
+            if ( count( $country_array ) == 1 )
             {
                 $this->fill( $country_array[0] );
             }
@@ -115,9 +116,11 @@ class eZCountry
     */
     function fill( &$country_array )
     {
-        $this->ID =& $country_array[ "ID" ];
-        $this->ISO =& $country_array[ "ISO" ];
-        $this->Name =& $country_array[ "Name" ];
+        $db =& eZDB::globalDatabase();
+        
+        $this->ID =& $country_array[$db->fieldName("ID")];
+        $this->ISO =& $country_array[$db->fieldName("ISO")];
+        $this->Name =& $country_array[$db->fieldName("Name")];
     }
 
     /*!
@@ -134,10 +137,10 @@ class eZCountry
 //              $search_arg = "WHERE Name like '%$search%'";
         }
 
-        $db->query_single( $countries, "SELECT count( ID ) as Count FROM eZAddress_Country
+        $db->query_single( $countries, "SELECT COUNT( ID ) as Count FROM eZAddress_Country
                                         WHERE Removed=0 $search_arg
-                                        ORDER BY Name" );
-        return $countries["Count"];
+                                        " );
+        return $countries[ $db->fieldName("Count")];
     }
 
     /*!
@@ -152,7 +155,8 @@ class eZCountry
     
         if ( $max >= 0 && is_numeric( $offset ) && is_numeric( $max ) )
         {
-            $limit = "LIMIT $offset, $max";
+            $limit = array( "Limit" => $max,
+                            "Offset" => $offset );
         }
 
         if ( !empty( $search ) )
@@ -169,7 +173,7 @@ class eZCountry
 
         $db->array_query( $country_array, "SELECT $select FROM eZAddress_Country
                                            WHERE Removed=0 $search_arg
-                                           ORDER BY Name $limit" );
+                                           ORDER BY Name", $limit );
 
         if ( $as_object )
         {
@@ -182,7 +186,7 @@ class eZCountry
         {
             foreach ( $country_array as $country )
             {
-                $return_array[] = $country["ID"];
+                $return_array[] = $country[$db->fieldName("ID")];
             }
         }
     

@@ -116,6 +116,8 @@ if( $error == false )
 
 if( is_numeric( $item_type->id() ) )
 {
+
+    print( $item_type->name() );
     $t->set_var( "item_id", $item_type->id() );
     $t->set_var( "item_name", $item_type->name() );
     $t->set_var( "prefix", $item_type->urlPrefix() );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.3 2001/05/04 16:37:23 descala Exp $
+// $Id: ezonlinetype.php,v 1.4 2001/06/26 14:35:57 ce Exp $
 //
 // Definition of eZOnline class
 //
@@ -44,9 +44,12 @@
 class eZOnlineType
 {
     /*!
-      Constructs a new eZOnlineType object.
+      Constructs a new eZAddressType object.
+
+      If $id is set the object's values are fetched from the
+      database.
     */
-    function eZOnlineType( $id="-1", $fetch=true )
+    function eZOnlineType( $id="-1" )
     {
         if ( is_array( $id ) )
         {
@@ -55,11 +58,7 @@ class eZOnlineType
         else if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
     
@@ -70,94 +69,60 @@ class eZOnlineType
     {
         $db =& eZDB::globalDatabase();
 
-        $ret = false;
+        $name = $db->escapeString( $this->Name );
 
-        $name = addslashes( $this->Name );
         if ( !isSet( $this->ID ) )
         {
-            $db->query_single( $qry, "SELECT ListOrder from eZAddress_OnlineType ORDER BY ListOrder DESC LIMIT 1" );
-            $listorder = $qry["ListOrder"] + 1;
+            $db->lock( "eZAddress_OnlineType" );
+            $nextID = $db->nextID( "eZAddress_OnlineType", "ID" );
+
+            $db->query_single( $qry, "SELECT ListOrder FROM eZAddress_OnlineType ORDER BY ListOrder DESC", array( "Limit" => "1" ) );
+            $listorder = $qry[$db->fieldName("ListOrder")] + 1;
             $this->ListOrder = $listorder;
 
-            $db->query( "INSERT INTO eZAddress_OnlineType SET
-                         Name='$name',
-                         ListOrder='$this->ListOrder',
-                         URLPrefix='$this->URLPrefix',
-                         PrefixLink='$this->PrefixLink',
-                         PrefixVisual='$this->PrefixVisual'" );
+            $result = $db->query( "INSERT INTO eZAddress_OnlineType
+                      ( ID, Name, ListOrder, URLPrefix, PrefixLink, PrefixVisual )
+                      VALUES ( '$nextID',
+                               '$name',
+                               '$this->ListOrder',
+                               '$this->URLPrefix',
+                               '$this->PrefixLink',
+                               '$this->PrefixVisual') " );
 
-			$this->ID = $db->insertID();
+			$this->ID = $nextID;
 
-            $ret = true;
+            if ( $result == false )
+                $dbError = true;
         }
         else
         {
-            $db->query( "UPDATE eZAddress_OnlineType set
+            $db->query( "UPDATE eZAddress_OnlineType SET
                                      Name='$name',
                                      ListOrder='$this->ListOrder',
                                      URLPrefix='$this->URLPrefix',
                                      PrefixLink='$this->PrefixLink',
                                      PrefixVisual='$this->PrefixVisual'
                                      WHERE ID='$this->ID'" );
-
-            $ret = true;
         }
-        return $ret;
+
+        $db->unlock();
+    
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
+
+        return $dbError;
     }
 
     /*
       Deletes from the database where id = $this->ID,
-      if $relations is true all relations to this item is deleted too,
-      if $relations is "full" all persons and companies are deleted too.
      */
-    function delete( $relations = false, $id = false )
+    function delete( $id = false )
     {
         $db =& eZDB::globalDatabase();
         if ( !$id )
             $id = $this->ID;
-//          if ( $relations == "full" )
-//          {
-//              $db->array_query( $person_qry, "SELECT Pe.ID
-//                                              FROM eZContact_Person AS Pe, eZContact_PersonOnlineDict AS POD,
-//                                                   eZAddress_Online AS Online
-//                                              WHERE Pe.ID = POD.PersonID AND POD.OnlineID = Online.ID AND OnlineTypeID='$id'" );
-//              foreach( $person_qry as $person )
-//                  {
-//                      eZPerson::delete( $person["ID"] );
-//                  }
-//              $db->array_query( $company_qry, "SELECT Co.ID
-//                                               FROM eZContact_Company AS Co, eZContact_CompanyOnlineDict AS COD,
-//                                                    eZAddress_Online AS Online
-//                                               WHERE Co.ID = COD.CompanyID AND COD.OnlineID = Online.ID AND OnlineTypeID='$id'" );
-//              foreach( $company_qry as $company )
-//                  {
-//                      eZCompany::delete( $company["ID"] );
-//                  }
-//          }
-//          else if ( $relations )
-//          {
-//              $db->array_query( $person_qry, "SELECT A.PersonID, A.OnlineID
-//                                              FROM eZContact_PersonOnlineDict AS A, eZAddress_Online AS B
-//                                              WHERE A.OnlineID = B.ID AND B.OnlineTypeID='$id'" );
-//              foreach( $person_qry as $person )
-//                  {
-//                      $person_id = $person["PersonID"];
-//                      $online_id = $person["OnlineID"];
-//                      $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$person_id' AND OnlineID='$online_id'" );
-//                      $db->query( "DELETE FROM eZAddress_Online WHERE ID='$online_id'" );
-//                  }
-//              $db->array_query( $company_qry, "SELECT A.CompanyID, A.OnlineID
-//                                               FROM eZContact_CompanyOnlineDict AS A, eZAddress_Online AS B
-//                                               WHERE A.OnlineID = B.ID AND B.OnlineTypeID='$id'" );
-//              foreach( $company_qry as $company )
-//                  {
-//                      $company_id = $company["CompanyID"];
-//                      $online_id = $company["OnlineID"];
-//                      $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$company_id' AND OnlineID='$online_id'" );
-//                      $db->query( "DELETE FROM eZAddress_Online WHERE ID='$online_id'" );
-//                  }
-//          }
-//          $db->query( "DELETE FROM eZAddress_OnlineType WHERE ID='$id'" );
         $db->query( "UPDATE eZAddress_OnlineType SET Removed=1 WHERE ID='$id'" );
     }
     
@@ -187,12 +152,14 @@ class eZOnlineType
     */
     function fill( &$online_type_array )
     {
-        $this->ID = $online_type_array[ "ID" ];
-        $this->Name = $online_type_array[ "Name" ];
-        $this->ListOrder = $online_type_array[ "ListOrder" ];
-        $this->URLPrefix = $online_type_array[ "URLPrefix" ];
-        $this->PrefixLink = $online_type_array[ "PrefixLink" ];
-        $this->PrefixVisual = $online_type_array[ "PrefixVisual" ];
+        $db =& eZDB::globalDatabase();
+                
+        $this->ID = $online_type_array[$db->fieldName("ID")];
+        $this->Name = $online_type_array[$db->fieldName("Name")];
+        $this->ListOrder = $online_type_array[$db->fieldName("ListOrder")];
+        $this->URLPrefix = $online_type_array[$db->fieldName("URLPrefix")];
+        $this->PrefixLink = $online_type_array[$db->fieldName("PrefixLink")];
+        $this->PrefixVisual = $online_type_array[$db->fieldName("PrefixVisual")];
     }
 
     /*
@@ -200,6 +167,7 @@ class eZOnlineType
     */
     function &getAll( $as_object = true )
     {
+               
         $db =& eZDB::globalDatabase();
         $online_type_array = 0;
 
@@ -226,7 +194,7 @@ class eZOnlineType
         {
             foreach ( $online_type_array as $onlineTypeItem )
             {
-                $return_array[] = $onlineTypeItem["ID"];
+                $return_array[] = $onlineTypeItem[$db->fieldName("ID")];
             }
         }
     
@@ -335,7 +303,7 @@ class eZOnlineType
 //          if ( count( $person_qry ) > 0 )
 //              $cnt += $person_qry[0]["Count"];
         if ( count( $qry ) > 0 )
-            $cnt += $qry[0]["Count"];
+            $cnt += $qry[0][$db->fieldName("Count")];
         return $cnt;
     }
 
@@ -347,9 +315,9 @@ class eZOnlineType
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZAddress_OnlineType
-                                  WHERE Removed=0 AND ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
-        $listorder = $qry["ListOrder"];
-        $listid = $qry["ID"];
+                                  WHERE Removed=0 AND ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC", array( "Limit" => "1" ) );
+        $listorder = $qry[$db->fieldName("ListOrder")];
+        $listid = $qry[$db->fieldName("ID")];
         $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
         $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
     }
@@ -362,9 +330,9 @@ class eZOnlineType
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZAddress_OnlineType
-                                  WHERE Removed=0 AND ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
-        $listorder = $qry["ListOrder"];
-        $listid = $qry["ID"];
+                                  WHERE Removed=0 AND ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC", array( "Limit" => "1" ) );
+        $listorder = $qry[$db->fieldName("ListOrder")];
+        $listid = $qry[$db->fieldName("ID")];
         $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
         $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
     }
@@ -378,4 +346,3 @@ class eZOnlineType
 }
 
 ?>
- 
