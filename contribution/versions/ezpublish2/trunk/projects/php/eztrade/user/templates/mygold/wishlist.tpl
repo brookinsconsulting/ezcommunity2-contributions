@@ -102,7 +102,11 @@
     <tr>
         <td>
 	    <br />
-            {intl-explain}
+            {intl-explain1}
+	    <br />
+            {intl-explain2}	    
+	    <br />
+            {intl-explain3}
         </td>
     </tr>
 </table>

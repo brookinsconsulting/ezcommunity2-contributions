@@ -49,11 +49,11 @@
 			<p><br />
 				{product_intro_text}</p>
 		</td>
-		<td rowspan="2"> 
+		<td rowspan="2" align="right"> 
 			<!-- BEGIN product_image_tpl -->
 			<table>
 				<tr> 
-					<td> <a href="/trade/productview/{product_id}/{category_id}/"> 
+					<td><a href="/trade/productview/{product_id}/{category_id}/"> 
 						<img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" alt="{thumbnail_image_caption}"/></a> 
 					</td>
 				</tr>
