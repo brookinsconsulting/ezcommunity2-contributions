@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.9 2000/10/14 15:04:56 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -159,15 +159,29 @@ class eZLocale
 
                 // Time
                 $time = $this->TimeFormat;
+                if ( $obj->hour()  < 10 )
+                    $hour = "0" . $obj->hour();
+                else
+                    $hour =  $obj->hour();
                 
                 // H - hour, 24-hour format; i.e. "00" to "23"
-                $time = ereg_replace( "\%H", "" . $obj->hour() . "", $time );
+                $time = ereg_replace( "\%H", "" . $hour . "", $time );
+
+                if ( $obj->minute()  < 10 )
+                    $minute = "0" . $obj->minute();
+                else
+                    $minute =  $obj->minute();
                 
                 // i - minutes; i.e. "00" to "59"
-                $time = ereg_replace( "\%i", "" . $obj->minute() . "", $time );
+                $time = ereg_replace( "\%i", "" . $minute . "", $time );
 
+                if ( $obj->second()  < 10 )
+                    $second = "0" . $obj->second();
+                else
+                    $second =  $obj->second();
+                    
                 // s - seconds; i.e. "00" to "59"
-                $time = ereg_replace( "\%s", "" . $obj->second() . "", $time );
+                $time = ereg_replace( "\%s", "" . $second . "", $time );
 
                 $returnString = $date . " " . $time;
 
