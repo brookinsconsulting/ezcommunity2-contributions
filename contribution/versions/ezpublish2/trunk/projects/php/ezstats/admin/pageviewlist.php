@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: pageviewlist.php,v 1.6 2001/04/17 15:35:10 bf Exp $
+// $Id: pageviewlist.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <06-Jan-2001 17:11:01 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: storestats.php,v 1.1 2001/04/26 09:03:53 bf Exp $
+// $Id: storestats.php,v 1.2 2001/07/20 11:28:54 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <26-Apr-2001 10:39:18 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 ob_start( );
 
 // get right path 

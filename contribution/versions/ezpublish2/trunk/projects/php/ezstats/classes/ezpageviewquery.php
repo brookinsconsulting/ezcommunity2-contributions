@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezpageviewquery.php,v 1.18 2001/07/09 20:02:10 bf Exp $
+// $Id: ezpageviewquery.php,v 1.19 2001/07/20 11:28:54 jakobn Exp $
 //
 // Definition of eZPageViewQuery class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <04-Jan-2001 18:00:08 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
