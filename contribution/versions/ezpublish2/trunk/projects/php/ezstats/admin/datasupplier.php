@@ -44,12 +44,21 @@ switch ( $url_array[2] )
     }
     break;
     
-    case "monthrepport" :
+    case "monthreport" :
     {
         $Year = $url_array[3];
         $Month = $url_array[4];
         
-        include( "ezstats/admin/monthrepport.php" );
+        include( "ezstats/admin/monthreport.php" );
+    }
+    break;
+
+    case "productreport" :
+    {
+        $Year = $url_array[3];
+        $Month = $url_array[4];
+        
+        include( "ezstats/admin/productreport.php" );
     }
     break;
     

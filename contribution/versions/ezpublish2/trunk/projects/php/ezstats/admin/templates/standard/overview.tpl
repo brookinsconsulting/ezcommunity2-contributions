@@ -16,4 +16,7 @@
 <br />
 <a href="/stats/requestpagelist/top/20/">{intl-request_page_list}</a>
 <br />
-<a href="/stats/monthrepport/{this_year}/{this_month}/">{intl-month_report}</a>
+<a href="/stats/monthreport/{this_year}/{this_month}/">{intl-month_report}</a>
+<br />
+<br />
+<a href="/stats/productreport/{this_year}/{this_month}/">{intl-product_report}</a>
