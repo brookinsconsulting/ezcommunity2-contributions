@@ -148,27 +148,25 @@ if ( $Action == "update" )
         }
     }
 
-        // Store or update images
-    if ( $image != "" )
-    {
-        // Upload images
-        $file = new eZImageFile();
-        if ( $file->getUploadedFile( "image" ) )
-        {
-            print( "-->" .  $ImageID );
-            die();
-            $image = new eZImage( $ImageID );
-            $image->setName( "Image" );
-            $image->setImage( $file );
-            $image->store();
+//      // Store or update images
+//      if ( $image != "" )
+//      {
+//          // Upload images
+//          $file = new eZImageFile();
+//          if ( $file->getUploadedFile( "image" ) )
+//          {
+//              $image = new eZImage( $ImageID );
+//              $image->setName( "Image" );
+//              $image->setImage( $file );
+//              $image->store();
             
-            $company->setLogoImage( $image );
-        }
-        else
-        {
-            print( $file->name() . " not uploaded successfully" );
-        }
-    }
+//              $company->setLogoImage( $image );
+//          }
+//          else
+//          {
+//              print( $file->name() . " not uploaded successfully" );
+//          }
+//      }
 
     // Update or store address
     $addressList = $company->addresses( $CompanyID );
@@ -357,6 +355,7 @@ if ( $Action == "edit" )
         
         $t->set_var( "image_src", "/" . $variation->imagePath() );
         $t->set_var( "image_name", $companyImage->name() );
+        $t->set_var( "image_id", $companyImage->id() );
         
         $t->set_var( "image_add", "" );
         $t->parse( "image_edit", "image_edit_tpl" );
