@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.13 2001/09/11 21:12:16 fh Exp $
+// $Id: search.php,v 1.14 2001/09/13 12:10:41 ce Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -112,7 +112,7 @@ if ( $SearchText )
 
     if( $PhotographerID != 0 )
     {
-        $paramsArray["PhotographerID"];
+        $paramsArray["PhotographerID"] = $PhotographerID;
         $t->set_var( "url_photographer_id", urlencode( $PhotographerID ) );
     }
 
