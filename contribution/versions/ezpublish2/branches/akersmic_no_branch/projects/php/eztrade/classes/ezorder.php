@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.8.3 2002/01/22 16:54:43 br Exp $
+// $Id: ezorder.php,v 1.61.8.4 2002/01/28 18:25:54 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -1310,7 +1310,7 @@ class eZOrder
     {
         $db =& eZDB::globalDatabase();
         
-        $db->array_query( $amount_array, "SELECT Paid, Date FROM eZTrade_OrderPaid WHERE OrderID='$this->ID'
+        $db->array_query( $amount_array, "SELECT Paid, Date, Pnutr FROM eZTrade_OrderPaid WHERE OrderID='$this->ID'
                                           ORDER BY Date" );
 
         for ( $i = 0; $i < count( $amount_array ); $i++ )
@@ -1319,6 +1319,7 @@ class eZOrder
             $dateTime->setTimeStamp( $amount_array[$i][$db->fieldName( "Date" )] );
             $return_array[$i]["Paid"] = $amount_array[$i][$db->fieldName( "Paid" )];
             $return_array[$i]["Date"] = $dateTime;
+            $return_array[$i]["Pnutr"] = $amount_array[$i][$db->fieldName( "Pnutr" )];
         }
 
         return $return_array;
