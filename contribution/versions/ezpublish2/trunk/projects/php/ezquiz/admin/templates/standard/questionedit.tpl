@@ -9,7 +9,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="30" name="Name" value="{question_name}" />
+	<input class="box" type="text" size="40" name="Name" value="{question_name}" />
 	</td>	
 </table>
 
@@ -18,8 +18,8 @@
 <!-- BEGIN alternative_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-         <th>{intl-alternatives}</th>
-         <th>{intl-is_correct}</th>
+         <th>{intl-alternatives}:</th>
+         <th>{intl-is_correct}:</th>
 </tr>
 <!-- BEGIN alternative_item_tpl -->
 <tr>
@@ -41,9 +41,13 @@
 
 <br />
 
-<input type="submit" name="NewAlternative" value="{intl-new_alternative}" />&nbsp;
-<input type="submit" name="Delete" value="{intl-delete_alternatives}" />&nbsp;
 <hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="NewAlternative" value="{intl-new_alternative}" />&nbsp;
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_alternatives}" />&nbsp;
+
+<hr noshade="noshade" size="4" />
+
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 

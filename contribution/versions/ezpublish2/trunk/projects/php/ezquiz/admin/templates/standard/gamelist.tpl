@@ -11,16 +11,14 @@
 </tr>
 </table>
 
-
-
 <hr noshade="noshade" size="4" />
 
 <form action="/quiz/game/edit/" method="post">
 <!-- BEGIN game_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-         <th>{intl-name}</th>
-         <th>{intl-description}</th>
+         <th>{intl-name}:</th>
+         <th>{intl-description}:</th>
 </tr>
 <!-- BEGIN game_item_tpl -->
 <tr class="{td_class}">

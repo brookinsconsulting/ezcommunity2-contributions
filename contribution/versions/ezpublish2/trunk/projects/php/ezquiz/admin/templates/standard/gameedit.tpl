@@ -3,50 +3,76 @@
 <h1>{intl-headline}</h1>
 
 <hr noshade="noshade" size="4" />
-<br />
+
+<p class="boxtext">{intl-name}:</p>
+<input class="box" type="text" size="40" name="Name" value="{game_name}" />
+<br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="30" name="Name" value="{game_name}" />
-	</td>	
+	<td width="50%" colspan="3">
+	<p class="boxtext">{intl-start_date}:</p>
+	</td>
+	<td width="50%" colspan="3">
+	<p class="boxtext">{intl-stop_date}:</p>
+	</td>
 </tr>
 <tr>
-	<td>
-	<p class="boxtext">{intl-start_date}:</p>
-	<input type="text" size="2" name="StartMonth" value="{start_month}" />&nbsp;
-	<input type="text" size="2" name="StartDay" value="{start_day}" />&nbsp;
-	<input type="text" size="4" name="StartYear" value="{start_year}" />
+	<td width="10%">
+	<span class="small">{intl-day}:</span>
+	</td>
+	<td width="10%">
+	<span class="small">{intl-month}:</span>
+	</td>
+	<td width="30%">
+	<span class="small">{intl-year}:</span>
+	</td>
+	<td width="10%">
+	<span class="small">{intl-day}:</span>
+	</td>
+	<td width="10%">
+	<span class="small">{intl-month}:</span>
+	</td>
+	<td width="30%">
+	<span class="small">{intl-year}:</span>
 	</td>
 </tr>
 <tr>
 	<td>
-	<p class="boxtext">{intl-stop_date}:</p>
-	<input type="text" size="2" name="StopMonth" value="{stop_month}" />&nbsp;
+	<input type="text" size="2" name="StartDay" value="{start_day}" />&nbsp;
+	</td>
+	<td>
+	<input type="text" size="2" name="StartMonth" value="{start_month}" />&nbsp;
+	</td>
+	<td>
+	<input type="text" size="4" name="StartYear" value="{start_year}" />
+	</td>
+	<td>
 	<input type="text" size="2" name="StopDay" value="{stop_day}" />&nbsp;
+	</td>
+	<td>
+	<input type="text" size="2" name="StopMonth" value="{stop_month}" />&nbsp;
+	</td>
+	<td>
 	<input type="text" size="4" name="StopYear" value="{stop_year}" />
 	</td>
 </tr>
-<tr>
-	<td>
-	<br />
-	<p class="boxtext">{intl-description}:</p>
-	<textarea name="Description" wrap="soft" cols="30" rows="10">{game_description}</textarea>
-	</td>	
-</tr>
 </table>
+
+<p class="boxtext">{intl-description}:</p>
+<textarea class="box" name="Description" wrap="soft" cols="40" rows="10">{game_description}</textarea>
 
 <br />
 
 <!-- BEGIN question_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<br />
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-         <th>{intl-questions}</th>
+         <th>{intl-questions}:</th>
 </tr>
 <!-- BEGIN question_item_tpl -->
 <tr>
-         <td class="{td_class}">
+     <td class="{td_class}">
 	 {question_name}
 	 </td>
 	 <td class="{td_class}" width="1%">
@@ -61,10 +87,11 @@
 </table>
 <!-- END question_list_tpl -->
 
-<br />
 
-<input type="submit" name="NewQuestion" value="{intl-new_question}" />&nbsp;
-<input type="submit" name="DeleteQuestions" value="{intl-delete_questions}" />&nbsp;
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="NewQuestion" value="{intl-new_question}" />
+<input class="stdbutton" type="submit" name="DeleteQuestions" value="{intl-delete_questions}" />
 
 <hr noshade="noshade" size="4" />
 
