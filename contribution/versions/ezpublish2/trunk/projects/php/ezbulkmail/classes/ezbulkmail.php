@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.25 2001/09/10 11:37:29 ce Exp $
+// $Id: ezbulkmail.php,v 1.26 2001/10/14 15:34:21 fh Exp $
 //
 // eZBulkMail class
 //
@@ -481,7 +481,6 @@ class eZBulkMail
                 set_time_limit( 5 );
                 $canSend = false;
 
-                $categoryID = $subscriber->categoryID();
 
                 if ( get_class ( $subscriber ) == "ezuser" )
                 {
@@ -492,6 +491,7 @@ class eZBulkMail
                 if ( get_class ( $subscriber ) == "ezbulkmailsubscriptionaddress" )
                 {
 
+                    $categoryID = $subscriber->categoryID();
                     $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
                     if ( $settings )
                     {
@@ -512,6 +512,7 @@ class eZBulkMail
                 }
                 if ( get_class ( $subscriber ) == "ezbulkmailusersubscripter" )
                 {
+                    $categoryID = $subscriber->categoryID();
                     $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
                     if ( $settings )
                     {
