@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.7 2000/11/19 12:32:58 bf-cvs Exp $
+// $Id: eznews.php,v 1.8 2000/11/27 09:38:03 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -558,7 +558,7 @@ class eZNews
       Returns every news in every category sorted by time.
     */
     function newsList( $sortMode=time,
-                       $fetchNonPublished=true,
+                       $fetchNonPublished=false,
                        $offset=0,
                        $limit=25 )
     {

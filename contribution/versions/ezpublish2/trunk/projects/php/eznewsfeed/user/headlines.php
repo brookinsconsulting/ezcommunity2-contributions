@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.3 2000/11/25 15:57:33 bf-cvs Exp $
+// $Id: headlines.php,v 1.4 2000/11/27 09:38:03 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -28,6 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
 include_once( "eznewsfeed/classes/eznews.php" );
+include_once( "eznewsfeed/classes/eznewscategory.php" );
 
 include_once( "classes/ezdatetime.php" );
 
@@ -49,7 +50,15 @@ $t->set_file( array(
 
 $t->set_block( "headlines_page_tpl", "head_line_item_tpl", "head_line_item" );
 
-$newsList = $news->newsList();
+if ( $CategoryID != "" )
+{
+    $category = new eZNewsCategory( $CategoryID );
+    $newsList =& $category->newsList();
+}
+else
+{
+    $newsList =& $news->newsList();
+}
 
 $locale = new eZLocale();
 

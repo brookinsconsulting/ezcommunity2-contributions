@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.3 2000/11/26 11:18:56 bf-cvs Exp $
+// $Id: ezad.php,v 1.4 2000/11/27 09:38:03 bf-cvs Exp $
 //
 // Definition of eZAd class
 //
@@ -404,6 +404,23 @@ class eZAd
        }
        
        return $ret;
+    }
+
+    /*!
+      Returns the total number of times the banner has been viewed.
+    */
+    function viewCount( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $view_result, "SELECT count(*) AS Count FROM
+                                                       eZAd_View
+                                                       WHERE AdID='$this->ID'" );
+
+       return $view_result[0]["Count"];
     }
 
     /*!

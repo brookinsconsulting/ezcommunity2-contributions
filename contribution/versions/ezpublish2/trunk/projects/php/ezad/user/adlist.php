@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.1 2000/11/25 15:57:33 bf-cvs Exp $
+// $Id: adlist.php,v 1.2 2000/11/27 09:38:03 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -27,8 +27,11 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
+include_once( "ezuser/classes/ezuser.php" );
+
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
+include_once( "ezad/classes/ezadview.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -60,6 +63,11 @@ $categoryList = $category->getByParent( $category, true );
 
 
 
+
+// fetch the user if any
+$user = eZUser::currentUser();
+
+
 // ads
 $adList = $category->ads( "time" );
 
@@ -82,6 +90,18 @@ foreach ( $adList as $ad )
     $t->set_var( "image_width", $image->width() );
     $t->set_var( "image_height", $image->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
+
+    // store the view statistics
+
+    $ad = new eZAd();
+
+    $view = new eZAdView();
+    $view->setAd( $ad );
+    $view->setUser( $user );
+    $view->setVisitorIP( $REMOTE_ADDR );
+    $view->setPrice( 0.4 );
+    $view->store();
+
         
     $t->parse( "ad_item", "ad_item_tpl", true );
     $i++;

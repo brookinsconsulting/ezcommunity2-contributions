@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadview.php,v 1.1 2000/11/26 11:18:56 bf-cvs Exp $
+// $Id: ezadview.php,v 1.2 2000/11/27 09:38:03 bf-cvs Exp $
 //
 // Definition of eZAdView class
 //
@@ -29,7 +29,7 @@
 //! eZAdView handles banner ad views.
 /*!
 
-  \sa eZAd eZAdCategory eZAdClick
+  \sa eZAd eZAdCategory eZAdView
 */
 
 /*!TODO
@@ -38,15 +38,15 @@
 
 include_once( "classes/ezdb.php" );
 
-class eZAdClick
+class eZAdView
 {
     /*!
-      Constructs a new eZAdClick object.
+      Constructs a new eZAdView object.
 
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZAdClick( $id="", $fetch=true )
+    function eZAdView( $id="", $fetch=true )
     {
         $this->IsConnected = false;
 
@@ -81,11 +81,11 @@ class eZAdClick
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZAd_Click SET
+            $this->Database->query( "INSERT INTO eZAd_View SET
 		                         VisitorIP='$this->VisitorIP',
 		                         AdID='$this->AdID',
                                  UserID='$this->UserID',
-                                 ClickPrice='$this->ClickPrice'
+                                 ViewPrice='$this->ViewPrice'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -94,11 +94,11 @@ class eZAdClick
         }
         else
         {
-            $this->Database->query( "UPDATE eZAd_Click SET
+            $this->Database->query( "UPDATE eZAd_View SET
 		                         VisitorIP='$this->VisitorIP',
 		                         AdID='$this->AdID',
                                  UserID='$this->UserID',
-                                 ClickPrice='$this->ClickPrice'
+                                 ViewPrice='$this->ViewPrice'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -128,7 +128,7 @@ class eZAdClick
                 $this->ID =& $ad_array[0][ "ID" ];
                 $this->VisitorIP =& $ad_array[0][ "VisitorIP" ];
                 $this->UserID =& $ad_array[0][ "UserID" ];
-                $this->ClickPrice =& $ad_array[0][ "ClickPrice" ];
+                $this->ViewPrice =& $ad_array[0][ "ViewPrice" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -150,7 +150,7 @@ class eZAdClick
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZAd_Click WHERE ID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZAd_View WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -165,7 +165,7 @@ class eZAdClick
     }
 
     /*!
-      Returns the click IP.
+      Returns the view IP.
     */
     function &visitorIP()
     {
@@ -176,7 +176,7 @@ class eZAdClick
     }
 
     /*!
-      Returns the click price.
+      Returns the view price.
     */
     function &price()
     {
@@ -187,21 +187,21 @@ class eZAdClick
     }
 
     /*!
-      Returns the click date and time as a eZDateTime object.
+      Returns the view date and time as a eZDateTime object.
     */
-    function &clickTime()
+    function &viewTime()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->ClickTime );
+       $dateTime->setMySQLTimeStamp( $this->ViewTime );
        
        return $dateTime;
     }    
     
     /*!
-      Sets the click IP.
+      Sets the view IP.
     */
     function setVisitorIP( $value )
     {
@@ -212,14 +212,14 @@ class eZAdClick
     }
 
     /*!
-      Sets the click price.
+      Sets the view price.
     */
     function setPrice( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->ClickPrice = $value;
+       $this->ViewPrice = $value;
     }
 
     /*!
@@ -267,7 +267,7 @@ class eZAdClick
     var $ID;
     var $AdID;
     var $VisitorIP;
-    var $ClickTime;
+    var $ViewTime;
     var $UserID;
     var $ViewPrice;
 

@@ -13,6 +13,17 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "sourcesite":
+    {
+        if ( $url_array[3]  == "edit" )
+        {
+            $Action == "Edit";
+        }
+        
+        include( "eznewsfeed/admin/sourcesiteedit.php" );
+    }
+    break;
+    
     case "news":
     {
         if ( $url_array[3]  == "new" )
