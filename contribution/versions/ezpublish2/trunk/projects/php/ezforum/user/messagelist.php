@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.51 2001/10/11 07:53:10 ce Exp $
+// $Id: messagelist.php,v 1.52 2001/10/11 08:20:46 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -49,16 +49,16 @@ $t->set_file( "messagelist", "messagelist.tpl" );
 $t->set_block( "messagelist", "read_access_tpl", "read_access" );
 $t->set_block( "messagelist", "no_access_tpl", "no_access" );
 
-$t->set_block( "read_access", "message_item_tpl", "message_item" );
+$t->set_block( "read_access_tpl", "message_item_tpl", "message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
-$t->set_block( "read_access", "previous_tpl", "previous" );
+$t->set_block( "read_access_tpl", "previous_tpl", "previous" );
 
 $t->set_block( "message_item_tpl", "new_icon_tpl", "new_icon" );
 $t->set_block( "message_item_tpl", "old_icon_tpl", "old_icon" );
 
-$t->set_block( "read_access", "messages_element_tpl", "messages_element" );
-$t->set_block( "read_access", "show_threads_tpl", "show_threads" );
-$t->set_block( "read_access", "hide_threads_tpl", "hide_threads" ); 
+$t->set_block( "read_access_tpl", "messages_element_tpl", "messages_element" );
+$t->set_block( "read_access_tpl", "show_threads_tpl", "show_threads" );
+$t->set_block( "read_access_tpl", "hide_threads_tpl", "hide_threads" ); 
 
 $t->setAllStrings();
 
@@ -310,7 +310,6 @@ $t->set_var( "forum_name", $forum->name() );
 
 if ( $readPermission )
 {
-    print( "hm" );
     $t->set_var( "no_access", "" );
     $t->parse( "read_access", "read_access_tpl" );
 }
