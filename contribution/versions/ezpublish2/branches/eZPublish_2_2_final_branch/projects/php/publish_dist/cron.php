@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.14.2.7 2002/01/08 09:59:34 kaid Exp $
+// $Id: cron.php,v 1.14.2.8 2002/03/07 15:11:00 vl Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -24,6 +24,10 @@
 //
 
 // Find out, where our files are.
+
+
+set_time_limit( 0 );
+
 if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
     $siteDir = $regs[1];
 elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
@@ -51,7 +55,6 @@ $GlobalSiteIni =& $ini;
 // index articles
 // uncomment to index all articles in publish
 /*
-set_time_limit( 0 );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 
