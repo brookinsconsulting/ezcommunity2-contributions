@@ -754,7 +754,7 @@ if ( !$confirm )
             if ( isset( $LastName ) )
                 $t->set_var( "lastname", eZTextTool::htmlspecialchars( $LastName ) );
 
-            $companyTypeList = eZCompanyType::getTree();
+            $companyTypeList = eZCompanyType::getTree( 0, 0, true, $t->get_var( "intl-top_category" ) );
 
             $categoryList = array();
             $categoryList = eZPerson::companies( $PersonID, false );

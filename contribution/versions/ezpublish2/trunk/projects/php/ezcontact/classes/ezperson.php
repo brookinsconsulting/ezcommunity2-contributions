@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.45 2001/02/20 13:37:55 jb Exp $
+// $Id: ezperson.php,v 1.46 2001/03/02 17:48:25 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -68,7 +68,7 @@ class eZPerson
   
     /*!
       Stores a person to the database. 
-    */  
+    */
     function store()
     {
         $db = eZDB::globalDatabase();
@@ -83,7 +83,7 @@ class eZPerson
 	                                                Comment='$this->Comment',
 	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'" );
-            $this->ID = mysql_insert_id();            
+            $this->ID = mysql_insert_id();
             $this->State_ = "Coherent";
         }
         else
@@ -210,12 +210,28 @@ class eZPerson
         return $return_item;
     }
     
-    function getAllCount( $search_types = "" )
+    function getAllCount( $search_types = "", $cond = "all" )
     {
         $db = eZDB::globalDatabase();
 
         if ( empty( $search_types ) )
         {
+            switch( $cond )
+            {
+                case "standalone":
+                {
+                    break;
+                }
+                case "connected":
+                {
+                    break;
+                }
+                case "all":
+                default:
+                {
+                    break;
+                }
+            }
             $qry = "SELECT count( ID ) AS Count FROM eZContact_Person ORDER BY LastName, FirstName";
             $db->query_single( $persons, $qry );
             return $persons["Count"];

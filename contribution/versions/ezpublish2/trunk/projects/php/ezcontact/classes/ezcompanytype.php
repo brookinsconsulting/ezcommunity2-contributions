@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.24 2001/01/22 14:43:00 jb Exp $
+// $Id: ezcompanytype.php,v 1.25 2001/03/02 17:48:25 jb Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -309,22 +309,35 @@ class eZCompanyType
         return $path;
     }
 
-    function &getTree( $parentID=0, $level=0 )
+    function &getTree( $parentID=0, $level=0, $add_top = false, $name = false )
     {
-        $categoryList =& eZCompanyType::getByParentID( $parentID );
-
-        $tree = array();
-        $level++;
-        foreach ( $categoryList as $category )
+        if ( $add_top )
         {
-            array_push( $tree, array( $category , $level ) );
-
-            if ( $category != 0 )
-            {
-                $tree = array_merge( $tree, eZCompanyType::getTree( $category->id(), $level ) );
-            }
+            $tree = array();
+            $level++;
+            $category = new eZCompanyType();
+            $category->ID = 0;
+            $category->setName( $name );
+            array_push( $tree, array( $category, $level ) );
+            $tree = array_merge( $tree, eZCompanyType::getTree( 0, $level ) );
         }
+        else
+        {
+            $categoryList =& eZCompanyType::getByParentID( $parentID );
 
+            $tree = array();
+            $level++;
+            foreach ( $categoryList as $category )
+            {
+                array_push( $tree, array( $category , $level ) );
+
+                if ( $category != 0 )
+                {
+                    $tree = array_merge( $tree, eZCompanyType::getTree( $category->id(), $level ) );
+                }
+            }
+
+        }
         return $tree;
     }
 

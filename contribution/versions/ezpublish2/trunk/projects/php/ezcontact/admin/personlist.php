@@ -127,14 +127,7 @@ else
 {
     for( $i = 0; $i < $count && $i < $Max; $i++ )
     {
-        if( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "bg_color", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "bg_color", "bgdark" );
-        }
+        $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
         $t->set_var( "person_id", $persons[$i]->id() );
         $stateid = $persons[$i]->projectState();

@@ -34,8 +34,8 @@ include_once( "ezcontact/classes/ezconsultation.php" );
 if( $Action == "delete" )
 {
     $consultation = new eZConsultation( $ConsultationID );
-    $person = $consultation->person();
-    $company = $consultation->person();
+    $person = $consultation->person( $user );
+    $company = $consultation->person( $user );
     $consultation->delete();
 
     if ( isset( $contact_type ) && isset( $contact_id ) )
