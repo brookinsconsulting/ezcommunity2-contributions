@@ -100,7 +100,7 @@ He who asks is a fool for five minutes, but he who does not ask remains
 
 \series default 
  - \SpecialChar \-
-
+ Chinese proverb
 \layout Standard
 
 eZ publish is a content management system, among a lot of other things.
@@ -108,7 +108,437 @@ eZ publish is a content management system, among a lot of other things.
  on your server.
 \layout Standard
 
-This manual is mainly intended for installation on a Red Hat Linux system,
+Since version 2.2 eZ publish has a new possible way to be installed: without
+ virtual hosts and mod_rewrite.
+ This makes it possible for people, who don't have a dedicated server or
+ a specialized eZ publish hoster, to install eZ publish on their accounts
+ as long as they have PHP and a supported database (e.g.
+ mySQL).
+\layout Standard
+
+Installing eZ publish this way has several advantages:
+\layout Itemize
+
+no root rights needed
+\layout Itemize
+
+no virtual/dual hosts or mod_rewrite needed
+\layout Itemize
+
+no subdomains needed
+\layout Itemize
+
+no change of Apache configuration needed
+\layout Itemize
+
+installation in subdirectories possible
+\layout Itemize
+
+you can keep your old documents on the server
+\layout Standard
+
+The disadvantages are:
+\layout Itemize
+
+the URLs will be "[...]/index.php/article/articleedit/[...]" instead of "[...]/article/art
+icleedit/[...]"
+\layout Itemize
+
+new feature in 2.2, so it's not as well tested as normal dual hosts install
+\layout Standard
+
+This opens some new options for installing:
+\layout Standard
+
+If you have an account at a webhoster with PHP and mySQL, your option should
+ be chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+, because you won't be able to install eZ publish as it's explained in chapter
+ 
+\begin_inset LatexCommand \ref{chpt: dedicated server}
+
+\end_inset 
+
+.
+\layout Standard
+
+If you have a dedicated server with Apache and mySQL already running and
+ you don't want to mess with the Apache configuration, then chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+ might be of interest of you.
+ 
+\layout Standard
+
+If you have a dedicated server and want some help on how to install all
+ needed software and eZ publish on it, then chapter 
+\begin_inset LatexCommand \ref{chpt: dedicated server}
+
+\end_inset 
+
+ is for you.
+\layout Section
+
+Pre-Configured Hosting
+\layout Standard
+
+It is possible to get pre-configured hosting services where you can install
+ and manage your eZ publish site with ease.
+ Read more about our hosting partners at eZ systems web site (
+\family typewriter 
+\size footnotesize 
+http://en.ez.no/article/articlestatic/73
+\family default 
+\size default 
+).
+\layout Section
+
+Pre-Configured Hardware
+\layout Standard
+
+It is possible to order pre-configured hardware from eZ systems.
+ You can order through or web shop (
+\family typewriter 
+\size footnotesize 
+http://sourceprovider.com/
+\family default 
+\size default 
+).
+\layout Standard
+
+A line starting with a hash-sign 
+\begin_inset Quotes eld
+\end_inset 
+
+#
+\begin_inset Quotes erd
+\end_inset 
+
+ are input from the user to the shell.
+\layout Chapter
+
+
+\begin_inset LatexCommand \label{chpt: nVH}
+
+\end_inset 
+
+Installing eZ publish without virtual hosts and mod_rewrite
+\layout Section
+
+Prerequisites
+\layout Standard
+
+The following software must be running on your server and you must have
+ permissions to use it:
+\layout Itemize
+
+PHP (
+\begin_inset LatexCommand \url{http://www.php.net}
+
+\end_inset 
+
+) version 4.0.4pl1 or later.
+\layout Itemize
+
+A supported database:
+\begin_deeper 
+\layout Itemize
+
+MySQL (
+\begin_inset LatexCommand \url{http://www.mysql.com}
+
+\end_inset 
+
+) version 3.23 or later
+\layout Itemize
+
+PostgreSQL (
+\begin_inset LatexCommand \url{http://www.postgresql.org}
+
+\end_inset 
+
+)
+\end_deeper 
+\layout Standard
+
+The following software is optional, but required for some modules of eZ
+ publish:
+\layout Itemize
+
+libQdom (
+\begin_inset LatexCommand \url{http://www.trolltech.com}
+
+\end_inset 
+
+) is a part of QT, you need version 2.2.3 or later.
+ (Needed by eZ news feed's parsers.
+ If you wish to include headlines from external sites (example developer.ez.no
+ or slashdot.org) then you need this installed.
+ You can create your own parsers if you don't want to use the default.)
+\layout Itemize
+
+ImageMagick (
+\begin_inset LatexCommand \url{http://www.imagemagick.org}
+
+\end_inset 
+
+) newest version (Needed by eZ article, eZ image catalogue, and all modules
+ using images.
+ You need only the command line version.)
+\layout Section
+
+eZ publish installation
+\layout Subsection
+
+Installing in one directory (Recommended install)
+\layout Subsubsection
+
+Installing the files for eZ publish
+\layout Enumerate
+
+Extract the eZ publish files (if you want some example data, extract 
+\family typewriter 
+\size footnotesize 
+data.tar.gz
+\family default 
+\size default 
+ too) and if they are not on the server yet, transfer them to the server
+ in a directory of your choice.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish
+\family default 
+\size default 
+ reachable by 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Copy
+\family typewriter 
+\size footnotesize 
+ installation/htaccess-nVH
+\family default 
+\size default 
+ to 
+\family typewriter 
+\size footnotesize 
+.htaccess
+\family default 
+\size default 
+ in the top directory of your eZ publish installation.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish/.htaccess
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Edit the file 
+\family typewriter 
+\size footnotesize 
+sitedir.ini
+\family default 
+\size default 
+ and set the right directory.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish/
+\family default 
+\size default 
+)
+\layout Subsubsection
+
+Database installation
+\layout Standard
+
+If you have shell access to create the database, see section 
+\begin_inset LatexCommand \ref{sec: Database (dual hosts)}
+
+\end_inset 
+
+.
+\layout Enumerate
+
+Create a database (e.g.
+ 
+\family typewriter 
+\size footnotesize 
+publish
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Create a user and give him permissions to access it
+\layout Enumerate
+
+Create the data structures for eZ publish with file 
+\family typewriter 
+\size footnotesize 
+sql/publish_mysql.sql
+\family default 
+\size default 
+ or 
+\family typewriter 
+\size footnotesize 
+sql/publish_postgresql.sql
+\layout Enumerate
+
+If you extracted 
+\family typewriter 
+\size footnotesize 
+data.tar.gz
+\family default 
+\size default 
+ before, you should also fill the database with the example data in file
+ 
+\family typewriter 
+\size footnotesize 
+sql/data_mysql.sql
+\layout Subsubsection
+
+Finishing the install
+\layout Enumerate
+
+Rename 
+\family typewriter 
+\size footnotesize 
+site.ini
+\family default 
+\size default 
+ to 
+\family typewriter 
+\size footnotesize 
+site.ini.php
+\family default 
+\size default 
+ and edit it.
+\layout Enumerate
+
+Test if you can access 
+\family typewriter 
+\size footnotesize 
+sitedir.ini
+\family default 
+\size default 
+ with a WWW browser
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish/sitedir.ini
+\family default 
+\size default 
+).
+\newline 
+
+\newline 
+a) If you get a 
+\begin_inset Quotes eld
+\end_inset 
+
+Forbidden
+\begin_inset Quotes erd
+\end_inset 
+
+, everything is good and safe.
+\newline 
+b) If you get the file, then your server doesn't obey 
+\family typewriter 
+\size footnotesize 
+.htaccess
+\family default 
+\size default 
+ files.
+ Try the next install in section 
+\begin_inset LatexCommand \ref{sec: Install without shell}
+
+\end_inset 
+
+, it is much safer then.
+ Otherwise you can still use eZ publish, but have to remember that it is
+ not as safe as it could be.
+\layout Enumerate
+
+Finished!!
+\newline 
+Go to 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish/index_admin.php
+\family default 
+\size default 
+, login as 
+\family typewriter 
+\size footnotesize 
+admin
+\family default 
+\size default 
+ with password 
+\family typewriter 
+\size footnotesize 
+publish
+\family default 
+\size default 
+ and change your password.
+ Then go to 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish
+\family default 
+\size default 
+.
+ Have fun.
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{sec: Install without shell}
+
+\end_inset 
+
+Installing with shell access on server and two separate directories for
+ eZ publish
+\layout Standard
+
+If you have shell access on your server and you have the possibility to
+ create directories which are not accessible by WWW browsers, you can use
+ the script 
+\family typewriter 
+\size footnotesize 
+ezinstaller.sh
+\family default 
+\size default 
+.
+ It will ask you all relevant questions and install eZ publish in a very
+ secure way.
+\layout Chapter
+
+
+\begin_inset LatexCommand \label{chpt: dedicated server}
+
+\end_inset 
+
+Installing eZ publish on a dedicated server
+\layout Standard
+
+This chapter is mainly intended for installation on a Red Hat Linux system,
  but a lot of friendly people have contributed information for installation
  on other operating systems, take a look at chapter 2 and learn which systems
  those are.
@@ -185,51 +615,13 @@ ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/
  UNIX 4.0D, HP-UX 10.20, and HP-UX.
 \layout Section
 
-Pre-Configured Hosting
-\layout Standard
-
-It is possible to get pre-configured hosting services where you can install
- and manage your eZ publish site with ease.
- Read more about our hosting partners at eZ systems web site (
-\family typewriter 
-\size footnotesize 
-http://en.ez.no/article/articlestatic/73
-\family default 
-\size default 
-).
-\layout Section
-
-Pre-Configured Hardware
-\layout Standard
-
-It is possible to order pre-configured hardware from eZ systems.
- You can order through or web shop (
-\family typewriter 
-\size footnotesize 
-http://sourceprovider.com/
-\family default 
-\size default 
-).
-\layout Standard
-
-A line starting with a hash-sign 
-\begin_inset Quotes eld
-\end_inset 
-
-#
-\begin_inset Quotes erd
-\end_inset 
-
- are input from the user to the shell.
-\layout Chapter
-
-Pre-requisites
+Prerequisites
 \begin_inset LatexCommand \label{chptr: pre-requisites}
 
 \end_inset 
 
 
-\layout Section
+\layout Subsection
 
 Needed Privileges
 \layout Standard
@@ -275,7 +667,7 @@ You might also use other web servers than apache, but then you're on your
  own since we haven't tested eZ publish on other configurations.
  If you do try another web server, please keep a log of what you do and
  submit it to us (pkej@ez.no) for inclusion in future versions of this manual.
-\layout Section
+\layout Subsection
 
 Needed Software
 \layout Standard
@@ -341,10 +733,10 @@ er.ez.no.
 \layout Standard
 
 You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
-\layout Section
+\layout Subsection
 
 Which Software is Already Installed?
-\layout Subsection
+\layout Subsubsection
 
 Systems Using RPM
 \layout Standard
@@ -517,7 +909,7 @@ libxmld-1.8.7-80
 \SpecialChar ~
 \SpecialChar ~
 /usr/share/doc/packages/libxml/TODO
-\layout Section
+\layout Subsection
 
 FreeBSD
 \layout Standard
@@ -542,7 +934,7 @@ If people want to setup PHP4 by the ports, they also will have to modify
 \layout Standard
 
 Thanks to David Touitou for pointing this out.
-\layout Section
+\layout Subsection
 
 Mandrake
 \layout Standard
@@ -553,7 +945,7 @@ First read chapter
 \end_inset 
 
 , then continue reading the manual from here.
-\layout Section
+\layout Subsection
 
 IRIX
 \layout Standard
@@ -563,7 +955,7 @@ By accessing the software manager (you must be root) you can get a list
  you're interested in.
  Double click on the tabs to the left to get information about where specific
  files are installed.
-\layout Section
+\layout Subsection
 
 RAQ 3
 \layout Standard
@@ -575,7 +967,7 @@ There is a separate chapter
 
  in this manual describing installation on a RAQ 3 server.
  It was kindly provided by Chris Mason, 
-\layout Section
+\layout Subsection
 
 Windows
 \layout Standard
@@ -586,7 +978,7 @@ Windows installation is described in its own chapter
 \end_inset 
 
 .
-\layout Section
+\layout Subsection
 
 Other Systems
 \layout Standard
@@ -622,7 +1014,7 @@ find .
  take a long time and will also hog resources on your computer.
  Therefore we urge you to learn how to use the proper installation features
  of your system to find the software already installed.
-\layout Section
+\layout Subsection
 
 Installation of Required Software
 \layout Standard
@@ -650,7 +1042,7 @@ If you've had to download source code you will find instructions on how
 
 This manual will only cover configuration of the software needed and compilation
  of PHP to use the other software.
-\layout Section
+\layout Subsection
 
 Important Notice
 \layout Standard
@@ -671,10 +1063,10 @@ If problems arise during installation of the software, please turn to the
 \layout Standard
 
 You should always do a search of the forums before posting any questions.
-\layout Chapter
+\layout Section
 
 Compile Configuration
-\layout Section
+\layout Subsection
 
 PHP
 \layout Standard
@@ -699,7 +1091,7 @@ Contributions
 \end_inset 
 
  section in the download area.
-\layout Subsection
+\layout Subsubsection
 
 Unpacking
 \layout Standard
@@ -737,7 +1129,7 @@ Where the x is the version of php you've downloaded.
 \SpecialChar ~
 \SpecialChar ~
 # cd php-4.0.x
-\layout Subsection
+\layout Subsubsection
 
 Configuration
 \layout Standard
@@ -751,7 +1143,7 @@ You'll need either an apache module or a command line (CGI) version of PHP
 
 Thus for our recommended installation of PHP you need both the command line
  and module versions of PHP.
-\layout Subsubsection
+\layout Paragraph
 
 Common
 \layout Standard
@@ -850,14 +1242,14 @@ http://www.php.net/manual/en/install.configure.php
 \size default 
  and make sure that there isn't other functionality you would like to have
  included.
-\layout Subsubsection
+\layout Paragraph
 
 Command Line
 \layout Standard
 
 The default is to create a command line version of PHP.
  Therefore you don't need to add more configuration options for this.
-\layout Subsubsection
+\layout Paragraph
 
 Apache Module
 \layout Standard
@@ -871,7 +1263,7 @@ To build an apache module you need to add:
  
 \newline 
 (http://www.php.net/manual/en/install.configure.php#install.configure.with-apxs)
-\layout Subsubsection
+\layout Paragraph*
 
 Other Web Servers
 \layout Standard
@@ -882,7 +1274,7 @@ We haven't tested our software with other web servers than apache.
 http://www.php.net/manual/en/install.configure.php#install.configure.servers
 \size default 
  to learn how you configure for the web server you will be using.
-\layout Subsubsection
+\layout Paragraph
 
 Creating the Configuration
 \layout Standard
@@ -946,7 +1338,7 @@ Remember that to compile a script/cgi version you'd need to change that
 \SpecialChar ~
 \SpecialChar ~
 --with-dom --with-qtdom
-\layout Subsection
+\layout Subsubsection
 
 Compilation
 \layout Standard
@@ -972,7 +1364,7 @@ make
 \SpecialChar ~
 \SpecialChar ~
 # make
-\layout Subsection
+\layout Subsubsection
 
 Installation
 \layout Standard
@@ -990,7 +1382,7 @@ To install your new PHP package you need to run the following command:
 \SpecialChar ~
 \SpecialChar ~
 # make install
-\layout Subsection
+\layout Subsubsection
 
 Compiling the php module on RedHat 7.x, step by step
 \layout Standard
@@ -1169,14 +1561,13 @@ When compiling php, please read chapter
 
 .
  It might save you for hours with debugging
-\layout Chapter
+\layout Section
 
 Apache Configuration
 \layout Standard
 
-For the moment we have only one solution for configuring apache, and that
- is using two virtual hosts.
-\layout Section
+If you don't want to change the Apache configuration, go to chapter 2.
+\layout Subsection
 
 Dual Virtual Host
 \begin_inset LatexCommand \label{sec: dual virtualhost}
@@ -1184,7 +1575,7 @@ Dual Virtual Host
 \end_inset 
 
 
-\layout Subsection
+\layout Subsubsection
 
 Configuring Through httpd.conf
 \layout Standard
@@ -1264,7 +1655,7 @@ You should consider using the utility which we have online for creating
  the latest needed information.
  The presented configuration herein might be slightly outdated, so we recommend
  the online tool.
-\layout Subsubsection
+\layout Paragraph
 
 User Site
 \layout Standard
@@ -1551,7 +1942,7 @@ ServerName your.domain.com
 \SpecialChar ~
 \SpecialChar ~
 </VirtualHost>
-\layout Subsubsection
+\layout Paragraph
 
 Admin Site
 \layout Standard
@@ -1703,7 +2094,7 @@ The directory
 \end_inset 
 
  is the directory where you extracted eZ publish.
-\layout Subsubsection
+\layout Paragraph
 
 Error Checking
 \layout Standard
@@ -1720,7 +2111,7 @@ apache -s
 , which will check for virtual hosts.
  There should also be an error log (consult the apache documentation) which
  you can read to check for errors.
-\layout Subsubsection
+\layout Paragraph
 
 Explanation of the Rewrite Rules
 \layout Standard
@@ -1916,7 +2307,7 @@ NOTE: It isn't possible to use the form http://mysite.com/admin at all; since
  the code to bf@ez.no for future inclusion.
  The only correct way to access the admin site is through its own virtual
  host address.
-\layout Subsection
+\layout Subsubsection
 
 Configuring Through .htaccess
 \layout Standard
@@ -1930,7 +2321,7 @@ on files.
 \emph on 
 Note: You must set up apache to accept this.
  You still need two domains for this operation!
-\layout Subsubsection
+\layout Paragraph
 
 User Site
 \layout Standard
@@ -2087,7 +2478,7 @@ RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 RewriteRule !
 \backslash 
 .(gif|css|jpg|png)$ /path/to/website/index.php
-\layout Subsubsection
+\layout Paragraph
 
 Admin Site
 \layout Standard
@@ -2128,12 +2519,10 @@ RewriteEngine On
 RewriteRule !
 \backslash 
 .(gif|css|jpg|png)$ /path/to/website/index_admin.php
-\newline 
-
-\layout Chapter
+\layout Section
 
 eZ publish Installation
-\layout Section
+\layout Subsection
 
 Program Files
 \layout Standard
@@ -2305,15 +2694,20 @@ Where
 \family default 
 \size default 
  is the group of the running apache process.
-\layout Section
+\layout Subsection
 
-Database
+
+\begin_inset LatexCommand \label{sec: Database (dual hosts)}
+
+\end_inset 
+
+Database 
 \layout Standard
 
 Some people might prefer to use phpMyAdmin (http://www.phpwizard.net/projects/phpM
 yAdmin/) for most of this part; we can not help you with installation of
  that program, though.
-\layout Subsection
+\layout Subsubsection
 
 First Time Installation
 \layout Standard
@@ -2381,8 +2775,8 @@ where secret is your password.
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# mysql -uroot -p publish < sql/data.sql
-\layout Subsubsection
+# mysql -uroot -p publish < sql/publish_mysql.sql
+\layout Paragraph
 
 Adding Pre-Defined Data
 \layout Standard
@@ -2445,7 +2839,7 @@ Then we need to send the SQL data into the database:
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# mysql -upublish -ppublish publish < sql/data.sql
+# mysql -upublish -ppublish publish < sql/data_mysql.sql
 \newline 
 
 \layout Standard
@@ -2463,8 +2857,8 @@ Finally we run clearcache to make sure that everything presented is cached
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./clearcache_secure.sh
-\layout Subsection
+# ./secure_clearcache.sh
+\layout Subsubsection
 
 Updating the Installation
 \layout Standard
@@ -2490,7 +2884,7 @@ updates
 .
  Run the files needed to update your version to the current.
  You need to apply all the updates for every version since your version.
-\layout Chapter
+\layout Section
 
 Now What?
 \layout Standard
@@ -2547,7 +2941,7 @@ http://developer.ez.no
 \size default 
  for updates, articles about eZ publish and how to work with it, as well
  as keeping abreast of new developments.
-\layout Section
+\layout Subsection
 
 Post Install Checklist
 \layout Enumerate
@@ -2631,7 +3025,7 @@ Start browsing the public part of your site, just to check that everything
 
 Check that ImageMagick is working.
  Try to upload an image to your site.
-\layout Chapter
+\layout Section
 
 
 \begin_inset LatexCommand \label{chptr: Troubleshooting}
@@ -2639,10 +3033,10 @@ Check that ImageMagick is working.
 \end_inset 
 
 Troubleshooting
-\layout Section
+\layout Subsection
 
 Problems During Installation
-\layout Subsection
+\layout Subsubsection
 
 FreeBSD 4.2 and libxml2
 \layout Standard
@@ -2650,7 +3044,7 @@ FreeBSD 4.2 and libxml2
 The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
  and goes unrecognized by configure (PHP).
  Link the files to /usr/local/lib/libxml.a|so.
-\layout Subsection
+\layout Subsubsection
 
 Missing Compiler/Can not Compile (C++/C)
 \layout Standard
@@ -2667,7 +3061,7 @@ When compiling php and other support programs (like ImageMagick) you need
 ) it listed some sites where you can download pre-compiled versions of software
  for some different Unix versions.
  Please note that you must compile php on your own.
-\layout Subsection
+\layout Subsubsection
 
 I am getting linking errors when trying to build PHP
 \layout Standard
@@ -2682,10 +3076,10 @@ The PHP module you have compiled will be linked agains kerberos.
 \family typewriter 
 \size footnotesize 
 $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
-\layout Section
+\layout Subsection
 
 Problems After Installation
-\layout Subsection
+\layout Subsubsection
 
 Permission Denied
 \layout Standard
@@ -2711,7 +3105,7 @@ secure_modfix.sh
 \end_inset 
 
  script.
-\layout Subsection
+\layout Subsubsection
 
 Can not see Images
 \layout Standard
@@ -2726,13 +3120,13 @@ convert
 \end_inset 
 
 .
-\layout Subsection
+\layout Subsubsection
 
 Warning about Temp Directory
 \layout Standard
 
 If you get any such warning you need to set the temp directory in php.ini.
-\layout Subsection
+\layout Subsubsection
 
 
 \begin_inset LatexCommand \label{chptr: openssl problem on redhat}
@@ -2762,7 +3156,7 @@ Or you may download the apache source rpm from redhat.
 \layout Standard
 
 If this doesn't help, look for clues in /var/log/httpd/error_messages
-\layout Chapter
+\layout Section
 
 Installing on RAQ 3
 \begin_inset LatexCommand \label{chptr: raq 3}
@@ -3949,7 +4343,7 @@ Then chown httpd.httpd * on both the domain and admin.domain directories to
 \layout Standard
 
 If all is well, your site should work.
-\layout Section
+\layout Subsection
 
 Getting SSL to Work
 \layout Standard
@@ -4252,9 +4646,14 @@ TransferLog /home/sites/yoursite/logs/access_log
 
 This should work.
  IF you can't get it, give me an email and I'll help if I have time: chris@net.ai
-\layout Chapter
+\layout Section
 
 Installing on Windows 
+\begin_inset LatexCommand \label{chptr: windows}
+
+\end_inset 
+
+
 \layout Standard
 
 Please download and read the Windows documentation from the eZ publish site
@@ -4278,7 +4677,7 @@ Downloads
  .
  It covers all the steps needed for a working installation under Windows
  using Apache.
-\layout Chapter
+\layout Section
 
 Mandrake
 \begin_inset LatexCommand \label{chptr: mandrake}
@@ -4300,7 +4699,7 @@ as is
 \end_inset 
 
  without any form of guarantee or endorsement, either explicitly or implicitly.
-\layout Section
+\layout Subsection
 
 Download the Following
 \layout Standard
