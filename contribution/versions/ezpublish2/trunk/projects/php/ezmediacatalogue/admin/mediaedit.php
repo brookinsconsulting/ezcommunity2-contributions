@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.2 2001/07/26 10:43:30 ce Exp $
+// $Id: mediaedit.php,v 1.3 2001/09/08 11:49:28 fh Exp $
 //
 // Created on: <24-Jul-2001 13:35:07 ce>
 //
@@ -236,12 +236,26 @@ if ( $Action == "Insert" && $error == false )
 {
     $media = new eZMedia();
     $media->setName( $Name );
-    $media->setPhotographer( $PhotoID );
     $media->setCaption( $Caption );
     $media->setDescription( $Description );
     $media->setUser( $user );
 
     $media->setMedia( $file );
+
+    if ( trim( $NewCreatorName ) != "" &&
+         trim( $NewCreatorEmail ) != ""
+         )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $NewCreatorName );
+        $author->setEmail( $NewCreatorEmail );
+        $author->store();
+        $media->setPhotographer( $author );
+    }
+    else
+    {
+        $media->setPhotographer( $PhotoID );
+    }
 
     $media->store();
     if ( $TypeID == -1 )
@@ -320,6 +334,22 @@ if ( $Action == "Update" && $error == false )
     $media->setName( $Name );
     $media->setPhotographer( $PhotoID );
     $media->setCaption( $Caption );
+
+    if ( trim( $NewCreatorName ) != "" &&
+         trim( $NewCreatorEmail ) != ""
+         )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $NewCreatorName );
+        $author->setEmail( $NewCreatorEmail );
+        $author->store();
+        $media->setPhotographer( $author );
+    }
+    else
+    {
+        $media->setPhotographer( $PhotoID );
+    }
+
     
     $media->setDescription( $Description );
     
