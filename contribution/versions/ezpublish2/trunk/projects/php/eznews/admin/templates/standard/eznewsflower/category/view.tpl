@@ -89,6 +89,7 @@
 	<input class="okbutton" type="submit" value="{intl-create_article}">
 	</form>
 	</td>
+</tr>
 </table>
 
 <a href="/{this_path}/{this_id}?edit+this">{intl-edit_this_category}</a><br />

@@ -25,38 +25,45 @@
 {this_price}
 </p>
 
-<br />
-
 <hr noshade size="4" />
 
-<br />
-
-<form method="post" action="/{this_path}/{this_id}?delete+this">
-<input class="okbutton" name="form_delete" type="submit" value="{intl-delete}">
-
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<form method="post" action="/{this_path}/{this_id}?delete+this">
+	<input class="okbutton" name="form_delete" type="submit" value="{intl-delete}">
+	</form>
+	</td>
+	<td>
+	&nbsp;
+	</td>
+	
 <!-- END article_item_template -->
 
 
 
 
 <!-- BEGIN go_to_parent_template -->
-
-<form method="post" action="/{this_path}/{this_canonical_parent_id}">
-<input class="okbutton" type="submit" name="form_abort" value="{intl-abort}"></form>
-
-</form>
-</form>
+	<td>
+	<form method="post" action="/{this_path}/{this_canonical_parent_id}">
+	<input class="okbutton" type="submit" name="form_abort" value="{intl-abort}"></form>
+	</form>
+	</td>
+</tr>
+</table>
 
 <!-- END go_to_parent_template -->
 
 
 
 <!-- BEGIN go_to_self_template -->
-
-<form method="post" action="/{this_path}/{this_id}">
-<input class="okbutton" type="submit" name="form_abort" value="{intl-abort}">
-</form>
-</form>
+	<td>
+	<form method="post" action="/{this_path}/{this_id}">
+	<input class="okbutton" type="submit" name="form_abort" value="{intl-abort}">
+	</form>
+	</td>
+</tr>
+</table>
 
 <!-- END go_to_self_template -->
 

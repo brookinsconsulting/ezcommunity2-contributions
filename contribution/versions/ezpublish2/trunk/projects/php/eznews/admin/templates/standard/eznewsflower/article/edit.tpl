@@ -47,15 +47,22 @@
 
 <hr noshade size="4" />
 
-<input class="okbutton" type="submit" value="OK" name="form_preview">
-
-<form method="post" action="/{this_path}/{this_id}" >
-<input class="okbutton" type="submit" value="Avbryt" name="form_abort">
-</form>
-</form>
-
-
-
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input class="okbutton" type="submit" value="OK" name="form_preview">
+	</form>
+	</td>
+	<td>
+	&nbsp;
+	</td>
+	<td>
+	<form method="post" action="/{this_path}/{this_id}" >
+	<input class="okbutton" type="submit" value="Avbryt" name="form_abort">
+	</form>
+	</td>
+</tr>
+</table>
 
 <!-- These need to be here, even though they are empty! -->
 
