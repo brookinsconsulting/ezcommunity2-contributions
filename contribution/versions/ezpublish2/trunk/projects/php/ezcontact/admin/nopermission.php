@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: nopermission.php,v 1.1 2001/02/19 13:44:24 jb Exp $
+// $Id: nopermission.php,v 1.2 2001/03/02 12:19:48 ce Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <19-Feb-2001 11:11:28 amos>
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+include_once( "classes/eztemplate.php" );
 
 $ini =& $GlobalSiteIni;
 $Language = $ini->read_var( "eZContactMain", "Language" );
