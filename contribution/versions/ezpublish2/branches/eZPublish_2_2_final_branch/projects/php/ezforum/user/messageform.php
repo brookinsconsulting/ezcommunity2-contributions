@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16 2001/09/24 11:53:43 jhe Exp $
+// $Id: messageform.php,v 1.16.2.1 2001/10/31 09:21:55 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -25,10 +25,11 @@
 
 include_once( "classes/ezlocale.php" );
 $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
+$author = eZUser::currentUser();
 
 if ( $ShowMessageForm )
 {
-    if ( $ShowVisibleMessageForm == true )
+    if ( $ShowVisibleMessageForm )
     {
         $t->set_file( "form", "messageform.tpl"  );
         $t->set_block( "form", "author_field_tpl", "author_field" );
@@ -45,12 +46,12 @@ if ( $ShowMessageForm )
         $t->set_var( "headline", $t->Ini->read_var( "strings", $Action . "_headline" ) );
     }
     
-    if ( $ShowHiddenMessageForm == true )
+    if ( $ShowHiddenMessageForm )
     {
         $t->set_file( "hidden_form", "messagehiddenform.tpl" );
     }
 
-    if ( $BodyInfo == true )
+    if ( $BodyInfo )
     {
         $t->parse( "message_body_info_item", "message_body_info_tpl" );
     }
@@ -60,7 +61,7 @@ if ( $ShowMessageForm )
         $t->parse( "message_notice_checkbox", "message_notice_checkbox_tpl" );
     }
 
-    if ( $ReplyInfo == true )
+    if ( $ReplyInfo )
     {
         $t->parse( "message_reply_info_item", "message_reply_info_tpl" );
     }
@@ -91,7 +92,7 @@ if ( $ShowMessageForm )
         $t->parse( "errors_item", "errors_tpl" );
     }
 
-    if ( $ShowEmptyMessageForm == false )
+    if ( !$ShowEmptyMessageForm )
     {
         if ( !is_object( $msg ) )
         {
@@ -115,7 +116,6 @@ if ( $ShowMessageForm )
         {
             if ( $AllowHTML == "enabled" )
             {
-                die();
                 $MessageBody = $msg->body( true );
             }
             else
@@ -163,7 +163,7 @@ if ( $ShowMessageForm )
         {
             if ( !is_object( $author ) )
             {
-                $author =& eZUser::currentUser();
+                $author = eZUser::currentUser();
             }
         }
 
@@ -176,6 +176,8 @@ if ( $ShowMessageForm )
             $MessagePostedAt = $locale->format( $msg->postingTime() );
         }
     }
+
+    print_r( $author );
     if ( is_object( $author ) && $author->id() > 0 )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
@@ -254,9 +256,9 @@ if ( $ShowMessageForm )
         }
     }
     
-    if ( $ShowHiddenMessageForm == true )
+    if ( $ShowHiddenMessageForm )
     {
-        if ( $doPrint == true )
+        if ( $doPrint )
         {
             $t->pparse( "message_hidden_form_file", "hidden_form" );
         }
@@ -266,9 +268,9 @@ if ( $ShowMessageForm )
         }
     }
     
-    if ( $ShowVisibleMessageForm == true )
+    if ( $ShowVisibleMessageForm )
     {
-        if ( $doPrint == true )
+        if ( $doPrint )
         {
             $t->pparse( "message_form_file", "form" );
         }

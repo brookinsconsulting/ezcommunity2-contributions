@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.1 2001/10/30 13:25:16 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.2 2001/10/31 09:21:55 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -84,6 +84,7 @@ switch ( $Action )
         $t->set_file( "page", "messagedelete.tpl"  );
     }
     break;
+    
     case "preview":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -158,7 +159,7 @@ switch ( $Action )
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
-        if ( $MessageDelete == false )
+        if ( !$MessageDelete )
         {
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
@@ -378,7 +379,7 @@ switch ( $Action )
         $CheckForumID = $msg->forumID();
         include( "ezforum/user/messagepermissions.php" );
 
-        if ( $ForumPost == false )
+        if ( !$ForumPost )
         {
             include_once( "classes/ezhttptool.php" );
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
@@ -425,7 +426,7 @@ switch ( $Action )
 
         include( "ezforum/user/messagepermissions.php" );
 
-        if ( $MessageEdit == false && $Error == false )
+        if ( !$MessageEdit && !$Error )
         {
             include_once( "classes/ezhttptool.php" );
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
@@ -468,7 +469,7 @@ switch ( $Action )
         $CheckForumID = $ForumID;
         include( "ezforum/user/messagepermissions.php" );
 
-        if ( $MessageReply == false )
+        if ( !$MessageReply )
         {
             #include_once( "classes/ezhttptool.php" );
             #eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
@@ -484,9 +485,8 @@ switch ( $Action )
             $NewMessageBody = eZTextTool::addPre( $msg->body() );
         }
 
-        $author =& eZUser::currentUser();
-
-           
+        $user =& eZUser::currentUser();
+        
         $NewMessageTopic = $msg->topic();
 
         $ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );
@@ -503,8 +503,6 @@ switch ( $Action )
         $ShowPath = true;
         $isPreview = false;
         include_once( "ezforum/user/messagepath.php" );
-        
-        $author =& eZUser::currentUser();
         
         $ShowMessageForm = true;
         $ShowEmptyMessageForm = false;
@@ -572,11 +570,9 @@ switch ( $Action )
 
                 }
 
-                $author =& eZUser::currentUser();
-
-                if ( is_object( $author ) )
+                if ( is_object( $user ) )
                 {
-                    $msg->setUserID( $author->id() );
+                    $msg->setUserID( $user->id() );
                 }
                 else
                 {
