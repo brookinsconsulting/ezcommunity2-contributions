@@ -206,3 +206,22 @@
 <!-- BEGIN percentile_tpl -->
 {percentile}%: {value}
 <!-- END percentile_tpl -->
+
+<!-- BEGIN cross_table_tpl -->
+<table cellspacing="3" cellpadding="3" border="1">
+<!-- BEGIN header_row_tpl -->
+<th></th>
+<!-- BEGIN header_cell_tpl -->
+<th>{header_value}</th>
+<!-- END header_cell_tpl -->
+<!-- END header_row_tpl -->
+<!-- BEGIN cross_table_row_tpl -->
+<tr>
+<td class="boxtext">{reference_name}</td>
+<!-- BEGIN cross_table_cell_tpl -->
+<td>{count}</td>
+<!-- END cross_table_cell_tpl -->
+</tr>
+<!-- END cross_table_row_tpl -->
+</table>
+<!-- END cross_table_tpl -->

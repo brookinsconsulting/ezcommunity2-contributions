@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.4 2002/01/22 09:30:17 jhe Exp $
+// $Id: reportsetup.php,v 1.5 2002/01/22 17:37:48 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -47,12 +47,23 @@ else
 
 if ( $Action == "store" )
 {
+    $types = eZFormReportElement::types();
     foreach ( $elements as $element )
     {
         $value = "StatisticsType" . $element->id();
         $repElement = new eZFormReportElement( $element->id(), $ReportID );
         $repElement->setReport( $ReportID );
         $repElement->setStatisticsType( $$value );
+        if ( $types[$$value]["Name"] == "Cross-reference" )
+        {
+            $value = "CrossReference" . $element->id();
+            if ( isSet( $$value ) )
+                $repElement->setReference( $$value );
+        }
+        else
+        {
+            $repElement->setReference( "" );
+        }
         $repElement->store();
     }
 
@@ -83,8 +94,12 @@ $t->set_file( "report_setup_tpl", "reportsetup.tpl" );
 $t->set_block( "report_setup_tpl", "form_element_tpl", "form_element" );
 $t->set_block( "form_element_tpl", "statistics_type_tpl", "statistics_type" );
 $t->set_block( "form_element_tpl", "table_item_tpl", "table_item" );
+$t->set_block( "form_element_tpl", "cross_reference_tpl", "cross_reference" );
+$t->set_block( "cross_reference_tpl", "cross_reference_item_tpl", "cross_reference_item" );
 
 $t->set_var( "form_element", "" );
+$t->set_var( "cross_reference", "" );
+$t->set_var( "cross_reference_item", "" );
 $t->set_var( "report_id", $ReportID );
 $t->set_var( "table_id", $TableID );
 
@@ -111,6 +126,50 @@ foreach ( $elements as $element )
         $t->set_var( "statistics_id", $stat );
         $t->set_var( "statistics_name", $statTypes[$stat]["Description"] );
         $t->set_var( "selected", $stat == $repElement->statisticsType() ? "selected" : "" );
+        if ( $repElement->statisticsType( false ) == "Cross-reference" )
+        {
+            foreach ( $form->formElements() as $elementItem )
+            {
+                $eType = $element->elementType();
+                if ( $eType->name() == "table_item" )
+                {
+                    $table = new eZFormTable( $element->id() );
+                    $tableElements = $table->tableElements();
+                    foreach ( $tableElements as $te )
+                    {
+                        $t->set_var( "reference_element_id", $te->id() );
+                        if ( strlen( $te->name() ) > 40 )
+                            $t->set_var( "reference_name", substr( $te->name(), 0, 40 ) . "..." );
+                        else
+                            $t->set_var( "reference_name", $te->name() );
+                        if ( $te->element( false ) == $repElement->reference( false ) )
+                            $t->set_var( "reference_selected", "selected" );
+                        else
+                            $t->set_var( "reference_selected", "" );
+                        $t->parse( "cross_reference_item", "cross_reference_item_tpl", true );
+                    }
+                }
+                else
+                {
+                    $t->set_var( "reference_element_id", $elementItem->id() );
+                    if ( strlen( $elementItem->name() ) > 40 )
+                        $t->set_var( "reference_name", substr( $elementItem->name(), 0, 40 ) . "..." );
+                    else
+                        $t->set_var( "reference_name", $elementItem->name() );
+                    if ( $elementItem->id( false ) == $repElement->reference( false ) )
+                        $t->set_var( "reference_selected", "selected" );
+                    else
+                        $t->set_var( "reference_selected", "" );
+                    $t->parse( "cross_reference_item", "cross_reference_item_tpl", true );
+                }
+            }
+            $t->parse( "cross_reference", "cross_reference_tpl" );
+        }
+        else
+        {
+            $t->set_var( "cross_reference", "" );
+        }
+        
         $t->parse( "statistics_type", "statistics_type_tpl", true );
     }
     

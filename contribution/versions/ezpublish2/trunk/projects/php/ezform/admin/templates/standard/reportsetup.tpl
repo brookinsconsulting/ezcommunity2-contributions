@@ -28,6 +28,13 @@
 <!-- BEGIN table_item_tpl -->
    <a href="{www_dir}{index}/form/report/setup/{report_id}/{element_id}/">{intl-edit_table}</a>
 <!-- END table_item_tpl -->
+<!-- BEGIN cross_reference_tpl -->
+   <select name="CrossReference{element_id}">
+<!-- BEGIN cross_reference_item_tpl -->
+   <option value="{reference_element_id}" {reference_selected}>{reference_name}</option>
+<!-- END cross_reference_item_tpl -->
+   </select>
+<!-- END cross_reference_tpl -->
    </td>
 </tr>
 <!-- END form_element_tpl -->

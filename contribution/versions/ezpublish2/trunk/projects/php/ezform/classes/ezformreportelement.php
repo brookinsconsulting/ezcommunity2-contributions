@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.8 2002/01/22 09:30:18 jhe Exp $
+// $Id: ezformreportelement.php,v 1.9 2002/01/22 17:37:49 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -64,6 +64,7 @@ class eZFormReportElement
         $this->ID =& $value[$db->fieldName( "ID" )];
         $this->ElementID =& $value[$db->fieldName( "ElementID" )];
         $this->ReportID =& $value[$db->fieldName( "ReportID" )];
+        $this->ReferenceID =& $value[$db->fieldName( "ReferenceID" )];
         $this->StatisticsType =& $value[$db->fieldName( "StatisticsType" )];
     }
 
@@ -77,6 +78,7 @@ class eZFormReportElement
             $res[] = $db->query( "UPDATE eZForm_FormReportElement SET
                                   ElementID='$this->ElementID',
                                   ReportID='$this->ReportID',
+                                  ReferenceID='$this->ReferenceID',
                                   StatisticsType='$this->StatisticsType'
                                   WHERE ID='$this->ID'" );
         }
@@ -85,9 +87,9 @@ class eZFormReportElement
             $db->lock( "eZForm_FormReportElement" );
             $this->ID = $db->nextID( "eZForm_FormReportElement", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormReportElement
-                                  (ID, ElementID, ReportID, StatisticsType)
+                                  (ID, ElementID, ReportID, ReferenceID, StatisticsType)
                                   VALUES
-                                  ('$this->ID','$this->ElementID','$this->ReportID','$this->StatisticsType')" );
+                                  ('$this->ID','$this->ElementID','$this->ReportID','$this->ReferenceID','$this->StatisticsType')" );
             $db->unlock();
         }
         eZDB::finish( $res, $db );
@@ -129,10 +131,32 @@ class eZFormReportElement
         else if ( is_numeric( $value ) )
             $this->ReportID = $value;
     }
-    
-    function statisticsType()
+
+    function reference( $as_object = true )
     {
-        return $this->StatisticsType;
+        if ( $as_object )
+            return new eZFormElement( $this->ReferenceID );
+        else
+            return $this->ReferenceID;
+    }
+
+    function setReference( $value )
+    {
+        if ( get_class( $value ) == "ezformelement" )
+            $this->ReferenceID = $value->id();
+        else
+            $this->ReferenceID = $value;
+    }
+    
+    function statisticsType( $as_id = true )
+    {
+        if ( $as_id )
+            return $this->StatisticsType;
+        else
+        {
+            $list = $this->types();
+            return $list[$this->StatisticsType]["Name"];
+        }
     }
     
     function setStatisticsType( $value )
@@ -148,6 +172,8 @@ class eZFormReportElement
             {
                 return "";
             }
+            break;
+            
             case 1:
             {
                 return $this->statFrequency( &$template );
@@ -199,6 +225,12 @@ class eZFormReportElement
             case 9:
             {
                 return $this->statPercentile( &$template, 75 );
+            }
+            break;
+
+            case 10:
+            {
+                return $this->statCrossTable( &$template );
             }
             break;
         }
@@ -354,6 +386,52 @@ class eZFormReportElement
         $output = $template->parse( $target, "percentile_tpl" );
         return $output;
     }
+
+    function statCrossTable( &$t )
+    {
+        $t->set_var( "cross_table", "" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $element = $this->element();
+        $reference = $this->reference();
+        $db->array_query( $res, "SELECT a.Result as Result1, b.Result as Result2, count(a.Result) as Count
+                                 FROM eZForm_FormElementResult as a, eZForm_FormElementResult as b
+                                 WHERE a.ElementID='" . $reference->id() . "' AND b.ElementID='" . $element->id() . "' AND
+                                 a.ResultID=b.ResultID
+                                 GROUP BY a.Result, b.Result ORDER BY a.Result, b.Result" );
+        $elementValues = $element->fixedValues();
+        $referenceValues = $reference->fixedValues();
+        
+        foreach ( $elementValues as $elementItem )
+        {
+            $t->set_var( "header_value", $elementItem->value() );
+            $t->parse( "header_cell", "header_cell_tpl", true );
+        }
+        $t->parse( "header_row", "header_row_tpl" );
+        $i = 0;
+        foreach ( $referenceValues as $referenceItem )
+        {
+            $t->set_var( "cross_table_cell", "" );
+            $t->set_var( "reference_name", $referenceItem->value() );
+            foreach ( $elementValues as $elementItem )
+            {
+                if ( $res[$i]["Result1"] == $referenceItem->value() &&
+                     $res[$i]["Result2"] == $elementItem->value() )
+                {
+                    $t->set_var( "count", $res[$i]["Count"] );
+                    $i++;
+                }
+                else
+                {
+                    $t->set_var( "count", "0" );
+                }
+                $t->parse( "cross_table_cell", "cross_table_cell_tpl", true );
+            }
+            $t->parse( "cross_table_row", "cross_table_row_tpl", true );
+        }
+        $output = $t->parse( $target, "cross_table_tpl" );
+        return $output;
+    }
     
     function types()
     {
@@ -367,7 +445,8 @@ class eZFormReportElement
             array( "Name" => "max", "Description" => "intl-max" ),
             array( "Name" => "median", "Description" => "intl-median" ),
             array( "Name" => "25percentile", "Description" => "intl-25percentile" ),
-            array( "Name" => "75percentile", "Description" => "intl-75percentile" )
+            array( "Name" => "75percentile", "Description" => "intl-75percentile" ),
+            array( "Name" => "Cross-reference", "Description" => "intl-cross_reference" )
             );
         return $ret;
     }
@@ -375,6 +454,7 @@ class eZFormReportElement
     var $ID;
     var $ElementID;
     var $ReportID;
+    var $ReferenceID;
     var $StatisticsType;
 }
 
