@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.46 2001/04/05 08:38:13 ce Exp $
+// $Id: productview.php,v 1.47 2001/05/04 14:49:19 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -267,7 +267,7 @@ if ( !$RequireUserLogin or get_class( $user ) == "ezuser"  )
         $t->parse( "value_currency_header_item", "value_currency_header_item_tpl" );
 }
 
-$can_checkout = false;
+$can_checkout = true;
 
 $currency_locale = new eZLocale( $Language );
 foreach ( $options as $option )
@@ -298,9 +298,8 @@ foreach ( $options as $option )
         if ( $ShowOptionQuantity or (is_bool( $value_quantity ) and !$value_quantity ) or
              !$RequireQuantity or ( $RequireQuantity and $value_quantity > 0 ) )
         {
-            if ( (is_bool( $value_quantity ) and !$value_quantity ) or
-                 !$RequireQuantity or ( $RequireQuantity and $value_quantity > 0 ) )
-                $can_checkout = true;
+            if ( !$value->hasQuantity( $RequireQuantity ) )
+                $can_checkout = false;
             $t->set_var( "value_td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
             $id = $value->id();
 
@@ -392,6 +391,9 @@ foreach ( $options as $option )
 
     $t->parse( "option", "option_tpl", true );
 }
+
+if ( !$product->hasQuantity( $RequireQuantity ) )
+    $can_checkout = false;
 
 // link list
 $module_link = new eZModuleLink( "eZTrade", "Product", $product->id() );
@@ -573,8 +575,7 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
     $t->parse( "price", "price_tpl" );
 }
 
-if ( $PurchaseProduct and !$product->discontinued() and
-   ( $can_checkout or !$RequireQuantity or ( $RequireQuantity and $Quantity > 0 ) ) )
+if ( $PurchaseProduct and !$product->discontinued() and $can_checkout )
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
 
 if ( $PrintableVersion == "enabled" )
