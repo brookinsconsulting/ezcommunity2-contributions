@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsviewer.php,v 1.1 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewsviewer.php,v 1.2 2000/10/16 13:48:20 pkej-cvs Exp $
 //
 // Definition of eZNewsViewer class
 //
@@ -33,7 +33,7 @@ class eZNewsViewer
         
         NOTE: Do not use constructor in inheriting objects.
      */
-    function eZNewsViewer( $inItem, $inIniObject, $inURLObject )
+    function eZNewsViewer( &$inItem, &$inIniObject, &$inURLObject )
     {
         $this->IniObject = $inIniObject;
         $this->URLObject = $inURLObject;
