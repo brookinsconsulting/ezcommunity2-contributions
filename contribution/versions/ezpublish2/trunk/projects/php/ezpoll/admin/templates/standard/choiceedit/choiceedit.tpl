@@ -16,6 +16,8 @@
 <input type="hidden" name="PollID" value="{poll_id}" />
 <input class="okbutton" type="submit" value="OK" />
 
+<form method="post" action="/poll/polledit/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
+
 </form>
 
 

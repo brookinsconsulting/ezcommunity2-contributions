@@ -32,43 +32,31 @@
 
 <div onLoad="MM_preloadImages('/ezlink/images/redigerminimrk.gif','/ezlink/images/slettminimrk.gif')"></div>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
 	<h1>Linkoversikt</h>
 	</td>
-
-	<td bgcolor="#f0f0f0">
-	<center><br>
-	<form method="post" action="/link/search/">
-	<input type="text" name="QueryText" value=""><input type="submit" value="søk">
-	<input type="hidden" name="Action" value="search">
-	</form>
-	</center>
-	</td>
 	
 	<td align="right">
-	<a href=/link/linkedit/new/{linkgroup_id}/><img src="/ezlink/images/nylink.gif" width="32" height="32" border="0"></a>
+	<form method="post" action="/link/search/">
+	<input type="text" name="QueryText" size="20" value=""><input type="submit" value="søk">
+	<input type="hidden" name="Action" value="search">
+	</form>
 	</td>
-<tr>
+</tr>
 </table>
 
-<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td bgcolor="ffffff"><img src="/ezlink/images/1x1.gif" width="1" height="6" border="0"></td>
-</tr>
-<tr>
-	<td bgcolor="3c3c3c"><img src="/ezlink/images/1x1.gif" width="1" height="4" border="0"></td>
-</tr>
-<tr>
-	<td bgcolor="ffffff"><img src="/ezlink/images/1x1.gif" width="1" height="6" border="0"></td>
-</tr>
-</table>
+<hr noshade size="4"/>
+
 {printpath}
 
-<h2>Kategorier:</h2>
+<hr noshade size="4"/>
 
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th colspan="3">Kategorier:</th>
+</tr>
 
 <!-- BEGIN group_list_tpl -->
 <tr>
@@ -76,56 +64,39 @@
 	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a> &nbsp;({total_links}, {new_links} nye)
 	</td>
 
-	<td bgcolor="{bg_color}"  align="right">
+	<td width="1%" bgcolor="{bg_color}">
 	<a href="/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/ezlink/images/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="/ezlink/images/redigermini.gif" width="16" height="16" align="top"></a>
-	&nbsp;&nbsp;&nbsp;&nbsp;
+	</td>
+	<td width="1%" bgcolor="{bg_color}">
 	<a href="/link/groupedit/delete/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-slett','','/ezlink/images/slettminimrk.gif',1)"><img name="ela{linkgroup_id}-slett" border="0" src="/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
-	&nbsp;&nbsp;
 	</td>
 
 </tr>
 <!-- END group_list_tpl -->
 
 </table>
-<br>
 
-<br>
-<br>
-
-<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td bgcolor="ffffff"><img src="/ezlink/images/1x1.gif" width="1" height="6" border="0"></td>
+	<th colspan="3">Linker:</th>
 </tr>
-<tr>
-	<td bgcolor="3c3c3c"><img src="/ezlink/images/1x1.gif" width="1" height="4" border="0"></td>
-</tr>
-<tr>
-	<td bgcolor="ffffff"><img src="/ezlink/images/1x1.gif" width="1" height="6" border="0"></td>
-</tr>
-</table>
-
-<h2>Linker:</h2>
-
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
 
 <!-- BEGIN link_list_tpl -->
 <tr>
 	<td bgcolor="{bg_color}">
-	<a href="/link/linkedit/edit/{link_id}/">{link_title}</a><br>
-        {link_description}
+	<a href="/link/linkedit/edit/{link_id}/">{link_title}</a><br></br>
+    {link_description}
 	</td>
 	<td bgcolor="{bg_color}" width="80" align="right">
 	(Hits: {link_hits})
 	</td>
-	<td bgcolor="{bg_color}" width="150" align="right">
+	<td width="1%" bgcolor="{bg_color}">
 	<a href="/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/ezlink/images/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="/ezlink/images/redigermini.gif" width="16" height="16" align="top"></a>
-	&nbsp;&nbsp;&nbsp;&nbsp;
+	</td>
+	<td width="1%" bgcolor="{bg_color}">
 	<a href="/link/linkedit/delete/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-slett','','/ezlink/images/slettminimrk.gif',1)"><img name="el{link_id}-slett" border="0" src="/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
-	&nbsp;&nbsp;
 	</td>
 </tr>
 <!-- END link_list_tpl -->
 
 </table>
-<br>
-<!-- <a href=index.php?page=../ezlink/admin/linkedit.php>[Legg til ny link]</a> -->

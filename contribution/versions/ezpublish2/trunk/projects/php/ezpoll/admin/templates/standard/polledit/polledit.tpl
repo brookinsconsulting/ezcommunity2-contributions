@@ -64,8 +64,8 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Svaralternativer</th>
-	<th>Antall stemmer</th>
+	<th>Svaralternativer:</th>
+	<th>Antall stemmer:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
