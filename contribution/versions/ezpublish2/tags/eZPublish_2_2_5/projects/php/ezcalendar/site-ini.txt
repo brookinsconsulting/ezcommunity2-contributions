@@ -1,0 +1,23 @@
+        **** Explanation of site.ini variables ****
+
+The name of the group in site.ini for eZCalendar is eZCalendarMain.
+It contains these variables:
+
+AdminTemplateDir:    Relative path to template files in admin
+TemplateDir:         Relative path to template files in user
+ImageDir:            Absolute path to images
+Language:            The language used in eZCalendar
+DayStartTime:	     The start time for the appointment list in day view
+DayStopTime:	     The stop time for the appointment list in day view
+DayInterval:	     The time interval between entries in the appointment list in day view
+
+Example group:
+[eZCalendarMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+DayStartTime=08:00
+DayStopTime=18:00
+DayInterval=00:30
+
