@@ -95,7 +95,7 @@ class eZBulkMailForgot
         {
             $this->Database->query( "INSERT INTO eZBulkMail_Forgot SET
                                  Mail='$this->Mail',
-                                 Password=PASSWORD( '$password' ),
+                                 Password='$password',
                                  Hash='$this->Hash'" );
 			$this->ID = $this->Database->insertID();
         }
@@ -103,7 +103,7 @@ class eZBulkMailForgot
         {
             $this->Database->query( "UPDATE eZBulkMail_Forgot SET
                                  Mail='$this->Mail',
-                                 Password=PASSWORD( '$password' ),
+                                 Password='$password',
                                  Hash='$this->Hash'
                                  WHERE ID='$this->ID'" );
         }
