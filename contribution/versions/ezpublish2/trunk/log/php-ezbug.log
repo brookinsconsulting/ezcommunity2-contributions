@@ -268,3 +268,33 @@ Maintainer(s) : vl@ez.no
       classes/ezbugsupport.php: added table for support
     improved support-cron in ezbug
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-29  fh  <fh@zev.ez.no>
+
+    * admin/templates/standard/bugedit.tpl:
+    Don't allow editing of patches in allready reported bugs. (only delete or
+    add allowed)
+
+    * admin/bugedit.php
+      admin/moduleedit.php: Removed old,oooold (7 months) Elo bugs:
+    -Now saves owner permissions at creation of modules
+    -Save all owner groups (not only the first)
+    -List users of all module owner groups in bug assignment.
+
+2001-10-29  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/supportedit.php.ini
+      admin/intl/en_GB/supportlist.php.ini
+      admin/templates/standard/supportedit.tpl
+      admin/templates/standard/supportlist.tpl
+      classes/ezbugsupport.php
+      admin/datasupplier.php
+      admin/menubox.php
+      admin/supportdelete.php
+      admin/supportedit.php
+      admin/supportlist.php: fixed admin interface for support list in bug
+

@@ -1674,3 +1674,18 @@ Maintainer(s) : ce@ez.no
 
     * user/templates/standard/wishlist.tpl: Layout
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-29  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezvoucherinformation.php
+      user/wishlist.php: Added the checkbox delete function on wishlist
+
+    * user/intl/en_GB/wishlist.php.ini
+      user/templates/mygold/voucheremail.tpl
+      user/templates/standard/wishlist.tpl
+      user/voucherview.php
+      user/wishlist.php: Added checkbox for delete
+

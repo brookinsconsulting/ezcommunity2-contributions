@@ -1666,3 +1666,16 @@ Maintainer(s) : bf@ez.no
 
     * xmlrpc/article.php: Removed &amp; <=> & fix.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-29  fh  <fh@zev.ez.no>
+
+    * classes/ezarticlecategory.php:
+    Fixed strange bug, calling new on eZAritcleCategory with two parameters.
+
+2001-10-29  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php: Removed a / on file links.
+

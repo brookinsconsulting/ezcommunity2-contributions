@@ -153,3 +153,11 @@ Maintainer(s) : br@ez.no
       admin/intl/fi_FI/categoryedit.php.ini
       admin/intl/fi_FI/menubox.php.ini: updated fi_FI for 2.2 final
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-29  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/adlist.php: process external/internal ads
+
