@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.18 2001/08/03 08:06:36 bf Exp $
+// $Id: articleedit.php,v 1.19 2001/08/15 11:56:34 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -46,7 +46,7 @@ $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
 // insert a new article in the database
 if ( $Action == "Insert" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
         
     $article = new eZArticle();
     $article->setName( $Name );
@@ -66,8 +66,8 @@ if ( $Action == "Insert" )
     $article->store(); // to get ID
     
 // Which group should a user-published article be set to?
-    eZObjectPermission::setPermission( -1, $article->id(), "article_category", 'w' );
-    eZObjectPermission::setPermission( -1, $article->id(), "article_category", 'r' );
+    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
+    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
 
     // user-submitted articles are never directly published
 
