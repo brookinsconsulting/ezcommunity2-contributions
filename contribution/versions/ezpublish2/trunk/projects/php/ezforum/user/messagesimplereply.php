@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplereply.php,v 1.8 2001/01/28 09:52:48 bf Exp $
+// $Id: messagesimplereply.php,v 1.9 2001/02/07 15:48:18 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -190,7 +190,7 @@ $t->set_var( "forum_id", $ForumID );
 
 $t->set_var( "msg_id", $msg->id() );
 
-$t->set_var( "topic", ( $ReplyPrefix . stripslashes( $msg->topic() ) ) );
+$t->set_var( "topic", ( $ReplyPrefix . htmlspecialchars( stripslashes( $msg->topic() ) ) ) );
 
 $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
