@@ -167,10 +167,10 @@
 </form>
 
 <!-- BEGIN numbered_page_link_tpl -->
-<center><a class="path" href="/trade/productview/{product_id}/0/">{intl-numbered_page}</a></center>
+<div align="center"><a class="path" href="/trade/productview/{product_id}/0/">| {intl-numbered_page} |</a></div>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<center> <a class="path" href="/trade/productprint/{product_id}/">{intl-print_page}</a> </center>
+<div align="center"> <a class="path" href="/trade/productprint/{product_id}/">| {intl-print_page} |</a></div>
 <!-- END print_page_link_tpl -->
 </p> 
