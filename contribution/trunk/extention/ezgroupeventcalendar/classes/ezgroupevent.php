@@ -202,11 +202,11 @@ class eZGroupEvent
                 $this->RecurDay =& $event_array[0][ "RecurDay" ];
                 $this->RecurFreq =& $event_array[0][ "RecurFreq" ];
                 $this->RecurForever =& $event_array[0][ "RecurForever" ];
-                $this->RecurMonthly =& $event_array[0][ "RecurMonthly" ]
+                $this->RecurMonthly =& $event_array[0][ "RecurMonthly" ];
                 $this->RecurMonthlyType =& $event_array[0][ "RecurMonthlyType" ];
                 $this->RecurMonthlyTypeInfo =& $event_array[0][ "RecurMonthlyTypeInfo" ];
                 $this->RecurType =& $event_array[0] [ "RecurType" ];
-                $this->RecurExceptions =& $event_array[0][ "RecurExceptions" ]
+                $this->RecurExceptions =& $event_array[0][ "RecurExceptions" ];
                 $this->RepeatForever =& $event_array[0][ "RepeatForever" ];
                 $this->RepeatTimes =& $event_array[0][ "RepeatTimes" ];
                 $this->RepeatUntilDate =& $event_array[0][ "RepeatUntilDate" ];
