@@ -3276,3 +3276,15 @@ Maintainer(s) : ce@ez.no
     * user/payment.php:
     Fixed a bug when reading PricesIncludeVAT from site.ini
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-03-05  Christoffer Elo  <ce@ez.no>
+
+    * user/Attic/biglist.php
+      user/Attic/similarproducts.php
+      user/datasupplier.php
+      user/payment.php
+      user/productview.php: Fix
+

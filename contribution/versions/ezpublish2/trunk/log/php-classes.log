@@ -679,3 +679,15 @@ Maintainer(s) : bf@ez.no
 
     * ezfile.php: Added file() so it can work with nVH.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-03-05  Christoffer Elo  <ce@ez.no>
+
+    * eztemplate.php: Fixed the global_section_name to lowercase
+
+    * ezgpg.php
+      ezmysqldb.php
+      eztemplate.php: Added a global_section_name template variable.
+
