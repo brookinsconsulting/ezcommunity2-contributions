@@ -1,11 +1,12 @@
-<?
+<?php
 // 
-// $Id: addressedit.php,v 1.7 2001/03/01 14:06:26 jb Exp $
+// $Id: addressedit.php,v 1.8 2001/07/20 11:45:40 jakobn Exp $
 //
-// 
-//
-// Bård Farstad <bf@ez.no>
 // Created on: <06-Nov-2000 16:55:56 bf>
+//
+// This source file is part of eZ publish, publishing software.
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

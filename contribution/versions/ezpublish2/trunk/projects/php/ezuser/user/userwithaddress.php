@@ -1,10 +1,10 @@
-<?
+<?php
 // 
-// $Id: userwithaddress.php,v 1.65 2001/07/11 09:50:45 th Exp $
+// $Id: userwithaddress.php,v 1.66 2001/07/20 11:45:40 jakobn Exp $
 //
-//
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <10-ct-2000 12:52:42 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

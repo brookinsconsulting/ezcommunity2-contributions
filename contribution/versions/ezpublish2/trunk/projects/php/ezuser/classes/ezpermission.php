@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.17 2001/06/24 15:54:27 bf Exp $
+// $Id: ezpermission.php,v 1.18 2001/07/20 11:45:40 jakobn Exp $
 //
 // Definition of eZCompany class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 08:05:56 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

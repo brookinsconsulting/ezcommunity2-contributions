@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.79 2001/07/14 14:08:14 bf Exp $
+// $Id: ezuser.php,v 1.80 2001/07/20 11:45:40 jakobn Exp $
 //
 // Definition of eZUser class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <26-Sep-2000 18:47:27 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

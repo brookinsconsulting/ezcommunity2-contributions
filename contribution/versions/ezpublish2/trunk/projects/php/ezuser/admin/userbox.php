@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: userbox.php,v 1.9 2001/03/01 14:06:26 jb Exp $
+// $Id: userbox.php,v 1.10 2001/07/20 11:45:40 jakobn Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
