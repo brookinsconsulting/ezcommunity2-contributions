@@ -571,5 +571,7 @@ ALTER TABLE eZArticle_Category ADD OwnerID int(11) DEFAULT '0';
 # existing categories.
 # UPDATE eZArticle_Category SET OwnerID='XXX';  
 
-# The following SQL sentence is nice to run if you are having problems seeing and/or editing your old. It will set read/write  for everyone on your existing articles.
+# The following SQL sentence is nice to run if you are having problems seeing and/or editing your old articles. It will set read/write  for everyone on your existing articles.
 #insert into eZArticle_ArticlePermission( ObjectID, GroupID, ReadPermission, WritePermission ) select ID, '-1, '1', '1' from eZArticle_Article;
+# the same goes for you old categories
+#insert into eZArticle_CategoryPermission( ObjectID, GroupID, ReadPermission, WritePermission ) select ID, '-1, '1', '1' from eZArticle_Category;

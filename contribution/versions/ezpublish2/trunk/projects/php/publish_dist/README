@@ -12,6 +12,7 @@ For information about how to translate eZ publish consult the file TRANSLATION
 
 For installation information consult the file INSTALL.txt
 
+NOTE: There are structural changes in the database that might make your old articles unavaliable when you upgrade. There are some SQL sentences in the SQL_UPDATES file to fix this. To them read the comments.
 
 L I N K S:
 ----------
