@@ -25,8 +25,6 @@ include_once( "ezuser/classes/ezpermission.php" );
 //  if ( !$session->fetch() )
 //      $session->store();
 
-require( "ezuser/admin/admincheck.php" );
-
 $ini = new INIFile( "site.ini" );
 $t = new Template( "." );
 
@@ -50,6 +48,7 @@ include( "header.php" );
 $user = eZUser::currentUser();
 if ( $user )
 {
+    require( "ezuser/admin/admincheck.php" );
     if ( ! ( $HelpMode == "enabled" ) )
     {
         if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )
