@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.14 2001/01/17 10:23:29 bf Exp $
+// $Id: productview.php,v 1.15 2001/01/29 17:17:41 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -45,15 +45,39 @@ include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezoption.php" );
 
+if ( !isset( $IntlDir ) )
+    $IntlDir = "eztrade/user/intl";
+if ( !isset( $IniFile ) )
+    $IniFile = "productview.php";
+
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/user/intl/", $Language, "productview.php" );
+                     $IntlDir, $Language, $IniFile );
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "product_view_tpl" => "productview.tpl"
-    ) );
+if ( !isset( $productview ) )
+    $productview = "productview.tpl";
 
+if ( isset( $template_array ) and isset( $variable_array ) and
+     is_array( $template_array ) and is_array( $variable_array ) )
+{
+    $standard_array = array( "product_view_tpl" => $productview );
+    $temp_arr = array_merge( $standard_array, $template_array );
+    $t->set_file( $temp_arr );
+    $t->set_file_block( $template_array );
+    if ( isset( $block_array ) and is_array( $block_array ) )
+        $t->set_block( $block_array );
+    $t->parse( $variable_array );
+}
+else
+{
+    $t->set_var( "extra_product_info", "" );
+    $t->set_file( "product_view_tpl", $productview );
+}
+
+//  $t->set_file( array(
+//      "product_view_tpl" => "productview.tpl"
+//      ) );
 
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
@@ -71,6 +95,19 @@ $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 $t->set_block( "product_view_tpl", "numbered_page_link_tpl", "numbered_page_link" );
 $t->set_block( "product_view_tpl", "print_page_link_tpl", "print_page_link" );
 
+if ( !isset( $ModuleName ) )
+    $ModuleName = "trade";
+if ( !isset( $ModuleList ) )
+    $ModuleList = "productlist";
+if ( !isset( $ModuleView ) )
+    $ModuleView = "productview";
+if ( !isset( $ModulePrint ) )
+    $ModulePrint = "productprint";
+
+$t->set_var( "module", $ModuleName );
+$t->set_var( "module_list", $ModuleList );
+$t->set_var( "module_view", $ModuleView );
+$t->set_var( "module_print", $ModulePrint );
 
 $category = new eZProductCategory(  );
 $category->get( $CategoryID );
@@ -266,12 +303,21 @@ else
     $t->set_var( "numbered_page_link", "" );
 }
 
+if ( isset( $func_array ) and is_array( $func_array ) )
+{
+    foreach( $func_array as $func )
+    {
+        $func( $t, $ProductID );
+    }
+}
+
 if ( $GenerateStaticPage == "true" )
 {
     $cachedFile = "eztrade/cache/productview," .$ProductID . "," . $CategoryID .".cache";
+    $template_var = "product_view_tpl";
     $fp = fopen ( $cachedFile, "w+");
 
-    $output = $t->parse($target, "product_view_tpl" );
+    $output = $t->parse($target, $template_var );
     // print the output the first time while printing the cache file.
     print( $output );
     fwrite ( $fp, $output );
