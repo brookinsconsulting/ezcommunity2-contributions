@@ -32,12 +32,12 @@
 
 <div onLoad="MM_preloadImages('../eztrade/images/redigerminimrk.gif','../eztrade/images/slettminimrk.gif')"></div>
 
-<h1>Produktkatalog</h1>
+<h1>{intl-productlist}</h1>
 
 <hr noshade="noshade" size="4" />
 
 <img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
-<a class="path" href="/trade/categorylist/parent/0/">Hovedkategori</a>
+<a class="path" href="/trade/categorylist/parent/0/">{intl-top}</a>
 
 <!-- BEGIN path_item_tpl -->
 <img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
@@ -51,8 +51,8 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<tr>
-	<th>Kategori:</th>
-	<th>Beskrivelse:</th>
+	<th>{intl-category}:</th>
+	<th>{intl-description}:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -84,8 +84,8 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-sl
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<tr>
-	<th>Produkt:</th>
-	<td class="path" align="right">Pris:</td>
+	<th>{intl-product}:</th>
+	<td class="path" align="right">{intl-price}:</td>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>

@@ -9,7 +9,7 @@
 	</td>
 	<td align="right">
 	<br />
-	<span class="boxtext">Best. Nr:</span> {product_number}
+	<span class="boxtext">{intl-nr}:</span> {product_number}
 	</td>
 </tr>
 <tr>
@@ -91,7 +91,7 @@
 
 <br />
 
-<span class="boxtext">Pris:</span> {product_price}
+<span class="boxtext">{intl-price}:</span> {product_price}
 
 <br />
 
@@ -99,6 +99,6 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" value="tilbake" />
+<input class="okbutton" type="submit" value="{intl-back}" />
 </form>
 

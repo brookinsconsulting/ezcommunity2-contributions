@@ -1,6 +1,6 @@
 <form method="post" action="/trade/categoryedit/{action_value}/">
 
-<h1>{intl-head_line}</h1>
+<h1>{head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 

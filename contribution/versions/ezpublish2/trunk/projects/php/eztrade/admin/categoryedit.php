@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.6 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: categoryedit.php,v 1.7 2000/11/01 12:45:29 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -94,6 +94,9 @@ $t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
                
+$headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
+$t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
+
 $category = new eZProductCategory();
 
 $categoryArray = $category->getAll( );
@@ -112,6 +115,10 @@ if ( $Action == "Edit" )
     $t->set_var( "description_value", $category->description() );
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
+
+    $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
+    $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
+
 }
 
 foreach ( $categoryArray as $catItem )
