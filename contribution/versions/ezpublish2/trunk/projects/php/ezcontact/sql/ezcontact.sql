@@ -19,6 +19,28 @@ CREATE TABLE eZContact_Company (
 );
 
 #
+# Dumping data for table 'eZContact_Company'
+#
+
+
+
+#
+# Table structure for table 'eZContact_CompanyPictureDict'
+#
+DROP TABLE IF EXISTS eZContact_CompanyPictureDict;
+CREATE TABLE eZContact_CompanyPictureDict (
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  ImageID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID, ImageID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyPictureDict'
+#
+
+
+
+#
 # Table structure for table 'eZContact_Person'
 #
 DROP TABLE IF EXISTS eZContact_Person;
@@ -119,6 +141,108 @@ CREATE TABLE eZContact_PhoneType (
 #
 
 #
+# Table structure for table 'eZContact_ContactType'
+#
+DROP TABLE IF EXISTS eZContact_ContactType;
+CREATE TABLE eZContact_ContactType (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name char(50),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_ContactType'
+#
+
+#
+# Table structure for table 'eZContact_CompanyType'
+#
+DROP TABLE IF EXISTS eZContact_CompanyType;
+CREATE TABLE eZContact_CompanyType (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name char(50),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyType'
+#
+
+#
+# Table structure for table 'eZContact_CompanyTypeHiearchy'
+#
+DROP TABLE IF EXISTS eZContact_CompanyTypeHiearchy;
+CREATE TABLE eZContact_CompanyTypeHiearchy (
+  CompanyTypeID int(11) DEFAULT '0' NOT NULL,
+  ParentID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyTypeID, ParentID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyTypeHiearchy'
+#
+
+#
+# Table structure for table 'eZContact_CompanyTypeDict'
+#
+DROP TABLE IF EXISTS eZContact_CompanyTypeDict;
+CREATE TABLE eZContact_CompanyTypeDict (
+  CompanyTypeID int(11) DEFAULT '0' NOT NULL,
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyTypeID, CompanyID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyTypeDict'
+#
+
+#
+# Table structure for table 'eZContact_CompanyPersonDict'
+#
+DROP TABLE IF EXISTS eZContact_CompanyPersonDict;
+CREATE TABLE eZContact_CompanyPersonDict (
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  PersonID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID, PersonID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyPersonDict'
+#
+
+#
+# Table structure for table 'eZContact_UserPersonDict'
+#
+DROP TABLE IF EXISTS eZContact_UserPersonDict;
+CREATE TABLE eZContact_UserPersonDict (
+  UserID int(11) DEFAULT '0' NOT NULL,
+  PersonID int(11) DEFAULT '0' NOT NULL,
+  UNIQUE (UserID),
+  UNIQUE (PersonID),
+  PRIMARY KEY (UserID, PersonID)
+);
+
+#
+# Dumping data for table 'eZContact_UserPersonDict'
+#
+
+#
+# Table structure for table 'eZContact_UserCompanyDict'
+#
+DROP TABLE IF EXISTS eZContact_UserCompanyDict;
+CREATE TABLE eZContact_UserCompanyDict (
+  UserID int(11) DEFAULT '0' NOT NULL,
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  UNIQUE (UserID),
+  UNIQUE (CompanyID),
+  PRIMARY KEY (UserID, CompanyID)
+);
+
+#
+# Dumping data for table 'eZContact_UserCompanyDict'
+#
+
+#
 # Table structure for table 'eZContact_OnlineType'
 #
 DROP TABLE IF EXISTS eZContact_OnlineType;
@@ -130,6 +254,52 @@ CREATE TABLE eZContact_OnlineType (
 
 #
 # Dumping data for table 'eZContact_OnlineType'
+#
+
+#
+# Table structure for table 'eZContact_PersonAddressDict'
+#
+DROP TABLE IF EXISTS eZContact_PersonAddressDict;
+CREATE TABLE eZContact_PersonAddressDict (
+  PersonID int(11) DEFAULT '0' NOT NULL,
+  AddressID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (PersonID, AddressID)
+);
+
+#
+# Dumping data for table 'eZContact_PersonAddressDict'
+#
+
+
+
+#
+# Table structure for table 'eZContact_PersonOnlineDict'
+#
+DROP TABLE IF EXISTS eZContact_PersonOnlineDict;
+CREATE TABLE eZContact_PersonOnlineDict (
+  PersonID int(11) DEFAULT '0' NOT NULL,
+  OnlineID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (PersonID, OnlineID)
+);
+
+#
+# Dumping data for table 'eZContact_PersonOnlineDict'
+#
+
+
+
+#
+# Table structure for table 'eZContact_PersonPhoneDict'
+#
+DROP TABLE IF EXISTS eZContact_PersonPhoneDict;
+CREATE TABLE eZContact_PersonPhoneDict (
+  PersonID int(11) DEFAULT '0' NOT NULL,
+  PhoneID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (PersonID, PhoneID)
+);
+
+#
+# Dumping data for table 'eZContact_PersonPhoneDict'
 #
 
 #
