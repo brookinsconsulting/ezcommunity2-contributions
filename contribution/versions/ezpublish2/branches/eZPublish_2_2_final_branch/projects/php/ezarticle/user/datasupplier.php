@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.6 2002/02/08 10:53:35 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.7 2002/02/13 10:14:35 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -329,47 +329,54 @@ switch ( $url_array[2] )
         $definition = $article->categoryDefinition( true );
         $definition = $definition->id();
 
+        $showComments = false;
         if ( $PageCaching == "enabled" )
         {            
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $PrintableVersion . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
+                $showComments = true;
             }
             else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
-                     || eZArticle::isAuthor( $user, $ArticleID ) )
+                      || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
                 
                 include( "ezarticle/user/articleview.php" );
+                $showComments = true;
             }
         }
         else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
                   || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
+            $showComments = true;
         }
         
         /* Should there be permissions here? */
-        if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
+        if ( $showComments == true )
         {
-            $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
-            $article = new eZArticle( $ArticleID );
-            if ( ( $article->id() >= 1 ) && $article->discuss() )
+            if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
             {
-                for ( $i = 0; $i < count( $url_array ); $i++ )
+                $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
+                $article = new eZArticle( $ArticleID );
+                if ( ( $article->id() >= 1 ) && $article->discuss() )
                 {
-                    if ( ( $url_array[$i] ) == "parent" )
+                    for ( $i = 0; $i < count( $url_array ); $i++ )
                     {
-                        $next = $i + 1;
-                        $Offset = $url_array[$next];
+                        if ( ( $url_array[$i] ) == "parent" )
+                        {
+                            $next = $i + 1;
+                            $Offset = $url_array[$next];
+                        }
                     }
+                    $forum = $article->forum();
+                    $ForumID = $forum->id();
+                    include( "ezforum/user/messagesimplelist.php" );
                 }
-                $forum = $article->forum();
-                $ForumID = $forum->id();
-                include( "ezforum/user/messagesimplelist.php" );
             }
-        }        
+        }
     }
     break;
 
