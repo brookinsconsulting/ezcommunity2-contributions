@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20.2.1 2001/11/01 13:05:51 ce Exp $
+// $Id: wishlist.php,v 1.20.2.1.4.1 2002/02/01 09:43:19 ceaker Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -324,7 +324,7 @@ $i = 0;
 $sum = 0.0;
 foreach ( $items as $item )
 {
-    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "smallbox1" : "smallbox2" );
 
     $product =& $item->product();
 
