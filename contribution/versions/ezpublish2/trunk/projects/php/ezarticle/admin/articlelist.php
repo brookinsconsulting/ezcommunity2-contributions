@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.39 2001/05/19 11:11:30 bf Exp $
+// $Id: articlelist.php,v 1.40 2001/05/25 14:13:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -28,6 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezcachefile.php" );
@@ -434,38 +435,8 @@ $t->pparse( "output", "article_list_page_tpl" );
   Delete cache.
 */
 function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
-{
-    $user = eZUser::currentUser();
-    $groupstr = "";
-    if( get_class( $user ) == "ezuser" )
-    {
-        $groupIDArray = $user->groups( true );
-        sort( $groupIDArray );
-        $first = true;
-        foreach( $groupIDArray as $groupID )
-        {
-            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-            $first = false;
-        }
-    }
-
-    $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( array( "articleprint", "articleview", "articlestatic" ),
-                                        $ArticleID, NULL, $groupstr ), "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
-
-    $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( "articlelist",
-                                        array_merge( 0, $CategoryID, $CategoryArray ),
-                                        NULL, array( "", $groupstr ) ),
-                                 "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
+{    
+    eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
 }
 
 
