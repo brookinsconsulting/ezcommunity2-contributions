@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.20 2001/03/08 11:21:44 jb Exp $
+// $Id: imagelist.php,v 1.21 2001/03/08 12:28:42 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -202,26 +202,12 @@ else
 // Print out all the images
 $imageList =& $category->images();
 
-$i=0;
+$i = 0;
 $counter = 0;
 foreach ( $imageList as $image )
 {
-    if ( ( $i % 4 ) == 0 )
-    {
-        $t->set_var( "begin_tr", "<tr>" );
-        $t->set_var( "end_tr", "" );        
-    }
-    else if ( ( $i % 4 ) == 3 )
-    {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "</tr>" );
-    }
-    else
-    {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "" );        
-    }
-
+    $t->set_var( "end_tr", "" );        
+    $t->set_var( "begin_tr", "" );
 
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "original_image_name", $image->originalFileName() );
@@ -256,6 +242,7 @@ foreach ( $imageList as $image )
 
     $t->set_var( "image_size", $size["size-string"] );
     $t->set_var( "image_unit", $size["unit"] );
+    $t->set_var( "image_caption", $image->caption() );
 
     $t->set_var( "read", "" );
     $t->set_var( "write", "" );
@@ -273,8 +260,20 @@ foreach ( $imageList as $image )
 
     // Check if user have read permission
     $t->set_var( "detail_read", "" );
+    $can_read = false;
+    $can_write = false;
     if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) )
     {
+        $can_read = true;
+        if ( ( $i % 4 ) == 0 )
+        {
+            $t->set_var( "begin_tr", "<tr>" );
+        }
+        else if ( ( $i % 4 ) == 3 )
+        {
+            $t->set_var( "end_tr", "</tr>" );
+        }
+
         if ( isSet ( $DetailView ) )
         {
             $t->parse( "detail_read", "detail_read_tpl" );
@@ -289,6 +288,7 @@ foreach ( $imageList as $image )
     // Check if user have write permission
     if ( ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) && $user )
     {
+        $can_write = true;
         if ( isSet ( $DetailView ) )
         {
             $deleteImage = true;
@@ -311,24 +311,33 @@ foreach ( $imageList as $image )
     // Set the detail or normail view
     if ( isSet ( $DetailView ) )
     {
-        $t->set_var( "is_detail_view", "true" );
-        $t->set_var( "detail_button", "" );
         $t->set_var( "image", "" );
-    
-        $t->parse( "detail_view", "detail_view_tpl", true );
-        $t->parse( "normal_button", "normal_view_button" );
+
+        if ( $can_read )
+            $t->parse( "detail_view", "detail_view_tpl", true );
     }
     else
     {
-        $t->set_var( "is_detail_view", "" );
         $t->set_var( "detail_view", "" );
-        $t->set_var( "normal_button", "" );
     
-        $t->parse( "image", "image_tpl", true );
-        $t->parse( "detail_button", "detail_view_button" );
+        if ( $can_read )
+            $t->parse( "image", "image_tpl", true );
     }
 
     $counter++;
+}
+
+$t->set_var( "detail_button", "" );
+$t->set_var( "normal_button", "" );
+if ( isSet ( $DetailView ) )
+{
+    $t->set_var( "is_detail_view", "true" );
+    $t->parse( "normal_button", "normal_view_button" );
+}
+else
+{
+    $t->set_var( "is_detail_view", "" );
+    $t->parse( "detail_button", "detail_view_button" );
 }
 
 // Print out the category/image menu

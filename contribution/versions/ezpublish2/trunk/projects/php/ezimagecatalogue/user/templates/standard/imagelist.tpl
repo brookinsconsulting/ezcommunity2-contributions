@@ -58,7 +58,7 @@
 {begin_tr}
 	<!-- BEGIN read_tpl -->
 	<td {col_span} align="center" valign="center">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a><div>{image_caption}</div>
 	</td>
 	<!-- END read_tpl -->
 	<!-- BEGIN read_span_tpl -->
@@ -77,6 +77,9 @@
 	<!-- BEGIN detail_read_tpl -->
 	<td>
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
+	</td>
+	<td class="{td_class}">
+	{image_caption}
 	</td>
 	<td class="{td_class}">
 	{image_size}&nbsp;{image_unit}
