@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: searchsupplier.php,v 1.2 2001/10/05 17:41:32 br Exp $
+// $Id: searchsupplier.php,v 1.3 2001/10/06 11:23:44 bf Exp $
 //
 // Created on: <04-Oct-2001 14:13:53 bf>
 //
@@ -27,7 +27,7 @@
 $ModuleName = "eZ trade";
 $DetailedSearchPath = "/trade/search/";
 $DetailedSearchVariable = "Query";
-$DetailViewPath = "/article/view/";
+$DetailViewPath = "/trade/productview/";
 $IconPath = "/images/document.gif";
 
 include_once( "eztrade/classes/ezproduct.php" );

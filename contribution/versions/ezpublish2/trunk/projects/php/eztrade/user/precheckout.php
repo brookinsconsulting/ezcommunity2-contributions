@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: precheckout.php,v 1.4 2001/07/20 11:42:02 jakobn Exp $
+// $Id: precheckout.php,v 1.5 2001/10/06 11:23:44 bf Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -30,6 +30,8 @@ include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
 $ForceSSL = $ini->read_var( "eZTradeMain", "ForceSSL" );
+
+print( $ForceSSL );
 
 // set SSL mode and redirect if not already in SSL mode.
 if ( ( $ForceSSL == "enabled" ) )

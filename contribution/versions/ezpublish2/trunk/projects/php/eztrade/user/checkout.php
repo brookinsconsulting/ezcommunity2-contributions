@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.94 2001/09/28 09:19:50 ce Exp $
+// $Id: checkout.php,v 1.95 2001/10/06 11:23:44 bf Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -264,7 +264,7 @@ else
     $address = new eZAddress();
     $mainAddress = $address->mainAddress( $user );
     
-    $country =& $mainAddress->country();
+    $country =& $mainAddress->country();    
     if ( !$country->hasVAT() )
     {
         $vat = false;
