@@ -3694,3 +3694,16 @@ Maintainer(s) : ce@ez.no
     * admin/productedit.php:
     fixed bug with read permissions on product in eZ trade.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2004-04-06  Bjoern Reiten  <br@ez.no>
+
+    * user/productview.php
+      user/smallproductlist.php
+      admin/categoryedit.php
+      classes/ezproduct.php
+      classes/ezproductcategory.php:
+    Added check of permissions to products in eZTrade.
+
