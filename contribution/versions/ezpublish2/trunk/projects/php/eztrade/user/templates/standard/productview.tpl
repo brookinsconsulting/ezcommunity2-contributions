@@ -124,6 +124,15 @@
 	{value_price}
 	<!-- END value_price_item_tpl -->
 	 </option>
+
+	<!-- BEGIN value_price_currency_list_tpl -->
+
+	<!-- BEGIN value_price_currency_item_tpl -->
+
+	<!-- END value_price_currency_item_tpl -->
+
+	<!-- END value_price_currency_list_tpl -->
+
 	<!-- END value_tpl -->
 	</select>
 	</td>

@@ -111,22 +111,44 @@
 	</th>
 </tr>
 <tr>
-	<td width="40%">
+	<td width="60%">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 	<!-- BEGIN value_price_header_tpl -->
+	<tr>
+		<th>
+		ArtNr
+		</th>
+		<th>
+		Price
+		</th>
+		<th colspan="{currency_count}"> 
+		Alternative currency
+		</th>
+	</tr>
 
 	<!-- END value_price_header_tpl -->
 	<tr>
 	<!-- BEGIN value_tpl -->
-	<td>
+	<td class="{value_td_class}">
 	{value_name}&nbsp;&nbsp;
 	</td>
 	<!-- BEGIN value_price_item_tpl -->
-	<td>
+	<td class="{value_td_class}">
 	{value_price}
 	</td>
 	<!-- END value_price_item_tpl -->
+
+	<!-- BEGIN value_price_currency_list_tpl -->
+
+	<!-- BEGIN value_price_currency_item_tpl -->
+	<td class="{value_td_class}">
+	{alt_value_price}
+	</td>
+	<!-- END value_price_currency_item_tpl -->
+
+	<!-- END value_price_currency_list_tpl -->
+
 	</tr>
 	<!-- END value_tpl -->
 </table>
