@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.55 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: ezforummessage.php,v 1.56 2000/11/10 09:59:37 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -115,7 +115,9 @@ class eZForumMessage
 		                         TreeID='$this->TreeID',
 		                         ThreadID='$this->ThreadID',
 		                         Depth='$this->Depth',
-		                         EmailNotice='$this->EmailNotice'
+		                         EmailNotice='$this->EmailNotice',
+                                 PostingTime=now()
+       
                                  " );
 
                 $this->ID = mysql_insert_id();
@@ -141,7 +143,7 @@ class eZForumMessage
                     $this->Depth = $d + 1;
                     
                     // update the whole tree's ThreeID.
-                    $this->Database->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ) WHERE TreeID >= $parentID" );
+                    $this->Database->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
 
                     $this->Database->query( "INSERT INTO eZForum_Message SET
 		                         ForumID='$this->ForumID',
@@ -152,12 +154,11 @@ class eZForumMessage
 		                         TreeID='$this->TreeID',
 		                         ThreadID='$this->ThreadID',
 		                         Depth='$this->Depth',
-		                         EmailNotice='$this->EmailNotice'
+		                         EmailNotice='$this->EmailNotice',
+                                 PostingTime=now()
                                  " );
 
                     $this->ID = mysql_insert_id();
-                    
-                    
                 }
                 else
                 {
@@ -179,7 +180,8 @@ class eZForumMessage
 		                         Body='$this->Body',
 		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
-		                         EmailNotice='$this->EmailNotice'
+		                         EmailNotice='$this->EmailNotice',
+                                 PostingTime=PostingTime
                                  WHERE ID='$this->ID'
                                  " );
 
