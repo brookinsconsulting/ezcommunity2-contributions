@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.30 2001/11/22 11:24:57 pkej Exp $
+// $Id: frontpage.php,v 1.31 2001/12/10 18:06:40 br Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -127,6 +127,9 @@ $rows =& $sectionObject->frontPageRows();
 $page_element = array();
 
 $tempArticle = new eZArticle();
+unset( $articleList );
+unset( $adList );
+unset( $productList );
 
 if ( is_array ( $rows ) and count ( $rows ) > 0 )
 {
