@@ -8,6 +8,7 @@ Changes from version 1.0.1
 * Added showing of number of users registered
 * Added searchable products.
 * Added searchable articles.
+* Added welcome message.
 * Removed Javascript from the cart.
 * Removed broken image on product preview if no image exists.
 * Fixed some issues with cache coherence

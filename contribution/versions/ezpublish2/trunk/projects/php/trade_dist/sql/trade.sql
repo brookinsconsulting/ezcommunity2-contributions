@@ -31,6 +31,23 @@ CREATE TABLE eZArticle_Article (
 INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a demo article. It will demontrate the power of the eZTechRenderer used for generating articles.</intro><body><page><header>Here I will demonstrate some simple tags</header>\r\n\r\n<bold> this is bold text</bold> \r\n<italic>this is italic text</italic>\r\n<strike>this is strike through text</strike>\r\n\r\n<link href=\"ez.no\" text=\"this is a link\" />\r\n<mail to=\"bf@ez.no\" subject=\"demo\" text=\"mail me\" /> a mail link with subject set to demo\r\n\r\n</page><page>\r\n\r\n<header>Here I will demonstrate images</header>\r\n\r\nAs you see the images are generated on the fly, so you can request any size (small, medium, large) at any time.\r\n\r\n<image id=\"1\" align=\"left\" size=\"small\" /> This is a small image. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\nbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\n<header>A large image:</header>\r\n\r\n<image id=\"1\" align=\"center\" size=\"large\" /> \r\n\r\n</page><page>\r\n\r\n<header>Coding tags</header>\r\n\r\nHere I will demonstrate som programming tags.\r\n\r\n<php>\r\n// this is php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n</php>\r\n\r\nAnd some cpp:\r\n<cpp>\r\nclass foo\r\n{\r\n  foo();\r\n  void bar();\r\n}\r\n</cpp>\r\n\r\nAnd \r\n<ezhtml>\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n  &lt;title&gt;\r\n  Title\r\n  &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis is the body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n</ezhtml>\r\n\r\n</page></body></article>','Bård Farstad','read',1,20001101152408,20001101152255,3,'true',20001101152255,'tech\nThis is a demo article. It will demontrate the power of eZTechRenderer used for generating articles.Here I demonstrate some simple tags\r\n\r\n this bold text \r\nthis italic text\r\nthis strike through text\r\n\r\n\r\n mail link with subject set to demo\r\n\r\n\r\n\r\nHere images\r\n\r\nAs you see images are generated on fly, so can request any size (small, medium, large) at time.\r\n\r\n This small image. Bla bla .\r\n\r\nbla .\r\n\r\nA large image:\r\n\r\n \r\n\r\n\r\n\r\nCoding tags\r\n\r\nHere som programming tags.\r\n\r\n\r\n// php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n\r\n\r\nAnd cpp:\r\n\r\nclass foo\r\n{\r\n foo();\r\n void \r\n\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;title&gt;\r\n Title\r\n &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n\r\n\r\n ');
 
 #
+# Table structure for table 'eZArticle_ArticleCategoryDefinition'
+#
+DROP TABLE IF EXISTS eZArticle_ArticleCategoryDefinition;
+CREATE TABLE eZArticle_ArticleCategoryDefinition (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZArticle_ArticleCategoryDefinition'
+#
+
+INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (1,1,1);
+
+#
 # Table structure for table 'eZArticle_ArticleCategoryLink'
 #
 DROP TABLE IF EXISTS eZArticle_ArticleCategoryLink;
@@ -131,6 +148,9 @@ CREATE TABLE eZContact_AddressType (
   PRIMARY KEY (ID)
 );
 
+#
+# Dumping data for table 'eZContact_AddressType'
+#
 
 
 #
@@ -720,6 +740,7 @@ CREATE TABLE eZTrade_Product (
   InheritOptions enum('true','false'),
   ProductNumber varchar(100),
   ExternalLink varchar(200),
+  IsHotDeal enum('true','false') DEFAULT 'false',
   PRIMARY KEY (ID)
 );
 
@@ -727,7 +748,24 @@ CREATE TABLE eZTrade_Product (
 # Dumping data for table 'eZTrade_Product'
 #
 
-INSERT INTO eZTrade_Product VALUES (1,'Flower','This is just a demo product... ','Here are the description of the product.','nice flower',42.00,'true','true','false','false','FLW-100','ez.no');
+INSERT INTO eZTrade_Product VALUES (1,'Flower','This is just a demo product... ','Here are the description of the product.','nice flower',42.00,'true','true','false','false','FLW-100','ez.no','false');
+
+#
+# Table structure for table 'eZTrade_ProductCategoryDefinition'
+#
+DROP TABLE IF EXISTS eZTrade_ProductCategoryDefinition;
+CREATE TABLE eZTrade_ProductCategoryDefinition (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ProductID int(11) DEFAULT '0' NOT NULL,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZTrade_ProductCategoryDefinition'
+#
+
+INSERT INTO eZTrade_ProductCategoryDefinition VALUES (1,1,1);
 
 #
 # Table structure for table 'eZTrade_ProductCategoryLink'
