@@ -132,9 +132,7 @@
 <table width="100%" bgcolor="#eeeeee" >
 <tr>
 	<td>
-	<pre>
-	{contents}
-	</pre>
+	<pre>{contents}</pre>
 	</td>
 </tr>
 </table>
