@@ -21,6 +21,7 @@
 
 http://<input tabindex="2" type="text" name="url" size="40" value="{url}"><br />
 <br />
+
 <input class="stdbutton" type="submit" value="{intl-meta}" name="GetSite" />
 
 <p class="boxtext">{intl-keywords}</p>
