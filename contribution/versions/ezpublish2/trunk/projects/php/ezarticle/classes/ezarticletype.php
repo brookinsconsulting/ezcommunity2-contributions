@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticletype.php,v 1.7 2001/06/29 07:08:38 bf Exp $
+// $Id: ezarticletype.php,v 1.8 2001/07/04 14:21:46 jb Exp $
 //
 // Definition of eZArticleType class
 //
@@ -216,7 +216,7 @@ class eZArticleType
       Returns an array of eZArticleAttribute objects which
       are associated with the current article type.
     */
-    function attributes( )
+    function attributes( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
        
@@ -229,7 +229,8 @@ class eZArticleType
 
         for ( $i=0; $i<count($attribute_array); $i++ )
         {
-            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i][$db->fieldName("ID")], false );
+            $attrib_id = $attribute_array[$i][$db->fieldName("ID")];
+            $return_array[$i] = $as_object ? new eZArticleAttribute( $attrib_id, false ) : $attrib_id;
         }
        
         return $return_array;       
