@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.25 2001/08/16 14:15:24 ce Exp $
+// $Id: ezobjectpermission.php,v 1.26 2001/08/17 06:56:19 ce Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -158,15 +158,25 @@ class eZObjectPermission
                 {
                     if ( $first == true )
                     {
-                        $SQLGroups = "Object.GroupID='$groupItem' OR Category.GroupID='$groupItem'";
+                        $SQLGroups = "( Object.GroupID='$groupItem' ";
                     }
                     else
                     {
-                        $SQLGroups .= " OR Object.GroupID='$groupItem' OR Category.GroupID='$groupItem'";
+                        $SQLGroups .= "OR Object.GroupID='$groupItem' ";
                     }
                     $first = false;
                 }
-                $SQLGroups .= " OR Object.GroupID = '-1' OR Category.GroupID = '-1'";
+                $first = true;
+                foreach ( $groups as $groupItem )
+                {
+                    if ( $first == true )
+                        $SQLGroups .= " ) AND ( Category.GroupID='$groupItem' ";
+                    else
+                        $SQLGroups .= " OR Category.GroupID='$groupItem' ";
+                    $first = false;
+                }
+                
+                $SQLGroups .= ") OR ( Object.GroupID = '-1' AND Category.GroupID = '-1' ) ";
             }
         }
 
@@ -188,7 +198,7 @@ class eZObjectPermission
             $SQLWrite = "AND Object.WritePermission='1' AND Category.WritePermission='1'";
         }
 
-        $query = "SELECT count( Object.ID ) as ID FROM $tableName WHERE Object.ObjectID='$objectID' AND ( $SQLGroups ) $SQLRead $SQLWrite  AND Object.ObjectID=Definition.ArticleID AND Category.ObjectID=Definition.CategoryID AND Category.ReadPermission='1' AND Category.ObjectID='$categoryID' GROUP BY Object.ObjectID;";
+        $query = "SELECT count( Object.ID ) as ID FROM $tableName WHERE Object.ObjectID='$objectID' AND ( $SQLGroups ) $SQLRead $SQLWrite  AND Object.ObjectID=Definition.ArticleID AND Category.ObjectID=Definition.CategoryID AND Category.ObjectID='$categoryID' GROUP BY Object.ObjectID";
 
         $database =& eZDB::globalDatabase();
 
