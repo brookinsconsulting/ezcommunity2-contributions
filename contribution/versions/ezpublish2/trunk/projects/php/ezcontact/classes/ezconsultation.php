@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.23 2001/08/31 12:18:31 jhe Exp $
+// $Id: ezconsultation.php,v 1.24 2001/09/05 11:57:07 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -486,7 +486,7 @@ class eZConsultation
             $limit = array();
         }
 
-        switch( strtolower( $OrderBy ) )
+        switch ( strtolower( $OrderBy ) )
         {
             case "description":
             case "desc":

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.32 2001/09/05 08:16:06 jhe Exp $
+// $Id: monthview.php,v 1.33 2001/09/05 11:55:50 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -31,7 +31,6 @@ include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdate.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
-include_once( "ezcontact/classes/ezconsultation.php" );
 include_once( "eztodo/classes/eztodo.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
@@ -99,11 +98,8 @@ else
     $t->set_block( "week_tpl", "day_tpl", "day" );
     $t->set_block( "day_tpl", "public_appointment_tpl", "public_appointment" );
     $t->set_block( "day_tpl", "private_appointment_tpl", "private_appointment" );
-    $t->set_block( "day_tpl", "public_consultation_tpl", "public_consultation" );
     $t->set_block( "day_tpl", "public_todo_tpl", "public_todo" );
-    $t->set_block( "public_consultation_tpl", "public_consultation_company_tpl", "public_consultation_company" );
-    $t->set_block( "public_consultation_tpl", "public_consultation_person_tpl", "public_consultation_person" );
-                   
+    
     $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
     $t->set_var( "month_number", $Month );
     $t->set_var( "year_number", $Year );
@@ -162,7 +158,6 @@ else
 
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
-                    $t->set_var( "public_consultation", "" );
                     $t->set_var( "public_todo", "" );
 
                     foreach ( $appointments as $appointment )
@@ -172,13 +167,9 @@ else
                         $t->set_var( "stop_time", $Locale->format( $appointment->stopTime(), true ) );
 
                         if ( $appointment->isPrivate() == false || $userID == $appointment->userID() )
-                        {
                             $t->parse( "public_appointment", "public_appointment_tpl", true );
-                        }
                         else
-                        {
                             $t->parse( "private_appointment", "private_appointment_tpl", true );
-                        }
                     }
 
                     // fetch todos for today
@@ -186,6 +177,7 @@ else
                         $todos = array();
                     else
                         $todos =& eZTodo::getByDate( $userID, $tmpDate );
+
                     foreach ( $todos as $todo )
                     {
                         $t->set_var( "todo_id", $todo->id() );
@@ -352,6 +344,5 @@ function addZero( $value )
     }
     return $ret;
 }
-
 
 ?>

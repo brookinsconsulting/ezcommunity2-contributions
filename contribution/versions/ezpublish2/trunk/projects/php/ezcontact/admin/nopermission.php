@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: nopermission.php,v 1.4 2001/08/13 13:50:22 jhe Exp $
+// $Id: nopermission.php,v 1.5 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <19-Feb-2001 11:11:28 amos>
 //
@@ -70,7 +70,7 @@ $t->set_var( "permission_category_delete_item", "" );
 $t->set_var( "permission_type_admin", "" );
 $t->set_var( "permission_consultation", "" );
 
-switch( $Type )
+switch ( $Type )
 {
     case "login":
     {
@@ -90,7 +90,7 @@ switch( $Type )
     case "company":
     case "person":
     {
-        switch( $Action )
+        switch ( $Action )
         {
             case "new":
             case "edit":
@@ -107,7 +107,7 @@ switch( $Type )
     }
     case "category":
     {
-        switch( $Action )
+        switch ( $Action )
         {
             case "new":
             case "edit":

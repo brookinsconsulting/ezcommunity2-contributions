@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: error.php,v 1.2 2001/07/20 12:01:50 jakobn Exp $
+// $Id: error.php,v 1.3 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,7 +33,7 @@ $t->setAllStrings();
 $page_path = "/contact/error";
 $item_error = true;
 
-if( empty( $BackUrl ) )
+if ( empty( $BackUrl ) )
 {
     $back_command = "/";
 }
@@ -51,11 +51,12 @@ $t->set_block( "error_page", "uri_item_tpl", "uri_item" );
 
 $t->set_var( "uri_item", "" );    
 
-if( !empty( $Uri ) )
+if ( !empty( $Uri ) )
 {
     $t->set_var( "uri_data", "http://" . $HOSTNAME . $Uri );
     $t->parse( "uri_item","uri_item_tpl" );
 }
 
 $t->pparse( "output", "error_page" );
+
 ?>

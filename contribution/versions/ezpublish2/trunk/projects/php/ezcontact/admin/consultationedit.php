@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.23 2001/09/04 12:06:16 jhe Exp $
+// $Id: consultationedit.php,v 1.24 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -241,13 +241,13 @@ if ( $Action == "insert" || $Action == "update" )
         $error = true;
     }
 
-//      if( empty( $EmailNotice ) )
+//      if ( empty( $EmailNotice ) )
 //      {
 //          $t->parse( "error_email_notification_item", "error_email_notificiation_item_tpl" );
 //          $error = true;
 //      }
 
-//      if( empty( $GroupNotice[] ) )
+//      if ( empty( $GroupNotice[] ) )
 //      {
 //          $t->parse( "error_group_notification_item", "error_group_notification_item_tpl" );
 //          $error = true;

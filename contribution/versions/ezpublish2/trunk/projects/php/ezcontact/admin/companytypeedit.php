@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypeedit.php,v 1.29 2001/08/17 13:35:58 jhe Exp $
+// $Id: companytypeedit.php,v 1.30 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -75,7 +75,7 @@ else if ( $Action == "delete" )
     }
 }
 
-if( empty( $TypeID ) )
+if ( empty( $TypeID ) )
 {
     $TypeID = 0;
 }
@@ -83,11 +83,11 @@ if( empty( $TypeID ) )
 $type = new eZCompanyType();
 $type->get( $TypeID );
 
-if( $Action == "insert" || $Action == "update" )
+if ( $Action == "insert" || $Action == "update" )
 {
     $type = new eZCompanyType();
 
-    if( !empty( $TypeID ) )
+    if ( !empty( $TypeID ) )
     {
         $type->get( $TypeID );
     }
@@ -98,7 +98,7 @@ if( $Action == "insert" || $Action == "update" )
         if ( $SelectParentID != $type->id() )
         {
             $tree =& $type->getTree( $type->id() );
-            foreach( $tree as $item )
+            foreach ( $tree as $item )
             {
                 if ( $item[0]->id() == $SelectParentID )
                 {
@@ -134,7 +134,7 @@ if( $Action == "insert" || $Action == "update" )
 
 }
 
-if( !$type->id() && $Action != "new"  )
+if ( !$type->id() && $Action != "new"  )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /error.php?type=404&reason=missingpage&module=ezcontact&hint=/contact/company/list/0" );
@@ -176,7 +176,7 @@ $t->set_var( "image_item", "" );
 $t->set_var( "path_item", "" );
 $t->set_var( "current_path_item", "" );
 
-if( empty( $TypeID ) || $TypeID == 0 )
+if ( empty( $TypeID ) || $TypeID == 0 )
 {
     $t->parse( "path", "path_tpl" );
 }
@@ -186,26 +186,26 @@ else
     $countingPaths = count( $path );
 
     $t->set_var( "path_item", "" );
-    foreach( $paths as $path )
+    foreach ( $paths as $path )
+    {
+        $t->set_var( "parent_id", $path[0] );
+        if ( $path[0] == $type->id() )
         {
-            $t->set_var( "parent_id", $path[0] );
-            if( $path[0] == $type->id() )
-            {
-                $t->parse( "current_path_item", "current_path_item_tpl" );
-            }
-            else
-            {
-                $t->set_var( "parent_name", $path[1] );
-                $t->parse( "path_item", "path_item_tpl", true );
-            }
+            $t->parse( "current_path_item", "current_path_item_tpl" );
         }
+        else
+        {
+            $t->set_var( "parent_name", $path[1] );
+            $t->parse( "path_item", "path_item_tpl", true );
+        }
+    }
 
     $t->parse( "path", "path_tpl" );
 }
     
-if( $Action == "edit" || $Action == "new" )
+if ( $Action == "edit" || $Action == "new" )
 {
-    if( $Action == "edit" )
+    if ( $Action == "edit" )
     {
         $t->set_var( "action_value", "update" );
     }
@@ -231,7 +231,7 @@ if( $Action == "edit" || $Action == "new" )
 
     $ImageID = $type->imageID();
         
-    if( is_numeric( $ImageID ) && $ImageID != 0 )
+    if ( is_numeric( $ImageID ) && $ImageID != 0 )
     {
         $ini = new INIFile( "site.ini" );
         $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
@@ -262,7 +262,7 @@ if( $Action == "edit" || $Action == "new" )
 
     $tree = $category->getTree();
     
-    foreach( $tree as $item )
+    foreach ( $tree as $item )
     {
         $t->set_var( "select_parent_id", $item[0]->id() );
         $t->set_var( "select_parent_name", $item[0]->name() );
@@ -285,12 +285,12 @@ if( $Action == "edit" || $Action == "new" )
         $t->parse( "parent_item", "parent_item_tpl", true );
     }
    
-    if( count( $tree ) == 0 )
+    if ( count( $tree ) == 0 )
     {
         $t->set_var( "parent_item", "" );
     }
         
-    if( $selected == false )
+    if ( $selected == false )
     {
         $t->set_var( "root_selected", "selected" );
     }

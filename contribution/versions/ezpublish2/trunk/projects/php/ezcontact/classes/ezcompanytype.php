@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompanytype.php,v 1.35 2001/07/20 12:01:50 jakobn Exp $
+// $Id: ezcompanytype.php,v 1.36 2001/09/05 11:57:07 jhe Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -101,13 +101,13 @@ class eZCompanyType
     function delete()
     {
         $sub_categories =& eZCompanyType::getByParentID( $this->ID );
-        foreach( $sub_categories as $category )
+        foreach ( $sub_categories as $category )
         {
             $category->delete();
         }
         $top_category = new eZCompanyType( 0 );
         $companies =& eZCompany::getByCategory( $this->ID );
-        foreach( $companies as $company )
+        foreach ( $companies as $company )
         {
             $company->removeCategories();
             $top_category->addCompany( $company );
@@ -132,7 +132,7 @@ class eZCompanyType
             {
                 die( "Error: More than one company type with the same ID found. Major problem, clean up the table eZContact_CompanyType. " );
             }
-            elseif( count( $company_type_array ) == 1 )
+            else if ( count( $company_type_array ) == 1 )
             {
                 $this->ID = $company_type_array[ 0 ][ $db->fieldName( "ID" ) ];
                 $this->Name = $company_type_array[ 0 ][ $db->fieldName( "Name" ) ];
@@ -150,7 +150,7 @@ class eZCompanyType
     {
         $db =& eZDB::globalDatabase();
         
-        switch( strtolower( $OrderBy ) )
+        switch ( strtolower( $OrderBy ) )
         {
             case "description":
             case "desc":
@@ -172,11 +172,11 @@ class eZCompanyType
                 break;
         }
         
-        if( is_numeric( $LimitStart ) )
+        if ( is_numeric( $LimitStart ) )
         {
             $LimitArray = array( "Offset" => $LimitStart );
             
-            if( is_numeric( $LimitBy ) )
+            if ( is_numeric( $LimitBy ) )
             {
                 $LimitArray =& array_merge( $LimitArray, array( "Limit" => $LimitBy ) );
             }
@@ -192,7 +192,7 @@ class eZCompanyType
         
         $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType $OrderBy", $LimitClause );
 
-        foreach( $company_type_array as $companyTypeItem )
+        foreach ( $company_type_array as $companyTypeItem )
         {
             $return_array[] = new eZCompanyType( $companyTypeItem[ $db->fieldName( "ID" ) ] );
         }
@@ -215,7 +215,7 @@ class eZCompanyType
             $id = $parent;
         }
         
-        switch( strtolower( $OrderBy ) )
+        switch ( strtolower( $OrderBy ) )
         {
             case "description":
             case "desc":
@@ -237,11 +237,11 @@ class eZCompanyType
                 break;
         }
         
-        if( is_numeric( $LimitStart ) )
+        if ( is_numeric( $LimitStart ) )
         {
             $LimitArray = array( "Offset" => $LimitStart );
             
-            if( is_numeric( $LimitBy ) )
+            if ( is_numeric( $LimitBy ) )
             {
                 $LimitArray =& array_merge( $LimitArray, array( "Limit" => $LimitBy ) );
             }
@@ -258,7 +258,7 @@ class eZCompanyType
         
         $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' $OrderBy", $LimitArray );
 
-        foreach( $company_type_array as $companyTypeItem )
+        foreach ( $company_type_array as $companyTypeItem )
         {
             $return_array[] =& new eZCompanyType( $companyTypeItem[ $db->fieldName( "ID" ) ] );
         }
@@ -272,12 +272,12 @@ class eZCompanyType
     {
         $ret = false;
         
-        if( $id == "this" )
+        if ( $id == "this" )
         {
             $id = $this->ID;
         }
         
-        if( is_numeric( $id ) )
+        if ( is_numeric( $id ) )
         {
             $db =& eZDB::globalDatabase();
             
@@ -285,7 +285,7 @@ class eZCompanyType
             $db->array_query( $company_type_array, "SELECT ParentID FROM eZContact_CompanyType WHERE ParentID='$id'" );
             $childrenCount = count( $company_type_array );
             
-            if( $childrenCount != 0 )
+            if ( $childrenCount != 0 )
             {
                 $ret = true;
             }
@@ -299,7 +299,7 @@ class eZCompanyType
     */
     function path( $categoryID = 0 )
     {
-        if( $categoryID == 0 )
+        if ( $categoryID == 0 )
         {
             $categoryID = $this->ID;
         }
@@ -386,7 +386,7 @@ class eZCompanyType
         {
             $this->ImageID = $value->id();
         }
-        elseif( is_numeric( $value ) )
+        else if ( is_numeric( $value ) )
         {
             $this->ImageID = $value;
         }

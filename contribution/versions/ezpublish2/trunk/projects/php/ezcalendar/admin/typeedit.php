@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.8 2001/09/04 12:05:47 jhe Exp $
+// $Id: typeedit.php,v 1.9 2001/09/05 11:55:50 jhe Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 gl>
 //
@@ -78,9 +78,9 @@ if ( $Action == "Update" )
 
 if ( $Action == "Delete" )
 {
-    if ( count ( $TypeArrayID ) != 0 )
+    if ( count( $TypeArrayID ) != 0 )
     {
-        foreach( $TypeArrayID as $TypeID )
+        foreach ( $TypeArrayID as $TypeID )
         {
             $type = new eZAppointmentType( $TypeID );
             $typeName = $type->name();

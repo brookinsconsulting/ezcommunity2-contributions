@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.76 2001/08/31 12:18:31 jhe Exp $
+// $Id: ezcompany.php,v 1.77 2001/09/05 11:57:07 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -278,7 +278,7 @@ class eZCompany
             $order = substr( $order, 1 );
             $dir = "ASC";
         }
-        switch( $order )
+        switch ( $order )
         {
             default:
                 print( "<br /><b>Unknown order type in eZCompany::getByCategory(), got \"$order\"</b><br />" );
@@ -1197,7 +1197,7 @@ class eZCompany
         $day = $date->day();
         if ( $day < 10 )
             $day = "0" . $day;
-        switch( $type )
+        switch ( $type )
         {
             case "year":
             {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: consultationlist.php,v 1.11 2001/08/17 13:35:59 jhe Exp $
+// $Id: consultationlist.php,v 1.12 2001/09/05 11:57:07 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -73,7 +73,7 @@ if ( get_class( $user ) == "ezuser" and
 
     $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
 
-    foreach( $consultations as $consultation )
+    foreach ( $consultations as $consultation )
     {
         $t->set_var( "consultation_desc", $consultation->shortDescription() );
         $t->set_var( "consultation_id", $consultation->id() );

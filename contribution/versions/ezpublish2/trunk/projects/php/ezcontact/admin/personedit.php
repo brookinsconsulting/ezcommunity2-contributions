@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.47 2001/08/31 12:58:01 jhe Exp $
+// $Id: personedit.php,v 1.48 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -56,7 +56,7 @@ function deleteCache( $siteStyle )
 function unlink_wild( $dir, $rege )
 {
     $d = eZFile::dir( $dir );
-    while( $f = $d->read() )
+    while ( $f = $d->read() )
     {
         if ( ereg( $rege, $f ) )
         {
@@ -454,7 +454,7 @@ if ( !$confirm )
             if ( $BirthYear != "" )
             {
                 $birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
-                if( !$birth->isValid() )
+                if ( !$birth->isValid() )
                 {
                     $t->parse( "error_birthdate_item", "error_birthdate_item_tpl" );
                     $error = true;

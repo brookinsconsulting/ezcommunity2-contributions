@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.13 2001/08/17 13:35:58 jhe Exp $
+// $Id: appointmentview.php,v 1.14 2001/09/05 11:55:50 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -134,7 +134,7 @@ else
         $t->set_var( "private", "" );
     }
 
-    switch( $appointment->priority() )
+    switch ( $appointment->priority() )
     {
         case 0:
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcontactsupplier.php,v 1.8 2001/07/20 12:01:51 jakobn Exp $
+// $Id: ezcontactsupplier.php,v 1.9 2001/09/05 11:57:07 jhe Exp $
 //
 // Definition of ezcontactsupplier class
 //
@@ -79,7 +79,7 @@ class eZContactSupplier
                 }
                 $category_array = array();
                 $category_url = "/contact/company/list";
-                foreach( $categories as $category )
+                foreach ( $categories as $category )
                 {
                     $id = $category->id();
                     $url = "$category_url/$id";
@@ -89,7 +89,7 @@ class eZContactSupplier
                 }
                 $company_array = array();
                 $company_url = "/contact/company/view";
-                foreach( $companies as $company )
+                foreach ( $companies as $company )
                 {
                     $id = $company->id();
                     $url = "$company_url/$id";
@@ -117,7 +117,7 @@ class eZContactSupplier
     function &item( $type, $id, $is_category )
     {
         $ret = false;
-        switch( $type )
+        switch ( $type )
         {
             case "company":
             {

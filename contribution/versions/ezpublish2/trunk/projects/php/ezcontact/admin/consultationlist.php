@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationlist.php,v 1.12 2001/08/17 13:35:58 jhe Exp $
+// $Id: consultationlist.php,v 1.13 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -143,7 +143,7 @@ if ( isSet( $ConsultationList ) )
 
     $count = count( $consultations );
 
-    if( $i < 0 )
+    if ( $i < 0 )
     {
         $t->set_block( );
     }
@@ -190,14 +190,14 @@ else
     $companies = eZConsultation::findConsultedCompanies( $user->id() );
     $count = count( $companies );
 
-    if( $i < 0 )
+    if ( $i < 0 )
     {
         $t->set_block( );
     }
 
-    for( $i = 0; $i < $count; $i++ )
+    for ( $i = 0; $i < $count; $i++ )
     {
-        if( ( $i % 2 ) == 0 )
+        if ( ( $i % 2 ) == 0 )
         {
             $t->set_var( "bg_color", "bglight" );
         }
@@ -227,14 +227,14 @@ else
 
     $count = count( $persons );
 
-    if( $i < 0 )
+    if ( $i < 0 )
     {
         $t->set_block( );
     }
 
-    for( $i = 0; $i < $count; $i++ )
+    for ( $i = 0; $i < $count; $i++ )
     {
-        if( ( $i % 2 ) == 0 )
+        if ( ( $i % 2 ) == 0 )
         {
             $t->set_var( "bg_color", "bglight" );
         }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultationtype.php,v 1.12 2001/08/17 13:35:59 jhe Exp $
+// $Id: ezconsultationtype.php,v 1.13 2001/09/05 11:57:07 jhe Exp $
 //
 // Definition of eZConsultationType class
 //
@@ -112,7 +112,7 @@ class eZConsultationType
                 $user_id = $user->id();
                 $db->array_query( $consultations, "SELECT A.ID FROM eZContact_Consultation AS A, eZContact_ConsultationPersonUserDict AS B
                                                    WHERE A.ID = B.ConsultationID AND B.UserID='$user_id' AND A.StateID='$this->ID'" );
-                foreach( $consultations as $consultation )
+                foreach ( $consultations as $consultation )
                 {
                     eZConsultation::delete( $consultation[ $db->fieldName( "ID" ) ] );
                 }

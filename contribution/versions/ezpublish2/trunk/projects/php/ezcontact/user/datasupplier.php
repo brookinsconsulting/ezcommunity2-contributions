@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.33 2001/08/31 12:58:01 jhe Exp $
+// $Id: datasupplier.php,v 1.34 2001/09/05 11:57:07 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,7 +28,6 @@ include_once( "classes/ezuritool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "eZContactMain", "DefaultSection" );
 
-//  $url_array = explode( "/", $REQUEST_URI );
 $url_array = eZURITool::split( $REQUEST_URI );
 
 if ( is_object( $user ) )
@@ -50,7 +49,7 @@ switch ( $url_array[2] )
     case "nopermission":
     {
         $Type = $url_array[3];
-        switch( $Type )
+        switch ( $Type )
         {
             case "company":
             {
@@ -115,7 +114,7 @@ switch ( $url_array[2] )
     {
         $Action = $url_array[3];
         $PersonID = $url_array[4];
-        switch( $Action )
+        switch ( $Action )
         {
             // intentional fall through
             case "new":
@@ -235,7 +234,7 @@ switch ( $url_array[2] )
     {
         $TypeID = $url_array[4];
         $Action = $url_array[3];
-        switch( $Action )
+        switch ( $Action )
         {
             // intentional fall through
             case "new":

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.43 2001/09/05 08:16:06 jhe Exp $
+// $Id: dayview.php,v 1.44 2001/09/05 11:55:50 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -102,12 +102,10 @@ $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
 if ( $t->hasCache() )
 {
-    print( "cached<br />" );
     print( $t->cache() );
 }
 else
 {
-    print( "not cached<br />" );
     $t->setAllStrings();
 
     $t->set_block( "day_view_page_tpl", "user_item_tpl", "user_item" );
@@ -403,7 +401,7 @@ else
     $user = new eZUser();
     $user_array =& $user->getAll();
 
-    foreach( $user_array as $userItem )
+    foreach ( $user_array as $userItem )
     {
         $t->set_var( "user_id", $userItem->id() );
         $t->set_var( "user_firstname", $userItem->firstName() );

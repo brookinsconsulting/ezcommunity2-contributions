@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.21 2001/08/16 13:57:04 jhe Exp $
+// $Id: personview.php,v 1.22 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -169,9 +169,9 @@ if ( $Action == "view" )
     $phoneList = $person->phones( $person->id() );
 
     $count = count( $phoneList );
-    if( $count != 0 )
+    if ( $count != 0 )
     {
-        for( $i=0; $i < $count; $i++ )
+        for ( $i=0; $i < $count; $i++ )
         {
             $t->set_var( "phone_id", $phoneList[$i]->id() );
             $t->set_var( "phone", eZTextTool::htmlspecialchars( $phoneList[$i]->number() ) );
@@ -197,9 +197,9 @@ if ( $Action == "view" )
     $addressList = $person->addresses( $person->id() );
     $count = count( $addressList );
     
-    if( $count != 0 )
+    if ( $count != 0 )
     {
-        foreach( $addressList as $addressItem )
+        foreach ( $addressList as $addressItem )
         {
             $t->set_var( "address_id", $addressItem->id() );
             $t->set_var( "street1", eZTextTool::htmlspecialchars( $addressItem->street1() ) );
@@ -235,7 +235,7 @@ if ( $Action == "view" )
     $count = count( $OnlineList );
     if ( $count != 0)
     {
-        for( $i=0; $i < count ( $OnlineList ); $i++ )
+        for ( $i=0; $i < count ( $OnlineList ); $i++ )
         {
             $onlineType = $OnlineList[$i]->onlineType();
 
@@ -340,7 +340,7 @@ if ( $Action == "view" )
 
         foreach ( $consultations as $consultation )
         {
-            if( ( $i % 2 ) == 0 )
+            if ( ( $i % 2 ) == 0 )
             {
                 $t->set_var( "bg_color", "bglight" );
             }

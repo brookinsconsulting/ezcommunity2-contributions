@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationview.php,v 1.9 2001/08/17 13:35:59 jhe Exp $
+// $Id: consultationview.php,v 1.10 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -146,12 +146,12 @@ else
 
 // Group list
     $groups = $consultation->groupList();
-    foreach( $groups as $group )
-        {
-            $t->set_var( "group_notice_name", eZTextTool::htmlspecialchars( $group->name() ) );
-
-            $t->parse( "group_notice_select", "group_notice_select_tpl", true );
-        }
+    foreach ( $groups as $group )
+    {
+        $t->set_var( "group_notice_name", eZTextTool::htmlspecialchars( $group->name() ) );
+        
+        $t->parse( "group_notice_select", "group_notice_select_tpl", true );
+    }
 
     if ( count( $groups ) == 0 )
     {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.51 2001/09/04 12:06:16 jhe Exp $
+// $Id: datasupplier.php,v 1.52 2001/09/05 11:57:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -42,7 +42,7 @@ switch ( $ListType )
     case "nopermission":
     {
         $Type = $url_array[3];
-        switch( $Type )
+        switch ( $Type )
         {
             case "company":
             {
@@ -163,7 +163,7 @@ switch ( $ListType )
     {
         $TypeID = $url_array[4];
         $Action = $url_array[3];
-        switch( $Action )
+        switch ( $Action )
         {
             // intentional fall through
             case "new":
@@ -194,7 +194,7 @@ switch ( $ListType )
     {
         $PersonID = $url_array[4];
         $Action = $url_array[3];
-        switch( $Action )
+        switch ( $Action )
         {
             // intentional fall through
             case "new":
