@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkitem.php,v 1.3 2001/05/03 16:54:21 jb Exp $
+// $Id: ezlinkitem.php,v 1.4 2001/05/04 09:03:20 jb Exp $
 //
 // Definition of eZLinkItem class
 //
@@ -26,13 +26,18 @@
 //
 
 //!! 
-//! The class eZLinkItem does
+//! The class eZLinkItem handles link items contained in a section.
 /*!
+  Contains information on the name, the url and the type of link.
 
+  \sa eZLinkSection, eZModuleLink
 */
 
 class eZLinkItem
 {
+    /*!
+      Initializes the link item with an id and a module name.
+    */
     function eZLinkItem( $id, $module )
     {
         $this->Module = $module;
@@ -46,6 +51,9 @@ class eZLinkItem
         }
     }
 
+    /*!
+      Fetches information from the database using the id.
+    */
     function get( $id )
     {
         $db =& eZDB::globalDatabase();
@@ -54,6 +62,9 @@ class eZLinkItem
         $this->fill( $row );
     }
 
+    /*!
+      Stores the information in the database.
+    */
     function store()
     {
         $table_name = $this->Module . "_Link";
@@ -80,6 +91,9 @@ class eZLinkItem
         $this->ID = $db->insertID();
     }
 
+    /*!
+      Deletes the object from the database.
+    */
     function delete( $id = false, $module = false )
     {
         if ( !$id )
@@ -91,6 +105,9 @@ class eZLinkItem
         $db->query( "DELETE FROM $table_name WHERE ID='$id'" );
     }
 
+    /*!
+      Fills in database information to the object.
+    */
     function fill( $row )
     {
         $this->ID = $row["ID"];
@@ -100,41 +117,66 @@ class eZLinkItem
         $this->ModuleType = $row["ModuleType"];
     }
 
+    /*!
+      Sets the section this link item is connected to.
+    */
     function setSection( $section )
     {
         $this->Section = $section;
     }
 
+    /*!
+      Sets the name of the link item.
+    */
     function setName( $name )
     {
         $this->Name = $name;
     }
 
+    /*!
+      Sets the url of the link item.
+    */
     function setURL( $url )
     {
         $this->URL = $url;
     }
 
+    /*!
+      Returns the id of the link item in the database.
+    */
     function id()
     {
         return $this->ID;
     }
 
+    /*!
+      Returns the section id.
+    */
     function section()
     {
         return $this->Section;
     }
 
+    /*!
+      Returns the name of the item.
+    */
     function name()
     {
         return $this->Name;
     }
 
+    /*!
+      Returns the url of the item.
+    */
     function url()
     {
         return $this->URL;
     }
 
+    /*!
+      Returns the type id of the link item if $as_name is set to false,
+      otherwise the module and type name is returned in an array.
+    */
     function type( $as_name = false )
     {
         if ( !$as_name )
@@ -150,6 +192,11 @@ class eZLinkItem
         }
     }
 
+    /*!
+      Sets the type of the link item.
+      It makes sure that only one entry is created for each unique module/type pair
+      and sets the id of that type in this object.
+    */
     function setType( $module, $type )
     {
         $db =& eZDB::globalDatabase();
@@ -167,6 +214,9 @@ class eZLinkItem
         }
     }
 
+    /*!
+      Moves the item up with wrapping.
+    */
     function moveUp( $sectionid, $id, $module )
     {
         $db =& eZDB::globalDatabase();
@@ -198,6 +248,9 @@ class eZLinkItem
         }
     }
 
+    /*!
+      Moves the item down with wrapping.
+    */
     function moveDown( $sectionid, $id, $module )
     {
         $db =& eZDB::globalDatabase();
