@@ -1,4 +1,4 @@
-<form action="{www_dir}{index}/contact/search/person/" method="post">
+<form action="{www_dir}{index}/contact/search/person/" method="get">
 <table width="100%" border="0">
 <tr>
 	<td rowspan="2" valign="bottom">

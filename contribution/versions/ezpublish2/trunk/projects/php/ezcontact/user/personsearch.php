@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personsearch.php,v 1.2 2001/08/13 13:50:22 jhe Exp $
+// $Id: personsearch.php,v 1.3 2001/09/17 11:50:21 jhe Exp $
 //
 // Created on: <25-Jul-2001 12:43:04 jhe>
 //
@@ -32,7 +32,7 @@ include_once( "ezcontact/classes/ezperson.php" );
 //include_once( "ezcontact/classes/ezpersontype.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$ini =& INIFIle::globalINI();
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $errorIni = new INIFIle( "ezcontact/user/intl/" . $Language . "/personsearch.php.ini", false );
 
@@ -68,7 +68,8 @@ $t->set_var( "category_option", "" );
 $t->set_var( "result_category", "" );
 $t->set_var( "companies_table", "" );
 
-$t->set_var( "search_text", "$SearchText" );
+$t->set_var( "search_text", $SearchText );
+$t->set_var( "current_id", $SearchCategory );
 
 $Action = "new";
 $results = "false";
@@ -95,7 +96,7 @@ if ( $Action == "search" )
     }
 }
 
-if ( $results == true )
+if ( $results )
 {
     $count = count( $personArray );
     $t->set_var( "results", $count );

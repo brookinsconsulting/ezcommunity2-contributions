@@ -1,5 +1,5 @@
 <!-- BEGIN list_tpl -->
-<form action="{www_dir}{index}/contact/search/person/" method="post">
+<form action="{www_dir}{index}/contact/search/person/" method="get">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td rowspan="2" valign="bottom">
@@ -7,7 +7,7 @@
 	</td>
   	<td align="right">
   	    	<input type="text" name="SearchText" size="12" />
-  			<input class="stdbutton" type="submit" value="{intl-search}" />
+		<input class="stdbutton" type="submit" value="{intl-search}" />
   	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
   	</td>
 </tr>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companysearch.php,v 1.8 2001/07/25 10:22:59 jhe Exp $
+// $Id: companysearch.php,v 1.9 2001/09/17 11:50:20 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -71,7 +71,8 @@ $t->set_var( "category_option", "" );
 $t->set_var( "result_category", "" );
 $t->set_var( "companies_table", "" );
 
-$t->set_var( "search_text", "$SearchText" );
+$t->set_var( "search_text", $SearchText );
+$t->set_var( "current_id", $SearchCategory );
 
 $Action = "new";
 $results = "false";

@@ -4,7 +4,7 @@
         <h1>{intl-view_headline}</h1>
         </td>
         <td rowspan="2" align="right">
-        <form action="{www_dir}{index}/contact/search/person/" method="post">
+        <form action="{www_dir}{index}/contact/search/person/" method="get">
         <input type="text" name="SearchText" size="12" />       
         <input class="stdbutton" type="submit" value="{intl-search}" />
         </form> 
