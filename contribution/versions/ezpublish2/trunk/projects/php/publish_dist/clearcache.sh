@@ -18,6 +18,7 @@ eztrade
 ezuser
 ezfilemanager
 ezimagecatalogue
+classes
 "
 
 for dir in $dirs
