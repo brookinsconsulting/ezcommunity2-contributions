@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.83 2001/10/15 11:04:57 jhe Exp $
+// $Id: articleview.php,v 1.84 2001/10/16 12:03:13 ce Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -566,6 +566,7 @@ else
 // set variables for meta information
 $SiteTitleAppend = $article->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0] ) );
+$SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $article->keywords() ) );
 
 if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
 {    
@@ -575,7 +576,8 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
     $output = "<?php\n";
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
-    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
+    $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";    
     $output .= "?>\n";
 
     $output .= $t->parse( $target, "article_view_page_tpl" );

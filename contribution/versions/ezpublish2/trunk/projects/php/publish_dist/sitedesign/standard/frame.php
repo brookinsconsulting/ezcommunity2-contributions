@@ -77,7 +77,18 @@ else
 ?>" />
 
 <meta name="MSSmartTagsPreventParsing" content="TRUE">
-<meta name="keywords" content="IT, data, computer, web, internet, PC, network, server, programming, publishing, portal, intranet, e-commerce, e-trade, software, database, open source, unix, linux, apache, PHP, HTML, XML, MySQL, Skien, Grenland, Telemark, Norway" />
+<meta name="keywords" content="<?php
+if ( isset( $SiteKeywordsOverride ) )
+{
+    print( $SiteKeywordsOverride );
+}
+else
+{
+    $Keywords = $ini->read_var( "site", "Keywords" );
+    print( $Keywords );
+}
+
+?>" />
 
 </head>
 
@@ -167,6 +178,7 @@ else
 	include( "ezad/user/adlist.php" );
     ?>
 -->
+
 
     <!-- Banner start -->
 

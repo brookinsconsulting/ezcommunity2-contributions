@@ -41,7 +41,39 @@ else
 	}
 	
 //-->
-</script> 
+</script>
+
+<meta name="author" content="eZ systems" />
+<meta name="copyright" content="eZ systems &copy; 2001" />
+<meta name="description" content="<?php
+
+// set the content meta information
+if ( isset( $SiteDescriptionOverride ) )
+{
+    print( $SiteDescriptionOverride );
+}
+else
+{
+    $SiteDescription = $ini->read_var( "site", "SiteDescription" );
+    print( $SiteDescription );
+}
+
+?>" />
+
+<meta name="MSSmartTagsPreventParsing" content="TRUE">
+<meta name="keywords" content="<?php
+if ( isset( $SiteKeywordsOverride ) )
+{
+    print( $SiteKeywordsOverride );
+}
+else
+{
+    $Keywords = $ini->read_var( "site", "Keywords" );
+    print( $Keywords );
+}
+
+?>" />
+
 
 </head>
 

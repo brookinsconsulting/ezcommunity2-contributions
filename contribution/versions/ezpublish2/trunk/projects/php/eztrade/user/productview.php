@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.75 2001/10/16 11:33:52 ce Exp $
+// $Id: productview.php,v 1.76 2001/10/16 12:03:13 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -724,6 +724,7 @@ if ( isSet( $func_array ) and is_array( $func_array ) )
 
 $SiteTitleAppend = $product->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $product->brief() ) );
+$SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $product->keywords() ) );
 
 if ( $GenerateStaticPage == "true" )
 {
@@ -733,7 +734,8 @@ if ( $GenerateStaticPage == "true" )
     $output = "<?php\n";
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
-    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
+    $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";    
     $output .= "?>\n";
 
     
