@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.86 2001/06/01 09:21:15 bf Exp $
+// $Id: ezarticle.php,v 1.87 2001/06/01 13:29:49 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -131,6 +131,7 @@ class eZArticle
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
                                  ContentsWriterID='$this->ContentsWriterID',
+                                 TopicID='$this->TopicID',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -156,6 +157,7 @@ class eZArticle
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
                                  ContentsWriterID='$this->ContentsWriterID',
+                                 TopicID='$this->TopicID',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -173,6 +175,7 @@ class eZArticle
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
                                  ContentsWriterID='$this->ContentsWriterID',
+                                 TopicID='$this->TopicID',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -216,6 +219,7 @@ class eZArticle
                 $this->Keywords =& $article_array[0][ "Keywords" ];
                 $this->Discuss =& $article_array[0][ "Discuss" ];
                 $this->ContentsWriterID =& $article_array[0][ "ContentsWriterID" ];
+                $this->TopicID =& $article_array[0][ "TopicID" ];
                 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -663,6 +667,30 @@ class eZArticle
     }
     
 
+    /*!
+      Sets the topic.
+    */
+    function setTopic( $topic )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->TopicID = $topic->id();
+    }
+
+    /*!
+      Returns the topic.
+
+      If there is no topic selected for the article false is returned.
+    */
+    function topic()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return new eZTopic( $this->TopicID );
+    }
+    
     /*!
       \static
       Returns an array of articles which match short contents and the keywords.
@@ -1704,6 +1732,7 @@ class eZArticle
     var $Published;
     var $Keywords;
     var $Discuss;
+    var $TopicID;
     
     // telll eZ publish to show the article to the public
     var $IsPublished;

@@ -16,6 +16,12 @@ if( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
 
 switch ( $url_array[2] )
 {
+    case "topiclist":
+    {
+        include( "ezarticle/admin/topiclist.php" );
+    }
+    break;
+    
     case "archive":
     {
         $CategoryID = $url_array[3];

@@ -192,3 +192,8 @@ alter table eZArticle_ArticleTmp rename eZArticle_Article;
 # alter table eZArticle_Article_backup rename eZArticle_Article;
 # if not you can delete the backup table 
 # drop table eZArticle_Article_backup;
+
+
+# Article topic
+create table eZArticle_Topic( ID int primary key auto_increment, Name char(255), Description text );
+alter table eZArticle_Article add TopicID int not null default 0;   

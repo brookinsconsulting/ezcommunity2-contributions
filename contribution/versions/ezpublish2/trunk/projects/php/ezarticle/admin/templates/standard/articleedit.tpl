@@ -37,12 +37,25 @@
 	<p class="boxtext">{intl-category}:</p>
 	
 	<select name="CategoryID">
-	
+
 	<!-- BEGIN value_tpl -->
-	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<option value="{option_value}" {selected}>{option_name}</option>
 	<!-- END value_tpl -->
 	
 	</select>
+
+	<p class="boxtext">{intl-article_topic}:</p>
+
+	<select name="TopicID">
+
+	<option value="0">{intl-no_topic}</option>
+	
+	<!-- BEGIN topic_item_tpl -->
+	<option value="{topic_id}" {selected}>{topic_name}</option>
+	<!-- END topic_item_tpl -->
+	
+	</select>
+
 	</td>	
 	<td>&nbsp;</td>
 	<td valign="top">

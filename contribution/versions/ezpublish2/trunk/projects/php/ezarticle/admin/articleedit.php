@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.84 2001/06/01 09:21:14 bf Exp $
+// $Id: articleedit.php,v 1.85 2001/06/01 13:29:49 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -35,6 +35,7 @@ include_once( "classes/ezhttptool.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/eztopic.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
@@ -58,6 +59,9 @@ if ( $Action == "Insert" )
 
     $author = new eZAuthor( $ContentsWriterID );
     $article->setContentsWriter( $author );
+
+    $topic = new eZTopic( $TopicID );
+    $article->setTopic( $topic );
     
 
     $generator = new eZArticleGenerator();
@@ -255,6 +259,9 @@ if ( $Action == "Update" )
 
     $author = new eZAuthor( $ContentsWriterID );
     $article->setContentsWriter( $author );
+
+    $topic = new eZTopic( $TopicID );
+    $article->setTopic( $topic );
     
     $generator = new eZArticleGenerator();
 
@@ -437,6 +444,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "article_edit_page_tpl", "author_item_tpl", "author_item" );
+$t->set_block( "article_edit_page_tpl", "topic_item_tpl", "topic_item" );
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "article_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
@@ -540,6 +548,9 @@ if ( $Action == "Edit" )
     $author = $article->contentsWriter();
     $ContentsWriterID = $author->id();
 
+    $topic = $article->topic();
+    $TopicID = $topic->id();
+
     $writeGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'r', false );
 
@@ -568,6 +579,25 @@ foreach ( $authorArray as $author )
     $t->set_var( "author_id", $author->id() );
     $t->set_var( "author_name", $author->name() );
     $t->parse( "author_item", "author_item_tpl", true );
+}
+
+// topic select
+
+$topic = new eZTopic();
+$topicArray = $topic->getAll();
+foreach ( $topicArray as $topic )
+{
+    if ( $TopicID == $topic->id() )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    $t->set_var( "topic_id", $topic->id() );
+    $t->set_var( "topic_name", $topic->name() );
+    $t->parse( "topic_item", "topic_item_tpl", true );
 }
 
 // category select
