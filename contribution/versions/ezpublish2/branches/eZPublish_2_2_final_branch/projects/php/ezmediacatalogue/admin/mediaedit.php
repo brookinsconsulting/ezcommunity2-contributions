@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mediaedit.php,v 1.3.2.3 2002/02/28 09:55:43 ce Exp $
+// $Id: mediaedit.php,v 1.3.2.4 2003/06/02 08:00:11 jhe Exp $
 //
 // Created on: <24-Jul-2001 13:35:07 ce>
 //
@@ -137,7 +137,7 @@ if ( $Action == "Insert" || $Action == "Update" )
 {
     if ( $nameCheck )
     {
-        if ( empty ( $Name ) )
+        if ( empty( $Name ) )
         {
             $t->parse( "error_name", "error_name_tpl" );
             $error = true;
@@ -146,7 +146,7 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if ( $captionCheck )
     {
-        if ( empty ( $Caption ) )
+        if ( empty( $Caption ) )
         {
             $t->parse( "error_caption", "error_caption_tpl" );
             $error = true;
@@ -155,7 +155,7 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if ( $descriptionCheck )
     {
-        if ( empty ( $Description ) )
+        if ( empty( $Description ) )
         {
             $t->parse( "error_description", "error_description_tpl" );
             $error = true;
@@ -164,12 +164,12 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if ( $permissionCheck )
     {
-        if ( empty( $ReadGroupArrayID )  )
+        if ( empty( $ReadGroupArrayID ) )
         {
             $t->parse( "error_read_everybody_permission", "error_read_everybody_permission_tpl" );
             $error = true;
         }
-        if ( empty( $WriteGroupArrayID )  )
+        if ( empty( $WriteGroupArrayID ) )
         {
             $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
             $error = true;
@@ -184,7 +184,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( $file->getUploadedFile( "userfile" ) )
         {
             $mediaTest = new eZMedia();
-            if ( $mediaTest->checkMedia( $file ) and $mediaTest->setMedia( $file ) )
+            if ( $mediaTest->checkMedia( $file ) && $mediaTest->setMedia( $file ) )
             {
                 $fileOK = true;
             }
@@ -207,22 +207,22 @@ if ( $Action == "Insert" || $Action == "Update" )
     if ( $error )
     {
         $t->parse( "errors", "errors_tpl" );
-        if ( count ( $WriteGroupArrayID ) != 0 )
+        if ( count( $WriteGroupArrayID ) != 0 )
         {
-            foreach( $WriteGroupArrayID as $unf )
+            foreach ( $WriteGroupArrayID as $unf )
             {
-                if( $unf == 0 )
+                if ( $unf == 0 )
                     $writeGroupArrayID[] = -1;
                 else
                     $writeGroupArrayID[] = $unf;
             }
         }
 
-        if ( count ( $ReadGroupArrayID ) != 0 )
+        if ( count( $ReadGroupArrayID ) != 0 )
         {
-            foreach( $ReadGroupArrayID as $unf )
+            foreach ( $ReadGroupArrayID as $unf )
             {
-                if( $unf == 0 )
+                if ( $unf == 0 )
                     $readGroupArrayID[] = -1;
                 else
                     $readGroupArrayID[] = $unf;
@@ -246,10 +246,9 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     }
 
     if ( trim( $NewCreatorName ) != "" &&
-         trim( $NewCreatorEmail ) != ""
-         )
+         trim( $NewCreatorEmail ) != "" )
     {
-        $author = new eZAuthor( );
+        $author = new eZAuthor();
         $author->setName( $NewCreatorName );
         $author->setEmail( $NewCreatorEmail );
         $author->store();
@@ -286,7 +285,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
         }
     }
 
-    if ( count ( $ReadGroupArrayID ) > 0 )
+    if ( count( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
@@ -299,7 +298,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
         }
     }
 
-    if ( count ( $WriteGroupArrayID ) > 0 )
+    if ( count( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
@@ -354,7 +353,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
         }
     }
 
-    if ( !isset ( $Update ) )
+    if ( !isset( $Update ) )
     {
         eZHTTPTool::header( "Location: /mediacatalogue/media/list/" . $CategoryID . "/" );
         exit();
@@ -369,7 +368,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 // Delete an media
 if ( $Action == "DeleteMedia" )
 {
-    if ( count ( $MediaArrayID ) != 0 )
+    if ( count( $MediaArrayID ) != 0 )
     {
         foreach ( $MediaArrayID as $MediaID )
         {
@@ -384,11 +383,11 @@ if ( $Action == "DeleteMedia" )
 }
 
 // Delete a category
-if( $Action == "DeleteCategories" )
+if ( $Action == "DeleteCategories" )
 {
-    if( count( $CategoryArrayID ) > 0 )
+    if ( count( $CategoryArrayID ) > 0 )
     {
-        foreach( $CategoryArrayID as $categoryID )
+        foreach ( $CategoryArrayID as $categoryID )
         {
             $category = new eZMediaCategory( $categoryID );
             $category->delete();
@@ -462,7 +461,6 @@ if ( $Action == "Edit" )
     $readGroupArrayID =& $objectPermission->getGroups( $media->id(), "mediacatalogue_media", "r", false );
     $writeGroupArrayID =& $objectPermission->getGroups( $media->id(), "mediacatalogue_media", "w", false );
 }
-
 
 
 $category = new eZMediaCategory() ;
