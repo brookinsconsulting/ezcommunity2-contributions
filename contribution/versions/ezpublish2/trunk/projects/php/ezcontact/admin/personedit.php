@@ -108,10 +108,8 @@ if ( isset( $CompanyEdit ) )
     $t->set_block( "edit_tpl", "company_item_tpl", "company_item" );
     $t->set_block( "company_item_tpl", "company_type_select_tpl", "company_type_select" );
 
-    $t->set_block( "edit_tpl", "logo_add_tpl", "logo_add" );
-    $t->set_block( "edit_tpl", "image_add_tpl", "image_add" );
-    $t->set_block( "edit_tpl", "logo_edit_tpl", "logo_edit" );
-    $t->set_block( "edit_tpl", "image_edit_tpl", "image_edit" );
+    $t->set_block( "edit_tpl", "logo_item_tpl", "logo_item" );
+    $t->set_block( "edit_tpl", "image_item_tpl", "image_item" );
 }
 else
 {
@@ -878,14 +876,20 @@ if ( !$confirm )
             $t->parse( "contact_group_item_select", "contact_group_item_select_tpl", true );
         }
 
-        if ( $ContactGroupID < 1 )
+        $t->set_var( "user_search", $UserSearch );
+
+        if ( $ContactGroupID == -1 )
         {
-            $users =& eZUser::getAll( "name" );
+            $users =& eZUser::getAll( "name", true, $UserSearch );
+        }
+        else if ( $ContactGroupID < 1 )
+        {
+            $users = array();
         }
         else
         {
             $group = new eZUserGroup();
-            $users =& $group->users( $ContactGroupID, "name" );
+            $users =& $group->users( $ContactGroupID, "name", $UserSearch );
         }
 
         foreach( $users as $user )
@@ -900,6 +904,16 @@ if ( !$confirm )
         }
 
         $project_types =& eZProjectType::findTypes();
+        $t->set_var( "none_selected", "" );
+        $t->set_var( "all_selected", "" );
+        if ( $ContactGroupID == -1 )
+        {
+            $t->set_var( "all_selected", "selected" );
+        }
+        else if ( $ContactGroupID < 1 )
+        {
+            $t->set_var( "none_selected", "selected" );
+        }
         foreach( $project_types as $project_type )
         {
             $t->set_var( "type_id", $project_type->id() );
@@ -921,6 +935,7 @@ if ( !$confirm )
                 $logoImage = new eZImage( $LogoImageID );
             }
 
+            $t->set_var( "logo_item", "&nbsp;" );
             if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
             {
                 $variation = $logoImage->requestImageVariation( 150, 150 );
@@ -933,13 +948,7 @@ if ( !$confirm )
                 $t->set_var( "logo_name", $logoImage->name() );
                 $t->set_var( "logo_id", $logoImage->id() );
         
-                $t->set_var( "logo_add", "&nbsp;" );
-                $t->parse( "logo_edit", "logo_edit_tpl" );
-            }
-            else
-            {
-                $t->set_var( "logo_edit", "&nbsp;" );
-                $t->parse( "logo_add", "logo_add_tpl" );
+                $t->parse( "logo_item", "logo_item_tpl" );
             }
 
             // View company image.
@@ -949,6 +958,7 @@ if ( !$confirm )
                 $companyImage = new eZImage( $CompanyImageID );
             }
 
+            $t->set_var( "image_item", "&nbsp;" );
             if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
             {
                 $variation = $companyImage->requestImageVariation( 150, 150 );
@@ -960,20 +970,8 @@ if ( !$confirm )
                 $t->set_var( "image_name", $companyImage->name() );
                 $t->set_var( "image_id", $companyImage->id() );
         
-                $t->set_var( "image_add", "&nbsp;" );
-                $t->parse( "image_edit", "image_edit_tpl" );
+                $t->parse( "image_item", "image_item_tpl" );
             }
-            else
-            {
-                $t->set_var( "image_edit", "&nbsp;" );
-                $t->parse( "image_add", "image_add_tpl" );
-            }
-
-//          $t->parse( "logo_add", "logo_add_tpl" );
-//          $t->parse( "image_add", "image_add_tpl" );
-//          $t->set_var( "logo_edit", "&nbsp;" );
-//          $t->set_var( "image_edit", "&nbsp;" );
-//          $t->parse( "logo_add", "logo_add_tpl" );
         }
     }
 
