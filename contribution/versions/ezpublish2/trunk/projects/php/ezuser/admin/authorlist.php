@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: authorlist.php,v 1.4 2001/06/24 15:54:27 bf Exp $
+// $Id: authorlist.php,v 1.5 2001/06/29 07:08:39 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <31-May-2001 13:27:04 bf>
@@ -49,6 +49,7 @@ if ( isset( $DeleteAuthor ) )
 if ( ( isset( $Store ) ) || ( isset ( $NewAuthor ) ) ||( isset ( $DeleteAuthor ) ) )
 {
     $i=0;
+
     if ( count( $IDArray )  > 0 )
     foreach ( $IDArray as $id )
     {

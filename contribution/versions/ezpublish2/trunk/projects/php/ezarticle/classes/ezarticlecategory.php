@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.69 2001/06/27 08:15:30 bf Exp $
+// $Id: ezarticlecategory.php,v 1.70 2001/06/29 07:08:37 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -50,6 +50,8 @@ class eZArticleCategory
     */
     function eZArticleCategory( $id=-1 )
     {
+        $this->ImageID = 0;
+        $this->ParentID = 0;
         $this->ExcludeFromSearch = "0";
         if ( $id != -1 )
         {
@@ -162,6 +164,7 @@ class eZArticleCategory
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
+        $ret = false;
         
         if ( $id != "" )
         {
@@ -182,9 +185,10 @@ class eZArticleCategory
                 $this->Placement = $category_array[0][$db->fieldName("Placement")];
                 $this->SectionID = $category_array[0][$db->fieldName("SectionID")];
                 $this->ImageID = $category_array[0][$db->fieldName("ImageID")];
-
+                $ret = true;
             }
         }
+        return $ret;
     }
 
     /*!
@@ -267,7 +271,7 @@ class eZArticleCategory
             if ( !$showAll )
                 $show_str = "AND ExcludeFromSearch='0'";
 
-            $db->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
+            $db->array_query( $category_array, "SELECT ID, Name, Placement FROM eZArticle_Category
                                           WHERE ParentID='$parentID' $show_str
                                           ORDER BY $sortbySQL",
             array( "Limit" => $max, "Offset" => $offset ) );
@@ -624,6 +628,8 @@ class eZArticleCategory
        else
        {
            $this->ParentID = $value;
+           setType( $this->ParentID, "integer" );
+           
        }
     }
 

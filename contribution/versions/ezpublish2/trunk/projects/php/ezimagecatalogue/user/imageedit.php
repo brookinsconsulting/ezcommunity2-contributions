@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.29 2001/06/28 09:43:35 jhe Exp $
+// $Id: imageedit.php,v 1.30 2001/06/29 07:08:39 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -29,7 +29,8 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezauthor.php" );
 
-$user = eZUser::currentUser();
+
+$user =& eZUser::currentUser();
 
 $CurrentCategoryID = eZHTTPTool::getVar( "CategoryID" );
 $CategoryID = eZHTTPTool::getVar( "CategoryID" );
@@ -267,7 +268,6 @@ if ( $Action == "Insert" && $error == false )
     }
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
-    
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }

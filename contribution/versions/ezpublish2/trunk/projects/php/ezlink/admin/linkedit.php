@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.48 2001/06/23 12:25:32 bf Exp $
+// $Id: linkedit.php,v 1.49 2001/06/29 07:08:39 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -31,7 +31,7 @@ include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-$error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
+$error = new INIFile( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
 include_once( "classes/eztemplate.php" );
 

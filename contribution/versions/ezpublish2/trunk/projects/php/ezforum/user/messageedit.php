@@ -1,6 +1,6 @@
 <?
 //
-// $Id: messageedit.php,v 1.48 2001/06/21 15:07:02 br Exp $
+// $Id: messageedit.php,v 1.49 2001/06/29 07:08:38 bf Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -241,7 +241,7 @@ switch( $Action )
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
-        if( $ForumPost == false )
+        if ( $ForumPost == false )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }

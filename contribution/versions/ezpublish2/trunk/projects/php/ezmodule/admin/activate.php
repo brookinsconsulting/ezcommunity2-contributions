@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: activate.php,v 1.4 2001/04/19 07:31:49 jb Exp $
+// $Id: activate.php,v 1.5 2001/06/29 07:08:39 bf Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 15:07:58 amos>
@@ -67,6 +67,13 @@ else
 eZModuleHandler::setActive( $modules );
 
 $uri =& $GLOBALS["RefURL"];
+
+// set the first menu item active
+unset( $menuItems );
+include( strtolower($ModuleName) ."/admin/menubox.php" );
+$uri = $menuItems[0][0];
+unset( $menuItems );
+
 eZHTTPTool::header( "Location: $uri" );
 exit();
 

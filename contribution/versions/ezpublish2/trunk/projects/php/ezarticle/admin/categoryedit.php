@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.22 2001/06/27 08:15:30 bf Exp $
+// $Id: categoryedit.php,v 1.23 2001/06/29 07:08:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -77,12 +77,16 @@ if ( $Action == "insert" && !$error )
         $file->delete();
     }
 
-    $parentCategory = new eZArticleCategory();
-    $parentCategory->get( $ParentID );
 
     $category = new eZArticleCategory();
     $category->setName( $Name );
-    $category->setParent( $parentCategory );
+    
+    $parentCategory = new eZArticleCategory();
+    if (  $parentCategory->get( $ParentID ) == true )
+    {
+        $category->setParent( $parentCategory );
+    }    
+
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
     
@@ -183,7 +187,6 @@ if ( $Action == "insert" && !$error )
         exit();
     }
 
-    die();
     eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }
@@ -199,13 +202,15 @@ if ( $Action == "update" && !$error )
         $file->delete();
     }
     
-    $parentCategory = new eZArticleCategory();
-    $parentCategory->get( $ParentID );
-    
     $category = new eZArticleCategory();
     $category->get( $CategoryID );
     $category->setName( $Name );
-    $category->setParent( $parentCategory );
+
+    $parentCategory = new eZArticleCategory();
+    if (  $parentCategory->get( $ParentID ) == true )
+    {
+        $category->setParent( $parentCategory );
+    }    
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
 

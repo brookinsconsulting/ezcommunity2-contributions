@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.53 2001/06/24 15:54:27 bf Exp $
+// $Id: ezlink.php,v 1.54 2001/06/29 07:08:39 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -67,6 +67,7 @@ class eZLink
     */
     function eZLink( $id=-1  )
     {
+        $this->ImageID = 0;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -206,7 +207,7 @@ class eZLink
         $link_array = array();
         $return_array = array();
         
-        $db->array_query( $link_array, "SELECT ID FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='1' ORDER BY Title" );
+        $db->array_query( $link_array, "SELECT ID, Title FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='1' ORDER BY Title" );
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
@@ -229,7 +230,7 @@ class eZLink
         $link_array = array();
         $return_array = array();
         
-        $db->array_query( $link_array, "SELECT ID
+        $db->array_query( $link_array, "SELECT ID, Title
                                         FROM eZLink_Link
                                         WHERE Accepted='0'
                                         ORDER BY Title",
@@ -309,7 +310,7 @@ class eZLink
 
         $query = new eZQuery( array( "KeyWords", "Title", "Description" ), $query );
         
-        $query_str =  "SELECT ID FROM eZLink_Link WHERE (" .
+        $query_str =  "SELECT ID, Title FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
              ") AND Accepted='1' GROUP BY Title, ID ORDER BY Title";
 
@@ -336,7 +337,7 @@ class eZLink
 
         $query = new eZQuery( array( "KeyWords", "Title", "Description" ), $query );
         
-        $query_str = "SELECT count(ID) AS Count FROM eZLink_Link WHERE (" .
+        $query_str = "SELECT count(ID) AS Count, Title FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
              ") AND Accepted='1' GROUP BY Title ORDER BY Title";
 

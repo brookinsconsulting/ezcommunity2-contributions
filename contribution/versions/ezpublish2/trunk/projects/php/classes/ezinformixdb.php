@@ -7,7 +7,7 @@ class eZInformixDB
         putenv('INFORMIXSERVER=kosh');
         putenv('INFORMIXDIR=/opt/informix');
         ifx_textasvarchar(1);
-        
+        $BlobIDArray = false;        
         $this->Database = ifx_pconnect( "$db@$server", "$user", "$password" );
     }
     
@@ -19,9 +19,28 @@ class eZInformixDB
         return "informix";
     }
 
+    /*!
+      Sets the informix blob ID array.
+
+      NOTE: this function does only work with informix.      
+    */
+    function setBlobArray( $array )
+    {
+        $this->BlobIDArray = $array;
+    }     
+
+    /*!
+      Executes an informix query
+    */
     function query( $sql, $print=false )
     {
-        $result = ifx_query( $sql, $this->Database );
+        if ( is_array( $this->BlobIDArray ) )
+        {
+            $result = ifx_query( $sql, $this->Database, $this->BlobIDArray );
+            $this->BlobIDArray = false;
+        }
+        else
+            $result = ifx_query( $sql, $this->Database );
 
         if ( $print )
         {
@@ -190,6 +209,9 @@ class eZInformixDB
 
     /// database connection
     var $Database;
+
+    /// variable for  blob ID array
+    var $BlobIDArray;    
     
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.26 2001/06/28 10:31:30 jb Exp $
+// $Id: ezimagevariation.php,v 1.27 2001/06/29 07:08:38 bf Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -56,6 +56,7 @@ class eZImageVariation
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
         $db->lock( "eZImageCatalogue_ImageVariation" );
 
@@ -129,7 +130,7 @@ class eZImageVariation
     /*!
       Fetches the object information from the database.
     */
-    function &getByGroupAndImage( $groupID, $imageID, $modification )
+    function getByGroupAndImage( $groupID, $imageID, $modification )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -149,12 +150,14 @@ class eZImageVariation
                 $this->Width =& $image_variation_array[0][$db->fieldName("Width")];
                 $this->Height =& $image_variation_array[0][$db->fieldName("Height")];
                 $this->Modification =& $image_variation_array[0][$db->fieldName("Modification")];
-
+                
                 $ret = true;
             }
-            
+                
             if ( !file_exists( $this->ImagePath ) or !is_file( $this->ImagePath ) )
+            {
                 $ret = false;
+            }
         }
 
         return $ret;
@@ -177,7 +180,7 @@ class eZImageVariation
             if ( $convertToGray == true )
                 $modification .= "gray";
             
-            if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id(), $modification ) )
+            if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id(), $modification ) == true )
             {
                 $ret =& $variation;
             }

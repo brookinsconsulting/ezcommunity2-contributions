@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: browse.php,v 1.5 2001/05/29 11:59:20 ce Exp $
+// $Id: browse.php,v 1.6 2001/06/29 07:08:38 bf Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -48,10 +48,10 @@ $t->set_file( "image_list_page_tpl", "browse.tpl" );
 
 $t->setAllStrings();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 
-$session = new eZSession();
+$session =& eZSession::globalSession();
 
 $returnUrl = $session->variable( "ImageListReturnTo" );
 
@@ -85,6 +85,9 @@ $t->set_var( "delete_categories_button" , "" );
 $t->set_var( "default_new" , "" );
 $t->set_var( "default_delete" , "" );
 
+if ( !is_numeric( $CategoryID ) )
+    $CategoryID = 0;
+    
 $category = new eZImageCategory( $CategoryID );
 
 // Check if user have permission to the current category

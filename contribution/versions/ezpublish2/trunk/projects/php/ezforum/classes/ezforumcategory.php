@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.36 2001/05/05 11:16:04 bf Exp $
+// $Id: ezforumcategory.php,v 1.37 2001/06/29 07:08:38 bf Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -32,10 +32,8 @@
   \sa eZForum
 */
 
-
 /*!TODO
   
-
 */
 
 include_once( "classes/ezdb.php" );
@@ -46,24 +44,12 @@ class eZForumCategory
     /*!
       Constructs a new eZForumCategory object.
     */
-    function eZForumCategory( $id="", $fetch=true )
+    function eZForumCategory( $id="" )
     {
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -73,32 +59,43 @@ class eZForumCategory
     function store()
     {
         $db =& eZDB::globalDatabase();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+
+        $db->begin( );
+        
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZForum_Category SET
-		                         Name='$name',
-		                         Description='$description',
-		                         IsPrivate='$this->IsPrivate'
-                                 " );
+            $db->lock( "eZForum_Category" );
+            $nextID = $db->nextID( "eZForum_Category", "ID" );
 
-			$this->ID = $db->insertID();
+            $res = $db->query( "INSERT INTO eZForum_Category
+                         ( ID,  Name, Description, IsPrivate )
+                         VALUES
+                         ( '$nextID',
+                           '$name',
+                           '$description',
+                           '$this->IsPrivate' )" );
 
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZForum_Category SET
+            $res = $db->query( "UPDATE eZForum_Category SET
 		                         Name='$name',
 		                         Description='$description',
 		                         IsPrivate='$this->IsPrivate'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }
@@ -116,9 +113,8 @@ class eZForumCategory
         {
             $forum->delete();
         }
-
-        $db->query( "DELETE FROM eZForum_ForumCategoryLink WHERE CategoryID='$this->ID'" );
         
+        $db->query( "DELETE FROM eZForum_ForumCategoryLink WHERE CategoryID='$this->ID'" );
         $db->query( "DELETE FROM eZForum_Category WHERE ID='$this->ID'" );
         
         return true;
@@ -142,22 +138,16 @@ class eZForumCategory
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "ID" ];
-                $this->Name = $category_array[0][ "Name" ];
-                $this->Description = $category_array[0][ "Description" ];
+                $this->ID = $category_array[0][$db->fieldName("ID")];
+                $this->Name = $category_array[0][$db->fieldName("Name")];
+                $this->Description = $category_array[0][$db->fieldName("Description")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-            else if( count( $category_array ) == 0 )
+            else if ( count( $category_array ) == 0 )
             {
                 $this->ID = 0;
-                $this->State_ = "New";
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -167,22 +157,20 @@ class eZForumCategory
     */
     function getAll( )
     {
-        $db =& eZDB::globalDatabase();
-
         $ret = array();
 
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $category_array, "SELECT ID FROM
-                                                       eZForum_Category" );
+                                                   eZForum_Category" );
                                                      
         $ret = array();
 
         foreach ( $category_array as $category )
-            {
-                $ret[] = new eZForumCategory( $category["ID"] );
-            }
-
+        {
+            $ret[] = new eZForumCategory( $category[$db->fieldName("ID")] );
+        }
+        
         return $ret;
     }
 
@@ -191,9 +179,6 @@ class eZForumCategory
     */
     function forums()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
        $db =& eZDB::globalDatabase();
 
        $db->array_query( $forum_array, "SELECT ForumID FROM
@@ -204,7 +189,7 @@ class eZForumCategory
 
        foreach ( $forum_array as $forum )
        {
-           $ret[] = new eZForum( $forum["ForumID"] );
+           $ret[] = new eZForum( $forum[$db->fieldName("ForumID")] );
        }
        
        return $ret;
@@ -215,18 +200,27 @@ class eZForumCategory
     */
     function addForum( $forum )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-       $db =& eZDB::globalDatabase();
-
        if ( get_class( $forum ) == "ezforum" )
        {
-           $forumID = $forum->id();
+           $db =& eZDB::globalDatabase();
            
-           $db->array_query( $forum_array, "INSERT INTO
-                                                       eZForum_ForumCategoryLink
-                                                       SET CategoryID='$this->ID', ForumID='$forumID'" );
+           $forumID = $forum->id();
+           $db->begin( );
+
+           $db->lock( "eZForum_ForumCategoryLink" );
+           $nextID = $db->nextID( "eZForum_ForumCategoryLink", "ID" );
+           
+           $res = $db->query( "INSERT INTO
+                               eZForum_ForumCategoryLink
+                               ( ID, CategoryID, ForumID )
+                               VALUES
+                               ( '$nextID', '$this->ID', '$forumID' )" );
+           $db->unlock();
+           
+           if ( $res == false )
+               $db->rollback( );
+           else
+               $db->commit();
            
            $ret = array();
        }
@@ -234,7 +228,7 @@ class eZForumCategory
     
         
     /*!
-      
+      Returns all forum categories.
     */
     function getAllCategories()
     {
@@ -245,7 +239,7 @@ class eZForumCategory
         $ret = array();
         foreach( $category_array as $category )
         {
-            $ret[] = new eZForumCategory( $category["ID"] );
+            $ret[] = new eZForumCategory( $category[$db->fieldName("ID")] );
         }
         return $ret;
     }
@@ -259,70 +253,41 @@ class eZForumCategory
     }
         
     /*!
-      
+      Sets the forum category name.
     */
     function setName( $newName )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $newName;
     }
 
     /*!
-      
+      Returns the forum name.
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return htmlspecialchars( $this->Name );
     }
         
     /*!
-      
+      Sets the forum category description.
     */
     function setDescription( $newDescription )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $newDescription;
     }
         
     /*!
-      
+      Returns the forum category description.
     */
     function description()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return htmlspecialchars( $this->Description );
     }
-        
 
-    
-    /*!
-      \private
-      Opens the database for read and write.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
     var $Description;
     var $IsPrivate;
 
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 ?>

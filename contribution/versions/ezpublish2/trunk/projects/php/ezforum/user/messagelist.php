@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.30 2001/05/10 10:14:12 ce Exp $
+// $Id: messagelist.php,v 1.31 2001/06/29 07:08:38 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -150,6 +150,8 @@ if ( !$messageList )
 }
 else
 {
+    $db =& eZDB::globalDatabase();
+    
     $level = 0;
     $i = 0;
     $time = new eZDateTime();
@@ -164,14 +166,14 @@ else
         else
             $t->set_var( "td_class", "bgdark" );
         
-        $t->set_var( "topic", $message["Topic"] );
+        $t->set_var( "topic", $message[$db->fieldName("Topic")] );
 
-        $time->setMySQLTimeStamp( $message["PostingTime"] );
+        $time->setTimeStamp( $message[$db->fieldName("PostingTime")] );
         $t->set_var( "postingtime", $locale->format( $time  ) );
 
-        $t->set_var( "message_id", $message["ID"] );
+        $t->set_var( "message_id", $message[$db->fieldName("ID")] );
 
-        $messageAge = round( $message["Age"] / ( 60 * 60 * 24 ) );
+        $messageAge = round( $message[$db->fieldName("Age")] / ( 60 * 60 * 24 ) );
         if ( $messageAge <= $NewMessageLimit )
         {
             $t->parse( "new_icon", "new_icon_tpl" );
@@ -183,7 +185,7 @@ else
             $t->set_var( "new_icon", "" );
         }
 
-        $userID = $message["UserID"];
+        $userID = $message[$db->fieldName("UserID")];
 
         $user->get( $userID );
         
@@ -199,7 +201,7 @@ else
         }
         elseif ( $showThreads == "Hide" )
         {
-            $count = $message["Count"] -1;
+            $count = $message[$db->fieldName("Count")] - 1;
             $t->set_var( "spacer", "" );
             $t->set_var( "count_replies", "(" . $count . ")" );
         }

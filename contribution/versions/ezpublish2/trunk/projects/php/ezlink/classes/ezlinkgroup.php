@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.54 2001/06/23 12:25:33 bf Exp $
+// $Id: ezlinkgroup.php,v 1.55 2001/06/29 07:08:39 bf Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -207,7 +207,7 @@ class eZLinkGroup
         $parent_array = array();
         $return_array = array();
 
-        $db->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup
+        $db->array_query( $parent_array, "SELECT ID, Title FROM eZLink_LinkGroup
                                                  WHERE Parent='$id' ORDER BY Title" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
@@ -262,7 +262,7 @@ class eZLinkGroup
         {
             $timeStamp =& eZDate::timeStamp( true );
 
-            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from eZLink_Link WHERE LinkGroup='$id'
+            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount, Title from eZLink_Link WHERE LinkGroup='$id'
                                                         AND Accepted='1' AND ( ( $timeStamp - Created ) <= $new_limit  ) ORDER BY Title" );
             $count += $link_count[0][$db->fieldName("LinkCount")];
         }
@@ -271,7 +271,7 @@ class eZLinkGroup
         {
             $group_id =  $sibling_array[ $i][$db->fieldName("ID")];
             $count += $this->getNewSubLinks( $group_id, $start_id, $new_limit );
-            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from eZLink_Link WHERE LinkGroup='$group_id'
+            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount, Title  from eZLink_Link WHERE LinkGroup='$group_id'
                                                         AND Accepted='1' AND ( ( $timeStamp - Created ) <= $new_limit  )  ORDER BY Title" );
             $count += $link_count[0][$db->fieldName("LinkCount")];
         }
@@ -301,7 +301,7 @@ class eZLinkGroup
         $parnet_array = array();
         $return_array = array();
 
-        $db->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup ORDER BY Title" );
+        $db->array_query( $parent_array, "SELECT ID, Title FROM eZLink_LinkGroup ORDER BY Title" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
@@ -353,13 +353,13 @@ class eZLinkGroup
             $fetchUnAccepted = " AND Accepted='1' ";
         
         $db->array_query( $linkArray,
-                          "SELECT ID
+                          "SELECT ID, Title
                            FROM eZLink_Link
                            WHERE LinkGroup='$this->ID'
                            $fetchUnAccepted
                            ORDER BY Title",
                            array( "Limit" => $limit, "Offset" => $offset ) );
-        
+
         foreach( $linkArray as $link )
         {
             $returnArray[] = new eZLink( $link[$db->fieldName("ID")] );

@@ -1,10 +1,10 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.89 2001/06/08 11:47:43 bf Exp $
+// $Id: ezforummessage.php,v 1.90 2001/06/29 07:08:38 bf Exp $
 //
-// Definition of eZCompany class
+// Definition of eZForumMessage class
 //
-// Lars Wilhelmsen <lw@ez.no>
+// Bård Fartad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -42,7 +42,7 @@ class eZForumMessage
     /*!
       Constructs a new eZForumMessage object.
     */
-    function eZForumMessage( $id="", $fetch=true )
+    function eZForumMessage( $id="" )
     {
         $this->IsApproved = true;
         $this->IsTemporary = false;
@@ -52,19 +52,7 @@ class eZForumMessage
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -75,19 +63,25 @@ class eZForumMessage
     {
         $db =& eZDB::globalDatabase();
 
+        $db->begin( );
+
         if ( !isset( $this->ID ) )
         {
-
             if ( $this->ParentID == 0 )
             { // new node
 
+                $db->lock( "eZForum_Message" );
+                $nextID = $db->nextID( "eZForum_Message", "ID" );
+
+                $timeStamp =& eZDateTime::timeStamp( true );            
+                
                 // find the biggest treeID
-                $db->array_query( $result, "SELECT TreeID FROM eZForum_Message ORDER BY TreeID DESC LIMIT 1" );
+                $db->array_query( $result, "SELECT TreeID FROM eZForum_Message ORDER BY TreeID DESC", array( "Limit" => 1 ) );
 
                 $this->Depth = 0;
                 if ( count( $result ) > 0 )
                 {
-                    $this->TreeID = $result[0]["TreeID"] + 1;
+                    $this->TreeID = $result[0][$db->fieldName("TreeID")] + 1;
                 }
                 else
                 {
@@ -95,35 +89,51 @@ class eZForumMessage
                 }
 
                 // get the biggest thread ID
-                $db->array_query( $result, "SELECT ThreadID FROM eZForum_Message WHERE Parent='0' ORDER BY TreeID DESC LIMIT 1" );
+                $db->array_query( $result,
+                "SELECT ThreadID FROM eZForum_Message WHERE Parent='0' ORDER BY TreeID DESC",
+                array( "Limit" => 1 ) );
 
                 if ( count( $result ) > 0 )
                 {
-                    $this->ThreadID = $result[0]["ThreadID"] + 1;
+                    $this->ThreadID = $result[0][$db->fieldName("ThreadID")] + 1;
                 }
                 else
                 {
                     $this->ThreadID = 0;
                 }                
-                $topic = addslashes( $this->Topic );
-                $body = addslashes( $this->Body );
-                $db->query( "INSERT INTO eZForum_Message SET
-		                         ForumID='$this->ForumID',
-		                         Topic='$topic',
-		                         Body='$body',
-		                         UserID='$this->UserID',
-		                         Parent='$this->ParentID',
-		                         TreeID='$this->TreeID',
-		                         ThreadID='$this->ThreadID',
-		                         Depth='$this->Depth',
-		                         EmailNotice='$this->EmailNotice',
-		                         IsApproved='$this->IsApproved',
-		                         IsTemporary='$this->IsTemporary',
-                                 PostingTime=now()
-       
+                $topic = $db->escapeString( $this->Topic );
+                $body = $db->escapeString( $this->Body );
+                $res = $db->query( "INSERT INTO eZForum_Message 
+		                         ( ID,
+                                   ForumID,
+                                   Topic,
+                                   Body,
+                                   UserID,
+                                   Parent,
+                                   TreeID,
+                                   ThreadID,
+                                   Depth,
+                                   EmailNotice,
+                                   IsApproved,
+                                   IsTemporary,
+                                   PostingTime )
+                                 VALUES
+                                 ( '$nextID',
+                                   '$this->ForumID',
+                                   '$topic',
+                                   '$body',
+                                   '$this->UserID',
+                                   '$this->ParentID',
+                                   '$this->TreeID',
+                                   '$this->ThreadID',
+                                   '$this->Depth',
+                                   '$this->EmailNotice',
+                                   '$this->IsApproved',
+                                   '$this->IsTemporary',
+                                   '$timeStamp' )       
                                  " );
 
-				$this->ID = $db->insertID();
+				$this->ID = $nextID;
             }
             else
             { // child node
@@ -131,16 +141,21 @@ class eZForumMessage
                 // find the TreeID, ThreadID and Depth of the parent
                 $db->array_query( $result, "SELECT TreeID, ThreadID, Depth FROM eZForum_Message
                                                         WHERE ID='$this->ParentID'
-                                                        ORDER BY TreeID DESC LIMIT 1" );
+                                                        ORDER BY TreeID DESC", array( "Limit" => 1 ) );
 
                 if ( count( $result ) == 1 )
                 {
-                    $parentID = $result[0]["TreeID"];
+                    $db->lock( "eZForum_Message" );
+                    $nextID = $db->nextID( "eZForum_Message", "ID" );
+
+                    $timeStamp =& eZDateTime::timeStamp( true );            
+                    
+                    $parentID = $result[0][$db->fieldName("TreeID")];
                     $this->TreeID =  $parentID;
 
-                    $this->ThreadID = $result[0]["ThreadID"];
+                    $this->ThreadID = $result[0][$db->fieldName("ThreadID")];
 
-                    $d = $result[0]["Depth"];
+                    $d = $result[0][$db->fieldName("Depth")];
                     setType( $d, "integer" );
                     
                     $this->Depth = $d + 1;
@@ -148,37 +163,53 @@ class eZForumMessage
                     // update the whole tree''s ThreeID.
                     $db->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
 
-                    $bodySlash = addslashes( $this->Body );
-                    $topicSlash = addslashes( $this->Topic );
-                    $db->query( "INSERT INTO eZForum_Message SET
-		                         ForumID='$this->ForumID',
-		                         Topic='$topicSlash',
-		                         Body='$bodySlash',
-		                         UserID='$this->UserID',
-		                         Parent='$this->ParentID',
-		                         TreeID='$this->TreeID',
-		                         ThreadID='$this->ThreadID',
-		                         Depth='$this->Depth',
-		                         EmailNotice='$this->EmailNotice',
-		                         IsApproved='$this->IsApproved',
-		                         IsTemporary='$this->IsTemporary',
-                                 PostingTime=now()
+                    $bodySlash = $db->escapeString( $this->Body );
+                    $topicSlash = $db->escapeString( $this->Topic );
+                    
+                    $res = $db->query( "INSERT INTO eZForum_Message
+		                         ( ID,
+                                   ForumID,
+                                   Topic,
+                                   Body,
+                                   UserID,
+                                   Parent,
+                                   TreeID,
+                                   ThreadID,
+                                   Depth,
+                                   EmailNotice,
+                                   IsApproved,
+                                   IsTemporary,
+                                   PostingTime )
+                                 VALUES
+                                 ( '$nextID',
+                                   '$this->ForumID',
+                                   '$topicSlash',
+                                   '$bodySlash',
+                                   '$this->UserID',
+                                   '$this->ParentID',
+                                   '$this->TreeID',
+                                   '$this->ThreadID',
+                                   '$this->Depth',
+                                   '$this->EmailNotice',
+                                   '$this->IsApproved',
+                                   '$this->IsTemporary',
+                                   '$timeStamp' )
                                  " );
 
-					$this->ID = $db->insertID();
+					$this->ID = $nextID;
                 }
                 else
                 {
                     print( "<b>ERROR:</b> eZForumMessage::store() parent not found in database.<br /> \n" );
                 }                
             }
-            $this->State_ = "Coherent";
         }
         else
         {
-            $bodySlash = addslashes( $this->Body );
-            $topicSlash = addslashes( $this->Topic );
-            $db->query( "UPDATE eZForum_Message SET
+            $bodySlash = $db->escapeString( $this->Body );
+            $topicSlash = $db->escapeString( $this->Topic );
+            
+            $res = $db->query( "UPDATE eZForum_Message SET
 		                         ForumID='$this->ForumID',
 		                         Topic='$topicSlash',
 		                         Body='$bodySlash',
@@ -191,42 +222,17 @@ class eZForumMessage
                                  WHERE ID='$this->ID'
                                  " );
 
-            $this->State_ = "Coherent";
         }
+
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
-    }
-
-    /*!
-      Lock the table for read only operation.
-     */
-    function readLock()
-    {
-        //$db =& eZDB::globalDatabase();
-        //$query = "LOCK TABLES eZForum_Message READ LOCAL";
-        //$db->query( $query );
-        
-        //$this->writeLock();
-    }
-    
-    /*!
-      Lock the table for write and read only by this thread.
-     */
-    function writeLock()
-    {
-        //$db =& eZDB::globalDatabase();
-        //$query = "LOCK TABLES eZForum_Message WRITE";
-        //$db->query( $query );
-    }
-    
-    /*!
-      Unlock the table.
-     */
-    function unLock()
-    {
-        $db =& eZDB::globalDatabase();
-        $query = "UNLOCK TABLES";
-        $db->query( $query );
     }
 
     /*!
@@ -249,8 +255,6 @@ class eZForumMessage
     {
         $tmp = new eZForumMessage( $this->ID );
         unset( $tmp->ID );
-        $tmp->State_ = "New";
-        
         return $tmp;
     }
 
@@ -264,8 +268,10 @@ class eZForumMessage
         
         if ( $id != "" )
         {
+            $timeStamp =& eZDateTime::timeStamp( true );            
+            
             $db->array_query( $message_array, "SELECT *,
-                             ( UNIX_TIMESTAMP( now() + 0 )  - UNIX_TIMESTAMP( PostingTime )) AS Age
+                             ( $timeStamp  - PostingTime ) AS Age
                               FROM eZForum_Message WHERE ID='$id'" );
             
             if ( count( $message_array ) > 1 )
@@ -274,38 +280,31 @@ class eZForumMessage
             }
             else if( count( $message_array ) == 1 )
             {
-                $this->ID =& $message_array[0][ "ID" ];
-                $this->ForumID =& $message_array[0][ "ForumID" ];
-                $this->Topic =& $message_array[0][ "Topic" ];
-                $this->Body =& $message_array[0][ "Body" ];
-                $this->UserID =& $message_array[0][ "UserID" ];
-                $this->ParentID =& $message_array[0][ "Parent" ];
-                $this->PostingTime =& $message_array[0][ "PostingTime" ];
-                $this->EmailNotice =& $message_array[0][ "EmailNotice" ];
+                $this->ID =& $message_array[0][$db->fieldName("ID")];
+                $this->ForumID =& $message_array[0][$db->fieldName("ForumID")];
+                $this->Topic =& $message_array[0][$db->fieldName("Topic")];
+                $this->Body =& $message_array[0][$db->fieldName("Body")];
+                $this->UserID =& $message_array[0][$db->fieldName("UserID")];
+                $this->ParentID =& $message_array[0][$db->fieldName("Parent")];
+                $this->PostingTime =& $message_array[0][$db->fieldName("PostingTime")];
+                $this->EmailNotice =& $message_array[0][$db->fieldName("EmailNotice")];
 
-                $this->IsApproved =& $message_array[0][ "IsApproved" ];
-                $this->IsTemporary =& $message_array[0][ "IsTemporary" ];
+                $this->IsApproved =& $message_array[0][$db->fieldName("IsApproved")];
+                $this->IsTemporary =& $message_array[0][$db->fieldName("IsTemporary")];
 
-                $this->ThreadID =& $message_array[0][ "ThreadID" ];
-                $this->TreeID =& $message_array[0][ "TreeID" ];                
-                $this->Depth =& $message_array[0][ "Depth" ];
+                $this->ThreadID =& $message_array[0][$db->fieldName("ThreadID")];
+                $this->TreeID =& $message_array[0][$db->fieldName("TreeID")];                
+                $this->Depth =& $message_array[0][$db->fieldName("Depth")];
 
-                $this->Age =& $message_array[0][ "Age" ];
+                $this->Age =& $message_array[0][$db->fieldName("Age")];
                 
-                
-                $this->State_ = "Coherent";
                 $ret = true;
             }
             else if( count( $message_array ) == 0 )
             {
                 $this->ID = 0;
-                $this->State_ = "New";
                 $ret = false;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -316,17 +315,16 @@ class eZForumMessage
     function getAll( )
     {
         $db =& eZDB::globalDatabase();
-
         $ret = array();
 
         $db->array_query( $message_array, "SELECT ID FROM
-                                                       eZForum_Message" );
+                                           eZForum_Message" );
                                                      
         $ret = array();
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message["ID"] );
+            $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
         }
         
         return $ret;
@@ -342,13 +340,10 @@ class eZForumMessage
     }
         
     /*!
-      
+      Returns the forum id.
     */      
     function forumID()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ForumID;
     }
     
@@ -357,9 +352,6 @@ class eZForumMessage
     */      
     function setForumID( $newForumID )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->ForumID = $newForumID;
     }
 
@@ -368,9 +360,6 @@ class eZForumMessage
     */      
     function setIsApproved( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
            $this->IsApproved = 1;
        else
@@ -383,9 +372,6 @@ class eZForumMessage
     */      
     function setIsTemporary( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
            $this->IsTemporary = 1;
        else
@@ -398,14 +384,10 @@ class eZForumMessage
     */
     function isApproved()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $this->IsApproved == 1 )
            return true;
        else
            return false;
-           
     }
     
     /*!
@@ -413,14 +395,10 @@ class eZForumMessage
     */
     function isTemporary()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $this->IsTemporary == 1 )
            return true;
        else
            return false;
-           
     }
     
     /*!
@@ -430,9 +408,6 @@ class eZForumMessage
     */      
     function &parent()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
 
        if ( $this->ParentID != 0 )
@@ -446,9 +421,6 @@ class eZForumMessage
     */      
     function setParent( $newParent )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->ParentID = $newParent;    
     }
 
@@ -457,9 +429,6 @@ class eZForumMessage
     */      
     function &topic( $htmlchars=true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
        if( $htmlchars == true )
        {
             return  htmlspecialchars( $this->Topic );
@@ -479,14 +448,10 @@ class eZForumMessage
     }
         
     /*!
-      
+      Sets the message topic.
     */      
     function setTopic( &$newTopic )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
         $this->Topic = $newTopic;
     }
     
@@ -496,10 +461,7 @@ class eZForumMessage
     */      
     function &body( $htmlchars=true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       if( $htmlchars == true )
+       if ( $htmlchars == true )
        {
             return  htmlspecialchars( $this->Body );
        }
@@ -510,26 +472,18 @@ class eZForumMessage
     }
 
     /*!
-      
+      Sets the body contents.
     */      
     function setBody( &$newBody )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
         $this->Body = $newBody;
     }
     
     /*!
-      
+      Returns the user id.
     */      
     function userID()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
         return $this->UserID;
     }
 
@@ -538,10 +492,6 @@ class eZForumMessage
     */      
     function age()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
         return $this->Age;
     }
     
@@ -550,50 +500,40 @@ class eZForumMessage
     */      
     function &user()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $user =& new eZUser( $this->UserID );
         
        return $user;
     }
     
     /*!
-      
+      Sets the user id.
     */      
     function setUserID( $newUserID )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->UserID = $newUserID;
     }
 
     /*!
-      
+      Returns true if the poster should receive email notice.
     */      
     function emailNotice()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        if ( $this->EmailNotice == 1 )
-           $ret = true;    
-        
+           $ret = true;
+       
        return $ret;
     }
 
     /*!
-      
+      Set to true if the po
     */      
     function setEmailNotice( $newEmailNotice )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
-        $this->EmailNotice = $newEmailNotice;
+        if ( $newEmailNotice == true )
+            $this->EmailNotice = 1;
+        else
+            $this->EmailNotice = 0;
     }
 
     /*!
@@ -601,33 +541,22 @@ class eZForumMessage
     */
     function depth()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Depth;
     }
 
     /*!
-      
+      Enabled email notice.
     */      
     function enableEmailNotice()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
         $this->setEmailNotice( 1 );
     }
 
     /*!
-      
+      Disables email notice.
     */      
     function disableEmailNotice()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        
         $this->setEmailNotice( 0 );
     }
 
@@ -637,12 +566,9 @@ class eZForumMessage
     */
     function &postingTime()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
 
-       $dateTime->setMySQLTimeStamp( $this->PostingTime );
+       $dateTime->setTimeStamp( $this->PostingTime );
        
        return $dateTime;
     }
@@ -654,9 +580,6 @@ class eZForumMessage
     */
     function threadID()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ThreadID;
     }
 
@@ -668,12 +591,8 @@ class eZForumMessage
     */
     function treeID()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->TreeID;
     }
-
     
     /*!
       Returns the number of messages.
@@ -681,27 +600,27 @@ class eZForumMessage
     function countMessages( $ID )
     {
         $db =& eZDB::globalDatabase();
+
+        $db->array_query( $message_array,
+                          "SELECT COUNT(ID) AS Messages
+                           FROM eZForum_Message
+                           WHERE ForumID='$ID'
+                           AND Parent IS NULL AND IsTemporary='0'" );
         
-        $query_id = mysql_query("SELECT COUNT(ID) AS Messages
-                             FROM eZForum_Message
-                             WHERE ForumID='$ID'
-                             AND Parent IS NULL  AND IsTemporary='0'")
-             or die("eZForumMessage::countMessages($ID) failed, dying...");
-        
-        return mysql_result($query_id,0,"Messages");
+        return $message_array[0][$db->fieldName("Messages")];
     }
     
     /*!
-      
-    */      
+
+     */      
     function countReplies( $ID )
     {
         $db =& eZDB::globalDatabase();
          
-        $query_id = mysql_query("SELECT COUNT(ID) AS replies FROM eZForum_Message WHERE Parent='$ID' AND IsTemporary='0'")
-             or die("could not count replies, dying");
+        $db->array_query( $message_array,
+        "SELECT COUNT(ID) AS Replies FROM eZForum_Message WHERE Parent='$ID' AND IsTemporary='0'" );
          
-        return mysql_result($query_id,0,"replies");
+        return $message_array[0][$db->fieldName("Replies")];
     }
 
     /*!
@@ -737,12 +656,13 @@ class eZForumMessage
 
         $ret = array();
 
-        $db->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0' LIMIT $Offset, $Limit" );
+        $db->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'",
+                          array( "Limit" => $Limit, "Offset" => $Offset ) );
         $ret = array();
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message["ID"] );
+            $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
         }
         
         return $ret;
@@ -757,7 +677,7 @@ class eZForumMessage
         
         $db->array_query( $message_array, "SELECT COUNT(ID) as Count FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );        
 
-        return $message_array[0]["Count"];
+        return $message_array[0][$db->fieldName("Count")];
     }
 
     /*!
@@ -774,7 +694,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message["ID"] );
+            $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
         }
         
         return $ret;
@@ -804,7 +724,5 @@ class eZForumMessage
     // indicates the depth of the message in the tree
     var $Depth;
 
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 ?>

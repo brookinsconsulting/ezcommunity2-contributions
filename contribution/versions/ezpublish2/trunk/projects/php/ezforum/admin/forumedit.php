@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.27 2001/05/16 09:14:46 wojciechp Exp $
+// $Id: forumedit.php,v 1.28 2001/06/29 07:08:38 bf Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -87,7 +87,7 @@ if ( $Action == "insert" )
 
             $category = new eZForumCategory( $CategorySelectID );
             $category->addForum( $forum );
-
+            print_r( $category );
             eZLog::writeNotice( "Forum created: $Name from IP: $REMOTE_ADDR" );
 
             eZHTTPTool::header( "Location: /forum/forumlist/$CategorySelectID" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.61 2001/06/28 13:23:29 jhe Exp $
+// $Id: ezimage.php,v 1.62 2001/06/29 07:08:38 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -89,6 +89,8 @@ class eZImage
     */
     function eZImage( $id="" )
     {
+        $this->PhotographerID = 0;
+        
         if ( $id != "" )
         {
             $this->ID = $id;

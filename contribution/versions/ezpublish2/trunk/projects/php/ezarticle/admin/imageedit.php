@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.21 2001/05/07 12:40:33 ce Exp $
+// $Id: imageedit.php,v 1.22 2001/06/29 07:08:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
@@ -153,7 +153,6 @@ if ( $Action == "StoreDef" )
 
     if ( isset( $NewImage ) )
     {
-        print( "new image" );
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /article/articleedit/imageedit/new/$ArticleID/" );
         exit();

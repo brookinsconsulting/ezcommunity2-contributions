@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticletype.php,v 1.6 2001/06/27 08:15:30 bf Exp $
+// $Id: ezarticletype.php,v 1.7 2001/06/29 07:08:38 bf Exp $
 //
 // Definition of eZArticleType class
 //
@@ -223,7 +223,7 @@ class eZArticleType
         $return_array = array();
         $attribute_array = array();
        
-        $db->array_query( $attribute_array, "SELECT ID
+        $db->array_query( $attribute_array, "SELECT ID, Placement
                                                       FROM eZArticle_Attribute
                                                       WHERE TypeID='$this->ID' ORDER BY Placement" );
 
@@ -252,7 +252,7 @@ class eZArticleType
             $attribute_array = array();
 
             $db->array_query( $attribute_array, "
-            SELECT Attribute.ID
+            SELECT Attribute.ID, Attr.TypeID, Attr.Placement
             FROM
                 eZArticle_AttributeValue AS Value,
                 eZArticle_Attribute AS Attr

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.6 2001/06/19 07:47:48 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.7 2001/06/29 07:08:38 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -145,6 +145,8 @@ class eZQDomrenderer
 
         $this->Template->set_block( "articletags_tpl", "image_tpl", "image"  );
         $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float"  );
+
+        $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
         
         $this->Template->set_block( "articletags_tpl", "bold_tpl", "bold"  );
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
@@ -582,31 +584,32 @@ class eZQDomrenderer
         $pageContent = "";
         if ( $paragraph->name == "link" )
         {
-            print( "link" );
-            if  ( count( $paragraph->attributes ) > 0 )
+            if ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $attr )
-            {
-                print( $attr );
+            {                
                 switch ( $attr->name )
                 {
-                    case "level" :
+                    case "href" :
                     {
-                       $level = $attr->children[0]->content;
+                       $href = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                       $text = $attr->children[0]->content;
                     }
                     break;
                 }
             }
 
-            foreach ( $paragraph->children as $child )
-            {
-                if ( $child->name == "text" )
-                {
-                    $content = $child->content;
-                }
-            }
+
+            if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
+                $href = "http://" . $href;
             
-//            $this->Template->set_var( "contents", $content );
-//            $pageContent =& $this->Template->parse( "header_" . $level, "header_" . $level. "_tpl" );
+            $this->Template->set_var( "href", $href );
+            $this->Template->set_var( "link_text", $text );
+            $pageContent =& $this->Template->parse( "link", "link_tpl" );
         }
 
         return $pageContent;

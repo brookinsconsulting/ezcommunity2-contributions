@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.5 2001/06/26 11:31:53 jhe Exp $
+// $Id: ezauthor.php,v 1.6 2001/06/29 07:08:39 bf Exp $
 //
 // Definition of eZAuthor class
 //
@@ -60,15 +60,14 @@ class eZAuthor
         $db->begin( );
 
         
-        $name = addslashes( $this->Name );
-        $email = addslashes( $this->EMail );
+        $name = $db->escapeString( $this->Name );
+        $email = $db->escapeString( $this->EMail );
 
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZUser_Author" );
-
             $nextID = $db->nextID( "eZUser_Author", "ID" );
-            
+
             $res = $db->query( "INSERT INTO eZUser_Author
                          ( ID, Name, EMail )
                          VALUES 
@@ -82,11 +81,13 @@ class eZAuthor
 		                 Name='$name',
                          EMail='$email'
                         WHERE ID='$this->ID'" );
+            
+
         }
 
         $db->unlock();
     
-        if ( $dbError == true )
+        if ( $res == false )
             $db->rollback( );
         else
         {
@@ -130,7 +131,7 @@ class eZAuthor
         {
             $db->array_query( $author_array, "SELECT * FROM eZUser_Author WHERE ID='$id'" );
             if( count( $author_array ) == 1 )
-            {
+            {                
                 $this->ID =& $author_array[0][$db->fieldName("ID")];
                 $this->Name =& $author_array[0][$db->fieldName("Name")];
                 $this->EMail =& $author_array[0][$db->fieldName("EMail")];
@@ -161,7 +162,7 @@ class eZAuthor
 
         foreach ( $author_array as $author )
         {
-            $return_array[] = new eZAuthor( $author[0] );
+            $return_array[] = new eZAuthor( $author[$db->fieldName("ID")] );
         }
         return $return_array;
     }

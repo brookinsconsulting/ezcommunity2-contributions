@@ -23,7 +23,9 @@ CREATE TABLE eZImageCatalogue_CategoryPermission (
 CREATE TABLE eZImageCatalogue_Image (
   ID int NOT NULL,
   Name varchar(100) default NULL,
+  PhotographerID int not null,
   Caption lvarchar,
+  Created int,
   Description lvarchar,
   FileName varchar(100) default NULL,
   OriginalFileName varchar(100) default NULL,

@@ -83,7 +83,6 @@ CREATE TABLE eZUser_Permission (
 );
 
 
-# default data:
 INSERT INTO eZUser_Module (ID, Name ) VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module (ID, Name ) VALUES (2,'eZPoll');
 INSERT INTO eZUser_Module (ID, Name ) VALUES (3,'eZUser');

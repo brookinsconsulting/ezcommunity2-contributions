@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.5 2001/06/19 07:47:48 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.6 2001/06/29 07:08:38 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -100,9 +100,7 @@ class eZQDomGenerator
 
         $tmpPage = $this->generateUnknowns( $tmpPage );        
 
-        
-
-//        $tmpPage = $this->generateLink( $tmpPage );
+        $tmpPage = $this->generateLink( $tmpPage );
 
 //        $tmpPage = $this->generateModule( $tmpPage );
         
@@ -160,6 +158,29 @@ class eZQDomGenerator
         
         return $tmpPage;
     }
+
+    /*!
+      \private
+      Converts the link tags to valid XML tags.
+    */
+    function &generateLink( $tmpPage )
+    {
+        // convert <link ez.no ez systems> to valid xml
+        // $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
+        $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
+
+        $tmpPage = preg_replace( "#(<iconlink\s+?([^ ]+)\s+?([^>]+)>)#", "<iconlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
+        
+        // convert <ezanchor anchor> to <ezanchor href="anchor" />
+        $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<ezanchor href=\"\\1\" />", $tmpPage );
+        
+        // convert <mail adresse@domain.tld subject line, link text>
+        // to valid xml
+        $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
+
+        return $tmpPage;
+    }
+    
 
     /*!
       Decodes the xml chunk and returns the original array to the article.
@@ -246,6 +267,7 @@ class eZQDomGenerator
                 $value .= $this->decodeStandards( $paragraph );
                 $value .= $this->decodeHeader( $paragraph );
                 $value .= $this->decodeImage( $paragraph );
+                $value .= $this->decodeLink( $paragraph );
             }
         }
 
@@ -333,6 +355,89 @@ class eZQDomGenerator
                         
             $pageContent = "<image $imageID $imageAlignment $imageSize>";
         }
+        return $pageContent;
+    }
+
+    /*!
+      \private
+    */
+    function &decodeLink( $paragraph )
+    {
+        // link
+        if ( $paragraph->name == "link" )
+        {
+            foreach ( $paragraph->attributes as $imageItem )
+            {
+                switch ( $imageItem->name )
+                {
+
+                    case "href" :
+                    {
+                        $href = $imageItem->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                        $text = $imageItem->children[0]->content;
+                    }
+                    break;
+                                
+                }
+            }
+                        
+            $pageContent .= "<link $href $text>";
+        }
+
+        
+        // mail
+        if ( $paragraph->name == "mail" )
+        {
+            foreach ( $paragraph->attributes as $mailItem )
+            {
+                switch ( $mailItem->name )
+                {
+                    case "to" :
+                    {
+                        $to = $mailItem->children[0]->content;
+                    }
+                    break;
+
+                    case "subject" :
+                    {
+                        $subject = $mailItem->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                        $text = $mailItem->children[0]->content;
+                    }
+                    break;
+                }
+            }
+                        
+            $pageContent .= "<mail $to $subject, $text>";
+        }
+
+        // ez anchor
+        if ( $paragraph->name == "anchor" )
+        {
+            foreach ( $paragraph->attributes as $anchorItem )
+            {
+                switch ( $anchorItem->name )
+                {
+                    case "href" :
+                    {
+                        $href = $anchorItem->children[0]->content;
+                    }
+                    break;
+                }
+            }
+                        
+            $pageContent .= "<ezanchor $href>";
+        }
+        
         return $pageContent;
     }
     

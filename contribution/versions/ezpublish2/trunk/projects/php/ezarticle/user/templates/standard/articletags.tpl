@@ -45,6 +45,10 @@
 <img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
 <!-- END image_float_tpl -->
 
+<!-- BEGIN link_tpl -->
+<a href="{href}">{link_text}</a>
+<!-- END link_tpl -->
+
 
 <!-- BEGIN bold_tpl -->
 <b>{contents}</b>

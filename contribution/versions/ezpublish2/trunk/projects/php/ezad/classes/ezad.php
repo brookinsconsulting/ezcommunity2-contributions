@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.22 2001/06/21 09:08:36 ce Exp $
+// $Id: ezad.php,v 1.23 2001/06/29 07:08:36 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -51,17 +51,10 @@ class eZAd
     */
     function eZAd( $id="" )
     {
-        $this->IsConnected = false;
-        
         if ( $id != "" )
         {
             $this->ID = $id;
             $this->get( $this->ID );
-        }
-        else
-        {
-            $this->State_ = "New";
-            
         }
     }
 
@@ -70,36 +63,56 @@ class eZAd
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
-        $url = addslashes( $this->URL );
-        $htmlbanner = addslashes( $this->HTMLBanner );
+        $db =& eZDB::globalDatabase();
+
+        $db->begin( );
+        
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $url = $db->escapeString( $this->URL );
+        $htmlbanner = $db->escapeString( $this->HTMLBanner );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZAd_Ad SET
-		                         Name='$name',
-		                         Description='$description',
-                                 ImageID='$this->ImageID',
-                                 IsActive='$this->IsActive',
-                                 URL='$url',
-                                 ViewStartDate='$this->ViewStartDate',
-                                 ViewStopDate='$this->ViewStopDate',
-                                 ClickPrice='$this->ClickPrice',
-                                 ViewPrice='$this->ViewPrice',
-                                 ViewRule='$this->ViewRule',
-                                 HTMLBanner='$htmlbanner',
-                                 UseHTML='$this->UseHTML'
+            $db->lock( "eZAd_Ad" );
+
+            $nextID = $db->nextID( "eZAd_Ad", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZAd_Ad
+                         ( ID,  
+                           Name,
+                           Description,
+                           ImageID,
+                           IsActive,
+                           URL,
+                           ViewStartDate,
+                           ViewStopDate,
+                           ClickPrice,
+                           ViewPrice,
+                           ViewRule,
+                           HTMLBanner,
+                           UseHTML )
+                          VALUES
+                          ( '$nextID',
+                            '$name',
+                            '$description',
+                            '$this->ImageID',
+                            '$this->IsActive',
+                            '$url',
+                            '$this->ViewStartDate',
+                            '$this->ViewStopDate',
+                            '$this->ClickPrice',
+                            '$this->ViewPrice',
+                            '$this->ViewRule',
+                            '$htmlbanner',
+                            '$this->UseHTML' )
                                  " );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZAd_Ad SET
+             $res = $db->query( "UPDATE eZAd_Ad SET
 		                         Name='$name',
 		                         Description='$description',
                                  ImageID='$this->ImageID',
@@ -114,9 +127,15 @@ class eZAd
                                  UseHTML='$this->UseHTML'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
         
         return true;
     }
@@ -126,40 +145,36 @@ class eZAd
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $ad_array, "SELECT * FROM eZAd_Ad WHERE ID='$id'" );
+            $db->array_query( $ad_array, "SELECT * FROM eZAd_Ad WHERE ID='$id'" );
             if ( count( $ad_array ) > 1 )
             {
                 die( "Error: Ad's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $ad_array ) == 1 )
             {
-                $this->ID =& $ad_array[0][ "ID" ];
-                $this->Name =& $ad_array[0][ "Name" ];
-                $this->Description =& $ad_array[0][ "Description" ];
-                $this->IsActive =& $ad_array[0][ "IsActive" ];
-                $this->URL =& $ad_array[0][ "URL" ];
-                $this->ImageID =& $ad_array[0][ "ImageID" ];
-                $this->ViewStartDate =& $ad_array[0][ "ViewStartDate" ];
-                $this->ViewStopDate =& $ad_array[0][ "ViewStopDate" ];
-                $this->ViewPrice =& $ad_array[0][ "ViewPrice" ];
-                $this->ClickPrice =& $ad_array[0][ "ClickPrice" ];
-                $this->ViewRule =& $ad_array[0][ "ViewRule" ];
+                $this->ID =& $ad_array[0][$db->fieldName("ID")];
+                $this->Name =& $ad_array[0][$db->fieldName("Name")];
+                $this->Description =& $ad_array[0][$db->fieldName("Description")];
+                $this->IsActive =& $ad_array[0][$db->fieldName("IsActive")];
+                $this->URL =& $ad_array[0][$db->fieldName("URL")];
+                $this->ImageID =& $ad_array[0][$db->fieldName("ImageID")];
+                $this->ViewStartDate =& $ad_array[0][$db->fieldName("ViewStartDate")];
+                $this->ViewStopDate =& $ad_array[0][$db->fieldName("ViewStopDate")];
+                $this->ViewPrice =& $ad_array[0][$db->fieldName("ViewPrice")];
+                $this->ClickPrice =& $ad_array[0][$db->fieldName("ClickPrice")];
+                $this->ViewRule =& $ad_array[0][$db->fieldName("ViewRule")];
 
-                $this->HTMLBanner =& $ad_array[0][ "HTMLBanner" ];
-                $this->UseHTML =& $ad_array[0][ "UseHTML" ];
+                $this->HTMLBanner =& $ad_array[0][$db->fieldName("HTMLBanner")];
+                $this->UseHTML =& $ad_array[0][$db->fieldName("UseHTML")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -169,15 +184,15 @@ class eZAd
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZAd_View WHERE AdID='$this->ID'" );            
-            $this->Database->query( "DELETE FROM eZAd_Click WHERE AdID='$this->ID'" );            
+            $db->query( "DELETE FROM eZAd_View WHERE AdID='$this->ID'" );            
+            $db->query( "DELETE FROM eZAd_Click WHERE AdID='$this->ID'" );            
 
-            $this->Database->query( "DELETE FROM eZAd_AdCategoryLink WHERE AdID='$this->ID'" );            
-            $this->Database->query( "DELETE FROM eZAd_Ad WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZAd_AdCategoryLink WHERE AdID='$this->ID'" );            
+            $db->query( "DELETE FROM eZAd_Ad WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -246,7 +261,7 @@ class eZAd
     {
        $ret = false;
        
-       if ( $this->IsActive == "true" )
+       if ( $this->IsActive == "1" )
        {
            $ret = true;
        }
@@ -281,7 +296,7 @@ class eZAd
     function &viewStartDate()
     {
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->ViewStartDate );
+       $dateTime->setTimeStamp( $this->ViewStartDate );
        
        return $dateTime;
     }    
@@ -292,7 +307,7 @@ class eZAd
     function &viewStopDate()
     {
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->ViewStopDate );
+       $dateTime->setTimeStamp( $this->ViewStopDate );
        
        return $dateTime;
     }    
@@ -346,11 +361,11 @@ class eZAd
     {
        if ( $value == true )
        {
-           $this->IsActive = "true";
+           $this->IsActive = "1";
        }
        else
        {
-           $this->IsActive = "false";           
+           $this->IsActive = "0";           
        }
     }
 
@@ -384,16 +399,16 @@ class eZAd
     */
     function &categories()
     {
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $ret = array();
-       $this->Database->array_query( $category_array, "SELECT * FROM
+        $ret = array();
+        $db->array_query( $category_array, "SELECT * FROM
                                                        eZAd_AdCategoryLink
                                                        WHERE AdID='$this->ID'" );
 
        foreach ( $category_array as $category )
        {           
-           $ret[] = new eZAdCategory( $category["CategoryID"] );
+           $ret[] = new eZAdCategory( $category[$db->fieldName("CategoryID")] );
        }
 
        return $ret;
@@ -404,9 +419,9 @@ class eZAd
     */
     function removeFromCategories()
     {
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $this->Database->query( "DELETE FROM eZAd_AdCategoryLink
+        $db->query( "DELETE FROM eZAd_AdCategoryLink
                                 WHERE AdID='$this->ID'" );        
     }
 
@@ -417,7 +432,7 @@ class eZAd
     {
         if ( get_class( $value ) == "ezimage" )
         {
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
 
             $this->ImageID = $value->id();
         }
@@ -429,11 +444,10 @@ class eZAd
       NOTE: the image also gets deleted from the image catalogue.
     */
     function deleteImage( $value )
-    {
-        
+    {        
         if ( get_class( $value ) == "ezimage" )
         {
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
 
             $imageID = $value->id();
 
@@ -447,20 +461,17 @@ class eZAd
     */
     function image()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
        
-       $ret = false;
-       $img = new eZImage( );
-       
-       if ( $img->get( $this->ImageID ) )
-       {           
-           $ret = $img;
-       }
-       
-       return $ret;
+        $ret = false;
+        $img = new eZImage( );
+        
+        if ( $img->get( $this->ImageID ) )
+        {           
+            $ret = $img;
+        }
+        
+        return $ret;
     }
 
     /*!
@@ -468,31 +479,51 @@ class eZAd
     */
     function addPageView( )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
+        $db->begin( );
+        
+        $date = eZDate::timeStamp( true );
             
-        $this->Database->array_query( $view_result, "SELECT * FROM
-                                                       eZAd_View
-                                                       WHERE AdID='$this->ID' AND Date=curdate()" );
+        $db->array_query( $view_result, "SELECT * FROM
+                                         eZAd_View
+                                         WHERE AdID='$this->ID' AND Date='$date'" );
         
         if ( count( $view_result )  == 0 )
         {
-            $this->Database->query( "INSERT INTO eZAd_View SET 
-                                         AdID='$this->ID',
-                                         Date=curdate(),
-                                         ViewCount='1',
-                                         ViewPrice='$this->ViewPrice'" );
+            $db->lock( "eZAd_View" );
+
+            $nextID = $db->nextID( "eZAd_View", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZAd_View
+                         ( ID,   
+                           AdID,
+                           Date,
+                           ViewCount,
+                           ViewPrice )
+                         VALUES
+                           '$this->ID',
+                           '$date',
+                           '1',
+                           '$this->ViewPrice'" );
 
         }
         else
         {
             $query = "UPDATE eZAd_View SET 
-                                         ViewCount=ViewCount + 1,
-                                         ViewPrice=ViewPrice + $this->ViewPrice
-                                         WHERE AdID='$this->ID' AND Date=curdate()";
+                                         ViewCount=(ViewCount + 1),
+                                         ViewPrice=(ViewPrice + $this->ViewPrice)
+                                         WHERE AdID='$this->ID' AND Date='$date'";
 
-            $this->Database->query( $query );
+            $res = $db->query( $query );
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -500,13 +531,13 @@ class eZAd
     */
     function viewCount( )
     {
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $view_result, "SELECT sum(ViewCount) as ViewCount FROM
-                                                       eZAd_View
-                                                       WHERE AdID='$this->ID'" );
+        $db->array_query( $view_result, "SELECT sum(ViewCount) as ViewCount FROM
+                                         eZAd_View
+                                         WHERE AdID='$this->ID'" );
 
-       return $view_result[0]["ViewCount"];
+       return $view_result[0][$db->fieldName("ViewCount")];
     }
   
     /*!
@@ -514,13 +545,13 @@ class eZAd
     */
     function clickCount( )
     {
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $click_result, "SELECT count(*) AS Count FROM
+        $db->array_query( $click_result, "SELECT count(*) AS Count FROM
                                                        eZAd_Click
                                                        WHERE AdID='$this->ID'" );
 
-       return $click_result[0]["Count"];
+        return $click_result[0][$db->fieldName("Count")];
     }
     
 
@@ -529,12 +560,12 @@ class eZAd
     */
     function totalViewRevenue( )
     {
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $view_result, "SELECT SUM(ViewPrice) AS Revenue
+        $db->array_query( $view_result, "SELECT SUM(ViewPrice) AS Revenue
                                                     FROM eZAd_View WHERE AdID='$this->ID'" );
 
-       return $view_result[0]["Revenue"];
+        return $view_result[0][$db->fieldName("Revenue")];
     }
 
     /*!
@@ -542,28 +573,15 @@ class eZAd
     */
     function totalClickRevenue( )
     {
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       print( "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
-       $this->Database->array_query( $click_result, "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
+//        print( "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
+        
+        $db->array_query( $click_result, "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
 
-       return $click_result[0]["Revenue"];
+       return $click_result[0][$db->fieldName("Revenue")];
     }
 
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
     var $Description;
@@ -585,13 +603,6 @@ class eZAd
     /// The URL to go to when the banner is clicked
     var $URL;
     
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

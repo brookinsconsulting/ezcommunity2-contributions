@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagepermissions.php,v 1.3 2001/03/15 10:09:44 pkej Exp $
+// $Id: messagepermissions.php,v 1.4 2001/06/29 07:08:38 bf Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -68,7 +68,7 @@ else
 
 // If a forum id isn''t provided for checking, we can''t check
 // the forum permissions.
-if( $CheckForumID > 0 )
+if ( $CheckForumID > 0 )
 {
     $checkForum = new eZForum( $CheckForumID );
 }

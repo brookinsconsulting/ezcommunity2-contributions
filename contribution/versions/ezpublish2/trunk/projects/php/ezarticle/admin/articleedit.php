@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.93 2001/06/27 08:15:30 bf Exp $
+// $Id: articleedit.php,v 1.94 2001/06/29 07:08:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -142,7 +142,7 @@ if ( $Action == "Insert" )
         eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
     }
     
-        
+
     // check if the contents is parseable
     if ( xmltree( $contents ) )
     // add document validation here
@@ -161,9 +161,8 @@ if ( $Action == "Insert" )
         }
 
         $article->setKeywords( $keywords );
-        
-        $article->store();
 
+        $article->store();
         $article->setManualKeywords( $Keywords );
 
         // add to categories
@@ -207,10 +206,9 @@ if ( $Action == "Insert" )
         }
 
         $article->store();
-
         // clear the cache files.
         eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
-        
+
         if( isset( $AddItem ) )
         {
             switch( $ItemToAdd )
@@ -312,11 +310,11 @@ if ( $Action == "Update" )
 
     $topic = new eZTopic( $TopicID );
     $article->setTopic( $topic );
-    
+
     $generator = new eZArticleGenerator();
 
     $contents = $generator->generateXML( $Contents );
-    
+
     $article->setContents( $contents  );
     $article->setPageCount( $generator->pageCount() );
     $article->setAuthorText( $AuthorText );
@@ -330,7 +328,7 @@ if ( $Action == "Update" )
         $article->setDiscuss( true );
     else
         $article->setDiscuss( false );
-    
+
     // Time publising
     $startDate = new eZDateTime();
     $startDate->setDay( $StartDay );
@@ -350,6 +348,7 @@ if ( $Action == "Update" )
     $article->setStartDate( &$startDate );
     $article->setStopDate( &$stopDate );
 
+                    
     eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
     if( isset( $WriteGroupArray ) )
     {
@@ -406,6 +405,7 @@ if ( $Action == "Update" )
     {
         $article->setIsPublished( false );
     }
+
         
     // check if the contents is parseable
     if ( xmltree( $contents ) )
@@ -425,6 +425,7 @@ if ( $Action == "Update" )
         }
 
         $article->setKeywords( $keywords );
+
 
         $article->store();
 
@@ -465,7 +466,7 @@ if ( $Action == "Update" )
             eZArticleCategory::addArticle( $article, $categoryItem );
         }
 
-        if( isset( $AddItem ) )
+        if ( isset( $AddItem ) )
         {
             switch( $ItemToAdd )
             {

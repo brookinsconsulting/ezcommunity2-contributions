@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.21 2001/06/26 11:44:39 bf Exp $
+// $Id: ezpoll.php,v 1.22 2001/06/29 07:08:39 bf Exp $
 //
 // Definition of eZPoll class
 //
@@ -182,7 +182,7 @@ class eZPoll
         $return_array = array();
         $poll_array = array();
 
-        $db->array_query( $poll_array, "SELECT ID FROM eZPoll_Poll ORDER BY Name" );
+        $db->array_query( $poll_array, "SELECT ID, Name FROM eZPoll_Poll ORDER BY Name" );
 
         for ( $i=0; $i<count( $poll_array ); $i++ )
         {
@@ -202,7 +202,7 @@ class eZPoll
         $return_array = array();
         $poll_array = array();
 
-        $db->array_query( $poll_array, "SELECT ID FROM eZPoll_Poll WHERE IsEnabled='1' ORDER BY Name" );
+        $db->array_query( $poll_array, "SELECT ID,Name FROM eZPoll_Poll WHERE IsEnabled='1' ORDER BY Name" );
 
         for ( $i=0; $i<count( $poll_array ); $i++ )
         {

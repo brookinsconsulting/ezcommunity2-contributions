@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.102 2001/06/28 14:50:58 jb Exp $
+// $Id: ezarticle.php,v 1.103 2001/06/29 07:08:37 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -98,6 +98,7 @@ class eZArticle
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
         $name = $db->escapeString( $this->Name );
         $contents = $db->escapeString( $this->Contents );
@@ -123,6 +124,20 @@ class eZArticle
             $nextID = $db->nextID( "eZArticle_Article", "ID" );            
 
             $timeStamp =& eZDateTime::timeStamp( true );
+
+            // fix for informix blob field
+            $contentsStr = "'$contents'";
+
+            if ( $db->isA() == "informix" )
+            {                
+                $textid = ifx_create_blob( 0, 0, $contents );
+                
+//                $textid = ifx_create_char( $contents );                
+                $blobIDArray[] = $textid;                
+                $contentsStr = "?";                
+                $db->setBlobArray( $blobIDArray );
+                
+            }
             
             $ret = $db->query( "INSERT INTO eZArticle_Article 
 		                        ( ID, 
@@ -144,7 +159,7 @@ class eZArticle
                                  VALUES
                                  ( '$nextID',
 		                           '$name',
-                                   '$contents',
+                                    $contentsStr,
                                    '$this->AuthorID',
                                    '$linktext',
                                    '$this->PageCount',
@@ -164,6 +179,35 @@ class eZArticle
         }
         else
         {
+
+            // fix for informix blob field
+            $contentsStr = "Contents='$contents',";
+
+            if ( $db->isA() == "informix" )
+            {
+                ifx_textasvarchar(0);
+                $db->array_query( $res, "SELECT ID, Contents FROM eZArticle_Article WHERE ID='$this->ID'" );
+
+
+                $bid = $res[0][$db->fieldName("Contents")];                
+                // fetch the blob id
+                $res = ifx_update_blob( $bid, $contents );
+
+                if ( !$res  )
+                {
+                    print( "Error updating informix text blob" );
+                    die();
+                }
+
+
+                $blobIDArray[] = $bid;
+                $db->setBlobArray( $blobIDArray );
+                
+                $contentsStr = "Contents=?,";
+                ifx_textasvarchar(1);
+            }
+
+
             $db->array_query( $res, "SELECT ID FROM eZArticle_Article WHERE IsPublished='0' AND ID='$this->ID'" );
 
             $timeStamp =& eZDateTime::timeStamp( true );            
@@ -172,7 +216,7 @@ class eZArticle
             {                
                 $ret = $db->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
-                                 Contents='$contents',
+                                 $contentsStr                                 
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
@@ -192,7 +236,7 @@ class eZArticle
             {
                 $ret = $db->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
-                                 Contents='$contents',
+                                 $contentsStr
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
@@ -346,6 +390,8 @@ class eZArticle
     */
     function &contents()
     {
+        $db =& eZDB::globalDatabase();
+                
         return $this->Contents;
     }
 
@@ -559,6 +605,9 @@ class eZArticle
     */
     function setKeywords( $keywords )
     {
+        // remove newlines        
+        $keywords = str_replace ("\n", "", $keywords );
+        $keywords = str_replace ("\r", "", $keywords );
         $this->Keywords = $keywords;
     }
     
@@ -909,11 +958,12 @@ class eZArticle
             $db->lock( "eZArticle_ArticleImageLink" );
 
             $nextID = $db->nextID( "eZArticle_ArticleImageLink", "ID" );
+            $timeStamp = eZDateTime::timeStamp( true );
             
             $res = $db->query( "INSERT INTO eZArticle_ArticleImageLink
-                         ( ID, ArticleID, ImageID )
+                         ( ID, ArticleID, ImageID, Created )
                          VALUES
-                         ( '$nextID',  '$this->ID', '$value' )" );
+                         ( '$nextID',  '$this->ID', '$value', '$timeStamp' )" );
 
             $db->unlock();
     
@@ -954,7 +1004,7 @@ class eZArticle
         $return_array = array();
         $image_array = array();
        
-        $db->array_query( $image_array, "SELECT ImageID FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+        $db->array_query( $image_array, "SELECT ImageID, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
        
         for ( $i=0; $i < count($image_array); $i++ )
         {
@@ -993,14 +1043,11 @@ class eZArticle
             {
                 $db->begin( );
     
-                $db->lock( "eZArticle_ArticleImageDefinition" );
-
-                $nextID = $db->nextID( "eZArticle_ArticleImageDefinition", "ID" );
                 
                 $res = $db->query( "INSERT INTO eZArticle_ArticleImageDefinition
-                                         ( ID, ArticleID, ThumbnailImageID )
+                                         ( ArticleID, ThumbnailImageID )
                                          VALUES
-                                         ( '$nextID', '$this->ID', '$imageID' )" );
+                                         ( '$this->ID', '$imageID' )" );
                 $db->unlock();
     
                 if ( $res == false )
@@ -1069,8 +1116,10 @@ class eZArticle
 
             $nextID = $db->nextID( "eZArticle_ArticleFileLink", "ID" );
 
+            $timeStamp = eZDateTime::timeStamp( true );
+
             $res = $db->query( "INSERT INTO eZArticle_ArticleFileLink
-                         ( ID, ArticleID, FileID ) VALUES ( '$nextID', '$this->ID', '$fileID')" );
+                         ( ID, ArticleID, FileID, Created ) VALUES ( '$nextID', '$this->ID', '$fileID', '$timeStamp' )" );
             
             $db->unlock();
             
@@ -1108,7 +1157,7 @@ class eZArticle
         $return_array = array();
         $file_array = array();
        
-        $db->array_query( $file_array, "SELECT FileID FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+        $db->array_query( $file_array, "SELECT FileID, Created FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' ORDER BY Created" );
        
         for ( $i=0; $i < count($file_array); $i++ )
         {
@@ -1144,7 +1193,8 @@ class eZArticle
         $return_array = array();
         $attribute_array = array();
        
-        $db->array_query( $attribute_array, "SELECT Value.AttributeID FROM eZArticle_AttributeValue as Value, eZArticle_Attribute as Attr WHERE Attr.ID = Value.AttributeID AND Value.ArticleID='$this->ID' ORDER BY Attr.TypeID, Attr.Placement" );
+        $db->array_query( $attribute_array, "SELECT Value.AttributeID, Attr.Placement FROM eZArticle_AttributeValue as Value, eZArticle_Attribute as Attr
+                                             WHERE Attr.ID = Value.AttributeID AND Value.ArticleID='$this->ID' ORDER BY Attr.TypeID, Attr.Placement" );
        
         for ( $i=0; $i < count( $attribute_array ); $i++ )
         {
@@ -1172,7 +1222,8 @@ class eZArticle
             $return_array = array();
             $attribute_array = array();
 
-            $db->array_query( $attribute_array, "SELECT Value.ID FROM eZArticle_AttributeValue AS Value, eZArticle_Attribute AS Attr WHERE Value.ArticleID='$this->ID' AND Value.AttributeID=Attr.ID AND Attr.TypeID='$typeID'" );
+            $db->array_query( $attribute_array, "SELECT Value.ID FROM eZArticle_AttributeValue AS Value, eZArticle_Attribute AS Attr
+                                                 WHERE Value.ArticleID='$this->ID' AND Value.AttributeID=Attr.ID AND Attr.TypeID='$typeID'" );
 
             for ( $i=0; $i < count( $attribute_array ); $i++ )
             {
@@ -1281,7 +1332,7 @@ class eZArticle
             $fetchText = "AND Article.IsPublished = '1'";
         }
 
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
 
         // Build the permission
         $loggedInSQL = "";
@@ -1309,7 +1360,7 @@ class eZArticle
         $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
         $search = $query->buildQuery();
 
-        $queryString = "SELECT DISTINCT Article.ID AS ArticleID
+        $queryString = "SELECT DISTINCT Article.ID AS ArticleID, Article.Published, Article.Name
                  FROM eZArticle_Article AS Article,
                       eZArticle_ArticleCategoryLink AS Link,
                       eZArticle_ArticlePermission AS Permission
@@ -1529,7 +1580,7 @@ class eZArticle
             $publishedCode = "AND Article.IsPublished = '0'";
         }
 
-        $query = "SELECT DISTINCT Article.ID as ArticleID
+        $query = "SELECT DISTINCT Article.ID as ArticleID, Article.Published, Article.Name
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission,
@@ -1571,6 +1622,11 @@ class eZArticle
                                      WHERE ArticleID='$this->ID'" );
 
        
+            $db->begin( );
+            
+            $db->lock( "eZArticle_ArticleCategoryDefinition" );
+            $nextID = $db->nextID( "eZArticle_ArticleCategoryDefinition", "ID" );
+
             $query = "INSERT INTO
                            eZArticle_ArticleCategoryDefinition
                            ( ID, CategoryID, ArticleID )
@@ -1578,11 +1634,7 @@ class eZArticle
                            ( '$nextID', 
                              '$categoryID',
                              '$this->ID' )";
-
-            $db->begin( );
             
-            $db->lock( "eZArticle_ArticleCategoryDefinition" );
-            $nextID = $db->nextID( "eZArticle_ArticleCategoryDefinition", "ID" );
             
             $res = $db->query( $query );
 

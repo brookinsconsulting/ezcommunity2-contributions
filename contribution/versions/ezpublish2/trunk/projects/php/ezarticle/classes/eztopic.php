@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztopic.php,v 1.4 2001/06/27 08:15:30 bf Exp $
+// $Id: eztopic.php,v 1.5 2001/06/29 07:08:38 bf Exp $
 //
 // Definition of eZTopic class
 //
@@ -64,7 +64,6 @@ class eZTopic
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZArticle_Topic" );
-
             $nextID = $db->nextID( "eZArticle_Topic", "ID" );
 
             $timeStamp =& eZDateTime::timeStamp( true );            
@@ -183,12 +182,12 @@ class eZTopic
         $topic_array = array();
 
 
-        $db->array_query( $topic_array, "SELECT ID FROM eZArticle_Topic
+        $db->array_query( $topic_array, "SELECT ID, Name FROM eZArticle_Topic
                                         ORDER By Name" );
 
         foreach ( $topic_array as $topic )
         {
-            $return_array[] = new eZTopic( $topic[0] );
+            $return_array[] = new eZTopic( $topic[$db->fieldName("ID")] );
         }
         return $return_array;
     }

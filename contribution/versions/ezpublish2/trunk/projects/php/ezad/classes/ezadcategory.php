@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.19 2001/05/05 11:16:03 bf Exp $
+// $Id: ezadcategory.php,v 1.20 2001/06/29 07:08:37 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -46,25 +46,12 @@ class eZAdCategory
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZAdCategory( $id=-1, $fetch=true )
+    function eZAdCategory( $id=-1 )
     {
-        $this->IsConnected = false;
-
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -73,25 +60,42 @@ class eZAdCategory
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+
+        $db->begin( );
+
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZAd_Category SET
-		                         Name='$name',
-                                 Description='$description',
-                                 ParentID='$this->ParentID'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZAd_Category" );
+            $nextID = $db->nextID( "eZAd_Category", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZAd_Category
+                         ( ID, Name, Description, ParentID )
+                         VALUES
+                         ( '$nextID',
+                           '$name',
+                           '$description',
+                           '$this->ParentID' )" );
+            
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZAd_Category SET
-		                         Name='$name',
-                                 Description='$description',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+            $res = $db->query( "UPDATE eZAd_Category SET
+                         Name='$name',
+                         Description='$description',
+                        ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }
@@ -101,14 +105,14 @@ class eZAdCategory
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZAd_AdCategoryLink
+            $db->query( "DELETE FROM eZAd_AdCategoryLink
                                      WHERE CategoryID='$this->ID'" );
             
-            $this->Database->query( "DELETE FROM eZAd_Category WHERE ID='$this->ID'" );            
+            $db->query( "DELETE FROM eZAd_Category WHERE ID='$this->ID'" );            
         }
         
         return true;
@@ -119,28 +123,22 @@ class eZAdCategory
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZAd_Category WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZAd_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "ID" ];
-                $this->Name = $category_array[0][ "Name" ];
-                $this->Description = $category_array[0][ "Description" ];
-                $this->ParentID = $category_array[0][ "ParentID" ];
+                $this->ID = $category_array[0][$db->fieldName("ID")];
+                $this->Name = $category_array[0][$db->fieldName("Name")];
+                $this->Description = $category_array[0][$db->fieldName("Description")];
+                $this->ParentID = $category_array[0][$db->fieldName("ParentID")];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -151,16 +149,16 @@ class eZAdCategory
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $category_array = array();
         
-        $this->Database->array_query( $category_array, "SELECT ID FROM eZAd_Category ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID FROM eZAd_Category ORDER BY Name" );
         
         for ( $i=0; $i < count($category_array); $i++ )
         {
-            $return_array[$i] = new eZAdCategory( $category_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZAdCategory( $category_array[$i][$db->fieldName("ID")], 0 );
         }
         
         return $return_array;
@@ -175,20 +173,20 @@ class eZAdCategory
     {
         if ( get_class( $parent ) == "ezadcategory" )
         {
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
         
             $return_array = array();
             $category_array = array();
 
             $parentID = $parent->id();
 
-            $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category
+            $db->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
 
             for ( $i=0; $i < count($category_array); $i++ )
             {
-                $return_array[$i] = new eZAdCategory( $category_array[$i]["ID"], 0 );
+                $return_array[$i] = new eZAdCategory( $category_array[$i][$db->fieldName("ID")], 0 );
             }
 
             return $return_array;
@@ -250,9 +248,7 @@ class eZAdCategory
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-
         }
-
         return $tree;
     }
 
@@ -271,9 +267,6 @@ class eZAdCategory
     */
     function name( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
        if( $html )
            return htmlspecialchars( $this->Name );
         return $this->Name;
@@ -284,9 +277,6 @@ class eZAdCategory
     */
     function description( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
        if( $html )
            return htmlspecialchars( $this->Description );
         return $this->Description;
@@ -297,9 +287,6 @@ class eZAdCategory
     */
     function parent()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $this->ParentID != 0 )
        {
            return new eZAdCategory( $this->ParentID );
@@ -317,9 +304,6 @@ class eZAdCategory
     */
     function excludeFromSearch( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        if ( $this->ExcludeFromSearch  == "true" )
        {
@@ -336,9 +320,6 @@ class eZAdCategory
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -347,9 +328,6 @@ class eZAdCategory
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -358,9 +336,6 @@ class eZAdCategory
     */
     function setParent( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $value ) == "ezadcategory" )
        {
            $this->ParentID = $value->id();
@@ -373,16 +348,13 @@ class eZAdCategory
     */
     function setExcludeFromSearch( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
-           $this->ExcludeFromSearch = "true";
+           $this->ExcludeFromSearch = "1";
        }
        else
        {
-           $this->ExcludeFromSearch = "false";           
+           $this->ExcludeFromSearch = "0";           
        }
     }
 
@@ -391,22 +363,33 @@ class eZAdCategory
     */
     function addAd( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        if ( get_class( $value ) == "ezad" )
        {
-            $this->dbInit();
+           $db =& eZDB::globalDatabase();
 
+            $db->begin( );
+
+            $db->lock( "eZAd_AdCategoryLink" );
+            $nextID = $db->nextID( "eZAd_AdCategoryLink", "ID" );
+            
             $adID = $value->id();
             
             $query = "INSERT INTO
                            eZAd_AdCategoryLink
-                      SET
-                           CategoryID='$this->ID',
-                           AdID='$adID'";
+                      ( ID, CategoryID, AdID )
+                      VALUES
+                      ( '$nextID',
+                        '$this->ID',
+                        '$adID' )";
             
-            $this->Database->query( $query );
+            $res = $db->query( $query );
+
+            $db->unlock();
+    
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
        }       
     }
 
@@ -420,34 +403,31 @@ class eZAdCategory
                    $offset=0,
                    $limit=50 )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $return_array = array();
-       $ad_array = array();
-
+        $return_array = array();
+        $ad_array = array();
        
-       $fetchActiveSQL = "";
-       if ( $fetchUnActive == false )
-       {
-           $fetchActiveSQL = "AND eZAd_Ad.IsActive = 'true'";
-       }
+        $fetchActiveSQL = "";
+        if ( $fetchUnActive == false )
+        {
+            $fetchActiveSQL = "AND eZAd_Ad.IsActive = '1'";
+        }
 
-       $orderBySQL = "Ad.Name ASC";
+        $orderBySQL = "Ad.Name ASC";
 
-       $this->Database->array_query( $ad_array,
-                                     "SELECT Ad.ID
-                                      FROM eZAd_Ad AS Ad, eZAd_AdCategoryLink AS ACL
-                                      WHERE Ad.ID=ACL.AdID AND ACL.CategoryID='$this->ID'
-                                      ORDER BY $orderBySQL LIMIT $offset, $limit" );
-       foreach( $ad_array as $ad )
-       {
-           $return_array[] = new eZAd( $ad["ID"] );
-       }
+        $db->array_query( $ad_array,
+        "SELECT Ad.ID
+         FROM eZAd_Ad AS Ad, eZAd_AdCategoryLink AS ACL
+         WHERE Ad.ID=ACL.AdID AND ACL.CategoryID='$this->ID'
+         ORDER BY $orderBySQL", array( "Limit" => $limit, "Offset" => $offset ) );
+        
+        foreach( $ad_array as $ad )
+        {
+            $return_array[] = new eZAd( $ad[$db->fieldName("ID")] );
+        }
 
-       return $return_array;
+        return $return_array;
     }
     
     /*!
@@ -460,28 +440,23 @@ class eZAdCategory
                    $offset=0,
                    $limit=50 )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
        $return_array = array();
        $ad_array = array();
 
-       
        $fetchActiveSQL = "";
        if ( $fetchUnActive == false )
        {
-           $fetchActiveSQL = "AND eZAd_Ad.IsActive = 'true'";
+           $fetchActiveSQL = "AND eZAd_Ad.IsActive = '1'";
        }
 
        $orderBySQL = "Ad.Name ASC";
        
        $orderBySQL = "eZAd_View.ViewCount ASC";
 
-
        // Banners not shown at all
-       $this->Database->array_query( $ad_not_shown_array,
+       $db->array_query( $ad_not_shown_array,
        "SELECT Ad.ID from eZAd_Ad as Ad left join eZAd_View as View ON Ad.ID=View.AdID, eZAd_AdCategoryLink AS Link
         WHERE View.AdID IS NULL
         AND IsActive='true'
@@ -493,13 +468,13 @@ class eZAdCategory
        {
            for ( $i=0; $i < count($ad_not_shown_array); $i++ )
            {
-               $return_array[$i] = new eZAd( $ad_not_shown_array[$i]["ID"], false );
+               $return_array[$i] = new eZAd( $ad_not_shown_array[$i][$db->fieldName("ID")], false );
            }
        }
        else
        {
            // banners not shown today
-           $this->Database->array_query( $ad_not_shown_array,
+           $db->array_query( $ad_not_shown_array,
            "SELECT Ad.ID, MAX(View.Date) AS LatestDate
            FROM  eZAd_Ad as Ad, eZAd_View as View, eZAd_AdCategoryLink AS Link
            WHERE IsActive='true' AND Link.AdID=Ad.ID AND View.AdID=Ad.ID AND Link.CategoryID='$this->ID'
@@ -510,12 +485,12 @@ class eZAdCategory
            {
                  for ( $i=0; $i < count($ad_not_shown_array); $i++ )
                  {
-                     $return_array[$i] = new eZAd( $ad_not_shown_array[$i]["ID"], false );
+                     $return_array[$i] = new eZAd( $ad_not_shown_array[$i][$db->fieldName("ID")], false );
                  }
            }
            else
            {           
-               $this->Database->array_query( $ad_array, "
+               $db->array_query( $ad_array, "
                 SELECT eZAd_Ad.ID AS AdID, eZAd_Ad.Name, eZAd_Category.ID, eZAd_Category.Name AS Count
                 FROM eZAd_Ad, eZAd_Category, eZAd_AdCategoryLink, eZAd_View
                 WHERE 
@@ -533,7 +508,7 @@ class eZAdCategory
 
                for ( $i=0; $i < count($ad_array); $i++ )
                {
-                   $return_array[$i] = new eZAd( $ad_array[$i]["AdID"], false );
+                   $return_array[$i] = new eZAd( $ad_array[$i][$db->fieldName("AdID")], false );
                }
            }
        }
@@ -541,31 +516,11 @@ class eZAdCategory
        return $return_array;
     }
 
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
     var $ParentID;
     var $Description;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
