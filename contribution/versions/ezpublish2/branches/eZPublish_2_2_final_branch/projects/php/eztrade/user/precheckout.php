@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: precheckout.php,v 1.6.2.2 2002/04/10 11:49:02 br Exp $
+// $Id: precheckout.php,v 1.6.2.3 2002/06/03 08:11:11 bf Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -41,7 +41,7 @@ if ( ( $ForceSSL == "enabled" ) )
     $session->setVariable( "SSLMode", "enabled" );
 
     // force SSL if supposed to
-    if ( $SERVER_PORT != '443' )
+//    if ( $SERVER_PORT != '443' )
     {
         eZHTTPTool::header("Location: https://" . $HTTP_HOST . $index . "/trade/checkout/" );
         exit();
