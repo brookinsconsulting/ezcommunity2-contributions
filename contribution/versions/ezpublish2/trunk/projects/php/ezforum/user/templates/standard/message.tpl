@@ -63,7 +63,7 @@
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td>
-    <form method="post" action="/forum/messageedit/reply/{reply_id}/">
+    <form method="post" action="/forum/userlogin/reply/{reply_id}/">
     <input class="stdbutton" type="submit" value="{intl-answer}" />
     </form>
 </td>
@@ -131,7 +131,7 @@
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	<form action="/forum/messageedit/new/{forum_id}">
+	<form action="/forum/userlogin/new/{forum_id}">
   	<input class="stdbutton" type="submit" value="{intl-new-posting}" />
 	</td>
 </tr>

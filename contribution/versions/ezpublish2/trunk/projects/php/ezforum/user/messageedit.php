@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.40 2001/03/14 09:34:07 pkej Exp $
+// $Id: messageedit.php,v 1.41 2001/03/15 10:09:44 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -450,8 +450,8 @@ switch( $Action )
 
         if( $MessageReply == false )
         {
-            include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
+            #include_once( "classes/ezhttptool.php" );
+            #eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
 
         if( $ReplyTags == "enabled" )

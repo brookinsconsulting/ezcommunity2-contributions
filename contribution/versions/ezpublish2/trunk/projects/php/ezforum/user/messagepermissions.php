@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagepermissions.php,v 1.2 2001/03/05 12:06:48 pkej Exp $
+// $Id: messagepermissions.php,v 1.3 2001/03/15 10:09:44 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -189,9 +189,9 @@ if( $CheckMessageEdit && $MessageRead )
     }
 }
 
-// If you can read a message, you can reply to it,
+// If you can read a message and post to the forum, you can reply to it,
 // except temporary messages.
-if( $CheckMessageReply  && $MessageRead )
+if( $CheckMessageReply  && $MessageRead && $ForumPost )
 {
     if( $checkMessage->isTemporary() == false )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.11 2001/03/01 14:06:25 jb Exp $
+// $Id: userlogin.php,v 1.12 2001/03/15 10:09:44 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -148,7 +148,7 @@ else
 
         if ( $Action == "reply" )
         {
-            $t->set_var( "redirect_url", "/forum/reply/reply/$MessageID/" );
+            $t->set_var( "redirect_url", "/forum/messageedit/reply/$ReplyToID/" );
         }
 
         $t->pparse( "output", "user_login_tpl" );
