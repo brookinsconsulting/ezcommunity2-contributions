@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.2 2000/10/10 15:02:54 ce-cvs Exp $
+// $Id: ezusergroup.php,v 1.3 2000/10/24 12:32:04 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -49,8 +49,6 @@
 
 /*!TODO
 */
-
-
 class eZUserGroup
 {
 

@@ -1,7 +1,7 @@
 <tr bgcolor="#808080"> 
 	<td>
         <p class="smallhead">
-		Brukerinformasjon
+		{intl-userinfo}
         </p>
     </td>
 </tr>
@@ -14,7 +14,8 @@
 	<p class="boxtext"><span class="small">{intl-password}</span></p>
 	<input type="password" size="8" name="Password"/>
 	<br />
-	<input type="submit" value="OK" />
+	<input type="submit" value="{intl-ok}" />
 	</form>
+	<a href="/user/forgot">{intl-forgot}</a>
 	</td>
 </tr>

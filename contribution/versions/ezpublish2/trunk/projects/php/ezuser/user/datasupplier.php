@@ -1,7 +1,5 @@
 <?
 //  $url_array = explode( "/", $REQUEST_URI );
-
-
 switch ( $url_array[2] )
 {
     case "login" :
@@ -21,6 +19,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "forgot" :
+    {
+        $Action = $url_array[3];
+        include( "ezuser/user/forgot.php" );
+    }
+    break;
 
     case "user" :
     {

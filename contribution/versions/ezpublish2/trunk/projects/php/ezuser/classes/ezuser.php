@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.10 2000/10/21 12:07:19 bf-cvs Exp $
+// $Id: ezuser.php,v 1.11 2000/10/24 12:32:04 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -203,6 +203,25 @@ class eZUser
       
 
     /*!
+      Returns the eZUser object where login = $login.
+
+      False (0) is returned if the users isn't validated.
+    */
+    function getUser( $login )
+    {
+        $this->dbInit();
+        $ret = false;
+        
+        $this->Database->array_query( $user_array, "SELECT * FROM eZUser_User
+                                                    WHERE Login='$login'" );
+        if ( count( $user_array ) == 1 )
+        {
+            $ret = new eZUser( $user_array[0]["ID"] );
+        }
+        return $ret;
+    }
+
+    /*!
       Returns the correct eZUser object if the user is validated.
 
       False (0) is returned if the users isn't validated.
@@ -221,6 +240,7 @@ class eZUser
         }
         return $ret;
     }
+
 
     /*!
       Returns the eZUser object if a user with that login exits.
