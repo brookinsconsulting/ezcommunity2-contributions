@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: search.php,v 1.5 2000/08/30 08:44:57 bf-cvs Exp $
+    $Id: search.php,v 1.6 2000/09/01 07:57:00 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,8 +21,8 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezuser.php" );
 include_once( "classes/ezsession.php" );
 
-$ini = new INIFile( "ezforum.ini" ); // get language settings
-$Language = $ini->read_var( "MAIN", "Language" );
+$ini = new INIFile( "site.ini" ); // get language settings
+$Language = $ini->read_var( "eZForumMain", "Language" );
 
 
 //preliminary setup

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.19 2000/08/29 14:31:23 th-cvs Exp $
+    $Id: message.php,v 1.20 2000/09/01 07:57:00 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,11 +9,14 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
+include_once( "class.INIFile.php" );
+
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
 include_once( $DOC_ROOT . "/classes/ezdb.php" );
 include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+include_once( $DOC_ROOT . "/classes/ezforumcategory.php" );
 include_once( $DOC_ROOT . "/classes/ezforumforum.php" );
 
 include_once( "classes/ezuser.php" );
@@ -23,8 +26,8 @@ include_once( "classes/eztemplate.php" );
 $msg = new eZForumMessage;
 $usr = new eZUser;
 $session = new eZSession;
-$ini = new INIFile( "ezforum.ini" ); // get language settings
-$Language = $ini->read_var( "MAIN", "Language" );
+$ini = new INIFile( "site.ini" ); // get language settings
+$Language = $ini->read_var( "eZForumMain", "Language" );
 
 $t = new eZTemplate( "$DOC_ROOT/templates", "$DOC_ROOT/intl", $Language, "message.php" );
 $t->setAllStrings();
