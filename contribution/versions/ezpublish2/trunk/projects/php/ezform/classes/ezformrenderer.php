@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.39 2001/12/22 18:43:26 jhe Exp $
+// $Id: ezformrenderer.php,v 1.40 2001/12/23 08:41:31 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -153,7 +153,6 @@ class eZFormRenderer
         }
 
         $this->Page = -1;
-
     }
     
     /*!
@@ -344,6 +343,7 @@ class eZFormRenderer
                 $this->Template->set_var( "page_list", $this->Page );
             else
                 $this->Template->set_var( "page_list", $pageList );
+            
             if ( $this->Form->instructionPage() != "" )
             {
                 $this->Template->set_var( "form_instruction_page", $this->Form->instructionPage() );
@@ -512,12 +512,29 @@ class eZFormRenderer
 
         foreach ( $elements as $element )
         {
-            $elementName = "eZFormElement_" . $element->id();
-
-            global $$elementName;
-            $value = $$elementName;
-            if ( isSet( $value ) && $value != "" )
-                $element->setResult( $value );
+            $elementType = $element->elementType();
+            if ( $elementType->name() == "table_item" )
+            {
+                $tableElements = eZFormTable::tableElements( $element->id() );
+                foreach ( $tableElements as $tableElement )
+                {
+                    $elementName = "eZFormElement_" . $tableElement->id();
+                    
+                    global $$elementName;
+                    $value = $$elementName;
+                    if ( isSet( $value ) && $value != "" )
+                        $tableElement->setResult( $value );
+                }
+            }
+            else
+            {
+                $elementName = "eZFormElement_" . $element->id();
+                
+                global $$elementName;
+                $value = $$elementName;
+                if ( isSet( $value ) && $value != "" )
+                    $element->setResult( $value );
+            }
         }
     }
 
@@ -569,7 +586,6 @@ class eZFormRenderer
                      ( $conditionArray[0]["Max"] == 1000 ) )
                     return $conditionArray[0]["Page"];
             }
-
             foreach ( $conditionArray as $condition )
             {
                 if ( $condition["Min"] <= $value &&
@@ -580,7 +596,7 @@ class eZFormRenderer
             }
         }
 
-        $db->query_single( $qa, "aSELECT FormID, Placement FROM eZForm_FormPage WHERE ID='$pageID'" );
+        $db->query_single( $qa, "SELECT FormID, Placement FROM eZForm_FormPage WHERE ID='$pageID'" );
         $next = $qa[$db->fieldName( "Placement" )] + 1;
         $db->query_single( $nextPage, "SELECT ID FROM eZForm_FormPage
                                        WHERE FormID='" . $qa[$db->fieldName( "FormID" )] . "' AND
@@ -660,7 +676,7 @@ class eZFormRenderer
             if ( $elementType->name() == "numerical_integer_item" )
             {
                 if ( $value == "" )
-                    $value = 0;
+                    $$elementName = 0;
                 $numElement = new eZFormElementNumerical( $element->id() );
                 if ( !$numElement->validNumber( $value ) )
                 {
@@ -672,7 +688,7 @@ class eZFormRenderer
             if ( $elementType->name() == "numerical_float_item" )
             {
                 if ( $value == "" )
-                    $value = 0;
+                    $$elementName = 0;
                 $numElement = new eZFormElementNumerical( $element->id() );
                 if ( $numElement->id() == 0 )
                 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.9 2001/12/21 11:57:33 jhe Exp $
+// $Id: formview.php,v 1.10 2001/12/23 08:41:31 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -61,9 +61,18 @@ $t->set_file( "form_view_page_tpl", "formview.tpl" );
 
 $t->set_block( "form_view_page_tpl", "mail_preview_tpl", "mail_preview" );
 
+$t->set_var( "error", "" );
+$t->set_var( "form", "" );
+
 $renderer =& new eZFormRenderer( $form );
 $form = new eZForm( $FormID );
 $currentPage = $page_array[count( $page_array ) - 1];
+
+$t->set_var( "form_id", $FormID );
+$t->set_var( "form_name", $form->name() );
+$t->set_var( "form_completed_page", $form->completedPage() );
+$t->set_var( "form_instruction_page", $form->instructionPage() );
+$t->set_var( "page_list", $pageList );
 
 if ( isSet( $Next ) )
 {
@@ -97,6 +106,7 @@ if ( isSet( $Next ) )
     }
     else
     {
+        $nextPage = $currentPage;
         $t->set_var( "error", $output );
     }
 }
@@ -126,14 +136,6 @@ if ( isSet( $SectionIDOverride ) )
     $sectionObject->setOverrideVariables();
 }
 
-$t->set_var( "error", "" );
-$t->set_var( "form", "" );
-
-$t->set_var( "form_id", $FormID );
-$t->set_var( "form_name", $form->name() );
-$t->set_var( "form_completed_page", $form->completedPage() );
-$t->set_var( "form_instruction_page", $form->instructionPage() );
-$t->set_var( "page_list", $pageList );
 $renderer->setPage( $nextPage );
 $output =& $renderer->renderForm( $form );
 $t->set_var( "form", $output );
