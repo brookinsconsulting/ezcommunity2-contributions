@@ -8,7 +8,7 @@
                       <td>
                        <a class="small" href="index.php?page=../ezlink/admin/linklist.php">Linkoversikt</a><br>
                        <a class="small" href="index.php?page=../ezlink/admin/linkedit.php">Ny link</a><br>
-                       <a class="small" href="index.php?page=../ezlink/admin/groupedit.php">Ny kategori</a>
+                       <a class="small" href="index.php?page=../ezlink/admin/groupedit.php">Ny kategori</a><br>
                       </td>
                     </tr>
                   </table>

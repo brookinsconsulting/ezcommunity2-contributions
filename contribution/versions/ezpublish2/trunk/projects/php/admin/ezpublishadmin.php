@@ -11,7 +11,7 @@
                        <a class="small" href="index.php?page=../ezpublish/admin/article.php">Ny artikkel</a><br>
                        <a class="small" href="index.php?page=../ezpublish/admin/categorylist.php">Kategorioversikt</a><br>
                        <a class="small" href="index.php?page=../ezpublish/admin/category.php">Ny artikkelkategori</a><br>
-                       <a class="small" href="index.php?page=../ezpublish/admin/preferences.php">Innstillinger</a>
+                       <a class="small" href="index.php?page=../ezpublish/admin/preferences.php">Innstillinger</a><br>
                        </td>
                     </tr>
                   </table>

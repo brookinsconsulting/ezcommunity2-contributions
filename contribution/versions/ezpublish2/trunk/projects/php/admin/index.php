@@ -49,7 +49,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     include( "useradmin.php" );
 
     $user = new eZUser( $session->userID() );
-    print( "<p class=\"small\">User: <b>" . $user->firstName() . " " . $user->lastName() . "</b></p>" );
+    print( "<p class=\"small\"><b>User:</b><br>" . $user->firstName() . " " . $user->lastName() . "</p>" );
 
     // break the column an draw a horizontal line
     include( "separator.php" );
