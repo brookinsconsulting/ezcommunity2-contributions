@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.20.2.2 2001/12/11 15:32:19 jhe Exp $
+// $Id: filedownload.php,v 1.20.2.3 2002/03/25 13:51:33 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -108,7 +108,7 @@ header( "Content-Length: $size" );
 header( "Content-disposition: attachment; filename=$originalFileName" );
 header( "Content-Transfer-Encoding: binary" );
 
-$fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
+$fh = eZFile::fopen( "ezfilemanager/files/$filePath", "rb" );
 fpassthru( $fh );
 exit();
 
