@@ -74,17 +74,18 @@
 <tr>
 	<td colspan="5">
 <!-- BEGIN type_list_tpl -->
-<table>
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a href="/user/userlist/{item_previous_index}/{sort_order}/{current_group_id}">{intl-previous}</a>
+	<a class="path" href="/user/userlist/{item_previous_index}/{sort_order}/{current_group_id}">&lt;&lt;&nbsp;{intl-previous}</a> |
 	</td>
 	<!-- END type_list_previous_tpl -->
 
 	<!-- BEGIN type_list_previous_inactive_tpl -->
 	<td>
-	{intl-previous}
+	&nbsp;
 	</td>
 	<!-- END type_list_previous_inactive_tpl -->
 
@@ -92,13 +93,13 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	<a href="/user/userlist/{item_index}/{sort_order}/{current_group_id}">{type_item_name}</a>
+	<a class="path" href="/user/userlist/{item_index}/{sort_order}/{current_group_id}">{type_item_name}</a> |
 	</td>
 	<!-- END type_list_item_tpl -->
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
 	<td>
-	{type_item_name}
+	&nbsp;&lt;{type_item_name}&gt; |
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 
@@ -106,7 +107,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	<a href="/user/userlist/{item_next_index}/{sort_order}/{current_group_id}">{intl-next}</a>
+	<a class="path" href="/user/userlist/{item_next_index}/{sort_order}/{current_group_id}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
