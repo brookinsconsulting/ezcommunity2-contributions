@@ -4,7 +4,7 @@
 
 */
 
-require "ezcontact/dbsettings.php";
+require "ezcontact_ce/dbsettings.php";
 
 $t = new Template( "." );
 $t->set_file( "top_menu", $DOCUMENTROOT .  "templates/topmenu.tpl" );

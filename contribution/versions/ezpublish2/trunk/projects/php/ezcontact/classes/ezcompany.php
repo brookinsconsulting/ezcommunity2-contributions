@@ -18,7 +18,7 @@ class eZCompany
     function store( )
     {
         $this->dbInit();
-        query( "INSERT INTO Company set Name='$this->Name',
+        query( "INSERT INTO eZContact_Company set Name='$this->Name',
 	Comment='$this->Comment',
 	ContactType='$this->ContactType',
 	Owner='$this->Owner'" );
@@ -36,29 +36,29 @@ class eZCompany
 
         // sletter alle adresser og relasjoner
 
- $result = mysql_query( "SELECT Address.ID AS 'AID', CompanyAddressDict.ID AS 'DID' from Address, CompanyAddressDict WHERE Address.ID=CompanyAddressDict.AddressID AND CompanyAddressDict.CompanyID='$this->ID' " )
+ $result = mysql_query( "SELECT Address.ID AS 'AID', CompanyAddressDict.ID AS 'DID' from eZContact_Address, eZContact_CompanyAddressDict WHERE Address.ID=CompanyAddressDict.AddressID AND CompanyAddressDict.CompanyID='$this->ID' " )
       or die( "Kunne ikke slette firma" );
 
         for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
         {
             $aid = mysql_result( $result, $i, "AID" );
             $did = mysql_result( $result, $i, "DID" );
-            query( "DELETE FROM Address WHERE ID='$aid'" );
-            query( "DELETE FROM CompanyAddressDict WHERE ID='$did'" );
+            query( "DELETE FROM eZContact_Address WHERE ID='$aid'" );
+            query( "DELETE FROM eZContact_CompanyAddressDict WHERE ID='$did'" );
         }
 
- $result = mysql_query( "SELECT Phone.ID AS 'PID', CompanyPhoneDict.ID AS 'DID' from Phone, CompanyPhoneDict WHERE Phone.ID=CompanyPhoneDict.PhoneID AND CompanyPhoneDict.CompanyID='$this->ID' " )
+ $result = mysql_query( "SELECT Phone.ID AS 'PID', CompanyPhoneDict.ID AS 'DID' from eZContact_Phone, eZContact_CompanyPhoneDict WHERE Phone.ID=CompanyPhoneDict.PhoneID AND CompanyPhoneDict.CompanyID='$this->ID' " )
       or die( "Kunne ikke slette firma" );
 
         for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
         {
             $pid = mysql_result( $result, $i, "PID" );
             $did = mysql_result( $result, $i, "DID" );
-            query( "DELETE FROM Phone WHERE ID='$pid'" );
-            query( "DELETE FROM CompanyPhoneDict WHERE ID='$did'" );
+            query( "DELETE FROM eZContact_Phone WHERE ID='$pid'" );
+            query( "DELETE FROM eZContact_CompanyPhoneDict WHERE ID='$did'" );
         }
         
-        query( "DELETE FROM Company WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_Company WHERE ID='$this->ID'" );
         
     }
 
@@ -68,7 +68,7 @@ class eZCompany
     function update( )
     {
         $this->dbInit();
-        query( "UPDATE Company set Name='$this->Name',
+        query( "UPDATE eZContact_Company set Name='$this->Name',
 	Comment='$this->Comment',
 	ContactType='$this->ContactType',
 	Owner='$this->Owner' WHERE ID='$this->ID'" );
@@ -82,7 +82,7 @@ class eZCompany
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $company_array, "SELECT * FROM Company WHERE ID='$id'" );
+            array_query( $company_array, "SELECT * FROM eZContact_Company WHERE ID='$id'" );
             if ( count( $company_array ) > 1 )
             {
                 die( "Feil: Flere firma med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -106,7 +106,7 @@ class eZCompany
         $this->dbInit();    
         $company_array = 0;
     
-        array_query( $company_array, "SELECT * FROM Company ORDER BY Name" );
+        array_query( $company_array, "SELECT * FROM eZContact_Company ORDER BY Name" );
     
         return $company_array;
     }
@@ -119,7 +119,7 @@ class eZCompany
         $this->dbInit();    
         $company_array = 0;
     
-        array_query( $company_array, "SELECT * FROM Company WHERE Name LIKE '%$query%' ORDER BY Name" );
+        array_query( $company_array, "SELECT * FROM eZContact_Company WHERE Name LIKE '%$query%' ORDER BY Name" );
     
         return $company_array;
     }
@@ -133,7 +133,7 @@ class eZCompany
         $this->dbInit();    
         $company_array = 0;
     
-        array_query( $company_array, "SELECT  Company.ID, Company.Name from Company, Person where ((Person.FirstName LIKE '%$query%' OR Person.LastName LIKE '%$query%') AND Company.ID=Person.Company) GROUP BY Company.ID ORDER BY Company.ID" );
+        array_query( $company_array, "SELECT  Company.ID, Company.Name from eZContact_Company, eZContact_Person where ((Person.FirstName LIKE '%$query%' OR Person.LastName LIKE '%$query%') AND Company.ID=Person.Company) GROUP BY Company.ID ORDER BY Company.ID" );
 
         return $company_array;
     }
@@ -215,7 +215,7 @@ class eZCompany
   */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

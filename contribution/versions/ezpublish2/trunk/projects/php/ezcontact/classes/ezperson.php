@@ -22,7 +22,7 @@ class eZPerson
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Person set
+        query( "INSERT INTO eZContact_Person set
     FirstName='$this->FirstName',
 	LastName='$this->LastName',
 	Owner='$this->Owner',
@@ -43,7 +43,7 @@ class eZPerson
 
         // sletter alle adresser og relasjoner
 
-        $result = mysql_query( "SELECT Address.ID AS 'AID', PersonAddressDict.ID AS 'DID' from Address, PersonAddressDict WHERE Address.ID=PersonAddressDict.AddressID AND PersonAddressDict.PersonID='$this->ID' " )
+        $result = mysql_query( "SELECT Address.ID AS 'AID', PersonAddressDict.ID AS 'DID' from eZContact_Address, eZContact_PersonAddressDict WHERE Address.ID=PersonAddressDict.AddressID AND PersonAddressDict.PersonID='$this->ID' " )
              or die( "Kunne ikke slette firma" );
 
         for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
@@ -54,20 +54,20 @@ class eZPerson
             query( "DELETE FROM PersonAddressDict WHERE ID='$did'" );
         }
 
-        $result = mysql_query( "SELECT Phone.ID AS 'PID', PersonPhoneDict.ID AS 'DID' from Phone, PersonPhoneDict WHERE Phone.ID=PersonPhoneDict.PhoneID AND PersonPhoneDict.PersonID='$this->ID' " )
+        $result = mysql_query( "SELECT Phone.ID AS 'PID', PersonPhoneDict.ID AS 'DID' from eZContact_Phone, eZContact_PersonPhoneDict WHERE Phone.ID=PersonPhoneDict.PhoneID AND PersonPhoneDict.PersonID='$this->ID' " )
              or die( "Kunne ikke slette firma" );
 
         for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
         {
             $pid = mysql_result( $result, $i, "PID" );
             $did = mysql_result( $result, $i, "DID" );
-            query( "DELETE FROM Phone WHERE ID='$pid'" );
-            query( "DELETE FROM PersonPhoneDict WHERE ID='$did'" );
+            query( "DELETE FROM eZContact_Phone WHERE ID='$pid'" );
+            query( "DELETE FROM eZContact_PersonPhoneDict WHERE ID='$did'" );
         }
         
 
 
-        query( "DELETE FROM Person WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_Person WHERE ID='$this->ID'" );
     }
 
 
@@ -77,7 +77,7 @@ class eZPerson
     function update()
     {
         $this->dbInit();
-        query( "UPDATE Person set
+        query( "UPDATE eZContact_Person set
     FirstName='$this->FirstName',
 	LastName='$this->LastName',
 	Owner='$this->Owner',
@@ -96,7 +96,7 @@ class eZPerson
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $person_array, "SELECT * FROM Person WHERE ID='$id'" );
+            array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
             if ( count( $person_array ) > 1 )
             {
                 die( "Feil: Flere personer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -122,7 +122,7 @@ class eZPerson
         $this->dbInit();    
         $person_array = 0;
     
-        array_query( $person_array, "SELECT * FROM Person ORDER BY LastName" );
+        array_query( $person_array, "SELECT * FROM eZContact_Person ORDER BY LastName" );
     
         return $person_array;
     }
@@ -135,7 +135,7 @@ class eZPerson
         $this->dbInit();
         $person_array = 0;
     
-        array_query( $person_array, "SELECT * FROM Person WHERE Company='$id' ORDER BY LastName" );
+        array_query( $person_array, "SELECT * FROM eZContact_Person WHERE Company='$id' ORDER BY LastName" );
 
         return $person_array;
     }
@@ -148,7 +148,7 @@ class eZPerson
         $this->dbInit();    
         $person_array = 0;
     
-        array_query( $person_array, "SELECT * FROM Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
+        array_query( $person_array, "SELECT * FROM eZContact_Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
     
         return $person_array;
     }
@@ -161,7 +161,7 @@ class eZPerson
         $this->dbInit();    
         $person_array = 0;
     
-        array_query( $person_array, "SELECT * FROM Person WHERE (FirstName LIKE '%$query%' OR LastName LIKE '%$query%') AND Company='$company' ORDER BY LastName" );
+        array_query( $person_array, "SELECT * FROM eZContact_Person WHERE (FirstName LIKE '%$query%' OR LastName LIKE '%$query%') AND Company='$company' ORDER BY LastName" );
     
         return $person_array;
     }
@@ -282,7 +282,7 @@ class eZPerson
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

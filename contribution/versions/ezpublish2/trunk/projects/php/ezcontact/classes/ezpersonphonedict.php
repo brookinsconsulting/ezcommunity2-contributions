@@ -23,7 +23,7 @@ class eZPersonPhoneDict
     {
         $this->dbInit();
         
-        query( "INSERT INTO PersonPhoneDict set PersonID='$this->PersonID',	PhoneID='$this->PhoneID' " );
+        query( "INSERT INTO eZContact_PersonPhoneDict set PersonID='$this->PersonID',	PhoneID='$this->PhoneID' " );
         return mysql_insert_id();
     }
 
@@ -35,7 +35,7 @@ class eZPersonPhoneDict
         $this->dbInit();
         $phone_array = 0;
 
-        array_query( $phone_array, "SELECT * FROM PersonPhoneDict WHERE PersonID='$id'" );
+        array_query( $phone_array, "SELECT * FROM eZContact_PersonPhoneDict WHERE PersonID='$id'" );
 
         return $phone_array;
     }
@@ -47,7 +47,7 @@ class eZPersonPhoneDict
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $dict_array, "SELECT * FROM PersonPhoneDict WHERE PhoneID='$id'" );
+            array_query( $dict_array, "SELECT * FROM eZContact_PersonPhoneDict WHERE PhoneID='$id'" );
             if ( count( $dict_array ) > 1 )
             {
                 die( "Feil: Flere dicter med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -70,7 +70,7 @@ class eZPersonPhoneDict
     {
         $this->dbInit();
         
-        query( "DELETE FROM PersonPhoneDict WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_PersonPhoneDict WHERE ID='$this->ID'" );
     }
 
     /*
@@ -115,7 +115,7 @@ class eZPersonPhoneDict
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

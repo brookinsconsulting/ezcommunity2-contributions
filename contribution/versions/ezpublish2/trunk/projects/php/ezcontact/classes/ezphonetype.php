@@ -19,7 +19,7 @@ class eZPhoneType
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $phone_type_array, "SELECT * FROM PhoneType WHERE ID='$id'" );
+            array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType WHERE ID='$id'" );
             if ( count( $phone_type_array ) > 1 )
             {
                 die( "Feil: Flere phonetype med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -40,7 +40,7 @@ class eZPhoneType
         $this->dbInit();    
         $phone_type_array = 0;
     
-        array_query( $phone_type_array, "SELECT * FROM PhoneType" );
+        array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType" );
     
         return $phone_type_array;
     }
@@ -53,7 +53,7 @@ class eZPhoneType
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO PhoneType set Name='$this->Name'" );
+        query( "INSERT INTO eZContact_PhoneType set Name='$this->Name'" );
     }
 
     /*
@@ -62,7 +62,7 @@ class eZPhoneType
     function delete()
     {
         $this->dbInit();
-        query( "DELETE FROM PhoneType WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_PhoneType WHERE ID='$this->ID'" );
     }
 
     
@@ -72,7 +72,7 @@ class eZPhoneType
     function update()
     {
         $this->dbInit();
-        query( "UPDATE PhoneType set Name='$this->Name' WHERE ID='$this->ID'" );
+        query( "UPDATE eZContact_PhoneType set Name='$this->Name' WHERE ID='$this->ID'" );
     }
   
 
@@ -84,7 +84,7 @@ class eZPhoneType
         $this->dbInit();    
         $phone_type_array = 0;
     
-        array_query( $phone_type_array, "SELECT * FROM PhoneType" );
+        array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType" );
     
         return $phone_type_array;
     }
@@ -115,7 +115,7 @@ class eZPhoneType
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

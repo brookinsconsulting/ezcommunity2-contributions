@@ -16,7 +16,7 @@ class eZAddressType
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO AddressType set Name='$this->Name'" );
+        query( "INSERT INTO eZContact_AddressType set Name='$this->Name'" );
     }
 
     /*!
@@ -25,7 +25,7 @@ class eZAddressType
     function update()
     {
         $this->dbInit();
-        query( "UPDATE AddressType set Name='$this->Name' WHERE ID='$this->ID'" );
+        query( "UPDATE eZContact_AddressType set Name='$this->Name' WHERE ID='$this->ID'" );
     }
 
     /*
@@ -34,7 +34,7 @@ class eZAddressType
     function delete()
     {
         $this->dbInit();
-        query( "DELETE FROM AddressType WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_AddressType WHERE ID='$this->ID'" );
     }
     
   /*
@@ -45,7 +45,7 @@ class eZAddressType
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $address_type_array, "SELECT * FROM AddressType WHERE ID='$id'" );
+            array_query( $address_type_array, "SELECT * FROM eZContact_AddressType WHERE ID='$id'" );
             if ( count( $address_type_array ) > 1 )
             {
                 die( "Feil: Flere addresstype med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -66,7 +66,7 @@ class eZAddressType
         $this->dbInit();    
         $address_type_array = 0;
     
-        array_query( $address_type_array, "SELECT * FROM AddressType" );
+        array_query( $address_type_array, "SELECT * FROM eZContact_AddressType" );
     
         return $address_type_array;
     }
@@ -100,7 +100,7 @@ class eZAddressType
   */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

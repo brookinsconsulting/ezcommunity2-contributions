@@ -17,7 +17,7 @@ class eZPhone
     {
         $this->dbInit();
         
-        query( "INSERT INTO Phone set Number='$this->Number', Type='$this->Type' " );
+        query( "INSERT INTO eZContact_Phone set Number='$this->Number', Type='$this->Type' " );
         return mysql_insert_id();
     }
 
@@ -28,7 +28,7 @@ class eZPhone
     {
         $this->dbInit();
         
-        query( "UPDATE Phone set Number='$this->Number', Type='$this->Type' WHERE ID='$this->ID' " );
+        query( "UPDATE eZContact_Phone set Number='$this->Number', Type='$this->Type' WHERE ID='$this->ID' " );
     }
 
     /*
@@ -38,7 +38,7 @@ class eZPhone
     {
         $this->dbInit();
         
-        query( "DELETE FROM Phone WHERE ID='$this->ID' " );
+        query( "DELETE FROM eZContact_Phone WHERE ID='$this->ID' " );
     }
     
     /*
@@ -49,7 +49,7 @@ class eZPhone
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $phone_array, "SELECT * FROM Phone WHERE ID='$id'" );
+            array_query( $phone_array, "SELECT * FROM eZContact_Phone WHERE ID='$id'" );
             if ( count( $phone_array ) > 1 )
             {
                 die( "Feil: Flere telefonnummer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -98,7 +98,7 @@ class eZPhone
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

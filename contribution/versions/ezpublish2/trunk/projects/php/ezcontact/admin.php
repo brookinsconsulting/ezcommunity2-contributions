@@ -1,6 +1,6 @@
 <?php
 include  "template.inc";
-require "ezcontact/dbsettings.php";
+require "ezcontact_ce/dbsettings.php";
 
 require  "ezphputils.php";
 require $DOCUMENTROOT . "classes/ezperson.php";

@@ -16,7 +16,7 @@ class eZZip
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Person set Code='$this->ID',
+        query( "INSERT INTO eZContact_Person set Code='$this->ID',
 		Place='$this->Place' " );
         return mysql_insert_id();
     }
@@ -29,7 +29,7 @@ class eZZip
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $zip_array, "SELECT * FROM Zip WHERE Code='$id'" );
+            array_query( $zip_array, "SELECT * FROM eZContact_Zip WHERE Code='$id'" );
             if ( count( $zip_array ) > 1 )
             {
                 die( "Feil: Flere ziper med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -63,7 +63,7 @@ class eZZip
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

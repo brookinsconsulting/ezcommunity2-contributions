@@ -20,14 +20,14 @@ class eZSession
 
         setcookie ( "AuthenticatedSession", $this->Hash, 0, "/",  "", 0 ) or die( "Feil: kunne ikke sette cookie." );
     
-        query( "INSERT INTO Session set SID='$this->Hash', Usr='$this->UserID'" );
+        query( "INSERT INTO eZContact_Session set SID='$this->Hash', Usr='$this->UserID'" );
 
         return mysql_insert_id();
     }
 
     function delete( )
     {
-        query( "DELETE FROM Session WHERE SID='$this->Hash'" );
+        query( "DELETE FROM eZContact_Session WHERE SID='$this->Hash'" );
     }
 
 
@@ -43,7 +43,7 @@ class eZSession
         $this->dbInit();    
         if ( $hash != "" )
         {
-            array_query( $session_array, "SELECT * FROM Session WHERE SID='$hash'" );
+            array_query( $session_array, "SELECT * FROM eZContact_Session WHERE SID='$hash'" );
             if ( count( $session_array ) > 1 )
             {
                 die( "Feil: Flere session med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -96,7 +96,7 @@ class eZSession
   */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

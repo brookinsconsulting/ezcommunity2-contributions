@@ -1,7 +1,7 @@
 <?
 include  "template.inc";
 require "ezphputils.php";
-require "ezcontact/dbsettings.php";
+require "ezcontact_ce/dbsettings.php";
 
 require $DOCUMENTROOT . "classes/ezperson.php";
 require $DOCUMENTROOT . "classes/ezpersontype.php";
@@ -14,6 +14,10 @@ require $DOCUMENTROOT . "classes/ezphone.php";
 require $DOCUMENTROOT . "classes/ezphonetype.php";
 require $DOCUMENTROOT . "classes/ezpersonphonedict.php";
 require $DOCUMENTROOT . "classes/ezpersonaddressdict.php";
+require $DOCUMENTROOT . "classes/ezpersonconsultdict.php";
+require $DOCUMENTROOT . "classes/ezconsult.php";
+require $DOCUMENTROOT . "classes/ezcompanyconsultdict.php";
+
 
 // Oppdatere informasjon.
 if ( $Action == "update" )
@@ -26,6 +30,8 @@ if ( $Action == "update" )
     $updatePerson->setCompany( $CompanyID );
     $updatePerson->setComment( $Comment );
     $updatePerson->update();
+
+    $Action = "edit";
 }
 
 // Slette person fra databasen.
@@ -97,11 +103,11 @@ if ( $PhoneAction == "UpdatePhone" )
 {
     $phone = new eZPhone();
     $phone->get( $PhoneID );
-
     $phone->setNumber( $PhoneNumber );
     $phone->setType( $PhoneType );
     $phone->update();
     $PhoneNumber = "";    
+
 }
 
 // Slette telefon
@@ -118,6 +124,62 @@ if ( $PhoneAction == "DeletePhone" )
     $dict->delete();
 }
 
+// Oppdatere konsultasjon
+if ( $ConsultAction == "UpdateConsult" )
+{
+
+    $consult = new eZConsult();
+    $consult->get( $ConsultID );
+    $consult->setTitle( $ConsultTitle );
+    $consult->setBody( $ConsultBody );
+    $consult->update();
+}
+
+// Legge til konsultasjon
+if ( $ConsultAction == "AddConsult" )
+{
+
+    // henter ut brukeren som er logget inn
+    $session = new eZSession();
+
+    if ( !$session->get( $AuthenticatedSession ) )
+    {
+        die( "Du må logge deg på." );    
+    }        
+
+//    print( $session->userID() );
+
+    
+
+    
+    $consult = new eZConsult();
+    $consult->setTitle( $ConsultTitle );
+    $consult->setBody( $ConsultBody );
+    $consult->setUserID( $session->userID() );
+    $cid = $consult->store();
+
+    $dict = new eZPersonConsultDict();
+    $dict->setPersonID( $PID );
+    $dict->setConsultID( $cid );
+
+
+    $dict->store();
+}
+
+// Slette konsultasjon
+if ( $ConsultAction == "DeleteConsult" )
+{
+    $consult = new eZConsult();
+    $consult->get( $ConsultID );
+
+    $dict = new eZPersonConsultDict();
+    $dict->getByConsult( $consult->id() );
+
+    $consult->delete();
+    $dict->delete();
+    
+}
+
 // legge til adresse
 if ( $AddressAction == "AddAddress" )
 {
@@ -129,7 +191,6 @@ if ( $AddressAction == "AddAddress" )
     $aid = $address->store();
 
     $dict = new eZPersonAddressDict();
-
     $dict->setPersonID( $PID );
     $dict->setAddressID( $aid );
     $dict->store();
@@ -166,6 +227,7 @@ if ( $AddressAction == "DeleteAddress" )
     
     $address->delete();
     $dict->delete();
+    
 }
 
 
@@ -182,7 +244,8 @@ $t->set_file( array(
                     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
                     "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
                     "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl",
-                    "address_item" => $DOCUMENTROOT . "templates/addressitem.tpl"
+                    "address_item" => $DOCUMENTROOT . "templates/addressitem.tpl",
+                    "consult_item" => $DOCUMENTROOT . "templates/consultitem.tpl"
                     ) );
 
 
@@ -203,6 +266,7 @@ $phone_type_array = $phoneType->getAll( );
 
 $t->set_var( "phone_action_type", "hidden" );
 $t->set_var( "phone_list", "" );
+$t->set_var( "consult_list", "" );
 
 $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "" );
@@ -267,12 +331,11 @@ if ( $Action == "edit" )
     $action_value = "update";
     $person_id = $PID;
 
-
+    // telefonliste
     $phone = new eZPhone();
     $phone_dict = new eZPersonPhoneDict();
     $phone_dict_array = $phone_dict->getByPerson( $PID );
 
-    // telefonliste
     for ( $i=0; $i<count( $phone_dict_array ); $i++ )
     {
         $phone->get( $phone_dict_array[ $i ][ "PhoneID" ] );
@@ -290,13 +353,13 @@ if ( $Action == "edit" )
     }
 
 
+    // adresseliste
     $address = new eZAddress();
     $address_dict = new eZPersonAddressDict();
     $address_dict_array = $address_dict->getByPerson( $PID );
     
-
     print( "antall:" . count( $address_dict_array ) );
-    // adresseliste
+
     for ( $i=0; $i<count( $address_dict_array ); $i++ )
     {
         $address->get( $address_dict_array[ $i ][ "AddressID" ] );
@@ -316,6 +379,41 @@ if ( $Action == "edit" )
         
         $t->parse( "address_list", "address_item", true );                
     }
+
+    // konsultasjonliste
+    $consult = new eZConsult();
+    $consult_dict = new eZPersonConsultDict();
+    $consult_dict_array = $consult_dict->getByPerson( $PID );
+
+    print ( "personIIID" . $consult_dict->PersonID() );
+
+
+    print( "antall konsultasjoner:" . count( $consult_dict_array ) );
+
+
+    for ( $i=0; $i<count( $consult_dict_array ); $i++ )
+    {
+
+        $consult->get( $consult_dict_array[ $i ][ "ConsultID" ] ) ;
+        // $consult->get( $consult_dict_array[ $i ][ "PersonID" ] );
+
+        $t->set_var( "consult_id", $consult->id() );
+        $t->set_var( "consult_title", $consult->title() );
+        $t->set_var( "consult_body", $consult->body() );
+
+//        print( "ID---->:" . $consult->body() );
+
+        $t->set_var( "person_id", $PID );
+        
+
+        $t->parse( "consult_list", "consult_item", true );
+    }
+
+
+    $t->set_var( "consult_action", "AddConsult" );
+    $t->set_var( "consult_action_value", "Legg tillll" );
+    $t->set_var( "consult_action_type", "submit" );
+    $t->set_var( "consult_edit_id", "-1" );
 
     $t->set_var( "address_action", "AddAddress" );    
     $t->set_var( "address_action_value", "Legg til" );
@@ -376,6 +474,10 @@ $t->set_var( "comment", $Comment );
 $t->set_var( "street_1", "" );
 $t->set_var( "street_2", "" );
 $t->set_var( "zip_code", "" );
+
+$t->set_var( "consult_title", $ConsultTitle );
+$t->set_var( "consult_body", $ConsultBody );
+$t->set_var( "consult_edit_id", $ConsultID );
 
 $t->set_var( "phone_edit_number", $PhoneNumber );
 $t->set_var( "phone_edit_id", $PhoneID );

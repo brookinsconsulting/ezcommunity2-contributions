@@ -23,7 +23,7 @@ class eZUserGroup
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Grp set
+        query( "INSERT INTO eZContact_Grp set
         Name='$this->Name',
         Description='$this->Description',
 	UserAdmin='$this->UserAdmin',
@@ -43,7 +43,7 @@ class eZUserGroup
     function delete()
     {
         $this->dbInit();
-        query( "DELETE FROM Grp WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_Grp WHERE ID='$this->ID'" );
     }
 
 
@@ -56,7 +56,7 @@ class eZUserGroup
         $this->dbInit();
         if ( isset( $this->ID ) )
         {
-            query( "UPDATE Grp set
+            query( "UPDATE eZContact_Grp set
                 Name='$this->Name',
                 Description='$this->Description',
 		UserAdmin='$this->UserAdmin',
@@ -78,7 +78,7 @@ class eZUserGroup
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $user_group_array, "SELECT * FROM Grp WHERE ID='$id'" );
+            array_query( $user_group_array, "SELECT * FROM eZContact_Grp WHERE ID='$id'" );
             if ( count( $user_group_array ) > 1 )
             {
                 die( "Feil: Flere user_grouper med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -108,7 +108,7 @@ class eZUserGroup
         $this->dbInit();    
         $user_group_array = 0;
     
-        array_query( $user_group_array, "SELECT * FROM Grp ORDER BY Name" );
+        array_query( $user_group_array, "SELECT * FROM eZContact_Grp ORDER BY Name" );
     
         return $user_group_array;
     }  
@@ -266,7 +266,7 @@ class eZUserGroup
   */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

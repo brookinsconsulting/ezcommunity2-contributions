@@ -22,7 +22,7 @@ class eZUser
         $this->dbInit();
         $ret = 0;
 
-        $result = query(  "SELECT * FROM Usr WHERE Login='$this->User' AND Pwd=PASSWORD('$this->Password')" );
+        $result = query(  "SELECT * FROM eZContact_Usr WHERE Login='$this->User' AND Pwd=PASSWORD('$this->Password')" );
 
         if ( mysql_num_rows( $result )  == 1 )
         {
@@ -38,7 +38,7 @@ class eZUser
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Usr set Login='$this->User', Pwd=PASSWORD('$this->Password'), Grp='$this->Group'" );
+        query( "INSERT INTO eZContact_Usr set Login='$this->User', Pwd=PASSWORD('$this->Password'), Grp='$this->Group'" );
         return mysql_insert_id();
     }
 
@@ -48,11 +48,11 @@ class eZUser
     function update()
     {
         $this->dbInit();
-        query( "Update Usr set Login='$this->User', Grp='$this->Group' WHERE ID='$this->ID'" );
+        query( "Update eZContact_Usr set Login='$this->User', Grp='$this->Group' WHERE ID='$this->ID'" );
 
         if ( $this->Password != "" )
         {
-            query( "Update Usr set Pwd=PASSWORD('$this->Password')  WHERE ID='$this->ID'" );
+            query( "Update eZContact_Usr set Pwd=PASSWORD('$this->Password')  WHERE ID='$this->ID'" );
         }
         
     }
@@ -63,7 +63,7 @@ class eZUser
     function delete()
     {
         $this->dbInit();
-        query( "DELETE FROM Usr WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_Usr WHERE ID='$this->ID'" );
     }
 
     /*!
@@ -74,7 +74,7 @@ class eZUser
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $user_array, "SELECT * FROM Usr WHERE ID='$id'" );
+            array_query( $user_array, "SELECT * FROM eZContact_Usr WHERE ID='$id'" );
             if ( count( $user_array ) > 1 )
             {
                 die( "Feil: Flere userer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -96,7 +96,7 @@ class eZUser
         $this->dbInit();    
         $user_array = 0;
     
-        array_query( $user_array, "SELECT * FROM Usr ORDER BY Login" );
+        array_query( $user_array, "SELECT * FROM eZContact_Usr ORDER BY Login" );
     
         return $user_array;
     }    
@@ -155,7 +155,7 @@ class eZUser
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

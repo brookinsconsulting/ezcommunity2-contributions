@@ -17,7 +17,7 @@ class eZCompanyAddressDict
     {
         $this->dbInit();
         
-        query( "INSERT INTO CompanyAddressDict set CompanyID='$this->CompanyID', AddressID='$this->AddressID' " );
+        query( "INSERT INTO eZContact_CompanyAddressDict set CompanyID='$this->CompanyID', AddressID='$this->AddressID' " );
         return mysql_insert_id();
     }
     
@@ -29,7 +29,7 @@ class eZCompanyAddressDict
         $this->dbInit();    
         $address_array = 0;
     
-        array_query( $address_array, "SELECT * FROM CompanyAddressDict WHERE CompanyID='$id'" );
+        array_query( $address_array, "SELECT * FROM eZContact_CompanyAddressDict WHERE CompanyID='$id'" );
     
         return $address_array;
     }
@@ -42,7 +42,7 @@ class eZCompanyAddressDict
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $dict_array, "SELECT * FROM CompanyAddressDict WHERE AddressID='$id'" );
+            array_query( $dict_array, "SELECT * FROM eZContact_CompanyAddressDict WHERE AddressID='$id'" );
             if ( count( $dict_array ) > 1 )
             {
                 die( "Feil: Flere dicter med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -64,7 +64,7 @@ class eZCompanyAddressDict
     {
         $this->dbInit();
         
-        query( "DELETE FROM CompanyAddressDict WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_CompanyAddressDict WHERE ID='$this->ID'" );
     }    
 
     /*
@@ -104,7 +104,7 @@ class eZCompanyAddressDict
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

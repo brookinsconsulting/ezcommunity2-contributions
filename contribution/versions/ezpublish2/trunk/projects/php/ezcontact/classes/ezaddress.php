@@ -16,7 +16,7 @@ class eZAddress
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType'" );
+        query( "INSERT INTO eZContact_Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType'" );
         return mysql_insert_id();
     }
 
@@ -26,7 +26,7 @@ class eZAddress
     function update()
     {
         $this->dbInit();
-        query( "UPDATE Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType' WHERE ID='$this->ID'" );
+        query( "UPDATE eZContact_Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType' WHERE ID='$this->ID'" );
     }
   
     /*
@@ -37,7 +37,7 @@ class eZAddress
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $address_array, "SELECT * FROM Address WHERE ID='$id'" );
+            array_query( $address_array, "SELECT * FROM eZContact_Address WHERE ID='$id'" );
             if ( count( $address_array ) > 1 )
             {
                 die( "Feil: Flere addresser med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -62,7 +62,7 @@ class eZAddress
         $this->dbInit();    
         $address_array = 0;
     
-        array_query( $address_array, "SELECT * FROM Address" );
+        array_query( $address_array, "SELECT * FROM eZContact_Address" );
     
         return $address_array;
     }
@@ -74,7 +74,7 @@ class eZAddress
     {
         $this->dbInit();
         
-        query( "DELETE FROM Address WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_Address WHERE ID='$this->ID'" );
     }    
     
 
@@ -156,7 +156,7 @@ class eZAddress
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

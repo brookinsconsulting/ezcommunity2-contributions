@@ -19,7 +19,7 @@ class eZPersonType
 
         print( $this->ID );
 
-        query( "UPDATE PersonType set Name='$this->Name', Description='$this->Description' WHERE ID='$this->ID'" );
+        query( "UPDATE eZContact_PersonType set Name='$this->Name', Description='$this->Description' WHERE ID='$this->ID'" );
     }
 
 
@@ -31,7 +31,7 @@ class eZPersonType
     {
         $this->dbInit();
 
-        query( "INSERT INTO PersonType set Name='$this->Name', Description='$this->Description'" );
+        query( "INSERT INTO eZContact_PersonType set Name='$this->Name', Description='$this->Description'" );
     }
 
     /*
@@ -40,7 +40,7 @@ class eZPersonType
     function delete()
     {
         $this->dbInit();
-        query( "DELETE FROM PersonType WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZContact_PersonType WHERE ID='$this->ID'" );
     }
     
     /*!
@@ -51,7 +51,7 @@ class eZPersonType
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $persontype_array, "SELECT * FROM PersonType WHERE ID='$id'" );
+            array_query( $persontype_array, "SELECT * FROM eZContact_PersonType WHERE ID='$id'" );
             if ( count( $persontype_array ) > 1 )
             {
                 die( "Feil: Flere userer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -73,7 +73,7 @@ class eZPersonType
         $this->dbInit();
         $person_type_array = 0;
     
-        array_query( $person_type_array, "SELECT * FROM PersonType ORDER BY Name" );
+        array_query( $person_type_array, "SELECT * FROM eZContact_PersonType ORDER BY Name" );
     
         return $person_type_array;
     }
@@ -116,7 +116,7 @@ class eZPersonType
 */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        require "ezcontact_ce/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
