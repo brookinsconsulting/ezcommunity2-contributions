@@ -91,7 +91,7 @@ class INIFile
                     $buffer .= "\$Array_". $i . "[\"$key\"] = \"$val\";\n";
                 }
 
-                $buffer .= "\$this->GROUPS[\"$groupKey\"] = \$Array_". $i .";\n";
+                $buffer .= "\$this->GROUPS[\"$groupKey\"] =& \$Array_". $i .";\n";
                 $i++;
             }
             $buffer = "<?php\n" . $buffer . "\n?>";
