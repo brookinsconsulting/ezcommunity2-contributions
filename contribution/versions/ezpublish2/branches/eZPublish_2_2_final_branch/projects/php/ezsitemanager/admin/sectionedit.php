@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.16.2.1 2001/11/15 18:09:05 bf Exp $
+// $Id: sectionedit.php,v 1.16.2.2 2002/09/27 11:56:39 vl Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -310,7 +310,7 @@ if ( count ( $rows ) > 0 )
             case "ad":
             {
                 $t->set_var( "product_category_item", "" );
-                if ( count ( $productCategoryArray ) > 0 )
+                if ( count ( $AdCategoryArray ) > 0 )
                 {
                     foreach ( $adCategoryArray as $catItem )
                     {
