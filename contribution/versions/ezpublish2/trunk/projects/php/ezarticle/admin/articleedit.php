@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.56 2001/03/07 16:21:06 fh Exp $
+// $Id: articleedit.php,v 1.57 2001/03/08 15:15:13 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -330,6 +330,7 @@ if ( $Action == "Update" )
     
     $article->setLinkText( $LinkText );
 
+    eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
     if( isset( $WriteGroupArray ) )
     {
         if( $WriteGroupArray[0] == 0 )
@@ -338,7 +339,6 @@ if ( $Action == "Update" )
         }
         else
         {
-            eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
             foreach ( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'w' );
@@ -351,6 +351,7 @@ if ( $Action == "Update" )
     }
     
     /* read access thingy */
+    eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
     if ( isset( $GroupArray ) )
     {
         if( $GroupArray[0] == 0 )
@@ -359,7 +360,6 @@ if ( $Action == "Update" )
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
             foreach ( $GroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'r' );

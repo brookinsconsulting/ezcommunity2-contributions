@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.11 2001/03/06 09:48:41 fh Exp $
+// $Id: categoryedit.php,v 1.12 2001/03/08 15:15:13 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -170,6 +170,7 @@ if ( $Action == "update" )
 
     $categoryID = $category->id();
     /* write access select */
+    eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' ); //not really necessary..
     if( isset( $WriteGroupArray ) )
     {
         if( $WriteGroupArray[0] == 0 )
@@ -178,7 +179,6 @@ if ( $Action == "update" )
         }
         else
         {
-            eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' ); //not really necessary..
             foreach( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'w' );
@@ -191,6 +191,7 @@ if ( $Action == "update" )
     }
 
     /* read access thingy */
+    eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' ); 
     if ( isset( $GroupArray ) )
     {
         if( $GroupArray[0] == 0 )
@@ -199,7 +200,6 @@ if ( $Action == "update" )
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' ); 
             foreach ( $GroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'r' );
