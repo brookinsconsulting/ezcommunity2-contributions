@@ -23,6 +23,7 @@ Changes from 2.2.6 to 2.2.7
 * Added printing of articles for the root category in sitemap.
 * Added eZTextTool::fixhtmlentities(), which fixes errors made by the
   over-enthusiastic htmlspecialchars(). Used in eZArticle and eZImageCatalogue.
+* Fixed setting of date for cron.php in eZ stats
 
 Changes from 2.2.5 to 2.2.6
 ---------------------------
