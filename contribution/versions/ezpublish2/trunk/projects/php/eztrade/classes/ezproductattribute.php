@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductattribute.php,v 1.7 2001/05/05 11:16:04 bf Exp $
+// $Id: ezproductattribute.php,v 1.8 2001/06/29 12:54:27 jhe Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -162,19 +162,19 @@ class eZProductAttribute
         $this->Database->array_query( $attribute_array, "SELECT ID FROM eZTrade_Attribute ORDER BY Created" );
         
         for ( $i=0; $i<count($attribute_array); $i++ )
-        {
-            $return_array[$i] = new eZProductAttribute( $attribute_array[$i]["ID"], 0 );
-        }
+        { 
+            $return_array[$i] = new eZProductAttribute( $attribute_array[$i]["ID"], 0 ); 
+        } 
         
-        return $return_array;
-    }
+        return $return_array; 
+    } 
 
-    /*!
-      Deletes a option from the database.
-    */
-    function delete()
+    /*! 
+      Deletes a option from the database. 
+    */ 
+    function delete() 
     {
-        $this->dbInit();
+        $this->dbInit(); 
 
         $this->Database->query( "DELETE FROM eZTrade_AttributeValue WHERE AttributeID='$this->ID'" );
         

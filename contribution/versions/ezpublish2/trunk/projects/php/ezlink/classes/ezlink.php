@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.55 2001/06/29 07:54:49 br Exp $
+// $Id: ezlink.php,v 1.56 2001/06/29 12:54:27 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -121,6 +121,69 @@ class eZLink
     }
 
     /*!
+      Sets the links type.
+    */
+    function setType( $type )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+        if ( get_class( $type ) == "ezlinktype" )
+        {
+            $db =& eZDB::globalDatabase();
+            
+            $typeID = $type->id();
+            
+            $db->query( "DELETE FROM eZLink_AttributeValue
+                                     WHERE LinkID='$this->ID'" );
+            
+            $db->query( "DELETE FROM eZLink_TypeLink
+                                     WHERE LinkID='$this->ID'" );
+            
+            $query = "INSERT INTO eZLink_TypeLink
+                      SET
+                           TypeID='$typeID',
+                           LinkID='$this->ID'";
+            
+            $db->query( $query );
+        }
+    }
+
+    /*!
+      Returns the link's type.
+    */
+    function type()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res, "SELECT TypeID FROM
+                                 eZLink_TypeLink WHERE LinkID='$this->ID'" );
+
+        $type = false;
+       
+        if ( count( $res ) == 1 )
+        {
+            $type = new eZLinkType( $res[0]["TypeID"] );
+        }
+
+        return $type;
+    }
+    
+    /*!
+      Removes the links type definition.
+    */
+    function removeType()
+    {
+        $db =& eZDB::globalDatabase();
+
+        // delete values
+        $db->query( "DELETE FROM eZLink_AttributeValue WHERE LinkID='$this->ID'" );
+
+        $db->query( "DELETE FROM eZLink_TypeLink WHERE LinkID='$this->ID'" );
+            
+    }
+
+    /*!
       Update to the database.
     */
     function update()
@@ -165,6 +228,8 @@ class eZLink
         $db =& eZDB::globalDatabase();
         $db->query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );        
         $db->query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZLink_TypeLink WHERE LinkID='$this->ID'" );
+        $db->query( "DELETE FROM eZLink_AttributeValue WHERE LinkID='$this->ID'" );
     }
 
     /*!
@@ -392,21 +457,24 @@ class eZLink
     function setCategoryDefinition( $value )
     {
         if ( get_class( $value ) == "ezlinkcategory" )
-        {
-            $db =& eZDB::globalDatabase();
-
             $categoryID = $value->id();
+        else if ( is_numeric( $value ) )
+            $categoryID = $value;
+        else
+            return false;
             
-            $db->query( "DELETE FROM eZLink_LinkCategoryDefinition
+        $db =& eZDB::globalDatabase();
+
+        $db->query( "DELETE FROM eZLink_LinkCategoryDefinition
                          WHERE LinkID='$this->ID'" );
-            $nextID = $db->nextID( "eZLink_LinkCategoryDefinition", "ID");
-            $db->query( "INSERT INTO eZLink_LinkCategoryDefinition
+        
+        $nextID = $db->nextID( "eZLink_LinkCategoryDefinition", "ID");
+        $db->query( "INSERT INTO eZLink_LinkCategoryDefinition
                          (ID, LinkID, CategoryID )
                          VALUES
-                         ('ID=$nextID',
-                          'LinkID=$this->ID;',
-                          'CategoryID=$categoryID' )" );
-        }
+                         ('$nextID',
+                          '$this->ID;',
+                          '$categoryID')" );
     }
 
     

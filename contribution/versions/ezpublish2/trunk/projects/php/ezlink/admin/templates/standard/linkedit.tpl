@@ -1,4 +1,4 @@
-wwwwwwwwwwww<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
         <h1>{headline}</h1>
@@ -89,6 +89,7 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <p class="boxtext">{intl-upload_image}:</p>
 <input size="40" name="ImageFile" type="file" />&nbsp;
 <br /><br /><input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+<br /><br /><input class="stdbutton" type="submit" name="Attributes" value="{intl-attributes}" />
 <br /><br />
 
 

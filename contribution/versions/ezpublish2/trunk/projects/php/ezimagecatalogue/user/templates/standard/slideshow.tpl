@@ -4,16 +4,16 @@
 
 <br />
 <table width="100%">
-<tr>
+  <tr>
 <!-- BEGIN previous_tpl -->
-<td align="left">
-<a href="/imagecatalogue/slideshow/{category}/{prev_image}/">{intl-prev_image}</a>
-</td>
+    <td align="left">
+      <a href="/imagecatalogue/slideshow/{category}/{prev_image}/">{intl-prev_image}</a>
+    </td>
 <!-- END previous_tpl -->
 <!-- BEGIN next_tpl -->
-<td align="right">
-<a href="/imagecatalogue/slideshow/{category}/{next_image}/">{intl-next_image}</a>
-</td>
+    <td align="right">
+      <a href="/imagecatalogue/slideshow/{category}/{next_image}/">{intl-next_image}</a>
+    </td>
 <!-- END next_tpl -->
-</tr>
+  </tr>
 </table>

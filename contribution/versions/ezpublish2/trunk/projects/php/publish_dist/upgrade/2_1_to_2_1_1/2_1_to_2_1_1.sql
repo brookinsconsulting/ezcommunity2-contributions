@@ -454,3 +454,40 @@ alter table eZArticle_ArticleCategoryLink add index ( Placement );
 
 # Product type
 alter table eZTrade_Product add ProductType int default 1;
+
+# Attributes in eZLink
+
+DROP TABLE IF EXISTS eZLink_Attribute;
+CREATE TABLE eZLink_Attribute (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  TypeID int(11),
+  Name varchar(150),
+  Created int(11),
+  Placement int(11) DEFAULT '0',
+  Unit varchar(8),
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZLink_AttributeValue;
+CREATE TABLE eZLink_AttributeValue (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  LinkID int(11),
+  AttributeID int(11),
+  Value char(200),
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZLink_Type;
+CREATE TABLE eZLink_Type (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(150),
+  PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZLink_LinkType;
+CREATE TABLE eZLink_TypeLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  LinkID int(11),
+  TypeID int(11),
+  PRIMARY KEY(ID)
+);

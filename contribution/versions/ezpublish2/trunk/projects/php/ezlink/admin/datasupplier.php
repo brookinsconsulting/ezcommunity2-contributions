@@ -25,6 +25,41 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "typelist" :
+    {
+        include( "ezlink/admin/typelist.php" );
+    }
+    break;
+ 
+    case "typeedit" :
+    {
+        if ( $url_array[3] == "edit" )
+        {
+            $TypeID = $url_array[4];
+            $Action = "Edit";
+        }
+        if ( $url_array[3] == "delete" )
+        {
+            $TypeID = $url_array[4];
+            $Action = "Delete";
+        }
+        if ( $url_array[3] == "up" )
+        {
+            $TypeID = $url_array[4];
+            $AttributeID = $url_array[5];
+            $Action = "up";
+        }
+        if ( $url_array[3] == "down" )
+        {
+            $TypeID = $url_array[4];
+            $AttributeID = $url_array[5];
+            $Action = "down";
+        }
+ 
+        include( "ezlink/admin/typeedit.php" );
+    }
+    break;
+    
     case "group" :
     {
         if ( $url_array[4] == "parent" )
@@ -49,35 +84,53 @@ switch ( $url_array[2] )
     
     case "linkedit" :
     {
-        if ( $url_array[3] == "new" )
+        switch ( $url_array[3] )
         {
-            $Action = "new";
-            include( "ezlink/admin/linkedit.php" );
-        }
-        else if ( $url_array[3] == "insert" )
-        {
-            $LinkID = $url_array[4];
-            $Action = "insert";
-            include( "ezlink/admin/linkedit.php" );
-        }
-
-        else if ( $url_array[3] == "edit" )
-        {
-            $LinkID = $url_array[4];
-            $Action = "edit";
-            include( "ezlink/admin/linkedit.php" );
-        }
-        else if ( $url_array[3] == "update" )
-        {
-            $LinkID = $url_array[4];
-            $Action = "update";
-            include( "ezlink/admin/linkedit.php" );
-        }
-        else if ( $url_array[3] == "delete" )
-        {
-            $LinkID = $url_array[4];
-            $Action = "delete";
-            include( "ezlink/admin/linkedit.php" );
+            case "new" :
+            {
+                $Action = "new";
+                include( "ezlink/admin/linkedit.php" );
+            }
+            break;
+            
+            case "insert" :
+            {
+                $LinkID = $url_array[4];
+                $Action = "insert";
+                include( "ezlink/admin/linkedit.php" );
+            }
+            break;
+            
+            case "edit" :
+            {
+                $LinkID = $url_array[4];
+                $Action = "edit";
+                include( "ezlink/admin/linkedit.php" );
+            }
+            break;
+            
+            case "update" :
+            {
+                $LinkID = $url_array[4];
+                $Action = "update";
+                include( "ezlink/admin/linkedit.php" );
+            }
+            break;
+            
+            case "delete" :
+            {
+                $LinkID = $url_array[4];
+                $Action = "delete";
+                include( "ezlink/admin/linkedit.php" );
+            }
+            break;
+            
+            case "attributeedit" :
+            {
+                $LinkID = $url_array[4];
+                include( "ezlink/admin/attributeedit.php" );
+            }
+            break;
         }
     }
     break;

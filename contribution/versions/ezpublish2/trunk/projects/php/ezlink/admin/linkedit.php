@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.50 2001/06/29 07:51:08 br Exp $
+// $Id: linkedit.php,v 1.51 2001/06/29 12:54:26 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -59,7 +59,7 @@ if ( isSet( $Back ) )
     $link->get( $LinkID );
     $LinkGroupID = $link->linkGroupID();
 
-    eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
+    eZHTTPTool::header( "Location: /link/group/$LinkGroupID/" );
     exit();
 }
 
@@ -99,10 +99,12 @@ if ( $GetSite )
             $tdescription = $metaList["description"];
         else
             $tdescription = $description;
+        
         if ( $metaList["keywords"] )
             $tkeywords = $metaList["keywords"];
         else
             $tkeywords = $keywords;
+        
         if ( $metaList["title"] )
             $ttitle = $metaList["title"];
         else if ( $metaList["abstract"] )
@@ -112,6 +114,7 @@ if ( $GetSite )
 //          $tdescription = $metaList["description"];
 //          $tkeywords = $metaList["keywords"];
 //          $ttitle = $Title;
+        
         $turl = $Url;
 
     }
@@ -140,7 +143,7 @@ if ( $Action == "update" )
             $link->setKeyWords( $Keywords );
             $link->setUrl( $Url );
             
-            $link->setCategoryDefinition( $link );
+            $link->setCategoryDefinition( $LinkGroupID );
 
             // Calculate new and unused categories
             
@@ -207,6 +210,13 @@ if ( $Action == "update" )
                 $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
                 $session->setVariable( "NameInBrowse", $link->title() );
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+                exit();
+            }
+
+            if ( isSet( $Attributes ) )
+            {
+                $linkID = $link->id();
+                eZHTTPTool::header( "Location: /link/linkedit/attributeedit/$linkID/" );
                 exit();
             }
            
@@ -346,7 +356,7 @@ if ( $Action == "insert" )
                 $categoryIDArray[] = $categor->id();
             }
 
-            if ( isSet ( $Browse ) )
+            if ( isSet( $Browse ) )
             {
                 $linkID = $link->id();
                 $session = new eZSession();
@@ -354,6 +364,13 @@ if ( $Action == "insert" )
                 $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
                 $session->setVariable( "NameInBrowse", $link->title() );
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+                exit();
+            }
+
+            if ( isSet( $Attributes ) )
+            {
+                $linkID = $link->id();
+                eZHTTPTool::header( "Location: /link/linkedit/attributeedit/$linkID/" );
                 exit();
             }
            
