@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: footer.php,v 1.14 2001/03/20 13:26:07 bf Exp $
+// $Id: footer.php,v 1.15 2001/07/19 11:50:54 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
