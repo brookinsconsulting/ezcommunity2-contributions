@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.118 2001/10/17 15:13:01 bf Exp $
+// $Id: index.php,v 1.119 2001/10/17 15:24:00 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -70,7 +70,7 @@ ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];
 
   
-$GLOBALS["DEBUG"] = true;
+$GLOBALS["DEBUG"] = false;
 $UsePHPSessions = false;
 
 ob_start();
