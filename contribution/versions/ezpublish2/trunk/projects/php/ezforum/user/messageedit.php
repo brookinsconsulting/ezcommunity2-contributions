@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.34 2001/03/06 13:21:03 pkej Exp $
+// $Id: messageedit.php,v 1.35 2001/03/13 13:09:55 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -23,6 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezlocale.php" );
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
