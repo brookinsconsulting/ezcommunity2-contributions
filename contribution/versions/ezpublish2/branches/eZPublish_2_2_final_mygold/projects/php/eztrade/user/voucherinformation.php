@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.1 2001/10/22 11:52:22 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.2 2001/10/22 12:04:02 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -201,6 +201,7 @@ else if ( $product ) // Print out the addresses forms
     }
     else
     {
+        $t->set_var( "voucher_info_id", "" );
         $t->set_var( "price_range", "" );
     }
 
