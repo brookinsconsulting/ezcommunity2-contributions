@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.13 2001/02/13 14:00:46 jb Exp $
+// $Id: ezadcategory.php,v 1.14 2001/02/13 15:01:28 jb Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -474,18 +474,18 @@ class eZAdCategory
        $orderBySQL = "eZAd_View.ViewCount ASC";
 
        $this->Database->array_query( $ad_not_shown_array,
-       "select * from eZAd_Ad as Ad left join eZAd_View as View ON Ad.ID=View.AdID, eZAd_AdCategoryLink AS Link
+       "SELECT Ad.ID from eZAd_Ad as Ad left join eZAd_View as View ON Ad.ID=View.AdID, eZAd_AdCategoryLink AS Link
         WHERE View.AdID IS NULL
         AND IsActive='true'
         AND Link.AdID=Ad.ID
-        AND View.Date = curdate()
+        AND View.Date IS NULL
         AND Link.CategoryID='$this->ID' LIMIT $offset,$limit" );
 
        if ( count( $ad_not_shown_array ) > 0 )
        {
            for ( $i=0; $i < count($ad_not_shown_array); $i++ )
            {
-               $return_array[$i] = new eZAd( $ad_not_shown_array[$i]["AdID"], false );
+               $return_array[$i] = new eZAd( $ad_not_shown_array[$i]["ID"], false );
            }
        }
        else
