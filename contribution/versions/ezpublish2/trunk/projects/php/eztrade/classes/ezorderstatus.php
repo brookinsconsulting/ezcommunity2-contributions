@@ -1,11 +1,11 @@
-<?php
+<?
 // 
-// $Id: ezorderoptionvalue.php,v 1.2 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: ezorderstatus.php,v 1.1 2000/10/02 13:53:01 bf-cvs Exp $
 //
-// Definition of eZOrderOptionValue class
+// Definition of eZOrderStatus class
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <28-Sep-2000 16:40:01 bf>
+// Created on: <02-Oct-2000 15:06:32 bf>
 //
 // Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
 //
@@ -14,19 +14,20 @@
 //
 
 //!! eZTrade
-//! eZOrderOptionValue handles selected options for the order items.
+//! eZOrderStatus handles order status.
 /*!
 
-  \sa eZOrder eZOrderItem 
+  \sa eZOrder
 */
 
 /*!TODO
-    
+  Add documentation.    
 */
 
 include_once( "classes/ezdb.php" );
 
-class eZOrderOptionValue
+
+class eZOrderStatus
 {
     /*!
       Constructs a new eZOrder object.
@@ -58,7 +59,7 @@ class eZOrderOptionValue
     }
 
     /*!
-      Stores a order to the database.
+      Stores a order status  to the database.
     */
     function store()
     {
@@ -66,10 +67,9 @@ class eZOrderOptionValue
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_OrderOptionValue SET
-		                         OrderItemID='$this->OrderItemID',
-		                         OptionName='$this->OptionName',
-		                         ValueName='$this->ValueName'
+            $this->Database->query( "INSERT INTO eZTrade_OrderStatus SET
+		                         StatusID='$this->StatusID',
+		                         AdminID='$this->AdminID'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -78,10 +78,9 @@ class eZOrderOptionValue
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Order SET
-		                         OrderItemID='$this->OrderItemID',
-		                         OptionName='$this->OptionName',
-		                         ValueName='$this->ValueName'
+            $this->Database->query( "UPDATE eZTrade_OrderStatus SET
+		                         StatusID='$this->StatusID',
+		                         AdminID='$this->AdminID'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -101,17 +100,17 @@ class eZOrderOptionValue
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $option_value_array, "SELECT * FROM eZTrade_OrderOptionValue WHERE ID='$id'" );
-            if ( count( $option_value_array ) > 1 )
+            $this->Database->array_query( $order_array, "SELECT * FROM eZTrade_OrderStatus WHERE ID='$id'" );
+            if ( count( $order_array ) > 1 )
             {
-                die( "Error: Option_value's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Order's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $option_value_array ) == 1 )
+            else if( count( $order_array ) == 1 )
             {
-                $this->ID =& $option_value_array[0][ "ID" ];
-                $this->OrderItemID =& $option_value_array[0][ "OrderItemID" ];
-                $this->OptionName =& $option_value_array[0][ "OptionName" ];
-                $this->ValueName =& $option_value_array[0][ "ValueName" ];
+                $this->ID =& $order_array[0][ "ID" ];
+                $this->StatusID =& $order_array[0][ "StatusID" ];
+                $this->Altered =& $order_array[0][ "Altered" ];
+                $this->AdminID =& $order_array[0][ "AdminID" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -125,6 +124,34 @@ class eZOrderOptionValue
     }
 
     /*!
+      Sets status type.
+    */
+    function setType( $type )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $type ) == "ezorderstatustype" )
+       {
+           $this->StatusID = $type->id();
+       }
+    }
+
+    /*!
+      Sets the admin.
+    */
+    function setAdmin( $user )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $user ) == "ezuser" )
+       {
+           $this->AdminID = $user->id();
+       }
+    }
+
+    /*!
       Returns the object id.
     */
     function id()
@@ -133,67 +160,7 @@ class eZOrderOptionValue
     }
 
     /*!
-      Returns the option name.
-    */
-    function optionName( )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return $this->OptionName;
-    }
-
-    /*!
-      Returns the value name.
-    */
-    function valueName( )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return $this->ValueName;
-    }
-    
-    /*!
-      Sets the order item.
-    */
-    function setOrderItem( $orderItem )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( get_class( $orderItem ) == "ezorderitem" )
-       {
-           $this->OrderItemID = $orderItem->id();
-       }
-    }
-
-    /*!
-      Sets the option name.
-    */
-    function setOptionName( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->OptionName = $value;
-    }
-     
-    /*!
-      Sets the value name.
-    */
-    function setValueName( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->ValueName = $value;
-    }
-    
-    
-    /*!
       \private
-      
       Open the database for read and write. Gets all the database information from site.ini.
     */
     function dbInit()
@@ -206,10 +173,10 @@ class eZOrderOptionValue
     }
 
     var $ID;
-    var $OrderItemID;
-    var $OptionName;
-    var $ValueName;    
-
+    var $StatusID;
+    var $Altered;
+    var $AdminID;    
+    
     ///  Variable for keeping the database connection.
     var $Database;
 

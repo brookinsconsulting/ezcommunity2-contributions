@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.1 2000/09/28 13:17:07 bf-cvs Exp $
+// $Id: ezcartitem.php,v 1.2 2000/10/02 13:53:01 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -197,6 +197,17 @@ class eZCartItem
        }
 
        return $ret;       
+    }
+
+    /*!
+      Returns the product count.
+    */
+    function count( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       return $this->Count;
     }
 
     /*!

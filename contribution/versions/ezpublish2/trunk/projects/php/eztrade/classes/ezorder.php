@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.2 2000/10/02 11:57:25 bf-cvs Exp $
+// $Id: ezorder.php,v 1.3 2000/10/02 13:53:01 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -17,7 +17,7 @@
 //! eZOrder handles orders.
 /*!
 
-  \sa eZOrderItem eZOrderOptionValue
+  \sa eZOrderItem eZOrderOptionValue eZDateTime
 */
 
 /*!TODO
@@ -26,6 +26,9 @@
 */
 
 include_once( "classes/ezdb.php" );
+
+include_once( "eztrade/classes/ezorderstatustype.php" );
+include_once( "eztrade/classes/ezorderstatus.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -66,7 +69,7 @@ class eZOrder
     function store()
     {
         $this->dbInit();
-        
+
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTrade_Order SET
@@ -76,6 +79,19 @@ class eZOrder
                                  " );
 
             $this->ID = mysql_insert_id();
+
+            // store the status
+            $statusType = new eZOrderStatusType( );
+            $statusType->getByName( "Initial" );
+            $this->setStatus( $statusType );
+
+            $status = new eZOrderStatus();
+            $status->setType( $statusType );
+
+            $user = eZUser::currentUser();
+            print( $user->id() );
+            $status->setAdmin( $user );
+            $status->store();            
 
             $this->State_ = "Coherent";
         }
@@ -88,6 +104,13 @@ class eZOrder
                                  WHERE ID='$this->ID'
                                  " );
 
+            if ( !isset( $this->OrderStatus_ ) )
+            {
+                $statusType = new eZOrderStatusType( );
+                $statusType->getByName( "Undefined" );
+                $this->setStatus( $statusType );
+            }
+            
             $this->State_ = "Coherent";
         }
         
@@ -125,6 +148,28 @@ class eZOrder
             $this->State_ = "Dirty";
         }
         return $ret;
+    }
+
+    /*!
+      Fetches all the orders.
+
+      Note: Default limit is 20.
+    */
+    function getAll( $offset=0, $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $order_array = array();
+
+        $this->Database->array_query( $order_array, "SELECT ID FROM eZTrade_Order" );
+
+        for ( $i=0; $i<count( $order_array ); $i++ )
+        {
+            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
+        }
+
+        return $return_array;
     }
 
     /*!
@@ -194,7 +239,39 @@ class eZOrder
        $this->ShippingCharge = $value;
 
        setType( $this->ShippingCharge, "double" );       
-    }    
+    }
+
+    /*!
+      Sets the status of the order.
+    */
+    function setStatus( $type )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $type ) == "ezorderstatustype" )
+       {
+           $this->OrderStatus_ = $type->id();
+       }
+    }
+
+    /*!
+      Returns the creation time as a eZDateTime object.
+    */
+    function created( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $statusType = new eZStatusType();
+       
+       $statusType->getByName( "Initial" );
+       
+//         $this->Database->array_query( $order_array, "SELECT ID FROM eZTrade_OrderStatus " );
+       
+       
+//         return 
+    }
     
 
     /*!
@@ -214,6 +291,8 @@ class eZOrder
     var $UserID;
     var $AddressID;
     var $ShippingCharge;
+
+    var $OrderStatus_;
     
     ///  Variable for keeping the database connection.
     var $Database;

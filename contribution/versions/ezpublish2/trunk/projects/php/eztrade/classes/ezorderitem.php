@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderitem.php,v 1.2 2000/10/02 11:57:25 bf-cvs Exp $
+// $Id: ezorderitem.php,v 1.3 2000/10/02 13:53:01 bf-cvs Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -133,6 +133,17 @@ class eZOrderItem
     function id()
     {
         return $this->ID;
+    }
+
+    /*!
+      Returns the count.
+    */
+    function count( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Count;
     }
 
     /*!

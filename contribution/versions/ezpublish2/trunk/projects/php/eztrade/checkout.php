@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.2 2000/10/02 11:57:24 bf-cvs Exp $
+// $Id: checkout.php,v 1.3 2000/10/02 13:53:01 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -84,7 +84,7 @@ foreach ( $items as $item )
     $orderItem = new eZOrderItem();
     $orderItem->setOrder( $order );
     $orderItem->setProduct( $product );
-    $orderItem->setCount( $item->count );
+    $orderItem->setCount( $item->count() );
     $orderItem->setPrice( $product->price() );
     $orderItem->store();
 
@@ -95,6 +95,13 @@ foreach ( $items as $item )
     {
         $option =& $optionValue->option();
         $value =& $optionValue->optionValue();
+
+        $orderOptionValue = new eZOrderOptionValue();
+        $orderOptionValue->setOrderItem( $orderItem );
+        $orderOptionValue->setOptionName( $option->name() );
+        $orderOptionValue->setValueName( $value->name() );
+        $orderOptionValue->store();
+        
         print( "&nbsp;&nbsp;" . $option->name() . " " . $value->name() . "<br>");
     }    
 }
