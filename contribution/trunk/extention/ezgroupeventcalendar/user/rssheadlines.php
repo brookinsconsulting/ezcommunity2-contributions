@@ -155,8 +155,8 @@ if ( $RssVersion != "0.9" ){
     */
     $description = str_replace("href=\"/", "href=\"http://".$Host."/", $description);
     $description = str_replace("src=\"/", "src=\"http://".$Host."/", $description);
-    $date = $event->dateTime();
 
+    $date = $event->dateTime();
     /*
          $date = $date->month() ."/". $date->day() ."/". $date->year() ." ". $date->hour() .":". $date->minute() .":". $date->second();
     */
@@ -173,8 +173,12 @@ if ( $RssVersion != "0.9" ){
     //" ". $dateHour .":". $dateMinute .":". $dateSecond;
 
     //    $date = $dateYear ."-". $dateMonth ."-". $dateDay;
-    //    $date = $dateYear ."-". $dateMonth ."-". $dateDay ." ".  $dateHour .":". $dateMinute;
-    $date = $dateYear ."-". $dateMonth ."-". $dateDay;
+       $date = $dateYear ."-". $dateMonth ."-". $dateDay ." ".  $dateHour .":". $dateMinute;
+    // $date = $dateYear ."-". $dateMonth ."-". $dateDay;
+
+    $description .= "\n". "Start: $date"; 
+    $description = htmlspecialchars( $description );
+
 
     if ( $RssVersion == "0.9" ){
   
@@ -186,12 +190,12 @@ if ( $RssVersion != "0.9" ){
     //      print( $locale->format( $published ) );
 
     // encode HTML special character like < , > and " and print the tag   
-     print( "<description>" . htmlspecialchars( $description ). "</description>\n" );    
+     print( "<description>". $description ."</description>\n" );    
      print( "</item>\n" );
     }elseif ( $RssVersion == "1.0" ) {
       print('<item rdf:about="http://'. $Host .'/groupeventcalendar/eventview/'. $eventID .'/">'. "\n");
       print("<title>". htmlspecialchars($event->name()) . "</title>\n" );
-      print( "<description>" . htmlspecialchars( $description ). "</description>\n" );
+      print( "<description>". $description ."</description>\n" );
       print( "<link>http://" . $Host . "/groupeventcalendar/eventview/$eventID/</link>\n" );
       print("<dc:date>".$date."</dc:date>\n");  
       print("</item>\n");
