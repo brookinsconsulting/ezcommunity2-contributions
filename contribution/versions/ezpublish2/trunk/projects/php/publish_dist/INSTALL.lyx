@@ -112,7 +112,7 @@ RewriteEngine On
 
 RewriteRule !
 \backslash 
-.(gif|css|jpg) /home/publish/www/index.php 
+.(gif|css|jpg|png) /home/publish/www/index.php 
 \layout LyX-Code
 
 ServerAdmin your_mail@domain.no 
@@ -155,7 +155,7 @@ RewriteEngine On
 
 RewriteRule !
 \backslash 
-.(gif|css|jpg) /home/publish/www/admin/index.php 
+.(gif|css|jpg|png) /home/publish/www/admin/index.php 
 \layout LyX-Code
 
 ServerAdmin your_mail@domain.no 
@@ -224,6 +224,8 @@ Start konqueror and have fun!
 \layout LyX-Code
 
 # konqueror http://yoursite.com
+\layout LyX-Code
+
 \layout Itemize
 
 
