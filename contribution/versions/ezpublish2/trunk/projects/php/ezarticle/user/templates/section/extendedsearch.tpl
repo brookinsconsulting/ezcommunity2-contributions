@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -13,7 +13,7 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN search_item_tpl -->
-<form action="/article/extendedsearch/" method="post">
+<form action="{www_dir}{index}/article/extendedsearch/" method="post">
 <table width="100%" border="0">
 <tr>
 	<td>
@@ -43,7 +43,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/{article_page}/{article_category}">{article_name}</a>
+	<a href="{www_dir}{index}/article/articleview/{article_id}/{article_page}/{article_category}">{article_name}</a>
 	</td>
 </tr>
 <!-- END article_item_tpl -->
@@ -55,7 +55,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/article/extendedsearch/{search_url_text}/{category}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/article/extendedsearch/{search_url_text}/{category}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -69,7 +69,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/extendedsearch/{search_url_text}/{category}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/extendedsearch/{search_url_text}/{category}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -83,7 +83,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/extendedsearch/{search_url_text}/{category}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/extendedsearch/{search_url_text}/{category}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

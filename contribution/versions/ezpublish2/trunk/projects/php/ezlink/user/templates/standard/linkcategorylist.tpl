@@ -4,7 +4,7 @@
         <h1>{intl-headline}</h1>
      </td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
          </form>
@@ -16,17 +16,17 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<a class="path" href="/link/category/0/">{intl-top}</a>
+<a class="path" href="{www_dir}{index}/link/category/0/">{intl-top}</a>
 
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 
-<a class="path" href="/link/category/{category_id}/">{category_name}</a>
+<a class="path" href="{www_dir}{index}/link/category/{category_id}/">{category_name}</a>
 
 <!-- END path_item_tpl -->
 
@@ -42,13 +42,13 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}" valign="top" width="99%">
-	<b><a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></b><br />
+	<b><a href="{www_dir}{index}/link/category/{linkcategory_id}/">{linkcategory_name}</a></b><br />
 	<div class="spacer"><span class="p">{linkcategory_description}</span></div>
 	</td>
     <td class="{td_class}" width="1%">
 	<!-- BEGIN image_item_tpl -->
-	<a href="/link/category/{linkcategory_id}/">
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
+	<a href="{www_dir}{index}/link/category/{linkcategory_id}/">
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
@@ -71,10 +71,10 @@
 <!-- BEGIN link_item_tpl -->
 <tr class="{td_class}">
 	<td valign="top" width="99%">
-	<p class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></p>
+	<p class="boxtext"><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></p>
  	<span class="p">
 	<!-- BEGIN link_image_item_tpl -->
-	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
+	<a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
 	<!-- END link_image_item_tpl -->
 	{link_description}
 	</span><br />
@@ -118,7 +118,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/link/category/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -132,7 +132,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -146,7 +146,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

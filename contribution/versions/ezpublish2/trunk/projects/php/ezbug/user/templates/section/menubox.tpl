@@ -1,20 +1,20 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/{sitedesign}/images/bug.gif" width="128" height="20"><br />
+	<img src="{www_dir}/sitedesign/{sitedesign}/images/bug.gif" width="128" height="20"><br />
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="/bug/report/create">{intl-bug_report}</a>
+	<a href="{www_dir}{index}/bug/report/create">{intl-bug_report}</a>
 	</div>
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="/bug/archive/">{intl-bug_archive}</a>
+	<a href="{www_dir}{index}/bug/archive/">{intl-bug_archive}</a>
 	</div>
 	</td>
 </tr>
@@ -22,7 +22,7 @@
 <tr>
     <td>
 	<div class="leftmenu">
-	<a href="/bug/unhandled/">{intl-bug_unhandled}</a>
+	<a href="{www_dir}{index}/bug/unhandled/">{intl-bug_unhandled}</a>
 	</div>
 	</td>
 </tr>

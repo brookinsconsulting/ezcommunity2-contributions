@@ -1,5 +1,5 @@
 
-<form action="/forum/messagesimpleedit/insert/{forum_id}/" method="post">
+<form action="{www_dir}{index}/forum/messagesimpleedit/insert/{forum_id}/" method="post">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

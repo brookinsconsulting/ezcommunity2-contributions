@@ -1,4 +1,4 @@
-<form action="/message/edit/" method="post">
+<form action="{www_dir}{index}/message/edit/" method="post">
 
 <h1>{intl-message_edit} </h1>
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.7 2001/07/20 11:21:41 jakobn Exp $
+// $Id: datasupplier.php,v 1.8 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -42,7 +42,7 @@ switch ( $url_array[2] )
             $CategoryID = $url_array[3];
             $cachedFile = "eznewsfeed/cache/latestnews," . $CategoryID . ".cache";
 
-            if ( file_exists( $cachedFile ) )
+            if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
             }

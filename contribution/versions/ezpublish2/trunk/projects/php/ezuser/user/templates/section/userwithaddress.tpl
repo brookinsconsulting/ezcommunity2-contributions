@@ -1,13 +1,13 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
-<form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
+<form method="post" action="{www_dir}{index}/user/userwithaddress/{action_value}/{user_id}/">
 <!-- BEGIN new_user_tpl -->
 <h1>{intl-head_line}</h1>
 <!-- END new_user_tpl -->

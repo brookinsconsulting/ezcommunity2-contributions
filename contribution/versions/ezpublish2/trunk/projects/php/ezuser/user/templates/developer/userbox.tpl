@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/logout/">
+<form method="post" action="{www_dir}{index}/user/login/logout/">
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
@@ -22,7 +22,7 @@
 </tr>
 <tr>
 	<td class="menutext">
-	<a class="menu" href="{user_edit_url}/{user_id}/">{intl-change_user_info}</a>  
+	<a class="menu" href="{www_dir}{index}{user_edit_url}/{user_id}/">{intl-change_user_info}</a>  
 	</td>
 </tr>
 </table>

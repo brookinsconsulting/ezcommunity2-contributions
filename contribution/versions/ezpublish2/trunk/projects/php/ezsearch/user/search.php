@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.4 2001/07/20 11:24:44 jakobn Exp $
+// $Id: search.php,v 1.5 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <08-Jun-2001 13:10:36 bf>
 //
@@ -55,7 +55,7 @@ foreach ( $moduleArray as $module )
 {
     $module = strtolower( $module );
 
-    if ( file_exists( "$module/user/searchsupplier.php" ) )
+    if ( eZFile::file_exists( "$module/user/searchsupplier.php" ) )
     {
         include( "$module/user/searchsupplier.php" );
 

@@ -11,7 +11,7 @@
 	<!-- BEGIN comma_item_tpl -->
 	,
 	<!-- END comma_item_tpl -->
-	<a href="/article/articleview/{article_id}/{article_page}/{article_category}">{article_name}</a>
+	<a href="{www_dir}{index}/article/articleview/{article_id}/{article_page}/{article_category}">{article_name}</a>
 	<!-- END article_item_tpl -->
 	</td>
 </tr>

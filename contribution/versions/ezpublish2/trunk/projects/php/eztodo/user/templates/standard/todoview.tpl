@@ -1,4 +1,4 @@
-<form method="post" action="/todo/todoedit/edit/{todo_id}/">
+<form method="post" action="{www_dir}{index}/todo/todoedit/edit/{todo_id}/">
 
 <h1>{intl-headline}</h1>
 

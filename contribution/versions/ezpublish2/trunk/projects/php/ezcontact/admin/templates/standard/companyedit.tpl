@@ -1,4 +1,4 @@
-<form method="post" action="/contact/company/{action_value}/{company_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/company/{action_value}/{company_id}/" enctype="multipart/form-data">
 
 <!-- BEGIN edit_tpl -->
 
@@ -251,7 +251,7 @@
 <tr>
     <td>
         <!-- BEGIN logo_item_tpl -->
-        <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{logo_image_alt}" />
+        <img src="{www_dir}{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{logo_image_alt}" />
 	<input name="DeleteLogo" type="checkbox" />
 	<span class="boxtext">{intl-delete}</span>
         <!-- END logo_item_tpl -->
@@ -259,7 +259,7 @@
 
     <td>
         <!-- BEGIN image_item_tpl -->
-        <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+        <img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 	<input name="DeleteImage" type="checkbox" />
 	<span class="boxtext">{intl-delete}</span>
         <!-- END image_item_tpl -->

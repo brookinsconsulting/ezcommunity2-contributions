@@ -1,5 +1,5 @@
-<form action="/forum/messageedit/insert/{forum_id}/" method="post">
-<!-- <form action="/forum/userlogin/insert/{forum_id}/" method="post"> -->
+<form action="{www_dir}{index}/forum/messageedit/insert/{forum_id}/" method="post">
+<!-- <form action="{www_dir}{index}/forum/userlogin/insert/{forum_id}/" method="post"> -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
@@ -10,12 +10,12 @@
 
 <hr noshade size="4" />
 
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0">
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/images/path-slash.gif" height="10" width="20" border="0">
-    <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/images/path-slash.gif" height="10" width="20" border="0">
-	<a class="path" href="/forum/messagelist/{forum_id}">{forum_name}</a>
+	<img src="{www_dir}/images/path-arrow.gif" height="10" width="15" border="0">
+	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="20" border="0">
+    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="20" border="0">
+	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
 
 <hr noshade size="4" />
 
@@ -52,7 +52,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/forum/messagelist/{forum_id}">
+	<form method="post" action="{www_dir}{index}/forum/messagelist/{forum_id}">
 	<input class="okbutton" type="submit" value="{intl-abort}">
 	</form>
 	</td>

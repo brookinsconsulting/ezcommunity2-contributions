@@ -33,25 +33,25 @@
 <!-- BEGIN path_tpl -->
 <hr noshade="noshade" size="4" />
 
-<img src="/admin/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="{www_dir}/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
-<a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
+<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/admin/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_view}/{parent_id}">{parent_name}</a>
+<img src="{www_dir}/admin/images/path-slash.gif" height="10" width="20" border="0">
+<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_view}/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 
 <!-- BEGIN current_path_item_tpl -->
-<img src="/admin/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_view}/{parent_id}">{intl-current_edit}</a>
+<img src="{www_dir}/admin/images/path-slash.gif" height="10" width="20" border="0">
+<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_view}/{parent_id}">{intl-current_edit}</a>
 <!-- END current_path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
 <!-- END path_tpl -->
 
 <!-- BEGIN current_type_tpl -->
-<form method="post" action="/{intl-module_name}/{intl-command_type}/{action_value}/{current_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{action_value}/{current_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 <p class="boxtext">{intl-th_type_name}:</p>
 <input type="text" size="40" name="TypeName" value="{current_name}">
@@ -73,7 +73,7 @@
 
 <!-- BEGIN image_item_tpl -->
 <p class="boxtext">{intl-th_type_current_image}:</p>
-<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<p><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 </p>
 <p>{intl-th_image_uploading_new_replaces_old}</p>
 <!-- END image_item_tpl -->
@@ -87,7 +87,7 @@
 </form>
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}/">
+<form method="post" action="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}/">
 <input class="okbutton" type="submit" name="{intl-command_back}" value="{intl-button_back}" />
 </form>
 <!-- END current_type_tpl -->

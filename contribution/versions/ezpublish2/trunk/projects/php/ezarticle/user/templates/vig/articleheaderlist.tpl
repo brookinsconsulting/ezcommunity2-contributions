@@ -30,7 +30,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a class="noline" href="/article/articleview/{article_id}/">
+	<a class="noline" href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>

@@ -1,4 +1,4 @@
-<form method="post" action="/trade/categoryedit/{action_value}/">
+<form method="post" action="{www_dir}{index}/trade/categoryedit/{action_value}/">
 
 <h1>{head_line}</h1>
 

@@ -4,7 +4,7 @@
         <h1>{intl-search}</h1>
      </td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input type="submit" name="search" value="{intl-search}" />
          </form>
@@ -17,9 +17,9 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="{www_dir}/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
-<a class="path" href="/link/group/0/">{intl-top}</a>
+<a class="path" href="{www_dir}{index}/link/group/0/">{intl-top}</a>
 
 <!-- END path_tpl -->
 
@@ -45,7 +45,7 @@
 <tr>
 
 	<td bgcolor="{bg_color}">
-	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a></b> ( {intl-max} {link_hits} )<br>
+	<b><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a></b> ( {intl-max} {link_hits} )<br>
         {link_description}<br><br>
         
      </td>
@@ -56,7 +56,7 @@
 
 
 <!-- BEGIN previous_tpl -->
-<a href="/link/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
+<a href="{www_dir}{index}/link/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
 prev
 </a>
 <!-- END previous_tpl -->
@@ -64,7 +64,7 @@ prev
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <!-- BEGIN next_tpl -->
-<a href="/link/search/?Offset={next_offset}&URLQueryString={url_query_string}">
+<a href="{www_dir}{index}/link/search/?Offset={next_offset}&URLQueryString={url_query_string}">
 next
 </a>
 <!-- END next_tpl -->

@@ -1,4 +1,4 @@
-<form method="post" action="/poll/polledit/{action_value}/{poll_id}/">
+<form method="post" action="{www_dir}{index}/poll/polledit/{action_value}/{poll_id}/">
 
 <h1>{head_line}</h1>
 

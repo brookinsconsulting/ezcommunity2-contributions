@@ -1,4 +1,4 @@
-<form method="post" action="/bug/module/{action_value}/{module_id}/">
+<form method="post" action="{www_dir}{index}/bug/module/{action_value}/{module_id}/">
 <h1>{intl-headline}</h1>
 
 <hr noshade size="4"/>

@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -15,7 +15,7 @@
 	<div class="boxtext">({article_start}-{article_end}/{article_total})</div>
 	</td>
 	<td align="right">
-	<form action="/article/search/" method="post">
+	<form action="{www_dir}{index}/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -39,7 +39,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/articleview/{article_id}/">
+	<a href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
@@ -61,7 +61,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="/article/search/move/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="{www_dir}{index}/article/search/move/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
@@ -75,7 +75,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/article/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="{www_dir}{index}/article/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -89,7 +89,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/article/search/move/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+			&nbsp;<a class="path" href="{www_dir}{index}/article/search/move/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

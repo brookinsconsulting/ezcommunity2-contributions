@@ -73,11 +73,11 @@
 
 <hr noshade size="4"/>
 
-<form method="post" action="/contact/person/edit/{person_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/person/edit/{person_id}/" enctype="multipart/form-data">
 <input class="okbutton" type="submit" value="{intl-edit}" />
 </form>
 
-<form method="post" action="/contact/person/list/">
+<form method="post" action="{www_dir}{index}/contact/person/list/">
 <input class="okbutton" type="submit" name="Back" value="{intl-back}">
 </form>
 

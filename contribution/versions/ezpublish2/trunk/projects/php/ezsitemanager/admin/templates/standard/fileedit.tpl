@@ -6,7 +6,7 @@
 </tr>
 </table>
 
-<form method="post" action="/sitemanager/file/edit/{file_name}" >
+<form method="post" action="{www_dir}{index}/sitemanager/file/edit/{file_name}" >
 
 <textarea class="box" name="Contents" cols="40" rows="25" wrap="soft">{file_contents}</textarea>
 

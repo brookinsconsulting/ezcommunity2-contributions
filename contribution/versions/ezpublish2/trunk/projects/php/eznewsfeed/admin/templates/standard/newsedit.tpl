@@ -1,4 +1,4 @@
-<form method="post" action="/newsfeed/news/">
+<form method="post" action="{www_dir}{index}/newsfeed/news/">
 
 <h1>{intl-news_edit}</h1>
 
@@ -31,7 +31,7 @@
 <p class="boxtext">{intl-news_intro}:</p>
 <textarea class="box" cols="40" rows="5" wrap="soft" name="NewsIntro">{news_intro_value}</textarea>
 
-<p class="boxtext">{intl-news_url}: <a target="_blank" href="{news_url_value}">{news_url_value} </a></p> 
+<p class="boxtext">{intl-news_url}: <a target="_blank" href="{www_dir}{index}{news_url_value}">{news_url_value} </a></p> 
 <input class="box" type="text" size="40" name="NewsURL" value="{news_url_value}"/>
 
 <!--

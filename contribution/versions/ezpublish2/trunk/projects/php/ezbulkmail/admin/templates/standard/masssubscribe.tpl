@@ -1,4 +1,4 @@
-<form method="post" action="/bulkmail/masssubscribe/">
+<form method="post" action="{www_dir}{index}/bulkmail/masssubscribe/">
 
 <h1>{intl-head_line}</h1>
 

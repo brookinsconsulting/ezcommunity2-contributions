@@ -1,4 +1,4 @@
-<form method="post" action="/todo/prioritytypeedit/{action_value}/{priority_type_id}/">
+<form method="post" action="{www_dir}{index}/todo/prioritytypeedit/{action_value}/{priority_type_id}/">
 <h1>{intl-headline}</h1>
 
 <hr noshade size="4"/>

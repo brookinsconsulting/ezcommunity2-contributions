@@ -1,9 +1,9 @@
 	<br />
-	<img src="/images/1x1.gif" width="468" height="1" border="0" alt="" /><br />
+	<img src="<? print $wwwDir; ?>/images/1x1.gif" width="468" height="1" border="0" alt="" /><br />
 	</td>
-	<td background="/sitedesign/designsection1/images/menuedge-right.gif" valign="top"><img src="/sitedesign/designsection1/images/menuedge-top-right.gif" width="20" height="60" border="0" alt="" /></td>
+	<td background="<? print $wwwDir; ?>/sitedesign/designsection1/images/menuedge-right.gif" valign="top"><img src="<? print $wwwDir; ?>/sitedesign/designsection1/images/menuedge-top-right.gif" width="20" height="60" border="0" alt="" /></td>
 	<td bgcolor="#f08c00">
-	<img src="/images/1x1.gif" width="128" height="51" border="0" alt="" />
+	<img src="<? print $wwwDir; ?>/images/1x1.gif" width="128" height="51" border="0" alt="" />
 
 	     <?
           include( "ezuser/user/userbox.php" );
@@ -12,14 +12,14 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/designsection1/images/articles-dummy.gif" width="122" height="17"><br />
-	<img src="/images/1x1.gif" width="1" height="5"><br />
+	<img src="<? print $wwwDir; ?>/sitedesign/designsection1/images/articles-dummy.gif" width="122" height="17"><br />
+	<img src="<? print $wwwDir; ?>/images/1x1.gif" width="1" height="5"><br />
 	</td>
 </tr>
 <tr>
 	<td width="100%">
 	<div class="rightmenu">
-	<a href="/article/articleedit/new/">Dette er en lengre tekst!</a>
+	<a href="<? print $wwwDir . $index; ?>/article/articleedit/new/">Dette er en lengre tekst!</a>
 	</div>
 	</td>
 </tr>
@@ -28,9 +28,9 @@
 	</td>
 </tr>
 <tr>
-	<td background="/sitedesign/designsection1/images/menuedge-right.gif"><img src="/images/1x1.gif" width="20" height="1" border="0" alt="" /></td>
+	<td background="<? print $wwwDir; ?>/sitedesign/designsection1/images/menuedge-right.gif"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="20" height="1" border="0" alt="" /></td>
 	<td bgcolor="#f08c00">
-	<img src="/images/1x1.gif" width="128" height="1" border="0" alt="" />
+	<img src="<? print $wwwDir; ?>/images/1x1.gif" width="128" height="1" border="0" alt="" />
 
 <?
 // Store the statistics with a callback image.
@@ -42,7 +42,7 @@ $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 if ( $StoreStats == "enabled" )
 {
     // callback for storing the stats
-    $imgSrc = "/stats/store" . $REQUEST_URI . "1x1.gif";
+    $imgSrc = "$wwwDir$index/stats/store" . $REQUEST_URI . "1x1.gif";
     print( "<img src=\"$imgSrc\" height=\"0\" width=\"0\" border=\"0\" alt=\"\" />" );    
 }
 
@@ -51,7 +51,7 @@ if ( $StoreStats == "enabled" )
 	</td>
 </tr>
 <tr>
-	<td colspan="5" bgcolor="#000000"><img src="/images/1x1.gif" width="1" height="38" border="0" alt="" /></td>
+	<td colspan="5" bgcolor="#000000"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="1" height="38" border="0" alt="" /></td>
 </tr>
 </table>
 

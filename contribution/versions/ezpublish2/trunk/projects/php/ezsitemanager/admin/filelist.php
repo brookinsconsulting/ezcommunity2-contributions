@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.2 2001/07/20 11:26:45 jakobn Exp $
+// $Id: filelist.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
 //
 // Created on: <11-Jul-2001 15:37:33 bf>
 //
@@ -33,17 +33,17 @@ if ( isset( $Delete ) )
 {
     foreach ( $FileDeleteArray as $file )
     {
-        if ( file_exists( "ezsitemanager/staticfiles/$file" ) )
+        if ( eZFile::file_exists( "ezsitemanager/staticfiles/$file" ) )
         {
-            unlink( "ezsitemanager/staticfiles/$file" );
+            eZFile::unlink( "ezsitemanager/staticfiles/$file" );
         }
     }
 
     foreach ( $ImageDeleteArray as $file )
     {
-        if ( file_exists( "ezsitemanager/staticfiles/images/$file" ) )
+        if ( eZFile::file_exists( "ezsitemanager/staticfiles/images/$file" ) )
         {
-            unlink( "ezsitemanager/staticfiles/images/$file" );
+            eZFile::unlink( "ezsitemanager/staticfiles/images/$file" );
         }
     }
 }
@@ -81,7 +81,7 @@ $t->set_block( "file_list_tpl", "image_tpl", "image" );
 
 $t->set_var( "file", "" );
 $t->set_var( "image", "" );
-$dir = dir( "ezsitemanager/staticfiles/" );
+$dir = eZFile::dir( "ezsitemanager/staticfiles/" );
 $ret = array();
 while ( $entry = $dir->read() )
 {
@@ -92,7 +92,7 @@ while ( $entry = $dir->read() )
     }
 }
 
-$dir = dir( "ezsitemanager/staticfiles/images" );
+$dir = eZFile::dir( "ezsitemanager/staticfiles/images" );
 $ret = array();
 while ( $entry = $dir->read() )
 {

@@ -1,19 +1,19 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
 	<!-- BEGIN path_tpl -->
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/bug/archive/0/">{intl-top_level}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/bug/archive/0/">{intl-top_level}</a>
 	<!-- END path_tpl -->
 	<!-- BEGIN path_item_tpl -->	
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/bug/archive/{module_id}/">{module_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/bug/archive/{module_id}/">{module_name}</a>
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom" colspan="2"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 

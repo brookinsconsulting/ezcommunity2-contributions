@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.15 2001/07/19 13:01:02 jakobn Exp $
+// $Id: filedownload.php,v 1.16 2001/07/29 23:31:03 kaid Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -65,11 +65,22 @@ $filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
 //exit();
 
 
-$host = $SERVER_NAME;
-$location = "Location: http://$host/filemanager/filedownload/$filePath/$originalFileName";
+// $host = $SERVER_NAME;
+// $location = "Location: http://$host/filemanager/filedownload/$filePath/$originalFileName";
 
 
 // print( $location );
-Header( $location );
+// Header( $location );
+
+// Rewrote to be compatible with virtualhost-less install
+$size = eZFile::filesize( "ezfilemanager/files/$filePath" );
+header( "Content-Type: application/octet-stream" );
+header( "Content-Length: $size" );
+header( "Content-Disposition: attachment; filename=$originalFileName" );
+header( "Content-Transfer-Encoding: binary" );
+
+$fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
+fpassthru($fh);
+
 exit();
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.23 2001/07/20 11:45:40 jakobn Exp $
+// $Id: login.php,v 1.24 2001/07/29 23:31:14 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -91,7 +91,7 @@ if ( $Action == "login" )
         }
         else
         {
-            ezLog::writeError( "Couldn't recieve admininformation on : $Username from IP: $REMOTE_ADDR" );
+            ezLog::writeError( "Couldn't receive admin information on : $Username from IP: $REMOTE_ADDR" );
 
             $error = true;
         }

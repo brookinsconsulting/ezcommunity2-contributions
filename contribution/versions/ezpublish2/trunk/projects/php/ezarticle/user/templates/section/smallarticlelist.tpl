@@ -3,13 +3,13 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/designsection1/images/annoncement.gif" width="122" height="20"><br />
+	<img src="{www_dir}/sitedesign/designsection1/images/annoncement.gif" width="122" height="20"><br />
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="rightmenu">
-	<a href="/article/articleview/{article_id}/">{article_name}</a>
+	<a href="{www_dir}{index}/article/articleview/{article_id}/">{article_name}</a>
 	</div>
 	</td>
 </tr>
@@ -24,7 +24,7 @@
 <tr>
 	<td>
 	<div class="rightmenu">
-	<a href="/article/articleview/{article_id}/">{article_link_text}</a>
+	<a href="{www_dir}{index}/article/articleview/{article_id}/">{article_link_text}</a>
 	</div>
 	</td>
 </tr>

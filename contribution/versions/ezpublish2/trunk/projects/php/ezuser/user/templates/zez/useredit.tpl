@@ -1,4 +1,4 @@
-<form method="post" action="/user/user/{action_value}/{user_id}/">
+<form method="post" action="{www_dir}{index}/user/user/{action_value}/{user_id}/">
 
 <h1>{head_line}</h1>
 
@@ -74,7 +74,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form action="/">
+	<form action="{www_dir}{index}/">
 	<input class="okbutton" type="submit" value="{intl-abort}">
 	</form>
 	</td>

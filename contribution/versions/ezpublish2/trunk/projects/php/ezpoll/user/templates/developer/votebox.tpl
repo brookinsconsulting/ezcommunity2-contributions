@@ -1,5 +1,5 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-<form method="post" action="/poll/userlogin/vote/{poll_id}/">
+<form method="post" action="{www_dir}{index}/poll/userlogin/vote/{poll_id}/">
 <tr>
 	<td colspan="2" class="menuhead" bgcolor="#c0c0c0">{intl-headline}</td>
 </tr>
@@ -35,12 +35,12 @@
 </tr>
 <tr>
 	<td colspan="2">
-	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/poll/result/{poll_id}">{intl-result}</a>
+	<img src="{www_dir}/images/dot.gif" width="12" height="10"><a class="menu" href="{www_dir}{index}/poll/result/{poll_id}">{intl-result}</a>
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
-	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/poll/polls">{intl-polls}</a>
+	<img src="{www_dir}/images/dot.gif" width="12" height="10"><a class="menu" href="{www_dir}{index}/poll/polls">{intl-polls}</a>
 	</td>
 </tr>
 </form>

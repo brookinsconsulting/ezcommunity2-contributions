@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.18 2001/07/25 10:39:04 jb Exp $
+// $Id: index_xmlrpc.php,v 1.19 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -23,6 +23,41 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+// Tell PHP where it can find our files.
+// TODO: This needs a better analysis
+if ( isset( $siteDir ) and $siteDir != "" )
+{
+    $includePath = ini_get( "include_path" );
+    $includePath .= ":" . $siteDir;
+    ini_set( "include_path", $includePath );
+ 
+    // For non-virtualhost, non-rewrite setup
+    if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+    {
+        $wwwDir = $regs[1];
+        $index = $regs[2];
+    }
+ 
+    // Remove url parameters
+    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
+    {
+        $REQUEST_URI = $req[1];
+    }
+    else
+    {
+        $REQUEST_URI = "/";
+    }
+}
+else
+{
+    // Remove url parameters
+    ereg( "([^?]+)", $REQUEST_URI, $regs );
+    $REQUEST_URI = $regs[1];
+ 
+    $wwwDir = "";
+    $index = "";
+}
+	
 ob_end_clean();
 ob_start();
 
@@ -51,6 +86,9 @@ include_once( "ezxmlrpc/classes/ezxmlrpcresponse.php" );
 include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
+
+// File functions
+include_once( "classes/ezfile.php" );
 
 include_once( "classes/ezlog.php" );
 error_reporting(0);
@@ -137,7 +175,7 @@ function Call( $args )
         $GLOBALS["ret"] =& $ret;
         $datasupplier = $Module . "/xmlrpc/datasupplier.php";
         if ( ( $Command == "search" && $Module == "" && $RequestType == "" ) ||
-             file_exists( $datasupplier )  ||
+             eZFile::file_exists( $datasupplier )  ||
              ( $Module == "ezpublish" && $RequestType == "modules" ) )
         {
             // check for module implementation
@@ -148,7 +186,7 @@ function Call( $args )
                 foreach( $modules as $module )
                 {
                     $search_file = $module . "/xmlrpc/search.php";
-                    if ( file_exists( $search_file ) )
+                    if ( eZFile::file_exists( $search_file ) )
                     {
                         include( $search_file );
                     }
@@ -157,13 +195,13 @@ function Call( $args )
             else if ( $Module == "ezpublish" && $RequestType == "modules" )
             {
                 // return the modules in the system
-                $dir = dir( "." );
+                $dir = eZFile::dir( "." );
                 $modules = array();
                 while ( $entry = $dir->read() )
                 {
                     if ( preg_match( "/ez.*/", $entry ) )
                     {
-                        if ( file_exists( $entry . "/xmlrpc/datasupplier.php" ) )
+                        if ( eZFile::file_exists( $entry . "/xmlrpc/datasupplier.php" ) )
                         {
                             $ReturnCatalogues = true;
                             include( $entry . "/xmlrpc/datasupplier.php" );

@@ -1,4 +1,4 @@
-<form method="post" action="/poll/userlogin/vote/{poll_id}/">
+<form method="post" action="{www_dir}{index}/poll/userlogin/vote/{poll_id}/">
 <h1>{head_line}</h1>
 
 <hr noshade="noshade" size="4">
@@ -29,7 +29,7 @@
 	</form>
 
 	<td>
-	<form action="/poll/result/{poll_id}">
+	<form action="{www_dir}{index}/poll/result/{poll_id}">
 	<input class="okbutton" type="submit" value="{intl-result}">
 	</form>
 	</td>

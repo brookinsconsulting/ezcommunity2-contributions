@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.13 2001/07/20 11:18:28 jakobn Exp $
+// $Id: mailview.php,v 1.14 2001/07/29 23:31:08 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -139,7 +139,7 @@ if( $mail->bcc() != "" )
     $i = 0;
     foreach( $files as $file )
     {
-        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" /*. $file->originalFileName()*/ . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
+        $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" /*. $file->originalFileName()*/ . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
         $t->set_var( "file_id", $file->id() );
 
         $size = $file->siFileSize();

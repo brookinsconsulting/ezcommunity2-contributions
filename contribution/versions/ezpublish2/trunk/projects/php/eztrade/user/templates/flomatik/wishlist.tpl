@@ -1,6 +1,6 @@
 <!-- wishlist.tpl -->
 
-<form action="/trade/wishlist/" method="post">
+<form action="{www_dir}{index}/trade/wishlist/" method="post">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 <tr>
@@ -38,16 +38,16 @@
 		</tr>
 		<!-- BEGIN wishlist_item_tpl --> 
 		<tr> 
-		  <td class="{td_class}"> <!-- BEGIN wishlist_image_tpl --> <img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
+		  <td class="{td_class}"> <!-- BEGIN wishlist_image_tpl --> <img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
 			<!-- END wishlist_image_tpl --> </td>
-		  <td class="{td_class}"> <a href="/trade/productview/{product_id}/">{product_name}</a> 
+		  <td class="{td_class}"> <a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a> 
 		  </td>
 		  <td class="{td_class}"> <!-- BEGIN wishlist_item_option_tpl --> <div class="small">{option_name}: {option_value}<!-- BEGIN wishlist_item_option_availability_tpl -->({option_availability})
 <!-- END wishlist_item_option_availability_tpl --></div>
 			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
 		  <td class="{td_class}">
 		  <!-- BEGIN move_to_cart_item_tpl -->
-		   <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
+		   <a href="{www_dir}{index}/trade/wishlist/movetocart/{wishlist_item_id}/"> 
 			{intl-move_to_cart} </a> 
 		  <!-- END move_to_cart_item_tpl -->
 		  <!-- BEGIN no_move_to_cart_item_tpl -->
@@ -77,7 +77,7 @@
 			<input size="3" type="text" name="WishlistCountArray[]" value="{wishlist_item_count}" />
    		  </td>
 		  <td class="{td_class}" align="right"> {product_price} </td>
-		  <td class="{td_class}" align="right"><a href="/trade/wishlist/remove/{wishlist_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{wishlist_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{wishlist_item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+		  <td class="{td_class}" align="right"><a href="{www_dir}{index}/trade/wishlist/remove/{wishlist_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{wishlist_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{wishlist_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 		</tr>
 		<!-- END wishlist_item_tpl --> 
 		<tr> 

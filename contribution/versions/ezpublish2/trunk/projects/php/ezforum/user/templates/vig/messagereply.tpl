@@ -4,7 +4,7 @@
         <h1>{topic}</h1>
      </td>
      <td align="right">
-        <form action="/forum/search/" method="post">
+        <form action="{www_dir}{index}/forum/search/" method="post">
            <input type="text" name="QueryString" size="12" />
            <input type="submit" name="search" value="{intl-search}" />
         </form>
@@ -14,22 +14,22 @@
 
 <hr noshade="noshade" size="4" />
 
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0">
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/images/path-slash.gif" height="10" width="16" border="0">
-    <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/images/path-slash.gif" height="10" width="16" border="0">
-	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
+	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0">
+	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0">
+    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0">
+	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
 <!--
-	<img src="/images/path-slash.gif" height="10" width="16" border="0">
-    <a class="path" href="/forum/message/{message_id}/">{topic}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0">
+    <a class="path" href="{www_dir}{index}/forum/message/{message_id}/">{topic}</a>
 -->
 
 <hr noshade="noshade" size="4" />
   
 <br />
 
-<form action="/forum/reply/insert/{msg_id}/" method="post">
+<form action="{www_dir}{index}/forum/reply/insert/{msg_id}/" method="post">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -62,7 +62,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/forum/messagelist/{forum_id}">
+	<form method="post" action="{www_dir}{index}/forum/messagelist/{forum_id}">
 	<input class="okbutton" type="submit" value="{intl-abort}">
 	</form>
 	</td>

@@ -6,7 +6,7 @@
 </tr>
 </table>
 
-<form method="post" action="/sitemanager/file/list/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/sitemanager/file/list/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 </ul>
@@ -19,7 +19,7 @@
 	{file_name}  
 	</td>
 	<td>
-	<a href="/sitemanager/file/edit/{file_name}">{intl-edit}</a> 
+	<a href="{www_dir}{index}/sitemanager/file/edit/{file_name}">{intl-edit}</a> 
 	</td>
 	<td align="right">
 	<input type="checkbox" name="FileDeleteArray[]" value="{file_name}" />

@@ -1,4 +1,4 @@
-<form method="post" action="{action_url}" enctype="multipart/form-data">
+<form method="post" href="{www_dir}{index}{action_url}" enctype="multipart/form-data">
 
 <input type="hidden" name="CategoryID" value="{main_category_id}">
 
@@ -10,12 +10,12 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/media/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="/mediacatalogue/browse/0/">{intl-media_root}</a>
+<img src="{www_dir}/media/path-arrow.gif" height="10" width="12" border="0" alt="">
+<a class="path" href="{www_dir}{index}/mediacatalogue/browse/0/">{intl-media_root}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/media/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="/mediacatalogue/browse/{category_id}/">{category_name}</a>
+<img src="{www_dir}/media/path-slash.gif" height="10" width="16" border="0" alt="">
+<a class="path" href="{www_dir}{index}/mediacatalogue/browse/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -29,10 +29,10 @@
 <tr>
         <!-- BEGIN category_read_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/mediacatalogue/browse/{category_id}/"><img src="/media/folder.gif" alt="" width="16" height="16" border="0" /></a>
+	<a href="{www_dir}{index}/mediacatalogue/browse/{category_id}/"><img src="{www_dir}/media/folder.gif" alt="" width="16" height="16" border="0" /></a>
 	</td>
 	<td class="{td_class}" width="38%">
-	<a href="/mediacatalogue/browse/{category_id}/">{category_name}</a>
+	<a href="{www_dir}{index}/mediacatalogue/browse/{category_id}/">{category_name}</a>
 	</td>
 	<td class="{td_class}" width="59%">
 	{category_description}
@@ -50,10 +50,10 @@
 <tr>
 	<!-- BEGIN detail_read_tpl -->
 	<td class="{td_class}" width="1%">
-	<img src="/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
+	<img src="{www_dir}/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="40%">
-	<a href="/mediacatalogue/mediaview/{media_id}/?RefererURL=/mediacatalogue/browse/{main_category_id}/">{media_name}</a>
+	<a href="{www_dir}{index}/mediacatalogue/mediaview/{media_id}/?RefererURL=/mediacatalogue/browse/{main_category_id}/">{media_name}</a>
 	</td>
 	<td class="{td_class}" width="56%">
 	<span class="small">{media_description}</span>

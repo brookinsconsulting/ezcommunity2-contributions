@@ -1,7 +1,7 @@
 <h1>{intl-attribute_edit} - {link_name}</h1>
 
 <hr noshade size="4" />
-<form method="post" action="/link/linkedit/attributeedit/{link_id}/" >
+<form method="post" action="{www_dir}{index}/link/linkedit/attributeedit/{link_id}/" >
 
 <br />
 

@@ -1,4 +1,4 @@
-<form action="/article/articleedit/edit/{article_id}/" method="post">
+<form action="{www_dir}{index}/article/articleedit/edit/{article_id}/" method="post">
 
 <h1>{intl-article_log}</h1>
 

@@ -4,7 +4,7 @@
 	<h1>{intl-head_line}</h1>
 	</td>
 	<td rowspan="2" align="right">
-	<form action="/article/search/" method="post">
+	<form action="{www_dir}{index}/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -25,14 +25,14 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 
-<form method="post" action="/article/unpublished/{current_category_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/article/unpublished/{current_category_id}/" enctype="multipart/form-data">
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
-	<img src="/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td width="77%" class="{td_class}">
-	<a href="/article/articlepreview/{article_id}/">
+	<a href="{www_dir}{index}/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
@@ -46,7 +46,7 @@
 	</td>
 	<!-- BEGIN article_edit_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">
@@ -69,7 +69,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/article/unpublished/{archive_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/article/unpublished/{archive_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -84,7 +84,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/unpublished/{archive_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/unpublished/{archive_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -98,7 +98,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/unpublished/{archive_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/unpublished/{archive_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

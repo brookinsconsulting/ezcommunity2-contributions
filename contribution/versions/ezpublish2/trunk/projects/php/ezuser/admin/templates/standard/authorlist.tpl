@@ -1,4 +1,4 @@
-<form action="/user/authorlist" method="post">
+<form action="{www_dir}{index}/user/authorlist" method="post">
 
 <h1>{intl-author_edit}</h1>
 

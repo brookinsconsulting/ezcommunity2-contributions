@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.2 2001/07/16 10:26:13 ce Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.3 2001/07/29 23:31:10 kaid Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -62,10 +62,10 @@
 
 <tr>
 	<td class="{td_class}">
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	</td>
 	<td class="{td_class}">
-	<a href="/trade/productedit/{product_id}/">{product_name}&nbsp;</a>
+	<a href="{www_dir}{index}/trade/productedit/{product_id}/">{product_name}&nbsp;</a>
 	</td>
 	<td class="{td_class}">
 	{product_number}&nbsp;
@@ -103,7 +103,7 @@
 <table width="100%">
 <tr>
 	<td  width="50%" valign="top">
-<form action="/trade/orderedit/{order_id}/newstatus/">
+<form action="{www_dir}{index}/trade/orderedit/{order_id}/newstatus/">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>

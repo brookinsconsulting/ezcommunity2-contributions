@@ -13,7 +13,7 @@
 <!-- END empty_cart_tpl -->
 
 
-<form action="/trade/cart/" method="post">
+<form action="{www_dir}{index}/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="1" border="0">
 <tr>
@@ -22,7 +22,7 @@
 <!-- BEGIN cart_item_tpl -->
 <tr>
 	<td colspan="4" class="{td_class}">
-	<a class="menucart" href="/trade/productview/{product_id}/">{product_name}</a>
+	<a class="menucart" href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a>
 	<div class="small" align="right">{product_price}</div>
 	</td>
 
@@ -55,7 +55,7 @@
 </tr>
 <tr>
 	<td>
-	<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="/trade/cart/">{intl-allcart}</a>
+	<img src="{www_dir}/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{www_dir}{index}/trade/cart/">{intl-allcart}</a>
 	</td>
 	<!-- END cart_checkout_tpl -->
 </tr>

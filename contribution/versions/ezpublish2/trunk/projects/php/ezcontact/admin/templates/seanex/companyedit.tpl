@@ -1,4 +1,4 @@
-<form method="post" action="/contact/company/{action_value}/{company_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/company/{action_value}/{company_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-headline}</h1>
@@ -183,7 +183,7 @@
 <tr>
 <!--       <p class="boxtext">{logo_name}:</p> -->
     <td>
-    <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" /><br /><br />
+    <img src="{www_dir}{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" /><br /><br />
    	<p class="boxtext">{intl-logo}:</p>
 	<input size="20" name="logo" type="file" />
 	<input type="hidden" name="LogoID" value="{logo_id}">
@@ -209,7 +209,7 @@
 <tr>
 <!--       <p class="boxtext">{image_name}:</p> -->
     <td>
-    <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
+    <img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
   	<p class="boxtext">{intl-image}:</p>
 	<input size="20" name="image" type="file" />
 	<input type="hidden" name="ImageID" value="{image_id}">

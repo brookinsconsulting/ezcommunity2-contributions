@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/login/">
+<form method="post" action="{www_dir}{index}/user/login/login/">
 
 <h1>{intl-head_line}</h1>
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: allcategories.php,v 1.5 2001/07/20 11:21:41 jakobn Exp $
+// $Id: allcategories.php,v 1.6 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <02-Jan-2001 12:43:05 bf>
 //
@@ -106,7 +106,7 @@ foreach ( $categories as $category )
  
 if ( $GenerateStaticPage == "true" )
 {
-    $fp = fopen ( $cachedFile, "w+");
+    $fp = eZFile::fopen( $cachedFile, "w+");
 
     $output = $t->parse( $target, "news_archive_page_tpl" );
     

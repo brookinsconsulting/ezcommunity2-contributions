@@ -32,7 +32,7 @@
 
 <div onLoad="MM_preloadImages('../ezarticle/images/redigerminimrk.gif','../ezarticle/images/slettminimrk.gif')"></div>
 
-<form action="/article/articleedit/imageedit/storedef/{article_id}/" method="post">
+<form action="{www_dir}{index}/article/articleedit/imageedit/storedef/{article_id}/" method="post">
 
 <h1>Bilder: {article_name}</h1>
 
@@ -57,18 +57,18 @@
 	{image_name}
 	</td>
 	<td class="{td_class}">
-	<img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
+	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	</td>
 	<td class="{td_class}">
 	<input type="radio" {thumbnail_image_checked} name="ThumbnailImageID" value="{image_id}" />
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 
 <a href="#" onClick="verify( 'delete', '/article/articleedit/imageedit/delete/{image_id}/{article_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="{www_dir}/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
 </a>
 	</td>
 </tr>
@@ -92,7 +92,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-sle
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form action="/article/articleedit/edit/{article_id}/" method="post">
+	<form action="{www_dir}{index}/article/articleedit/edit/{article_id}/" method="post">
 	<input class="okbutton" type="submit" value="Avbryt" />
 	</form>
 	</td>

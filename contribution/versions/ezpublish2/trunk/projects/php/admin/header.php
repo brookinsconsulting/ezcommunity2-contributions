@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.36 2001/07/19 11:50:54 jakobn Exp $
+// $Id: header.php,v 1.37 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -91,7 +91,7 @@ if ( $ModuleTab == true )
     foreach( $site_modules as $site_module )
     {
         $module = strtolower( $site_module );
-        if ( file_exists( $module ) )
+        if ( eZFile::file_exists( $module ) )
         {
             if ( $single_module )
             {

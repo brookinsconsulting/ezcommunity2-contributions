@@ -7,7 +7,7 @@
 	<h1>{intl-head_line} - ({article_start}-{article_end}/{article_total})</h1>
 	</td>
 	<td align="right">
-	<form action="/article/search/" method="post">
+	<form action="{www_dir}{index}/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -15,7 +15,7 @@
 </tr>
 </table>
 
-<form method="post" action="/article/search/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/article/search/" enctype="multipart/form-data">
 
 <!--
 <p>
@@ -36,8 +36,8 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<img src="/ezarticle/admin/images/document.gif" height="16" width="16" border="0" alt="" />&nbsp;
-	<a href="/article/articlepreview/{article_id}/">
+	<img src="{www_dir}/ezarticle/admin/images/document.gif" height="16" width="16" border="0" alt="" />&nbsp;
+	<a href="{www_dir}{index}/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
@@ -51,7 +51,7 @@
 	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
           <input type="checkbox" name="ArticleArrayID[]" value="{article_id}" />
@@ -76,7 +76,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/article/search/parent/{url_text}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/article/search/parent/{url_text}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -90,7 +90,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -104,7 +104,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/search/parent/{url_text}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/search/parent/{url_text}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -13,7 +13,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form action="/quiz/game/edit/" method="post">
+<form action="{www_dir}{index}/quiz/game/edit/" method="post">
 <!-- BEGIN game_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -31,7 +31,7 @@
 	</td>
 
 	<td width="1%">
-	<a href="/quiz/game/edit/{game_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezquiz{game_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezquiz{game_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/quiz/game/edit/{game_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezquiz{game_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezquiz{game_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">
@@ -56,7 +56,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/quiz/game/list/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/quiz/game/list/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -70,7 +70,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/quiz/game/list/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/quiz/game/list/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -84,7 +84,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/quiz/game/list/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/quiz/game/list/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

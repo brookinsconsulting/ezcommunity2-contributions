@@ -5,7 +5,7 @@
 <h3 class="error">{error_message}</h3>
 <!-- END error_message_tpl -->
 
-<form action="/bulkmail/login" method="post">
+<form action="{www_dir}{index}/bulkmail/login" method="post">
 
 <p class="boxtext">{intl-email}:</p>
 <input type="text" name="Email">
@@ -16,10 +16,10 @@
 <input type="password" name="Password2">
 <!-- END second_password_tpl -->
 <!-- BEGIN new_tpl -->
-<p><a href="/bulkmail/newsubscription">{intl-new_address}</a></p>
+<p><a href="{www_dir}{index}/bulkmail/newsubscription">{intl-new_address}</a></p>
 <!-- END new_tpl -->
 <!-- BEGIN login_tpl -->
-<p><a href="/bulkmail/login">{intl-normal_login}</a></p>
+<p><a href="{www_dir}{index}/bulkmail/login">{intl-normal_login}</a></p>
 <!-- END login_tpl -->
 <hr noshade="noshade" size="4" />
 

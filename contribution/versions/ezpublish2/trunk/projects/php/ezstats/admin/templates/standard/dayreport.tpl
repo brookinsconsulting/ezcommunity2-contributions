@@ -40,13 +40,13 @@
 		<tr>
 			<!-- BEGIN percent_marker_tpl -->
 			<td width="{page_view_percent}%" bgcolor="#ffee00">
-			<img src="/admin/images/1x1.gif" width="1" height="10" border="0"></td>
+			<img src="{www_dir}/admin/images/1x1.gif" width="1" height="10" border="0"></td>
 			<td width="{page_view_inverted_percent}%"  bgcolor="#eeeeee">
-			<img src="/admin/images/1x1.gif" width="1" height="10" border="0"></td>
+			<img src="{www_dir}/admin/images/1x1.gif" width="1" height="10" border="0"></td>
 			<!-- END percent_marker_tpl -->
 			<!-- BEGIN no_percent_marker_tpl -->
 			<td width="{page_view_percent}%" bgcolor="#eeeeee">
-			<img src="/admin/images/1x1.gif" width="1" height="10" border="0"></td>
+			<img src="{www_dir}/admin/images/1x1.gif" width="1" height="10" border="0"></td>
 			<!-- END no_percent_marker_tpl -->
 		</tr>
 		</table>
@@ -63,7 +63,7 @@
 <tr>
 	<!-- BEGIN day_previous_tpl -->
 	<td width="25%">
-	<a class="path" href="/stats/dayreport/{previous_year}/{previous_month}/{previous_day}">&lt;&lt;&nbsp;{intl-previous}</a>
+	<a class="path" href="{www_dir}{index}/stats/dayreport/{previous_year}/{previous_month}/{previous_day}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END day_previous_tpl -->
 	
@@ -74,16 +74,16 @@
 	<!-- END day_previous_inactive_tpl -->
 
 	<td width="25%" align="center">
-	<a class="path" href="/stats/monthreport/{this_year}/{this_month}">[ {intl-month_report} ]</a>
+	<a class="path" href="{www_dir}{index}/stats/monthreport/{this_year}/{this_month}">[ {intl-month_report} ]</a>
 	</td>
 
 	<td width="25%" align="center">
-	<a class="path" href="/stats/yearreport/{this_year}">[ {intl-year_report} ]</a>
+	<a class="path" href="{www_dir}{index}/stats/yearreport/{this_year}">[ {intl-year_report} ]</a>
 	</td>
 
 	<!-- BEGIN day_next_tpl -->
 	<td width="25%" align="right">
-	<a class="path" href="/stats/dayreport/{next_year}/{next_month}/{next_day}">{intl-next}&nbsp;&gt;&gt;</a>
+	<a class="path" href="{www_dir}{index}/stats/dayreport/{next_year}/{next_month}/{next_day}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END day_next_tpl -->
 

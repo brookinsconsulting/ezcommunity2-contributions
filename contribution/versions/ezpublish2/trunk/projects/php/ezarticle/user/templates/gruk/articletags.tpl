@@ -27,8 +27,8 @@
 <br clear="all"><table width="{image_width}" align="{image_alignment}" border="0" cellspacing="0" cellpadding="4">
 <tr>
 <td>
-   <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
-   <img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
+   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
 </td>
 </tr>
@@ -41,12 +41,12 @@
 <!-- END image_tpl -->
 
 <!-- BEGIN image_float_tpl -->
-<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
-<img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
+<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+<img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
 <!-- END image_float_tpl -->
 
 <!-- BEGIN link_tpl -->
-<a href="{href}">{link_text}</a>
+<a href="{www_dir}{index}{href}">{link_text}</a>
 <!-- END link_tpl -->
 
 

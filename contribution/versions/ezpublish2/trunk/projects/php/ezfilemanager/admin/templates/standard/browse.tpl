@@ -5,7 +5,7 @@
 	<h1>{intl-files} {name}
 	</td>
 	<td align="right">
-	<form action="/filemanager/search/" method="post">
+	<form action="{www_dir}{index}/filemanager/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -13,13 +13,13 @@
 </tr>
 </table>
 
-<form method="post" action="{action_url}" enctype="multipart/form-data">
+<form method="post" href="{www_dir}{index}{action_url}" enctype="multipart/form-data">
 <!-- BEGIN current_folder_tpl -->
 <!--
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
 <tr>
    <td>
-<img src="/ezfilemanager/user/{image_dir}/folder.gif" alt="" width="16" height="16" border="0" />&nbsp;<a href="/filemanager/browse/{folder_id}/">{folder_name}</a><br />
+<img src="{www_dir}/ezfilemanager/user/{image_dir}/folder.gif" alt="" width="16" height="16" border="0" />&nbsp;<a href="{www_dir}{index}/filemanager/browse/{folder_id}/">{folder_name}</a><br />
    </td>
    <td>
    <p>
@@ -32,12 +32,12 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="/filemanager/browse/0/">{intl-file_root}</a>
+<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/filemanager/browse/0/">{intl-file_root}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="/filemanager/browse/{folder_id}/">{folder_name}</a>
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/filemanager/browse/{folder_id}/">{folder_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -50,10 +50,10 @@
 <tr>
         <!-- BEGIN folder_read_tpl -->
 	<td class="{td_class}" width="1%" valign="top">
-	<img src="/images/folder.gif" alt="" width="16" height="16" border="0" />
+	<img src="{www_dir}/images/folder.gif" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="98%" valign="top">
-	<a href="/filemanager/browse/{folder_id}/">{folder_name}</a><br />
+	<a href="{www_dir}{index}/filemanager/browse/{folder_id}/">{folder_name}</a><br />
 	</td>
         <!-- END folder_read_tpl -->
 </tr>
@@ -78,10 +78,10 @@
 <tr>
 	<!-- BEGIN read_tpl -->
 	<td class="{td_class}" width="1%" valign="top">
-	<img src="/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
+	<img src="{www_dir}/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="40%" valign="top">
-	<a href="/filemanager/fileview/{file_id}/">{original_file_name}</a><br />
+	<a href="{www_dir}{index}/filemanager/fileview/{file_id}/">{original_file_name}</a><br />
 	</td>
 	<td class="{td_class}" width="56%" valign="top">
 	{file_description}&nbsp;

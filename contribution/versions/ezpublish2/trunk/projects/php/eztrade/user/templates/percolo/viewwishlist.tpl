@@ -26,9 +26,9 @@
 		</tr>
 		<!-- BEGIN wishlist_item_tpl --> 
 		<tr> 
-		  <td class="{td_class}"> <!-- BEGIN wishlist_image_tpl --> <img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
+		  <td class="{td_class}"> <!-- BEGIN wishlist_image_tpl --> <img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
 			<!-- END wishlist_image_tpl --> </td>
-		  <td class="{td_class}"> <a href="/trade/productview/{product_id}/">{product_name}</a> 
+		  <td class="{td_class}"> <a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a> 
 		  </td>
 		  <td class="{td_class}"> <!-- BEGIN wishlist_item_option_tpl --> {option_name}: 
 			{option_value}<!-- BEGIN wishlist_item_option_availability_tpl -->({option_availability})
@@ -36,7 +36,7 @@
 			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
 		  <td class="{td_class}"> 
 		  <!-- BEGIN move_to_cart_item_tpl -->
-		  <a href="/trade/viewwishlist/movetocart/{wishlist_item_id}/{wishlist_item_count}/"> 
+		  <a href="{www_dir}{index}/trade/viewwishlist/movetocart/{wishlist_item_id}/{wishlist_item_count}/"> 
 			{intl-move_to_cart} </a> 
 		  <!-- END move_to_cart_item_tpl -->
 		  <!-- BEGIN no_move_to_cart_item_tpl -->

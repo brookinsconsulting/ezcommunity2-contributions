@@ -20,7 +20,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a class="headlinemenu" href="/article/articleview/{article_id}/">
+	<a class="headlinemenu" href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>

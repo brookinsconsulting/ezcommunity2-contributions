@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.8 2001/07/19 11:33:57 jakobn Exp $
+// $Id: linkselect.php,v 1.9 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <30-Apr-2001 18:33:53 amos>
 //
@@ -167,7 +167,7 @@ foreach( $Modules as $module )
 {
     $dir = strtolower( $module ) . "/user/intl/";
     $file = strtolower( $module ) . "/user/urlsupplier.php";
-    if ( file_exists( $file ) )
+    if ( eZFile::file_exists( $file ) )
     {
         $intl_dirs[] = $dir;
         $php_files[] = "urlsupplier.php";
@@ -251,7 +251,7 @@ switch( $module )
                 {
                     $module_lower = strtolower( $module );
                     $file = $module_lower . "/user/urlsupplier.php";
-                    if ( file_exists( $file ) )
+                    if ( eZFile::file_exists( $file ) )
                     {
                         unset( $Supplier );
                         include( $file );
@@ -310,7 +310,7 @@ switch( $module )
                 {
                     $module_lower = strtolower( $file_module );
                     $file = $module_lower . "/user/urlsupplier.php";
-                    if ( file_exists( $file ) )
+                    if ( eZFile::file_exists( $file ) )
                     {
                         unset( $Supplier );
                         include( $file );
@@ -339,7 +339,7 @@ switch( $module )
                 $t->parse( "module_selector", "module_selector_tpl" );
             }
             $file = strtolower( $module ) . "/user/urlsupplier.php";
-            if ( file_exists( $file ) )
+            if ( eZFile::file_exists( $file ) )
             {
                 unset( $Supplier );
                 include( $file );
@@ -370,7 +370,7 @@ switch( $module )
                 {
                     $module_lower = strtolower( $file_module );
                     $file = $module_lower . "/user/urlsupplier.php";
-                    if ( file_exists( $file ) )
+                    if ( eZFile::file_exists( $file ) )
                     {
                         unset( $Supplier );
                         include( $file );
@@ -400,7 +400,7 @@ switch( $module )
             }
             $module_lower = strtolower( $module );
             $file = strtolower( $module ) . "/user/urlsupplier.php";
-            if ( file_exists( $file ) )
+            if ( eZFile::file_exists( $file ) )
             {
                 unset( $Supplier );
                 include( $file );

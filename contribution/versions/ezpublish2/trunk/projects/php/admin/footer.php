@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: footer.php,v 1.15 2001/07/19 11:50:54 jakobn Exp $
+// $Id: footer.php,v 1.16 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -28,9 +28,14 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
-include_once( "classes/template.inc" );
+// include_once( "classes/template.inc" );
+// $t = new Template( $siteDir . "admin/templates/" . $SiteStyle );
+// $t->set_var( "www_dir", $wwwDir );
+// $t->set_var( "index", $index );
 
-$t = new Template( "admin/templates/" . $SiteStyle );
+include_once( "classes/eztemplate.php" );
+$t = new eZTemplate( "admin/templates/" . $SiteStyle,
+                     "admin/intl/", $Language, "footer.php" );
 
 $t->set_file( array(
     "footer_tpl" => "footer.tpl"
@@ -39,9 +44,7 @@ $t->set_file( array(
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "module_dir", $moduleName );
 
-
 $t->pparse( "output", "footer_tpl" );
-    
 
 ?>
 

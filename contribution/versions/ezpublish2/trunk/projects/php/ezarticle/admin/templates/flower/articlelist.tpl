@@ -59,16 +59,16 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
+	<a href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/categoryedit/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/ezarticle/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/categoryedit/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="{www_dir}/ezarticle/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -87,17 +87,17 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/articlepreview/{article_id}/">
+	<a href="{www_dir}{index}/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 
 <a href="#" onClick="verify( 'delete', '/article/articleedit/delete/{article_id}'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="{www_dir}/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
 </a>
 
 	</td>
@@ -114,13 +114,13 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-sle
 <table border="0">
 <tr>
 	<td>
-<form action="/article/categoryedit/edit/{current_category_id}/" method="post">
+<form action="{www_dir}{index}/article/categoryedit/edit/{current_category_id}/" method="post">
 <input class="okbutton" type="submit" value="Rediger kategori" />
 </form>
 	</td>
 	<td>
 
-<form action="/article/articleedit/new/" method="post">
+<form action="{www_dir}{index}/article/articleedit/new/" method="post">
 <input class="okbutton" type="submit" value="Ny artikkel" />
 </form>
 

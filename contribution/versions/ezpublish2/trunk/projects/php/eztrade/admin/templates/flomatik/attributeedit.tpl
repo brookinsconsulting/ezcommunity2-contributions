@@ -1,7 +1,7 @@
 <h1>{intl-attribute_edit} - {product_name}</h1>
 
 <hr noshade size="4" />
-<form method="post" action="/trade/productedit/attributeedit/{product_id}/" >
+<form method="post" action="{www_dir}{index}/trade/productedit/attributeedit/{product_id}/" >
 
 <br />
 

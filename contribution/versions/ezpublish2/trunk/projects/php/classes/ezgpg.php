@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezgpg.php,v 1.5 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezgpg.php,v 1.6 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZGPG class
 //
@@ -55,11 +55,11 @@ class eZGPG
 		fwrite( $pp, $this->body );
 		pclose( $pp );
 
-		$fp = fopen( $boundary, r );
-		$this->body = fread( $fp, filesize( $boundary ) );
+		$fp = eZFile::fopen( $boundary, r );
+		$this->body = fread( $fp, eZFile::filesize( $boundary ) );
 		fclose( $fp );
 		
-		unlink( $boundary );
+		eZFile::unlink( $boundary );
 		
 		
 	}

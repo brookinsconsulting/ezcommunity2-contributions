@@ -1,7 +1,7 @@
 <h1>{intl-template_list}</h1>
 
 <hr noshade="noshade" size="4">
-<form action="/bulkmail/templatelist" method="post">
+<form action="{www_dir}{index}/bulkmail/templatelist" method="post">
 <!-- BEGIN template_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -19,7 +19,7 @@
 	{template_description}
 	</td>
 	<td class="{td_class}">
-	<a href="/bulkmail/templateedit/{template_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{template_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{template_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/bulkmail/templateedit/{template_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{template_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{template_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}"><input type="checkbox" name="TemplateArrayID[]" value="{template_id}" /></td>
 </tr>

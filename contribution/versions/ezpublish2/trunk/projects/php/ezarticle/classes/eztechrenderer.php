@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.70 2001/07/19 12:19:21 jakobn Exp $
+// $Id: eztechrenderer.php,v 1.71 2001/07/29 23:30:58 kaid Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -342,6 +342,8 @@ class eZTechRenderer
    
     function &renderLink( $pageContent, $paragraph )
     {
+        global $wwwDir, $index;
+
         // link
         if ( $paragraph->name == "link" )
         {
@@ -366,7 +368,7 @@ class eZTechRenderer
 
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
-            $pageContent .= "<a href=\"$href\">" . $text . "</a>";
+            $pageContent .= "<a href=\"$wwwDir$index$href\">" . $text . "</a>";
         }
 
         // link
@@ -394,7 +396,7 @@ class eZTechRenderer
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
 
-            $pageContent .= "<img align=\"baseline\" src=\"/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$href\">" . $text . "</a>";
+            $pageContent .= "<img align=\"baseline\" src=\"$wwwDir/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$href\">" . $text . "</a>";
         }
         
         // ez anchor
@@ -471,7 +473,7 @@ class eZTechRenderer
 
             $localModuleFile = "modules/" . $name . ".php";
             
-            if ( file_exists( $localModuleFile ) )
+            if ( eZFile::file_exists( $localModuleFile ) )
             {
                 $moduleFile = $localModuleFile;
             }
@@ -480,7 +482,7 @@ class eZTechRenderer
                 $moduleFile = "ezarticle/modules/" . $name . ".php";                
             }
 
-            if ( file_exists( $moduleFile ) )
+            if ( eZFile::file_exists( $moduleFile ) )
             {
                 // save the buffer contents
                 $buffer =& ob_get_contents();
@@ -509,6 +511,8 @@ class eZTechRenderer
 
     function &renderImage( $pageContent, $paragraph, $articleImages )
     {
+        global $wwwDir, $index;
+
         $articleID = $this->Article->id();
         // image
         if ( $paragraph->name == "image" )
@@ -608,8 +612,8 @@ class eZTechRenderer
                     $imageTags = "<br clear=\"all\"><table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
-                                                     	<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
-                                                        <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
+                                                         <a href=\"$wwwDir$index/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
+                                                        <img src=\"$wwwDir$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
                                                         </a>   
                                                         </td>
                                                 </tr>
@@ -622,7 +626,7 @@ class eZTechRenderer
                 }
                 else
                 {                    
-                    $imageTags = "<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\"><img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
+                    $imageTags = "<a href=\"$wwwDir$index/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\"><img src=\"$wwwDir$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
                 }
                 $pageContent .=  $imageTags;
             }

@@ -1,9 +1,9 @@
-<form method="post" action="/poll/userlogin/vote/{poll_id}/">
+<form method="post" action="{www_dir}{index}/poll/userlogin/vote/{poll_id}/">
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/{sitedesign}/images/poll.gif" width="122" height="20"><br />
+	<img src="{www_dir}/sitedesign/{sitedesign}/images/poll.gif" width="122" height="20"><br />
 	</td>
 </tr>
 <tr>
@@ -51,14 +51,14 @@
 <tr>
 	<td colspan="2">
 	<div class="rightmenu">
-	<a href="/poll/result/{poll_id}">{intl-result}</a>
+	<a href="{www_dir}{index}/poll/result/{poll_id}">{intl-result}</a>
 	</div>
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<div class="rightmenu">
-	<a href="/poll/polls">{intl-polls}</a>
+	<a href="{www_dir}{index}/poll/polls">{intl-polls}</a>
 	</div>
 	</td>
 </tr>

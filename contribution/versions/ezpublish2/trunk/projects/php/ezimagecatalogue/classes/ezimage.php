@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.71 2001/07/25 10:37:04 jb Exp $
+// $Id: ezimage.php,v 1.72 2001/07/29 23:31:07 kaid Exp $
 //
 // Definition of eZImage class
 //
@@ -222,9 +222,9 @@ class eZImage
             $db->query( "DELETE FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
             
             // Delete from the filesystem
-            if ( file_exists ( $this->filePath( true ) ) )
+            if ( eZFile::file_exists( $this->filePath( true ) ) )
             {
-                unlink( $this->filePath( true ) );
+                eZFile::unlink( $this->filePath( true ) );
             }
         }
     }
@@ -627,7 +627,7 @@ class eZImage
        
        $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
 
-       return file_exists( $relPath ) and is_file( $relPath );
+       return eZFile::file_exists( $relPath ) and is_file( $relPath );
     }
     /*!
       Returns the path and filename to the original image.
@@ -648,7 +648,7 @@ class eZImage
            $path = "/ezimagecatalogue/catalogue/" . $this->FileName;
        }
        
-       if ( !file_exists( $relPath ) or !is_file( $relPath ) )
+       if ( !eZFile::file_exists( $relPath ) or !is_file( $relPath ) )
        {
            $path = "ezimagecatalogue/admin/images/failedimage.gif";
            if ( !$relative )
@@ -817,7 +817,7 @@ class eZImage
        if ( get_class( $file ) == "ezimagefile" )
        {
            $name = $file->tmpName();
-           if ( !file_exists( $name ) or !is_file( $name ) )
+           if ( !eZFile::file_exists( $name ) or !is_file( $name ) )
                return false;
            return true;
        }
@@ -835,7 +835,7 @@ class eZImage
        {
            $this->OriginalFileName = $file->name();
            $tmpname = $file->tmpName();
-           if ( !file_exists( $tmpname ) or !is_file( $tmpname ) )
+           if ( !eZFile::file_exists( $tmpname ) or !is_file( $tmpname ) )
                return false;
 
            $info = eZImageFile::information( $this->OriginalFileName );
@@ -959,7 +959,7 @@ class eZImage
     */
     function &width()
     {
-        if ( file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
+        if ( eZFile::file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
         {
             $size = getimagesize( $this->filePath( true ) );
             return $size[0];
@@ -973,7 +973,7 @@ class eZImage
     */
     function &height()
     {
-        if ( file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
+        if ( eZFile::file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
         {
             $size = getimagesize( $this->filePath( true ) );
             return $size[1];

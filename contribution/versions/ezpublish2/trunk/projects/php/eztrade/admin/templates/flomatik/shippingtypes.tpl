@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form action="/trade/shippingtypes/" method="post">
+<form action="{www_dir}{index}/trade/shippingtypes/" method="post">
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

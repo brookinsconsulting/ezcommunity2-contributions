@@ -1,4 +1,4 @@
-<form method="post" action="/user/passwordchange/{action_value}/">
+<form method="post" action="{www_dir}{index}/user/passwordchange/{action_value}/">
 
 <h1>Endre passord</h1>
 

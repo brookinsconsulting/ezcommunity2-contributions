@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.29 2001/07/25 10:22:59 jhe Exp $
+// $Id: companytypelist.php,v 1.30 2001/07/29 23:31:02 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+// $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $MaxCompanyList = $ini->read_var( "eZContactMain", "MaxCompanyList" );
 $CompanyOrder = $ini->read_var( "eZContactMain", "CompanyOrder" );

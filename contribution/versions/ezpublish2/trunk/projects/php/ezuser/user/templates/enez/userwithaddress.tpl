@@ -1,4 +1,4 @@
-<form method="post" action="/user/userwithaddress/new/">
+<form method="post" action="{www_dir}{index}/user/userwithaddress/new/">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -1,8 +1,8 @@
 </head>
 
-<body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
+<body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $wwwDir; ?>/images/redigerminimrk.gif','<? print $wwwDir; ?>/images/slettminimrk.gif','<? print $wwwDir; ?>/images/downloadminimrk.gif','<? print $wwwDir; ?>/images/addminimrk.gif')">
 
-<img src="/sitedesign/standard/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
+<img src="<? print $wwwDir; ?>/sitedesign/standard/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
@@ -51,10 +51,10 @@
 
 	<!-- Left menu end -->
 	
-	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
+	<img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0"><br />
 	</td>
 
-	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+	<td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
     <td width="96%" bgcolor="#ffffff">
 
     <!-- Banner start -->

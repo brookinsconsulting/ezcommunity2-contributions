@@ -4,7 +4,7 @@
         <h1>{headline}</h1>
      </td>
      <td align="right">
-	 <form action="/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="post">
 	       <input class="12" type="text" name="QueryString">
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
@@ -14,7 +14,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form action="/forum/forumedit/{action_value}/{forum_id}/" method="post">
+<form action="{www_dir}{index}/forum/forumedit/{action_value}/{forum_id}/" method="post">
 
 <p class="error">{error_msg}</p>
 
@@ -77,7 +77,7 @@
 	&nbsp;
 	</td>
 	<td>
-	<form method="post" action="/forum/categorylist">
+	<form method="post" action="{www_dir}{index}/forum/categorylist">
 	<input class="okbutton" type="submit" value="{intl-cancel}">
 	</form>
 	</td>

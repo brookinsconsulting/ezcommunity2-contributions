@@ -4,8 +4,8 @@
 <table align="center" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a href="{referer_url}">
-	<img src="{image_uri}" border="0" width="{image_width}" height="{image_height}" /></a>
+	<a href="{www_dir}{index}{referer_url}">
+	<img src="{www_dir}{image_uri}" border="0" width="{image_width}" height="{image_height}" /></a>
 	</td>
 </tr>
 <tr>
@@ -17,4 +17,4 @@
 
 <hr noshade size="4"/>
 
-<a href="{referer_url}">{intl-back}</a>
+<a href="{www_dir}{index}{referer_url}">{intl-back}</a>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.15 2001/07/25 11:06:14 jhe Exp $
+// $Id: ezmysqldb.php,v 1.16 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -36,7 +36,8 @@ class eZMySQLDB
 {
     function eZMySQLDB( $server, $db, $user, $password  )
     {
-        $this->Database = @mysql_pconnect( $server, $user, $password );
+        $this->Database = mysql_pconnect( $server, $user, $password );
+error_log("server: $server db: $db user: $user pass: $password lala: $databaseImplementation");
 
         if ( $this->Database == false )
         {

@@ -5,8 +5,8 @@
 <!-- BEGIN category_tpl -->
 <tr>
 	<td width="100%">
-	<a href="/forum/forumlist/{id}/" class="menu">
-        <img src="/images/dot.gif" width="12" height="10" border="0">{name}
+	<a href="{www_dir}{index}/forum/forumlist/{id}/" class="menu">
+        <img src="{www_dir}/images/dot.gif" width="12" height="10" border="0">{name}
 	</a>
 	</td>
 </tr>

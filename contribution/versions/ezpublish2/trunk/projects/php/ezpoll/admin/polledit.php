@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: polledit.php,v 1.27 2001/07/20 11:22:30 jakobn Exp $
+// $Id: polledit.php,v 1.28 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <21-Sep-2000 10:39:19 ce>
 //
@@ -100,8 +100,8 @@ if ( $Action == "Insert" )
         $PollID = $poll->id();
         
         // clear the menu cache
-        if ( file_exists("ezpoll/cache/menubox.cache" )  )
-            unlink( "ezpoll/cache/menubox.cache" );
+        if ( eZFile::file_exists("ezpoll/cache/menubox.cache" )  )
+            eZFile::unlink( "ezpoll/cache/menubox.cache" );
         
         if ( isset( $Choice ) == true  )
         {
@@ -199,8 +199,8 @@ if ( $Action == "Update" )
         }
     }
     // clear the menu cache
-    if ( file_exists("ezpoll/cache/menubox.cache" )  )
-        unlink( "ezpoll/cache/menubox.cache" );
+    if ( eZFile::file_exists("ezpoll/cache/menubox.cache" )  )
+        eZFile::unlink( "ezpoll/cache/menubox.cache" );
 
     if( isset( $Ok ) )
     {
@@ -220,8 +220,8 @@ if ( $Action == "Delete" )
     $poll->delete();
 
     // clear the menu cache
-    if ( file_exists("ezpoll/cache/menubox.cache" )  )
-        unlink( "ezpoll/cache/menubox.cache" );
+    if ( eZFile::file_exists("ezpoll/cache/menubox.cache" )  )
+        eZFile::unlink( "ezpoll/cache/menubox.cache" );
     
     eZHTTPTool::header( "Location: /poll/pollist/" );
     exit();

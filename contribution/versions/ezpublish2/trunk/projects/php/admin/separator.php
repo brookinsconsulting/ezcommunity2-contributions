@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: separator.php,v 1.17 2001/07/19 11:50:54 jakobn Exp $
+// $Id: separator.php,v 1.18 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -58,7 +58,7 @@ $helpFile = "ez" . $moduleName . "/admin/help/". $Language . "/" . $url_array[1]
 
 $t->set_var( "help", "" );
 
-if ( file_exists( $helpFile ) )
+if ( eZFile::file_exists( $helpFile ) )
 {
     $t->set_var( "help_url", "/help/" . $moduleName . "/" . $url_array[1] . "/" . $url_array[2]. "/" );
     $t->parse( "help", "help_tpl" );

@@ -1,4 +1,4 @@
-<form action="/contact/search/person/" method="post">
+<form action="{www_dir}{index}/contact/search/person/" method="post">
 <table width="100%" border="0">
 <tr>
 	<td rowspan="2" valign="bottom">
@@ -15,7 +15,7 @@
 <hr noshade="noshade" size="4" />
 <br />
 
-<form action="/contact/person/list/" method="post">
+<form action="{www_dir}{index}/contact/person/list/" method="post">
 	<p class="boxtext">{intl-show_persons}:</p>
     <select name="LimitType">
 	    <option value="all" {is_all_selected}>{intl-show_all}</option>
@@ -37,7 +37,7 @@
 	{intl-new_consultation}
 	</td>
 	<td>
-	<img src="/admin/images/addmini.gif">
+	<img src="{www_dir}/admin/images/addmini.gif">
 	</td>
 </tr>
 <tr>
@@ -45,7 +45,7 @@
 	{intl-edit_person}
 	</td>
 	<td>
-	<img src="/admin/images/redigermini.gif">
+	<img src="{www_dir}/admin/images/redigermini.gif">
 	</td>
 </tr>
 <tr>
@@ -53,7 +53,7 @@
 	{intl-delete_person}
 	</td>
 	<td>
-	<img src="/admin/images/slettmini.gif">
+	<img src="{www_dir}/admin/images/slettmini.gif">
 	</td>
 </tr>
 </table>
@@ -79,7 +79,7 @@
 <tr class="{bg_color}">
 	<td>
 	<!-- BEGIN person_view_button_tpl -->
-        <a href="/contact/person/view/{person_id}">{person_lastname}, {person_firstname}</a>
+        <a href="{www_dir}{index}/contact/person/view/{person_id}">{person_lastname}, {person_firstname}</a>
 	<!-- END person_view_button_tpl -->
 	<!-- BEGIN no_person_view_button_tpl -->
         {person_lastname}, {person_firstname}
@@ -88,31 +88,31 @@
 
 	<!-- BEGIN person_state_tpl -->
 	<td>
-        <a href="/contact/project/person/list/{state_id}">{person_state}</a>
+        <a href="{www_dir}{index}/contact/project/person/list/{state_id}">{person_state}</a>
 	</td>
 	<!-- END person_state_tpl -->
 
 	<!-- BEGIN no_person_state_tpl -->
 	<td>
-        <a href="/contact/project/person/list/">{intl-no_state}</a>
+        <a href="{www_dir}{index}/contact/project/person/list/">{intl-no_state}</a>
 	</td>
 	<!-- END no_person_state_tpl -->
 
 	<!-- BEGIN person_consultation_button_tpl -->
 	<td width="1%">
-	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/admin/images/addmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_consultation_button_tpl -->
 
 	<!-- BEGIN person_edit_button_tpl -->
 	<td width="1%">
-	<a href="/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_edit_button_tpl -->
 
 	<!-- BEGIN person_delete_button_tpl -->
 	<td width="1%">
-	<a href="/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{person_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{person_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
 	<!-- END person_delete_button_tpl -->
 
@@ -125,7 +125,7 @@
 <tr>
 	<!-- BEGIN person_list_previous_tpl -->
 	<td>
-	<a class="path" href="/contact/person/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="{www_dir}{index}/contact/person/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END person_list_previous_tpl -->
 
@@ -139,7 +139,7 @@
 
 	<!-- BEGIN person_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/contact/person/{action}/{item_index}/{search_text}">{item_name}</a>&nbsp;|
+	&nbsp;<a class="path" href="{www_dir}{index}/contact/person/{action}/{item_index}/{search_text}">{item_name}</a>&nbsp;|
 	</td>
 	<!-- END person_list_item_tpl -->
 
@@ -153,7 +153,7 @@
 
 	<!-- BEGIN person_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/contact/person/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="{www_dir}{index}/contact/person/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END person_list_next_tpl -->
 
@@ -169,7 +169,7 @@
 
 <!-- END person_table_tpl -->
 <!-- BEGIN person_new_button_tpl -->
-<form method="post" action="/contact/person/new">
+<form method="post" action="{www_dir}{index}/contact/person/new">
 
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" value="{intl-new_person}">

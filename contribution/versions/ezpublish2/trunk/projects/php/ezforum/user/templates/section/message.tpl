@@ -1,19 +1,19 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
 
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-    <a class="toppath" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+    <a class="toppath" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
 
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom" colspan="2"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -26,7 +26,7 @@
     </td>
     <td align="right">
     <td align="right">
-	 <form action="/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
          </form>
@@ -64,7 +64,7 @@
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td>
-    <form method="post" action="/forum/userlogin/reply/{reply_id}/">
+    <form method="post" action="{www_dir}{index}/forum/userlogin/reply/{reply_id}/">
     <input class="stdbutton" type="submit" value="{intl-answer}" />
     </form>
 </td>
@@ -73,7 +73,7 @@
     &nbsp;
 </td>
 <td>
-    <form method="post" action="/forum/messageedit/edit/{message_id}/">
+    <form method="post" action="{www_dir}{index}/forum/messageedit/edit/{message_id}/">
     <input class="stdbutton" type="submit" value="{intl-edit}" />
     </form>
 </td>
@@ -81,7 +81,7 @@
     &nbsp;
 </td>
 <td>
-    <form method="post" action="/forum/messageedit/delete/{message_id}/">
+    <form method="post" action="{www_dir}{index}/forum/messageedit/delete/{message_id}/">
     <input class="stdbutton" type="submit" value="{intl-delete}" />
     </form>
 </td>
@@ -109,14 +109,14 @@
 		<td width="1%" valign="top">
 		{spacer}{spacer}
 		<!-- BEGIN new_icon_tpl -->
-                <img src="/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
+                <img src="{www_dir}/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
-                <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
+                <img src="{www_dir}/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
 		<!-- END old_icon_tpl -->	
 		</td>
 		<td width="99%" valign="top">
-		<a class="{link_color}" href="/forum/message/{message_id}/">{reply_topic}</a>
+		<a class="{link_color}" href="{www_dir}{index}/forum/message/{message_id}/">{reply_topic}</a>
 		</td>
 	</tr>
 	</table>
@@ -130,7 +130,7 @@
     <td class="{td_class}" align="right" valign="top">
 	&nbsp;
         <!-- BEGIN edit_message_item_tpl -->
-        <nobr><a href="/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
+        <nobr><a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="{www_dir}{index}/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
         <!-- END edit_message_item_tpl -->
     </td>
 
@@ -143,7 +143,7 @@
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	<form action="/forum/userlogin/new/{forum_id}">
+	<form action="{www_dir}{index}/forum/userlogin/new/{forum_id}">
   	<input class="stdbutton" type="submit" value="{intl-new-posting}" />
 	</td>
 </tr>

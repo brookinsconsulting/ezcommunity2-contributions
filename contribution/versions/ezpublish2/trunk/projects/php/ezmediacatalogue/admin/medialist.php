@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: medialist.php,v 1.3 2001/07/26 11:23:52 ce Exp $
+// $Id: medialist.php,v 1.4 2001/07/29 23:31:08 kaid Exp $
 //
 // Created on: <24-Jul-2001 11:36:48 ce>
 //
@@ -208,7 +208,7 @@ foreach ( $mediaList as $media )
     if ( $media->fileExists( true ) )
     {
         $mediaPath =& $media->filePath( true );
-        $size = filesize( $mediaPath );
+        $size = eZFile::filesize( $mediaPath );
     }
     else
     {

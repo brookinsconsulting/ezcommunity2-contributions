@@ -1,4 +1,4 @@
-<form  method="post" action="/forum/messageedit/{action_value}/{message_id}">
+<form  method="post" action="{www_dir}{index}/forum/messageedit/{action_value}/{message_id}">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>

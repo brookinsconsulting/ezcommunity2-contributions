@@ -1,19 +1,19 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
 	<!-- BEGIN path_tpl -->
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/bug/archive/0/">{intl-top_level}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/bug/archive/0/">{intl-top_level}</a>
 	<!-- END path_tpl -->
 	<!-- BEGIN path_item_tpl -->	
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/bug/archive/{module_id}/">{module_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/bug/archive/{module_id}/">{module_name}</a>
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom" colspan="2"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -25,7 +25,7 @@
 	<h1>{intl-bug_archive}</h1>
 	</td>
 	<td align="right">
-	<form action="/bug/search/" method="post">
+	<form action="{www_dir}{index}/bug/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -33,7 +33,7 @@
 </tr>
 </table>
 
-<form method="post" action="/bug/archive/{current_module_id}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/bug/archive/{current_module_id}" enctype="multipart/form-data">
 
 <div class="p">{current_module_description}</div>
 
@@ -49,7 +49,7 @@
 <!-- BEGIN module_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/bug/archive/{module_id}/">{module_name}</a>&nbsp;
+	<a href="{www_dir}{index}/bug/archive/{module_id}/">{module_name}</a>&nbsp;
 	</td>
 
 	<td class="{td_class}">
@@ -83,7 +83,7 @@
 <!-- BEGIN bug_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/bug/bugview/{bug_id}/">
+	<a href="{www_dir}{index}/bug/bugview/{bug_id}/">
 	{bug_name}
 	</a>
 	</td>
@@ -107,7 +107,7 @@
 	
 	<!-- BEGIN bug_edit_tpl -->
 	<td class="{td_class}">
-	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>	</td>
+	<a href="{www_dir}{index}/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="{www_dir}/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="BugArrayID[]" value="{bug_id}">
 	</td>

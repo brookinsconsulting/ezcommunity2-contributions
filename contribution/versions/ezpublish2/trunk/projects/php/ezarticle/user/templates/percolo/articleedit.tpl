@@ -1,4 +1,4 @@
-<form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
+<form method="post" action="{www_dir}{index}/article/articleedit/{action_value}/{article_id}/" >
 
 <h1>{intl-head_line}</h1>
 
@@ -46,7 +46,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/article/articleedit/cancel/{article_id}/" >
+	<form method="post" action="{www_dir}{index}/article/articleedit/cancel/{article_id}/" >
 	<input class="okbutton" type="submit" value="{intl-cancel}" />	
 	</form>
 	</td>

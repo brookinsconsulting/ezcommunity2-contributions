@@ -1,4 +1,4 @@
-<form action="/article/articleedit/imageedit/storedef/{article_id}/" method="post">
+<form action="{www_dir}{index}/article/articleedit/imageedit/storedef/{article_id}/" method="post">
 
 <h1>{intl-images}: {article_name}</h1>
 
@@ -28,16 +28,16 @@
 	{image_name}
 	</td>
 	<td width="1%" class="{td_class}">
-	<img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
+	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="radio" {thumbnail_image_checked} name="ThumbnailImageID" value="{image_id}" />
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/imagemap/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp2{image_id}-red','','/admin/images/{site_style}/imagemapminimrk.gif',1)"><img name="eztp2{image_id}-red" border="0" src="/admin/images/{site_style}/imagemapmini.gif" width="16" height="16" align="top" border="0" alt="Image map" /></a>
+	<a href="{www_dir}{index}/article/articleedit/imagemap/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp2{image_id}-red','','/admin/images/{site_style}/imagemapminimrk.gif',1)"><img name="eztp2{image_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/imagemapmini.gif" width="16" height="16" align="top" border="0" alt="Image map" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
@@ -88,7 +88,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form action="/article/articleedit/edit/{article_id}/" method="post">
+	<form action="{www_dir}{index}/article/articleedit/edit/{article_id}/" method="post">
 	<input class="okbutton" type="submit" value="{intl-abort}" />
 	</form>
 	</td>

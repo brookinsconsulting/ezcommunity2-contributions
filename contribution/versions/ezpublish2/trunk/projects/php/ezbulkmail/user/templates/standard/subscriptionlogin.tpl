@@ -5,7 +5,7 @@
 <h3 class="error">{error_message}</h3>
 <!-- END error_message_tpl -->
 
-<form action="/bulkmail/login" method="post">
+<form action="{www_dir}{index}/bulkmail/login" method="post">
 
 <p class="boxtext">{intl-email}:</p>
 <input type="text" name="Email">
@@ -20,14 +20,14 @@
 
 <!-- BEGIN new_tpl -->
 <br /><br />
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="/bulkmail/newsubscription">{intl-new_address}</a>
+<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/bulkmail/newsubscription">{intl-new_address}</a>
 <!-- END new_tpl -->
 
 <!-- BEGIN login_tpl -->
 <br /><br />
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="/bulkmail/login">{intl-normal_login}</a>
+<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/bulkmail/login">{intl-normal_login}</a>
 <!-- END login_tpl -->
 
 <br /><br />

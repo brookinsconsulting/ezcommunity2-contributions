@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlog.php,v 1.7 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezlog.php,v 1.8 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZLog class
 //
@@ -80,9 +80,9 @@ class eZLog
     */
     function eZLog( $fileName="" )
     {
-        if ( file_exists( $fileName ) )
+        if ( eZFile::file_exists( $fileName ) )
         {
-            $this->LogFile = fopen( $fileName, "a" );
+            $this->LogFile = eZFile::fopen( $fileName, "a" );
         }
         else
         {
@@ -90,7 +90,7 @@ class eZLog
             $ini =& INIFile::globalINI();
             $fileName =& $ini->read_var( "site", "LogFile" );
             
-            $this->LogFile = fopen( $fileName, "a" );
+            $this->LogFile = eZFile::fopen( $fileName, "a" );
             
             if ( !$this->LogFile )
             {

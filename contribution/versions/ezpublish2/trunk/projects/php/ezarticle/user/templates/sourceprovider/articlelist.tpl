@@ -42,7 +42,7 @@ You can start shopping by clicking on the "Products" link.
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/">
+	<a href="{www_dir}{index}/article/articleview/{article_id}/">
 	<h2>{article_name}</h2>
 	</a>
 	
@@ -51,8 +51,8 @@ You can start shopping by clicking on the "Products" link.
 	    <table align="right"  width="{thumbnail_image_width}">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/">
-                        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+			<a href="{www_dir}{index}/article/articleview/{article_id}/">
+                        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 			</a>
                         </td>
                 </tr>
@@ -68,8 +68,8 @@ You can start shopping by clicking on the "Products" link.
 	<p>
 	{article_intro}
 	</p>
-	<img src="/ezarticle/user/{image_dir}/path-arrow.gif" height="10" width="15" border="0" alt="">
-	<a class="path" href="/article/articleview/{article_id}/">
+	<img src="{www_dir}/ezarticle/user/{image_dir}/path-arrow.gif" height="10" width="15" border="0" alt="">
+	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>
 	<br />

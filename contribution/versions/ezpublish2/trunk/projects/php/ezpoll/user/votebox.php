@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: votebox.php,v 1.18 2001/07/20 11:22:30 jakobn Exp $
+// $Id: votebox.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -40,7 +40,7 @@ if ( $PageCaching == "enabled" )
 {
     $menuCachedFile = "ezpoll/cache/menubox,". $GlobalSiteDesign .".cache";
     
-    if ( file_exists( $menuCachedFile ) )
+    if ( eZFile::file_exists( $menuCachedFile ) )
     {
         include( $menuCachedFile );
     }
@@ -129,7 +129,7 @@ function createPollMenu( $generateStaticPage = false )
     
     if ( $generateStaticPage == true )
     {
-        $fp = fopen ( $menuCachedFile, "w+");
+        $fp = eZFile::fopen( $menuCachedFile, "w+");
 
         $output = $t->parse( $target, "vote_box" );
         // print the output the first time while printing the cache file.

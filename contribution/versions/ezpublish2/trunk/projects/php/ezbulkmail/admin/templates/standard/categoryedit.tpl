@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4">
 
-<form action="/bulkmail/categoryedit/{category_id}" method="post">
+<form action="{www_dir}{index}/bulkmail/categoryedit/{category_id}" method="post">
 
 <p class="boxtext">{intl-name}:</p>
 <input type="text" class="box" size="40" name="Name" value="{category_name}">

@@ -6,7 +6,7 @@
 <!-- BEGIN head_line_item_tpl -->
 <tr>
 	<td>
-	<a href="{head_line_url}" class="menu" onclick="return popup('{head_line_url}')">{head_line}</a><br />
+	<a href="{www_dir}{index}{head_line_url}" class="menu" onclick="return popup('{head_line_url}')">{head_line}</a><br />
 	<span class="menutext">({head_line_origin}, {head_line_date})</span>
 	</td>
 </tr>

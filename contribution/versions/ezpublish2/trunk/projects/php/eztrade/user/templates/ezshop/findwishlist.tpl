@@ -1,4 +1,4 @@
-<form method="post" action="/trade/findwishlist/">
+<form method="post" action="{www_dir}{index}/trade/findwishlist/">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -21,7 +21,7 @@
 <!-- BEGIN wishlist_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/trade/viewwishlist/{user_id}/">{first_name} {last_name}</a>
+	<a href="{www_dir}{index}/trade/viewwishlist/{user_id}/">{first_name} {last_name}</a>
 	</td>
 </tr>
 <!-- END wishlist_tpl -->

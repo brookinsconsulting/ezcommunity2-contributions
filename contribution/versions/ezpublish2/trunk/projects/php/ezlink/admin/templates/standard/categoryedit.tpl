@@ -4,7 +4,7 @@
         <h1>{headline}</h1>
      </td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" size="12" name="QueryString">
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
@@ -14,7 +14,7 @@
 
 <hr noshade size="4">
 
-<form method="post" action="/link/categoryedit/{action_value}/{category_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/link/categoryedit/{action_value}/{category_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 
@@ -36,7 +36,7 @@
 
 <!-- BEGIN image_item_tpl -->
 <p class="boxtext">{intl-th_type_current_image}:</p>
-<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<p><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 </p>
 <input type="checkbox" name="DeleteImage">{intl-delete_image}
 <!-- END image_item_tpl -->
@@ -58,7 +58,7 @@
 	<td>&nbsp;</td>
 	</form>
 	<td>
-	<form method="post" action="/link/category/">
+	<form method="post" action="{www_dir}{index}/link/category/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

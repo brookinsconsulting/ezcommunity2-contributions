@@ -4,7 +4,7 @@
         <h1>{headline}</h1>
      </td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" size="12" name="QueryString">
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
@@ -14,7 +14,7 @@
 
 <hr noshade size="4">
 
-<form method="post" action="/link/linkedit/{action_value}/{link_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/link/linkedit/{action_value}/{link_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <p class="error">{error_msg}</p>
@@ -47,7 +47,7 @@
 </table>
 
 
-<p class="boxtext">{intl-url}: <a href="/link/gotolink/addhit/{link_id}/?Url={url}">{url}</a> </p>
+<p class="boxtext">{intl-url}: <a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={url}">{url}</a> </p>
 <!-- {intl-urledit} -->
 http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 
@@ -76,7 +76,7 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 
 <!-- BEGIN image_item_tpl -->
 <p class="boxtext">{intl-current_image}:</p>
-<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 
 <input type="checkbox" name="DeleteImage" />&nbsp;{intl-delete_image}
 <!-- END image_item_tpl -->

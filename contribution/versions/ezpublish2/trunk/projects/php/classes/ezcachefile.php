@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.12 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezcachefile.php,v 1.13 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -84,7 +84,7 @@ class eZCacheFile
     function exists()
     {
         $file =& $this->filename( true );
-        return file_exists( $file );
+        return eZFile::file_exists( $file );
     }
 
     /*!
@@ -93,7 +93,7 @@ class eZCacheFile
     function delete()
     {
         if ( $this->exists() )
-            unlink( $this->filename( true ) );
+            eZFile::unlink( $this->filename( true ) );
     }
 
     /*!
@@ -104,7 +104,7 @@ class eZCacheFile
     {
         if ( $this->exists() )
         {
-            $mod = filemtime( $this->filename( true ) );
+            $mod = eZFile::filemtime( $this->filename( true ) );
             return $modtime <= $mod;
         }
         return false;
@@ -117,7 +117,7 @@ class eZCacheFile
     {
         if ( $this->exists() )
         {
-            $mod = filemtime( $this->filename( true ) );
+            $mod = eZFile::filemtime( $this->filename( true ) );
             $datetime = new eZDateTime();
 
             $datetime->setYear( date( "Y", $mod ) );
@@ -141,10 +141,10 @@ class eZCacheFile
             print( "<br><b>Cache: File \"" . $this->filename( true ) . "\" does not exist</b><br>" );
         else
         {
-            $file = fopen( $this->filename( true ), "r" );
+            $file = eZFile::fopen( $this->filename( true ), "r" );
             if ( $file )
             {
-                $content =& fread( $file, filesize( $this->filename( true ) ) );
+                $content =& fread( $file, eZFile::filesize( $this->filename( true ) ) );
                 fclose( $file );
             }
             else
@@ -160,7 +160,7 @@ class eZCacheFile
     */
     function store( $content )
     {
-        $file = fopen( $this->filename( true ), "w" );
+        $file = eZFile::fopen( $this->filename( true ), "w" );
         if ( $file )
         {
             fwrite( $file, $content );
@@ -239,7 +239,7 @@ class eZCacheFile
             ++$i;
         }
         $reg = "/$reg/";
-        $dir = dir( $root );
+        $dir = eZFile::dir( $root );
         $ret = array();
         while ( $entry = $dir->read() )
         {

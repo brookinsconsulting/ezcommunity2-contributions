@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.5 2001/07/20 11:26:45 jakobn Exp $
+// $Id: sectionedit.php,v 1.6 2001/07/29 23:31:10 kaid Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -65,7 +65,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     $Name = strtolower( $Name );
     if ( $warning )
     {
-        if ( is_dir( "sitedesign/" . $Name ) == false );
+        if ( eZFile::is_dir( "sitedesign/" . $Name ) == false );
         {
             $session =& eZSession::globalSession();            
             $session->setVariable( "DirNotExists", "true" );

@@ -1,4 +1,4 @@
-<form action="/message/list/" method="post">
+<form action="{www_dir}{index}/message/list/" method="post">
 
 <h1>{intl-message_from} {from_user_first_name} {from_user_last_name} </h1>
 
@@ -51,7 +51,7 @@
        </form>
 </td>
 <td width="99%">
-       <form action="/message/edit/" method="post">
+       <form action="{www_dir}{index}/message/edit/" method="post">
        <input type="hidden" name="Subject" value="{message_subject}" />
        <input type="hidden" name="Message" value="{message_message}" />
        <input type="hidden" name="FromUserID" value="{message_user_id}" />

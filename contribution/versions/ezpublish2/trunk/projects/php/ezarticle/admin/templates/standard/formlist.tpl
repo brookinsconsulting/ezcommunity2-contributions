@@ -1,4 +1,4 @@
-<form action="/article/articleedit/formlist/{article_id}/" method="post">
+<form action="{www_dir}{index}/article/articleedit/formlist/{article_id}/" method="post">
 
 <h1>{intl-form_list}</h1>
 

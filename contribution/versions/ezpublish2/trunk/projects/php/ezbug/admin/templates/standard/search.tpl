@@ -4,7 +4,7 @@
 	<h1>{intl-search} - ( {query_text} )</h1>
 	</td>
 	<td rowspan="2" align="right">
-	<form action="/bug/search/" method="post">
+	<form action="{www_dir}{index}/bug/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input type="submit" value="{intl-search}" />
 	</form>	
@@ -29,7 +29,7 @@
 <!-- BEGIN bug_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/bug/bugpreview/{bug_id}/">
+	<a href="{www_dir}{index}/bug/bugpreview/{bug_id}/">
 	{bug_name}&nbsp;
 	</a>
 	</td>
@@ -54,10 +54,10 @@
 	</td>
 
 	<td width="1%" class="{td_class}">
-	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/bug/bugedit/delete/{bug_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezaa{bug_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="#" onClick="verify( '{intl-delete}', '/bug/bugedit/delete/{bug_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezaa{bug_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>
 </tr>
 <!-- END bug_item_tpl -->

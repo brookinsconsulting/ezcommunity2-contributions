@@ -34,17 +34,17 @@
 <!-- BEGIN attached_file_list_tpl -->
 <h3>{intl-attached_files}:</h3>
 <!-- BEGIN attached_file_tpl -->
-<a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a></div><br />
+<a href="{www_dir}{index}/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a></div><br />
 <!-- END attached_file_tpl -->
 
 <!-- END attached_file_list_tpl -->
 
 <!-- BEGIN prev_page_link_tpl -->
-<a class="path" href="/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
+<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
 
 <!-- BEGIN page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/{page_number}/">{page_number}</a>	
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{page_number}/">{page_number}</a>	
 <!-- END page_link_tpl -->
 
 <!-- BEGIN current_page_link_tpl -->
@@ -53,16 +53,16 @@
 
 
 <!-- BEGIN next_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
 <!-- END next_page_link_tpl -->
 </p>
 
 <p>
 <!-- BEGIN numbered_page_link_tpl -->
-<div align="center"><a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a></div>
+<div align="center"><a class="path" href="{www_dir}{index}/article/articleview/{article_id}/0/">{intl-numbered_page}</a></div>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<div align="center"><a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a></div>
+<div align="center"><a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/">{intl-print_page}</a></div>
 <!-- END print_page_link_tpl -->
 </p>

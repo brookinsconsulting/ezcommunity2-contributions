@@ -1,5 +1,5 @@
 <!-- BEGIN normal_select_tpl -->
-<form method="post" action="/trade/productedit/link/list/{product_id}">
+<form method="post" action="{www_dir}{index}/trade/productedit/link/list/{product_id}">
 
 <h1>{intl-head_line}</h1>
 <hr noshade="noshade" size="4" />
@@ -21,10 +21,10 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="{category_url}">{category_name}</a>
+	<a href="{www_dir}{index}{category_url}">{category_name}</a>
 	</td>
 	<td class="{td_class}">
-	<a href="{category_orig_url}" target="_blank">{category_orig_url}</a>
+	<a href="{www_dir}{index}{category_orig_url}" target="_blank">{category_orig_url}</a>
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="CategorySelect[]" value="{category_item_id}">
@@ -54,7 +54,7 @@
 	{company_name}
 	</td>
 	<td class="{td_class}">
-	<a href="{company_orig_url}" target="_blank">{company_orig_url}</a>
+	<a href="{www_dir}{index}{company_orig_url}" target="_blank">{company_orig_url}</a>
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="ItemSelect[]" value="{item_id}">
@@ -72,7 +72,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/trade/productedit/link/select/{product_id}/{module_type}/{section_id}/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="{www_dir}{index}/trade/productedit/link/select/{product_id}/{module_type}/{section_id}/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -86,7 +86,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/productedit/link/select/{product_id}/{module_type}/{section_id}/{category_id}/{item_index}">{type_item_name}</a>&nbsp;|
+	&nbsp;<a class="path" href="{www_dir}{index}/trade/productedit/link/select/{product_id}/{module_type}/{section_id}/{category_id}/{item_index}">{type_item_name}</a>&nbsp;|
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -100,7 +100,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/productedit/link/select/{product_id}/{module_type}/{section_id}/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="{www_dir}{index}/trade/productedit/link/select/{product_id}/{module_type}/{section_id}/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
@@ -144,7 +144,7 @@
 <!-- END normal_select_tpl -->
 
 <!-- BEGIN module_select_tpl -->
-<form method="post" action="/trade/productedit/link/list/{product_id}">
+<form method="post" action="{www_dir}{index}/trade/productedit/link/list/{product_id}">
 
 <h1>{intl-head_line_choose}</h1>
 <hr noshade="noshade" size="4" />
@@ -152,8 +152,8 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN module_item_tpl -->
 <tr>
-	<td width="1%" valign="top"><img src="/admin/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" /><br /></td>
-	<td width="99%"class="menu"><a class="menu" href="/trade/productedit/link/select/{product_id}/{module_name}/{module_type}/{section_id}">{module_type_name}</a></td>
+	<td width="1%" valign="top"><img src="{www_dir}/admin/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" /><br /></td>
+	<td width="99%"class="menu"><a class="menu" href="{www_dir}{index}/trade/productedit/link/select/{product_id}/{module_name}/{module_type}/{section_id}">{module_type_name}</a></td>
 </tr>
 <!-- END module_item_tpl -->
 </table>

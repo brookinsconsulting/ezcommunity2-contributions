@@ -13,7 +13,7 @@
 	<td class="spacer5">&nbsp;</td>
   </tr>
   <tr> 
-	<td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
+	<td class="bgspacer"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
   </tr>
   <tr>
 	<td class="spacer5">&nbsp;</td>
@@ -22,7 +22,7 @@
 <!-- END empty_cart_tpl -->
 
 
-<form action="/trade/cart/" method="post">
+<form action="{www_dir}{index}/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
   <table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr align="center"> 
@@ -33,7 +33,7 @@
     </tr>
     <!-- BEGIN cart_item_tpl -->
     <tr> 
-	<td colspan="2">&nbsp;<a href="/trade/productview/{product_id}/">{product_name}</a> 
+	<td colspan="2">&nbsp;<a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a> 
 		<div align="right">{product_price}&nbsp;</div>
 	</td>
     </tr>
@@ -87,7 +87,7 @@
 		</tr>
 		<tr> 
 		    <td align="center">
-			<a class="small" href="/trade/cart/">{intl-allcart}</a>
+			<a class="small" href="{www_dir}{index}/trade/cart/">{intl-allcart}</a>
 		    </td>
 		    <!-- END cart_checkout_tpl -->
 		</tr>

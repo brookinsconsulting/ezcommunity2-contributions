@@ -4,7 +4,7 @@
         <h1>{intl-head_line}</h1>
      </td>
      <td align="right">
-	 <form action="/trade/search/" method="post">
+	 <form action="{www_dir}{index}/trade/search/" method="post">
 	       <input type="text" name="Query">
 	       <input type="submit" name="search" value="{intl-search_button}">
          </form>
@@ -22,12 +22,12 @@
 <tr>
 	<td>
 
-	<a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
     <!-- BEGIN image_tpl -->
     <table align="right">
     <tr>
         <td>
-        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
         </td>
     </tr>
     <tr>
@@ -52,7 +52,7 @@
 	<td>
 
 <!-- BEGIN previous_tpl -->
-<a href="/trade/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
+<a href="{www_dir}{index}/trade/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
 {intl-prev}
 </a>
 <!-- END previous_tpl -->
@@ -60,7 +60,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <!-- BEGIN next_tpl -->
-<a href="/trade/search/?Offset={next_offset}&URLQueryString={url_query_string}">
+<a href="{www_dir}{index}/trade/search/?Offset={next_offset}&URLQueryString={url_query_string}">
 {intl-next}
 </a>
 <!-- END next_tpl -->

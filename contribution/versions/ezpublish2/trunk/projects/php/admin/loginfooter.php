@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: loginfooter.php,v 1.4 2001/07/19 11:50:54 jakobn Exp $
+// $Id: loginfooter.php,v 1.5 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -30,8 +30,9 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "classes/template.inc" );
 
-$t = new Template( "admin/templates/" . $SiteStyle );
-                 
+// $t = new Template( $siteDir . "admin/templates/" . $SiteStyle );
+$t = new eZTemplate( "admin/templates/" . $SiteStyle,
+                     "ezuser/admin/intl/", $Language, "menubox.php" );
 
 $t->set_file( array(
     "footer_tpl" => "loginfooter.tpl"
@@ -39,6 +40,8 @@ $t->set_file( array(
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "module_dir", $moduleName );
+$t->set_var( "www_dir", $wwwDir );
+$t->set_var( "index", $index );
 
 
 $t->pparse( "output", "footer_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcheckout.php,v 1.5 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezcheckout.php,v 1.6 2001/07/29 23:31:11 kaid Exp $
 //
 // Definition of eZCheckout class
 //
@@ -55,7 +55,7 @@ class eZCheckout
         $Checkout = $ini->read_var( "eZTradeMain", "Checkout" );
 
         // check for local checkout code
-        if ( file_exists( "checkout/classes/ezcheckoutsupplier.php" ) )
+        if ( eZFile::file_exists( "checkout/classes/ezcheckoutsupplier.php" ) )
         {
             include_once( "checkout/classes/ezcheckoutsupplier.php" );
         }

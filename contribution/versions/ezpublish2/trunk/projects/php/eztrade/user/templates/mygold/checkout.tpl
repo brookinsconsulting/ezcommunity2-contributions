@@ -1,4 +1,4 @@
-<form action="/trade/checkout/" method="post">
+<form action="{www_dir}{index}/trade/checkout/" method="post">
 
 <h1>{intl-confirm_order}</h1>
 
@@ -22,7 +22,7 @@
 <tr>
 	<td class="{td_class}">
 	<!-- BEGIN cart_image_tpl -->
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	<!-- END cart_image_tpl -->&nbsp;
 	</td>
 	<td class="{td_class}">
@@ -54,7 +54,7 @@
               <!-- END shipping_type_tpl -->
             </select>&nbsp;
             <input class="okbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
-	    <a class="small" href="/article/articlestatic/26/#Versand"><br />Versand-Information</a>
+	    <a class="small" href="{www_dir}{index}/article/articlestatic/26/#Versand"><br />Versand-Information</a>
         </td>
         <td align="right" colspan="2">
 	{intl-shipping_charges}:
@@ -116,19 +116,19 @@
       <table cellspacing="10">
         <tr>
 	  <td class="small" valign="top" width="25%">
-	    <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="/sitedesign/mygold/images/paybox_logo.gif" border="0" width="53" height=40"" alt="" /></a>
+	    <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="{www_dir}/sitedesign/mygold/images/paybox_logo.gif" border="0" width="53" height=40"" alt="" /></a>
 	    <br />paybox - bezahlen Sie mit Ihrem Handy
           </td>
           <td class="small" valign="top" width="25%">  
-            <a href="http://www.visa.de" target="new"><img src="/sitedesign/mygold/images/visa_logo.gif" alt="" width="63" height="40" border="0" /></a>
+            <a href="http://www.visa.de" target="new"><img src="{www_dir}/sitedesign/mygold/images/visa_logo.gif" alt="" width="63" height="40" border="0" /></a>
             <br />Visa
           </td>	  
           <td class="small" valign="top" width="25%">
-            <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="53" height="40" border="0" /></a>
+            <a href="http://www.eurocard.de" target="new"><img src="{www_dir}/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="53" height="40" border="0" /></a>
             <br />Euro- Mastercard
           </td>
           <td class="small" valign="top" width="25%">  
-            <img src="/sitedesign/mygold/images/elv_logo.gif" alt="" width="40" height="40" border="0" />
+            <img src="{www_dir}/sitedesign/mygold/images/elv_logo.gif" alt="" width="40" height="40" border="0" />
             <br />ELV - Elektronisches Lastschriftverfahren
           </td>
         </tr>

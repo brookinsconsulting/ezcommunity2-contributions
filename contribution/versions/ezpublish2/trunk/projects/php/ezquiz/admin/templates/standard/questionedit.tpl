@@ -1,4 +1,4 @@
-<form method="post" action="/quiz/game/questionedit/{question_id}/">
+<form method="post" action="{www_dir}{index}/quiz/game/questionedit/{question_id}/">
 
 <h1>{intl-headline}</h1>
 

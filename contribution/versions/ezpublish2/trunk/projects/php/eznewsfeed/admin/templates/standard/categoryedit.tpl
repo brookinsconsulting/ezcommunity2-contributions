@@ -1,4 +1,4 @@
-<form method="post" action="/newsfeed/category/">
+<form method="post" action="{www_dir}{index}/newsfeed/category/">
 
 <h1>{intl-category_edit}</h1>
 

@@ -1,4 +1,4 @@
-<form action="/urltranslator/urledit" method="post">
+<form action="{www_dir}{index}/urltranslator/urledit" method="post">
 
 <h1>{intl-url_edit}</h1>
 

@@ -9,7 +9,7 @@ else
 	print( "eZ publish" );
     ?></title>
 
-<link rel="stylesheet" type="text/css" href="/sitedesign/intranet/style.css" />
+<link rel="stylesheet" type="text/css" href="<? print $wwwDir; ?>/sitedesign/intranet/style.css" />
 
 <script language="JavaScript1.2">
 <!--//

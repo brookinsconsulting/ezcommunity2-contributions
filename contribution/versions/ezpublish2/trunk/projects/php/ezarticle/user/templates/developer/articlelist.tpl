@@ -5,7 +5,7 @@
 	<h1>{current_category_name}</h1>
 	</td>
 	<td align="right">
-	<form action="/article/search/" method="post">
+	<form action="{www_dir}{index}/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -35,14 +35,14 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
+	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table width="1%" align="right">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+			<a href="{www_dir}{index}/article/articleview/{article_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
             </td>
                 </tr>
                 <tr>
@@ -55,8 +55,8 @@
 
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
+	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/">{article_link_text}</a>
 	<br /><br />
 	</td>
 </tr>
@@ -72,7 +72,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/article/archive/{category_current_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/article/archive/{category_current_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -86,7 +86,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/archive/{category_current_id}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -100,7 +100,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/archive/{category_current_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

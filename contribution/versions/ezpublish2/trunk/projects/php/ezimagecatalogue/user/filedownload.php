@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.4 2001/07/20 11:06:38 jakobn Exp $
+// $Id: filedownload.php,v 1.5 2001/07/29 23:31:07 kaid Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -46,8 +46,8 @@ if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r
 //  print( $filePath );
 
 //  # the file may be a local file with full path. 
-$fileSize = filesize( $filePath );
-$fp = fopen( $filePath, "r" );
+$fileSize = eZFile::filesize( $filePath );
+$fp = eZFile::fopen( $filePath, "r" );
 $content =& fread( $fp, $fileSize );
 
 Header("Content-type: application/oct-stream"); 

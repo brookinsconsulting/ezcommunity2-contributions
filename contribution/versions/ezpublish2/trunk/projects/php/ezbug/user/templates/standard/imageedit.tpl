@@ -1,4 +1,4 @@
-<form method="post" action="/bug/report/imageedit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/bug/report/imageedit/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-imageupload}: {bug_name}</h1>
@@ -43,7 +43,7 @@
 	<td>&nbsp;</td>
 	<td>
 
-	<form method="post" action="/bug/report/edit/{bug_id}/">
+	<form method="post" action="{www_dir}{index}/bug/report/edit/{bug_id}/">
 	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>
 

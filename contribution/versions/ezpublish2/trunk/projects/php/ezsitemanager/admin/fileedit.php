@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileedit.php,v 1.2 2001/07/20 11:26:45 jakobn Exp $
+// $Id: fileedit.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
 //
 // Created on: <11-Jul-2001 17:48:44 bf>
 //
@@ -29,7 +29,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezfile.php" );
 
 
-if ( !file_exists( "ezsitemanager/staticfiles/$fileName" ) )
+if ( !eZFile::file_exists( "ezsitemanager/staticfiles/$fileName" ) )
 {
      eZHTTPTool::header( "Location: /error/404/" );
      exit();
@@ -37,7 +37,7 @@ if ( !file_exists( "ezsitemanager/staticfiles/$fileName" ) )
 
 if ( isset( $Store ) )
 {
-    $fp = fopen ( "ezsitemanager/staticfiles/$fileName", "w+");
+    $fp = eZFile::fopen( "ezsitemanager/staticfiles/$fileName", "w+");
     fwrite ( $fp, $Contents );
     fclose( $fp );
 }

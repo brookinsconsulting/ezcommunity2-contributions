@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.41 2001/07/26 08:29:48 jhe Exp $
+// $Id: personedit.php,v 1.42 2001/07/29 23:31:02 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -55,15 +55,18 @@ function deleteCache( $siteStyle )
 
 function unlink_wild( $dir, $rege )
 {
-    $d = opendir( $dir );
-    while ( $f = readdir( $d ) )
+    // $d = opendir( $dir );
+    //while ( $f = readdir( $d ) )
+
+    $d = eZFile::dir( $root );
+    while( $f = $d->read() )
     {
         if ( ereg( $rege, $f ) )
         {
-            unlink( $dir . $f );
+            eZFile::unlink( $dir . $f );
         }
     }
-    closedir( $d );
+    // closedir( $d );
 }
 
 

@@ -4,7 +4,7 @@
 	<h1>{intl-head_line} - {current_category_name}</h1>
 	</td>
 	<td rowspan="2" align="right">
-	<form action="/ad/search/" method="post">
+	<form action="{www_dir}{index}/ad/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -17,17 +17,17 @@
 <!-- BEGIN path_tpl -->
 
 
-<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0">
+<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0">
 
-<a class="path" href="/ad/archive/0/">{intl-topcategory}</a>
+<a class="path" href="{www_dir}{index}/ad/archive/0/">{intl-topcategory}</a>
 
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0">
+<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0">
 
-<a class="path" href="/ad/archive/{category_id}/">{category_name}</a>
+<a class="path" href="{www_dir}{index}/ad/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -42,17 +42,17 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 	
-<form method="post" action="/ad/category/edit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/ad/category/edit/" enctype="multipart/form-data">
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/ad/archive/{category_id}/">{category_name}</a>&nbsp;
+	<a href="{www_dir}{index}/ad/archive/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
@@ -78,13 +78,13 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 
-<form method="post" action="/ad/ad/edit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/ad/ad/edit/" enctype="multipart/form-data">
 <!-- BEGIN ad_item_tpl -->
 <tr>
 	<td class="{td_class}">
 	<!-- BEGIN image_item_tpl -->
 	<!-- <p class="boxtext">{intl-th_type_current_image}:</p> -->
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 	<!-- END image_item_tpl -->
 	<!-- BEGIN html_item_tpl -->
 	{html_banner}
@@ -94,7 +94,7 @@
 	<!-- END no_image_tpl -->
 	</td>
 	<td class="{td_class}">
-	<a href="/ad/statistics/{ad_id}/">
+	<a href="{www_dir}{index}/ad/statistics/{ad_id}/">
 	{ad_name}
 	</a>
 	</td>
@@ -108,7 +108,7 @@
 	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="AdArrayID[]" value="{ad_id}">

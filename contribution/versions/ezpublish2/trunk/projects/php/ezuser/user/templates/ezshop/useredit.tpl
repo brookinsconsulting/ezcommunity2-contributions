@@ -1,4 +1,4 @@
-<form method="post" action="/user/user/{action_value}/{user_id}/">
+<form method="post" action="{www_dir}{index}/user/user/{action_value}/{user_id}/">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

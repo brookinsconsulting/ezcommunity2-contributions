@@ -1,21 +1,21 @@
         <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="1%" class="tdmini"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
-			<td width="98%" valign="top" class="tdmini"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
-            <td rowspan="3" valign="top" width="1%" align="right"><a href="/tema/bildegalleri"><img src="/sitedesign/percolo/images/tittelbilde.gif" alt="Bygg mer enn hus..." width="140" height="100" border="0" /></a><br /></td>
+            <td width="1%" class="tdmini"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td width="98%" valign="top" class="tdmini"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
+            <td rowspan="3" valign="top" width="1%" align="right"><a href="{www_dir}{index}/tema/bildegalleri"><img src="{www_dir}/sitedesign/percolo/images/tittelbilde.gif" alt="Bygg mer enn hus..." width="140" height="100" border="0" /></a><br /></td>
         </tr>
         <tr>
-            <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
+            <td bgcolor="#009ebf" valign="top"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
             <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">Butikk</h1></td>
         </tr>
         <tr>
-            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
-            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
+            <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+            <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
         </tr>
 		</table>
         <table width="100%" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
 		<tr>
-		    <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+		    <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td colspan="2">
 	
 <!-- BEGIN path_tpl -->
@@ -39,14 +39,14 @@
 <tr>
 	<td>
 
-	<div class="listproducts"><a class="listproducts" href="/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
+	<div class="listproducts"><a class="listproducts" href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
 
 <!-- BEGIN product_image_tpl -->
     <table align="right">
     <tr>
         <td>
-	<a href="/{module}/{module_view}/{product_id}/{category_id}/">
-        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">
+        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 	</a>
         </td>
     </tr>
@@ -70,7 +70,7 @@
 <!-- END price_tpl -->
 <tr>
 	<td>
-	<a class="path" href="/{module}/{module_view}/{product_id}/{category_id}/">Les mer om dette produktet</a>
+	<a class="path" href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">Les mer om dette produktet</a>
 	</td>
 </tr>
 </table>
@@ -85,11 +85,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/1/{category_id}/">Kjøpsinformasjon</a></div>
+	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">Kjøpsinformasjon</a></div>
 
 	<div class="p">Her kan du få mer informasjon om hvordan du handler fra vår nettbutikk.</div>
-	<img src="/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />
-	<a class="path" href="/article/articleview/14/1/{category_id}/">Les mer om dine rettigheter</a>
+	<img src="{www_dir}/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />
+	<a class="path" href="{www_dir}{index}/article/articleview/14/1/{category_id}/">Les mer om dine rettigheter</a>
 	<br /><br />
 	</td>
 </tr>
@@ -104,7 +104,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/trade/productlist/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="{www_dir}{index}/trade/productlist/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -118,7 +118,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_index}">{type_item_name}</a>&nbsp;|
+	&nbsp;<a class="path" href="{www_dir}{index}/trade/productlist/{category_id}/{item_index}">{type_item_name}</a>&nbsp;|
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -132,7 +132,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="{www_dir}{index}/trade/productlist/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

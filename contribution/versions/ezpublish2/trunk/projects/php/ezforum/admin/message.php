@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.32 2001/07/19 13:17:54 jakobn Exp $
+// $Id: message.php,v 1.33 2001/07/29 23:31:04 kaid Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -126,7 +126,7 @@ foreach ( $messages as $message )
 $t->set_var( "message_id", $MessageID );
 if ( $GenerateStaticPage == "true" )
 {
-    $fp = fopen ( $cachedFile, "w+");
+    $fp = eZFile::fopen( $cachedFile, "w+");
 
     $output = $t->parse( $target, "message_tpl" );
     // print the output the first time while printing the cache file.

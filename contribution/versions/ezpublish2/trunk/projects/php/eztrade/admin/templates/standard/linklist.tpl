@@ -1,4 +1,4 @@
-<form method="post" action="{link_list_url}{item_id}">
+<form method="post" href="{www_dir}{index}{link_list_url}{item_id}">
 
 <h1>{intl-head_line}</h1>
 <hr noshade="noshade" size="4" />
@@ -41,7 +41,7 @@
 	<td width="1%">
 	</td>
 	<td class="{td_class}">
-	&nbsp;<a href="{link_url}" target="_blank">{link_name}</a>
+	&nbsp;<a href="{www_dir}{index}{link_url}" target="_blank">{link_name}</a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="DeleteLinkID[]" value="{link_id}" />

@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form action="/forum/messagesimplereply/insert/{forum_id}/{message_id}/" method="post">
+<form action="{www_dir}{index}/forum/messagesimplereply/insert/{forum_id}/{message_id}/" method="post">
 
   
 <br />

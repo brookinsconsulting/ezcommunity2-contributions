@@ -26,7 +26,7 @@
 <table align="right" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" />
+	<img src="{www_dir}{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" />
 	</td>
 </tr>
 <tr>
@@ -51,8 +51,8 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
+	<img src="{www_dir}{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
 	</a>
 	</td>
 </tr>
@@ -73,7 +73,7 @@
 </tr>
 </table>
 
-<form action="/trade/cart/add/{product_id}/" method="post">
+<form action="{www_dir}{index}/trade/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
 
@@ -120,7 +120,7 @@
 	<td align="right">
 	<!-- BEGIN external_link_tpl -->
 	<p class="boxtext">{intl-external_link}:</p>
-	<a href="{external_link_url}" target="_blank">{external_link_url}</a>
+	<a href="{www_dir}{index}{external_link_url}" target="_blank">{external_link_url}</a>
 	<!-- END external_link_tpl -->
 	</td>
 </tr>

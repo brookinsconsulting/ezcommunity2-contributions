@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagefile.php,v 1.17 2001/07/25 08:05:25 ce Exp $
+// $Id: ezimagefile.php,v 1.18 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZImageFile class
 //
@@ -155,11 +155,11 @@ class eZImageFile extends eZFile
     {
         $ret = false;
         $lock_file = $dest . ".lock";
-        if ( file_exists( $lock_file ) )
+        if ( eZFile::file_exists( $lock_file ) )
         {
             // If image file is locked we need to wait until it's finished
             $i = 0;
-            while( file_exists( $lock_file ) and $i < 5*5 ) // Wait max 5 seconds
+            while( eZFile::file_exists( $lock_file ) and $i < 5*5 ) // Wait max 5 seconds
             {
                 usleep( 200000 ); // Sleep 1/5 of a second
                 clearstatcache();
@@ -182,7 +182,7 @@ class eZImageFile extends eZFile
 
         if ( $ret_code == 0 )
         {
-            @chmod( $dest, 0644 );
+            @eZFile::chmod( $dest, 0644 );
             $ret = true;
         }
         else
@@ -191,20 +191,22 @@ class eZImageFile extends eZFile
         }
 
         // Check for animated gif/png
-        if ( file_exists( "$dest" . ".0" ) )
+        if ( eZFile::file_exists( "$dest" . ".0" ) )
         {
-            copy( $this->TmpFileName, $dest );
-            @chmod( $dest, 0644 );
+            // TODO: not sure
+	    // copy( $this->TmpFileName, $dest );
+	    eZFile::copy( $dest );
+            @eZFile::chmod( $dest, 0644 );
             $i = 0;
-            while( file_exists( "$dest.$i" ) )
+            while( eZFile::file_exists( "$dest.$i" ) )
             {
-                unlink( "$dest.$i" );
+                eZFile::unlink( "$dest.$i" );
                 $i++;
             }
             $ret = true;
         }
 
-        unlink( $lock_file );
+        eZFile::unlink( $lock_file );
 
         return $ret;
     }
@@ -229,7 +231,7 @@ class eZImageFile extends eZFile
             $ret = false;
         }
         else
-            @chmod( $dest, 0644 );
+            @eZFile::chmod( $dest, 0644 );
         
         return $ret;
     }

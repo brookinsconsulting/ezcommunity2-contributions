@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.37 2001/07/19 11:33:57 jakobn Exp $
+// $Id: eztemplate.php,v 1.38 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZTemplate class
 //
@@ -253,22 +253,22 @@ class eZTemplate
         if ( empty( $this->files[0] ) )
             return false;
         $CacheFile =& $this->cacheFile();
-        if ( file_exists( $CacheFile ) )
+        if ( eZFile::file_exists( $CacheFile ) )
         {
-            $template_m = filemtime( $this->filename( $this->files[0] ) );
+            $template_m = eZFile::filemtime( $this->filename( $this->files[0] ) );
             if ( is_array( $this->languageFile ) )
             {
                 $lang_m = 0;
                 foreach ( $this->languageFile as $lang )
                 {
-                    $modtime = filemtime( $lang );
+                    $modtime = eZFile::filemtime( $lang );
                     if ( $modtime > $lang_m )
                         $lang_m = $modtime;
                 }
             }
             else
-                $lang_m = filemtime( $this->languageFile );
-            $cache_m = filemtime( $CacheFile );
+                $lang_m = eZFile::filemtime( $this->languageFile );
+            $cache_m = eZFile::filemtime( $CacheFile );
             if ( $template_m <= $cache_m && $lang_m <= $cache_m )
             {
                 if ( $this->ExternModtime or $this->ExternModTime <= $cache_m )
@@ -290,10 +290,10 @@ class eZTemplate
         if ( empty( $this->files[0] ) )
             return false;
         $CacheFile =& $this->cacheFile();
-        if ( file_exists( $CacheFile ) )
+        if ( eZFile::file_exists( $CacheFile ) )
         {
-            $fd = fopen( $CacheFile, "r" );
-            $str =& fread( $fd, filesize( $CacheFile ) );
+            $fd = eZFile::fopen( $CacheFile, "r" );
+            $str =& fread( $fd, eZFile::filesize( $CacheFile ) );
             fclose( $fd );
             return $str;
         }
@@ -311,13 +311,13 @@ class eZTemplate
             return false;
         $str =& $this->parse( $target, $handle );
         $CacheFile =& $this->cacheFile();
-        if ( !file_exists( $this->CacheDir ) )
+        if ( !eZFile::file_exists( $this->CacheDir ) )
         {
             print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot create cache file</b><br />" );
         }
         else
         {
-            $fd = fopen( $CacheFile, "w" );
+            $fd = eZFile::fopen( $CacheFile, "w" );
             fwrite( $fd, $str );
             fclose( $fd );
         }
@@ -336,14 +336,14 @@ class eZTemplate
         if ( empty( $this->CacheSuffix ) )
             return false;
         $CacheFile =& $this->cacheFile();
-        if ( !file_exists( $this->CacheDir ) )
+        if ( !eZFile::file_exists( $this->CacheDir ) )
         {
             print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot delete cache file</b><br />" );
         }
         else
         {
-            if ( file_exists( $this->CacheFile ) )
-                return unlink( $CacheFile );
+            if ( eZFile::file_exists( $this->CacheFile ) )
+                return eZFile::unlink( $CacheFile );
             else
                 return true;
         }
@@ -363,6 +363,12 @@ class eZTemplate
     */  
     function set_root($root)
     {
+        if ( file_exists( "sitedir.ini" ) && $root != "" )
+        {
+            include( "sitedir.ini" );
+            $root = $siteDir . $root;
+        }
+
         if (!is_dir($root)) {
             $this->halt("set_root: $root is not a directory.");
             return false;
@@ -408,6 +414,11 @@ class eZTemplate
                 $this->files[] = $f;
             }
         }
+
+        // For non-virtualhost, non-rewrite setup
+	    global $wwwDir, $index;
+        $this->set_var( 'www_dir', $wwwDir );
+        $this->set_var( 'index', $index );
     }
 
     /*!

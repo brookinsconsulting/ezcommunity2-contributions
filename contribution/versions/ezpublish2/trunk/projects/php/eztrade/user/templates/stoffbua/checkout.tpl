@@ -1,4 +1,4 @@
-<form action="/trade/checkout/" method="post">
+<form action="{www_dir}{index}/trade/checkout/" method="post">
 
 <h1>{intl-confirm_order}</h1>
 
@@ -20,7 +20,7 @@
 <tr>
 	<td class="{td_class}">
 	<!-- BEGIN cart_image_tpl -->
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	<!-- END cart_image_tpl -->&nbsp;
 	</td>
 	<td class="{td_class}">

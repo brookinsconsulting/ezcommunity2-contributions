@@ -5,7 +5,7 @@
 
 <!-- BEGIN article_category_tpl -->
 <tr>
-	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="/article/archive/{articlecategory_id}/">{articlecategory_title}</a></td>
+	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}/article/archive/{articlecategory_id}/">{articlecategory_title}</a></td>
 </tr>
 <!-- END article_category_tpl -->
 

@@ -1,4 +1,4 @@
-<form method="post" action="/contact/person/{action_value}/{person_id}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/person/{action_value}/{person_id}" enctype="multipart/form-data">
 
 <!-- BEGIN edit_tpl -->
 

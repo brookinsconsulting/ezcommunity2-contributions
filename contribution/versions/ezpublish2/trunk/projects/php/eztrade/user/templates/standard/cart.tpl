@@ -7,7 +7,7 @@
 <!-- END empty_cart_tpl -->
 
 
-<form action="/trade/cart/" method="post">
+<form action="{www_dir}{index}/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -27,11 +27,11 @@
 <tr>
 	<td class="{td_class}">
 	<!-- BEGIN cart_image_tpl -->
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	<!-- END cart_image_tpl -->&nbsp;
 	</td>
 	<td class="{td_class}">
-	<a href="/trade/productview/{product_id}/">{product_name}</a>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a>
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
@@ -52,7 +52,7 @@
 	{product_price}
 	</td>
 	<td class="{td_class}" align="right">
-	<a href="/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END cart_item_tpl -->

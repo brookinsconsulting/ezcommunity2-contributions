@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/login/">
+<form method="post" action="{www_dir}{index}/user/login/login/">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td bgcolor="#f08c00">

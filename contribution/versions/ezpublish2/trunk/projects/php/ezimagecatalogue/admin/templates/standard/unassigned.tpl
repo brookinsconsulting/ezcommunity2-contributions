@@ -1,4 +1,4 @@
-<form method="post" action="/imagecatalogue/unassigned/{offset}/{limit}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/imagecatalogue/unassigned/{offset}/{limit}/" enctype="multipart/form-data">
 
 <h1>{intl-images}</h1>
 
@@ -11,7 +11,7 @@
 <tr>
 	<!-- BEGIN detail_read_tpl -->
 	<td valign="top" class="{td_class}">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/unassigned/{offset}/{limit}"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/unassigned/{offset}/{limit}"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<td class="{td_class}">
 	{image_size}&nbsp;{image_unit}
@@ -27,7 +27,7 @@
 	</td>
 
 	<td class="{td_class}" width="1%">
-	<a href="/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="{www_dir}/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="hidden" name="ImageArrayID[]" value="{image_id}">
@@ -41,12 +41,12 @@
 <tr>
 <td width="50" align="left">
 <!-- BEGIN prev_link_tpl -->
-<a href="/imagecatalogue/unassigned/{prev_offset}/{limit}/">{intl-prev}</a>
+<a href="{www_dir}{index}/imagecatalogue/unassigned/{prev_offset}/{limit}/">{intl-prev}</a>
 <!-- END prev_link_tpl -->
 </td>
 <td width="50%" align="right">
 <!-- BEGIN next_link_tpl -->
-<a href="/imagecatalogue/unassigned/{next_offset}/{limit}/">{intl-next}</a>
+<a href="{www_dir}{index}/imagecatalogue/unassigned/{next_offset}/{limit}/">{intl-next}</a>
 <!-- END next_link_tpl -->
 </td>
 </tr>

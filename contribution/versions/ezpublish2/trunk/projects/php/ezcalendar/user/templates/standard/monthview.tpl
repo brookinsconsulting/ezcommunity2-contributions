@@ -3,7 +3,7 @@
 
 <h2>{month_name} {year_number}</h2>
 
-<form method="post" action="/calendar/monthview/">
+<form method="post" action="{www_dir}{index}/calendar/monthview/">
 <p class="boxtext">{intl-user}:</p>
 <select name="GetByUserID">
 <!-- BEGIN user_item_tpl -->
@@ -21,10 +21,10 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	<a class="path" href="/calendar/monthview/{prev_year_number}/{prev_month_number}">&lt;&lt; {intl-previous_month}</a>
+	<a class="path" href="{www_dir}{index}/calendar/monthview/{prev_year_number}/{prev_month_number}">&lt;&lt; {intl-previous_month}</a>
 	</td>
 	<td align="right">
-	<a class="path" href="/calendar/monthview/{next_year_number}/{next_month_number}">{intl-next_month} &gt;&gt;</a>
+	<a class="path" href="{www_dir}{index}/calendar/monthview/{next_year_number}/{next_month_number}">{intl-next_month} &gt;&gt;</a>
 	</td>
 </tr>
 </table>
@@ -44,44 +44,44 @@
 
 <!-- BEGIN day_tpl -->
 <td class="{td_class}" valign="top" >
-<a class="boxtext" href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
+<a class="boxtext" href="{www_dir}{index}/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
 <br />
-<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 
 <!-- BEGIN private_appointment_tpl -->
 {start_time} - {stop_time}<br />
 <!-- END private_appointment_tpl -->
 
 <!-- BEGIN public_appointment_tpl -->
-<a class="small" href="/calendar/appointmentview/{appointment_id}/">{start_time} - {stop_time}</a><br />
-<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<a class="small" href="{www_dir}{index}/calendar/appointmentview/{appointment_id}/">{start_time} - {stop_time}</a><br />
+<img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 
 <!-- END public_appointment_tpl -->
 
 <!-- BEGIN public_consultation_tpl -->
 <!-- BEGIN public_consultation_company_tpl -->
-<a class="small" href="/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
+<a class="small" href="{www_dir}{index}/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
  - 
-<a class="small" href="/contact/company/view/{company_id}/">{consultation_company}</a><br />
-<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<a class="small" href="{www_dir}{index}/contact/company/view/{company_id}/">{consultation_company}</a><br />
+<img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 <!-- END public_consultation_company_tpl -->
 
 <!-- BEGIN public_consultation_person_tpl -->
-<a class="small" href="/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
+<a class="small" href="{www_dir}{index}/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
  - 
-<a class="small" href="/contact/person/view/{person_id}/">{consultation_person}</a><br />
-<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<a class="small" href="{www_dir}{index}/contact/person/view/{person_id}/">{consultation_person}</a><br />
+<img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 <!-- END public_consultation_person_tpl -->
 <!-- END public_consultation_tpl -->
 
 <!-- BEGIN public_todo_tpl -->
-<a class="small" href="/todo/todoview/{todo_id}">{todo_desc}</a><br />
-<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<a class="small" href="{www_dir}{index}/todo/todoview/{todo_id}">{todo_desc}</a><br />
+<img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 <!-- END public_todo_tpl -->
 
 <br />
 <br />
-<div align="right"><a class="path" href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}">+</a></div>
+<div align="right"><a class="path" href="{www_dir}{index}/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}">+</a></div>
 </td>
 <!-- END day_tpl -->
 
@@ -92,7 +92,7 @@
 
 <!-- END month_tpl -->
 
-<form action="/calendar/appointmentedit/edit/">
+<form action="{www_dir}{index}/calendar/appointmentedit/edit/">
 
 <hr noshade size="4" />
 

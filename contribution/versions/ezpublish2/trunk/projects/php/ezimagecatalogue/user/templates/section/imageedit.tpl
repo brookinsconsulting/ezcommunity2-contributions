@@ -1,13 +1,13 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
-<form method="post" action="/imagecatalogue/image/{action_value}/{image_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/imagecatalogue/image/{action_value}/{image_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-imageupload}</h1>
@@ -47,7 +47,7 @@
 <br />
 
 	<!-- BEGIN image_tpl -->
-	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 	<!-- END image_tpl -->
 
 <p class="boxtext">{intl-imagetitle}:</p>

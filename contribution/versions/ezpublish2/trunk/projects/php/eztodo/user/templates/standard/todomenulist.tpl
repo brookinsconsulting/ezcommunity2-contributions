@@ -6,7 +6,7 @@
 <!-- BEGIN todo_item_tpl -->
 <tr>
 	<td>
-	<a class="menutext" href="/todo/todoview/{todo_id}">{todo_name}</a>
+	<a class="menutext" href="{www_dir}{index}/todo/todoview/{todo_id}">{todo_name}</a>
 	</td>
 </tr>
 <!-- END todo_item_tpl -->

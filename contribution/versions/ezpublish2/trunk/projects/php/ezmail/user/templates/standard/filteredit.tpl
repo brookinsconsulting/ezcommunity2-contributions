@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4">
 
-<form method="post" action="/mail/filteredit/{current_filter_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/mail/filteredit/{current_filter_id}" enctype="multipart/form-data" >
 
 <b>{intl-if} </b>
 <select name="HeaderSelect">

@@ -1,10 +1,10 @@
 <?php
 //
-// $Id: vote.php,v 1.18 2001/07/25 10:09:18 chrism Exp $
+// $Id: vote.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
 //
-// $Id: vote.php,v 1.18 2001/07/25 10:09:18 chrism Exp $
+// $Id: vote.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
 //
-// $Id: vote.php,v 1.18 2001/07/25 10:09:18 chrism Exp $
+// $Id: vote.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -38,9 +38,9 @@ $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 if ( $ini->read_var( "eZPollMain", "AllowDoubleVotes" ) == "enabled" )
    $AllowDoubleVotes = true;
 
-include_once( $DOC_ROOT . "/classes/ezpoll.php" );
-include_once( $DOC_ROOT . "/classes/ezvote.php" );
-include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
+include_once( "ezpoll/classes/ezpoll.php" );
+include_once( "ezpoll/classes/ezvote.php" );
+include_once( "ezpoll/classes/ezpollchoice.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 $session =& eZSession::globalSession();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: consultationlist.php,v 1.9 2001/07/23 14:54:24 jhe Exp $
+// $Id: consultationlist.php,v 1.10 2001/07/29 23:31:03 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -36,7 +36,7 @@ if ( get_class( $user ) == "ezuser" and
     include_once( "ezcontact/classes/ezperson.php" );
 
     include_once( "classes/INIFile.php" );
-    $ini = new INIFIle( "site.ini" );
+    // $ini = new INIFIle( "site.ini" );
     $max = $ini->read_var( "eZContactMain", "LastConsultations" );
     if ( !is_numeric( $max ) )
     {

@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.1 2001/03/23 12:06:22 pkej Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.2 2001/07/29 23:31:10 kaid Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -7,7 +7,7 @@
 	<h1>{intl-head_line}</h1>
 	</td>
 	<td align="right">
-	<form action="/trade/orderlist/" method="post">
+	<form action="{www_dir}{index}/trade/orderlist/" method="post">
 	<input type="text" name="QueryText" />
 	<input class="stdbutton" type="submit" value="{intl-search}">
 	</form>
@@ -15,7 +15,7 @@
 </tr>
 </table>
 
-<form method="post" action="/trade/orderlist/?Offset={current_offset}">
+<form method="post" action="{www_dir}{index}/trade/orderlist/?Offset={current_offset}">
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN order_item_list_tpl -->
@@ -48,10 +48,10 @@
 	{order_price}
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/orderedit/{order_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezto{order_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/trade/orderedit/{order_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezto{order_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-<!--	<a href="#" onClick="verify( '{intl-delete}', '/trade/orderedit/{order_id}/delete/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="ezto{order_id}-slett" border="0" src="/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a> -->
+<!--	<a href="#" onClick="verify( '{intl-delete}', '/trade/orderedit/{order_id}/delete/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="ezto{order_id}-slett" border="0" src="{www_dir}/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a> -->
         <input type="checkbox" name="OrderArrayID[]" value="{order_id}" />
      	</td>
 </tr>
@@ -66,13 +66,13 @@
 	<td align="left">
 
 <!-- BEGIN previous_tpl -->
-<a class="path" href="/trade/orderlist/?Offset={prev_offset}&URLQueryString={url_query_string}">&lt;&lt;&nbsp;prev</a>
+<a class="path" href="{www_dir}{index}/trade/orderlist/?Offset={prev_offset}&URLQueryString={url_query_string}">&lt;&lt;&nbsp;prev</a>
 <!-- END previous_tpl -->
 	</td>
 	<td align="right">
 
 <!-- BEGIN next_tpl -->
-<a class="path" href="/trade/orderlist/?Offset={next_offset}&URLQueryString={url_query_string}">next&nbsp;&gt;&gt;</a>
+<a class="path" href="{www_dir}{index}/trade/orderlist/?Offset={next_offset}&URLQueryString={url_query_string}">next&nbsp;&gt;&gt;</a>
 <!-- END next_tpl -->
 
 	</td>

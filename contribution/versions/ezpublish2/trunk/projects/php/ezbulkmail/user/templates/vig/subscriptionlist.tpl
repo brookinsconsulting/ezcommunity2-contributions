@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form action="/bulkmail/subscriptionlist" method="post">
+<form action="{www_dir}{index}/bulkmail/subscriptionlist" method="post">
 
 <!-- BEGIN category_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">

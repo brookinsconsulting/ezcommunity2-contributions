@@ -1,4 +1,4 @@
-<form metdod="post" action="/forum/unapprovededit/">
+<form metdod="post" action="{www_dir}{index}/forum/unapprovededit/">
 
 <h1>{intl-messages_awaiting_approval}</h1>
 
@@ -28,11 +28,11 @@
 <tr>
     <td>
         <p class="boxtext">{intl-path}:</p>
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-        <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-	<a class="path" href="/forum/messagelist/{forum_id}">{forum_name}</a>
+	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+        <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
     </td>
 </tr>
 </table>
@@ -71,7 +71,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/forum/unapprovedlist/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/forum/unapprovedlist/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -85,7 +85,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/forum/unapprovedlist/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/forum/unapprovedlist/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -99,7 +99,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/forum/unapprovedlist/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/forum/unapprovedlist/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -7,7 +7,7 @@
 <hr noshade="noshade" size="4">
 <!-- END error_message_tpl -->
 
-<form method="post" action="/bulkmail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/bulkmail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-subject}:</p>
 <input type="text" class="box" size="40" name="Subject" value="{subject_value}"/>

@@ -1,4 +1,4 @@
-<form method="post" action="/user/groupedit/{action_value}/{group_id}/">
+<form method="post" action="{www_dir}{index}/user/groupedit/{action_value}/{group_id}/">
 
 <h1>{head_line}</h1>
 

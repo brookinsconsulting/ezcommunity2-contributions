@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagevariation.php,v 1.30 2001/07/25 10:37:38 jb Exp $
+// $Id: ezimagevariation.php,v 1.31 2001/07/29 23:31:07 kaid Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -120,9 +120,9 @@ class eZImageVariation
         }
 
         // Delete from the filesystem
-        if ( file_exists( $this->imagePath( true ) ) )
+        if ( eZFile::file_exists( $this->imagePath( true ) ) )
         {
-            unlink( $this->imagePath( true ) );
+            eZFile::unlink( $this->imagePath( true ) );
         }
     }
 
@@ -154,7 +154,7 @@ class eZImageVariation
                 $ret = true;
             }
                 
-            if ( !file_exists( $this->ImagePath ) or !is_file( $this->ImagePath ) )
+            if ( !eZFile::file_exists( $this->ImagePath ) or !is_file( $this->ImagePath ) )
             {
                 $ret = false;
             }
@@ -217,7 +217,7 @@ class eZImageVariation
                 }
                 else if ( $result )
                 {
-                    if ( !file_exists( $dest ) or !is_file( $dest ) )
+                    if ( !eZFile::file_exists( $dest ) or !is_file( $dest ) )
                         return $allow_error ? false : eZImageVariation::createErrorImage();
                     $size = GetImageSize( $dest );
                     if ( !$size )

@@ -5,7 +5,7 @@
         <h1>{intl-view_headline}</h1>
         </td>
               <td rowspan="2" align="right">  
-              <form action="/contact/search/company/" method="post">
+              <form action="{www_dir}{index}/contact/search/company/" method="post">
               <input type="text" name="SearchText" size="12" />
               <input class="stdbutton" type="submit" value="{intl-search}" />
               </form>
@@ -18,7 +18,7 @@
 <br />
 
 <!-- BEGIN logo_view_tpl -->
-<img src="{logo_image_src}" width="{logo_width}" height="{logo_height}" border="0" alt="{logo_alt}" /><br /><br />
+<img src="{www_dir}{logo_image_src}" width="{logo_width}" height="{logo_height}" border="0" alt="{logo_alt}" /><br /><br />
 <!-- END logo_view_tpl -->
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -81,7 +81,7 @@
     <!-- BEGIN online_line_tpl -->
     <td width="{online_width}%">
         <p class="boxtext">{online_type_name}:</p>
-        <a href="{online_prefix}{online}">{online_visual_prefix}{online}</a>
+        <a href="{www_dir}{index}{online_prefix}{online}">{online_visual_prefix}{online}</a>
     </td>
     <!-- END online_line_tpl -->
 </tr>
@@ -99,7 +99,7 @@
 
 <p class="boxtext">{intl-description}:</p>
 <!-- BEGIN image_view_tpl -->
-<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" vspace="2" hspace="6" />
+<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" vspace="2" hspace="6" />
 <!-- END image_view_tpl -->
 <div class="p">{description}</div>
 <br />
@@ -143,12 +143,12 @@
 <!-- BEGIN person_item_tpl -->
 <tr class="{bg_color}">
 	<td>
-	<a href="/contact/person/view/{person_id}/">{person_lastname}, {person_firstname}</a>
+	<a href="{www_dir}{index}/contact/person/view/{person_id}/">{person_lastname}, {person_firstname}</a>
 	</td>
 
 	<!-- BEGIN person_consultation_button_tpl -->
 	<td width="1%">
-	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/admin/images/addmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<!-- END person_consultation_button_tpl -->
 </tr>
@@ -161,7 +161,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/contact/company/view/{company_id}/{item_previous_index}/">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="{www_dir}{index}/contact/company/view/{company_id}/{item_previous_index}/">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -175,7 +175,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/contact/company/view/{company_id}/{item_index}">{type_item_name}</a>&nbsp;|
+	&nbsp;<a class="path" href="{www_dir}{index}/contact/company/view/{company_id}/{item_index}">{type_item_name}</a>&nbsp;|
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -189,7 +189,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/contact/company/view/{company_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="{www_dir}{index}/contact/company/view/{company_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
@@ -210,9 +210,9 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th><a href="/contact/company/view/{company_id}?OrderBy=Date">{intl-consultation_date}:</a></th>
-	<th><a href="/contact/company/view/{company_id}?OrderBy=Description">{intl-consultation_short_description}:</a></th>
-	<th><a href="/contact/company/view/{company_id}?OrderBy=Status">{intl-consultation_status}:</a></th>
+	<th><a href="{www_dir}{index}/contact/company/view/{company_id}?OrderBy=Date">{intl-consultation_date}:</a></th>
+	<th><a href="{www_dir}{index}/contact/company/view/{company_id}?OrderBy=Description">{intl-consultation_short_description}:</a></th>
+	<th><a href="{www_dir}{index}/contact/company/view/{company_id}?OrderBy=Status">{intl-consultation_status}:</a></th>
 </tr>
 
 <!-- BEGIN consultation_item_tpl -->
@@ -221,10 +221,10 @@
         {consultation_date}
 	</td>
 	<td>
-        <a href="/contact/consultation/view/{consultation_id}">{consultation_short_description}</a>
+        <a href="{www_dir}{index}/contact/consultation/view/{consultation_id}">{consultation_short_description}</a>
 	</td>
 	<td>
-        <a href="/contact/consultation/type/list/{consultation_status_id}">{consultation_status}</a>
+        <a href="{www_dir}{index}/contact/consultation/type/list/{consultation_status_id}">{consultation_status}</a>
 	</td>
 </tr>
 <!-- END consultation_item_tpl -->
@@ -233,7 +233,7 @@
 <!-- END consultation_table_item_tpl -->
 
 <br />
-<form method="post" action="/contact/company/edit/{company_id}/">
+<form method="post" action="{www_dir}{index}/contact/company/edit/{company_id}/">
 
 <hr noshade="noshade" size="4" />
 

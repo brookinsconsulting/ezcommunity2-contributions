@@ -6,7 +6,7 @@
 
 {message_body_file}
 
-<form method="post" action="/forum/messageedit/{action_value}/{message_id}">
+<form method="post" action="{www_dir}{index}/forum/messageedit/{action_value}/{message_id}">
 {message_hidden_form_file}
 
     <input class="stdbutton" type="submit" name="EditButton" value="{intl-edit}" />

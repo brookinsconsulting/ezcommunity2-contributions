@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: siteconfig.php,v 1.3 2001/07/20 11:26:45 jakobn Exp $
+// $Id: siteconfig.php,v 1.4 2001/07/29 23:31:10 kaid Exp $
 //
 // Created on: <12-Jul-2001 10:45:55 bf>
 //
@@ -31,7 +31,7 @@ include_once( "classes/ezfile.php" );
 
 if ( isset( $Store ) )
 {
-    $fp = fopen ( "site.ini", "w+");
+    $fp = eZFile::fopen( "site.ini", "w+");
     $Contents =& str_replace ("\r", "", $Contents );
     fwrite ( $fp, $Contents );
     fclose( $fp );

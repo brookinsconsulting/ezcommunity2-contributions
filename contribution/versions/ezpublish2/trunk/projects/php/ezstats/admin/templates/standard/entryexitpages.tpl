@@ -60,7 +60,7 @@
 <tr>
 	<!-- BEGIN month_previous_tpl -->
 	<td>
-	<a class="path" href="/stats/entryexitreport/{previous_year}/{previous_month}">&lt;&lt;&nbsp;{intl-previous}</a>
+	<a class="path" href="{www_dir}{index}/stats/entryexitreport/{previous_year}/{previous_month}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END month_previous_tpl -->
 	
@@ -71,7 +71,7 @@
 	<!-- END month_previous_inactive_tpl -->
 	<!-- BEGIN month_next_tpl -->
 	<td align="right">
-	<a class="path" href="/stats/entryexitreport/{next_year}/{next_month}">{intl-next}&nbsp;&gt;&gt;</a>
+	<a class="path" href="{www_dir}{index}/stats/entryexitreport/{next_year}/{next_month}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END month_next_tpl -->
 

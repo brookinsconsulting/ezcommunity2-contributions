@@ -3,7 +3,7 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN type_list_tpl -->
-<form method="post" action="/calendar/typeedit/delete/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/calendar/typeedit/delete/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<tr>
@@ -22,7 +22,7 @@
 	{type_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/calendar/typeedit/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{type_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{type_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/calendar/typeedit/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{type_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{type_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="TypeArrayID[]" value="{type_id}">

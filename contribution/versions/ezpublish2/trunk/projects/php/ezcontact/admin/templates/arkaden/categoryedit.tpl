@@ -1,4 +1,4 @@
-<form method="post" action="/contact/companyedit/{action_value}/{company_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/companyedit/{action_value}/{company_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-headline}</h1>
@@ -34,7 +34,7 @@
 <input class="okbutton" type="submit" value="OK" />
 </form>
 
-<form method="post" action="/contact/companylist/">
+<form method="post" action="{www_dir}{index}/contact/companylist/">
 <input class="okbutton" type="submit" name="Back" value="{intl-back}">
 </form>
 

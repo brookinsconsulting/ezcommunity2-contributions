@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.58 2001/07/25 10:16:51 bf Exp $
+// $Id: articleview.php,v 1.59 2001/07/29 23:30:58 kaid Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -68,7 +68,7 @@ $override = "_override_$CategoryID";
 
 if ( $StaticPage == true )
 {
-    if ( file_exists( "ezarticle/user/$TemplateDir/articlestatic" . $override  . ".tpl" ) )
+    if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlestatic" . $override  . ".tpl" ) )
         $t->set_file( "article_view_page_tpl", "articlestatic" . $override  . ".tpl"  );
     else
         $t->set_file( "article_view_page_tpl", "articlestatic.tpl"  );
@@ -81,7 +81,7 @@ else
     }
     else
     {
-        if ( file_exists( "ezarticle/user/$TemplateDir/articleview" . $override  . ".tpl" ) )
+        if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articleview" . $override  . ".tpl" ) )
             $t->set_file( "article_view_page_tpl", "articleview" . $override  . ".tpl"  );
         else
             $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
@@ -448,7 +448,7 @@ $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0
 if ( $GenerateStaticPage == "true" )
 {
     
-    $fp = fopen ( $cachedFile, "w+");
+    $fp = eZFile::fopen( $cachedFile, "w+");
 
     // add PHP code in the cache file to store variables
     $output = "<?php\n";

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.5 2001/07/24 11:49:56 jhe Exp $
+// $Id: unassigned.php,v 1.6 2001/07/29 23:31:06 kaid Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -145,7 +145,7 @@ foreach ( $imageList as $image )
     if ( $image->fileExists( true ) )
     {
         $imagePath =& $image->filePath( true );
-        $size = filesize( $imagePath );
+        $size = eZFile::filesize( $imagePath );
     }
     else
     {

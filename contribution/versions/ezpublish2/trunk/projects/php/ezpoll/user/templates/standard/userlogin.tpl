@@ -6,7 +6,7 @@
 
 <p>{intl-reg_text}</p>
 
-<form method="post" action="/user/login/login/">
+<form method="post" action="{www_dir}{index}/user/login/login/">
 <p class="boxtext">{intl-username}:</p>
 <input type="text" size="20" name="Username"/>
 
@@ -25,7 +25,7 @@
 
 <p>{intl-new_text}</p>
 
-<form method="post" action="/user/user/new/?RedirectURL={redirect_url}">
+<form method="post" action="{www_dir}{index}/user/user/new/?RedirectURL={redirect_url}">
 
 <hr noshade="noshade" size="4" />
 

@@ -28,7 +28,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/calendar/appointmentedit/{action_value}/{appointment_id}/">
+<form method="post" action="{www_dir}{index}/calendar/appointmentedit/{action_value}/{appointment_id}/">
 
 <br />
 

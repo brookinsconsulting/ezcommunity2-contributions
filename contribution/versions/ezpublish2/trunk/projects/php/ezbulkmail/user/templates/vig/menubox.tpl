@@ -3,7 +3,7 @@
 <!-- END normal_list_tpl -->
 
 <!-- BEGIN single_list_tpl -->
-<form action="/bulkmail/singlelist" method="post">
+<form action="{www_dir}{index}/bulkmail/singlelist" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>

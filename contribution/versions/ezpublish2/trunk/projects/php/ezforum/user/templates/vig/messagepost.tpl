@@ -1,18 +1,18 @@
 <!--
 
 
-<form action="/forum/category/forum/post/{forum_id}/" method="post">
+<form action="{www_dir}{index}/forum/category/forum/post/{forum_id}/" method="post">
 
 <h1>{intl-headline}</h1>
 
 <hr noshade size="4" />
 
-	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
-    <a class="path" href="/forum/category/{category_id}/">{category_name}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
-	<a class="path" href="/forum/category/forum/{forum_id}">{forum_name}</a>
+	<img src="{www_dir}/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+    <a class="path" href="{www_dir}{index}/forum/category/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+	<a class="path" href="{www_dir}{index}/forum/category/forum/{forum_id}">{forum_name}</a>
 
 <hr noshade size="4" />
 

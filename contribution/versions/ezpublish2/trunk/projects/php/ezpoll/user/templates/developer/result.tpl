@@ -52,7 +52,7 @@
 </table>
 
 <br />
-<form method="post" action="/poll/polls">
+<form method="post" action="{www_dir}{index}/poll/polls">
 
 <hr noshade="noshade" size="4">
 

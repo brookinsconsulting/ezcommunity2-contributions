@@ -62,13 +62,13 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
-        <form method="post" action="/contact/consultation/edit/{consultation_id}/" enctype="multipart/form-data">
+        <form method="post" action="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" enctype="multipart/form-data">
 	<input class="okbutton" type="submit" value="{intl-edit}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/contact/consultation/list/">
+	<form method="post" action="{www_dir}{index}/contact/consultation/list/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

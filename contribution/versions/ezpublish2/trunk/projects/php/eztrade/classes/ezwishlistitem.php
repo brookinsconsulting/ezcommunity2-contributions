@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.11 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezwishlistitem.php,v 1.12 2001/07/29 23:31:11 kaid Exp $
 //
 // Definition of eZWishItem class
 //
@@ -381,8 +381,7 @@ class eZWishListItem
             $PriceGroup = $GLOBALS["PriceGroup"];
 
             // get the value price if exists
-            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
-            $option->id(), $value->id() );
+            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $value->id() );
         
             $found_price = false;
 
@@ -410,6 +409,5 @@ class eZWishListItem
     var $WishListID;
     var $Count;
     var $IsBought;
-
-
+}
 ?>

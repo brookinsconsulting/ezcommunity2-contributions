@@ -39,22 +39,22 @@
 
 
 <!-- BEGIN prev_page_link_tpl -->
-<a class="path" href="/article/articlepreview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
+<a class="path" href="{www_dir}{index}/article/articlepreview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
 
 <!-- BEGIN page_link_tpl -->
-| <a class="path" href="/article/articlepreview/{article_id}/{page_number}/">{page_number}</a>	
+| <a class="path" href="{www_dir}{index}/article/articlepreview/{article_id}/{page_number}/">{page_number}</a>	
 <!-- END page_link_tpl -->
 
 <!-- BEGIN next_page_link_tpl -->
-| <a class="path" href="/article/articlepreview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
+| <a class="path" href="{www_dir}{index}/article/articlepreview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
 <!-- END next_page_link_tpl -->
 
 <br />
 
 <hr noshade="noshade" size="4" />
 
-<form action="/article/articleedit/edit/{article_id}/" method="post">
+<form action="{www_dir}{index}/article/articleedit/edit/{article_id}/" method="post">
 <input class="okbutton" type="submit" value="{intl-edit}" />
 <input class="okbutton" type="submit" name="PublishArticle" value="{intl-publish}" />
 

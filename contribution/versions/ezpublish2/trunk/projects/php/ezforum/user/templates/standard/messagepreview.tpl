@@ -5,7 +5,7 @@
     </td>
     <td align="right">
     <td align="right">
-	 <form action="/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="post">
 	       <input class="searchbox" type="text" name="QueryString" size="10" />
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
          </form>
@@ -19,7 +19,7 @@
 
 {message_body_file}
 
-<form method="post" action="/forum/messageedit/{action_value}/{message_id}">
+<form method="post" action="{www_dir}{index}/forum/messageedit/{action_value}/{message_id}">
 {message_hidden_form_file}
 
     <input class="stdbutton" type="submit" name="EditButton" value="{intl-edit}" />

@@ -30,7 +30,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
+	<a href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
 	{category_description}&nbsp;
@@ -63,7 +63,7 @@
 	    <table align="right"  width="{thumbnail_image_width}">
 	        <tr>
 			<td>
-                        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+                        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
                         </td>
                 </tr>
                 <tr>

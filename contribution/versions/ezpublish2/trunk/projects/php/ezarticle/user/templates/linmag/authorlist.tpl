@@ -6,14 +6,14 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th><a href="/article/author/list/name">{intl-author}</a>:</th>
-	<th class="right"><a href="/article/author/list/count">{intl-count}</a>:</th>
+	<th><a href="{www_dir}{index}/article/author/list/name">{intl-author}</a>:</th>
+	<th class="right"><a href="{www_dir}{index}/article/author/list/count">{intl-count}</a>:</th>
 </tr>
 
 <!-- BEGIN author_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/author/view/{author_id}/">{author_name}</a>
+	<a href="{www_dir}{index}/article/author/view/{author_id}/">{author_name}</a>
 	</td>
 	<td align="right" class="{td_class}">
 	{article_count}

@@ -3,7 +3,7 @@
 <!-- BEGIN category_tpl -->
 <tr>
 	<td>
-	<a href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
+	<a href="{www_dir}{index}/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 </tr>
 <!-- END category_tpl -->

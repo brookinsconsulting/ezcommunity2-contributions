@@ -8,7 +8,7 @@
 
 <p class="boxtext">{intl-banner}:</p>
 <!-- BEGIN image_tpl -->
-<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 <!-- END image_tpl -->
 
 <!-- BEGIN html_item_tpl -->
@@ -35,7 +35,7 @@
 
 <br /><br />
 
-<form action="/ad/ad/edit/{ad_id}/" method="post" >
+<form action="{www_dir}{index}/ad/ad/edit/{ad_id}/" method="post" >
 
 <hr noshade="noshade" size="4" />
 

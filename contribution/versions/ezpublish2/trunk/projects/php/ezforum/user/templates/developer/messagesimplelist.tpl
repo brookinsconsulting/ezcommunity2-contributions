@@ -28,7 +28,7 @@
     <p>
     {body}
     </p>
-    <a class="path" href="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a>
+    <a class="path" href="{www_dir}{index}/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a>
     </td>
     </tr>
     <!-- END message_item_tpl -->
@@ -37,15 +37,15 @@
 
 <!-- END message_list_tpl -->
 
-<a href="/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">
+<a href="{www_dir}{index}/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">
 {previous}
 </a>
 
-<a href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">
+<a href="{www_dir}{index}/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">
 {next}
 </a>
 
-<form action="/forum/userlogin/newsimple/{forum_id}">
+<form action="{www_dir}{index}/forum/userlogin/newsimple/{forum_id}">
 
 <hr noshade size="4" />
 

@@ -1,4 +1,4 @@
-<form method="post" action="/poll/userlogin/vote/{poll_id}/">
+<form method="post" action="{www_dir}{index}/poll/userlogin/vote/{poll_id}/">
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
@@ -38,12 +38,12 @@
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/poll/result/{poll_id}">{intl-result}</a></td>
+	<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="{www_dir}{index}/poll/result/{poll_id}">{intl-result}</a></td>
 </tr>
 <tr>
-	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/poll/polls">{intl-polls}</a></td>
+	<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="{www_dir}{index}/poll/polls">{intl-polls}</a></td>
 </tr>
 <tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>

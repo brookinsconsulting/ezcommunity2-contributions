@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: xmlrpcserver.php,v 1.2 2001/07/19 12:19:22 jakobn Exp $
+// $Id: xmlrpcserver.php,v 1.3 2001/07/29 23:31:01 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,7 +28,7 @@ ob_start();
 
 // site information
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
 

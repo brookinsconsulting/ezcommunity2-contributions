@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: storestats.php,v 1.2 2001/07/20 11:28:54 jakobn Exp $
+// $Id: storestats.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
 //
 // Created on: <26-Apr-2001 10:39:18 bf>
 //
@@ -42,8 +42,8 @@ ob_end_clean();
 
 //  # the file may be a local file with full path.
 $filePath = "images/1x1.gif";
-$fileSize = filesize( $filePath );
-$fp = fopen( $filePath, "r" );
+$fileSize = eZFile::filesize( $filePath );
+$fp = eZFile::fopen( $filePath, "r" );
 $content =& fread( $fp, $fileSize );
 
 $originalFileName = "1x1.gif";

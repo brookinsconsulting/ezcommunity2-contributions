@@ -1,6 +1,6 @@
 
 
-<form method="post" action="/article/articleedit/mediaedit/{article_id}/{media_id}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/article/articleedit/mediaedit/{article_id}/{media_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-mediaupload}: {article_name}</h1>
@@ -80,7 +80,7 @@
 	<td>&nbsp;</td>
 	<td>
 
-	<form method="post" action="/article/articleedit/medialist/{article_id}/">
+	<form method="post" action="{www_dir}{index}/article/articleedit/medialist/{article_id}/">
 	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>
 

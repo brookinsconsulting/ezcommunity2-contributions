@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.32 2001/07/25 08:05:25 ce Exp $
+// $Id: imagelist.php,v 1.33 2001/07/29 23:31:07 kaid Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -242,7 +242,7 @@ foreach ( $imageList as $image )
     if ( $image->fileExists( true ) )
     {
         $imagePath =& $image->filePath( true );
-        $size = filesize( $imagePath );
+        $size = eZFile::filesize( $imagePath );
     }
     else
     {

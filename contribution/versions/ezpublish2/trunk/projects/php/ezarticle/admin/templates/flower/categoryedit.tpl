@@ -1,4 +1,4 @@
-<form method="post" action="/article/categoryedit/{action_value}/{category_id}/">
+<form method="post" action="{www_dir}{index}/article/categoryedit/{action_value}/{category_id}/">
 
 <h1>{intl-headline}</h1>
 
@@ -27,7 +27,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/article/categoryedit/cancel/">
+	<form method="post" action="{www_dir}{index}/article/categoryedit/cancel/">
 	<input type="hidden" name="CategoryID" value="{category_id}" />
 	<input class="okbutton" type="submit" value="Avbryt" />
 	</form>

@@ -1,19 +1,19 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
 
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-    <a class="toppath" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/forum/messagelist/{forum_id}">{forum_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+    <a class="toppath" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
 
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom" colspan="2"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -25,7 +25,7 @@
         <h1>{topic}</h1>
      </td>
      <td align="right">
-        <form action="/forum/search/" method="post">
+        <form action="{www_dir}{index}/forum/search/" method="post">
            <input type="text" name="QueryString" size="12" />
            <input type="submit" name="search" value="{intl-search}" />
         </form>
@@ -35,7 +35,7 @@
 
 <br />
 
-<form action="/forum/reply/insert/{msg_id}/" method="post">
+<form action="{www_dir}{index}/forum/reply/insert/{msg_id}/" method="post">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -66,7 +66,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/forum/messagelist/{forum_id}">
+	<form method="post" action="{www_dir}{index}/forum/messagelist/{forum_id}">
 	<input class="okbutton" type="submit" value="{intl-abort}">
 	</form>
 	</td>

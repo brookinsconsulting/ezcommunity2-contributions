@@ -1,19 +1,19 @@
  <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
-			<td width="98%" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
-            <td rowspan="3" valign="top" width="1%" align="right"><a href="/tema/bildegalleri"><img src="/sitedesign/percolo/images/tittelbilde.gif" alt="Bygg mer enn hus..." width="140" height="100" border="0" /></a><br /></td>
+            <td width="1%"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td width="98%" valign="top"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
+            <td rowspan="3" valign="top" width="1%" align="right"><a href="{www_dir}{index}/tema/bildegalleri"><img src="{www_dir}/sitedesign/percolo/images/tittelbilde.gif" alt="Bygg mer enn hus..." width="140" height="100" border="0" /></a><br /></td>
         </tr>
         <tr>
-            <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
+            <td bgcolor="#009ebf" valign="top"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
             <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">Handlekurv</h1></td>
         </tr>
         <tr>
-            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
-            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
+            <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+            <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
         </tr>
 		<tr>
-		    <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+		    <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td colspan="2">
 
 <!-- BEGIN empty_cart_tpl -->
@@ -21,7 +21,7 @@
 <!-- END empty_cart_tpl -->
 
 
-<form action="/trade/cart/" method="post">
+<form action="{www_dir}{index}/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -40,11 +40,11 @@
 <tr>
 	<td class="{td_class}">
 	<!-- BEGIN cart_image_tpl -->
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	<!-- END cart_image_tpl -->&nbsp;
 	</td>
 	<td colspan="2" class="{td_class}">
-	<a href="/trade/productview/{product_id}/">{product_name}</a>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a>
 	</td>
         <!-- BEGIN cart_item_option_tpl -->
 	<!-- BEGIN cart_item_option_availability_tpl -->
@@ -61,7 +61,7 @@
 	{product_price}
 	</td>
 	<td class="{td_class}" align="right">
-	<a href="/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END cart_item_tpl -->
@@ -101,7 +101,7 @@
 
  <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+            <td width="1%"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

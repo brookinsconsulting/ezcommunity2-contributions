@@ -36,7 +36,7 @@
 
 <hr noshade size="4">
 
-<form method="post" action="/todo/todolist/">
+<form method="post" action="{www_dir}{index}/todo/todolist/">
 <p class="boxtext">{intl-user}:</p>
 <select name="GetByUserID">
 <!-- BEGIN user_item_tpl -->
@@ -91,7 +91,7 @@
 <!-- BEGIN todo_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/todo/todoview/{todo_id}/">{todo_name}</a>
+	<a href="{www_dir}{index}/todo/todoview/{todo_id}/">{todo_name}</a>
 	</td>
 
 	<td class="{td_class}">
@@ -115,10 +115,10 @@
 	</td>
 
 	<td class="{td_class}">
-	<a href="/todo/todoedit/edit/{todo_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('et{todo_id}-red','','/eztodo/images/redigerminimrk.gif',1)"><img name="et{todo_id}-red" border="0" src="/eztodo/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/todo/todoedit/edit/{todo_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('et{todo_id}-red','','/eztodo/images/redigerminimrk.gif',1)"><img name="et{todo_id}-red" border="0" src="{www_dir}/eztodo/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td class="{td_class}">
-	<a href="/todo/todoedit/delete/{todo_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('et{todo_id}-slett','','/eztodo/images/slettminimrk.gif',1)"><img name="et{todo_id}-slett" border="0" src="/eztodo/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/todo/todoedit/delete/{todo_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('et{todo_id}-slett','','/eztodo/images/slettminimrk.gif',1)"><img name="et{todo_id}-slett" border="0" src="{www_dir}/eztodo/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END todo_item_tpl -->
@@ -132,7 +132,7 @@
 <!-- END no_found_tpl -->
 </table>
 
-<form action="/todo/todoedit/new">
+<form action="{www_dir}{index}/todo/todoedit/new">
 
 <hr noshade size="4">
 

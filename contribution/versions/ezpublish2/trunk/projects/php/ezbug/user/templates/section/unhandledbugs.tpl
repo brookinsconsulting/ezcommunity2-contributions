@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -31,7 +31,7 @@
 	<span class="small">{bug_submitter}</span>
 	</td>
 	<td class="{td_class}">
-	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bug_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bug_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bug_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bug_id}-red" border="0" src="{www_dir}/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 </tr>
 <!-- END bug_tpl -->

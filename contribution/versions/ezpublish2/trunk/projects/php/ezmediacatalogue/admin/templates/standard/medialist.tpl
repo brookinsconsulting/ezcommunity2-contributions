@@ -1,4 +1,4 @@
-<form method="post" action="/mediacatalogue/media/new/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/mediacatalogue/media/new/" enctype="multipart/form-data">
 
 <input type="hidden" name="CategoryID" value="{main_category_id}">
 
@@ -10,12 +10,12 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="/mediacatalogue/media/list/0/">{intl-media_root}</a>
+<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="">
+<a class="path" href="{www_dir}{index}/mediacatalogue/media/list/0/">{intl-media_root}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="/mediacatalogue/media/list/{category_id}/">{category_name}</a>
+<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="">
+<a class="path" href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -29,10 +29,10 @@
 <tr>
         <!-- BEGIN category_read_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/mediacatalogue/media/list/{category_id}/"><img src="/admin/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
+	<a href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/"><img src="{www_dir}/admin/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
 	</td>
 	<td class="{td_class}" width="38%">
-	<a href="/mediacatalogue/media/list/{category_id}/">{category_name}</a>
+	<a href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/">{category_name}</a>
 	</td>
 	<td class="{td_class}" width="59%">
 	<span class="small">{category_description}</span>
@@ -40,7 +40,7 @@
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/mediacatalogue/media/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{category_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{category_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/mediacatalogue/media/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{category_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{category_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
@@ -58,10 +58,10 @@
 <tr>
 	<!-- BEGIN read_tpl -->
 	<td class="{td_class}" width="1%">
-	<img src="/admin/images/video.gif" border="0" alt="" width="16" height="16" border="0" />
+	<img src="{www_dir}/admin/images/video.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="40%">
-	<a href="/mediacatalogue/mediaview/{media_id}/?RefererURL=/mediacatalogue/media/list/{main_category_id}/">{media_name}</a>
+	<a href="{www_dir}{index}/mediacatalogue/mediaview/{media_id}/?RefererURL=/mediacatalogue/media/list/{main_category_id}/">{media_name}</a>
 	</td>
 	<td class="{td_class}" width="56%">
 	<span class="small">{media_description}</span>
@@ -69,7 +69,7 @@
 	<!-- END read_tpl -->
 	<!-- BEGIN write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/mediacatalogue/media/edit/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{media_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{media_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
+	<a href="{www_dir}{index}/mediacatalogue/media/edit/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{media_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{media_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="MediaArrayID[]" value="{file_id}">
@@ -131,7 +131,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/mediacatalogue/media/list/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -145,7 +145,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/mediacatalogue/media/list/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -159,7 +159,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/mediacatalogue/media/list/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -25,7 +25,7 @@
 <!-- END view_tpl -->
 <br />
 
-<form method="post" action="/filemanager/edit/{file_id}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/filemanager/edit/{file_id}" enctype="multipart/form-data">
 
 <hr noshade="noshade" size="4" />
 

@@ -6,7 +6,7 @@
 	</td>
 	<!-- BEGIN search_item_tpl -->
 	<td rowspan="2" align="right">
-	    <form action="/address/{type}/search/" method="post">
+	    <form action="{www_dir}{index}/address/{type}/search/" method="post">
 	    	<input type="text" name="SearchText" size="12" value="{search_form_text}" />
 		<input type="submit" value="{intl-search}" />
 	    </form>
@@ -15,7 +15,7 @@
 </tr>
 </table>
 
-<form method="post" action="{item_new_command}/">
+<form method="post" action="{www_dir}{index}{item_new_command}/">
 
 <hr noshade="noshade" size="4" />
 <!-- BEGIN list_item_tpl -->
@@ -34,13 +34,13 @@
 <!-- END item_plain_tpl -->
 <!-- BEGIN item_linked_tpl -->
 	<td>
-        <a href="{item_sort_command}/{item_id}">{item_name}</a>
+        <a href="{www_dir}{index}{item_sort_command}/{item_id}">{item_name}</a>
 	</td>
 <!-- END item_linked_tpl -->
 	{extra_type_item}
 
 <!-- BEGIN item_move_down_tpl -->
-	<td width="1%"><a href="{item_down_command}/{item_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}{item_down_command}/{item_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
 <!-- END item_move_down_tpl -->
 
 <!-- BEGIN no_item_move_down_tpl -->
@@ -55,14 +55,14 @@
 <!-- END no_item_separator_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
-	<td width="1%"><a href="{item_up_command}/{item_id}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}{item_up_command}/{item_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
 	<td width="1%"> &nbsp; </td>
 <!-- END no_item_move_up_tpl -->
 
 	<td width="1%">
-	<a href="{item_edit_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{item_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}{item_edit_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{item_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">
@@ -79,7 +79,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/address/{type}/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>
+	<a class="path" href="{www_dir}{index}/address/{type}/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -93,7 +93,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/address/{type}/{action}/{item_index}/{search_text}">{type_item_name}</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/address/{type}/{action}/{item_index}/{search_text}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -107,7 +107,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/address/{type}/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/address/{type}/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -15,7 +15,7 @@
         <h1>{intl-search}</h1><div class="boxtext">({link_start}-{link_end}/{link_total})</div>
      </td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input type="submit" name="search" value="{intl-search}" />
          </form>
@@ -36,7 +36,7 @@
 <!-- BEGIN search_item_tpl -->
 <tr>
      <td bgcolor="{bg_color}">
-     <b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a></b> ( {intl-max} {link_hits} )<br>
+     <b><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a></b> ( {intl-max} {link_hits} )<br>
      {link_description}<br><br>
      </td>
 </tr>
@@ -49,7 +49,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/link/search/parent/{query_string}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/link/search/parent/{query_string}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -63,7 +63,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/search/parent/{query_string}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/search/parent/{query_string}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -77,7 +77,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/search/parent/{query_string}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/search/parent/{query_string}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4">
 
-<form method="post" action="/bulkmail/preview/{current_mail_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/bulkmail/preview/{current_mail_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-subject}:</p>
 <div class="p">{subject}</div>

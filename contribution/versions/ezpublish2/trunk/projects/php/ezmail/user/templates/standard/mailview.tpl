@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4">
 
-<form method="post" action="/mail/view/{current_mail_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/mail/view/{current_mail_id}" enctype="multipart/form-data" >
 
 <p>{intl-to}: {to}</p>
 <p>{intl-from}: {from}</p>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.87 2001/07/20 12:04:13 jakobn Exp $
+// $Id: index.php,v 1.88 2001/07/29 23:30:56 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -28,6 +28,41 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
+// Tell PHP where it can find our files.
+// TODO: This needs a better analysis
+if ( isset( $siteDir ) and $siteDir != "" )
+{
+    $includePath = ini_get( "include_path" );
+    $includePath .= ":" . $siteDir;
+    ini_set( "include_path", $includePath );
+ 
+    // For non-virtualhost, non-rewrite setup
+    if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+    {
+        $wwwDir = $regs[1];
+        $index = $regs[2];
+    }
+ 
+    // Remove url parameters
+    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
+    {
+        $REQUEST_URI = $req[1];
+    }
+    else
+    {
+        $REQUEST_URI = "/";
+    }
+}
+else
+{
+    // Remove url parameters
+    ereg( "([^?]+)", $REQUEST_URI, $regs );
+    $REQUEST_URI = $regs[1];
+ 
+    $wwwDir = "";
+    $index = "";
+}
+    
 include_once( "classes/ezbenchmark.php" );
 
 // Run benchmark test.
@@ -59,7 +94,6 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
-
 // set character set
 include_once( "classes/ezlocale.php" );
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
@@ -72,6 +106,8 @@ if ( $iso != false )
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
+// File functions
+include_once( "classes/ezfile.php" );
 
 $session =& eZSession::globalSession();
 
@@ -127,10 +163,6 @@ if ( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] != false )
     }
 }
 
-// Remove url parameters
-ereg( "([^?]+)", $REQUEST_URI, $regs );
-$REQUEST_URI = $regs[1];
-
 $url_array = explode( "/", $REQUEST_URI );
 
 if ( ( $requireUserLogin == "disabled" ) ||
@@ -176,7 +208,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
          
     // check to use site cache
-    if ( ( $SiteCache == "enabled" ) and !file_exists( $SiteCacheFile ) )
+    if ( ( $SiteCache == "enabled" ) and !eZFile::file_exists( $SiteCacheFile ) )
     {
         $StoreSiteCache = true;
     }
@@ -184,10 +216,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
     {
         $StoreSiteCache = false;
 
-        if ( $SiteCache == "enabled" and file_exists( $SiteCacheFile ) )
+        if ( $SiteCache == "enabled" and eZFile::file_exists( $SiteCacheFile ) )
         {
             $timeout = $ini->read_var( "site", "SiteCacheTimeout" );
-            $SiteCacheTime = filemtime( $SiteCacheFile );
+            $SiteCacheTime = eZFile::filemtime( $SiteCacheFile );
             if ( ( time() - $SiteCacheTime ) < ( $timeout*60 ) )
             {
              // print( "valid cache" );
@@ -197,7 +229,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
                 $StoreSiteCache = true;
 
                 // delete cache file
-                unlink( $SiteCacheFile );
+                eZFile::unlink( $SiteCacheFile );
                 //  print( "time out-clearing cache" );
             }
         }        
@@ -210,7 +242,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         ob_start();
         
         // fetch the module printout
-        if ( file_exists( $content_page ) )
+        if ( eZFile::file_exists( $content_page ) )
         {
             // the page with the real contents
             include( $content_page );
@@ -313,7 +345,7 @@ else
 
     // send the URI to the right decoder
     $page = "ezuser/user/datasupplier.php";
-    if ( file_exists( $page ) )
+    if ( eZFile::file_exists( $page ) )
     {
         include( $page );
     }

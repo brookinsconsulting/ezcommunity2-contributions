@@ -1,4 +1,4 @@
-<form action="/article/articleedit/mediaedit/{article_id}/" method="post">
+<form action="{www_dir}{index}/article/articleedit/mediaedit/{article_id}/" method="post">
 
 <h1>{intl-media}: {article_name}</h1>
 
@@ -25,7 +25,7 @@
 	{media_number}
 	</td>
 	<td width="94%" class="{td_class}">
-	<a href="/mediacatalogue/mediaview/{media_id}/?RefererURL=/article/articleedit/medialist/{article_id}/">{media_name}</a>
+	<a href="{www_dir}{index}/mediacatalogue/mediaview/{media_id}/?RefererURL=/article/articleedit/medialist/{article_id}/">{media_name}</a>
 	</td>
 	<td width="94%" class="{td_class}">
 	{media_caption}
@@ -34,7 +34,7 @@
 	{media_description}
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/mediaedit/{article_id}/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapMedia('eztp2{media_id}-red','','/admin/media/{site_style}/mediamapminimrk.gif',1)"><img name="eztp2{media_id}-red" border="0" src="/admin/media/{site_style}/mediamapmini.gif" width="16" height="16" align="top" border="0" alt="Media map" /></a>
+	<a href="{www_dir}{index}/article/articleedit/mediaedit/{article_id}/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapMedia('eztp2{media_id}-red','','/admin/media/{site_style}/mediamapminimrk.gif',1)"><img name="eztp2{media_id}-red" border="0" src="{www_dir}/admin/media/{site_style}/mediamapmini.gif" width="16" height="16" align="top" border="0" alt="Media map" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="MediaArrayID[]" value="{media_id}">
@@ -66,7 +66,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<form action="/article/articleedit/edit/{article_id}/" method="post">
+	<form action="{www_dir}{index}/article/articleedit/edit/{article_id}/" method="post">
 	<input class="okbutton" type="submit" value="{intl-back}" />
 	</form>
 </tr>

@@ -1,4 +1,4 @@
-<form method="post" action="/trade/productedit/imageedit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/trade/productedit/imageedit/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-imageupload}: {product_name}</h1>
@@ -22,7 +22,7 @@
 	<td>&nbsp;</td>
 	<td>
 	<!-- BEGIN image_tpl -->
-	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 	<!-- END image_tpl -->
 	</td>
 </tr>
@@ -43,7 +43,7 @@
 	<td>&nbsp;</td>
 	<td>
 
-	<form method="post" action="/trade/productedit/imagelist/{product_id}/">
+	<form method="post" action="{www_dir}{index}/trade/productedit/imagelist/{product_id}/">
 	<input class="okbutton" type="submit" value="{intl-abort}" />
 	</form>
 

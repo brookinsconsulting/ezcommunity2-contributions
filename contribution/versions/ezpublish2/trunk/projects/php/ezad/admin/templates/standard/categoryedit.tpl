@@ -1,4 +1,4 @@
-<form method="post" action="/ad/category/{action_value}/{category_id}/">
+<form method="post" action="{www_dir}{index}/ad/category/{action_value}/{category_id}/">
 
 <h1>{intl-headline}</h1>
 

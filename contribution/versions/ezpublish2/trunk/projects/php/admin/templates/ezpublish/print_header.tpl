@@ -6,7 +6,7 @@
 
 <title>eZ publish administrasjon</title>
 
-<link rel="stylesheet" type="text/css" href="/admin/templates/{site_style}/style.css" />
+<link rel="stylesheet" type="text/css" href="{www_dir}/admin/templates/{site_style}/style.css" />
 
 <meta http-equiv="Content-Type" content="text/html; charset={charset}" />
 
@@ -71,7 +71,7 @@
 		<span class="path">{intl-user_name}:</span> {first_name}&nbsp;{last_name}
 	</td>
 	<td align="right">
-	<a class="path" href="{current_url}">&lt;&lt;&nbsp;{intl-back_to_normal_view}</a>
+	<a class="path" href="{www_dir}{index}{current_url}">&lt;&lt;&nbsp;{intl-back_to_normal_view}</a>
 	</td>
 </tr>
 </table>

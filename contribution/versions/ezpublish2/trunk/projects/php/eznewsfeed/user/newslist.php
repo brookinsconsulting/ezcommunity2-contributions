@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.13 2001/07/20 11:21:41 jakobn Exp $
+// $Id: newslist.php,v 1.14 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <29-Nov-2000 11:35:19 bf>
 //
@@ -138,7 +138,7 @@ else
 
 if ( $GenerateStaticPage == "true" )
 {
-    $fp = fopen ( $cachedFile, "w+");
+    $fp = eZFile::fopen( $cachedFile, "w+");
 
     $output = $t->parse( $target, "news_archive_page_tpl" );
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznyheternoimporter.php,v 1.7 2001/07/20 11:21:41 jakobn Exp $
+// $Id: eznyheternoimporter.php,v 1.8 2001/07/29 23:31:09 kaid Exp $
 //
 // Definition of eZNyhterNOImporter class
 //
@@ -69,7 +69,7 @@ class eZNyheterNOImporter
 
         print( $site );
         
-        $fp = fopen( "$site", "r" );
+        $fp = eZFile::fopen( "$site", "r" );
         
         $output = fread ( $fp, 100000000 );
         fclose( $fp );

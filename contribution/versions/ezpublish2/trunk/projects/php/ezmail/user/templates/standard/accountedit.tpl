@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4">
 
-<form method="post" action="/mail/accountedit/{current_account_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/mail/accountedit/{current_account_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>

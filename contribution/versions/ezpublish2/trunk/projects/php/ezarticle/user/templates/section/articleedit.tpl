@@ -1,14 +1,14 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="toppath" width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="toppath" width="1"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="toppath" align="left" width="100%">&nbsp;</td>
 </tr>
 <tr>
-	<td class="toppathbottom" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
+	<td class="toppathbottom" width="160" colspan="2"><img src="{www_dir}/images/1x1.gif" width="160" height="1"></td>
 </tr>	
 </table>
 
-<form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
+<form method="post" action="{www_dir}{index}/article/articleedit/{action_value}/{article_id}/" >
 
 <h1>{intl-head_line}</h1>
 
@@ -49,7 +49,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/article/articleedit/cancel/{article_id}/" >
+	<form method="post" action="{www_dir}{index}/article/articleedit/cancel/{article_id}/" >
 	<input class="okbutton" type="submit" value="{intl-cancel}" />	
 	</form>
 	</td>

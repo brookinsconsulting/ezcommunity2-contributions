@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/{sitedesign}/images/forum.gif" width="128" height="20"><br />
+	<img src="{www_dir}/sitedesign/{sitedesign}/images/forum.gif" width="128" height="20"><br />
 	</td>
 </tr>
 
@@ -9,7 +9,7 @@
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="/forum/forumlist/{id}/">{name}</a>
+	<a href="{www_dir}{index}/forum/forumlist/{id}/">{name}</a>
 	</div>
 	</td>
 </tr>

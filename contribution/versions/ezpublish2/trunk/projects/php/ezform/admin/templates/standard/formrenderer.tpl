@@ -17,13 +17,13 @@
 
 <!-- BEGIN form_list_tpl -->
 <!-- BEGIN form_start_tag_tpl -->
-<form action="/form/form/process/{form_id}/" method="post">
+<form action="{www_dir}{index}/form/form/process/{form_id}/" method="post">
 <h1>{form_name}</h1>
 <hr noshade="noshade" size="4" />
 <br />
 <!-- END form_start_tag_tpl -->
 <!-- BEGIN form_instructions_tpl -->
-<a href="{form_instruction_page}">{intl-instructions}</a>
+<a href="{www_dir}{index}{form_instruction_page}">{intl-instructions}</a>
 <!-- END form_instructions_tpl -->
 <input type="hidden" name="formID" value="{form_id}" />
 <input type="hidden" name="mailSubject" value="{form_name}" />

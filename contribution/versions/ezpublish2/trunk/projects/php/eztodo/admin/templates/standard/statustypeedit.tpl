@@ -1,4 +1,4 @@
-<form method="post" action="/todo/statustypeedit/{action_value}/{status_type_id}">
+<form method="post" action="{www_dir}{index}/todo/statustypeedit/{action_value}/{status_type_id}">
 <h1>{intl-head_line}</h1>
 
 <hr noshade size="4" />

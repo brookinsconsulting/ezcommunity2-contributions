@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugreport.php,v 1.26 2001/07/19 12:29:04 jakobn Exp $
+// $Id: bugreport.php,v 1.27 2001/07/29 23:31:02 kaid Exp $
 //
 // Created on: <27-Nov-2000 20:31:00 bf>
 //
@@ -258,7 +258,7 @@ if( $Action == "Edit" ) // load values from database
         $t->set_var( "file_number", $i + 1 );
         $t->set_var( "file_id", $file->id() );
 
-        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" .  $file->name() . "</a>" );
+        $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" .  $file->name() . "</a>" );
     
         $t->parse( "file", "file_tpl", true );
     

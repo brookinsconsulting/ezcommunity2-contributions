@@ -1,4 +1,4 @@
-<form method="post" action="/user/forgot/">
+<form method="post" action="{www_dir}{index}/user/forgot/">
 
 <h1>{intl-headline}</h1>
 

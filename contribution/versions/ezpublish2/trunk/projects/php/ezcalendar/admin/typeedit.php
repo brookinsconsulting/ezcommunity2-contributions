@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.6 2001/07/20 11:57:16 jakobn Exp $
+// $Id: typeedit.php,v 1.7 2001/07/29 23:31:02 kaid Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 gl>
 //
@@ -35,9 +35,10 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezlog.php" );
 
-$ini = new INIFIle( "site.ini" );
+// $ini = new INIFIle( "site.ini" );
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
-$LanguageIni = new INIFIle( "ezcalendar/admin/intl/" . $Language . "/typeedit.php.ini", false );
+$LanguageIni = new INIFile( "ezcalendar/admin/intl/" . $Language . "/typeedit.php.ini", false );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
 include_once( "ezcalendar/classes/ezappointmenttype.php" );

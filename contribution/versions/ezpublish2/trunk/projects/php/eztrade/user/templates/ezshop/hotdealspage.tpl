@@ -14,13 +14,13 @@
 <!-- BEGIN product_tpl -->
 {begin_tr}
 	<td valign="top" width="50%">
-	<div class="listproducts"><a class="listproducts" href="/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
+	<div class="listproducts"><a class="listproducts" href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
 
 	<!-- BEGIN product_image_tpl -->
     <table align="right">
     <tr>
         <td>
-		<a href="/{module}/{module_view}/{product_id}/{category_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+		<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
         </td>
     </tr>
     <tr>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfile.php,v 1.14 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezfile.php,v 1.15 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZCompany class
 //
@@ -90,7 +90,7 @@ class eZFile
         $this->FileName = $fileName;
         $tmpfileName = tempnam( "/tmp", "att" );
         $this->TmpFileName = $tmpfileName;
-        $fh = fopen( $tmpfileName, 'wb' );
+        $fh = eZFile::fopen( $tmpfileName, 'wb' );
         fwrite( $fh, $data );
         fclose( $fh );
     }
@@ -102,7 +102,7 @@ class eZFile
     {
         $this->FileName = $fileName;
         $this->FileType = $name_var['type'];
-        $this->FileSize = filesize( $fileName );
+        $this->FileSize = eZFile::filesize( $fileName );
         $this->TmpFileName = $fileName;
 
         $ret = true;
@@ -121,7 +121,7 @@ class eZFile
     */
     function move( $dest )
     {
-        return move_uploaded_file ( $this->TmpFileName, $dest );
+        return move_uploaded_file( $this->TmpFileName, $dest );
     }
 
    /*!
@@ -131,6 +131,12 @@ class eZFile
     */
     function copy( $dest )
     {
+        if ( file_exists( "sitedir.ini" ) && $dest != "" )
+        {
+            include( "sitedir.ini" );
+            $dest = $siteDir . $dest;
+        }
+    
         $ret = true;
         
         if ( !copy( $this->TmpFileName, $dest ) )
@@ -142,7 +148,7 @@ class eZFile
         
         return $ret;
     }
-    
+
     /*!
       Returns the original file name.
     */
@@ -220,8 +226,123 @@ class eZFile
     {
         $this->FileType = $type;
     }
-    
 
+
+
+    /*!
+      Same as file_exists(), but prepends $siteDir if $filename not empty.
+    */
+    function file_exists( $filename )
+    {
+        if ( file_exists( "sitedir.ini" ) && $filename != "" )
+        {
+            include( "sitedir.ini" );
+            $filename = $siteDir . $filename;
+        }
+        return file_exists( $filename );
+    }
+
+    /*!
+      Same as filemtime(), but prepends $siteDir if $filename not empty.
+    */
+    function filemtime( $filename )
+    {
+        if ( file_exists( "sitedir.ini" ) && $filename != "" )
+        {
+            include( "sitedir.ini" );
+            $filename = $siteDir . $filename;
+        }
+        if ( file_exists( $filename ) )
+        {
+            return filemtime( $filename );
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /*!
+      Same as fopen(), but prepends $siteDir if $filename not empty.
+    */
+    function fopen( $filename, $options )
+    {
+        if ( file_exists( "sitedir.ini" ) && $filename != "" )
+        {
+            include( "sitedir.ini" );
+            $filename = $siteDir . $filename;
+        }
+        return fopen( $filename, $options );
+    }
+
+    /*!
+      Same as filesize(), but prepends $siteDir if $filename not empty.
+    */
+    function filesize( $filename )
+    {
+        if ( file_exists( "sitedir.ini" ) && $filename != "" )
+        {
+            include( "sitedir.ini" );
+            $filename = $siteDir . $filename;
+        }
+        return filesize( $filename );
+    }
+
+    /*!
+      Same as unlink(), but prepends $siteDir if $filename not empty.
+    */
+    function unlink( $filename )
+    {
+        if ( file_exists( "sitedir.ini" ) && $filename != "" )
+        {
+            include( "sitedir.ini" );
+            $filename = $siteDir . $filename;
+        }
+        return unlink( $filename );
+    }
+
+    /*!
+      Same as chmod(), but prepends $siteDir if $dest not empty.
+    */
+    function chmod( $dest, $mode )
+    {
+        if ( file_exists( "sitedir.ini" ) && $dest != "" )
+        {
+            include( "sitedir.ini" );
+            $dest = $siteDir . $dest;
+        }
+
+        return chmod( $dest, $mode);
+    }
+    
+    /*!
+      Same as dir(), but prepends $siteDir if $dir not empty.
+    */
+    function dir( $dir )
+    {
+        if ( file_exists( "sitedir.ini" ) && $dir != "" )
+        {
+            include( "sitedir.ini" );
+            $dir = $siteDir . $dir;
+        }
+
+        return dir( $dir );
+    }
+    
+    /*!
+      Same as is_dir(), but prepends $siteDir if $dir not empty.
+    */
+    function is_dir( $dir )
+    {
+        if ( file_exists( "sitedir.ini" ) && $dir != "" )
+        {
+            include( "sitedir.ini" );
+            $dir = $siteDir . $dir;
+        }
+
+        return is_dir( $dir );
+    }
+    
     var $FileName;
     var $TmpFileName;
     var $FileType;

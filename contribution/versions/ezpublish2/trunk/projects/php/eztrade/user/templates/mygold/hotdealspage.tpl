@@ -12,10 +12,10 @@
 		<!-- BEGIN product_tpl -->
 		{begin_tr}
 			<td>
-				<h1 align="center"><a href="/trade/productview/{product_id}/{category_id}/">{product_name}</a></h1> 
+				<h1 align="center"><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">{product_name}</a></h1> 
 				<!-- BEGIN product_image_tpl -->
-				<div align="center"><a href="/trade/productview/{product_id}/{category_id}/">
-				<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a></div>
+				<div align="center"><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">
+				<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a></div>
 				<!-- END product_image_tpl -->
 				<p class="small">{product_intro_text}</p>
 				<!-- BEGIN price_tpl -->
@@ -32,7 +32,7 @@
 	<td class="spacer2">&nbsp;</td>
   </tr>
   <tr> 
-	<td class="bgspacer"><img src="/images/shim.gif" alt="" width="1" height="2" /></td>
+	<td class="bgspacer"><img src="{www_dir}/images/shim.gif" alt="" width="1" height="2" /></td>
   </tr>
   <tr> 
 	<td class="spacer5">&nbsp;</td>

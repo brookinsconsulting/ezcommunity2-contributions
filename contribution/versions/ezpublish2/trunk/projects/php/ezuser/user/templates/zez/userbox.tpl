@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/logout/">
+<form method="post" action="{www_dir}{index}/user/login/logout/">
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
@@ -20,7 +20,7 @@
 </tr>
 <tr>
         <td class="menutext">
-    <img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/user/edit/{user_id}/">{intl-change_user_info}</a>  
+    <img src="{www_dir}/images/dot.gif" width="12" height="10"><a class="menu" href="{www_dir}{index}/user/user/edit/{user_id}/">{intl-change_user_info}</a>  
         </td>
 </tr>
 </table>

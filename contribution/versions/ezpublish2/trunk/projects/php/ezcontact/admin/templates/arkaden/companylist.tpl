@@ -37,17 +37,17 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="{www_dir}/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
-<a class="path" href="/contact/company/list/0/">{intl-top}</a>
+<a class="path" href="{www_dir}{index}/contact/company/list/0/">{intl-top}</a>
 
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
+<img src="{www_dir}/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
 
-<a class="path" href="/contact/company/list/{category_id}/">{category_name}</a>
+<a class="path" href="{www_dir}{index}/contact/company/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4"/>
@@ -83,11 +83,11 @@
 	{company_name}
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{company_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{company_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 
 	<td class="{td_class}" width="1%">
-	<a href="/contact/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{company_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/contact/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{company_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
 </tr>
 <!-- END company_item_tpl -->

@@ -1,4 +1,4 @@
-<form method="post" action="{link_list_url}{item_id}">
+<form method="post" href="{www_dir}{index}{link_list_url}{item_id}">
 
 <h1>{intl-head_line} ({client_name}/{client_type})</h1>
 <hr noshade="noshade" size="4" />
@@ -47,8 +47,8 @@
 	<input type="hidden" name="SectionIDList[]" value="{section_id}" />
 	</th>
 	<th>&nbsp;
-	<td width="1%"><a href="{item_down_command}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
-	<td width="1%"><a href="{item_up_command}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}{item_down_command}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}{item_up_command}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 	</th>
 	<th>&nbsp;
 	</th>
@@ -61,16 +61,16 @@
 	<td width="1%">
 	</td>
 	<td class="{td_class}">
-	&nbsp;<a href="{link_url}" target="_blank">{link_name}</a>
+	&nbsp;<a href="{www_dir}{index}{link_url}" target="_blank">{link_name}</a>
 	</td>
 	<td class="{td_class}">
 	{link_module_name}/{link_module_type}
 	</td>
-	<td class="{td_class}" width="1%"><a href="{item_down_command}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
-	<td class="{td_class}" width="1%"><a href="{item_up_command}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td class="{td_class}" width="1%"><a href="{www_dir}{index}{item_down_command}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td class="{td_class}" width="1%"><a href="{www_dir}{index}{item_up_command}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 	<td class="{td_class}" width="1%">
 	<!-- BEGIN link_edit_item_tpl -->
-	<a href="{item_edit_command}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{link_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{link_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}{item_edit_command}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{link_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{link_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<!-- END link_edit_item_tpl -->
 	</td>

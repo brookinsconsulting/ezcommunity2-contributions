@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form action="/trade/payment/{order_id}/{payment_type}/" method="post" >
+<form action="{www_dir}{index}/trade/payment/{order_id}/{payment_type}/" method="post" >
 
 <p class="boxtext">{intl-mastercard_code}:</p>
 <input type="text" name="CCNumber" /> <br />

@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form action="/bulkmail/templateedit/{template_id}" method="post">
+<form action="{www_dir}{index}/bulkmail/templateedit/{template_id}" method="post">
 
 <p class="boxtext">{intl-name}:</p>
 <input type="text" class="box" size="40" name="Name" value="{template_name}" />

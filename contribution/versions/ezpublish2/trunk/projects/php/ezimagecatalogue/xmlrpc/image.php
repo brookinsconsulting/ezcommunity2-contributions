@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.8 2001/07/25 10:38:32 jb Exp $
+// $Id: image.php,v 1.9 2001/07/29 23:31:07 kaid Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -65,7 +65,7 @@ if( $Command == "data" ) // Dump image info!
             if ( $image->fileExists( true ) )
             {
                 $imagePath =& $image->filePath( true );
-                $size = filesize( $imagePath );
+                $size = eZFile::filesize( $imagePath );
                 $user = $image->user();
                 $user_id = get_class( $user ) == "ezuser" ? $user->id() : 0;
 

@@ -3,7 +3,7 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN search_item_tpl -->
-<form action="/article/extendedsearch/" method="post">
+<form action="{www_dir}{index}/article/extendedsearch/" method="post">
 <table width="100%" border="0">
 <tr>
 	<td>
@@ -33,7 +33,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/{article_page}/{article_category}">{article_name}</a>
+	<a href="{www_dir}{index}/article/articleview/{article_id}/{article_page}/{article_category}">{article_name}</a>
 	</td>
 </tr>
 <!-- END article_item_tpl -->
@@ -45,7 +45,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/article/extendedsearch/{search_url_text}/{category}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/article/extendedsearch/{search_url_text}/{category}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -59,7 +59,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/extendedsearch/{search_url_text}/{category}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/extendedsearch/{search_url_text}/{category}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -73,7 +73,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/extendedsearch/{search_url_text}/{category}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/extendedsearch/{search_url_text}/{category}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -8,9 +8,9 @@
 <!-- BEGIN product_tpl -->
 {begin_tr}
 	<td class="menutext">
-	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a><br />
+	<a class="menutext" href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a><br />
 	<!-- BEGIN product_image_tpl -->
-	<a href="/trade/productview/{product_id}/{category_id}/"><img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
 	<!-- END product_image_tpl -->
 	<div><span class="menutext">{product_intro_text}</span></div>
 <!-- BEGIN price_tpl -->

@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/{sitedesign}/images/links.gif" width="128" height="20"><br />
+	<img src="{www_dir}/sitedesign/{sitedesign}/images/links.gif" width="128" height="20"><br />
 	</td>
 </tr>
 
@@ -9,7 +9,7 @@
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
+	<a href="{www_dir}{index}/link/group/{linkgroup_id}/">{linkgroup_title}</a>
 	</div>
 	</td>
 </tr>
@@ -26,28 +26,28 @@
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="http://ez.no"><img src="/images/ezsystems-logo-100x21-svart.gif" height="22" width="100" border="0" alt="eZ systems" /></a>
+	<a href="http://ez.no"><img src="{www_dir}/images/ezsystems-logo-100x21-svart.gif" height="22" width="100" border="0" alt="eZ systems" /></a>
 	</div>
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="http://zez.org"><img src="/images/zez-logo-100x28-svart.gif" height="28" width="100" border="0" alt="zez.org: about code" /></a>
+	<a href="http://zez.org"><img src="{www_dir}/images/zez-logo-100x28-svart.gif" height="28" width="100" border="0" alt="zez.org: about code" /></a>
 	</div>
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="http://sourceprovider.com"><img src="/images/sourceprovider-100x26-svart.gif" height="26" width="100" border="0" alt="sourceprovider.com" /></a>
+	<a href="http://sourceprovider.com"><img src="{www_dir}/images/sourceprovider-100x26-svart.gif" height="26" width="100" border="0" alt="sourceprovider.com" /></a>
 	</div>
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="/link/suggestlink/">{intl-suggest_link}</a>
+	<a href="{www_dir}{index}/link/suggestlink/">{intl-suggest_link}</a>
 	</div>
 	</td>
 </tr>

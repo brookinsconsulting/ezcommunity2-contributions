@@ -1,7 +1,7 @@
 <h1>{intl-attribute_edit} - {media_name}</h1>
 
 <hr noshade size="4" />
-<form method="post" action="/mediacatalogue/mediaedit/attributeedit/{media_id}/" >
+<form method="post" action="{www_dir}{index}/mediacatalogue/mediaedit/attributeedit/{media_id}/" >
 
 <br />
 

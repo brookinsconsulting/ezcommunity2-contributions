@@ -1,5 +1,5 @@
 <!-- wishlist.tpl --> 
-<!-- $Id: wishlist.tpl,v 1.2 2001/02/15 10:42:27 bf Exp $ -->
+<!-- $Id: wishlist.tpl,v 1.3 2001/07/29 23:31:13 kaid Exp $ -->
 
 <h1>{intl-wishlist}</h1>
 
@@ -28,10 +28,10 @@
 <!-- BEGIN wishlist_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	</td>
 	<td class="{td_class}">
-	<a href="/trade/productview/{product_id}/">{product_name}</a>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a>
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN wishlist_item_option_tpl -->

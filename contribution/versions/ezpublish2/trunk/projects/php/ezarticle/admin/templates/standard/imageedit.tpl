@@ -1,4 +1,4 @@
-<form method="post" action="/article/articleedit/imageedit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/article/articleedit/imageedit/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-imageupload}: {article_name}</h1>
@@ -8,7 +8,7 @@
 <br />
 
 <!-- BEGIN image_tpl -->
-<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br />
+<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br />
 <!-- END image_tpl -->
 
 <p class="boxtext">{intl-imagetitle}:</p>
@@ -35,7 +35,7 @@
 	<td>&nbsp;</td>
 	<td>
 
-	<form method="post" action="/article/articleedit/imagelist/{article_id}/">
+	<form method="post" action="{www_dir}{index}/article/articleedit/imagelist/{article_id}/">
 	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>
 

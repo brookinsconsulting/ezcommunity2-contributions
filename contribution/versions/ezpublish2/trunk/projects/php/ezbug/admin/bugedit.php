@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.42 2001/07/19 12:29:04 jakobn Exp $
+// $Id: bugedit.php,v 1.43 2001/07/29 23:31:01 kaid Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -404,7 +404,7 @@ if ( $Action == "Edit" )
             $t->set_var( "file_number", $i + 1 );
             $t->set_var( "file_id", $file->id() );
         
-            $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
+            $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
     
             $t->parse( "file", "file_tpl", true );
     
@@ -436,8 +436,8 @@ if ( $Action == "Edit" )
             $t->set_var( "image_number", $i + 1 );
             $t->set_var( "image_id", $image->id() );
 
-            $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()
-                         . "?RefererURL=/bug/edit/edit/$BugID" ."\">" . $image->caption() . "</a>" );
+            $t->set_var( "image_name", "<a href=\"$wwwDir$index/imagecatalogue/imageview/" . $image->id()
+                         . "?RefererURL=$wwwDir$index/bug/edit/edit/$BugID" ."\">" . $image->caption() . "</a>" );
             $t->parse( "image", "image_tpl", true );
     
             $i++;
@@ -615,7 +615,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
 
     $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
             
-    $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
+    $mailTemplate->set_var( "bug_url", "http://" . $host . "$wwwDir$index/bug/bugview/" . $bug->id() );
     $mailTemplate->set_var( "bug_id", $bug->id() );
     $mailTemplate->set_var( "bug_title", $bug->name( false ) );
     $mailTemplate->set_var( "bug_module", $module->name( false ) );

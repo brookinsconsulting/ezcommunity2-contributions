@@ -4,7 +4,7 @@
         <h1>{intl-message_view}</h1>
      </td>
      <td align="right">
-	 <form action="/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="post">
 	       <input type="text" name="QueryString">
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
@@ -14,15 +14,15 @@
 
 <hr noshade="noshade" size="4" />
 
-	<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
-    <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
-	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
+	<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
 <!--
-	<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />	
-    <a class="path" href="/forum/message/{message_id}/">{message_topic}</a>
+	<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />	
+    <a class="path" href="{www_dir}{index}/forum/message/{message_id}/">{message_topic}</a>
 -->
 <hr noshade="noshade" size="4" />
 
@@ -59,13 +59,13 @@
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	<form class="method="post" action="/forum/messageedit/edit/{message_id}">
+	<form class="method="post" action="{www_dir}{index}/forum/messageedit/edit/{message_id}">
 	<input class="okbutton" type="submit" value="{intl-edit}">
 	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/forum/messageedit/delete/{message_id}">
+	<form method="post" action="{www_dir}{index}/forum/messageedit/delete/{message_id}">
 	<input class="okbutton" type="submit" value="{intl-delete}">
 	</form>
 	</td>
@@ -94,10 +94,10 @@
 
 		<td width="1%" valign="top">
 		{spacer}{spacer}
-        <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
+        <img src="{www_dir}/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
 		</td>
 		<td width="99%" valign="top">
-		<a class="{link_color}" href="/forum/message/{message_id}/">{reply_topic}</a>
+		<a class="{link_color}" href="{www_dir}{index}/forum/message/{message_id}/">{reply_topic}</a>
 		</td>
 	</tr>
 	</table>

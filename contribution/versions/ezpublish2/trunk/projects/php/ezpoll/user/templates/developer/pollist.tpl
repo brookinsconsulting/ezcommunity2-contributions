@@ -17,7 +17,7 @@
 <!-- BEGIN poll_item_tpl -->
 <tr>
 	<td>
-	<a href="/poll/{action}/{poll_id}/">{poll_name}</a>
+	<a href="{www_dir}{index}/poll/{action}/{poll_id}/">{poll_name}</a>
 	</td>
 	<td>
 	{poll_description}

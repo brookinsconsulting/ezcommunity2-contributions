@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.11 2001/07/20 12:01:51 jakobn Exp $
+// $Id: menubox.php,v 1.12 2001/07/29 23:31:03 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -34,7 +34,7 @@ if ( get_class( $user ) == "ezuser" and
        eZPermission::checkPermission( $user, "eZContact", "Consultation" ) ) )
 {
     include_once( "classes/INIFile.php" );
-    $ini = new INIFile( "site.ini" );
+    // $ini = new INIFile( "site.ini" );
 
     $Language = $ini->read_var( "eZContactMain", "Language" );
 

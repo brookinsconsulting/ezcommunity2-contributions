@@ -4,7 +4,7 @@
 	<h1>{intl-head_line} - ({product_start}-{product_end}/{product_total})</h1>
      </td>
      <td align="right">
-	 <form action="/{module}/search/" method="post">
+	 <form action="{www_dir}{index}/{module}/search/" method="post">
 	       <input type="text" name="Query">
 	       <input type="submit" name="search" value="{intl-search_button}">
          </form>
@@ -22,12 +22,12 @@
 <tr>
 	<td>
 
-	<a href="/{module}/{module_view}/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
+	<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
     <!-- BEGIN image_tpl -->
     <table align="right">
     <tr>
         <td>
-        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
         </td>
     </tr>
     <tr>
@@ -59,7 +59,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="{www_dir}{index}/trade/search/move/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
@@ -73,7 +73,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="{www_dir}{index}/trade/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -87,7 +87,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+			&nbsp;<a class="path" href="{www_dir}{index}/trade/search/move/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

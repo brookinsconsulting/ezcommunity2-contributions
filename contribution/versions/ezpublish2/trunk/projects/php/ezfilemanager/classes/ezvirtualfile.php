@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.39 2001/07/26 08:29:48 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.40 2001/07/29 23:31:03 kaid Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -132,9 +132,9 @@ class eZVirtualfile
         }
         
         // Delete from the filesystem
-        if ( ( file_exists ( $this->filePath( true ) ) ) && $commit )
+        if ( ( eZFile::file_exists( $this->filePath( true ) ) ) && $commit )
         {
-            unlink( $this->filePath( true ) );
+            eZFile::unlink( $this->filePath( true ) );
         }
     }
     
@@ -370,7 +370,7 @@ class eZVirtualfile
     function &fileSize()
     {
         $filepath =& $this->filePath( true );
-        $size = filesize( $filepath );
+        $size = eZFile::filesize( $filepath );
 
         return $size;
     }

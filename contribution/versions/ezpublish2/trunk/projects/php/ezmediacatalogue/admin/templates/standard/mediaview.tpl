@@ -7,7 +7,7 @@
 <table align="center" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<embed src="{media_uri}" {attributes} />
+	<embed src="{www_dir}{media_uri}" {attributes} />
 	</td>
 </tr>
 <tr>
@@ -18,4 +18,4 @@
 
 <br />
 
-<a class="path" href="{referer_url}">&lt;&lt;&nbsp;{intl-back}</a>
+<a class="path" href="{www_dir}{index}{referer_url}">&lt;&lt;&nbsp;{intl-back}</a>

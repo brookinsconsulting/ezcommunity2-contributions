@@ -1,4 +1,4 @@
-<form method="post" action="/user/sessioninfo/delete" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/user/sessioninfo/delete" enctype="multipart/form-data">
 
 <h1>{intl-logged_in_users} - ( {user_count} )</h1>
 

@@ -23,14 +23,14 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
+	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+			<a href="{www_dir}{index}/article/articleview/{article_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
             </td>
                 </tr>
                 <tr>
@@ -43,8 +43,8 @@
 
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
+	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/">{article_link_text}</a>
 	<br /><br />
 	</td>
 </tr>
@@ -59,7 +59,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/article/archive/{category_current_id}/{item_previous_index}">&lt;&lt;&nbsp;Forrige side</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/article/archive/{category_current_id}/{item_previous_index}">&lt;&lt;&nbsp;Forrige side</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -73,7 +73,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/archive/{category_current_id}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -87,7 +87,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_next_index}">Neste side&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/article/archive/{category_current_id}/{item_next_index}">Neste side&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

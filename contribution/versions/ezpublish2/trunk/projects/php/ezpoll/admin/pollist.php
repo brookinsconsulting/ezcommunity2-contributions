@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pollist.php,v 1.21 2001/07/20 11:22:30 jakobn Exp $
+// $Id: pollist.php,v 1.22 2001/07/29 23:31:09 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -91,8 +91,8 @@ if ( $Action == "Delete" )
         }
     }
     // clear the menu cache
-    if ( file_exists("ezpoll/cache/menubox.cache" )  )
-        unlink( "ezpoll/cache/menubox.cache" );
+    if ( eZFile::file_exists("ezpoll/cache/menubox.cache" )  )
+        eZFile::unlink( "ezpoll/cache/menubox.cache" );
 }
 
 $t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "AdminTemplateDir" ),

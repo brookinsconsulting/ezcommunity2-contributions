@@ -2,14 +2,14 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/mail/folder/{current_folder_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/mail/folder/{current_folder_id}" enctype="multipart/form-data" >
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
     <th widht="1%">&nbsp;</th>
-	<th width="40%"><a href="/mail/foldersort/{current_folder_id}/subject">{intl-subject}:</a></th>
-	<th width="26%"><a href="/mail/foldersort/{current_folder_id}/from">{intl-sender}:</a></th>
-	<th width="7%"><a href="/mail/foldersort/{current_folder_id}/size">{intl-size}:</a></th>
-	<th width="24%"><a href="/mail/foldersort/{current_folder_id}/date">{intl-date}:</a></th>
+	<th width="40%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/subject">{intl-subject}:</a></th>
+	<th width="26%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/from">{intl-sender}:</a></th>
+	<th width="7%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/size">{intl-size}:</a></th>
+	<th width="24%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/date">{intl-date}:</a></th>
 	<th width="1%">&nbsp;</th>
 	<th width="1%">&nbsp;</th>
 </tr>
@@ -17,30 +17,30 @@
 <tr> 
 	<td class="{td_class}">
 	<!-- BEGIN mail_unread_tpl -->
-	<img src="/images/mail.gif" />
+	<img src="{www_dir}/images/mail.gif" />
 	<!-- END mail_unread_tpl -->
 
 	<!-- BEGIN mail_read_tpl -->
-	<img src="/images/mail_read.gif" />
+	<img src="{www_dir}/images/mail_read.gif" />
 	<!-- END mail_read_tpl -->
 
 	<!-- BEGIN mail_forwarded_tpl -->
-	<img src="/images/mail_forwarded.gif" />
+	<img src="{www_dir}/images/mail_forwarded.gif" />
 	<!-- END mail_forwarded_tpl -->
 
 	<!-- BEGIN mail_replied_tpl -->
-	<img src="/images/mail_replied.gif" />
+	<img src="{www_dir}/images/mail_replied.gif" />
 	<!-- END mail_replied_tpl -->
 
 	<!-- BEGIN mail_repliedall_tpl -->
-	<img src="/images/mail_repliedtoall.gif" />
+	<img src="{www_dir}/images/mail_repliedtoall.gif" />
 	<!-- END mail_repliedall_tpl -->
 	
 	<!-- BEGIN mail_status_renderer_tpl -->
 	<!-- END mail_status_renderer_tpl -->
 	</td>
 	<td class="{td_class}">
-	<a href="/mail/view/{mail_id}">{mail_subject}</a>
+	<a href="{www_dir}{index}/mail/view/{mail_id}">{mail_subject}</a>
 	</td>
 	<td class="{td_class}">
 	{mail_sender}
@@ -53,8 +53,8 @@
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN mail_edit_item_tpl -->
-	  <a href="/mail/mailedit/{mail_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{mail_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
-           <img name="ezb{mail_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" />
+	  <a href="{www_dir}{index}/mail/mailedit/{mail_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{mail_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
+           <img name="ezb{mail_id}-red" border="0" src="{www_dir}/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" />
           </a>
 	<!-- END mail_edit_item_tpl -->
 	</td>
@@ -66,10 +66,10 @@
 <!-- BEGIN mail_item_unread_tpl -->
 <tr>
 	<td class="{td_class}">
-	<img src="/images/mail.gif" />
+	<img src="{www_dir}/images/mail.gif" />
 	</td>
 	<td class="{td_class}">
-	<b><a href="/mail/view/{mail_id}">{mail_subject}</a></b>
+	<b><a href="{www_dir}{index}/mail/view/{mail_id}">{mail_subject}</a></b>
 	</td>
 	<td class="{td_class}">
 	<b>{mail_sender}</b>
@@ -102,7 +102,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/mail/folder/{current_folder_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/mail/folder/{current_folder_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -116,7 +116,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/mail/folder/{current_folder_id}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/mail/folder/{current_folder_id}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -130,7 +130,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/mail/folder/{current_folder_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/mail/folder/{current_folder_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

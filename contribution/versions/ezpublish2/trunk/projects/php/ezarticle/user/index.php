@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.3 2001/07/19 12:19:21 jakobn Exp $
+// $Id: index.php,v 1.4 2001/07/29 23:30:58 kaid Exp $
 //
 // Created on: <27-Apr-2001 10:15:40 amos>
 //
@@ -72,7 +72,7 @@ foreach( $indexes as $index )
 
 if ( $GenerateStaticPage == "true" and $cachedFile != "" )
 {
-    $fp = fopen ( $cachedFile, "w+");
+    $fp = eZFile::fopen( $cachedFile, "w+");
     $output = $t->parse( "output", "index_tpl" );
     
     // print the output the first time while printing the cache file.

@@ -7,7 +7,7 @@
 	</tr>
 	<tr>
 		<td>
-		<form method="post" action="/user/login/login/">
+		<form method="post" action="{www_dir}{index}/user/login/login/">
 		<p class="smalltitle">{intl-username}:</p>
 		<input type="text" size="6" name="Username"/>
 		</td>
@@ -31,8 +31,8 @@
 	</tr>
 	<tr>
 		<td>
-		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="/user/forgot/">{intl-forgot}</a><br />
-		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{user_edit_url}">Ny kunde</a>
+		<img src="{www_dir}/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{www_dir}{index}/user/forgot/">{intl-forgot}</a><br />
+		<img src="{www_dir}/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{www_dir}{index}{user_edit_url}">Ny kunde</a>
 		<input type="hidden" name="RedirectURL" value="{redirect_url}">
 
 		</form>

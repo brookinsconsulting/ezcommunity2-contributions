@@ -1,4 +1,4 @@
-<form method="post" action="/newsfeed/sourcesite/{action_value}/{source_site_id}">
+<form method="post" action="{www_dir}{index}/newsfeed/sourcesite/{action_value}/{source_site_id}">
 
 <h1>{intl-sourcesite_edit}</h1>
 

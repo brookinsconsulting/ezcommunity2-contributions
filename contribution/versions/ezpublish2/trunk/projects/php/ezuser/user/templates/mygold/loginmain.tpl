@@ -12,9 +12,9 @@
 			<td align="center">
 			    {intl-advantage}
 			    <br />
-			    <a class="small" href="/user/login/?RedirectURL={redirect_url}">{intl-login}</a>
+			    <a class="small" href="{www_dir}{index}/user/login/?RedirectURL={redirect_url}">{intl-login}</a>
 			    <br />
-			    <a class="small" href="/user/user/new/?RedirectURL={redirect_url}">{intl-register_new}</a>
+			    <a class="small" href="{www_dir}{index}/user/user/new/?RedirectURL={redirect_url}">{intl-register_new}</a>
         		    <!-- BEGIN standard_creation_tpl -->
 			    <!-- END standard_creation_tpl -->
 			    <!-- BEGIN extra_creation_tpl -->
@@ -30,7 +30,7 @@
 	<td class="spacer2">&nbsp;</td>
   </tr>
   <tr> 
-	<td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
+	<td class="bgspacer"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
   </tr>
   <tr> 
 	<td class="spacer5">&nbsp;</td>

@@ -5,7 +5,7 @@
     </td>
     <td align="right">
     <td align="right">
-	 <form action="/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input type="submit" name="search" value="{intl-search}" />
          </form>
@@ -15,14 +15,14 @@
 
 <hr noshade="noshade" size="4" />
 
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0">
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/images/path-slash.gif" height="10" width="20" border="0">
-    <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/images/path-slash.gif" height="10" width="20" border="0">
-	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
-	<img src="/images/path-slash.gif" height="10" width="20" border="0">	
-    <a class="path" href="/forum/message/{message_id}/">{message_topic}</a>
+	<img src="{www_dir}/images/path-arrow.gif" height="10" width="15" border="0">
+	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="20" border="0">
+    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="20" border="0">
+	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="20" border="0">	
+    <a class="path" href="{www_dir}{index}/forum/message/{message_id}/">{message_topic}</a>
 
 <hr noshade="noshade" size="4" />
 
@@ -57,12 +57,12 @@
 
 <br />
 
-<form method="post" action="/forum/userlogin/reply/{reply_id}/">
+<form method="post" action="{www_dir}{index}/forum/userlogin/reply/{reply_id}/">
 
 <hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" value="{intl-answer}" />
-<!-- <a href="/forum/userlogin/reply/{reply_id}/">[{intl-reply}]</a> -->
+<!-- <a href="{www_dir}{index}/forum/userlogin/reply/{reply_id}/">[{intl-reply}]</a> -->
 </form>
 
 <br />
@@ -80,7 +80,7 @@
 <tr>
     	<td class="{td_class}">
 	   {spacer}
-	<a class="{link_color}" href="/forum/message/{message_id}/">
+	<a class="{link_color}" href="{www_dir}{index}/forum/message/{message_id}/">
 	{reply_topic}
 	</a>
 	</td>
@@ -101,7 +101,7 @@
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	<form action="/forum/userlogin/new/{forum_id}">
+	<form action="{www_dir}{index}/forum/userlogin/new/{forum_id}">
   	<input class="okbutton" type="submit" value="{intl-new-posting}" />
 	</td>
 </tr>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.38 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezlocale.php,v 1.39 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZLocale class
 //
@@ -125,29 +125,29 @@ class eZLocale
     {
         $ini =& INIFile::globalINI();
 
-        if ( file_exists( "classes/locale/" . $iso . ".ini" ) )
+        if ( eZFile::file_exists( "classes/locale/" . $iso . ".ini" ) )
         {
-            $this->$LocaleIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
+            $this->LocaleIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
         }
         else
         {
-            $this->$LocaleIni = new INIFile( "classes/locale/en_GB.ini", false );
+            $this->LocaleIni = new INIFile( "classes/locale/en_GB.ini", false );
         }
 
-        $this->LanguageISO =& $this->$LocaleIni->read_var( "RegionalSettings", "LanguageISO" );
-        $this->CurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "CurrencySymbol" );
-        $this->DecimalSymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "DecimalSymbol" );
-        $this->ThousandsSymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "ThousandsSymbol" );
-        $this->FractDigits =& $this->$LocaleIni->read_var( "RegionalSettings", "FractDigits" );
+        $this->LanguageISO =& $this->LocaleIni->read_var( "RegionalSettings", "LanguageISO" );
+        $this->CurrencySymbol =& $this->LocaleIni->read_var( "RegionalSettings", "CurrencySymbol" );
+        $this->DecimalSymbol =& $this->LocaleIni->read_var( "RegionalSettings", "DecimalSymbol" );
+        $this->ThousandsSymbol =& $this->LocaleIni->read_var( "RegionalSettings", "ThousandsSymbol" );
+        $this->FractDigits =& $this->LocaleIni->read_var( "RegionalSettings", "FractDigits" );
 
-        $this->PositivePrefixCurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
-        $this->NegativePrefixCurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
+        $this->PositivePrefixCurrencySymbol =& $this->LocaleIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
+        $this->NegativePrefixCurrencySymbol =& $this->LocaleIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
         
-        $this->TimeFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "TimeFormat" );
-        $this->ShortTimeFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "ShortTimeFormat" );
-        $this->DateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "DateFormat" );
-        $this->ShortDateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "ShortDateFormat" );
-        $this->MondayFirst =& $this->$LocaleIni->read_var( "RegionalSettings", "MondayFirst" );
+        $this->TimeFormat =& $this->LocaleIni->read_var( "RegionalSettings", "TimeFormat" );
+        $this->ShortTimeFormat =& $this->LocaleIni->read_var( "RegionalSettings", "ShortTimeFormat" );
+        $this->DateFormat =& $this->LocaleIni->read_var( "RegionalSettings", "DateFormat" );
+        $this->ShortDateFormat =& $this->LocaleIni->read_var( "RegionalSettings", "ShortDateFormat" );
+        $this->MondayFirst =& $this->LocaleIni->read_var( "RegionalSettings", "MondayFirst" );
     }
 
     /*!
@@ -370,7 +370,7 @@ class eZLocale
             }
         }
 
-        $name =& $this->$LocaleIni->read_var( "RegionalSettings", $long . $day );
+        $name =& $this->LocaleIni->read_var( "RegionalSettings", $long . $day );
 
         if ( $name == false )
         {
@@ -470,7 +470,7 @@ class eZLocale
             }
         }
 
-        $name =& $this->$LocaleIni->read_var( "RegionalSettings", $long . $month );
+        $name =& $this->LocaleIni->read_var( "RegionalSettings", $long . $month );
 
         if ( $name == false )
         {

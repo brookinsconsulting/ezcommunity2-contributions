@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -23,16 +23,16 @@
 <!-- BEGIN search_item_tpl -->
 <tr>
 	<td class="{td_class}" width="1%">
-	<img src="{icon_src}" width="16" height="16" alt="" border="0" />
+	<img src="{www_dir}{icon_src}" width="16" height="16" alt="" border="0" />
 	</td>
 	<td class="{td_class}" width="99%">
-	<a href="{search_link}">{search_name}</a>
+	<a href="{www_dir}{index}{search_link}">{search_name}</a>
 	</td>
 </tr>
 <!-- END search_item_tpl -->
 <tr>
 	<td colspan="2">
-	{intl-full_search}: <a href="{search_more_link}">{intl-click_here}</a>
+	{intl-full_search}: <a href="{www_dir}{index}{search_more_link}">{intl-click_here}</a>
 	</td>
 </tr>
 </table>

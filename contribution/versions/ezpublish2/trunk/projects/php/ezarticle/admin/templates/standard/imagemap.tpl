@@ -21,7 +21,7 @@ function getValue()
 
 <hr noshade="noshade" size="4" />
 
-<form action="/article/articleedit/imagemap/store/{image_id}/{article_id}/" name="MapForm" method="post" onSubmit="return getValue()">
+<form action="{www_dir}{index}/article/articleedit/imagemap/store/{image_id}/{article_id}/" name="MapForm" method="post" onSubmit="return getValue()">
 
 <input type="hidden" value="aaa" name="Values">
 
@@ -33,7 +33,7 @@ function getValue()
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form action="/article/articleedit/imagelist/{article_id}/" method="post">
+	<form action="{www_dir}{index}/article/articleedit/imagelist/{article_id}/" method="post">
 	<input class="okbutton" type="submit" value="{intl-abort}" />
 	</form>
 	</td>

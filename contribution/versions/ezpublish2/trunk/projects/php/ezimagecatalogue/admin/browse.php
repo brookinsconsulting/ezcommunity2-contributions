@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browse.php,v 1.7 2001/07/20 11:06:38 jakobn Exp $
+// $Id: browse.php,v 1.8 2001/07/29 23:31:06 kaid Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -217,7 +217,7 @@ foreach ( $imageList as $image )
     if ( $image->fileExists( true ) )
     {
         $imagePath =& $image->filePath( true );
-        $size = filesize( $imagePath );
+        $size = eZFile::filesize( $imagePath );
     }
     else
     {

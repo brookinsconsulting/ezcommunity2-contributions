@@ -1,4 +1,4 @@
-<form action="/bug/priority/list/">
+<form action="{www_dir}{index}/bug/priority/list/">
 
 <h1>{intl-headline}</h1>
 

@@ -1,5 +1,5 @@
 
-<form method="post" action="/filemanager/folder/{action_value}/{folder_id}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/filemanager/folder/{action_value}/{folder_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-folder_edit}</h1>

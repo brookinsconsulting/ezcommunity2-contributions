@@ -1,14 +1,14 @@
-<form action="/trade/productedit/edit/{product_id}/" method="post">
+<form action="{www_dir}{index}/trade/productedit/edit/{product_id}/" method="post">
 
 <h1>{intl-head_line}</h1>
 
 <hr noshade size="4"/>
-<img src="/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
+<img src="{www_dir}/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
+<img src="{www_dir}/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
 <hr noshade size="4"/>
@@ -34,8 +34,8 @@
 <table width="1%" align="right" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
-	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
+	<img src="{www_dir}{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
 </tr>
 <tr>
@@ -63,8 +63,8 @@
 <tr>
 <td width="1%" valign="top">
 
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
+	<img src="{www_dir}{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
 </td>
 </tr>
 <tr>
@@ -104,7 +104,7 @@
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	&nbsp;<a href="{link_url}">{link_name}</a>
+	&nbsp;<a href="{www_dir}{index}{link_url}">{link_name}</a>
 	</td>
 </tr>
 <!-- END link_item_tpl -->
@@ -134,7 +134,7 @@
 </table>
 <!-- END attribute_list_tpl -->
 
-<form action="/{module}/cart/add/{product_id}/" method="post">
+<form action="{www_dir}{index}/{module}/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
 
@@ -222,7 +222,7 @@
 	<td align="right" valign="top">
 	<!-- BEGIN external_link_tpl -->
 	<p class="boxtext">{intl-external_link}:</p>
-	<a href="{external_link_url}" target="_blank">{external_link_url}</a>
+	<a href="{www_dir}{index}{external_link_url}" target="_blank">{external_link_url}</a>
 	<!-- END external_link_tpl -->
 	</td>
 </tr>
@@ -251,12 +251,12 @@
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-<div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
+<div align="center"><a class="path" href="{www_dir}{index}/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
 <!-- pkej
-<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/{category_id}/">| {intl-print_page} |</a></div>
+<div align="center"> <a class="path" href="{www_dir}{index}/{module}/{module_print}/{product_id}/{category_id}/">| {intl-print_page} |</a></div>
 -->
 <!-- END print_page_link_tpl -->
 

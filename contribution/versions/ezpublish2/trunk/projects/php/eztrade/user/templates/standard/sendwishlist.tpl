@@ -33,7 +33,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/trade/sendwishlist/" >
+<form method="post" action="{www_dir}{index}/trade/sendwishlist/" >
 
 <p class="boxtext">{intl-send_wishlist_to}:</p>
 <input type="text" name="SendTo" value="" />

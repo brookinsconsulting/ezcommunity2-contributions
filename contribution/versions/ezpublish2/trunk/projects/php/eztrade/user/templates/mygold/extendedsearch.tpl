@@ -6,7 +6,7 @@
 <!-- END error_max_search_for_products_tpl -->
 
 <!-- BEGIN product_search_form_tpl -->
-<form action="/trade/extendedsearch/" method="post">
+<form action="{www_dir}{index}/trade/extendedsearch/" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
         <td>
@@ -85,12 +85,12 @@
     <!-- BEGIN product_tpl -->
     <tr>
 	<td>
-	    <a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
+	    <a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
 	    <!-- BEGIN image_tpl -->
 	    <table align="right">
 		<tr>
     		    <td>
-    			<img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+    			<img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
     		    </td>
 		</tr>
 		<tr>
@@ -123,7 +123,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="{www_dir}{index}/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
@@ -137,7 +137,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="{www_dir}{index}/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -151,7 +151,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+			&nbsp;<a class="path" href="{www_dir}{index}/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

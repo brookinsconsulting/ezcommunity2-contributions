@@ -3,7 +3,7 @@
 
 <head>
 <title>eZ publish admin - help</title>
-<link rel="stylesheet" type="text/css" href="/admin/templates/{site_style}/style.css" />
+<link rel="stylesheet" type="text/css" href="{www_dir}/admin/templates/{site_style}/style.css" />
 <meta http-equiv="Content-Type" content="text/html; charset={charset}" />
 
 </head>

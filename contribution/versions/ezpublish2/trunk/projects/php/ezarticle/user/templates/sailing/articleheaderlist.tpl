@@ -6,9 +6,9 @@
    </td>
 </tr>
   <tr>
-    <td bgcolor="#006699" width="9"><img src="/sitedesign/sailing/images/leftrounded.gif" width="9" height="20" hspace="0" vspace="0" border="0" align="left" alt=""></td>
+    <td bgcolor="#006699" width="9"><img src="{www_dir}/sitedesign/sailing/images/leftrounded.gif" width="9" height="20" hspace="0" vspace="0" border="0" align="left" alt=""></td>
     <td bgcolor="#006699" width="100%"><b class="white">Archive</b></td>
-    <td width="70"><img src="/sitedesign/sailing/images/rightrounded.gif" width="70" height="20" hspace="0" vspace="0" border="0" align="right" alt=""></td>
+    <td width="70"><img src="{www_dir}/sitedesign/sailing/images/rightrounded.gif" width="70" height="20" hspace="0" vspace="0" border="0" align="right" alt=""></td>
   </tr>
 
 </table>
@@ -41,7 +41,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/">
+	<a href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>

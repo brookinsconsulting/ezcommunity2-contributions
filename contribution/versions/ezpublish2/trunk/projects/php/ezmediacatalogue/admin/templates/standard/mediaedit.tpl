@@ -1,4 +1,4 @@
-<form method="post" action="/mediacatalogue/media/{action_value}/{media_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/mediacatalogue/media/{action_value}/{media_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-mediaupload}</h1>

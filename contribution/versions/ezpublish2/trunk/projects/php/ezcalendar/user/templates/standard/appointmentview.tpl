@@ -107,13 +107,13 @@
 </table>
 
 <hr noshade size="4" />
-<form action="/calendar/appointmentedit/edit/{appointment_id}">
+<form action="{www_dir}{index}/calendar/appointmentedit/edit/{appointment_id}">
 <input class="stdbutton" type="submit" value="{intl-edit_appointment}">
 </form>
 <hr noshade size="4" />
 <!-- END view_tpl -->
 
-<form action="/calendar/appointmentedit/edit/">
+<form action="{www_dir}{index}/calendar/appointmentedit/edit/">
 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">

@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/mail/folderlist/" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/mail/folderlist/" enctype="multipart/form-data" >
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="88%">{intl-name}:</th>
@@ -14,7 +14,7 @@
 <!-- BEGIN folders_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{indent}<a href="/mail/folder/{folder_id}">{folder_name}</a>
+	{indent}<a href="{www_dir}{index}/mail/folder/{folder_id}">{folder_name}</a>
 	</td>
 	<td class="{td_class}" align="right">
         {folder_unread_mail_total}
@@ -24,8 +24,8 @@
 	</td>        	
 	<!-- BEGIN folders_item_edit_tpl -->
 	<td class="{td_class}">
-	  <a href="/mail/folderedit/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{folder_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
-           <img name="ezb{folder_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" />
+	  <a href="{www_dir}{index}/mail/folderedit/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{folder_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
+           <img name="ezb{folder_id}-red" border="0" src="{www_dir}/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" />
           </a>
 	</td>
 	<td class="{td_class}">

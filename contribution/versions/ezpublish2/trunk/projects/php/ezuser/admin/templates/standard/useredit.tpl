@@ -1,4 +1,4 @@
-<form method="post" action="/user/useredit/{action_value}/{user_id}/">
+<form method="post" action="{www_dir}{index}/user/useredit/{action_value}/{user_id}/">
 
 <h1>{head_line}</h1>
 

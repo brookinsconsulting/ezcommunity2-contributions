@@ -1,4 +1,4 @@
-<form method="post" action="/link/typeedit/">
+<form method="post" action="{www_dir}{index}/link/typeedit/">
 
 <h1>{intl-type_edit}</h1>
 
@@ -25,7 +25,7 @@
 	<input type="text" name="AttributeName[]" value="{attribute_name}" />
 	</td>
 <!-- BEGIN item_move_down_tpl -->
-	<td width="1%"><a href="/link/typeedit/down/{type_id}/{attribute_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}/link/typeedit/down/{type_id}/{attribute_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
 <!-- END item_move_down_tpl -->
 
 <!-- BEGIN no_item_move_down_tpl -->
@@ -40,7 +40,7 @@
 <!-- END no_item_separator_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
-	<td width="1%"><a href="/link/typeedit/up/{type_id}/{attribute_id}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}/link/typeedit/up/{type_id}/{attribute_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
 	<td width="1%"> &nbsp; </td>

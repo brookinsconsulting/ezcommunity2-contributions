@@ -1,8 +1,8 @@
-<form method="post" action="/user/login/login/">
+<form method="post" action="{www_dir}{index}/user/login/login/">
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/designsection1/images/login.gif" width="122" height="20"><br />
+	<img src="{www_dir}/sitedesign/designsection1/images/login.gif" width="122" height="20"><br />
 	</td>
 </tr>
 <tr>
@@ -43,14 +43,14 @@
 <tr>
 	<td>
 	<div class="rightmenu">
-	<a class="rightmenu" href="/user/forgot/">{intl-forgot}</a>
+	<a class="rightmenu" href="{www_dir}{index}/user/forgot/">{intl-forgot}</a>
 	</div></td>
 </tr>
 <!-- BEGIN standard_creation_tpl -->
 <tr>
 	<td>
 	<div class="rightmenu">
-	<a class="rightmenu" href="{user_edit_url}">{intl-register}</a>
+	<a class="rightmenu" href="{www_dir}{index}{user_edit_url}">{intl-register}</a>
 	</div>
 	</td>
 </tr>

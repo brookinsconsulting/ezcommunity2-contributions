@@ -1,4 +1,4 @@
-<form method="post" action="/filemanager/{action_value}/{file_id}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/filemanager/{action_value}/{file_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-file_upload}</h1>

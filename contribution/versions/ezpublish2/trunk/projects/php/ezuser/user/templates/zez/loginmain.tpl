@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/login/">
+<form method="post" action="{www_dir}{index}/user/login/login/">
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
@@ -26,12 +26,12 @@
 </tr>
 <tr>
         <td class="menutext">
-        <img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/forgot/">{intl-forgot}</a>
+        <img src="{www_dir}/images/dot.gif" width="12" height="10"><a class="menu" href="{www_dir}{index}/user/forgot/">{intl-forgot}</a>
         </td>
 </tr>
 <tr>
         <td class="menutext">
-        <img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/user/new/">{intl-register}
+        <img src="{www_dir}/images/dot.gif" width="12" height="10"><a class="menu" href="{www_dir}{index}/user/user/new/">{intl-register}
         </td>
 </tr>
 <tr>

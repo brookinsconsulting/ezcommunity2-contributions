@@ -1,19 +1,19 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
 	<!-- BEGIN path_tpl -->
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/link/group/0/">{intl-top}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/link/group/0/">{intl-top}</a>
 	<!-- END path_tpl -->
 	<!-- BEGIN path_item_tpl -->
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/link/group/{group_id}/">{group_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/link/group/{group_id}/">{group_name}</a>
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom" colspan="2"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -26,7 +26,7 @@
 	<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
 	</td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
          </form>
@@ -44,13 +44,13 @@
 <!-- BEGIN group_item_tpl -->
 <tr>
 	<td class="{td_class}" valign="top" width="99%">
-	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b><br />
+	<b><a href="{www_dir}{index}/link/group/{linkgroup_id}/">{linkgroup_title}</a></b><br />
 <!--	<div class="spacer"><span class="p">{linkgroup_description}</span></div> -->
 	</td>
     <td class="{td_class}" width="1%">
 	<!-- BEGIN image_item_tpl -->
-	<a href="/link/group/{linkgroup_id}/">
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
+	<a href="{www_dir}{index}/link/group/{linkgroup_id}/">
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
@@ -69,13 +69,13 @@
 <!-- BEGIN link_item_tpl -->
 <tr class="{td_class}">
 	<td valign="top" width="99%">
-	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
+	<b><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
  	<span class="p">{link_description}</span><br />
 	<span class="small">(Hits: {link_hits})</span>
    	</td>
 	<td valign="top" width="1%">
 	<!-- BEGIN link_image_item_tpl -->
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END link_image_item_tpl -->
 	</td>
 </tr>
@@ -89,7 +89,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/link/group/{group_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/link/group/{group_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -103,7 +103,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/group/{group_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/group/{group_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -117,7 +117,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/group/{group_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/group/{group_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

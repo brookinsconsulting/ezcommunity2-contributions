@@ -7,9 +7,9 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td class="tdmini" width="1%" background="/images/gyldenlinje-strekk.gif"><img src="/images/gyldenlinje-venstre.gif" width="8" height="4" border="0" /><br /></td>
-    <td class="tdmini" width="98%" background="/images/gyldenlinje-strekk.gif"><img src="/images/1x1.gif" width="1" height="1" border="0" /><br /></td>
-    <td class="tdmini" width="1%" background="/images/gyldenlinje-strekk.gif"><img src="/images/gyldenlinje-hoyre.gif" width="8" height="4" border="0" /><br /></td>
+	<td class="tdmini" width="1%" background="{www_dir}/images/gyldenlinje-strekk.gif"><img src="{www_dir}/images/gyldenlinje-venstre.gif" width="8" height="4" border="0" /><br /></td>
+    <td class="tdmini" width="98%" background="{www_dir}/images/gyldenlinje-strekk.gif"><img src="{www_dir}/images/1x1.gif" width="1" height="1" border="0" /><br /></td>
+    <td class="tdmini" width="1%" background="{www_dir}/images/gyldenlinje-strekk.gif"><img src="{www_dir}/images/gyldenlinje-hoyre.gif" width="8" height="4" border="0" /><br /></td>
 </tr>
 </table>
 
@@ -20,8 +20,8 @@
 <table width="{main_image_width}" align="center" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{main_image_id}/?RefererURL=/trade/productview/{product_id}/">
+	<img src="{www_dir}{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
 </tr>
 <tr>
@@ -85,7 +85,7 @@
 	<td align="right">
 	<!-- BEGIN external_link_tpl -->
 	<p class="boxtext">{intl-external_link}:</p>
-	<a href="{external_link_url}" target="_blank">{external_link_url}</a>
+	<a href="{www_dir}{index}{external_link_url}" target="_blank">{external_link_url}</a>
 	<!-- END external_link_tpl -->
 	</td>
 </tr>
@@ -104,10 +104,10 @@
 </tr>
 <tr>
 	<td width="1%">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_name}" width="{image_width}" height="{image_height}" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
+	<img src="{www_dir}{image_url}" border="0" alt="{image_name}" width="{image_width}" height="{image_height}" /></a>
 	</td>
-	<td width="1%"><img src="/images/1x1.gif" height="1" width="12" border="0" alt="" /></td>
+	<td width="1%"><img src="{www_dir}/images/1x1.gif" height="1" width="12" border="0" alt="" /></td>
 	<td width="98%" valign="top">
 	{image_caption}
 	</td>
@@ -116,7 +116,7 @@
 
 </table>
 <br />
-<form action="/trade/cart/add/{product_id}/" method="post">
+<form action="{www_dir}{index}/trade/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
 
@@ -160,10 +160,10 @@
 </form>
 
 <!-- BEGIN numbered_page_link_tpl -->
-<div align="center"><a class="path" href="/trade/productview/{product_id}/0/">| {intl-numbered_page} |</a></div>
+<div align="center"><a class="path" href="{www_dir}{index}/trade/productview/{product_id}/0/">| {intl-numbered_page} |</a></div>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<div align="center"> <a class="path" href="/trade/productprint/{product_id}/">| {intl-print_page} |</a></div>
+<div align="center"> <a class="path" href="{www_dir}{index}/trade/productprint/{product_id}/">| {intl-print_page} |</a></div>
 <!-- END print_page_link_tpl -->
 </p> 

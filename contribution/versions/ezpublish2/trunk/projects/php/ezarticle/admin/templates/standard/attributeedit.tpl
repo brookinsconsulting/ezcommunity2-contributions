@@ -1,4 +1,4 @@
-<form action="/article/articleedit/attributeedit/{action_value}/{this_type_id}" method="post">
+<form action="{www_dir}{index}/article/articleedit/attributeedit/{action_value}/{this_type_id}" method="post">
 
 <h1>{intl-attributes}: {article_name}</h1>
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.20 2001/07/24 11:49:56 jhe Exp $
+// $Id: consultationedit.php,v 1.21 2001/07/29 23:31:02 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -38,10 +38,10 @@ include_once( "ezuser/classes/ezpermission.php" );
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
-    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
-    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
-    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
-    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
+    eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
+    eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
+    eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
+    eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
 }
 
 //Adds a "0" in front of the value if it's below 10.

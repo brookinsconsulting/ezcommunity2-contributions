@@ -2,7 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
         <td bgcolor="#f08c00"  width="100%">
-        <strong class="h1"><img src="/images/1x1.gif" width="3" height="1" border="0">eZ systems Web Shop</strong>
+        <strong class="h1"><img src="{www_dir}/images/1x1.gif" width="3" height="1" border="0">eZ systems Web Shop</strong>
         </td>
 </tr>
 </table>
@@ -46,8 +46,8 @@ Du kan begynne å handle ved å trykke på "Produkter". Vårt utvalg vil vokse i tid
         <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
 	        <td bgcolor="#c0c0c0" width="100%">
-		<a href="/article/articleview/{article_id}/">
-                <strong class="h2"><img src="/images/1x1.gif" width="3" height="1" border="0">&nbsp;{article_name}
+		<a href="{www_dir}{index}/article/articleview/{article_id}/">
+                <strong class="h2"><img src="{www_dir}/images/1x1.gif" width="3" height="1" border="0">&nbsp;{article_name}
                 </strong>
 		</a>
                 </td>
@@ -58,8 +58,8 @@ Du kan begynne å handle ved å trykke på "Produkter". Vårt utvalg vil vokse i tid
 	    <table align="right" width="{thumbnail_image_width}">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/">
-                        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+			<a href="{www_dir}{index}/article/articleview/{article_id}/">
+                        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 			</a>
                         </td>
                 </tr>
@@ -75,8 +75,8 @@ Du kan begynne å handle ved å trykke på "Produkter". Vårt utvalg vil vokse i tid
 	<p>
 	{article_intro}
 	</p>
-	<img src="/ezarticle/user/{image_dir}/path-arrow.gif" height="10" width="10" border="0" alt="">
-	<a class="path" href="/article/articleview/{article_id}/">
+	<img src="{www_dir}/ezarticle/user/{image_dir}/path-arrow.gif" height="10" width="10" border="0" alt="">
+	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>
 	<br />

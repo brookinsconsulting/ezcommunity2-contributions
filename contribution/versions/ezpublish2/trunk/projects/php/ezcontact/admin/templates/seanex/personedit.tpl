@@ -1,4 +1,4 @@
-<form method="post" action="/contact/person/{action_value}/{person_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/person/{action_value}/{person_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-edit_headline}</h1>
@@ -233,7 +233,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/contact/person/list/">
+	<form method="post" action="{www_dir}{index}/contact/person/list/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

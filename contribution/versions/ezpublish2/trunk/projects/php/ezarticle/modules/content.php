@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: content.php,v 1.4 2001/07/19 12:19:21 jakobn Exp $
+// $Id: content.php,v 1.5 2001/07/29 23:30:58 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -36,21 +36,21 @@ $str = <<<EOD
 </tr>
 <tr>
     <td bgcolor="#f0f0f0">
-        <a href="/article/$viewer/$page/3/#ezad">eZ ad</a><br />
-        <a href="/article/$viewer/$page/3/#ezaddress">eZ address</a><br />
-        <a href="/article/$viewer/$page/3/#ezbug">eZ bug</a><br />
-        <a href="/article/$viewer/$page/3/#ezcalendar">eZ calendar</a><br />
-        <a href="/article/$viewer/$page/3/#ezcontact">eZ contact</a><br />
-        <a href="/article/$viewer/$page/3/#ezfilemanager">eZ filemanager</a><br />
-        <a href="/article/$viewer/$page/3/#ezforum">eZ forum</a><br />
-        <a href="/article/$viewer/$page/3/#ezimagecatalogue">eZ imagecatalogue</a><br />
-        <a href="/article/$viewer/$page/3/#ezlink">eZ link</a><br />
-        <a href="/article/$viewer/$page/3/#eznewsfeed">eZ newsfeed</a><br />
-        <a href="/article/$viewer/$page/3/#ezpoll">eZ poll</a><br />
-        <a href="/article/$viewer/$page/3/#ezstats">eZ stats</a><br />
-        <a href="/article/$viewer/$page/3/#eztodo">eZ todo</a><br />
-        <a href="/article/$viewer/$page/3/#eztrade">eZ trade</a><br />
-        <a href="/article/$viewer/$page/3/#ezuser">eZ user</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezad">eZ ad</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezaddress">eZ address</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezbug">eZ bug</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezcalendar">eZ calendar</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezcontact">eZ contact</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezfilemanager">eZ filemanager</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezforum">eZ forum</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezimagecatalogue">eZ imagecatalogue</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezlink">eZ link</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#eznewsfeed">eZ newsfeed</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezpoll">eZ poll</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezstats">eZ stats</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#eztodo">eZ todo</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#eztrade">eZ trade</a><br />
+        <a href="$wwwDir$index/article/$viewer/$page/3/#ezuser">eZ user</a><br />
     </td>
 </tr>
 </table>

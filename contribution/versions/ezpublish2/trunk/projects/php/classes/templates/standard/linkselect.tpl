@@ -6,17 +6,17 @@
 <!-- BEGIN tree_select_tpl -->
 <!-- BEGIN path_item_tpl -->
 <!-- BEGIN path_arrow_item_tpl -->
-<img src="/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <!-- END path_arrow_item_tpl -->
 <!-- BEGIN path_slash_item_tpl -->
-<img src="/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="{www_dir}/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <!-- END path_slash_item_tpl -->
-<a class="path" href="{path_url}">{path_name}</a>
+<a class="path" href="{www_dir}{index}{path_url}">{path_name}</a>
 <!-- END path_item_tpl -->
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN tree_selector_tpl -->
-<form method="post" action="{link_type_select_url}{object_id}">
+<form method="post" href="{www_dir}{index}{link_type_select_url}{object_id}">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
@@ -40,7 +40,7 @@
 </form>
 <!-- END tree_selector_tpl -->
 
-<form method="post" action="{link_list_url}{object_id}">
+<form method="post" href="{www_dir}{index}{link_list_url}{object_id}">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN category_list_tpl -->
@@ -58,10 +58,10 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="{category_url}">{category_name}</a>
+	<a href="{www_dir}{index}{category_url}">{category_name}</a>
 	</td>
 	<td class="{td_class}">
-	<a href="{category_orig_url}" target="_blank">{category_orig_url}</a>
+	<a href="{www_dir}{index}{category_orig_url}" target="_blank">{category_orig_url}</a>
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN category_checkbox_item_tpl -->
@@ -96,7 +96,7 @@
 	{object_name}
 	</td>
 	<td class="{td_class}">
-	<a href="{object_orig_url}" target="_blank">{object_orig_url}</a>
+	<a href="{www_dir}{index}{object_orig_url}" target="_blank">{object_orig_url}</a>
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN object_checkbox_item_tpl -->
@@ -119,7 +119,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_previous_index}/{link_id}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="{www_dir}{index}{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_previous_index}/{link_id}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -133,7 +133,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_index}/{link_id}">{type_item_name}</a>&nbsp;|
+	&nbsp;<a class="path" href="{www_dir}{index}{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_index}/{link_id}">{type_item_name}</a>&nbsp;|
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -147,7 +147,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_next_index}/{link_id}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="{www_dir}{index}{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_next_index}/{link_id}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
@@ -165,7 +165,7 @@
 <!-- BEGIN url_select_tpl -->
 
 <!-- BEGIN url_selector_tpl -->
-<form method="post" action="{link_type_select_url}{object_id}">
+<form method="post" href="{www_dir}{index}{link_type_select_url}{object_id}">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
@@ -189,7 +189,7 @@
 </form>
 <!-- END url_selector_tpl -->
 
-<form method="post" action="{link_list_url}{object_id}">
+<form method="post" href="{www_dir}{index}{link_list_url}{object_id}">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
@@ -220,7 +220,7 @@
 
 <!-- BEGIN module_select_tpl -->
 <!-- BEGIN module_selector_tpl -->
-<form method="post" action="{link_type_select_url}{object_id}">
+<form method="post" href="{www_dir}{index}{link_type_select_url}{object_id}">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
@@ -244,7 +244,7 @@
 </form>
 <!-- END module_selector_tpl -->
 
-<form method="post" action="{link_list_url}{object_id}">
+<form method="post" href="{www_dir}{index}{link_list_url}{object_id}">
 
 <h1>{intl-head_line_choose}</h1>
 <hr noshade="noshade" size="4" />
@@ -252,8 +252,8 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN module_item_tpl -->
 <tr>
-	<td width="1%" valign="top"><img src="/admin/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" /><br /></td>
-	<td width="99%"class="menu"><a class="menu" href="{link_select_url}">{module_type_name}</a></td>
+	<td width="1%" valign="top"><img src="{www_dir}/admin/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" /><br /></td>
+	<td width="99%"class="menu"><a class="menu" href="{www_dir}{index}{link_select_url}">{module_type_name}</a></td>
 </tr>
 <!-- END module_item_tpl -->
 </table>

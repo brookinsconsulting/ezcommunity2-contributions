@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.3 2001/07/19 12:19:21 jakobn Exp $
+// $Id: frontpage.php,v 1.4 2001/07/29 23:30:58 kaid Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -311,7 +311,7 @@ else
 
 if ( $GenerateStaticPage == "true" and $cachedFile != "" )
 {
-    $fp = fopen ( $cachedFile, "w+");
+    $fp = eZFile::fopen( $cachedFile, "w+");
 
     $output = $t->parse( $target, "article_list_page_tpl" );
     

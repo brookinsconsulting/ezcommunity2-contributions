@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/logout/">
+<form method="post" action="{www_dir}{index}/user/login/logout/">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <b>Bruker logget inn:<br /></b>

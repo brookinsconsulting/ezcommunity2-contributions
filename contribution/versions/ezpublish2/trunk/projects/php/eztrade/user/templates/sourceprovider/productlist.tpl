@@ -14,7 +14,7 @@
 <!-- BEGIN category_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
+	<a href="{www_dir}{index}/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
 	{category_description}&nbsp;
@@ -40,7 +40,7 @@
 	<h1>Products</h1>
 	</td>
      <td align="right">
-	 <form action="/trade/search/" method="post">
+	 <form action="{www_dir}{index}/trade/search/" method="post">
 	       <input type="text" name="Query">
 	       <input type="submit" name="search" value="{intl-search_button}">
          </form>
@@ -56,14 +56,14 @@
 <tr>
 	<td>
 
-	<a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
 
 <!-- BEGIN product_image_tpl -->
     <table align="right">
     <tr>
         <td>
-	<a href="/trade/productview/{product_id}/{category_id}/">
-        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	<a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">
+        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 	</a>
         </td>
     </tr>

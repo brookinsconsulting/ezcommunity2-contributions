@@ -1,4 +1,4 @@
-<form method="post" action="/mail/folderedit/{current_folder_id}">
+<form method="post" action="{www_dir}{index}/mail/folderedit/{current_folder_id}">
 
 <h1>{intl-headline}</h1>
 

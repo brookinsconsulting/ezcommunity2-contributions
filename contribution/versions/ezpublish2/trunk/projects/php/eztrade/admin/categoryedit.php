@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.18 2001/07/20 11:42:01 jakobn Exp $
+// $Id: categoryedit.php,v 1.19 2001/07/29 23:31:10 kaid Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -163,8 +163,8 @@ if ( $Action == "Delete" )
     $category = new eZProductCategory();
     $category->get( $CategoryID );
 
-    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-        unlink( "ezarticle/cache/menubox.cache" );
+    if ( eZFile::file_exists( "ezarticle/cache/menubox.cache" ) )
+        eZFile::unlink( "ezarticle/cache/menubox.cache" );
 
     include_once( "classes/ezcachefile.php" );
 
@@ -191,8 +191,8 @@ if ( $Action == "DeleteCategories" )
 {
     if ( count ( $CategoryArrayID ) != 0 )
     {
-        if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-            unlink( "ezarticle/cache/menubox.cache" );
+        if ( eZFile::file_exists( "ezarticle/cache/menubox.cache" ) )
+            eZFile::unlink( "ezarticle/cache/menubox.cache" );
 
         include_once( "classes/ezcachefile.php" );
         foreach( $CategoryArrayID as $ID )

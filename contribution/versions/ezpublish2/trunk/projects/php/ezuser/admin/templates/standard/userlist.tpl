@@ -4,7 +4,7 @@
 	<h1>{intl-head_line} - ( {user_count} )</h1>
 	</td>
 	<td align="right">
-	<form action="/user/userlist/" method="post">
+	<form action="{www_dir}{index}/user/userlist/" method="post">
 	<input type="text" name="SearchText" size="12" />
 	<input class="stdbutton" Name="Search" type="submit" value="{intl-search}" />
 	</form>	
@@ -18,7 +18,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
-	<form method="post" action="/user/userlist/0/{sort_order}">
+	<form method="post" action="{www_dir}{index}/user/userlist/0/{sort_order}">
 	<select name="GroupID">
 	<option value="0">{intl-all}</option>
 	<!-- BEGIN group_item_tpl -->
@@ -32,15 +32,15 @@
 
 <tr>
 	<th>
-	<a href="/user/userlist/0/name/{current_group_id}">{intl-name}:</a>
+	<a href="{www_dir}{index}/user/userlist/0/name/{current_group_id}">{intl-name}:</a>
 	</th>
 
 	<th>
-	<a href="/user/userlist/0/email/{current_group_id}">{intl-email}:</a>
+	<a href="{www_dir}{index}/user/userlist/0/email/{current_group_id}">{intl-email}:</a>
 	</th>
 
 	<th>
-	<a href="/user/userlist/0/login/{current_group_id}">{intl-login}:</a>
+	<a href="{www_dir}{index}/user/userlist/0/login/{current_group_id}">{intl-login}:</a>
 	</th>
 
 	<th>
@@ -52,7 +52,7 @@
 	</th>
 
 </tr>
-<form method="post" action="/user/useredit/edit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/user/useredit/edit/" enctype="multipart/form-data">
 <!-- BEGIN user_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -75,7 +75,7 @@
 	</td>
 
 	<td class="{td_class}" width="1%">
-	<a href="/user/useredit/edit/{user_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezuser{user_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/user/useredit/edit/{user_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezuser{user_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td class="{td_class}" width="1%" align="center">
@@ -92,7 +92,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/user/userlist/{item_previous_index}/{sort_order}/{current_group_id}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/user/userlist/{item_previous_index}/{sort_order}/{current_group_id}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -106,7 +106,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/user/userlist/{item_index}/{sort_order}/{current_group_id}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/user/userlist/{item_index}/{sort_order}/{current_group_id}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -120,7 +120,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/user/userlist/{item_next_index}/{sort_order}/{current_group_id}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/user/userlist/{item_next_index}/{sort_order}/{current_group_id}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

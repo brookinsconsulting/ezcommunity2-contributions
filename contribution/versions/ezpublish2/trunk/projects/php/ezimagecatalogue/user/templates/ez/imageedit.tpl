@@ -1,4 +1,4 @@
-<form method="post" action="/imagecatalogue/image/{action_value}/{image_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/imagecatalogue/image/{action_value}/{image_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-imageupload}</h1>
@@ -90,7 +90,7 @@
 	<td>&nbsp;</td>
 	<td>
 	<!-- BEGIN image_tpl -->
-	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 	<!-- END image_tpl -->
 	</td>
 </tr>

@@ -1,4 +1,4 @@
-<form method="post" action="/calendar/typeedit/">
+<form method="post" action="{www_dir}{index}/calendar/typeedit/">
 
 <h1>{header}</h1>
 

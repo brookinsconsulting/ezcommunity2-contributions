@@ -1,4 +1,4 @@
-<form method="post" action="/trade/typeedit/">
+<form method="post" action="{www_dir}{index}/trade/typeedit/">
 
 <h1>{intl-type_edit}</h1>
 

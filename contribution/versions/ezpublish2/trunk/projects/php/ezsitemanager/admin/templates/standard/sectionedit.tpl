@@ -1,4 +1,4 @@
-<form method="post" action="/sitemanager/section/edit/{section_id}/">
+<form method="post" action="{www_dir}{index}/sitemanager/section/edit/{section_id}/">
 
 <h1>{intl-headline}</h1>
 

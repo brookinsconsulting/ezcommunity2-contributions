@@ -21,7 +21,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a class="menutext" href="/article/articleview/{article_id}/">
+	<a class="menutext" href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>

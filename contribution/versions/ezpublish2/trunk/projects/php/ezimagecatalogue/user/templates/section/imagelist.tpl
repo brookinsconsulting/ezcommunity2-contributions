@@ -1,21 +1,21 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/imagecatalogue/image/list/0/">{intl-image_root}</a> 
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/imagecatalogue/image/list/0/">{intl-image_root}</a> 
 	<!-- BEGIN path_item_tpl -->	
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom" colspan="2"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
-<form method="post" action="/imagecatalogue/image/new/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/imagecatalogue/image/new/" enctype="multipart/form-data">
 
 <input type="hidden" name="CategoryID" value="{main_category_id}">
 
@@ -34,10 +34,10 @@
 <tr>
         <!-- BEGIN category_read_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/imagecatalogue/image/list/{category_id}/"><img src="/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/image/list/{category_id}/"><img src="{www_dir}/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
 	</td>
 	<td class="{td_class}" width="38%">
-	<a href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
+	<a href="{www_dir}{index}/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 	</td>
 	<td class="{td_class}" width="59%">
 	<span class="small">{category_description}</span>
@@ -45,7 +45,7 @@
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/imagecatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
@@ -63,7 +63,7 @@
 {begin_tr}
 	<!-- BEGIN read_tpl -->
 	<td {col_span} align="center" valign="center">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a><div class="pictext">{image_caption}</div>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a><div class="pictext">{image_caption}</div>
 	</td>
 	<!-- END read_tpl -->
 	<!-- BEGIN read_span_tpl -->
@@ -81,7 +81,7 @@
 <tr>
 	<!-- BEGIN detail_read_tpl -->
 	<td class="{td_class}">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<td class="{td_class}">
 	<span class="small">{image_caption}</span>
@@ -90,12 +90,12 @@
 	{image_size}&nbsp;{image_unit}
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="/imagecatalogue/download/{image_id}/{original_image_name}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-dl','','/ezimagecatalogue/user/{image_dir}/downloadminimrk.gif',1)"><img name="ezimg{image_id}-dl" border="0" src="/ezimagecatalogue/user/{image_dir}/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a><br />
+	<a href="{www_dir}{index}/imagecatalogue/download/{image_id}/{original_image_name}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-dl','','/ezimagecatalogue/user/{image_dir}/downloadminimrk.gif',1)"><img name="ezimg{image_id}-dl" border="0" src="{www_dir}/ezimagecatalogue/user/{image_dir}/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a><br />
 	</td>
 	<!-- END detail_read_tpl -->
 	<!-- BEGIN detail_write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="{www_dir}/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
@@ -149,7 +149,7 @@
 </form>
 
 
-<form method="post" action="/imagecatalogue/image/list/{main_category_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/imagecatalogue/image/list/{main_category_id}/" enctype="multipart/form-data">
 <input type="hidden" name="Detail" value="{is_detail_view}">
 
 <!-- BEGIN normal_view_button -->

@@ -1,7 +1,7 @@
 <h1>{intl-mail_list}</h1>
 <hr noshade="noshade" size="4">
 
-<form action="/bulkmail/drafts" method="post">
+<form action="{www_dir}{index}/bulkmail/drafts" method="post">
 
 <!-- BEGIN bulkmail_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -20,7 +20,7 @@
 	{bulkmail_category}
 	</td>
 	<td class="{td_class}">
-        <a href="/bulkmail/mailedit/{bulkmail_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bulkmail_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bulkmail_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+        <a href="{www_dir}{index}/bulkmail/mailedit/{bulkmail_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bulkmail_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bulkmail_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
         </td>
 	<td class="{td_class}"><input type="checkbox" name="MailArrayID[]" value="{bulkmail_id}" /></td>
 </tr>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.12 2001/07/20 12:04:13 jakobn Exp $
+// $Id: index_admin.php,v 1.13 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -28,6 +28,41 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
+// Tell PHP where it can find our files.
+// TODO: This needs a better analysis
+if ( isset( $siteDir ) and $siteDir != "" )
+{
+    $includePath = ini_get( "include_path" );
+    $includePath .= ":" . $siteDir;
+    ini_set( "include_path", $includePath );
+ 
+    // For non-virtualhost, non-rewrite setup
+    if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+    {
+        $wwwDir = $regs[1];
+        $index = $regs[2];
+    }
+ 
+    // Remove url parameters
+    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
+    {
+        $REQUEST_URI = $req[1];
+    }
+    else
+    {
+        $REQUEST_URI = "/";
+    }
+}
+else
+{
+    // Remove url parameters
+    ereg( "([^?]+)", $REQUEST_URI, $regs );
+    $REQUEST_URI = $regs[1];
+ 
+    $wwwDir = "";
+    $index = "";
+}
+    
 // Start the buffer cache
 ob_start();
 
@@ -61,6 +96,9 @@ include_once( "ezmodule/classes/ezmodulehandler.php" );
 
 include_once( "classes/ezhttptool.php" );
 
+// File functions
+include_once( "classes/ezfile.php" );
+
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
@@ -76,9 +114,8 @@ $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 $GLOBALS["DEBUG"] = true;
 
 // Remove url parameters
-ereg( "([^?]+)", $REQUEST_URI, $regs ) ;
-
-$REQUEST_URI = $regs[1];
+// ereg( "([^?]+)", $REQUEST_URI, $regs ) ;
+// $REQUEST_URI = $regs[1];
 
 $url_array =& explode( "/", $REQUEST_URI );
 
@@ -188,7 +225,7 @@ if ( $user )
             include( "admin/separator.php" );
         }
 
-        if ( file_exists( $page ) )
+        if ( eZFile::file_exists( $page ) )
         {
             include( $page );
         }
@@ -203,7 +240,7 @@ if ( $user )
 
         $helpFile = "ez" . $url_array[2] . "/admin/help/". $Language . "/" . $url_array[3] . "_" . $url_array[4] . ".hlp";
 
-        if ( file_exists( $helpFile ) )
+        if ( eZFile::file_exists( $helpFile ) )
         {
             include( $helpFile );
         }
@@ -252,7 +289,7 @@ else
     // send the URI to the right decoder
     $page = "ezuser/admin/datasupplier.php";
 
-    if ( file_exists( $page ) )
+    if ( eZFile::file_exists( $page ) )
     {
         include( $page );
     }

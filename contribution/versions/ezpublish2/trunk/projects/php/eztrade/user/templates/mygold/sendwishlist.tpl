@@ -29,7 +29,7 @@
 <h1>{intl-send_wishlist_to_friend}</h1>
 <hr noshade="noshade" size="1" />
 
-<form method="post" action="/trade/sendwishlist/" >
+<form method="post" action="{www_dir}{index}/trade/sendwishlist/" >
 
 <b>{intl-send_wishlist_to}:</b><br />
 <input type="text" name="SendTo" value="" />

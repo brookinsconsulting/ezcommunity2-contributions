@@ -1,4 +1,4 @@
-<form method="post" action="/contact/company/{action_value}/{company_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/company/{action_value}/{company_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-headline}</h1>
@@ -124,7 +124,7 @@
 <tr>
     <td>
        <p class="boxtext">{image_name}</p>
-       <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+       <img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
         </td>
     <td>
     	<p class="boxtext">{intl-logo}</p>
@@ -146,7 +146,7 @@
 <tr>
     <td>
        <p class="boxtext">{logo_name}</p>
-       <img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+       <img src="{www_dir}{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
         </td>
     <td>
     	<p class="boxtext">{intl-logo}</p>
@@ -175,7 +175,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/contact/companylist/">
+	<form method="post" action="{www_dir}{index}/contact/companylist/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

@@ -1,19 +1,19 @@
         <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="1%" class="tdmini"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
-			<td width="98%" valign="top" class="tdmini"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
-            <td rowspan="3" valign="top" width="1%" align="right"><img src="/sitedesign/percolo/images/tittelbilde.gif" alt="" width="140" height="100" /><br /></td>
+            <td width="1%" class="tdmini"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td width="98%" valign="top" class="tdmini"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
+            <td rowspan="3" valign="top" width="1%" align="right"><img src="{www_dir}/sitedesign/percolo/images/tittelbilde.gif" alt="" width="140" height="100" /><br /></td>
         </tr>
         <tr>
-            <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
+            <td bgcolor="#009ebf" valign="top"><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
             <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">{intl-confirming-order}</h1></td>
         </tr>
         <tr>
-            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
-            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
+            <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+            <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
         </tr>
 		<tr>
-		    <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+		    <td><img src="{www_dir}/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td colspan="2">
 
 <h2>{intl-thanks_for_shopping}!</h2>
@@ -64,7 +64,7 @@
 <tr>
 	<td class="{td_class}">
 	<!-- BEGIN order_image_tpl -->
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	<!-- END order_image_tpl -->&nbsp;
 	</td>
 	<td class="{td_class}">

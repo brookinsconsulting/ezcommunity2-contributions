@@ -1,4 +1,4 @@
-<form action="/message/list/" method="post">
+<form action="{www_dir}{index}/message/list/" method="post">
 
 <h1>{intl-messages_for} {user_first_name} {user_last_name} </h1>
 
@@ -34,7 +34,7 @@
 	</td>
         <!-- END message_unread_tpl -->
 	<td class="{td_class}" width="50%">
-	<a href="/message/view/{message_id}/">
+	<a href="{www_dir}{index}/message/view/{message_id}/">
 	{message_subject}
 	</a>
 	</td>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_verify.php,v 1.2 2001/07/20 12:04:13 jakobn Exp $
+// $Id: index_verify.php,v 1.3 2001/07/29 23:30:57 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -23,6 +23,14 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+// Tell PHP where it can find our files.
+if ( isset( $siteDir ) and $siteDir != "" )
+{
+    $includePath = ini_get( "include_path" );
+    $includePath .= ":" . $siteDir;
+    ini_set( "include_path", $includePath );
+}
+	
 ob_end_clean();
 // script to check if the site is alive
 // this script will return 42 if the server is alive

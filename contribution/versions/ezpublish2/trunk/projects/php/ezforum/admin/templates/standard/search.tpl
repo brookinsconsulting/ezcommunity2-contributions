@@ -5,7 +5,7 @@
         <h1>{intl-search} - ({forum_start}-{forum_end}/{forum_total})</h1>
      </td>
      <td align="right">
-	 <form action="/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="post">
 	       <input type="text" name="QueryString">
 	       <input type="submit" name="search" value="{intl-search}">
          </form>
@@ -25,7 +25,7 @@
 
 
 <!-- BEGIN search_result_tpl -->
-<form method="post" action="/forum/messageedit/edit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/forum/messageedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
     <th>{intl-topic}:</th>
@@ -36,7 +36,7 @@
     <!-- BEGIN message_tpl -->
 <tr>
     	<td class="{td_class}">
-	<a href="/forum/message/{message_id}/">
+	<a href="{www_dir}{index}/forum/message/{message_id}/">
 	{message_topic}
 	</a>
 	</td>
@@ -48,7 +48,7 @@
 	</td>
 
      <td width="1%" class="{td_class}">
-	 <a href="/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="" alt="Edit" /></a>
+	 <a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="" alt="Edit" /></a>
      </td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="MessageArrayID[]" value="{message_id}">
@@ -73,7 +73,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="{www_dir}{index}/forum/search/parent/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
@@ -87,7 +87,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="{www_dir}{index}/forum/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -101,7 +101,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+			&nbsp;<a class="path" href="{www_dir}{index}/forum/search/parent/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

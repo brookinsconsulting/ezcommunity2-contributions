@@ -10,7 +10,7 @@
 
 {error}
 
-<form action="/form/form/{action_value}/{form_id}" method="post">
+<form action="{www_dir}{index}/form/form/{action_value}/{form_id}" method="post">
 {form}
 
 <hr noshade="noshade" size="4" />

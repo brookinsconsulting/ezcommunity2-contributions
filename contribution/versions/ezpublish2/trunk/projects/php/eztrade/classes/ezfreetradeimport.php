@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfreetradeimport.php,v 1.2 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezfreetradeimport.php,v 1.3 2001/07/29 23:31:11 kaid Exp $
 //
 // ezfreetradeimport class
 //
@@ -77,7 +77,7 @@ class eZFreeTradeImport
                 if ( $importCategory["Graphic"] )
                 {
                     $imageFromFS = "freetrade/images/departments/" . $importCategory["Graphic"];
-                    if ( file_exists( $imageFromFS ) )
+                    if ( eZFile::file_exists( $imageFromFS ) )
                     {
                         $image = new eZImage();
                         $file = new eZImageFile();
@@ -126,7 +126,7 @@ class eZFreeTradeImport
                 if ( $importProduct["Graphic"] )
                 {
                     $imageFromFS = "freetrade/images/items/" . $importProduct["Graphic"];
-                    if ( file_exists( $imageFromFS ) )
+                    if ( eZFile::file_exists( $imageFromFS ) )
                     {
                         $image = new eZImage();
                         $file = new eZImageFile();

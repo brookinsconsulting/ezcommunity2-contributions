@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallarticlelist.php,v 1.8 2001/07/19 12:19:21 jakobn Exp $
+// $Id: smallarticlelist.php,v 1.9 2001/07/29 23:30:58 kaid Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -47,7 +47,7 @@ if ( $PageCaching == "enabled" )
 {
     $menuCachedFile = "ezarticle/cache/smallarticlelist,". $GlobalSiteDesign .".cache";
 
-    if ( file_exists( $menuCachedFile ) )
+    if ( eZFile::file_exists( $menuCachedFile ) )
     {
         include( $menuCachedFile );
     }
@@ -131,7 +131,7 @@ function createSmallArticleList( $generateStaticPage = false )
 
     if ( $generateStaticPage == true )
     {
-        $fp = fopen ( $menuCachedFile, "w+");
+        $fp = eZFile::fopen( $menuCachedFile, "w+");
 
         $output = $t->parse( $target, "article_list_page_tpl" );
         // print the output the first time while printing the cache file.

@@ -6,10 +6,10 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a class="path" href="/calendar/yearview/{prev_year_number}">&lt;&lt; {intl-previous_year}</a>
+	<a class="path" href="{www_dir}{index}/calendar/yearview/{prev_year_number}">&lt;&lt; {intl-previous_year}</a>
 	</td>
 	<td align="right">
-	<a class="path" href="/calendar/yearview/{next_year_number}">{intl-next_year} &gt;&gt;</a>
+	<a class="path" href="{www_dir}{index}/calendar/yearview/{next_year_number}">{intl-next_year} &gt;&gt;</a>
 	</td>
 </tr>
 </table>
@@ -19,7 +19,7 @@
 <!-- BEGIN month_tpl -->
      <td valign="top">
 
-<a href="/calendar/monthview/{year_number}/{month_number}"><b>{month_name}:</b></a>
+<a href="{www_dir}{index}/calendar/monthview/{year_number}/{month_number}"><b>{month_name}:</b></a>
 <br />
 <table width="100%" border="1" cellspacing="0" cellpadding="2">
 <!-- BEGIN week_tpl -->
@@ -27,7 +27,7 @@
 
 <!-- BEGIN day_tpl -->
 <td class="{td_class}">
-<a class="small" href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
+<a class="small" href="{www_dir}{index}/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
 </td>
 <!-- END day_tpl -->
 
@@ -47,7 +47,7 @@
 <!-- END month_tpl -->
 </table>
 
-<form action="/calendar/appointmentedit/edit/">
+<form action="{www_dir}{index}/calendar/appointmentedit/edit/">
 
 <hr noshade size="4" />
 

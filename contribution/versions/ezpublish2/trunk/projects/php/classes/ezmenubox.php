@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.16 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezmenubox.php,v 1.17 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -88,7 +88,7 @@ class eZMenuBox
         $modified = false;
         if ( $phpfile )
         {
-            $modified = filemtime( $phpfile );
+            $modified = eZFile::filemtime( $phpfile );
         }
 
         $template_dir = "admin/templates/" . $SiteStyle;
@@ -96,8 +96,8 @@ class eZMenuBox
         {
             $mod_dir = $ini->read_var( $ModuleName . "Main", "AdminTemplateDir" );
             $mod_dir = "$module_dir/admin/$mod_dir";
-            if ( file_exists( "$mod_dir/menubox.tpl" ) and
-                 file_exists( "$mod_dir/menubox_closed.tpl" ) )
+            if ( eZFile::file_exists( "$mod_dir/menubox.tpl" ) and
+                 eZFile::file_exists( "$mod_dir/menubox_closed.tpl" ) )
             {
                 $template_dir = $mod_dir;
             }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.3 2001/07/26 11:23:52 ce Exp $
+// $Id: mediaedit.php,v 1.4 2001/07/29 23:30:58 kaid Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -149,7 +149,7 @@ if ( is_numeric( $MediaID ) )
     if ( $media->fileExists( true ) )
     {
         $mediaPath =& $media->filePath( true );
-        $size = filesize( $mediaPath );
+        $size = eZFile::filesize( $mediaPath );
     }
     else
     {

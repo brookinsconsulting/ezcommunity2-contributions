@@ -1,4 +1,4 @@
-<form method="post" action="/user/useredit/{action_value}/{user_id}/">
+<form method="post" action="{www_dir}{index}/user/useredit/{action_value}/{user_id}/">
 
 <h1>{head_line}</h1>
 
@@ -52,7 +52,7 @@
 
 <input type="hidden" name="UserID" value="{user_id}" />
 <input class="okbutton" type="submit" value="OK" />
-<form method="post" action="/user/userlist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
+<form method="post" action="{www_dir}{index}/user/userlist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
 
 </form>
 

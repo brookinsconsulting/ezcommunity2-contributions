@@ -35,7 +35,7 @@
     <!-- BEGIN article_item_tpl -->
     <tr>
 	<td>
-    	    <a href="/article/articleview/{article_id}/">{article_name}	</a>
+    	    <a href="{www_dir}{index}/article/articleview/{article_id}/">{article_name}	</a>
 	</td>
 	<td align="right">
 	    {article_published}

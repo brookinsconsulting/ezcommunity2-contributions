@@ -6,7 +6,7 @@
 
 <hr noshade="noshade" size="4">
 
-<form method="post" action="/mail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/mail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-to}:</p>
 <input type="text" size="40" name="To" value="{to_value}"/>

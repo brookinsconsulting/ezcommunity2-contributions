@@ -1,19 +1,19 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
 
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-    <a class="toppath" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="toppath" href="/forum/messagelist/{forum_id}">{forum_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+    <a class="toppath" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
+	<a class="toppath" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
 
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom" colspan="2"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -25,7 +25,7 @@
         <h1>{intl-headline}</h1>
      </td>
      <td align="right">
-        <form action="/forum/search/" method="post">
+        <form action="{www_dir}{index}/forum/search/" method="post">
            <input type="text" name="QueryString" size="12" />
            <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
         </form>
@@ -37,7 +37,7 @@
   <tr>
 	<td><p class="boxtext">({forum_start}-{forum_end}/{forum_total})</p></td>
      <td align="right">
-     <form action="/forum/messagelist/{forum_id}/" method="post">
+     <form action="{www_dir}{index}/forum/messagelist/{forum_id}/" method="post">
            <!-- BEGIN hide_threads_tpl -->
            <input class="stdbutton" type="submit" name="HideThreads" value="{intl-hide_threads}" />
            <!-- END hide_threads_tpl -->
@@ -49,7 +49,7 @@
 </tr>
 </table>
 
-<form action="/forum/userlogin/new/{forum_id}">
+<form action="{www_dir}{index}/forum/userlogin/new/{forum_id}">
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -68,16 +68,16 @@
 		<nobr>
 		{spacer}{spacer}
 				<!-- BEGIN new_icon_tpl -->
-                <img src="/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
+                <img src="{www_dir}/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
-                <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
+                <img src="{www_dir}/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
 		<!-- END old_icon_tpl -->	
 		</nobr>
 		</td>
 		<td width="99%">
 
-                <a href="/forum/message/{message_id}/">{topic} {count_replies}</a>
+                <a href="{www_dir}{index}/forum/message/{message_id}/">{topic} {count_replies}</a>
                 </td>
 	</tr>
 	</table>
@@ -91,7 +91,7 @@
     <td class="{td_class}" align="right">
 		&nbsp;
         <!-- BEGIN edit_message_item_tpl -->
-        <nobr><a href="/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
+        <nobr><a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="{www_dir}{index}/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
         <!-- END edit_message_item_tpl -->
     </td>
 </tr>
@@ -105,7 +105,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/forum/messagelist/{forum_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -119,7 +119,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/forum/messagelist/{forum_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -133,7 +133,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/forum/messagelist/{forum_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.53 2001/07/19 12:19:21 jakobn Exp $
+// $Id: articlelist.php,v 1.54 2001/07/29 23:30:58 kaid Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -55,7 +55,7 @@ $t->setAllStrings();
 $override = "_override_$CategoryID";
 
 
-if ( file_exists( "ezarticle/user/$TemplateDir/articlelist" . $override  . ".tpl" ) )
+if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlelist" . $override  . ".tpl" ) )
 {
     $t->set_file( "article_list_page_tpl", "articlelist" . $override  . ".tpl"  );
 }
@@ -384,7 +384,7 @@ else
 
 if ( $GenerateStaticPage == "true" and $cachedFile != "" )
 {
-    $fp = fopen ( $cachedFile, "w+");
+    $fp = eZFile::fopen( $cachedFile, "w+");
 
     // add PHP code in the cache file to store variables
     $output = "<?php\n";

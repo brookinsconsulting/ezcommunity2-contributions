@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/login/">
+<form method="post" action="{www_dir}{index}/user/login/login/">
 
 <h1>{intl-head_line}</h1>
 
@@ -26,11 +26,11 @@
 <table width="60%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a href="/user/forgot/?RedirectURL={redirect_url}">{intl-forgot}</a>
+	<a href="{www_dir}{index}/user/forgot/?RedirectURL={redirect_url}">{intl-forgot}</a>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<a href="/user/user/new/?RedirectURL={redirect_url}">{intl-register}</a>
+	<a href="{www_dir}{index}/user/user/new/?RedirectURL={redirect_url}">{intl-register}</a>
 	</td>
 </tr>
 </table>

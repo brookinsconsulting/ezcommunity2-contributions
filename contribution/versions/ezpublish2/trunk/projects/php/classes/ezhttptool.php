@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.12 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezhttptool.php,v 1.13 2001/07/29 23:30:57 kaid Exp $
 //
 // Definition of eZTextTool class
 //
@@ -87,20 +87,25 @@ class eZHTTPTool
     */
     function header( $string )
     {
+        global $wwwDir, $index;        
+
         $sid =& $GLOBALS["PHPSESSID"];
 
         $cookie_vars = $GLOBALS["HTTP_COOKIE_VARS"];
         
         // fix location if session is not by cookie
-        if ( ( !isset( $cookie_vars["PHPSESSID"] ) ) )
+        if ( !isset( $cookie_vars["PHPSESSID"] ) && isset( $sid ) )
         {
-            if ( isset( $sid ) )
-            {
-                $string = eZHTTPTool::removeVariable( $string, "PHPSESSID" );
-                $string = eZHTTPTool::addVariable( $string, "PHPSESSID", $sid );
-            }
+            $string = eZHTTPTool::removeVariable( $string, "PHPSESSID" );
+            $string = eZHTTPTool::addVariable( $string, "PHPSESSID", $sid );
         }
         
+        // Redirect differently, when we are not using virtual hosts/mod_rewrite
+        if ( ereg( "^Location:[ ]*(/.*)", $string, $regs ) )
+        {
+            $string = "Location: " . $wwwDir . $index . $regs[1];
+        }
+
         header( $string );
     }
 

@@ -1,4 +1,4 @@
-<form action="/todo/prioritytypeedit/new/">
+<form action="{www_dir}{index}/todo/prioritytypeedit/new/">
 
 <h1>{intl-headline}</h1>
 
@@ -11,10 +11,10 @@
 	{priority_type_name}
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/todo/prioritytypeedit/edit/{priority_type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_type_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="pt{priority_type_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/todo/prioritytypeedit/edit/{priority_type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_type_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="pt{priority_type_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/todo/prioritytypeedit/delete/{priority_type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_type_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="pt{priority_type_id}-slett" border="0" src="/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="{www_dir}{index}/todo/prioritytypeedit/delete/{priority_type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_type_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="pt{priority_type_id}-slett" border="0" src="{www_dir}/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>
 </tr>
 <!-- END priority_item_tpl -->

@@ -1,4 +1,4 @@
-<form action="/article/topiclist" method="post">
+<form action="{www_dir}{index}/article/topiclist" method="post">
 
 <h1>{intl-topic_edit}</h1>
 

@@ -1,4 +1,4 @@
-<form method="post" action="/todo/todoedit/">
+<form method="post" action="{www_dir}{index}/todo/todoedit/">
 <h1>{head_line}</h1>
 
 <hr noshade size="4"/>

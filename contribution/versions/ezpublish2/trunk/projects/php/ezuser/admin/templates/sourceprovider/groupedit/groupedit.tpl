@@ -1,4 +1,4 @@
-<form method="post" action="/user/groupedit/{action_value}/{group_id}/">
+<form method="post" action="{www_dir}{index}/user/groupedit/{action_value}/{group_id}/">
 
 <h1>{head_line}</h1>
 
@@ -32,7 +32,7 @@
 
 <input type="hidden" name="GroupID" value="{group_id}" />
 <input class="okbutton" type="submit" value="OK" />
-<form method="post" action="/user/grouplist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
+<form method="post" action="{www_dir}{index}/user/grouplist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
 
 </form>
 

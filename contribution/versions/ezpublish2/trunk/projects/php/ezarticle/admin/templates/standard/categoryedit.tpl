@@ -1,4 +1,4 @@
-<form method="post" action="/article/categoryedit/{action_value}/{category_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/article/categoryedit/{action_value}/{category_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-headline}</h1>
@@ -110,7 +110,7 @@
 <p class="boxtext">{intl-th_type_current_image}:</p>
 
 <!-- BEGIN image_item_tpl -->
-<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 <div><input type="checkbox" name="DeleteImage"><span class="p">{intl-delete_image}</span><div /><br />
 <!-- END image_item_tpl -->
 

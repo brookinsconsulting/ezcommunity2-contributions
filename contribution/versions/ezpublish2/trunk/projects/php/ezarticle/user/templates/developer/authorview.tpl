@@ -22,19 +22,19 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th><a href="/article/author/view/{author_id}/name">{intl-name}</a>:</th>
-	<th><a href="/article/author/view/{author_id}/category">{intl-category}</a>:</th>
-	<th><a href="/article/author/view/{author_id}/author">{intl-author}</a>:</th>
-	<th><a href="/article/author/view/{author_id}/published">{intl-published}</a>:</th>
+	<th><a href="{www_dir}{index}/article/author/view/{author_id}/name">{intl-name}</a>:</th>
+	<th><a href="{www_dir}{index}/article/author/view/{author_id}/category">{intl-category}</a>:</th>
+	<th><a href="{www_dir}{index}/article/author/view/{author_id}/author">{intl-author}</a>:</th>
+	<th><a href="{www_dir}{index}/article/author/view/{author_id}/published">{intl-published}</a>:</th>
 </tr>
 
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/articleview/{article_id}/">{article_name}</a>
+	<a href="{www_dir}{index}/article/articleview/{article_id}/">{article_name}</a>
 	</td>
 	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/">{article_category}</a>
+	<a href="{www_dir}{index}/article/archive/{category_id}/">{article_category}</a>
 	</td>
 	<td class="{td_class}">
 	{author_name}
@@ -51,7 +51,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/article/author/view/{author_id}/{sort}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>
+	<a class="path" href="{www_dir}{index}/article/author/view/{author_id}/{sort}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -64,7 +64,7 @@
 	<!-- BEGIN type_list_item_tpl -->
 	<td>&nbsp;|&nbsp;</td>
 	<td>
-	<a class="path" href="/article/author/view/{author_id}/{sort}/{item_index}">{type_item_name}</a>
+	<a class="path" href="{www_dir}{index}/article/author/view/{author_id}/{sort}/{item_index}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -79,7 +79,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	| <a class="path" href="/article/author/view/{author_id}/{sort}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	| <a class="path" href="{www_dir}{index}/article/author/view/{author_id}/{sort}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

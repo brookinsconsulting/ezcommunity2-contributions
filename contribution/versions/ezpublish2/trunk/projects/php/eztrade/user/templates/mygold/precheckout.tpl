@@ -1,4 +1,4 @@
-<form name="" method="post" action="/trade/precheckout/">
+<form name="" method="post" action="{www_dir}{index}/trade/precheckout/">
 
 <h1>Sicherheitsinformationen zur SSL Verschl&uuml;sselung</h1>
 <hr noshade="noshade" size="1" />
@@ -9,7 +9,7 @@ Sie betreten in K&uuml;rze den gesicherten Bereich der MyGold.com Webseite. In d
 </p><p>
 <table border="0" cellspacing="5" cellpadding="0" width="1" align="left">
  <tr>
-  <td background="/sitedesign/mygold/images/nossl.gif"><a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="https://www.mygold.com/sitedesign/mygold/images/stampger.gif" alt="" border="0" width="134" height="85" /></a></td>
+  <td background="{www_dir}/sitedesign/mygold/images/nossl.gif"><a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="https://www.mygold.com/sitedesign/mygold/images/stampger.gif" alt="" border="0" width="134" height="85" /></a></td>
  </tr>
  <tr>
   <td class="pictext">Verifizieren Sie unser Zertifikat</td>
@@ -22,7 +22,7 @@ Sie betreten in K&uuml;rze den gesicherten Bereich der MyGold.com Webseite. In d
  Probleme beschrieben und geben Ihnen Tips, wie Sie trotzdem problemlos bei
  uns einkaufen k&ouml;nnen.<br />
  Sollten Sie trotz der Anleitung Probleme haben, k&ouml;nnen Sie uns gerne
- <a href="/feedback/">kontaktieren</a>, wir stehen Ihnen gerne zur Seite.<br />
+ <a href="{www_dir}{index}/feedback/">kontaktieren</a>, wir stehen Ihnen gerne zur Seite.<br />
  <br />
 </p>
 

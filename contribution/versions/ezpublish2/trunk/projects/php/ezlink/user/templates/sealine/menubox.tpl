@@ -5,8 +5,8 @@
 <!-- BEGIN link_group_tpl -->
 <tr>
 	<td>
-	<a class="menu" href="/link/group/{linkgroup_id}/">
-	<img src="/images/dot.gif" width="12" heigth="10" border="0">{linkgroup_title}
+	<a class="menu" href="{www_dir}{index}/link/group/{linkgroup_id}/">
+	<img src="{www_dir}/images/dot.gif" width="12" heigth="10" border="0">{linkgroup_title}
 	</a>
 	</td>
 </tr>
@@ -19,7 +19,7 @@
 <tr>
 	<td>
 	<a  class="menu" href=/link/suggestlink/>
-	<img src="/images/dot.gif" width="12" heigth="10" border="0">{intl-suggest_link}
+	<img src="{www_dir}/images/dot.gif" width="12" heigth="10" border="0">{intl-suggest_link}
 	</a>
 	</td>
 </tr>

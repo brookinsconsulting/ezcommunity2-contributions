@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmedia.php,v 1.2 2001/07/25 14:20:46 ce Exp $
+// $Id: ezmedia.php,v 1.3 2001/07/29 23:31:08 kaid Exp $
 //
 // Definition of eZMedia class
 //
@@ -182,9 +182,9 @@ class eZMedia
             $db->query( "DELETE FROM eZMediaCatalogue_MediaCategoryDefinition WHERE MediaID='$this->ID'" );
 
             // Delete from the filesystem
-            if ( file_exists ( $this->filePath( true ) ) )
+            if ( eZFile::file_exists( $this->filePath( true ) ) )
             {
-                unlink( $this->filePath( true ) );
+                eZFile::unlink( $this->filePath( true ) );
             }
         }
     }
@@ -585,7 +585,7 @@ class eZMedia
        
        $relPath = "ezmediacatalogue/catalogue/" . $this->FileName;
 
-       return file_exists( $relPath ) and is_file( $relPath );
+       return eZFile::file_exists( $relPath ) and is_file( $relPath );
     }
 
     /*!
@@ -607,7 +607,7 @@ class eZMedia
            $path = "/ezmediacatalogue/catalogue/" . $this->FileName;
        }
        
-       if ( !file_exists( $relPath ) or !is_file( $relPath ) )
+       if ( !eZFile::file_exists( $relPath ) or !is_file( $relPath ) )
        {
            $path = "ezmediacatalogue/admin/medias/failedmedia.gif";
            if ( !$relative )
@@ -742,7 +742,7 @@ class eZMedia
        if ( get_class( $file ) == "ezmediafile" )
        {
            $name = $file->tmpName();
-           if ( !file_exists( $name ) or !is_file( $name ) )
+           if ( !eZFile::file_exists( $name ) or !is_file( $name ) )
                return false;
            return true;
        }
@@ -760,7 +760,7 @@ class eZMedia
        {
            $this->OriginalFileName = $file->name();
            $tmpname = $file->tmpName();
-           if ( !file_exists( $tmpname ) or !is_file( $tmpname ) )
+           if ( !eZFile::file_exists( $tmpname ) or !is_file( $tmpname ) )
                return false;
 
            $info = eZMediaFile::information( $this->OriginalFileName );

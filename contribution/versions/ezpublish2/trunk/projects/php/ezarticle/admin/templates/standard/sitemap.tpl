@@ -8,9 +8,9 @@
 <tr>
 	<td>
 	{option_level}
-	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
-	<a href="/article/{option_value}">{option_name}</a>&nbsp;
-	<a href="/article/categoryedit/edit/{category_id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsmc{category_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezsmc{category_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top">
+	<img src="{www_dir}/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
+	<a href="{www_dir}{index}/article/{option_value}">{option_name}</a>&nbsp;
+	<a href="{www_dir}{index}/article/categoryedit/edit/{category_id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsmc{category_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezsmc{category_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top">
 	</td>
 </tr>
 <!-- END category_value_tpl -->
@@ -19,9 +19,9 @@
 <tr>
 	<td>
 	{option_level}
-	<img src="/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
-	<a href="/article/{option_value}">{option_name}</a>&nbsp;
-	<a href="/article/articleedit/edit/{article_id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsmd{article_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezsmd{article_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top">
+	<img src="{www_dir}/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
+	<a href="{www_dir}{index}/article/{option_value}">{option_name}</a>&nbsp;
+	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezsmd{article_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezsmd{article_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top">
 
 	</td>
 </tr>

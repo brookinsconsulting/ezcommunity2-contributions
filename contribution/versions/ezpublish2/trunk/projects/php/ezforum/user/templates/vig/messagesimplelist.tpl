@@ -42,16 +42,16 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a class="path" href="/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">{previous}</a>
+	<a class="path" href="{www_dir}{index}/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">{previous}</a>
 	</td>
 	<td align="right">
-	<a class="path" href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">{next}</a>
+	<a class="path" href="{www_dir}{index}/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">{next}</a>
 	</td>
 </tr>
 </table>
 
 <br />
-<form action="/forum/userlogin/newsimple/{forum_id}">
+<form action="{www_dir}{index}/forum/userlogin/newsimple/{forum_id}">
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>

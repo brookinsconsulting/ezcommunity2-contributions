@@ -4,7 +4,7 @@
         <h1>{intl-view_headline}</h1>
         </td>
         <td rowspan="2" align="right">
-        <form action="/contact/search/person/" method="post">
+        <form action="{www_dir}{index}/contact/search/person/" method="post">
         <input type="text" name="SearchText" size="12" />       
         <input class="stdbutton" type="submit" value="{intl-search}" />
         </form> 
@@ -39,7 +39,7 @@
 
 <!-- BEGIN company_item_tpl -->
 
-<a href="/contact/company/view/{company_id}/">{company_name}</a><br />
+<a href="{www_dir}{index}/contact/company/view/{company_id}/">{company_name}</a><br />
 
 <!-- END company_item_tpl -->
 <br />
@@ -99,7 +99,7 @@
 <!-- BEGIN online_line_tpl -->
 	<td>
 	<p class="boxtext">{online_type_name}:</p>
-	<a href="{online_prefix}{online}">{online_visual_prefix}{online}</a>
+	<a href="{www_dir}{index}{online_prefix}{online}">{online_visual_prefix}{online}</a>
 	</td>
 <!-- END online_line_tpl -->
 </tr>
@@ -141,18 +141,18 @@
         {consultation_date}
 	</td>
 	<td>
-        <a href="/contact/consultation/view/{consultation_id}">{consultation_short_description}</a>
+        <a href="{www_dir}{index}/contact/consultation/view/{consultation_id}">{consultation_short_description}</a>
 	</td>
 	<td>
-        <a href="/contact/consultation/type/list/{consultation_status_id}">{consultation_status}</a>
+        <a href="{www_dir}{index}/contact/consultation/type/list/{consultation_status_id}">{consultation_status}</a>
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="{www_dir}{index}/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>	
 
 </tr>
@@ -162,7 +162,7 @@
 <!-- END consultation_table_item_tpl -->
 
 
-<form method="post" action="/contact/person/edit/{person_id}/">
+<form method="post" action="{www_dir}{index}/contact/person/edit/{person_id}/">
 
 <hr noshade="noshade" size="4" />
 

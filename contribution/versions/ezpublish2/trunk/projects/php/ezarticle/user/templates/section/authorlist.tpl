@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -14,14 +14,14 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th><a href="/article/author/list/name">{intl-author}</a>:</th>
-	<th class="right"><a href="/article/author/list/count">{intl-count}</a>:</th>
+	<th><a href="{www_dir}{index}/article/author/list/name">{intl-author}</a>:</th>
+	<th class="right"><a href="{www_dir}{index}/article/author/list/count">{intl-count}</a>:</th>
 </tr>
 
 <!-- BEGIN author_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/author/view/{author_id}/">{author_name}</a>
+	<a href="{www_dir}{index}/article/author/view/{author_id}/">{author_name}</a>
 	</td>
 	<td align="right" class="{td_class}">
 	{article_count}

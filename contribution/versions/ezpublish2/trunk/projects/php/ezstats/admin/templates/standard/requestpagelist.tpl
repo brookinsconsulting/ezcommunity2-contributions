@@ -40,7 +40,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/stats/requestpagelist/top/{item_limit}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>
+	<a class="path" href="{www_dir}{index}/stats/requestpagelist/top/{item_limit}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -53,7 +53,7 @@
 	<!-- BEGIN type_list_item_tpl -->
 	<td>&nbsp;|&nbsp;</td>
 	<td>
-	<a class="path" href="/stats/requestpagelist/top/{item_limit}/{item_index}">{type_item_name}</a>
+	<a class="path" href="{www_dir}{index}/stats/requestpagelist/top/{item_limit}/{item_index}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -68,7 +68,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	| <a class="path" href="/stats/requestpagelist/top/{item_limit}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	| <a class="path" href="{www_dir}{index}/stats/requestpagelist/top/{item_limit}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

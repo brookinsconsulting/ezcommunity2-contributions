@@ -28,12 +28,12 @@
 <tr>
 <td>
    <!-- BEGIN image_link_tpl -->
-   <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
    <!-- END image_link_tpl -->
    <!-- BEGIN ext_link_tpl -->
-   <a href="{image_href}">
+   <a href="{www_dir}{index}{image_href}">
    <!-- END ext_link_tpl -->
-   <img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
+   <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
 </td>
 </tr>
@@ -49,16 +49,16 @@
 
 <!-- BEGIN image_float_tpl -->
    <!-- BEGIN image_link_float_tpl -->
-   <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
    <!-- END image_link_float_tpl -->
    <!-- BEGIN ext_link_float_tpl -->
-   <a href="{image_href}">
+   <a href="{www_dir}{index}{image_href}">
    <!-- END ext_link_float_tpl -->
-<img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
+<img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
 <!-- END image_float_tpl -->
 
 <!-- BEGIN link_tpl -->
-<a href="{href}">{link_text}</a>
+<a href="{www_dir}{index}{href}">{link_text}</a>
 <!-- END link_tpl -->
 
 

@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.34 2001/07/19 11:33:56 jakobn Exp $
+// $Id: INIFile.php,v 1.35 2001/07/29 23:30:57 kaid Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -59,26 +59,28 @@ class INIFile
     */
     function INIFile( $inifilename="", $write=false )
     {
+        include_once( "classes/ezfile.php" );
+        
         // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
         // $this->load_data( $inifilename, $write );
 
         $cachedFile = "classes/cache/" . md5( $inifilename ) . ".php";
 
         // check for modifications
-        $cacheTime = filemtime( $cachedFile );
-        $origTime = filemtime( $inifilename );
-        $overrideTime = filemtime( "override/" . $inifilename );
-        $appendTime = filemtime( "override/" . $inifilename . ".append" );
+        $cacheTime = eZFile::filemtime( $cachedFile );
+        $origTime = eZFile::filemtime( $inifilename );
+        $overrideTime = eZFile::filemtime( "override/" . $inifilename );
+        $appendTime = eZFile::filemtime( "override/" . $inifilename . ".append" );
 
         $loadCache = false;
-        if ( file_exists( $cachedFile ) )
+        if ( eZFile::file_exists( $cachedFile ) )
         {
             $loadCache = true;
             if ( $cacheTime < $origTime )
                 $loadCache = false;
-            if ( file_exists( "override/" . $inifilename ) and $cacheTime < $overrideTime )
+            if ( eZFile::file_exists( "override/" . $inifilename ) and $cacheTime < $overrideTime )
                 $loadCache = false;
-            if ( file_exists( "override/" . $inifilename . ".append" ) and $cacheTime < $appendTime )
+            if ( eZFile::file_exists( "override/" . $inifilename . ".append" ) and $cacheTime < $appendTime )
                 $loadCache = false;
         }
 
@@ -110,7 +112,7 @@ class INIFile
             }
             $buffer = "<?php\n" . $buffer . "\n?>";
 
-            $fp = fopen( $cachedFile, "w+" );        
+            $fp = eZFile::fopen( $cachedFile, "w+" );        
             fwrite ( $fp, $buffer );
             fclose( $fp );
         }
@@ -122,7 +124,7 @@ class INIFile
         $this->WRITE_ACCESS = $write;
         if ( !empty($inifilename) )
         {
-            if ( !file_exists($inifilename) )
+            if ( !eZFile::file_exists($inifilename) )
             { 
                 $this->error( "This file ($inifilename) does not exist!"); 
             }
@@ -138,11 +140,11 @@ class INIFile
     function load_override_data( $inifilename="" )
     {
         $appendfilename = $inifilename . ".append";
-        if ( !empty($inifilename) and file_exists($inifilename) )
+        if ( !empty($inifilename) and eZFile::file_exists($inifilename) )
         {
             $this->parse($inifilename, false );
         }
-        else if ( !empty($appendfilename) and file_exists($appendfilename) )
+        else if ( !empty($appendfilename) and eZFile::file_exists($appendfilename) )
         {
             $this->parse($appendfilename, true );
         }
@@ -150,9 +152,9 @@ class INIFile
 
     function file_exists( $inifilename )
     {
-        return ( file_exists( "override/$inifilename.append" ) or
-                 file_exists( "override/$inifilename" ) or
-                 file_exists( $inifilename ) );
+        return ( eZFile::file_exists( "override/$inifilename.append" ) or
+                 eZFile::file_exists( "override/$inifilename" ) or
+                 eZFile::file_exists( $inifilename ) );
     }
 
     /*!
@@ -162,13 +164,13 @@ class INIFile
     {
         $this->INI_FILE_NAME = $inifilename;
 
-        $fp = fopen( $inifilename, $this->WRITE_ACCESS ? "r+" : "r" );
+        $fp = eZFile::fopen( $inifilename, $this->WRITE_ACCESS ? "r+" : "r" );
 
         if ( !isset( $this->CURRENT_GROUP ) or !$append )
              $this->CURRENT_GROUP=false;
         if ( !isset( $this->GROUPS ) or !$append )
              $this->GROUPS=array();
-        $contents =& fread($fp, filesize($inifilename));
+        $contents =& fread($fp, eZFile::filesize($inifilename));
         $ini_data =& split( "\n",$contents);
 
         for ( $i = 0; $i < count( $init_data ); $i++ )
@@ -215,7 +217,7 @@ class INIFile
     */
     function save_data() 
     {
-        $fp = fopen($this->INI_FILE_NAME, "w");
+        $fp = eZFile::fopen($this->INI_FILE_NAME, "w");
 
         if ( empty($fp) ) 
         { 

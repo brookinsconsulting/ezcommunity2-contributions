@@ -1,4 +1,4 @@
-<form action="/poll/pollist/" method="post">
+<form action="{www_dir}{index}/poll/pollist/" method="post">
 
 <h1>{intl-head_line}</h1>
 
@@ -24,7 +24,7 @@
 	<!-- BEGIN poll_item_tpl -->
 	<tr>
 	<td class="{td_class}">
-	<a href="/poll/polledit/edit/{poll_id}/">{poll_name}</a>
+	<a href="{www_dir}{index}/poll/polledit/edit/{poll_id}/">{poll_name}</a>
 	</td>
 	<td class="{td_class}">
 	{poll_description}&nbsp;
@@ -43,7 +43,7 @@
 	</td>
 
 	<td width="1%" class="{td_class}">
-	<a href="/poll/polledit/edit/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezp{poll_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/poll/polledit/edit/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezp{poll_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="PollArrayID[]" value="{poll_id}">

@@ -4,7 +4,7 @@
         <h1>{intl-headline}</h1>
      </td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" name="QueryString">
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
@@ -17,22 +17,22 @@
 <!-- BEGIN path_tpl -->
 
 
-<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<a class="path" href="/link/category/0/">{intl-top}</a>
+<a class="path" href="{www_dir}{index}/link/category/0/">{intl-top}</a>
 
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
-<a class="path" href="/link/category/{category_id}/">{category_name}</a>
+<a class="path" href="{www_dir}{index}/link/category/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade size="4" />
 <!-- BEGIN category_list_tpl -->
-<form method="post" action="/link/categoryedit/edit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/link/categoryedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td colspan="6">
@@ -42,24 +42,24 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td width="1%" bgcolor="{bg_color}">
-	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td bgcolor="{bg_color}">
-	<a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a>
+	<a href="{www_dir}{index}/link/category/{linkcategory_id}/">{linkcategory_name}</a>
 	</td>
 	<td bgcolor="{bg_color}">
 	{category_description}&nbsp;
 	</td>
         <td bgcolor="{bg_color}">
 	<!-- BEGIN image_item_tpl -->
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
 	<!-- END no_image_tpl -->
         </td>
 	<td width="1%" bgcolor="{bg_color}">
-	<a href="/link/categoryedit/edit/{linkcategory_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkcategory_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkcategory_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/link/categoryedit/edit/{linkcategory_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkcategory_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkcategory_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td bgcolor="{bg_color}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{linkcategory_id}">
@@ -74,7 +74,7 @@
 
 
 <!-- BEGIN link_list_tpl -->
-<form method="post" action="/link/linkedit/edit/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/link/linkedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td colspan="6">
@@ -85,15 +85,15 @@
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
-	<img src="/admin/images/link.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/admin/images/link.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td width="97%" class="{td_class}">
-	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></b><br />
+	<b><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></b><br />
 	{link_description}
 	</td>
         <td class="{td_class}">
 	<!-- BEGIN image_item_tpl -->
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
@@ -103,7 +103,7 @@
 	(Hits:&nbsp;{link_hits})
 	</td>
 	<td class="{td_class}" width="1%" bgcolor="{bg_color}">
-	<a href="/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="LinkArrayID[]" value="{link_id}">
@@ -122,7 +122,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/link/category/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -136,7 +136,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -150,7 +150,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

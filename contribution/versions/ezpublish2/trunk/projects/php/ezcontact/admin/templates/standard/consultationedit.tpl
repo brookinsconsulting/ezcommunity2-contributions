@@ -1,4 +1,4 @@
-<form method="post" action="/contact/consultation/{consultant_type}{action_value}/{consultation_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/contact/consultation/{consultant_type}{action_value}/{consultation_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-edit_headline}</h1>
@@ -105,7 +105,7 @@
 	    </select>
 	    <!-- END status_item_tpl -->
 	    <!-- BEGIN no_status_item_tpl -->
-	    <a href="/contact/consultationtype/new/">{intl-new_consultation_type}</a>
+	    <a href="{www_dir}{index}/contact/consultationtype/new/">{intl-new_consultation_type}</a>
 	    <!-- END no_status_item_tpl -->
 	    </td>
     </tr>
@@ -197,7 +197,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/contact/consultation/list/">
+	<form method="post" action="{www_dir}{index}/contact/consultation/list/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

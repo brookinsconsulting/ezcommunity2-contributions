@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/sitemanager/cache/" >
+<form method="post" action="{www_dir}{index}/sitemanager/cache/" >
 
 <!-- BEGIN cache_results_tpl -->
 

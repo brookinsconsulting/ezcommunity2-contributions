@@ -1,4 +1,4 @@
-<form method="post" action="/ad/ad/{action_value}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/ad/ad/{action_value}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-ad_edit}</h1>
@@ -45,7 +45,7 @@
 
 <!-- BEGIN image_tpl -->
 <br /><br />
-<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 <!-- END image_tpl -->
 
 

@@ -5,7 +5,7 @@
 	<h1>{intl-head_line}</h1>
 	</td>
 	<td align="right">
-	<form action="/article/search/" method="post">
+	<form action="{www_dir}{index}/article/search/" method="post">
 	<input class="searchbox" type="text" name="SearchText" size="10" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -38,7 +38,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/articleview/{article_id}/">
+	<a href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
@@ -60,7 +60,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			<a class="path" href="/article/search/move/{url_text}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+			<a class="path" href="{www_dir}{index}/article/search/move/{url_text}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
@@ -74,7 +74,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/article/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="{www_dir}{index}/article/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -88,7 +88,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/article/search/move/{url_text}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+			&nbsp;<a class="path" href="{www_dir}{index}/article/search/move/{url_text}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

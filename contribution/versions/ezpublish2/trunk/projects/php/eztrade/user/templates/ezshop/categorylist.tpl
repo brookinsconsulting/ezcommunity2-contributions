@@ -6,8 +6,8 @@
 
 <!-- BEGIN category_tpl -->
 <tr>
-	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
-	<td width="99%"><a class="menu" href="/trade/productlist/{category_id}/">{category_name}</a></td>
+	<td width="1%" valign="top"><img src="{www_dir}/images/dot.gif" width="10" height="12"><br /></td>
+	<td width="99%"><a class="menu" href="{www_dir}{index}/trade/productlist/{category_id}/">{category_name}</a></td>
 </tr>
 <!-- END category_tpl -->
 <tr>

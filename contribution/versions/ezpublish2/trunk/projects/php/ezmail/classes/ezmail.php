@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.35 2001/07/26 14:33:45 fh Exp $
+// $Id: ezmail.php,v 1.36 2001/07/29 23:31:08 kaid Exp $
 //
 // Definition of eZMail class
 //
@@ -873,7 +873,7 @@ class eZMail
             foreach( $files as $file )
             {
                 $filename = "ezfilemanager/files/" . $file->fileName();
-                $attachment = fread( fopen( $filename, "r"), filesize( $filename ) );
+                $attachment = fread( eZFile::fopen( $filename, "r"), eZFile::filesize( $filename ) );
                 $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
             }
         }

@@ -1,4 +1,4 @@
-<form method="post" action="/bug/report/{action_value}/{bug_id}">
+<form method="post" action="{www_dir}{index}/bug/report/{action_value}/{bug_id}">
 
 <h1>{intl-report_a_bug}</h1>
 
@@ -73,7 +73,7 @@
 	{file_name}
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/bug/report/fileedit/edit/{file_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/bug/report/fileedit/edit/{file_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="{www_dir}/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="FileArrayID[]" value="{file_id}" />
@@ -108,7 +108,7 @@
 	  <img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	</td>	
 	<td width="1%" class="{td_class}">
-	<a href="/bug/report/imageedit/edit/{image_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/bug/report/imageedit/edit/{image_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="{www_dir}/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}" />

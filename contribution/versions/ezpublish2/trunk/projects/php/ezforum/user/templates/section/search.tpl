@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -16,7 +16,7 @@
 		<div class="boxtext">({forum_start}-{forum_end}/{forum_total})</div>
      </td>
      <td align="right">
-	 <form action="/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input type="submit" name="search" value="{intl-search}" />
          </form>
@@ -44,13 +44,13 @@
 <tr>
     	<td class="{td_class}" width="1%">
 	<!-- BEGIN new_icon_tpl -->
-        <img src="/images/message_new.gif" width="16" height="16" border="0" />&nbsp;
+        <img src="{www_dir}/images/message_new.gif" width="16" height="16" border="0" />&nbsp;
 	<!-- END new_icon_tpl -->
 	<!-- BEGIN old_icon_tpl -->
-        <img src="/images/message.gif" width="16" height="16" border="0" />&nbsp;
+        <img src="{www_dir}/images/message.gif" width="16" height="16" border="0" />&nbsp;
 	<!-- END old_icon_tpl -->	
 	<td class="{td_class}">
-	<a href="/forum/message/{message_id}/">
+	<a href="{www_dir}{index}/forum/message/{message_id}/">
 	{message_topic}
 	</a>
 	</td>
@@ -75,7 +75,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="{www_dir}{index}/forum/search/parent/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
@@ -89,7 +89,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="{www_dir}{index}/forum/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -103,7 +103,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+			&nbsp;<a class="path" href="{www_dir}{index}/forum/search/parent/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

@@ -1,4 +1,4 @@
-<form method="post" action="/trade/pricegroups/new">
+<form method="post" action="{www_dir}{index}/trade/pricegroups/new">
 
 <h1>{intl-price_edit}</h1>
 

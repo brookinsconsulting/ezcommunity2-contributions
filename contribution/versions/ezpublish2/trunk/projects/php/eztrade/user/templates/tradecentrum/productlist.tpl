@@ -4,7 +4,7 @@
 	<h1>{intl-productlist}</h1>
 	</td>
      <td align="right">
-	 <form action="/{module}/search/" method="post">
+	 <form action="{www_dir}{index}/{module}/search/" method="post">
 	       <input type="text" name="Query">
 	       <input type="submit" name="search" value="{intl-search_button}">
          </form>
@@ -14,12 +14,12 @@
 
 <hr noshade="noshade" size="4"/>
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
+<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -34,7 +34,7 @@
 <!-- BEGIN category_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/{module}/{module_list}/{category_id}/">{category_name}</a>&nbsp;
+	<a href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
 	{category_description}&nbsp;
@@ -55,14 +55,14 @@
 <tr>
 	<td>
 
-	<div class="listproducts"><a class="listproducts" href="/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
+	<div class="listproducts"><a class="listproducts" href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
 
 <!-- BEGIN product_image_tpl -->
     <table align="right">
     <tr>
         <td>
-	<a href="/{module}/{module_view}/{product_id}/{category_id}/">
-        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">
+        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 	</a>
         </td>
     </tr>

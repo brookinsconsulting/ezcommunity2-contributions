@@ -5,7 +5,7 @@
  * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.7 2001/01/24 12:06:42 jb Exp $
+ * $Id: template.inc,v 1.8 2001/07/29 23:30:57 kaid Exp $
  *
  */ 
 
@@ -53,7 +53,7 @@ class Template {
    * root:   new template directory.
    */  
   function set_root($root) {
-    if (!is_dir($root)) {
+    if (!eZFile::is_dir($root)) {
       $this->halt("set_root: $root is not a directory.");
       return false;
     }
@@ -317,7 +317,8 @@ class Template {
       $filename = $this->root."/".$filename;
     }
     
-    if (!file_exists($filename))
+    if (!eZFile::file_exists($filename))
+	error_log("HALLO: $filename");
       $this->halt("filename: file $filename does not exist.");
 
     return $filename;

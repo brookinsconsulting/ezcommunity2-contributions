@@ -1,5 +1,5 @@
 <!-- BEGIN list_page -->
-<form method="post" action="{form_path}/{action_value}/{item_id}/" enctype="multipart/form-data">
+<form method="post" href="{www_dir}{index}{form_path}/{action_value}/{item_id}/" enctype="multipart/form-data">
 
 <!-- BEGIN type_edit_tpl -->
 <h1>{intl-edit_headline}</h1>
@@ -34,7 +34,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="{item_back_command}/">
+	<form method="post" action="{www_dir}{index}{item_back_command}/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>
@@ -89,7 +89,7 @@
 	</td>
 
 	<td>
-	<form method="post" action="{item_back_command}/">
+	<form method="post" action="{www_dir}{index}{item_back_command}/">
 	    <input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

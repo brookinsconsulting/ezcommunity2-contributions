@@ -31,7 +31,7 @@
     {body}
     </div>
 	<div class="spacer">
-	<form action="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">
+	<form action="{www_dir}{index}/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">
 	<input class="stdbutton" type="submit" value="{intl-reply}" />
 	</form>
 	</div>
@@ -49,7 +49,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="{url}parent/{item_previous_index}/">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}{url}parent/{item_previous_index}/">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -63,7 +63,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="{url}parent/{item_index}/">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}{url}parent/{item_index}/">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -77,7 +77,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="{url}parent/{item_next_index}/">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}{url}parent/{item_next_index}/">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
@@ -91,7 +91,7 @@
 </table>
 <!-- END type_list_tpl -->
 
-<form action="/forum/userlogin/newsimple/{forum_id}">
+<form action="{www_dir}{index}/forum/userlogin/newsimple/{forum_id}">
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>

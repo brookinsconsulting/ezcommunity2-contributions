@@ -1,4 +1,4 @@
-<form method="post" action="/user/groupedit/new/">
+<form method="post" action="{www_dir}{index}/user/groupedit/new/">
 <h1>{intl-head_line}</h1>
 
 <hr noshade size="4"/>
@@ -14,7 +14,7 @@
 <!-- BEGIN group_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/user/userlist//{group_id}">{group_name}</a>
+	<a href="{www_dir}{index}/user/userlist//{group_id}">{group_name}</a>
 	</td>
 
 	<td class="{td_class}">
@@ -22,7 +22,7 @@
 	</td>
 
 	<td class="{td_class}" width="1%">
-	<a href="/user/groupedit/edit/{group_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{group_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezuser{group_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/user/groupedit/edit/{group_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{group_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezuser{group_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	
 	<td class="{td_class}" width="1%" align="center">

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.9 2001/07/25 12:19:15 bf Exp $
+// $Id: cron.php,v 1.10 2001/07/29 23:30:56 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -22,6 +22,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+// Tell PHP where it can find our files.
+if ( file_exists( "sitedir.ini" ) )
+{
+	include_once( "sitedir.ini" );
+
+	if ( isset( $siteDir ) and !empty( $siteDir ) )
+	{
+		$includePath = ini_get( "include_path" );
+		$includePath .= ":" . $siteDir;
+		ini_set( "include_path", $includePath );
+	}
+}
 
 // site information
 include_once( "classes/INIFile.php" );

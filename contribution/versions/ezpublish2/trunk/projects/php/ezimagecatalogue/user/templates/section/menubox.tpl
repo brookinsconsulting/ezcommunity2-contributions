@@ -1,13 +1,13 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/{sitedesign}/images/screenshots.gif" width="128" height="20"><br />
+	<img src="{www_dir}/sitedesign/{sitedesign}/images/screenshots.gif" width="128" height="20"><br />
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="leftmenu">	
-	<a href="/imagecatalogue/image/list/">{intl-image_list}</a>
+	<a href="{www_dir}{index}/imagecatalogue/image/list/">{intl-image_list}</a>
 	</div>
 	</td>
 </tr>
@@ -15,14 +15,14 @@
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="/imagecatalogue/category/new/">{intl-new_folder}</a>
+	<a href="{www_dir}{index}/imagecatalogue/category/new/">{intl-new_folder}</a>
 	</div>
 	</td>
 </tr>
 <tr>
 	<td>
 	<div class="leftmenu">
-	<a href="/imagecatalogue/image/new/">{intl-new_image}</a>
+	<a href="{www_dir}{index}/imagecatalogue/image/new/">{intl-new_image}</a>
 	</div>
 	</td>
 </tr>

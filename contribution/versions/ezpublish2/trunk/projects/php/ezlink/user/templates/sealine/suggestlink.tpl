@@ -10,7 +10,7 @@
 
 <hr noshade size="4"/>
 
-<form method="post" action="/link/suggestlink/insert">
+<form method="post" action="{www_dir}{index}/link/suggestlink/insert">
 
 <p class="error">{error_msg}</p>
 
@@ -51,7 +51,7 @@ http://<input tabindex="2" type="text" name="url" size="40" value="{url}"><br />
 	<td>&nbsp;</td>
 </form>
 	<td>
-	<form action="/link/group/">
+	<form action="{www_dir}{index}/link/group/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

@@ -1,4 +1,4 @@
-<form action="/forum/categoryedit/{action_value}/{category_id}/" method="post">
+<form action="{www_dir}{index}/forum/categoryedit/{action_value}/{category_id}/" method="post">
 <input type="hidden" name="page" value="{docroot}/admin/category.php">
 
 <h1>{headline}</h1>

@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -17,7 +17,7 @@
 	<div class="boxtext">({file_start}-{file_end}/{file_total})</div>
 	</td>
 	<td align="right">
-	<form action="/filemanager/search/" method="post">
+	<form action="{www_dir}{index}/filemanager/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -42,10 +42,10 @@
 <tr>
 	<!-- BEGIN read_tpl -->
 	<td class="{td_class}" width="1%" valign="top">
-	<img src="/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
+	<img src="{www_dir}/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="40%" valign="top">
-	<a href="/filemanager/fileview/{file_id}/">{file_name}</a><br />
+	<a href="{www_dir}{index}/filemanager/fileview/{file_id}/">{file_name}</a><br />
 	</td>
 	<td class="{td_class}" width="56%" valign="top">
 	{original_file_name}&nbsp;
@@ -53,7 +53,7 @@
 	{file_size}&nbsp;{file_unit}
 	</td>
 	<td class="{td_class}" width="1%" valign="top">
-	<a href="/filemanager/download/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/images/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="/images/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a>
+	<a href="{www_dir}{index}/filemanager/download/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/images/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="{www_dir}/images/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a>
 	</td>
 	<!-- END read_tpl -->
 </tr>
@@ -70,7 +70,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/filemanager/search/parent/{url_text}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/filemanager/search/parent/{url_text}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -84,7 +84,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/filemanager/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/filemanager/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -98,7 +98,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/filemanager/search/parent/{url_text}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/filemanager/search/parent/{url_text}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

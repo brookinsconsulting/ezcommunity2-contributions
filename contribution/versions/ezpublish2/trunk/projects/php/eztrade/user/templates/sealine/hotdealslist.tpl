@@ -10,11 +10,11 @@
 {begin_tr}
 	<td>
 
-	<a href="/trade/productview/{product_id}/{category_id}/"><h3>{product_name}</h3></a>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><h3>{product_name}</h3></a>
 
 	<!-- BEGIN product_image_tpl -->
-	<a href="/trade/productview/{product_id}/{category_id}/">
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
+	<a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">
+	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
 	<!-- END product_image_tpl -->&nbsp;
 
 <p>{product_intro_text}</p>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.12 2001/07/20 11:21:41 jakobn Exp $
+// $Id: unpublished.php,v 1.13 2001/07/29 23:31:08 kaid Exp $
 //
 // Created on: <29-Nov-2000 18:10:27 bf>
 //
@@ -57,7 +57,7 @@ if ( $Action == "Publish" )
     }
     
     // delete the cache
-    $dir = dir( "eznewsfeed/cache/" );
+    $dir = eZFile::dir( "eznewsfeed/cache/" );
     $files = array();
     while( $entry = $dir->read() )
     { 
@@ -67,7 +67,7 @@ if ( $Action == "Publish" )
             {
                 if ( $regArray[1] == $CategoryID )
                 {
-                    unlink( "eznewsfeed/cache/" . $entry );
+                    eZFile::unlink( "eznewsfeed/cache/" . $entry );
                 }
             }
             
@@ -75,7 +75,7 @@ if ( $Action == "Publish" )
             {
                 if ( $regArray[1] == $CategoryID )
                 {
-                    unlink( "eznewsfeed/cache/" . $entry );
+                    eZFile::unlink( "eznewsfeed/cache/" . $entry );
                 }
             }
         }

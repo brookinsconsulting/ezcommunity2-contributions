@@ -1,13 +1,13 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+    <td class="tdmini"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+	<td class="toppathbottom"><img src="{www_dir}/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
-<form method="post" action="/poll/userlogin/vote/{poll_id}/">
+<form method="post" action="{www_dir}{index}/poll/userlogin/vote/{poll_id}/">
 
 <h1>{head_line}</h1>
 
@@ -41,7 +41,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form action="/poll/result/{poll_id}">
+	<form action="{www_dir}{index}/poll/result/{poll_id}">
 	<input class="okbutton" type="submit" value="{intl-result}">
 	</form>
 	</td>
