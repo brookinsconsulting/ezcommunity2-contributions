@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.4 2002/01/08 08:07:15 kaid Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.5 2002/01/08 08:11:12 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -46,8 +46,8 @@ ini_set( "include_path", $includePath );
 if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
     $wwwDir = $regs[1];
 
-// Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
-if ( ! ereg( ".*index\.php.*", $PHP_SELF ) ) 
+// Trick: Rewrite setup doesn't have index.php in $REQUEST_URI, so we don't want an $index
+if ( ! ereg( ".*index_xmlrpc\.php.*", $REQUEST_URI ) ) 
     $index = "";
 else 
 {
