@@ -105,6 +105,22 @@ switch ( $url_array[2] )
         }        
     }
     break;
+
+    case "articleuncached":
+    {
+        $ViewMode = "static";
+
+        $StaticRendering = true;
+        $ArticleID = $url_array[3];
+        $PageNumber= $url_array[4];
+        
+        if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ) )
+            $PageNumber= 1;
+        
+        include( "ezarticle/user/articleview.php" );
+    }
+    break;
+
     
     case "print":
     case "articleprint":

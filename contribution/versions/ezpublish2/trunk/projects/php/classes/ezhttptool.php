@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.4 2001/01/28 13:20:03 bf Exp $
+// $Id: ezhttptool.php,v 1.5 2001/02/08 10:38:27 ce Exp $
 //
 // Definition of eZTextTool class
 //
@@ -33,7 +33,7 @@ class eZHTTPTool
 
         $postVars = $GLOBALS["HTTP_POST_VARS"];
         $getVars = $GLOBALS["HTTP_GET_VARS"];
-        
+
         if ( isset( $postVars[$name] ) )
         {
             $ret = $postVars[$name];
