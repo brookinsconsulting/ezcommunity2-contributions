@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.2.4.5 2002/01/30 11:08:08 ce Exp $
+// $Id: checkout.php,v 1.96.2.2.4.6 2002/01/30 13:02:09 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -415,14 +415,19 @@ turnColumnsOnOff( "header" );
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
 
+$paymentMethodID = eZHTTPTool::getVar( "PaymentMethod", true );
 if ( $ShowCart == true )
 {
     // Vouchers
 
-    $cart->cartTotals( $tax, $total );
+    $cart->cartTotals( $tax, $total, false, $paymentMethodID );
 
     $t->set_var( "empty_cart", "" );
     $t->set_var( "voucher_item", "" );
+
+    $type = $cart->ShippingType;
+    $currentShippingTypeID = $type->id();
+    $t->set_var( "current_shipping_type_id", $currentShippingTypeID );
 
     $vouchers = $session->arrayValue( "PayWithVoucher" );
     if ( count ( $vouchers ) > 0 )
@@ -695,6 +700,11 @@ if ( $total["inctax"] )
         $t->set_var( "payment_method_id", $paymentMethod["ID"] );
         $t->set_var( "payment_method_text", $paymentMethod["Text"] );
 
+        if ( $paymentMethodID == $paymentMethod["ID"] )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+
         $t->parse( "payment_method", "payment_method_tpl", true );
     }
     $t->parse( "show_payment", "show_payment_tpl" );
@@ -721,8 +731,6 @@ $payment = true;
 // the total cost of the payment
 $t->set_var( "total_cost_value", $total["inctax"] );
 $t->set_var( "total_vat_value", $totalVAT );
-
-
 
 // A check should be done in the code above for qty.
 $can_checkout = true;

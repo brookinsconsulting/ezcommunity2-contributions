@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezcart.php,v 1.36 2001/10/17 13:14:38 ce Exp $
+//
+// $Id: ezcart.php,v 1.36.8.1 2002/01/30 13:02:09 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -37,10 +37,10 @@
 
   // Store the cart to the database
   $cart->store();
-  
+
   // Fetch all cart items
   $items = $cart->items();
-  
+
   // print contents of the cart if it exists
   if  ( $items )
   {
@@ -89,7 +89,7 @@ class eZCart
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_Cart" );
-            $nextID = $db->nextID( "eZTrade_Cart", "ID" );            
+            $nextID = $db->nextID( "eZTrade_Cart", "ID" );
 
             $res = $db->query( "INSERT INTO eZTrade_Cart
                                 ( ID,
@@ -115,14 +115,14 @@ class eZCart
                                  WHERE ID='$this->ID'
                                  " );
         }
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
 
         return true;
-    }    
+    }
 
     /*!
       Returns the person we are shopping for
@@ -147,7 +147,7 @@ class eZCart
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $cart_array, "SELECT * FROM eZTrade_Cart WHERE ID='$id'" );
@@ -169,7 +169,7 @@ class eZCart
 
 
     /*!
-      Returns a eZCart object. 
+      Returns a eZCart object.
     */
     function getBySession( $session  )
     {
@@ -209,14 +209,14 @@ class eZCart
                 $item->delete();
             }
         }
-            
+
         $res = $db->query( "DELETE FROM eZTrade_Cart WHERE ID='$this->ID'" );
 
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-            
+
         return true;
     }
 
@@ -255,7 +255,7 @@ class eZCart
             $this->PersonID = $id;
         }
     }
-            
+
     /*!
       Sets the company we are shopping for
     */
@@ -265,7 +265,7 @@ class eZCart
         {
             $this->CompanyID = $id;
         }
-    }            
+    }
 
     /*!
       Returns all the cart items in the cart.
@@ -299,21 +299,26 @@ class eZCart
     /*
         This function calculates the totals of the cart contents.
      */
-    function cartTotals( &$tax, &$total, $voucher=false )
+    function cartTotals( &$tax, &$total, $voucher=false, $paymentMethod=2 )
     {
         $tax = "";
         $total = "";
 
         $products = false;
-        
+        $continue = true;
+        $this->ShippingType = new eZShippingType( );
         if ( !$voucher )
         {
             $items = $this->items( );
             foreach( $items as $item )
             {
+                $totalPrice += $item->correctPrice( true, true, true );
+            }
+            foreach( $items as $item )
+            {
                 $product =& $item->product();
                 $vatPercentage = $product->vatPercentage();
-                
+
                 $exTax = $item->correctPrice( true, true, false );
                 $incTax = $item->correctPrice( true, true, true );
 
@@ -328,13 +333,53 @@ class eZCart
                     if ( $info->mailMethod() == 2 )
                         $products = true;
                 }
-                
+
                 $totalExTax += $exTax;
                 $totalIncTax += $incTax;
-                
+
                 $tax["$vatPercentage"]["basis"] += $exTax;
                 $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
                 $tax["$vatPercentage"]["percentage"] = $vatPercentage;
+
+                // Special case:
+                if ( $continue )
+                {
+                    $type = $product->type();
+                    switch( $type->id() )
+                    {
+                        // CD, Spill og DVD
+                        case 1:
+                        case 2:
+                        case 4:
+                        default:
+                        {
+                            if ( ( $paymentMethod == 2 ) and $totalPrice <= 1000 ) // Postoppkrav
+                            {
+                                $this->ShippingType->get( 2 );
+                            }
+                            elseif ( ( $paymentMethod == 1 ) and $totalPrice <= 1000 ) // Kredittkort
+                            {
+                                $this->ShippingType->get( 1 );
+                            }
+                            $continue = true;
+                        }
+                        break;
+                        // Hifi og spillkonsoler
+                        case 5:
+                        {
+                            if ( $paymentMethod == 2 ) // Postoppkrav
+                            {
+                                $this->ShippingType->get( 2 );
+                            }
+                            elseif ( $paymentMethod == 1 ) // Kredittkort
+                            {
+                                $this->ShippingType->get( 1 );
+                            }
+                            $continue = false;
+                        }
+                        break;
+                    }
+                }
             }
         }
         else if ( get_class ( $voucher ) == "ezvoucher" )
@@ -345,16 +390,16 @@ class eZCart
             $exTax = $voucher->correctPrice( false );
             $incTax = $voucher->correctPrice( true );
 
-           
+
             $totalExTax += $exTax;
             $totalIncTax += $incTax;
-            
+
             $tax["$vatPercentage"]["basis"] += $exTax;
             $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
             $tax["$vatPercentage"]["percentage"] = $vatPercentage;
         }
 
-       
+
         $total["subinctax"] = $totalIncTax;
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;
@@ -362,25 +407,23 @@ class eZCart
 
         if ( $products == true )
         {
-            $type = new eZShippingType( );
-            $shippingType =& $type->defaultType();
-            $shippingCost = $this->shippingCost( $shippingType );
+            // $type = new eZShippingType( );
+            // $shippingType =& $type->defaultType();
+            $shippingCost = $this->shippingCost( $this->ShippingType );
             $shippingVAT = $this->shippingVAT( $shippingType );
-            $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );
-
-
+            $shippingVATPercentage = $this->extractShippingVATPercentage( $this->ShippingType );
         }
         if ( $shippingVATPercentage == "" )
             $shippingVATPercentage = 0;
-            
+
         $user =& eZUser::currentUser();
         $useVAT = true;
-        
+
         $tax["$shippingVATPercentage"]["basis"] += $shippingCost - $shippingVAT;
         $tax["$shippingVATPercentage"]["tax"] += $shippingVAT;
         $tax["$shippingVATPercentage"]["percentage"] = $shippingVATPercentage;
 
-        
+
         $total["shipinctax"] = $shippingCost;
         $total["shipextax"] = $shippingCost - $shippingVAT;
         $total["shiptax"] = $shippingVAT;
@@ -409,7 +452,7 @@ class eZCart
            if ( $shippingGroup )
            {
                $values =& $shippingGroup->startAddValue( $shippingType );
-               
+
                $shipid = $shippingGroup->id();
                $count = $item->count() + $ShippingCostValues[$shipid]["Count"];
                $ShippingCostValues[$shipid]["Count"] = $count;
@@ -452,7 +495,15 @@ class eZCart
        return $this->extractShippingVAT( $shippingType );
     }
 
-    
+    /*!
+      Special case for akersmic
+    */
+    function shippingType( )
+    {
+       return $this->ShippingType;
+    }
+
+
     /*!
       Returns the shipping VAT. That is the VAT value
       of the shipping cost.
@@ -467,18 +518,18 @@ class eZCart
             $vatType =& $shippingType->vatType();
 
             $shippingCost = $this->shippingCost( $shippingType );
-            
+
             if ( $vatType )
             {
                 $value =& $vatType->value();
-                $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;        
+                $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;
             }
         }
         return $shippingVAT;
     }
 
     /*!
-      Returns the shipping VAT in percentage. 
+      Returns the shipping VAT in percentage.
 
       The argument must be a eZShippingType object.
     */
@@ -490,7 +541,7 @@ class eZCart
             $vatType =& $shippingType->vatType();
 
             $shippingCost = $this->shippingCost( $shippingType );
-            
+
             if ( $vatType )
             {
                 $VATPercentage =& $vatType->value();
@@ -499,7 +550,7 @@ class eZCart
         return $VATPercentage;
     }
 
-    
+
 
     /*!
       Returns the VAT value of the product.
@@ -515,7 +566,7 @@ class eZCart
             $vatType =& $shippingType->vatType();
 
             $shippingCost = $this->shippingCost( $shippingType );
-            
+
             if ( $vatType )
             {
                 $value =& $vatType->value();
@@ -524,7 +575,7 @@ class eZCart
         }
         return $shippingVAT;
     }
-    
+
 
     /*!
       Empties out the cart.
@@ -533,7 +584,7 @@ class eZCart
     {
        $db =& eZDB::globalDatabase();
        $db->begin();
-       
+
        $items = $this->items();
 
        // delete the option values and cart items
@@ -552,15 +603,16 @@ class eZCart
        if ( in_array( false, $res ) )
            $db->rollback( );
        else
-           $db->commit();            
+           $db->commit();
 
-       $this->delete();       
+       $this->delete();
     }
 
     var $ID;
     var $SessionID;
     var $PersonID;
     var $CompanyID;
+    var $ShippingType;
 }
 
 ?>
