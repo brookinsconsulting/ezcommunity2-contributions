@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.50 2001/10/26 14:21:36 bf Exp $
+// $Id: ordersendt.php,v 1.51 2001/11/02 10:10:58 pkej Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -107,6 +107,8 @@ $t->set_block( "cart_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_ite
 $t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
 $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
+$t->set_block( "full_cart_tpl", "license_item_tpl", "license_item" );
+$t->set_var( "license_item", "" );
 
 $order = new eZOrder( $OrderID );
 
@@ -137,7 +139,7 @@ if ( $user )
     if ( $order->personID() == 0 && $order->companyID() == 0 )
     {
         $title =& $user->title();
-        $t->set_var( "customer_title", $title->name() );
+        #$t->set_var( "customer_title", $title->name() );
         
         $t->set_var( "customer_first_name", $user->firstName() );
         $t->set_var( "customer_last_name", $user->lastName() );
@@ -189,7 +191,7 @@ if ( $user )
         if ( $shippingUser )
         {
             $title =& $shippingUser->title();
-            $t->set_var( "shipping_title", $title->name() );
+            #$t->set_var( "shipping_title", $title->name() );
             
             $t->set_var( "shipping_first_name", $shippingUser->firstName() );
             $t->set_var( "shipping_last_name", $shippingUser->lastName() );
@@ -393,6 +395,7 @@ function turnColumnsOnOff( $rowName )
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
+$licenseView = false;
 
 $numberOfItems = 0;
 $j = 0;
@@ -413,6 +416,11 @@ foreach ( $items as $item )
     $t->set_var( "product_count", $item->count() );
     $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
     $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );
+
+    if ( $product->productType() == 3 ) // if license
+    {
+        $licenseView = true;
+    }
 
     $numberOfItems++;
 
@@ -545,6 +553,11 @@ if ( $ShowCart == true )
     {
         $t->set_var( "subtotals_span_size", $ColSpanSizeTotals  );        
     }
+
+    if ( $licenseView == true )
+    {
+        $t->parse( "license_item", "license_item_tpl" );
+    }
     
     $t->set_var( "totals_span_size", $ColSpanSizeTotals );
     $t->parse( "cart_item_list", "cart_item_list_tpl" );
@@ -608,8 +621,6 @@ if ( count ( $usedVouchers ) > 0 )
     }
     $t->parse( "voucher_item_list", "voucher_item_list_tpl" );
 }
-
-
 
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.85 2001/10/26 14:21:36 bf Exp $
+// $Id: payment.php,v 1.86 2001/11/02 10:10:58 pkej Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -325,7 +325,7 @@ if ( $PaymentSuccess == "true" )
         $billingAddress = $order->billingAddress();
 
         $title =& $user->title();
-        $mailTemplate->set_var( "customer_title", $title->name() );
+        #$mailTemplate->set_var( "customer_title", $title->name() );
         if ( $order->personID() == 0 && $order->companyID() == 0 )
         {
             $mailTemplate->set_var( "customer_first_name", $user->firstName() );
@@ -400,7 +400,7 @@ if ( $PaymentSuccess == "true" )
             }
         }
 
-        $mailTemplate->set_var( "shipping_title", $title->name() );
+        #$mailTemplate->set_var( "shipping_title", $title->name() );
         
         $shippingAddress = $order->shippingAddress();
 

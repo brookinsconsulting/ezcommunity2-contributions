@@ -293,6 +293,7 @@
 </table>
 <br />
 
+
 <!-- BEGIN quantity_item_tpl -->
 <p class="boxtext">{intl-availability}:</p>
 <div class="p">{product_quantity}</div>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.121 2001/11/01 20:41:20 pkej Exp $
+// $Id: ezproduct.php,v 1.122 2001/11/02 10:10:57 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -664,6 +664,7 @@ class eZProduct
 
       1 = normal product
       2 = voucher
+      3 = license
     */
     function productType( $price="" )
     {

@@ -196,6 +196,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<option value="ModuleLinker">{intl-links}</option>
 <!-- END module_linker_button_tpl -->
         <option value="Form">{intl-forms}</option>
+        <option value="License">{intl-license}</option>
         </select>
     </td>
     <td>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.69 2001/10/16 16:17:26 ce Exp $
+// $Id: productedit.php,v 1.70 2001/11/02 10:10:57 pkej Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -357,6 +357,14 @@ if ( $Action == "Update"  or $Action == "Insert" )
                 {
                     // add form
                     eZHTTPTool::header( "Location: /trade/productedit/formlist/$productID/" );
+                    exit();
+                }
+                break;
+
+                case "License":
+                {
+                    // add form
+                    eZHTTPTool::header( "Location: /trade/productedit/licenselist/$productID/" );
                     exit();
                 }
                 break;
