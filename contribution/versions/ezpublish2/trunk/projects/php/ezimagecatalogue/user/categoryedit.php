@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.28 2001/10/01 13:52:30 br Exp $
+// $Id: categoryedit.php,v 1.29 2001/10/04 09:09:51 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -102,6 +102,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     // Check if the user have write access to the category
     if ( $permissionCheck )
     {
+        // Parent is null, need only check for write to root
         if ( $ParentID == 0 )
         {
             if ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot"  ) == false )
@@ -109,13 +110,15 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
         else
         {
-            if ( eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", "w", $user ) == false
-                 && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'u', $user ) == false
+            // new category, check parent permissions
+            if ( $CategoryID == 0 && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", "w", $user ) == false
+            && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'u', $user ) == false
                  )
                 $error = true;
-            if( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' == false ) )
+
+            if( $Action == "Update" && eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' == false )
+            && eZImageCategory::isOwner($user, $CategoryID) )
                 $error = true;
-            
         }
         if( $error )
             $t->parse( "error_write", "error_write_permission" );
@@ -200,16 +203,19 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     if ( $Action == "Insert" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' ) == false &&
     $parent->user( false ) != $user->id() )
     {
-        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'w' ); // no write
-        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'r' ); // all read
-        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'u' ); // all upload
-        eZObjectPermission::setPermission( -1, $CategoryID, "imagecatalogue_category", 'r' );
-        eZObjectPermission::setPermission( -1, $CategoryID, "imagecatalogue_category", 'u' );
+        changePermissions(
+            $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'r', false ), 'r' );
+        changePermissions(
+            $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'w', false ), 'w' );
+        changePermissions(
+            $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'u', false ), 'u' );
         $category->setUser( $parent->user() );
         $category->store();
     }
     // if update and moving into a category that has upload permission and not owner of that category
     // TODO: this part has to be extended on imagefolder to support images in multiple categories..
+    // update is not possible anymore...
+    /*
     if ( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' ) == false
     && $parent->user( false ) != $user->id() )
     {
@@ -239,7 +245,7 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
             $imageItem->store();
         }
     }
-    
+    */
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/$ParentID" );
     exit();
 }

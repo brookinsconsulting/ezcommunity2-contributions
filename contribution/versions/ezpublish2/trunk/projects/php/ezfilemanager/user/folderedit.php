@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.38 2001/10/03 08:28:57 fh Exp $
+// $Id: folderedit.php,v 1.39 2001/10/04 09:09:50 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -131,18 +131,17 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $parentFolder = new eZVirtualFolder( $ParentID );
         
-            // not write and not upload
-            if ( !$error && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", "w" ) == false &&
-            eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'u') == false )
+            if ( $FolderID == 0 &&
+              eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", "w" ) == false &&
+              eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'u') == false )
             {
                 $t->parse( "error_write", "error_write_permission" );
                 $error = true;
             }
             // update and not write or owner
-            if ( ! $error && $Action == "Update" && (
-                eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false ||
-                eZVirtualFolder::isOwner( $user, $FolderID ) )
-                 )
+            if ( ! $error && $Action == "Update" && 
+                eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) == false &&
+                eZVirtualFolder::isOwner( $user, $FolderID ) == false )
             {
                 $t->parse( "error_upload", "error_upload_permission" );
                 $error = true;

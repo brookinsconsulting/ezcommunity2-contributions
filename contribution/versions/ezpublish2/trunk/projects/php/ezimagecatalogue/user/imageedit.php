@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.47 2001/09/25 17:37:52 fh Exp $
+// $Id: imageedit.php,v 1.48 2001/10/04 09:09:51 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -160,14 +160,22 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if( $permissionCheck )
     {
-        if ( !( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w', $user ) == true
-                || eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'u' )
-                || eZImageCategory::isOwner( eZUser::currentUser(), $CategoryID ) ) )
+        // if not write or upload to folder
+        if (  eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w', $user ) == false &&
+              eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'u' ) == false &&
+              eZImageCategory::isOwner( eZUser::currentUser(), $CategoryID ) == false )
         {
             eZHTTPTool::header( "Location: /error/403/" );
             exit();
         }
-
+        //if update but not write.
+        if( $Action == "Update" &&
+           eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", "w", $user ) == false  &&
+           !eZVirtualFolder::isOwner( $user, $FolderID ) )
+        {
+            eZHTTPTool::header( "Location: /error/403/" );
+            exit();
+        }
     }
     
     if ( $fileCheck )
@@ -301,19 +309,8 @@ if ( $Action == "Update" && $error == false )
 
 
     $category = new eZImageCategory( $CategoryID );
-    if ( eZObjectPermission::hasPermission( $Category, "imagecatalogue_image", 'w' ) ) // user had write permission
-    {
-        changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
-        changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
-    }
-    else // user had upload permission only, change ownership, set special rights..
-    {
-        eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' ); // no write
-        eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' ); // all read
-        eZObjectPermission::setPermission( -1, $ImageID, "imagecatalogue_image", 'r' );
-        $image->setUser( $category->user() );
-        $image->store();
-    }
+    changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
+    changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
 
     $categories = $image->categories();
     foreach( $categories as $categoryItem )
