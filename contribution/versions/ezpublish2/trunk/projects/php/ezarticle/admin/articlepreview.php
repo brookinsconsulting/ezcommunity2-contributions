@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.1 2000/10/19 10:43:28 bf-cvs Exp $
+// $Id: articlepreview.php,v 1.2 2000/10/20 13:31:24 bf-cvs Exp $
 //
 // 
 //
@@ -45,6 +45,7 @@ print( "Showing page: "  . $PageNumber . "<br>" );
 $t->set_var( "article_body", $renderer->renderPage( $PageNumber ) );
 
 $t->set_var( "link_text", $article->linkText() );
+$t->set_var( "article_id", $article->id() );
 
 $t->pparse( "output", "article_preview_page_tpl" );
 

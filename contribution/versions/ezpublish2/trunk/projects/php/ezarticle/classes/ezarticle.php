@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.5 2000/10/20 12:48:17 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.6 2000/10/20 13:31:24 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -440,7 +440,31 @@ class eZArticle
        
     }
     
-    
+    /*!
+      Returns true if the product is assigned to the category given
+      as argument. False if not.
+     */
+    function existsInCategory( $category )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( get_class( $category ) == "ezarticlecategory" )
+       {
+           $this->dbInit();
+           $catID = $category->id();
+        
+           $this->Database->array_query( $ret_array, "SELECT ID FROM eZArticle_ArticleCategoryLink
+                                    WHERE ArticleID='$this->ID' AND ArticleID='$catID'" );
+
+           if ( count( $ret_array ) == 1 )
+           {
+               $ret = true;
+           }           
+       }
+       return $ret;
+    }
     
     /*!
       \private

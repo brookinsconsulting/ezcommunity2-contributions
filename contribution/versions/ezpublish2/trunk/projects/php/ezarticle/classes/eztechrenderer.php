@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.4 2000/10/20 12:48:17 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.5 2000/10/20 13:31:24 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -112,7 +112,7 @@ class eZTechRenderer
                     // ordinary text
                     if ( $paragraph->name == "text" )
                     {
-                        $pageContent .= $paragraph->content;
+                        $pageContent .= eZTextTool::nl2br( $paragraph->content );
                     }
 
                     // php code 
@@ -166,7 +166,7 @@ class eZTechRenderer
             }
             
 
-            $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". eZTextTool::nl2br( $pageArray[$pageNumber] );
+            $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
         }
         
         return $newArticle;

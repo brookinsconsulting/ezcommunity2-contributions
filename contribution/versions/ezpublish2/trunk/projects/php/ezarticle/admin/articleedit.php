@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.5 2000/10/20 11:27:22 bf-cvs Exp $
+// $Id: articleedit.php,v 1.6 2000/10/20 13:31:24 bf-cvs Exp $
 //
 // 
 //
@@ -167,9 +167,9 @@ foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-//          if ( $product->existsInCategory( $catItem ) )
-//              $t->set_var( "selected", "selected" );
-//          else
+        if ( $article->existsInCategory( $catItem ) )
+            $t->set_var( "selected", "selected" );
+        else
             $t->set_var( "selected", "" );
     }
     else
