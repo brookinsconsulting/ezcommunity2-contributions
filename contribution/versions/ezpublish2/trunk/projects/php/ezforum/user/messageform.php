@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.2 2001/02/26 09:41:34 pkej Exp $
+// $Id: messageform.php,v 1.3 2001/02/26 18:27:13 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -49,6 +49,32 @@ if( $ShowMessageForm )
     if( $ReplyInfo == true )
     {
         $t->parse( "message_reply_info_item", "message_reply_info_tpl" );
+    }
+    
+    if( $Error )
+    {
+        $t->set_block( "errors_tpl", "error_missing_body_item_tpl", "error_missing_body_item" );
+        $t->set_block( "errors_tpl", "error_missing_topic_item_tpl", "error_missing_topic_item" );
+        
+        if( empty( $NewMessageTopic ) )
+        {
+            $t->parse( "error_missing_topic_item", "error_missing_topic_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "error_missing_topic_item", "" );
+        }
+
+        if( empty( $NewMessageBody ) )
+        {
+            $t->parse( "error_missing_body_item", "error_missing_body_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "error_missing_body_item", "" );
+        }
+        
+        $t->parse( "errors_item", "errors_tpl" );
     }
     
     if( $ShowEmptyMessageForm == false )

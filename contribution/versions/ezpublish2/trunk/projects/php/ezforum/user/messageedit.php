@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.26 2001/02/26 14:43:49 pkej Exp $
+// $Id: messageedit.php,v 1.27 2001/02/26 18:27:13 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -36,6 +36,21 @@ if( !empty( $CancelButton ) )
 if( !empty( $PreviewButton ) )
 {
     $Action = "preview";
+}
+
+if( $Action == "preview" )
+{
+    $NewMessageTopic = trim( $NewMessageTopic );
+    $NewMessageBody = trim( $NewMessageBody );
+    
+    if( empty( $NewMessageTopic ) || empty( $NewMessageBody ) )
+    {
+        $MessageTopic = $NewMessageTopic;
+        $MessageBody = $NewMessageBody;
+        
+        $Error = true;
+        $Action = "edit";
+    }
 }
 
 // Select which main page we are going to view.
