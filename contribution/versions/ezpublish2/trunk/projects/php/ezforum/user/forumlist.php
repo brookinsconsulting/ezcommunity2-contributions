@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forumlist.php,v 1.15 2001/09/20 12:14:27 jhe Exp $
+// $Id: forumlist.php,v 1.16 2001/09/21 12:17:54 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -49,6 +49,16 @@ $t->set_block( "forumlist", "view_forums_tpl", "view_forums" );
 $t->set_block( "view_forums_tpl", "forum_item_tpl", "forum_item" );
 
 $category = new eZForumCategory( $CategoryID );
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+$GlobalSectionID = eZForumCategory::sectionIDStatic( $CategoryID );
+
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
 
 $t->set_var( "category_id", $category->id( ) );
 $t->set_var( "category_name", $category->name( ) );

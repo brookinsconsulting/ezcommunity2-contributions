@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforumcategory.php,v 1.40 2001/09/21 11:34:16 jhe Exp $
+// $Id: ezforumcategory.php,v 1.41 2001/09/21 12:17:54 bf Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -275,6 +275,23 @@ class eZForumCategory
         return $this->SectionID;
     }
 
+    /*!
+      \static
+      Returns the Section ID. Returns false if the Category was not found.
+    */
+    function sectionIDStatic( $categoryID )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT SectionID from eZForum_Category WHERE ID='$categoryID'");
+        
+        $sectionID = $res[$db->fieldName("SectionID")];
+
+        if ( $sectionID > 0 )
+            return $sectionID;
+        else
+            return false;
+    }
+    
     /*!
       Returns the forum name.
     */

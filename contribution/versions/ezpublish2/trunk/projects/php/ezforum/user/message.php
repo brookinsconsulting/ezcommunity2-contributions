@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.31 2001/09/21 07:56:43 jhe Exp $
+// $Id: message.php,v 1.32 2001/09/21 12:17:54 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -95,6 +95,15 @@ if ( count( $categories ) > 0 )
     $t->set_var( "category_name", $category->name() );
 
     $t->parse( "header_list", "header_list_tpl" );
+
+    // sections
+    include_once( "ezsitemanager/classes/ezsection.php" );
+
+    $GlobalSectionID = eZForumCategory::sectionIDStatic( $category->id( )  );
+
+    // init the section
+    $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+    $sectionObject->setOverrideVariables();
 }
 
 $t->set_var( "forum_id", $forum->id() );
