@@ -2,7 +2,7 @@
 include_once( "classes/ezuritool.php" );
 
 $ini =& INIFile::globalINI();
-$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+$GlobalSectionID = $ini->read_var( "eZContactMain", "DefaultSection" );
 
 //  $url_array = explode( "/", $REQUEST_URI );
 $url_array = eZURITool::split( $REQUEST_URI );

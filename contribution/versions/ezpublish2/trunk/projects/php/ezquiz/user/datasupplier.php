@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.8 2001/05/31 14:44:50 pkej Exp $
+// $Id: datasupplier.php,v 1.9 2001/06/08 13:07:24 ce Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -29,6 +29,7 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 
 $PageCaching = $ini->read_var( "eZQuizMain", "PageCaching" );
+$GlobalSectionID = $ini->read_var( "eZQuizMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {

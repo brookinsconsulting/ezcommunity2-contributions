@@ -9,7 +9,7 @@ include_once( "ezuser/classes/ezuser.php" );
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
 
-$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+$GlobalSectionID = $ini->read_var( "eZArticleMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {

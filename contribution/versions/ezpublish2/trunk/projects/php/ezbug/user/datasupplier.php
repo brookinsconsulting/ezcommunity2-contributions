@@ -7,7 +7,7 @@ include_once( "ezbug/classes/ezbug.php" );
 include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
-$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+$GlobalSectionID = $ini->read_var( "eZBugMain", "DefaultSection" );
 
 function hasPermission( $bugID )
 {

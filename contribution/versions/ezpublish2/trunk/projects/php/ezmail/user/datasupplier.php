@@ -5,7 +5,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
 $ini =& INIFile::globalINI();
-$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+$GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
 
 switch( $url_array[2] )
 {
