@@ -48,8 +48,9 @@
 
 <tr>
 	<td colspan="2" rowspan="3" valign="bottom">
+
 	<!-- BEGIN shipping_type_tpl -->
-	&nbsp;
+	<input type="hidden" name="ShippingTypeID" value="{shipping_type_id}" />
 	<!-- END shipping_type_tpl -->
 	</td>
 	<td align="right" colspan="2">

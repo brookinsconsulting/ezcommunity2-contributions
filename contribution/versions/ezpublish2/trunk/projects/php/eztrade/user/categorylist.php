@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.3 2001/03/26 16:54:05 bf Exp $
+// $Id: categorylist.php,v 1.4 2001/03/27 18:45:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Nov-2000 09:23:42 bf>
@@ -134,21 +134,6 @@ if ( $PureStatic != "true" )
         $t->pparse( "output", "category_list_page_tpl" );
     }
 }
-
-//  if ( $GenerateStaticPage == "true" )
-//  {
-//      $fp = fopen ( $CachedFile, "w+");
-
-//      $output = $t->parse( $target, "category_list_page_tpl" );
-//      // print the output the first time while printing the cache file.
-//      print( $output );
-//      fwrite ( $fp, $output );
-//      fclose( $fp );
-//  }
-//  else
-//  {
-//      $t->pparse( "output", "category_list_page_tpl" );
-//  }
 
 
 ?>

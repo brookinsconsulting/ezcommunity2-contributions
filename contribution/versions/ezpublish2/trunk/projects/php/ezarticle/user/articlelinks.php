@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelinks.php,v 1.6 2001/03/17 12:39:22 bf Exp $
+// $Id: articlelinks.php,v 1.7 2001/03/27 18:45:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
@@ -23,103 +23,124 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-include_once( "classes/eztemplate.php" );
-include_once( "classes/ezlocale.php" );
+$PageCaching =& $ini->read_var( "eZArticleMain", "PageCaching");
 
-include_once( "ezarticle/classes/ezarticlecategory.php" );
-include_once( "ezarticle/classes/ezarticle.php" );
-include_once( "ezarticle/classes/ezarticlerenderer.php" );
+$PureStatic = "false";
 
-$ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZArticleMain", "Language" );
-$ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
-
-$t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
-                     "ezarticle/user/intl/", $Language, "articlelinks.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "article_list_page_tpl" => "articlelinks.tpl"
-    ) );
-
-
-$t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
-$t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
-
-$t->set_var( "image_dir", $ImageDir );
-
-$category = new eZArticleCategory( $CategoryID );
-
-$t->set_var( "current_category_name", $category->name() );
-$t->set_var( "current_category_description", $category->description() );
-
-
-$articleList = $category->articles( $category->sortMode(), false, true );
-
-$locale = new eZLocale( $Language );
-$i=0;
-$t->set_var( "article_list", "" );
-foreach ( $articleList as $article )
+if ( $PageCaching == "enabled" )
 {
-    $t->set_var( "article_id", $article->id() );
-    $t->set_var( "article_name", $article->name() );
-    
-
-    if ( ( $i % 2 ) == 0 )
+    include_once( "classes/ezcachefile.php" );
+    $CacheFile = new eZCacheFile( "ezarticle/cache/",
+                                  array( "articlelinklist", $CategoryID ),
+                                  "cache", "," );
+    if ( $CacheFile->exists() )
     {
-        $t->set_var( "td_class", "bglight" );
+        include( $CacheFile->filename( true ) );
+        $PureStatic = "true";
     }
     else
     {
-        $t->set_var( "td_class", "bgdark" );
+        $GenerateStaticPage = "true";
     }
-
-    $published = $article->published();
-
-    $t->set_var( "article_published", $locale->format( $published ) );
-    
-
-    $renderer = new eZArticleRenderer( $article );
-
-    $t->set_var( "article_intro", $renderer->renderIntro(  ) );
-
-    if ( $article->linkText() != "" )
-    {
-        $t->set_var( "article_link_text", $article->linkText() );
-    }
-    else
-    {
-        $t->set_var( "article_link_text", $DefaultLinkText );
-    }
-
-    $t->parse( "article_item", "article_item_tpl", true );
-    $i++;
 }
 
-if ( count( $articleList ) > 0 )    
-    $t->parse( "article_list", "article_list_tpl" );
-else
+if ( $PureStatic != "true" )
+{
+    include_once( "classes/INIFile.php" );
+    include_once( "classes/eztemplate.php" );
+    include_once( "classes/ezlocale.php" );
+
+    include_once( "ezarticle/classes/ezarticlecategory.php" );
+    include_once( "ezarticle/classes/ezarticle.php" );
+    include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
+    $ini =& INIFile::globalINI();
+    $Language = $ini->read_var( "eZArticleMain", "Language" );
+    $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
+
+    $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                         "ezarticle/user/intl/", $Language, "articlelinks.php" );
+
+    $t->setAllStrings();
+
+    $t->set_file( array(
+        "article_list_page_tpl" => "articlelinks.tpl"
+        ) );
+
+
+    $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
+    $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+
+    $t->set_var( "image_dir", $ImageDir );
+
+    $category = new eZArticleCategory( $CategoryID );
+
+    $t->set_var( "current_category_name", $category->name() );
+    $t->set_var( "current_category_description", $category->description() );
+
+
+    $articleList = $category->articles( $category->sortMode(), false, true );
+
+    $locale = new eZLocale( $Language );
+    $i=0;
     $t->set_var( "article_list", "" );
+    foreach ( $articleList as $article )
+    {
+        $t->set_var( "article_id", $article->id() );
+        $t->set_var( "article_name", $article->name() );
 
 
-if ( $GenerateStaticPage == "true" )
-{
-    $fp = fopen ( $cachedFile, "w+");
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
-    $output = $t->parse( $target, "article_list_page_tpl" );
-    
-    // print the output the first time while printing the cache file.
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
+        $published = $article->published();
+
+        $t->set_var( "article_published", $locale->format( $published ) );
+
+
+        $renderer = new eZArticleRenderer( $article );
+
+        $t->set_var( "article_intro", $renderer->renderIntro(  ) );
+
+        if ( $article->linkText() != "" )
+        {
+            $t->set_var( "article_link_text", $article->linkText() );
+        }
+        else
+        {
+            $t->set_var( "article_link_text", $DefaultLinkText );
+        }
+
+        $t->parse( "article_item", "article_item_tpl", true );
+        $i++;
+    }
+
+    if ( count( $articleList ) > 0 )    
+        $t->parse( "article_list", "article_list_tpl" );
+    else
+        $t->set_var( "article_list", "" );
+
+
+
+
+    if ( $GenerateStaticPage == "true" )
+    {
+        $output = $t->parse( $target, "article_list_page_tpl" );
+        // print the output the first time while printing the cache file.
+        print( $output );
+        $CacheFile->store( $output );
+    }
+    else
+    {
+        $t->pparse( "output", "article_list_page_tpl" );
+    }
 }
-else
-{
-    $t->pparse( "output", "article_list_page_tpl" );
-}
-
 
 ?>
 
