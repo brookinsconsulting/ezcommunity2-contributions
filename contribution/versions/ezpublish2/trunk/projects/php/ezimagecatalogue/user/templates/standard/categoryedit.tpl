@@ -38,6 +38,10 @@
 
 <!-- END errors_tpl -->
 
+<p class="boxtext">{intl-category_name}:</p>
+<input type="text" size="40" name="Name" value="{category_name}"/>
+
+
 <p class="boxtext">{intl-category}:</p>
 
 <select name="ParentID">
@@ -48,22 +52,15 @@
 
 </select>
 
-<br /><br />
+<br />
 
+<p class="boxtext">{intl-category_description}:</p>
+
+<textarea name="Description" cols="40" rows="5" wrap="soft">{category_description}</textarea>
+<br />
+<br />
+	
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td colspan="2">
-    <p class="boxtext">{intl-category_name}:</p>
-    <input type="text" size="40" name="Name" value="{category_name}"/>
-
-    <p class="boxtext">{intl-category_description}:</p>
-	
-	<textarea name="Description" cols="40" rows="5" wrap="soft">{category_description}</textarea>
-	<br />
-	<br />
-	
-    </td>
-</tr>
 <tr>
     <td>
     <p class="boxtext">{intl-read_permissions}</p>

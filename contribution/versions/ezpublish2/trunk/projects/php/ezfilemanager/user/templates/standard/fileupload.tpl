@@ -55,8 +55,11 @@
 	
     <p class="boxtext">{intl-file_description}:</p>
 	<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
-    <br />
+    <br /><br />
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
     <p class="boxtext">{intl-read_permissions}</p>
     <select multiple size="5" name="ReadGroupArrayID[]">
     <option value="0" {read_everybody}>{intl-everybody}</option>
@@ -65,7 +68,8 @@
     <!-- END read_group_item_tpl -->
     </select>
     <br /><br />
-
+	</td>
+	<td>
     <p class="boxtext">{intl-write_permissions}</p>
     <select multiple size="5" name="WriteGroupArrayID[]">
     <option value="0" {write_everybody}>{intl-everybody}</option>
@@ -74,6 +78,9 @@
     <!-- END write_group_item_tpl -->
     </select>
     <br /><br />
+	</td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 

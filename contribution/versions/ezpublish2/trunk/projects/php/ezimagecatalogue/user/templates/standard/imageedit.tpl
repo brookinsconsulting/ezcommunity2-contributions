@@ -41,32 +41,35 @@
 
 <br />
 
+<p class="boxtext">{intl-imagetitle}:</p>
+<input type="text" size="40" name="Name" value="{name_value}"/>
+
 <p class="boxtext">{intl-category}:</p>
 
 <select name="CategoryID">
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->
-
 </select>
 
+	<!-- BEGIN image_tpl -->
+	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<!-- END image_tpl -->
+
+<p class="boxtext">{intl-imagefile}:</p>
+<input size="40" name="userfile" type="file" />
+
+<p class="boxtext">{intl-imagecaption}:</p>
+<input type="text" size="40" name="Caption" value="{caption_value}"/>
+
+<p class="boxtext">{intl-description}:</p>
+<textarea name="Description" cols="40" rows="5" wrap="soft">{image_description}</textarea>
+
+<br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<p class="boxtext">{intl-imagetitle}:</p>
-	<input type="text" size="40" name="Name" value="{name_value}"/>
-	
-	<p class="boxtext">{intl-imagecaption}:</p>
-	<input type="text" size="40" name="Caption" value="{caption_value}"/>
-
-	<p class="boxtext">{intl-description}:</p>
-	<textarea name="Description" cols="40" rows="5" wrap="soft">{image_description}</textarea>
-	</td>
-</tr>
-<tr>
-    <td>
-    <br />
+    <td valign="top">
     <p class="boxtext">{intl-read_permissions}</p>
     <select multiple size="5" name="ReadGroupArrayID[]">
     <option value="0" {read_everybody}>{intl-everybody}</option>
@@ -76,9 +79,7 @@
     </select>
     <br /><br />
     </td>
-</tr>
-<tr>    
-    <td>
+    <td valign="top">
     <p class="boxtext">{intl-write_permissions}</p>
     <select multiple size="5" name="WriteGroupArrayID[]">
     <option value="0" {write_everybody}>{intl-everybody}</option>
@@ -89,20 +90,8 @@
     <br /><br />
     </td>
 </tr>
-<tr>
-        <td>
-	<p class="boxtext">{intl-imagefile}:</p>
-	<input size="40" name="userfile" type="file" />
-        </td>
-	<td>&nbsp;</td>
-	<td>
-	<!-- BEGIN image_tpl -->
-	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
-	<!-- END image_tpl -->
-	</td>
-</tr>
 </table>
-<br />
+
 
 <hr noshade="noshade" size="4" />
 

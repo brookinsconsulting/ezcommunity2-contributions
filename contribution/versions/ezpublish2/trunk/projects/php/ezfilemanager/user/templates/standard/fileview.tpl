@@ -33,24 +33,24 @@
 <tr>
 	<!-- BEGIN delete_tpl -->
 	<td>
-	<input type="submit" name="Delete" value="{intl-delete}">
+	<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}">
 	</td>
 	<!-- END delete_tpl -->
 	<!-- BEGIN edit_tpl -->
 	<td>&nbsp;</td>
 	<td>
-	<input type="submit" name="Edit" value="{intl-edit}">
+	<input class="stdbutton" type="submit" name="Edit" value="{intl-edit}">
 	</td>
 	<!-- END edit_tpl -->
-	<!-- BEGIN download_tpl -->
-	<td>&nbsp;</td>
-	<td>
-	<input type="submit" name="Download" value="{intl-download}">
-	</td>
-	<!-- END download_tpl -->
-
 </tr>
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<!-- BEGIN download_tpl -->
+<input class="okbutton" type="submit" name="Download" value="{intl-download}">
+<!-- END download_tpl -->
+
 </form>
 
 
