@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: mediaedit.php,v 1.3.2.2 2001/11/02 08:23:41 ce Exp $
+//
+// $Id: mediaedit.php,v 1.3.2.3 2002/02/28 09:55:43 ce Exp $
 //
 // Created on: <24-Jul-2001 13:35:07 ce>
 //
@@ -174,10 +174,10 @@ if ( $Action == "Insert" || $Action == "Update" )
             $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
             $error = true;
         }
-        
+
     }
 
-    
+
     if ( $fileCheck )
     {
         $file = new eZMediaFile();
@@ -269,18 +269,18 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     else
     {
         $media->removeType();
-                
+
         $media->setType( new eZMediaType( $TypeID ) );
-                
+
         $i = 0;
         if ( count( $AttributeValue ) > 0 )
         {
             foreach ( $AttributeValue as $attribute )
             {
                 $att = new eZMediaAttribute( $AttributeID[$i] );
-                        
+
                 $att->setValue( $media, $attribute );
-                        
+
                 $i++;
             }
         }
@@ -307,7 +307,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
                 $group = -1;
             else
                 $group = new eZUserGroup( $Write );
-            
+
             eZObjectPermission::setPermission( $group, $media->id(), "mediacatalogue_media", "w" );
         }
     }
@@ -315,9 +315,9 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     if ( $Action == "Insert" )
     {
         $category = new eZMediaCategory( $CategoryID );
-        
+
         $media->setCategoryDefinition( $category );
-        
+
         $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
 
         foreach ( $categories as $categoryItem )
@@ -331,16 +331,16 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
         $categoryArray = $media->categories();
         // Calculate new and unused categories
         $old_maincategory = $media->categoryDefinition();
-        
+
         if ( $old_maincategory > -1 )
             $old_categories =& array_unique( array_merge( $old_maincategory->id(),
                                                           $media->categories( false ) ) );
-        
+
         $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-        
+
         $category = new eZMediaCategory( $CategoryID );
         $media->setCategoryDefinition( $category );
-        
+
         $remove_categories = array_diff( $old_categories, $new_categories );
         $add_categories = array_diff( $new_categories, $old_categories );
 
@@ -353,7 +353,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
             eZMediaCategory::addMedia( $media, $categoryItem );
         }
     }
-    
+
     if ( !isset ( $Update ) )
     {
         eZHTTPTool::header( "Location: /mediacatalogue/media/list/" . $CategoryID . "/" );
@@ -397,7 +397,7 @@ if( $Action == "DeleteCategories" )
 
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /mediacatalogue/media/list/" . $CurrentCategoryID . "/" );
-    exit();    
+    exit();
 }
 
 // Set the default values to null
@@ -408,7 +408,7 @@ if ( $Action == "New" || $error )
     $t->set_var( "media_id", "" );
 
 // author select
-    
+
     $author = new eZAuthor();
     $authorArray = $author->getAll();
     foreach ( $authorArray as $author )
@@ -417,27 +417,27 @@ if ( $Action == "New" || $error )
         $t->set_var( "photo_name", $author->name() );
         $t->parse( "photographer_item", "photographer_item_tpl", true );
     }
-    
+
 }
 
 // Sets the values to the current media
 if ( $Action == "Edit" )
 {
     $media = new eZMedia( $MediaID );
-    
+
     $t->set_var( "media_id", $media->id() );
     $t->set_var( "name_value", $media->name() );
     $t->set_var( "caption_value", $media->caption() );
     $t->set_var( "media_description", $media->description() );
     $t->set_var( "action_value", "update" );
-    
+
     $t->set_var( "media_alt", $media->caption() );
-    
+
     $photographer = $media->photographer();
     $PhotographerID = $photographer->id();
-    
+
 // author select
-    
+
     $author = new eZAuthor();
     $authorArray = $author->getAll();
     foreach ( $authorArray as $author )
@@ -456,9 +456,9 @@ if ( $Action == "Edit" )
     }
 
     $mediaType = $media->type();
-    
+
     $objectPermission = new eZObjectPermission();
-    
+
     $readGroupArrayID =& $objectPermission->getGroups( $media->id(), "mediacatalogue_media", "r", false );
     $writeGroupArrayID =& $objectPermission->getGroups( $media->id(), "mediacatalogue_media", "w", false );
 }
@@ -483,7 +483,7 @@ foreach ( $treeArray as $catItem )
         if ( $Action == "Edit" )
         {
             $defCat = $media->categoryDefinition();
-        
+
             if ( get_class( $defCat ) == "ezmediacategory" )
             {
                 if ( $media->existsInCategory( $catItem[0] ) &&
@@ -500,7 +500,7 @@ foreach ( $treeArray as $catItem )
             {
                 $t->set_var( "multiple_selected", "" );
             }
-            
+
             if ( get_class( $defCat ) == "ezmediacategory" )
             {
                 if ( $defCat->id() == $catItem[0]->id() )
@@ -523,20 +523,20 @@ foreach ( $treeArray as $catItem )
                 $t->set_var( "selected", "selected" );
             else
                 $t->set_var( "selected", "" );
-            
+
             $t->set_var( "multiple_selected", "" );
         }
-        
-    
+
+
         $t->set_var( "option_value", $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
-        
+
         if ( $catItem[1] > 0 )
             $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
         else
             $t->set_var( "option_level", "" );
-        
-        
+
+
         $t->parse( "value", "value_tpl", true );
         $t->parse( "multiple_value", "multiple_value_tpl", true );
     }
@@ -566,14 +566,14 @@ foreach ( $types as $typeItem )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "type_id", $typeItem->id( ) );
     $t->set_var( "type_name", $typeItem->name( ) );
-    
+
     $t->parse( "type", "type_tpl", true );
 }
 
-if ( get_class( $mediaType) == "ezmediatype" )    
+if ( get_class( $mediaType) == "ezmediatype" )
 {
     $attributes = $mediaType->attributes();
 
@@ -586,7 +586,7 @@ if ( get_class( $mediaType) == "ezmediatype" )
             $t->set_var( "attribute_value", $attribute->defaultValue() );
         else
             $t->set_var( "attribute_value", $attribute->value( $media ) );
-        
+
         $t->parse( "attribute", "attribute_tpl", true );
     }
 }
@@ -651,7 +651,7 @@ foreach ( $groups as $group )
             }
         }
     }
-    
+
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
 

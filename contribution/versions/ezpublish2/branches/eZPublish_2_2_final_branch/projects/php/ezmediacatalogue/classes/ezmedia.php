@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezmedia.php,v 1.4.2.4 2002/02/28 08:30:16 jhe Exp $
+//
+// $Id: ezmedia.php,v 1.4.2.5 2002/02/28 09:55:43 ce Exp $
 //
 // Definition of eZMedia class
 //
@@ -34,13 +34,13 @@
 
     // userfile is the name of the input in the html form
     if ( $file->getUploadedFile( "userfile" ) )
-    { 
+    {
         $media = new eZMedia();
         $media->setName( $Name );
         $media->setCaption( $Caption );
 
         $media->setMedia( $file );
-        
+
         $media->store();
     }
     else
@@ -84,13 +84,13 @@ class eZMedia
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $name =& $db->escapeString( $this->Name );
         $description =& $db->escapeString( $this->Description );
         $caption =& $db->escapeString( $this->Caption );
         $filename =& $db->escapeString( $this->FileName );
         $originalfilename =& $db->fieldName( $this->OriginalFileName );
-        
+
         if ( $this->ID == "" )
         {
             $db->lock( "eZMediaCatalogue_Media" );
@@ -138,7 +138,7 @@ class eZMedia
                                  WHERE ID='$this->ID'
                                  " );
         }
-        
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -172,7 +172,7 @@ class eZMedia
             }
         }
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -207,7 +207,7 @@ class eZMedia
 
         return $ret;
     }
-    
+
     /*!
       \static
       Fetches an media from the database if one with the same "original filename" is found.
@@ -249,11 +249,11 @@ class eZMedia
            if ( count( $ret_array ) == 1 )
            {
                $ret = true;
-           } 
+           }
        }
        return $ret;
     }
-    
+
     /*!
       Set's the medias defined category. This is the main category for the media.
       Additional categories can be added with eZMediaCategory::addMedia();
@@ -277,15 +277,15 @@ class eZMedia
 
             $query = "INSERT INTO eZMediaCatalogue_MediaCategoryDefinition ( ID, CategoryID, MediaID )
                       VALUES ( '$nextID', '$categoryID', '$this->ID' )";
-            
+
             $res = $db->query( $query );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
-                $db->commit();            
+                $db->commit();
         }
     }
 
@@ -359,7 +359,7 @@ class eZMedia
     {
         return $this->ID;
     }
-    
+
     /*!
       Returns the name of the media.
     */
@@ -391,7 +391,7 @@ class eZMedia
             return htmlspecialchars( $this->Description );
         else
             return $this->Description;
-    }    
+    }
 
     /*!
       Returns the filename of the media.
@@ -408,7 +408,7 @@ class eZMedia
     {
         return $this->OriginalFileName;
     }
-    
+
     function &fileExists( $relative=false )
     {
        if ( $relative == true )
@@ -419,7 +419,7 @@ class eZMedia
        {
            $path = "/ezmediacatalogue/catalogue/" . $this->FileName;
        }
-       
+
        $relPath = "ezmediacatalogue/catalogue/" . $this->FileName;
 
        return eZFile::file_exists( $relPath ) and is_file( $relPath );
@@ -434,7 +434,7 @@ class eZMedia
     function &filePath( $relative=false )
     {
        $relPath = "ezmediacatalogue/catalogue/" . $this->FileName;
-       
+
        if ( $relative == true )
        {
            $path = "ezmediacatalogue/catalogue/" . $this->FileName;
@@ -443,7 +443,7 @@ class eZMedia
        {
            $path = "/ezmediacatalogue/catalogue/" . $this->FileName;
        }
-       
+
        if ( !eZFile::file_exists( $relPath ) or !is_file( $relPath ) )
        {
            $path = "ezmediacatalogue/admin/medias/failedmedia.gif";
@@ -459,7 +459,7 @@ class eZMedia
     function &mediaPath( $relative = false )
     {
         return $this->filePath( $relative );
-    }    
+    }
 
     /*!
       Returns a eZUser object.
@@ -470,11 +470,11 @@ class eZMedia
         {
             $ret = new eZUser( $this->UserID );
         }
-        
+
         return $ret;
     }
 
-    
+
     /*!
       Sets the media name.
     */
@@ -506,7 +506,7 @@ class eZMedia
     {
         $this->OriginalFileName = $value;
     }
-    
+
     /*!
       Returns true if the file is a valid media.
     */
@@ -515,8 +515,6 @@ class eZMedia
        if ( get_class( $file ) == "ezmediafile" )
        {
            $name = $file->tmpName();
-           if ( !eZFile::file_exists( $name ) or !is_file( $name ) )
-               return false;
            return true;
        }
        return false;
@@ -524,7 +522,7 @@ class eZMedia
 
     /*!
       Makes a copy of the media and stores the media in the catalogue.
-      
+
       If the media is not of the type .jpg or .gif the media is converted to .jpg.
     */
     function setMedia( &$file )
@@ -533,8 +531,6 @@ class eZMedia
        {
            $this->OriginalFileName = $file->name();
            $tmpname = $file->tmpName();
-           if ( !eZFile::file_exists( $tmpname ) or !is_file( $tmpname ) )
-               return false;
 
            $info = eZMediaFile::information( $this->OriginalFileName );
            $suffix = $info["suffix"];
@@ -553,9 +549,9 @@ class eZMedia
            $this->FileName = basename( $file->tmpName() ) . $postfix;
 
            $name = $file->name();
-           
+
            $this->OriginalFileName =& $name;
-           
+
            return true;
        }
        return false;
@@ -573,7 +569,7 @@ class eZMedia
             $this->UserID = $userID;
         }
     }
-    
+
     /*!
       Returns the media's categories.
     */
@@ -589,7 +585,7 @@ class eZMedia
 
         if ( count( $res ) > 0 )
             $category = array();
-    
+
         for ( $i = 0; $i < count( $res ); $i++ )
         {
             array_push( $category, $res[$i][$db->fieldName("CategoryID")] );
@@ -608,7 +604,7 @@ class eZMedia
     {
         if( get_class( $user ) != "ezuser" )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZMediaCatalogue_Media WHERE ID='$media'");
         $userID = $res[$db->fieldName("UserID")];
@@ -626,7 +622,7 @@ class eZMedia
         if ( get_class( $author ) == "ezauthor" )
             $this->PhotographerID = $author->id();
         else if ( is_numeric( $author ) )
-            $this->PhotographerID = $author;        
+            $this->PhotographerID = $author;
     }
 
     /*!
@@ -645,36 +641,36 @@ class eZMedia
         if ( get_class( $type ) == "ezmediatype" )
         {
             $db =& eZDB::globalDatabase();
-            
+
             $db->begin();
-            
+
             $typeID = $type->id();
-            
+
             $res[] = $db->query( "DELETE FROM eZMediaCatalogue_AttributeValue
                                      WHERE MediaID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZMediaCatalogue_TypeLink
                                      WHERE MediaID='$this->ID'" );
-            
+
             $db->lock( "eZMediaCatalogue_TypeLink" );
-            
+
             $nextID = $db->nextID( "eZMediaCatalogue_TypeLink", "ID" );
-            
+
             $query = "INSERT INTO eZMediaCatalogue_TypeLink
                       (ID, TypeID, MediaID)
                       VALUES
                       ('$nextID',
                        '$typeID',
                        '$this->ID')";
-            
+
             $res[] = $db->query( $query );
-            
+
             $db->unlock();
-            
+
             if ( in_array( false, $res ) )
                 $db->rollback();
             else
                 $db->commit();
-            
+
         }
     }
 
@@ -689,7 +685,7 @@ class eZMedia
                                  eZMediaCatalogue_TypeLink WHERE MediaID='$this->ID'" );
 
         $type = false;
-       
+
         if ( count( $res ) == 1 )
         {
             $type = new eZMediaType( $res[0][$db->fieldName("TypeID")] );
@@ -697,7 +693,7 @@ class eZMedia
 
         return $type;
     }
-    
+
     /*!
       Removes the links type definition.
     */
@@ -709,7 +705,7 @@ class eZMedia
         $db->query( "DELETE FROM eZMediaCatalogue_AttributeValue WHERE MediaID='$this->ID'" );
 
         $db->query( "DELETE FROM eZMediaCatalogue_TypeLink WHERE MediaID='$this->ID'" );
-            
+
     }
 
     function &attributeString( )
@@ -719,7 +715,7 @@ class eZMedia
         if ( $type )
         {
             $attributes = $type->attributes();
-            
+
             foreach( $attributes as $attribute )
             {
                 $attString .= " " . $attribute->name() . "=\"" . $attribute->value( $this ) . "\"";
@@ -728,7 +724,7 @@ class eZMedia
         return $attString;
     }
 
-    
+
     var $ID;
     var $Name;
     var $Caption;
