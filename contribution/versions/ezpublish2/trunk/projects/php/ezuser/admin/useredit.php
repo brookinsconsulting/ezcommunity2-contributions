@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.4 2000/10/08 13:07:11 bf-cvs Exp $
+// $Id: useredit.php,v 1.5 2000/10/10 13:17:57 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -33,10 +33,11 @@ if ( $Action == "insert" )
         if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
         {
             $user = new eZUser();
+            
+            $user->setLogin( $Login );
 
             if ( !$user->exists( $user->login() ) )
             {
-                $user->setLogin( $Login );
                 $user->setPassword( $Password );
                 $user->setEmail( $Email );
                 $user->setFirstName( $FirstName );

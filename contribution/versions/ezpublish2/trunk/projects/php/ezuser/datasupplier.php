@@ -1,5 +1,5 @@
 <?
-$url_array = explode( "/", $REQUEST_URI );
+//  $url_array = explode( "/", $REQUEST_URI );
 
 print( $RedirectURL );
 
@@ -12,6 +12,16 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "userwithaddress" :
+    {
+        if ( $url_array[3] == "new" )
+            $Action = "New";
+        if ( $url_array[3] == "insert" )
+            $Action = "Insert";
+        include( "ezuser/userwithaddress.php" );
+    }
+    break;
+    
     case "test" :
     {
         include( "ezuser/test.php" );

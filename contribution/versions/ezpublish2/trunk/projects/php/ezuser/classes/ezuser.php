@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.6 2000/10/09 14:15:09 ce-cvs Exp $
+// $Id: ezuser.php,v 1.7 2000/10/10 13:17:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -131,6 +131,7 @@ class eZUser
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZUser_UserGroupLink WHERE UserID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZUser_UserAddressLink WHERE UserID='$this->ID'" );
 
             $this->Database->query( "DELETE FROM eZUser_User WHERE ID='$this->ID'" );
         }
@@ -445,8 +446,25 @@ class eZUser
        
        $this->Database->query( "DELETE FROM eZUser_UserGroupLink
                                 WHERE UserID='$this->ID'" );
-        
-        
+    }
+
+    /*!
+      Adds an address to the current User.
+    */
+    function addAddress( $address )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       if ( get_class( $address ) == "ezaddress" )
+       {
+           $addressID = $address->id();
+
+           $this->Database->query( "INSERT INTO eZUser_UserAddressLink
+                                SET UserID='$this->ID', AddressID='$addressID'" );
+           
+       }
     }
       
     
