@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.31 2001/03/07 15:52:18 bf Exp $
+// $Id: productview.php,v 1.32 2001/03/08 16:10:58 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -276,6 +276,8 @@ foreach ( $options as $option )
         $t->set_var( "value_description", "" );
         if ( $SimpleOptionHeaders )
         {
+            $t->set_var( "value_id", $value->id() );
+            
             $t->set_var( "value_name", $descriptions[0] );
             $t->parse( "value_description", "value_description_tpl" );
         }
@@ -287,11 +289,10 @@ foreach ( $options as $option )
                 $t->parse( "value_description", "value_description_tpl", true );
             }
         }
-        $t->set_var( "value_id", $value->id() );
 
         $t->set_var( "value_price", "" );
         $t->set_var( "value_price_item", "" );
-        $t->set_var( "value_price_currency_list", "" );        
+        $t->set_var( "value_price_currency_list", "" );
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
              $ShowPrice and $product->showPrice() == true  )
         {
@@ -332,6 +333,8 @@ foreach ( $options as $option )
             if ( count( $currencies ) > 0 )
                 $t->parse( "value_price_currency_list", "value_price_currency_list_tpl" );        
         }
+
+        
 
         $t->parse( "value", "value_tpl", true );    
         $i++;
