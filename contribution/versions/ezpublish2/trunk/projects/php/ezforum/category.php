@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.14 2000/08/02 10:06:17 lw-cvs Exp $
+    $Id: category.php,v 1.15 2000/08/03 10:33:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -15,10 +15,16 @@ include_once( "$DOCROOT/classes/ezforumforum.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "$DOCROOT/classes/eztemplate.php" );
 
 $session = new eZSession;
-$t = new Template( "$DOCROOT/templates" );
-    
+
+$ini = new INIFile( "ezforum.ini" ); // get language settings
+$Language = $ini->read_var( "MAIN", "Language" );
+
+$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "category.php" );
+$t->setAllStrings();
+
 $t->set_file( array("category" => "category.tpl",
                     "elements" => "category-elements.tpl",
                     "navigation" => "navigation.tpl",
@@ -65,9 +71,7 @@ if ( count( $forums ) == 0 )
     $t->set_var( "forums", "noforums", true);
 
 $t->set_var( "link1-url", "main.php");
-$t->set_var( "link1-caption", "Gå til topp");
 $t->set_var( "link2-url", "search.php");
-$t->set_var( "link2-caption", "Søk");
 
 $t->set_var( "back-url", "main.php");
 $t->parse( "navigation-bar-bottom", "navigation-bottom", true);

@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: eztemplate.php,v 1.1 2000/08/03 10:11:43 lw-cvs Exp $
+    $Id: eztemplate.php,v 1.2 2000/08/03 10:33:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -15,7 +15,7 @@ class eZTemplate extends Template {
 
     var $TextStrings;
 
-    function eZIntl( $templateDir, $intlDir = "", $language = "", $phpFile = "" )
+    function eZTemplate( $templateDir, $intlDir = "", $language = "", $phpFile = "" )
     {
         $this->intlDir = $intlDir;
         $this->language = $language;

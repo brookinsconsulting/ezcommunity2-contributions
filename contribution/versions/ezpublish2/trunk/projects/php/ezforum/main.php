@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.17 2000/08/02 12:49:48 lw-cvs Exp $
+    $Id: main.php,v 1.18 2000/08/03 10:33:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -18,31 +18,15 @@ include_once( "$DOCROOT/classes/ezforumcategory.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );
 include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
+include_once( "$DOCROOT/classes/eztemplate.php" );
 
 $session = new eZSession();
 
-$t = new Template( "$DOCROOT/templates" );
 $ini = new INIFile( "ezforum.ini" ); // get language settings
 $Language = $ini->read_var( "MAIN", "Language" );
 
-$l = new INIFile( "$DOCROOT/intl/$Language/main.php.ini");
-
-$t->set_var( "intl-categories", $l->read_var( "strings", "categories" ) );
-$t->set_var( "intl-login", $l->read_var( "strings", "login" ) );
-$t->set_var( "intl-userid", $l->read_var( "strings", "userid" ) );
-$t->set_var( "intl-password", $l->read_var( "strings", "password" ) );
-$t->set_var( "intl-new-user", $l->read_var( "strings", "new-user" ) );
-$t->set_var( "intl-forgotten", $l->read_var( "strings", "forgotten" ) );
-$t->set_var( "intl-search-intro", $l->read_var( "strings", "search-intro" ) );
-$t->set_var( "intl-search", $l->read_var( "strings", "search" ) );
-$t->set_var( "intl-result-no", $l->read_var( "strings", "result-no" ) );
-$t->set_var( "intl-result-topic", $l->read_var( "strings", "result-topic" ) );
-$t->set_var( "intl-result-author", $l->read_var( "strings", "result-author" ) );
-$t->set_var( "intl-result-forum", $l->read_var( "strings", "result-forum" ) );
-$t->set_var( "intl-navigation-user", $l->read_var( "strings", "navigation-user" ) );
-$t->set_var( "intl-navigation-top", $l->read_var( "strings", "navigation-top" ) );
-$t->set_var( "intl-navigation-search", $l->read_var( "strings", "navigation-search" ) );
-
+$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "main.php" );
+$t->setAllStrings();
 
 $t->set_file( Array("main" => "main.tpl",
                     "elements" => "main-elements.tpl",

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.10 2000/08/02 10:06:17 lw-cvs Exp $
+    $Id: message.php,v 1.11 2000/08/03 10:33:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,16 +9,20 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include_once( "template.inc" );
 include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );
 include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
+include_once( "$DOCROOT/classes/eztemplate.php" );
 
 $msg = new eZforumMessage;
 $usr = new eZUser;
 $session = new eZSession;
-$t = new Template( "$DOCROOT/templates" );
+$ini = new INIFile( "ezforum.ini" ); // get language settings
+$Language = $ini->read_var( "MAIN", "Language" );
+
+$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "message.php" );
+$t->setAllStrings();
     
 $t->set_file( array("message" => "message.tpl",
                     "elements" => "message-elements.tpl",

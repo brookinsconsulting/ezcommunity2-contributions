@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.20 2000/08/02 10:06:17 lw-cvs Exp $
+    $Id: forum.php,v 1.21 2000/08/03 10:33:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,14 +11,19 @@
 include( "ezforum/dbsettings.php" );
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
+include_once( "class.INIFile.php" );
 include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 include_once( "$DOCROOT/classes/ezsession.php" );
+include_once( "$DOCROOT/classes/eztemplate.php" );
+
+$ini = new INIFile( "ezforum.ini" ); // get language settings
+$Language = $ini->read_var( "MAIN", "Language" );
 
 $msg = new eZforumMessage( $forum_id );
-$t = new Template( "$DOCROOT/templates" );
-$session = new eZSession();
+$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "forum.php" );
+$t->setAllStrings();
 
 $t->set_file( Array("forum" => "forum.tpl",
                     "elements" => "forum-elements.tpl",
@@ -30,9 +35,14 @@ $t->set_file( Array("forum" => "forum.tpl",
                    )
             );
 
+
+$session = new eZSession();
+
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
+
+
 
 //navbar setup
 if ( $session->get( $AuthenticatedSession ) == 0 )
@@ -98,9 +108,7 @@ else
     $t->set_var( "newmessage", $newmessage);
 
     $t->set_var( "link1-url", "newmessage.php" );
-    $t->set_var( "link1-caption", "Ny Melding" );
     $t->set_var( "link2-url", "search.php" );
-    $t->set_var( "link2-caption", "Søk" );
 
     $t->set_var( "back-url", "category.php");
     $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
@@ -109,4 +117,3 @@ else
 }
 
 ?>
-
