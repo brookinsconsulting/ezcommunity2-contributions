@@ -92,7 +92,7 @@
 <!-- BEGIN category_list_tpl -->
 
 <h2>{intl-headline_categories}</h2>
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
     <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}:</a></th>
     <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}:</a></th>

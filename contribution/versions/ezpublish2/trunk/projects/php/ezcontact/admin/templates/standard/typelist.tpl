@@ -18,7 +18,7 @@
 
 <hr noshade="noshade" size="4" />
 <!-- BEGIN list_item_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>
 	{extra_type_header}
