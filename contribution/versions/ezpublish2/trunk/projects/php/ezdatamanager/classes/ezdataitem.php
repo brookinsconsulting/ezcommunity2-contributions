@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdataitem.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: ezdataitem.php,v 1.2 2001/11/21 17:06:41 ce Exp $
 //
 // Definition of eZDataItem class
 //
@@ -256,7 +256,7 @@ class eZDataItem
       \static
       Returns all data items which matches the search.
     */
-    function &search( $searchText )
+    function &search( $searchText, $limit=10, $offset=0 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -272,7 +272,8 @@ class eZDataItem
                                              OR Item.Name LIKE '%$searchText%'
                                          ) 
                                         GROUP BY Item.ID 
-                                        ORDER BY Name" );
+                                        ORDER BY Name", array( "Limit" => $limit,
+                                                               "Offset" => $offset) );
         
         for ( $i = 0; $i < count( $item_array ); $i++ )
         { 
@@ -280,6 +281,26 @@ class eZDataItem
         }
         
         return $return_array;
+    }
+
+    /*!
+      \static
+      Returns the search count.
+    */
+    function &searchCount( $searchText )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $searchText = trim( $db->escapeString( $searchText ) );
+        
+        $db->query_single( $return, "SELECT COUNT(DISTINCT Item.ID) AS Count FROM eZDataManager_Item AS Item, eZDataManager_ItemValue AS Value
+                                        WHERE Item.ID=Value.ItemID
+                                        AND (
+                                             Value.Value LIKE '%$searchText%'
+                                             OR Item.Name LIKE '%$searchText%'
+                                         ) 
+                                        " );
+        return $return["Count"];
     }
 
 	/// the ID for the data item

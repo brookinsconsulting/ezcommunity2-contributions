@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: search.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: search.php,v 1.2 2001/11/21 17:06:41 ce Exp $
 //
 // Created on: <21-Nov-2001 12:42:41 bf>
 //
@@ -27,6 +27,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezdatamanager/classes/ezdatatype.php" );
 
@@ -46,11 +47,18 @@ $t->set_var( "search_text", $SearchText );
 
 $t->set_var( "item_list", "" );
 
+$t->set_var( "search", urlencode( $SearchText ) );
+
+if ( !isset ( $limit ) )
+    $limit = 10;
+
+if ( !isset ( $offset ) )
+    $offset = 0;
+
 if ( isset( $SearchText ) )
 {
-    $t->set_var( "search", "" );
-
-    $valueItems =& eZDataItem::search( $SearchText );
+    $valueItems =& eZDataItem::search( $SearchText, $limit, $offset );
+    $searchCount =& eZDataItem::searchCount( $SearchText );
     $i=0;
     foreach ( $valueItems as $item )
     {
@@ -75,7 +83,10 @@ if ( isset( $SearchText ) )
     }
     else
         $t->set_var( "item_list", "" );
-} 
+}
+
+eZList::drawNavigator( $t, $searchCount, $limit, $offset, "search_page_tpl" );
+
 
 $t->pparse( "output", "search_page_tpl" );
 

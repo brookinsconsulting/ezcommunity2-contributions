@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typelist.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: typelist.php,v 1.2 2001/11/21 17:06:41 ce Exp $
 //
 // Created on: <20-Nov-2001 15:04:53 bf>
 //
@@ -27,6 +27,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezdatamanager/classes/ezdatatype.php" );
 
@@ -58,8 +59,8 @@ $t = new eZTemplate( "ezdatamanager/admin/" . $ini->read_var( "eZDataManagerMain
                      "ezdatamanager/admin/intl", $Language, "typelist.php" );
 
 $t->set_file( "type_list_page_tpl", "typelist.tpl" );
-$t->set_block( "type_list_page_tpl", "type_list_tpl", "type_list" );
-$t->set_block( "type_list_tpl", "type_tpl", "type" );
+$t->set_block( "type_list_page_tpl", "data_type_list_tpl", "data_type_list" );
+$t->set_block( "data_type_list_tpl", "data_type_tpl", "data_type" );
 
 $t->set_block( "type_list_page_tpl", "item_list_tpl", "item_list" );
 $t->set_block( "item_list_tpl", "item_tpl", "item" );
@@ -68,6 +69,12 @@ $t->setAllStrings();
 
 $t->set_var( "current_type_name", "" );
 $t->set_var( "current_type_id", "" );
+
+if ( !isset ( $limit ) )
+    $limit = 10;
+
+if ( !isset ( $offset ) )
+    $offset = 0;
 
 $type = new eZDataType( );
 $types =& $type->getAll();
@@ -86,28 +93,29 @@ foreach ( $types as $type )
 
     $t->set_var( "type_name", $type->name() );
     $t->set_var( "type_id", $type->id() );
-    $t->parse( "type", "type_tpl", true );
+    $t->parse( "data_type", "data_type_tpl", true );
     $i++;
 }
 
 if ( count( $types ) > 0 )    
-    $t->parse( "type_list", "type_list_tpl" );
+    $t->parse( "data_type_list", "data_type_list_tpl" );
 else
-    $t->set_var( "type_list", "" );
+    $t->set_var( "data_type_list", "" );
 
 
 $t->set_var( "item_list", "" );
 
 if ( $TypeID > 0 )
 {
-    $t->set_var( "type_list", "" );
+    $t->set_var( "data_type_list", "" );
 
     $type = new eZDataType( $TypeID );
 
     $t->set_var( "current_type_name", $type->name() );
     $t->set_var( "current_type_id", $type->id() );
     
-    $valueItems =& $type->items();
+    $valueItems =& $type->items( $limit, $offset );
+    $valueCount =& $type->itemsCount( );
     $i=0;
     foreach ( $valueItems as $item )
     {
@@ -132,7 +140,9 @@ if ( $TypeID > 0 )
     }
     else
         $t->set_var( "item_list", "" );
-} 
+}
+
+eZList::drawNavigator( $t, $valueCount, $limit, $offset, "type_list_page_tpl" );
 
 $t->pparse( "output", "type_list_page_tpl" );
 

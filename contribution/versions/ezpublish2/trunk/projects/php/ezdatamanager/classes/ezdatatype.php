@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdatatype.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: ezdatatype.php,v 1.2 2001/11/21 17:06:41 ce Exp $
 //
 // Definition of eZDataType class
 //
@@ -213,14 +213,15 @@ class eZDataType
     /*!
       Returns all data items for this type.
     */
-    function &items()
+    function &items( $limit=10, $offset=0 )
     {
         $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $item_array = array();
         
-        $db->array_query( $item_array, "SELECT ID FROM eZDataManager_Item WHERE DataTypeID='$this->ID' ORDER BY Name" );
+        $db->array_query( $item_array, "SELECT ID FROM eZDataManager_Item WHERE DataTypeID='$this->ID' ORDER BY Name", array( "Limit" => $limit,
+                                                                                                                              "Offset" => $offset ) );
         
         for ( $i = 0; $i < count( $item_array ); $i++ )
         { 
@@ -228,6 +229,19 @@ class eZDataType
         }
         
         return $return_array;
+    }
+
+
+    /*!
+      Returns all data items for this type.
+    */
+    function &itemsCount(  )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $db->query_single( $return_array, "SELECT COUNT(DISTINCT ID) AS Count FROM eZDataManager_Item WHERE DataTypeID='$this->ID' ORDER BY Name" );
+        
+        return $return_array["Count"];
     }
 
    

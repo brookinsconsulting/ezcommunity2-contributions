@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: datasupplier.php,v 1.2 2001/11/21 17:06:41 ce Exp $
 //
 // Created on: <20-Nov-2001 15:01:12 bf>
 //
@@ -43,6 +43,12 @@ switch ( $url_array[2] )
 
     case "search":
     {
+        if ( $url_array[3] )
+        {
+            $SearchText = urldecode( $url_array[3] );
+            $offset = $url_array[4];
+        }
+
         include( "ezdatamanager/admin/search.php" );
     }
     break;
@@ -51,6 +57,10 @@ switch ( $url_array[2] )
     {
         if ( !isset( $TypeID ) )
             $TypeID = (int)$url_array[3];
+
+        if ( $url_array[4] == "parent" )
+            $offset = $url_array[5];
+        
         include( "ezdatamanager/admin/typelist.php" );
     }
     break;
