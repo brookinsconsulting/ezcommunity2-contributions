@@ -2,12 +2,12 @@
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td>{intl-userinfo}</td>
+	<td class="menuhead" bgcolor="#c0c0c0">Brukerinfo</td>
 </tr>
 <tr>
 	<td>
-	<p>{intl-userlogin}:<br />
-	<span class="small">{first_name} {last_name}</span></p>
+	<div class="smallbold">{intl-userlogin}:</div>
+	<div class="small">{first_name} {last_name}</div>
 	</td>
 </tr>
 <tr>
@@ -16,11 +16,8 @@
 	</td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
-</tr>
-<tr>
 	<td class="menutext">
-	<a class="menu" href="{user_edit_url}/{user_id}/">{intl-change_user_info}</a>  
+	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="{user_edit_url}/{user_id}/">{intl-change_user_info}</a>  
 	</td>
 </tr>
 </table>

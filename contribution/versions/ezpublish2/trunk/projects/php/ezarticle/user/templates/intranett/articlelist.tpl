@@ -12,7 +12,6 @@
 </tr>
 </table>
 
-
 <!--
 <p>
 {current_category_description}
@@ -21,11 +20,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
+<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt="">
 <a class="path" href="/article/archive/0/">{intl-top_level}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/ezarticle/user/images/standard/path-slash.gif" height="10" width="20" border="0" alt="">
+<img src="/images/path-slash.gif" height="10" width="20" border="0" alt="">
 <a class="path" href="/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
@@ -89,7 +88,7 @@
 	<p class="newslist">
 	{article_intro}
 	</p>
-	<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt="">
 	<a class="path" href="/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>

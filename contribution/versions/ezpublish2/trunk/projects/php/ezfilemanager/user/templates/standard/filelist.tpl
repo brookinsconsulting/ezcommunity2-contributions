@@ -1,9 +1,11 @@
+<h1>Filer</h1>
 
 <!-- BEGIN current_folder_tpl -->
+<!--
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
 <tr>
    <td>
-<a href="/filemanager/list/{folder_id}/"><img src="/ezfilemanager/user/{image_dir}/folder.png" alt="" width="32" height="32" />{folder_name}</a><br />
+<img src="/ezfilemanager/user/{image_dir}/folder.gif" alt="" width="16" height="16" border="0" />&nbsp;<a href="/filemanager/list/{folder_id}/">{folder_name}</a><br />
    </td>
    <td>
    <p>
@@ -12,18 +14,21 @@
    </td>
 </tr>
 </table>
-
+-->
 <!-- END current_folder_tpl -->
 
 <hr noshade="noshade" size="4" />
 
-<img src="/ezfilemanager/user/{image_dir}/path-arrow.gif" height="10" width="15" border="0" alt="">
+<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt="">
 <a class="path" href="/filemanager/list/0/">{intl-file_root}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/ezfilemanager/user/{image_dir}/path-slash.gif" height="10" width="20" border="0" alt="">
+<img src="/images/path-slash.gif" height="10" width="20" border="0" alt="">
 <a class="path" href="/filemanager/list/{folder_id}/">{folder_name}</a>
 <!-- END path_item_tpl -->
+
+<br /><br />
+<div class="text">{current_folder_description}</div>
 
 <hr noshade="noshade" size="4" />
 
@@ -34,7 +39,7 @@
 <tr>
         <!-- BEGIN folder_read_tpl -->
 	<td>
-	<a href="/filemanager/list/{folder_id}/"><img src="/ezfilemanager/user/{image_dir}/folder.png" alt="" width="32" height="32" />{folder_name}</a><br />
+	<img src="/ezfilemanager/user/{image_dir}/folder.gif" alt="" width="16" height="16" border="0" />&nbsp;<a href="/filemanager/list/{folder_id}/">{folder_name}</a><br />
 	</td>
         <!-- END folder_read_tpl -->
         <!-- BEGIN folder_write_tpl -->
@@ -52,22 +57,11 @@
 <!-- BEGIN file_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
 <tr>
-
-        <th>
-	{intl-name}:
-	</th>
-        <th>
-	{intl-size}:
-	</th>
-        <th>
-	{intl-download}:
-	</th>
-        <th>
-	{intl-edit}:
-	</th>
-        <th>
-	{intl-delete}:
-	</th>
+    <th>{intl-name}:</th>
+    <th>{intl-size}:</th>
+    <th>{intl-download}:</th>
+    <th>{intl-edit}:</th>
+    <th>{intl-delete}:</th>
 </tr>
 <!-- BEGIN file_tpl -->
 <tr>
@@ -94,6 +88,8 @@
 <!-- END file_tpl -->
 </table>
 <!-- END file_list_tpl -->
+
+<hr noshade="noshade" size="4" />
 <table cellspacing="0" cellpadding="4" border="0">
 <tr>
         <td>

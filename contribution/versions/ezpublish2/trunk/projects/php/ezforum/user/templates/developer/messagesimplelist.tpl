@@ -1,6 +1,6 @@
-<h2>{intl-headline}</h2>
-
 <hr noshade size="4" />
+
+<h2>{intl-headline}</h2>
 
 <!-- BEGIN message_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -28,7 +28,7 @@
     <p>
     {body}
     </p>
-    <a href="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a>
+    <a class="path" href="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a>
     </td>
     </tr>
     <!-- END message_item_tpl -->

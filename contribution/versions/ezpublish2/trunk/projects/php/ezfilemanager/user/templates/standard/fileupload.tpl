@@ -1,12 +1,9 @@
-
 <form method="post" action="/filemanager/{action_value}/{file_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-file_upload}</h1>
 
-
 <hr noshade="noshade" size="4" />
-
 <!-- BEGIN errors_tpl -->
 <h3 class="error">{intl-error_headline}</h3>
 <ul>
@@ -34,32 +31,24 @@
     <li>{intl-error_file_upload}
     <!-- END error_file_upload_tpl -->
 </ul>
-
 <hr noshade size="4"/>
-
-<br />
 <!-- END errors_tpl -->
-
-
 <p class="boxtext">{intl-folder}:</p>
-
 <select name="FolderID">
+
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->
 
 </select>
-
-<br />
-
+<br /><br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
     <p class="boxtext">{intl-file_name}:</p>
     <input type="text" size="40" name="Name" value="{name_value}"/>
-
+	<br />
     <p class="boxtext">{intl-file_description}:</p>
-	
 	<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
 	
     </td>
