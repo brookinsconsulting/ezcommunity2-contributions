@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.34 2001/02/08 16:25:18 ce Exp $
+// $Id: userwithaddress.php,v 1.35 2001/02/09 10:06:03 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -356,7 +356,7 @@ if ( $Action == "Insert" && $error == false )
     $user->setLastName( $LastName );
     $user->setSignature( $Signature );
 
-//    $user->store();
+    $user->store();
 
     // add user to usergroup
     setType( $AnonymousUserGroup, "integer" );
