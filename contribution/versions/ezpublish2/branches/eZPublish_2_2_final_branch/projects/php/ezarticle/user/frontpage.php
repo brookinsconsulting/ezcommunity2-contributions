@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.14 2003/06/06 10:33:22 vl Exp $
+// $Id: frontpage.php,v 1.28.2.15 2004/07/08 13:47:26 br Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -643,7 +643,9 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
 
     $ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );
     $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
-	
+
+    $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
+
     // preview image
     $thumbnailImage = $product->thumbnailImage();
     $t->set_var( "product_id", $product->id() );
