@@ -1,4 +1,4 @@
-<form action="/{module}/cart/add/{product_id}/" method="post">
+<form action="/{module}/{action_url}/{product_id}/" method="post">
   <h1>{intl-head_line}</h1>
   <hr noshade="noshade" size="1"/>
   <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" /> 
@@ -144,6 +144,15 @@
 	      
 	    </td>
 	  </tr>
+<tr>
+	<!-- BEGIN mail_method_tpl -->
+	<td>
+	<p class="boxtext">{intl-mail_method}:</p>
+	{intl-email}: <input type="radio" value="1" name="MailMethod" checked />&nbsp;
+	{intl-smail}: <input type="radio" value="2" name="MailMethod" />
+	</td>
+	<!-- END mail_method_tpl -->
+</tr>
 	</table>
       </td>
     </tr>
