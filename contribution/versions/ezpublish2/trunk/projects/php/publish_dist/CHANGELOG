@@ -3,9 +3,11 @@ eZ publish changelog:
 
 Changes from 2.2 Beta 2 to 2.2 Pre
 -----------------------------------
+* Added support for radiobuttons, checkboxes, dropdown lists and multiple choice lists
 * Search in contact now searches in online addresses and phone numbers
 * Fixed Bug count, bug archive on user side.
 * Fixed Bulkmail user login
+* Lots of minor bugfixes
 
 Changes from 2.2 Beta 1 to 2.2 Beta 2
 -----------------------------------
