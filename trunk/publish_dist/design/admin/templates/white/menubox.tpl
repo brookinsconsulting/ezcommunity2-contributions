@@ -54,8 +54,12 @@
 	<!-- BEGIN menu_item_tpl -->
 	<!-- BEGIN menu_item_link_tpl -->
 	<tr>
+	<!--
 		<td width="1%" valign="top"><img src="{www_dir}/design/admin/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" alt="" /><br /></td>
 		<td width="99%"class="menu"><a class="menu" href="{www_dir}{index}{target_url}">{name}</a></td>
+	-->
+	<td class="menu"><a class="menu" href="{www_dir}{index}{target_url}">{name}</a></td>
+
 	</tr>
 	<!-- END menu_item_link_tpl -->
 	<!-- BEGIN menu_item_break_tpl -->
