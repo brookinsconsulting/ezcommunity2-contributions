@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.6 2001/01/16 14:00:56 gl Exp $
+// $Id: dayview.php,v 1.7 2001/01/16 17:13:16 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezlocale.php" );
 
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdate.php" );
