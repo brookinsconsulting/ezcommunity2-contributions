@@ -3426,7 +3426,7 @@ CREATE TABLE eZBulkMail_GroupCategoryLink (
 alter table eZBulkMail_SentLog add Mail varchar(255); 
 alter table eZBulkMail_SentLog drop AddressID; 
 
-alter table eZTodo_Todo change Permission IsPrivate int default 0;
+alter table eZTodo_Todo change Permission IsPublic int default 0;
 create table eZTodo_Log( ID int auto_increment primary key, Log text, Created timestamp);      
 create table eZTodo_TodoLogLink ( ID int auto_increment primary key, TodoID int, LogID int );
 
