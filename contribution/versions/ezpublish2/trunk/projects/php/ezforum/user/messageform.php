@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.8 2001/03/13 14:14:16 pkej Exp $
+// $Id: messageform.php,v 1.9 2001/03/15 09:27:57 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -88,7 +88,7 @@ if( $ShowMessageForm )
         
         if( isset( $NewMessageTopic ) )
         {
-            $MessageTopic = $NewMessageTopic;
+            $MessageTopic = stripslashes( $NewMessageTopic );
         }
         else
         {
@@ -97,7 +97,7 @@ if( $ShowMessageForm )
         
         if( isset( $NewMessageBody ) )
         {
-            $MessageBody = $NewMessageBody;
+            $MessageBody = stripslashes( $NewMessageBody );
         }
         else
         {

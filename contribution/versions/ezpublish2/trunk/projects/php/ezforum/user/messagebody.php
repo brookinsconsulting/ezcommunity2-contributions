@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagebody.php,v 1.5 2001/03/13 14:14:16 pkej Exp $
+// $Id: messagebody.php,v 1.6 2001/03/15 09:27:57 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -41,7 +41,7 @@ if( $ShowMessage == true )
     
     $msg = new eZForumMessage( $MessageID );
     $MessageTopic = $msg->topic();
-    
+   
     if( $AllowHTML == "ednabled" )
     {
         $MessageBody = $msg->body( false );
