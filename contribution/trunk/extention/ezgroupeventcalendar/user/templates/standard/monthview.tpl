@@ -44,17 +44,17 @@
      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'visible'; var posx = getMouse(event, 'x'); var posy = getMouse(event, 'y'); document.getElementById('gcalDayViewSortBy').style.left = posx + 'px'; document.getElementById('gcalDayViewSortBy').style.top = posy+ 'px';">
       Sort By...
       </span>
-      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{date_year}/{date_month}/{date_day}/'">
-      {intl-day}
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" >
+      <a href="{www_dir}{index}/groupeventcalendar/dayview/{date_year}/{date_month}/{date_day}/" style="text-decoration:none;font-weight:normal;font-size:12px;">{intl-day}</a>
       </span>
-      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/weekview/{date_year}/{date_month}/{date_day}/'">
-      {intl-week}
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/weekview/{date_year}/{date_month}/{date_day}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-week}</a>
       </span>
-      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{date_year}/{date_month}/'">
-      {intl-month}
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/monthview/{date_year}/{date_month}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-month}</a>
       </span>
-      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/yearview/{date_year}/'">
-      {intl-year}
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/yearview/{date_year}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-year}</a>
       </span>
 
  	 <!-- BEGIN valid_editor_tpl -->

@@ -95,32 +95,28 @@
       document.getElementById('gcalDayViewMonthTable').style.top = posy+ 'px';">
       Show Calendar
       </span>
+      <!--
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
-      onmouseout="this.className='gcalSwitchBox'"
-      onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{the_year}/{the_month}/{the_day}/{group_print_id}/'">
-      {intl-day}
+      onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/dayview/{the_year}/{the_month}/{the_day}/{group_print_id}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-day}</a>
+      </span>
+      -->
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/weekview/{the_year}/{the_month}/{the_day}/{group_print_id}" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-week}</a>
       </span>
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
-      onmouseout="this.className='gcalSwitchBox'"
-      onclick="location.href = '{www_dir}{index}/groupeventcalendar/weekview/{the_year}/{the_month}/{the_day}/{group_print_id}/'">
-      {intl-week}
+      onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{the_month}/{group_print_id}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-month}</a>
       </span>
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
-      onmouseout="this.className='gcalSwitchBox'"
-      onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{the_month}/{group_print_id}/'">
-      {intl-month}
+      onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/yearview/{the_year}/{group_print_id}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-year}</a>
       </span>
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
-      onmouseout="this.className='gcalSwitchBox'"
-      onclick="location.href = '{www_dir}{index}/groupeventcalendar/yearview/{the_year}/{group_print_id}/'">
-      {intl-year}
+      onmouseout="this.className='gcalSwitchBox'">
+      <a href="{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/{group_print_id}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-today}</a>
       </span>
-      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
-      onmouseout="this.className='gcalSwitchBox'"
-      onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/{group_print_id}/'">
-      {intl-today}
-      </span>
-
 
 	</td>
 </tr>
