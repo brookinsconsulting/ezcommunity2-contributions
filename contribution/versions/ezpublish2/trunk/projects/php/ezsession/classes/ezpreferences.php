@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.1 2001/01/18 12:21:52 bf Exp $
+// $Id: ezpreferences.php,v 1.2 2001/01/21 14:39:35 bf Exp $
 //
 // Definition of eZPreferences class
 //
@@ -24,7 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-//!! eZPreferences
+
+//!! eZSession
 //! eZPreferences handles preferences variables.
 /*!
   The preferences only works if there is a user logged in.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuritool.php,v 1.2 2001/01/16 10:42:42 jb Exp $
+// $Id: ezuritool.php,v 1.3 2001/01/21 14:39:35 bf Exp $
 //
 // Definition of eZURITool class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZURITool
+//!! eZCommon
 //! The eZURITool has several static functions for handling URIs.
 /*!
   A class with static functions for handling URIs.
