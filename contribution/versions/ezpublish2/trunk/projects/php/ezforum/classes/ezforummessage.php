@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.49 2000/10/12 17:45:06 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.50 2000/10/13 08:22:19 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -78,6 +78,7 @@ class eZForumMessage
                 // find the biggest treeID
                 $this->Database->array_query( $result, "SELECT TreeID FROM ezforum_MessageTable ORDER BY TreeID DESC LIMIT 1" );
 
+                $this->Depth = 0;
                 if ( count( $result ) > 0 )
                 {
                     $this->TreeID = $result[0]["TreeID"] + 1;
@@ -97,8 +98,7 @@ class eZForumMessage
                 else
                 {
                     $this->ThreadID = 0;
-                }
-                
+                }                
                      
                 $this->Database->query( "INSERT INTO ezforum_MessageTable SET
 		                         ForumId='$this->ForumID',
@@ -108,6 +108,7 @@ class eZForumMessage
 		                         Parent='$this->ParentID',
 		                         TreeID='$this->TreeID',
 		                         ThreadID='$this->ThreadID',
+		                         Depth='$this->Depth',
 		                         EmailNotice='$this->EmailNotice'
                                  " );
 
@@ -116,8 +117,8 @@ class eZForumMessage
             else
             { // child node
 
-                // find the treeID and ThreadID of the parent
-                $this->Database->array_query( $result, "SELECT TreeID, ThreadID FROM ezforum_MessageTable
+                // find the TreeID, ThreadID and Depth of the parent
+                $this->Database->array_query( $result, "SELECT TreeID, ThreadID, Depth FROM ezforum_MessageTable
                                                         WHERE ID='$this->ParentID'
                                                         ORDER BY TreeID DESC LIMIT 1" );
 
@@ -128,11 +129,28 @@ class eZForumMessage
 
                     $this->ThreadID = $result[0]["ThreadID"];
 
-//                      $parentID += 1;
+                    $d = $result[0]["Depth"];
+                    setType( $d, "integer" );
                     
-                    // update the whole tree
+                    $this->Depth = $d + 1;
+                    
+                    // update the whole tree's ThreeID.
                     $this->Database->query( "UPDATE ezforum_MessageTable SET TreeID=(TreeID +1 ) WHERE TreeID >= $parentID" );
 
+                    $this->Database->query( "INSERT INTO ezforum_MessageTable SET
+		                         ForumId='$this->ForumID',
+		                         Topic='$this->Topic',
+		                         Body='$this->Body',
+		                         UserId='$this->UserID',
+		                         Parent='$this->ParentID',
+		                         TreeID='$this->TreeID',
+		                         ThreadID='$this->ThreadID',
+		                         Depth='$this->Depth',
+		                         EmailNotice='$this->EmailNotice'
+                                 " );
+
+                    $this->ID = mysql_insert_id();
+                    
                     
                 }
                 else
@@ -141,18 +159,6 @@ class eZForumMessage
                 }
                 
                 
-                $this->Database->query( "INSERT INTO ezforum_MessageTable SET
-		                         ForumId='$this->ForumID',
-		                         Topic='$this->Topic',
-		                         Body='$this->Body',
-		                         UserId='$this->UserID',
-		                         Parent='$this->ParentID',
-		                         TreeID='$this->TreeID',
-		                         ThreadID='$this->ThreadID',
-		                         EmailNotice='$this->EmailNotice'
-                                 " );
-
-                $this->ID = mysql_insert_id();
                 
             }
             
@@ -217,7 +223,9 @@ class eZForumMessage
                 $this->EmailNotice = $message_array[0][ "EmailNotice" ];
 
                 $this->ThreadID = $message_array[0][ "ThreadID" ];
-                $this->TreeID = $message_array[0][ "TreeID" ];
+                $this->TreeID = $message_array[0][ "TreeID" ];                
+                $this->Depth = $message_array[0][ "Depth" ];
+                
                 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -418,6 +426,17 @@ class eZForumMessage
     }
 
     /*!
+      Returns the depth of the message.
+    */
+    function depth()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Depth;
+    }
+
+    /*!
       
     */      
     function enableEmailNotice()
@@ -541,28 +560,6 @@ class eZForumMessage
 
 
     /*!
-      Returns the recursive level of the message.
-
-      0 is top node, 1 is a child in the first level etc.
-    */
-    function level( $message=0, $level=0 )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( $message == 0 )
-           $message = $this;
-       
-       if ( $message->parent() )
-       {
-           $level += 1;
-           $level += $this->level(  $message->parent(), $level );
-       }
-
-       return $level;
-    }
-
-    /*!
       \private
       Opens the database for read and write.
     */
@@ -589,6 +586,9 @@ class eZForumMessage
 
     // contains the thread id
     var $ThreadID;
+
+    // indicates the depth of the message in the tree
+    var $Depth;
 
     ///  Variable for keeping the database connection.
     var $Database;

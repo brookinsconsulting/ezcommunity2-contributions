@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.30 2000/10/12 17:45:06 bf-cvs Exp $
+// $Id: message.php,v 1.31 2000/10/13 08:22:19 bf-cvs Exp $
 //
 // 
 //
@@ -93,7 +93,7 @@ foreach ( $messages as $message )
     else
         $t->set_var( "td_class", "bgdark" );
     
-    $level = $message->level();
+    $level = $message->depth();
     
     if ( $level > 0 )
         $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );

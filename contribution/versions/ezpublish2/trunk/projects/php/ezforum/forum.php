@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.44 2000/10/12 17:45:06 bf-cvs Exp $
+// $Id: forum.php,v 1.45 2000/10/13 08:22:18 bf-cvs Exp $
 //
 // 
 //
@@ -98,7 +98,9 @@ foreach ( $messages as $message )
     else
         $t->set_var( "td_class", "bgdark" );
     
-    $level = $message->level();
+//      $level = $message->level();
+
+    $level = $message->depth();
     
     
     if ( $level > 0 )
