@@ -1,3 +1,10 @@
+<!-- BEGIN error_list_tpl -->
+<h2 class="error">{intl-error_elements}</h2>
+<hr noshade="noshade" size="4" />
+<br />
+<!-- END error_list_tpl -->
+
+
 <!-- BEGIN no_elements_item_tpl -->
 <div class="error">{intl-no_elements_exist}</div>
 <!-- END no_elements_item_tpl -->

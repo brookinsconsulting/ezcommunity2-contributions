@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.15 2001/12/19 14:57:05 br Exp $
+// $Id: pageedit.php,v 1.16 2001/12/19 15:27:25 br Exp $
 //
 // Definition of ||| class
 //
@@ -93,6 +93,8 @@ $elementTemplate->set_file( "elementlist_tpl", "elementlist.tpl" );
 
 
 // set all element template blocks.
+$elementTemplate->set_block( "elementlist_tpl", "error_list_tpl", "error_list" );
+
 $elementTemplate->set_block( "elementlist_tpl", "no_elements_item_tpl", "no_elements_item" );
 $elementTemplate->set_block( "elementlist_tpl", "element_list_tpl", "element_list" );
 $elementTemplate->set_block( "element_list_tpl", "element_item_tpl", "element_item" );
@@ -118,6 +120,7 @@ $elementTemplate->set_var( "element_list", "" );
 $elementTemplate->set_var( "element_item", "" );
 $elementTemplate->set_var( "typelist_item", "" );
 $elementTemplate->set_var( "checked", "" );
+$elementTemplate->set_var( "error_list", "" );
 
 $elementTemplate->set_var( "form_id", $FormID );
 $elementTemplate->set_var( "page_id", $PageID );
@@ -515,27 +518,9 @@ if ( $count > 0 )
     $elementTemplate->parse( "element_list", "element_list_tpl" );
 }
 
-if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSelected ) )
+if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSelected )
+      && count( $elements ) > 0 )
 {
-    foreach ( $errorMessages as $errorMessage )
-    {
-        $errorMessage =& $t->Ini->read_var( "strings", $errorMessage );
-        $elementTemplate->set_var( "error_message", $errorMessage );
-        $elementTemplate->parse( "error_item", "error_item_tpl", true );
-    }
-    
-    $t->set_var( "form_name", $formName );
-    $t->set_var( "form_receiver", $formReceiver );
-    $t->set_var( "form_cc", $formCC );
-    $t->set_var( "form_completed_page", $formCompletedPage );
-    $t->set_var( "form_sender", $formSender );
-    
-    if ( isSet( $formSendAsUser ) )
-    {
-        $t->set_var( "checked", "checked" );
-    }
-    $t->set_var( "form_instruction_page", $formInstructionPage );
-
     $elementTemplate->parse( "error_list", "error_list_tpl" );
 }
 
