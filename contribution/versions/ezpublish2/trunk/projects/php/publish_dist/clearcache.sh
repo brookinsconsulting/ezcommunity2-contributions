@@ -22,6 +22,7 @@ ezsitemanager
 ezquiz
 classes
 ezurltranslator
+ezbulkmail
 "
 
 for dir in $dirs
