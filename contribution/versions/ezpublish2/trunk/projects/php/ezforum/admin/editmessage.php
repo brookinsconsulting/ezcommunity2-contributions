@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: editmessage.php,v 1.10 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: editmessage.php,v 1.11 2000/10/17 13:43:58 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,36 +8,29 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
-
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
-
-include_once( "classes/template.inc" );
-//include_once( "$DOC_ROOT/classes/ezdb.php" );
-include_once( "$DOC_ROOT/classes/ezforummessage.php" );
+include( "ezforum/dbsettings.php" );
+include_once( "template.inc" );
+//include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "$DOCROOT/classes/ezforummessage.php" );
 include_once( "../classes/ezuser.php" );
 
 $t = new Template( "." );
-$t->set_file(Array( "edit" => "$DOC_ROOT/admin/templates/editmessage.tpl",
-                    "navigation" => "$DOC_ROOT/templates/navigation.tpl",
-                    "navigation-bottom" => "$DOC_ROOT/templates/navigation-bottom.tpl" ) );
+$t->set_file(Array( "edit" => "$DOCROOT/admin/templates/editmessage.tpl",
+                    "navigation" => "$DOCROOT/templates/navigation.tpl",
+                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl" ) );
 
 $msg = new eZforumMessage;
 $msg->get( $message_id );
 
 $t->set_var( "message_id", $message_id );
-$t->set_var( "docroot", $DOC_ROOT );
+$t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
 
 $t->parse( "navigation-bar", "navigation", true);
 
 // rest
-$user = new eZUser();
-
-$t->set_var( "user", $user->resolveUser( $msg->userId() ) );
+$t->set_var( "user", eZUser::resolveUser( $msg->userId() ) );
 $t->set_var( "topic", $msg->topic() );
 $t->set_var( "body", $msg->body() );
 

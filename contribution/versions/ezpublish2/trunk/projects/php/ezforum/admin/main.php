@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.4 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: main.php,v 1.5 2000/10/17 13:43:58 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,18 +8,14 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
+include( "ezforum/dbsettings.php" );
+include_once( "template.inc" );
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
-
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
-
-include_once( "classes/template.inc" );
-
-$t = new Template( $DOC_ROOT . "admin/templates/" );
+$t = new Template( "$DOCROOT/admin/templates/" );
 
 $t->set_file( Array( "main" => "main.tpl" ) );
 
-$t->set_var( "docroot", $DOC_ROOT );
+$t->set_var( "docroot", $DOCROOT);
+
 
 $t->pparse( "output", "main" );
