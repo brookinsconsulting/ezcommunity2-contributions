@@ -1,0 +1,88 @@
+QDOM renderer / generator DTD
+-----------------------------
+
+Minimalistic example of an article:
+
+<?xml version="1.0"?>
+<article>
+<generator>tech</generator>
+<intro>
+This is the introduction.
+</intro>
+<body>
+<page>
+Page content
+<factbox>
+This is factbox text <bold>you can have </bold> tags in here too.
+</factbo>
+<bold> this is bold text</bold>
+</page>
+</body>
+</article>
+
+
+
+Tags
+
+
+<!ELEMENT header -- header text -->
+<!ATTLIST header
+level	  Number	# default: 1, valid: 1-6
+>
+
+<!ELEMENT image -- image -->
+<!ATTLIST iamge
+id 	  Number	# reference to article image id
+align 	  String	# left | center | right | float
+size	  String	# small | medium | large | original
+href	  String	# http://domain.tld/path , default "" = no link
+>
+
+<!ELEMENT link -- link -->
+<!ATTLIST link
+href 	  String	# http://domain.tld/path | domain.tld/path | /path/
+text	  String	# Link text
+>
+
+<!ELEMENT bold -- bold text -->
+<!ATTLIST bold
+>
+
+<!ELEMENT italic -- italic text -->
+<!ATTLIST italic
+>
+
+<!ELEMENT underline -- underlined text -->
+<!ATTLIST underline
+>
+
+<!ELEMENT strong -- strong typed text -->
+<!ATTLIST strong
+>
+
+<!ELEMENT bullet -- unordered list -->
+<!ATTLIST bullet
+>
+
+<!ELEMENT list -- ordered list -->
+<!ATTLIST list
+>
+
+<!ELEMENT factbox -- fact box information -->
+<!ATTLIST factbox
+>
+
+
+<!ELEMENT quote -- citation quoted text -->
+<!ATTLIST quote
+>
+
+<!ELEMENT sub -- subscript text -->
+<!ATTLIST sub
+>
+
+<!ELEMENT pre -- predefined text -->
+<!ATTLIST pre
+>
+
+
