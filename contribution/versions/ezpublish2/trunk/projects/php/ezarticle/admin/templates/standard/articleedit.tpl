@@ -111,9 +111,88 @@
 <p class="boxtext">{intl-log_message}:</p>
 <textarea class="box" name="LogMessage" cols="40" rows="2" wrap="soft"></textarea>
 
-
 <p class="boxtext">{intl-link_text}:</p>
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
+<br /><br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td width="50%" colspan="5">
+	<p class="boxtext">{intl-start_date}:</p>
+	</td>
+	<td width="50%" colspan="5">
+	<p class="boxtext">{intl-stop_date}:</p>
+	</td>
+</tr>
+<tr>
+	<td >
+	<span class="small">{intl-day}:</span>
+	</td>
+	<td >
+	<span class="small">{intl-month}:</span>
+	</td>
+	<td >
+	<span class="small">{intl-year}:</span>
+	</td>
+
+	<td >
+	<span class="small">{intl-hour}:</span>
+	</td>
+	<td >
+	<span class="small">{intl-minute}:</span>
+	</td>
+
+	<td>
+	<span class="small">{intl-day}:</span>
+	</td>
+	<td>
+	<span class="small">{intl-month}:</span>
+	</td>
+	<td>
+	<span class="small">{intl-year}:</span>
+	</td>
+
+	<td>
+	<span class="small">{intl-hour}:</span>
+	</td>
+	<td>
+	<span class="small">{intl-minute}:</span>
+	</td>
+</tr>
+<tr>
+	<td>
+	<input type="text" size="2" name="StartDay" value="{start_day}" />&nbsp;
+	</td>
+	<td>
+	<input type="text" size="2" name="StartMonth" value="{start_month}" />&nbsp;
+	</td>
+	<td>
+	<input type="text" size="4" name="StartYear" value="{start_year}" />
+	</td>
+	<td>
+	<input type="text" size="2" name="StartHour" value="{start_hour}" />
+	</td>
+	<td>
+	<input type="text" size="2" name="StartMinute" value="{start_minute}" />
+	</td>
+
+	<td>
+	<input type="text" size="2" name="StopDay" value="{stop_day}" />&nbsp;
+	</td>
+	<td>
+	<input type="text" size="2" name="StopMonth" value="{stop_month}" />&nbsp;
+	</td>
+	<td>
+	<input type="text" size="4" name="StopYear" value="{stop_year}" />
+	</td>
+	<td>
+	<input type="text" size="2" name="StopHour" value="{start_hour}" />
+	</td>
+	<td>
+	<input type="text" size="2" name="StopMinute" value="{start_minute}" />
+	</td>
+</tr>
+</table>
 <br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.88 2001/06/08 09:00:37 bf Exp $
+// $Id: articleedit.php,v 1.89 2001/06/08 12:24:55 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -63,7 +63,6 @@ if ( $Action == "Insert" )
     $topic = new eZTopic( $TopicID );
     $article->setTopic( $topic );
     
-
     $generator = new eZArticleGenerator();
 
     if ( trim( $LogMessage ) != "" )
@@ -81,7 +80,23 @@ if ( $Action == "Insert" )
     else
         $article->setDiscuss( false );
 
-    
+    // Time publising
+    $startDate = new eZDateTime();
+    $startDate->setDay( $StartDay );
+    $startDate->setMonth( $StartMonth );
+    $startDate->setYear( $StartYear );
+    $startDate->setHour( $StartHour );
+    $startDate->setMinute( $StartMinute );
+    $stopDate = new eZDateTime();
+    $stopDate->setDay( $StopDay );
+    $stopDate->setMonth( $StopMonth );
+    $stopDate->setYear( $StopYear );
+    $stopDate->setHour( $StopHour );
+    $stopDate->setMinute( $StopMinute );
+
+    $article->setStartDate( &$startDate );
+    $article->setStopDate( &$stopDate );
+
     $article->store(); // to get the ID
 
     if( isset( $WriteGroupArray ) )
@@ -297,7 +312,23 @@ if ( $Action == "Update" )
         $article->setDiscuss( true );
     else
         $article->setDiscuss( false );
+    
+    // Time publising
+    $startDate = new eZDateTime();
+    $startDate->setDay( $StartDay );
+    $startDate->setMonth( $StartMonth );
+    $startDate->setYear( $StartYear );
+    $startDate->setHour( $StartHour );
+    $startDate->setMinute( $StartMinute );
+    $stopDate = new eZDateTime();
+    $stopDate->setDay( $StopDay );
+    $stopDate->setMonth( $StopMonth );
+    $stopDate->setYear( $StopYear );
+    $stopDate->setHour( $StopHour );
+    $stopDate->setMinute( $StopMinute );
 
+    $article->setStartDate( &$startDate );
+    $article->setStopDate( &$stopDate );
 
     eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
     if( isset( $WriteGroupArray ) )
@@ -513,6 +544,17 @@ $t->set_var( "author_text", stripslashes($AuthorText ) );
 $t->set_var( "author_email", stripslashes($AuthorEmail ) );
 $t->set_var( "link_text", stripslashes($LinkText  ));
 
+$t->set_var( "start_day", stripslashes($StartDay  ));
+$t->set_var( "start_month", stripslashes($StartMonth  ));
+$t->set_var( "start_year", stripslashes($StartYear  ));
+$t->set_var( "start_hour", stripslashes($StartHour  ));
+$t->set_var( "start_minute", stripslashes($StartMinute  ));
+$t->set_var( "stop_day", stripslashes($StopDay  ));
+$t->set_var( "stop_month", stripslashes($StopMonth  ));
+$t->set_var( "stop_year", stripslashes($StopYear  ));
+$t->set_var( "stop_hour", stripslashes($StopHour  ));
+$t->set_var( "stop_minute", stripslashes($StopMinute  ));
+
 $t->set_var( "action_value", "insert" );
 $t->set_var( "all_selected", "selected" );
 $t->set_var( "all_write_selected", "selected" );
@@ -557,6 +599,56 @@ if ( $Action == "Edit" )
     else
     {
         $t->set_var( "discuss_article", "" );
+    }
+
+    $startDate =& $article->startDate();
+    $stopDate =& $article->stopDate();
+
+    if ( get_class( $startDate ) == "ezdatetime" )
+    {
+        if ( $startDate->day() == 0 )
+            $t->set_var( "start_day", "" );
+        else
+            $t->set_var( "start_day", $startDate->addZero( $startDate->day() ) );
+        if ( $startDate->month() == 0 )
+            $t->set_var( "start_month", "" );
+        else
+            $t->set_var( "start_month", $startDate->addZero( $startDate->month() ) );
+        if ( $startDate->year() == 0 )
+            $t->set_var( "start_year", "" );
+        else
+            $t->set_var( "start_year", $startDate->addZero( $startDate->year() ) );
+        if ( $startDate->hour() == 0 )
+            $t->set_var( "start_hour", "" );
+        else
+            $t->set_var( "start_hour", $startDate->addZero( $startDate->hour() ) );
+        if ( $startDate->minute() == 0 )
+            $t->set_var( "start_minute", "" );
+        else
+            $t->set_var( "start_minute", $startDate->addZero( $startDate->minute() ) );
+    }
+    if ( get_class( $stopDate ) == "ezdatetime" )
+    {
+        if ( $stopDate->day() == 0 )
+            $t->set_var( "stop_day", "" );
+        else
+            $t->set_var( "stop_day", $startDate->addZero( $stopDate->day() ) );
+        if ( $stopDate->month() == 0 )
+            $t->set_var( "stop_month", "" );
+        else
+            $t->set_var( "stop_month", $startDate->addZero( $stopDate->month() ) );
+        if ( $stopDate->year() == 0 )
+            $t->set_var( "stop_year", "" );
+        else
+            $t->set_var( "stop_year", $startDate->addZero( $stopDate->year() ) );
+        if ( $stopDate->hour() == 0 )
+            $t->set_var( "stop_hour", "" );
+        else
+            $t->set_var( "stop_hour", $startDate->addZero( $stopDate->hour() ) );
+        if ( $stopDate->minute() == 0 )
+            $t->set_var( "stop_minute", "" );
+        else
+            $t->set_var( "stop_minute", $startDate->addZero( $stopDate->minute() ) );
     }
     
     if ( !isset( $Name ) )        

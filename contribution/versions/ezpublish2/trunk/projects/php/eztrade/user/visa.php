@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: visa.php,v 1.2 2001/03/13 13:24:45 bf Exp $
+// $Id: visa.php,v 1.3 2001/06/08 12:24:55 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Feb-2001 14:11:48 ce>
@@ -34,10 +34,15 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
+
+
 if ( $Action == "Verify" )
 {
     // add clearing code here
-    $PaymentSuccess = "true";        
+    if ( eZCCTool::checkCC( $CCNumber, $ExpierMonth, $ExpierYear ) )
+         $PaymentSuccess = "true";
+    else
+        $PaymentSuccess = "false";
 }
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
@@ -49,7 +54,22 @@ $t->setAllStrings();
 
 // $ChargeTotal is the value to charge the customer with
 
-$t->set_var( "order_id", $OrderID );
+$user = eZUser::currentUser();
+
+$t->set_var( "f", $ini->read_var( "eZCCMain", "PID" ) );
+$t->set_var( "l", $ini->read_var( "eZCCMain", "Language" ) );
+$t->set_var( "m", $ini->read_var( "eZCCMain", "VendorID" ) );
+$t->set_var( "d", $ini->read_var( "eZCCMain", "Currency" ) );
+$t->set_var( "p", $ini->read_var( "eZCCMain", "p" ) );
+$t->set_var( "i", $ini->read_var( "eZCCMain", "i" ) );
+
+$t->set_var( "email", $user->email() );
+$t->set_var( "first_name", $user->firstName() );
+$t->set_var( "last_name", $user->lastName() );
+$t->set_var( "referer_url", $GLOBALS["HTTP_REFERER"] );
+$t->set_var( "card_type", 1 );
+
+$t->set_var( "order_id", $PreOrderID );
 $t->set_var( "payment_type", $PaymentType );
 
 $t->pparse( "output", "visa_tpl" );

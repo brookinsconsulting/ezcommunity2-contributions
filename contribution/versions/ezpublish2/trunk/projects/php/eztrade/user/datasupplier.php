@@ -2,6 +2,7 @@
 
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
+
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "classes/ezhttptool.php" );

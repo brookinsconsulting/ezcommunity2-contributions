@@ -269,3 +269,6 @@ create table eZMessage_Message( ID int primary key auto_increment, UserID int no
 
 create table eZArticle_Log( ID int primary key auto_increment, ArticleID int not null, Created timestamp not null, Message text not null );     
 alter table eZArticle_Log add UserID int not null;
+
+alter table eZArticle_Article add StartDate timestamp default 0;  
+alter table eZArticle_Article add StopDate timestamp default 0;

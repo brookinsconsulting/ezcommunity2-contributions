@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.46 2001/05/14 15:31:15 fh Exp $
+// $Id: payment.php,v 1.47 2001/06/08 12:24:55 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -25,6 +25,7 @@
 
 unset( $PaymentSuccess );
 
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -37,11 +38,15 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
+
 include_once( "eztrade/classes/ezcart.php" );
+
+
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezorder.php" );
+
 include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
@@ -104,7 +109,6 @@ if ( !$session->fetch() )
     $session->store();
 }
 
-
 // fetch the cart
 $cart = new eZCart();
 $cart = $cart->getBySession( $session, "Cart" );
@@ -130,7 +134,7 @@ $instance =& $checkout->instance();
 
 $PreOrderID = $session->variable( "PreOrderID" ) ;
 
-// print( "Checkout number: " . $PreOrderID . "<br>" );
+print( "Checkout number: " . $PreOrderID . "<br>" );
 
 $paymentMethod = $session->variable( "PaymentMethod" );
 

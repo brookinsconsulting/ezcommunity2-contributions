@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.12 2001/05/05 11:16:04 bf Exp $
+// $Id: ezcartitem.php,v 1.13 2001/06/08 12:24:55 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -45,9 +45,10 @@
   \sa eZCart
 */
 
-include_once( "classes/ezdb.php" );
 
+include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
+
 include_once( "eztrade/classes/ezwishlistitem.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );

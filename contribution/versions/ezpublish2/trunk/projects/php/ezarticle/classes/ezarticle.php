@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.93 2001/06/08 12:05:02 bf Exp $
+// $Id: ezarticle.php,v 1.94 2001/06/08 12:24:55 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -122,6 +122,15 @@ class eZArticle
         $linktext = addslashes( $this->LinkText );
         $keywords = addslashes( $this->Keywords );
 
+        if ( is_object( $this->StartDate ) )
+            $startDate = $this->StartDate->mySQLDateTime();
+        else
+            $startDate = $this->StartDate;
+        if ( is_object( $this->StopDate ) )
+            $stopDate = $this->StopDate->mySQLDateTime();
+        else
+            $stopDate = $this->StopDate;
+
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZArticle_Article SET
@@ -135,6 +144,8 @@ class eZArticle
                                  Discuss='$this->Discuss',
                                  ContentsWriterID='$this->ContentsWriterID',
                                  TopicID='$this->TopicID',
+                                 StartDate='$startDate',
+                                 StopDate='$stopDate',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -161,6 +172,8 @@ class eZArticle
                                  Discuss='$this->Discuss',
                                  ContentsWriterID='$this->ContentsWriterID',
                                  TopicID='$this->TopicID',
+                                 StartDate='$startDate',
+                                 StopDate='$stopDate',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -179,6 +192,8 @@ class eZArticle
                                  Discuss='$this->Discuss',
                                  ContentsWriterID='$this->ContentsWriterID',
                                  TopicID='$this->TopicID',
+                                 StartDate='$startDate',
+                                 StopDate='$stopDate',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -223,6 +238,8 @@ class eZArticle
                 $this->Discuss =& $article_array[0][ "Discuss" ];
                 $this->ContentsWriterID =& $article_array[0][ "ContentsWriterID" ];
                 $this->TopicID =& $article_array[0][ "TopicID" ];
+                $this->StartDate =& $article_array[0][ "StartDate" ];
+                $this->StopDate =& $article_array[0][ "StopDate" ];
                 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -445,8 +462,37 @@ class eZArticle
         }
         return $ret;
     }
-      
-    
+
+    /*!
+      Returns the start date of the article.
+    */
+    function &startDate( $as_object=true )
+    {
+        if ( $as_object )
+        {
+            $ret = new eZDateTime();
+            $ret->setMySQLTimeStamp( $this->StartDate );
+            return $ret;
+        }
+        else
+            return $this->StartDate;
+    }
+
+    /*!
+      Returns the stop date of the article.
+    */
+    function &stopDate( $as_object=true )
+    {
+        if ( $as_object )
+        {
+            $ret = new eZDateTime();
+            $ret->setMySQLTimeStamp( $this->StopDate );
+            return $ret;
+        }
+        else
+            return $this->StopDate;
+    }
+
     /*!
       Sets the article name.
     */
@@ -577,6 +623,24 @@ class eZArticle
                          Keyword='$keyword',
                          Automatic='0'" );
         }
+    }
+
+    /*!
+      Sets the start date for the article.
+    */
+    function setStartDate( &$date )
+    {
+        if ( get_class ( $date ) == "ezdatetime" )
+            $this->StartDate = $date;
+    }
+
+    /*!
+      Sets the start date for the article.
+    */
+    function setStopDate( &$date )
+    {
+        if ( get_class ( $date ) == "ezdatetime" )
+            $this->StopDate = $date;
     }
 
     /*!
@@ -1861,7 +1925,73 @@ class eZArticle
 
         return $ret_array;
     }
+
+    /*!
+      Returns all the articles that is valid now.
+      
+      The articles are returned as an array of eZArticle objects.
+    */
+    function &getAllValid( $isPublished=false )
+    {
+        $db =& eZDB::globalDatabase();
         
+        $returnArray = array();
+        $articleArray = array();
+
+        if ( !$isPublished )
+            $published = "  IsPublished='false' ";
+        else
+            $published = "  IsPublished='true' ";
+
+        $db->array_query( $articleArray, "SELECT ID
+                                          FROM eZArticle_Article
+                                          WHERE $published
+                                          AND ( StartDate !='00000000000000' OR StopDate !='00000000000000' )
+                                          AND ( StartDate <= now() AND StopDate >= now() )
+                                          ORDER BY ID
+                                          " );
+
+        for ( $i=0; $i < count($articleArray); $i++ )
+        {
+            $returnArray[$i] = new eZArticle( $articleArray[$i]["ID"] );
+        }
+
+        return $returnArray;
+    }
+
+
+    /*!
+      Returns all the articles that is not valid now.
+      
+      The articles are returned as an array of eZArticle objects.
+    */
+    function &getAllUnValid( $isPublished=true )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $articleArray = array();
+
+        if ( !$isPublished )
+            $published = "  IsPublished='false' ";
+        else
+            $published = "  IsPublished='true' ";
+
+        $db->array_query( $articleArray, "SELECT ID
+                                          FROM eZArticle_Article
+                                          WHERE $published
+                                          AND ( StartDate !='00000000000000' OR StopDate !='00000000000000')
+                                          AND ( StartDate >= now() AND StopDate <= now() )
+                                          ORDER BY ID
+                                          " );
+        
+        for ( $i=0; $i < count($articleArray); $i++ )
+        {
+            $returnArray[$i] = new eZArticle( $articleArray[$i]["ID"] );
+        }
+
+        return $returnArray;
+    }
 
     /*!
       \private
@@ -1889,6 +2019,8 @@ class eZArticle
     var $Keywords;
     var $Discuss;
     var $TopicID;
+    var $StartDate;
+    var $StopDate;
     
     // telll eZ publish to show the article to the public
     var $IsPublished;

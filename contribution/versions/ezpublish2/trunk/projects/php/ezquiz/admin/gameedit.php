@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.7 2001/05/30 12:32:46 pkej Exp $
+// $Id: gameedit.php,v 1.8 2001/06/08 12:24:55 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -41,20 +41,14 @@ if ( isSet ( $Delete ) )
     $Action = "Delete";
 }
 
+if ( isSet ( $NewQuestion ) )
+{
+    $Action = "Insert";
+}
+
 if ( isSet ( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /quiz/game/list/" );
-    exit();
-}
-
-if ( isSet ( $NewQuestion ) )
-{
-    $game = new eZQuizGame( $GameID );
-    $question = new eZQuizQuestion();
-    $question->setGame( $game );
-    $question->store();
-    $questionID = $question->id();
-    eZHTTPTool::header( "Location: /quiz/game/questionedit/$questionID" );
     exit();
 }
 
@@ -239,8 +233,17 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
         }
         unset( $question );
     }
-    
 
+    if ( isSet ( $NewQuestion ) )
+    {
+        $question = new eZQuizQuestion();
+        $question->setGame( $game );
+        $question->store();
+        $questionID = $question->id();
+        eZHTTPTool::header( "Location: /quiz/game/questionedit/$questionID" );
+        exit();
+    }
+    
     if ( isSet ( $OK ) )
     {
         eZHTTPTool::header( "Location: /quiz/game/list/" );

@@ -8,6 +8,9 @@ $GlobalSiteIni =& $ini;
 // do session cleanup
 include( "ezsession/admin/cron.php" );
 
+// Time publishing
+include( "ezarticle/admin/cron.php" );
+
 // fetch the latest newsheadlines.
 include_once( "ezmail/classes/ezmail.php" );
 
