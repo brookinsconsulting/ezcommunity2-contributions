@@ -47,7 +47,6 @@ class eZLink
     /*
       Sletter linker og tilhørende hits.
     */
-
     function delete( )
     {
         $this->dbInit();
@@ -150,7 +149,7 @@ class eZLink
     }
 
     /*
-      Henter linkene som mather $query.
+      Henter linkene som matcher $query.
     */
     function getQuery( $query, $limit=20, $offset = 0 )
     {
@@ -226,8 +225,7 @@ class eZLink
 
     /*
       Setter KeyWords
-    */
-    
+    */    
     function setKeyWords( $value )
     {
         $this->KeyWords = ( $value );
