@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.24 2000/10/31 21:53:13 ce-cvs Exp $
+// $Id: eztechrenderer.php,v 1.25 2000/10/31 22:14:36 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -123,6 +123,8 @@ class eZTechRenderer
             $intro = "";
             $body = "";
 
+            $articleImages = $this->Article->images();
+            $articleID = $this->Article->id();
 
             $i=0;
             foreach ( $xml->root->children as $child )
@@ -137,37 +139,23 @@ class eZTechRenderer
                         {
                             $intro .= eZTextTool::nl2br( $paragraph->content );
                         }
-                        
-                        // bold text
-                        if ( $paragraph->name == "bold" )
-                        {
-                            $intro .= "<b>" . $paragraph->children[0]->content . "</b>";
-                        }
 
-                        // italic text
-                        if ( $paragraph->name == "italic" )
-                        {
-                            $intro .= "<i>" . $paragraph->children[0]->content . "</i>";
-                        }
+                        $intro = $this->renderCode( $intro, $paragraph );
 
-                        // underline text
-                        if ( $paragraph->name == "underline" )
-                        {
-                            $intro .= "<u>" . $paragraph->children[0]->content . "</u>";
-                        }
+                        $intro = $this->renderStandards( $intro, $paragraph );
 
-                        // strike text
-                        if ( $paragraph->name == "strike" )
-                        {
-                            $intro .= "<s>" . $paragraph->children[0]->content . "</s>";
-                        }
+                        $intro = $this->renderLink( $intro, $paragraph );
+
+                        $intro = $this->renderImage( $intro, $paragraph, $articleImages );
+
                     }
                 }
             }
 
             $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
             
-            $newArticle = eZTextTool::nl2br( $intro );
+//            $newArticle = eZTextTool::nl2br( $intro );
+            $newArticle = $intro;
         }
         
         return $newArticle;
@@ -189,6 +177,8 @@ class eZTechRenderer
             $intro = "";
             $body = "";
 
+            $articleImages = $this->Article->images();
+            $articleID = $this->Article->id();
             
             foreach ( $xml->root->children as $child )
             {
@@ -202,30 +192,14 @@ class eZTechRenderer
                         {
                             $intro .= eZTextTool::nl2br( $paragraph->content );
                         }
-                        
-                        // bold text
-                        if ( $paragraph->name == "bold" )
-                        {
-                            $intro .= "<b>" . $paragraph->children[0]->content . "</b>";
-                        }
 
-                        // italic text
-                        if ( $paragraph->name == "italic" )
-                        {
-                            $intro .= "<i>" . $paragraph->children[0]->content . "</i>";
-                        }
+                        $intro = $this->renderCode( $intro, $paragraph );
 
-                        // underline text
-                        if ( $paragraph->name == "underline" )
-                        {
-                            $intro .= "<u>" . $paragraph->children[0]->content . "</u>";
-                        }
+                        $intro = $this->renderStandards( $intro, $paragraph );
 
-                        // strike text
-                        if ( $paragraph->name == "strike" )
-                        {
-                            $intro .= "<s>" . $paragraph->children[0]->content . "</s>";
-                        }
+                        $intro = $this->renderLink( $intro, $paragraph );
+
+                        $intro = $this->renderImage( $intro, $paragraph, $articleImages );
                     }
 
                 }
@@ -238,8 +212,6 @@ class eZTechRenderer
 
             $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
             
-            $articleImages = $this->Article->images();
-            $articleID = $this->Article->id();
             $pageArray = array();
             // loop on the pages
             foreach ( $body as $page )
@@ -255,217 +227,13 @@ class eZTechRenderer
                         $pageContent .= eZTextTool::nl2br( $paragraph->content );
                     }
 
-                    // php code 
-                    if ( $paragraph->name == "php" )
-                    {
-                        $pageContent .= $this->phpHighlight( trim( $paragraph->children[0]->content ) );
-                    }
+                    $pageContent = $this->renderCode( $pageContent, $paragraph );
 
-                    // java code 
-                    if ( $paragraph->name == "java" )
-                    {
-                        $pageContent .= $this->javaHighlight( trim( $paragraph->children[0]->content ) );
-                    }
+                    $pageContent = $this->renderStandards( $pageContent, $paragraph );
 
-                    // html code 
-                    if ( $paragraph->name == "ezhtml" )
-                    {
-                        $pageContent .= $this->htmlHighlight( trim( $paragraph->children[0]->content ) );
-                    }
-                    
-                    
-                    // header
-                    if ( $paragraph->name == "header" )
-                    {
-                        $pageContent .= "<h2>".  $paragraph->children[0]->content . "</h2>";
-                    }
+                    $pageContent = $this->renderLink( $pageContent, $paragraph );
 
-
-                    // sql code 
-                    if ( $paragraph->name == "sql" )
-                    {
-                        $pageContent .= $this->sqlHighlight( $paragraph->children[0]->content );
-                    }
-
-                    // c++ code 
-                    if ( $paragraph->name == "cpp" )
-                    {
-                        $pageContent .= $this->cppHighlight( $paragraph->children[0]->content );
-                    }
-
-                    // shell code 
-                    if ( $paragraph->name == "shell" )
-                    {
-                        $pageContent .= $this->shellHighlight( $paragraph->children[0]->content );
-                    }
-
-                    // perl code 
-                    if ( $paragraph->name == "perl" )
-                    {
-                        $pageContent .= $this->perlHighlight( $paragraph->children[0]->content );
-                    }
-
-                    // lisp code 
-                    if ( $paragraph->name == "lisp" )
-                    {
-                        $pageContent .= $this->lispHighlight( $paragraph->children[0]->content );
-                    }
-                    
-                    // bold text
-                    if ( $paragraph->name == "bold" )
-                    {
-                        $pageContent .= "<b>" . $paragraph->children[0]->content . "</b>";
-                    }
-
-                    // italic text
-                    if ( $paragraph->name == "italic" )
-                    {
-                        $pageContent .= "<i>" . $paragraph->children[0]->content . "</i>";
-                    }
-
-                    // underline text
-                    if ( $paragraph->name == "underline" )
-                    {
-                        $pageContent .= "<u>" . $paragraph->children[0]->content . "</u>";
-                    }
-
-                    // strike text
-                    if ( $paragraph->name == "strike" )
-                    {
-                        $pageContent .= "<s>" . $paragraph->children[0]->content . "</s>";
-                    }
-
-                    // pre text
-                    if ( ( $paragraph->name == "pre" ) || ( $paragraph->name == "verbatim" ) )
-                    {
-                        $pageContent .= "<pre>" . $paragraph->children[0]->content . "</pre>";
-                    }
-                    
-                    // link
-                    if ( $paragraph->name == "link" )
-                    {
-                        foreach ( $paragraph->attributes as $imageItem )
-                        {
-                            switch ( $imageItem->name )
-                            {
-
-                                case "href" :
-                                {
-                                    $href = $imageItem->children[0]->content;
-                                }
-                                break;
-
-                                case "text" :
-                                {
-                                    $text = $imageItem->children[0]->content;
-                                }
-                                break;
-                            }
-                        }
-
-                        if ( $href[0] == "/" )
-                        {
-                            $pageContent .= "<a href=\"$href\">" . $text . "</a>";
-                        }
-                        else
-                        {
-                            $pageContent .= "<a href=\"http://$href\">" . $text . "</a>";
-                        }
-                    }
-                    
-
-                    // image
-                    if ( $paragraph->name == "image" )
-                    {
-                        foreach ( $paragraph->attributes as $imageItem )
-                        {
-                            switch ( $imageItem->name )
-                            {
-
-                                case "id" :
-                                {
-                                    $imageID = $imageItem->children[0]->content;
-                                }
-                                break;
-
-                                case "align" :
-                                {
-                                    $imageAlignment = $imageItem->children[0]->content;
-                                }
-                                break;
-
-                                case "size" :
-                                {
-                                    $imageSize = $imageItem->children[0]->content;
-                                }
-                                break;
-                                
-                            }
-                        }
-
-                            
-//                          $imageID = $paragraph->children[0]->content;
-                        setType( $imageID, "integer" );
-                        
-                        $image = $articleImages[$imageID-1];
-                        
-                        // add image if a valid image was found, else report an error in the log.
-                        if ( get_class( $image ) == "ezimage" )
-                        {
-                            $ini = new INIFile( "site.ini" );
-                            
-                            switch ( $imageSize )
-                            {
-                                case "small" :
-                                {
-                                    $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "SmallImageWidth" ),
-                                    $ini->read_var( "eZArticleMain", "SmallImageHeight" ) );
-                                }
-                                break;
-                                case "medium" :
-                                {
-                                    $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
-                                    $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
-                                }
-                                break;
-                                case "large" :
-                                {
-                                    $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "LargeImageWidth" ),
-                                    $ini->read_var( "eZArticleMain", "LargeImageHeight" ) );
-                                }
-                                break;
-
-                                default :
-                                {
-                                    $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
-                                    $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
-                                }
-                            }
-                            
-                            $imageURL = "/" . $variation->imagePath();
-                            $imageWidth = $variation->width();
-                            $imageHeight = $variation->height();
-                            $imageCaption = $image->caption();
-                            
-                            $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
-                                            <tr>
-                                            <td>
-                                                        <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
-                                                        </td>
-                                                </tr>
-                                                <tr>
-                                                         <td class=\"pictext\">
-                                                         $imageCaption
-                                                         </td>
-                                                </tr>
-                                             </table>";
-                                $pageContent .=  $imageTags;
-                        }
-                        else
-                        {
-                            eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );        
-                        }
-                    }
+                    $pageContent = $this->renderImage( $pageContent, $paragraph, $articleImages );
                 }
 
                 
@@ -480,7 +248,8 @@ class eZTechRenderer
             }
             else
             {
-                $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
+//                  $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
+                $newArticle = $intro . "</p><p>". $pageArray[$pageNumber];
             }
                 
         }
@@ -488,6 +257,225 @@ class eZTechRenderer
         return $newArticle;
     }
 
+    function &renderLink( $pageContent, $paragraph )
+    {
+        // link
+        if ( $paragraph->name == "link" )
+        {
+            foreach ( $paragraph->attributes as $imageItem )
+                {
+                    switch ( $imageItem->name )
+                    {
+
+                        case "href" :
+                        {
+                            $href = $imageItem->children[0]->content;
+                        }
+                        break;
+
+                        case "text" :
+                        {
+                            $text = $imageItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+
+            if ( !preg_match( "/^([a-z]+:\\/\\/)|\\//", $href ) )
+                $href = "http://" . $href;
+            $pageContent .= "<a href=\"$href\">" . $text . "</a>";
+        }
+        return $pageContent;
+    }
+
+    function &renderImage( $pageContent, $paragraph, $articleImages )
+    {
+        // image
+        if ( $paragraph->name == "image" )
+        {
+            foreach ( $paragraph->attributes as $imageItem )
+                {
+                    switch ( $imageItem->name )
+                    {
+
+                        case "id" :
+                        {
+                            $imageID = $imageItem->children[0]->content;
+                        }
+                        break;
+
+                        case "align" :
+                        {
+                            $imageAlignment = $imageItem->children[0]->content;
+                        }
+                        break;
+
+                        case "size" :
+                        {
+                            $imageSize = $imageItem->children[0]->content;
+                        }
+                        break;
+                                
+                    }
+                }
+
+                            
+//                          $imageID = $paragraph->children[0]->content;
+            setType( $imageID, "integer" );
+                        
+            $image = $articleImages[$imageID-1];
+                        
+            // add image if a valid image was found, else report an error in the log.
+            if ( get_class( $image ) == "ezimage" )
+            {
+                $ini = new INIFile( "site.ini" );
+                            
+                switch ( $imageSize )
+                {
+                    case "small" :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "SmallImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "SmallImageHeight" ) );
+                    }
+                    break;
+                    case "medium" :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                    }
+                    break;
+                    case "large" :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "LargeImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "LargeImageHeight" ) );
+                    }
+                    break;
+
+                    default :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                    }
+                }
+                            
+                $imageURL = "/" . $variation->imagePath();
+                $imageWidth = $variation->width();
+                $imageHeight = $variation->height();
+                $imageCaption = $image->caption();
+                            
+                $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
+                                            <tr>
+                                            <td>
+                                                        <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                         <td class=\"pictext\">
+                                                         $imageCaption
+                                                         </td>
+                                                </tr>
+                                             </table>";
+                $pageContent .=  $imageTags;
+            }
+            else
+            {
+                eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );        
+            }
+        }
+        return $pageContent;
+    }
+
+    function &renderCode( $pageContent, $paragraph )
+    {
+        // php code 
+        if ( $paragraph->name == "php" )
+        {
+            $pageContent .= $this->phpHighlight( trim( $paragraph->children[0]->content ) );
+        }
+
+        // java code 
+        if ( $paragraph->name == "java" )
+        {
+            $pageContent .= $this->javaHighlight( trim( $paragraph->children[0]->content ) );
+        }
+
+        // html code 
+        if ( $paragraph->name == "ezhtml" )
+        {
+            $pageContent .= $this->htmlHighlight( trim( $paragraph->children[0]->content ) );
+        }
+
+        // sql code 
+        if ( $paragraph->name == "sql" )
+        {
+            $pageContent .= $this->sqlHighlight( $paragraph->children[0]->content );
+        }
+
+        // c++ code 
+        if ( $paragraph->name == "cpp" )
+        {
+            $pageContent .= $this->cppHighlight( $paragraph->children[0]->content );
+        }
+
+        // shell code 
+        if ( $paragraph->name == "shell" )
+        {
+            $pageContent .= $this->shellHighlight( $paragraph->children[0]->content );
+        }
+
+        // perl code 
+        if ( $paragraph->name == "perl" )
+        {
+            $pageContent .= $this->perlHighlight( $paragraph->children[0]->content );
+        }
+
+        // lisp code 
+        if ( $paragraph->name == "lisp" )
+        {
+            $pageContent .= $this->lispHighlight( $paragraph->children[0]->content );
+        }
+        return $pageContent;
+    }
+
+    function &renderStandards( $pageContent, $paragraph )
+    {
+        // header
+        if ( $paragraph->name == "header" )
+        {
+            $pageContent .= "<h2>".  $paragraph->children[0]->content . "</h2>";
+        }
+                    
+        // bold text
+        if ( $paragraph->name == "bold" )
+        {
+            $pageContent .= "<b>" . $paragraph->children[0]->content . "</b>";
+        }
+
+        // italic text
+        if ( $paragraph->name == "italic" )
+        {
+            $pageContent .= "<i>" . $paragraph->children[0]->content . "</i>";
+        }
+
+        // underline text
+        if ( $paragraph->name == "underline" )
+        {
+            $pageContent .= "<u>" . $paragraph->children[0]->content . "</u>";
+        }
+
+        // strike text
+        if ( $paragraph->name == "strike" )
+        {
+            $pageContent .= "<s>" . $paragraph->children[0]->content . "</s>";
+        }
+
+        // pre text
+        if ( ( $paragraph->name == "pre" ) || ( $paragraph->name == "verbatim" ) )
+        {
+            $pageContent .= "<pre>" . $paragraph->children[0]->content . "</pre>";
+        }
+        return $pageContent;
+    }
 
     
     /*!
