@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.33 2001/01/09 10:56:08 ce Exp $
+// $Id: ezuser.php,v 1.34 2001/01/12 12:29:51 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -501,15 +501,19 @@ class eZUser
     {
         $session = new eZSession();
 
-        $ret = false;
+        $returnValue = false;
         
         if ( $session->fetch( false ) )
-        {            
-            $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
+        {
+            $val = $session->variable( "AuthenticatedUser" );
+            $user = new eZUser( $val );
+
+//              print( $session->variable( "AuthenticatedUser" ) );
+//              print( "bla" );
 
             $idle = $session->idle();
             $idle = $idle / 60;
-            
+       
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
                 $user->logout();
@@ -519,11 +523,12 @@ class eZUser
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
                 {
                     $session->refresh( );
-                    $ret = $user;
+                    $returnValue = $user;
                 }
             }            
         }
-        return $ret;
+
+        return $returnValue;
     }
 
 
