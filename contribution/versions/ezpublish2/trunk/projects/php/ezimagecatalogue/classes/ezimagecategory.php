@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.19 2001/06/26 11:31:53 jhe Exp $
+// $Id: ezimagecategory.php,v 1.20 2001/06/27 11:59:41 jhe Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -140,7 +140,7 @@ class eZImageCategory
     /*!
       Fetches the object information from the database.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
         
@@ -184,6 +184,33 @@ class eZImageCategory
         return $return_array;
     }
 
+    /*!
+      \Static
+      Returns all images in a category
+    */
+    function &getImages( $user, $category = false )
+    {
+        if ( !$category )
+            $category = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $image_array = array();
+
+        $db->array_query( $image_array, "SELECT ImageID, CategoryID FROM eZImageCatalogue_ImageCategoryLink WHERE CategoryID='$category' ORDER BY ImageID" );
+
+        for ( $i = 0; $i < count( $image_array ); $i++ )
+        {
+            $image = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )] );
+            if ( $image->hasReadPermissions( $user ) )
+            {
+                array_push( $return_array, $image );
+            }
+        }
+        return $return_array;
+    }
+    
     /*! 
       Returns the categories with the category given as parameter as parent. 
       

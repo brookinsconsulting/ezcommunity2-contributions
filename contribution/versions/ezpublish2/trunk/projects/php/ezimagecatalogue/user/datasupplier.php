@@ -1,4 +1,4 @@
-<?
+<?php
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezhttptool.php" );
@@ -106,7 +106,7 @@ switch ( $url_array[2] )
     case "download" :
     {
         $ImageID = $url_array[3];
-        if( ( eZImage::isOwner( $user, $ImageID ) ||
+        if ( ( eZImage::isOwner( $user, $ImageID ) ||
               eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'r' ) ) )
             include( "ezimagecatalogue/user/filedownload.php" );
         else
@@ -114,6 +114,14 @@ switch ( $url_array[2] )
             eZHTTPTool::header( "Location: /error/404" );
             exit();
         }
+    }
+    break;
+
+    case "slideshow" :
+    {
+        $CategoryID = $url_array[3];
+        $Position = $url_array[4];
+        include( "ezimagecatalogue/user/slideshow.php" );
     }
     break;
     
