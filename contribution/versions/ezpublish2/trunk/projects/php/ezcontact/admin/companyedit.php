@@ -13,18 +13,17 @@ include_once( "classes/eztemplate.php" );
 //  include_once( "classes/ezusergroup.php" );
 //  include_once( "classes/ezuser.php" );
 
-include_once( "ezcontact/classes/ezperson.php" );
-include_once( "ezcontact/classes/ezpersontype.php" );
-include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "classes/ezimagefile.php" );
+include_once( "classes/ezmail.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezaddresstype.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
+include_once( "ezcontact/classes/ezonline.php" );
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezpersontype.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 include_once( "ezcontact/classes/ezphonetype.php" );
-include_once( "ezcontact/classes/ezonline.php" );
-include_once( "ezcontact/classes/ezonline.php" );
-include_once( "ezcontact/classes/ezcompanytype.php" );
-include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 //  if( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) && $Action == "new" )
@@ -104,56 +103,198 @@ $t->set_block( "company_edit", "image_edit_tpl", "image_edit" );
 $t->set_block( "company_edit", "company_type_select_tpl", "company_type_select" );
 
 $t->set_block( "company_edit", "errors_tpl", "errors_item" );
-
-$t->set_block( "errors_tpl", "error_name_item_tpl", "error_name_item" );
-$t->set_block( "errors_tpl", "error_email_item_tpl", "error_email_item" );
-$t->set_block( "errors_tpl", "error_companyno_item_tpl", "error_companyno_item" );
-$t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
-
+$t->set_var( "errors_item", "" );
 $message = "Registrer nytt kontaktfirma";
 
-$t->set_var( "name", "" );
-$t->set_var( "description", "" );
-$t->set_var( "street1", "" );
-$t->set_var( "street2", "" );
-$t->set_var( "zip", "" );
-$t->set_var( "place", "" );
-$t->set_var( "telephone", "" );
-$t->set_var( "fax", "" );
-$t->set_var( "email", "" );
-$t->set_var( "web", "" );
-$t->set_var( "companyno", "" );
-$t->set_var( "company_id", "" );
+$Online[] = $OnlineWeb;
+$Online[] = $OnlineEmail;
+$LoginName = $Name;
+
+$t->set_var( "name", "$Name" );
+$t->set_var( "description", "$Description" );
+$t->set_var( "street1", "$Street1" );
+$t->set_var( "street2", "$Street2" );
+$t->set_var( "zip", "$Zip" );
+$t->set_var( "place", "$Place" );
+$t->set_var( "telephone", $Phone[0] );
+$t->set_var( "fax", $Phone[1] );
+$t->set_var( "email", $Online[1] );
+$t->set_var( "web", $Online[0] );
+$t->set_var( "companyno", "$CompanyNo" );
+$t->set_var( "company_id", "$CompanyID" );
+$t->set_var( "password", "$Password" );
+$t->set_var( "repeat_password", "$RepeatPassword" );
+$t->set_var( "tele_phone_id", "$PhoneID" );
+$t->set_var( "fax_phone_id", "$FaxID" );
+$t->set_var( "email_online_id", "$MailID" );
+$t->set_var( "web_online_id", "$WebID" );
+$t->set_var( "address_id", "$AddressID" );
+$t->set_var( "user_id", "$UserID" );
 
 $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "" );
 
+$PHONE_TYPE_ID = 5;
+$FAX_TYPE_ID = 8;
+$EMAIL_TYPE_ID = 5;
+$WEB_TYPE_ID = 4;
+$ADDRESS_TYPE_ID = 2;
+
+$t->set_var( "phone_type_id", "$PHONE_TYPE_ID" );
+$t->set_var( "fax_type_id", "$FAX_TYPE_ID" );
+$t->set_var( "email_type_id", "$EMAIL_TYPE_ID" );
+$t->set_var( "web_type_id", "$WEB_TYPE_ID" );
+$t->set_var( "address_type_id", "$ADDRESS_TYPE_ID" );
+
 
 $error = false;
+$emailCheck = true; // For future reference, this needs to read info about what we should check...
+$passwordCheck = true; // For future reference, this needs to read info about what we should check...
+$loginCheck = true; // For future reference, this needs to read info about what we should check...
+$nameCheck = true; // For future reference, this needs to read info about what we should check...
+$companyNoCheck = true; // For future reference, this needs to read info about what we should check...
+$addressCheck = true; // For future reference, this needs to read info about what we should check...
 
 if( $Action == "insert" || $Action == "update" )
 {
-    if( empty( $Street1 ) || empty( $Place ) || empty( $Zip ) )
+    if( $emailCheck )
     {
-        $t->parse( "error_address_item", "error_address_item_tpl" );
-        $error = true;
+        $t->set_block( "errors_tpl", "error_email_item_tpl", "error_email_item" );
+        $t->set_block( "errors_tpl", "error_email_not_valid_item_tpl", "error_email_not_valid_item" );
+        $t->set_var( "error_email_item", "" );
+        $t->set_var( "error_email_not_valid_item", "" );
+        
+        if( empty( $OnlineEmail ) )
+        {
+            $t->parse( "error_email_item", "error_email_item_tpl" );
+            $error = true;
+        }
+        else
+        {
+            if( !eZMail::validate( $OnlineEmail ) )
+            {
+                $t->parse( "error_email_not_valid_item", "error_email_not_valid_item_tpl" );
+                $error = true;
+            }
+        }        
     }
-    else
+
+    if( $passwordCheck )
     {
+        $t->set_block( "errors_tpl", "error_password_item_tpl", "error_password_item" );
+        $t->set_block( "errors_tpl", "error_password_too_short_item_tpl", "error_password_too_short_item" );
+        $t->set_var( "error_password_item", "" );
+        $t->set_var( "error_password_too_short_item", "" );
+        $t->set_var( "error_passwordrepeat_item", "" );
+        $t->set_var( "error_passwordmatch_item", "" );
+        
+        if( empty( $Password ) && empty( $UserID ) )
+        {
+            $t->parse( "error_password_item", "error_password_item_tpl" );
+            $error = true;
+        }
+
+        if( empty( $RepeatPassword ) && !empty( $Password ) && empty( $UserID ) )
+        {
+            $t->parse( "error_passwordrepeat_item", "error_passwordrepeat_item_tpl" );
+            $error = true;
+        }
+
+        if( $RepeatPassword != $Password &&  !empty( $Password ) && !empty( $RepeatPassword ) && empty( $UserID ) )
+        {
+            $t->parse( "error_passwordmatch_item", "error_passwordmatch_item_tpl" );
+            $error = true;
+        }
+        else
+        {
+            if( strlen( $Password ) < 4 )
+            {
+                $t->parse( "error_password_too_short_item", "error_password_too_short_item_tpl" );
+                $error = true;
+            }
+        }
+        
+    }
+    
+    if( $loginCheck )
+    {
+        $t->set_block( "errors_tpl", "error_loginname_item_tpl", "error_loginname_item" );
+        $t->set_var( "error_loginname_item", "" );
+        
+        if( empty( $LoginName ) && empty( $UserID ) )
+        {
+            $t->parse( "error_loginname_item", "error_loginname_item_tpl" );
+            $error = true;
+        }
+    }
+    
+    if( $companyNoCheck )
+    {
+        $t->set_block( "errors_tpl", "error_companyno_item_tpl", "error_companyno_item" );
+        $t->set_var( "error_companyno_item", "" );
+        
+        if( empty( $CompanyNo ) )
+        {
+            $t->parse( "error_companyno_item", "error_companyno_item_tpl" );
+            $error = true;
+        }
+    }
+    
+    if( $addressCheck )
+    {
+        $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
         $t->set_var( "error_address_item", "" );
+
+        if( empty( $Street1 ) || empty( $Place ) || empty( $Zip ) )
+        {
+            $t->parse( "error_address_item", "error_address_item_tpl" );
+            $error = true;
+        }
     }
-    if( empty( $Name ) )
+    
+    if( $nameCheck )
     {
-        $t->parse( "error_name_item", "error_name_item_tpl" );
-        $error = true;
-    }
-    else
-    {
+        $t->set_block( "errors_tpl", "error_name_item_tpl", "error_name_item" );
         $t->set_var( "error_name_item", "" );
+        
+        if( empty( $Name ) )
+        {
+            $t->parse( "error_name_item", "error_name_item_tpl" );
+            $error = true;
+        }
+    }
+    
+    if( $error == true )
+    {
+        $t->parse( "errors_item", "errors_tpl" );
+    }
+    
+}
+
+if( $Action == "insert" && $error == false )
+{
+    $user = new eZUser();
+    $user->setFirstName( $Name );
+    $user->setLastName( $CompanyNo );
+    $user->setLogin( $Name );
+    $user->setEmail( $Online[1] );
+    if( $Password == $RepeatPassword && !empty( $Password ) )
+    {
+        $user->setPassword( $Password );
+        $user->store();
+        $UserID = $user->id();
+        $Add_User = false;
+                    
+        // add user to usergroup
+        $AnonymousUserGroup = $ini->read_var( "eZContactMain", "CompanyUserGroup" );
+        setType( $AnonymousUserGroup, "integer" );
+
+        $group = new eZUserGroup( $AnonymousUserGroup );
+        $group->addUser( $user );
     }
 }
 
-if ( $Action == "insert" )
+if( $Action == "insert" && $error == false )
 {
     $company = new eZCompany();
     $company->setName( $Name );  
@@ -168,7 +309,7 @@ if ( $Action == "insert" )
     $address->setStreet2( $Street2 );
     $address->setZip( $Zip );
     $address->setPlace( $Place );
-    $address->setAddressType( $AddressType );
+    $address->setAddressType( $AddressTypeID );
     $address->store();
 
     // Add company to categories
@@ -412,7 +553,7 @@ if ( $Action == "update" )
     }
 }
 
-if ( $Action == "new" )
+if ( $Action == "new" || $error)
 {
     $t->parse( "logo_add", "logo_add_tpl" );
     $t->parse( "image_add", "image_add_tpl" );
@@ -595,12 +736,7 @@ foreach( $companyTypeList as $companyTypeItem )
     $t->parse( "company_type_select", "company_type_select_tpl", true );
 }
 
-
-
 // Template variabler.
-
-$t->set_var( "error", $error );
-$t->set_var( "errors_item", $error );
 
 $t->set_var( "action_value", $Action_value );
 
