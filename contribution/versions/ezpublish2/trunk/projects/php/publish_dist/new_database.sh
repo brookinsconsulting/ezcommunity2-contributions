@@ -1,5 +1,6 @@
 #!/bin/sh
 # This script will create the publish MySQL database with all the patches applied.
+# by Chris Mason
 
 echo -n "Name of Database to create [publish]:"
 read DBNAME
