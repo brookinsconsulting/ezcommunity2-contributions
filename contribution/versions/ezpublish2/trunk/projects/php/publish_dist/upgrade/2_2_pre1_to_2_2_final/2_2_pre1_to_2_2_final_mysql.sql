@@ -28,3 +28,5 @@ CREATE TABLE eZBulkMail_SentLog (
   SentDate int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
+alter table eZAd_View change ViewPrice ViewPrice float(10,2) default 0;
