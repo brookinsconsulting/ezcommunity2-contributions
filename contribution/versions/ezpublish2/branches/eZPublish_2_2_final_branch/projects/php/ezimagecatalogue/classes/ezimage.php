@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.88.2.4 2002/04/26 14:59:10 jb Exp $
+// $Id: ezimage.php,v 1.88.2.5 2002/05/23 11:42:37 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -187,10 +187,7 @@ class eZImage
             $db->commit();
     }
 
-    /*!
-      \static
-      Searches the database for images.
-    */
+    /*
     function &search( $name, $literal = false )
     {
         $db =& eZDB::globalDatabase();
@@ -209,6 +206,54 @@ class eZImage
             $res[] =& new eZImage( $image[$db->fieldName("ID")] );
         }
         return $res;
+        }*/
+    
+    /*!
+      \static
+      Searches the database for images.
+    */    
+    function &search( &$queryText, $offset = 0, $limit = 30, $userID = -1 )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+        $returnArray = array();
+        if ( $userID > -1 )
+            $user = new eZUser( $userID );
+        else
+            $user =& eZUser::currentUser();
+        $groupString = "AND i.ID=p.ObjectID AND c.ID=icl.CategoryID AND icl.ImageID=i.ID AND cp.ObjectID=c.ID AND cp.ReadPermission='1' AND ( ( ( (p.GroupID='-1' AND cp.GroupID='-1')";
+        if ( $user )
+        {
+            foreach ( $user->groups( false ) as $group )
+            {
+                $groupString .= "OR (p.GroupID='$group' AND cp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='-1' AND cp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='$group' AND cp.GroupID='-1') ";
+            }
+        }
+        $groupString .= ") AND p.ReadPermission='1' ) OR ( i.UserID='$userID' ) )";
+        $query = new eZQuery( array( "i.Name", "i.Description", "i.Caption" ), $queryText );
+        $query->setPartialCompare( true );
+        $queryString = "SELECT i.ID, i.Name as Count FROM eZImageCatalogue_Image as i";
+        if ( $user && $user->hasRootAccess() )
+        {
+            $groupString = "";
+        }
+        else
+        {
+            $queryString .= ", eZImageCatalogue_ImagePermission as p, eZImageCatalogue_Category as c,
+                               eZImageCatalogue_ImageCategoryLink as icl, eZImageCatalogue_CategoryPermission as cp";
+        }
+        $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
+        $queryString .= " GROUP BY i.ID ORDER BY i.Name";
+        $limit = array( "Limit" => $limit,
+                        "Offset" => $offset );
+        $db->array_query( $fileArray, $queryString, $limit );
+        foreach ( $fileArray as $file )
+        {
+            $returnArray[] = new eZImage( $file[$db->fieldName( "ID" )] );
+        }
+        return $returnArray;
     }
 
     /*!
@@ -218,17 +263,40 @@ class eZImage
     function &searchCount( $name, $literal = false )
     {
         $db =& eZDB::globalDatabase();
-        $res = array();
-
-        $query = new eZQuery( array( "Name", "Caption", "Description", "Keywords" ),
-                              $name );
-        $query->setIsLiteral( $literal );
-        $where =& $query->buildQuery();
-
-        $db->query_single( $res,
-                          "SELECT COUNT(ID) as Count FROM eZImageCatalogue_Image WHERE $where" );
-
-        return $res["Count"];
+        $ret = false;
+        $returnArray = array();
+        if ( $userID > -1 )
+            $user = new eZUser( $userID );
+        else
+            $user =& eZUser::currentUser();
+        $groupString = "AND i.ID=p.ObjectID AND c.ID=icl.CategoryID AND icl.ImageID=i.ID AND cp.ObjectID=c.ID AND cp.ReadPermission='1' AND ( ( ( (p.GroupID='-1' AND cp.GroupID='-1')";
+        if ( $user )
+        {
+            foreach ( $user->groups( false ) as $group )
+            {
+                $groupString .= "OR (p.GroupID='$group' AND cp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='-1' AND cp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='$group' AND cp.GroupID='-1') ";
+            }
+        }
+        $groupString .= ") AND p.ReadPermission='1' ) OR ( i.UserID='$userID' ) )";
+        $query = new eZQuery( array( "i.Name", "i.Description", "i.Caption" ), $queryText );
+        $query->setPartialCompare( true );
+        $queryString = "SELECT COUNT(i.ID) AS Count FROM eZImageCatalogue_Image as i";
+        if ( $user && $user->hasRootAccess() )
+        {
+            $groupString = "";
+        }
+        else
+        {
+            $queryString .= ", eZImageCatalogue_ImagePermission as p, eZImageCatalogue_Category as c,
+                               eZImageCatalogue_ImageCategoryLink as icl, eZImageCatalogue_CategoryPermission as cp";
+        }
+        $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
+        $queryString .= " GROUP BY i.ID ORDER BY i.Name";
+        $db->array_query( $fileArray, $queryString );
+        $ret = $fileArray[0][$db->fieldName( "Count" )];
+        return $ret;
     }
 
     /*!

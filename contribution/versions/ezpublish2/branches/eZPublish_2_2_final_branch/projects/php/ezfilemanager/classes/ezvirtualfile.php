@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.52.2.2 2002/04/22 08:35:45 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.52.2.3 2002/05/23 11:42:58 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -206,6 +206,8 @@ class eZVirtualfile
             foreach ( $user->groups( false ) as $group )
             {
                 $groupString .= "OR (p.GroupID='$group' AND fp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='-1' AND fp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='$group' AND fp.GroupID='-1') ";
             }
         }
         $groupString .= ") AND p.ReadPermission='1' ) OR ( f.UserID='$userID' ) )";
@@ -222,7 +224,7 @@ class eZVirtualfile
                                eZFileManager_FileFolderLink as ffl, eZFileManager_FolderPermission as fp";
         }
         $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
-        $queryString .= " ORDER BY f.Name";
+        $queryString .= " GROUP BY f.ID ORDER BY f.Name";
         $limit = array( "Limit" => $limit,
                         "Offset" => $offset );
         $db->array_query( $fileArray, $queryString, $limit );
@@ -240,20 +242,23 @@ class eZVirtualfile
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
+        $returnArray = array();
         if ( $userID > -1 )
             $user = new eZUser( $userID );
         else
             $user =& eZUser::currentUser();
-        $groupString = "AND f.ID=p.ObjectID AND ( ( ( p.GroupID='-1' ";
+        $groupString = "AND f.ID=p.ObjectID AND fo.ID=ffl.FolderID AND ffl.FileID=f.ID AND fp.ObjectID=fo.ID AND fp.ReadPermission='1' AND ( ( ( (p.GroupID='-1' AND fp.GroupID='-1')";
         if ( $user )
         {
             foreach ( $user->groups( false ) as $group )
             {
-                $groupString .= "OR p.GroupID='$group' ";
+                $groupString .= "OR (p.GroupID='$group' AND fp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='-1' AND fp.GroupID='$group') ";
+                $groupString .= "OR (p.GroupID='$group' AND fp.GroupID='-1') ";
             }
         }
         $groupString .= ") AND p.ReadPermission='1' ) OR ( f.UserID='$userID' ) )";
-        $query = new eZQuery( array( "Name", "Description" ), $queryText );
+        $query = new eZQuery( array( "f.Name", "f.Description" ), $queryText );
         $query->setPartialCompare( true );
         $queryString = "SELECT COUNT(f.ID) as Count FROM eZFileManager_File as f";
         if ( $user && $user->hasRootAccess() )
@@ -262,11 +267,14 @@ class eZVirtualfile
         }
         else
         {
-            $queryString .= ", eZFileManager_FilePermission as p";
+            $queryString .= ", eZFileManager_FilePermission as p, eZFileManager_Folder as fo,
+                               eZFileManager_FileFolderLink as ffl, eZFileManager_FolderPermission as fp";
         }
         $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
-        $db->query_single( $result, $queryString );
-        $ret = $result[$db->fieldName( "Count" )];
+        $queryString .= " GROUP BY f.ID ORDER BY f.Name";
+        $db->array_query( $fileArray, $queryString );
+
+        $ret = $fileArray[0][$db->fieldName( "Count" )];
 
         return $ret;
     }
