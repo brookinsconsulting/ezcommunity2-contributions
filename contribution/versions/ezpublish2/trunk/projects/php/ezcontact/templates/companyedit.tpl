@@ -13,7 +13,7 @@ Firmanavn:<br>
 Adresse type:
 <br>
 <select name="AddressType">
-{address_type}
+{address_type} 
 </select>
 <br>
 
@@ -22,6 +22,12 @@ Adresse:<br>
 <input type="text" name="Street2" value="{street_2}"><br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
+
+
+Telefon:<br>
+<input type="text" name="Phone[0]"><br>
+E-mail:<br>
+<input type="text" name="Phone[1]"><br>
 
 Kommentar:<br>
 <textarea rows="5" name="Comment">{comment}</textarea><br>

@@ -39,8 +39,6 @@ $t->set_var( "owner", $usr->login() );
         $address = new eZAddress();
         $address->get( $dict_array[ $i ][ "AddressID" ] );
 
-        print( "hkk" . $dict_array[ $i ][ "AddressID" ] );
-        
         $t->set_var( "street1", $address->street1()  );
         $t->set_var( "street2", $address->street2() );
         $t->set_var( "zip", $address->zip()  );
