@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.16 2001/01/23 21:52:13 jb Exp $
+// $Id: eztemplate.php,v 1.17 2001/01/24 09:12:54 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -32,7 +32,7 @@ class eZTemplate
     /*!
       Constructs a new eZTemplate object.
     */
-    function eZTemplate( $templateDir = "", $intlDir = "", $language = "", $phpFile = "", $style = false, $module_dir = false )
+    function eZTemplate( $templateDir = "", $intlDir = "", $language = "", $phpFile = "", $style = false, $module_dir = false, $state = false )
     {
         $this->intlDir =& $intlDir;
         $this->language =& $language;
@@ -42,6 +42,7 @@ class eZTemplate
         $this->style = $style;
         $this->module_dir = $module_dir;
         $this->TextStrings = array();
+        $this->state = $state;
 
         $this->languageFile = $intlDir . "/" . $language . "/" . $phpFile . ".ini";
         if ( file_exists( $this->languageFile ) )
@@ -62,7 +63,9 @@ class eZTemplate
         else
         {
             $this->CacheDir = $module_dir . "/cache";
-            $this->CacheFile = $this->CacheDir . "/" . $phpFile . "-" . $style ."-" . $language . ".cache";
+            if ( !empty( $state ) )
+                $state = "-" . $state;
+            $this->CacheFile = $this->CacheDir . "/" . $phpFile . "-" . $style ."-" . $language . $state . ".cache";
         }
     }
 
@@ -110,7 +113,7 @@ class eZTemplate
         return false;
     }
 
-    function &storeCache( $target, $handle )
+    function &storeCache( $target, $handle, $print = true )
     {
         if ( empty( $this->CacheFile ) )
             return false;
@@ -124,6 +127,10 @@ class eZTemplate
             $fd = fopen( $this->CacheFile, "w" );
             fwrite( $fd, $str );
             fclose( $fd );
+        }
+        if ( $print )
+        {
+            print $str;
         }
         return $str;
     }
@@ -139,7 +146,7 @@ class eZTemplate
             return $key;
         }
     }
-    
+
     /*!
       Returns a reference to the ini file object.
     */
@@ -152,6 +159,7 @@ class eZTemplate
     var $ini;
     var $style;
     var $module_dir;
+    var $state;
     var $languageFile;
     var $CacheFile;
     var $CacheDir;
