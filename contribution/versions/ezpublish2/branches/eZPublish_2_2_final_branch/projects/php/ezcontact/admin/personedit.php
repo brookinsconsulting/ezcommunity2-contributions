@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57.2.2 2001/10/30 12:51:20 jhe Exp $
+// $Id: personedit.php,v 1.57.2.3 2002/01/07 07:57:24 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -1248,7 +1248,7 @@ if ( !$confirm )
 
         $t->parse( "project_item", "project_item_tpl", true );
 
-        if ( $CompanyEdit )
+        if ( $CompanyEdit && $Action != "new" )
         {
             // View logo.
             $logoImage = eZCompany::logoImage( $CompanyID );
@@ -1303,6 +1303,11 @@ if ( !$confirm )
                     $t->parse( "image_item", "image_item_tpl" );
                 }
             }
+        }
+        else
+        {
+            $t->set_var( "logo_item", "&nbsp;" );
+            $t->set_var( "image_item", "&nbsp;" );
         }
     }
 
