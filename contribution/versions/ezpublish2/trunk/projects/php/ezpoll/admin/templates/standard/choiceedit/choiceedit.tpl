@@ -5,10 +5,10 @@
 <hr noshade size="4">
 
 <p class="boxtext">{intl-name}</p>
-<input type="text" size="20" name="Name" value="{name_value}"/>
+<input type="text" size="40" name="Name" value="{name_value}"/>
 
 <p class="boxtext">{intl-offset}</p>
-<input type="text" size="20" name="Offset" value="{offset_value}"/>
+<input type="text" size="10" name="Offset" value="{offset_value}"/>
 <br /><br />
 
 <hr noshade size="4">
