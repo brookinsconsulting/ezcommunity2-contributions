@@ -158,7 +158,16 @@ switch ( $url_array[2] )
             {
                 $BugID = $url_array[4];
                 $Action = "Edit";
-                include( "ezbug/user/bugreport.php" );
+                if( $session->variable( "CurrentBugEdit" ) == $BugID && $BugID != 0 )
+                {
+                    $session->setVariable( "CurrentBugEdit", 0 );
+                    include( "ezbug/user/bugreport.php" );
+                }
+                else
+                {
+                    eZHTTPTool::header( "Location: /error/403");
+                    exit();
+                }
             }
             break;
 
