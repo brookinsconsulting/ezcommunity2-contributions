@@ -17,8 +17,8 @@ switch ( $url_array[2] )
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
         
-        if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
-            $PageNumber= 0;
+        if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ))
+            $PageNumber= 1;
         
         if ( $PageCaching == "enabled" )
         {
