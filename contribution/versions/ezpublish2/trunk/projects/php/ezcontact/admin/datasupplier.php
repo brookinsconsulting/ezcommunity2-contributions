@@ -38,6 +38,13 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companyedit.php" );
             }
             break;
+            case "Update":
+            {
+                $Action = "update";
+                $CompanyID = $url_array[4];
+                include( "ezcontact/admin/companyedit.php" );
+            }
+            break;
 
         }
     }

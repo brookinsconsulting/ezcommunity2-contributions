@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.1 2000/11/14 08:23:32 ce-cvs Exp $
+// $Id: ezonline.php,v 1.2 2000/11/14 18:59:27 ce-cvs Exp $
 //
 // Definition of eZOnline class
 //
@@ -97,7 +97,7 @@ class eZOnline
             $this->Database->query( "UPDATE eZContact_Online SET
                     URL='$this->URL',
                     URLType='$this->URLType',
-                    OnlineTypeID='$this->OnlineTypeID',
+                    OnlineTypeID='$this->OnlineTypeID'
                     WHERE ID='$this->ID'" );            
 
             $this->State_ = "Coherent";
