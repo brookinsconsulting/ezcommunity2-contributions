@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.144 2001/08/15 14:45:52 ce Exp $
+// $Id: ezarticle.php,v 1.145 2001/08/15 14:50:56 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1121,7 +1121,7 @@ class eZArticle
             if ( $group->isMember( eZUser::currentUser() ) )
                 $this->IsPublished = "1";
             else
-                $this->IsPublished = "2;
+                $this->IsPublished = "2";
         }
         else if ( $value == true )
         {

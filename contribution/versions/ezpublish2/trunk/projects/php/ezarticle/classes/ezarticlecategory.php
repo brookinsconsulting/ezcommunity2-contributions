@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.79 2001/08/15 14:45:52 ce Exp $
+// $Id: ezarticlecategory.php,v 1.80 2001/08/15 14:50:56 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -983,7 +983,7 @@ class eZArticleCategory
            $currentUserID = $user->id();
            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
 
-           if ( $user->usePermission() )
+           if ( $user->hasRootAccess() )
                $usePermission = false;
        }
 
