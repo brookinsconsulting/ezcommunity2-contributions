@@ -41,7 +41,7 @@
 	</td>
 </tr>
 <tr>
-        <td colspan="2">
+        <td valign="top">
         <p class="boxtext">{intl-main_group}:</p>
 	<select name="MainGroup">
         <!-- BEGIN main_group_item_tpl -->
@@ -50,7 +50,7 @@
         </select>
         </td>
 
-	<td colspan="2">
+	<td>
 	<p class="boxtext">{intl-groups}:</p>
 	<select name="GroupArray[]" multiple size="5">
 	<!-- BEGIN group_item_tpl -->

@@ -23,8 +23,12 @@
 <table class="list" width="100%" cellpadding="4" cellspacing="0" border="0">
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td colspan="2">
+	<td>
 	<a href="{www_dir}{index}/article/view/{article_id}/">{article_name}</a>
+	</td>
+	<td align="right">
+	<a href="{www_dir}{index}/article/archive/{category_id}/">(&nbsp;{category_name}&nbsp;)</a>
+	</td>
 </tr>
 <!-- END article_item_tpl -->
 </table>

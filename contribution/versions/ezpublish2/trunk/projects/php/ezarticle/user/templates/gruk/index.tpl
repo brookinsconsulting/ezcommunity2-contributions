@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<table cellpadding="2" cellspacing="0" width="100%" border="0">
+<table cellpadding="0" cellspacing="0" width="100%" border="0">
 <tr>
 	<!-- BEGIN letter_item_tpl -->
 	<td>
@@ -14,7 +14,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<table cellpadding="4" cellspacing="0" width="100%" border="0">
+<table class="list" cellpadding="4" cellspacing="0" width="100%" border="0">
 <!-- BEGIN index_item_tpl -->
 <tr>
 	<td width="1%" valign="top">
