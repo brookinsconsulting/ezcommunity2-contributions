@@ -3369,3 +3369,11 @@ Maintainer(s) : bf@ez.no
     * user/authorlist.php
       user/topiclist.php: fix with author count
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-06-20  Christoffer Elo  <ce@ez.no>
+
+    * user/templates/standard/sendmailtofriend.tpl: Added non-virtualhost fix
+
