@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbenchmark.php,v 1.6 2001/09/26 07:11:12 ce Exp $
+// $Id: ezbenchmark.php,v 1.7 2001/10/10 07:08:02 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -71,7 +71,7 @@ class eZBenchmark
     /*!
       Prints the benchmark results.
     */
-    function printResults()
+    function printResults( $return=false )
     {
         $time_1 = explode( " ", $this->StartTime );
         $time_2 = explode( " ", $this->StopTime );
@@ -83,8 +83,15 @@ class eZBenchmark
         $Stop = $time_2[1] . "." . $t2[1];    
         
         $elapsed = $Stop - $Start;
-        
-        print( "Time elapsed: " . number_format( ( $elapsed ), 2 ) . " seconds.<br>" );
+
+        if ( $return == false )
+        {
+            print( "Time elapsed: " . number_format( ( $elapsed ), 2 ) . " seconds.<br>" );
+        }
+        else
+        {
+            return "Time elapsed: " . number_format( ( $elapsed ), 2 ) . " seconds.<br>";
+        }
         
     }
 
