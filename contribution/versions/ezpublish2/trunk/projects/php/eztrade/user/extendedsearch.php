@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.3 2001/03/16 16:46:32 ce Exp $
+// $Id: extendedsearch.php,v 1.4 2001/03/20 17:31:36 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -75,7 +75,10 @@ $product = new eZProduct();
 
 if ( $Action == "SearchButton" )
 {
-    $session = new eZSession();
+        if ( $Limit == "" )
+        $Limit = 10;
+    if ( $Offset == "" )
+        $Offset = 0;
 
     if ( $Next || $Prev )
     {
@@ -195,11 +198,7 @@ else
 {
     $t->set_var( "product_search_list", "" );
 }
-//  print( "Object:" . $t . "<br>" . 
-//                         "totalt:" .$totalCount . "<br>" . 
-//                         "limit:" . $Limit . "<br>" . 
-//                         "offset:" . $Offset . "<br>"
-//                         );
+
 eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "extended_search_tpl" );
 
 $category = new eZProductCategory();

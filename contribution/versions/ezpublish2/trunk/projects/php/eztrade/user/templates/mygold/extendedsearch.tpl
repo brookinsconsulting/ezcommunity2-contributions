@@ -25,10 +25,18 @@
 </tr>
 <tr>
         <td>
-	<input type="text" name="PriceLower" value="{price_lower}" />
+	<select name="PriceLower">
+	<option {selected} value="50">50</option>
+	<option {selected} value="100">100</option>
+	<option {selected} value="1000">1000</option>
+	</select>
 	</td>
         <td>
-	<input type="text" name="PriceHigher" value="{price_higher}" />
+	<select name="PriceHigher">
+	<option {selected} value="50">50</option>
+	<option {selected} value="100">100</option>
+	<option {selected} value="1000">1000</option>
+	</select>
 	</td>
 </tr>
 <tr>
