@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adstatistics.php,v 1.14 2001/10/12 15:54:08 br Exp $
+// $Id: adstatistics.php,v 1.15 2001/10/12 15:58:37 br Exp $
 //
 // Created on: <26-Nov-2000 11:47:03 bf>
 //
@@ -65,7 +65,7 @@ $t->set_var( "ad_click_count", $clickCount );
 if ( $clickCount > 0 )
     $clickRevenue =& $ad->totalClickRevenue();
 else
-    $clickRevenue="n/a";
+    $clickRevenue=0;
 
 $viewRevenue =& $ad->totalViewRevenue();
 
