@@ -49,7 +49,7 @@
   <input type="checkbox" name="IsPrivate" value="true" {private_checked}>&nbsp;{intl-private}</input>
 <br />
 <!-- inserted files -->
-<p class="boxtext">{intl-avaliable_patches}:</p>
+<h2>{intl-avaliable_patches}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-file_id}:</th>
@@ -77,7 +77,7 @@
 
 </table>
 <!-- inserted Images -->
-<p class="boxtext">{intl-avaliable_screenshots}:</p>
+<h2>{intl-avaliable_screenshots}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-image_id}:</th>

@@ -51,7 +51,7 @@
 <div class="p">{reporter_name_value}</div>
 
 <p class="boxtext">{intl-bug_description}:</p>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table cellspacing="0" cellpadding="4" border="0" width="100%">
 <tr>
 	<td class="bglight">
 	{description_value}
@@ -128,9 +128,7 @@
 <br />
 <br />
 <!-- BEGIN log_item_tpl -->
-<b>{log_date}</b>
-<p>
-{log_description}
-</p>
+<p class="boxtext">{log_date}:</p>
+<div class="p">{log_description}</div>
 <!-- END log_item_tpl -->	
 
