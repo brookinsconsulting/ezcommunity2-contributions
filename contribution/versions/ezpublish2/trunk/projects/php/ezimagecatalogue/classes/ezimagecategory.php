@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.21 2001/06/27 13:53:51 jb Exp $
+// $Id: ezimagecategory.php,v 1.22 2001/06/27 14:17:37 pkej Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -269,6 +269,34 @@ class eZImageCategory
             return array(); 
         } 
     } 
+
+    /*!
+        \static
+        Returns the one, and only if one exists, category with the name
+        
+        Returns an object of eZImageCategory.
+     */
+    function &getByName( $name )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $topic =& new eZArticleCategory();
+        
+        $name = $db->escapeString( $name );
+
+        if( $name != "" )
+        {
+            $db->array_query( $author_array, "SELECT ID, Name FROM eZArticle_Category WHERE Name='$name'" );
+
+            if( count( $author_array ) == 1 )
+            {
+                $topic =& new eZImageCategory( $author_array[0][$db->fieldName("ID")] );
+            }
+        }
+        
+        return $topic;
+    }
+
 
     /*!
       Returns the current path as an array of arrays.  
