@@ -321,6 +321,7 @@ CREATE TABLE eZTrade_ProductQuantityDict (
 );
 
 CREATE TABLE eZTrade_ProductSectionDict (
+  ID int NOT NULL default '0',
   ProductID int NOT NULL default '0',
   SectionID int NOT NULL default '0',
   Placement int NOT NULL default '0',

@@ -1437,6 +1437,7 @@ INSERT INTO eZUser_UserGroupDefinition VALUES (1,2,2);
 
 INSERT INTO eZUser_UserGroupLink VALUES (2,2,2);
 
+INSERT INTO eZUser_UserAddressLink VALUES (1,2,6);
 INSERT INTO eZUser_UserShippingLink VALUES (1,2,7);
 INSERT INTO eZUser_UserShippingLink VALUES (2,2,9);
 

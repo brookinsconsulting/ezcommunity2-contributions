@@ -2388,6 +2388,7 @@ CREATE TABLE eZTrade_ProductQuantityDict (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_ProductSectionDict (
+  ID int(11) NOT NULL default '0',
   ProductID int(11) NOT NULL default '0',
   SectionID int(11) NOT NULL default '0',
   Placement int(11) NOT NULL default '0',

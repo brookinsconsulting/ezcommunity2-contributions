@@ -90,7 +90,7 @@
 	<img src="{www_dir}/admin/images/product.gif" height="16" width="16" border="0" alt="" align="top" />
 	<!-- END product_icon_tpl -->
 	<!-- BEGIN voucher_icon_tpl -->
-	<img src="{www_dir}/admin/images/voucher.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/admin/images/product.gif" height="16" width="16" border="0" alt="" align="top" />
 	<!-- END voucher_icon_tpl -->
 	</td>
 	<td class="{td_class}">

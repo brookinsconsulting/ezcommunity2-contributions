@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119 2001/10/16 09:21:04 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1 2001/11/01 13:05:51 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -772,8 +772,8 @@ class eZProduct
         if ( !$id )
             $id = $this->ID;
         $quantity = eZProduct::totalQuantity( $id );
-        if ( is_bool($quantity) or
-             !$require or ( $require and $quantity > 0 ) )
+
+        if ( is_bool($quantity) or !$require or ( $require and $quantity > 0 ) )
             return true;
         return false;
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerview.php,v 1.6 2001/10/05 09:52:52 bf Exp $
+// $Id: customerview.php,v 1.6.2.1 2001/11/01 13:05:51 ce Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -120,8 +120,6 @@ foreach ( $orders as $order )
     $statusName = preg_replace( "#intl-#", "", $statusType->name() );
     $statusName =  $languageINI->read_var( "strings", $statusName );
     $t->set_var( "order_status", $statusName );
-
-
 
     $currency->setValue( $order->totalPrice() );
     $t->set_var( "order_price", $locale->format( $currency ) );
