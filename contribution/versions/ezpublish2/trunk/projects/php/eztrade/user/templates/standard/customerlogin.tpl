@@ -7,10 +7,10 @@
 <p>{intl-reg_text}</p>
 
 <form method="post" action="/user/login/login/">
-<p class="boxtext">{intl-username}</p>
+<p class="boxtext">{intl-username}:</p>
 <input type="text" size="20" name="Username"/>
 
-<p class="boxtext">{intl-password}</p>
+<p class="boxtext">{intl-password}:</p>
 <input type="password" size="20" name="Password"/><br />
 <br />
 

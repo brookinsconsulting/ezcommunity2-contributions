@@ -12,7 +12,7 @@
 <tr>
 	<td>
 	<form method="post" action="/user/forgot/">
-	{intl-username}
+	{intl-username}:
 	<input type="text" size="8" name="Login"/>
 	<br />
 	<br />
