@@ -2,7 +2,6 @@
 
 <hr noshade="noshade" size="4" />
 
-
 <h2>{intl-customer_login}</h2>
 
 <p>{intl-reg_text}</p>
@@ -15,6 +14,8 @@
 <input type="password" size="20" name="Password"/><br />
 <br />
 
+<hr noshade="noshade" size="4" />
+
 <input class="okbutton" type="submit" value="Logg inn" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
@@ -25,6 +26,9 @@
 <p>{intl-new_text}</p>
 
 <form method="post" action="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">
+
+<hr noshade="noshade" size="4" />
+
 <input class="okbutton" class="stdbutton" type="submit" value="Ny bruker" />
 
 </form>
