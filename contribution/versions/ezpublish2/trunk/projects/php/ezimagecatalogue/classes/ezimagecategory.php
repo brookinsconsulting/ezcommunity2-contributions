@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.43 2001/09/28 08:06:02 br Exp $
+// $Id: ezimagecategory.php,v 1.44 2001/10/10 08:01:58 ce Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -256,25 +256,7 @@ class eZImageCategory
     */
     function &getImages( $user, $category = false )
     {
-        if ( !$category )
-            $category = $this->ID;
-
-        $db =& eZDB::globalDatabase();
-
-        $return_array = array();
-        $image_array = array();
-
-        $db->array_query( $image_array, "SELECT ImageID, CategoryID FROM eZImageCatalogue_ImageCategoryLink WHERE CategoryID='$category' GROUP BY ImageID ORDER BY ImageID DESC" );
-
-        for ( $i = 0; $i < count( $image_array ); $i++ )
-        {
-            $image = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )] );
-            if ( $image->hasReadPermissions( $user ) )
-            {
-                array_push( $return_array, $image );
-            }
-        }
-        return $return_array;
+        return eZImageCategory::images( "time", 0, -1, $category );
     }
     
     /*! 
@@ -686,10 +668,18 @@ class eZImageCategory
     /*!
       Returns every images in a category as a array of eZImage objects.
     */
-    function images( $sortMode = "time", $offset = 0, $limit = -1 )
+    function images( $sortMode = "time", $offset = 0, $limit = -1, $category=false )
     {
        $db =& eZDB::globalDatabase();
 
+       if ( get_class ( $category ) == "ezimagecategory" )
+       {
+           $catID = $category->id();
+       }
+       elseif ( is_numeric ( $category ) )
+           $catID = $category;
+       else
+           $catID = $this->ID;
        $return_array = array();
        $article_array = array();
        $user =& eZUser::currentUser();
@@ -728,7 +718,7 @@ class eZImageCategory
                 WHERE $permissionSQL
                       eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
                       AND eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
-                      AND eZImageCatalogue_Category.ID='$this->ID'
+                      AND eZImageCatalogue_Category.ID='$catID'
 
                GROUP BY Image.ID, Image.OriginalFileName ORDER BY Image.OriginalFileName",
        array( "Limit" => $limit,
