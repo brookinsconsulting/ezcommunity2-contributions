@@ -133,7 +133,7 @@ class eZCompany
         $this->dbInit();    
         $company_array = 0;
     
-        array_query( $company_array, "SELECT  eZContact_Company.ID, eZContact_Company.Name from eZContact_Company, eZContact_Person where ((Person.FirstName LIKE '%$query%' OR Person.LastName LIKE '%$query%') AND Company.ID=Person.Company) GROUP BY Company.ID ORDER BY Company.ID" );
+        array_query( $company_array, "SELECT  eZContact_Company.ID, eZContact_Company.Name from eZContact_Company, eZContact_Person where ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%') AND eZContact_Company.ID=eZContact_Person.Company) GROUP BY eZContact_Company.ID ORDER BY eZContact_Company.ID" );
 
         return $company_array;
     }
