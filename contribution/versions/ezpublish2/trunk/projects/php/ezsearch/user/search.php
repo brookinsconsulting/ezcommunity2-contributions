@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.7 2001/10/09 08:58:10 jhe Exp $
+// $Id: search.php,v 1.8 2001/10/10 11:36:07 jhe Exp $
 //
 // Created on: <08-Jun-2001 13:10:36 bf>
 //
@@ -89,7 +89,7 @@ foreach ( $moduleArray as $module )
             }
             $t->set_var( "search_more_link", $Result["DetailedSearchPath"] . "?" .
                          $Result["DetailedSearchVariable"] . "=". urlencode( $SearchText ) );
-            $t->set_var( "search_count", $Result["SearchCount"] ? $Result["SearchCount"] : "0" );
+            $t->set_var( "search_count", $Result["SearchCount"] ? $Result["SearchCount"] : count( $Result["Result"] ) );
             if ( isSet( $Result["SubModuleName"] ) )
             {
                 $t->set_var( "sub_module_name", $Result["SubModuleName"] );
