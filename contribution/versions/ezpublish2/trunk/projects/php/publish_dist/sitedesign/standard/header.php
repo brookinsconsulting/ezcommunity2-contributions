@@ -87,7 +87,7 @@
 
     <div align="center">
         <?
-        $CategoryID = 3;
+        $CategoryID = $ini->read_var( "eZAdMain", "DefaultCategory" );
         $Limit = 1; 
         include( "ezad/user/adlist.php" );
         ?>
