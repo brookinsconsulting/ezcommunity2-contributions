@@ -28,6 +28,7 @@
 	<td>
     <input type="hidden" name="CategoryID" value="{category_id}" />
     <input class="okbutton" type="submit" value="OK" />
+	</form>
 	</td>
 	<td>&nbsp;</td'
 	<td>
@@ -36,4 +37,3 @@
 </tr>
 </table>
 
-</form>

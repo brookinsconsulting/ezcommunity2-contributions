@@ -1,8 +1,10 @@
+<form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
+
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -49,6 +51,7 @@
 <tr>
 	<td>
 	<input  class="okbutton" type="submit" value="OK" />
+	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
@@ -57,4 +60,3 @@
 </tr>
 </table>
 	
-</form>

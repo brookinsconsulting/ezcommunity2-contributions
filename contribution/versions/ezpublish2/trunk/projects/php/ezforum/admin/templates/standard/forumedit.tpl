@@ -74,6 +74,7 @@
 <tr>
 	<td>
 	<input class="okbutton" type="submit" name="modify" value="OK">
+	</form>
 	</td>
 	<td>
 	&nbsp;
@@ -85,5 +86,3 @@
 	</td>
 </tr>
 </table>
-
-</form>
