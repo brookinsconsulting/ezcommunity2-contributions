@@ -92,6 +92,14 @@ CREATE TABLE eZTrade_CategoryPermission (
 ) TYPE=MyISAM;
 
 
+CREATE TABLE eZTrade_ProductFormDict (
+  ID int NOT NULL,
+  ProductID int default NULL,
+  FormID int default NULL,
+  PRIMARY KEY (ID)
+);
+
+
 CREATE TABLE eZTrade_GroupPriceLink (
   GroupID int(11) NOT NULL default '0',
   PriceID int(11) NOT NULL default '0',

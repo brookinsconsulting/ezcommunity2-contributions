@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.106 2001/09/28 12:44:54 ce Exp $
+// $Id: ezproduct.php,v 1.107 2001/10/01 10:07:23 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -1990,6 +1990,84 @@ class eZProduct
         
         return $ret;
     }
+
+    /*!
+      Deletes all forms associated with the product.
+    */
+    function deleteForms()
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $ProductID = $this->ID;
+
+        $query = "DELETE FROM eZTrade_ProductFormDict
+                  WHERE ProductID=$ProductID
+                  ";
+        $db->query( $query );
+    }
+
+
+    /*!
+      Adds a form to the product.
+    */
+    function addForm( $form )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if( get_class( $form ) == "ezform" )
+        {
+            $ProductID = $this->ID;
+            $FormID = $form->id();
+            
+            $db->begin( );
+    
+            $db->lock( "eZTrade_ProductFormDict" );
+
+            $nextID = $db->nextID( "eZTrade_ProductFormDict", "ID" );        
+
+            $query = "INSERT INTO eZTrade_ProductFormDict
+                      ( ID, ProductID, FormID )
+                      VALUES ( '$nextID', '$ProductID', '$FormID' )
+                      ";
+            $res = $db->query( $query );
+            
+            $db->unlock();
+    
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();        
+            
+        }        
+    }
+
+    /*!
+      Returns an array of the forms for the current product.
+    */
+    function forms( $as_object = true)
+    {
+        $db =& eZDB::globalDatabase();
+
+        include_once( "ezform/classes/ezform.php" );
+        
+        $ProductID = $this->ID;
+        
+        $return_array = array();
+        
+        $query = "SELECT FormID FROM eZTrade_ProductFormDict
+                      WHERE ProductID=$ProductID
+                      ";
+        
+        $db->array_query( $ret_array, $query );
+        $count = count( $ret_array );
+        for( $i = 0; $i < $count; $i++ )
+        {
+            $id = $ret_array[$i][$db->fieldName("FormID")];
+            $return_array[] = $as_object ? new eZForm( $id ) : $id;
+        }
+        return $return_array;
+    }
+
    
     var $ID;
     var $Name;

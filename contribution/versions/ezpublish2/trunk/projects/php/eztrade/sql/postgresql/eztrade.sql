@@ -90,6 +90,13 @@ CREATE TABLE eZTrade_CategoryPermission (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTrade_ProductFormDict (
+  ID int NOT NULL,
+  ProductID int default NULL,
+  FormID int default NULL,
+  PRIMARY KEY (ID)
+);
+
 CREATE TABLE eZTrade_GroupPriceLink (
   GroupID int NOT NULL default '0',
   PriceID int NOT NULL default '0',
