@@ -42,21 +42,19 @@
 	<td class="{td_class}" valign="top" width="1%">
 	<img src="/images/folder.gif" height="16" width="16" border="0" alt="" /><br />
 	</td>
-	<td class="{td_class}" valign="top" width="98%" colspan="2">
+	<td class="{td_class}" valign="top" width="99%" colspan="1">
 	<span class="boxtext"><a href="{www_dir}{index}/link/category/{linkcategory_id}/">{linkcategory_name}</a></span>
 	</td>
 </tr>
 <tr>
-    <td class="{td_class}" width="99%" colspan="2">
+    <td class="{td_class}" colspan="2">
 	<span class="p">{linkcategory_description}</span>
-	</td>
-    <td class="{td_class}" width="1%">
 	<!-- BEGIN image_item_tpl -->
 	<a href="{www_dir}{index}/link/category/{linkcategory_id}/">
-	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" align="right" border="0" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
-	<img src="/images/1x1.gif" height="1" width="1" border="0" alt="" /><br />
+
 	<!-- END no_image_tpl -->
     </td>
 </tr>
@@ -68,7 +66,7 @@
 <!-- BEGIN link_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td colspan="3">
+	<td colspan="2">
 <!--
 	<h2>{links}</h2>
 -->
@@ -80,15 +78,13 @@
 	<td class="{td_class}" valign="top" width="1%">
 	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
 	</td>
-	<td class="{td_class}" valign="top" width="99%" colspan="2">
+	<td class="{td_class}" valign="top" width="99%" colspan="1">
 	<span class="boxtext"><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></span>
 	</td>
 </tr>
 <tr>
     <td class="{td_class}" width="99%" valign="top" colspan="2">
 	<span class="p">{link_description}</span>
-	</td>
-    <td class="{td_class}" width="1%" valign="top">
 	<!-- BEGIN link_image_item_tpl -->
 	<a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
 	<!-- END link_image_item_tpl -->
@@ -97,7 +93,8 @@
 
 <!-- BEGIN attribute_list_tpl -->
 <tr>
-	<td colspan="3" class="{td_class}" align="center">
+	<td colspan="2" class="{td_class}" align="center">
+	<div align="center">
 	<table width="50%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN attribute_tpl -->
 
@@ -116,6 +113,7 @@
 <!-- END attribute_header_tpl -->
 
 	</table>
+	</div>
 	</td>
 </tr>
 <!-- END attribute_list_tpl -->
