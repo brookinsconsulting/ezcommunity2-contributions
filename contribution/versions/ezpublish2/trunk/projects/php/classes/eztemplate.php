@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.31 2001/02/16 11:33:44 fh Exp $
+// $Id: eztemplate.php,v 1.32 2001/02/21 14:52:17 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -481,7 +481,7 @@ class eZTemplate
     */
     function set_var( $varname, $value = "", $substIfEmpty = "" )
     {
-        if( $value == "" )
+        if( is_string( $value ) and $value == "" )
             $value = $substIfEmpty;
 
         $this->set_var_internal( $varname, $value );
