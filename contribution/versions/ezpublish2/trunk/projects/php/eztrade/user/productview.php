@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.22 2001/02/28 10:09:21 jb Exp $
+// $Id: productview.php,v 1.23 2001/02/28 10:20:22 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -83,6 +83,7 @@ else
 //      "product_view_tpl" => "productview.tpl"
 //      ) );
 
+$t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
 $t->set_block( "price_tpl", "alternative_currency_list_tpl", "alternative_currency_list" );
 $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alternative_currency" );
@@ -314,7 +315,12 @@ else
     $t->set_var( "external_link", "" );
 }
 
-$t->set_var( "product_number", $product->productNumber() );
+$t->set_var( "product_number_item", "" );
+if ( $product->productNumber() != "" )
+{
+    $t->set_var( "product_number", $product->productNumber() );
+    $t->parse( "product_number_item", "product_number_item_tpl" );
+}
 
 if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
 {

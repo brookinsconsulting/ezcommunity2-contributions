@@ -18,7 +18,9 @@
 	</td>
 	<td align="right">
 	<br />
+	<!-- BEGIN product_number_item_tpl -->
 	<span class="boxtext">{intl-nr}:</span> {product_number}
+	<!-- END product_number_item_tpl -->
 	</td>
 </tr>
 <tr>
