@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: classifiedcategoryedit.php,v 1.1 2000/12/21 12:02:02 ce Exp $
+// $Id: classifiedcategoryedit.php,v 1.2 2000/12/21 13:37:12 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -56,7 +56,7 @@ if ( $Action == "Insert" )
 
     $categoryID = $category->id();
 
-    Header( "Location: /classified/list/$categoryID/" );
+    Header( "Location: /classified/list/$ParentID/" );
     exit();
 }
 
@@ -64,7 +64,7 @@ if ( $Action == "Update" )
 {
     $parentCategory = new eZCategory();
     $parentCategory->get( $ParentID );
-    
+
     $category = new eZCategory();
     $category->get( $CategoryID );
     $category->setName( $Name );
@@ -75,7 +75,7 @@ if ( $Action == "Update" )
 
     $categoryID = $category->id();
 
-    Header( "Location: /classified/list/$categoryID/" );
+    Header( "Location: /classified/list/$ParentID/" );
     exit();
 }
 
