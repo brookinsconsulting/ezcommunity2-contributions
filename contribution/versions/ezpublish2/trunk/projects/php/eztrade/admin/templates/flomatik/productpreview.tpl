@@ -168,12 +168,12 @@
 	<!-- BEGIN value_tpl -->
 	<!-- BEGIN value_description_tpl -->
 	<td class="{value_td_class}">
-	{value_name}&nbsp;&nbsp;
+	{value_name}&nbsp;
 	</td>
 	<!-- END value_description_tpl -->
 	<!-- BEGIN value_price_item_tpl -->
 	<td class="{value_td_class}">
-	{value_price}
+	{value_price}&nbsp;
 	</td>
 	<!-- END value_price_item_tpl -->
 
@@ -217,7 +217,7 @@
 
 	<!-- END alternative_currency_list_tpl -->
 
-	<!-- END price_tpl -->	
+	<!-- END price_tpl -->&nbsp;	
 	</td>
 	<td align="right" valign="top">
 	<!-- BEGIN external_link_tpl -->

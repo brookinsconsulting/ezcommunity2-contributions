@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.19 2001/03/23 12:32:30 pkej Exp $
+// $Id: productpreview.php,v 1.20 2001/03/23 14:26:24 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -31,6 +31,8 @@ include_once( "classes/eztexttool.php" );
 
 $ini =& INIFile::globalINI();
 
+$PriceGroup = 1;
+$ShowPrice = true;
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
@@ -236,8 +238,6 @@ $options = $product->options();
 $t->set_var( "option", "" );
 
 $t->set_var( "value_price_header", "" );
-if ( $ShowPrice and $product->showPrice() == true  )
-    $t->parse( "value_price_header", "value_price_header_tpl" );
 
 // show alternative currencies
 $currency = new eZProductCurrency( );
@@ -248,6 +248,10 @@ $t->set_var( "value_price_header_item", "" );
 $t->set_var( "value_currency_header_item", "" );
 
 $t->parse( "value_price_header_item", "value_price_header_item_tpl" );
+
+if ( $ShowPrice and $product->showPrice() == true  )
+    $t->parse( "value_price_header", "value_price_header_tpl" );
+    
 if ( count( $currencies ) > 0 )
     $t->parse( "value_currency_header_item", "value_currency_header_item_tpl" );
 
@@ -309,10 +313,10 @@ foreach ( $options as $option )
             $t->set_var( "value_price", "" );
             $t->set_var( "value_price_item", "" );
             $t->set_var( "value_price_currency_list", "" );
-            if ( 
-                 $ShowPrice and $product->showPrice() == true  )
+            if ( $ShowPrice and $product->showPrice() == true  )
             {
                 $found_price = false;
+                
                 if ( $ShowPriceGroups and $PriceGroup > 0 )
                 {
                     $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
@@ -503,7 +507,7 @@ if (
     $t->set_var( "product_price", $locale->format( $price ) );
 
     // show alternative currencies
-
+echo "er jeg eher?";
     $currency = new eZProductCurrency( );
     $currencies =& $currency->getAll();
 
