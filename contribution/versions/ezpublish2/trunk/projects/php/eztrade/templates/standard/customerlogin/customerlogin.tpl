@@ -1,5 +1,6 @@
 <h1>{intl-new_customer}</h1>
 
+<a href="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">registrer ny bruker </a>
 
 <h1>{intl-customer_login}</h1>
 

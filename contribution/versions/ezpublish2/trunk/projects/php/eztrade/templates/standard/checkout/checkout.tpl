@@ -67,6 +67,12 @@
 <h2>Varene sendes til</h2>
 
 {customer_first_name} {customer_last_name} 
+<br>
+<!-- BEGIN address_tpl -->
+{street1} <br>
+{street2}<br>
+{zip} {place}<br>
+<!-- END address_tpl -->
 
 <form action="/trade/checkout/" method="post">
 <input type="hidden" name="SendOrder" value="true" />

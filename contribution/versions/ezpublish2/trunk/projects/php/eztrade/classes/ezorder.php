@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.7 2000/10/06 13:46:24 bf-cvs Exp $
+// $Id: ezorder.php,v 1.8 2000/10/10 14:04:10 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -206,7 +206,7 @@ class eZOrder
     /*!
       Returns the user as a eZUser object.
 
-      True is retuned if successful, false (0) if not.
+      false (0) is returned if unsuccessful.
     */
     function user()
     {
@@ -217,9 +217,20 @@ class eZOrder
        
        $user = new eZUser( );
        if ( $user->get( $this->UserID ) )
-           $ret = true;
+           $ret = $user;
 
        return $ret;
+    }
+
+    /*!
+      Returns the shipping charge.
+    */
+    function shippingCharge()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ShippingCharge;
     }
 
     /*!

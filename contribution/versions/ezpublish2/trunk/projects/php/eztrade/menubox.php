@@ -11,14 +11,6 @@
 </tr>
 <tr>
 	<td>
-	<a class="menu" href="/trade/product/">
-	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
-    Shop main test 
-	</a>
-	</td>
-</tr>
-<tr>
-	<td>
 	<a class="menu" href="/trade/productlist/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Product list

@@ -1,7 +1,17 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.1 2000/10/03 09:45:18 bf-cvs Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.2 2000/10/10 14:04:10 bf-cvs Exp $ -->
 
 <h1>{intl-head_line}</h1>
+
+<h2>Varene sendes til</h2>
+
+{customer_first_name} {customer_last_name} 
+<br>
+<!-- BEGIN address_tpl -->
+{street1} <br>
+{street2}<br>
+{zip} {place}<br>
+<!-- END address_tpl -->
 
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.5 2000/10/02 11:57:25 bf-cvs Exp $
+// $Id: categorylist.php,v 1.6 2000/10/10 14:04:10 bf-cvs Exp $
 //
 // 
 //
@@ -31,11 +31,19 @@ $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "Template
 $t->setAllStrings();
 
 $t->set_file( array(
-    "category_list_page" => "categorylist.tpl",
-    "category_item" => "categoryitem.tpl",
-    "path_item" => "pathitem.tpl",
-    "product_item" => "productitem.tpl"
+    "category_list_page_tpl" => "categorylist.tpl"
     ) );
+
+// path
+$t->set_block( "category_list_page_tpl", "path_item_tpl", "path_item" );
+
+// category
+$t->set_block( "category_list_page_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
+
+// product
+$t->set_block( "category_list_page_tpl", "product_list_tpl", "product_list" );
+$t->set_block( "product_list_tpl", "product_item_tpl", "product_item" );
 
 $category = new eZProductCategory(  );
 $category->get( $ParentID );
@@ -43,16 +51,15 @@ $category->get( $ParentID );
 // path
 $pathArray = $category->path();
 
-$t->set_var( "category_path", "" );
+$t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
 
     $t->set_var( "category_name", $path[1] );
     
-    $t->parse( "category_path", "path_item", true );
+    $t->parse( "path_item", "path_item_tpl", true );
 }
-
 
 $categoryList = $category->getByParent( $category );
 
@@ -88,9 +95,15 @@ foreach ( $categoryList as $categoryItem )
     
     $t->set_var( "category_description", $categoryItem->description() );
 
-    $t->parse( "category_list", "category_item", true );
+    $t->parse( "category_item", "category_item_tpl", true );
     $i++;
 }
+
+if ( count( $categoryList ) > 0 )    
+    $t->parse( "category_list", "category_list_tpl" );
+else
+    $t->set_var( "category_list", "" );
+
 
 // products
 $productList = $category->products();
@@ -115,14 +128,18 @@ foreach ( $productList as $product )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-    
 
-    $t->parse( "product_list", "product_item", true );
+    $t->parse( "product_item", "product_item_tpl", true );
     $i++;
 }
 
+if ( count( $productList ) > 0 )    
+    $t->parse( "product_list", "product_list_tpl" );
+else
+    $t->set_var( "product_list", "" );
+
 $t->set_var( "document_root", $DOC_ROOT );
 
-$t->pparse( "output", "category_list_page" );
+$t->pparse( "output", "category_list_page_tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.3 2000/10/06 13:46:24 bf-cvs Exp $
+// $Id: orderedit.php,v 1.4 2000/10/10 14:04:10 bf-cvs Exp $
 //
 // 
 //
@@ -68,6 +68,8 @@ $t->set_file( array(
     "order_edit_tpl" => "orderedit.tpl",
     ) );
 
+$t->set_block( "order_edit_tpl", "address_tpl", "address" );
+
 $t->set_block( "order_edit_tpl", "order_status_option_tpl", "order_status_option" );
 
 $t->set_block( "order_edit_tpl", "order_status_history_tpl", "order_status_history" );
@@ -80,6 +82,32 @@ $t->set_block( "order_item_tpl", "order_item_option_tpl", "order_item_option" );
 
 
 $order = new eZOrder( $OrderID );
+
+// get the customer
+
+$user = $order->user();
+
+if ( $user )
+{
+    $t->set_var( "customer_first_name", $user->firstName() );
+    $t->set_var( "customer_last_name", $user->lastName() );
+
+// print out the addresses
+
+    $addressArray = $user->addresses();
+
+    foreach ( $addressArray as $address )
+    {
+        $t->set_var( "street1", $address->street1() );
+        $t->set_var( "street2", $address->street2() );
+        $t->set_var( "zip", $address->zip() );
+        $t->set_var( "place", $address->place() );
+    
+        $t->parse( "address", "address_tpl", true );
+    }
+
+}
+
 
 // fetch the order items
 $items = $order->items( $OrderType );
@@ -129,7 +157,7 @@ foreach ( $items as $item )
     $i++;
 }
 
-$shippingCost = 100.0;
+$shippingCost = $order->shippingCharge();
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.5 2000/10/06 13:46:24 bf-cvs Exp $
+// $Id: checkout.php,v 1.6 2000/10/10 14:04:10 bf-cvs Exp $
 //
 // 
 //
@@ -68,6 +68,9 @@ $t->set_block( "checkout_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
 
+$t->set_block( "checkout_tpl", "address_tpl", "address" );
+
+    
 //  $t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
 
 
@@ -189,7 +192,6 @@ if ( $SendOrder == "true" )
     $mail->setSubject( "Ny ordre" );
     $mail->setBody( "Ny ordre" );
     $mail->send();
-         
 }
 
 $t->parse( "cart_item_list", "cart_item_list_tpl" );
@@ -198,6 +200,20 @@ $user = eZUser::currentUser();
 
 $t->set_var( "customer_first_name", $user->firstName() );
 $t->set_var( "customer_last_name", $user->lastName() );
+
+// print out the addresses
+
+$addressArray = $user->addresses();
+
+foreach ( $addressArray as $address )
+{
+    $t->set_var( "street1", $address->street1() );
+    $t->set_var( "street2", $address->street2() );
+    $t->set_var( "zip", $address->zip() );
+    $t->set_var( "place", $address->place() );
+    
+    $t->parse( "address", "address_tpl", true );
+}
 
 $t->pparse( "output", "checkout_tpl" );
 

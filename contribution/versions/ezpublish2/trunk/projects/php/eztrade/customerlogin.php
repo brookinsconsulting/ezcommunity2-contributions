@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.1 2000/10/06 13:46:24 bf-cvs Exp $
+// $Id: customerlogin.php,v 1.2 2000/10/10 14:04:10 bf-cvs Exp $
 //
 // 
 //
@@ -24,7 +24,6 @@ include_once( "ezuser/classes/ezuser.php" );
 
 if ( eZUser::currentUser() )
 {
-    print( "user logged in, redirect if the've got addresses" );
     Header( "Location: /trade/checkout/" );
 }
 else

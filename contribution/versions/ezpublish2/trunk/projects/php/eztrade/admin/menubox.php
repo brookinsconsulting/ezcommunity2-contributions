@@ -4,7 +4,6 @@
 </tr>
 <tr> 
     <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/testbench/">Test benk</a><br>
 	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/categorylist/">Kategorier</a><br>
 	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/categoryedit/">Ny kategori</a><br>
 	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/productedit/">Nytt produkt</a><br>
