@@ -1049,3 +1049,37 @@ Maintainer(s) : br@ez.no
 
     * user/datasupplier.php: Permission fix
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-05-02  Bjoern Reiten  <br@ez.no>
+
+    * admin/datasupplier.php
+      admin/imagelist.php: fixed bug with imagelist.
+
+    * user/datasupplier.php
+      user/imagelist.php: fixed bug with image list in eZ imagecatalogue.
+
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-05-08  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php
+      xmlrpc/categorylist.php
+      xmlrpc/image.php
+      xmlrpc/unassignedlist.php: Removed DE debug output.
+
+    * xmlrpc/image.php: Removed some debug output.
+
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-05-12  Bjoern Reiten  <br@ez.no>
+
+    * admin/imageedit.php
+      classes/ezimagecategory.php: Fixed access rights on the imagelist.
+
