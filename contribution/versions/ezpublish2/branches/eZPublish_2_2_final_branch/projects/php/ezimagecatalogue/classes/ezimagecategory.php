@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44.2.4 2002/05/12 19:42:17 br Exp $
+// $Id: ezimagecategory.php,v 1.44.2.5 2002/07/04 10:48:39 gl Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -667,16 +667,12 @@ class eZImageCategory
                 SELECT COUNT( DISTINCT Image.ID ) AS Count
                 FROM eZImageCatalogue_Image as Image,
                      eZImageCatalogue_Category,
-                     eZImageCatalogue_ImageCategoryDefinition,
                      eZImageCatalogue_ImageCategoryLink
                      $fromTablePermissionsSQL
                 WHERE $permissionSQL
-                      ( eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
-                        OR eZImageCatalogue_ImageCategoryDefinition.ImageID = Image.ID )
-                      AND ( eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
-                            OR eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryDefinition.CategoryID )
+                      eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
+                      AND eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
                       AND eZImageCatalogue_Category.ID='$this->ID'
-                      AND eZImageCatalogue_ImageCategoryDefinition.CategoryID='$this->ID'
                       AND eZImageCatalogue_ImageCategoryLink.CategoryID='$this->ID'" );
         return $file_array["Count"];
     } 
