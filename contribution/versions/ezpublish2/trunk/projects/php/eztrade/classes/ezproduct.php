@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.28 2001/01/12 16:07:23 bf Exp $
+// $Id: ezproduct.php,v 1.29 2001/02/08 09:59:14 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -807,17 +807,22 @@ class eZProduct
     /*!
       Returns the products set to hot deal.
     */
-    function &hotDealProducts( )
+    function &hotDealProducts( $limit = false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
+
+       if ( is_numeric( $limit ) and $limit >= 0 )
+       {
+           $limit_text = "LIMIT $limit";
+       }
 
        $ret = array();
        $this->dbInit();
 
        $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_Product
                                      WHERE
-                                     IsHotDeal='true' ORDER BY Name" );
+                                     IsHotDeal='true' ORDER BY Name $limit_text" );
 
        foreach ( $res_array as $product )
        {
