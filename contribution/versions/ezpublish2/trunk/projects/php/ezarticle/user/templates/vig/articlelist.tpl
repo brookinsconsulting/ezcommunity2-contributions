@@ -1,11 +1,21 @@
 <!-- BEGIN header_item_tpl -->
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td><img src="/sitedesign/vig/images/VG-vig.gif" height="41" width="87" alt="" border="0" /></td>
-	<td>&nbsp;&nbsp;</td>
-	<td valign="bottom"><h1>Siste nytt fra Vekst i Grenland</h1></td>
-</tr>
-</table>
+	<td width="1%" valign="top">
+	<img src="/sitedesign/vig/images/vig-nytt.gif" height="116" width="130" alt="" border="0" /><br /><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	<div class="p"><u>En annen nyhetssak</u></div><br />
+	</td>
+	<td width="1%"><img src="/images/1x1.gif" height="1" width="10" alt="" border="0" /></td>
+	<td width="98%" valign="top">
+<h1>Siste nytt fra Vekst i Grenland</h1>
 
 <hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
@@ -105,4 +115,7 @@
 </tr>
 </table>
 <!-- END type_list_tpl -->
+</td>
+</tr>
+</table>
 
