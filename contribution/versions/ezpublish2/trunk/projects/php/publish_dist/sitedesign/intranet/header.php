@@ -38,6 +38,9 @@
 	<tr>
 		<td class="menuspacer">&nbsp;</td>
 	</tr>
+        <?
+        include( "eztodo/user/menubox.php" );
+        ?>
 
 <?
 include( "ezarticle/user/menubox.php" );
@@ -54,6 +57,19 @@ include( "ezforum/user/menubox.php" );
 <?
 include( "ezlink/user/menubox.php" );
 ?>
+    <tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
+<?
+include( "ezfilemanager/user/menubox.php" );
+?>
+    <tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
+<?
+include( "ezimagecatalogue/user/menubox.php" );
+?>
+
 	<tr>
 		<td class="menuspacer">&nbsp;</td>
 	</tr>
