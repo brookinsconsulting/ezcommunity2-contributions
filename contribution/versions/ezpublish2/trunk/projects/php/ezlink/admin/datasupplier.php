@@ -63,7 +63,11 @@ switch ( $url_array[2] )
     case "category" :
     {
         if ( $url_array[4] == "parent" )
+        {
             $Offset = $url_array[5];
+            if ( !is_numeric( $Offset ) )
+                $Offset = 0;
+        }
         $LinkCategoryID = $url_array[3];
         include( "ezlink/admin/linkcategorylist.php" );
     }

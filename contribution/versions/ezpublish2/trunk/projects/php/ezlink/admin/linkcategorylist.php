@@ -1,5 +1,5 @@
 <?php
-// $Id: linkcategorylist.php,v 1.4 2001/07/09 08:05:04 jhe Exp $
+// $Id: linkcategorylist.php,v 1.5 2001/07/09 14:20:27 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -50,9 +50,7 @@ $t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTempl
 "ezlink/admin/intl/", $Language, "linkcategorylist.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "link_page_tpl" => "linkcategorylist.tpl"
-    ) );
+$t->set_file( "link_page_tpl", "linkcategorylist.tpl" );
 
 $t->set_block( "link_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
@@ -77,9 +75,6 @@ if ( !$Offset )
 // List all the categoires
 $linkCategory = new eZLinkCategory();
 
-if( !is_numeric( $LinkCategoryID ) )
-    $LinkCategoryID = 0;
-    
 $linkCategory->get( $LinkCategoryID );
 
 // path
