@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.33 2001/02/16 16:16:53 gl Exp $
+// $Id: dayview.php,v 1.34 2001/02/26 15:16:50 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -519,6 +519,11 @@ else
             }
         }
         $t->parse( "week", "week_tpl", true );
+
+        if( $currentDay >= $date->daysInMonth() )
+        {
+            $week = 6;
+        }
     }
 
 
