@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticlecategory.php,v 1.103.2.8 2003/04/09 13:09:07 jhe Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.9 2003/04/10 13:26:14 br Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1127,7 +1127,7 @@ class eZArticleCategory
       If $fetchAll is set to true, both published and unpublished articles will be returned.
       If it is set to false, then $fetchPublished will determine: If $fetchPublished iss
       set to true then only published articles will be returned. If it is false, then only
-      non-published articles will be returned.
+      non-published articles will be returned. 
 
       If $check_write is true then the result will only contain articles which has read AND write permissions.
     */
@@ -1137,142 +1137,167 @@ class eZArticleCategory
                         $offset=0,
                         $limit=50,
                         $categoryID=0,
-                        $check_write = false,
-                        $user = false )
+                        $check_write = false )
     {
+
         if ( $categoryID != 0 )
-            $catID = (int)$categoryID;
+            $catID = $categoryID;
         else
-            $catID = (int)$this->ID;
-
-        if ( !eZArticleCategory::userHasPermision( $catID, true, $check_write, $user ) )
-        {
-            return array();
-        }
-
+            $catID = $this->ID;
+        
         $db =& eZDB::globalDatabase();
 
         if ( $offset == false )
             $offset = 0;
 
-        switch ( $sortMode )
-        {
-            case "time" :
-            {
-                $GroupBy = "";
-                $OrderBy = "Article.Published DESC";
-            }
-            break;
+       switch ( $sortMode )
+       {
+           case "time" :
+           {
+               $GroupBy = ", Article.Published";
+               $OrderBy = "Article.Published DESC";
+           }
+           break;
 
-            case "alpha" :
-            {
-                $GroupBy = "";
-                $OrderBy = "Article.Name ASC";
-            }
-            break;
+           case "alpha" :
+           {
+               $GroupBy = ", Article.Name";
+               $OrderBy = "Article.Name ASC";
+           }
+           break;
 
-            case "alphadesc" :
-            {
-                $GroupBy = "";
-                $OrderBy = "Article.Name DESC";
-            }
-            break;
+           case "alphadesc" :
+           {
+               $GroupBy = ", Article.Name";
+               $OrderBy = "Article.Name DESC";
+           }
+           break;
 
-            case "absolute_placement" :
-            {
-                $GroupBy = ", Link.Placement";
-                $OrderBy = "Link.Placement ASC";
-            }
-            break;
+           case "absolute_placement" :
+           {
+               $GroupBy = ", Link.Placement";
+               $OrderBy = "Link.Placement ASC";
+           }
+           break;
 
-            case "modification" :
-            {
-                $GroupBy = "";
-                $OrderBy = "Article.Modified DESC";
-            }
-            break;
-
-            default :
-            {
-                $GroupBy = "";
-                $OrderBy = "Article.Published DESC";
-            }
-        }
-
-        // fetch all articles
-        if ( $fetchAll  == false )
-        {
-            if ( $fetchPublished  == true )
-            {
-                $publishedSQL = " Article.IsPublished = '1' AND ";
-            }
-            else
-            {
-                $publishedSQL = " Article.IsPublished = '0' AND ";
-            }
-        }
-
-       // Performance optimisation. See if we really need to do a
-       // limit query, as this causes a full table scan of
-       // ezarticle_article if there's less than $limit articles.
-        $useLimit = true;
-        if ( $limit > 0 )
-        {
-            $db->query_single( $count_array, "select count(*) as count from eZArticle_ArticleCategoryLink acl where acl.CategoryID=$catID" );
-
-            // if the number of possible matching articles is less than
-            // the limit, then we can skip using the limit. Also if the
-            // count is less than 50, we also do the limit manually in
-            // the php code. This causes the database to optimise the
-            // query differently, and results in much better
-            // performance.
-            if ( $count_array[$db->fieldName( 'count' )] <= $limit || $count_array[$db->fieldName( 'count' )] < 50 )
-            {
-                $useLimit = false;
-            }
-        }
-
-
-        $query = "SELECT Article.* $GroupBy
-                  FROM
-                       eZArticle_Article as Article,
-                       eZArticle_ArticleCategoryLink as Link
-                  WHERE
-                        $publishedSQL
-                        Link.CategoryID='$catID'
-                        AND Link.ArticleID=Article.ID
-                        $noremoteSQL
-                 ORDER BY $OrderBy";
-
-        $article_array = array();
-        if ( !$useLimit or $limit == -1 )
-        {
-            $db->array_query( $article_array, $query );
-        }
-        else
-        {
-            $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
-        }
-
-        if ( $useLimit == false and $limit > 0)
-        {
-           if ( $offset > 0 )
-               $start = $offset;
-           else
-               $start = 0;
-
-           $max = min( count( $article_array ), $limit + $start );
-        }
-        else
-        {
-           $start = 0;
-           $max = count( $article_array );
+           case "modification" :
+           {
+               $GroupBy = ", Article.Modified";
+               $OrderBy = "Article.Modified DESC";
+           }
+           break;
+           
+           default :
+           {
+               $GroupBy = ", Article.Published";
+               $OrderBy = "Article.Published DESC";
+           }
        }
 
        $return_array = array();
-       for ( $i = $start; $i < $max; $i++ )
+       $article_array = array();
+
+       $user =& eZUser::currentUser();
+
+       $loggedInSQL = "";
+       $groupSQL = "";
+       $categoryGroupSQL = "AND";
+       $usePermission = true;
+       if ( $user )
        {
-           $return_array[] = new eZArticle( $article_array[$i] );
+           $groups =& $user->groups( false );
+
+           foreach ( $groups as $group )
+           {
+               $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
+                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
+                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                            ";
+           }
+           $currentUserID = $user->id();
+           $loggedInSQL = "Article.AuthorID=$currentUserID OR";
+
+           if ( $user->hasRootAccess() )
+               $usePermission = false;
+       }
+
+       $perm_str = "";
+       $PermGroupBy = "";
+       $having_str;
+       if ( $usePermission )
+       {
+           if ( $check_write )
+           {
+               $perm_str = ", MAX(Permission.WritePermission) AS MaxWritePerm, MAX(Permission.ReadPermission) AS MaxReadPerm,
+ MAX(CategoryPermission.WritePermission) AS CatMaxWritePerm, MAX(CategoryPermission.ReadPermission) AS CatMaxReadPerm";
+               $PermGroupBy = "Permission.ObjectID, ";
+
+               $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) ) ";
+               $having_str = "HAVING MaxReadPerm='1' AND MaxWritePerm='1' AND CatMaxReadPerm='1' AND CatMaxWritePerm='1'";
+           }
+           else
+               $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' )
+                                               AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ";
+       }
+       else
+           $permissionSQL = "";
+       
+       // fetch all articles
+       if ( $fetchAll  == true )             
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = "";
+           else
+               $publishedSQL = " AND";
+       }
+       
+       // fetch only published articles
+       else if ( $fetchPublished  == true )  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '1' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '1' AND ";
+       }
+
+       // fetch only non-published articles
+       else                                  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '0' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '0' AND ";
+       }
+  $query = "SELECT Article.* $perm_str
+                  FROM eZArticle_ArticleCategoryDefinition as Definition,
+                       eZArticle_Article as Article,
+                       eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_CategoryPermission as CategoryPermission,
+                       eZArticle_ArticlePermission AS Permission
+                  WHERE
+                        $permissionSQL
+                        $publishedSQL
+                        Link.CategoryID='$catID'
+                        AND Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Definition.ArticleID=Article.ID
+                        AND CategoryPermission.ObjectID=Definition.CategoryID
+                 GROUP BY $PermGroupBy Article.ID, Article.Published, Article.Name, Article.Contents, Article.ContentsWriterID, Article.LinkText, Article.AuthorID, Article.Modified, Article.Created, Article.PageCount, Article.IsPublished, Article.Keywords, Article.Discuss, Article.TopicID, Article.StartDate, Article.StopDate, Article.ImportID $GroupBy
+                 $having_str
+                 ORDER BY $OrderBy";
+
+       
+       if ( $limit == -1 )
+       {
+           $db->array_query( $article_array, $query );
+       }
+       else
+       {
+           $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
+       }
+       for ( $i=0; $i < count( $article_array ); $i++ )
+       {
+           $return_array[$i] = new eZArticle( $article_array[$i] );
        }
 
        return $return_array;
@@ -1284,7 +1309,7 @@ class eZArticleCategory
       If $fetchAll is set to true, both published and unpublished articles will be counted.
       If it is set to false, then $fetchPublished will determine: If $fetchPublished is
       set to true then only published articles will be counted. If it is false, then only
-      non-published articles will be counted.
+      non-published articles will be counted.       
 
       If $check_write is true then the result will only contain articles which has read AND write permissions.
     */
@@ -1304,7 +1329,7 @@ class eZArticleCategory
         if ( $user )
         {
             $groups =& $user->groups( false );
-
+           
             foreach ( $groups as $group )
             {
                 $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
@@ -1387,9 +1412,10 @@ class eZArticleCategory
         if ( $usePermission and $check_write )
             $cnt = count( $article_array );
         else
-            $cnt = $article_array[0][$db->fieldName( "Count" ) ];
+            $cnt = $article_array[0][$db->fieldName("Count")];
         return $cnt;
     }
+
 
     /*!
       Moves the article placement with the given ID up.
