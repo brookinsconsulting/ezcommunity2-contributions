@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.52 2001/10/10 12:27:26 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.53 2001/10/10 12:33:46 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -437,9 +437,10 @@ class eZQDomrenderer
                     }
                     else
                     {
-                        $content .= $this->renderStandards( $child );
-                        $content .= $this->renderCustom( $child );
-                        $content .= $this->renderLink( $child );                        
+                        // nested tags in header ? not yet..
+//                        $content .= $this->renderStandards( $child );
+//                        $content .= $this->renderCustom( $child );
+//                        $content .= $this->renderLink( $child );                        
                     }
             }
             
