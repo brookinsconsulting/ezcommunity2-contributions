@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.28 2001/01/23 20:33:14 bf Exp $
+// $Id: ezsession.php,v 1.29 2001/01/30 17:03:07 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -113,6 +113,7 @@ class eZSession
             $this->ID = mysql_insert_id();
 
             $this->setVariable( "SessionIP", $remoteIP );
+            $this->HasRefreshed = true;
         }
         else
         {
@@ -123,6 +124,7 @@ class eZSession
 		                         Hash='$this->Hash'
                                  WHERE ID='$this->ID'
                                  " );
+            $this->HasRefreshed = true;
 
             $this->setVariable( "SessionIP", $remoteIP );
         }
@@ -228,14 +230,18 @@ class eZSession
     function refresh( )
     {
         $db =& eZDB::globalDatabase();
-       
-        // update session
-        $db->query( "UPDATE eZSession_Session SET
+
+        if ( !$this->HasRefreshed )
+        {
+            // update session
+            $db->query( "UPDATE eZSession_Session SET
                                  Created=Created,
                                  SecondLastAccessed=LastAccessed,
                                  LastAccessed=now()
                                  WHERE ID='$this->ID'
-                                 " );        
+                                 " );
+            $this->HasRefreshed = true;
+        }
     }
         
 
@@ -426,6 +432,7 @@ class eZSession
     var $LastAccessed;
     var $SecondLastAccessed;
 
+    var $HasRefreshed;
     var $IsFetched;
 }
 
