@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.40 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messagereply.php,v 1.41 2001/07/26 20:22:28 chrism Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -59,7 +59,7 @@ if ( $StartAction == "reply" )
     $mailTemplate->setAllStrings();
 
     $emailNoticeArray = array();
-    
+
     if( is_object( $moderator ) )
     {
         $moderators = eZUserGroup::users($moderator->id() );
@@ -109,7 +109,7 @@ if ( $StartAction == "reply" )
             }
         }
     }
-
+   $mail = new eZMail();
     foreach( $messages as $message )
     {
         if( $message->id() != $msg->id() )
@@ -127,8 +127,8 @@ if ( $StartAction == "reply" )
                 else
                 {
                     $mailTemplate->set_var( "author", "Anonymous" );
-                }                    
-                
+                }
+
                 $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
 
                 $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
