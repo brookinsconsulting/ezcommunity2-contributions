@@ -6,6 +6,35 @@ require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezaddresstype.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
 
+
+// sjekke login.......
+
+// Legge til
+if ( $Action == "insert" )
+{
+    $type = new eZAddressType();
+    $type->setName( $AddressTypeName );
+    $type->store();    
+}
+
+// Oppdatere
+if ( $Action == "update" )
+{
+  $type = new eZAddressType();
+  $type->get( $AID );
+  $type->setName( $AddressTypeName );
+  $type->update();
+}
+
+// Slette
+if ( $Action == "delete" )
+{
+    $type = new eZAddressType();
+    $type->get( $AID );
+    $type->delete( );
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php " );
+}
+
 // sjekke session
 {
     include( $DOCUMENTROOT . "checksession.php" );
@@ -22,13 +51,6 @@ $t->set_var( "action_value", "insert" );
 $t->set_var( "address_type_id", "" );
 $t->set_var( "head_line", "Endre addresse type" );
 
-// Legge til
-if ( $Action == "insert" )
-{
-    $type = new eZAddressType();
-    $type->setName( $AddressTypeName );
-    $type->store();    
-}
 
 // Editere
 if ( $Action == "edit" )
@@ -44,14 +66,7 @@ if ( $Action == "edit" )
     $t->set_var( "head_line", "Rediger addresse type");
 }
 
-// Oppdatere
-if ( $Action == "update" )
-{
-  $type = new eZAddressType();
-  $type->get( $AID );
-  $type->setName( $AddressTypeName );
-  $type->update();
-}
+
 
 $t->set_var( "document_root", $DOCUMENTROOT );
 $t->set_var( "address_type_name", $AddressTypeName );
