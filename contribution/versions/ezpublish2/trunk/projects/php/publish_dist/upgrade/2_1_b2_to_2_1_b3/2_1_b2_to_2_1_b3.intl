@@ -1,0 +1,11 @@
+This file contains all changes in intl files between version 2.1 Beta2 and 2.1 Beta3
+Example:
+mod: bug/user, fileedit.php.ini
+change: added user_edit=Some text
+--------------------------------------------------------------------
+mod: ezcontact/admin, consultationdetaillist.php.ini
+change: added
+delete_consultations=Delete consultations
+
+mod: ezbulkmail/admin categorylist.php.ini
+change: added next, previous
