@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.44 2001/08/30 08:34:09 jhe Exp $
+// $Id: ezforum.php,v 1.45 2001/08/31 14:01:59 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -314,7 +314,7 @@ class eZForum
        $timeStamp =& eZDateTime::timeStamp( true );            
        if ( $showReplies )
        {
-            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
+            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName, 
                                           ( $timeStamp  - PostingTime ) AS Age, TreeID, Body
                                           FROM
                                           eZForum_Message
@@ -327,7 +327,7 @@ class eZForum
        }
        else
        {
-           $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
+           $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName, 
                                           ( $timeStamp  -  PostingTime ) AS Age, TreeID, ThreadID, Body
                                           FROM eZForum_Message
                                           WHERE ForumID='$this->ID' AND Depth='0'

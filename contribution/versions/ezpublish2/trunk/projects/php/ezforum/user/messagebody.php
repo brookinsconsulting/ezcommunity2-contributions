@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagebody.php,v 1.7 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messagebody.php,v 1.8 2001/08/31 14:01:59 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -31,7 +31,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $Locale = new eZLocale( $Language );
 
-if( $ShowMessage == true )
+if ( $ShowMessage == true )
 {
     include_once( "classes/eztexttool.php" );
     $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
@@ -42,7 +42,7 @@ if( $ShowMessage == true )
     $msg = new eZForumMessage( $MessageID );
     $MessageTopic = $msg->topic();
    
-    if( $AllowHTML == "ednabled" )
+    if ( $AllowHTML == "enabled" )
     {
         $MessageBody = $msg->body( false );
     }
@@ -50,23 +50,30 @@ if( $ShowMessage == true )
     {
         $MessageBody = eZTextTool::nl2br( stripslashes( $msg->body( true ) ) );
     }
-    $author = new eZUser ( $msg->userId() );
+    $author = new eZUser ( $msg->userID() );
+    
     $MessageNotice = $msg->emailNotice();
 
-    if( isset( $NewMessageAuthor ) )
+    if ( isSet( $NewMessageAuthor ) )
     {
-        $MessageAuthor = $NewMessageAuthor;
+        if ( $msg->userName() )
+            $MessageAuthor = $msg->userName();
+        else
+            $MessageAuthor = $NewMessageAuthor;
     }
     else
     {
-        if( !is_object( $author ) )
+        if ( !is_object( $author ) )
         {
-            $author = new eZUser ( $msg->userId() );
+            $author = new eZUser( $msg->userId() );
         }
 
-        if( $author->id() == 0 )
+        if ( $author->id() == 0 )
         {
-            $MessageAuthor = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+            if ( $msg->userName() )
+                $MessageAuthor = $msg->userName();
+            else
+                $MessageAuthor = $ini->read_var( "eZForumMain", "AnonymousPoster" );
         }
         else
         {
@@ -74,7 +81,7 @@ if( $ShowMessage == true )
         }
     }
 
-    if( isset( $NewMessagePostedAt ) )
+    if ( isSet( $NewMessagePostedAt ) )
     {
         $MessagePostedAt = $NewMessagePostedAt;
     }
@@ -83,12 +90,12 @@ if( $ShowMessage == true )
         $MessagePostedAt = $Locale->format( $msg->postingTime() );
     }
 
-    if( isset( $NewMessageNotice ) )
+    if ( isSet( $NewMessageNotice ) )
     {
         $MessageNotice = $NewMessageNotice;
     }
 
-    switch( $MessageNotice )
+    switch ( $MessageNotice )
     {
         case "on":
         case "y":

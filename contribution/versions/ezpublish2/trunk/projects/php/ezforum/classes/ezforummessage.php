@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.96 2001/08/30 08:34:09 jhe Exp $
+// $Id: ezforummessage.php,v 1.97 2001/08/31 14:01:59 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -62,10 +62,8 @@ class eZForumMessage
     function store()
     {
         $db =& eZDB::globalDatabase();
-
         $db->begin( );
-
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             if ( $this->ParentID == 0 )
             { // new node
@@ -81,7 +79,7 @@ class eZForumMessage
                 $this->Depth = 0;
                 if ( count( $result ) > 0 )
                 {
-                    $this->TreeID = $result[0][$db->fieldName("TreeID")] + 1;
+                    $this->TreeID = $result[0][$db->fieldName( "TreeID" )] + 1;
                 }
                 else
                 {
@@ -95,7 +93,7 @@ class eZForumMessage
 
                 if ( count( $result ) > 0 )
                 {
-                    $this->ThreadID = $result[0][$db->fieldName("ThreadID")] + 1;
+                    $this->ThreadID = $result[0][$db->fieldName( "ThreadID" )] + 1;
                 }
                 else
                 {
@@ -116,7 +114,8 @@ class eZForumMessage
                                    EmailNotice,
                                    IsApproved,
                                    IsTemporary,
-                                   PostingTime )
+                                   PostingTime,
+                                   UserName )
                                  VALUES
                                  ( '$nextID',
                                    '$this->ForumID',
@@ -130,7 +129,8 @@ class eZForumMessage
                                    '$this->EmailNotice',
                                    '$this->IsApproved',
                                    '$this->IsTemporary',
-                                   '$timeStamp' )       
+                                   '$timeStamp',
+                                   '$this->UserName' )       
                                  " );
 
 				$this->ID = $nextID;
@@ -150,18 +150,18 @@ class eZForumMessage
 
                     $timeStamp =& eZDateTime::timeStamp( true );            
                     
-                    $parentID = $result[0][$db->fieldName("TreeID")];
+                    $parentID = $result[0][$db->fieldName( "TreeID" )];
                     $this->TreeID =  $parentID;
 
-                    $this->ThreadID = $result[0][$db->fieldName("ThreadID")];
+                    $this->ThreadID = $result[0][$db->fieldName( "ThreadID" )];
 
-                    $d = $result[0][$db->fieldName("Depth")];
+                    $d = $result[0][$db->fieldName( "Depth" )];
                     setType( $d, "integer" );
                     
                     $this->Depth = $d + 1;
                     
                     // update the whole tree''s ThreeID.
-                    $db->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
+                    $db->query( "UPDATE eZForum_Message SET TreeID=( TreeID + 1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
 
                     $bodySlash = $db->escapeString( $this->Body );
                     $topicSlash = $db->escapeString( $this->Topic );
@@ -179,7 +179,8 @@ class eZForumMessage
                                    EmailNotice,
                                    IsApproved,
                                    IsTemporary,
-                                   PostingTime )
+                                   PostingTime,
+                                   UserName )
                                  VALUES
                                  ( '$nextID',
                                    '$this->ForumID',
@@ -193,9 +194,9 @@ class eZForumMessage
                                    '$this->EmailNotice',
                                    '$this->IsApproved',
                                    '$this->IsTemporary',
-                                   '$timeStamp' )
+                                   '$timeStamp',
+                                   '$this->UserName' )
                                  " );
-
 					$this->ID = $nextID;
                 }
                 else
@@ -218,12 +219,11 @@ class eZForumMessage
 		                         EmailNotice='$this->EmailNotice',
 		                         IsApproved='$this->IsApproved',
 		                         IsTemporary='$this->IsTemporary',
-                                 PostingTime=PostingTime
+                                 PostingTime=PostingTime,
+                                 UserName='$this->UserName'
                                  WHERE ID='$this->ID'
                                  " );
-
         }
-
 
         $db->unlock();
     
@@ -231,7 +231,6 @@ class eZForumMessage
             $db->rollback( );
         else
             $db->commit();
-        
         return true;
     }
 
@@ -278,29 +277,30 @@ class eZForumMessage
             {
                 die( "Error: Message's with the same ID was found in the database. This shouldn't happen." );
             }
-            else if( count( $message_array ) == 1 )
+            else if ( count( $message_array ) == 1 )
             {
-                $this->ID =& $message_array[0][$db->fieldName("ID")];
-                $this->ForumID =& $message_array[0][$db->fieldName("ForumID")];
-                $this->Topic =& $message_array[0][$db->fieldName("Topic")];
-                $this->Body =& $message_array[0][$db->fieldName("Body")];
-                $this->UserID =& $message_array[0][$db->fieldName("UserID")];
-                $this->ParentID =& $message_array[0][$db->fieldName("Parent")];
-                $this->PostingTime =& $message_array[0][$db->fieldName("PostingTime")];
-                $this->EmailNotice =& $message_array[0][$db->fieldName("EmailNotice")];
+                $this->ID =& $message_array[0][$db->fieldName( "ID" )];
+                $this->ForumID =& $message_array[0][$db->fieldName( "ForumID" )];
+                $this->Topic =& $message_array[0][$db->fieldName( "Topic" )];
+                $this->Body =& $message_array[0][$db->fieldName( "Body" )];
+                $this->UserID =& $message_array[0][$db->fieldName( "UserID" )];
+                $this->ParentID =& $message_array[0][$db->fieldName( "Parent" )];
+                $this->PostingTime =& $message_array[0][$db->fieldName( "PostingTime" )];
+                $this->EmailNotice =& $message_array[0][$db->fieldName( "EmailNotice" )];
 
-                $this->IsApproved =& $message_array[0][$db->fieldName("IsApproved")];
-                $this->IsTemporary =& $message_array[0][$db->fieldName("IsTemporary")];
+                $this->IsApproved =& $message_array[0][$db->fieldName( "IsApproved" )];
+                $this->IsTemporary =& $message_array[0][$db->fieldName( "IsTemporary" )];
 
-                $this->ThreadID =& $message_array[0][$db->fieldName("ThreadID")];
-                $this->TreeID =& $message_array[0][$db->fieldName("TreeID")];                
-                $this->Depth =& $message_array[0][$db->fieldName("Depth")];
+                $this->ThreadID =& $message_array[0][$db->fieldName( "ThreadID" )];
+                $this->TreeID =& $message_array[0][$db->fieldName( "TreeID" )];                
+                $this->Depth =& $message_array[0][$db->fieldName( "Depth" )];
 
-                $this->Age =& $message_array[0][$db->fieldName("Age")];
-                
+                $this->Age =& $message_array[0][$db->fieldName( "Age" )];
+                $this->UserName =& $message_array[0][$db->fieldName( "UserName" )];
+
                 $ret = true;
             }
-            else if( count( $message_array ) == 0 )
+            else if ( count( $message_array ) == 0 )
             {
                 $this->ID = 0;
                 $ret = false;
@@ -375,7 +375,7 @@ class eZForumMessage
        if ( $value == true )
            $this->IsTemporary = 1;
        else
-           $this->IsTemporary = 0;           
+           $this->IsTemporary = 0;
     }
 
 
@@ -487,6 +487,15 @@ class eZForumMessage
         return $this->UserID;
     }
 
+    function userName()
+    {
+
+        if ( isSet( $this->UserName ) )
+            return $this->UserName;
+        else
+            return false;
+    }
+    
     /*!
       Returns the number of seconds since the message was posted.
     */      
@@ -503,6 +512,11 @@ class eZForumMessage
        $user =& new eZUser( $this->UserID );
         
        return $user;
+    }
+
+    function setUserName( $username )
+    {
+        $this->UserName = $username;
     }
     
     /*!
@@ -764,7 +778,8 @@ class eZForumMessage
     var $EmailNotice;
     var $IsApproved;
     var $IsTemporary;
-
+    var $UserName;
+    
     /// Number of seconds since the message was posted
     var $Age;
 

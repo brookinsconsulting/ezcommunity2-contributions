@@ -29,14 +29,28 @@
 </table>
 
 <hr noshade size="4" />
-
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td align="left">
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+        <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
-
+</td>
+<td align="right">
+<form action="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{offset}" method="post">
+<select name="ForumMessages">
+<!-- BEGIN messages_element_tpl -->
+<option value="{messages_number}" {is_selected} />{messages_number}</option>
+<!-- END messages_element_tpl -->
+</select>
+<input type="submit" value="{intl-update}" />
+</form>
+</td>
+</tr>
+</table>
 <hr noshade size="4" />
 
 <form action="{www_dir}{index}/forum/userlogin/new/{forum_id}">
@@ -57,7 +71,7 @@
 		<td width="1%">
 		<nobr>
 		{spacer}{spacer}
-				<!-- BEGIN new_icon_tpl -->
+		<!-- BEGIN new_icon_tpl -->
                 <img src="{www_dir}/images/message_new.gif" width="16" height="16" border="0" alt="New message" />
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
@@ -97,7 +111,6 @@
 	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
-
 	<!-- BEGIN type_list_previous_inactive_tpl -->
 	<td>
 	&nbsp;
@@ -105,7 +118,6 @@
 	<!-- END type_list_previous_inactive_tpl -->
 
 	<!-- BEGIN type_list_item_list_tpl -->
-
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
 	|&nbsp;<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
@@ -117,7 +129,6 @@
 	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
-
 	<!-- END type_list_item_list_tpl -->
 
 	<!-- BEGIN type_list_next_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.12 2001/08/28 16:51:26 jhe Exp $
+// $Id: messageform.php,v 1.13 2001/08/31 14:01:59 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -30,6 +30,10 @@ if ( $ShowMessageForm )
     if ( $ShowVisibleMessageForm == true )
     {
         $t->set_file( "form", "messageform.tpl"  );
+        $t->set_block( "form", "author_field_tpl", "author_field" );
+        $t->set_block( "author_field_tpl", "author_logged_in_tpl", "author_logged_in" );
+        $t->set_block( "author_field_tpl", "author_not_logged_in_tpl", "author_not_logged_in" );
+        
         $t->set_block( "form", "message_body_info_tpl", "message_body_info_item" );
         $t->set_block( "form", "message_reply_info_tpl", "message_reply_info_item" );
         $t->set_block( "form", "message_notice_checkbox_tpl", "message_notice_checkbox" );
@@ -50,7 +54,7 @@ if ( $ShowMessageForm )
         $t->parse( "message_body_info_item", "message_body_info_tpl" );
     }
 
-    if ( get_class( eZUser::currentUser() ) == "ezuser" )
+    if ( $ShowVisibleMessageForm && get_class( eZUser::currentUser() ) == "ezuser" )
     {
         $t->parse( "message_notice_checkbox", "message_notice_checkbox_tpl" );
     }
@@ -122,7 +126,7 @@ if ( $ShowMessageForm )
         {
             if ( !is_object( $author ) )
             {
-               $author = new eZUser( $msg->userId() );
+                $author = new eZUser( $msg->userId() );
             }
         }
         
@@ -165,8 +169,7 @@ if ( $ShowMessageForm )
             $MessagePostedAt = $locale->format( $msg->postingTime() );
         }
     }
-    
-    if ( is_object( $author ) )
+    if ( $author->id() > 0 )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
     }
@@ -175,7 +178,7 @@ if ( $ShowMessageForm )
         $MessageAuthor = $ini->read_var( "eZForumMain", "AnonymousPoster" );
     }
     
-    switch( $MessageNotice )
+    switch ( $MessageNotice )
     {
         case "on":
         case "y":
@@ -201,7 +204,7 @@ if ( $ShowMessageForm )
         }
         break;
     }
-    $quote = chr(34);
+    $quote = chr( 34 );
     $MessageTopic = ereg_replace( $quote, "&#034;",$MessageTopic); 
 
     include_once( "classes/eztexttool.php" );
@@ -231,6 +234,18 @@ if ( $ShowMessageForm )
     $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
     $t->set_var( "allowed_tags", htmlspecialchars( $AllowedTags ) );      
 
+    if ( $ShowVisibleMessageForm )
+    {
+        if ( $author->id() > 0 )
+        {
+            $t->parse( "author_field", "author_logged_in_tpl" );
+        }
+        else
+        {
+            $t->parse( "author_field", "author_not_logged_in_tpl" );
+        }
+    }
+    
     if ( $ShowHiddenMessageForm == true )
     {
         if ( $doPrint == true )

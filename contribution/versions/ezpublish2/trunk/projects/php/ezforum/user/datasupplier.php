@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.21 2001/08/28 16:51:26 jhe Exp $
+// $Id: datasupplier.php,v 1.22 2001/08/31 14:01:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -173,8 +173,7 @@ switch ( $url_array[2] )
             {
                 $MessageID = $ID;
             }
-            break;
-            
+            break;          
         }
         include( "ezforum/user/messageedit.php" );
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.53 2001/08/28 16:51:26 jhe Exp $
+// $Id: messageedit.php,v 1.54 2001/08/31 14:01:59 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -93,14 +93,14 @@ switch ( $Action )
     }
     break;
 
-    case "preview":
+/*    case "preview":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                              "ezforum/user/intl", $Language, "message.php" );
 
         $t->set_file( "page", "messagepreview.tpl"  );
     }
-    break;
+    break;*/
 
     case "completed":
     {
@@ -120,10 +120,9 @@ $Errors = false;
 
 $Locale = new eZLocale( $Language );
 
-
 // Do some action!
 
-switch( $Action )
+switch ( $Action )
 {
     case "dodelete":
     {
@@ -211,9 +210,9 @@ switch( $Action )
         $msg->delete();
 
         include_once( "classes/ezhttptool.php" );
-        if( empty( $RedirectURL ) )
+        if ( empty( $RedirectURL ) )
         {
-            if( empty( $ForumID ) )
+            if ( empty( $ForumID ) )
             {
                 eZHTTPTool::header( "Location: /forum/categorylist" );
             }
@@ -245,10 +244,8 @@ switch( $Action )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
-
         $msg->setIsTemporary( false );
         $msg->store();
-
 
         if ( $StartAction == "reply" )
         {
@@ -289,7 +286,10 @@ switch( $Action )
 
                         if ( $author->id() == 0 )
                         {
-                            $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+                            if ( $msg->userName() )
+                                $mailTemplate->set_var( "author", $msg->userName() );
+                            else
+                                $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
                         }
                         else
                         {
@@ -357,6 +357,7 @@ switch( $Action )
 
         $msg->store();
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
+        exit();
     }
 
     case "new":
@@ -463,7 +464,6 @@ switch( $Action )
         $msg = new eZForumMessage( $MessageID );
         $forum = new eZForum( $msg->forumID() );
         $ForumID = $forum->id();
-
         $CheckMessageID = $MessageID;
         $CheckForumID = $ForumID;
         include( "ezforum/user/messagepermissions.php" );
@@ -500,7 +500,9 @@ switch( $Action )
         $ShowPath = true;
         $isPreview = false;
         include_once( "ezforum/user/messagepath.php" );
-
+        
+        $author =& eZUser::currentUser();
+        
         $ShowMessageForm = true;
         $ShowEmptyMessageForm = false;
         $ShowVisibleMessageForm = true;
@@ -575,6 +577,7 @@ switch( $Action )
                 else
                 {
                     $msg->setUserID( 0 );
+                    $msg->setUserName( $AuthorName );
                 }
             }
             else

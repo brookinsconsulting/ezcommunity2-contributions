@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.37 2001/08/01 16:41:25 kaid Exp $
+// $Id: messagelist.php,v 1.38 2001/08/31 14:01:59 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -39,13 +39,12 @@ include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
-$UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
 $NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "messagelist.php" );
 
-$t->set_file( "messagelist", "messagelist.tpl"  );
+$t->set_file( "messagelist", "messagelist.tpl" );
 
 $t->set_block( "messagelist", "message_item_tpl", "message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
@@ -54,10 +53,32 @@ $t->set_block( "messagelist", "previous_tpl", "previous" );
 $t->set_block( "message_item_tpl", "new_icon_tpl", "new_icon" );
 $t->set_block( "message_item_tpl", "old_icon_tpl", "old_icon" );
 
+$t->set_block( "messagelist", "messages_element_tpl", "messages_element" );
 $t->set_block( "messagelist", "show_threads_tpl", "show_threads" );
 $t->set_block( "messagelist", "hide_threads_tpl", "hide_threads" ); 
 
 $t->setAllStrings();
+
+$session =& eZSession::globalSession();
+$session->fetch();
+
+if ( isSet( $ForumMessages ) )
+{
+    $session->setVariable( "ForumMessages", $ForumMessages );
+    $UserLimit = $ForumMessages;
+}
+else
+{
+    $UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
+    if ( $session->variable( "ForumMessages" ) == false )
+    {
+        $session->setVariable( "ForumMessages", $UserLimit );
+    }
+    else
+    {
+        $UserLimit = $session->variable( "ForumMessages" );
+    }
+}
 
 $forum = new eZForum( $ForumID );
 
@@ -68,10 +89,10 @@ $user =& eZUser::currentUser();
 if ( $user )
 {
     $preferences = new eZPreferences();
-    if ( isset ( $HideThreads ) )
+    if ( isSet( $HideThreads ) )
         $preferences->setVariable( "eZForum_Threads", "Hide" );
     
-    if ( isset ( $ShowThreads ) )
+    if ( isSet( $ShowThreads ) )
         $preferences->setVariable( "eZForum_Threads", "Show" );
 
     $showThreads =& $preferences->variable( "eZForum_Threads" );
@@ -80,10 +101,10 @@ else
 {    
     $session =& eZSession::globalSession();
     
-    if ( isset ( $HideThreads ) )
+    if ( isSet( $HideThreads ) )
         $session->setVariable( "eZForum_Threads", "Hide" );
     
-    if ( isset ( $ShowThreads ) )
+    if ( isSet( $ShowThreads ) )
         $session->setVariable( "eZForum_Threads", "Show" );
     
     $showThreads = $session->variable( "eZForum_Threads" );
@@ -96,7 +117,7 @@ $group =& $forum->group();
 $viewer = $user;
 if ( get_class( $group ) == "ezusergroup" )
 {
-    if ( get_class ( $viewer ) == "ezuser" )
+    if ( get_class( $viewer ) == "ezuser" )
     {
         $groupList =& $viewer->groups();
         
@@ -125,8 +146,23 @@ if ( count( $categories ) > 0 )
 
 $locale = new eZLocale( $Language );
 
-if ( !isset( $Offset ) or !$Offset )
+if ( !isSet( $Offset ) or !$Offset )
     $Offset = 0;
+
+$limit_array = array_unique( array( 20, 30, 40, 50, 60, 80, 100, 150, 200, $UserLimit ) );
+sort( $limit_array );
+
+foreach ( $limit_array as $element_number )
+{
+    $t->set_var( "messages_number", $element_number );
+    if ( $element_number == $UserLimit )
+        $t->set_var( "is_selected", "selected" );
+    else
+        $t->set_var( "is_selected", "" );
+    $t->parse( "messages_element", "messages_element_tpl", true );
+}
+
+$t->set_var( "offset", $Offset );
 
 if ( $showThreads == "Hide" )
 {
@@ -135,12 +171,12 @@ if ( $showThreads == "Hide" )
     $messageList =& $forum->messageTreeArray( $Offset, $UserLimit, false, false );
     $messageCount =& $forum->messageCount( false, false );
 }
-elseif ( $showThreads == "Show" )
+else if ( $showThreads == "Show" )
 {
     $t->set_var( "show_threads", "" );
     $t->parse( "hide_threads", "hide_threads_tpl" );
     $messageList =& $forum->messageTreeArray( $Offset, $UserLimit );
-    $messageCount =& $forum->messageCount( );
+    $messageCount =& $forum->messageCount();
 }
 
 if ( !$messageList )
@@ -159,7 +195,7 @@ else
     $time = new eZDateTime();
     foreach ( $messageList as $message )
     {
-        $user = new eZUser( );
+        $user = new eZUser();
         $t->set_var( "user", "" );
         $t->set_var( "edit_message_item", "" );
 
@@ -168,14 +204,14 @@ else
         else
             $t->set_var( "td_class", "bgdark" );
         
-        $t->set_var( "topic", $message[$db->fieldName("Topic")] );
+        $t->set_var( "topic", $message[$db->fieldName( "Topic" )] );
 
-        $time->setTimeStamp( $message[$db->fieldName("PostingTime")] );
+        $time->setTimeStamp( $message[$db->fieldName( "PostingTime" )] );
         $t->set_var( "postingtime", $locale->format( $time  ) );
 
-        $t->set_var( "message_id", $message[$db->fieldName("ID")] );
+        $t->set_var( "message_id", $message[$db->fieldName( "ID" )] );
 
-        $messageAge = round( $message[$db->fieldName("Age")] / ( 60 * 60 * 24 ) );
+        $messageAge = round( $message[$db->fieldName( "Age" )] / 86400 );
         if ( $messageAge <= $NewMessageLimit )
         {
             $t->parse( "new_icon", "new_icon_tpl" );
@@ -187,30 +223,33 @@ else
             $t->set_var( "new_icon", "" );
         }
 
-        $userID = $message[$db->fieldName("UserID")];
+        $userID = $message[$db->fieldName( "UserID" )];
 
         $user->get( $userID );
         
         if ( $showThreads == "Show" )
         {
             $t->set_var( "count_replies", "" );
-            $level = $message[$db->fieldName("Depth")];
+            $level = $message[$db->fieldName( "Depth" )];
 
             if ( $level > 0 )
                 $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
             else
                 $t->set_var( "spacer", "" );
         }
-        elseif ( $showThreads == "Hide" )
+        else if ( $showThreads == "Hide" )
         {
-            $count = eZForumMessage::threadMessageCount( $message[$db->fieldName("ThreadID")] ) - 1;
+            $count = eZForumMessage::threadMessageCount( $message[$db->fieldName( "ThreadID" )] ) - 1;
             $t->set_var( "spacer", "" );
             $t->set_var( "count_replies", $count );
         }
 
         if ( $user->id() == 0 )
         {
-            $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+            if ( empty( $message[$db->fieldName( "UserName" )] ) )
+                 $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+            else
+                $t->set_var( "user", $message[$db->fieldName( "UserName" )] );
         }
         else
         {
@@ -230,13 +269,14 @@ else
         $i++;
     }
 }
+
 eZList::drawNavigator( $t, $messageCount, $UserLimit, $Offset, "messagelist" );
 
 $t->set_var( "forum_start", $Offset + 1 );
 $t->set_var( "forum_end", min( $Offset + $UserLimit, $messageCount ) );
 $t->set_var( "forum_total", $messageCount );
 
-if ( !isset( $newmessage ) )
+if ( !isSet( $newmessage ) )
     $newmessage = "";
 $t->set_var( "newmessage", $newmessage );
 

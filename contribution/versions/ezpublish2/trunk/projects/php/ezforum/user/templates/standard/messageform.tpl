@@ -6,7 +6,14 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-author}:</p>
+	<!-- BEGIN author_field_tpl -->
+        <!-- BEGIN author_logged_in_tpl -->
 	{message_author}
+        <!-- END author_logged_in_tpl -->
+	<!-- BEGIN author_not_logged_in_tpl -->
+	<input type="text" name="AuthorName" class="box" size="40" />
+	<!-- END author_not_logged_in_tpl -->
+	<!-- END author_field_tpl -->
 	</td>
 	<td align="right">
 	<p class="boxtext">{intl-posted_at}:</p>

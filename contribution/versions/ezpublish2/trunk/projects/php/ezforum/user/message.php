@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.28 2001/08/30 08:34:09 jhe Exp $
+// $Id: message.php,v 1.29 2001/08/31 14:01:59 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -105,7 +105,10 @@ $t->set_var( "topic", $message->topic() );
 
 $user = $message->user();
 
-$anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+if ( $message->userName() )
+    $anonymous = $message->userName();
+else
+    $anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
 
 if ( $user->id() == 0 )
 {
@@ -134,7 +137,6 @@ if ( get_class( $viewer ) == "ezuser" )
         $t->parse( "edit_current_message_item", "edit_current_message_item_tpl" );
     }
 }
-
 
 $topMessage = $message->threadTop( $message );
 
