@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.6.2.1 2001/11/01 17:08:11 master Exp $
+// $Id: datasupplier.php,v 1.6.2.2 2001/11/16 12:53:06 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -71,7 +71,7 @@ function formProcess( $value, $key )
     global $mailMessage;
     global $redirectTo;
     
-    switch( $key )
+    switch ( $key )
     {
         case "submit":
         {
@@ -108,14 +108,14 @@ function formProcess( $value, $key )
     }
 }
 
-switch( $eZFormOperation )
+switch ( $eZFormOperation )
 {
     case "form":
     {
         $FormID = $url_array[4];
-	$SectionIDOverride = $url_array[5];
+        $SectionIDOverride = $url_array[5];
 
-        switch( $eZFormAction )
+        switch ( $eZFormAction )
         {
             case "view":
             case "process":
@@ -136,7 +136,7 @@ switch( $eZFormOperation )
     
     case "simpleprocess":
     {
-        if( $HTTP_POST_VARS )
+        if ( $HTTP_POST_VARS )
         {
             array_walk( $HTTP_POST_VARS, "formProcess" );
             
@@ -148,7 +148,7 @@ switch( $eZFormOperation )
             $mail->send();
         }
         
-        if( !empty( $redirectTo ) )
+        if ( !empty( $redirectTo ) )
         {
             eZHTTPTool::header( "Location: $redirectTo" );
         }

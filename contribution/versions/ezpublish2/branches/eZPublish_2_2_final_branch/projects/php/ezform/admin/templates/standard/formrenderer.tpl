@@ -57,8 +57,8 @@
 <input type="hidden" name="mailSubject" value="{form_name}" />
 <input type="hidden" name="redirectTo" value="{form_completed_page}" />
 <!-- BEGIN form_sender_tpl -->
-<p class="boxtext">{intl-form_sender}:</p> 
-<input type="text" class="box" name="formSender" />
+<p class="boxtext">{intl-form_sender}:</p>
+<input type="text" class="box" name="formSender" value="{form_sender_value}" />
 <br /><br />
 
 <!-- END form_sender_tpl -->

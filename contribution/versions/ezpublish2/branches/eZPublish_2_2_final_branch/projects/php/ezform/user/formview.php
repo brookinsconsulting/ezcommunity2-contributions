@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.2.2.1 2001/11/01 17:08:21 master Exp $
+// $Id: formview.php,v 1.2.2.2 2001/11/16 12:53:06 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -35,9 +35,9 @@ include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
 
-if( isset( $Cancel ) )
+if ( isset( $Cancel ) )
 {
-    if( !empty( $redirectTo ) )
+    if ( !empty( $redirectTo ) )
     {
         eZHTTPTool::header( "Location: $redirectTo" );
     }
@@ -49,12 +49,11 @@ if( isset( $Cancel ) )
 }
 
 
-
 $ActionValue="process";
 
 $form = new eZForm( $FormID );
 
-if( !( $form->id() > 0 ) )
+if ( !( $form->id() > 0 ) )
 {
     eZHTTPTool::header( "Location: /" );
 }
@@ -64,7 +63,7 @@ $errorMessages = array();
 $Language = $ini->read_var( "eZFormMain", "Language" );
 
 // init the section
-if ( isset ($SectionIDOverride) )
+if ( isset( $SectionIDOverride ) )
 {
     include_once( "ezsitemanager/classes/ezsection.php" );
     
@@ -77,9 +76,7 @@ $t = new eZTemplate( "ezform/user/" . $ini->read_var( "eZFormMain", "AdminTempla
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "form_view_page_tpl" => "formview.tpl"
-    ) );
+$t->set_file( "form_view_page_tpl", "formview.tpl" );
 
 $t->set_block( "form_view_page_tpl", "mail_preview_tpl", "mail_preview" );
 
@@ -95,16 +92,21 @@ $renderer =& new eZFormRenderer( $form );
 $output =& $renderer->renderForm( $form );
 $t->set_var( "form", $output );
 
-if( isset( $OK ) )
+if ( isset( $OK ) )
 {
     $output =& $renderer->verifyForm();
-    if( $output == "" )
+    if ( $output == "" )
     {
         $renderer->sendForm();
     }
     else
     {
         $t->set_var( "error", $output );
+        $formElements = $form->formElements();
+        foreach ( $formElements as $element )
+        {
+            
+        }
     }
 }
 
