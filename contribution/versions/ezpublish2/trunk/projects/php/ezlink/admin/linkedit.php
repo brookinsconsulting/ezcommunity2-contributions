@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.30 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: linkedit.php,v 1.31 2000/10/31 21:54:33 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -85,10 +85,16 @@ if ( $Action == "delete" )
 {
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkDelete" ) )
     {
-
         $deletelink = new eZLink();
         $deletelink->get( $LinkID );
+        $LinkGroupID = $deletelink->linkGroupID();
         $deletelink->delete();
+
+        if ( !$LinkGroupID )
+        {
+            Header( "Location: /link/group/incoming" );
+            exit();
+        }
         
         Header( "Location: /link/group/$LinkGroupID" );
         exit();

@@ -37,17 +37,13 @@ http://<input type="text" name="Url" size="40" value="{url}">
 
 <p class="boxtext">{intl-key}</p>
 <!-- {intl-search} -->
-<textarea rows="5" cols="40" name="Keywords">
-	  {keywords}
-</textarea>
+<textarea rows="5" cols="40" name="Keywords">{keywords}</textarea>
 
 <br />
 
 <p class="boxtext">{intl-desc}</p>
 <!-- {intl-discedit} -->
-<textarea rows="5" cols="40" name="Description">
-	  {description}
-</textarea>
+<textarea rows="5" cols="40" name="Description">{description}</textarea>
 <br />
 
 <p class="boxtext">{intl-accepted}</p>
