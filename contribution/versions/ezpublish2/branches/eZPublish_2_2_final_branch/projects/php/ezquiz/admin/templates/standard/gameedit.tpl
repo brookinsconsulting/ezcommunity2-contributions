@@ -104,7 +104,7 @@
 	 {question_name}
 	 </td>
 	 <td class="{td_class}" width="1%">
-	 <a href="{www_dir}{index}/quiz/game/questionedit/{question_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezquiz{game_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezquiz{game_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;
+	 <a href="{www_dir}{index}/quiz/game/questionedit/{question_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezquiz{question_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezquiz{question_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;
 	 </td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="DeleteQuestionArray[]" value="{question_id}">
