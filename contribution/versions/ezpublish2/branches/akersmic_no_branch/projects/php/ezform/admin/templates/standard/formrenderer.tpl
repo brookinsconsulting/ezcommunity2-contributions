@@ -45,6 +45,7 @@
 
 <!-- BEGIN form_list_tpl -->
 <!-- BEGIN form_start_tag_tpl -->
+<br /><br />
 <form action="{www_dir}{index}/form/form/process/{form_id}/{section_id}/" method="post">
 <h2>{form_name}</h2>
 <hr noshade="noshade" size="4" />

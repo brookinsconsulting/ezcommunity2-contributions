@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: userlogin.php,v 1.14.8.1 2002/01/24 10:46:57 bf Exp $
+//
+// $Id: userlogin.php,v 1.14.8.2 2002/03/07 13:59:03 ce Exp $
 //
 // Created on: <14-Oct-2000 15:41:17 bf>
 //
@@ -49,7 +49,7 @@ if ( eZUser::currentUser() )
     {
         eZHTTPTool::header( "Location: /forum/messageedit/reply/$ReplyToID/$ForumID/$AdditionalURLInfo" );
     }
-    
+
     if ( $Action == "new" )
     {
         eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
@@ -68,13 +68,12 @@ if ( eZUser::currentUser() )
     if ( $Action == "reply" )
     {
         eZHTTPTool::header( "Location: /forum/messageedit/reply/$ReplyToID/$AdditionalURLInfo" );
-    }    
+    }
 }
 else
 {
     $Anonymous == false;
-    
-    
+
     switch ( $Action )
     {
         case "new":
@@ -83,73 +82,79 @@ else
             include_once( "ezforum/classes/ezforummessage.php" );
 
             $CheckForumID = $ForumID;
-           
+
             include( "ezforum/user/messagepermissions.php" );
-            
+
             if ( $ForumPost == true )
             {
                 eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
             }
         }
-        
+
         case "reply":
         {
             include_once( "ezforum/classes/ezforum.php" );
             include_once( "ezforum/classes/ezforummessage.php" );
-            
+
             $msg = new eZForumMessage( $ReplyToID );
-            
+
             $CheckForumID = $msg->forumID();
 
             include( "ezforum/user/messagepermissions.php" );
-            
+
             if ( $ForumPost == true )
             {
                 eZHTTPTool::header( "Location: /forum/messageedit/reply/$ReplyToID/$AdditionalURLInfo" );
             }
         }
     }
-    
+
+
     if ( $Anonymous == false )
     {
-        $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-                             "ezforum/user/intl/", $Language, "userlogin.php" );
-
-        $t->setAllStrings();
-
-        $t->set_file( "user_login_tpl", "userlogin.tpl" );
+        if ( isset( $RedirectURL ) )
+        {
+            $AdditionalURLInfo="&ProductID=$ProductID&ProductName=" . urlencode( $ProductName ) . "";
+        }
 
         if ( $Action == "newsimple" )
         {
-            $t->set_var( "redirect_url", $RedirectURL );
+            eZHTTPTool::header( "Location: /user/login/?RedirectURL=/forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
+            exit();
         }
 
         if ( $Action == "replysimple" )
         {
-            $t->set_var( "redirect_url", $RedirectURL );
+            eZHTTPTool::header( "Location: /user/login/?RedirectURL=/forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
+            exit();
         }
 
         if ( $Action == "new" )
         {
-            $t->set_var( "redirect_url", "/forum/messageedit/new/$ForumID/" );
+            eZHTTPTool::header( "Location: /user/login/?RedirectURL=/forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
+            exit();
         }
 
         if ( $Action == "edit" )
         {
-            $t->set_var( "redirect_url", "/forum/messageedit/edit/$MessageID/" );
+            eZHTTPTool::header( "Location: /user/login/?RedirectURL=/forum/messageedit/edit/$MessageID/$AdditionalURLInfo" );
+            exit();
         }
 
         if ( $Action == "delete" )
         {
-            $t->set_var( "redirect_url", "/forum/messageedit/delete/$MessageID/" );
+            eZHTTPTool::header( "Location: /user/login/?RedirectURL=/forum/messageedit/delete/$MessageID/$AdditionalURLInfo" );
+            exit();
+
         }
 
         if ( $Action == "reply" )
         {
-            $t->set_var( "redirect_url", "/forum/messageedit/reply/$ReplyToID/" );
+            eZHTTPTool::header( "Location: /user/login/?RedirectURL=/forum/messageedit/reply/$MessageID/$AdditionalURLInfo" );
+            exit();
         }
-
-        $t->pparse( "output", "user_login_tpl" );
+        eZHTTPTool::header( "Location: /user/login/" );
+        exit();
     }
 }
 

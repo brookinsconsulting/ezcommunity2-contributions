@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.19 2002/02/26 13:52:05 ce Exp $
+// $Id: productlist.php,v 1.41.8.20 2002/03/07 13:59:04 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -193,6 +193,7 @@ $productList =& $category->productsAsArray( $category->sortMode(), false, $Offse
 $locale = new eZLocale( $Language );
 $i = 0;
 $db =& eZDB::globalDatabase();
+$currency = new eZCurrency();
 
 foreach ( $productList as $product )
 {
@@ -242,6 +243,9 @@ foreach ( $productList as $product )
     $t->set_var( "product_intro_text", "" );
     $t->set_var( "price", "" );
 
+    $currency->setValue( $product["Price"] );
+    $t->set_var( "product_price", $locale->format( $currency ) );
+
     $t->set_var( "category_id", $product["CatID"] );
 
     if ( ( $i % 2 ) == 0 )
@@ -252,7 +256,7 @@ foreach ( $productList as $product )
     {
         $t->set_var( "td_class", "categorylist2" );
     }
-
+    $t->parse( "price", "price_tpl" );
     $t->parse( "product", "product_tpl", true );
     $i++;
 }
@@ -299,6 +303,33 @@ switch( $GlobalSectionID )
         $filename = "sitedesign/am/staticpages/multimedia_content.html";
     }
     break;
+            case 6:
+    {
+	$filename = "sitedesign/am/staticpages/playstation_content.html";
+    }
+    break;
+
+
+        case 7:
+    {
+	$filename = "sitedesign/am/staticpages/pc_content.html";
+    }
+    break;
+
+
+        case 8:
+    {
+	$filename = "sitedesign/am/staticpages/nintendo_content.html";
+    }
+    break;
+
+
+        case 9:
+    {
+	$filename = "sitedesign/am/staticpages/xbox_content.html";
+    }
+    break;
+
 }
 
 if ( file_exists ( $filename ) )

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.12 2002/03/05 14:06:06 ce Exp $
+// $Id: productview.php,v 1.77.2.2.4.13 2002/03/07 13:59:04 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -536,6 +536,34 @@ switch( $GlobalSectionID )
 	$filename = "sitedesign/am/staticpages/multimedia_content.html";
     }
     break;
+
+        case 6:
+    {
+	$filename = "sitedesign/am/staticpages/playstation_content.html";
+    }
+    break;
+
+
+        case 7:
+    {
+	$filename = "sitedesign/am/staticpages/pc_content.html";
+    }
+    break;
+
+
+        case 8:
+    {
+	$filename = "sitedesign/am/staticpages/nintendo_content.html";
+    }
+    break;
+
+
+        case 9:
+    {
+	$filename = "sitedesign/am/staticpages/xbox_content.html";
+    }
+    break;
+
 }
 
 if ( file_exists ( $filename ) )

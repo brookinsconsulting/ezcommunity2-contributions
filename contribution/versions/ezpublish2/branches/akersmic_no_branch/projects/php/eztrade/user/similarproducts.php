@@ -26,7 +26,25 @@ function &similarProducts( $SimilarCategoryID, $twoColums=true )
 
         $t->setAllStrings();
 
-        $t->set_file( "product_view_tpl", "similarproducts.tpl" );
+        // sections
+        include_once( "ezsitemanager/classes/ezsection.php" );
+
+        $GlobalSectionID = eZProductCategory::sectionIDStatic( $SimilarCategoryID );
+
+        // init the section
+        $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+        $sectionObject->setOverrideVariables();
+        $sectionOverride = "_sectionoverride_$GlobalSectionID";
+
+        if ( eZFile::file_exists( "eztrade/user/$TemplateDir/similarproducts" . $sectionOverride  . ".tpl" ) )
+        {
+            $t->set_file( "product_view_tpl", "similarproducts" . $sectionOverride  . ".tpl"  );
+        }
+        else
+        {
+            $t->set_file( "product_view_tpl", "similarproducts.tpl" );
+        }
+
         $t->set_block( "product_view_tpl", "product_line_tpl", "product_line" );
         $t->set_block( "product_line_tpl", "product_item_tpl", "product_item" );
         $t->set_block( "product_item_tpl", "product_item_button_tpl", "product_item_button" );
@@ -68,7 +86,7 @@ function &similarProducts( $SimilarCategoryID, $twoColums=true )
 
             if ( $thumbnailImage )
             {
-                $variation =& $thumbnailImage->requestImageVariation( 60, 60 );
+                $variation =& $thumbnailImage->requestImageVariation( 60, 120 );
 
                 $t->set_var( "image_uri", "/" . $variation->imagePath() );
                 $t->set_var( "image_width", $variation->width() );

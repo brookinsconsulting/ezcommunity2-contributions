@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.9 2002/03/05 14:06:06 ce Exp $
+// $Id: datasupplier.php,v 1.54.8.10 2002/03/07 13:59:04 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,7 @@ include_once( "eztrade/classes/ezproduct.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "classes/ezhttptool.php" );
+
 
 /*
 
@@ -126,7 +127,7 @@ switch ( $url_array[2] )
             {
                 $forum = $product->forum();
                 $ForumID = $forum->id();
-
+                // Trade category id, for the global section id
                 include( "ezforum/user/messagesimplelist.php" );
             }
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezcart.php,v 1.36.8.4 2002/02/04 20:40:33 br Exp $
+// $Id: ezcart.php,v 1.36.8.5 2002/03/07 13:59:03 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -346,44 +346,51 @@ class eZCart
                 // Special case:
                 if ( $continue )
                 {
-                    $type = $product->type();
-                    switch( $type->id() )
+                    if ( $type )
                     {
-                        // CD, Spill og DVD
-                        case 1:
-                        case 2:
-                        case 4:
-                        default:
+                        $type = $product->type();
+                        switch( $type->id() )
                         {
-                            if ( ( $paymentMethod == 2 ) and $totalPrice <= 1000 ) // Postoppkrav
+                            // CD, Spill og DVD
+                            case 1:
+                            case 2:
+                            case 4:
+                            default:
                             {
-                                $this->ShippingType->get( 2 );
+                                if ( ( $paymentMethod == 2 ) and $totalPrice <= 1000 ) // Postoppkrav
+                                {
+                                    $this->ShippingType->get( 2 );
+                                }
+                                elseif ( ( $paymentMethod == 1 ) and $totalPrice <= 1000 ) // Kredittkort
+                                {
+                                    $this->ShippingType->get( 1 );
+                                }
+                                elseif( $totalPrice >= 1000 )
+                                {
+                                    $this->ShippingType->get( 3 );
+                                }
+                                $continue = true;
                             }
-                            elseif ( ( $paymentMethod == 1 ) and $totalPrice <= 1000 ) // Kredittkort
+                            break;
+                            // Hifi og spillkonsoler
+                            case 5:
                             {
-                                $this->ShippingType->get( 1 );
+                                if ( $paymentMethod == 2 ) // Postoppkrav
+                                {
+                                    $this->ShippingType->get( 2 );
+                                }
+                                elseif ( $paymentMethod == 1 ) // Kredittkort
+                                {
+                                    $this->ShippingType->get( 1 );
+                                }
+                                $continue = false;
                             }
-                            elseif( $totalPrice >= 1000 )
-                            {
-                                $this->ShippingType->get( 3 );
-                            }
-                            $continue = true;
+                            break;
                         }
-                        break;
-                        // Hifi og spillkonsoler
-                        case 5:
-                        {
-                            if ( $paymentMethod == 2 ) // Postoppkrav
-                            {
-                                $this->ShippingType->get( 2 );
-                            }
-                            elseif ( $paymentMethod == 1 ) // Kredittkort
-                            {
-                                $this->ShippingType->get( 1 );
-                            }
-                            $continue = false;
-                        }
-                        break;
+                    }
+                    else
+                    {
+                        $this->ShippingType->get( 1 );
                     }
                 }
             }

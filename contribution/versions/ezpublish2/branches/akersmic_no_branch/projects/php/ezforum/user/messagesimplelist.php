@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagesimplelist.php,v 1.15.8.4 2002/02/26 12:13:32 ce Exp $
+// $Id: messagesimplelist.php,v 1.15.8.5 2002/03/07 13:59:03 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -36,7 +36,21 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
+include_once( "eztrade/classes/ezproduct.php" );
+
 $ini =& INIFile::globalINI();
+
+if ( $CategoryID == "" )
+{
+    $product = new eZProduct( $ProductID );
+    if ( $product )
+    {
+        $category = $product->categoryDefinition();
+        $CategoryID = $category->id();
+    }
+}
+
+$GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $SimpleUserList = $ini->read_var( "eZForumMain", "SimpleUserList" );

@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezproductcurrency.php,v 1.10 2001/10/15 11:32:18 ce Exp $
+//
+// $Id: ezproductcurrency.php,v 1.10.8.1 2002/03/07 13:59:04 ce Exp $
 //
 // Definition of eZProductCurrency class
 //
@@ -29,7 +29,7 @@
 //!! eZTrade
 //! This class handles alternative product currencies.
 /*!
-  
+
   \sa eZProduct
 */
 
@@ -64,13 +64,13 @@ class eZProductCurrency
         {
             $this->Value = 1;
         }
-        
+
         if ( !isset( $this->ID ) )
         {
             $timeStamp =& eZDateTime::timeStamp( true );
             $db->lock( "eZTrade_AlternativeCurrency" );
             $nextID = $db->nextID( "eZTrade_AlternativeCurrency", "ID" );
-                        
+
             $res[] = $db->query( "INSERT INTO eZTrade_AlternativeCurrency
                        ( ID,
 		                 Name,
@@ -109,11 +109,11 @@ class eZProductCurrency
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != -1  )
         {
             $db->array_query( $currency_array, "SELECT * FROM eZTrade_AlternativeCurrency WHERE ID='$id'" );
-            
+
             if ( count( $currency_array ) > 1 )
             {
                 die( "Error: Product currencies with the same ID was found in the database. This shouldn't happen." );
@@ -135,17 +135,17 @@ class eZProductCurrency
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $currency_array = array();
-        
+
         $db->array_query( $currency_array, "SELECT ID FROM eZTrade_AlternativeCurrency ORDER BY Created" );
-        
+
         for ( $i=0; $i < count($currency_array); $i++ )
         {
             $return_array[$i] = new eZProductCurrency( $currency_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -161,7 +161,7 @@ class eZProductCurrency
 
         eZDB::finish( $res, $db );
 
-        
+
     }
 
     /*!
@@ -206,7 +206,7 @@ class eZProductCurrency
         else
             return false;
     }
-    
+
     /*!
       Sets the name of the currency.
     */
@@ -239,12 +239,12 @@ class eZProductCurrency
     */
     function setPrefixSign( $value )
     {
-        if ( $value == true )            
+        if ( $value == true )
             $this->PrefixSign = 1;
         else
             $this->PrefixSign = 0;
     }
-    
+
     var $ID;
     var $Name;
     var $Sign;

@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: currency.php,v 1.8 2001/07/20 11:42:01 jakobn Exp $
+//
+// $Id: currency.php,v 1.8.8.1 2002/03/07 13:59:03 ce Exp $
 //
 // Created on: <23-Feb-2001 16:27:56 bf>
 //
@@ -49,12 +49,12 @@ if ( $Action == "Store" )
         $currency->setName( $CurrencyName[$i] );
         $currency->setSign( $CurrencySign[$i] );
         $currency->setValue( $CurrencyValue[$i] );
-        
+
         if ( $prefixArray[0] == 1 )
             $currency->setPrefixSign( true );
         else
             $currency->setPrefixSign( false );
-            
+
         $currency->store();
         $i++;
     }
@@ -80,7 +80,7 @@ if ( $Action == "DeleteSelected" )
     foreach ( $DeleteID as $id )
     {
         $currency = new eZProductCurrency( $id );
-        $currency->delete();        
+        $currency->delete();
     }
 }
 
@@ -120,7 +120,7 @@ foreach ( $currencies as $currency )
         $t->set_var( "currency_prefixed", "" );
         $t->set_var( "currency_not_prefixed", "checked" );
     }
-    
+
     $t->parse( "currency_item", "currency_item_tpl", true );
     $i++;
 }

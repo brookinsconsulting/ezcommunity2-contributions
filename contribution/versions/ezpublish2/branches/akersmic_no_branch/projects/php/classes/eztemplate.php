@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztemplate.php,v 1.46.2.1.4.3 2002/03/06 15:07:48 ce Exp $
+// $Id: eztemplate.php,v 1.46.2.1.4.4 2002/03/07 13:59:02 ce Exp $
 //
 // Definition of eZTemplate class
 //
@@ -488,6 +488,7 @@ class eZTemplate
         }
         else
         {
+            $this->set_var( "global_section_shortname", "" );
             $this->set_var( "global_section_name", "" );
         }
     }

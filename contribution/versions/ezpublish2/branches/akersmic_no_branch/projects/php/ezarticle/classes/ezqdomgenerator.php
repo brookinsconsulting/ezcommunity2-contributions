@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezqdomgenerator.php,v 1.39.2.2 2001/11/19 12:21:37 bf Exp $
+//
+// $Id: ezqdomgenerator.php,v 1.39.2.2.4.1 2002/03/07 13:59:02 ce Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -33,14 +33,14 @@
 */
 
 /*!TODO
-  
+
 */
 include_once( "ezxml/classes/ezxml.php" );
 
 class eZQDomGenerator
 {
     /*!
-      Creates a new eZQDomGenerator object.      
+      Creates a new eZQDomGenerator object.
     */
     function eZQDomGenerator( &$contents )
     {
@@ -53,7 +53,7 @@ class eZQDomGenerator
 
         $customTags = $ini->read_var( "eZArticleMain", "CustomTags" );
 
-        $this->CustomTagsArray = explode( ";", $customTags );        
+        $this->CustomTagsArray = explode( ";", $customTags );
     }
 
     /*!
@@ -63,7 +63,7 @@ class eZQDomGenerator
     {
         // add the XML header.
         $newContents = "<?xml version=\"1.0\"?>";
-        
+
         //add the generator, this is used for rendering.
         $newContents .= "<article><generator>qdom</generator>\n";
 
@@ -80,11 +80,11 @@ class eZQDomGenerator
 
             $tmpPage =& $this->generatePage( $tmpPage );
 
-            $body .= "<page>" . $tmpPage  . "</page>";        
+            $body .= "<page>" . $tmpPage  . "</page>";
         }
 
         $this->PageCount = count( $pages );
-        
+
 
         $newContents .= "<body>" . $body . "</body></article>";
 
@@ -93,7 +93,7 @@ class eZQDomGenerator
 
     /*!
       \private
-      
+
     */
     function &generatePage( $tmpPage )
     {
@@ -105,9 +105,9 @@ class eZQDomGenerator
         $tmpPage = $this->generateHeader( $tmpPage );
 
         $tmpPage = $this->generateHr( $tmpPage );
-	
+
         $tmpPage = $this->generateTable( $tmpPage );
-	
+
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
@@ -119,7 +119,7 @@ class eZQDomGenerator
         $tmpPage = $this->generateHTML( $tmpPage );
 
         $tmpPage = $this->generateForm( $tmpPage );
-        
+
 //        $tmpPage = $this->generateModule( $tmpPage );
 
 
@@ -128,17 +128,17 @@ class eZQDomGenerator
 
     /*!
       \private
-      
+
     */
     function &generateUnknowns( $tmpPage )
     {
         $tmpPage =& preg_replace( "#< #", "&lt; ", $tmpPage );
 //        $tmpPage =& preg_replace( "# >#", " &gt;", $tmpPage );
-        
-        // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
+
+        // make unknown tags readable.. look-ahead assertion is used ( ?! )
 //        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|iconlink|per|bol|ita|und|str|pre|ver|lis|ezhtml|html|java|ezanchor|mail|module|bullet))/", "&lt;", $tmpPage );
 
-        // look-behind assertion is used here (?<!) 
+        // look-behind assertion is used here (?<!)
         // the expression must be fixed width eg just use the 3 last letters of the tag
 
 //        $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim|isp|tml|ava|let))>#", "&gt;", $tmpPage );
@@ -155,7 +155,7 @@ class eZQDomGenerator
     function &generateImage( $tmpPage )
     {
         $tmpPage = preg_replace( "/(<image\s+([0-9]+)\s+([a-z]+)\s+([a-z]+?)\s*>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
-        
+
         // parse the <image id align size link> tag and convert it
         // link is optional
         // to <image id="id" align="align" size="size" href="link" />
@@ -163,7 +163,7 @@ class eZQDomGenerator
 
         // default image tag <image id>
         $tmpPage = preg_replace( "/(<image\s+?([0-9]+?)\s*?>)/", "<image id=\"\\2\" align=\"center\" size=\"medium\" />", $tmpPage );
-        
+
         return $tmpPage;
     }
 
@@ -188,8 +188,8 @@ class eZQDomGenerator
         $tmpPage = preg_replace( "/(<file\s+?([0-9]+)\s*(.*?)>)/", "<file id=\"\\2\" text=\"\\3\" />", $tmpPage );
         return $tmpPage;
     }
-    
-    
+
+
     function &generateHr( $tmpPage )
     {
         // default horizontal line tag <hr>
@@ -197,47 +197,47 @@ class eZQDomGenerator
         return $tmpPage;
     }
 
-        
+
     /*!
       \private
-      
+
     */
     function &generateHeader( $tmpPage )
     {
         $tmpPage = preg_replace( "/(<header\s+?([^ ]+?)\s*?>)/", "<header level=\"\\2\">", $tmpPage );
 
         $tmpPage = preg_replace( "/(<header\s*?>)/", "<header level=\"1\">", $tmpPage );
-        
+
         return $tmpPage;
     }
-    
+
     /*!
       \private
-    */      
+    */
     function &generateTable( $tmpPage )
     {
 
         $tmpPage = preg_replace( "/(<table\s+([0-9]+[^ ]??)\s+([0-9]+?)\s*>)/", "<table width=\"\\2\" border=\"\\3\">", $tmpPage );
         $tmpPage = preg_replace( "/(<table\s+([0-9]+[^ ]??)\s*>)/", "<table width=\"\\2\">", $tmpPage );
-        
+
         $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s+([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\" rowspan=\"\\4\">", $tmpPage );
         $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\">", $tmpPage );
         $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s*>)/", "<td width=\"\\2\">", $tmpPage );
-        	
+
         return $tmpPage;
     }
 
     /*!
       \private
-       
+
     */
     function &generateForm( $tmpPage )
     {
         $tmpPage = preg_replace( "/(<form\s*?>)/", "<form />", $tmpPage );
-        
+
         return $tmpPage;
     }
-    
+
     /*!
       \private
       Converts the link tags to valid XML tags.
@@ -250,10 +250,10 @@ class eZQDomGenerator
         $tmpPage = preg_replace( "#(<popuplink\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" target=\"_blank\" />", $tmpPage );
 
         $tmpPage = preg_replace( "#(<iconlink\s+?([^ ]+)\s+?([^>]+)>)#", "<iconlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
-        
+
         // convert <ezanchor anchor> to <ezanchor href="anchor" />
         $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<ezanchor href=\"\\1\" />", $tmpPage );
-        
+
         // convert <mail adresse@domain.tld subject line, link text>
         // to valid xml
         $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
@@ -261,7 +261,7 @@ class eZQDomGenerator
         // convert bf@nospam.ez.no to <mail to="bf@nospam.ez.no" subject="" text="bf@nospam.ez.no" />
         $tmpPage = preg_replace( "#([\s\n]|^)(([a-zA-Z0-9_\-\.]+)@((([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}))([\s\n]|$)#",
                                  "<mail to=\"\\2\" subject=\"\" text=\"\\2\" />", $tmpPage );
-        
+
         return $tmpPage;
     }
 
@@ -277,10 +277,10 @@ class eZQDomGenerator
         // ok this is a bit slow code, but it works
         $startHTMLTag = "<html>";
         $endHTMLTag = "</html>";
-        
+
         $startPreTag = "<pre>";
         $endPreTag = "</pre>";
-            
+
         $numberBeginHTML = substr_count( $tmpPage, $startHTMLTag );
         $numEndHTML = substr_count( $tmpPage, $endHTMLTag );
 
@@ -291,7 +291,7 @@ class eZQDomGenerator
 
         $numberBeginPHP = substr_count( $tmpPage, $startPreTag );
         $numEndPHP = substr_count( $tmpPage, $endPreTag );
-            
+
         if ( $numberBegin != $numEnd )
         {
             print( "Unmatched Pre tags, check that you have end tags for all begin tags" );
@@ -304,7 +304,7 @@ class eZQDomGenerator
             $isInsideeZHTML = false;
             $isInsidePHP = false;
             for ( $i=0; $i<strlen( $tmpPage ); $i++ )
-            {    
+            {
                 if ( substr( $tmpPage, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
                 {
                     $isInsideHTMLTag = true;
@@ -324,7 +324,7 @@ class eZQDomGenerator
                 {
                     $isInsidePreTag = false;
                 }
-                
+
                 if ( ( $isInsideHTMLTag == true ) ||  ( $isInsidePreTag == true ) )
                 {
                     switch ( $tmpPage[$i] )
@@ -340,7 +340,7 @@ class eZQDomGenerator
                             $resultPage .= "&gt;";
                         }
                         break;
-            
+
                         default:
                         {
                             $resultPage .= $tmpPage[$i];
@@ -357,7 +357,7 @@ class eZQDomGenerator
         }
         return $tmpPage;
     }
-    
+
 
     /*!
       Decodes the xml chunk and returns the original array to the article.
@@ -368,7 +368,7 @@ class eZQDomGenerator
     function &decodeXML( $htmlSpecialChars=false )
     {
         $contentsArray = array();
-        
+
         $xml =& eZXML::domTree( $this->Contents );
 //        $xml =& xmltree( $this->Contents );
 
@@ -393,7 +393,7 @@ class eZQDomGenerator
                         {
                             $intro = $this->decodePage( $article );
                         }
-                        
+
                         if ( $article->name == "body" )
                         {
                             $body = $article->children;
@@ -419,7 +419,7 @@ class eZQDomGenerator
                         $bodyContents .=  "<page>" . $pageContent;
                     else
                         $bodyContents .=  $pageContent;
-                    
+
                     $i++;
                 }
             }
@@ -441,7 +441,7 @@ class eZQDomGenerator
     {
         $value = "";
         if ( count( $page->children ) > 0 )
-        {            
+        {
             foreach ( $page->children as $paragraph )
             {
                 $value .= $this->decodeStandards( $paragraph );
@@ -461,7 +461,7 @@ class eZQDomGenerator
 
     /*!
       Decodes header tags
-    */     
+    */
     function &decodeHeader(  $paragraph )
     {
         switch ( $paragraph->name )
@@ -479,7 +479,7 @@ class eZQDomGenerator
 
                 $level = 1;
 
-                if ( count( $paragraph->attributes ) > 0 )                 
+                if ( count( $paragraph->attributes ) > 0 )
                 foreach ( $paragraph->attributes as $attr )
                 {
                     switch ( $attr->name )
@@ -492,24 +492,24 @@ class eZQDomGenerator
                     }
                 }
 
-                
-                
+
+
                 $pageContent .= "<header $level>" . $content . "</header>";
             }
             break;
-        }        
-        
-        return $pageContent;        
+        }
+
+        return $pageContent;
     }
-    
+
 
     /*!
       \private
-      
+
     */
     function &decodeImage( $paragraph )
     {
-        // image 
+        // image
         if ( $paragraph->name == "image" )
         {
             foreach ( $paragraph->attributes as $imageItem )
@@ -552,10 +552,10 @@ class eZQDomGenerator
                             $imageTarget = trim( $imageItem->children[0]->content );
                         }
                         break;
-                        
+
                     }
                 }
-            
+
             if (
                 $imageSize != "small"  &&
                 $imageSize != "medium" &&
@@ -570,7 +570,7 @@ class eZQDomGenerator
             {
                 $captionText = "";
                 $targetText = "";
-                
+
                 if ( $imageCaptionOverride != "" )
                     $captionText = "caption=\"$imageCaptionOverride\"";
 
@@ -579,13 +579,13 @@ class eZQDomGenerator
 
                 if ( $imageHref != "" )
                     $hrefText = "href=\"$imageHref\"";
-                
+
                 $pageContent = "<image id=\"$imageID\" align=\"$imageAlignment\" size=\"$imageSize\" $hrefText $captionText $targetText />";
             }
             else
             {
                 $pageContent = "<image $imageID $imageAlignment $imageSize $imageHref>";
-            }                            
+            }
 
         }
         return $pageContent;
@@ -593,11 +593,11 @@ class eZQDomGenerator
 
     /*!
       \private
-      
+
     */
     function &decodeMedia( $paragraph )
     {
-        // media 
+        // media
         if ( $paragraph->name == "media" )
         {
             foreach ( $paragraph->attributes as $mediaItem )
@@ -611,16 +611,16 @@ class eZQDomGenerator
                         break;
                     }
                 }
-                        
+
             $pageContent = "<media $mediaID>";
         }
         return $pageContent;
     }
-    
+
 
     /*!
       \private
-      
+
     */
     function &decodeFile( $paragraph )
     {
@@ -643,22 +643,22 @@ class eZQDomGenerator
                     break;
                 }
             }
-                        
+
             $pageContent = "<file $fileID $fileText>";
         }
         return $pageContent;
     }
-    
-    
+
+
     function &decodeHr( $paragraph )
     {
         if ( $paragraph->name == "hr" )
-        {            
+        {
             $pageContent = "<hr>";
         }
         return $pageContent;
     }
-    
+
 
 
     /*!
@@ -691,7 +691,7 @@ class eZQDomGenerator
                         $target = $imageItem->children[0]->content;
                     }
                     break;
-                    
+
                 }
             }
 
@@ -701,7 +701,7 @@ class eZQDomGenerator
                 $pageContent .= "<link $href $text>";
         }
 
-        
+
         // mail
         if ( $paragraph->name == "mail" )
         {
@@ -728,7 +728,7 @@ class eZQDomGenerator
                     break;
                 }
             }
-                        
+
             $pageContent .= "<mail $to $subject, $text>";
         }
 
@@ -746,10 +746,10 @@ class eZQDomGenerator
                     break;
                 }
             }
-                        
+
             $pageContent .= "<ezanchor $href>";
         }
-        
+
         return $pageContent;
     }
 
@@ -761,7 +761,7 @@ class eZQDomGenerator
     {
         if ( $paragraph->name == "table" )
         {
-	
+
             if  ( count( $paragraph->attributes ) > 0 )
                 foreach ( $paragraph->attributes as $attr )
                 {
@@ -779,18 +779,18 @@ class eZQDomGenerator
                         break;
                     }
                 }
-	
+
             $tmpContent = "";
             foreach ( $paragraph->children as $row )
             {
-                if ( $row->name == "tr" )            
+                if ( $row->name == "tr" )
                 {
                     $tdContent = "";
                     foreach ( $row->children as $data )
                     {
                         if ( $data->name == "td" )
                         {
-			
+
                             $tdWidth="";
                             $tdColspan="";
                             $tdRowspan="";
@@ -835,34 +835,34 @@ class eZQDomGenerator
                                     $tmpData .= $this->decodeLink( $contents );
                                     $tmpData .= $this->decodeHr( $contents );
                                     $tmpData .= $this->decodeTable( $contents );
-                                }                                
+                                }
                             }
                             $tdContent .= "<td";
                             if ( $tdWidth!="" ) $tdContent .= " $tdWidth";
                             if ( $tdColspan!="" ) $tdContent .= " $tdColspan";
                             if ( $tdRowspan!="" ) $tdContent .= " $tdRowspan";
                             $tdContent .= ">$tmpData</td>";
-                            
+
                         }
                     }
-                    
+
                     $tmpContent .= "<tr>\n$tdContent</tr>\n";
                 }
             }
-            
+
             $pageContent = "<table";
             if ( $tableWidth != "" ) $pageContent .= " $tableWidth";
             if ( $tableBorder != "" ) $pageContent .= " $tableBorder";
-            $pageContent .= ">\n$tmpContent</table>"; 
+            $pageContent .= ">\n$tmpContent</table>";
         }
-        
-        
+
+
         return $pageContent;
     }
 
     /*!
       \private
-      
+
     */
     function &decodeStandards(  $paragraph )
     {
@@ -888,39 +888,39 @@ class eZQDomGenerator
                     $content .= $this->decodeFile( $child );
                     $content .= $this->decodeHeader( $child );
                 }
-                
+
                 $tmpContent .=  $content;
             }
 
             switch ( $paragraph->name )
             {
-	    
+
                 case "bold" :
-                {                        
+                {
                     $pageContent .= "<bold>" . $tmpContent . "</bold>";
                 }
                 break;
-                
+
                 case "italic" :
-                {                        
+                {
                     $pageContent .= "<italic>" . $tmpContent . "</italic>";
                 }
                 break;
-            
+
                 case "underline" :
-                {                        
+                {
                     $pageContent .= "<underline>" . $tmpContent . "</underline>";
                 }
                 break;
 
                 case "strike" :
-                {                        
+                {
                     $pageContent .= "<strike>" . $tmpContent . "</strike>";
                 }
                 break;
-                
+
                 case "strong" :
-                {                        
+                {
                     $pageContent .= "<strong>" . $tmpContent . "</strong>";
                 }
                 break;
@@ -935,10 +935,10 @@ class eZQDomGenerator
                         {
                             $itemStr = "";
                             foreach ( $child->children as $listItem )
-                            {                                
+                            {
                                 if ( $listItem->name == "text" )
                                 {
-                                    $itemStr .= $listItem->content;                                
+                                    $itemStr .= $listItem->content;
                                 }
                                 else
                                 {
@@ -949,45 +949,45 @@ class eZQDomGenerator
                                     $itemStr .= $this->decodeMedia( $listItem );
                                     $itemStr .= $this->decodeFile( $listItem );
                                     $itemStr .= $this->decodeHeader( $listItem );
-                                
+
                                 }
                             }
                             $tmpContent .= "<li>$itemStr</li>\n";
                         }
                     }
 
-                    if ( $paragraph->name == "bullet" )                        
+                    if ( $paragraph->name == "bullet" )
                         $pageContent .= "<bullet>\n" . trim( $tmpContent ) . "</bullet>";
                     else
                         $pageContent .= "<list>\n" . trim( $tmpContent ) . "</list>";
                 }
                 break;
 
-                
+
                 case "factbox" :
-                {                        
+                {
                     $pageContent .= "<factbox>" . $tmpContent . "</factbox>";
                 }
                 break;
 
                 case "quote" :
-                {                        
+                {
                     $pageContent .= "<quote>" . $tmpContent . "</quote>";
                 }
                 break;
 
                 case "pre" :
-                {                        
+                {
                     $pageContent .= "<pre>" . $tmpContent . "</pre>";
                 }
                 break;
 
                 case "html" :
-                {                        
+                {
                     $pageContent .= "<html>" . $tmpContent . "</html>";
                 }
                 break;
-                
+
             }
 
         }
@@ -998,12 +998,12 @@ class eZQDomGenerator
                 $pageContent .= "<form>";
             }
             else
-            {            
+            {
                 $pageContent = $paragraph->content;
             }
-        
+
         }
-        
+
         return $pageContent;
     }
 
@@ -1015,7 +1015,7 @@ class eZQDomGenerator
     {
         $pageContent = "";
         $tagName = $paragraph->name;
-        
+
         if ( in_array( $tagName, $this->CustomTagsArray ) )
         {
             $content = "";
@@ -1024,7 +1024,7 @@ class eZQDomGenerator
                 foreach ( $paragraph->children as $child )
                 {
                     if ( $child->name == "text" )
-                    {                
+                    {
                         $content .= $child->content;
                     }
                     else

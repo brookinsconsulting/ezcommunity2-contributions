@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.34 2002/03/06 15:33:17 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.35 2002/03/07 13:59:03 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -57,6 +57,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
+
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezproducttype.php" );
 include_once( "eztrade/classes/ezvattype.php" );
@@ -65,7 +66,6 @@ include_once( "eztrade/classes/ezvoucherinformation.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
 include_once( "eztrade/classes/ezproductpricerange.php" );
-
 
 class eZProduct
 {

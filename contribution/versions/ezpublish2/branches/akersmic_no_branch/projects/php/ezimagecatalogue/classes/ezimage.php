@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezimage.php,v 1.88.8.1 2002/02/26 12:13:32 ce Exp $
+// $Id: ezimage.php,v 1.88.8.2 2002/03/07 13:59:03 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -83,7 +83,6 @@ include_once( "classes/ezdatetime.php" );
 
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
 include_once( "ezimagecatalogue/classes/ezimagevariationgroup.php" );
-
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 
@@ -190,7 +189,7 @@ class eZImage
       \static
       Searches the database for images.
     */
-    function &search( $name, $literal = false )
+    function &search( $name, $literal = true )
     {
         $db =& eZDB::globalDatabase();
         $res = array();
@@ -198,6 +197,8 @@ class eZImage
         $query = new eZQuery( array( "Name", "Caption", "Description", "Keywords" ),
                               $name );
         $query->setIsLiteral( $literal );
+        $query->setPartialCompare( true );
+
         $where =& $query->buildQuery();
 
         $db->array_query( $image_array,
