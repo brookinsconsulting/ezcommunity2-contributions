@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.3 2001/02/02 18:58:35 gl Exp $
+// $Id: productview.php,v 1.4 2001/02/02 21:13:46 gl Exp $
 //
 // Definition of productview class
 //
@@ -50,6 +50,7 @@ function listQuotes( &$t, &$product_id )
 
     foreach( $rfqs as $rfq )
     {
+        // RFQ'er skal listes over quotes
     }
     foreach( $quotes as $quote )
     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.2 2001/01/31 19:03:33 gl Exp $
+// $Id: quoteedit.php,v 1.3 2001/02/02 21:13:46 gl Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -25,6 +25,8 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezdate.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "ezexchange/classes/ezquote.php" );
 
@@ -35,7 +37,10 @@ if( isset( $Cancel ) )
     exit();
 }
 
-if( is_numeric( $ProductID ) )
+if ( $Price == "RFQ" || $Price == "rfq" )
+    $Action = "rfq";
+
+if ( is_numeric( $ProductID ) )
 {
     $product = new eZProduct( $ProductID );
     $product_name = $product->name();
@@ -61,18 +66,19 @@ if( is_numeric( $ProductID ) )
     }
     if ( $quote )
     {
-        $quantity = $quote->quantity();
-        $old_price = $price = $quote->price();
         $old_expire = $expire = $quote->expireDays();
+        $expire_date = $quote->expireDate();
         $quote_type = $quote->type();
+        $old_quantity = $quantity = $quote->quantity();
+        $old_price = $price = $quote->price();
     }
 }
-// Amos: fix
-else if ( $ProductID == "list" )
+else
 {
-    header( "Location: /exchange/product/view/$ProductID" );
-    exit();
+    $new = true;
 }
+
+$today = new eZDate();
 
 if ( isset( $QuoteType ) )
     $quote_type = $QuoteType;
@@ -88,29 +94,35 @@ $error_array = array();
 
 if ( isset( $OK ) )
 {
-    if ( $Action != "rfq" and ( !is_numeric( $Quantity ) || $Quantity < 1 ) )
-    {
-        $error_array[] = "error_quantity_item";
-        $error = true;
-    }
-    if ( !is_numeric( $Price ) || $Price < 1 )
+    if ( $Action != "rfq" && ( !is_numeric( $Price ) || $Price <= 0 ) )
     {
         $error_array[] = "error_price_item";
         $error = true;
     }
     if ( !is_numeric( $Days ) || $Days < 0 )
     {
+        print( $Days . "<br />" );
         $error_array[] = "error_expire_item";
         $error = true;
     }
-    if ( is_numeric( $Price ) and $Price <= $old_price )
+    if ( !is_numeric( $Quantity ) || $Quantity < 1 )
+    {
+        $error_array[] = "error_quantity_item";
+        $error = true;
+    }
+    if ( is_numeric( $Price ) and $Price < $old_price )
     {
         $error_array[] = "error_low_price_item";
         $error = true;
     }
-    if ( is_numeric( $Days ) and $Days <= $old_expire )
+    if ( is_numeric( $Days ) and $Days < $old_expire )
     {
         $error_array[] = "error_low_expire_item";
+        $error = true;
+    }
+    if ( is_numeric( $Quantity ) and $Quantity < $old_quantity )
+    {
+        $error_array[] = "error_low_quantity_item";
         $error = true;
     }
 
@@ -138,6 +150,7 @@ if ( isset( $OK ) )
 $ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZExchangeMain", "Language" );
+$locale = new eZLocale( $Language );
 
 $module = "ezexchange";
 
@@ -165,11 +178,11 @@ $t = new eZTemplate( "$module/user/" . $ini->read_var( "eZExchangeMain", "Templa
 
 $t->set_file( "quote_edit_tpl", "quoteedit.tpl" );
 
-$t->set_block( "quote_edit_tpl", "last_quote_tpl", "last_quote" );
-$t->set_block( "quote_edit_tpl", "quantity_title_tpl", "quantity_title" );
-$t->set_block( "quote_edit_tpl", "quantity_edit_tpl", "quantity_edit" );
-$t->set_block( "quote_edit_tpl", "rfq_quantity_edit_tpl", "rfq_quantity_edit" );
-$t->set_block( "quote_edit_tpl", "no_quantity_edit_tpl", "no_quantity_edit" );
+$t->set_block( "quote_edit_tpl", "new_quote_tpl", "new_quote" );
+
+$t->set_block( "quote_edit_tpl", "edit_quote_tpl", "edit_quote" );
+$t->set_block( "edit_quote_tpl", "quote_all_type_tpl", "quote_all_type" );
+$t->set_block( "edit_quote_tpl", "quote_any_type_tpl", "quote_any_type" );
 
 $t->set_block( "quote_edit_tpl", "errors_tpl", "errors_item" );
 $t->set_block( "errors_tpl", "error_quantity_item_tpl", "error_quantity_item" );
@@ -177,6 +190,11 @@ $t->set_block( "errors_tpl", "error_price_item_tpl", "error_price_item" );
 $t->set_block( "errors_tpl", "error_expire_item_tpl", "error_expire_item" );
 $t->set_block( "errors_tpl", "error_low_price_item_tpl", "error_low_price_item" );
 $t->set_block( "errors_tpl", "error_low_expire_item_tpl", "error_low_expire_item" );
+
+$t->set_var( "new_quote", "" );
+$t->set_var( "edit_quote", "" );
+$t->set_var( "quote_all_type", "" );
+$t->set_var( "quote_any_type", "" );
 
 $t->set_var( "errors_item", "" );
 $t->set_var( "error_quantity_item", "" );
@@ -188,22 +206,11 @@ $t->set_var( "error_low_expire_item", "" );
 $t->set_var( "all_selected", "" );
 $t->set_var( "any_selected", "" );
 
-$t->set_var( "last_quote", "" );
-
-$t->set_var( "quantity_title", "" );
-$t->set_var( "quantity_edit", "" );
-$t->set_var( "no_quantity_edit", "" );
-$t->set_var( "rfq_quantity_edit", "" );
-
 $t->set_var( "product_type", $Action );
-
 $t->set_var( "product_name", $product_name );
 $t->set_var( "product_id", $product_id );
-$t->set_var( "quantity", $quantity );
-$t->set_var( "days", $expire );
-$t->set_var( "price", $price );
+$t->set_var( "quote_type", "quote" );
 
-$t->set_var( "quote_type", $Action );
 
 foreach( $error_array as $error )
 {
@@ -212,29 +219,32 @@ foreach( $error_array as $error )
 if ( $error )
     $t->parse( "errors_item", "errors_tpl" );
 
-if ( get_class( $quote ) == "ezquote" and $Action != "rfq" )
+
+if ( get_class( $quote ) == "ezquote" )
 {
+    $t->set_var( "today", $locale->format( $today ) );
+    $t->set_var( "last_days", $quote->expireDays() );
+    $t->set_var( "last_expire_date", $locale->format( $quote->expireDate() ) );
     $t->set_var( "last_quantity", $quote->quantity() );
     $t->set_var( "last_price", $quote->price() );
-    $t->set_var( "last_days", $quote->expireDays() );
-    $t->parse( "last_quote", "last_quote_tpl" );
-    $t->parse( "no_quantity_edit", "no_quantity_edit_tpl" );
-    $t->parse( "quantity_title", "quantity_title_tpl" );
-}
-else if ( $Action != "rfq" )
-{
-    $t->parse( "quantity_edit", "quantity_edit_tpl" );
-    $t->parse( "quantity_title", "quantity_title_tpl" );
-}
+    if ( $quote_type == 0 )
+        $t->parse( "quote_all_type", "quote_all_type_tpl" );
+    else
+        $t->parse( "quote_any_type", "quote_any_type_tpl" );
 
-if ( $quote_type == 0 )
-{
-    $t->set_var( "all_selected", "selected" );
+    $t->parse( "edit_quote", "edit_quote_tpl" );
 }
 else
 {
-    $t->set_var( "any_selected", "selected" );
+    $t->set_var( "today", $locale->format( $today ) );
+    if ( $quote_type == 0 )
+        $t->set_var( "all_selected", "selected" );
+    else
+        $t->set_var( "any_selected", "selected" );
+
+    $t->parse( "edit_quote", "edit_quote_tpl" );
 }
+
 
 $t->setAllStrings();
 
