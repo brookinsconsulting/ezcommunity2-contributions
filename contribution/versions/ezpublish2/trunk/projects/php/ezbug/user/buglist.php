@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.7 2001/02/14 17:42:35 fh Exp $
+// $Id: buglist.php,v 1.8 2001/02/14 18:52:36 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:36:41 bf>
@@ -74,6 +74,20 @@ $ownerGroup = $module->ownerGroup();
 $gotRights = false;
 if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
     $gotRights = true;
+
+// check if delete was pressed && if the user has rights to delete
+if( isset( $Delete ) && $gotRights == true )
+{
+if( count( $BugArrayID ) > 0 )
+    {
+        foreach( $BugArrayID as $doomedBugID )
+        {
+            $bug = new eZBug( $doomedBugID );
+            $bug->delete();
+        }
+    }
+
+}
 
 
 // path

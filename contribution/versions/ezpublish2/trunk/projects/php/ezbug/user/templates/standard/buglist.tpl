@@ -17,7 +17,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="" enctype="multipart/form-data">
+<form method="post" action="/bug/archive/{current_module_id}" enctype="multipart/form-data">
 <!-- BEGIN path_tpl -->
 
 
