@@ -37,7 +37,13 @@
 </table>
 
 <p class="boxtext">{intl-login}:</p>
-<input tabindex="3" type="text" {read_only} size="20" name="Login" value="{login_value}"/>
+<!-- BEGIN login_edit_tpl -->
+<input tabindex="3" type="text" size="20" name="Login" value="{login_value}"/>
+<!-- END login_edit_tpl -->
+<!-- BEGIN login_view_tpl -->
+{login_value}
+<input type="hidden" name="Login" value="{login_value}"/>
+<!-- END login_view_tpl -->
 
 <p class="boxtext">{intl-email}:</p>
 <input tabindex="4" type="text" size="20" name="Email" value="{email_value}"/>
