@@ -38,10 +38,6 @@ all=All
 next=Next
 previous=Previous
 
-mod: ezarticle/admin, articleedit.php.ini
-change: added
-short_content=Short content
-
 mod: ezarticle/user, menubox.php.ini
 change: added
 index=Index
