@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.70 2001/04/26 13:35:23 ce Exp $
+// $Id: ezarticle.php,v 1.71 2001/04/26 15:16:47 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -129,6 +129,7 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
+                                 Content='$this->ShortContent',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -154,6 +155,7 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
+                                 Content='$this->ShortContent',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -171,6 +173,7 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
+                                 Content='$this->ShortContent',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -212,6 +215,7 @@ class eZArticle
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
                 $this->Keywords =& $article_array[0][ "Keywords" ];
                 $this->Discuss =& $article_array[0][ "Discuss" ];
+                $this->ShortContent =& $article_array[0][ "Content" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -541,6 +545,143 @@ class eZArticle
         }
         if ( !$as_array )
             $ret = implode( ", ", $ret );
+        return $ret;
+    }
+
+    /*!
+      Sets the short content of the article.
+    */
+    function setShortContent( $content )
+    {
+        $this->ShortContent = $content;
+    }
+
+    /*!
+      Returns the short content of the article.
+    */
+    function shortContent()
+    {
+        return $this->ShortContent;
+    }
+
+    /*!
+      \static
+      Returns an array of short contents found in the articles.
+    */
+    function &shortContents()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $contents, "SELECT Content FROM eZArticle_Article
+                                      GROUP BY Content HAVING Content!='' ORDER BY Content" );
+        $ret = array();
+        foreach( $contents as $content )
+        {
+            $ret[] = $content["Content"];
+        }
+        return $ret;
+    }
+
+    /*!
+      \static
+      Returns an array of articles which match short contents and the keywords.
+    */
+    function &searchByShortContent( $short_content, $keywords, $offset = 0, $max = 5, $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+        $content_sql = "";
+        if ( $short_content != "" )
+        {
+            $content_sql = "Article.Content='$short_content'";
+        }
+        $keyword_sql = "";
+        if ( count( $keywords ) > 0 )
+        {
+            foreach( $keywords as $keyword )
+            {
+                if ( $keyword_sql != "" )
+                    $keyword_sql .= " OR ";
+                $keyword_sql .= "ArtKey.Keyword='$keyword'";
+            }
+            if ( $content_sql != "" )
+                $keyword_sql = "AND ( $keyword_sql )";
+        }
+        $conditions = "";
+        if ( $content_sql != "" or $keyword_sql != "" )
+        {
+            $conditions = "AND $content_sql $keyword_sql";
+        }
+        $limit_sql = "";
+        if ( !is_bool( $offset ) )
+        {
+            $limit_sql = "LIMIT $offset, $max";
+        }
+
+        $user = eZUser::currentUser();
+        $currentUserSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+
+            $groupSQL = "";
+           
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= "Permission.GroupID=$group OR";
+                else
+                    $groupSQL .= " Permission.GroupID=$group OR";
+               
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $currentUserSQL = "Article.AuthorID=$currentUserID OR";
+        }
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
+
+//          $sql = "SELECT Art.ID FROM eZArticle_Article AS Art LEFT JOIN
+//                                                           eZArticle_ArticleKeyword AS ArtKey ON
+//                                               Art.ID=ArtKey.ArticleID
+//                                        WHERE Art.IsPublished='true' $conditions
+//                                        ORDER BY Art.Name";
+        $select_sql = "";
+        if ( is_bool( $offset ) )
+        {
+            $select_sql = "count( DISTINCT Article.ID ) as ArticleCount";
+        }
+        else
+        {
+            $select_sql = "DISTINCT Article.ID as ArticleID";
+        }
+        $sql = "SELECT $select_sql
+                  FROM eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_ArticlePermission AS Permission,
+                       eZArticle_Category AS Category,
+                       eZArticle_Article AS Article LEFT JOIN eZArticle_ArticleKeyword AS ArtKey ON
+                       Article.ID=ArtKey.ArticleID
+                  WHERE (
+                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                        )
+                        AND Article.IsPublished = 'true'
+                        AND Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Category.ID=Link.CategoryID
+                        AND Category.ExcludeFromSearch = 'false'
+                        $conditions
+                 ORDER BY Article.Name
+                 $limit_sql";
+//          print( "<pre>$sql</pre>" );
+        $db->array_query( $contents, $sql );
+        if ( !is_bool( $offset ) )
+        {
+            $ret = array();
+            foreach( $contents as $content )
+            {
+                $ret[] = $as_object ? new eZArticle( $content["ArticleID"] ) : $content["ArticleID"];
+            }
+        }
+        else
+            $ret = $contents[0]["ArticleCount"];
         return $ret;
     }
 
