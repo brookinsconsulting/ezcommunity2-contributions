@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.29 2001/03/07 16:57:52 ce Exp $
+// $Id: ezproductcategory.php,v 1.30 2001/03/08 13:35:53 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -480,7 +480,6 @@ class eZProductCategory
 
        if ( get_class( $value ) == "ezproductcategory" )
        {
-           print( "-->". $value->id() . "<--" );
            $this->Parent = $value->id();
        }
        else
