@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.48 2001/01/30 16:30:56 bf Exp $
+// $Id: eztechrenderer.php,v 1.49 2001/01/30 16:31:27 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -37,7 +37,7 @@
   </header>
   <link ez.no text to the link> - anchor
   <mail adresse@domain.tld?subject="subject line" link text> - anchor to email address with subject
-  <image 42 align size> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large)
+  <image 42 align size> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large|original)
 
   <ezanchor anchorname>
 
