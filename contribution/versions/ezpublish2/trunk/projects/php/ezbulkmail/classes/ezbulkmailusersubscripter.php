@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailusersubscripter.php,v 1.1 2001/09/04 15:18:29 ce Exp $
+// $Id: ezbulkmailusersubscripter.php,v 1.2 2001/09/08 12:16:19 ce Exp $
 //
 // eZBulkMailUserSubscription class
 //
@@ -34,14 +34,19 @@
   \endcode
 
 */
-	      
+
+include_once( "ezuser/classes/ezuser.php" );
+
 class eZBulkMailUserSubscripter
 {
     /*!
     */
     function eZBulkMailUserSubscripter( $user )
     {
-        $this->setUser( $user );
+        if ( get_class ( $user ) )
+            $this->setUser( $user );
+        else if ( is_numeric ( $user ) )
+            $this->setUser( new eZUser ( $user ) );
     }
 
     function setUser( $user )
@@ -121,12 +126,15 @@ class eZBulkMailUserSubscripter
         if( get_class( $category ) == "ezbulkmailcategory" )
         {
             $categoryID = $category->id();
-            $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE UserID='$categoryID'" );
+            $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE UserID='$userID' AND CategoryID='$categoryID'" );
         }
         else if( $category == true )
         {
             $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE UserID='$userID'" );
         }
+        print( "DELETE FROM eZBulkMail_UserCategoryLink WHERE UserID='$userID'" );
+
+
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategorysettings.php,v 1.1 2001/08/13 12:31:09 ce Exp $
+// $Id: ezbulkmailcategorysettings.php,v 1.2 2001/09/08 12:16:19 ce Exp $
 //
 // Definition of eZBulkMailCategorySettings class
 //
@@ -136,7 +136,7 @@ class eZBulkMailCategorySettings
     }
 
     /*!
-      Returns the object ID to the category. This is the unique ID stored in the database.
+      Returns the ID of this object.
     */
     function id()
     {
@@ -144,7 +144,7 @@ class eZBulkMailCategorySettings
     }
 
     /*!
-      Returns the object ID to the category. This is the unique ID stored in the database.
+      Returns the category of this object.
     */
     function category()
     {
@@ -152,7 +152,7 @@ class eZBulkMailCategorySettings
     }
 
     /*!
-      Returns the object ID to the category. This is the unique ID stored in the database.
+      Returns the address of this object.
     */
     function subscriptionAddress()
     {
@@ -171,7 +171,7 @@ class eZBulkMailCategorySettings
     }
 
     /*!
-      Returns the object ID to the category. This is the unique ID stored in the database.
+      Sets the category of this setting.
     */
     function setCategory( $value )
     {
@@ -182,7 +182,7 @@ class eZBulkMailCategorySettings
     }
 
     /*!
-      Returns the object ID to the category. This is the unique ID stored in the database.
+      Sets the address of this setting.
     */
     function setAddress( $value )
     {

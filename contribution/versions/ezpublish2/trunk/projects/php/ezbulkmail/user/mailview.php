@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.8 2001/09/08 12:16:19 ce Exp $
+// $Id: mailview.php,v 1.1 2001/09/08 12:16:19 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,48 +33,11 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
 
-if( isset( $Edit ) )
-{
-    eZHTTPTool::header( "Location: /bulkmail/mailedit/$MailID" );
-    exit();
-}
-
-if( isset( $Send ) )
-{
-    $mail = new eZBulkMail( $MailID );
-    $categoryArray = $mail->categories();
-    if( count( $categoryArray ) > 0 )
-    {
-        $mail->send();
-
-        foreach( $categoryArray as $category )
-        {
-            $subscribers = $category->subscribers( true );
-            foreach( $subscribers as $subscripter )
-            {
-                $settings = $category->settings( $subscripter );
-                if ( ( get_class ( $setting ) == "ezbulkmailcategorysettings" ) && ( $settings->delay() != 0 ) );
-                {
-                    $mail->addToDelayList( $subscripter->id(), $category->id(), $settings->delay() );
-                }
-            }
-        }
-
-        $catID = $categoryArray[0]->id();
-        eZHTTPTool::header( "Location: /bulkmail/categorylist/$catID" );
-        exit();
-    }
-    else
-    {
-        echo "An error occured during sending....";
-    }
-}
-
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
 
-$t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
-                     "ezbulkmail/admin/intl/", $Language, "mailview.php" );
+$t = new eZTemplate( "ezbulkmail/user/" . $ini->read_var( "eZBulkMailMain", "TemplateDir" ),
+                     "ezbulkmail/user/intl/", $Language, "mailview.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -83,16 +46,6 @@ $t->set_file( array(
 
 
 $t->set_var( "site_style", $SiteStyle );
-$t->set_block( "mail_view_page_tpl", "send_button_tpl", "send_button" );
-$t->set_block( "mail_view_page_tpl", "edit_button_tpl", "edit_button" );
-$t->set_var( "send_button", "" );
-$t->set_var( "edit_button", "" );
-
-/** Check if we want the buttons enabled **/
-if( $SendButton == true )
-    $t->parse( "send_button", "send_button_tpl", false );
-if( $EditButton == true )
-    $t->parse( "edit_button", "edit_button_tpl", false );
 
 $mail = new eZBulkMail( $MailID );
 if( is_object( $mail ) )
@@ -113,14 +66,9 @@ if( is_object( $mail ) )
     if( count( $category ) > 0 )
     {
         $t->set_var( "category", $category[0]->name() );
+        $t->set_var( "category_id", $category[0]->id() );
     }
 }
-else
-{
-    eZHTTPTool::header( "Location: /bulkmail/drafts/" );
-    exit();
-}
-
 
 $t->pparse( "output", "mail_view_page_tpl" );
 

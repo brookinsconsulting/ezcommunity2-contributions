@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.11 2001/09/04 15:18:13 ce Exp $
+// $Id: datasupplier.php,v 1.12 2001/09/08 12:16:19 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -47,7 +47,17 @@ switch ( $url_array[2] )
         $New = "new";
     case "login" :
     {
-        include( "ezbulkmail/user/subscriptionlogin.php" );
+        if ( $ini->read_var( "eZBulkMailMain", "LoginMethod" ) == "ezuser" )
+        {
+            $user =& eZUser::currentUser();
+            if ( $user )
+                include( "ezbulkmail/user/subscriptionlist.php" );
+            else
+                eZHTTPTool::header( "Location: /user/login/?RedirectURL=/bulkmail/subscriptionlist" );
+            exit();
+        }
+        else
+            include( "ezbulkmail/user/subscriptionlogin.php" );
     }
     break;
 
@@ -86,6 +96,19 @@ switch ( $url_array[2] )
         include( "ezbulkmail/user/usermessages.php" );
     }
     break;
+
+    case "view" :
+    {
+        $MailID = $url_array[3];
+        if( !is_numeric( $MailID ) )
+        {
+            eZHTTPTool::header( "Location: /error/404" );
+            exit();
+        }
+        include_once( "ezbulkmail/user/mailview.php" );
+    }
+    break;
+
 
     default:
     {

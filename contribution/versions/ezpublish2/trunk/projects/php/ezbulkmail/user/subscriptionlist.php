@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: subscriptionlist.php,v 1.6 2001/09/04 15:18:13 ce Exp $
+// $Id: subscriptionlist.php,v 1.7 2001/09/08 12:16:19 ce Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -34,22 +34,23 @@ include_once( "classes/INIFile.php" );
 
 if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
 {
-    $subscriptionaddress = new eZBulkMailUserSubscripter( eZUser::currentUser() );
-
+    $user = eZUser::currentUser();
+    $subscriptionaddress = new eZBulkMailUserSubscripter( $user );
+    if( !is_object ( $user ) )
+    {
+        eZHTTPTool::header( "Location: /user/login" );
+        exit();
+    }
 }
 else
 $subscriptionaddress = eZBulkMailSubscriptionAddress::getByEmail( $session->variable( "BulkMailAddress" ) );
 
 
-if( !is_object ( $subscriptionaddress ) )
-{
-    eZHTTPTool::header( "Location: /bulkmail/login" );
-    exit();
-}
 
 if( isset ( $Ok ) )
 {
     $subscriptionaddress->unsubscribe( true );
+    
     foreach( $CategoryArrayID as $categoryID )
     {
         $subscriptionaddress->subscribe( $categoryID );

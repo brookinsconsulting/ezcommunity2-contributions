@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.23 2001/08/21 11:23:58 ce Exp $
+// $Id: ezbulkmail.php,v 1.24 2001/09/08 12:16:19 ce Exp $
 //
 // eZBulkMail class
 //
@@ -468,10 +468,11 @@ class eZBulkMail
             {
                 $subscribers = array_merge( $subscribers, $categoryItem->subscribers( true, $categoryItem->id() ) );
 
+                $subscribers = array_merge( $subscribers, $categoryItem->subscribedUsers( $categoryItem->id() ) );
+                
                 $groups = $categoryItem->groupSubscriptions();
                 foreach( $groups as $group )
                     $subscribers = array_merge( $subscribers, $group->users() );
-
             }
 
             for( $i=0; $i < count ( $subscribers ); $i++ )
@@ -481,6 +482,7 @@ class eZBulkMail
                 $canSend = false;
 
                 $categoryID = $subscriber->categoryID();
+
                 if ( get_class ( $subscriber ) == "ezuser" )
                 {
                     $canSend = true;
@@ -506,6 +508,28 @@ class eZBulkMail
                     {
                         $canSend = true;
                         $subscriber = $subscriber->email();
+                    }
+                }
+                if ( get_class ( $subscriber ) == "ezbulkmailusersubscripter" )
+                {
+                    $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
+                    if ( $settings )
+                    {
+                        $delay = $settings->sendDelay();
+                        if ( $delay == 0 )
+                        {
+                            $subscriber = $subscriber->email();
+                            $canSend = true;
+                        }
+                        else
+                            eZBulkMailCategory::addDelay( $subscriber, $categoryID, $delay );
+                    }
+                    else
+                    {
+                        $canSend = true;
+                        $userMail = $subscriber->user();
+                        if ( is_object ( $userMail ) )
+                            $subscriber = $userMail->email();
                     }
                 }
 
@@ -540,7 +564,7 @@ class eZBulkMail
         $subscribe_array = array();
         $return_array = array();
 
-        if ( $this->haveSentHourly( ) )
+        if ( !$this->haveSentHourly( ) )
         {
             $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='1'" );
             $db->begin();
@@ -768,6 +792,31 @@ class eZBulkMail
                   ( ID, SentDate, Mail, MailID )
                   VALUES
                   ( '$nextID', '$timestamp', '$mail', '$this->ID' )
+                  " );
+
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
+    }
+
+    /*!
+      Sets this mail to the delay list.
+    */
+    function addToDelayList( $subscripter, $category, $delay )
+    {
+        $db = eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZBulkMail_CategoryDelay" );
+        $nextID = $db->nextID( "eZBulkMail_CategoryDelay", "ID" );
+        $timeStamp =& eZDateTime::timeStamp( true );
+
+        $mailID = $this->ID;
+        $result = $db->query( "INSERT INTO eZBulkMail_CategoryDelay
+                  ( ID, AddressID, CategoryID, Delay, MailID )
+                  VALUES
+                  ( '$nextID', '$subscripter', '$category', '$delay', '$mailID' )
                   " );
 
         $db->unlock();

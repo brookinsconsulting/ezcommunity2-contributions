@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.21 2001/09/04 15:18:13 ce Exp $
+// $Id: ezbulkmailcategory.php,v 1.22 2001/09/08 12:16:19 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -377,7 +377,7 @@ class eZBulkMailCategory
       Returns an array with all addresses that are subscribed to this category.
       \sa groupSubscriptions
      */
-    function subscribers( $asObject = false, $categoryID = 0 )
+    function subscribers( $asObject = true, $categoryID = 0 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -395,6 +395,28 @@ class eZBulkMailCategory
                 $return_array[$i] = new eZBulkMailSubscriptionAddress( $subscribe_array[$i][$db->fieldName( "ID" )], $this->ID );
             else
                 $return_array[$i] = $subscribe_array[$i][$db->fieldName( "EMail" )];
+        }
+        return $return_array;
+    }
+
+    /*!
+      Returns an array with all users that are subscribed to this category.
+      \sa groupSubscriptions
+     */
+    function subscribedUsers( $categoryID = 0 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        if( $categoryID == 0 )
+            $categoryID = $this->ID;
+        $subscribe_array = array();
+        $return_array = array();
+        $db->array_query( $subscribe_array, "SELECT UserID FROM eZBulkMail_UserCategoryLink
+                                             WHERE CategoryID='$categoryID'" );
+
+        for( $i=0; $i<count($subscribe_array); $i++ )
+        {
+            $return_array[$i] = new eZBulkMailUserSubscripter( $subscribe_array[$i][$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
