@@ -28,6 +28,8 @@ Changes from version 1.0.5
 * Added word wrap of message replies in eZ forum. Nicer looking replies.
 * Added new tags in articles (bullet lists/includes of php files)
 * Added preferred layout for users
+* Added product types which lets products aquire certain attributes which can
+  be used for product comparision.
 * Made the menus in the admin module expandable/collapsable as well as moveable.
   This is remembered by the preferences for each user. We've also changed the
   design to a more sleek version.
