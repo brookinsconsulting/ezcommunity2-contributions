@@ -1,11 +1,5 @@
 #!/bin/sh
 
-if [ `whoami` != "root" ] 
-then
-echo "Must be run as root or the apache user"
-exit 0
-fi
-
 echo "Clearing the cache."
 
 dirs="
@@ -36,5 +30,5 @@ do
 #        echo "Creating $dir"
 #	    mkdir -p $dir
     fi
-    chmod 750 $dir   
+#    chmod 770 $dir   
 done

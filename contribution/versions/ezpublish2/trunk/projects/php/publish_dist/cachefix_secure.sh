@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [ "$1" = "" ] || [ `whoami` !=  "root" ] 
+if [ "$1" = "" ] || [ "$2" = "" ] || [ `whoami` !=  "root" ] 
 then
 echo "Must be run as root"
-echo "Usage: cachefix_secure.sh apache_user"
+echo "Usage: cachefix_secure.sh web_admin_user apache_user_group"
 exit 0
 fi
 
@@ -64,16 +64,16 @@ do
     else
         echo "Creating $dir"
 	    mkdir -p $dir
-            chown $1:$1 $dir
+            chown $1:$2 $dir
     fi
-    chmod 750 $dir   
+    chmod 770 $dir   
 done
 
 for dir in $dirs
 do
     override_dir="override/"$dir
     if [ -d $override_dir ]; then
-	chmod 750 $override_dir
+	chmod 770 $override_dir
     fi
 done
 
