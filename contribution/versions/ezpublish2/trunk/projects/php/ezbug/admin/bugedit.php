@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.7 2000/12/08 09:28:00 bf-cvs Exp $
+// $Id: bugedit.php,v 1.8 2000/12/09 19:38:17 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -26,10 +26,11 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezmail.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 
@@ -96,7 +97,6 @@ if ( $Action == "Update" )
             
             $bug = new eZBug( $BugID );
             
-            $bug->setUser( $user );
             $bug->setIsHandled( true );
             
             $bug->setPriority( $priority );
@@ -119,16 +119,56 @@ if ( $Action == "Update" )
             $bug->removeFromCategories();
             $bug->store();
 
-
+                        
             $category->addBug( $bug );
             $module->addBug( $bug );
 
             $log = new eZBugLog();
             $log->setDescription( $LogMessage );
-            $log->setUser( $user );
+            $log->setUser( eZUser::currentUser() );
             $log->setBug( $bug );
             $log->store();
+
+            if ( $MailReporter == "on" )
+            {            
+                // send email notice to the reporter            
+                if ( $bug->user() )
+                {
+                    $reporter = $bug->user();
+                    $reporter_email = $reporter->email();
+                }
+                else
+                {
+                    $reporter_email = $bug->userEmail();
+                }
+
+                $mail = new eZMail();
+                $mail->setFrom( $user->email() );
+
+                $locale = new eZLocale( $Language );
+    
+                $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
+                                                "ezbug/admin/intl", $Language, "mailreply.php" );
             
+                $headerInfo = ( getallheaders() );
+
+                $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
+                $mailTemplate->setAllStrings();
+
+                $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
+            
+                $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
+                $mailTemplate->set_var( "log_message", $LogMessage );
+                $mailTemplate->set_var( "bug_id", $bug->id() );
+            
+                $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
+                $mail->setSubject( $bug->name() );
+                $mail->setTo( $reporter_email );
+                $mail->setBody( $bodyText );
+
+                $mail->send();
+            }
+
             $Action = "Edit";            
         }
         else

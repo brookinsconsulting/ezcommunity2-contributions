@@ -77,6 +77,10 @@
 
 <p class="boxtext">{intl-log_message}:</p>
 <textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>
+
+<input type="checkbox" name="MailReporter" checked />
+<span class="boxtext">{intl-mail_bug_reporter}</span><br />
+
 <br />
 
 
