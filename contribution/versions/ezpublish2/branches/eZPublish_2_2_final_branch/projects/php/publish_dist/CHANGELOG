@@ -18,6 +18,7 @@ Changes from 2.2.7 to 2.2.8
 * Fixed bug with attribute list in eZ article.
 * Added indexes in eZStat. This resolves performance problems with cron.php
 * XMLRPC: Made sure the article cache is deleted when an article or article category is deleted.
+* Fixed bug with permissions in filedownload for eZ filemanager.
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
