@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: hotdealslist.php,v 1.20 2001/08/28 15:56:21 ce Exp $
+// $Id: hotdealslist.php,v 1.21 2001/09/14 13:06:35 pkej Exp $
 //
 // Created on: <12-Nov-2000 19:34:40 bf>
 //
@@ -35,7 +35,7 @@ $hotDealColumns  = $ini->read_var( "eZTradeMain", "HotDealColumns" );
 $hotDealImageWidth  = $ini->read_var( "eZTradeMain", "HotDealImageWidth" );
 $hotDealImageHeight  = $ini->read_var( "eZTradeMain", "HotDealImageHeight" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -166,29 +166,7 @@ foreach ( $productList as $product )
     if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
-        $found_price = false;
-        if ( $ShowPriceGroups and $PriceGroup > 0 )
-        {
-            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-            $priceIncVAT = $price + $product->addVAT( $price );
-            if ( $price )
-            {
-                $found_price = true;
-                $price = new eZCurrency( $price );
-                $priceIncVAT = new eZCurrency( $priceIncVAT );
-             }
-        }
-        if ( !$found_price )
-        {
-            $price = new eZCurrency( $product->price() );
-            $priceIncVAT = $product->price() + $product->addVAT( $product->price() );
-            $priceIncVAT = new eZCurrency( $priceIncVAT );
-        }
-
-        if ( $PricesIncludeVAT == "enabled" )
-            $t->set_var( "product_price", $locale->format( $priceIncVAT ) );
-        else
-            $t->set_var( "product_price", $locale->format( $price ) );
+        $t->set_var( "product_price", $product->localePrice( $Language, $user, $PricesIncludeVAT ) );
 
         $t->parse( "price", "price_tpl" );
     }
