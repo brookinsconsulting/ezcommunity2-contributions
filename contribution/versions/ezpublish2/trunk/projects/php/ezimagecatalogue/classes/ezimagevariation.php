@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.7 2000/11/02 18:14:15 bf-cvs Exp $
+// $Id: ezimagevariation.php,v 1.8 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -363,7 +363,7 @@ class eZImageVariation
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }    

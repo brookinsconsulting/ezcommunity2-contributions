@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.2 2001/01/05 14:21:55 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.3 2001/01/06 16:21:00 bf Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -429,7 +429,7 @@ class eZVirtualFolder
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

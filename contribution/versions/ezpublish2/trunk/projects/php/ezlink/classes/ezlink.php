@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.36 2000/11/23 09:36:36 ce-cvs Exp $
+// $Id: ezlink.php,v 1.37 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -501,7 +501,6 @@ class eZLink
 
     /*!
       \private
-      \static
       
       Open the database for read and write. Gets all the database information from site.ini.
     */
@@ -509,7 +508,7 @@ class eZLink
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezwishlist.php,v 1.2 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: ezwishlist.php,v 1.3 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZWishList class
 //
@@ -296,7 +296,7 @@ class eZWishList
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

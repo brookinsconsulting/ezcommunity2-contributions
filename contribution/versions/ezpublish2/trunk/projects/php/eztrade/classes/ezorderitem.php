@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderitem.php,v 1.8 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: ezorderitem.php,v 1.9 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -269,7 +269,7 @@ class eZOrderItem
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

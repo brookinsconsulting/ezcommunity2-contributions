@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.4 2000/11/22 15:11:35 ce-cvs Exp $
+// $Id: ezpermission.php,v 1.5 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -414,9 +414,8 @@ class eZPermission
     }
 
     /*!
+      \static
       Static function for checking permissions.
-
-      
     */
     function checkPermission( $user, $moduleName, $permissionName )
     {
@@ -430,7 +429,7 @@ class eZPermission
             // connect to the db
             if ( $this->IsConnected == false )
             {
-                $this->Database = new eZDB( "site.ini", "site" );
+                $this->Database = eZDB::globalDatabase();
                 $this->IsConnected = true;
             }
 
@@ -470,7 +469,7 @@ class eZPermission
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.16 2000/12/23 15:10:04 bf Exp $
+// $Id: ezsession.php,v 1.17 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -423,7 +423,7 @@ class eZSession
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.6 2000/11/19 14:42:35 bf-cvs Exp $
+// $Id: ezusergroup.php,v 1.7 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -352,7 +352,7 @@ class eZUserGroup
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

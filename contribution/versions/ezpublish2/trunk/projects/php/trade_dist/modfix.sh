@@ -48,6 +48,7 @@ ezuser
 ezsession
 ezcontact
 eztrade
+ezstats
 "
 
 for file in $files

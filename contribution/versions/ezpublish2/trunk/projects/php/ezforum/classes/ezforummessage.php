@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.60 2000/12/23 15:49:22 bf Exp $
+// $Id: ezforummessage.php,v 1.61 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -583,7 +583,7 @@ class eZForumMessage
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

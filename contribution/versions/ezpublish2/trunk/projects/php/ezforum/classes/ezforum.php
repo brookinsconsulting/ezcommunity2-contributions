@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.8 2000/11/22 16:46:26 bf-cvs Exp $
+// $Id: ezforum.php,v 1.9 2001/01/06 16:21:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -477,7 +477,7 @@ class eZForum
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

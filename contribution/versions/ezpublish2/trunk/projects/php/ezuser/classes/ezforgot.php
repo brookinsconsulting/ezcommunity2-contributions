@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforgot.php,v 1.4 2000/10/31 07:35:56 ce-cvs Exp $
+// $Id: ezforgot.php,v 1.5 2001/01/06 16:21:01 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -222,7 +222,7 @@ class eZForgot
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

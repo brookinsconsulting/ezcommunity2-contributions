@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.28 2000/12/23 14:23:49 bf Exp $
+// $Id: ezarticle.php,v 1.29 2001/01/06 16:21:00 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -958,7 +958,7 @@ class eZArticle
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.15 2000/12/20 11:07:46 ce Exp $
+// $Id: ezarticlecategory.php,v 1.16 2001/01/06 16:21:00 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -508,7 +508,7 @@ class eZArticleCategory
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.25 2000/12/21 13:00:29 bf Exp $
+// $Id: ezproduct.php,v 1.26 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -92,7 +92,6 @@ class eZProduct
             $this->ShowPrice = true;
             $this->ShowProduct = true;
             $this->Discontinued = false;
-            $this->InheritOptions = false;
         }
 
 
@@ -120,10 +119,6 @@ class eZProduct
         else
             $discontinued = "false";            
 
-        if ( $this->InheritOptions == true )
-            $inheritOptions = "true";
-        else
-            $inheritOptions = "false";            
         
         if ( !isset( $this->ID ) )
         {
@@ -138,8 +133,7 @@ class eZProduct
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
-                                 IsHotDeal='$this->IsHotDeal',
-                                 InheritOptions='$inheritOptions'
+                                 IsHotDeal='$this->IsHotDeal'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -159,8 +153,7 @@ class eZProduct
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
-                                 IsHotDeal='$this->IsHotDeal',
-                                 InheritOptions='$inheritOptions'
+                                 IsHotDeal='$this->IsHotDeal'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -212,11 +205,6 @@ class eZProduct
                 else
                     $this->Discontinued = false;
                 
-                if ( $category_array[0][ "InheritOptions" ] == "true" )
-                    $this->InheritOptions = true;
-                else
-                    $this->InheritOptions = false;
-
                 $this->State_ = "Coherent";
                 $ret = true;
             }
@@ -347,16 +335,6 @@ class eZProduct
        return $this->ShowPrice;
     }
 
-    /*!
-      Returns true if the product should be shown. False if not.
-    */
-    function showProduct()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return $this->ShowProduct;
-    }
 
     /*!
       Returns true if the product should be shown. False if not.
@@ -369,17 +347,6 @@ class eZProduct
        return $this->ShowProduct;
     }
 
-    /*!
-      Returns true if the product has inherit options.
-    */
-    function inheritOptions()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return $this->InheritOptions;
-    }
-    
     /*!
       Returns the external link to the product.
     */
@@ -512,20 +479,6 @@ class eZProduct
 
        $this->ShowProduct = $value;
        setType( $this->ShowProduct, "integer" );
-    }
-
-    /*!
-      Sets the inheritoptions value. If this is true the product inherits the
-      options of the product group.
-
-    */
-    function setInheritOptions( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->InheritOptions = $value;
-       setType( $this->InheritOptions, "integer" );
     }
 
     /*!
@@ -1072,8 +1025,8 @@ class eZProduct
     function dbInit()
     {
         if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
+        {            
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
@@ -1087,7 +1040,6 @@ class eZProduct
     var $ShowPrice;
     var $ShowProduct;
     var $Discontinued;
-    var $InheritOptions;
     var $ExternalLink;
     var $IsHotDeal;
     

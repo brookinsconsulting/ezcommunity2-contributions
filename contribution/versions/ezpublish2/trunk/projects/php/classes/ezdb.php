@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.21 2001/01/04 19:24:13 jb Exp $
+// $Id: ezdb.php,v 1.22 2001/01/06 16:21:00 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -139,11 +139,13 @@ class eZDB
 
     /*!
       \static
-      Returns the global database object, if it doesn't exists it is initialized.
+      Returns a reference to the global database object, if it doesn't exists it is initialized.
       This is safe to call without an object since it does not access member variables.
     */
-    function globalDatabase()
+    function &globalDatabase()
     {
+        $eZDB =& $GLOBALS["eZDB"];
+                
         if ( get_class( $eZDB ) != "ezdb" )
         {
             $eZDB = new eZDB( "site.ini", "site" );

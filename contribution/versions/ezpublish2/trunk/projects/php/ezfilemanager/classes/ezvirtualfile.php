@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.6 2001/01/05 15:15:37 ce Exp $
+// $Id: ezvirtualfile.php,v 1.7 2001/01/06 16:21:00 bf Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -673,7 +673,7 @@ class eZVirtualfile
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.24 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: ezforumcategory.php,v 1.25 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -303,7 +303,7 @@ class eZForumCategory
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

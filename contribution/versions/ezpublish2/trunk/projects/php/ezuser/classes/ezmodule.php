@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodule.php,v 1.3 2000/10/31 07:35:57 ce-cvs Exp $
+// $Id: ezmodule.php,v 1.4 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -231,7 +231,7 @@ class eZModule
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.31 2000/12/13 11:04:28 bf Exp $
+// $Id: ezuser.php,v 1.32 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -683,7 +683,7 @@ class eZUser
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

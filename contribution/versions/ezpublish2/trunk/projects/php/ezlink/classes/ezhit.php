@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezhit.php,v 1.19 2000/11/01 11:04:50 ce-cvs Exp $
+// $Id: ezhit.php,v 1.20 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZHit class
 //
@@ -176,7 +176,7 @@ class eZHit
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

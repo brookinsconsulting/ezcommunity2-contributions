@@ -3,6 +3,8 @@ eZ trade changelog:
 
 Changes from version 1.0.5
 --------------------------
+* Optimized communication with the database, it's now faster and uses less memory
+* Added Indonesian translation
 * Added showing of hours, minutes and seconds idle on session info
 
 Changes from version 1.0.4

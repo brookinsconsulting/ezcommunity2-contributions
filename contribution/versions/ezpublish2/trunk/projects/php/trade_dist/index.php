@@ -7,11 +7,20 @@ header("Pragma: no-cache");
 // turn on output buffering
 ob_start();
 
+
+
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
 $siteDesign = $ini->read_var( "site", "SiteDesign" );
+
+// do the statistics
+include_once( "ezstats/classes/ezpageview.php" );
+
+// create a global page view object for statistics
+$GlobalPageView = new eZPageView();
+$GlobalPageView->store();
 
 // parse the URI
 $meta_page = "";

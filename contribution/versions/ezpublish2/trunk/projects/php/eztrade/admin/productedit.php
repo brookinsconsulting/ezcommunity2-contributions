@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.24 2000/12/21 13:00:29 bf Exp $
+// $Id: productedit.php,v 1.25 2001/01/06 16:21:01 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -67,14 +67,6 @@ if ( $Action == "Insert" )
         $product->setShowProduct( false );
     }
 
-    if ( $InheritOptions == "on" )
-    {
-        $product->setInheritOptions( true );
-    }
-    else
-    {
-        $product->setInheritOptions( false );
-    }
 
     if ( $IsHotDeal == "on" )
     {
@@ -215,15 +207,6 @@ if ( $Action == "Update" )
     else
     {
         $product->setShowProduct( false );
-    }
-
-    if ( $InheritOptions == "on" )
-    {
-        $product->setInheritOptions( true );
-    }
-    else
-    {
-        $product->setInheritOptions( false );
     }
 
     if ( $IsHotDeal == "on" )
@@ -428,7 +411,6 @@ $t->set_var( "price_value", "" );
 
 $t->set_var( "showprice_checked", "" );
 $t->set_var( "showproduct_checked", "" );
-$t->set_var( "inherit_options_checked", "" );
 $t->set_var( "is_hot_deal_checked", "" );
 
 $t->set_var( "external_link", "" );
@@ -459,9 +441,6 @@ if ( $Action == "Edit" )
 
     if ( $product->showProduct() == true )
         $t->set_var( "showproduct_checked", "checked" );
-
-    if ( $product->inheritOptions() == true )
-        $t->set_var( "inherit_options_checked", "checked" );
 
     if ( $product->isHotDeal() == true )
         $t->set_var( "is_hot_deal_checked", "checked" );

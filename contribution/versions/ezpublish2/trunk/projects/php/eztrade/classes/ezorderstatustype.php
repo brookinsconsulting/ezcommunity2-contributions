@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderstatustype.php,v 1.3 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: ezorderstatustype.php,v 1.4 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -216,7 +216,7 @@ class eZOrderStatusType
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

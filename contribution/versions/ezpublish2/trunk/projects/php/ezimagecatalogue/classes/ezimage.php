@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.23 2000/12/08 15:30:30 bf-cvs Exp $
+// $Id: ezimage.php,v 1.24 2001/01/06 16:21:01 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -474,7 +474,7 @@ class eZImage
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
