@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.13 2000/10/16 10:31:43 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.14 2000/10/19 10:43:43 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -765,7 +765,6 @@ class eZProduct
     
     /*!
       \private
-      \static
       
       Open the database for read and write. Gets all the database information from site.ini.
     */

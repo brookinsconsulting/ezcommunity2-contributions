@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.8 2000/10/16 10:31:43 bf-cvs Exp $
+// $Id: productedit.php,v 1.9 2000/10/19 10:43:43 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -242,10 +242,17 @@ $categoryArray = $category->getAll( );
 
 foreach ( $categoryArray as $catItem )
 {
-    if ( $product->existsInCategory( $catItem ) )
-        $t->set_var( "selected", "selected" );
+    if ( $Action == "Edit" )
+    {
+        if ( $product->existsInCategory( $catItem ) )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
+    }
     else
-        $t->set_var( "selected", "" );
+    {
+            $t->set_var( "selected", "" );
+    }
     
     $t->set_var( "option_value", $catItem->id() );
     $t->set_var( "option_name", $catItem->name() );
