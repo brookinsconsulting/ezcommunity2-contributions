@@ -120,4 +120,5 @@
 
 <input class="okbutton" type="submit" name="Cart" value="kjøp" />
 <input class="okbutton" type="submit" name="WishList" value="Ønskeliste" />
+
 </form>

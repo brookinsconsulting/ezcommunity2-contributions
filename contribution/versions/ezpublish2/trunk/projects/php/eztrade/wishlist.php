@@ -1,11 +1,11 @@
 <?php
 // 
-// $Id: cart.php,v 1.13 2000/10/21 16:49:37 bf-cvs Exp $
+// $Id: wishlist.php,v 1.1 2000/10/21 16:49:37 bf-cvs Exp $
 //
 // 
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <27-Sep-2000 11:57:49 bf>
+// Created on: <21-Oct-2000 18:09:45 bf>
 //
 // Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
 //
@@ -13,6 +13,7 @@
 // your own programs or libraries.
 //
 
+print( "wishlist" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -29,13 +30,14 @@ include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
-include_once( "eztrade/classes/ezcart.php" );
-include_once( "eztrade/classes/ezcartitem.php" );
-include_once( "eztrade/classes/ezcartoptionvalue.php" );
+include_once( "eztrade/classes/ezwishlist.php" );
+include_once( "eztrade/classes/ezwishlistitem.php" );
+include_once( "eztrade/classes/ezwishlistoptionvalue.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-$cart = new eZCart();
+
+$wishlist = new eZWishlist();
 $session = new eZSession();
 
 // if no session exist create one.
@@ -46,18 +48,24 @@ if ( !$session->fetch() )
 
 $user = eZUser::currentUser();
 
-$cart = $cart->getBySession( $session );
-
-if ( !$cart )
+if ( !$user )
 {
-    print( "creating a cart" );
-    $cart = new eZCart();
-    $cart->setSession( $session );
-    
-    $cart->store();
+    print( "You must be a user for adding products to the wishlist.. Create one? >> add redirect." );
+    print( "bf@ez.no <- fix :)." );
 }
 
-//  $cart->delete();
+$wishlist = $wishlist->getByUser( $user );
+
+if ( !$wishlist )
+{
+    print( "creating a wishlist" );
+    $wishlist = new eZWishlist();
+    $wishlist->setUser( $user );
+    
+    $wishlist->store();
+}
+
+//  $wishlist->delete();
 
 if ( $Action == "AddToBasket" )
 {
@@ -65,12 +73,12 @@ if ( $Action == "AddToBasket" )
 
     $product = new eZProduct( $ProductID );
 
-    $cartItem = new eZCartItem();
+    $wishlistItem = new eZWishlistItem();
     
-    $cartItem->setProduct( $product );
-    $cartItem->setCart( $cart );
+    $wishlistItem->setProduct( $product );
+    $wishlistItem->setWishlist( $wishlist );
 
-    $cartItem->store();
+    $wishlistItem->store();
 
     if ( count( $OptionValueArray ) > 0 )
     {
@@ -81,43 +89,41 @@ if ( $Action == "AddToBasket" )
             $option = new eZOption( $OptionIDArray[$i] );
             $optionValue = new eZOptionValue( $value );
         
-            $cartOption = new eZCartOptionValue();
-            $cartOption->setCartItem( $cartItem );
-            $cartOption->setOption( $option );
-            $cartOption->setOptionValue( $optionValue );
+            $wishlistOption = new eZWishlistOptionValue();
+            $wishlistOption->setWishlistItem( $wishlistItem );
+            $wishlistOption->setOption( $option );
+            $wishlistOption->setOptionValue( $optionValue );
 
-            $cartOption->store();
+            $wishlistOption->store();
         
             $i++;
         }
     }
 
-    Header( "Location: /trade/cart/" );
+    Header( "Location: /trade/wishlist/" );
     
     exit();
 }
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/cart/",
-                     "eztrade/intl/", $Language, "cart.php" );
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/intl/", $Language, "wishlist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "cart_page_tpl" => "cart.tpl"
+    "wishlist_page_tpl" => "wishlist.tpl"
     ) );
 
 
-$t->set_block( "cart_page_tpl", "cart_checkout_tpl", "cart_checkout" );
-$t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
+$t->set_block( "wishlist_page_tpl", "empty_wishlist_tpl", "empty_wishlist" );
 
 
-$t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
-$t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
-$t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
+$t->set_block( "wishlist_page_tpl", "wishlist_item_list_tpl", "wishlist_item_list" );
+$t->set_block( "wishlist_item_list_tpl", "wishlist_item_tpl", "wishlist_item" );
+$t->set_block( "wishlist_item_tpl", "wishlist_item_option_tpl", "wishlist_item_option" );
 
-
-// fetch the cart items
-$items = $cart->items( );
+// fetch the wishlist items
+$items = $wishlist->items( );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
@@ -150,7 +156,7 @@ foreach ( $items as $item )
 
     $optionValues =& $item->optionValues();
 
-    $t->set_var( "cart_item_option", "" );
+    $t->set_var( "wishlist_item_option", "" );
     foreach ( $optionValues as $optionValue )
     {
         $option =& $optionValue->option();
@@ -159,10 +165,10 @@ foreach ( $items as $item )
         $t->set_var( "option_name", $option->name() );
         $t->set_var( "option_value", $value->name() );
             
-        $t->parse( "cart_item_option", "cart_item_option_tpl", true );
+        $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
     }
         
-    $t->parse( "cart_item", "cart_item_tpl", true );
+    $t->parse( "wishlist_item", "wishlist_item_tpl", true );
         
     $i++;
 }
@@ -173,30 +179,22 @@ $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
 $sum += $shippingCost;
 $currency->setValue( $sum );
-$t->set_var( "cart_sum", $locale->format( $currency ) );
+$t->set_var( "wishlist_sum", $locale->format( $currency ) );
+
 
 if ( count( $items ) > 0 )
 {
-    $t->parse( "cart_checkout", "cart_checkout_tpl" );
+    $t->parse( "wishlist_item_list", "wishlist_item_list_tpl" );
+    $t->set_var( "empty_wishlist", "" );    
 }
 else
 {
-    $t->set_var( "cart_checkout", "" );
-}
-
-if ( count( $items ) > 0 )
-{
-    $t->parse( "cart_item_list", "cart_item_list_tpl" );
-    $t->set_var( "empty_cart", "" );    
-}
-else
-{
-    $t->parse( "empty_cart", "empty_cart_tpl" );    
-    $t->set_var( "cart_item_list", "" );
+    $t->parse( "empty_wishlist", "empty_wishlist_tpl" );    
+    $t->set_var( "wishlist_item_list", "" );
 }
 
 
-$t->pparse( "output", "cart_page_tpl" );
+$t->pparse( "output", "wishlist_page_tpl" );
 
 ?>
 

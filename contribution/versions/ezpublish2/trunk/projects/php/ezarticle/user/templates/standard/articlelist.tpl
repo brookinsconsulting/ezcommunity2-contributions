@@ -25,10 +25,10 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/">{category_name}</a>
+	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
-	{category_description}
+	{category_description}&nbsp;
 	</td>
 </tr>
 <!-- END category_item_tpl -->

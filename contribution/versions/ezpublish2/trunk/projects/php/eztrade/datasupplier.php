@@ -67,31 +67,32 @@ switch ( $url_array[2] )
         break;
         
     case "cart" :
-        if ( isSet( $WishList ) )
-        {
-            $CartType = "WishList";
-            print( "wishlist" );
-        }
-        else
-        {
-            $CartType = "Cart";
-        }
 
         if ( $url_array[3] == "add" )
         {
             $Action = "AddToBasket";
             $ProductID = $url_array[4];
-            include( "eztrade/cart.php" );
         }
         else
         {
+        }
+
+        if ( isset( $WishList ) )
+        {
+            print( "wishlist<br>" );
+            include( "eztrade/wishlist.php" );            
+        }
+        else
+        {
+            print( "cart<br>" );            
             include( "eztrade/cart.php" );
         }
+        
         break;
         
     case "wishlist" :
         $CartType = "WishList";        
-         include( "eztrade/cart.php" );    
+         include( "eztrade/wishlist.php" );    
         break;
 
     case "customerlogin" :

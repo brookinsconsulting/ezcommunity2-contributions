@@ -1,11 +1,11 @@
 <?
 // 
-// $Id: ezcart.php,v 1.8 2000/10/21 16:49:37 bf-cvs Exp $
+// $Id: ezwishlist.php,v 1.1 2000/10/21 16:49:38 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZWishList class
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <25-Sep-2000 11:23:17 bf>
+// Created on: <21-Oct-2000 18:06:52 bf>
 //
 // Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
 //
@@ -14,23 +14,23 @@
 //
 
 //!! eZTrade
-//! eZCart handles a shopping cart
+//! eZWishlist handles a shopping wishlist
 /*!
 
   Example:
   \code
 
-  // Create a new cart
-  $cart = new eZCart();
-  $cart->setSession( $session );
+  // Create a new wishlist
+  $wishlist = new eZWishlist();
+  $wishlist->setUser( $user );
 
-  // Store the cart to the database
-  $cart->store();
+  // Store the wishlist to the database
+  $wishlist->store();
   
-  // Fetch all cart items
-  $items = $cart->items();
+  // Fetch all wishlist items
+  $items = $wishlist->items();
   
-  // print contents of the cart if it exists
+  // print contents of the wishlist if it exists
   if  ($items )
   {
       foreach ( $items as $item )
@@ -41,22 +41,22 @@
   }
 
   \endcode
-  \sa eZCartItem eZProductCategory eZOption
+  \sa eZWishlistItem eZProductCategory eZOption
 */
 
 include_once( "classes/ezdb.php" );
 
-include_once( "eztrade/classes/ezcartitem.php" );
+include_once( "eztrade/classes/ezwishlistitem.php" );
 
-class eZCart
+class eZWishList
 {
     /*!
-      Constructs a new eZCart object.
+      Constructs a new eZWishlist object.
 
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZCart( $id="", $fetch=true )
+    function eZWishList( $id="", $fetch=true )
     {
         $this->IsConnected = false;
 
@@ -82,7 +82,7 @@ class eZCart
     }
 
     /*!
-      Stores a cart to the database.
+      Stores a wishlist to the database.
     */
     function store()
     {
@@ -91,8 +91,8 @@ class eZCart
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Cart SET
-		                         SessionID='$this->SessionID'
+            $this->Database->query( "INSERT INTO eZTrade_WishList SET
+		                         UserID='$this->UserID'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -101,8 +101,8 @@ class eZCart
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Cart SET
-		                         SessionID='$this->SessionID'
+            $this->Database->query( "UPDATE eZTrade_WishList SET
+		                         UserID='$this->UserID'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -122,15 +122,15 @@ class eZCart
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_Cart WHERE ID='$id'" );
-            if ( count( $cart_array ) > 1 )
+            $this->Database->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishList WHERE ID='$id'" );
+            if ( count( $wishlist_array ) > 1 )
             {
-                die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: WishList's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $cart_array ) == 1 )
+            else if( count( $wishlist_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->SessionID = $cart_array[0][ "SessionID" ];
+                $this->ID = $wishlist_array[0][ "ID" ];
+                $this->UserID = $wishlist_array[0][ "UserID" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -145,23 +145,23 @@ class eZCart
 
 
     /*!
-      Returns a eZCart object. 
+      Returns a eZWishlist object. 
     */
-    function getBySession( $session  )
+    function getByUser( $user  )
     {
         $this->dbInit();
 
         $ret = false;
-        if ( get_class( $session ) == "ezsession" )
+        if ( get_class( $user ) == "ezuser" )
         {        
-            $sid = $session->id();
-            $this->Database->array_query( $cart_array, "SELECT * FROM
-                                                    eZTrade_Cart
-                                                    WHERE SessionID='$sid'" );
+            $sid = $user->id();
+            $this->Database->array_query( $wishlist_array, "SELECT * FROM
+                                                    eZTrade_WishList
+                                                    WHERE UserID='$sid'" );
 
-            if ( count( $cart_array ) == 1 )
+            if ( count( $wishlist_array ) == 1 )
             {
-                $ret = new eZCart( $cart_array[0]["ID"] );
+                $ret = new eZWishList( $wishlist_array[0]["ID"] );
             }
 
         }
@@ -169,7 +169,7 @@ class eZCart
     }
 
     /*!
-      Deletes a eZCart object from the database.
+      Deletes a eZWishlist object from the database.
 
     */
     function delete()
@@ -187,7 +187,7 @@ class eZCart
             }
         }
             
-        $this->Database->query( "DELETE FROM eZTrade_Cart WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZTrade_WishList WHERE ID='$this->ID'" );
             
         return true;
     }
@@ -201,25 +201,27 @@ class eZCart
     }
 
     /*!
-      Sets the session the cart belongs to.
+      Sets the user the wishlist belongs to.
 
-      Return false if the applied argument is not and eZSession object.
+      Return false if the applied argument is not and eZUser object.
     */
-    function setSession( $session )
+    function setUser( $user )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        if ( get_class( $session ) == "ezsession" )
+
+        if ( get_class( $user ) == "ezuser" )
         {
-            $this->SessionID = $session->id();
+            $this->UserID = $user->id();
         }
+        
     }
 
     /*!
-      Returns all the cart items in the cart.
+      Returns all the wishlist items in the wishlist.
 
-      An array of eZCartItem objects are retunred if successful, an empty array.
+      An array of eZWishlistItem objects are retunred if successful, an empty array.
     */
     function items( )
     {
@@ -230,16 +232,16 @@ class eZCart
        
        $this->dbInit();
 
-       $this->Database->array_query( $cart_array, "SELECT * FROM
-                                                    eZTrade_CartItem
-                                                    WHERE CartID='$this->ID'" );
+       $this->Database->array_query( $wishlist_array, "SELECT * FROM
+                                                    eZTrade_WishListItem
+                                                    WHERE WishListID='$this->ID'" );
 
-       if ( count( $cart_array ) > 0 )
+       if ( count( $wishlist_array ) > 0 )
        {
            $return_array = array();
-           foreach ( $cart_array as $item )
+           foreach ( $wishlist_array as $item )
            {
-               $return_array[] = new eZCartItem( $item["ID"] );               
+               $return_array[] = new eZWishlistItem( $item["ID"] );               
            }
            $ret = $return_array;
        }
@@ -248,7 +250,7 @@ class eZCart
     }
 
     /*!
-      Empties out the cart.
+      Empties out the wishlist.
     */
     function clear()
     {
@@ -259,16 +261,16 @@ class eZCart
 
        $items = $this->items();
 
-       // delete the option values and cart items
+       // delete the option values and wishlist items
        foreach ( $items as $item )
        {
            $itemID = $item->id();
            $this->Database->query( "DELETE FROM
-                                eZTrade_CartOptionValue
-                                WHERE CartItemID='$itemID'" );
+                                eZTrade_WishListOptionValue
+                                WHERE WishlistItemID='$itemID'" );
 
            $this->Database->query( "DELETE FROM
-                                eZTrade_CartItem
+                                eZTrade_WishListItem
                                 WHERE ID='$itemID'" );
        }
 
@@ -289,7 +291,7 @@ class eZCart
     }
 
     var $ID;
-    var $SessionID;
+    var $UserID;
     
     ///  Variable for keeping the database connection.
     var $Database;

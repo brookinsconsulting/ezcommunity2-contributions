@@ -36,6 +36,9 @@
 
 <!-- END category_list_tpl -->
 
+
+<!-- BEGIN product_list_tpl -->
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <!-- BEGIN product_tpl -->
@@ -67,4 +70,6 @@
 <!-- END product_tpl -->
 
 </table>
+
+<!-- END product_list_tpl -->
 

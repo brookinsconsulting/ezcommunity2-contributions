@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.10 2000/10/21 12:10:44 bf-cvs Exp $
+// $Id: productlist.php,v 1.11 2000/10/21 16:49:37 bf-cvs Exp $
 //
 // 
 //
@@ -28,14 +28,15 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 $t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productlist/",
                      "eztrade/intl/", $Language, "productlist.php" );
 
-$t->set_file( "product_list_tpl", "productlist.tpl" );
+$t->set_file( "product_list_page_tpl", "productlist.tpl" );
 
 
-$t->set_block( "product_list_tpl", "path_tpl", "path" );
+$t->set_block( "product_list_page_tpl", "path_tpl", "path" );
+$t->set_block( "product_list_page_tpl", "product_list_tpl", "product_list" );
 $t->set_block( "product_list_tpl", "product_tpl", "product" );
 $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
 
-$t->set_block( "product_list_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "product_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_tpl", "category" );
 
 
@@ -109,7 +110,6 @@ $productList =& $category->activeProducts();
 
 $locale = new eZLocale( $Language );
 $i=0;
-$t->set_var( "product_list", "" );
 foreach ( $productList as $product )
 {
     // preview image
@@ -152,13 +152,24 @@ foreach ( $productList as $product )
     $i++;
 }
 
+if ( count( $productList ) > 0 )
+{
+    $t->parse( "product_list", "product_list_tpl" );
+}
+else
+{
+    $t->set_var( "product_list", "" );
+}
+
+
+
 
 if ( $GenerateStaticPage == "true" )
 {
     $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
     $fp = fopen ( $cachedFile, "w+");
 
-    $output = $t->parse($target, "product_list_tpl" );
+    $output = $t->parse( $target, "product_list_page_tpl" );
     // print the output the first time while printing the cache file.
     print( $output );
     fwrite ( $fp, $output );
@@ -166,7 +177,7 @@ if ( $GenerateStaticPage == "true" )
 }
 else
 {
-    $t->pparse( "output", "product_list_tpl" );
+    $t->pparse( "output", "product_list_page_tpl" );
 }
 
 
