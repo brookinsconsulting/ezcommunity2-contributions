@@ -59,19 +59,23 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<h2>{intl-shipped_to}:</h2>
+<h2>{intl-billing_to}:</h2>
 
 {customer_first_name} {customer_last_name} 
 <br />
+<select name="BillingAddressID">
+<!-- BEGIN billing_address_tpl -->
+<option value="{address_id}">{street1} {street2} {zip} {place} {country}</option>
+<!-- END billing_address_tpl -->
+</select>
 
-<!-- BEGIN address_tpl -->
-{street1} <br />
-{street2}<br />
-{zip} {place}<br />
-{country}<br />
 
-<!-- END address_tpl -->
-
+<h2>{intl-shipping_to}:</h2>
+<select name="ShippingAddressID">
+<!-- BEGIN shipping_address_tpl -->
+<option value="{address_id}">{street1} {street2} {zip} {place} {country}</option>
+<!-- END shipping_address_tpl -->
+</select>
 
 <br /><br />
 <hr noshade="noshade" size="4" />

@@ -16,6 +16,10 @@
 <h3 class="error" >{intl-password_error}</h3>
 <!-- END password_error_tpl -->
 
+<!-- BEGIN missing_address_error_tpl -->
+<h3 class="error" >{intl-missing_address_error}</h3>
+<!-- END missing_address_error_tpl -->
+
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -55,8 +59,9 @@
 
 <!-- BEGIN address_tpl -->
 
-<h2>{intl-address_number} {address_number} </h2>
-<input type="hidden" name="AddressID[]" value="{address_id}"/>
+<h2>{intl-address_number} {address_number} </h2> 
+<input type="checkbox" name="AddressArrayID[]" value="{address_id}">
+<input type="hidden" name="AddressID[]" value="{address_id}"/>{intl-delete}
 
 <p class="boxtext">{intl-street1}:</p>
 <input type="text" size="20" name="Street1[]" value="{street1_value}"/>
@@ -87,6 +92,7 @@
 <hr noshade="noshade" size="4" />
 
 <input type="submit" value="{intl-new_address}" name="NewAddress" />
+<input type="submit" value="{intl-delete_address}" name="DeleteAddress" />
 
 <hr noshade="noshade" size="4" />
 

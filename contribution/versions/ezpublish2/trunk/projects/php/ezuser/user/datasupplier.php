@@ -29,6 +29,11 @@ switch ( $url_array[2] )
             $Action = "New";
         if ( $url_array[3] == "edit" )
         {
+            if ( $url_array[5] == "MissingAddress" )
+                $MissingAddress = true;
+            else
+                $MissingAddress = false;
+            
             $UserID = $url_array[4];
             $Action = "Edit";
         }

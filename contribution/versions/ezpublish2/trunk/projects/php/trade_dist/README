@@ -112,3 +112,8 @@ alter table eZTrade_CartItem add WishListItemID int not null default 0;
 		  {intl-is_not_bought}
 		  <!-- END is_not_bought_tpl -->
 
+New ordering fields:
+ alter table eZTrade_Order drop AddressID; 
+alter table eZTrade_Order add ShippingAddressID int;     
+alter table eZTrade_Order add BillingAddressID int;                       
+

@@ -85,7 +85,8 @@ DROP TABLE IF EXISTS eZTrade_Order;
 CREATE TABLE eZTrade_Order (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   UserID int(11) DEFAULT '0' NOT NULL,
-  AddressID int(11),
+  ShippingAddressID int(11),
+  BillingAddressID int(11),
   ShippingCharge float(10,2),
   PRIMARY KEY (ID)
 );

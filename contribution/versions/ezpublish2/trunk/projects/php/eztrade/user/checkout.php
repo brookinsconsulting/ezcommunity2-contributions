@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.19 2001/01/17 10:23:29 bf Exp $
+// $Id: checkout.php,v 1.20 2001/01/18 13:43:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -90,7 +90,8 @@ $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
 $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
-$t->set_block( "checkout_tpl", "address_tpl", "address" );
+$t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
+$t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
 
 
 if ( $VISAShopping == "enabled" )
@@ -142,9 +143,16 @@ if ( $SendOrder == "true" )
     $order = new eZOrder();
     $user = eZUser::currentUser();
     $order->setUser( $user );
-    $order->setAddress( 42 );
+
+    $shippingAddress = new eZAddress( $ShippingAddressID );
+    $billingAddress = new eZAddress( $BillingAddressID );
+    
+    $order->setShippingAddress( $shippingAddress );
+    $order->setBillingAddress( $billingAddress );
+    
     $order->setShippingCharge( $ShippingCost );
     $order->setPaymentMethod( $PaymentMethod );
+    
     $order->store();
 
     $order_id = $order->id();
@@ -438,6 +446,7 @@ $addressArray = $user->addresses();
 
 foreach ( $addressArray as $address )
 {
+    $t->set_var( "address_id", $address->id() );
     $t->set_var( "street1", $address->street1() );
     $t->set_var( "street2", $address->street2() );
     $t->set_var( "zip", $address->zip() );
@@ -445,7 +454,8 @@ foreach ( $addressArray as $address )
     $country = $address->country();
     $t->set_var( "country", $country->name() );
     
-    $t->parse( "address", "address_tpl"  );
+    $t->parse( "billing_address", "billing_address_tpl", true );
+        $t->parse( "shipping_address", "shipping_address_tpl", true );
 }
 
 $t->pparse( "output", "checkout_tpl" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.34 2001/01/12 12:29:51 bf Exp $
+// $Id: ezuser.php,v 1.35 2001/01/18 13:43:34 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -626,6 +626,27 @@ class eZUser
            
        }
     }
+
+    /*!
+      Remove addreses from a user. The function also remove the address from the database.
+    */
+    function removeAddress( $address )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       if ( get_class( $address ) == "ezaddress" )
+       {
+           $addressID = $address->id();
+
+           $this->Database->query( "DELETE FROM eZUser_UserAddressLink
+                                WHERE AddressID='$addressID'" );
+           $this->Database->query( "DELETE FROM eZContact_Address
+                                WHERE ID='$addressID'" );
+       }
+    }
+    
 
     /*!
       Returns the addresses a user has. It is returned as an array of eZAddress objects.      

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.15 2001/01/12 16:07:23 bf Exp $
+// $Id: ezorder.php,v 1.16 2001/01/18 13:43:34 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -87,7 +87,8 @@ class eZOrder
         {
             $this->Database->query( "INSERT INTO eZTrade_Order SET
 		                         UserID='$this->UserID',
-		                         AddressID='$this->AddressID',
+		                         ShippingAddressID='$this->ShippingAddressID',
+		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
@@ -115,7 +116,8 @@ class eZOrder
         {
             $this->Database->query( "UPDATE eZTrade_Order SET
 		                         UserID='$this->UserID',
-		                         AddressID='$this->AddressID',
+		                         ShippingAddressID='$this->ShippingAddressID',
+		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         ShippingCharge='$this->ShippingCharge'
                                  WHERE ID='$this->ID'
@@ -173,7 +175,8 @@ class eZOrder
             {
                 $this->ID = $cart_array[0][ "ID" ];
                 $this->UserID = $cart_array[0][ "UserID" ];
-                $this->AddressID = $cart_array[0][ "AddressID" ];
+                $this->ShippingAddressID = $cart_array[0][ "ShippingAddressID" ];
+                $this->BillingAddressID = $cart_array[0][ "BillingAddressID" ];
                 $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
                 $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
 
@@ -348,16 +351,30 @@ class eZOrder
     }
 
     /*!
-      Sets the address.
+      Sets the shipping address.
     */
-    function setAddress( $address )
+    function setShippingAddress( $shippingAddress )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-//         if ( get_class( $user ) == "ezuser" )
+       if ( get_class( $shippingAddress ) == "ezaddress" )
        {
-           $this->AddressID = $address;
+           $this->ShippingAddressID = $shippingAddress->id();
+       }
+    }
+
+    /*!
+      Sets the billing address.
+    */
+    function setBillingAddress( $billingAddress )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $billingAddress ) == "ezaddress" )
+       {
+           $this->BillingAddressID = $billingAddress->id();
        }
     }
 
@@ -558,7 +575,8 @@ class eZOrder
 
     var $ID;
     var $UserID;
-    var $AddressID;
+    var $ShippingAddressID;
+    var $BillingAddressID;
     var $ShippingCharge;
     var $PaymentMethod;
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.23 2000/12/07 13:00:07 ce-cvs Exp $
+// $Id: ezaddress.php,v 1.24 2001/01/18 13:43:34 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -157,9 +157,10 @@ class eZAddress
      */
     function delete()
     {
+        $GLOBALS["DEBUG"] = true;
         $this->dbInit();
         
-        $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$this->ID'", true );
     }    
     
 
