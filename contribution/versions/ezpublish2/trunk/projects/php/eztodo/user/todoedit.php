@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.28 2001/08/29 14:18:07 jhe Exp $
+// $Id: todoedit.php,v 1.29 2001/09/05 10:57:00 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -30,10 +30,10 @@ include_once( "classes/ezhttptool.php" );
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
-    eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
-    eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
-    eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
-    eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
+    @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
+    @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
+    @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
+    @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
 }
 
 //Adds a "0" in front of the value if it's below 10.
@@ -49,11 +49,11 @@ function addZero( $value )
 }
 
 
-if ( isSet ( $Delete ) )
+if ( isSet( $Delete ) )
 {
     $Action = "delete";
 }
-if ( isSet ( $List ) )
+if ( isSet( $List ) )
 {
     eZHTTPTool::header( "Location: /todo" );
     exit();
@@ -193,7 +193,7 @@ if ( $Action == "insert" || $Action == "update" )
 {
     if ( $nameCheck )
     {
-        if ( empty ( $Name ) )
+        if ( empty( $Name ) )
         {
             $t->parse( "error_name", "error_name_tpl" );
             $error = true;
@@ -201,7 +201,7 @@ if ( $Action == "insert" || $Action == "update" )
     }
     if ( $descriptionCheck )
     {
-        if ( empty ( $Description ) )
+        if ( empty( $Description ) )
         {
             $t->parse( "error_description", "error_description_tpl" );
             $error = true;
@@ -254,7 +254,7 @@ if ( $Action == "insert" && $error == false )
     }
     
     $todo->store();
-
+    deleteCache( "default", $Language, $Due->year(), addZero( $Due->month() ) , addZero( $Due->day() ), $UserID );
     if ( $SendMail == "on" )
     {
         $mailTemplate = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
@@ -268,7 +268,7 @@ if ( $Action == "insert" && $error == false )
 
         $category = new eZCategory( $CategoryID );
         $priority = new eZPriority( $PriorityID );
-        $status = new ezStatus ( $StatusID );
+        $status = new eZStatus ( $StatusID );
         $owner = new eZUser( $user->id() );
         $user = new eZUser( $UserID );
 
@@ -338,7 +338,7 @@ if ( $Action == "update" && $error == false )
     }
     $todo->store();
 
-    if ( ( $MailLog ) && ( get_class ( $log ) == "eztodolog" ) )
+    if ( ( $MailLog ) && ( get_class( $log ) == "eztodolog" ) )
     {
         $mailTemplate = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                                         "eztodo/user/intl", $Language, "maillog.php" );
@@ -352,7 +352,7 @@ if ( $Action == "update" && $error == false )
 
         $category = new eZCategory( $CategoryID );
         $priority = new eZPriority( $PriorityID );
-        $status = new ezStatus ( $StatusID );
+        $status = new ezStatus( $StatusID );
         $owner = new eZUser( $user->id() );
         $user = new eZUser( $UserID );
 
@@ -410,6 +410,10 @@ if ( $Action == "delete" )
 
 if ( $Action == "new" || $error )
 {
+    $Deadline = new eZDateTime();
+    $DeadlineDay = $Deadline->day();
+    $DeadlineMonth = $Deadline->month();
+    $DeadlineYear = $Deadline->year();
     $action_value = "insert";
     $name = "";
     $description = "";
@@ -459,16 +463,18 @@ if ( $Action == "new" || $error )
                           11 => "select_november",
                           12 => "select_december" );
 
-    foreach ( $month_array as $month )
+    for ( $i = 1; $i <= count( $month_array ); $i++ )
     {
-        $t->set_var( $month, "" );
+        if ( $i == $DeadlineMonth )
+            $t->set_var( $month_array[$i], "selected" );
+        else
+            $t->set_var( $month_array[$i], "" );
     }
 
-    $var_name =& $month_array[1];
-    
-    $t->set_var( $var_name, "selected" );
-
-    $t->set_var( "deadlineyear", "" );
+    if ( $DeadlineYear > 0 )
+        $t->set_var( "deadlineyear", $DeadlineYear );
+    else
+        $t->set_var( "deadlineyear", "" );
 
     $t->set_var( "comment", $Comment );
 
@@ -530,7 +536,7 @@ if ( $Action == "edit" )
 
     $logs = $todo->logs();
 
-    if ( count ( $logs ) > 0 )
+    if ( count( $logs ) > 0 )
     {
         foreach ( $logs as $log )
         {

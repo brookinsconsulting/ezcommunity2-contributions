@@ -1,5 +1,5 @@
 <?php
-// $Id: todolist.php,v 1.18 2001/08/17 13:36:00 jhe Exp $
+// $Id: todolist.php,v 1.19 2001/09/05 10:57:00 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -47,48 +47,46 @@ include_once( "eztodo/classes/ezpriority.php" );
 include_once( "eztodo/classes/ezstatus.php" );
 
 
-if( isset( $New ) )
+if ( isSet( $New ) )
 {
     eZHTTPTool::header( "Location: /todo/todoedit/new" );
     exit();
 }
 
-if( isset( $Delete ) )
-{
-    if ( count ( $DeleteArrayID ) > 0 )
-    {
-        foreach( $DeleteArrayID as $todoid )
-        {
-            $todo = new eZTodo( $todoid );
-            $todo->delete();
-        }
-    }
-}
-
 $user =& eZUser::currentUser();
+
 if ( $user == false )
 {
     eZHTTPTool::header( "Location: /error/403/" );
     exit();
 }
 
+if ( isSet( $Delete ) )
+{
+    if ( count( $DeleteArrayID ) > 0 )
+    {
+        foreach ( $DeleteArrayID as $todoid )
+        {
+            $todo = new eZTodo( $todoid );
+            $due = $todo->due();
+            deleteCache( "default", $Language, $due->year(), addZero( $due->month() ) , addZero( $due->day() ), $user->id() );
+            $todo->delete();
+        }
+    }
+}
+
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                      "eztodo/user/intl/", $Language, "todolist.php" );
 $t->setAllStrings();
-$t->set_file( array(
-    "todo_list_page" => "todolist.tpl"
-    ) );
+$t->set_file( "todo_list_page", "todolist.tpl" );
 
 $CategoryID = eZHTTPTool::getVar( "CategoryTodoID" );
 $Show = eZHTTPTool::getVar( "Show" );
 $ShowButton = eZHTTPTool::getVar( "ShowButton" );
 $StatusID = eZHTTPTool::getVar( "StatusTodoID" );
 
-if ( isSet ( $ShowTodosByUser ) )
-{
+if ( isSet( $ShowTodosByUser ) )
     $GetByUserID = eZHTTPTool::getVar( "GetByUserID" );
-}
-
 
 $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
 $t->set_block( "todo_list_page", "user_item_tpl", "user_item" );
@@ -100,7 +98,7 @@ $t->set_block( "todo_item_tpl", "todo_is_public_tpl", "todo_is_public" );
 $t->set_block( "todo_item_tpl", "todo_is_not_public_tpl", "todo_is_not_public" );
 
 
-if ( isSet ( $ShowButton ) )
+if ( isSet( $ShowButton ) )
 {
 
     $session->setVariable( "TodoCategory", $CategoryID );
@@ -143,9 +141,9 @@ $showID = $session->variable( "ShowTodoID" );
 // User selector.
 $userList = $user->getAll();
 
-foreach( $userList as $userItem )
+foreach ( $userList as $userItem )
 {
-    if ( !isset( $GetByUserID ) )
+    if ( !isSet( $GetByUserID ) )
     {
         $GetByUserID = $currentUserID;
     }
@@ -188,7 +186,7 @@ if ( count( $todo_array ) == 0 )
 $locale = new eZLocale( $Language );
 
 $i=0;
-foreach( $todo_array as $todoItem )
+foreach ( $todo_array as $todoItem )
 {
     if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bgdark" );
@@ -218,7 +216,6 @@ foreach( $todo_array as $todoItem )
     }
     
     $t->set_var( "todo_date", $locale->format( $todoItem->date() ) );
-
     $t->set_var( "no_found", "" );
 
     $t->parse( "todo_item", "todo_item_tpl", true );
@@ -265,8 +262,29 @@ foreach ( $statusList as $status )
     $t->parse( "status_item", "status_item_tpl", true );
 }
 
-
 $t->pparse( "output", "todo_list_page" );
 
-?>
 
+// deletes the dayview cache file for a given day
+function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
+{
+    @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
+    @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
+    @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
+    @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
+}
+
+//Adds a "0" in front of the value if it's below 10.
+function addZero( $value )
+{
+    settype( $value, "integer" );
+    $ret = $value;
+    if ( $ret < 10 )
+    {
+        $ret = "0". $ret;
+    }
+    return $ret;
+}
+
+
+?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztodo.php,v 1.27 2001/07/23 14:54:24 jhe Exp $
+// $Id: eztodo.php,v 1.28 2001/09/05 10:57:00 jhe Exp $
 //
 // Definition of eZTodo class
 //
@@ -144,17 +144,17 @@ class eZTodo
             }
             else if ( count( $todo_array ) == 1 )
             {
-                $this->ID = $todo_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name = $todo_array[0][ $db->fieldName( "Name" ) ];
-                $this->Description = $todo_array[0][ $db->fieldName( "Description" ) ];
-                $this->Category = $todo_array[0][ $db->fieldName( "Category" ) ];
-                $this->Priority = $todo_array[0][ $db->fieldName( "Priority" ) ];
-                $this->Due = $todo_array[0][ $db->fieldName( "Due" ) ];
-                $this->Date = $todo_array[0][ $db->fieldName( "Date" ) ];
-                $this->UserID = $todo_array[0][ $db->fieldName( "UserID" ) ];
-                $this->OwnerID = $todo_array[0][ $db->fieldName( "OwnerID" ) ];
-                $this->Status = $todo_array[0][ $db->fieldName( "Status" ) ];
-                $this->IsPublic = $todo_array[0][ $db->fieldName( "IsPublic" ) ];
+                $this->ID = $todo_array[0][$db->fieldName( "ID" )];
+                $this->Name = $todo_array[0][$db->fieldName( "Name" )];
+                $this->Description = $todo_array[0][$db->fieldName( "Description" )];
+                $this->Category = $todo_array[0][$db->fieldName( "Category" )];
+                $this->Priority = $todo_array[0][$db->fieldName( "Priority" )];
+                $this->Due = $todo_array[0][$db->fieldName( "Due" )];
+                $this->Date = $todo_array[0][$db->fieldName( "Date" )];
+                $this->UserID = $todo_array[0][$db->fieldName( "UserID" )];
+                $this->OwnerID = $todo_array[0][$db->fieldName( "OwnerID" )];
+                $this->Status = $todo_array[0][$db->fieldName( "Status" )];
+                $this->IsPublic = $todo_array[0][$db->fieldName( "IsPublic" )];
 
                 $ret = true;
             }
@@ -287,18 +287,23 @@ class eZTodo
     {
         if ( get_class( $date ) == "ezdate" )
         {
+            $currentUser =& eZUser::currentUser();
             if ( is_numeric( $user ) )
                 $userid = $user;
             else
                 $userid = $user->id();
+            if ( $currentUser->id() != $userid )
+                $public_string = "AND IsPublic='1'";
+            else
+                $public_string = "";
             $return_array = array();
             $enddate = new eZDate();
             $enddate->setTimeStamp( $date->timeStamp() + 86400 );
             $db =& eZDB::globalDatabase();
-    	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE Due>='" . $date->timeStamp() . "' AND Due<'" . $enddate->timeStamp() . "' AND UserID='" . $userid . "' AND IsPublic='1' ORDER BY Priority" );
+    	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE Due>='" . $date->timeStamp() . "' AND Due<'" . $enddate->timeStamp() . "' AND UserID='" . $userid . "' $public_string ORDER BY Priority" );
             for ( $i = 0; $i < count( $todo_array ); $i++ )
             { 
-                $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+                $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
             } 
             return $return_array;         
         }
