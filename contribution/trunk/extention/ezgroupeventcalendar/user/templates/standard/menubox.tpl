@@ -9,12 +9,12 @@
         <tr> 
           <td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br />
           </td>
-          <td width="99%"><a class="menu" href="/calendar/monthview/">{intl-month_view}</a></td>
+          <td width="99%"><a class="menu" href="/groupeventcalendar/monthview/">{intl-month_view}</a></td>
         </tr>
         <tr> 
           <td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br />
           </td>
-          <td width="99%"><a class="menu" href="/calendar/appointmentedit/new/">{intl-new_appointment}</a></td>
+          <td width="99%"><a class="menu" href="/groupeventcalendar/eventedit/new/">{intl-new_appointment}</a></td>
         </tr>
       </table>
     </td>
