@@ -106,6 +106,7 @@ INSERT INTO eZUser_Module VALUES (5,'eZNews');
 INSERT INTO eZUser_Module VALUES (6,'eZContact');
 INSERT INTO eZUser_Module VALUES (7,'eZForum');
 INSERT INTO eZUser_Module VALUES (8,'eZLink');
+INSERT INTO eZUser_Module VALUES (10,'eZCV');
 
 #
 # Table structure for table 'eZUser_Permission'
