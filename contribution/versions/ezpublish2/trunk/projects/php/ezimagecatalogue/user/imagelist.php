@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.18 2001/03/06 16:04:35 fh Exp $
+// $Id: imagelist.php,v 1.19 2001/03/07 15:16:12 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -95,6 +95,7 @@ $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "image_list_tpl", "detail_view_tpl", "detail_view" );
 
 $t->set_block( "image_tpl", "read_tpl", "read" );
+$t->set_block( "image_tpl", "read_span_tpl", "read_span" );
 $t->set_block( "image_tpl", "write_tpl", "write" );
 
 $t->set_block( "detail_view_tpl", "detail_read_tpl", "detail_read" );
@@ -201,7 +202,8 @@ else
 // Print out all the images
 $imageList =& $category->images();
 
-//$i=0;
+$i=0;
+$counter = 0;
 foreach ( $imageList as $image )
 {
     if ( ( $i % 4 ) == 0 )
@@ -257,6 +259,14 @@ foreach ( $imageList as $image )
     $t->set_var( "read", "" );
     $t->set_var( "write", "" );
 
+    $t->set_var( "read_span", "" );
+    if ( count( $imageList ) == $counter + 1 )
+    {
+        $colspan = 3 - ($i % 4);
+        $t->set_var( "col_span", $colspan );
+        $t->parse( "read_span", "read_span_tpl" );
+    }
+
     // Check if user have read permission
     $t->set_var( "detail_read", "" );
     if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) )
@@ -269,6 +279,7 @@ foreach ( $imageList as $image )
         {
             $t->parse( "read", "read_tpl" );
         }
+        $i++;
     }
 
     // Check if user have write permission
@@ -312,7 +323,8 @@ foreach ( $imageList as $image )
         $t->parse( "image", "image_tpl", true );
         $t->parse( "detail_button", "detail_view_button" );
     }
-    $i++;
+
+    $counter++;
 }
 
 // Print out the category/image menu
