@@ -72,7 +72,7 @@
 	<a href="{www_dir}{index}/mediacatalogue/media/edit/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{media_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{media_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
 	<td class="{td_class}" width="1%" align="center">
-	<input type="checkbox" name="MediaArrayID[]" value="{file_id}">
+	<input type="checkbox" name="MediaArrayID[]" value="{media_id}">
 	</td>
 
 	<!-- END write_tpl -->
