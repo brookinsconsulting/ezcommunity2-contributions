@@ -9,10 +9,10 @@
     </td>
     <td align="right">
       <!-- BEGIN public_wishlist_tpl -->
-      <input type="checkbox" name="IsPublic" checked />&nbsp;{intl-is_public}
+      <input type="checkbox" name="IsPublic" checked />&nbsp;<span class="boxtext">{intl-is_public}</span>
       <!-- END public_wishlist_tpl -->
       <!-- BEGIN non_public_wishlist_tpl -->
-      <input type="checkbox" name="IsPublic" />&nbsp;{intl-is_public}
+      <input type="checkbox" name="IsPublic" />&nbsp;<span class="boxtext">{intl-is_public}</span>
       <!-- END non_public_wishlist_tpl -->
     </td>
 <tr>
