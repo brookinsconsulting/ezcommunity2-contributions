@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.30 2001/09/17 07:54:33 jhe Exp $
+// $Id: folderedit.php,v 1.31 2001/09/17 19:53:11 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -38,8 +38,7 @@ include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
 $user =& eZUser::currentUser();
 
-//om folder ID finnes 
-
+// check if user has rights to edit the current folder.
 if ( isSet( $FolderID ) && $FolderID != 0 &&
      !eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) &&
      !eZVirtualFolder::isOwner( $user, $FolderID ) ) 
@@ -114,19 +113,20 @@ if ( $Action == "Insert" || $Action == "Update" )
 {
     if ( $permissionCheck )
     {
-        if ( $FolderID == 0 )
+        $parentFolder = new eZVirtualFolder( $ParentID );
+
+        // not write and not upload
+        if ( eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", "w" ) == false &&
+             eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'u') == false )
         {
+            $error = true;
         }
-        else
-        {
-            $parentFolder = new eZVirtualFolder( $FolderID );
-            
-            if ( eZObjectPermission::hasPermission( $parentCategory, "filemanager_folder", "w", $user ) != true )
-            {
-                $t->parse( "error_write", "error_write_permission" );
-                $error = true;
-            }
-        }
+        // update and not write
+        if( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' == false ) )
+            $error = true;
+
+        if( $error )
+            $t->parse( "error_write", "error_write_permission" );
     }
 
     if ( $nameCheck )
@@ -190,6 +190,48 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     changePermissions( $FolderID, $WriteGroupArrayID, "w" );
     changePermissions( $FolderID, $UploadGroupArrayID, "u" );
 
+    // check if user uploaded a dir and had upload permission only and is not owner.
+    if( $Action == "Insert" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false &&
+    $parent->user( false ) != $user->id() )
+    {
+        eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'w' ); // no write
+        eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'r' ); // all read
+        eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'u' ); // all upload
+        eZObjectPermission::setPermission( -1, $FolderID, "filemanager_folder", 'r' );
+        eZObjectPermission::setPermission( -1, $FolderID, "filemanager_folder", 'u' );
+        $folder->setUser( $parent->user() );
+        $folder->store();
+    }
+    // if update and moving into a folder that has upload permission and not owner of that folder
+    if( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false
+    && $parent->user( false ) != $user->id() )
+    {
+        // recursivly edit permissions on all file and folders...
+        $folders = array();
+        $folders[] = $folder; // set permission on self.
+        $files = array();
+        getFilesAndFolders( $folders, $files, $folder );
+
+        // set permissions on all these files and dirs..
+        foreach( $folders as $folderItem )
+        {
+            eZObjectPermission::removePermissions( $folderItem->id(), "filemanager_folder", 'w' ); // no write
+            eZObjectPermission::removePermissions( $folderItem->id(), "filemanager_folder", 'r' ); // all read
+            eZObjectPermission::removePermissions( $folderItem->id(), "filemanager_folder", 'u' ); // all upload
+            eZObjectPermission::setPermission( -1, $folderItem->id(), "filemanager_folder", 'r' );
+            eZObjectPermission::setPermission( -1, $folderItem->id(), "filemanager_folder", 'u' );
+            $folderItem->setUser( $parent->user() );
+            $folderItem->store();
+        }
+        foreach( $files as $fileItem )
+        {
+            eZObjectPermission::removePermissions( $fileItem->id(), "filemanager_file", 'w' ); // no write
+            eZObjectPermission::removePermissions( $fileItem->id(), "filemanager_file", 'r' ); // all read
+            eZObjectPermission::setPermission( -1, $fileItem->id(), "filemanager_file", 'r' );
+            $fileItem->setUser( $parent->user() );
+            $fileItem->store();
+        }
+    }
     eZHTTPTool::header( "Location: /filemanager/list/" . $ParentID );
     exit();
 }
@@ -328,7 +370,9 @@ foreach ( $groups as $group )
 foreach ( $folderList as $folderItem )
 {
     if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' )
-         || eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) )
+         || eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() )
+         || eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'u' )
+         )
     {
         $t->set_var( "option_name", $folderItem[0]->name() );
         $t->set_var( "option_value", $folderItem[0]->id() );
@@ -378,6 +422,19 @@ function changePermissions( $objectID, $groups , $permission )
         }
     }
 
+}
+// get all the files and folders of a folder recursivly.
+function getFilesAndFolders( &$folderArray, &$fileArray, $fromFolder )
+{
+    $result = eZVirtualFolder::getByParent( $fromFolder );
+    $folderArray = array_merge( $result, $folderArray );
+    $files = $fromFolder->files( "time", -1, -1 );
+    $fileArray = array_merge( $files, $fileArray );
+    
+    foreach( $result as $child )
+    {
+        getFilesAndFolders( $folderArray, $fileArray, $child );
+    }
 }
 
 ?>

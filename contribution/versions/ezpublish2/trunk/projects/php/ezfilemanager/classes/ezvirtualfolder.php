@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.30 2001/09/06 11:16:39 jhe Exp $
+// $Id: ezvirtualfolder.php,v 1.31 2001/09/17 19:53:11 fh Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -163,7 +163,7 @@ class eZVirtualFolder
             $this->delete( $category->id() );
         }
 
-        foreach ( $this->files() as $file )
+        foreach ( $this->files( "time", -1, -1) as $file )
         {
             $file->delete();
         }
@@ -386,11 +386,16 @@ class eZVirtualFolder
     /*!
       Returns a eZUser object.
     */
-    function &user()
+    function &user( $asObject = true )
     {
-        if ( $this->UserID != 0 )
+        
+        if ( $this->UserID != 0  && $asObject )
         {
             $ret = new eZUser( $this->UserID );
+        }
+        else
+        {
+            $ret = $this->UserID;
         }
         
         return $ret;

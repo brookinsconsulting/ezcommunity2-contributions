@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.45 2001/09/10 08:02:21 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.46 2001/09/17 19:53:11 fh Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -86,7 +86,8 @@ class eZVirtualfile
                                  Name='$name',
                                  Description='$description',
                                  FileName='$filename',
-                                 OriginalFileName='$originalfilename'
+                                 OriginalFileName='$originalfilename',
+                                 UserID='$this->UserID'
                                  WHERE ID='$this->ID'
                                  " );
         }

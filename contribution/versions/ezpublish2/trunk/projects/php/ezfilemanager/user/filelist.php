@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.39 2001/09/06 11:16:40 jhe Exp $
+// $Id: filelist.php,v 1.40 2001/09/17 19:53:11 fh Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -203,7 +203,7 @@ foreach ( $fileList as $file )
     }
     else
     {
-        $t->set_var( "write" );
+        $t->set_var( "write", "" );
     }
 
     $t->parse( "file", "file_tpl", true );
@@ -244,9 +244,10 @@ if ( $FolderID == 0 && eZPermission::checkPermission( eZUser::currentUser(), "eZ
 {
     $t->parse( "write_menu", "write_menu_tpl" );
 }
-else if ( ( $user ) &&
-          ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ) ||
-          ( eZVirtualFolder::isOwner( eZUser::currentUser(), $FolderID ) ) )
+else if ( $user &&
+          ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ||
+            eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'u' ) ||
+            eZVirtualFolder::isOwner( eZUser::currentUser(), $FolderID ) ) )
 {
     $t->parse( "write_menu", "write_menu_tpl" );
 }

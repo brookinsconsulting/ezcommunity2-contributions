@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.35 2001/09/13 21:31:05 fh Exp $
+// $Id: fileupload.php,v 1.36 2001/09/17 19:53:11 fh Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -133,16 +133,19 @@ $t->set_var( "error_write_everybody_permission", "&nbsp;" );
 
 if ( $Action == "Insert" || $Action == "Update" )
 {
+    // todo, in case of edit, check if the user has permission to edit the file.
     if ( $folderPermissionCheck )
     {
         $folder = new eZVirtualFolder( $FolderID );
         
-        if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
-             eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false )
+        if ( (eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
+              eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) ||
+             ( $Action == "Update" &&
+             eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false )
+             )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
-            print( "$FolderID error" );
         }
     }
 
@@ -195,14 +198,25 @@ if ( $Action == "Insert" && $error == false )
     $uploadedFile->setFile( &$file );
     
     $uploadedFile->store();
-
-    changePermissions( $FileID, $ReadGroupArrayID, 'r' );
-    changePermissions( $FileID, $WriteGroupArrayID, 'w' );
-
+    $FileID = $uploadedFile->id();
     $folder = new eZVirtualFolder( $FolderID );
-    
+
+    if( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
+    {
+        changePermissions( $FileID, $ReadGroupArrayID, 'r' );
+        changePermissions( $FileID, $WriteGroupArrayID, 'w' );
+    }
+    else // user had upload permission only, change ownership, set special rights..
+    {
+        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'w' ); // no write
+        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'r' ); // all read
+        eZObjectPermission::setPermission( -1, $FileID, "filemanager_file", 'r' );
+        $uploadedFile->setUser( $folder->user() );
+        $uploadedFile->store();
+    }
+
     $folder->addFile( $uploadedFile );
-    
+
     eZLog::writeNotice( "File added to file manager from IP: $REMOTE_ADDR" );
     eZHTTPTool::header( "Location: /filemanager/list/$FolderID/" );
     exit();
@@ -223,8 +237,19 @@ if ( $Action == "Update" && $error == false )
     }    
 
     $uploadedFile->store();
-    changePermissions( $FileID, $ReadGroupArrayID, 'r' );
-    changePermissions( $FileID, $WriteGroupArrayID, 'w' );
+    if( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
+    {
+        changePermissions( $FileID, $ReadGroupArrayID, 'r' );
+        changePermissions( $FileID, $WriteGroupArrayID, 'w' );
+    }
+    else // user had upload permission only, change ownership, set special rights..
+    {
+        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'w' ); // no write
+        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'r' ); // all read
+        eZObjectPermission::setPermission( -1, $FileID, "filemanager_file", 'r' );
+        $uploadedFile->setUser( $folder->user() );
+        $uploadedFile->store();
+    }
 
     $folder = new eZVirtualFolder( $FolderID );
 
@@ -419,7 +444,7 @@ foreach ( $folderList as $folderItem )
 $t->pparse( "output", "file_upload_tpl" );
 
 /******* FUNCTIONS ****************************/
-function changePermissions( $objectID, $groups , $permission )
+function changePermissions( $objectID, $groups, $permission )
 {
     eZObjectPermission::removePermissions( $objectID, "filemanager_file", $permission );
     if ( count( $groups ) > 0 )
@@ -434,7 +459,19 @@ function changePermissions( $objectID, $groups , $permission )
             eZObjectPermission::setPermission( $group, $objectID, "filemanager_file", $permission );
         }
     }
+}
 
+function getFilesAndFolders( &$folderArray, &$fileArray, $fromFolder )
+{
+    $result = eZVirtualFolder::getByParent( $fromFolder );
+    $folderArray = array_merge( $result, $folderArray );
+    $files = $fromFolder->files( "time", -1, -1 );
+    $fileArray = array_merge( $files, $fileArray );
+    
+    foreach( $result as $child )
+    {
+        getFilesAndFolders( $folderArray, $fileArray, $child );
+    }
 }
 ?>
 
