@@ -37,9 +37,9 @@
 <h1>Kategorioversikt</h1>
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-        <td><p>Navn:</p></td>
-        <td><p>Beskrivelse:</p></td>
-        <td><p>Privat:</p></td>
+        <td><p><b>Navn:</b></p></td>
+        <td><p><b>Beskrivelse:</b></p></td>
+        <td><p><b>Privat:</b></p></td>
         <td colspan="3">&nbsp;</td>
     </tr>
     {categories}
