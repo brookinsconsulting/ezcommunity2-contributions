@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.21 2001/09/26 09:51:35 br Exp $
+// $Id: orderlist.php,v 1.22 2001/11/21 18:29:15 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -56,6 +56,8 @@ $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTem
                      "eztrade/admin/intl/", $Language, "orderlist.php" );
 
 $languageINI = new INIFile( "eztrade/admin/intl/" . $Language . "/orderlist.php.ini", false );
+
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "AdminShowIncTaxColumn" ) == "enabled" ? true : false;
 
 $t->setAllStrings();
 
@@ -132,11 +134,14 @@ foreach ( $orderArray as $order )
     $statusName = preg_replace( "#intl-#", "", $statusType->name() );
     $statusName =  $languageINI->read_var( "strings", $statusName );
     $t->set_var( "order_status", $statusName );
+
+    $order->orderTotals( $tax, $total );
     
-    if ( $order->isVATInc() == true )
-        $currency->setValue( $order->totalPriceIncVAT() + $order->shippingCharge());
+    if ( $PricesIncludeVAT == true )
+        $currency->setValue( $total["inctax"] );
     else
-        $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
+        $currency->setValue( $total["extax"] );
+
     $t->set_var( "order_price", $locale->format( $currency ) );
     
     $t->parse( "order_item", "order_item_tpl", true );

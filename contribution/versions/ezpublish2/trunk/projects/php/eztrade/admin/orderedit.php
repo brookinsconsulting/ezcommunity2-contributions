@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.32 2001/10/26 14:21:35 bf Exp $
+// $Id: orderedit.php,v 1.33 2001/11/21 18:29:15 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -45,8 +45,8 @@ $languageINI = new INIFIle( "eztrade/admin/intl/" . $Language . "/orderedit.php.
 
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
-$ShowExTaxColumn = $ini->read_var( "eZTradeMain", "ShowExTaxColumn" ) == "enabled" ? true : false;
-$ShowIncTaxColumn = $ini->read_var( "eZTradeMain", "ShowIncTaxColumn" ) == "enabled" ? true : false;
+$ShowExTaxColumn = $ini->read_var( "eZTradeMain", "AdminShowExTaxColumn" ) == "enabled" ? true : false;
+$ShowIncTaxColumn = $ini->read_var( "eZTradeMain", "AdminShowIncTaxColumn" ) == "enabled" ? true : false;
 $ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled" ? true : false;
 $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 
@@ -525,18 +525,6 @@ if ( count ( $usedVouchers ) > 0 )
     }
     $t->parse( "voucher_item_list", "voucher_item_list_tpl" );
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 $statusType = new eZOrderStatusType();

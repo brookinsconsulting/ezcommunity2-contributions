@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.32 2001/10/15 11:32:17 ce Exp $
+// $Id: categorylist.php,v 1.33 2001/11/21 18:29:15 br Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -200,42 +200,49 @@ foreach ( $productList as $product )
 
         $t->set_var( "product_price", $locale->format( $price ) );
     }
-    else
-    {
-        $priceArray = "";
-        $priceArray = "";
-        $options =& $product->options();
-        if ( count( $options ) == 1 )
-        {
-            $option = $options[0];
-            if ( get_class( $option ) == "ezoption" )
-            {
-                $optionValues =& $option->values();
-                if ( count( $optionValues ) > 1 )
-                {
-                    $i=0;
-                    foreach ( $optionValues as $optionValue )
-                    {
-                        $priceArray[$i] = $optionValue->price();
-                        $i++;
-                    }
-                    $high = max( $priceArray );
-                    $low = min( $priceArray );
-                    $low = new eZCurrency( $low );
-                    $high = new eZCurrency( $high );
 
-                    $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+
+    $priceArray = "";
+    $options =& $product->options();
+    $high = 0;
+    $low = 0;
+    
+    foreach ( $options as $option )
+    {
+        if ( get_class( $option ) == "ezoption" )
+        {
+            $optionValues =& $option->values();
+            if ( count( $optionValues ) > 1 )
+            {
+                $i=0;
+                $priceArray = array();
+                foreach ( $optionValues as $optionValue )
+                {
+                    $priceArray[$i] = $optionValue->price();
+                    $i++;
                 }
+                $high += max( $priceArray );
+                $low += min( $priceArray );
             }
         }
-        $range = $product->priceRange();
-        if ( $range )
-        {
-            $min = new eZCurrency( $range->min() );
-            $max = new eZCurrency( $range->max() );
+    }
+    if ( count( $options ) > 0 )
+    {
+        $low = new eZCurrency( $low + $product->price() );
+        $high = new eZCurrency( $high + $product->price() );
+        if ( $low != $high )
+            $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+        else
+            $t->set_var( "product_price", $locale->format( $low ) );
+    }
 
-            $t->set_var( "product_price", $locale->format( $min ) . " - " . $locale->format( $max ) );
-        }
+    $range = $product->priceRange();
+    if ( $range )
+    {
+        $min = new eZCurrency( $range->min() );
+        $max = new eZCurrency( $range->max() );
+        
+        $t->set_var( "product_price", $locale->format( $min ) . " - " . $locale->format( $max ) );
     }
 
     if( $product->includesVAT() == true )
