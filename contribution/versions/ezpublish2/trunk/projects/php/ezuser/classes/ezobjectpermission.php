@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.23 2001/08/16 13:50:19 ce Exp $
+// $Id: ezobjectpermission.php,v 1.24 2001/08/16 13:59:26 ce Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -194,7 +194,6 @@ class eZObjectPermission
 
         $database->query_single( $res, $query );
 
-        print_r( $res );
         if ( $res[$database->fieldName( "ID" )] != 0 )
             return true;
 
@@ -466,7 +465,7 @@ class eZObjectPermission
 /*!
   Returns table names.
 */
-function getTableName( $name, $withDefinition )
+function getTableName( $name, $withDefinition=false )
 {
     $ret = "";
     switch ( $name )
