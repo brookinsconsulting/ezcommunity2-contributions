@@ -1,5 +1,6 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <form method="post" action="/poll/userlogin/vote/{poll_id}/">
+
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td colspan="2" class="menuhead">{intl-headline}</td>
 </tr>
@@ -33,7 +34,6 @@
 	<input class="stdbutton" type="submit" value="{intl-vote}" />
 	</td>
 </tr>
-</form>
 </table>
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
@@ -45,8 +45,7 @@
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="/poll/polls">{intl-polls}</a></td>
 </tr>
-<tr>
-	<td colspan="2" class="menuspacer">&nbsp;</td>
-</tr>
 </table>
+
+</form>
 
