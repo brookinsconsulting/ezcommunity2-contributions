@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.26 2001/02/26 09:53:22 pkej Exp $
+// $Id: messagereply.php,v 1.27 2001/02/26 10:08:02 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -85,6 +85,7 @@ if ( $StartAction == "reply" )
                 
                 $mailTemplate->set_var( "topic", $msg->topic() );
                 $mailTemplate->set_var( "body", $msg->body( false ) );
+                $mailTemplate->set_var( "your_link", "http://" . $headersInfo["Host"] . "/forum/message/" . $message->id() );
                 $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
 
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
