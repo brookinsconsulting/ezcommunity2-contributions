@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.12 2000/12/23 15:49:22 bf Exp $
+// $Id: messageedit.php,v 1.13 2001/01/11 18:29:28 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztemplate.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );

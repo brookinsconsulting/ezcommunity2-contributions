@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.13 2000/12/19 13:52:04 ce Exp $
+// $Id: message.php,v 1.14 2001/01/11 18:31:30 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -30,6 +30,7 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/eztemplate.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
