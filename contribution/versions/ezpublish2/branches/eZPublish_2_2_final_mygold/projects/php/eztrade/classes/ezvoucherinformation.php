@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.1 2001/10/22 11:52:22 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.2 2001/10/22 12:12:50 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -67,7 +67,8 @@ class eZVoucherInformation
         }
         else if ( $id != -1 )
         {
-            $this->ID = $id;
+            if ( is_numeric ( $id ) )
+                $this->ID = $id;
             $this->get( $this->ID );
         }
     }
