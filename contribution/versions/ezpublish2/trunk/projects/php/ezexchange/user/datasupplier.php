@@ -38,6 +38,13 @@ switch ( $ListType )
                 $ProductID = $url_array[4];
                 $CategoryID = $url_array[5];
                 $cachedFile = "ezexchange/cache/productprint," .$ProductID . "," . $CategoryID .".cache";
+            case "view":
+            {
+                $ProductID = $url_array[4];
+                $CategoryID = $url_array[5];
+                include( "ezexchange/user/productview.php" );
+                break;
+            }
             case "quote":
             case "offer":
             case "rfq":
@@ -54,13 +61,6 @@ switch ( $ListType )
                 $ProductID = $url_array[4];
                 $CategoryID = $url_array[5];
                 include( "ezexchange/user/quoteedit.php" );
-                break;
-            }
-            case "view":
-            {
-                $ProductID = $url_array[4];
-                $CategoryID = $url_array[5];
-                include( "ezexchange/user/productview.php" );
                 break;
             }
             case "list":
