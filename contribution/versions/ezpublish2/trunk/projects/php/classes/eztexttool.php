@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.1 2000/10/16 09:16:34 bf-cvs Exp $
+// $Id: eztexttool.php,v 1.2 2000/10/16 09:17:59 bf-cvs Exp $
 //
 // Definition of eZTextTool class
 //
@@ -20,11 +20,28 @@
   Theese functions is made as an extention to PHP ie functions you would
   use all the time, but isn't a part of php.
   
+  Example of usage:
+  \code
+  // create a string with newlines
+  $text = "This is
+  a
+  text
+  to break
+  up";
+
+  // convert the newlines to xhtml breaks
+  $text = eZTextTool::nl2br( $text );
+
+  //print out the result
+  print( $text );
+  \endcode
+  
 */
 
 class eZTextTool
 {
     /*!
+      \static
       This function converts all newlines \n into breaks.
 
       The breaks are inserted before every newline.
