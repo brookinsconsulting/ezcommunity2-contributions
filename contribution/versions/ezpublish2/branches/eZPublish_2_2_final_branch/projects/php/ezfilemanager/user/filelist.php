@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.49.2.7 2002/03/06 10:35:04 jhe Exp $
+// $Id: filelist.php,v 1.49.2.8 2002/04/15 11:49:20 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -106,6 +106,8 @@ $t->set_var( "write_menu", "" );
 $t->set_var( "delete_menu", "" );
 $t->set_var( "current_folder", "" );
 $t->set_var( "current_folder_description", "" );
+$t->set_var( "folder", "" );
+
 
 if ( $folder->id() != 0 )
 {
