@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.2 2001/03/01 14:06:26 jb Exp $
+// $Id: categorylist.php,v 1.3 2001/03/26 16:54:05 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Nov-2000 09:23:42 bf>
@@ -23,95 +23,132 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-include_once( "classes/eztemplate.php" );
-include_once( "classes/ezlocale.php" );
-include_once( "classes/ezcurrency.php" );
 
-$ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZTradeMain", "Language" );
+$PageCaching =& $ini->read_var( "eZTradeMain", "PageCaching");
 
-include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezproductcategory.php" );
+$PureStatic = "false";
 
-$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/user/intl/", $Language, "categorylist.php" );
-
-$t->set_file( "category_list_page_tpl", "categorylist.tpl" );
-
-$t->set_block( "category_list_page_tpl", "category_list_tpl", "category_list" );
-$t->set_block( "category_list_tpl", "category_tpl", "category" );
-
-
-$t->setAllStrings();
-
-$category = new eZProductCategory(  );
-$category->get( $CategoryID );
-
-
-$categoryList = $category->getByParent( $category );
-
-// categories
-$i=0;
-foreach ( $categoryList as $categoryItem )
+if ( $PageCaching == "enabled" )
 {
-    $t->set_var( "category_id", $categoryItem->id() );
-
-    $t->set_var( "category_name", $categoryItem->name() );
-
-    $t->set_var( "category_description", $categoryItem->description() );
-
-    $parent = $categoryItem->parent();
-    
-    if ( $categoryItem->parent() != 0 )
+    include_once( "classes/ezcachefile.php" );
+    $CacheFile = new eZCacheFile( "eztrade/cache/",
+                                  array( "cateorylist", $CategoryID ),
+                                  "cache", "," );
+    if ( $CacheFile->exists() )
     {
+        include( $CacheFile->filename( true ) );
+        $PureStatic = "true";
+    }
+    else
+    {
+        $GenerateStaticPage = "true";
+    }
+}
+
+
+if ( $PureStatic != "true" )
+{
+    include_once( "classes/INIFile.php" );
+    include_once( "classes/eztemplate.php" );
+    include_once( "classes/ezlocale.php" );
+    include_once( "classes/ezcurrency.php" );
+
+    $ini =& INIFile::globalINI();
+    $Language = $ini->read_var( "eZTradeMain", "Language" );
+
+    include_once( "eztrade/classes/ezproduct.php" );
+    include_once( "eztrade/classes/ezproductcategory.php" );
+
+    $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                         "eztrade/user/intl/", $Language, "categorylist.php" );
+
+    $t->set_file( "category_list_page_tpl", "categorylist.tpl" );
+
+    $t->set_block( "category_list_page_tpl", "category_list_tpl", "category_list" );
+    $t->set_block( "category_list_tpl", "category_tpl", "category" );
+
+
+    $t->setAllStrings();
+
+    $category = new eZProductCategory(  );
+    $category->get( $CategoryID );
+
+
+    $categoryList = $category->getByParent( $category );
+
+    // categories
+    $i=0;
+    foreach ( $categoryList as $categoryItem )
+    {
+        $t->set_var( "category_id", $categoryItem->id() );
+
+        $t->set_var( "category_name", $categoryItem->name() );
+
+        $t->set_var( "category_description", $categoryItem->description() );
+
         $parent = $categoryItem->parent();
-        $t->set_var( "category_parent", $parent->name() );
+
+        if ( $categoryItem->parent() != 0 )
+        {
+            $parent = $categoryItem->parent();
+            $t->set_var( "category_parent", $parent->name() );
+        }
+        else
+        {
+            $t->set_var( "category_parent", "&nbsp;" );
+        }
+
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
+
+        $t->parse( "category", "category_tpl", true );
+        $i++;
+    }
+    if ( count( $categoryList ) == 0 )
+    {
+        $t->set_var( "category_list", "" );
     }
     else
     {
-        $t->set_var( "category_parent", "&nbsp;" );
+        $t->parse( "category_list", "category_list_tpl" );
     }
 
-    if ( ( $i % 2 ) == 0 )
+
+
+    if ( $GenerateStaticPage == "true" )
     {
-        $t->set_var( "td_class", "bglight" );
+        $output = $t->parse( $target, "category_list_page_tpl" );
+        // print the output the first time while printing the cache file.
+        print( $output );
+        $CacheFile->store( $output );
     }
     else
     {
-        $t->set_var( "td_class", "bgdark" );
+        $t->pparse( "output", "category_list_page_tpl" );
     }
-
-    
-    $t->parse( "category", "category_tpl", true );
-    $i++;
-}
-if ( count( $categoryList ) == 0 )
-{
-    $t->set_var( "category_list", "" );
-}
-else
-{
-    $t->parse( "category_list", "category_list_tpl" );
 }
 
+//  if ( $GenerateStaticPage == "true" )
+//  {
+//      $fp = fopen ( $CachedFile, "w+");
 
-
-if ( $GenerateStaticPage == "true" )
-{
-    $cachedFile = "eztrade/cache/cateorylist," . $CategoryID .".cache";
-    $fp = fopen ( $cachedFile, "w+");
-
-    $output = $t->parse( $target, "category_list_page_tpl" );
-    // print the output the first time while printing the cache file.
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->pparse( "output", "category_list_page_tpl" );
-}
+//      $output = $t->parse( $target, "category_list_page_tpl" );
+//      // print the output the first time while printing the cache file.
+//      print( $output );
+//      fwrite ( $fp, $output );
+//      fclose( $fp );
+//  }
+//  else
+//  {
+//      $t->pparse( "output", "category_list_page_tpl" );
+//  }
 
 
 ?>
