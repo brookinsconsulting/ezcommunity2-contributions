@@ -23,15 +23,16 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/ezhttptool.php" );
 
+include_once( "classes/ezhttptool.php" );
 
 $URL = split( "/", $REQUEST_URI );
 
 if( is_numeric( $URL[8] ) )
-	$masterGroupID = $URL[8];
+    $masterGroupID = $URL[8];
 else
-$masterGroupID = 0;
+    $masterGroupID = 0;
+
 
 if ( isSet( $DeleteEvents ) )
 {
@@ -118,12 +119,9 @@ else if ( isSet( $GoNew ) )
     exit();
 }
 
-
 if ( isSet( $AddFile ) )
 {
   //  $Action = "AddFile";
-  //  die("AddFile");
-
   // add files
   eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/filelist/$eventID/" );
   exit();
@@ -248,7 +246,6 @@ $t->set_var( "group_name_edit", "" );
 $t->set_var( "group_name_new", "" );
 
 
-
 // no user logged on
 if( $userID == false )
 {
@@ -260,7 +257,7 @@ if( $userID == false )
     $t->pparse( "output", "event_edit_tpl" );
 
     $groupError = true;
-	$errorPrint = true;
+    $errorPrint = true;
 }
 
 //set the group to a non valid group
@@ -393,7 +390,7 @@ if ( $Action == "DeleteEvents" )
 
 	//get the date from the first event to be deleted
 	$tmpAppointment = new eZGroupEvent( $eventArrayID[0]);
-    $datetime = $tmpAppointment->dateTime();
+        $datetime = $tmpAppointment->dateTime();
 
     if ( count ( $eventArrayID ) != 0 )
     {
@@ -454,6 +451,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         $year = $dt->year();
         $month = $dt->month();
         $day = $dt->day();
+
         eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
         exit();
     }
@@ -543,9 +541,9 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         if ( $IsAllDay == "on" )
         {
             $starthour = $dayStartArray[2];
-			$startmin  = $dayStartArray[3];
-			$stophour  = $dayStopArray[2];
-			$stopmin   = $dayStopArray[3];
+	    $startmin  = $dayStartArray[3];
+	    $stophour  = $dayStopArray[2];
+	    $stopmin   = $dayStopArray[3];
 
             $startTime->setHour( $starthour );
             $startTime->setMinute( $startmin  );
@@ -734,11 +732,11 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 
 			$t->set_var( "is_all_day", "" );
 			if( $startHour = $dayStarthour && $startMinute == $dayStartMin && $stopHour == $dayStopHour && $stopMinute == $dayStopMin )
-				$t->set_var( "is_all_day", "checked" );
+			$t->set_var( "is_all_day", "checked" );
 
 			$minuteInterval = $ini->read_var( "eZGroupEventCalendarMain", "MinutesSelectInterval" );
-
 			$minute_array    = array();
+
 			for( $i=0; $i<60; $i = $i + $minuteInterval )
 			{
 				$i = addZero( $i );
@@ -810,11 +808,12 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
     }
 }
 
+
 $t->set_var( "user_error", "" );
 
 if ( ($Action == "Insert" || $Action == "Update")  && $groupError == true )
 {
-	$t->set_var( "no_error", "" );
+    $t->set_var( "no_error", "" );
     $t->set_var( "no_user_error", "" );
 
     $t->parse( "wrong_user_error", "wrong_user_error_tpl" );
@@ -943,18 +942,18 @@ if ( $Action == "Edit" && $groupError == false )
 	//set the history bar data
 	$t->parse( "edit_history", "edit_history_tpl", true );
 
-    $type =& $event->type();
-    $typeID = $type->id();
+        $type =& $event->type();
+        $typeID = $type->id();
 
-    $category =& $event->category();
-    $categoryID = $category->id();
+        $category =& $event->category();
+        $categoryID = $category->id();
 
-    $date  = $event->dateTime();
-	$year  = $date->year();
-    $month = $date->month();
-    $day   = $date->day();
+        $date  = $event->dateTime();
+        $year  = $date->year();
+        $month = $date->month();
+        $day   = $date->day();
 
-    $tmpdate = new eZDate( $year, $month, $day );
+        $tmpdate = new eZDate( $year, $month, $day );
 	
 	$startTime   =& $event->startTime();
 	$startHour   = ( addZero( $startTime->hour() ) );
@@ -1119,12 +1118,13 @@ if ( $Action == "Edit" && $groupError == false )
       $t->set_var( "2_status_selected", "selected" );
 
 
-    $dt =& $event->dateTime();
+        $dt =& $event->dateTime();
 	$today = new eZDate();
 
 	$tempYear = addZero( $today->year() );
-    //$tempYear = $tmpdate->year();
+        //$tempYear = $tmpdate->year();
 	$yearsPrint = $ini->read_var( "eZGroupEventCalendarMain", "YearsPrint" );
+
 	for( $i=1; $i<=$yearsPrint; $i++ )
 	{
 		if( $dt->year() == $tempYear )
@@ -1156,7 +1156,7 @@ if ( $Action == "Edit" && $groupError == false )
 if ( $TitleError == true )
 {
     $t->parse( "title_error", "title_error_tpl" );
-	$t->set_var( "action_value", "insert" );
+    $t->set_var( "action_value", "insert" );
 }
 else
     $t->set_var( "title_error", "" );
@@ -1164,7 +1164,7 @@ else
 if ( $GroupInsertError == true )
 {
     $t->parse( "group_error", "group_error_tpl" );
-	$t->set_var( "action_value", "insert" );
+    $t->set_var( "action_value", "insert" );
 }
 else
     $t->set_var( "group_error", "" );
@@ -1172,7 +1172,7 @@ else
 if ( $StartTimeError == true )
 {
     $t->parse( "start_time_error", "start_time_error_tpl" );
-	$t->set_var( "action_value", "insert" );
+    $t->set_var( "action_value", "insert" );
 }
 else
     $t->set_var( "start_time_error", "" );
@@ -1180,7 +1180,7 @@ else
 if ( $StopTimeError == true )
 {
     $t->parse( "stop_time_error", "stop_time_error_tpl" );
-	$t->set_var( "action_value", "insert" );
+    $t->set_var( "action_value", "insert" );
 }
 else
     $t->set_var( "stop_time_error", "" );
@@ -1201,7 +1201,20 @@ if ( $Action == "New" && $groupError == false )
 
 		// build the group drop down list
 
-			$noshow_array = $noShowGroup->getAll();
+		$noshow_array = $noShowGroup->getAll();
+
+		// kracker : Add entry for event to be in all groups
+		$t->set_var( "group_member_name", "All Groups" );
+		$t->set_var( "group_member_id", 0 );
+
+		// if ( $groups->id() == $StoreByGroupID )
+		if ( $event->groupID() == 0 )
+		  $t->set_var( "group_is_selected", "selected" );
+		else
+		  $t->set_var( "group_is_selected", "" );
+
+		$t->parse( "group_item", "group_item_tpl", true );
+
 
 		foreach( $groupsList as $groups )
 		{
@@ -1227,6 +1240,9 @@ if ( $Action == "New" && $groupError == false )
     $t->set_var( "action_value", "insert" );
     $t->set_var( "appointment_id", "new" );
     $t->set_var( "name_value", "" );
+    $t->set_var( "location_value", "" );
+    $t->set_var( "url_value", "" );
+
     $t->set_var( "description_value", "" );
     $t->set_var( "is_private", "" );
     $t->set_var( "start_value", "" );
@@ -1325,6 +1341,17 @@ if ( $Action == "New" && $groupError == false )
 			$t->set_var( "start_am", "checked" );
 		}
 
+                if( $stopHour >= 12 )
+		  {
+		    $t->set_var( "stop_am", "unchecked" );
+		    $t->set_var( "stop_pm", "checked" );
+		  }
+                else
+		  {
+		    $t->set_var( "stop_pm", "unchecked" );
+		    $t->set_var( "stop_am", "checked" );
+		  }
+
 		$startHour = convertToTwelve( $startHour );
 
 		$t->parse( "start_ampm_radio", "start_ampm_radio_tpl" );
@@ -1337,7 +1364,7 @@ if ( $Action == "New" && $groupError == false )
 		$hour_array   = array('00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23');
 	}
 
-    $t->set_var( "is_start_hour_selected", "" );
+        $t->set_var( "is_start_hour_selected", "" );
 	$t->set_var( "is_start_minute_selected", "" );
 	$t->set_var( "is_stop_hour_selected", "" );
 	$t->set_var( "is_stop_minute_selected", "" );
@@ -1366,7 +1393,7 @@ if ( $Action == "New" && $groupError == false )
 }
 elseif( $Action == "New" && $groupError == true && $errorPrint == false )
 {
-	$t->set_var( "no_error", "" );
+    $t->set_var( "no_error", "" );
     $t->set_var( "no_user_error", "" );
 
     $t->parse( "wrong_user_error", "wrong_user_error_tpl" );
