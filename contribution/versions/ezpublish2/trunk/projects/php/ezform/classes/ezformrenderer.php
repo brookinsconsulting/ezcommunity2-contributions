@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.37 2001/12/22 12:14:14 jhe Exp $
+// $Id: ezformrenderer.php,v 1.38 2001/12/22 18:34:27 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -536,7 +536,19 @@ class eZFormRenderer
         $db =& eZDB::globalDatabase();
         $page = new eZFormPage( $pageID );
         $elements = $page->pageElements();
-        foreach ( $elements as $element )
+
+        $elementList = array_merge( $elements, array() );
+        
+        foreach ( $elements as $e )
+        {
+            if ( $e->ElementType->name() == "table_item" )
+            {
+                $elementList = array_merge( $elementList, eZFormTable::tableElements( $e->id() ) );
+            }
+        }
+
+        
+        foreach ( $elementList as $element )
         {
             $elementName = "eZFormElement_" . $element->id();
 
@@ -550,7 +562,6 @@ class eZFormRenderer
                 $value = $qa[$db->fieldName( "ID" )];
             }
             $conditionArray = $element->getConditions();
-
             // Small hack to make goto page work
             if ( count( $conditionArray ) == 1 )
             {
@@ -569,7 +580,7 @@ class eZFormRenderer
             }
         }
 
-        $db->query_single( $qa, "SELECT FormID, Placement FROM eZForm_FormPage WHERE ID='$pageID'" );
+        $db->query_single( $qa, "aSELECT FormID, Placement FROM eZForm_FormPage WHERE ID='$pageID'" );
         $next = $qa[$db->fieldName( "Placement" )] + 1;
         $db->query_single( $nextPage, "SELECT ID FROM eZForm_FormPage
                                        WHERE FormID='" . $qa[$db->fieldName( "FormID" )] . "' AND
@@ -659,7 +670,15 @@ class eZFormRenderer
             if ( $elementType->name() == "numerical_float_item" )
             {
                 $numElement = new eZFormElementNumerical( $element->id() );
-                if ( !$numElement->validNumber( $value ) )
+                if ( $numElement->id() == 0 )
+                {
+                    if ( !is_numeric( $value ) && $value != "" )
+                    {
+                        $errorMessages[] = "float_field";
+                        $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
+                    }
+                }
+                else if ( !$numElement->validNumber( $value ) )
                 {
                     $errorMessages[] = "float_field";
                     $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;

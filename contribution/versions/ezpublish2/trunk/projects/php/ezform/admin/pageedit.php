@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.29 2001/12/22 12:14:14 jhe Exp $
+// $Id: pageedit.php,v 1.30 2001/12/22 18:34:27 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -566,7 +566,7 @@ if ( $elementChoiceID == -1 )
     $element = new eZFormElement( $elements[0]->id() );
 }
 else
-{   
+{
     $element = new eZFormElement( $elementChoiceID );
 }
 
@@ -576,7 +576,6 @@ if ( $element )
     
     // parse the valid jump elements.
     $elements = $page->pageElements();
-    
     if ( count( $elements ) > 0 )
     {
         $t->set_var( "prev_element", $elementChoiceID );

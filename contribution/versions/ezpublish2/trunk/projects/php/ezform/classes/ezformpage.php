@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.9 2001/12/19 15:55:06 br Exp $
+// $Id: ezformpage.php,v 1.10 2001/12/22 18:34:27 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -504,7 +504,36 @@ class eZFormPage
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $q, "select eZForm_FormCondition.ElementID as ID from eZForm_FormCondition, eZForm_PageElementDict where eZForm_FormCondition.ElementID=eZForm_PageElementDict.ElementID AND eZForm_PageElementDict.PageID=" . $this->ID );
-        return $q[$db->fieldName( "ID" )];
+        if ( $q[$db->fieldName( "ID" )] > 0 )
+        {
+            return $q[$db->fieldName( "ID" )];
+        }
+        else
+        {
+            $elements = $this->pageElements();
+            $str = "";
+            $i = 0;
+            $elementList = array();
+            foreach ( $elements as $tableElement )
+            {
+                if ( $tableElement->ElementType->name() == "table_item" )
+                {
+                    $elementList = array_merge( $elementList, eZFormTable::tableElements( $tableElement->id() ) );
+                }
+            }
+
+            foreach ( $elementList as $e )
+            {
+                if ( $i > 0 && $i < count( $elementList ) )
+                    $str .= "OR ";
+                
+                $str .= "ElementID='" . $e->id() . "' ";
+                $i++;
+            }
+
+            $db->query_single( $q, "select ElementID from eZForm_FormCondition WHERE $str" );
+            return $q[$db->fieldName( "ElementID" )];
+        }
     }
     
     var $ID;
