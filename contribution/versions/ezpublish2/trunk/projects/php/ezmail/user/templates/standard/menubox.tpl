@@ -29,10 +29,12 @@
 	<td colspan="2" class="menusubhead">{intl-folders}:</td>
 </tr>
 <!-- BEGIN mail_folder_tpl -->
+</table>
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 <!--	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>-->
-	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/mail/folder/{folder_id}">{indent}{folder_name}</a></td>
+	<td width="1%" valign="top">{indent}<img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/mail/folder/{folder_id}">{folder_name}</a></td>
 </tr>
 <!-- END mail_folder_tpl -->
 
