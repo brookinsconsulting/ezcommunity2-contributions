@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsuser.php,v 1.2 2000/10/14 01:40:51 pkej-cvs Exp $
+// $Id: eznewsuser.php,v 1.3 2000/10/16 12:17:43 pkej-cvs Exp $
 //
 // Definition of eZNewsUser class
 //
@@ -58,7 +58,7 @@ class eZNewsUser
         \return
             Returns true if successful.
      */
-    function doActions()
+    function doActions( $inMeta = false )
     {
         #echo "eZNewsItemViewer::doActions()<br />\n";
         $value = false;

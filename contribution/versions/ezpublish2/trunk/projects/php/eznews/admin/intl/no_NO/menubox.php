@@ -13,7 +13,7 @@
 	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Hundehus">Hundehus</a><br>
 	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Planter">Planter</a><br>
     <br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/article?create+child">Legg til artikkel</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Blomster?create+child">Legg til artikkel</a><br>
 	</td>
 </tr>
 <tr>
