@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.80 2001/08/15 14:50:56 ce Exp $
+// $Id: ezarticlecategory.php,v 1.81 2001/08/15 14:54:53 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -995,7 +995,7 @@ class eZArticleCategory
        // fetch all articles
        if ( $fetchAll  == true )             
        {
-           $publishedSQL = " AND ";
+           $publishedSQL = " ";
        }
        
        // fetch only published articles
@@ -1116,7 +1116,7 @@ class eZArticleCategory
        // fetch all articles
        if ( $fetchAll  == true )             
        {
-           $publishedSQL = " AND ";
+           $publishedSQL = " ";
        }
       
        // fetch only published articles
