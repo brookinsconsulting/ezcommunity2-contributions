@@ -19,3 +19,11 @@ previous=Previous
 mod: ezarticle/admin, articleedit.php.ini
 change: added
 short_content=Short content
+
+mod: ezarticle/user, menubox.php.ini
+change: added
+index=Index
+
+mod: ezarticle/user, index.php.ini
+change: new file
+head_line=Keyword index

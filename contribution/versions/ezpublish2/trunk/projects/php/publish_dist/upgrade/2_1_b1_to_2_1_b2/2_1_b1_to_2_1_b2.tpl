@@ -9,3 +9,5 @@ ezbulkmail/user/templates/standard/subscriptionlogin.tpl (new)
 ezbulkmail/user/templates/standard/usermessages.tpl (new)
 ezarticle/user/templates/standard/search.tpl
 ezarticle/user/templates/standard/extendedsearch.tpl
+ezarticle/user/templates/standard.index.tpl (new)
+ezarticle/usre/templates/standard/menubox.tpl
