@@ -59,21 +59,21 @@ ezmodule        projects/php/ezmodule
 ezbulkmail	projects/php/ezbulkmail
 
 # Distribution
-publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail
-trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin
+publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule
+trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin &ezmodule
 
 # site alias
-zez_modules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin   
-no_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin
-en_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact
-shop_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact
-developer_modeules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezbug 
-sourceprovider_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztrade
+zez_modules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezmodule  
+no_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin &ezmodule
+en_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &ezmodule
+shop_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &ezmodule
+developer_modeules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezbug &ezmodule
+sourceprovider_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztrade &ezmodule
 
-seanex_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezclassified &eznewsfeed &ezad &ezcv
+seanex_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezclassified &eznewsfeed &ezad &ezcv &ezmodule
 
-arkaden_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
-sealine_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
+arkaden_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezmodule
+sealine_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezmodule
 
 
 
