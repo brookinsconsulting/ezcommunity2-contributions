@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.10 2000/07/24 12:44:03 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.11 2000/07/24 12:58:01 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -232,13 +232,17 @@ class eZforumMessage
         $this->setEmailNotice( "N" );
     }
     
-    function postingTime()
+    function formatTime( $t )
     {
-        $t = $this->PostingTime;
         $returnTime = $t[4] . $t[5] ."/". $t[2] . $t[3] ."/20". $t[0] . $t[1] . " ";
         $returnTime .= $t[6] . $t[7] . ":" . $t[8] . $t[9] . ":" . $t[10] . $t[11];
         
         return $returnTime;
+    }
+
+    function postingTime()
+    {
+        return $this->formatTime( $this->PostingTime );
     }
 
     /*!

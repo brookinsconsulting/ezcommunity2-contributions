@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.7 2000/07/24 12:51:11 lw-cvs Exp $
+    $Id: main.php,v 1.8 2000/07/24 12:58:01 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -68,7 +68,7 @@ if ( $search )
         $t->set_var( "nr", $i + 1 );
         $t->set_var( "topic", $headers[$i]["Topic"] );
         $t->set_var( "author", $usr->resolveUser( $headers[$i]["UserId"] ) );
-        $t->set_var( "time", $headers[$i]["PostingTime"] );
+        $t->set_var( "time", eZforumMessage::formatTime( $headers[$i]["PostingTime"] ) );
         //$t->set_var( "forum",  );
         $t->set_var( "forum", "&nbsp;" );
 
