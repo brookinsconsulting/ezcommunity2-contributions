@@ -30,6 +30,7 @@ Changes from 2.2.4 to 2.2.5
 * Fixed bug in eZ filemanager in fileview.
 * Fixed bug in eZ imagecatalogue when browsing images in imagelist
 * fixed bug with day and month report in eZ stats.
+* Fixed bug in eZ imagecatalogue with permissions on images in the imagelist.
 
 Changes from 2.2.3 to 2.2.4
 ---------------------------
