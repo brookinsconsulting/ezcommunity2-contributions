@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.12 2001/01/25 19:08:20 ce Exp $
+// $Id: ezvirtualfile.php,v 1.13 2001/01/30 11:45:49 jb Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -493,6 +493,55 @@ class eZVirtualfile
        }
        
        return $path;
+    }
+
+    /*!
+      Returns the size of the file.
+    */
+
+    function &fileSize()
+    {
+        $filepath =& $this->filePath( true );
+        $size = filesize( $filepath );
+        return $size;
+    }
+
+    /*!
+      Returns the size of the file in a shortened form useful for printing to the user,
+      the returned value is an array with the filesize, the size as a shortened string
+      and the unit. The keys used for fetching the various are:
+      "size" - The full file size
+      "size-string" - The shortened file size
+      "unit" - The unit for the shortened size.
+    */
+
+    function &shortenedFileSize()
+    {
+        $size = $this->fileSize();
+        $units = array( "Gb" => 10737741824,
+                        "Mb" => 1048576,
+                        "Kb" => 1024,
+                        "b" => 0 );
+        $decimals = 0;
+        $shortsize = $size;
+        while( list($unit_key,$val) = each( $units ) )
+        {
+            if ( $size >= $val )
+            {
+                $unit = $unit_key;
+                if ( $val > 0 )
+                {
+                    $decimals = 2;
+                    $shortsize = $size / $val;
+                }
+                break;
+            }
+        }
+        $shortsize = number_format( ( $shortsize ), $decimals);
+        $size = array( "size" => $size,
+                       "size-string" => $shortsize,
+                       "unit" => $unit );
+        return $size;
     }
 
     /*!
