@@ -6,7 +6,7 @@
 {begin_tr}
 	<td class="menutext">
 
-	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
+	<a class="menutext" href="http://shop.ez.no/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
 
 	<!-- BEGIN product_image_tpl -->
 
