@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.24 2001/09/27 09:06:27 jb Exp $
+// $Id: index_xmlrpc.php,v 1.25 2001/09/29 11:22:23 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -29,7 +29,7 @@ if ( file_exists( "sitedir.ini" ) )
     include_once( "sitedir.ini" );
 }
 
-// TODO: This needs a better analysis
+// Preparing variables for nVH setup
 if ( isset( $siteDir ) and $siteDir != "" )
 {
     $includePath = ini_get( "include_path" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.17 2001/09/27 15:20:35 bf Exp $
+// $Id: index_admin.php,v 1.18 2001/09/29 11:22:23 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -34,7 +34,7 @@ if ( file_exists( "sitedir.ini" ) )
     include_once( "sitedir.ini" );
 }
 
-// TODO: This needs a better analysis
+// Preparing variables for nVH setup
 if ( isset( $siteDir ) and $siteDir != "" )
 {
     $includePath = ini_get( "include_path" );

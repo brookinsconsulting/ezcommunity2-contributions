@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.112 2001/09/27 14:28:45 bf Exp $
+// $Id: index.php,v 1.113 2001/09/29 11:22:23 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -34,7 +34,7 @@ if ( file_exists( "sitedir.ini" ) )
     include_once( "sitedir.ini" );
 }
 
-// TODO: This needs a better analysis
+// Preparing variables for nVH setup
 if ( isSet( $siteDir ) and $siteDir != "" )
 {
     $includePath = ini_get( "include_path" );
@@ -138,10 +138,14 @@ if ( $StoreStats == "enabled" )
     // do the statistics
     include_once( "ezstats/classes/ezpageview.php" );
 
-    // create a global page view object for statistics
-    // and store the stats
-//    $GlobalPageView = new eZPageView();
-//    $GlobalPageView->store();
+    // if we are using nVH setup, we need to store our stats here
+    if ( isSet( $siteDir ) and $siteDir != "" )
+    {
+        // create a global page view object for statistics
+        // and store the stats
+        $GlobalPageView = new eZPageView();
+        $GlobalPageView->store();
+    }
 }
 
 // parse the URI
