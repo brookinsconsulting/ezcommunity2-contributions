@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.20 2003/01/07 13:46:20 br Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.21 2003/02/06 14:30:12 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -150,7 +150,7 @@ class eZQDomrenderer
     {
         $UsedImageList = array();
         $RollOverCount = 0;
-        
+
         $ini =& INIFile::globalINI();
 
         $this->Template = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
@@ -560,6 +560,7 @@ class eZQDomrenderer
             $articleImages = $this->Article->images();
             $articleID = $this->Article->id();
 
+
             $level = 1;
             if  ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $attr )
@@ -624,6 +625,7 @@ class eZQDomrenderer
             $mapString = "";
             if ( is_object( $image ) && ( $image->hasMap() == true ) )
             {
+                print( "object image<br>" );
                 $hasMap = true;
                 include_once( "ezarticle/classes/ezimagemap.php" );
                 $map = new eZImageMap( $image->id() );
@@ -659,10 +661,8 @@ class eZQDomrenderer
                              $elementParts[6] . "\" href=\"" . $imageMapHref . "\" />\n";
                     }
                 }
-                
                 $mapString .= "</map>\n";
             }
-            
 
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )
@@ -952,8 +952,6 @@ class eZQDomrenderer
         return $pageContent;
     }
 
-
-
     function &renderPlain( $paragraph )
     {
         // ordinary text
@@ -1013,7 +1011,7 @@ class eZQDomrenderer
                             }
 
                         }
-                        $lines[] = $content;                        
+                        $lines[] = $content;
                     }
                     else
                     {
@@ -1250,6 +1248,7 @@ class eZQDomrenderer
 				$target = "";
             $this->Template->set_var( "target", $target );
             $this->Template->set_var( "link_text", $text );
+
             $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
         }
 
@@ -1455,10 +1454,11 @@ class eZQDomrenderer
     */
     function &renderTable( $paragraph )
     {
+        $template = $this->Template;
         if ( $paragraph->name == "table" )
         {
-            $this->Template->set_var( "tr", "" );
-            $this->Template->set_var( "td", "" );
+            $template->set_var( "tr", "" );
+            $template->set_var( "td", "" );
 
             $tableWidth = "100%";
             $tableBorder = 1;
@@ -1484,13 +1484,12 @@ class eZQDomrenderer
             {
                 if ( $row->name == "tr" )
                 {
-                    $this->Template->set_var( "td", "" );
+                    $template->set_var( "td", "" );
 
                     foreach ( $row->children as $data )
                     {
                         if ( $data->name == "td" )
                         {
-
                             $tdWidth = "";
                             $tdColspan = 1;
                             $tdRowspan = 1;
@@ -1518,19 +1517,19 @@ class eZQDomrenderer
                                 }
 
                             $childrenData =& $this->renderChildren( $data );
-                            $this->Template->set_var( "contents", $childrenData );
-                            $this->Template->set_var( "td_width", $tdWidth );
-                            $this->Template->set_var( "td_colspan", $tdColspan );
-                            $this->Template->set_var( "td_rowspan", $tdRowspan );
-                            $this->Template->parse( "td", "td_tpl", true );
+                            $template->set_var( "contents", $childrenData );
+                            $template->set_var( "td_width", $tdWidth );
+                            $template->set_var( "td_colspan", $tdColspan );
+                            $template->set_var( "td_rowspan", $tdRowspan );
+                            $template->parse( "td", "td_tpl", true );
                         }
                     }
-                    $this->Template->parse( "tr", "tr_tpl", true );
+                    $template->parse( "tr", "tr_tpl", true );
                 }
             }
-            $this->Template->set_var( "table_width", $tableWidth );
-            $this->Template->set_var( "table_border", $tableBorder );
-            $pageContent =& $this->Template->parse( "table", "table_tpl" );
+            $template->set_var( "table_width", $tableWidth );
+            $template->set_var( "table_border", $tableBorder );
+            $pageContent =& $template->parse( "table", "table_tpl" );
         }
 
         return $pageContent;
