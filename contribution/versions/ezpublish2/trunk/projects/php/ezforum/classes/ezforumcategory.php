@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.29 2001/02/23 09:22:41 pkej Exp $
+// $Id: ezforumcategory.php,v 1.30 2001/02/26 16:35:09 pkej Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -78,7 +78,7 @@ class eZForumCategory
         {
             $db->query( "INSERT INTO eZForum_Category SET
 		                         Name='$this->Name',
-		                         Description='$this->Description'
+		                         Description='$this->Description',
 		                         IsPrivate='$this->IsPrivate'
                                  " );
 
@@ -91,7 +91,7 @@ class eZForumCategory
             $db->query( "UPDATE eZForum_Category SET
 		                         Name='$this->Name',
 		                         Description='$this->Description'
-		                         IsPrivate='$this->IsPrivate'
+		                         IsPrivate='$this->IsPrivate',
                                  WHERE ID='$this->ID'
                                  " );
 
