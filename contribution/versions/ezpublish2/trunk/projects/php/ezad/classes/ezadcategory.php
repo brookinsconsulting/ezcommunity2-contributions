@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadcategory.php,v 1.24 2001/08/20 14:59:25 br Exp $
+// $Id: ezadcategory.php,v 1.25 2001/08/23 11:48:35 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -457,8 +457,10 @@ class eZAdCategory
            $fetchActiveSQL = "AND eZAd_Ad.IsActive = '1'";
        }
 
-       $orderBySQL = "eZAd_Ad.Name ASC";       
-       $orderBySQL = "eZAd_View.ViewCount ASC";
+       if ( $sortMode == "name" )
+           $orderBySQL = "eZAd_Ad.Name ASC";
+       else       
+           $orderBySQL = "eZAd_View.ViewCount ASC";
 
        $db->array_query( $ad_array,
        "SELECT eZAd_Ad.ID, eZAd_View.ViewCount, eZAd_Ad.Name
