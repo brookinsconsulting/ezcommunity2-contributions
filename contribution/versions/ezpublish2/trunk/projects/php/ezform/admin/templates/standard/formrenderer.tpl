@@ -24,13 +24,13 @@
 
 <!-- BEGIN radiobox_item_tpl -->
 <!-- BEGIN radiobox_item_sub_item_tpl -->
-{sub_value}: <input type="radio" name="{field_name}" />
+{sub_value}: <input type="radio" value="{sub_value}" name="{field_name}" />
 <!-- END radiobox_item_sub_item_tpl -->
 <!-- END radiobox_item_tpl -->
 
 <!-- BEGIN checkbox_item_tpl -->
 <!-- BEGIN checkbox_item_sub_item_tpl -->
-{sub_value}: <input type="checkbox" name="{field_name}[]" />
+{sub_value}: <input type="checkbox" value="{sub_value}" name="{field_name}[]" />
 <!-- END checkbox_item_sub_item_tpl -->
 <!-- END checkbox_item_tpl -->
 
