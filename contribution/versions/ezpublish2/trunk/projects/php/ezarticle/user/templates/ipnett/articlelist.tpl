@@ -27,9 +27,7 @@
 <img src="{current_image_url}" alt="{current_image_caption}" width="{current_image_width}" height="{current_image_height}" border="0" />
 -->
 <!-- END current_image_item_tpl -->
-<!--
-<div class="p">{current_category_description}</div>
--->
+<div class="spacer"><div class="p">{current_category_description}</div></div>
 <!--
 </div>
 -->

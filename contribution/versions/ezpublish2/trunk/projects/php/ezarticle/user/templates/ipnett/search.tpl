@@ -1,17 +1,4 @@
-<table width="100%" border="0">
-<tr>
-	<td valign="bottom">
-	<td>
-	<h1>{intl-head_line}</h1>
-	</td>
-	<td align="right">
-	<form action="/article/search/" method="post">
-	<input class="searchbox" type="text" name="SearchText" value="{search_text}" size="10" />	
-	<input class="stdbutton" type="submit" value="{intl-search}" />
-	</form>	
-	</td>
-</tr>
-</table>
+<h1>Artikkelsøk</h1>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

@@ -13,7 +13,7 @@
 </tr>
 </table>
 
-<h2>Search for: "{query_string}"</h2>
+<h2>Søk etter "{query_string}"</h2>
 
 <!-- BEGIN empty_result_tpl -->
 <h2>{intl-empty_result}</h2>
