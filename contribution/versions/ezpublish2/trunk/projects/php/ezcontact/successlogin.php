@@ -1,16 +1,14 @@
 <?
-if ( isset( $BF ) )
-{
-    print( "blablalbalblala" .  $BF );
-}
 include  "template.inc";
+
 require "ezcontact/dbsettings.php";
 require "ezphputils.php";
 
 require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
 
-include( $DOCUMENTROOT . "checksession.php" );
+$inc = $DOCUMENTROOT . "checksession.php";
+include( $inc  );
 
 $t = new Template( "." );
 $t->set_file( array(                    
