@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.29 2000/11/28 14:38:57 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.30 2000/11/29 11:25:12 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -246,7 +246,7 @@ class eZPerson
     /*!
       Returns the address that belong to this eZPerson object.
     */
-    function addresses( $personID )
+    function addresses()
     {
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -254,9 +254,12 @@ class eZPerson
         $return_array = array();
         $this->dbInit();
 
+        $PersonID = $this->ID;
+
+
         $this->Database->array_query( $address_array, "SELECT AddressID
                                                  FROM eZContact_PersonAddressDict
-                                                 WHERE PersonID='$personID'" );
+                                                 WHERE PersonID='$PersonID'" );
 
         foreach( $address_array as $addressItem )
         {
@@ -308,9 +311,11 @@ class eZPerson
         $return_array = array();
         $this->dbInit();
 
+        $PersonID = $this->ID;
+
         $this->Database->array_query( $phone_array, "SELECT PhoneID
                                                  FROM eZContact_PersonPhoneDict
-                                                 WHERE PersonID='$personID'" );
+                                                 WHERE PersonID='$PersonID'" );
 
         foreach( $phone_array as $phoneItem )
             {
@@ -361,10 +366,12 @@ class eZPerson
         
         $return_array = array();
         $this->dbInit();
+        
+        $PersonID = $this->ID;
 
         $this->Database->array_query( $online_array, "SELECT OnlineID
                                                  FROM eZContact_PersonOnlineDict
-                                                 WHERE PersonID='$personID'" );
+                                                 WHERE PersonID='$PersonID'" );
 
         foreach( $online_array as $onlineItem )
         {
