@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pricegroupedit.php,v 1.1 2001/02/26 09:23:48 jb Exp $
+// $Id: pricegroupedit.php,v 1.2 2001/02/27 10:47:07 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <23-Feb-2001 15:32:27 amos>
@@ -36,6 +36,12 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 
 $price = new eZPriceGroup( $PriceID );
+
+if ( isset( $Cancel ) )
+{
+    header( "Location: /trade/pricegroups/list" );
+    exit();
+}
 
 if ( isset( $OK ) )
 {
