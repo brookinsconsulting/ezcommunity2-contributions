@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.3 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: login.php,v 1.4 2000/10/28 11:54:14 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -36,7 +36,6 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
-
 
 // Template
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),

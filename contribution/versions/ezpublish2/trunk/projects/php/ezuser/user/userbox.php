@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.4 2000/10/26 13:02:41 ce-cvs Exp $
+// $Id: userbox.php,v 1.5 2000/10/28 11:54:14 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -37,6 +37,7 @@ include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
+
 $user = eZUser::currentUser();
 if ( !$user ) 
 {
@@ -48,6 +49,8 @@ if ( !$user )
         "login" => "login.tpl"
         ) );
 
+    $t->set_var( "redirect_url", $REQUEST_URI );
+   
     $t->set_var( "action_value", "login" );
     $t->pparse( "output", "login" );
     

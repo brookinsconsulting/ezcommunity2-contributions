@@ -39,5 +39,7 @@
 </tr>
 </table>
 
+<input type="hidden" name="RedirectURL" value="{redirect_url}">
+
 </form>
 
