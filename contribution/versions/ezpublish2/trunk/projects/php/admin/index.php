@@ -12,9 +12,19 @@ include_once( "../common/ezphputils.php" );
 $session = new eZSession();
 
 $ini = new INIFile( "../site.ini" );
-$Db = $ini->read_var( "eZPublishMain", "Database");
 $t = new Template( "." );
 
+$SiteStyle = $ini->read_var( "site", "SiteStyle");
+switch ( $SiteStyle )
+{
+    case "eztrade" :
+        $SiteBackground = "#000064";    
+        break;
+    case "ezpublish" :
+        $SiteBackground = "#640000";
+    
+        break;        
+}
 
 // html header
 include( "header.php" );

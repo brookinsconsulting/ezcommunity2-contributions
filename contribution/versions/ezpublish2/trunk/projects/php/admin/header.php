@@ -3,11 +3,11 @@
 
 <head>
 <title>eZ trade - test</title>
-<link rel="stylesheet" type="text/css" href="/ez.css"/>
+<link rel="stylesheet" type="text/css" href="/<? echo $SiteStyle; ?>.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 </head>
 
-<body bgcolor="#000064">
+<body bgcolor="<? echo $SiteBackground; ?>">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
