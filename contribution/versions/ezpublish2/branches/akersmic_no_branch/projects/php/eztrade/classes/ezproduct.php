@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.16 2002/01/23 13:04:52 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.17 2002/01/24 13:48:19 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1688,6 +1688,9 @@ class eZProduct
             $queryArray = explode( " ", trim( $queryText ) );
 
             $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float, TypeName varchar(60) )" );
+            
+//            $db->query( "CREATE TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float, TypeName varchar(60) )" );
+//            $db->query( "DELETE FROM eZTrade_SearchTemp" );
 
 
             $count = 1;
@@ -1852,6 +1855,7 @@ class eZProduct
                          eZTrade_Type.ID=eZTrade_Product.TypeID  
                          $typeSQL
                         )
+                       GROUP BY eZTrade_Product.ID
                        ORDER BY $OrderBy";
 
                         
@@ -1875,7 +1879,7 @@ class eZProduct
 
             $db->array_query( $product_array, $queryString );
 
-            $db->query( "DROP  TABLE eZTrade_SearchTemp" );
+           $db->query( "DROP  TABLE eZTrade_SearchTemp" );
 
             $SearchTotalCount = count( $product_array );
             if ( $limit >= 0 )
