@@ -84,11 +84,11 @@
 </select>
 <br />
 <br />
-<input type="checkbox" name="IsClosed" {is_closed}/>
+<input type="checkbox" name="IsClosed" {is_closed} />
 <span class="boxtext">{intl-is_closed}</span><br />
 
 <br />
-<input type="checkbox" name="IsPrivate" {is_private}/>
+<input type="checkbox" name="IsPrivate" {is_private} />
 <span class="boxtext">{intl-is_private}</span><br />
 
 <br />
@@ -167,12 +167,13 @@
 	</p>
 	<!-- END log_item_tpl -->	
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
   <td><input name="InsertImage" class="stdbutton" type="submit" value="{intl-add_screenshot}" /></td>
   <td>&nbsp; </td>
-  <td><input name="InsertFile" class="stdbutton" type="submit" value="{intl-add_patch}" </td>
+  <td><input name="InsertFile" class="stdbutton" type="submit" value="{intl-add_patch}" /></td>
   <td>&nbsp; </td>
   <td><input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-del_selected}" /></td>
 </tr>
@@ -180,7 +181,7 @@
 
 <hr noshade="noshade" size="4">
 
-<table cellspacing="0" cellpadding="" border="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
 	<input class="okbutton" type="submit" name="Update" value="{intl-ok}" />
@@ -190,11 +191,11 @@
 	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 	</td>
 </tr>
+</table>
 
 <input type="hidden" name="Action" value="{action_value}">
 <input type="hidden" name="BugID" value="{bug_id}">
 
-</table>
 </form>
 
 
