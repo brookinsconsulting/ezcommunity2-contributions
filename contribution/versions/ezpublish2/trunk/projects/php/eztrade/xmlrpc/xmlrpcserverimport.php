@@ -700,6 +700,7 @@ function insert( $args )
         if ( get_class ( $productOptions[0] ) == "ezoption" )
         {
             $option =& $productOptions[0];
+            $product->addOption( $option );
         }
         else
         {
@@ -743,6 +744,7 @@ function insert( $args )
             {
                 $value->setRemoteID( $optionStruct["RemoteID"]->value() ); 
             }
+
             if ( $struct["productShowPrice"]->value() == false )
             {
                 if ( $optionShowPrice )
@@ -768,11 +770,12 @@ function insert( $args )
                 $value->setTotalQuantity( $optionStruct["TotalQuentity"]->value() );
         }
     }
-    elseif( count( $options ) == 1 )
+    if( count( $options ) == 1 )
     {
         $product->setPrice( $productPrice );
         $product->store();
 
+        print( "her" );
         $value->setPrice( 0 );
     }
 
@@ -791,16 +794,6 @@ function insert( $args )
     elseif ( count ( $parents ) == 1 )
         $category = addToGroup( $productCategory, $product, $parents[0], $oldDesign, $oldCategoryName, true );
 
-//      if ( $update == true )
-//      {
-//          $images = $product->images();
-
-//          foreach( $images as $deleteImage )
-//          {
-//              $product->deleteImage( $deleteImage );
-//              $deleteImage->delete();
-//          }
-//      }
     if ( $productPictureName && $update == false )
     {
         if ( is_file( "tmp/" . $productPictureName ) )
