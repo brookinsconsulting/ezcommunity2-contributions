@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.15 2001/10/15 11:20:09 bf Exp $
+// $Id: sectionedit.php,v 1.16 2001/10/16 10:32:43 ce Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -51,6 +51,7 @@ if ( isSet ( $Cancel ) )
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZSiteManagerMain", "Language" );
 $move_item = true;
+$languageINI = new INIFIle( "ezsitemanager/admin/intl/" . $Language . "/sectionedit.php.ini", false );
 
 $t = new eZTemplate( "ezsitemanager/admin/" . $ini->read_var( "eZSiteManagerMain", "AdminTemplateDir" ),
                      "ezsitemanager/admin/" . "/intl", $Language, "sectionedit.php" );
@@ -333,7 +334,7 @@ if ( count ( $rows ) > 0 )
         $t->set_var( "settings", "" );
         foreach ( $settingNames as $name )
         {
-            $t->set_var( "setting_name", $name["Name"] );
+            $t->set_var( "setting_name", $languageINI->read_var( "strings", $name["Name"] ) );
             $t->set_var( "setting_id", $name["ID"] );
             
             if ( $row->settingID() == $name["ID"] )

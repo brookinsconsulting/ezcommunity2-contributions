@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsectionfrontpage.php,v 1.2 2001/10/11 20:21:32 br Exp $
+// $Id: ezsectionfrontpage.php,v 1.3 2001/10/16 10:32:43 ce Exp $
 //
 // ezsectionfrontpage class
 //
@@ -194,11 +194,15 @@ class eZSectionFrontPage
     function &settingNames()
     {
         $db =& eZDB::globalDatabase();
-                
+        $ret = array();
         $db->array_query( $section_array, "SELECT ID, Name
                                            FROM eZSiteManager_SectionFrontPageSetting ORDER BY ID" );
 
-        return $section_array;
+        foreach ( $section_array as $name )
+        {
+            $ret[] = array( "Name" => $name[$db->fieldName( "Name" )], "ID" => $name[$db->fieldName( "ID" )] );
+        }
+        return $ret;
     }
 
     function &settingByID( $id )
@@ -255,3 +259,4 @@ class eZSectionFrontPage
 }
 
 ?>
+

@@ -26,12 +26,12 @@
 <br /><br />
 
 
-<h2>{intl-settings}</h2>
+<h2>{intl-frontpage}</h2>
 <hr noshade="noshade" size="4" /><br />
 <!-- BEGIN setting_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-         <th>{intl-settings}</th>
+         <th>{intl-column}</th>
 	 <th>{intl-category}</th>
 	 <th>&nbsp;</th>
 	 <th>&nbsp;</th>
