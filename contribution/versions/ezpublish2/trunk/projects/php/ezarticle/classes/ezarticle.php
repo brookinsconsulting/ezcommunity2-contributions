@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.181 2001/10/16 09:21:04 ce Exp $
+// $Id: ezarticle.php,v 1.182 2001/10/16 11:04:08 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -3062,15 +3062,20 @@ class eZArticle
     function logMessages( )
     {
         $db =& eZDB::globalDatabase();
-
+        $ret = array();
+        
         $query = "SELECT * FROM  eZArticle_Log
                   WHERE ArticleID='$this->ID'
                   ORDER BY Created
                   ";
-        
-        $db->array_query( $ret_array, $query );
 
-        return $ret_array;
+
+        $db->array_query( $ret_array, $query );
+        foreach( $ret_array as $log )
+        {
+            $ret[] = array( "Created" => $log[$db->fieldName( "Created" )], "UserID" => $log[$db->fieldName( "UserID" )], "Message" => $log[$db->fieldName( "Message" )] );
+        }
+        return $ret;
     }
 
     /*!
