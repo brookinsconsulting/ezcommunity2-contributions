@@ -15,7 +15,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th><a href="/article/author/list/name">{intl-author}</a>:</th>
-	<th><a href="/article/author/list/count">{intl-count}</a>:</th>
+	<th class="right"><a href="/article/author/list/count">{intl-count}</a>:</th>
 </tr>
 
 <!-- BEGIN author_item_tpl -->
@@ -23,7 +23,7 @@
 	<td class="{td_class}">
 	<a href="/article/author/view/{author_id}/">{author_name}</a>
 	</td>
-	<td class="{td_class}">
+	<td align="right" class="{td_class}">
 	{article_count}
 	</td>
 </tr>

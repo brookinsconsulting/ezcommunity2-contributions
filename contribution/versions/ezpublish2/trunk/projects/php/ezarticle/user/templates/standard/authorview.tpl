@@ -26,7 +26,7 @@
 <tr>
 	<th><a href="/article/author/view/{author_id}/name">{intl-name}</a>:</th>
 	<th><a href="/article/author/view/{author_id}/category">{intl-category}</a>:</th>
-	<th><a href="/article/author/view/{author_id}/author">{intl-author}</a>:</th>
+<!--	<th><a href="/article/author/view/{author_id}/author">{intl-author}</a>:</th> -->
 	<th><div align="right"><a href="/article/author/view/{author_id}/published">{intl-published}</a>:</div></th>
 </tr>
 
@@ -38,9 +38,11 @@
 	<td class="{td_class}">
 	<a href="/article/archive/{category_id}/">{article_category}</a>
 	</td>
+<!--
 	<td class="{td_class}">
 	{author_name}
 	</td>
+-->
 	<td class="{td_class}" align="right">
 	<span class="small">{article_published}</span>
 	</td>
