@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55.2.1 2001/10/24 10:50:10 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.2 2001/11/01 19:58:17 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -494,7 +494,8 @@ class eZQDomrenderer
 
                     case "href" :
                     {
-                       $imageHref = $attr->children[0]->content;
+                        $imageHref = $attr->children[0]->content;
+              
                     }
                     break;
 
@@ -514,12 +515,19 @@ class eZQDomrenderer
 
             setType( $imageID, "integer" );
 
-
             foreach ( $articleImages as $imageArray )
             {
                 if ( $imageArray["Placement"] == $imageID )
                     $image = $imageArray["Image"];
             }
+
+
+            // check if it should link to original image
+            if ( $imageHref == "originalimage" )
+            {
+                $imageHref = $image->filePath();;
+            }
+
             
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )
