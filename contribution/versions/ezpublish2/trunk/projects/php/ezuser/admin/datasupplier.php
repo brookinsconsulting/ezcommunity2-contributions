@@ -48,9 +48,10 @@ switch ( $url_array[2] )
 
     case "userlist" :
     {
-        $OrderBy = $url_array[3];
+        $Index = $url_array[3];
+        $OrderBy = $url_array[4];
         if ( !isset( $GroupID ) )
-            $GroupID = $url_array[4];
+            $GroupID = $url_array[5];
         include( "ezuser/admin/userlist.php" );
     }
     break;

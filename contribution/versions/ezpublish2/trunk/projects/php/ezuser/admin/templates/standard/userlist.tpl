@@ -5,7 +5,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
-	<form method="post" action="/user/userlist/{sort_order}">
+	<form method="post" action="/user/userlist/0/{sort_order}">
 	<select name="GroupID">
 	<option value="0">{intl-all}</option>
 	<!-- BEGIN group_item_tpl -->
@@ -19,15 +19,15 @@
 
 <tr>
 	<th>
-	<a href="/user/userlist/name/{current_group_id}">{intl-name}:</a>
+	<a href="/user/userlist/0/name/{current_group_id}">{intl-name}:</a>
 	</th>
 
 	<th>
-	<a href="/user/userlist/email/{current_group_id}">{intl-email}:</a>
+	<a href="/user/userlist/0/email/{current_group_id}">{intl-email}:</a>
 	</th>
 
 	<th>
-	<a href="/user/userlist/login/{current_group_id}">{intl-login}:</a>
+	<a href="/user/userlist/0/login/{current_group_id}">{intl-login}:</a>
 	</th>
 
 	<th>
@@ -70,6 +70,48 @@
 	</td>
 </tr>
 <!-- END user_item_tpl -->
+
+<tr>
+	<td colspan="5">
+<!-- BEGIN type_list_tpl -->
+<table>
+<tr>
+	<!-- BEGIN type_list_previous_tpl -->
+	<td>
+	<a href="/user/userlist/{item_previous_index}/{sort_order}">{intl-previous}</a>
+	</td>
+	<!-- END type_list_previous_tpl -->
+
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	{intl-previous}
+	</td>
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	<a href="/user/userlist/{item_index}/{sort_order}">{type_item_name}</a>
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	<a href="/user/userlist/{item_next_index}/{sort_order}">{intl-next}</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	{intl-next}
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
+</tr>
+</table>
+<!-- END type_list_tpl -->
+	</td>
+</tr>
+
 <tr>
     <td colspan="5">
 	<hr noshade="noshade" size="4" />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.49 2001/02/05 12:41:18 ce Exp $
+// $Id: ezuser.php,v 1.50 2001/02/06 15:46:30 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -194,11 +194,26 @@ class eZUser
         $this->Signature =& $user_array[ "Signature" ];
     }
 
+    /*!
+      Returns the number of rows a getAll with the same search param would give.
+    */
+    function &getAllCount( $search = false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $query = new eZQuery( array( "FirstName", "LastName",
+                                     "Login", "Email" ), $search );
+
+        $db->query_single( $user_array, "SELECT count( ID ) AS Count FROM eZUser_User
+                                         WHERE " . $query->buildQuery() );
+
+        return $user_array["Count"];
+    }
 
     /*!
       Fetches the user id from the database. And returns a array of eZUser objects.
     */
-    function &getAll( $order="Login", $as_object = true, $search = false )
+    function &getAll( $order="Login", $as_object = true, $search = false, $max = -1, $index = 0 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -247,12 +262,17 @@ class eZUser
         else
             $select = "ID";
 
+        if ( $max >= 0 )
+        {
+            $limit = "LIMIT $index, $max";
+        }
+
         $query = new eZQuery( array( "FirstName", "LastName",
                                      "Login", "Email" ), $search );
 
         $db->array_query( $user_array, "SELECT $select FROM eZUser_User
                                         WHERE " . $query->buildQuery() . "
-                                        ORDER By $orderBy" );
+                                        ORDER By $orderBy $limit" );
 
         if ( $as_object )
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.20 2001/02/06 12:46:03 jb Exp $
+// $Id: userlist.php,v 1.21 2001/02/06 15:46:30 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -25,11 +25,14 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $errorIni = new INIFIle( "ezuser/admin/intl/" . $Language . "/userlist.php.ini", false );
+
+$Max = $ini->read_var( "eZUserMain", "MaxUserList" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -55,9 +58,15 @@ $t->set_var( "site_style", $SiteStyle );
 
 $user = new eZUser();
 
+if ( !is_numeric( $Max ) )
+    $Max = 10;
+if ( !is_numeric( $Index ) )
+    $Index = 0;
+
 if ( $GroupID == 0 )
 {
-    $userList = $user->getAll( $OrderBy );
+    $userList = $user->getAll( $OrderBy, true, false, $Max, $Index );
+    $TotalTypes = $user->getAllCount();
 }
 else
 {
@@ -110,6 +119,8 @@ else
         $i++;
     }
 }
+
+eZList::drawNavigator( $t, $TotalTypes, $Max, $Index, "user_list_page" );
 
 $group = new eZUserGroup();
 $groupList = $group->getAll();
