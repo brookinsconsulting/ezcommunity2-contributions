@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.15 2001/03/29 10:15:22 fh Exp $
+// $Id: maillist.php,v 1.16 2001/03/29 12:27:16 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -58,15 +58,22 @@ $t->set_file( array(
     "mail_list_page_tpl" => "maillist.tpl"
     ) );
 
+$t->set_var( "site_style", $SiteStyle );
 $t->set_block( "mail_list_page_tpl", "mail_item_tpl", "mail_item" );
+$t->set_block( "mail_item_tpl", "mail_edit_item_tpl", "mail_edit_item" );
 $t->set_block( "mail_list_page_tpl", "mail_item_unread_tpl", "mail_item_unread" );
 $t->set_block( "mail_list_page_tpl", "mail_render_tpl", "mail_render" );
 $t->set_block( "mail_list_page_tpl", "folder_item_tpl", "folder_item" );
+$t->set_var( "mail_edit_item", "" );
 $t->set_var( "mail_item", "" );
 $t->set_var( "mail_item_unread", "" );
 $t->set_var( "mail_render", "" );
 
 $folder = new eZMailFolder( $FolderID );
+$isDraftsFolder = false;
+if( $folder->folderType() == DRAFTS )
+    $isDraftsFolder = true;
+
 $t->set_var( "current_folder_id", $FolderID );
 $t->set_var( "current_folder_name", htmlspecialchars( $folder->name() ) );
 $mail = $folder->mail();
@@ -95,7 +102,10 @@ foreach( $mail as $mailItem )
     if( $mailItem->status() == UNREAD )
         $t->parse( "mail_render", "mail_item_unread_tpl", true );
     else
+    {
+        $isDraftsFolder ? $t->parse( "mail_edit_item", "mail_edit_item_tpl", false ) : $t->set_var( "mail_edit_item", "&nbsp;" );
         $t->parse( "mail_render", "mail_item_tpl", true );
+    }
 
     $i++;
 }

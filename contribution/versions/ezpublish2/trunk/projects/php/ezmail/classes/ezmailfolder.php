@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.11 2001/03/28 16:31:27 fh Exp $
+// $Id: ezmailfolder.php,v 1.12 2001/03/29 12:27:16 fh Exp $
 //
 // eZMailFolder class
 //
@@ -408,6 +408,7 @@ class eZMailFolder
       Returns all the mail in the folder. $sortmode can be one of the following:
       subject, sender, date, subjectdec, senderdesc, datedesc.
       $offset and $limit sets how many mail to return in one bunch and where in the list to start.
+      Static if the folderID is supplied.
      */
     function &mail( $sortmode="subject", $offset=0, $limit=50, $folderID = -1 )
     {
@@ -434,6 +435,20 @@ class eZMailFolder
         return $return_array;     
     }
 
+    /*!
+      Deletes all mail in the folder
+     */
+    function deleteAll()
+    {
+        $db =& eZDB::globalDatabase();
+        $query = "SELECT Mail.ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
+                  WHERE Mail.ID=Link.MailID AND Link.FolderID='$this->ID'";
+
+        $db->array_query( $mail_array, $query );
+        for ( $i=0; $i < count($mail_array); $i++ )
+            eZMail::delete( $mail_array[$i]["ID"] );
+    }
+    
     /*!
       Returns the number for mail in the folder. If $unreadOnly is set to true the function returns the number of unread mails.
       If you specify the folderID this function can be used as an static function.

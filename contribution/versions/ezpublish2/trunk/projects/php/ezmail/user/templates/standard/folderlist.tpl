@@ -60,5 +60,7 @@
   <td><input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" /></td>
 </tr>
 </table>
+<hr noshade="noshade" size="4">
+<input class="stdbutton" type="submit" name="EmptyTrash" value="{intl-empty_trash}" />
 
 </form>

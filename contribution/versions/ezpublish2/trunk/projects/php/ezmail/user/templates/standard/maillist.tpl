@@ -7,9 +7,10 @@
 <tr>
         <th widht="1%">&nbsp;</th>
 	<th width="40%">{intl-subject}:</th>
-	<th width="29%">{intl-sender}:</th>
-	<th width="5%">{intl-size}:</th>
+	<th width="26%">{intl-sender}:</th>
+	<th width="7%">{intl-size}:</th>
 	<th width="24%">{intl-date}:</th>
+	<th width="1%">&nbsp;</th>
 	<th width="1%">&nbsp;</th>
 </tr>
 <!-- BEGIN mail_item_tpl -->
@@ -28,6 +29,13 @@
 	</td>
 	<td class="{td_class}">
 	{mail_date}
+	</td>
+	<td class="{td_class}">
+	<!-- BEGIN mail_edit_item_tpl -->
+	  <a href="/mail/mailedit/{mail_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{mail_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
+           <img name="ezb{mail_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" />
+          </a>
+	<!-- END mail_edit_item_tpl -->
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="MailArrayID[]" value="{mail_id}" />
@@ -50,6 +58,9 @@
 	</td>
 	<td class="{td_class}">
 	<b>{mail_date}</b>
+	</td>
+	<td class="{td_class}">
+	&nbsp;
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="MailArrayID[]" value="{mail_id}" />

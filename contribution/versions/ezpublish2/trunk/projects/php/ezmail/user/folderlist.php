@@ -39,6 +39,12 @@ if( isset( $NewFolder ) )
     exit();
 }
 
+/** User pressed EmptyTrash **/
+if( isset( $EmptyTrash ) )
+{
+    $trash = eZMailFolder::getSpecialFolder( TRASH );
+    $trash->deleteAll();
+}
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 

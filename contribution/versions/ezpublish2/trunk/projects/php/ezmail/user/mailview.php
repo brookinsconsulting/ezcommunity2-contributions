@@ -13,7 +13,8 @@ if( isset( $Reply ) )
     $mail->setStatus( REPLIED, true );
     $reply = $mail->copyMail( "reply" );
     $replyid = $reply->id();
-
+    $reply->setStatus( READ, true );
+    
     $drafts = eZMailFolder::getSpecialFolder( DRAFTS );
     $drafts->addMail( $reply );
     
