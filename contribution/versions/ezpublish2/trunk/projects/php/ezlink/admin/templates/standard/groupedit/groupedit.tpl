@@ -15,7 +15,7 @@
 <!-- END parent_category_tpl -->
 </select>
 
-<br />
+<br /><br />
 
 <hr noshade size="4"/>
 

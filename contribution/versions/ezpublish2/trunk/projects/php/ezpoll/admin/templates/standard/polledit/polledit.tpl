@@ -39,12 +39,12 @@
 <hr noshade size="4"/>
 
 <p class="boxtext">{intl-name}</p>
-<input type="text" size="20" name="Name" value="{name_value}"/>
+<input type="text" size="40" name="Name" value="{name_value}"/>
 
 <p class="boxtext">{intl-desc}</p>
-<textarea rows="5" cols="20" name="Description">{description_value}</textarea>
+<textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 
-<br />
+<br /><br />
 
 <div class="check"><input type="checkbox" name="IsEnabled" {is_enabled}>&nbsp;Aktiv</div>
 <div class="check"><input type="checkbox" name="IsClosed" {is_closed}>&nbsp;Avsluttet</div>
@@ -54,18 +54,35 @@
 <div class="check"><input type="checkbox" name="UserEditRule" {user_edit_rule}> Bruker kan redigere egen stemme</div>
 
 <p class="checkhead">{intl-choices}</p>
-<div class="check"><input type="radio" value="And" name="And">Og&nbsp;&nbsp;<input value="Or" type="radio" name="And"> Eller</div>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+	<div class="check"><input type="radio" value="And" name="And">Og</div>
+	</td>
+	<td>
+	<input value="Or" type="radio" name="And"> Eller</div>
+	</td>
+</tr>
+</table>
 
 <p class="checkhead">{intl-show}</p>
-<div class="check"><input type="checkbox" name="Number" {number}> Antall stemmer</div
-<div class="check"><input type="checkbox" name="Percent" {percent}> Prosent</div>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+	<div class="check"><input type="checkbox" name="Number" {number}> Antall stemmer</div>
+	</td>
+	<td>
+	<div class="check"><input type="checkbox" name="Percent" {percent}> Prosent</div>
+	</td>
+</tr>
+</table>
 
 <br />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Svaralternativer:</th>
-	<th>Antall stemmer:</th>
+	<th width="50%">Svaralternativer:</th>
+	<th><span align="right">Antall stemmer:</span></th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>

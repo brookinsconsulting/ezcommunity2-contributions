@@ -38,7 +38,7 @@ http://<input type="text" name="url" size="40" value="{url}">
 <option {yes_selected} value="Y">Ja</option>
 </select>
 
-<br />
+<br /><br />
 
 <hr noshade size="4"/>
 

@@ -8,7 +8,7 @@
 <input type="text" size="20" name="Name" value="{name_value}"/>
 
 <p class="boxtext">{intl-description}</p>
-<input type="text" size="20" name="Description" value="{description_value}"/>
+<input type="text" size="40" name="Description" value="{description_value}"/>
 
 	<!-- BEGIN module_list_header_tpl -->
 	<h3>{module_name}</h3>
