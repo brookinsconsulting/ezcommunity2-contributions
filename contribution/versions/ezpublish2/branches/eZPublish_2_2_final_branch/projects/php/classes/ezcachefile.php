@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.14.2.2 2002/02/27 09:39:14 bf Exp $
+// $Id: ezcachefile.php,v 1.14.2.3 2002/02/27 10:04:48 master Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -53,6 +53,11 @@ class eZCacheFile
         $this->Root = $root;
         if ( !is_array( $component ) )
             $component = array( $component );
+
+	//EP -- additional caching parameters -------------------
+	$component[] = $GLOBALS["GlobalSectionID"] ;
+	//$component[] = $GLOBALS["HTTP_HOST"]; // future - multihost configuration
+	//-------------------------------------------------------
 
         $this->Components = $component;
         $this->Suffix = $suffix;
