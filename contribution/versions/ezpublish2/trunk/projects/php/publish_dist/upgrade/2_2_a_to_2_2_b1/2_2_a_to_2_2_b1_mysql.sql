@@ -1,5 +1,5 @@
 alter table eZTrade_OrderItem drop PriceIncVAT;
-alter table eZTrade_OrderItem change VATValue VAT float(10,2);=======
+alter table eZTrade_OrderItem change VATValue VAT float(10,2);
 alter table eZContact_Person change BirthDate BirthDate int;
 
 # XML contents in trade
