@@ -1,42 +1,23 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<h1>{intl-customerview}</h1>
-	</td>
-</tr>
-</table>
-
+<h1>{intl-customerview}</h1>
 
 <hr noshade="noshade" size="4" />
-
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" baddress="0">
 <tr>
 	<td>
-	<b>{intl-first_name}</b>
+	<p class="boxtext">{intl-first_name}:</p>
+	{customer_first_name}
 	</td>
 	<td>
-	<b>{intl-last_name}</b>
+	<p class="boxtext">{intl-last_name}:</p>
+	{customer_last_name}
 	</td>	
 </tr>
-<tr>
-	<td>
-	{customer_first_name} 
-	</td>
-	<td>
-	{customer_last_name}
-	</td>
-</tr>
-<tr>
-	<td>
-	<b>{intl-email}</b>
-	</td>
-</tr>
-<tr>
-	<td>
-	{customer_email}
-	</td>
-</tr>
 </table>
+<br />
+
+<p class="boxtext">{intl-email}:</p>
+<span class="p">{customer_email}</span>
 
 <h2>{intl-address_list}</h2>
 
@@ -92,9 +73,6 @@
 
 <h2>{intl-orders} ( {order_count} )</h2>
 
-<hr noshade="noshade" size="4" />
-
-
 <!-- BEGIN order_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -127,8 +105,6 @@
 <!-- END order_list_tpl -->
 
 <h2>{intl-wishlist} ( {wish_count} )</h2>
-
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN wish_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -174,8 +150,6 @@
 
 <h2>{intl-vouchers} ( {voucher_count} )</h2>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN voucher_list_tpl -->
 <form method="post" action="{www_dir}{index}/trade/voucherlist/">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -205,4 +179,3 @@
 <!-- END used_item_tpl -->
 </table>
 <!-- END voucher_list_tpl -->
-<hr noshade="noshade" size="4" />

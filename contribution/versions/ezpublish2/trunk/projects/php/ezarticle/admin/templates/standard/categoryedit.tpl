@@ -14,10 +14,19 @@
 <input class="box" type="text" size="40" name="Name" value="{name_value}" />
 <br /><br />
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+
 <input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
 <span class="boxtext">{intl-exclude_from_search}</span><br />
+	</td>
+	<td>
 <p class="boxtext">{intl-list_limit}:</p>
-<input type="text" size="2" name="ListLimit" value="{list_limit_value}" />
+<input type="text" size="2" name="ListLimit" value="{list_limit_value}" /><br />
+	</td>
+</tr>
+</table>
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -50,7 +59,7 @@
 	</td>
 </tr>
 <tr>
-<td>&nbsp;</td>
+<td colspan="2">&nbsp;</td>
 </tr> 
 <tr>
        <td>
