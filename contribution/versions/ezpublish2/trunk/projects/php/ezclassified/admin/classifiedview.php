@@ -149,7 +149,7 @@ if ( count ( $contactList ) >= 1 )
     foreach( $contactList as $contactID )
     {
         $contactPerson = new eZPerson( $contactID );
-        $t->set_var( "person_name", $contactPerson->firstName() . " " . $contactPerson->lastName() );
+        $t->set_var( "person_name", $contactPerson->fullName() );
         $t->set_var( "person_title", $contactPerson->title( $company->id() ) );
         $t->set_var( "person_mail_item", "" );
         $mail = $contactPerson->emailAddress();
