@@ -59,9 +59,10 @@ switch ( $url_array[2] )
         $StaticRendering = false;        
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
-        
-        if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ))
-            $PageNumber= 1;
+
+        if ( $PageNumber != -1 )
+            if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ))
+                $PageNumber= 1;
         
         if ( $PageCaching == "enabled" )
         {
@@ -86,6 +87,43 @@ switch ( $url_array[2] )
     }
     break;
     
+    case "print":
+    case "articleprint":
+    {
+        $StaticRendering = false;        
+        $ArticleID = $url_array[3];
+        $PageNumber= $url_array[4];
+
+        if ( $PageNumber != -1 )
+        {
+            if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
+                $PageNumber = -1;
+            else if ( $PageNumber < 1 )
+                $PageNumber = 1;
+        }
+        
+        if ( $PageCaching == "enabled" )
+        {
+            $CategoryID = $url_array[3];
+
+            $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber .".cache";
+            if ( file_exists( $cachedFile ) )
+            {
+                include( $cachedFile );
+            }
+            else
+            {
+                $GenerateStaticPage = "true";
+                
+                include( "ezarticle/user/articleview.php" );
+            }
+        }
+        else
+        {
+            include( "ezarticle/user/articleview.php" );
+        }
+    }
+    break;
 
     case "static":
     case "articlestatic":
