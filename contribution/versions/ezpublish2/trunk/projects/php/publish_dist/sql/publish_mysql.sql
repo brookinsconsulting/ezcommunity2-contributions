@@ -630,7 +630,7 @@ CREATE TABLE eZBug_Module (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZBug_Module VALUES (1,0,'My program','');
+INSERT INTO eZBug_Module VALUES (1,0,'My program','', 1);
 
 CREATE TABLE eZBug_Priority (
   ID int NOT NULL,
