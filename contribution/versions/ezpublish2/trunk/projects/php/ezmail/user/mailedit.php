@@ -5,12 +5,21 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 if( isset( $Cancel ) )
 {
-    $inbox = eZMailFolder::getSpecialFolder( INBOX );
-    $inboxid = $inbox->id();
-    eZHTTPTool::header( "Location: /mail/folder/$inboxid" );
+    if( $MailID != 0 )
+    {
+        $mail = new eZMail( $MailID );
+        $folderID = $mail->folder( false );
+    }
+    else
+    {
+        $inbox = eZMailFolder::getSpecialFolder( INBOX );
+        $folderID = $inbox->id();
+    }
+    eZHTTPTool::header( "Location: /mail/folder/$folderID" );
     exit();
 }
 

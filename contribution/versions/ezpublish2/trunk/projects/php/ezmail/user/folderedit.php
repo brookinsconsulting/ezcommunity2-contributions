@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.3 2001/04/24 14:17:48 bf Exp $
+// $Id: folderedit.php,v 1.4 2001/05/02 13:39:43 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:33:48 fh>
@@ -30,6 +30,11 @@ include_once( "classes/eztemplate.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
 
+if( isset( $Cancel ) )
+{
+    eZHTTPTool::header( "Location: /mail/folderlist" );
+    exit();
+}
 
 if( isset( $Ok ) && $Name != "" )
 {

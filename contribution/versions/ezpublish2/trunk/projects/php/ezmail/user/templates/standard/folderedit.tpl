@@ -20,4 +20,6 @@
 <hr noshade size="4" />
 
 <input class="okbutton" name="Ok" type="submit" value="{intl-ok}">
+&nbsp;
+<input class="okbutton" name="Cancel" type="submit" value="{intl-cancel}">
 </form>

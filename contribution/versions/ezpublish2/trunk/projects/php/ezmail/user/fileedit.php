@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileedit.php,v 1.1 2001/03/26 10:15:21 fh Exp $
+// $Id: fileedit.php,v 1.2 2001/05/02 13:39:43 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:33:48 fh>
@@ -81,6 +81,8 @@ $t->set_file( array(
     ) );
 
 $t->set_var( "mail_id", $MailID );
+$mail = new eZMail( $MailID );
+$t->set_var( "mail_subject", $mail->subject() );
 
 $t->pparse( "output", "file_edit_page" );
 ?>

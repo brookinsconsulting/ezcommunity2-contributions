@@ -7,6 +7,14 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
+if( isset( $Cancel ) )
+{
+    $mail = new eZMail( $MailID );
+    $folderID = $mail->folder( false );
+    eZHTTPTool::header( "Location: /mail/folder/$folderID" );
+    exit();
+}
+
 if( isset( $Reply ) )
 {
     $mail = new eZMail( $MailID );
