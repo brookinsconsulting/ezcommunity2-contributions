@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.15 2000/08/30 14:14:15 bf-cvs Exp $
+    $Id: message.php,v 1.16 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,12 +9,12 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 include_once( $DOC_ROOT . "classes/ezforummessage.php" );
 include_once( $DOC_ROOT . "classes/eztemplate.php" );
 include_once( "../classes/ezusergroup.php" );

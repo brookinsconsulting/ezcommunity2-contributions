@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: gotolink.php,v 1.5 2000/08/14 09:52:33 bf-cvs Exp $
+    $Id: gotolink.php,v 1.6 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -14,13 +14,13 @@
 */
 
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "template.inc" );
-include_once( "ezphputils.php" );
+include_once( "classes/template.inc" );
+include_once( "common/ezphputils.php" );
 
 require $DOC_ROOT . "classes/ezlinkgroup.php";
 require $DOC_ROOT . "classes/ezlink.php";

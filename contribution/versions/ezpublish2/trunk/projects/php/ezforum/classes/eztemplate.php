@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: eztemplate.php,v 1.2 2000/08/03 10:33:25 lw-cvs Exp $
+    $Id: eztemplate.php,v 1.3 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,8 +8,8 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include_once( "template.inc" );
-include_once( "class.INIFile.php" );
+include_once( "classes/template.inc" );
+include_once( "classes/class.INIFile.php" );
 
 class eZTemplate extends Template {
 

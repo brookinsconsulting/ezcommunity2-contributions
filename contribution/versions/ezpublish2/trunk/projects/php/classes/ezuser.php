@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.1 2000/08/16 11:40:56 bf-cvs Exp $
+    $Id: ezuser.php,v 1.2 2000/09/01 13:28:59 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -673,7 +673,7 @@ class eZUser {
     */
     function openDB( )
     {
-        include_once( "class.INIFile.php" );
+        include_once( "classes/class.INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         

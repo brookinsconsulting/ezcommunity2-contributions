@@ -102,7 +102,7 @@ class eZPersonAddressDict
     */
     function dbInit()
     {
-        include_once( "class.INIFile.php" );
+        include_once( "classes/class.INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         

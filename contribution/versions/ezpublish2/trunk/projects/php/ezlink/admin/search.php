@@ -4,13 +4,13 @@
   listlink.php viser alle kategorier
 */
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 
 $ini = new INIFile( "../site.ini" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "../classes/eztemplate.php" );
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 
 include( "../ezlink/classes/ezlinkgroup.php" );
 include( "../ezlink/classes/ezlink.php" );

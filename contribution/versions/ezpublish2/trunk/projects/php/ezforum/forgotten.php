@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forgotten.php,v 1.2 2000/07/26 15:05:41 lw-cvs Exp $
+    $Id: forgotten.php,v 1.3 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,7 +9,7 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include_once( "template.inc" );
+include_once( "classes/template.inc" );
 include_once( "$DOCROOT/classes/ezmail.php" );
 include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );

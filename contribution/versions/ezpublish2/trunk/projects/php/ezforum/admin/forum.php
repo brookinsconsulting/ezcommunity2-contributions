@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.16 2000/08/09 14:12:44 lw-cvs Exp $
+    $Id: forum.php,v 1.17 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,7 +9,7 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include_once( "template.inc" );
+include_once( "classes/template.inc" );
 include_once( "$DOCROOT/classes/ezforumcategory.php" );
 include_once( "$DOCROOT/classes/ezforumforum.php" );
 include_once( "../classes/ezusergroup.php" );

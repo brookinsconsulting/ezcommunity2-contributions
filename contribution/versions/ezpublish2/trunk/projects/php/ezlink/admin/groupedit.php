@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.12 2000/09/01 08:25:11 bf-cvs Exp $
+    $Id: groupedit.php,v 1.13 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -13,13 +13,13 @@
   groupedit.php 
 */
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 $ini = new INIFile( "../site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "../classes/eztemplate.php" );
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 
 include( "../ezlink/classes/ezlinkgroup.php" );
 include( "../ezlink/classes/ezlink.php" );

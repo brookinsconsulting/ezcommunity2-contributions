@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.3 2000/08/30 09:42:11 ce-cvs Exp $
+    $Id: ezsession.php,v 1.4 2000/09/01 13:28:59 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -127,7 +127,7 @@ class eZSession
     */
     function dbInit( )
     {
-        include_once( "class.INIFile.php" );
+        include_once( "classes/class.INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         

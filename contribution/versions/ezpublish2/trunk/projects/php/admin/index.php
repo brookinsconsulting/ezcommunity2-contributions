@@ -13,8 +13,8 @@ if ( file_exists( $prePage ) )
 <?php
 
 include_once( "../classes/ezdb.php" );
-include_once( "class.INIFile.php" );
-include_once( "template.inc" );
+include_once( "classes/class.INIFile.php" );
+include_once( "classes/template.inc" );
 include_once( "../classes/ezuser.php" );
 
 
@@ -22,7 +22,7 @@ include_once( "../classes/ezuser.php" );
 //include_once( "../dbsettings.php" );
 
 include_once( "../classes/ezsession.php" );
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 
 $session = new eZSession();
 

@@ -4,7 +4,7 @@
   suggestlink.php -> foreslår en link
 */
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 
 
 $ini = new INIFile( "site.ini" );
@@ -15,7 +15,7 @@ $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
 
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );

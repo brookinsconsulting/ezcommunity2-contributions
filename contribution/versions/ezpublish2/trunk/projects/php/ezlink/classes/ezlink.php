@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezlink.php,v 1.20 2000/08/14 09:18:57 bf-cvs Exp $
+    $Id: ezlink.php,v 1.21 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -342,7 +342,7 @@ class eZLink
     */
     function dbInit()
     {
-        include_once( "class.INIFile.php" );
+        include_once( "classes/class.INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         

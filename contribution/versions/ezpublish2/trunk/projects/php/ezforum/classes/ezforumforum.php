@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumforum.php,v 1.9 2000/08/29 12:08:53 bf-cvs Exp $
+    $Id: ezforumforum.php,v 1.10 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -175,7 +175,7 @@ class eZforumForum
     */
     function openDB( )
     {
-        include_once( "class.INIFile.php" );
+        include_once( "classes/class.INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.14 2000/08/22 09:35:02 bf-cvs Exp $
+    $Id: category.php,v 1.15 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,13 +9,13 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
-include_once( "ezphputils.php" );
-include_once( "template.inc" );
+include_once( "common/ezphputils.php" );
+include_once( "classes/template.inc" );
 
 //include_once( "../classes/ezdb.php" );
 

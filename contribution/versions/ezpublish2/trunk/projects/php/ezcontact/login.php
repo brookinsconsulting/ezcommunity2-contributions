@@ -1,12 +1,12 @@
 <?
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 
 $ini = new INIFIle( "../site.ini" );
 // $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 include_once( "../classes/ezuser.php" );
 include_once( "../classes/ezsession.php" );
 

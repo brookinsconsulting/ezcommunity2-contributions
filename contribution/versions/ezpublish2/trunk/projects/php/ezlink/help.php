@@ -4,9 +4,9 @@
   help.php - viser et vindu med hjelp
 */
 
-include_once( "template.inc" );
+include_once( "classes/template.inc" );
 require "ezlink/dbsettings.php";
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 
 require $DOCUMENTROOT . "classes/ezlinkgroup.php";
 require $DOCUMENTROOT . "classes/ezlink.php";

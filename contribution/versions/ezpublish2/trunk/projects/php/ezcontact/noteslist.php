@@ -3,7 +3,7 @@
   Lister opp alle notatene av en bruker
 */
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
@@ -13,7 +13,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezsession.php" );
 include_once( "classes/ezusergroup.php" );
 include_once( "classes/ezuser.php" );
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 
 include_once( "ezcontact/topmenu.php" );
 

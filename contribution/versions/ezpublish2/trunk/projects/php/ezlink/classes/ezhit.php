@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezhit.php,v 1.9 2000/08/14 09:18:57 bf-cvs Exp $
+    $Id: ezhit.php,v 1.10 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -120,7 +120,7 @@ class eZHit
     */
     function dbInit()
     {
-        include_once( "class.INIFile.php" );
+        include_once( "classes/class.INIFile.php" );
         $ini = new INIFile( "site.ini" );
         
         $SERVER = $ini->read_var( "eZLinkMain", "Server" );

@@ -1,7 +1,7 @@
 <?
-include_once( "template.inc" );
+include_once( "classes/template.inc" );
 include_once( "ezcontact/dbsettings.php" );
-include_once( "ezphputils.php" );
+include_once( "common/ezphputils.php" );
 
 if ( isset( $Login ) )
 {

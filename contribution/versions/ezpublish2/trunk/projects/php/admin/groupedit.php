@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: groupedit.php,v 1.3 2000/08/30 14:39:23 ce-cvs Exp $
+    $Id: groupedit.php,v 1.4 2000/09/01 13:28:59 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,7 +10,7 @@
 */
 
 include_once( "../classes/ezusergroup.php" );
-include_once( "template.inc" );
+include_once( "classes/template.inc" );
 
 $t = new Template( "templates/" );
 $t->set_file( Array( "main" => "groupedit.tpl" ) );

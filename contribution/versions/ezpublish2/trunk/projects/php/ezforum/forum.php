@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.29 2000/09/01 07:57:00 bf-cvs Exp $
+    $Id: forum.php,v 1.30 2000/09/01 13:29:00 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,16 +9,16 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-include_once( "class.INIFile.php" );
+include_once( "classes/class.INIFile.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
 //include( "ezforum/dbsettings.php" );
 
-include_once( "ezphputils.php" );
-include_once( "template.inc" );
-include_once( "class.INIFile.php" );
+include_once( "common/ezphputils.php" );
+include_once( "classes/template.inc" );
+include_once( "classes/class.INIFile.php" );
 include_once( $DOC_ROOT . "classes/ezdb.php" );
 include_once( $DOC_ROOT . "classes/ezforummessage.php" );
 include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
