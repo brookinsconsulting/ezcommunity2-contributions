@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovedlist.php,v 1.3 2001/01/22 14:56:46 ce Exp $
+// $Id: unapprovedlist.php,v 1.4 2001/02/13 15:09:59 gl Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -74,7 +74,7 @@ else
         $t->set_var( "message_topic", $message->topic() );
         $t->set_var( "message_body", $message->body() );
 
-        $t->set_var( "reject_reason", $languageIni->read_var( "strings", "reject_reason" ) );
+        $t->set_var( "reject_message", $languageIni->read_var( "strings", "reject_message" ) );
         
         $t->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
 

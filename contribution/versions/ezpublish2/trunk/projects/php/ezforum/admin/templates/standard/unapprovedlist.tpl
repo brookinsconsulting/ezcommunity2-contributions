@@ -5,7 +5,7 @@
 <form metdod="post" action="/forum/unapprovededit/">
 
 <table cellspacing="0" cellpadding="4" border="0">
-<!-- BEGIN link_item_tpl -->
+<!-- BEGIN message_item_tpl -->
 <tr>
     <td>
         <div class="boxtext">{intl-subject}:</div>
@@ -32,9 +32,9 @@
 </tr>
 <tr>
     <td colspan="2">
-        <div class="boxtext">{intl-reject_header}:</div>
+        <div class="boxtext">{intl-reject_reason}:</div>
         <input type="hidden" name="MessageID[]" value="{message_id}" />
-        <textarea wrap="soft" rows="3" cols="40" name="RejectReason[]">{reject_reason}</textarea>
+        <textarea wrap="soft" rows="3" cols="40" name="RejectReason[]">{reject_message}</textarea>
     </td>
 </tr>
 <tr>
@@ -42,7 +42,7 @@
     &nbsp;
     </td>
 </tr>
-<!-- END link_item_tpl -->
+<!-- END message_item_tpl -->
 </table>
 
 <br />
