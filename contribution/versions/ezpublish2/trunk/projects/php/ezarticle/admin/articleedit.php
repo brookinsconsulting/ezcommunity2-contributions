@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.78 2001/04/30 10:44:59 jb Exp $
+// $Id: articleedit.php,v 1.79 2001/04/30 12:10:33 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -154,17 +154,6 @@ if ( $Action == "Insert" )
         eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
     }
     
-    // add check for publishing rights here
-    if ( $IsPublished == "on" )
-    {
-        eZArticleTool::notificationMessage( $article );
-        
-        $article->setIsPublished( true );
-    }
-    else
-    {
-        $article->setIsPublished( false );
-    }
     
     // check if the contents is parseable
     if ( xmltree( $contents ) )
@@ -215,6 +204,18 @@ if ( $Action == "Insert" )
         foreach ( $categoryArray as $cat )
         {
             $categoryIDArray[] = $cat->id();
+        }
+
+        // add check for publishing rights here
+        if ( $IsPublished == "on" )
+        {
+            eZArticleTool::notificationMessage( $article );
+        
+            $article->setIsPublished( true );
+        }
+        else
+        {
+            $article->setIsPublished( false );
         }
 
 

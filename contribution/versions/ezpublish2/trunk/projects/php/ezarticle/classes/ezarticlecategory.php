@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.57 2001/04/30 09:20:45 ce Exp $
+// $Id: ezarticlecategory.php,v 1.58 2001/04/30 12:10:33 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1004,6 +1004,37 @@ class eZArticleCategory
            }
         }
 
+    }
+
+    /*!
+      Connects this category to the bulkmail category specified.
+     */
+    function setBulkMailCategory( $value )
+    {
+        if( get_class( $value ) == "ezbulkmailcategory" )
+            $value = $value->id();
+
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZArticle_BulkMailCategoryLink WHERE ArticleCategoryID='$this->ID'" );
+
+        if( $value != false )
+            $db->query( "INSERT INTO eZArticle_BulkMailCategoryLink SET ArticleCategoryID='$this->ID', BulkMailCategoryID='$value'" );
+    }
+
+    /*!
+      Returns the bulkMailCategory this category is connected to.
+     */
+    function bulkMailCategory( $asObject = true )
+    {
+        $db =& eZDB::globalDatabase();
+        $result_array = array();
+        $result = false;
+        $db->array_query( $result_array, "SELECT BulkMailCategoryID FROM eZArticle_BulkMailCategoryLink WHERE ArticleCategoryID='$this->ID'" );
+
+        if( count( $result_array ) > 0 )
+            $result = ( $asObject == true ) ? new eZBulkMailCategory( $result_array[0][ "BulkMailCategoryID" ] ) :  $result_array[0][ "BulkMailCategoryID" ];
+
+        return $result;
     }
     
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.14 2001/04/05 15:29:01 fh Exp $
+// $Id: categoryedit.php,v 1.15 2001/04/30 12:10:33 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -31,17 +31,11 @@ if ( isset( $Cancel ) )
     exit();
 }
 
-/* Can possibly be deleted FJH
-if ( isset ( $DeleteCategories ) )
-{
-    $Action = "DeleteCategories";
-}
-*/
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -84,6 +78,11 @@ if ( $Action == "insert" )
     
     $category->store();
     $categoryID = $category->id();
+
+    if( isset( $BulkMailID ) && $BulkMailID != -1 )
+        $category->setBulkMailCategory( $BulkMailID );
+    else
+        $category->setBulkMailCategory( false );
     
     /* write access select */
     if( isset( $WriteGroupArray ) )
@@ -172,6 +171,7 @@ if ( $Action == "update" )
         $category->setExcludeFromSearch( false );
     }
 
+
 //    $ownerGroup = new eZUserGroup( $OwnerID );
 //    if( isset( $Recursive ) )
 //        $category->setOwnerGroup( $ownerGroup, true );
@@ -223,6 +223,12 @@ if ( $Action == "update" )
     
     $category->store();
 
+    if( isset( $BulkMailID ) && $BulkMailID != -1 )
+        $category->setBulkMailCategory( $BulkMailID );
+    else
+        $category->setBulkMailCategory( false );
+
+    
     $categoryID = $category->id();
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                   array( "articlelist", array( $CategoryID, $ParentID ), NULL ),
@@ -275,6 +281,7 @@ $t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "category_owner_tpl", "category_owner" );
 $t->set_block( "category_edit_tpl", "group_item_tpl", "group_item" );
+$t->set_block( "category_edit_tpl", "bulkmail_category_item_tpl", "bulkmail_category_item" );
 
 $category = new eZArticleCategory();
 
@@ -286,6 +293,9 @@ $t->set_var( "action_value", "insert" );
 $t->set_var( "exclude_checked", "" );
 $t->set_var( "all_selected", "selected" );
 $t->set_var( "all_write_selected", "selected" );
+$t->set_var( "bulkmail_category_item", "" );
+$t->set_var( "no_bulkmail_selected", "selected" );
+
 $writeGroupsID = array(); 
 $readGroupsID = array(); 
 
@@ -327,6 +337,14 @@ if ( $Action == "edit" )
         $t->set_var( "all_write_selected", "" );
     if( $readGroupsID[0] != -1 )
         $t->set_var( "all_selected", "" );
+
+    // check bulkmail dep
+    $bulkMailCategoryID = $category->bulkMailCategory( false );
+    if( $category == false )
+        $t->set_var( "no_bulkmail_selected", "selected" );
+    else
+        $t->set_var( "no_bulkmail_selected", "" );
+    
 }
 
 $category = new eZArticleCategory();
@@ -389,6 +407,21 @@ foreach( $groupList as $groupItem )
     $t->parse( "group_item", "group_item_tpl", true );
 }
 
-$t->pparse( "output", "category_edit_tpl" );
 
+// bulkmail selector
+$categories = eZBulkMailCategory::getAll();
+foreach( $categories as $categoryItem )
+{
+    $t->set_var( "bulkmail_category_id", $categoryItem->id() );
+    $t->set_var( "bulkmail_category_name", $categoryItem->name() );
+
+    if( isset( $bulkMailCategoryID ) && $bulkMailCategoryID == $categoryItem->id() )
+        $t->set_var( "bulkmail_selected", "selected" );
+    else
+        $t->set_var( "bulkmail_selected", "" );
+
+    $t->parse( "bulkmail_category_item", "bulkmail_category_item_tpl", true );
+}
+
+$t->pparse( "output", "category_edit_tpl" );
 ?>

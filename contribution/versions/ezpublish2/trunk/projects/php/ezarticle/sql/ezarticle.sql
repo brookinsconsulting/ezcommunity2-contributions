@@ -179,3 +179,12 @@ INSERT INTO eZArticle_Category VALUES (2,'Static pages','',0,'true',4);
 INSERT INTO eZArticle_Category VALUES (3,'Category three','',0,'false',3);
 INSERT INTO eZArticle_Category VALUES (4,'Category four','',0,'false',3);
 
+#
+# Table structure for table 'eZArticle_BulkMailCategoryLink'
+#
+DROP TABLE IF EXISTS eZArticle_BulkMailCategoryLink;
+CREATE TABLE eZArticle_BulkMailCategoryLink (
+  ArticleCategoryID int(11) DEFAULT '0' NOT NULL,
+  BulkMailCategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ArticleCategoryID, BulkMailCategoryID)
+);
