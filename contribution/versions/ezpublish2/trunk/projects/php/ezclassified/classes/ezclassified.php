@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.13 2000/12/20 18:59:01 jb Exp $
+// $Id: ezclassified.php,v 1.14 2000/12/21 12:12:01 jb Exp $
 //
 // Definition of eZClassified class
 //
@@ -421,7 +421,7 @@ class eZClassified
     /*!
       Removes the company from every user category.
     */
-    function removeCategoryies()
+    function removeCategories()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
