@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.20 2001/07/20 11:15:21 jakobn Exp $
+// $Id: menubox.php,v 1.21 2001/08/15 10:21:53 th Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,8 +26,8 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
-    array( "/link/unacceptedlist/", "{intl-notaccepted}" ),
     array( "/link/category/0/", "{intl-linklist}" ),
+    array( "/link/unacceptedlist/", "{intl-notaccepted}" ),
     array( "/link/typelist/", "{intl-typelist}" ),
     array( "/link/typeedit/", "{intl-newtype}" ),
     array( "/link/categoryedit/new/", "{intl-newcategory}" ),
