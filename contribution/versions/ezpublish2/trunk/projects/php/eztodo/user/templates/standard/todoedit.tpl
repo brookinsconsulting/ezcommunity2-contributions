@@ -1,4 +1,4 @@
-<form method="post" action="/todo/todoedit/{action_value}/{todo_id}">
+<form method="post" action="/todo/todoedit/{action_value}/{todo_id}/">
 <h1>{intl-head_line}</h1>
 
 <hr noshade size="4"/>
@@ -29,9 +29,10 @@
 <br />
 <!-- END errors_tpl -->
 
+
 <br>
 
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="br" colspan="2">
 	<p class="boxtext">{intl-name}</p>
@@ -40,12 +41,12 @@
 	</td>
 </tr>
 <tr>
-	<td class="br">
+	<td width="50%">
 	<p class="boxtext">{intl-owner}</p>
 	{first_name} {last_name}
 	<br><br>
 	</td>
-	<td class="br">
+	<td>
 	<p class="boxtext">{intl-user}</p>
 	<select name="UserID">
 	<!-- BEGIN user_item_tpl -->
@@ -56,20 +57,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="br">
-	<p class=boxtext>{intl-due}</p>
-	<span class="small">Klokkeslett:</span> <input size="2" type="text" name="Hour" value="{hour}">:<input size="2" type="text" name="Minute" value="{hour}">&nbsp;
-	<span class="small">Dato:</span> <input size="2" type="text" name="Mnd" value="{mnd}">-<input size="2" type="text" name="Day" value="{day}">&nbsp;
-	<span class="small">År:</span> <input size="4" type="text" name="Year" value="2000">&nbsp;
-	<br><br>
-	</td>
-	<td class="br">
-	<p class="boxtext">{intl-date}</p>{current_date}
-	<br><br>
-	</td>
-</tr>
-<tr>
-	<td class="br">
+	<td width="50%">
 	<p class="boxtext">{intl-cat}</p>
 	<select name="CategoryID">
 	<!-- BEGIN category_select_tpl -->
@@ -78,7 +66,7 @@
 	</select>
 	<br><br>
 	</td>
-	<td class="br">
+	<td>
 	<p class="boxtext">{intl-pri}</p>
 	<select name="PriorityID">
 	<!-- BEGIN priority_select_tpl -->
@@ -89,26 +77,43 @@
 	</td>
 </tr>
 <tr>
-	<td class="br" colspan="2">
+	<td colspan="2">
 	<p class="boxtext">{intl-desc}</p>
-	<textarea swap="soft" cols="30" rows="10" name="Text">{text}</textarea>
+	<textarea wrap="soft" cols="30" rows="10" name="Description">{description}</textarea>
 	<br><br>
 	</td>
 </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td class="br">
-	<p class="boxtext">Done:</p>
-	<div class="check"><input type="checkbox" name="Done" {done}>&nbsp;</div>
+	<td width="33%">
+	<p class="boxtext">{intl-status}:</p>
+	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;</div>
 	</td>
-	<td class="br">
-	<p class="boxtext">Visning:</p>
+	<td width="33%">
+	<p class="boxtext">{intl-view_others}:</p>
 	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;</div>
 	</td>
+	<td width="34%">
+	<p class="boxtext">{intl-send_mail}:</p>
+	<div class="check"><input type="checkbox" name="SendMail">&nbsp;</div>
+	</td>
+
 </tr>
 </table>
 
 <hr noshade size="4"/>
 
-<input class="okbutton" type="submit" value="{intl-ok}">
-
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td>
+	<input class="okbutton" type="submit" value="{intl-ok}">
+	</td>
+	<td>&nbsp;</td>
+    <td>
+	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}">
+	</td>
+</tr>
+</table>
 </form>
