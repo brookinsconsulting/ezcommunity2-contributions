@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.14 2000/11/02 15:40:32 pkej-cvs Exp $
+// $Id: checkout.php,v 1.15 2000/11/02 15:45:37 pkej-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -298,7 +298,9 @@ if ( $SendOrder == "true" )
     
     $priceString = substr(  $locale->format( $currency ), 0, 13 );
     $priceString = str_pad( $totalPriceString, 15, " ", STR_PAD_LEFT );
-    $mailTemplate->set_var( "product_sub_total", $priceString );
+    $mailTemplate->set_var( "product_sub_total", $totalPriceString );
+
+
 
     $shippinglPrice = $order->shippingCharge();
     $currency->setValue( $shippinglPrice );
@@ -306,6 +308,8 @@ if ( $SendOrder == "true" )
     $shippingPriceString = substr(  $locale->format( $currency ), 0, 13 );
     $shippingPriceString = str_pad( $shippingPriceString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
+
+
 
     $grandTotal = $order->totalPrice() + $order->shippingCharge();
     $currency->setValue( $grandTotal );
