@@ -1,5 +1,5 @@
 
-<table width="100%" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
 	<h1>{intl-head_line}</h1>
