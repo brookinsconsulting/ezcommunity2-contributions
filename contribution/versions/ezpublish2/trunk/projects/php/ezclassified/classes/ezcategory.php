@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcategory.php,v 1.3 2000/12/11 15:56:43 ce Exp $
+// $Id: ezcategory.php,v 1.4 2000/12/14 16:33:32 pkej Exp $
 //
 // Definition of eZCategory class
 //
@@ -384,6 +384,8 @@ class eZCategory
     */
     function name( )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
         return $this->Name;
     }
   
