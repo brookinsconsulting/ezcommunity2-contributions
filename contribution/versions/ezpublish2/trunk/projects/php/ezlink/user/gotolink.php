@@ -1,5 +1,5 @@
 <?
-//  $Id: gotolink.php,v 1.4 2000/10/26 13:08:34 ce-cvs Exp $
+//  $Id: gotolink.php,v 1.5 2000/11/01 15:46:30 bf-cvs Exp $
 //
 //  Christoffer A. Elo <ce@ez.no>
 //  Created on: <26-Oct-2000 15:02:25 ce>
@@ -36,7 +36,9 @@ if ( $Action == "addhit" )
     $hit->setRemoteIP( $REMOTE_ADDR );
     $hit->store();
 }
+if ( !preg_match( "%^([a-z]+://)%", $Url ) )
+    $Url = "http://" . $Url;
 
-Header( "Location: http://" . $Url );
+Header( "Location: " . $Url );
 
 ?>

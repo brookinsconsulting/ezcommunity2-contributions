@@ -1,5 +1,5 @@
 <?
-// $Id: suggestlink.php,v 1.8 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: suggestlink.php,v 1.9 2000/11/01 15:46:30 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:54:13 ce>   
@@ -33,13 +33,18 @@ $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
+include_once( "ezlink/classes/ezmeta.php" );
 
 if ( $GetSite )
 {
     if ( $url )
     {
-        
-        $metaList =  get_meta_tags ( "http://" . $url );
+        if ( !preg_match( "%^([a-z]+://)%", $url ) )
+            $real_url = "http://" . $url;
+        else
+            $real_url = $url;
+
+        $metaList = fetchURLInfo( $real_url );
 
         if( count( $metaList ) == 0 )
         {
@@ -47,9 +52,20 @@ if ( $GetSite )
             $terror_msg = $inierror->read_var( "strings", "nometa" );
         }
 
-        $tdescription = $metaList["description"];
-        $tkeywords = $metaList["keywords"];
-        $ttitle = $title;
+        if ( $metaList["description"] )
+            $tdescription = $metaList["description"];
+        else
+            $tdescription = $description;
+        if ( $metaList["keywords"] )
+            $tkeywords = $metaList["keywords"];
+        else
+            $tkeywords = $keywords;
+        if ( $metaList["title"] )
+            $ttitle = $metaList["title"];
+        else if ( $metaList["abstract"] )
+            $ttitle = $metaList["abstract"];
+        else
+            $ttitle = $title;
         $turl = $url;
 
     }

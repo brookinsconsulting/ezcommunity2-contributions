@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.33 2000/11/01 11:04:50 ce-cvs Exp $
+// $Id: linkedit.php,v 1.34 2000/11/01 15:46:30 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -39,13 +39,21 @@ include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
 
+include_once( "ezlink/classes/ezmeta.php" );
+
 require( "ezuser/admin/admincheck.php" );
 
 if ( $GetSite )
 {
     if ( $Url )
     {
-        $metaList =  get_meta_tags ( "http://" . $Url );
+        if ( !preg_match( "%^([a-z]+://)%", $Url ) )
+            $real_url = "http://" . $Url;
+        else
+            $real_url = $Url;
+
+        $metaList = fetchURLInfo( $real_url );
+//          $metaList =  get_meta_tags ( "http://" . $Url );
 
         if( count( $metaList ) == 0 )
         {
@@ -53,9 +61,23 @@ if ( $GetSite )
             $terror_msg = $inierror->read_var( "strings", "nometa" );
         }
 
-        $tdescription = $metaList["description"];
-        $tkeywords = $metaList["keywords"];
-        $ttitle = $Title;
+        if ( $metaList["description"] )
+            $tdescription = $metaList["description"];
+        else
+            $tdescription = $description;
+        if ( $metaList["keywords"] )
+            $tkeywords = $metaList["keywords"];
+        else
+            $tkeywords = $keywords;
+        if ( $metaList["title"] )
+            $ttitle = $metaList["title"];
+        else if ( $metaList["abstract"] )
+            $ttitle = $metaList["abstract"];
+        else
+            $ttitle = $Title;
+//          $tdescription = $metaList["description"];
+//          $tkeywords = $metaList["keywords"];
+//          $ttitle = $Title;
         $turl = $Url;
 
     }
@@ -239,7 +261,7 @@ if ( $Action == "edit" )
         $message = "Rediger link";
         $submit = "Rediger";
               
-        $ttile = $editlink->title();
+        $ttitle = $editlink->title();
         $tdescription = $editlink->description();
         $tkeywords = $editlink->keywords();
         $turl = $editlink->url();
@@ -289,7 +311,7 @@ $t->set_var( "action_value", $action );
 $t->set_var( "message", $message );
 
 
-$t->set_var( "title", $ttile );
+$t->set_var( "title", $ttitle );
 $t->set_var( "url", $turl );
 $t->set_var( "keywords", $tkeywords );
 $t->set_var( "description", $tdescription );
