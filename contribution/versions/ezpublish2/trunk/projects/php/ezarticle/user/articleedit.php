@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.4 2001/02/23 10:13:08 gl Exp $
+// $Id: articleedit.php,v 1.5 2001/02/23 10:50:41 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -65,32 +65,14 @@ if ( $Action == "Insert" )
     
     $article->setLinkText( $LinkText );
 
-    $ownerGroup = new eZUserGroup( $OwnerGroupID );
-    $article->setOwnerGroup( $ownerGroup );
+// DO SOMETHING ABOUT THIS
+//    $ownerGroup = new eZUserGroup( $OwnerGroupID );
+//    $article->setOwnerGroup( $ownerGroup );
+
     $article->store(); // to get the ID
 
-    /* read access thingy */
-    if ( isset( $GroupArray ) )
-    {
-        if( $GroupArray[0] == 0 )
-        {
-            $article->setReadPermission( 2 );
-        }
-        else // some groups are selected.
-        {
-            $article->removeReadGroups();
-            $article->setReadPermission( 1 );
-            foreach ( $GroupArray as $groupID )
-            {
-                $readGroup = new eZUserGroup( $groupID );
-                $article->addReadGroup( $readGroup );
-            }
-        }
-    }
-    else
-    {
-        $article->setReadPermission( 0 );
-    }
+    // Read permission: Everyone
+    $article->setReadPermission( 0 );
     
     // add check for publishing rights here
     if ( $IsPublished == "on" )
@@ -143,52 +125,52 @@ if ( $Action == "Insert" )
 
         $article->setCategoryDefinition( $category );
 
-        if ( count( $CategoryArray ) > 0 )
-        {
-            foreach ( $CategoryArray as $categoryItem )
-            {
-                if ( $categoryItem != $CategoryID )
-                {
-                    $category = new eZArticleCategory( $categoryItem );
-                    $category->addArticle( $article );
-                }
-            }
-        }
+//          if ( count( $CategoryArray ) > 0 )
+//          {
+//              foreach ( $CategoryArray as $categoryItem )
+//              {
+//                  if ( $categoryItem != $CategoryID )
+//                  {
+//                      $category = new eZArticleCategory( $categoryItem );
+//                      $category->addArticle( $article );
+//                  }
+//              }
+//          }
 
 
-        $articleID = $article->id();
+//        $articleID = $article->id();
 
-        $categoryArray = $article->categories();
-        $categoryIDArray = array();
-        foreach ( $categoryArray as $cat )
-        {
-            $categoryIDArray[] = $cat->id();
-        }
+//          $categoryArray = $article->categories();
+//          $categoryIDArray = array();
+//          foreach ( $categoryArray as $cat )
+//          {
+//              $categoryIDArray[] = $cat->id();
+//          }
 
 
         // clear the cache files.
-        deleteCache( $ArticleID, $CategoryID, $CategoryArray );
+//        deleteCache( $ArticleID, $CategoryID, $CategoryArray );
         
-        // add images
-        if ( isset( $Image ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
-            exit();
-        }
+//          // add images
+//          if ( isset( $Image ) )
+//          {
+//              eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
+//              exit();
+//          }
 
-        // add files
-        if ( isset( $File ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
-            exit();
-        }
+//          // add files
+//          if ( isset( $File ) )
+//          {
+//              eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
+//              exit();
+//          }
         
-        // preview
-        if ( isset( $Preview ) )
-        {
-            eZHTTPTool::header( "Location: /article/articlepreview/$articleID/" );
-            exit();
-        }
+//          // preview
+//          if ( isset( $Preview ) )
+//          {
+//              eZHTTPTool::header( "Location: /article/articlepreview/$articleID/" );
+//              exit();
+//          }
 
 
         // get the category to redirect to
@@ -234,10 +216,6 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
-$t->set_block( "article_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
-$t->set_block( "article_edit_page_tpl", "category_owner_tpl", "category_owner" );
-$t->set_block( "article_edit_page_tpl", "group_item_tpl", "group_item" );
-
 $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 
 if ( $ErrorParsing == true )
@@ -248,8 +226,6 @@ else
 {
     $t->set_var( "error_message", "" );
 }
-
-$t->set_var( "article_is_published", "" );
 
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
@@ -325,7 +301,7 @@ $article = new eZArticle( $ArticleID );
 
 // category select
 $category = new eZArticleCategory();
-$categoryArray = $category->getAll( );
+//$categoryArray = $category->getAll( );
 
 
 $tree = new eZArticleCategory();
@@ -337,22 +313,22 @@ foreach ( $treeArray as $catItem )
     {
         $defCat = $article->categoryDefinition( );
         
-        if ( get_class( $defCat ) == "ezarticlecategory" )
-        {
-            if ( $article->existsInCategory( $catItem[0] ) &&
-                ( $defCat->id() != $catItem[0]->id() ) )
-            {
-                $t->set_var( "multiple_selected", "selected" );
-            }
-            else
-            {
-                $t->set_var( "multiple_selected", "" );
-            }
-        }
-        else
-        {
-            $t->set_var( "selected", "" );
-        }
+//          if ( get_class( $defCat ) == "ezarticlecategory" )
+//          {
+//              if ( $article->existsInCategory( $catItem[0] ) &&
+//                  ( $defCat->id() != $catItem[0]->id() ) )
+//              {
+//  //                $t->set_var( "multiple_selected", "selected" );
+//              }
+//              else
+//              {
+//  //                $t->set_var( "multiple_selected", "" );
+//              }
+//          }
+//          else
+//          {
+//              $t->set_var( "selected", "" );
+//          }
             
         if ( get_class( $defCat ) == "ezarticlecategory" )
         {
@@ -373,7 +349,6 @@ foreach ( $treeArray as $catItem )
     else
     {
         $t->set_var( "selected", "" );
-        $t->set_var( "multiple_selected", "" );
     }    
         
     
@@ -387,40 +362,6 @@ foreach ( $treeArray as $catItem )
 
     
     $t->parse( "value", "value_tpl", true );    
-    $t->parse( "multiple_value", "multiple_value_tpl", true );
-}
-
-// group selector
-$group = new eZUserGroup();
-$groupList = $group->getAll();
-
-$t->set_var( "selected", "" );
-foreach( $groupList as $groupItem )
-{
-    /* for the group owner selector */
-//    if( eZPermission::checkPermission( $groupItem , "eZBug", "BugEdit" ) )
-//    {
-        $t->set_var( "module_owner_id", $groupItem->id() );
-        $t->set_var( "module_owner_name", $groupItem->name() );
-
-        if( isset( $ownerGroup ) && $ownerGroupID == $groupItem->id() )
-            $t->set_var( "is_selected", "selected" );
-        else
-            $t->set_var( "is_selected", "" );
-    
-        $t->parse( "category_owner", "category_owner_tpl", true );
-//    }
-        /* for the read access groups selector */
-        $t->set_var( "group_name", $groupItem->name() );
-        $t->set_var( "group_id", $groupItem->id() );
-        if( isset( $readPermission ) && $readPermission == 1 )
-        {
-            if( in_array( $groupItem->id(), $readGroupsID ) )
-                $t->set_var( "selected", "selected" );
-            else
-                $t->set_var( "selected", "" );
-        }
-        $t->parse( "group_item", "group_item_tpl", true );
 }
 
 
