@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.19.2.4 2002/06/04 11:23:00 jhe Exp $
+// $Id: ezarticle.php,v 1.183.2.19.2.5 2002/06/04 11:33:34 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -106,7 +106,7 @@ class eZArticle
     function store()
     {
         $db =& eZDB::globalDatabase();
-        $db->begin();
+        $db->begin()-
 
         $name = $db->escapeString( $this->Name );
         $contents = $db->escapeString( $this->Contents );
@@ -308,7 +308,7 @@ class eZArticle
             $db->commit();
 
         // index this article
-        $this->createIndex();
+//        $this->createIndex();
 
         return true;
     }
@@ -2548,7 +2548,7 @@ class eZArticle
         }
         else
         {
-            print( "<br><b>Failed to get article category definition for ID $this->ID</b></br>" );
+//            print( "<br><b>Failed to get article category definition for ID $this->ID</b></br>" );
         }
 
         return $category;
