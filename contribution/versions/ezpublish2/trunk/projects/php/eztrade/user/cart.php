@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.21 2001/03/09 09:02:00 bf Exp $
+// $Id: cart.php,v 1.22 2001/03/09 11:45:35 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -309,11 +309,6 @@ foreach ( $items as $item )
             $price = new eZCurrency( $value->price() );
         }
 
-        print( $locale->format( $price ) );
-        
-
-        
-            
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
     }
 
