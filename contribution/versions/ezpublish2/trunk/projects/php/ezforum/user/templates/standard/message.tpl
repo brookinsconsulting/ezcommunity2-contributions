@@ -106,7 +106,7 @@
 	<tr>
 
 		<td width="1%">
-		{spacer}{spacer}
+		
 		<!-- BEGIN new_icon_tpl -->
                 <img src="{www_dir}/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
 		<!-- END new_icon_tpl -->
@@ -115,7 +115,7 @@
 		<!-- END old_icon_tpl -->	
 		</td>
 		<td width="99%">
-		<a class="{link_color}" href="{www_dir}{index}/forum/message/{message_id}/">{reply_topic}</a>
+		<a class="{link_color}" href="{www_dir}{index}/forum/message/{message_id}/">{spacer}{spacer}{reply_topic}</a>
 		</td>
 	</tr>
 	</table>
