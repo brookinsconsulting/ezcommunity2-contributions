@@ -1,18 +1,11 @@
-
-<table width="100%" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td valign="bottom">
-	<h1>{intl-head_line}</h1>
-	</td>
+	<td colspan="2" class="menuhead">{intl-head_lines}</td>
 </tr>
-</table>
 
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
-
-<hr noshade="noshade" size="4" />
-<br />
 
 <!-- BEGIN category_list_tpl -->
 
@@ -24,29 +17,26 @@
 
 
 <!-- BEGIN article_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<th>
-	{intl-article}:
-	</th>
-	<th>
-	<div align="right">{intl-publishing_date}:</div>
-	</th>
-</tr>
+
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/">
+	<a class="menutext" href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
-	<td align="right">
-	{article_published}
+</tr>
+<tr>
+	<td class="small" align="right">
+	(&nbsp;{article_published}&nbsp;)
 	</td>
 </tr>
 <!-- END article_item_tpl -->
-</table>
 <!-- END article_list_tpl -->
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+</table>
 
 
 

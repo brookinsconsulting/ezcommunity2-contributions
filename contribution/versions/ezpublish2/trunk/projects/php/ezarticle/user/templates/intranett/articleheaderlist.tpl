@@ -1,5 +1,5 @@
 
-<table width="100%" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
 	<h1>{intl-head_line}</h1>
@@ -7,7 +7,7 @@
 	<td align="right">
 	<form action="/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
+	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
@@ -30,10 +30,13 @@
 
 
 <!-- BEGIN article_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
 	{intl-article}:
+	</th>
+	<th>
+	{intl-category}:
 	</th>
 	<th>
 	<div align="right">{intl-publishing_date}:</div>
@@ -41,13 +44,14 @@
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td>
+	<td class="{td_class}">
 	<a href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
-	<td align="right">
-	{article_published}
+	<td class="{td_class}">{article_category_name}</td>
+	<td align="right" class="{td_class}">
+	<span class="small">{article_published}</span>
 	</td>
 </tr>
 <!-- END article_item_tpl -->

@@ -16,6 +16,9 @@
 </table>
 
 <br />
+<!-- BEGIN path_item_tpl -->
+
+<!-- END path_item_tpl -->
 
 <!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
