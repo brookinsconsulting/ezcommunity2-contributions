@@ -65,7 +65,7 @@
 									<td class="attribute" valign="top"> {attribute_name}:&nbsp; 
 									</td>
 									<td class="attributevalue" align="right" valign="bottom"> 
-										{attribute_value} {attribute_unit}</td>
+										{attribute_value_var} {attribute_unit}</td>
 								</tr>
 								<!-- END attribute_value_tpl -->
 								<!-- BEGIN attribute_header_tpl -->
