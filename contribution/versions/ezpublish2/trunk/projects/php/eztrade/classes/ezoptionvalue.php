@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.40 2001/11/21 18:29:15 br Exp $
+// $Id: ezoptionvalue.php,v 1.41 2001/11/22 12:31:42 pkej Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -453,6 +453,77 @@ class eZOptionValue
             }
         }
         return $price;
+    }
+
+    /*!
+      Returns the correct localized savings of the product.
+    */
+    function &localeSavings( $calcVAT, $inProduct )
+    {
+        $ini =& INIFile::globalINI();
+        $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
+        
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+
+        $price = $this->correctSavings( $calcVAT, $inProduct );
+
+        $currency->setValue( $price );
+        return $locale->format( $currency );
+    }    
+
+
+    /*!
+      Returns the savings of the option value.
+    */
+    function correctSavings( $calcVAT, $inProduct )
+    {
+        $inUser =& eZUser::currentUser();
+        $vat = $inProduct->vatPercentage();
+        $productHasVAT = $inProduct->includesVAT();
+
+        if ( get_class( $inUser ) == "ezuser" )
+        {
+            $groups = $inUser->groups( false );
+
+            $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );
+        }
+        
+        if ( empty( $price ) )
+        {
+            $price = $this->Price;
+        }
+        
+        if (  $maxPrice <= $price )
+        {
+            $maxPrice = $this->Price;
+        }
+        
+        if ( $maxPrice > $price )
+        {
+            $savings = $maxPrice - $price;
+        }
+        else
+        {
+            $savings = 0;
+        }
+        
+        if ( $calcVAT == true )
+        {
+            if ( $productHasVAT == false )
+            {
+                $savings = ( $savings * $vat / 100 ) + $savings;
+            }
+        }
+        else
+        {
+            if ( $productHasVAT == true )
+            {
+                $savings = $savings - ( $savings / ( $vat + 100  ) ) * $vat;
+            }
+
+        }
+        return $savings;
     }
 
     /*!

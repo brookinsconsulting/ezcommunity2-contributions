@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.27 2001/10/10 12:30:18 ce Exp $
+// $Id: ezcartitem.php,v 1.28 2001/11/22 12:31:42 pkej Exp $
 //
 // Definition of eZCartItem class
 //
@@ -291,6 +291,61 @@ class eZCartItem
         return $price;        
     }
     
+    /*!
+      Returns the correct localized price of the product.
+    */
+    function localeSavings( $calcCount=true, $withOptions=true, $calcVAT )
+    {
+        $ini =& INIFile::globalINI();
+        $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
+        
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+        
+        $price = $this->correctSavings( $calcCount, $withOptions, $calcVAT );
+        
+        $currency->setValue( $price );
+        return $locale->format( $currency );
+    }    
+    
+    /*!
+      Returns the correct savings of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function correctSavings( $calcCount=true, $withOptions=true, $calcVAT )
+    {
+        $optionValues =& $this->optionValues();
+        $product =& $this->product();
+            
+        $optionPrice = 0.0;
+        if ( $withOptions )
+        {
+            foreach ( $optionValues as $optionValue )
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+                    
+                $price = $value->correctSavings( $calcVAT, $product );
+                        
+                if ( $calcCount == true )
+                    $price = $price * $optionValue->count();
+                    
+                $optionPrice+=$price;
+            }
+        }
+            
+        if ( $calcCount == true )
+        {
+            $price = ( $product->correctSavings( $calcVAT ) * $this->count() ) + $optionPrice;
+        }
+        else
+        {
+            $price = ( $product->correctSavings( $calcVAT ) + $optionPrice );
+        }
+
+        return $price;        
+    }
+
     /*!
       Returns the price of the cart item.
 

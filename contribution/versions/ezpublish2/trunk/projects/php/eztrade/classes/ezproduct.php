@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.124 2001/11/22 11:27:50 pkej Exp $
+// $Id: ezproduct.php,v 1.125 2001/11/22 12:31:42 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -414,6 +414,121 @@ class eZProduct
             }
         }
        return $price;
+    }    
+
+
+    /*!
+      Returns the correct localized savings of the product.
+    */
+    function &localeSavings( $calcVAT )
+    {
+        $inUser =& eZUser::currentUser();
+        $ini =& INIFile::globalINI();
+        $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
+        
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+
+        $price = $this->correctSavings( $calcVAT );
+        $currency->setValue( $price );
+        $returnString = $locale->format( $currency );
+        
+        return $returnString;
+    }    
+
+    /*!
+      Returns the savings of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function &correctSavings( $calcVAT )
+    {
+        $db =& eZDB::globalDatabase();
+        $inUser =& eZUser::currentUser();
+        $maxPrice = 0;
+        if ( get_class( $inUser ) == "ezuser" )
+        {
+            $groups = $inUser->groups( false );
+            $priceIdArr = eZPriceGroup::prices( $this->ID );
+
+            for( $i=0; $i< count( $priceIdArr ); $i++ )
+            {
+                $priceId = $priceIdArr[$i][$db->fieldName( "PriceID" )];
+                $groupIdArr =& eZPriceGroup::userGroups( $priceId, false );
+
+                foreach( $groupIdArr as $groupId )
+                {
+                    if ( in_array( $groupId, $groups ) )
+                    {
+                        $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
+                        if ( $tmpPrice < $price || !$price )
+                        {
+                            $price = $tmpPrice;
+                        }
+                        if ( $tmpPrice <= $maxPrice )
+                        {
+                            $maxPrice = $tmpPrice;
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+        if ( empty( $price ) )
+        {
+            $price = $this->Price;
+        }
+
+        if (  $maxPrice <= $price )
+        {
+            $maxPrice = $this->Price;
+        }
+        
+        if ( $maxPrice > $price )
+        {
+            $savings = $maxPrice - $price;
+        }
+        else
+        {
+            $savings = 0;
+        }
+        
+        $vatType =& $this->vatType();
+       
+        if ( $calcVAT == true )
+        {
+            if ( $this->excludedVAT() )
+            {
+                $vatType =& $this->vatType();
+                $vat = 0;
+       
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $savings = ( $savings * $vat / 100 ) + $savings;
+            }
+        }
+        else
+        {
+            if ( $this->includesVAT() )
+            {
+                $vatType =& $this->vatType();
+                $vat = 0;
+                
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $savings = $savings - ( $savings / ( $vat + 100 ) ) * $vat;
+                
+            }
+       }
+
+
+        return $savings;
     }    
 
     /*!
