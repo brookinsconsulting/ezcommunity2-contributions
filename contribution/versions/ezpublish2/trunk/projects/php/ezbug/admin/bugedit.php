@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.9 2001/01/30 10:15:00 bf Exp $
+// $Id: bugedit.php,v 1.10 2001/02/02 12:22:27 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -216,9 +216,17 @@ if ( $Action == "Edit" )
     if ( $status )
         $statusID = $status->id();
 
-    if ( $priority )
-        $priorityID = $priority->id();
+    if ( $pri )
+        $priorityID = $pri->id();
     
+    if( $bug->isClosed() == true )
+    {
+        $t->set_var( "is_closed", "checked" );
+    }
+    else
+    {
+        $t->set_var( "isclosed", "" );
+    }
     
     foreach ( $logList as $log )
     {
