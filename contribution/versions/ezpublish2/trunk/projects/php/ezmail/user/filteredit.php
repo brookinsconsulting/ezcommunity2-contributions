@@ -61,7 +61,7 @@ if( $FilterID != 0 ) // someone set us up the bomb
 {
     $t->set_var( "current_filter_id", $FilterID );
     $filter = new eZMailFilterRule( $FilterID );
-    $t->set_var( "match_value", $filter->match() );
+    $t->set_var( "match_value", htmlspecialchars( $filter->match() ) );
     $headerid = $filter->headerType();
     $checkid = $filter->checkType();
     $folderid = $filter->folderID();

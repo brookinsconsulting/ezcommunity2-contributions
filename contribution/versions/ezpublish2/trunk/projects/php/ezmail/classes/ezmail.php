@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.19 2001/03/29 16:40:44 fh Exp $
+// $Id: ezmail.php,v 1.20 2001/04/03 08:46:32 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -107,20 +107,28 @@ class eZMail
     {
         $this->dbInit();
 
-        
+        $to = addslashes( $this->To );
+        $from = addslashes( $this->From );
+        $cc = addslashes( $this->Cc );
+        $bcc = addslashes( $this->Bcc );
+        $references = addslashes( $this->References );
+        $replyto = addslashes( $this->ReplyTo );
+        $subject = addslashes( $this->Subject );
+        $body = addslashes( $this->BodyText );
+                
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZMail_Mail SET
 		                         UserID='$this->UserID',
-                                 ToField='$this->To',
-                                 FromField='$this->From',
-                                 Cc='$this->Cc',
-                                 Bcc='$this->Bcc',
+                                 ToField='$to',
+                                 FromField='$from',
+                                 Cc='$cc',
+                                 Bcc='$bcc',
                                  MessageID='$this->MessageID',
-                                 Reference='$this->References',
-                                 ReplyTo='$this->ReplyTo',
-                                 Subject='$this->Subject',
-                                 BodyText='$this->BodyText',
+                                 Reference='$references',
+                                 ReplyTo='$replyto',
+                                 Subject='$subject',
+                                 BodyText='$body',
                                  Status='$this->Status',
                                  Size='$this->Size',
                                  UDate='$this->UDate'
@@ -134,15 +142,15 @@ class eZMail
         {
             $this->Database->query( "UPDATE eZMail_Mail SET
 		                         UserID='$this->UserID',
-                                 ToField='$this->To',
-                                 FromField='$this->From',
-                                 Cc='$this->Cc',
-                                 Bcc='$this->Bcc',
+                                 ToField='to',
+                                 FromField='$from',
+                                 Cc='$cc',
+                                 Bcc='$bcc',
                                  MessageID='$this->MessageID',
-                                 Reference='$this->References',
-                                 ReplyTo='$this->ReplyTo',
-                                 Subject='$this->Subject',
-                                 BodyText='$this->BodyText',
+                                 Reference='$references',
+                                 ReplyTo='$replyto',
+                                 Subject='$subject',
+                                 BodyText='$body',
                                  Status='$this->Status',
                                  Size='$this->Size',
                                  UDate='$this->UDate'

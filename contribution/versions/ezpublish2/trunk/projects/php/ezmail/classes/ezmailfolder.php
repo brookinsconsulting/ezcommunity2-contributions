@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.13 2001/03/29 13:03:25 fh Exp $
+// $Id: ezmailfolder.php,v 1.14 2001/04/03 08:46:32 fh Exp $
 //
 // eZMailFolder class
 //
@@ -101,13 +101,14 @@ class eZMailFolder
     {
         $this->dbInit();
 
+        $name = addslashes( $this->Name );
         
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZMail_Folder SET
 		                         UserID='$this->UserID',
 		                         ParentID='$this->ParentID',
-                                 Name='$this->Name',
+                                 Name='$name',
                                  FolderType='$this->FolderType'
                                  " );
 
@@ -120,7 +121,7 @@ class eZMailFolder
             $this->Database->query( "UPDATE eZMail_Folder SET
 		                         UserID='$this->UserID',
 		                         ParentID='$this->ParentID',
-                                 Name='$this->Name',
+                                 Name='$name',
                                  FolderType='$this->FolderType'
                                  WHERE ID='$this->ID'
                                  " );

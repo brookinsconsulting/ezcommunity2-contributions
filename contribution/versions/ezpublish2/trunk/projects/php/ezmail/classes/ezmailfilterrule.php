@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.5 2001/03/30 11:11:56 fh Exp $
+// $Id: ezmailfilterrule.php,v 1.6 2001/04/03 08:46:32 fh Exp $
 //
 // eZMailFilterRule class
 //
@@ -107,6 +107,8 @@ class eZMailFilterRule
     function store()
     {
         $this->dbInit();
+
+        $match = addslashes( $this->Match );
         
         if ( !isset( $this->ID ) )
         {
@@ -114,7 +116,7 @@ class eZMailFilterRule
 		                         UserID='$this->UserID',
                                  HeaderType='$this->HeaderType',
                                  CheckType='$this->CheckType',
-                                 MatchValue='$this->Match',
+                                 MatchValue='$match',
                                  FolderID='$this->FolderID',
                                  IsActive='$this->IsActive'
                                  " );
@@ -129,7 +131,7 @@ class eZMailFilterRule
 		                         UserID='$this->UserID',
                                  HeaderType='$this->HeaderType',
                                  CheckType='$this->CheckType',
-                                 MatchValue='$this->Match',
+                                 MatchValue='$match',
                                  FolderID='$this->FolderID',
                                  IsActive='$this->IsActive'
                                  WHERE ID='$this->ID'

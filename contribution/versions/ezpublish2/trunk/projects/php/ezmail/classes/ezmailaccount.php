@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.19 2001/03/29 20:32:21 fh Exp $
+// $Id: ezmailaccount.php,v 1.20 2001/04/03 08:46:32 fh Exp $
 //
 // eZMailAccount class
 //
@@ -110,15 +110,19 @@ class eZMailAccount
     {
         $this->dbInit();
 
+        $name = addslashes( $this->Name );
+        $loginname = addslashes( $this->LoginName );
+        $password = addslashes( $this->Password );
+        $server = addslashes( $this->Server );
         
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZMail_Account SET
 		                         UserID='$this->UserID',
-                                 Name='$this->Name',
-                                 LoginName='$this->LoginName',
-                                 Password='$this->Password',
-                                 Server='$this->Server',
+                                 Name='$name',
+                                 LoginName='$loginname',
+                                 Password='$password',
+                                 Server='$server',
                                  DeleteFromServer='$this->DeleteFromServer',
                                  IsActive='$this->IsActive',
                                  ServerType='$this->ServerType',
@@ -133,10 +137,10 @@ class eZMailAccount
         {
             $this->Database->query( "UPDATE eZMail_Account SET
 		                         UserID='$this->UserID',
-                                 Name='$this->Name',
-                                 LoginName='$this->LoginName',
-                                 Password='$this->Password',
-                                 Server='$this->Server',
+                                 Name='$name',
+                                 LoginName='$loginname',
+                                 Password='$password',
+                                 Server='$server',
                                  DeleteFromServer='$this->DeleteFromServer',
                                  IsActive='$this->IsActive',
                                  ServerType='$this->ServerType',
