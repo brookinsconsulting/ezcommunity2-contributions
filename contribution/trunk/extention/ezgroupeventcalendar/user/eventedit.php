@@ -214,6 +214,7 @@ $t->set_block( "event_edit_tpl", "group_history_tpl", "group_history" );
 $t->set_block( "event_edit_tpl", "edit_history_tpl", "edit_history" );
 $t->set_block( "event_edit_tpl", "new_history_tpl", "new_history" );
 
+$t->set_block( "no_error_tpl", "recur_exceptions_tpl", "recur_exceptions");
 $t->set_var( "sitedesign", $SiteDesign );
 
 $t->set_var( "group_history", "" );
@@ -750,7 +751,7 @@ $Day = $dateArr[2];
 	if (isset($UntilDate))
 	 $t->set_var( "until_date", $UntilDate );
 	if (isset($NumberOfTimes))
-         $t->set_var( "num_times", $NumberOfTimes );	 
+         $t->set_var( "num_times", $NumberOfTimes );
 	if ('forever' == $RepeatOptions)
 	 $t->set_var( "repeat_forever", "checked");
 	elseif ('untilDate' == $RepeatOptions)
@@ -760,13 +761,13 @@ $Day = $dateArr[2];
        
        if (is_array($ExceptSelect))
        foreach ($ExceptSelect as $ex) 
-       {
-        $t->set_var('recur_exceptions', "<option>$ex</option>");
+       {echo 'adding<br>';
+        $t->set_var('recur_exception', "<option>$ex</option>");
 	$t->parse( "recur_exceptions", "recur_exceptions_tpl", true );
        }
       else {
+           	$t->set_var('recur_exception', '');
         $t->set_var('recur_exceptions', '');
-	$t->parse( "recur_exceptions", "recur_exceptions_tpl" );
       }
       } // end of recurring events
     
@@ -1068,14 +1069,14 @@ if ( $Action == "Edit" && $groupError == false )
       {
        foreach ($repEx as $ex) 
        {
-        $t->set_var("recur_exceptions", "<option>$ex</option>");
+        $t->set_var("recur_exception", "<option>$ex</option>");
 	$t->parse( "recur_exceptions", "recur_exceptions_tpl", true );
        }
       }
      else
      {
-        $t->set_var('recur_exceptions', '');
-	$t->parse( "recur_exceptions", "recur_exceptions_tpl" );
+        $t->set_var('recur_exception', '');
+	$t->set_var('recur_exceptions', '');
      }   
        // still need to add exception handling, once it's all ready
        

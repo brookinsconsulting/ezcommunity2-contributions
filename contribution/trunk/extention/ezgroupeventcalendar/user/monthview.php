@@ -208,7 +208,9 @@ if( $user )
     $t->set_var( "current_year_number", $Year );
     $t->set_var( "week", "" );
 	$t->set_var( "sitedesign", $Sitedesign );
-
+    $t->set_var("date_month", $date->month());
+    $t->set_var("date_year", $date->year());
+    $t->set_var("date_day", $date->day());
 
 	if( $new_event_link == true )
 	{

@@ -1,4 +1,4 @@
-/* Calendar Style */
+/* Calendar Stuff -- Love, Dylan */
 .bglight 
 {
 	background-color: #ffffff;
@@ -187,6 +187,9 @@ a.gcalBoxText:visited		{ color: #0066FF; }
 a.gcalBoxText:active		{ color: #3366CC; }
 a.gcalBoxText:hover		{ color: #000099; text-decoration: underline; }
 
+.gcalViewLabel { font-weight: bold; text-align: right; vertical-align: top; }
+.gcalViewBg {text-align: left; background-color: #e9edf2; color: black; vertical-align: top;}
+.gcalViewResult  { background-color: #fff; padding: 3px; border: 2px solid black; }
 
 .gcalDayEventText		{ font-size: 10px; font-weight: normal;  }
 a.gcalDayEventText		{ text-decoration: none; font-size: 11px; font-weight: bold;}
@@ -203,11 +206,11 @@ a.gcalSmallLink:active	{ color: #3366CC; }
 a.gcalSmallLink:hover	{ color: #000099; text-decoration: underline; }
 
 .gcalEventTopBar		{ background-color: #557CA3;  }
-.gcalBorder			{ border: 1px solid white; }
+.gcalBorder			{ border: 1px solid gray; }
 .gcalDayViewTopBar		{ border: 1px solid white; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #E9EDF2; cursor: pointer; }
 .gcalDayViewTopBarSelect	{ border: 1px solid white; text-align: center; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #6699cc; cursor: pointer; }
-#gcalDayViewLongDateHeader { border: 1px solid gray; padding: 10px; text-align:center;}
-.gcalDayViewLongDateHeader { font-weight: bold; font-size: 130%; }
+#gcalBigHeader { border: 1px solid gray; padding: 10px; text-align:center;}
+.gcalBigHeader { font-weight: bold; font-size: 130%; }
 .gcalDayViewBorder 	   { border: 1px solid #3b3030; }
 
 .gcalSwitchBox { text-align: center; padding: 3px; background-color: #e9edf2; color: black; cursor: pointer;}
@@ -307,7 +310,7 @@ a.gcalYearViewReg { font-size: 10px; padding: 0px; border: 0px; text-decoration:
 background-color: #6699cc;
 color: #fff;
 border: 1px solid #557ca3;
-padding: 1.1px;
+padding: 5px;
 }
 .gcalYearViewTable
 {

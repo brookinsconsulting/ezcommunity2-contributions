@@ -1,12 +1,3 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
-  <tr>
-   <!-- BEGIN header_item_tpl -->
-    <td align="left"> 
-      <h1>{intl-event_edit}</h1>
-    </td>
-  </tr>
-</table>
-
 <!-- BEGIN user_error_tpl -->
 	<!-- BEGIN no_user_error_tpl -->
 	<p class="error">{intl-no_user_error}</p>
@@ -248,7 +239,7 @@ onmouseover="this.className='gcalSubmitOverFrm'">
  <div class="gcalGroupBoxFrm">
  <input type="radio" style="padding-bottom:5px;" name="RepeatOptions" value="forever" {repeat_forever} /> {intl-repeat_forever}
  <br />
- <input type="radio" style="padding-bottom:5px;" name="RepeatOptions" value="numTimes" {repeat_times} /> {intl-repeat_number} <input class="gcalTextFrm" style="margin-bottom: 3px; padding: 1px; padding-left: 3px;" type="text" size="4" name="NumberOfTimes" value='{num_times}' 
+ <input type="radio" style="padding-bottom:5px;" name="RepeatOptions" value="numTimes" {repeat_times} /> {intl-repeat_number} <input class="gcalTextFrm" style="margin-bottom: 3px; padding: 1px; padding-left: 3px;" type="text" size="4" name="NumberOfTimes" value='{num_times}'
  onFocus="this.className='gcalTextFocusFrm'"
  onBlur="this.className='gcalTextFrm'"
  />
@@ -267,8 +258,8 @@ onmouseover="this.className='gcalSubmitOverFrm'"
  onmouseover="this.className='gcalSubmitOverFrm'" 
  onclick="return showCalendar('RecurExceptions', '%Y-%m-%d');" > <br /><br />
  <select name="ExceptSelect[]" size=4 style="border: 2px solid black; outline:none; margin: 5px; width: 100px;" id="ExceptSelect" multiple>
-<!-- BEGIN recur_exceptions_tpl --> 
-{recur_exceptions}
+<!-- BEGIN recur_exceptions_tpl -->
+{recur_exception}
 <!-- END recur_exceptions_tpl --> 
  </select>
  </div>

@@ -129,7 +129,8 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid gray;">
 <!-- BEGIN day_view_long_date_header_tpl -->
 <tr>
-	<td id="gcalDayViewLongDateHeader" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;" colspan="10"><span class="gcalDayViewLongDateHeader"><a style="font-size: large; text-decoration: none;" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td>
+	<td id="gcalBigHeader" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;" colspan="10">
+    <span class="gcalBigHeader"><a style="font-size: large; text-decoration: none;" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td>
 </tr><tr>
 <td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/"> &lt;&lt; </a></td>
 	<!-- BEGIN day_links_tpl -->
