@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.7 2001/01/19 12:15:26 jb Exp $
+// $Id: ezonlinetype.php,v 1.8 2001/01/19 21:53:50 jb Exp $
 //
 // Definition of eZOnline class
 //
@@ -31,13 +31,11 @@
   Example code:
   \code
   $onlinetype = new eZOnlineType();
-  $onlinetype->setURL( "/a/path/here" );
-  $onlinetype->setURLType( http ) // http, httpd, ftp, news and mailto are currently supported.
-  $onlinetype->setOnlineTypeID( 43 ); // What type of online, reads out from eZContact_OnlineType
+  $onlinetype->setName( "/a/path/here" );
+  $onlinetype->setURLPrefix( "http://" ) // Sets the url prefix to be http
   $onlinetype->store(); // Store or updates to the database.
   \code
   \sa eZOnlineType eZCompany eZPerson eZOnline eZPhone eZOnline
-  
 */
 
 include_once( "ezcontact/classes/ezperson.php" );
@@ -84,7 +82,12 @@ class eZOnlineType
             $listorder = $qry["ListOrder"] + 1;
             $this->ListOrder = $listorder;
 
-            $db->query( "INSERT INTO eZContact_OnlineType set Name='$this->Name', ListOrder='$this->ListOrder'" );
+            $db->query( "INSERT INTO eZContact_OnlineType SET
+                         Name='$this->Name',
+                         ListOrder='$this->ListOrder',
+                         URLPrefix='$this->URLPrefix',
+                         PrefixLink='$this->PrefixLink',
+                         PrefixVisual='$this->PrefixVisual'" );
 
             $this->ID = mysql_insert_id();
 
@@ -94,8 +97,11 @@ class eZOnlineType
         else
         {
             $db->query( "UPDATE eZContact_OnlineType set
-                                     Name='$this->Name'
-                                     ListOrder='$this->ListOrder'
+                                     Name='$this->Name',
+                                     ListOrder='$this->ListOrder',
+                                     URLPrefix='$this->URLPrefix',
+                                     PrefixLink='$this->PrefixLink',
+                                     PrefixVisual='$this->PrefixVisual'
                                      WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
@@ -175,6 +181,9 @@ class eZOnlineType
                 $this->ID = $online_type_array[ 0 ][ "ID" ];
                 $this->Name = $online_type_array[ 0 ][ "Name" ];
                 $this->ListOrder = $online_type_array[ 0 ][ "ListOrder" ];
+                $this->URLPrefix = $online_type_array[ 0 ][ "URLPrefix" ];
+                $this->PrefixLink = $online_type_array[ 0 ][ "PrefixLink" ];
+                $this->PrefixVisual = $online_type_array[ 0 ][ "PrefixVisual" ];
             }
             else
             {
@@ -205,20 +214,74 @@ class eZOnlineType
         return $return_array;
     }
 
-  /*!
-    Sets the name of the object.
-  */
+    /*!
+      Sets the name of the object.
+    */
     function setName( $value )
     {
         $this->Name = $value;
     }
 
-  /*!
-    Returns the name of the object.
-  */
+    /*!
+      Sets the name of the object.
+    */
+    function setURLPrefix( $value )
+    {
+        $this->URLPrefix = $value;
+    }
+
+    /*!
+      Sets whether the prefix must always be applied for links.
+    */
+    function setPrefixLink( $value )
+    {
+        if ( $value )
+            $this->PrefixLink = 1;
+        else
+            $this->PrefixLink = 0;
+    }
+
+    /*!
+      Sets whether the prefix must always be applied for visuals (the visual part of a link).
+    */
+    function setPrefixVisual( $value )
+    {
+        if ( $value )
+            $this->PrefixVisual = 1;
+        else
+            $this->PrefixVisual = 0;
+    }
+
+    /*!
+      Returns the name of the object.
+    */
     function name(  )
     {
         return $this->Name;
+    }
+
+    /*!
+      Returns the URL prefix of the object.
+    */
+    function urlPrefix(  )
+    {
+        return $this->URLPrefix;
+    }
+
+    /*!
+      Returns true if the prefix must always be applied for links.
+    */
+    function prefixLink(  )
+    {
+        return $this->PrefixLink == 1;
+    }
+
+    /*!
+      Returns true if the prefix must always be applied for visuals (the visual part of a link).
+    */
+    function prefixVisual(  )
+    {
+        return $this->PrefixVisual == 1;
     }
 
     /*!
@@ -291,6 +354,9 @@ class eZOnlineType
     var $ID;
     var $Name;
     var $ListOrder;
+    var $URLPrefix;
+    var $PrefixLink;
+    var $PrefixVisual;
 
     /// Indicates the state of the object. In regard to database information.
     var $State_;
