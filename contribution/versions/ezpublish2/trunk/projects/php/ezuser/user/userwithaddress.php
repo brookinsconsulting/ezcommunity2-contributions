@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.6 2000/11/02 11:31:17 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.7 2000/11/02 20:19:41 bf-cvs Exp $
 //
 // 
 //
@@ -13,6 +13,7 @@
 // your own programs or libraries.
 //
 
+print( $RedirectURL );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
@@ -79,10 +80,12 @@ if ( $Action == "Insert" )
 
                 $user->loginUser( $user );
 
-                if ( isSet( $RedirectURL ) )
+                if ( isset( $RedirectURL ) )
                 {
                     Header( "Location: $RedirectURL" );
+                    exit();
                 }
+                
                 Header( "Location: /" );
                 exit();
             }
@@ -151,9 +154,10 @@ if ( $Action == "Update" )
             if ( isSet( $RedirectURL ) )
             {
                 Header( "Location: $RedirectURL" );
+                exit();
             }
             Header( "Location: /" );
-
+            exit();
         }
     else
     {
