@@ -1,12 +1,11 @@
 <?php
 // 
-// $Id: menubox.php,v 1.6 2001/10/29 14:13:02 jhe Exp $
+// $Id: supportdelete.php,v 1.1 2001/10/29 14:13:02 jhe Exp $
 //
-// Created on: <25-Nov-2000 17:53:52 bf>
+// Created on: <29-Oct-2001 14:21:21 jhe>
 //
 // This source file is part of eZ publish, publishing software.
-//
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -23,17 +22,22 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-// Supply $menuItems to get a menubox
+include_once( "ezbug/classes/ezbugsupport.php" );
 
-$menuItems = array(
-    array( "/bug/unhandled/", "{intl-unhandled_bugs}" ),
-    array( "/bug/archive/", "{intl-bug_archive}" ),
-    array( "/bug/priority/list/", "{intl-priority_overview}" ),
-    array( "/bug/category/list/", "{intl-category_overview}" ),
-    array( "/bug/module/list/0/", "{intl-module_overview}" ),
-    array( "/bug/status/list/", "{intl-status_overview}" ),
-    array( "/bug/support/list/", "{intl-support_list}" ),
-    array( "/bug/support/edit/new", "{intl-support_new}" )
-    );
+require( "ezuser/admin/admincheck.php" );
+
+if ( !is_array( $SupportArrayID ) )
+{
+    $SupportArrayID = array( $SupportArrayID );
+}
+
+foreach ( $SupportArrayID as $supportID )
+{
+    eZBugSupport::delete( $supportID );
+}
+
+include_once( "classes/ezhttptool.php" );
+eZHTTPTool::header( "Location: /bug/support/list/" );
+exit();
 
 ?>

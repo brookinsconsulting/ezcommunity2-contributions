@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.18 2001/08/17 13:35:58 jhe Exp $
+// $Id: datasupplier.php,v 1.19 2001/10/29 14:13:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,7 +28,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
 
 $user =& eZUser::currentUser();
-if( eZPermission::checkPermission( $user, "eZBug", "ModuleEdit" ) == false )
+if ( !eZPermission::checkPermission( $user, "eZBug", "ModuleEdit" ) )
 {
     eZHTTPTool::header( "Location: /error/403" );
     exit();
@@ -67,7 +67,7 @@ switch ( $url_array[2] )
 
     case "priority" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "list":
             {
@@ -80,7 +80,7 @@ switch ( $url_array[2] )
 
     case "category" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "list":
             {
@@ -93,11 +93,11 @@ switch ( $url_array[2] )
 
     case "module" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "list":
             {
-                if( isset( $AddModule ) )  // new
+                if ( isSet( $AddModule ) )  // new
                 {
                     $Action = "new";
                     $ParentID = $url_array[4];
@@ -146,9 +146,9 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "status" :
+    case "status":
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "list":
             {
@@ -159,9 +159,8 @@ switch ( $url_array[2] )
         }
     }
     break;
-
     
-    case "edit" :
+    case "edit":
     {
         if ( $url_array[3] == "new" )
         {
@@ -172,18 +171,18 @@ switch ( $url_array[2] )
             $Action = "Edit";
             $BugID = $url_array[4];
         }
-        else if( $url_array[3] == "fileedit" )
+        else if ( $url_array[3] == "fileedit" )
         {
-            switch( $url_array[4] )
+            switch ( $url_array[4] )
             {
-                case  "new" :
+                case  "new":
                 {
                     $Action = "New";
                     $BugID = $url_array[5];
                     include( "ezbug/admin/fileedit.php" );
                 }
                 break;
-                case  "edit" :
+                case  "edit":
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
@@ -191,7 +190,7 @@ switch ( $url_array[2] )
                     include( "ezbug/admin/fileedit.php" );
                 }
                 break;
-                case "delete" :
+                case "delete":
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];
@@ -199,16 +198,16 @@ switch ( $url_array[2] )
                     include( "ezbug/admin/fileedit.php" );
                 }
                 break;
-                default :
+                default:
                 {
                     include( "ezbug/admin/fileedit.php" );
                 }
                 break;
             }
         }
-        else if( $url_array[3] == "imageedit" )
+        else if ( $url_array[3] == "imageedit" )
         {
-            switch( $url_array[4] )
+            switch ( $url_array[4] )
             {
                 case "new":
                 {
@@ -217,7 +216,7 @@ switch ( $url_array[2] )
                     include( "ezbug/admin/imageedit.php" );
                 }
                 break;
-                case "edit" :
+                case "edit":
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
@@ -225,7 +224,7 @@ switch ( $url_array[2] )
                     include( "ezbug/admin/imageedit.php" );
                 }
                 break;
-                case "delete" :
+                case "delete":
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];
@@ -244,27 +243,26 @@ switch ( $url_array[2] )
     }
     break;
 
-
-    case "report" :
+    case "report":
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
-            case "fileedit" :
+            case "fileedit":
             {
-                if( $url_array[4] == "new")
+                if ( $url_array[4] == "new")
                 {
                     $Action = "New";
                     $BugID = $url_array[5];
                     include( "ezbug/user/fileedit.php" );
                 }
-                else if( $url_array[4] == "edit" )
+                else if ( $url_array[4] == "edit" )
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
                     $FileID = $url_array[5];
                     include( "ezbug/user/fileedit.php" );
                 }
-                else if( $url_array[4] == "delete" )
+                else if ( $url_array[4] == "delete" )
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];
@@ -277,22 +275,23 @@ switch ( $url_array[2] )
                 }
             }
             break;
+            
             case "imageedit" :
             {
-                if( $url_array[4] == "new")
+                if ( $url_array[4] == "new")
                 {
                     $Action = "New";
                     $BugID = $url_array[5];
                     include( "ezbug/user/imageedit.php" );
                 }
-                else if( $url_array[4] == "edit" )
+                else if ( $url_array[4] == "edit" )
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
                     $ImageID = $url_array[5];
                     include( "ezbug/user/imageedit.php" );
                 }
-                else if( $url_array[4] == "delete" )
+                else if ( $url_array[4] == "delete" )
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];
@@ -306,18 +305,45 @@ switch ( $url_array[2] )
             }
             break;
 
-            case "edit" :
+            case "edit":
             {
                 $BugID = $url_array[4];
                 $Action = "Edit";
                 include( "ezbug/admin/bugedit.php" );
             }
             break;
-
             
-            default :
+            default:
             {
                 print( "Error: Bug file not found" );
+            }
+            break;
+        }
+    }
+    break;
+
+    case "support":
+    {
+        switch ( $url_array[3] )
+        {
+            case "list":
+            {
+                $Offset = $url_array[4] ? $url_array[4] : 0;
+                include( "ezbug/admin/supportlist.php" );
+            }
+            break;
+
+            case "edit":
+            {
+                $Action = $url_array[4];
+                $id = $url_array[5];
+                include( "ezbug/admin/supportedit.php" );
+            }
+            break;
+
+            case "delete":
+            {
+                include( "ezbug/admin/supportdelete.php" );
             }
             break;
         }

@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezbugsupport.php,v 1.1 2001/10/27 10:53:18 jhe Exp $
+// $Id: ezbugsupport.php,v 1.2 2001/10/29 14:13:03 jhe Exp $
 //
-// Definition of ||| class
+// Definition of eZBugSupport class
 //
 // Created on: <27-Oct-2001 13:12:23 jhe>
 //
@@ -32,25 +32,38 @@
 
 class eZBugSupport
 {
-    function eZBugSupport( $id=-1)
+    function eZBugSupport( $id = -1)
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             $this->get( $this->ID );
         }
     }
 
+    function fill( &$support_array )
+    {
+        $db =& eZDB::globalDatabase();
+        $this->ID = $support_array[$db->fieldName( "ID" )];
+        $this->Name = $support_array[$db->fieldName( "Name" )];
+        $this->UserEmail = $support_array[$db->fieldName( "Email" )];
+        $this->ExpiryDate = $support_array[$db->fieldName( "ExpiryDate" )];
+    }
+    
     function store()
     {
         $db =& eZDB::globalDatabase();
         
         $name = $db->escapeString( $this->Name );
-        $email = $db->escapeString( $this->Email );
+        $email = $db->escapeString( $this->UserEmail );
 
         $db->begin();
         
-        $timeStamp = eZDateTime::timeStamp( true );
+        $timeStamp = eZDate::timeStamp( true );
         
         if ( !isSet( $this->ID ) )
         {
@@ -68,7 +81,6 @@ class eZBugSupport
                                              '$email',
                                              '$this->ExpiryDate')" );
             $db->unlock();
-
         }
         else
         {
@@ -80,19 +92,21 @@ class eZBugSupport
         }
 
         eZDB::finish( $res, $db );
-        
         return true;
     }
 
-    function delete()
+    function delete( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
         
-        if ( isSet( $this->ID ) )
+        if ( $id == -1 && isSet( $this->ID ) )
         {
-            $db->begin();
-            $res[] = $db->query( "DELETE FROM eZBug_Support WHERE ID='$this->ID'" );
+            $id = $this->ID;
         }
+        
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZBug_Support WHERE ID='$id'" );
+
         eZDB::finish( $res, $db );
         return true;
     }
@@ -100,7 +114,7 @@ class eZBugSupport
     /*!
       Fetches the object information from the database.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
         
@@ -115,12 +129,37 @@ class eZBugSupport
             {
                 $this->ID =& $module_array[0][$db->fieldName( "ID" )];
                 $this->Name =& $module_array[0][$db->fieldName( "Name" )];
-                $this->Email =& $module_array[0][$db->fieldName( "Email" )];
+                $this->UserEmail =& $module_array[0][$db->fieldName( "Email" )];
                 $this->ExpiryDate =& $module_array[0][$db->fieldName( "ExpiryDate" )];
             }
         }
     }
 
+    function getAll( $offset = 0, $limit = 10 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $support_array, "SELECT * FROM eZBug_Support ORDER BY Name",
+                          array( "Limit" => $limit, "Offset" => $offset ) );
+        $return_array = array();
+        if ( count( $support_array ) > 0 )
+        {
+            foreach ( $support_array as $supportItem )
+            {
+                $return_array[] = new eZBugSupport( $supportItem );
+            }
+        }
+        return $return_array;
+    }
+
+    function getAllCount()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query_single( $result, "SELECT Count(ID) as Count FROM eZBug_Support" );
+        return $result[$db->fieldName( "Count" )];
+    }
+    
     /*!
       Returns the object id.
     */
@@ -144,7 +183,7 @@ class eZBugSupport
 
     function &expiryDate()
     {
-       $dateTime = new eZDateTime();
+       $dateTime = new eZDate();
        $dateTime->setTimeStamp( $this->ExpiryDate );
        
        return $dateTime;
@@ -157,13 +196,22 @@ class eZBugSupport
 
     function setUserEmail( $email )
     {
-        $this->Email = $email;
+        $this->UserEmail = $email;
     }
 
     function setExpiryDate( $expirydate )
     {
-        $this->ExpiryDate = $expirydate;
+        if ( get_class( $expirydate ) == "ezdate" )
+            $this->ExpiryDate = $expirydate->timeStamp();
+        else
+            $this->ExpiryDate = $expirydate;
     }
+
+    var $ID;
+    var $Name;
+    var $Email;
+    var $ExpiryDate;
+    var $UserEmail;
 }
 
 ?>
