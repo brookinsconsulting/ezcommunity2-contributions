@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.49 2001/04/19 13:07:23 ce Exp $
+// $Id: productedit.php,v 1.50 2001/05/26 12:47:11 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -628,6 +628,15 @@ $groups =& $group->getAll();
 
 foreach ( $groups as $group )
 {
+    if ( $ShippingGroup and $ShippingGroup->id() == $group->id() )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+
     $t->set_var( "shipping_group_id", $group->id() );
     
     $t->set_var( "shipping_group_name", $group->name() );
