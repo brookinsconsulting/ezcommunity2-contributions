@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.8 2001/08/23 14:44:17 th Exp $
+// $Id: frontpage.php,v 1.9 2001/09/18 12:20:24 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -77,6 +77,8 @@ $t->set_block( "one_short_article_tpl", "short_read_more_tpl", "short_read_more"
 
 // banner ad
 $t->set_block( "article_list_page_tpl", "ad_column_tpl", "ad_column" );
+$t->set_block( "ad_column_tpl", "standard_ad_tpl", "standard_ad" );
+$t->set_block( "ad_column_tpl", "html_ad_tpl", "html_ad" );
 
 $t->set_var( "element_list", "" );
 
@@ -494,19 +496,31 @@ function &renderAd( &$t, &$locale, &$ad )
 {
     global $ini;
 
-    $image =& $ad->image();
-
-    if ( $image )
+    if ( $ad->useHTML() )
     {
-        $imgSRC =& $image->filePath();
-        $imgWidth =& $image->width();
-        $imgHeight =& $image->height();
+        $t->set_var( "standard_ad", "" );
+                
+        $t->set_var( "html_ad_contents", $ad->htmlBanner() );
+        $t->parse( "html_ad", "html_ad_tpl" );
     }
+    else
+    {
+        $t->set_var( "html_ad", "" );
+        $image =& $ad->image();
 
-    $t->set_var( "ad_id", $ad->id() );
-    $t->set_var( "image_src", $imgSRC );
-    $t->set_var( "image_width", $imgWidth );
-    $t->set_var( "image_height", $imgHeight );
+        if ( $image )
+        {
+            $imgSRC =& $image->filePath();
+            $imgWidth =& $image->width();
+            $imgHeight =& $image->height();
+        }
+
+        $t->set_var( "ad_id", $ad->id() );
+        $t->set_var( "image_src", $imgSRC );
+        $t->set_var( "image_width", $imgWidth );
+        $t->set_var( "image_height", $imgHeight );
+        $t->parse( "standard_ad", "standard_ad_tpl" );
+    }
 
     return $t->parse( "output", "ad_column_tpl" );
 }

@@ -154,8 +154,14 @@
 
 <tr>
 	<td valign="top" align="center">
-	
+
+	<!-- BEGIN html_ad_tpl -->	
+	{html_ad_contents}
+	<!-- END html_ad_tpl -->
+
+	<!-- BEGIN standard_ad_tpl -->	
 	<a target="_blank" href="{www_dir}{index}/ad/goto/{ad_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="" /></a>
+	<!-- END standard_ad_tpl -->	
 	</td>
 </tr>
 <tr>
