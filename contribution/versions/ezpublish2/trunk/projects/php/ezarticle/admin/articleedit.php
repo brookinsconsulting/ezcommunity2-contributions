@@ -1,16 +1,28 @@
 <?
 // 
-// $Id: articleedit.php,v 1.17 2000/10/29 19:21:19 bf-cvs Exp $
+// $Id: articleedit.php,v 1.18 2000/11/01 06:58:23 bf-cvs Exp $
 //
 // 
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
 //
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
 include_once( "classes/INIFile.php" );
@@ -78,6 +90,42 @@ if ( $Action == "Insert" )
         $category->addArticle( $article );
 
         $articleID = $article->id();
+
+
+        // clear the cache files.
+        $dir = dir( "ezarticle/cache/" );
+        $files = array();
+        while( $entry = $dir->read() )
+        { 
+            if ( $entry != "." && $entry != ".." )
+            { 
+                if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $articleID )
+                    {
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
+
+                if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $articleID )
+                    {
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
+
+                if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $CategoryID )
+                    {
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
+            } 
+        } 
+        $dir->close();
+        
 
     // add images
         if ( isset( $Image ) )
@@ -181,22 +229,32 @@ if ( $Action == "Update" )
         { 
             if ( $entry != "." && $entry != ".." )
             { 
-                $files[] = $entry; 
-                $numfiles++; 
+                if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $ArticleID )
+                    {
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
+
+                if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $ArticleID )
+                    {
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
+
+                if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $CategoryID )
+                    {
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
             } 
         } 
         $dir->close();
-
-        foreach( $files as $file )
-        {
-            if ( ereg( "articleview,([^,]+),.*", $file, $regArray  ) )
-            {
-                if ( $regArray[1] == $ArticleID )
-                {
-                    unlink( "ezarticle/cache/" . $file );
-                }
-            }
-        }
         
     // remove all category references
         $article->removeFromCategories();
@@ -240,6 +298,43 @@ if ( $Action == "Delete" )
     $categories = $article->categories();    
     $categoryID = $categories[0]->id();
 
+    $articleID = $article->id();
+    
+    // clear the cache files.
+    $dir = dir( "ezarticle/cache/" );
+    $files = array();
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        { 
+            if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $articleID )
+                {
+                    unlink( "ezarticle/cache/" . $entry );
+                }
+            }
+
+            if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $articleID )
+                {
+                    unlink( "ezarticle/cache/" . $entry );
+                }
+            }
+
+            if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $categoryID )
+                {
+                    unlink( "ezarticle/cache/" . $entry );
+                }
+            }
+        } 
+    } 
+    $dir->close();
+
+    
     $article->delete();    
     
     Header( "Location: /article/archive/$categoryID/" );

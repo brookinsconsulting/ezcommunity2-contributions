@@ -6,11 +6,41 @@ switch ( $url_array[2] )
 {
     case "archive":
     {
+        print( "archive" );
+        
         $CategoryID = $url_array[3];
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
-        include( "ezarticle/user/articlelist.php" );
+        if ( $PageCaching == "enabled" )
+        {
+            print( "cached version<br>" );
+        
+            $CategoryID = $url_array[3];
+
+            $cachedFile = "ezarticle/cache/articlelist," . $CategoryID . ".cache";
+
+            if ( file_exists( $cachedFile ) )
+            {
+                print( "pure static<br>" );
+                
+                include( $cachedFile );
+            }
+            else
+            {
+                print( "first time generated<br>" );                
+                $GenerateStaticPage = "true";
+                
+                include( "ezarticle/user/articlelist.php" );
+            }            
+        }
+        else
+        {
+            print( "uncached version" );
+
+            include( "ezarticle/user/articlelist.php" );
+        }
+        
     }
     break;
 
@@ -28,6 +58,7 @@ switch ( $url_array[2] )
             $CategoryID = 0;
 
         include( "ezarticle/user/articleheaderlist.php" );
+       
     }
     break;
     

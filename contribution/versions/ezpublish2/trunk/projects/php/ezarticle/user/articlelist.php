@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.12 2000/10/30 12:57:33 bf-cvs Exp $
+// $Id: articlelist.php,v 1.13 2000/11/01 06:58:24 bf-cvs Exp $
 //
 // 
 //
@@ -180,7 +180,21 @@ else
     $t->set_var( "article_list", "" );
 
 
-$t->pparse( "output", "article_list_page_tpl" );
+if ( $GenerateStaticPage == "true" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+
+    $output = $t->parse( $target, "article_list_page_tpl" );
+    
+    // print the output the first time while printing the cache file.
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "article_list_page_tpl" );
+}
 
 
 ?>
