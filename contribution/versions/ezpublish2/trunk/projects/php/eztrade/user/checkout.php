@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.56 2001/03/21 10:22:19 ce Exp $
+// $Id: checkout.php,v 1.57 2001/03/21 10:23:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -399,7 +399,6 @@ foreach ( $addressArray as $address )
         $t->set_var( "country", $country );
     else
         $t->set_var( "country", "" );
-
 
     unset( $mainAddress );
     $t->set_var( "is_selected", "" );
