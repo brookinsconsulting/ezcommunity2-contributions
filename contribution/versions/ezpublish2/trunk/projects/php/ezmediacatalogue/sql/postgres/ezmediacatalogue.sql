@@ -7,7 +7,7 @@ CREATE TABLE eZMediaCatalogue_Attribute (
   Unit varchar(8) default NULL,
   DefaultValue varchar(100) default NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 INSERT INTO eZMediaCatalogue_Attribute VALUES (1,1,'width',996137421,0,'','');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (2,1,'height',996137432,1,'','');
@@ -35,7 +35,7 @@ CREATE TABLE eZMediaCatalogue_Category (
   WritePermission int default '1',
   ReadPermission int default '1',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZMediaCatalogue_Media (
   ID int NOT NULL,		    
@@ -50,7 +50,7 @@ CREATE TABLE eZMediaCatalogue_Media (
   PhotographerID int default NULL,
   Created int default NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZMediaCatalogue_CategoryPermission (
   ID int NOT NULL,		    
@@ -59,21 +59,21 @@ CREATE TABLE eZMediaCatalogue_CategoryPermission (
   ReadPermission int default '0',
   WritePermission int default '0',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZMediaCatalogue_MediaCategoryDefinition (
   ID int NOT NULL,		    
   MediaID int default NULL,
   CategoryID int default NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZMediaCatalogue_MediaCategoryLink (
   ID int NOT NULL,		    
   CategoryID int default NULL,
   MediaID int default NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZMediaCatalogue_MediaPermission (
   ID int NOT NULL,		    
@@ -82,13 +82,13 @@ CREATE TABLE eZMediaCatalogue_MediaPermission (
   ReadPermission int default '0',
   WritePermission int default '0',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZMediaCatalogue_Type (
   ID int NOT NULL,		  
   Name varchar(150) default NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
