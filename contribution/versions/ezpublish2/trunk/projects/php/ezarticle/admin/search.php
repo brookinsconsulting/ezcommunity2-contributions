@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.6 2001/03/01 14:06:25 jb Exp $
+// $Id: search.php,v 1.7 2001/03/06 19:20:07 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -29,9 +29,22 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+
+if( isset( $Delete ) && count( $ArticleArrayID ) > 0 )
+{
+    foreach( $ArticleArrayID as $articleID )
+    {
+        if( eZObjectPermisson::hasPermission( $articleID, "article_article", 'w' ) )
+        {
+            $article = new eZArticle( $articleID );
+            $article->delete();
+        }
+    }
+}
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "search.php" );
@@ -48,6 +61,7 @@ $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 $t->set_block( "article_item_tpl", "article_is_published_tpl", "article_is_published" );
 $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_published" );
+$t->set_block( "article_list_page_tpl", "article_delete_tpl", "article_delete" );
 
 $category = new eZArticleCategory( $CategoryID );
 
@@ -64,9 +78,17 @@ else
 
 // articles
 $article = new eZArticle();
-$articleList = $article->search( $SearchText, "time",true );
-
-$t->set_var( "search_text", $SearchText );
+//if( isset( $OldSearchText ) )
+//{
+//    $articleList = $article->search( $OldSearchText, "time", true );
+//    $t->set_var( "search_text", $OldSearchText );
+//
+//}
+//else
+//{
+    $articleList = $article->search( $SearchText, "time",true );
+    $t->set_var( "search_text", $SearchText );
+//}
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -101,17 +123,18 @@ foreach ( $articleList as $article )
     $i++;
 }
 
-if ( count( $articleList ) > 0 )    
+if ( count( $articleList ) > 0 )
+{
     $t->parse( "article_list", "article_list_tpl" );
+    $t->parse( "article_delete", "article_delete_tpl" );
+}
 else
+{
     $t->set_var( "article_list", "" );
+    $t->set_var( "article_delete", "" );
+}
 
 
 $t->pparse( "output", "article_list_page_tpl" );
-
-
-
-
-
 
 ?>
