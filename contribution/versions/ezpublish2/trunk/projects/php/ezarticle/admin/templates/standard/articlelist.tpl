@@ -138,4 +138,25 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-sle
 <!-- END article_list_tpl -->
 
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+
+<!-- BEGIN previous_tpl -->
+<a href="/link/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
+prev
+</a>
+<!-- END previous_tpl -->
+     </td>
+     <td align="right">
+
+<!-- BEGIN next_tpl -->
+<a href="/link/search/?Offset={next_offset}&URLQueryString={url_query_string}">
+next
+</a>
+<!-- END next_tpl -->
+     </td>
+</tr>
+</table>    
+
 

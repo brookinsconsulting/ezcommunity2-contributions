@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.8 2000/11/02 18:13:00 bf-cvs Exp $
+// $Id: articlelist.php,v 1.9 2001/01/16 17:32:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -33,6 +33,7 @@ include_once( "ezarticle/classes/ezarticle.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+$AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "articlelist.php" );
@@ -56,6 +57,11 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 $t->set_block( "article_item_tpl", "article_is_published_tpl", "article_is_published" );
 $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_published" );
 
+// prev/next
+$t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
+$t->set_block( "article_list_page_tpl", "next_tpl", "next" );
+
+
 $category = new eZArticleCategory( $CategoryID );
 
 $t->set_var( "current_category_id", $category->id() );
@@ -74,6 +80,8 @@ foreach ( $pathArray as $path )
     
     $t->parse( "path_item", "path_item_tpl", true );
 }
+
+
 
 $categoryList = $category->getByParent( $category, true );
 
@@ -111,8 +119,15 @@ else
     $t->set_var( "category_list", "" );
 
 
+// set the offset/limit
+if ( !isset( $Offset ) )
+    $Offset = 0;
+
+if ( !isset( $Limit ) )
+    $Limit = $AdminListLimit;
+
 // articles
-$articleList = $category->articles( "time", true, true );
+$articleList = $category->articles( "time", true, true, $Offset, $Limit );
 
 $locale = new eZLocale( $Language );
 $i=0;

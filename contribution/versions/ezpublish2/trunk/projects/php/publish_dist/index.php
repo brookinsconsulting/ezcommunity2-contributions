@@ -11,7 +11,20 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
-$siteDesign = $ini->read_var( "site", "SiteDesign" );
+
+// design
+include_once( "ezsession/classes/ezsession.php" );
+
+$session = new eZSession();
+
+if ( $session->fetch() == false )
+{
+    $siteDesign = $ini->read_var( "site", "SiteDesign" );
+}
+else
+{
+    $siteDesign = $session->variable( "SiteDesign" );
+}
 
 // do the statistics
 include_once( "ezstats/classes/ezpageview.php" );

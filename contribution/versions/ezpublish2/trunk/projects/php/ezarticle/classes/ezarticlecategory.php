@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.16 2001/01/06 16:21:00 bf Exp $
+// $Id: ezarticlecategory.php,v 1.17 2001/01/16 17:32:45 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -459,38 +459,28 @@ class eZArticleCategory
        {
            $excludedCode = "";           
        }
-       
 
        if ( $fetchNonPublished  == true )
        {
-           $this->Database->array_query( $article_array, "
+           $nonPublishedCode = "";
+       }
+       else
+       {
+           $nonPublishedCode = " eZArticle_Article.IsPublished = 'true' AND";
+       }
+       
+       $this->Database->array_query( $article_array, "
                 SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
                 FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
                 WHERE 
                 eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
                 AND
+                $nonPublishedCode
                 eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                 AND
                 eZArticle_Category.ID='$this->ID'
                 $excludedCode  
                 GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
-       }
-       else
-       {
-           $this->Database->array_query( $article_array, "
-                SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
-                WHERE 
-                eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                AND
-                eZArticle_Article.IsPublished = 'true'
-                AND
-                eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                AND
-                eZArticle_Category.ID='$this->ID'
-                $excludedCode
-                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
-       }
  
        for ( $i=0; $i<count($article_array); $i++ )
        {

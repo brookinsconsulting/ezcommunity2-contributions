@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.1 2000/12/11 11:43:53 bf Exp $
+// $Id: filedownload.php,v 1.2 2001/01/16 17:32:46 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-// clear what might be in the output buffer
+// clear what might be in the output buffer and stop the buffer.
 ob_end_clean();
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
