@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.2 2000/10/03 07:13:49 ce-cvs Exp $
+// $Id: ezuser.php,v 1.3 2000/10/03 10:11:07 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -203,7 +203,7 @@ class eZUser
         $this->Database->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'
                                                     AND Password=PASSWORD('$password')" );
-
+        print( count( $user_array ) );
         if ( count( $user_array ) == 1 )
         {
             $ret = new eZUser( $user_array[0]["ID"] );

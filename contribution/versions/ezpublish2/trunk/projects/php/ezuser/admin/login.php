@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
+// $Id: login.php,v 1.3 2000/10/03 10:11:07 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -51,11 +51,11 @@ if ( $Action == "login" )
 
     if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
-        Header( "Location: /" );
+        print( "Har ikke adminlogin!" );
     }
     if ( !$user )
     {
-        print( "Feil passord!" );
+        print( "Bruker finnes ikke!" );
     }
     if ( $user )
     {

@@ -3,8 +3,8 @@
 </tr>
 <tr> 
     <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
-	<td><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="10" height="10"><a class="menu" href="/user/userlist/">User liste</a><br>
-    <td><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="10" height="10"><a class="menu" href="/user/grouplist/">Group list</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/user/userlist/">User liste</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/user/grouplist/">Group list</a><br>
 	</td>
 </tr>
 <tr>
