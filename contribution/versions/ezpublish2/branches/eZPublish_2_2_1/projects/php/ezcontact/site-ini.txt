@@ -1,0 +1,62 @@
+        **** Explanation of site.ini variables ****
+
+The name of the group in site.ini for eZContact is eZContactMain.
+It contains these variables:
+
+AdminTemplateDir:    Relative path to template files in admin
+TemplateDir:         Relative path to template files in user
+ImageDir:            Absolute path to images
+DocumentRoot:        The path to the root directory of eZContact
+Language:            The language used in eZContact
+CategoryImageWidth:  The width of images displayed in categories
+CategoryImageHeight: The height of images displayed in categories
+MaxPersonConsultationList  The maximum number of consultations to show when viewing a person
+MaxCompanyConsultationList The maximum number of consultations to show when viewing a company
+MaxPersonList:       The maximum number of persons to show in a personlist,
+                     if the number is exceeded next/prev button are shown
+MaxCountryList:      The maximum number of countries to show in a countrylist,
+                     if the number is exceeded next/prev button are shown
+LastConsultations:   How many of the last consultations you've made should be shown
+AddressMinimum:      The minimum number of address items shown in new company and new person,
+                     if the number goes below this empty addresses are shown.
+AddressWidth:        The maximum number of address to show on a row,
+                     if the number goes above the items are wrapped onto a new line.
+PhoneMinimum:        The minimum number of phone items shown in new company and new person,
+                     if the number goes below this empty phones are shown.
+PhoneWidth:          The maximum number of phone to show on a row,
+                     if the number goes above the items are wrapped onto a new line.
+OnlineMinimum:       The minimum number of online items shown in new company and new person,
+                     if the number goes below this empty onlines are shown.
+OnlineWidth:         The maximum number of online to show on a row,
+                     if the number goes above the items are wrapped onto a new line.
+CompanyViewLogin     Set to true if viewing companies requires login, if not anyone can view
+                     companies.
+CompanyEditLogin     Set to true if editing companies requires login, if not anyone can edit
+                     companies.
+ShowCompanyContact   If set to true show contact part of a company when viewing a company.
+ShowCompanyStatus    If set to true show status part of a company when viewing a company.
+
+Example group:
+[eZContactMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+DocumentRoot=./ezcontact/
+Language=en_GB
+CategoryImageWidth=100
+CategoryImageHeight=100
+MaxPersonConsultationList=5
+MaxCompanyConsultationList=5
+MaxPersonList=10
+MaxCountryList=10
+LastConsultations=5
+AddressMinimum=1
+AddressWidth=1
+PhoneMinimum=3
+PhoneWidth=3
+OnlineMinimum=2
+OnlineWidth=3
+CompanyViewLogin=true
+CompanyEditLogin=true
+ShowCompanyContact=true
+ShowCompanyStatus=true
