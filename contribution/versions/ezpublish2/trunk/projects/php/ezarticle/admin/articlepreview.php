@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.15 2001/04/30 09:10:52 bf Exp $
+// $Id: articlepreview.php,v 1.16 2001/05/04 11:40:21 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -54,7 +54,14 @@ $t->set_block( "article_preview_page_tpl", "page_link_tpl", "page_link" );
 $t->set_block( "article_preview_page_tpl", "next_page_link_tpl", "next_page_link" );
 $t->set_block( "article_preview_page_tpl", "prev_page_link_tpl", "prev_page_link" );
 
-$article = new eZArticle( $ArticleID );
+$article = new eZArticle( );
+
+if ( !$article->get( $ArticleID ) )
+{
+    eZHTTPTool::header( "Location: /error/404/" );
+    exit();
+}
+
 
 $renderer = new eZArticleRenderer( $article );
 

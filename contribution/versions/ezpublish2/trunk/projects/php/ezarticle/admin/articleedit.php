@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.80 2001/04/30 12:12:47 bf Exp $
+// $Id: articleedit.php,v 1.81 2001/05/04 11:40:21 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -538,15 +538,22 @@ $readGroupsID = array();
 if ( $Action == "New" )
 {
     $user = eZUser::currentUser();
-    $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());    
-
+    $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());
+    $article = new eZArticle( );
 }
 
 
-$article = new eZArticle( $ArticleID );
-
 if ( $Action == "Edit" )
 {
+    $article = new eZArticle( );
+
+    if ( !$article->get( $ArticleID ) )
+    {
+        eZHTTPTool::header( "Location: /error/404/" );
+        exit();
+    }
+   
+
     $t->set_var( "article_id", $ArticleID );
 
     if (  $article->isPublished() )
