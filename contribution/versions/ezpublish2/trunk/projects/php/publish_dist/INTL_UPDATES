@@ -1,0 +1,6 @@
+This file contains all changes in intl files since version 2.0 beta3
+Example:
+mod: bug/user, fileedit.php.ini
+change: added user_edit=Some text
+--------------------------------------------------------------------
+
