@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagebody.php,v 1.3 2001/02/26 16:42:28 pkej Exp $
+// $Id: messagebody.php,v 1.4 2001/03/04 19:35:05 fh Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -22,6 +22,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+
+include_once( "classes/INIFile.php" );
+include_once( "classes/ezlocale.php" );
+
+$ini =& $GLOBALS["GlobalSiteIni"];
+$Language = $ini->read_var( "eZCalendarMain", "Language" );
+$Locale = new eZLocale( $Language );
 
 if( $ShowMessage == true )
 {
@@ -72,7 +80,7 @@ if( $ShowMessage == true )
     }
     else
     {
-        $MessagePostedAt = $locale->format( $msg->postingTime() );
+        $MessagePostedAt = $Locale->format( $msg->postingTime() );
     }
 
     if( isset( $NewMessageNotice ) )
