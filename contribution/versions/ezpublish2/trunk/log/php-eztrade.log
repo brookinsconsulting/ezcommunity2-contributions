@@ -303,3 +303,89 @@ Maintainer(s) : ce@ez.no
       admin/intl/no_NO/voucherlist.php.ini
       user/intl/no_NO/ordersendt.php.ini: added translation.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-17  Christofer Elo  <ce@ez.no>
+
+    * classes/ezcartitem.php
+      classes/ezorder.php
+      classes/ezproduct.php
+      classes/ezproductpricerange.php: Fixed a division zero bug
+
+    * admin/intl/en_GB/menubox.php.ini: Added a language string
+
+2001-09-17  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/productview.php: Added:
+
+    $can_checkout = $product->showPrice();
+
+    If you don't know the price, you can't order it.
+
+2001-09-17  Bjoern Reiten  <br@ez.no>
+
+    * user/intl/no_NO/mailorder.php.ini: Added translation.
+
+2001-09-17  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/ordersendt.php
+      classes/ezorderitem.php: Fixed locale problem.
+
+    * user/checkout.php: Irritating inLanguage instead of Language.
+
+    * user/payment.php:
+    Removed a lot of locale and currency reinitializations which weren't needed.
+
+    * user/ordersendt.php: inLanguage instead of Language? Not good.
+
+2001-09-17  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/linmag/mailorder.tpl
+      user/templates/linmag/productview.tpl
+      user/templates/linmag/cart.tpl
+      user/templates/linmag/checkout.tpl
+      user/templates/linmag/ordersendt.tpl
+      user/templates/linmag/productlist.tpl: Layout
+
+2001-09-17  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/hotdealslist.php:
+    Removed another problem with logic deciding which info to show.
+
+    * classes/ezcart.php
+      classes/ezorder.php:
+    Fixed the totals so that they set the output variables to empty before
+    calculation.
+
+    * user/templates/standard/mailorder.tpl
+      user/templates/standard/ordersendt.tpl
+      user/intl/en_GB/ordersendt.php.ini
+      user/payment.php:
+    Fixed the last few problems here. The e-mails are finally correct, as well
+    as the confirmation page.
+
+2001-09-17  Bjoern Reiten  <br@ez.no>
+
+    * user/productlist.php: added parse on elseif on prices.
+
+2001-09-17  Christofer Elo  <ce@ez.no>
+
+    * user/cart.php
+      classes/ezproduct.php: Fixed a bug
+
+2001-09-17  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/hotdealslist.php: Fixed logic for showing prices.
+
+    * user/productlist.php: Fixed logic in presentatoin of prices.
+
+2001-09-17  nca_intelhosting3  <bf@ez.no>
+
+    * user/productlist.php: Added section id variable in product list.
+
+2001-09-17  Christofer Elo  <ce@ez.no>
+
+    * user/productlist.php: Fixed a empty template bug.
+

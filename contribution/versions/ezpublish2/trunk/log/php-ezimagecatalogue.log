@@ -137,3 +137,18 @@ Maintainer(s) : br@ez.no
       user/categoryedit.php
       user/imageedit.php: Added upload permissions in imagecatalogue...
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-17  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/image.php:
+    Added RequestSize in returned XMLRPC struct which is the requests image
+    variation size.
+
+2001-09-17  Christofer Elo  <ce@ez.no>
+
+    * classes/ezimagecategory.php:
+    Added a GROUP BY on getImages() because of duplicated images.
+

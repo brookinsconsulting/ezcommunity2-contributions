@@ -53,3 +53,19 @@ Maintainer(s) : jhe@rz.no
     added buttons for buy and file folder in contact lists
     several bugfixes in calendar
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@rz.no
+2001-09-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/appointmentedit.php:
+    fixed bug when choosing multiple participants in appointmentedit
+
+    * user/appointmentedit.php
+      user/dayview.php
+      user/monthview.php: fixed year bug in december
+
+    * user/intl/en_GB/trustees.php.ini
+      user/appointmentedit.php: fixed cancel button in appointmentedit
+

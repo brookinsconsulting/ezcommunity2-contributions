@@ -102,3 +102,24 @@ Maintainer(s) : jhe@ez.no
 
     * classes/ezforummessage.php: latest messages now contains replies
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforum.php
+      user/messagelist.php: fixed bug when counting messages
+
+    * user/templates/standard/message.tpl: fixed bug once more :P
+
+    * user/templates/standard/message.tpl:
+    fixed indenting in message thread in message view
+
+    * user/templates/standard/message.tpl
+      user/message.php:
+    fixed bug printing author for anonynous users in message thread in message view
+
+    * user/templates/standard/messagelist.tpl:
+    fixed bug when showing indenting on replies
+

@@ -77,3 +77,23 @@ Maintainer(s) : jhe@ez.no
 
     * user/folderedit.php: Fix
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-17  fh  <fh@zev.ez.no>
+
+    * classes/ezvirtualfile.php
+      classes/ezvirtualfolder.php
+      user/filelist.php
+      user/fileupload.php
+      user/folderedit.php:
+    1. Change ownership and set right permissions when adding to upload folder
+    2. Recursivly change permissions and ownership on files being moved into an upload
+    folder.
+    3. Permissions fixes.
+
+2001-09-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/folderedit.php: fixed small bug
+

@@ -454,3 +454,38 @@ Maintainer(s) : bf@ez.no
     * user/templates/linmag/articlelist.tpl
       user/templates/linmag/articleview.tpl: added blocks for article_topic
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-17  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php:
+    Fixed possibility to attach files larger than ID 10.
+
+2001-09-17  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/linmag/articlestatic.tpl
+      user/templates/linmag/articleview.tpl: Layout
+
+2001-09-17  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php:
+    Moved the setIsPublished function further down after the article is stored
+    and categories are set. It seems that the function needs this to be done
+    after the category definition is set.
+
+    * classes/ezarticle.php:
+    Some changes to setIsPublished. The user used in checking can be supplied
+    externally, this is needed for XMLRPC to work properly. If no user is supplied
+    the current user is used.
+    The return type from categoryDefinition is now checked before used, it may
+    be that the category definition is not set for an article yet(for example
+    if an article is not stored yet.)
+
+2001-09-17  Baard Farstad  <bf@ez.no>
+
+    * user/sitemap.php: fixed sitemap.
+
+    * user/sitemap.php: Fixed alternating bgcolor in sitemap.
+

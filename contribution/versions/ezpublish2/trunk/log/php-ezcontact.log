@@ -82,3 +82,30 @@ Maintainer(s) : jhe@ez.no
     added buttons for buy and file folder in contact lists
     several bugfixes in calendar
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personedit.php
+      admin/personview.php
+      classes/ezcompany.php
+      classes/ezperson.php: fixed bug in sales list in person view
+    when adding new person user is redirected to person view
+
+    * user/personsearch.php
+      user/templates/standard/companysearch.tpl
+      user/templates/standard/personsearch.tpl
+      admin/templates/standard/companytypelist.tpl
+      admin/templates/standard/companyview.tpl
+      admin/templates/standard/personlist.tpl
+      admin/templates/standard/personview.tpl
+      admin/templates/standard/typelist.tpl
+      user/companysearch.php: now using get for searching instead of post
+
+    * admin/templates/standard/companytypelist.tpl
+      user/templates/standard/consultation.tpl
+      admin/folder.php:
+    fixed permission problem when linking contact and filemanager
+

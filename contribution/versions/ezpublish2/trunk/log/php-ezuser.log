@@ -135,3 +135,19 @@ Maintainer(s) : bf@ez.no
 
     * sql/mysql/ezuser.sql: added missing sql information
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-17  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/userwithaddress.tpl: fixed template
+
+2001-09-17  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/templates/linmag/userwithaddress.tpl: Magnificent changes.
+
+    * user/datasupplier.php:
+    Added test for OverrideOverrideUserWithAddress. Will use another directory
+    if defined.
+
