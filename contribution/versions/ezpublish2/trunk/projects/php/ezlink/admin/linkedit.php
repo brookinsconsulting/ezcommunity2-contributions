@@ -40,7 +40,14 @@ if ( $Action == "delete" )
     $deletelink->get( $LID );
     $deletelink->delete();
 
-    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );
+    if ( $LGID == incoming )
+    {
+        Header( "Location: index.php?page=..ezlink/admin/linklist.php&LGID=incoming" );
+    }
+    else
+    {
+    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
+    }
 }
 
 // Legge til link
@@ -66,7 +73,7 @@ if ( $Action == "insert" )
     print ( "akseptert: " . $accepted );
     $newlink->store();
 
-    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );
+    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
 }
 
 // Sette template filer

@@ -20,7 +20,7 @@ if ( $Action == "delete" )
     $deletelinkgroup->get( $LGID );
     $deletelinkgroup->delete();
 
-    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );
+    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
 }
 
 // Legg til gruppe
@@ -38,7 +38,7 @@ if ( $Action == "insert" )
     
     $message = "Legg til gruppe";
     $submit = "Legg til";
-    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );    
+    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );    
 }
 
 // Oppdatere
@@ -52,7 +52,7 @@ if ( $Action == "update" )
 
     $updatelinkgroup->setTitle ( $title );
     $updatelinkgroup->update();
-    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );    
+    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );    
 
 }
 
