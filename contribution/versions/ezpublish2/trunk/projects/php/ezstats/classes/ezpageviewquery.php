@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.5 2001/01/12 16:07:23 bf Exp $
+// $Id: ezpageviewquery.php,v 1.6 2001/01/12 17:44:36 bf Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -359,7 +359,7 @@ class eZPageViewQuery
     }
 
     /*!
-      Returns the top exit 
+      Returns the top exit pages.
     */
     function &topExitPage( )
     {
@@ -380,6 +380,34 @@ class eZPageViewQuery
             
 //              $return_array[$visit["Date"]][$visit["RemoteHostID"]] = $visit["PageID"];
             
+            $idx = $visit["Date"] . $visit["RemoteHostID"];
+            
+            $return_array[$idx] = $visit["PageID"];
+
+        }
+        
+        return $return_array;
+        
+    }
+
+    /*!
+      Returns the top entry pages.
+    */
+    function &topEntryPage( )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT Hit.ID, Page.URI, Page.ID AS PageID, Hit.RemoteHostID, Concat( Year(Hit.Date), DayOfYear(Hit.Date)) AS Date
+         FROM eZStats_PageView AS Hit, eZStats_RequestPage AS Page
+         WHERE Hit.RequestPageID=Page.ID
+         ORDER BY Hit.RemoteHostID, Hit.Date DESC" );
+        
+        foreach ( $visitor_array as $visit )
+        {
             $idx = $visit["Date"] . $visit["RemoteHostID"];
             
             $return_array[$idx] = $visit["PageID"];

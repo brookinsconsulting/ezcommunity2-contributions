@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: entryexitpages.php,v 1.1 2001/01/12 17:19:59 bf Exp $
+// $Id: entryexitpages.php,v 1.2 2001/01/12 17:44:36 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Jan-2001 16:31:41 bf>
@@ -44,9 +44,11 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "entry_exit_report_tpl", "exit_page_tpl", "exit_page" );
+$t->set_block( "entry_exit_report_tpl", "entry_page_tpl", "entry_page" );
 
 $query = new eZPageViewQuery();
 
+// exit pages
 $exitPages =& $query->topExitPage();
 
 $exitPageArray = array();
@@ -60,7 +62,7 @@ foreach ( $exitPages as $page )
 arsort( $exitPageArray );
 
 $pageView = new eZPageView();
-$ExitPageLimit = 10;
+$ExitPageLimit = 20;
 
 $i=0;
 foreach ( $exitPageArray as $exitPage )
@@ -74,6 +76,35 @@ foreach ( $exitPageArray as $exitPage )
     if ( $i>=$ExitPageLimit )
         break;
 }
+
+// entry pages
+$entryPages =& $query->topEntryPage();
+
+$entryPageArray = array();
+
+foreach ( $entryPages as $page )
+{
+    $entryPageArray[$page]["Count"] += 1;
+    $entryPageArray[$page]["PageID"] = $page;
+}
+
+arsort( $entryPageArray );
+
+$EntryPageLimit = 20;
+
+$i=0;
+foreach ( $entryPageArray as $entryPage )
+{
+    $t->set_var( "page_uri", $pageView->requestPageByID( $entryPage["PageID"] ) );
+    $t->set_var( "entry_count", $entryPage["Count"] );
+
+    $t->parse( "entry_page", "entry_page_tpl", true );
+    
+    $i++;
+    if ( $i>=$EntryPageLimit )
+        break;
+}
+
 
 $t->set_var( "this_month", $Month );
 $t->set_var( "this_year", $Year );
