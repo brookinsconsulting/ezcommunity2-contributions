@@ -25,7 +25,7 @@
 <!-- END path_item_tpl -->
 
 <!-- BEGIN group_list_tpl -->
-<h2>Lenkekategorier</h2>
+<br />
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN group_item_tpl -->
 <tr>
