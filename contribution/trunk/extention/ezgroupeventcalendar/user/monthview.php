@@ -194,6 +194,10 @@ if( $user )
     $t->set_block( "month_tpl", "week_tpl", "week" );
     $t->set_block( "month_tpl", "week_day_tpl", "week_day" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
+
+    $t->set_block( "day_tpl", "day_link_tpl", "day_link" );
+    $t->set_block( "day_tpl", "day_no_link_tpl", "day_no_link" );
+  
     $t->set_block( "day_tpl", "public_appointment_tpl", "public_appointment" );
     $t->set_block( "day_tpl", "private_appointment_tpl", "private_appointment" );
     $t->set_block( "day_tpl", "new_event_link_tpl", "new_event_link" );
@@ -299,18 +303,20 @@ if( $user )
                     $t->set_var( "private_appointment", "" );
 
 
+
+
                     foreach ( $appointments as $appointment )
                     {	
 		      // kracker : trim apointment name to keep the calendar easy to read
 		      $appointmentName = $appointment->name();
 		      if ($TruncateTitle == "enabled"){
-		       $appointmentNameLen = strlen($appointmentName);
-		       $appointmentNameLenHalf = 12;
+		        $appointmentNameLen = strlen($appointmentName);
+		        $appointmentNameLenHalf = 12;
 
-		       if ( $appointmentNameLen > $appointmentNameLenHalf ){
-			$appointmentNameLenHalf = $appointmentNameLen / 2;
-			$appointmentName = shortenText($appointmentName, 12);
-		       }
+		        if ( $appointmentNameLen > $appointmentNameLenHalf ){
+			  $appointmentNameLenHalf = $appointmentNameLen / 2;
+			  $appointmentName = shortenText($appointmentName, 12);
+		        }
 		      }
 				$t->set_var ( "appointment_name", $appointmentName );
 				$t->set_var ( "appointment_id" , $appointment->id() );
@@ -372,6 +378,9 @@ if( $user )
                     $t->set_var( "day_number", $currentDay );
                     $t->set_var( "month_number_p", $Month );
                     $t->set_var( "year_number", $Year );
+
+		    $t->set_var( "day_link", "" );
+
                 }
                 else   // previous or next month
                 {
@@ -399,6 +408,8 @@ if( $user )
                         $t->set_var( "year_number", $prevNextDate->year() );
 
                         $t->set_var( "appointment", "" );
+
+                        $t->set_var( "day_link", "" );
                     }
                     else
                     {
@@ -426,11 +437,46 @@ if( $user )
                         $t->set_var( "year_number", $prevNextDate->year() );
 
                         $t->set_var( "appointment", "" );
+
                     }
                     $t->set_var( "td_class", "bgdark" );
                     if ( $prevNextDate->equals( $today ) )
                         $t->set_var( "td_class", "bgcurrent" );
                 }
+
+
+                $day_loop_count = $day_loop_count + 1;
+
+		// if ( count($appointments) > 0 && $day_loop_count < 30 )
+		//  print(count($appointments) ." | $a1 |" ."<br />\n");
+
+		// print(count($appointments) ." | $a1 |" ."<br />\n");
+		// print(count($appointments) ."<br />\n");
+		
+		$day_appointment_count = count($appointments);
+		$day_appointment_day = $currentDay;
+
+		if ( $day_appointment_count > 0 ) { 
+		  // needs calculation to say start / end of month begin / reached, note that items on the
+		  // first and last few days of every month do not render their events only within the 
+		  // calendar's current month (? bug, negative feature), this is a hack fix to prevent 
+		  // the display of the links to days without events.
+		  if ( $day_appointment_count > 0 && $day_loop_count <= 33 ){  
+		    // print("Rare:  $day_appointment_day | $day_appointment_count | $day_loop_count <br />");
+
+                    $t->set_var( "day_no_link", "" );
+                    $t->parse( "day_link", "day_link_tpl" );
+		  } else {   
+		    // print("Rare2:  $day_appointment_day | $day_appointment_count | $day_loop_count <br />");
+
+		    $t->set_var( "day_link", "" );
+		    $t->parse( "day_no_link", "day_no_link_tpl" );
+		  }
+		} else {
+		  $t->set_var( "day_link", "" );
+		  $t->parse( "day_no_link", "day_no_link_tpl" );
+		}
+
                 $t->parse( "day", "day_tpl", true );
             }
         }
