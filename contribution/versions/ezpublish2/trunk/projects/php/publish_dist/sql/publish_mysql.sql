@@ -541,12 +541,14 @@ CREATE TABLE eZArticle_ArticleMediaLink (
 
 CREATE TABLE eZArticle_ArticleWordLink (
   ArticleID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
   WordID int(11) NOT NULL default '0'
 );
 
 
 CREATE TABLE eZArticle_Word (
   ID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
   Word varchar(50) NOT NULL default ''
 );
 
@@ -998,6 +1000,7 @@ CREATE TABLE eZFileManager_FolderPermission (
   GroupID int(11) default NULL,
   ReadPermission int(11) default '0',
   WritePermission int(11) default '0',
+  UploadPermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -1072,19 +1075,20 @@ CREATE TABLE eZForm_FormElementType (
 INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
 INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');
 CREATE TABLE eZForum_Category (
+  ID int NOT NULL,
   Name varchar(20) default NULL,
   Description varchar(40) default NULL,
   IsPrivate int default NULL,
-  ID int NOT NULL,
+  SectionID int default 1,
   PRIMARY KEY (ID)
 );
 
 
 CREATE TABLE eZForum_Forum (
+  ID int NOT NULL,
   Name varchar(20) NOT NULL default '',
   Description varchar(40) default NULL,
   IsPrivate int default NULL,
-  ID int NOT NULL,
   ModeratorID int NOT NULL default '0',
   IsModerated int NOT NULL default '0',
   GroupID int default '0',
@@ -1100,6 +1104,7 @@ CREATE TABLE eZForum_ForumCategoryLink (
 );
 
 CREATE TABLE eZForum_Message (
+  ID int NOT NULL,
   ForumID int NOT NULL default '0',
   Topic varchar(60) default NULL,
   Body text,
@@ -1111,10 +1116,23 @@ CREATE TABLE eZForum_Message (
   TreeID int default NULL,
   ThreadID int default NULL,
   Depth int default NULL,
-  ID int NOT NULL,
   IsApproved int NOT NULL default '1',
   IsTemporary int NOT NULL default '0',
   PRIMARY KEY (ID)
+);
+
+
+CREATE TABLE eZForum_MessageWordLink (
+  MessageID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  WordID int(11) NOT NULL default '0'
+);
+
+
+CREATE TABLE eZForum_Word (
+  ID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  Word varchar(50) NOT NULL default ''
 );
 
 CREATE TABLE eZImageCatalogue_Category (
@@ -1125,6 +1143,7 @@ CREATE TABLE eZImageCatalogue_Category (
   UserID int default NULL,
   WritePermission int default '1',
   ReadPermission int default '1',
+  SectionID int default '1',
   PRIMARY KEY (ID)
 );
 
@@ -1257,6 +1276,7 @@ CREATE TABLE eZLink_Category (
   Name varchar(100) default NULL,
   ImageID int NOT NULL,
   Description varchar(200),
+  SectionID int default '1',
   PRIMARY KEY (ID)
 );
 
@@ -1755,7 +1775,7 @@ CREATE TABLE eZSession_SessionVariable (
   ID int(11) NOT NULL,
   SessionID int(11),
   Name char(25),
-  Value char(50),
+  Value Text,
   GroupName char(50) default NULL,
   PRIMARY KEY (ID)
 );
@@ -1965,6 +1985,7 @@ CREATE TABLE eZTrade_CartItem (
   Count int(11) default NULL,
   CartID int(11) default NULL,
   WishListItemID int(11) NOT NULL default '0',
+  VoucherInformationID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -1975,6 +1996,7 @@ CREATE TABLE eZTrade_CartOptionValue (
   OptionID int(11) default NULL,
   OptionValueID int(11) default NULL,
   RemoteID varchar(100) default NULL,
+  Count int(11) default NULL,	
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -1987,6 +2009,7 @@ CREATE TABLE eZTrade_Category (
   ImageID int(11) default NULL,
   SortMode int(11) NOT NULL default '1',
   RemoteID varchar(100) default NULL,
+  SectionID int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2038,6 +2061,7 @@ CREATE TABLE eZTrade_Option (
   ID int NOT NULL,
   Name varchar(100) default NULL,
   Description text,
+  RemoteID varchar(100) default NULL,	
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2084,6 +2108,7 @@ CREATE TABLE eZTrade_Order (
   IsVATInc int(11) default '0',
   CompanyID int(11) default '0',
   PersonID int(11) default '0',
+  Comment text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2170,7 +2195,7 @@ CREATE TABLE eZTrade_Product (
   ProductType int(11) default '1',
   ExpiryTime int(11) NOT NULL default '0',
   Published int(11) default NULL,
-  IncludesVAT int(1) default '0',
+  IncludesVAT int(1) default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2341,13 +2366,16 @@ CREATE TABLE eZTrade_ValueQuantityDict (
 
 
 CREATE TABLE eZTrade_Voucher (
-  ID int(11) default '0',
+  ID int(11) default '0' NOT NULL,
   Created int(11) default '0',
   Price float default '0',
   Available int(11) default '0',
-  KeyNumber varchar(50) default NULL
+  KeyNumber varchar(50) default NULL,
+  MailMethod int(11) default '1',
+  UserID int(11) default '0',
+  ProductID int(11) default '0',
+  PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_VoucherEMail (
   ID int(11) default '0',

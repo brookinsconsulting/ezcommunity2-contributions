@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.16 2001/08/28 07:45:54 kaid Exp $
+// $Id: index_admin.php,v 1.17 2001/09/27 15:20:35 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -306,8 +306,6 @@ else
 // close the database connection.
 $db =& eZDB::globalDatabase();
 $db->close();
-
-print( $db->isA() );
 
 // flush the buffer cache
 ob_end_flush();

@@ -1,6 +1,7 @@
+
 <?php
 // 
-// $Id: menubox.php,v 1.21 2001/09/24 15:29:53 bf Exp $
+// $Id: menubox.php,v 1.22 2001/09/27 15:20:35 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,8 +36,8 @@ $menuItems = array(
     array( "/article/type/edit", "{intl-new_type}" ),
     array( "/article/categoryedit/new/", "{intl-new_category}" ),
     array( "/article/articleedit/new/", "{intl-new_article}" ),
-    array( "/article/search/advanced", "{intl-search_advanced}" ),
-    array( "/article/export", "{intl-export}" )
+    array( "/article/search/advanced", "{intl-search_advanced}" )
+//    array( "/article/export", "{intl-export}" )
     );
 
 ?>
