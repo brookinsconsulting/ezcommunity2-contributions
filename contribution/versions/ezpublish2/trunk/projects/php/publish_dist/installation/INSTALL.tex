@@ -643,15 +643,15 @@ Now you need to create a database in MySQL, the default name we use
 is publish, but you can change that to whatever pleases you.\\
 
 
-\texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/publish.sql}~\\
+\texttt{\footnotesize ~~~~\# mysqladmin create publish}~\\
 {\footnotesize \par}
 
 Add a publish user in MySQL. To add a user you can use the MySQL client
 to log on to mysql and then create the user:\\
 
 
-\texttt{\footnotesize ~~~~\# mysql>grant all on publish.{*} to
-publish@localhost}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\# mysql > grant all on publish.{*}
+to publish@localhost}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~identified by \char`\"{}secret\char`\"{};}\texttt{}~\\
 

@@ -11,7 +11,7 @@
 %DVIPSWebPage: (www.radicaleye.com)
 %DVIPSCommandLine: dvips -t a4 -o INSTALL.ps INSTALL.dvi
 %DVIPSParameters: dpi=600, compressed
-%DVIPSSource:  TeX output 2001.03.09:1429
+%DVIPSSource:  TeX output 2001.03.09:1502
 %%BeginProcSet: texc.pro
 %!
 /TeXDict 300 dict def TeXDict begin/N{def}def/B{bind def}N/S{exch}N/X{S
@@ -5079,15 +5079,15 @@ b(publish)h(Installation)150 1927 y Fg(5.1)119 b(Database)150
 2334 y Fm(No)n(w)19 b(you)g(need)f(to)i(create)f(a)h(database)e(in)i
 (MySQL,)f(the)g(def)o(ault)g(name)g(we)g(use)h(is)g(publish,)e(b)n(ut)i
 (you)e(can)h(change)f(that)150 2434 y(to)i(whate)n(v)o(er)f(pleases)i
-(you.)309 2637 y Fj(#)40 b(mysql)f(-uroot)g(-p)h(publish)f(<)g
-(sql/publish.sql)150 2841 y Fm(Add)23 b(a)h(publish)f(user)g(in)h
-(MySQL.)f(T)-7 b(o)24 b(add)f(a)h(user)f(you)g(can)h(use)f(the)h(MySQL)
-f(client)h(to)g(log)f(on)g(to)h(mysql)f(and)g(then)150
-2940 y(create)d(the)g(user:)309 3144 y Fj(#)40 b(mysql>grant)e(all)i
-(on)f(publish.*)g(to)g(publish@localhost)309 3268 y(identified)g(by)g
-("secret";)150 3492 y Fm(where)22 b(secret)h(is)g(your)f(passw)o(ord.)
-31 b(Then)22 b(you)g(need)g(to)h(add)f(the)h(def)o(ault)e(eZ)i(publish)
-f(data)g(into)h(your)e(ne)n(wly)h(created)150 3592 y(database:)309
+(you.)309 2637 y Fj(#)40 b(mysqladmin)e(create)h(publish)150
+2841 y Fm(Add)23 b(a)h(publish)f(user)g(in)h(MySQL.)f(T)-7
+b(o)24 b(add)f(a)h(user)f(you)g(can)h(use)f(the)h(MySQL)f(client)h(to)g
+(log)f(on)g(to)h(mysql)f(and)g(then)150 2940 y(create)d(the)g(user:)309
+3144 y Fj(#)40 b(mysql)f(>)h(grant)f(all)g(on)h(publish.*)e(to)i
+(publish@localhost)309 3268 y(identified)f(by)g("secret";)150
+3492 y Fm(where)22 b(secret)h(is)g(your)f(passw)o(ord.)31
+b(Then)22 b(you)g(need)g(to)h(add)f(the)h(def)o(ault)e(eZ)i(publish)f
+(data)g(into)h(your)e(ne)n(wly)h(created)150 3592 y(database:)309
 3795 y Fj(#)40 b(mysql)f(-uroot)g(-p)h(publish)f(<)g(sql/publish.sql)
 150 4041 y Fk(5.1.1.1)80 b(Adding)21 b(Pr)o(e-De\002ned)f(Data)150
 4222 y Fm(If)i(you)f(w)o(ant)h(to)g(add)f(the)h(pre-de\002ned)e(data)h

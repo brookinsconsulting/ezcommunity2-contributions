@@ -681,14 +681,14 @@ we use is publish, but you can change that to whatever pleases
 you.
 
 
-    # mysql -uroot -p publish < sql/publish.sql
+    # mysqladmin create publish
 
 
 Add a publish user in MySQL. To add a user you can use the
 MySQL client to log on to mysql and then create the user:
 
 
-    # mysql>grant all on publish.* to publish@localhost
+    # mysql > grant all on publish.* to publish@localhost
 
     identified by "secret";
 

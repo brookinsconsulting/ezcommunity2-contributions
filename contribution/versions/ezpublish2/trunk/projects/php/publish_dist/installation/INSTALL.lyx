@@ -1737,7 +1737,7 @@ Now you need to create a database in MySQL, the default name we use is publish,
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# mysql -uroot -p publish < sql/publish.sql
+# mysqladmin create publish
 \newline 
 
 \layout Standard
@@ -1756,7 +1756,7 @@ Add a publish user in MySQL.
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# mysql>grant all on publish.* to publish@localhost
+# mysql > grant all on publish.* to publish@localhost
 \layout Standard
 
 
