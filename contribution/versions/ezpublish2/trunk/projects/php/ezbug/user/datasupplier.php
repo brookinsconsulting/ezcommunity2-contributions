@@ -11,7 +11,7 @@ function hasPermission( $bugID )
     $user = eZUser::currentUser();
     $bug = new eZBug( $bugID );
     $module = $bug->module();
-    if ( eZObjectPermission::hasPermission( $module->id(), "bug_module", "w", $user ) )
+    if ( get_class( $module ) == "ezbugmodule" && eZObjectPermission::hasPermission( $module->id(), "bug_module", "w" ) )
     {
         return true;
     }
@@ -106,7 +106,7 @@ switch ( $url_array[2] )
         }
         else // someone is trying to push the envelope
         {
-            eZHTTPTool::header( "Location: /bug/archive/");
+            eZHTTPTool::header( "Location: /error/403");
             exit();
         }
     }
