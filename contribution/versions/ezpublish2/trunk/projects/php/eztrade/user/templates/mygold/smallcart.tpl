@@ -13,7 +13,7 @@
 	<td class="spacer5">&nbsp;</td>
   </tr>
   	<tr> 
-	  <td class="bgspacer"><img src="/images/shim.gif" alt="" width="1" height="2" /></td>
+	  <td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
 	</tr>
 </table>
 <!-- END empty_cart_tpl -->
@@ -36,27 +36,27 @@
 	</tr>
 	<!-- END cart_item_tpl -->
 	<tr>
-	  <td class="spacer" colspan="2" bgcolor="#999999"><img src="/images/shim.gif" alt="" width="1" height="1" /></td>
+	  <td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
 	</tr>
 	<tr> 
 	  <td>&nbsp;{intl-shipping}:</td>
 	  <td align="right">{shipping_cost}&nbsp;</td>
 	</tr>
 	<tr>
-	  <td class="spacer" colspan="2" bgcolor="#999999"><img src="/images/shim.gif" alt="" width="1" height="1" /></td>
+	  <td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
 	</tr>
 	<tr> 
 	  <td>&nbsp;{intl-total}:</td>
 	  <td align="right">{cart_sum}&nbsp;</td>
 	</tr>
 	<tr>
-	  <td class="spacer" colspan="2" bgcolor="#999999"><img src="/images/shim.gif" alt="" width="1" height="1" /></td>
+	  <td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
 	</tr>
 	<tr>
-	  <td class="spacer" colspan="2"><img src="/images/shim.gif" alt="" width="1" height="1"></td>
+	  <td class="spacer" colspan="2"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1"></td>
 	</tr>
 	<tr>
-	  <td class="spacer" colspan="2" bgcolor="#999999"><img src="/images/shim.gif" alt="" width="1" height="1"></td>
+	  <td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1"></td>
 	</tr>
 	<tr>
 	  <td class="spacer5" colspan="2">
@@ -93,7 +93,7 @@
 	  <td class="spacer2" colspan="2">&nbsp;</td>
 	</tr>
 	<tr> 
-	  <td class="bgspacer" colspan="2"><img src="/images/shim.gif" alt="" width="1" height="2" /></td>
+	  <td class="bgspacer" colspan="2"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
 	</tr>
   </table>
 <!-- END cart_item_list_tpl -->

@@ -30,7 +30,7 @@
 	<td class="spacer2">&nbsp;</td>
   </tr>
   <tr> 
-	<td class="bgspacer"><img src="/images/shim.gif" alt="" width="1" height="2" /></td>
+	<td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
   </tr>
   <tr> 
 	<td class="spacer5">&nbsp;</td>
