@@ -49,9 +49,15 @@ else
     
     for ( $i=0; $i<count( $link_array ); $i++ )
     {
-        
 
-        $t->set_var( "bg_color", "#eeddaa" );
+                if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "#f0f0f0" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "#dcdcdc" );
+        }  
 
         $t->set_var( "link_id", $link_array[ $i ][ "ID" ] );
         $t->set_var( "link_title", $link_array[ $i ][ "Title" ] );

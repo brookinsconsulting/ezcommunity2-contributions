@@ -40,7 +40,7 @@ else
 // print( "antall grupper " . count( $linkGroup_array )); 
     for ( $i=0; $i<count( $linkGroup_array ); $i++ )
     {
-                if ( ( $i % 2 ) == 0 )
+                if ( ( ( $i / 2 ) % 2 ) == 0 )
         {
             $t->set_var( "bg_color", "#f0f0f0" );
         }
