@@ -12,43 +12,26 @@
 <br /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td valign="top">	
-	<p class="boxtext">{intl-category}:</p>
-        <!-- 
-	<select name="CategoryID">
-	<!-- BEGIN value_tpl -->
-	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
-	<!-- END value_tpl -->
-	</select>
-	</td>
-	<td valign="top">
-	<p class="boxtext">{intl-additional_categories}:</p>
-	<select multiple size="5" name="CategoryArray[]">
-	<!-- BEGIN multiple_value_tpl -->
-	<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
-	<!-- END multiple_value_tpl -->
-	</select>
-        -->
-        {main_category_name}
-        <input type="hidden" name="MainCategoryID" value="{main_category_id}" />
-	</td>
-	<td width="50%">
-	<p class="boxtext">{intl-category}:</p>
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<th>{intl-category}:</th>
+	<th>Hovedkategori:</th>
 	<!-- BEGIN selected_category_item_tpl -->
 	<tr> 
-	    <td>
+	    <td width="30%">
 	    {category_name}
 	    <input type="hidden" name="SelectedCategories[]" value="{category_id}" />
 	    <input type="hidden" name="CategoryArray[]" value="{category_id}" />
 	    </td>
+	    <td width="70%">
+	    <input type="radio" {is_checked} name="MainCategoryID" value="{category_id}" />
+	    </td>
 	</tr>
 	<!-- END selected_category_item_tpl -->
-	</table>
-        <input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+	<tr>
+	<tr><td>&nbsp;</td></tr>
+	<td>
+	    <input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 	</td>
-
+	</tr>
 </tr>
 <tr>
         <td>&nbsp;</td>

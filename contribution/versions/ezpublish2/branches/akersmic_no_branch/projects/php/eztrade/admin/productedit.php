@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productedit.php,v 1.69.2.1.4.4 2002/01/17 08:04:41 ce Exp $
+// $Id: productedit.php,v 1.69.2.1.4.5 2002/01/25 14:54:49 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -665,8 +665,10 @@ else if ( is_object ( $product ) )
 
 if ( is_object( $category ) )
 {
-    $t->set_var( "main_category_name", $category->name() );
-    $t->set_var( "main_category_id", $category->id() );
+    if ( $Action != "Edit" )
+        $SelectedCategories[] = $category->id();
+//    $t->set_var( "main_category_name", $category->name() );
+//    $t->set_var( "main_category_id", $category->id() );
 }
 
 /*
@@ -846,6 +848,7 @@ if ( $ShowModuleLinker )
     $t->parse( "module_linker_button", "module_linker_button_tpl" );
 
 $t->set_var( "selected_category_item" );
+$categoryCount = count( $SelectedCategories );
 if ( is_array ( $SelectedCategories ) )
 {
     foreach( $SelectedCategories as $categoryID )
@@ -853,6 +856,17 @@ if ( is_array ( $SelectedCategories ) )
         $cat = new eZProductCategory( $categoryID );
         $t->set_var( "category_id", $cat->id() );
         $t->set_var( "category_name", $cat->name() );
+        if ( $categoryCount == 1 )
+        {
+            $t->set_var( "is_checked", "checked" );
+        }
+        else
+        {
+            if ( $CategoryID == $categoryID )
+                $t->set_var( "is_checked", "checked" );
+            else
+                $t->set_var( "is_checked", "" );
+        }
 
         $t->parse( "selected_category_item", "selected_category_item_tpl", true );
     }
