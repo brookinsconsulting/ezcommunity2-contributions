@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.18 2001/03/12 14:31:53 jb Exp $
+// $Id: optionedit.php,v 1.19 2001/03/14 10:37:00 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -186,7 +186,9 @@ $t->set_file( "option_edit_page", "optionedit.tpl" );
 $t->set_block( "option_edit_page", "value_header_item_tpl", "value_header_item" );
 $t->set_block( "option_edit_page", "group_item_tpl", "group_item" );
 
-$t->set_block( "option_edit_page", "value_description_item_tpl", "value_description_item" );
+$t->set_block( "option_edit_page", "value_headers_tpl", "value_headers" );
+
+$t->set_block( "value_headers_tpl", "value_description_item_tpl", "value_description_item" );
 $t->set_block( "value_description_item_tpl", "value_description_item_checkbox_tpl", "value_description_item_checkbox" );
 
 $t->set_block( "option_edit_page", "option_item_tpl", "option_item" );
@@ -309,17 +311,22 @@ if ( isset( $NewDescription ) )
 $value_count = max( $MinHeaders, $ValueCount );
 
 $t->set_var( "value_count", $value_count );
-reset( $OptionValueDescription );
-$value_header_item = each( $OptionValueDescription );
-$t->set_var( "value_description_item_checkbox", "" );
+
+$t->set_var( "value_headers", "" );
 if ( !$SimpleOptionHeaders )
-    $t->parse( "value_description_item_checkbox", "value_description_item_checkbox_tpl" );
-for ( $i = 0; $i < max( $MinHeaders, $value_count ); $i++ )
 {
-    $t->set_var( "option_description_value", $value_header_item[1] );
-    $t->set_var( "value_description_index", $i );
-    $t->parse( "value_description_item", "value_description_item_tpl", true );
+    reset( $OptionValueDescription );
     $value_header_item = each( $OptionValueDescription );
+    $t->parse( "value_description_item_checkbox", "value_description_item_checkbox_tpl" );
+    for ( $i = 0; $i < max( $MinHeaders, $value_count ); $i++ )
+    {
+        $t->set_var( "option_description_value", $value_header_item[1] );
+        $t->set_var( "value_description_index", $i );
+        $t->parse( "value_description_item", "value_description_item_tpl", true );
+        $value_header_item = each( $OptionValueDescription );
+    }
+
+    $t->parse( "value_headers", "value_headers_tpl" );
 }
 
 reset( $OptionPrice );

@@ -22,6 +22,7 @@
 	<!-- END group_item_tpl -->
 	<th>&nbsp;</th>
 </tr>
+<!-- BEGIN value_headers_tpl -->
 <tr>
 	<th valign="bottom">{intl-value_header}:</th>
 	<!-- BEGIN value_description_item_tpl -->
@@ -35,6 +36,7 @@
 	<td>&nbsp;</td>
 	<td colspan="{group_count}">&nbsp;</td>
 </tr>
+<!-- END value_headers_tpl -->
 	<!-- BEGIN option_item_tpl -->
 <tr>
 	<th>
