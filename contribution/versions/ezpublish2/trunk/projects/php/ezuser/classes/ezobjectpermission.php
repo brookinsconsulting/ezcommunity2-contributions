@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.18 2001/06/25 06:59:08 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.19 2001/06/27 13:55:02 jb Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -287,13 +287,14 @@ class eZObjectPermission
             $i = 0;
             foreach( $res as $groupID )
             {
-                if( $groupID[$db->fieldName("GroupID")]  == -1 )
+                $id = $groupID[$db->fieldName("GroupID")];
+                if( $id  == -1 )
                 {
                     $res = array();
                     $res[0] = -1;
                     return $res;
                 }
-                $GroupReturn ? $ret[$i] = new eZUserGroup( $groupID[$db->fieldName("GroupID")] ) : $ret[$i] = $groupID[$db->fieldName("GroupID")];
+                $ret[$i] = $GroupReturn ? new eZUserGroup( $id ) : $id;
                 $i++;
             }
         }
