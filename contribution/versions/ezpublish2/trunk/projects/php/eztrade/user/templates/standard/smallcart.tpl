@@ -57,7 +57,7 @@
 <tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 <tr>
-	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="/trade/cart/">{intl-allcart}</a></td>
 	<!-- END cart_checkout_tpl -->
 </tr>

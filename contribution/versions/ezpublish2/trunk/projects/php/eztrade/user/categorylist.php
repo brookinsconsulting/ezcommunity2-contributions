@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.5 2001/03/28 08:29:55 bf Exp $
+// $Id: categorylist.php,v 1.6 2001/04/11 14:18:41 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Nov-2000 09:23:42 bf>
@@ -34,7 +34,7 @@ if ( $PageCaching == "enabled" )
 {
     include_once( "classes/ezcachefile.php" );
     $CacheFile = new eZCacheFile( "eztrade/cache/",
-                                  array( "cateorylist", $CategoryID ),
+                                  array( "cateorylist", $CategoryID, $GlobalSiteDesign ), 
                                   "cache", "," );
     if ( $CacheFile->exists() )
     {
@@ -77,6 +77,8 @@ if ( $PureStatic != "true" )
 
 
     $categoryList = $category->getByParent( $category );
+
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
 
     // categories
     $i=0;

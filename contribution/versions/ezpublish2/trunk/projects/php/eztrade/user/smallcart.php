@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.16 2001/03/26 18:35:47 jb Exp $
+// $Id: smallcart.php,v 1.17 2001/04/11 14:18:41 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -196,6 +196,7 @@ else
     $t->set_var( "cart_item_list", "" );
 }
 
+$t->set_var( "sitedesign", $GlobalSiteDesign );
 
 $t->pparse( "output", "cart_page_tpl" );
 

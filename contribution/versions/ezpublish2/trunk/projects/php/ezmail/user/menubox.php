@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.7 2001/03/28 14:43:08 fh Exp $
+// $Id: menubox.php,v 1.8 2001/04/11 14:18:41 th Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <23-Mar-2001 10:57:04 fh>
@@ -65,6 +65,8 @@ if( eZUser::currentUser() )
         $t->parse( "mail_folder", "mail_folder_tpl", true );
     }
     
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
+
     $t->pparse( "output", "menu_box_tpl" );
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelinks.php,v 1.8 2001/03/28 08:29:55 bf Exp $
+// $Id: articlelinks.php,v 1.9 2001/04/11 14:18:40 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
@@ -33,7 +33,7 @@ if ( $PageCaching == "enabled" )
 {
     include_once( "classes/ezcachefile.php" );
     $CacheFile = new eZCacheFile( "ezarticle/cache/",
-                                  array( "articlelinklist", $CategoryID ),
+                                  array( "articlelinklist", $CategoryID , $GlobalSiteDesign ),
                                   "cache", "," );
     if ( $CacheFile->exists() )
     {
@@ -74,7 +74,8 @@ if ( $PureStatic != "true" )
     $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
     $t->set_var( "image_dir", $ImageDir );
-
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
+		
     $category = new eZArticleCategory( $CategoryID );
 
     $t->set_var( "current_category_name", $category->name() );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/04/11 13:21:15 th Exp $
+// $Id: menubox.php,v 1.2 2001/04/11 14:18:40 th Exp $
 //
 // Thomas Hellstrøm <th@ez.no>
 // Created on: <11-April-2001 15:20:00 th>

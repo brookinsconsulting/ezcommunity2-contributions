@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.8 2001/03/08 18:58:28 jb Exp $
+// $Id: menubox.php,v 1.9 2001/04/11 14:18:41 th Exp $
 //
 // 
 //
@@ -36,7 +36,7 @@ unset( $menuCachedFile );
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
-    $menuCachedFile = "ezlink/cache/menubox.cache";
+    $menuCachedFile = "ezlink/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
                     
     if ( file_exists( $menuCachedFile ) )
     {
@@ -60,6 +60,7 @@ function createLinkMenu()
     global $Language;
     global $GenerateStaticPage;
     global $menuCachedFile;
+	global $GlobalSiteDesign;
     
     include_once( "classes/eztemplate.php" );
 
@@ -121,7 +122,9 @@ function createLinkMenu()
     }
     else
     {
-        $t->pparse( "output", "menu_box_tpl" );
+        $t->set_var( "sitedesign", $GlobalSiteDesign );
+		
+		$t->pparse( "output", "menu_box_tpl" );
     }
 }
 

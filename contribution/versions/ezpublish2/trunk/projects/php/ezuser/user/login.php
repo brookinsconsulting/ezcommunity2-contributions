@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.26 2001/04/09 10:19:21 bf Exp $
+// $Id: login.php,v 1.27 2001/04/11 14:18:42 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -159,6 +159,7 @@ if ( $Action == "logout" )
 $t->set_var( "redirect_url", $RedirectURL );
 
 $t->set_var( "action_value", "login" );
+
 $t->pparse( "output", "login" );
 
 ?>

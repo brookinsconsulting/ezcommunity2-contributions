@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/01/22 14:43:02 jb Exp $
+// $Id: menubox.php,v 1.4 2001/04/11 14:18:41 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -41,7 +41,9 @@ $t->setAllStrings();
 $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
-    
+
+$t->set_var( "sitedesign", $GlobalSiteDesign );    
+
 $t->pparse( "output", "menu_box_tpl" );
 
 ?>

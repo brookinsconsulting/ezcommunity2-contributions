@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.25 2001/03/26 13:31:24 bf Exp $
+// $Id: userbox.php,v 1.26 2001/04/11 14:18:42 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -104,6 +104,9 @@ if ( !$user )
     }
    
     $t->set_var( "action_value", "login" );
+
+	$t->set_var( "sitedesign", $GlobalSiteDesign );
+
     $t->pparse( "output", "login" );
     
 }
@@ -145,7 +148,9 @@ else
     }
     
 
-    $t->pparse( "output", "userbox" );
+	$t->set_var( "sitedesign", $GlobalSiteDesign );
+    
+	$t->pparse( "output", "userbox" );
 } 
 
 ?>

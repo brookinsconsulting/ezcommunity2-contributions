@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.15 2001/03/08 18:47:00 bf Exp $
+// $Id: votebox.php,v 1.16 2001/04/11 14:18:41 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -38,7 +38,7 @@ unset( $menuCachedFile );
 // do the caching
 if ( $PageCaching == "enabled" )
 {
-    $menuCachedFile = "ezpoll/cache/menubox.cache";
+    $menuCachedFile = "ezpoll/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
     
     if ( file_exists( $menuCachedFile ) )
     {
@@ -59,6 +59,7 @@ function createPollMenu( $generateStaticPage = false )
     global $ini;
     global $menuCachedFile;
     global $noItem;
+	global $GlobalSiteDesign;
 
     $Language = $ini->read_var( "eZPollMain", "Language" );
     
@@ -83,6 +84,7 @@ function createPollMenu( $generateStaticPage = false )
     $t->set_var( "vote_item", "" );
     $t->set_var( "novote_item", "" );
     $t->set_var( "head_line", "" );
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
     
     if ( $poll )
     {
@@ -138,7 +140,7 @@ function createPollMenu( $generateStaticPage = false )
     }
     else
     {
-        $t->pparse( "output", "vote_box" );
+		$t->pparse( "output", "vote_box" );
     }
 
 }

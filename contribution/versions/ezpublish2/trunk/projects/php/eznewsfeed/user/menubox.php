@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: menubox.php,v 1.8 2001/04/11 14:18:41 th Exp $
+// $Id: menubox.php,v 1.1 2001/04/11 14:18:41 th Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
-// Created on: <16-Jan-2001 13:23:02 ce>
+// Thomas Hellstrøm <th@ez.no>
+// Created on: <11-April-2001 15:20:00 th>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -24,20 +24,18 @@
 //
 
 include_once( "classes/INIFile.php" );
-include_once( "ezuser/classes/ezpermission.php" );
-include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$ini =& INIFile::globalINI();
+$ini =& $GLOBALS["GlobalSiteIni"];
 
-$Language = $ini->read_var( "eZFileManagerMain", "Language" );
+$Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
-include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$t = new eZTemplate( "ezfilemanager/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
-                     "ezfilemanager/user/intl", $Language, "menubox.php" );
+$t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsfeedMain", "TemplateDir" ),
+                     "eznewsfeed/user/intl", $Language, "menubox.php" );
 
 $t->setAllStrings();
 
@@ -45,23 +43,8 @@ $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
 
-$t->set_block( "menu_box_tpl", "user_login_tpl", "user_login" );
-
-$user = eZUser::currentUser();
-
-
-if( $user && ( eZObjectPermission::getObjects( "filemanager_folder", 'w', true ) > 0 
-               || eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) ) )
-{
-    $t->parse( "user_login", "user_login_tpl" );
-}
-else
-{
-    $t->set_var( "user_login", "" );
-}
-
 $t->set_var( "sitedesign", $GlobalSiteDesign );
-	    
-$t->pparse( "output", "menu_box_tpl" );
 
+$t->pparse( "output", "menu_box_tpl" );
+		
 ?>

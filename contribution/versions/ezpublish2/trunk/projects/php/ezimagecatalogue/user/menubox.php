@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.5 2001/03/07 16:01:08 fh Exp $
+// $Id: menubox.php,v 1.6 2001/04/11 14:18:41 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -53,6 +53,8 @@ else
 {
     $t->set_var( "user_login", "" );
 }
+
+$t->set_var( "sitedesign", $GlobalSiteDesign );
     
 $t->pparse( "output", "menu_box_tpl" );
 

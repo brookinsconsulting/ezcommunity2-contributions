@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.8 2001/03/01 14:06:25 jb Exp $
+// $Id: menubox.php,v 1.9 2001/04/11 14:18:41 th Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -35,7 +35,7 @@ unset( $menuCachedFile );
 // do the caching
 if ( $PageCaching == "enabled" )
 {
-    $menuCachedFile = "ezforum/cache/menubox.cache";
+    $menuCachedFile = "ezforum/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
 
     if ( file_exists( $menuCachedFile ) )
     {
@@ -59,7 +59,8 @@ function createPage()
     global $menuCachedFile;
     global $ini;
     global $Language;
-    
+   	global $GlobalSiteDesign;
+
     include_once( "classes/eztemplate.php" );
     include_once( "classes/ezdb.php" );
     include_once( "ezforum/classes/ezforumcategory.php" );
@@ -123,7 +124,9 @@ function createPage()
     }
     else
     {
-        $t->pparse( "output", "menu_box_tpl" );
+        $t->set_var( "sitedesign", $GlobalSiteDesign );
+		
+		$t->pparse( "output", "menu_box_tpl" );
     }
     
 }

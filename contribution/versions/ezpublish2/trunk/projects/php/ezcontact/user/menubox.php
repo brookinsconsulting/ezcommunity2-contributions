@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.9 2001/02/19 15:36:47 jb Exp $
+// $Id: menubox.php,v 1.10 2001/04/11 14:18:40 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -65,6 +65,8 @@ if ( get_class( $user ) == "ezuser" and
         $t->parse( "person_new", "person_new_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
         $t->parse( "consultation_item", "consultation_item_tpl" );
+
+	$t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $t->pparse( "output", "menu_box_tpl" );
 }   
