@@ -28,7 +28,7 @@ CREATE TABLE eZArticle_Article (
 # Dumping data for table 'eZArticle_Article'
 #
 
-INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a demo article. It will demontrate the power of the eZTechRenderer used for generating articles.</intro><body><page><header>Here I will demonstrate some simple tags</header>\r\n\r\n<bold> this is bold text</bold> \r\n<italic>this is italic text</italic>\r\n<strike>this is strike through text</strike>\r\n\r\n<link href=\"ez.no\" text=\"this is a link\" />\r\n<mail to=\"bf@ez.no\" subject=\"demo\" text=\"mail me\" /> a mail link with subject set to demo\r\n\r\n</page><page>\r\n\r\n<header>Here I will demonstrate images</header>\r\n\r\nAs you see the images are generated on the fly, so you can request any size (small, medium, large) at any time.\r\n\r\n<image id=\"1\" align=\"left\" size=\"small\" /> This is a small image. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\nbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\n<header>A large image:</header>\r\n\r\n<image id=\"1\" align=\"center\" size=\"large\" /> \r\n\r\n</page><page>\r\n\r\n<header>Coding tags</header>\r\n\r\nHere I will demonstrate som programming tags.\r\n\r\n<php>\r\n// this is php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n</php>\r\n\r\nAnd some cpp:\r\n<cpp>\r\nclass foo\r\n{\r\n  foo();\r\n  void bar();\r\n}\r\n</cpp>\r\n\r\nAnd \r\n<ezhtml>\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n  &lt;title&gt;\r\n  Title\r\n  &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis is the body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n</ezhtml>\r\n\r\n</page></body></article>','Bård Farstad','read',1,20001101152408,20001101152255,3,'true',20001101152255,'tech\nThis is a demo article. It will demontrate the power of eZTechRenderer used for generating articles.Here I demonstrate some simple tags\r\n\r\n this bold text \r\nthis italic text\r\nthis strike through text\r\n\r\n\r\n mail link with subject set to demo\r\n\r\n\r\n\r\nHere images\r\n\r\nAs you see images are generated on fly, so can request any size (small, medium, large) at time.\r\n\r\n This small image. Bla bla .\r\n\r\nbla .\r\n\r\nA large image:\r\n\r\n \r\n\r\n\r\n\r\nCoding tags\r\n\r\nHere som programming tags.\r\n\r\n\r\n// php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n\r\n\r\nAnd cpp:\r\n\r\nclass foo\r\n{\r\n foo();\r\n void \r\n\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;title&gt;\r\n Title\r\n &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n\r\n\r\n ');
+INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a demo article. It will demontrate the power of the eZTechRenderer used for generating articles.</intro><body><page><header>Here I will demonstrate some simple tags</header>\r\n\r\n<bold> this is bold text</bold> \r\n<italic>this is italic text</italic>\r\n<strike>this is strike through text</strike>\r\n\r\n<link href=\"ez.no\" text=\"this is a link\" />\r\n<mail to=\"bf@ez.no\" subject=\"demo\" text=\"mail me\" /> a mail link with subject set to demo\r\n\r\n</page><page>\r\n\r\n<header>Here I will demonstrate images</header>\r\n\r\nAs you see the images are generated on the fly, so you can request any size (small, medium, large) at any time.\r\n\r\n<image id=\"1\" align=\"left\" size=\"small\" /> This is a small image. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\nbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\n<header>A large image:</header>\r\n\r\n<image id=\"1\" align=\"center\" size=\"large\" /> \r\n\r\n\r\n<header>Images on a row</header>\r\n<image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /> <image id=\"3\" align=\"float\" size=\"small\" /> \r\n\r\n\r\n</page><page>\r\n\r\n<header>Coding tags</header>\r\n\r\nHere I will demonstrate som programming tags.\r\n\r\n<php>\r\n// this is php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n</php>\r\n\r\nAnd some cpp:\r\n<cpp>\r\nclass foo\r\n{\r\n  foo();\r\n  void bar();\r\n}\r\n</cpp>\r\n\r\nAnd \r\n<ezhtml>\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n  &lt;title&gt;\r\n  Title\r\n  &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis is the body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n</ezhtml></page></body></article>','Bård Farstad','read',1,20001219112015,20001101152255,3,'true',20001101152255,'tech\nThis is a demo article. It will demontrate the power of eZTechRenderer used for generating articles.Here I demonstrate some simple tags\r\n\r\n this bold text \r\nthis italic text\r\nthis strike through text\r\n\r\n\r\n mail link with subject set to demo\r\n\r\n\r\n\r\nHere images\r\n\r\nAs you see images are generated on fly, so can request any size (small, medium, large) at time.\r\n\r\n This small image. Bla bla .\r\n\r\nbla .\r\n\r\nA large image:\r\n\r\n \r\n\r\n\r\nImages row\r\n  \r\n\r\n\r\n\r\n\r\nCoding tags\r\n\r\nHere som programming tags.\r\n\r\n\r\n// php code\r\nfunction foo()\r\n{\r\n bar();\r\n}\r\n\r\n\r\nAnd cpp:\r\n\r\nclass foo\r\n{\r\n foo();\r\n void \r\n\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;title&gt;\r\n Title\r\n &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n ');
 
 #
 # Table structure for table 'eZArticle_ArticleCategoryDefinition'
@@ -113,7 +113,9 @@ CREATE TABLE eZArticle_ArticleImageLink (
 # Dumping data for table 'eZArticle_ArticleImageLink'
 #
 
-INSERT INTO eZArticle_ArticleImageLink VALUES (1,1,1,20001101152355);
+INSERT INTO eZArticle_ArticleImageLink VALUES (1,1,1,20001219111628);
+INSERT INTO eZArticle_ArticleImageLink VALUES (2,1,3,20001219111658);
+INSERT INTO eZArticle_ArticleImageLink VALUES (3,1,4,20001219111721);
 
 #
 # Table structure for table 'eZArticle_Category'
@@ -516,8 +518,14 @@ CREATE TABLE eZImageCatalogue_Image (
 # Dumping data for table 'eZImageCatalogue_Image'
 #
 
-INSERT INTO eZImageCatalogue_Image VALUES (1,'','caption text','','phpnXJLgk.jpg','360_tail.jpg');
-INSERT INTO eZImageCatalogue_Image VALUES (2,'','flower','','phpSzUU7U.jpg','DSCN1906.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (1,'','','','phpAo2gGF.jpg','DSCN1760.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (2,'','','','phpolqwhq.jpg','DSCN1728.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (3,'','','','phpWeVpiE.jpg','DSCN1728.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (4,'','','','php3mdV6w.jpg','DSCN1906.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (5,'','','','php4REXPU.jpg','DSCN1771.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (6,'','','','phpm2q5Uf.jpg','DSCN1906.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (7,'','','','phpIYKkMb.jpg','DSCN1742.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (8,'','','','phpB7vdKL.jpg','DSCN1884.JPG');
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariation'
@@ -537,12 +545,30 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
 # Dumping data for table 'eZImageCatalogue_ImageVariation'
 #
 
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (1,1,1,'ezimagecatalogue/catalogue/variations/1-150x150.jpg',150,143);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (2,1,2,'ezimagecatalogue/catalogue/variations/1-100x100.jpg',100,95);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,1,3,'ezimagecatalogue/catalogue/variations/1-300x300.jpg',150,143);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (4,2,1,'ezimagecatalogue/catalogue/variations/2-150x150.jpg',150,113);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (5,2,4,'ezimagecatalogue/catalogue/variations/2-250x250.jpg',250,188);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (6,2,5,'ezimagecatalogue/catalogue/variations/2-35x35.jpg',35,26);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (1,2,1,'ezimagecatalogue/catalogue/variations/2-150x150.jpg',0,0);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (2,1,1,'ezimagecatalogue/catalogue/variations/1-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,3,1,'ezimagecatalogue/catalogue/variations/3-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (4,4,1,'ezimagecatalogue/catalogue/variations/4-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (5,1,2,'ezimagecatalogue/catalogue/variations/1-100x100.jpg',100,75);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (6,4,3,'ezimagecatalogue/catalogue/variations/4-300x300.jpg',300,225);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (7,1,3,'ezimagecatalogue/catalogue/variations/1-300x300.jpg',300,225);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (8,1,4,'ezimagecatalogue/catalogue/variations/1-200x200.jpg',200,150);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (9,3,4,'ezimagecatalogue/catalogue/variations/3-200x200.jpg',200,150);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (10,4,4,'ezimagecatalogue/catalogue/variations/4-200x200.jpg',200,150);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (11,3,2,'ezimagecatalogue/catalogue/variations/3-100x100.jpg',100,75);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (12,4,2,'ezimagecatalogue/catalogue/variations/4-100x100.jpg',100,75);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (13,5,1,'ezimagecatalogue/catalogue/variations/5-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (14,6,1,'ezimagecatalogue/catalogue/variations/6-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (15,7,1,'ezimagecatalogue/catalogue/variations/7-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (16,8,1,'ezimagecatalogue/catalogue/variations/8-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (17,7,2,'ezimagecatalogue/catalogue/variations/7-100x100.jpg',100,75);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (18,6,5,'ezimagecatalogue/catalogue/variations/6-250x250.jpg',250,188);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (19,8,6,'ezimagecatalogue/catalogue/variations/8-400x500.jpg',400,300);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (20,7,6,'ezimagecatalogue/catalogue/variations/7-400x500.jpg',400,300);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (21,5,6,'ezimagecatalogue/catalogue/variations/5-400x500.jpg',400,300);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (22,6,6,'ezimagecatalogue/catalogue/variations/6-400x500.jpg',400,300);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (23,4,6,'ezimagecatalogue/catalogue/variations/4-400x500.jpg',400,300);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (24,7,7,'ezimagecatalogue/catalogue/variations/7-35x35.jpg',35,26);
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariationGroup'
@@ -562,8 +588,10 @@ CREATE TABLE eZImageCatalogue_ImageVariationGroup (
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (1,150,150);
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (2,100,100);
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (3,300,300);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (4,250,250);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (5,35,35);
+INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (4,200,200);
+INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (5,250,250);
+INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (6,400,500);
+INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (7,35,35);
 
 #
 # Table structure for table 'eZSession_Session'
@@ -582,10 +610,6 @@ CREATE TABLE eZSession_Session (
 # Dumping data for table 'eZSession_Session'
 #
 
-INSERT INTO eZSession_Session VALUES (1,'570cf3b1469f51a801eae563a271d808',20001123091840,00000000000000,00000000000000);
-INSERT INTO eZSession_Session VALUES (2,'b06203dc4c3b53b4d3532ee42f8b3566',20001123091840,00000000000000,00000000000000);
-INSERT INTO eZSession_Session VALUES (3,'c920fb2afcc671ea9fb8ddfc53254fd0',20001123091910,20001123092209,20001123092209);
-INSERT INTO eZSession_Session VALUES (4,'660f598f31d0e26413d75f1410571270',20001123093118,20001123093332,20001123093329);
 
 #
 # Table structure for table 'eZSession_SessionVariable'
@@ -602,10 +626,6 @@ CREATE TABLE eZSession_SessionVariable (
 #
 # Dumping data for table 'eZSession_SessionVariable'
 #
-
-INSERT INTO eZSession_SessionVariable VALUES (1,1,'AuthenticatedUser','');
-INSERT INTO eZSession_SessionVariable VALUES (2,2,'AuthenticatedUser','1');
-INSERT INTO eZSession_SessionVariable VALUES (3,3,'AuthenticatedUser','1');
 
 #
 # Table structure for table 'eZTrade_Cart'
@@ -624,6 +644,8 @@ CREATE TABLE eZTrade_Cart (
 INSERT INTO eZTrade_Cart VALUES (1,176);
 INSERT INTO eZTrade_Cart VALUES (2,1);
 INSERT INTO eZTrade_Cart VALUES (3,4);
+INSERT INTO eZTrade_Cart VALUES (4,5);
+INSERT INTO eZTrade_Cart VALUES (5,6);
 
 #
 # Table structure for table 'eZTrade_CartItem'
@@ -642,6 +664,8 @@ CREATE TABLE eZTrade_CartItem (
 #
 
 INSERT INTO eZTrade_CartItem VALUES (1,1,1,2);
+INSERT INTO eZTrade_CartItem VALUES (2,1,2,4);
+INSERT INTO eZTrade_CartItem VALUES (3,2,4,4);
 
 #
 # Table structure for table 'eZTrade_CartOptionValue'
@@ -659,6 +683,7 @@ CREATE TABLE eZTrade_CartOptionValue (
 # Dumping data for table 'eZTrade_CartOptionValue'
 #
 
+INSERT INTO eZTrade_CartOptionValue VALUES (1,3,1,2);
 
 #
 # Table structure for table 'eZTrade_Category'
@@ -710,6 +735,7 @@ CREATE TABLE eZTrade_Option (
 # Dumping data for table 'eZTrade_Option'
 #
 
+INSERT INTO eZTrade_Option VALUES (1,'Color','');
 
 #
 # Table structure for table 'eZTrade_OptionValue'
@@ -726,6 +752,9 @@ CREATE TABLE eZTrade_OptionValue (
 # Dumping data for table 'eZTrade_OptionValue'
 #
 
+INSERT INTO eZTrade_OptionValue VALUES (1,'Yellow',1);
+INSERT INTO eZTrade_OptionValue VALUES (2,'Green',1);
+INSERT INTO eZTrade_OptionValue VALUES (3,'Blue',1);
 
 #
 # Table structure for table 'eZTrade_Order'
@@ -847,7 +876,7 @@ CREATE TABLE eZTrade_Product (
 # Dumping data for table 'eZTrade_Product'
 #
 
-INSERT INTO eZTrade_Product VALUES (1,'Flower','This is just a demo product... ','Here are the description of the product.','nice flower',42.00,'true','true','false','false','FLW-100','ez.no','false');
+INSERT INTO eZTrade_Product VALUES (1,'Flower','This is just a demo product... ','Here are the description of the product.','nice flower',42.00,'true','true','false','false','FLW-100','ez.no','true');
 INSERT INTO eZTrade_Product VALUES (2,'Multi product','This product is assigned in multiple categories.','Not much to say, buy it!','Multi Power',64.00,'true','true','false','false','M100','','true');
 
 #
@@ -865,8 +894,8 @@ CREATE TABLE eZTrade_ProductCategoryDefinition (
 # Dumping data for table 'eZTrade_ProductCategoryDefinition'
 #
 
-INSERT INTO eZTrade_ProductCategoryDefinition VALUES (1,1,1);
-INSERT INTO eZTrade_ProductCategoryDefinition VALUES (2,2,2);
+INSERT INTO eZTrade_ProductCategoryDefinition VALUES (3,1,1);
+INSERT INTO eZTrade_ProductCategoryDefinition VALUES (4,2,2);
 
 #
 # Table structure for table 'eZTrade_ProductCategoryLink'
@@ -883,9 +912,9 @@ CREATE TABLE eZTrade_ProductCategoryLink (
 # Dumping data for table 'eZTrade_ProductCategoryLink'
 #
 
-INSERT INTO eZTrade_ProductCategoryLink VALUES (1,1,1);
-INSERT INTO eZTrade_ProductCategoryLink VALUES (2,2,2);
-INSERT INTO eZTrade_ProductCategoryLink VALUES (3,1,2);
+INSERT INTO eZTrade_ProductCategoryLink VALUES (4,1,1);
+INSERT INTO eZTrade_ProductCategoryLink VALUES (6,1,2);
+INSERT INTO eZTrade_ProductCategoryLink VALUES (5,2,2);
 
 #
 # Table structure for table 'eZTrade_ProductImageDefinition'
@@ -902,7 +931,7 @@ CREATE TABLE eZTrade_ProductImageDefinition (
 # Dumping data for table 'eZTrade_ProductImageDefinition'
 #
 
-INSERT INTO eZTrade_ProductImageDefinition VALUES (1,2,2);
+INSERT INTO eZTrade_ProductImageDefinition VALUES (1,7,6);
 
 #
 # Table structure for table 'eZTrade_ProductImageLink'
@@ -919,7 +948,10 @@ CREATE TABLE eZTrade_ProductImageLink (
 # Dumping data for table 'eZTrade_ProductImageLink'
 #
 
-INSERT INTO eZTrade_ProductImageLink VALUES (1,1,2);
+INSERT INTO eZTrade_ProductImageLink VALUES (1,1,5);
+INSERT INTO eZTrade_ProductImageLink VALUES (2,1,6);
+INSERT INTO eZTrade_ProductImageLink VALUES (3,1,7);
+INSERT INTO eZTrade_ProductImageLink VALUES (4,1,8);
 
 #
 # Table structure for table 'eZTrade_ProductOptionLink'
@@ -936,6 +968,7 @@ CREATE TABLE eZTrade_ProductOptionLink (
 # Dumping data for table 'eZTrade_ProductOptionLink'
 #
 
+INSERT INTO eZTrade_ProductOptionLink VALUES (1,2,1);
 
 #
 # Table structure for table 'eZTrade_WishList'
@@ -978,6 +1011,8 @@ CREATE TABLE eZTrade_WishListItem (
 INSERT INTO eZTrade_WishListItem VALUES (1,1,1,1);
 INSERT INTO eZTrade_WishListItem VALUES (2,1,1,3);
 INSERT INTO eZTrade_WishListItem VALUES (3,1,1,5);
+INSERT INTO eZTrade_WishListItem VALUES (5,2,4,7);
+INSERT INTO eZTrade_WishListItem VALUES (6,2,5,7);
 
 #
 # Table structure for table 'eZTrade_WishListOptionValue'
@@ -993,6 +1028,25 @@ CREATE TABLE eZTrade_WishListOptionValue (
 
 #
 # Dumping data for table 'eZTrade_WishListOptionValue'
+#
+
+INSERT INTO eZTrade_WishListOptionValue VALUES (1,5,1,3);
+INSERT INTO eZTrade_WishListOptionValue VALUES (2,6,1,2);
+
+#
+# Table structure for table 'eZUser_Forgot'
+#
+DROP TABLE IF EXISTS eZUser_Forgot;
+CREATE TABLE eZUser_Forgot (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  UserID int(11) DEFAULT '0' NOT NULL,
+  Hash char(33),
+  Time timestamp(14),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZUser_Forgot'
 #
 
 
