@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.52 2001/04/04 11:07:04 fh Exp $
+// $Id: ezarticlecategory.php,v 1.53 2001/04/04 13:26:09 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -77,11 +77,13 @@ class eZArticleCategory
     {
         $this->dbInit();
 
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZArticle_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
                                  Placement='$this->Placement',  
@@ -93,8 +95,8 @@ class eZArticleCategory
         else
         {
             $this->Database->query( "UPDATE eZArticle_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
                                  Placement='$this->Placement',  

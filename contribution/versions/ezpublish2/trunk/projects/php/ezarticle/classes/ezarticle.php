@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.58 2001/03/29 14:09:36 jb Exp $
+// $Id: ezarticle.php,v 1.59 2001/04/04 13:26:09 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -111,17 +111,23 @@ class eZArticle
     {
         $this->dbInit();
 
+        $name = addslashes( $this->Name );
+        $contents = addslashes( $this->Contents );
+        $authortext = addslashes( $this->AuthorText );
+        $linktext = addslashes( $this->LinkText );
+        $keywords = addslashes( $this->KeyWords );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZArticle_Article SET
-		                         Name='$this->Name',
-                                 Contents='$this->Contents',
-                                 AuthorText='$this->AuthorText',
+		                         Name='$name',
+                                 Contents='$contents',
+                                 AuthorText='$authortext',
                                  AuthorID='$this->AuthorID',
-                                 LinkText='$this->LinkText',
+                                 LinkText='$linktest',
                                  PageCount='$this->PageCount',
                                  IsPublished='$this->IsPublished',
-                                 Keywords='$this->Keywords',
+                                 Keywords='$keywords',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -138,14 +144,14 @@ class eZArticle
             if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "true" ) )
             {                
                 $this->Database->query( "UPDATE eZArticle_Article SET
-		                         Name='$this->Name',
-                                 Contents='$this->Contents',
-                                 AuthorText='$this->AuthorText',
-                                 LinkText='$this->LinkText',
+		                         Name='$name',
+                                 Contents='$contents',
+                                 AuthorText='$authortext',
+                                 LinkText='$linktest',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
-                                 Keywords='$this->Keywords',
+                                 Keywords='$keywords',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -154,14 +160,14 @@ class eZArticle
             else
             {
                 $this->Database->query( "UPDATE eZArticle_Article SET
-		                         Name='$this->Name',
-                                 Contents='$this->Contents',
-                                 AuthorText='$this->AuthorText',
-                                 LinkText='$this->LinkText',
+		                         Name='$name',
+                                 Contents='$contents',
+                                 AuthorText='$authortext',
+                                 LinkText='$linktest',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
-                                 Keywords='$this->Keywords',
+                                 Keywords='$keywords',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
