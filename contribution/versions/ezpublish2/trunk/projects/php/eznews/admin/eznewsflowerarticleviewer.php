@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.7 2000/10/16 12:33:05 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.8 2000/10/16 14:26:47 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -284,6 +284,8 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
         if( $form_abort && !$this->URLObject->getQueries( $queries, "delete\+this" ) )
         {
             $item = $this->Item->getIsCanonical();
+            $this->Item->setName( "no-name" );
+            $this->Item->errors();
             $this->Item->delete();
             $this->Item->errors();
             $this->Item->store( $outID );
@@ -381,15 +383,15 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
 
         if( $inEdit == true )
         {
-            $this->IniObject->set_var( "this_price", htmlspecialchars ( $price ) );
-            $this->IniObject->set_var( "this_name", htmlspecialchars ( $name ) );
-            $this->IniObject->set_var( "this_description", htmlspecialchars ( $story ) );
+            $this->IniObject->set_var( "this_price", $price );
+            $this->IniObject->set_var( "this_name", $name );
+            $this->IniObject->set_var( "this_description", $story );
         }
         else
         {
-            $this->IniObject->set_var( "this_price", eZTextTool::nl2br( htmlspecialchars ( $price ) ) );
-            $this->IniObject->set_var( "this_name", eZTextTool::nl2br( htmlspecialchars ( $name ) ) );
-            $this->IniObject->set_var( "this_description", eZTextTool::nl2br( htmlspecialchars ( $story ) ) );
+            $this->IniObject->set_var( "this_price", eZTextTool::nl2br( $price ) );
+            $this->IniObject->set_var( "this_name", eZTextTool::nl2br( $name ) );
+            $this->IniObject->set_var( "this_description", eZTextTool::nl2br( $story ) );
         }
         $this->IniObject->set_var( "this_id", $this->Item->id() );
         $this->IniObject->set_var( "this_name", $this->Item->name() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.5 2000/10/16 11:49:44 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.6 2000/10/16 14:26:47 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -161,6 +161,13 @@ class eZNewsFlowerCategoryViewer extends eZNewsViewer
         
         global $form_abort;
         global $form_submit;
+        global $form_preview;
+        global $form_delete;
+        #echo "\$form_preview = $form_preview <br />\n";
+        #echo "\$form_abort = $form_abort <br />\n";
+        #echo "\$form_submit = $form_submit <br />\n";
+        #echo "\$form_delete = $form_delete <br />\n";
+        #echo "\$form_publish = $form_publish <br />\n";
         
         $this->Item = new eZNewsFlowerCategory( $this->Item->id() );
 

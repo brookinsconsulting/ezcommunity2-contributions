@@ -27,7 +27,7 @@
 <!-- BEGIN go_to_parent_template -->
 
 	<td>
-	<form action="/{this_path}/{this_canonical_parent_id}">
+	<form method="post" action="/{this_path}/{this_id}">
 	<input class="okbutton" type="submit" name="form_abort" value="{intl-abort}">
 	</form>
 	</td>
