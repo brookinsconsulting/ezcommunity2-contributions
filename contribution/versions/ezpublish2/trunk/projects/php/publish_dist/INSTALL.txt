@@ -1,6 +1,6 @@
 
 
-eZ Publish guide
+eZ publish installation guide
 
 1 Dependencies
 
