@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.11 2001/02/11 18:13:30 jb Exp $
+// $Id: ezpageviewquery.php,v 1.12 2001/02/12 14:32:15 jb Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -35,6 +35,7 @@
  */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezquery.php" );
 include_once( "classes/ezdate.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -233,11 +234,19 @@ class eZPageViewQuery
 
         $return_array = array();
         $visitor_array = array();
-        
+
+        if ( $excludeDomain != "" )
+        {
+            $query = new eZQuery( array( "eZStats_RefererURL.Domain" ), $excludeDomain );
+            $search_text = "AND (" . $query->buildQuery() . ")" ;
+        }
+
         $db->array_query( $visitor_array,
-        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RefererURL.ID, eZStats_RefererURL.Domain, eZStats_RefererURL.URI
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RefererURL.ID,
+                eZStats_RefererURL.Domain, eZStats_RefererURL.URI
          FROM eZStats_PageView, eZStats_RefererURL
-         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID AND eZStats_RefererURL.Domain != '$excludeDomain'
+         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID
+         $search_text
          GROUP BY eZStats_RefererURL.ID
          ORDER BY Count DESC
          LIMIT $offset,$limit" );
@@ -260,10 +269,17 @@ class eZPageViewQuery
     {
         $db =& eZDB::globalDatabase();
 
+        if ( $excludeDomain != "" )
+        {
+            $query = new eZQuery( array( "eZStats_RefererURL.Domain" ), $excludeDomain );
+            $search_text = "AND (" . $query->buildQuery() . ")" ;
+        }
+
         $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count
          FROM eZStats_PageView, eZStats_RefererURL
-         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID AND eZStats_RefererURL.Domain != '$excludeDomain'
+         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID
+         $search_text
          GROUP BY eZStats_RefererURL.ID" );
 
         return count( $visitor_array );
