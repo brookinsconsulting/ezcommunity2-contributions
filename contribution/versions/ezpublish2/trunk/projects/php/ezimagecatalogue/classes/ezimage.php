@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.36 2001/03/08 10:42:05 fh Exp $
+// $Id: ezimage.php,v 1.37 2001/03/08 11:19:55 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -479,7 +479,11 @@ class eZImage
            $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
        }
        if ( !file_exists( $path ) or !is_file( $path ) )
-           $path = "/ezimagecatalogue/admin/images/failedimage.gif";
+       {
+           $path = "ezimagecatalogue/admin/images/failedimage.gif";
+           if ( !$relative )
+               $path = "/$path";
+       }
        return $path;
     }
 
