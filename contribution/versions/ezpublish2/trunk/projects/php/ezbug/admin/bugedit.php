@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.30 2001/03/09 11:52:56 fh Exp $
+// $Id: bugedit.php,v 1.31 2001/03/13 13:51:10 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -419,7 +419,8 @@ if ( $Action == "Edit" )
             $t->set_var( "image_number", $i + 1 );
             $t->set_var( "image_id", $image->id() );
 
-            $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . $image->caption() . "</a>" );
+            $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()
+                         . "?RefererURL=/bug/edit/edit/$BugID" ."\">" . $image->caption() . "</a>" );
             $t->parse( "image", "image_tpl", true );
     
             $i++;

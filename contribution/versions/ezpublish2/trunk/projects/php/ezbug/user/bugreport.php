@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.19 2001/03/13 13:14:33 fh Exp $
+// $Id: bugreport.php,v 1.20 2001/03/13 13:51:10 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -332,7 +332,13 @@ if( $Action == "Edit" ) // load values from database
         $t->set_var( "image_id", $image->id() );
 
         $tmp = $image->caption();
-        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . htmlspecialchars( $tmp ) . "</a>" );
+        $t->set_var( "image_name", $image->caption() );
+
+        $variation =& $image->requestImageVariation( 150, 150 );
+        $t->set_var( "image_url", "/" .$variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height",$variation->height() );
+
         $t->parse( "image", "image_tpl", true );
     
         $i++;

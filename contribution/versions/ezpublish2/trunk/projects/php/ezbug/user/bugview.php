@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.8 2001/03/06 12:40:04 fh Exp $
+// $Id: bugview.php,v 1.9 2001/03/13 13:51:10 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -175,7 +175,8 @@ if( count( $images ) > 0 )
         $t->set_var( "image_id", $image->id() );
 
         $tmp = $image->caption();
-        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . htmlspecialchars( $tmp ) . "</a>" );
+        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()
+                     . "?RefererURL=/bug/bugview/$BugID" . "\">" . htmlspecialchars( $tmp ) . "</a>" );
         $t->parse( "screenshot_item", "screenshot_item_tpl", true );
     
         $i++;

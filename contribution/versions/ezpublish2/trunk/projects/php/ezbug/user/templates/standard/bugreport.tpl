@@ -97,9 +97,12 @@
 	<td width="1%" class="{td_class}">
 	{image_number}
 	</td>
-	<td width="97%" class="{td_class}">
+	<td width="96%" class="{td_class}">
 	{image_name}
 	</td>
+	<td width="1%" class="{td_class}">
+	  <img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
+	</td>	
 	<td width="1%" class="{td_class}">
 	<a href="/bug/report/imageedit/edit/{image_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
