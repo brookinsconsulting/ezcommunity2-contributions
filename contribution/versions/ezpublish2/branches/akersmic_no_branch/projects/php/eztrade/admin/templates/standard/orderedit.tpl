@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.8.8.3 2002/01/28 17:37:37 br Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.8.8.4 2002/01/30 20:47:05 br Exp $ -->
 
 <h1>{intl-head_line} ({order_id})</h1>
 
@@ -56,8 +56,9 @@
 
 <!-- BEGIN online_payment_verified_tpl -->
 <p class="boxtext">{intl-transaction_paid}.</p>
-{intl-paynet_pnutr}: {pnutr}
+<p>{intl-paynet_pnutr}: {pnutr}
 <br />
+{intl-payment_authorised_to}: {day}.{month}.{year}</p>
 <br />
 <!-- END online_payment_verified_tpl -->
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpreorder.php,v 1.10.8.1 2002/01/18 12:34:21 br Exp $
+// $Id: ezpreorder.php,v 1.10.8.2 2002/01/30 20:47:05 br Exp $
 //
 // Definition of eZPreOrder class
 //
@@ -67,6 +67,11 @@ class eZPreOrder
         $db->begin();
         if ( !isset( $this->ID ) )
         {
+            $utref = $db->escapeString( $this->Utref );
+            $curry = $db->escapeString( $this->Curry );
+            $ertyp = $db->escapeString( $this->Ertyp );
+            $ermsg = $db->escapeString( $this->Ermsg );
+            
             $db->lock( "eZTrade_PreOrder" );
             $nextID = $db->nextID( "eZTrade_PreOrder", "ID" );
             $timeStamp =& eZDateTime::timeStamp( true );
@@ -74,12 +79,32 @@ class eZPreOrder
                                ( ID,
 		                         OrderID,
 		                         Created,
-                                 Verified )
+                                 Pnutr,
+                                 Utref,
+                                 Payco,
+                                 Totam,
+                                 Curry,
+                                 Ttype,
+                                 Rtype,
+                                 Status,
+                                 Ertyp,
+                                 Ermsg,
+                                 Edate )
                                VALUES
 		                       ( '$nextID',
                                  '$this->OrderID',
 		                         '$timeStamp',
-                                 '$this->Verified' )" );
+                                 '$this->Pnutr',
+                                 '$this->Utref',
+                                 '$this->Payco',
+                                 '$this->Totam',
+                                 '$curry',
+                                 '$this->Ttype',
+                                 '$this->Rtype',
+                                 '$this->Status',
+                                 '$ertyp',
+                                 '$ermsg',
+                                 '$this->Edate' )" );
             $db->unlock();
 			$this->ID = $nextID;
         }
@@ -88,7 +113,17 @@ class eZPreOrder
             $ret[] = $db->query( "UPDATE eZTrade_PreOrder SET
 		                         Created=Created,
 		                         OrderID='$this->OrderID',
-                                 Verified='$this->Verified'
+                                 Pnutr='$this->Pnutr',
+                                 Utref='$this->Utref',
+                                 Payco='$this->Payco',
+                                 Totam='$this->Totam',
+                                 Curry='$curry',
+                                 Ttype='$this->Ttype',
+                                 Rtype='$this->Rtype',
+                                 Status='$this->Status',
+                                 Ertyp='$ertyp',
+                                 Ermsg='$ermsg',
+                                 Edate='$this->Edate'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -132,7 +167,17 @@ class eZPreOrder
                 $this->ID = $cart_array[0][$db->fieldName("ID")];
                 $this->OrderID = $cart_array[0][$db->fieldName("OrderID")];
                 $this->Created = $cart_array[0][$db->fieldName("Created")];
-                $this->Verified = $cart_array[0][$db->fieldName("Verified")];
+                $this->Pnutr = $cart_array[0][$db->fieldName("Pnutr")];
+                $this->Utref = $cart_array[0][$db->fieldName("Utref")];
+                $this->Payco = $cart_array[0][$db->fieldName("Payco")];
+                $this->Totam = $cart_array[0][$db->fieldName("Totam")];
+                $this->Curry = $cart_array[0][$db->fieldName("Curry")];
+                $this->Ttype = $cart_array[0][$db->fieldName("Ttype")];
+                $this->Rtype = $cart_array[0][$db->fieldName("Rtype")];
+                $this->Status = $cart_array[0][$db->fieldName("Status")];
+                $this->ErTyp = $cart_array[0][$db->fieldName("Ertyp")];
+                $this->Ermsg = $cart_array[0][$db->fieldName("Ermsg")];
+                $this->Edate = $cart_array[0][$db->fieldName("Edate")];
                 $ret = true;
             }
         }
@@ -161,7 +206,17 @@ class eZPreOrder
                 $this->ID = $cart_array[0][$db->fieldName("ID")];
                 $this->OrderID = $cart_array[0][$db->fieldName("OrderID")];
                 $this->Created = $cart_array[0][$db->fieldName("Created")];
-                $this->Verified = $cart_array[0][$db->fieldName( "Verified" )];
+                $this->Pnutr = $cart_array[0][$db->fieldName("Pnutr")];
+                $this->Utref = $cart_array[0][$db->fieldName("Utref")];
+                $this->Payco = $cart_array[0][$db->fieldName("Payco")];
+                $this->Totam = $cart_array[0][$db->fieldName("Totam")];
+                $this->Curry = $cart_array[0][$db->fieldName("Curry")];
+                $this->Ttype = $cart_array[0][$db->fieldName("Ttype")];
+                $this->Rtype = $cart_array[0][$db->fieldName("Rtype")];
+                $this->Status = $cart_array[0][$db->fieldName("Status")];
+                $this->ErTyp = $cart_array[0][$db->fieldName("Ertyp")];
+                $this->Ermsg = $cart_array[0][$db->fieldName("Ermsg")];
+                $this->Edate = $cart_array[0][$db->fieldName("Edate")];
 
                 $ret = true;
             }
@@ -190,14 +245,6 @@ class eZPreOrder
     }
 
     /*!
-      Returns status for Verified.
-    */
-    function verified()
-    {
-        return $this->Verified;
-    }
-
-    /*!
       Returns the order id. If 0 this pre order has not
       resulted in an order.
     */
@@ -207,11 +254,192 @@ class eZPreOrder
     }
     
     /*!
-      Set the status for Verified.
+      Returns pnutr value (from paynet).
     */
-    function setVerified( $value )
+    function pnutr()
     {
-        $this->Verified = $value;
+        return $this->Pnutr;
+    }
+
+    /*!
+      Returns utref value (from paynet).
+      This is an unique value sent to paynet.
+    */
+    function utref()
+    {
+        return $this->Utref;
+    }
+
+    /*!
+      Returns the payco value (from paynet).
+      This is the identification number for the payment provider.
+    */
+    function payco()
+    {
+        return $this->Payco;
+    }
+
+    /*!
+      Returns totam (from paynet receipt).
+    */
+    function totam()
+    {
+        return $this->Totam;
+    }
+
+    /*!
+      Returns the curry value (from paynet).
+      This descibes the country (3 characters)
+    */
+    function curry()
+    {
+        return $this->Curry;
+    }
+
+    /*!
+      Returns The ttype used for the transaction (from paynet).
+     */
+    function ttype()
+    {
+        return $this->Ttype;
+    }
+
+    /*!
+      Returns what receipt this is (from paynet).
+      0 - payment is reserved on cartholders card.
+      1 - transaction submitted.
+      9 - error message (ertyp and ermsg is set)
+     */
+    function rtype()
+    {
+        return $this->Rtype;
+    }
+
+    /*!
+      Returns The status for the transaction (from paynet).
+     */
+    function status()
+    {
+        return $this->Status;
+    }
+
+    /*!
+      Returns the error type for the transaction if any (from paynet).
+     */
+    function ertyp()
+    {
+        return $this->Ertyp;
+    }
+
+    /*!
+      returns The error message for the transaction if any (from paynet).
+     */
+    function ermsg()
+    {
+        return $this->Ermsg;
+    }
+
+    /*!
+      returns the edate for the payment.
+     */
+    function edate()
+    {
+        $dateTime = new eZDateTime();
+        $dateTime->setTimeStamp( $this->Edate );
+
+        return $dateTime;
+    }
+    
+    /*!
+      Set the pnutr id (from paynet)
+    */
+    function setPnutr( $value )
+    {
+        $this->Pnutr = $value;
+    }
+
+    /*!
+      Set the utref value (from paynet)
+    */
+    function setUtref( $value )
+    {
+        $this->Utref = $value;
+    }
+
+    /*!
+      Set the Payco value (from paynet)
+      This value set the identification number for the payment provider.
+    */
+    function setPayco( $value )
+    {
+        $this->Payco = $value;
+    }
+    
+    /*!
+      Set the total amount, sent to paynet (from paynet).
+    */
+    function setTotam( $value )
+    {
+        $this->Totam = $value;
+    }
+
+
+    
+    /*!
+      Set the curry used in the payment (from paynet)
+    */
+    function setCurry( $value )
+    {
+        $this->Curry = $value;
+    }
+
+    /*!
+      Set the ttype used in the payment (from paynet)
+    */
+    function setTtype( $value )
+    {
+        $this->Ttype = $value;
+    }
+    
+    /*!
+      Set the rtype used in the payment (from paynet)
+    */
+    function setRtype( $value )
+    {
+        $this->Rtype = $value;
+    }
+
+    /*!
+      Set the status for the payment (from paynet)
+    */
+    function setStatus( $value )
+    {
+        $this->Status = $value;
+    }
+
+    /*!
+      Set the error type for the payment if any (from paynet)
+    */
+    function setErtyp( $value )
+    {
+        $this->Ertyp = $value;
+    }
+
+    /*!
+      Set the error message for the payment if any (from paynet)
+    */
+    function setErmsg( $value )
+    {
+        $this->Curry = $value;
+    }
+
+    /*!
+      Set the edate for the payment (from paynet)
+      This is the date the payment will be paid.
+    */
+    function setStatus( $value )
+    {
+        $this->Status = $value;
     }
 
     /*!
@@ -222,11 +450,31 @@ class eZPreOrder
         $this->OrderID = $value;
     }
 
+    /*!
+      Sets the edate for the order.
+    */
+    function setEdate( $value )
+    {
+        $this->Edate = $value;
+    }
+
     
     var $ID;
     var $Created;
     var $OrderID;
-    var $Verified;
+
+    // The following is information about paynet variables
+    var $Pnutr;
+    var $Utref;
+    var $Payco;
+    var $Totam;
+    var $Curry;
+    var $Ttype;
+    var $Rtype;
+    var $Status;
+    var $Ertyp;
+    var $Ermsg;
+    var $Edate;
 
 }
 
