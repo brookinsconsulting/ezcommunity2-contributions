@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.21 2001/03/05 12:01:00 pkej Exp $
+// $Id: forumedit.php,v 1.22 2001/03/05 12:17:16 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -319,6 +319,18 @@ foreach( $categoryList as $categoryItem )
 
 $user = new eZUser();
 $userList = $user->getAll();
+
+$t->set_var( "user_id", 0 );
+$t->set_var( "user_name", "testing" );
+$noModeratorString = $t->Ini->read_var( "strings", "no_moderator" );
+$t->set_var( "user_name", $noModeratorString );
+$moderator = $forum->moderator();
+if ( $moderator == 0 )
+{
+    $t->set_var( "is_selected", "" );
+}
+$t->parse( "moderator_item", "moderator_item_tpl", true );
+
 foreach( $userList as $userItem )
 {
     $t->set_var( "user_id", $userItem->id() );
@@ -326,10 +338,9 @@ foreach( $userList as $userItem )
 
     if ( $Action == "edit" )
     {
-        $user = $forum->moderator();
-        if ( $user )
+        if ( $moderator )
         {
-            if ( $user->id() == $userItem->id() )
+            if ( $moderator->id() == $userItem->id() )
             {
                 $t->set_var( "is_selected", "selected" );
             }
