@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.29 2001/03/01 10:35:23 pkej Exp $
+// $Id: messageedit.php,v 1.30 2001/03/05 09:43:53 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -420,7 +420,7 @@ switch( $Action )
         }
         else
         {
-            include( "classes/eztexttool.php" );
+            include_once( "classes/eztexttool.php" );
             $NewMessageBody = eZTextTool::addPre( $msg->body() );
         }
 
