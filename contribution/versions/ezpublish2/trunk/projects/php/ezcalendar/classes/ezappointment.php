@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezappointment.php,v 1.21 2001/08/29 10:37:22 jhe Exp $
+// $Id: ezappointment.php,v 1.22 2001/09/12 11:44:52 jhe Exp $
 //
 // Definition of eZAppointment class
 //
@@ -206,7 +206,7 @@ class eZAppointment
 
       The appointments are returned as an array of eZAppointment objects.
     */
-    function &getByDate( $date, $user, $showPrivate=false )
+    function &getByDate( $date, $user, $showPrivate = false )
     {
         $ret = array();
 

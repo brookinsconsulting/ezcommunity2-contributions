@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.15 2001/09/05 12:51:13 jhe Exp $
+// $Id: appointmentview.php,v 1.16 2001/09/12 11:44:53 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -91,7 +91,7 @@ $foundAppointment = false;
 if ( $appointment->id() > 0 )
 {
     $ownerUser = new eZUser( $appointment->userID() );
-    $trusteeList = $ownerUser->trustees();
+    $trusteeList = array_merge( $ownerUser->trustees(), $ownerUser->id() );
     if ( in_array( $user->id(), $trusteeList ) )
         $foundAppointment = true;
 }
