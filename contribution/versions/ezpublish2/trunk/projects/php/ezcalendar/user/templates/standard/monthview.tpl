@@ -1,7 +1,7 @@
 <h1>{intl-appointments}: {intl-month_view}</h1>
 <hr noshade size="4" />
 
-<h2>{month_name} {year_number}</h2>
+<h2>{month_name} {current_year_number}</h2>
 
 <form method="post" action="{www_dir}{index}/calendar/monthview/">
 <p class="boxtext">{intl-user}:</p>

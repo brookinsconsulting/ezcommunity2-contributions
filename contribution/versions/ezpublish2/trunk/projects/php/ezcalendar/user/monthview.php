@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.38 2001/09/27 11:07:25 jhe Exp $
+// $Id: monthview.php,v 1.39 2001/09/28 06:48:23 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -102,7 +102,7 @@ else
     
     $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
     $t->set_var( "month_number", $Month );
-    $t->set_var( "year_number", $Year );
+    $t->set_var( "current_year_number", $Year );
     $t->set_var( "week", "" );
 
     // Draw the week day header.
