@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.15 2001/02/28 13:03:23 ce Exp $
+// $Id: folderedit.php,v 1.16 2001/02/28 15:24:58 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -31,6 +31,7 @@ include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
@@ -139,7 +140,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $parentFolder = new eZVirtualFolder( $FolderID );
             
-            if ( $parentFolder->hasWritePermissions( $user ) == false )
+            if ( eZObjectPermission::hasPermission( $parentCategory, "filemanager_folder", "w", $user ) )
             {
                 $t->parse( "error_write", "error_write_permission" );
                 $error = true;
@@ -201,7 +202,12 @@ if ( $Action == "Insert" && $error == false )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
-            $folder->addReadPermission( $Read );
+            if ( $Read == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Read );
+
+            eZObjectPermission::setPermission( $group, $folder->id(), "filemanager_folder", "r" );
         }
     }
 
@@ -209,7 +215,12 @@ if ( $Action == "Insert" && $error == false )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
-            $folder->addWritePermission( $Write );
+            if ( $Write == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Write );
+            
+            eZObjectPermission::setPermission( $group, $folder->id(), "filemanager_folder", "w" );
         }
     }
 
@@ -231,14 +242,16 @@ if ( $Action == "Update" && $error == false )
 
     $folder->store();
 
-    $folder->removeReadPermissions();
-    $folder->removeWritePermissions();
-    
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
-            $folder->addReadPermission( $Read );
+            if ( $Read == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Read );
+
+            eZObjectPermission::setPermission( $group, $folder->id(), "filemanager_folder", "r" );
         }
     }
 
@@ -246,7 +259,12 @@ if ( $Action == "Update" && $error == false )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
-            $folder->addWritePermission( $Write );
+            if ( $Write == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Write );
+            
+            eZObjectPermission::setPermission( $group, $folder->id(), "filemanager_folder", "w" );
         }
     }
 
@@ -286,9 +304,9 @@ if ( $Action == "Edit" )
     if ( $parent )
         $parentID = $parent->id();
 
-    $readPermissionList =& $folder->readPermissions();
+    $readGroupArrayID =& eZObjectPermission::getGroups( $folder->id(), "filemanager_folder", "r", false );
 
-    $writePermissionList =& $folder->writePermissions();
+    $writeGroupArrayID =& eZObjectPermission::getGroups( $folder->id(), "filemanager_folder", "w", false );
 
     $t->set_var( "action_value", "update" );
 }
@@ -314,50 +332,42 @@ foreach ( $groups as $group )
     $t->set_var( "is_write_selected1", "" );
     $t->set_var( "is_read_selected1", "" );
     
-    if ( $readPermissionList )
+    if ( $readGroupArrayID )
     {
-        foreach ( $readPermissionList as $readGroup )
+        foreach ( $readGroupArrayID as $readGroup )
         {
-            if ( get_class( $readGroup ) == "ezusergroup" )
+            if ( $readGroup == $group->id() )
             {
-                if ( $readGroup->id() == $group->id() )
-                {
-                    $t->set_var( "is_read_selected1", "selected" );
-                }
-                else
-                {
-                    $t->set_var( "is_read_selected", "" );
-                }
+                $t->set_var( "is_read_selected1", "selected" );
             }
-            
-            if ( $readGroup == "Everybody" )
+            elseif ( $readGroup == -1 )
             {
                 $t->set_var( "read_everybody", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_read_selected", "" );
             }
         }
     }
 
     $t->parse( "read_group_item", "read_group_item_tpl", true );
     
-    if ( $writePermissionList )
+    if ( $writeGroupArrayID )
     {
-        foreach ( $writePermissionList as $writeGroup )
+        foreach ( $writeGroupArrayID as $writeGroup )
         {
-            if ( get_class( $writeGroup ) == "ezusergroup" )
+            if ( $writeGroup == $group->id() )
             {
-                if ( $writeGroup->id() == $group->id() )
-                {
-                    $t->set_var( "is_write_selected1", "selected" );
-                }
-                else
-                {
-                    $t->set_var( "is_write_selected", "" );
-                }
+                $t->set_var( "is_write_selected1", "selected" );
             }
-            
-            if ( $writeGroup == "Everybody" )
+            elseif ( $writeGroup == -1 )
             {
                 $t->set_var( "write_everybody", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_write_selected", "" );
             }
         }
     }

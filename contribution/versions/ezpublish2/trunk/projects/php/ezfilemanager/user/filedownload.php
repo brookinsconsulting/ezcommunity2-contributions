@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.7 2001/02/14 13:37:14 th Exp $
+// $Id: filedownload.php,v 1.8 2001/02/28 15:24:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -27,9 +27,19 @@
 ob_end_clean();
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
+$user = eZUser::currentUser();
 
 $file = new eZVirtualFile( $FileID );
+
+if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
+
 $fileName = $file->name();
 $originalFileName = $file->originalFileName();
 $filePath = $file->filePath( true );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.21 2001/02/26 17:04:05 ce Exp $
+// $Id: filelist.php,v 1.22 2001/02/28 15:24:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -32,6 +32,7 @@ include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -74,7 +75,7 @@ $folder = new eZVirtualFolder( $FolderID );
 $error = true;
 
 // Check for read permission in the current folder.
-if ( $folder->hasReadPermissions( $user ) == true )
+if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "r", $user ) )
 {
     $error = false;
 } 
@@ -98,7 +99,7 @@ if ( $folder->id() != 0 )
 }
 
 // path
-$pathArray = $folder->path();
+$pathArray =& $folder->path();
 
 $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
@@ -123,12 +124,12 @@ foreach ( $folderList as $folderItem )
     $t->set_var( "folder_read", "" );
     $t->set_var( "folder_write", "" );
 
-    if ( $folderItem->hasReadPermissions( $user ) == true )
+    if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "r", $user ) )
     {
         $t->parse( "folder_read", "folder_read_tpl" );
     }
 
-    if ( $folderItem->hasWritePermissions( $user ) == true )
+    if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) )
     {
         $t->parse( "folder_write", "folder_write_tpl" );
     }
@@ -172,7 +173,7 @@ foreach ( $fileList as $file )
     $t->set_var( "file_read", "" );
     $t->set_var( "file_write", "" );
 
-    if ( $file->hasReadPermissions( $user ) )
+    if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) )
     {
         $t->parse( "read", "read_tpl" );
     }
@@ -181,8 +182,7 @@ foreach ( $fileList as $file )
         $t->set_var( "read", "" );
     }
     
-
-    if ( $file->hasWritePermissions( $user ) && $user )
+    if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) )
     {
         $t->parse( "write", "write_tpl" );
     }

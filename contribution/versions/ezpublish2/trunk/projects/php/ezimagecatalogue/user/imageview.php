@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.9 2001/02/09 16:18:09 bf Exp $
+// $Id: imageview.php,v 1.10 2001/02/28 15:24:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -43,8 +43,15 @@ $t->set_file( "image_view_tpl", "imageview.tpl" );
 
 $t->setAllStrings();
 
+$user = eZUser::currentUser();
+
 $image = new eZImage( $ImageID );
 
+if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
 
 if ( $ShowOriginal != "enabled" )
 {

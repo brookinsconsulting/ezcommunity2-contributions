@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.2 2001/01/22 14:43:01 jb Exp $
+// $Id: filedownload.php,v 1.3 2001/02/28 15:24:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -27,11 +27,21 @@
 ob_end_clean();
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 $file = new eZImage( $ImageID );
 $fileName = $file->name();
 $originalFileName = $file->originalFileName();
 $filePath = $file->filePath( true );
+
+$user = eZUser::currentUser();
+$image = new eZImage( $ImageID );
+if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
 
 //  print( $filePath );
 
