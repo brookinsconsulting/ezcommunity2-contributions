@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.37 2001/01/19 21:52:58 jb Exp $
+// $Id: ezperson.php,v 1.38 2001/01/20 23:19:35 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -733,7 +733,7 @@ class eZPerson
     }
 
     /*!
-        Set the contact type of this object to $value.
+        Set the contact for this object to $value.
      */
     function setContact( $value )
     {
@@ -790,6 +790,14 @@ class eZPerson
     }
   
     /*!
+      Returns the first name and the last name of the person.
+    */
+    function name()
+    {
+        return $this->firstName() . " " . $this->lastName();
+    }
+
+    /*!
       Returns the first name of the person.
     */
     function firstName()
@@ -845,7 +853,7 @@ class eZPerson
     }
 
     /*!
-      Returns the contact type of this person.
+      Returns the contact for this person.
     */
     function contact( )
     {
