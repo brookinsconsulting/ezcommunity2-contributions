@@ -9,15 +9,13 @@
 	{news_name}
 	</h2>
 	</a>
-	( {news_origin} - {news_date} )
+	<span class="small">( {news_origin} - {news_date} )</span>
 	</td>
 </tr>
 <tr>	
 	<td>
-	{news_intro}
-	<br />
-	<br />
-	<a href="{news_url}">{intl-read_more}</a>
+	<p>{news_intro}</p>
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}">{intl-read_more}</a>
 	
 	</td>
 </tr>
