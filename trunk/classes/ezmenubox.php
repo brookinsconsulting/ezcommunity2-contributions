@@ -91,7 +91,7 @@ class eZMenuBox
             $modified = eZFile::filemtime( $phpfile );
         }
 
-        $template_dir = "admin/templates/" . $SiteStyle;
+        $template_dir = "design/admin/templates/" . $SiteStyle;
         if ( $allow_module_template )
         {
             $mod_dir = $ini->read_var( $ModuleName . "Main", "AdminTemplateDir" );
