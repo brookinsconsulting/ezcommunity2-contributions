@@ -482,3 +482,67 @@ INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (3,100,100);
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (4,200,200);
 
 INSERT INTO eZUser_Author VALUES (1,'Admin Author','nospam@nospam.com');
+
+
+INSERT INTO eZPoll_MainPoll VALUES (1,1);
+
+INSERT INTO eZPoll_Poll VALUES (1,'Coolest new feature in 2.2 is','No description for this poll.',1,1,0,1);
+
+INSERT INTO eZPoll_PollChoice VALUES (1,1,'Article templates',0);
+INSERT INTO eZPoll_PollChoice VALUES (2,1,'Postgresql support',0);
+INSERT INTO eZPoll_PollChoice VALUES (3,1,'Nested article tags',0);
+INSERT INTO eZPoll_PollChoice VALUES (4,1,'Extended link database',0);
+
+INSERT INTO eZPoll_Vote VALUES (1,1,1,'10.0.2.3',0);
+
+
+INSERT INTO eZForum_Category VALUES ('Discussion','',0,1);
+INSERT INTO eZForum_Forum VALUES ('Public forum','Public forum',0,2,0,0,0,1);
+
+INSERT INTO eZForum_Message VALUES (2,'First post!','Yes ! I was the first to post here..\r\n\r\n--foo',0,0,0,998928123,0,0,0,1,1,0);
+
+
+INSERT INTO eZLink_Attribute VALUES (1,1,'Price',998928426,0,'');
+INSERT INTO eZLink_Attribute VALUES (2,1,'License',998928428,1,'');
+INSERT INTO eZLink_Attribute VALUES (3,1,'Features',998928448,2,'');
+
+INSERT INTO eZLink_AttributeValue VALUES (3,1,3,'Numerous..');
+INSERT INTO eZLink_AttributeValue VALUES (2,1,2,'GPL');
+INSERT INTO eZLink_AttributeValue VALUES (1,1,1,'$ 0');
+
+INSERT INTO eZLink_Category VALUES (1,0,'Links',2,'Links');
+
+INSERT INTO eZLink_Link VALUES (1,'eZ publish','GPL web application software.',NULL,'ez publish',998928575,1,998928399,'developer.ez.no',2);
+
+INSERT INTO eZLink_LinkCategoryDefinition VALUES (1,1,1);
+
+INSERT INTO eZLink_LinkCategoryLink VALUES (1,1,1);
+
+INSERT INTO eZLink_Type VALUES (1,'Software vendor');
+
+INSERT INTO eZLink_TypeLink VALUES (1,1,1);
+INSERT INTO eZTrade_Category VALUES (1,0,' ','Producs for sale',1,1,'');
+INSERT INTO eZTrade_CategoryPermission VALUES (1,1,-1,1,1);
+INSERT INTO eZTrade_Product VALUES (1,'Piranha pond','Lorem ipsum dolor sit amet, consectetaur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Et harumd und lookum like Greek to me, dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda. Et tam neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam makes one wonder who would ever read this stuff? Bis nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur.','Lorem ipsum dolor sit amet, consectetaur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Et harumd und lookum like Greek to me, dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda. Et tam neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam makes one wonder who would ever read this stuff? Bis nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur.','',1001.00000,1,1,0,'P-1001','developer.ez.no',1,'',1,1,0,0,998929107);
+INSERT INTO eZTrade_ProductCategoryDefinition VALUES (1,1,1);
+
+INSERT INTO eZTrade_ProductCategoryLink VALUES (1,1,1,1);
+INSERT INTO eZTrade_ProductImageDefinition VALUES (1,4,4);
+
+INSERT INTO eZTrade_ProductImageLink VALUES (1,1,1,0);
+INSERT INTO eZTrade_ProductImageLink VALUES (2,1,3,0);
+INSERT INTO eZTrade_ProductImageLink VALUES (3,1,4,0);
+INSERT INTO eZTrade_ProductPermission VALUES (1,1,-1,0,0);
+
+INSERT INTO eZTrade_ProductQuantityDict VALUES (1,1);
+
+INSERT INTO eZTrade_Quantity VALUES (1,100);
+
+INSERT INTO eZTrade_ShippingGroup VALUES (1,'Standard shipping',998929027);
+
+INSERT INTO eZTrade_ShippingType VALUES (1,'DHL',998929024,1,1);
+
+INSERT INTO eZTrade_ShippingValue VALUES (1,1,1,10,3);
+
+INSERT INTO eZTrade_VATType VALUES (1,'Standard VAT',24,998928974);
+INSERT INTO eZTrade_VATType VALUES (2,'No VAT',0,998929000);
