@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.29 2001/08/28 14:58:15 br Exp $
+// $Id: datasupplier.php,v 1.30 2001/09/07 10:46:54 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,7 +27,6 @@
 
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
-
 switch ( $url_array[2] )
 {
 
@@ -131,6 +130,13 @@ switch ( $url_array[2] )
     {
         $successfull = true;
         include( "ezuser/user/forgotmessage.php" );
+    }
+    break;
+
+    case "missingemail":
+    {
+        $successfull = true;
+        include( "ezuser/user/missingemailmessage.php" );
     }
     break;
 

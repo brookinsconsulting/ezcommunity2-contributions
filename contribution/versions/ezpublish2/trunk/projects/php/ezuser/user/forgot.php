@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forgot.php,v 1.19 2001/08/10 12:54:02 jhe Exp $
+// $Id: forgot.php,v 1.20 2001/09/07 10:46:54 pkej Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -19,7 +19,6 @@
 // GNU General Public License for more details.
 
 //require( "ezuser/user/usercheck.php" );
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
@@ -49,6 +48,12 @@ if ( isSet( $ChangeButton ) && ( $user == false ) )
 // Store the user with a unic hash and mail the hash variable to the user.
 if ( $user )
 {
+    if ( eZMail::validate( $user->email() ) == false )
+    {
+        eZHTTPTool::header( "Location: /user/missingemail/" );
+        exit();
+    }
+    
     $subjectText = ( $languageIni->read_var( "strings", "subject_text" ) . " " . $headersInfo["Host"] );
     $bodyText = $languageIni->read_var( "strings", "body_text" );
     
