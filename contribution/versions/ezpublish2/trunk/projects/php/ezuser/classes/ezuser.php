@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.36 2001/01/20 22:49:37 jb Exp $
+// $Id: ezuser.php,v 1.37 2001/01/20 23:30:00 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -362,6 +362,14 @@ class eZUser
             $this->get( $this->ID );
 
        return $this->Email;
+    }
+
+    /*!
+      Returns the users name and email where the email is surrounded by <>.
+    */
+    function namedEmail()
+    {
+        return $this->name() . " <" . $this->email() . ">";
     }
 
     /*!
