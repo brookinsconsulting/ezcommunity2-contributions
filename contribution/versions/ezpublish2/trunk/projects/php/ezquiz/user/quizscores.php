@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizscores.php,v 1.3 2001/05/31 12:01:00 pkej Exp $
+// $Id: quizscores.php,v 1.4 2001/06/15 08:04:16 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -186,19 +186,6 @@ if( $error )
     }
 }
 
-if ( $GenerateStaticPage == "true" and $cachedFile != "" )
-{
-    $fp = fopen( $cachedFile, "w+");
-
-    $output = $t->parse( $target, "score_page_tpl" );
-    // print the output the first time while printing the cache file.
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->pparse( "output", "score_page_tpl" );
-}
+$t->pparse( "output", "score_page_tpl" );
 
 ?>

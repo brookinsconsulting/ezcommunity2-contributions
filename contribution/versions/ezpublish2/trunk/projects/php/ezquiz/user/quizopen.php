@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizopen.php,v 1.1 2001/05/30 12:57:04 pkej Exp $
+// $Id: quizopen.php,v 1.2 2001/06/15 08:04:16 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -105,20 +105,6 @@ else
 
 eZList::drawNavigator( $t, $gameCount, $Limit, $Offset, "quiz_list_page_tpl" );
 
-if ( $GenerateStaticPage == "true" and $cachedFile != "" )
-{
-    $fp = fopen( $cachedFile, "w+");
-
-    $output = $t->parse( $target, "quiz_list_page_tpl" );
-    // print the output the first time while printing the cache file.
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->pparse( "output", "quiz_list_page_tpl" );
-}
-
+$t->pparse( "output", "quiz_list_page_tpl" );
 
 ?>

@@ -2,6 +2,17 @@
 
 <h1>{intl-headline}</h1>
 
+
+<!-- BEGIN error_list_tpl -->
+<hr noshade="noshade" size="4" />
+<br />
+<h2 class="error">{intl-error_headline}</h2>
+<!-- BEGIN error_item_tpl -->
+<div class="error">{error_message}</div>
+<!-- END error_item_tpl -->
+
+<!-- END error_list_tpl -->
+
 <hr noshade="noshade" size="4" />
 <br />
 

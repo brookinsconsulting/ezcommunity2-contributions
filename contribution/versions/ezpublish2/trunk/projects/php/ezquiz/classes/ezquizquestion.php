@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizquestion.php,v 1.5 2001/05/30 10:39:40 pkej Exp $
+// $Id: ezquizquestion.php,v 1.6 2001/06/15 08:04:16 pkej Exp $
 //
 // eZQuizQuestion class
 //
@@ -295,11 +295,51 @@ class eZQuizQuestion
         $db =& eZDB::globalDatabase();
         $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' ORDER BY ID" );
 
-       for ( $i=0; $i < count($questionArray); $i++ )
-       {
+        for ( $i=0; $i < count($questionArray); $i++ )
+        {
            $returnArray[$i] = new eZQuizAlternative( $questionArray[$i]["ID"], true );
-       }
-       return $returnArray;
+        }
+        return $returnArray;
+    }
+    
+    /*!
+        This function returns the count of all the alternatives for a question. Returns
+        the number of alternatives of false if there are none.
+     */
+    function countAlternatives()
+    {
+        $returnArray = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $result, "SELECT count( ID ) AS COUNT FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' ORDER BY ID" );
+
+        $ret = false;
+
+        if( is_numeric( $result["COUNT"] ) )
+        {
+            $ret = $result["COUNT"];
+        }
+
+        return $ret;
+    }
+    
+    /*!
+        This function returns the count of all the alternatives for a question which are correct. It returns
+        false if there are no correct alternatives.
+     */
+    function countCorrectAlternatives()
+    {
+        $returnArray = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $result, "SELECT count( ID ) AS COUNT FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' AND IsCorrect=1 ORDER BY ID" );
+
+        $ret = false;
+
+        if( is_numeric( $result["COUNT"] ) )
+        {
+            $ret = $result["COUNT"];
+        }
+
+        return $ret;
     }
     
     var $ID;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: questionedit.php,v 1.3 2001/05/29 09:07:05 ce Exp $
+// $Id: questionedit.php,v 1.4 2001/06/15 08:04:16 pkej Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 16:17:22 ce>
@@ -29,6 +29,7 @@ include_once( "classes/ezhttptool.php" );
 
 include_once( "ezquiz/classes/ezquizquestion.php" );
 
+$errorMessages = array();
 
 if ( isSet ( $NewAlternative ) )
 {
@@ -41,6 +42,17 @@ if ( isSet ( $NewAlternative ) )
 
 if ( isSet ( $OK ) )
 {
+    $question = new eZQuizQuestion( $QuestionID );
+    
+    if( $question->countAlternatives() == false )
+    {
+        $errorMessages[] = "error_add_alternative";
+    }
+    
+    if( count( $errorMessages ) > 0 )
+    {
+        unset( $OK );
+    }
     $Action = "Update";
 }
 
@@ -49,7 +61,7 @@ if ( isSet ( $Cancel ) )
     $question = new eZQuizQuestion( $QuestionID);
     $game =& $question->game();
     $gameID = $game->id();
-    eZHTTPTool::header( "Location: /quiz/game/edit/$gameID" );
+    eZHTTPTool::header( "Location: /quiz/game/edit/$gameID/" );
     exit();
 }
 
@@ -78,6 +90,8 @@ $t->set_file( array(
 
 $t->set_block( "question_edit_page", "alternative_list_tpl", "alternative_list" );
 $t->set_block( "alternative_list_tpl", "alternative_item_tpl", "alternative_item" );
+$t->set_block( "question_edit_page", "error_list_tpl", "error_list" );
+$t->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
 
 $t->set_var( "question_name", "$Name" );
 $t->set_var( "question_description", "$Description" );
@@ -88,15 +102,36 @@ if ( $Action == "Update" )
         $question = new eZQuizQuestion( $QuestionID);
     else
         $question = new eZQuizQuestion();
-    $question->setName( $Name );
+        
+    if( empty( $Name ) )
+    {
+        $errorMessages[] = "error_missing_question_name";
+        unset( $OK );
+    }
+    else
+    {
+        $question->setName( $Name );
+    }
     $question->store();
-
+    $alternativeNameError = false;
     if ( count ( $AlternativeArrayID ) > 0 )
     {
         for( $i=0; $i < count ( $AlternativeArrayID ); $i++ )
         {
             $alternative = new eZQuizAlternative( $AlternativeArrayID[$i] );
-            $alternative->setName( $AlternativeArrayName[$i] );
+            if( empty( $AlternativeArrayName[$i] ) )
+            {
+                if( $alternativeNameError == false )
+                {
+                    $errorMessages[] = "error_missing_answer_name";
+                    unset( $OK );
+                    $alternativeNameError = true;
+                }
+            }
+            else
+            {
+                $alternative->setName( $AlternativeArrayName[$i] );
+            }
 
             if ( $IsCorrect == $AlternativeArrayID[$i] )
                 $alternative->setIsCorrect( true );
@@ -106,6 +141,13 @@ if ( $Action == "Update" )
         }
         unset( $alternative );
     }
+
+    if( $question->countCorrectAlternatives() == false && !isset( $NewAlternative ) )
+    {
+        $errorMessages[] = "error_no_correct_alternative";
+        unset( $OK );
+    }
+
 
     if ( isSet ( $OK ) )
     {
@@ -157,7 +199,29 @@ if ( count ( $alternativeList ) > 0 )
     $t->parse( "alternative_list", "alternative_list_tpl", true );
 }
 else
-$t->set_var( "alternative_list", "" );
+{
+    $t->set_var( "alternative_list", "" );
+}
+
+if( count( $errorMessages ) > 0 )
+{
+    foreach( $errorMessages as $errorMessage )
+    {
+        $errorMessage =& $t->Ini->read_var( "strings", $errorMessage );
+        $t->set_var( "error_message", $errorMessage );
+        $t->parse( "error_item", "error_item_tpl", true );
+    }
+    
+    $t->set_var( "question_name", $Name );
+    $t->set_var( "question_id", $QuestionID );
+
+    $t->parse( "error_list", "error_list_tpl" );
+}
+else
+{
+    $t->set_var( "error_list", "" );
+}
+
 
 
 $t->pparse( "output", "question_edit_page" );

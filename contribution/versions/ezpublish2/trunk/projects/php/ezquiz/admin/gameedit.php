@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.8 2001/06/08 12:24:55 ce Exp $
+// $Id: gameedit.php,v 1.9 2001/06/15 08:04:16 pkej Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -77,10 +77,13 @@ $t->set_file( array(
 
 $t->set_block( "game_edit_page", "question_list_tpl", "question_list" );
 $t->set_block( "question_list_tpl", "question_item_tpl", "question_item" );
+$t->set_block( "game_edit_page", "error_no_date_tpl", "error_no_date" );
+$t->set_block( "game_edit_page", "error_name_tpl", "error_name" );
 $t->set_block( "game_edit_page", "error_date_tpl", "error_date" );
 $t->set_block( "game_edit_page", "error_start_date_tpl", "error_start_date" );
 $t->set_block( "game_edit_page", "error_stop_date_tpl", "error_stop_date" );
 $t->set_block( "game_edit_page", "error_embracing_period_tpl", "error_embracing_period" );
+$t->set_block( "game_edit_page", "error_question_tpl", "error_question" );
 
 $t->set_var( "game_name", "$Name" );
 $t->set_var( "game_description", "$Description" );
@@ -98,11 +101,48 @@ $t->set_var( "error_date", "" );
 $t->set_var( "error_start_date", "" );
 $t->set_var( "error_stop_date", "" );
 $t->set_var( "error_embracing_period", "" );
+$t->set_var( "error_name", "" );
+$t->set_var( "error_no_date", "" );
+$t->set_var( "error_question", "" );
 
 $error = false;
 $checkDate = true;
 if ( ( $Action == "Insert" ) )
 {
+    if( $GameID > 0 && !isset( $NewQuestion ) )
+    {
+        $game = new  eZQuizGame( $GameID );
+        
+        if( $game->numberOfQuestions() == 0 )
+        {
+            $t->parse( "error_question", "error_question_tpl" );
+            $error = true;
+        }
+        unset( $game );
+    }
+    elseif( isset( $OK ) )
+    {
+        $t->parse( "error_question", "error_question_tpl" );
+        $error = true;
+    }
+    
+    if( empty( $Name ) )
+    {
+        $t->parse( "error_name", "error_name_tpl" );
+        $error = true;
+    }
+
+    if( $StartMonth == 0
+        || $StartDay == 0
+        || $StartYear == 0
+        || $StopMonth == 0
+        || $StopDay == 0
+        || $StopYear == 0 )
+    {
+        $t->parse( "error_no_date", "error_no_date_tpl" );
+        $error = true;
+    }
+
     $startDate = new eZDate();
     $startDate->setMonth( $StartMonth );
     $startDate->setDay( $StartDay );
@@ -148,7 +188,7 @@ if ( ( $Action == "Insert" ) )
             }
         }
 
-         if( $numberOfStillOpen > 0 )
+        if( $numberOfStillOpen > 0 )
         {
             foreach( $stillOpen as $checkItem )
             {
@@ -213,6 +253,7 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
         $game = new eZQuizGame( $GameID);
     else
         $game = new eZQuizGame();
+
     $game->setName( $Name );
     $game->setDescription( $Description );
 
@@ -220,8 +261,6 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
     $game->setStopDate( $stopDate );
 
     $game->store();
-
-    eZQuizTool::deleteCache();
 
     if ( count ( $QuestionArrayID ) > 0 )
     {
@@ -259,15 +298,13 @@ if ( $Action == "Delete" )
         {
             $game = new eZQuizGame( $GameID );
             $game->delete();
-            eZQuizTool::deleteCache();
-
         }
     }
     eZHTTPTool::header( "Location: /quiz/game/list/" );
     exit();
 }
 
-if ( is_numeric( $GameID ) )
+if ( is_numeric( $GameID ) && !isset( $OK ) && !isset( $NewQuestion ) )
 {
     if ( get_class( $game ) != "ezquizgame" )
         $game = new eZQuizGame( $GameID );
@@ -309,8 +346,9 @@ if ( count ( $questionList ) > 0 )
     $t->parse( "question_list", "question_list_tpl", true );
 }
 else
-$t->set_var( "question_list", "" );
-
+{
+    $t->set_var( "question_list", "" );
+}
 $t->set_var( "site_style", $SiteStyle );
 $t->pparse( "output", "game_edit_page" );
 ?>

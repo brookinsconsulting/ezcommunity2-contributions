@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.9 2001/06/08 13:07:24 ce Exp $
+// $Id: datasupplier.php,v 1.10 2001/06/15 08:04:16 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -50,28 +50,7 @@ switch ( $url_array[2] )
                     $Offset = 0;
                 }
                 
-                if ( $PageCaching == "enabled" )
-                {
-                    include_once( "classes/ezcachefile.php" );
-                    $file = new eZCacheFile( "ezquiz/cache/", array( "quiz" . $Action, $Offset ),
-                                             "cache", "," );
-                    $cachedFile = $file->filename( true );
-
-                    if ( $file->exists() )
-                    {
-                        include( $cachedFile );
-                    }
-                    else
-                    {
-                        $GenerateStaticPage = "true";
-                        include( "ezquiz/user/quizlist.php" );
-                    }
-
-                }
-                else
-                {
-                    include( "ezquiz/user/quizlist.php" );
-                }
+                include( "ezquiz/user/quizlist.php" );
             }
             break;
                         
@@ -92,28 +71,7 @@ switch ( $url_array[2] )
                     eZHTTPTool::header( "Location: /quiz/game/list" );
                 }
                 
-                if ( $PageCaching == "enabled" )
-                {
-                    include_once( "classes/ezcachefile.php" );
-                    $file = new eZCacheFile( "ezquiz/cache/", array( "quiz" . $Action, $Offset ),
-                                             "cache", "," );
-                    $cachedFile = $file->filename( true );
-
-                    if ( $file->exists() )
-                    {
-                        include( $cachedFile );
-                    }
-                    else
-                    {
-                        $GenerateStaticPage = "true";
-                        include( "ezquiz/user/quizscores.php" );
-                    }
-
-                }
-                else
-                {
-                    include( "ezquiz/user/quizscores.php" );
-                }
+                include( "ezquiz/user/quizscores.php" );
             }
             break;
             
@@ -197,28 +155,7 @@ switch ( $url_array[2] )
                     $Offset = 0;
                 }
                 
-                if ( $PageCaching == "enabled" )
-                {
-                    include_once( "classes/ezcachefile.php" );
-                    $file = new eZCacheFile( "ezquiz/cache/", array( "my" . $Action, $Offset ),
-                                             "cache", "," );
-                    $cachedFile = $file->filename( true );
-
-                    if ( $file->exists() )
-                    {
-                        include( $cachedFile );
-                    }
-                    else
-                    {
-                        $GenerateStaticPage = "true";
-                        include( "ezquiz/user/quizlist.php" );
-                    }
-
-                }
-                else
-                {
-                    include( "ezquiz/user/quizlist.php" );
-                }
+                include( "ezquiz/user/quizlist.php" );
             }
             break;
             
