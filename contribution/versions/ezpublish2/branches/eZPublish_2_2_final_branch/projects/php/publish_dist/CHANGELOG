@@ -28,6 +28,7 @@ Changes from 2.2.4 to 2.2.5
 * Added advanced user search in eZ user.
 * Fixed bug with permissions in advanced search in eZ article.
 * Fixed bug in eZ filemanager in fileview.
+* Fixed bug in eZ imagecatalogue when browsing images in imagelist
 
 Changes from 2.2.3 to 2.2.4
 ---------------------------
