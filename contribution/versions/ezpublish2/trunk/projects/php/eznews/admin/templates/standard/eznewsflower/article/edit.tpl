@@ -50,7 +50,7 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="OK" name="form_preview">
+	<input class="okbutton" type="submit" value="Forhåndsvis" name="form_preview">
 	</form>
 	</td>
 	<td>
