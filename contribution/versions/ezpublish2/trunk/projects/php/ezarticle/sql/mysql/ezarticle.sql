@@ -4,6 +4,7 @@ CREATE TABLE eZArticle_Article (
   Contents text,
   ContentsWriterID int default NULL,
   LinkText varchar(50) default NULL,
+  LinkURL varchar(50) default NULL,
   AuthorID int NOT NULL default '0',
   Modified int NOT NULL,
   Created int NOT NULL,
