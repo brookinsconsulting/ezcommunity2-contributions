@@ -8,7 +8,16 @@
 <form method="post" action="{www_dir}{index}/mail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-to}:</p>
-<input type="text" size="40" name="To" value="{to_value}" />
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+  <td>
+    <input type="text" size="40" name="To" value="{to_value}" />
+  </td>
+  <td>
+    <input class="stdbutton" type="submit" name="ToButton" value="{intl-to}" />
+  </td>
+</tr>
+</table>
 
 <p class="boxtext">{intl-from}:</p>
 <input type="text" size="40" name="From" value="{from_value}" />
@@ -26,11 +35,6 @@
 <br /><br />
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-<!-- 
-  <td>
-    <input class="stdbutton" type="submit" name="ToButton" value="{intl-to}:" />
-  </td>
-  <td>&nbsp;</td> -->
   <td>
     <input class="stdbutton" type="submit" name="CcButton" value="{intl-cc}:" />
   </td>

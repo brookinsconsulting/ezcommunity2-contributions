@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.15 2001/08/09 14:17:42 jhe Exp $
+// $Id: mailview.php,v 1.16 2001/08/15 13:06:14 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,10 +26,10 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
-include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 if ( isSet( $Cancel ) )
 {
@@ -100,9 +100,7 @@ $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir
                      "ezmail/user/intl/", $Language, "mailview.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "mail_view_page_tpl" => "mailview.tpl"
-    ) );
+$t->set_file( "mail_view_page_tpl", "mailview.tpl" );
 
 $t->set_block( "mail_view_page_tpl", "cc_value_tpl", "cc_value" );
 $t->set_block( "mail_view_page_tpl", "bcc_value_tpl", "bcc_value" );
@@ -120,7 +118,12 @@ $t->set_var( "current_mail_id", $MailID );
 $t->set_var( "to", htmlspecialchars( $mail->to() ) );
 $t->set_var( "from", htmlspecialchars( $mail->from() ) );
 $t->set_var( "subject", htmlspecialchars( $mail->subject() ) );
-$t->set_var( "mail_body", nl2br( htmlspecialchars( $mail->body() ) ) );
+
+if ( $ini->read_var( "eZMailMain", "HTMLMail" ) == "enabled" )
+    $t->set_var( "mail_body", nl2br( ( $mail->body() ) ) );
+else
+    $t->set_var( "mail_body", nl2br( htmlspecialchars( $mail->body() ) ) );
+
 $t->set_var( "date", date("D M d H:i Y ", $mail->uDate() ) );
 
 if ( $mail->cc() != "" )

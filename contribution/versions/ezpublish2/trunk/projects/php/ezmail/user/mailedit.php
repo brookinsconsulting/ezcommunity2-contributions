@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.15 2001/08/14 14:12:15 jhe Exp $
+// $Id: mailedit.php,v 1.16 2001/08/15 13:06:14 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,10 +26,10 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
-include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezmail/classes/ezmail.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 if ( isSet( $Cancel ) )
 {
@@ -47,6 +47,12 @@ if ( isSet( $Cancel ) )
     exit();
 }
 
+if ( isSet( $ToButton ) )
+{
+    eZHTTPTool::header( "Location: /contact/person/list" );
+    exit();
+}
+
 if ( isSet( $AddAttachment ) )
 {
     $MailID = save_mail();
@@ -56,7 +62,7 @@ if ( isSet( $AddAttachment ) )
 
 if ( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
 {
-    foreach( $AttachmentArrayID as $attachmmentID )
+    foreach ( $AttachmentArrayID as $attachmmentID )
     {
         $mail = new eZMail( $MailID );
         $file = new eZVirtualFile( $attachmentID );
