@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.9 2001/05/09 09:26:02 ce Exp $
+// $Id: search.php,v 1.10 2001/05/10 08:28:30 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -131,6 +131,10 @@ else
     $t->parse( "empty_result", "empty_result_tpl" );
 }
 eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "search_tpl" );
+
+$t->set_var( "forum_start", $Offset + 1 );
+$t->set_var( "forum_end", min( $Offset + $Limit, $total_count ) );
+$t->set_var( "forum_total", $total_count );
 
 $t->set_var( "url_query_string", urlencode( $QueryString ) );
 

@@ -2,7 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-search}</h1>
+        <h1>{intl-search} - ({forum_start}-{forum_end}/{forum_total})</h1>
      </td>
      <td align="right">
 	 <form action="/forum/search/" method="post">
@@ -16,7 +16,7 @@
 
 <hr noshade size="4" />
 
-<h2>{intl-searchfor} "{query_string}"</h2>
+<h2>{intl-searchfor} "{url_text}"</h2>
 <br>
 
 <!-- BEGIN empty_result_tpl -->
@@ -59,21 +59,60 @@
 
 </table>
 <hr noshade="noshade" size="4" />
-<input type="hidden" Name="RefererURL" value="/forum/search/?Offset={this_offset}&URLQueryString={url_query_string}" />
+<input type="hidden" Name="RefererURL" value="/forum/search/?Offset={this_offset}&URLQueryString={url_url_text}" />
 <input class="stdbutton" type="submit" Name="DeleteMessages" value="{intl-deletemessages}">
 </form>
 <!-- END search_result_tpl -->
 
-<!-- BEGIN previous_tpl -->
-<a href="/forum/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
-{intl-prev}
-</a>
-<!-- END previous_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+	<td>
+	    <!-- BEGIN type_list_tpl -->
+	    <br />
+	    <table cellpadding="0" cellspacing="0" border="0">
+		<tr>
+		    <!-- BEGIN type_list_previous_tpl -->
+		    <td>
+			&lt;&lt;&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+		    </td>
+		    <!-- END type_list_previous_tpl -->
+		    
+		    <!-- BEGIN type_list_previous_inactive_tpl -->
+		    <td class="inactive">
+			{intl-previous}&nbsp;
+		    </td>
+		    <!-- END type_list_previous_inactive_tpl -->
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <!-- BEGIN type_list_item_list_tpl -->
 
-<!-- BEGIN next_tpl -->
-<a href="/forum/search/?Offset={next_offset}&URLQueryString={url_query_string}">
-{intl-next}
-</a>
-<!-- END next_tpl -->
+		    <!-- BEGIN type_list_item_tpl -->
+		    <td>
+			&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+		    </td>
+		    <!-- END type_list_item_tpl -->
+
+		    <!-- BEGIN type_list_inactive_item_tpl -->
+		    <td class="inactive">
+			&nbsp;{type_item_name}&nbsp;|
+		    </td>
+		    <!-- END type_list_inactive_item_tpl -->
+
+		    <!-- END type_list_item_list_tpl -->
+
+		    <!-- BEGIN type_list_next_tpl -->
+		    <td>
+			&nbsp;<a class="path" href="/forum/search/parent/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+		    </td>
+		    <!-- END type_list_next_tpl -->
+
+		    <!-- BEGIN type_list_next_inactive_tpl -->
+		    <td class="inactive">
+			{intl-next}&nbsp;&gt;&gt;
+		    </td>
+		    <!-- END type_list_next_inactive_tpl -->
+		</tr>
+	    </table>
+	    <!-- END type_list_tpl -->
+	</td>
+    </tr>
+</table>

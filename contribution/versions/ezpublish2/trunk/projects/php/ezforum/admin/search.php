@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.7 2001/03/05 13:46:35 pkej Exp $
+// $Id: search.php,v 1.8 2001/05/10 08:28:30 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -25,17 +25,16 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "ezforum/classes/ezforum.php" );
-
 include_once( "classes/ezlocale.php" );
-
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
+$Limit = $ini->read_var( "eZForumMain", "SearchAdminLimit" );
 
 include_once( "classes/eztemplate.php" );
-
 
 $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
                      "ezforum/admin/intl", $Language, "search.php" );
@@ -54,31 +53,15 @@ $t->set_block( "search_tpl", "next_tpl", "next" );
 $t->set_var( "site_style", $SiteStyle );
 
 
-if ( isSet( $URLQueryString ) )
-{
-    $QueryString = urldecode( $URLQueryString );
-}
+if( !isset ( $Offset ) )
+    $Offset = 0;
 
-$t->set_var( "query_string", $QueryString );
-
-$t->set_var( "previous", "" );
-$t->set_var( "next", "" );
-
+$t->set_var( "url_text", "" );
 $t->set_var( "search_result", "" );
-
 
 if ( $QueryString != "" )
 {
-    $t->set_var( "query_string", $QueryString );
-
-    if ( !isset( $Offset ) )
-        $Offset = 0;
-
-    if ( !isset( $Limit ) )
-        $Limit = 30;
-
-$t->set_var( "this_offset", "$Offset" );
-$t->set_var( "this_limit", "$Limit" );
+    $t->set_var( "url_text", urlencode( $QueryString ) );
 
     $forum = new eZForum();
     
@@ -117,31 +100,6 @@ $t->set_var( "this_limit", "$Limit" );
             $t->set_var( "user", $AnonymousPoster );
         }
 
-        $prevOffs = $Offset - $Limit;
-        $nextOffs = $Offset + $Limit;
-        
-        if ( $prevOffs >= 0 )
-        {
-            $t->set_var( "prev_offset", $prevOffs  );
-            $t->parse( "previous", "previous_tpl" );
-        }
-        else
-        {
-        $t->set_var( "previous", "" );
-        }
-        
-        if ( $nextOffs <= $total_count )
-        {
-            $t->set_var( "next_offset", $nextOffs  );
-            $t->parse( "next", "next_tpl" );
-        }
-        else
-        {
-            $t->set_var( "next", "" );
-        }
-        
-        $t->set_var( "limit", $Limit );
-        
         $t->parse( "message", "message_tpl", true );
         $i++;
     }
@@ -159,9 +117,12 @@ $t->set_var( "this_limit", "$Limit" );
 else
 {
     $t->parse( "empty_result", "empty_result_tpl" );
-} 
+}
+eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "search_tpl" );
 
-$t->set_var( "url_query_string", urlencode( $QueryString ) );
+$t->set_var( "forum_start", $Offset + 1 );
+$t->set_var( "forum_end", min( $Offset + $Limit, $total_count ) );
+$t->set_var( "forum_total", $total_count );
 
 $t->pparse("output","search_tpl");
 ?>
