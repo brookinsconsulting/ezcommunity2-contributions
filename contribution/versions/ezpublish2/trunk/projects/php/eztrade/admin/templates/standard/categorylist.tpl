@@ -85,7 +85,12 @@
 <!-- BEGIN product_item_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
+	<!-- BEGIN product_icon_tpl -->
 	<img src="{www_dir}/admin/images/product.gif" height="16" width="16" border="0" alt="" align="top" />
+	<!-- END product_icon_tpl -->
+	<!-- BEGIN voucher_icon_tpl -->
+	<img src="{www_dir}/admin/images/voucher.gif" height="16" width="16" border="0" alt="" align="top" />
+	<!-- END voucher_icon_tpl -->
 	</td>
 	<td class="{td_class}">
 	<a href="{www_dir}{index}/trade/productedit/productpreview/{product_id}/">{product_name}</a>

@@ -1,28 +1,13 @@
-<?php
+<?
 // 
-// $Id: ezfreetradeimport.php,v 1.4 2001/07/30 07:45:46 br Exp $
+// $Id: ezfreetradeimport.php,v 1.5 2001/07/30 09:46:48 ce Exp $
 //
 // ezfreetradeimport class
 //
+// Christoffer A. Elo <ce@ez.no>
 // Created on: <12-Jul-2001 12:23:54 ce>
 //
-// This source file is part of eZ publish, publishing software.
-//
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+// Copyright (C) Christoffer A. Elo.  All rights reserved.
 //
 
 //!! ezfreetradeimport
@@ -52,8 +37,8 @@ class eZFreeTradeImport
     function importCategories( ) 
     {
         set_time_limit( 0 );
-        $categories =& $this->getCategoriesFromImport();
-        $db =& eZDB::globalDatabase();
+        $categories = $this->getCategoriesFromImport();
+        $db = eZDB::globalDatabase();
 
         if ( is_array ( $categories ) )
         {
@@ -77,7 +62,7 @@ class eZFreeTradeImport
                 if ( $importCategory["Graphic"] )
                 {
                     $imageFromFS = "freetrade/images/departments/" . $importCategory["Graphic"];
-                    if ( eZFile::file_exists( $imageFromFS ) )
+                    if ( file_exists( $imageFromFS ) )
                     {
                         $image = new eZImage();
                         $file = new eZImageFile();
@@ -99,22 +84,65 @@ class eZFreeTradeImport
             return false;
     }
 
+    function importItems( )
+    {
+        set_time_limit( 0 );
+        $categories = $this->getItemsFromImport();
+
+        $db = eZDB::globalDatabase();
+        if ( is_array ( $categories ) )
+        {
+            foreach( $categories as $category )
+            {
+                $depID = $category["Department"];
+                $importID = "item-" . $category["ID"];
+                $db->array_query( $ParentFromRemoteID, "SELECT ID FROM eZTrade_Category WHERE RemoteID='$depID'" );
+
+                if ( count ( $ParentFromRemoteID ) == 1 )
+                {
+                    $parentID = $ParentFromRemoteID[0]["ID"];
+
+                    $categoryObj = new eZProductCategory();
+                    $categoryObj->setName( mysql_escape_string( strip_tags( $category["Name"] ) ) );
+                    $categoryObj->setDescription( mysql_escape_string( strip_tags( $category["Description"] ) ) );
+                    $categoryObj->setParent( mysql_escape_string( $parentID ) );
+                    $categoryObj->setRemoteID( mysql_escape_string( $importID ) );
+                    $categoryObj->store();
+
+//                    print( "Added: ". $categoryObj->name() . "<br>" );
+                }
+            }
+        }
+    }
+    
     function importProducts( )
     {
         set_time_limit( 0 );
-        $products =& $this->getProductsFromImport();
+        $products = $this->getProductsFromImport();
 
-        $db =& eZDB::globalDatabase();
+        $db = eZDB::globalDatabase();
         if ( is_array ( $products ) )
         {
             $i=0;
             foreach( $products as $importProduct )
             {
+
                 $product = new eZProduct();
+
                 $product->setName( mysql_escape_string( $importProduct["Name"] ) );
-                $product->setDescription( mysql_escape_string( $importProduct["Description"] ) );
-                $product->setKeywords( mysql_escape_string( $importProduct["Keywords"] ) );
+//                $product->setDescription( mysql_escape_string( $importProduct["Description"] ) );
+//                $product->setKeywords( mysql_escape_string( $importProduct["Keywords"] ) );
                 $product->setRemoteID( $importProduct["ID"] );
+
+                if ( $importProduct["SalePrice" ] != 0 )
+                {
+                    $product->setPrice( $importProduct["SalePrice" ] );
+                }
+                elseif ( $importProduct["ListPrice" ] )
+                {
+                    $price = ( ( $importProduct["ListPrice" ] * 10 ) / 100 );
+                    $product->setPrice( $importProduct["ListPrice" ] - $price );
+                }
 
                 if ( $importProduct["Active"] == "Y" )
                     $product->setShowProduct( true );
@@ -123,10 +151,11 @@ class eZFreeTradeImport
 
                 $product->store();
 
+                /*
                 if ( $importProduct["Graphic"] )
                 {
                     $imageFromFS = "freetrade/images/items/" . $importProduct["Graphic"];
-                    if ( eZFile::file_exists( $imageFromFS ) )
+                    if ( file_exists( $imageFromFS ) )
                     {
                         $image = new eZImage();
                         $file = new eZImageFile();
@@ -143,19 +172,21 @@ class eZFreeTradeImport
                         }
                     }
                 }
+                */
+              
                 
-                $depID = $importProduct["Department"];
-                $db->array_query( $CategoryIDFromRemoteID, "SELECT ID FROM eZTrade_Category WHERE RemoteID='$depID'" );
+                $parent = "item-" . $importProduct["Item"];
+                $db->array_query( $CategoryIDFromRemoteID, "SELECT ID FROM eZTrade_Category WHERE RemoteID='$parent'" );
 
                 $category = new eZProductCategory( $CategoryIDFromRemoteID[0][0] );
                 
                 if ( is_numeric( $category->id() ) )
                 {
-                    $category->addProduct( &$product );
-                    $product->setCategoryDefinition( &$category );
+                    $category->addProduct( $product );
+                    $product->setCategoryDefinition( $category );
                 }
 
-                $this->importOptions( &$product );
+                $this->importOptions( $product );
 
 //                print( "Lagt til produkt: " . $product->name() . "<br>" );
                 $i++;
@@ -168,49 +199,69 @@ class eZFreeTradeImport
             return false;
     }
 
-    function importOptions( &$product )
+    function importOptions( $product )
     {
         if ( get_class( $product ) == "ezproduct" )
         {
             $productID = $product->id();
-            
-            $option = new eZOption();
-            $option->setName( "Options" );
-            $option->store();
-            $product->addOption( $option );
 
-            $options =& $this->getOptionsFromImport( $productID );
-            
-            foreach( $options as $importOption )
+            $options = $this->getOptionsFromImport( $productID );
+
+            if ( count ( $options ) > 0 )
             {
-                $value = new eZOptionValue();
-                $value->setPrice( $importOption["SalePrice" ] );
-                $value->setRemoteID( $importOption["ID"] );
-                $value->store();
-                $value->addDescription( mysql_escape_string( $importOption["Name"] ) );
-                $option->addValue( $value );
-
-                $quantityArray =& $this->getQuantity( $importOption["ID"] );
-
-                $value->setTotalQuantity( $quantityArray["Available"] );
-
+                $option = new eZOption();
+                $option->setName( "Options" );
+                $option->store();
+                $product->addOption( $option );
+                
+                if ( is_array( $options ) )
+                {
+                    foreach( $options as $importOption )
+                    {
+                        $value = new eZOptionValue();
+                        $value->setRemoteID( $importOption["ID"] );
+                        $value->store();
+                        $value->addDescription( mysql_escape_string( $importOption["Name"] ) );
+                        $option->addValue( $value );
+                        
+                        
+                        
+//                $quantityArray = $this->getQuantity( $importOption["ID"] );
+                        
+                        //              $value->setTotalQuantity( $quantityArray["Available"] );
+                        
 //                print( "ID: " . $value->id() . " - Price: ". $importOption["SalePrice" ] . "<br>");
+                    }
+                }
             }
         }
     }
 
-    function &getOptionsFromImport( $id )
+    function getOptionsFromImport( $id )
     {
         $this->dbInit();
 
         if ( is_numeric( $id ) )
         {
-            $db =& eZDB::globalDatabase();
+            $db = eZDB::globalDatabase();
             $db->array_query( $RemoteIDFromProductID, "SELECT RemoteID FROM eZTrade_Product WHERE ID='$id'" );
 
             $remoteID = $RemoteIDFromProductID[0][0];
 
-            $this->dbImport->array_query( $array, "SELECT * FROM sku WHERE Item='$remoteID'" );
+            $this->dbImport->array_query( $array, "select variation.* from variation, sku_variation WHERE sku_variation.Variation = variation.ID AND sku_variation.SKU='$remoteID'" );
+
+            for( $i=0; $i<count( $array ); $i++ )
+            {
+                if ( is_numeric( $array[$i]["Attribute"] ) )
+                {
+                    $att = array();
+                    $id = $array[$i]["Attribute"];
+                    $this->dbImport->array_query( $att, "select * from attribute where ID='$id'" );
+                    array_push( $array[$i], $att[0] );
+                }
+
+            }
+            return $array;
         }
         else
             $this->dbImport->array_query( $array, "SELECT * FROM sku" );
@@ -220,17 +271,29 @@ class eZFreeTradeImport
         return $array;
     }
 
-    function &getCategoriesFromImport()
+    function getCategoriesFromImport()
     {
         $this->dbInit();
         $this->dbImport->array_query( $array, "SELECT * FROM department ORDER BY Parent" );
+
 
         $this->dbImport->close();
 
         return $array;
     }
 
-    function &getProductsFromImport()
+    function getProductsFromImport()
+    {
+        $this->dbInit();
+//        $this->dbImport->array_query( $array, "SELECT * FROM item" );
+        $this->dbImport->array_query( $array, "SELECT * FROM sku" );
+
+        $this->dbImport->close();
+      
+        return $array;
+    }
+
+    function getItemsFromImport()
     {
         $this->dbInit();
         $this->dbImport->array_query( $array, "SELECT * FROM item" );
@@ -240,7 +303,7 @@ class eZFreeTradeImport
         return $array;
     }
 
-    function &getQuantity( $id )
+    function getQuantity( $id )
     {
         $this->dbInit();
 

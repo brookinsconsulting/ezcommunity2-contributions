@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.22 2001/07/20 11:42:01 jakobn Exp $
+// $Id: categorylist.php,v 1.23 2001/07/30 09:46:48 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -83,6 +83,9 @@ $t->set_block( "category_list_page_tpl", "product_list_tpl", "product_list" );
 $t->set_block( "product_list_tpl", "product_item_tpl", "product_item" );
 $t->set_block( "product_item_tpl", "product_active_item_tpl", "product_active_item" );
 $t->set_block( "product_item_tpl", "product_inactive_item_tpl", "product_inactive_item" );
+
+$t->set_block( "product_item_tpl", "voucher_icon_tpl", "voucher_icon" );
+$t->set_block( "product_item_tpl", "product_icon_tpl", "product_icon" );
 
 // move up / down
 $t->set_block( "product_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
@@ -211,6 +214,20 @@ foreach ( $productList as $product )
     else
     {
         $t->set_var( "absolute_placement_item", "" );
+    }
+
+    $t->set_var( "product_icon", "" );
+    $t->set_var( "voucher_icon", "" );
+    print( $product->productType() );
+    // If product type == 1, render the product object as a product
+    // If product type == 1, render the product object as a voucher
+    if ( $product->productType() == 1 )
+    {
+        $t->parse( "product_icon", "product_icon_tpl" );
+    }
+    if ( $product->productType() == 2 )
+    {
+        $t->parse( "voucher_icon", "voucher_icon_tpl" );
     }
 
     $t->parse( "product_item", "product_item_tpl", true );
