@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.5 2000/07/21 11:25:04 lw Exp $
+    $Id: forum.php,v 1.6 2000/07/21 11:35:52 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -96,11 +96,10 @@ else // default: Add forum box
 
 // Forum list for current category
 $forum = new eZforumForum();
-$forums = $forum->getAllForums($category_id);
-
+$forums = $forum->getAllForums( $category_id );
 for ($i = 0; $i < count( $forums ); $i++)
 {
-    $t->set_var( "id", $forums[$i]["Id"] );
+    $t->set_var( "forum_id", $forums[$i]["Id"] );
     $t->set_var( "name", $forums[$i]["Name"] );
     $t->set_var( "description", $forums[$i]["Description"] );
     $t->set_var( "moderated", $forums[$i]["Moderated"] );
@@ -113,4 +112,5 @@ for ($i = 0; $i < count( $forums ); $i++)
             
     $t->parse( "forums", "elements", true);
 }
+$t->pparse( "output", "forum");
 ?>

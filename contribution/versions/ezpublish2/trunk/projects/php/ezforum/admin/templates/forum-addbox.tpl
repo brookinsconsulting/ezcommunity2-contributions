@@ -1,7 +1,7 @@
 <form action="index.php4" method="post">
 <input type="hidden" name="page" value="{docroot}/admin/forum.php4">
 <input type="hidden" name="category_id" value="{category_id}>"
-<table>
+<table width="50%">
 <tr>
    <td colspan="5">Legg til forum</td>
 </tr>
