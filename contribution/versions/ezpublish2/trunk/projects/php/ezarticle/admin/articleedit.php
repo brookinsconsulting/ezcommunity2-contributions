@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.54 2001/03/06 17:30:23 bf Exp $
+// $Id: articleedit.php,v 1.55 2001/03/06 20:36:39 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -60,7 +60,7 @@ function notificationMessage( &$article )
     $subjectLine = $mailTemplate->Ini->read_var( "strings", "subject" );
     $subjectLine = $subjectLine . " " . $PublishSite;
     
-    $intro = eztexttool::linesplit(strip_tags( $renderer->renderIntro( ) ), $PublishNoticePadding, 76 );
+    $intro = eZTextTool::linesplit(strip_tags( $renderer->renderIntro( ) ), $PublishNoticePadding, 76 );
 
     $mailTemplate->set_var( "body", "$intro" );
     $mailTemplate->set_var( "site", "$PublishSite" );
