@@ -51,7 +51,10 @@ if ( $user )
         $preferences = new eZPreferences();
 
         $modules =& $preferences->variableArray( "EnabledModules" );
-        $modules = array_unique( array_merge( $modules, $ini->read_array( "site", "EnabledModules" ) ) );
+        $site_modules = $ini->read_array( "site", "EnabledModules" );
+        $modules = array_intersect( $modules, $site_modules );
+        $extra_modules = array_diff( $site_modules, $modules );
+        $modules = array_merge( $modules, $extra_modules );
         $modules = array_diff( $modules, array( "" ) );
 
         $uri =& $GLOBALS["REQUEST_URI"];
