@@ -43,6 +43,7 @@ class eZPosition extends eZClassified
                                                   WorkPlace='$this->WorkPlace',
                                                   PositionType='$this->PositionType',
                                                   InitiateType='$this->InitiateType',
+                                                  DueDate='$this->DueDate',
                                                   ID='$this->ID'
                                                   ");
                     $this->State_ = "Coherent";
@@ -56,7 +57,8 @@ class eZPosition extends eZClassified
                                                   ContactPerson='$this->ContactPerson',
                                                   WorkPlace='$this->WorkPlace',
                                                   PositionType='$this->PositionType',
-                                                  InitiateType='$this->InitiateType'
+                                                  InitiateType='$this->InitiateType',
+                                                  DueDate='$this->DueDate'
                                                	  WHERE ID='$this->ID'
                                                	  " );
             $this->State_ = "Coherent";
@@ -91,6 +93,7 @@ class eZPosition extends eZClassified
                 $this->ContactPerson = $position_array[0]["ContactPerson"];
                 $this->PositionType = $position_array[0]["PositionType"];
                 $this->InitiateType = $position_array[0]["InitiateType"];
+                $this->DueDate = $position_array[0]["DueDate"];
 
                 $ret = true;
             }
@@ -179,6 +182,17 @@ class eZPosition extends eZClassified
     }
 
     /*!
+      Sets the due date
+    */
+    function setDueDate( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->DueDate = $value;
+    }
+
+    /*!
       Returnerer firmanavn.
     */
     function duration()
@@ -253,6 +267,17 @@ class eZPosition extends eZClassified
         return $this->InitiateType;
     }
 
+    /*!
+      Returns initiate type.
+    */
+    function dueDate()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->DueDate;
+    }
+
     var $Duration;
     var $WorkTime;
     var $WorkPlace;
@@ -260,6 +285,7 @@ class eZPosition extends eZClassified
     var $ContactPerson;
     var $PositionType;
     var $InitiateType;
+    var $DueDate;
 }
 
 /*!
