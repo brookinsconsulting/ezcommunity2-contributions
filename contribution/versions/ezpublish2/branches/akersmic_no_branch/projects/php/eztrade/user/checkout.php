@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.2.4.4 2002/01/29 14:17:33 ce Exp $
+// $Id: checkout.php,v 1.96.2.2.4.5 2002/01/30 11:08:08 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -218,39 +218,6 @@ if ( isSet( $SendOrder ) )
 
     $session->setVariable( "Comment", eZHTTPTool::getVar( "Comment", true ) );
 
-    foreach ( $cart->items() as $item )
-    {
-        $product = $item->product();
-        $type = $product->type();
-
-        switch( $type->id )
-        {
-            case 1:
-            case 2:
-            case 5:
-            default:
-            {
-                if ( ( eZHTTPTool::getVar( "PaymentMethod", true ) == "frakt" ) and $total <= 1000 )
-                {
-                }
-                elseif ( ( eZHTTPTool::getVar( "PaymentMethod", true ) == "visa" ) and $total <= 1000 )
-                {
-                }
-            }
-            break;
-            case 5:
-            {
-                if ( eZHTTPTool::getVar( "PaymentMethod", true ) == "frakt" )
-                {
-                }
-                elseif ( eZHTTPTool::getVar( "PaymentMethod", true ) == "visa" )
-                {
-                }
-            }
-            break;
-        }
-    }
-    exit();
     $session->setVariable( "ShippingCost", $cart->shippingCost( new eZShippingType( $currentTypeID ) ) );
     $session->setVariable( "ShippingVAT", $cart->shippingVAT( new eZShippingType( $currentTypeID ) ) );
 
@@ -365,10 +332,10 @@ function turnColumnsOnOff( $rowName )
 $items = $cart->items( );
 
 
-foreach ( $items as $item )
+$i=0;
+while ( $item = $items[$i] )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "cart1" : "cart2" );
-    $i++;
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();
 
@@ -431,6 +398,7 @@ foreach ( $items as $item )
             $t->set_var( "cart_item_basis", "" );
         }
    }
+    $i++;
    $t->parse( "cart_item", "cart_item_tpl", true );
 }
 
