@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.20 2001/09/10 11:37:29 ce Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.21 2002/08/20 10:44:09 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -139,6 +139,23 @@ class eZBulkMailSubscriptionAddress
             }
         }
     }
+
+/*!
+\static
+Returns true if the email address is found in the database already. False if not
+*/
+function exists( $email )
+{
+	$ret = false;
+        $db =& eZDB::globalDatabase();
+        $email = addslashes( $email );
+        $db->array_query( $address_array, "SELECT ID FROM eZBulkMail_SubscriptionAddress WHERE EMail='$email'" );
+	if( count( $address_array ) > 0 )
+		$ret = true;
+        
+	return $ret;
+}
+
 
     /*!
       \static

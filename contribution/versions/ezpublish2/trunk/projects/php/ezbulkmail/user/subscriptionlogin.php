@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: subscriptionlogin.php,v 1.8 2001/10/10 19:46:42 fh Exp $
+// $Id: subscriptionlogin.php,v 1.9 2002/08/20 10:44:09 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -66,9 +66,8 @@ if( isset( $Ok ) )
             exit();
         }
     }
-    else if( $Action == "create" )
+    else if( $Action == "create" && !eZBulkMailSubscriptionAddress::exists( $Email ) )
     {
-        // TODO:check if address allready exists!!
         $subscriptionaddress = new eZBulkMailSubscriptionAddress();
         if( $subscriptionaddress->setEMail( $Email ) && $Password != "" && $Password == $Password2 ) // check if passwords are alike and that we have a valid email address...
         {
@@ -104,7 +103,7 @@ if( isset( $Ok ) )
         else // we have some sort of error... find out what it is, and present it to the user..
         {
             $New = "new";
-            if( $subscriptionaddress->setEMail( $Email) == false )
+            if( $subscriptionaddress->setEMail( $Email) == false || eZBulkMailSubscriptionAddress::exists( $Email ) )
                 $error = "emailerror";
             else if( $Password == "" )
                 $error = "zeropassword";
