@@ -59,7 +59,7 @@
   //-->
   </script> 
 
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="{admin_site_protocol}://{admin_site_host}/favicon.ico" type="image/x-icon">
 </head>
 
 <body bgcolor="#ffffff" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onload="MM_preloadImages('{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif','{www_dir}/design/admin/images/{site_style}/slettminimrk.gif','{www_dir}/design/admin/images/{site_style}/downloadminimrk.gif','{www_dir}/design/admin/images/{site_style}/imagemapminimrk.gif')">
