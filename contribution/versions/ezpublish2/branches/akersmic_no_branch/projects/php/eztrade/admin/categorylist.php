@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: categorylist.php,v 1.32.8.1 2002/01/14 10:28:53 ce Exp $
+//
+// $Id: categorylist.php,v 1.32.8.2 2002/01/25 14:04:45 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -129,7 +129,7 @@ foreach ( $pathArray as $path )
     $t->set_var( "category_id", $path[0] );
 
     $t->set_var( "category_name", $path[1] );
-    
+
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -145,7 +145,7 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -252,7 +252,7 @@ foreach ( $productList as $product )
     }
 
 
-    
+
     $t->set_var( "product_active_item", "" );
     $t->set_var( "product_inactive_item", "" );
     if ( $product->showProduct() )
@@ -300,7 +300,7 @@ $t->set_var( "offset", $Offset );
 
 eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_tpl" );
 
-if ( count( $productList ) > 0 )    
+if ( count( $productList ) > 0 )
     $t->parse( "product_list", "product_list_tpl" );
 else
     $t->set_var( "product_list", "" );

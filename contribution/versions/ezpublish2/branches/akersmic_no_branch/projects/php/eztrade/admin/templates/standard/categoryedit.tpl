@@ -34,9 +34,9 @@
 
 	</select>
         -->
-        {category_name}
+        {parent_name}
         <input type="hidden" name="CategoryID" value="{category_id}" />
-        <input type="hidden" name="ParentID" value="{category_id}" />
+        <input type="hidden" name="ParentID" value="{parent_id}" />
 	</td>
 </tr>
 </table>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.23.8.2 2002/01/14 10:28:53 ce Exp $
+// $Id: categoryedit.php,v 1.23.8.3 2002/01/25 14:04:45 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -436,14 +436,19 @@ if ( $Action == "Edit" )
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
 
-if ( is_numeric ( eZHTTPTool::getVar( "CategoryID" ) ) )
+$catID = eZHTTPTool::getVar( "CategoryID" );
+if ( is_numeric ( $catID ) )
 {
-    $category = new eZProductCategory( eZHTTPTool::getVar( "CategoryID" ) );
-    print( $CategoryID );
-    if ( is_object( $category ) )
+    if ( $catID != 0 )
     {
-        $t->set_var( "category_name", $category->name() );
-        $t->set_var( "category_id", $category->id() );
+        $category = new eZProductCategory( $catID );
+        $t->set_var( "parent_name", $category->name() );
+        $t->set_var( "parent_id", $category->id() );
+    }
+    else
+    {
+        $t->set_var( "parent_name", "Topp" );
+        $t->set_var( "parent_id", 0 );
     }
 }
 
