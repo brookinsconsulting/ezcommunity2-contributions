@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.7 2001/08/20 09:40:34 bf Exp $
+// $Id: sectionedit.php,v 1.8 2001/08/30 06:12:46 virt Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -58,6 +58,7 @@ $t->set_var( "section_name", "$Name" );
 $t->set_var( "section_sitedesign", "$SiteDesign" );
 $t->set_var( "section_templatestyle", "$TemplateStyle" );
 $t->set_var( "section_description", "$Description" );
+$t->set_var( "section_language", "$SecLanguage" );
 
 $warning = true;
 
@@ -81,6 +82,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     $section->setName( $Name );
     $section->setSiteDesign( $SiteDesign );
     $section->setTemplateStyle( $TemplateStyle );
+    $section->setLanguage( $SecLanguage );
     $section->setDescription( $Description );
     $section->store();
 
@@ -110,6 +112,7 @@ if ( is_numeric( $SectionID ) )
     $t->set_var( "section_name", $section->name() );
     $t->set_var( "section_description", $section->description() );
     $t->set_var( "section_sitedesign", $section->siteDesign() );
+    $t->set_var( "section_language", $section->language() );
     $t->set_var( "section_templatestyle", $section->templateStyle() );
 }
 

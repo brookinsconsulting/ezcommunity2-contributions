@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.9 2001/08/20 09:40:34 bf Exp $
+// $Id: ezsection.php,v 1.10 2001/08/30 06:11:41 virt Exp $
 //
 // ezsection class
 //
@@ -69,6 +69,7 @@ class eZSection
         $description = $db->escapeString( $this->Description );
         $sitedesign = $db->escapeString( $this->SiteDesign );
         $templateStyle = $db->escapeString( $this->TemplateStyle );
+	$secLanguage = $db->escapeString( $this->SecLanguage );
              
         if ( !isset( $this->ID ) )
         {
@@ -79,14 +80,15 @@ class eZSection
             $timeStamp = eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZSiteManager_Section
-                                     ( ID,  Name, Created, Description, TemplateStyle, SiteDesign )
+                                     ( ID,  Name, Created, Description, TemplateStyle, SiteDesign, Language )
                                      VALUES
                                      ( '$nextID',
                                        '$name',
                                        '$timeStamp',
                                        '$description',
                                        '$templateStyle',
-                                       '$sitedesign' )" );
+                                       '$sitedesign',
+				       '$secLanguage' )" );
 
 			$this->ID = $nextID;
         }
@@ -97,7 +99,8 @@ class eZSection
 		                             Name='$name',
 		                             SiteDesign='$sitedesign',
 		                             TemplateStyle='$templateStyle',
-                                     Description='$description'
+                                     Description='$description',
+				     Language='$secLanguage'
                                      WHERE ID='$this->ID'" );
         }
 
@@ -147,6 +150,7 @@ class eZSection
                 $this->TemplateStyle = $section_array[0][$db->fieldName("TemplateStyle")];
                 $this->Description = $section_array[0][$db->fieldName("Description")];
                 $this->Created = $section_array[0][$db->fieldName("Created")];
+                $this->SecLanguage = $section_array[0][$db->fieldName("Language")];
                 $ret = true;
             }
         }
@@ -245,6 +249,21 @@ class eZSection
     }
     
     /*!
+      Returns the language for this section.
+    */
+    function language( $sectionID=false )
+    {
+       if ( is_numeric ( $sectionID ) )
+       {
+           $db =& eZDB::globalDatabase();
+           $db->query_single( $templateStyle, "SELECT Language FROM eZSiteManager_Section WHERE ID='$sectionID'" );
+           return $templateStyle[$db->fieldName("Language")];
+       }
+       else
+           return htmlspecialchars( $this->SecLanguage );
+    }
+    
+    /*!
       Returns the section description.
     */
     function description()
@@ -277,6 +296,14 @@ class eZSection
     }
     
     /*!
+      Sets the Language of the section.
+    */
+    function setLanguage( $value )
+    {
+        $this->SecLanguage = $value;
+    }
+    
+    /*!
       Sets the description of the section.
     */
     function setDescription( $value )
@@ -291,6 +318,7 @@ class eZSection
     var $TemplateStyle;
     var $Description;
     var $Created;
+    var $SecLanguage;
 
 }
 
