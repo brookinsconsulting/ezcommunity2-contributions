@@ -23,7 +23,7 @@ include_once( "classes/ezfile.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/INIFile.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 set_time_limit( 0 );

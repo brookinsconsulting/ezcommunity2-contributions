@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.26 2001/05/05 11:16:04 bf Exp $
+// $Id: ezoptionvalue.php,v 1.27 2001/05/31 13:44:45 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -254,7 +254,7 @@ class eZOptionValue
         if ( !$id )
             $id = $this->ID;
         $db->array_query( $qry_array,
-                          "SELECT Value FROM eZTrade_OptionValueContent
+                          "SELECT DISTINCT(Value) FROM eZTrade_OptionValueContent
                            WHERE ValueID='$id' ORDER BY Placement ASC" );
         $ret = array();
         foreach( $qry_array as $row )
