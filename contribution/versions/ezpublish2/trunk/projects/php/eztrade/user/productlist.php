@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.34 2001/09/21 09:48:35 bf Exp $
+// $Id: productlist.php,v 1.35 2001/09/21 09:58:05 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -40,7 +40,6 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 
 $GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
 
-print( $GlobalSectionID );
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();

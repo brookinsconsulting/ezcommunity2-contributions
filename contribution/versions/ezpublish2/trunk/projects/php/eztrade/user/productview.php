@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.66 2001/09/21 09:53:02 ce Exp $
+// $Id: productview.php,v 1.67 2001/09/21 09:58:05 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -32,15 +32,15 @@ include_once( "classes/eztexttool.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
-$RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
-$SimpleOptionHeaders = $ini->read_var( "eZTradeMain", "SimpleOptionHeaders" ) == "true";
-$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
-$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
-$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
-$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
-$PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" ) == "true";
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" );
+$RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" );
+$SimpleOptionHeaders = $ini->read_var( "eZTradeMain", "SimpleOptionHeaders" );
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" );
+$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" );
+$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" );
+$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" );
+$PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" );
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 $locale = new eZLocale( $Language );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
@@ -63,6 +63,16 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezmodulelink.php" );
 include_once( "classes/ezlinksection.php" );
 include_once( "classes/ezlinkitem.php" );
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+$GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
+
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
 
 $user =& eZUser::currentUser();
 
