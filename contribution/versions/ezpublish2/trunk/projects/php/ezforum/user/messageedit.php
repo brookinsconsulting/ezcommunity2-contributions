@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.33 2001/03/06 12:43:45 pkej Exp $
+// $Id: messageedit.php,v 1.34 2001/03/06 13:21:03 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -130,7 +130,7 @@ switch( $Action )
         include_once( "classes/ezhttptool.php" );
         if( $MessageDelete == false )
         {
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
         
         $msg->delete();
@@ -178,7 +178,7 @@ switch( $Action )
         include_once( "classes/ezhttptool.php" );
         if( $MessageEdit == false )
         {
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
         
         // Just tell the geezers that their posting has been sent or queued for moderation.
@@ -236,7 +236,7 @@ switch( $Action )
         include_once( "classes/ezhttptool.php" );
         if( $ForumPost == false )
         {
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
 
         $msg->setIsTemporary( false );
@@ -313,7 +313,7 @@ switch( $Action )
         include_once( "classes/ezhttptool.php" );
         if( $MessageEdit == false )
         {
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
         
         $msg->setTopic( $tmpmsg->topic() );
@@ -345,7 +345,7 @@ switch( $Action )
         if( $ForumPost == false )
         {
             include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
 
         $doParse = true;
@@ -392,7 +392,7 @@ switch( $Action )
         if( $MessageEdit == false && $Error == false )
         {
             include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
         
         
@@ -436,7 +436,7 @@ switch( $Action )
         if( $MessageReply == false )
         {
             include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+            eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
 
         if( $ReplyTags == "enabled" )
@@ -594,7 +594,7 @@ switch( $Action )
             if( $MessageEdit == false )
             {
                 include_once( "classes/ezhttptool.php" );
-                eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+                eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
             }
 
            
@@ -622,7 +622,7 @@ switch( $Action )
     default:
     {
         include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
+        eZHTTPTool::header( "Location: /error/404?Info=" . errorPage( "forum_main", "/forum/categorylist/", 404 ) );
     }
     break;
 }

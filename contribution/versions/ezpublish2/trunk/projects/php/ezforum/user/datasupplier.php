@@ -1,4 +1,36 @@
 <?php
+include_once( "classes/ezhttptool.php" );
+
+function &errorPage( $PrimaryName, $PrimaryURL, $type )
+{
+    $ini =& $GLOBALS["GlobalSiteIni"];
+
+    $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                         "ezforum/user/intl", $ini->read_var( "eZForumMain", "Language" ), "message.php" );
+
+    $t->set_file( "page", "messageerror.tpl"  );
+    $t->set_var( "primary_url", $PrimaryURL  );
+    $t->set_var( "primary_url_name", $t->Ini->read_var( "strings", $PrimaryName  ) );
+    if( $type == 404 )
+    {
+        $t->set_var( "error_1", $t->Ini->read_var( "strings", error_missing_page_1  ) );
+        $t->set_var( "error_2", $t->Ini->read_var( "strings", error_missing_page_2  ) );
+        $t->set_var( "error_3", $t->Ini->read_var( "strings", error_missing_page_3  ) );
+    }
+    else
+    {
+        $t->set_var( "error_1", $t->Ini->read_var( "strings", error_forbidden_page_1  ) );
+        $t->set_var( "error_2", $t->Ini->read_var( "strings", error_forbidden_page_2  ) );
+        $t->set_var( "error_3", $t->Ini->read_var( "strings", error_forbidden_page_3  ) );
+    }
+    $t->setAllStrings();
+
+    $error = $t->parse( "error", "page" );
+    $Info =& stripslashes( $error );
+    $error =& urlencode( $Info );
+    return $error;
+}
+
 switch ( $url_array[2] )
 {
     case "userlogin":
@@ -100,6 +132,12 @@ switch ( $url_array[2] )
                 $MessageID = $ID;
             }
             break;
+            
+            default:
+            {
+                eZHTTPTool::header( "Location: /error/404?Info=" . errorPage( "forum_main", "/forum/categorylist/", 404 ) );
+            }
+            break;
         }
         include( "ezforum/user/messageedit.php" );
 
@@ -121,7 +159,7 @@ switch ( $url_array[2] )
 
     default :
     {
-        print( "<h1>Error 404 - forum file not found </h1>" );
+        eZHTTPTool::header( "Location: /error/404?Info=" . errorPage( "forum_main", "/forum/categorylist/", 404 ) );
     }
     break;        
 }
