@@ -168,3 +168,12 @@ show_all=Show all
 show_not_done=Show not done
 show_done=Show done
 category_all=All categories
+
+
+#### PRE 1 - PRE 2 ##############
+mod: ezuser/admin welcome.php.ini
+change: added
+error_headline=Failed to run the following functions
+libxml_error=You've failed to install the libXml2 package properly, please visit get it from
+qtdom_error=You've failed to install the Qt package properly, please get it from
+convert_error=You've failed to install the ImageMagick package properly, please get it from
