@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.27 2001/01/24 18:54:44 bf Exp $
+// $Id: productedit.php,v 1.28 2001/02/07 16:20:36 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -25,6 +25,30 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezcachefile.php" );
+
+function deleteCache( $ProductID, $CategoryID, $CategoryArray )
+{
+    $files = eZCacheFile::files( "eztrade/cache/", array( "productview", $ProductID, $CategoryID ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
+                                                          array_merge( $CategoryID, $CategoryArray ) ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist" ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+}
 
 $ini = new INIFIle( "site.ini" );
 
@@ -112,38 +136,8 @@ if ( $Action == "Insert" )
     }    
 
     // clear the cache files.
-    $dir = dir( "eztrade/cache/" );
-    while( $entry = $dir->read() )
-    { 
-        if ( $entry != "." && $entry != ".." )
-        {
-            if ( ereg( "productview,(.*),.*", $entry, $regArray  ) )
-            {
-                if ( $regArray[1] == $productID )
-                {
-                    unlink( "eztrade/cache/" . $entry );
-                }
-            }
+    deleteCache( $ProductID, $CategoryID, $categoryIDArray );
 
-            
-            if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
-            {
-                if ( in_array( $regArray[1], $categoryIDArray )  )
-                {
-                    unlink( "eztrade/cache/" . $entry );
-                }
-            }            
-
-            if ( ereg( "hotdealslist.cache", $entry, $regArray  ) )
-            {
-                unlink( "eztrade/cache/" . $entry );
-            }            
-            
-        } 
-    }
-    $dir->close();
-    
-    
     // add options
     if ( isset( $Option ) )
     {
@@ -256,36 +250,7 @@ if ( $Action == "Update" )
     }    
 
     // clear the cache files.
-    $dir = dir( "eztrade/cache/" );
-    while( $entry = $dir->read() )
-    { 
-        if ( $entry != "." && $entry != ".." )
-        {
-            if ( ereg( "productview,(.*),.*", $entry, $regArray  ) )
-            {
-                if ( $regArray[1] == $ProductID )
-                {
-                    unlink( "eztrade/cache/" . $entry );
-                }
-            }
-
-            if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
-            {
-                if ( in_array( $regArray[1], $categoryIDArray )  )
-                {
-                    unlink( "eztrade/cache/" . $entry );
-                }
-            }
-
-            if ( ereg( "hotdealslist.cache", $entry, $regArray  ) )
-            {
-                unlink( "eztrade/cache/" . $entry );
-            }            
-            
-        } 
-    }
-    $dir->close();
-
+    deleteCache( $ProductID, $CategoryID, $categoryIDArray );
 
     // add options
     if ( isset( $Option ) )
@@ -360,34 +325,7 @@ if ( $Action == "DeleteProducts" )
     
 
             // clear the cache files.
-            $dir = dir( "eztrade/cache/" );
-            while( $entry = $dir->read() )
-            { 
-                if ( $entry != "." && $entry != ".." )
-                {
-                    if ( ereg( "productview,(.*),.*", $entry, $regArray  ) )
-                    {
-                        if ( $regArray[1] == $productID )
-                        {
-                            unlink( "eztrade/cache/" . $entry );
-                        }
-                    }
-            
-                    if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
-                    {
-                        if ( in_array( $regArray[1], $categoryIDArray )  )
-                        {
-                            unlink( "eztrade/cache/" . $entry );
-                        }
-                    }
-
-                    if ( ereg( "hotdealslist.cache", $entry, $regArray  ) )
-                    {
-                        unlink( "eztrade/cache/" . $entry );
-                    }            
-                } 
-            }
-            $dir->close();
+            deleteCache( $ProductID, $CategoryID, $categoryIDArray );
 
             $category = $product->categoryDefinition( );
             $categoryID = $category->id();
