@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.19 2000/11/19 14:42:35 bf-cvs Exp $
+// $Id: ezuser.php,v 1.20 2000/11/20 09:53:03 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -65,6 +65,7 @@
 include_once( "classes/ezdb.php" );
 
 include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 class eZUser
@@ -501,7 +502,7 @@ class eZUser
 
             if ( $session->isValid( $user->timeoutValue() ) == false )
             {
-//                  $user->logout( );
+                $user->logout( );
             }
             else
             {            
@@ -537,6 +538,7 @@ class eZUser
 
             if ( $session->isValid( $user->timeoutValue() ) == false )
             {
+                $session->delete( );
             }
             else
             {
