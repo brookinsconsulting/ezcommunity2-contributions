@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.18 2001/12/10 16:03:34 bf Exp $
+// $Id: ezxml.php,v 1.19 2001/12/11 10:02:45 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -178,7 +178,6 @@ class eZXML
                     $cdataPos = strpos( $xmlDoc, "<![CDATA[", $pos );
                     if ( $cdataPos == $pos )
                     {
-                        print( "cdata<br>" );
                         $isCDATASection = true;
                         $endTagPos = strpos( $xmlDoc, "]]>", $cdataPos );
                         $cdataSection =& substr( $xmlDoc, $cdataPos + 9, $endTagPos - ( $cdataPos + 9 ) );
@@ -263,8 +262,6 @@ class eZXML
                     if ( $isCDATASection == false )
                     if ( $tagName[strlen($tagName) - 1]  != "/" )
                     {
-                        print( "push: " .$justName . "<br>" );
-
                         array_push( $TagStack,
                         array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
 
