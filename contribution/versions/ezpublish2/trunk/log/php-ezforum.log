@@ -1272,3 +1272,14 @@ Maintainer(s) : jhe@ez.no
     in messagesimplelist (usercomment to articles) even though poster is
     not logged in
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2003-08-25  Vidar Langseid  <vl@ez.no>
+
+    * admin/unapprovededit.php
+      user/messagereply.php:
+    - Fixed bug. In moderated forums, notifications are now sendt when message is approved (not when
+      message is submitted)
+
