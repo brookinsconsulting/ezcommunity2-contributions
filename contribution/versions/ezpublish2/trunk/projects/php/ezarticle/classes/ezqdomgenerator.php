@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.26 2001/08/21 14:33:21 virt Exp $
+// $Id: ezqdomgenerator.php,v 1.27 2001/08/29 06:55:24 master Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -424,13 +424,14 @@ class eZQDomGenerator
                     }
                 }
 
-                            if ( $imageSize != "small" ||
-                            $imageSize != "medium" ||
-                            $imageSize != "large" ||
-                            $imageSize != "original"
-                                 )
+                            if (
+				$imageSize != "small"  &&
+                                $imageSize != "medium" &&
+                                $imageSize != "large"  &&
+                    	        $imageSize != "original"
+                               )
                             {
-                                $imageSize = "medium";
+                        	$imageSize = "medium";
                             }
             
             $pageContent = "<image $imageID $imageAlignment $imageSize $imageHref>";
