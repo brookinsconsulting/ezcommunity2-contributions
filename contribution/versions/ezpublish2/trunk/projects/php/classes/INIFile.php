@@ -349,7 +349,14 @@ class INIFile
         if ( $this->has_var( $group, $var_name ) )
         {
             $var_value =& $this->read_var( $group, $var_name );
-            $var_array =& explode( ";", $var_value );
+            if ( $var_value != "" )
+            {
+                $var_array =& explode( ";", $var_value );
+            }
+            else
+            {
+                $var_array = array();
+            }
             return $var_array;
         }
         else
