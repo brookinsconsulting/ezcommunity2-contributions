@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.90 2001/06/29 07:08:38 bf Exp $
+// $Id: ezforummessage.php,v 1.91 2001/06/29 11:39:54 bf Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -90,7 +90,7 @@ class eZForumMessage
 
                 // get the biggest thread ID
                 $db->array_query( $result,
-                "SELECT ThreadID FROM eZForum_Message WHERE Parent='0' ORDER BY TreeID DESC",
+                "SELECT ThreadID, TreeID FROM eZForum_Message WHERE Parent='0' ORDER BY TreeID DESC",
                 array( "Limit" => 1 ) );
 
                 if ( count( $result ) > 0 )
