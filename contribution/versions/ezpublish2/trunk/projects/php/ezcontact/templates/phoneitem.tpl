@@ -1,6 +1,6 @@
 <tr>
 <td bgcolor="#dddddd">
-<a href="javascript:Update( '{phone_number}', '{phone_id}', '{phone_type_id}' )">{phone_number}</a> 
+<a href="javascript:UpdatePhone( '{phone_number}', '{phone_id}', '{phone_type_id}' )">{phone_number}</a> 
 </td>
 <td bgcolor="#dddddd">
 {phone_type_name}

@@ -1,13 +1,23 @@
 <script language="JavaScript">
 
 <!--
-   function Update( number, phoneID, phoneTypeID )
+   function UpdatePhone( number, phoneID, phoneTypeID )
    {
       document.CompanyEdit.PhoneNumber.value = number;
       document.CompanyEdit.PhoneID.value = phoneID;
       document.CompanyEdit.PhoneType.selectedIndex = phoneTypeID;
       document.CompanyEdit.PhoneAction.value = 'UpdatePhone';
    }
+
+   function UpdateAddress( street1, street2, zip,  addressID, addressTypeID )
+   {
+      document.CompanyEdit.Street1.value = street1;
+      document.CompanyEdit.Street2.value = street2;
+      document.CompanyEdit.Zip.value = zip;
+      document.CompanyEdit.PhoneType.selectedIndex = addressTypeID;
+//      document.CompanyEdit.Zip.value = 'UpdateAddress';
+   }
+
 //-->
 
 </script>
@@ -42,6 +52,17 @@ Adresse:<br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
 
+<input type="hidden" name="AddresID" value="{address_edit_id}">
+<input type="hidden" name="AddressAction" value="{address_action}">
+<input type="{address_action_type}" value="{address_action_value}">
+
+	<center>
+	<table width="80%" cellspacing="0" cellpadding="3" border="0">
+	{address_list}
+	</table>
+	</center>
+	</td>	
+
        </td>
 </tr>
 </table>
@@ -58,7 +79,6 @@ Telefon:<br>
 <input type="hidden" name="PhoneID" value="{phone_edit_id}">
 <input type="hidden" name="PhoneAction" value="{phone_action}">
 <input type="{phone_action_type}" value="{phone_action_value}">
-<br>
 	<center>
 	<table width="80%" cellspacing="0" cellpadding="3" border="0">
 	{phone_list}
