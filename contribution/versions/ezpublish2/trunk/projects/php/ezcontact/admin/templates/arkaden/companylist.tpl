@@ -35,18 +35,9 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
-
-<a class="path" href="/contact/company/list/0/">{intl-top}</a>
-
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
-
-<img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
-
-<a class="path" href="/contact/company/list/{category_id}/">{category_name}</a>
-<!-- END path_item_tpl -->
 
 <hr noshade size="4"/>
 
