@@ -21,33 +21,44 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-firstname}</p>
+	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
 	<td>
-	<p class="boxtext">{intl-lastname}</p>
+	<p class="boxtext">{intl-lastname}:</p>
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
 	</td>
 </tr>
 </table>
 
-<p class="boxtext">{intl-login}</p>
+<p class="boxtext">{intl-login}:</p>
 <input type="text" size="20" name="Login" value="{login_value}"/>
 
-<p class="boxtext">{intl-email}</p>
+<p class="boxtext">{intl-email}:</p>
 <input type="text" size="20" name="Email" value="{email_value}"/>
 
-<p class="boxtext">{intl-street1}</p>
+<p class="boxtext">{intl-street1}:</p>
 <input type="text" size="20" name="Street1" value="{street1_value}"/>
 
-<p class="boxtext">{intl-street2}</p>
+<p class="boxtext">{intl-street2}:</p>
 <input type="text" size="20" name="Street2" value="{street2_value}"/>
 
-<p class="boxtext">{intl-zip}</p>
+<p class="boxtext">{intl-zip}.</p>
 <input type="text" size="20" name="Zip" value="{zip_value}"/>
 
-<p class="boxtext">{intl-place}</p>
+<p class="boxtext">{intl-place}:</p>
 <input type="text" size="20" name="Place" value="{place_value}"/>
+
+<!-- BEGIN country_tpl -->
+<p class="boxtext">{intl-country}</p>
+<select name="CountryID" size="5">
+<!-- BEGIN country_option_tpl -->
+<option value="{country_id}">{country_name}</option>
+<!-- END country_option_tpl -->
+</select>
+<!-- END country_tpl -->
+
+
 
 <br /><br />
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.16 2000/10/14 15:33:09 bf-cvs Exp $
+// $Id: ezaddress.php,v 1.17 2000/10/31 12:16:42 bf-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -16,10 +16,13 @@
 //!! eZContact
 //! eZAddress handles addresses.
 /*!
-  
+  NOTE: this class defaults to Norwegian country is none is
+  set.
 */
 
+
 include_once( "classes/ezdb.php" );
+include_once( "ezcontact/classes/ezcountry.php" );
 
 class eZAddress
 {
@@ -29,6 +32,9 @@ class eZAddress
     function eZAddress( $id="", $fetch=true )
     {
         $this->IsConnected = false;
+
+        // default to Norwegian country.
+        $this->CountryID = 162;
 
         if ( $id != "" )
         {
@@ -52,7 +58,7 @@ class eZAddress
     }
 
     /*!
-      Lagrer en ny adresserad i databasen. 
+      Stores a eZAddress
     */  
     function store()
     {
@@ -67,6 +73,7 @@ class eZAddress
                     Street2='$this->Street2',
                     Zip='$this->Zip',
                     Place='$this->Place',
+                    CountryID='$this->CountryID',
                     AddressType='$this->AddressType'" );            
 
             $this->ID = mysql_insert_id();
@@ -82,6 +89,7 @@ class eZAddress
                     Zip='$this->Zip',
                     Place='$this->Place',
                     AddressType='$this->AddressType'
+                    CountryID='$this->CountryID',
                     WHERE ID='$this->ID'" );            
 
             $this->State_ = "Coherent";
@@ -92,18 +100,6 @@ class eZAddress
         return $ret;
     }
 
-    /*!
-      NOTE: this function is obsolete.
-      
-      Oppdaterer informasjonen som ligger i databasen.
-    */  
-    function update()
-    {
-        print( "Warning: eZAddress::update, this function is no longer valid. Please reimplement to use the eZAddress::store() function." );
-//          $this->dbInit();
-//          query( "UPDATE eZContact_Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType' WHERE ID='$this->ID'" );
-    }
-  
     /*!
       Fetches an address with object id==$id;
     */  
@@ -124,6 +120,7 @@ class eZAddress
                 $this->Street2 =& $address_array[ 0 ][ "Street2" ];
                 $this->Zip =& $address_array[ 0 ][ "Zip" ];
                 $this->Place =& $address_array[ 0 ][ "Place" ];
+                $this->CountryID =& $address_array[ 0 ][ "CountryID" ];
                 
                 $this->AddressType =& $address_array[ 0 ][ "AddressType" ];
             }
@@ -265,6 +262,20 @@ class eZAddress
     }
 
     /*!
+      Sets the country, takes an eZCountry object as argument.
+    */
+    function setCountry( $country )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $country ) == "ezcountry" )
+       {
+           $this->CountryID = $country->id();
+       }
+    }
+
+    /*!
      Returns the place.
     */
     function place()
@@ -274,7 +285,19 @@ class eZAddress
 
        return $this->Place;
     }
-     
+
+    /*!
+      Returns the country as an eZCountry object.
+    */
+    function country()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return new eZCountry( $this->CountryID );
+    }
+
+    
   
 
     /*!
@@ -295,6 +318,8 @@ class eZAddress
     var $Street2;
     var $Zip;
     var $Place;
+    var $CountryID;
+    
 
     /// Relation to an eZAddressType
     var $AddressType;

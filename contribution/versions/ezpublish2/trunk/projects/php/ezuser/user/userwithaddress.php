@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.1 2000/10/25 07:59:56 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.2 2000/10/31 12:16:42 bf-cvs Exp $
 //
 // 
 //
@@ -19,11 +19,13 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
+$SelectCountry = $ini->read_var( "eZUserMain", "SelectCountry" );
 $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezcontact/classes/ezcountry.php" );
 
 if ( $Action == "Insert" )
 {
@@ -63,6 +65,13 @@ if ( $Action == "Insert" )
                 $address->setZip( $Zip );
                 $address->setPlace( $Place );
 
+                if ( isset( $CountryID ) )
+                {
+                    $country = new eZCountry( $CountryID );
+                    $address->setCountry( $country );
+                    
+                }
+                
                 $address->store();
 
                 // add the address to the user.
@@ -101,6 +110,9 @@ $t->set_file( array(
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
 $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
 $t->set_block( "user_edit_tpl", "password_error_tpl", "password_error" );
+
+$t->set_block( "user_edit_tpl", "country_tpl", "country" );
+$t->set_block( "country_tpl", "country_option_tpl", "country_option" );
 
 if ( $Error == true )
 {
@@ -143,6 +155,26 @@ $t->set_var( "street2_value", $Street2 );
 $t->set_var( "zip_value", $Zip );
 
 $t->set_var( "place_value", $Place );
+
+if ( $SelectCountry == "enabled" )
+{
+    $ezcountry = new eZCountry();
+    $countryList =& $ezcountry->getAllArray();
+    
+    foreach ( $countryList as $country )
+    {
+        $t->set_var( "country_id", $country["ID"] );
+        $t->set_var( "country_name", $country["Name"] );
+        $t->parse( "country_option", "country_option_tpl", true );
+    }
+    $t->parse( "country", "country_tpl" );
+}
+else
+{
+    $t->set_var( "country", "" );
+}
+    
+
 
 $t->set_var( "action_value", "insert" );
 $t->set_var( "user_id", "" );

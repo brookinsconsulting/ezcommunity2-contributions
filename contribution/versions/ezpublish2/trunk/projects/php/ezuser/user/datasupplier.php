@@ -1,5 +1,7 @@
 <?
 //  $url_array = explode( "/", $REQUEST_URI );
+
+
 switch ( $url_array[2] )
 {
     case "login" :
@@ -37,7 +39,6 @@ switch ( $url_array[2] )
 
     case "user" :
     {
-
         if ( $url_array[3] == "new" )
             $Action = "New";
         if ( $url_array[3] == "insert" )
@@ -60,7 +61,8 @@ switch ( $url_array[2] )
     
     case "logout" :
     {
-        $Action = $url_array[3];
+        print( $url_array[2] );
+        $Action = $url_array[2];
         include( "ezuser/user/login.php" );
     }
     break;
