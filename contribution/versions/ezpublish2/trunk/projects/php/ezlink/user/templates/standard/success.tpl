@@ -2,5 +2,5 @@
 <p>
 {intl-text}
 </p>
-<a href=/link/suggestlink/>{intl-new}</a><br /><br />
-<a href=/link/group/>{intl-back}</a>
+<a href={www_dir}{index}/link/suggestlink/>{intl-new}</a><br /><br />
+<a href={www_dir}{index}/link/group/>{intl-back}</a>
