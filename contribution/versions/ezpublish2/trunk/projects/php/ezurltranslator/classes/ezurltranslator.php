@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezurltranslator.php,v 1.5 2001/06/20 08:45:42 sascha Exp $
+// $Id: ezurltranslator.php,v 1.6 2001/06/26 10:42:43 bf Exp $
 //
 // Definition of eZURLTranslator class
 //
@@ -63,7 +63,7 @@ class eZURLTranslator
 
         if ( count( $url_array ) > 0 )
         {                
-            $ret = $url_array[0]["Dest"];
+            $ret = $url_array[0][$db->fieldName("Dest")];
         }
         return $ret;
     }
@@ -75,24 +75,39 @@ class eZURLTranslator
     {
         $db =& eZDB::globalDatabase();
 
+        $db->begin( );
+
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZURLTranslator_URL SET
-		                 Source='$this->Source',
-		                 Dest='$this->Dest',
-		                 Created=now()
+            $db->lock( "eZURLTranslator_URL" );
+
+            $nextID = $db->nextID( "eZURLTranslator_URL", "ID" );
+            $timeStamp =& eZDateTime::timeStamp( true );
+            
+            $res = $db->query( "INSERT INTO eZURLTranslator_URL 
+                         ( ID, Source, Dest, Created ) VALUES 
+                         ( '$nextID',
+                           '$this->Source',
+		                   '$this->Dest',
+		                   '$timeStamp' )
                           " );
         
-			$this->ID = $db->insertID();
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZURLTranslator_URL SET
+            $res = $db->query( "UPDATE eZURLTranslator_URL SET
 		                 Source='$this->Source',
-		                 Dest='$this->Dest',
-		                 Created=now()
-                        WHERE ID='$this->ID'" );
+		                 Dest='$this->Dest'
+                         WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }
@@ -114,9 +129,9 @@ class eZURLTranslator
             }
             else if ( count( $url_array ) == 1 )
             {
-                $this->ID =& $url_array[0][ "ID" ];
-                $this->Source =& $url_array[0][ "Source" ];
-                $this->Dest =& $url_array[0][ "Dest" ];
+                $this->ID =& $url_array[0][$db->fieldName("ID")];
+                $this->Source =& $url_array[0][$db->fieldName("Source")];
+                $this->Dest =& $url_array[0][$db->fieldName("Dest")];
             }
         }
     }
@@ -135,7 +150,7 @@ class eZURLTranslator
         
         for ( $i=0; $i<count($url_array); $i++ )
         {
-            $return_array[$i] = new eZURLTranslator( $url_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZURLTranslator( $url_array[$i][$db->fieldName("ID")], 0 );
         }
         
         return $return_array;
@@ -148,7 +163,14 @@ class eZURLTranslator
     {
         $db =& eZDB::globalDatabase();
 
-        $db->query( "DELETE FROM eZURLTranslator_URL WHERE ID='$this->ID'" );
+        $db->begin( );
+        
+        $res = $db->query( "DELETE FROM eZURLTranslator_URL WHERE ID='$this->ID'" );
+
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();        
     }
 
     /*!
