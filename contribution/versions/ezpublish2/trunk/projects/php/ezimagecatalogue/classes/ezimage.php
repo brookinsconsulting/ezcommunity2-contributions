@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.48 2001/05/07 12:40:33 ce Exp $
+// $Id: ezimage.php,v 1.49 2001/05/15 14:57:11 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -235,6 +235,45 @@ class eZImage
         }
 
         return $ret;
+    }
+
+    /*!
+      Get all the images that is not assigned to a category.
+
+      The images are returned as an array of eZImage objects.
+     */
+    function getUnassiged()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $imageArray, "SELECT Image.ID, Link.ImageID
+                                        FROM eZImageCatalogue_Image AS Image
+                                        LEFT JOIN  eZImageCatalogue_ImageCategoryLink AS Link
+                                        ON Image.ID=Link.ImageID
+                                        WHERE ImageID IS NULL" );
+
+        foreach( $imageArray as $image )
+        {
+            $returnArray[] = new eZImage( $image["ID"] );
+        }
+
+        return $returnArray;
+    }
+
+    /*!
+      Get the total count of all the unassigned images.
+     */
+    function countUnassigned()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query_single( $image, "SELECT COUNT(Image.ID) as Count, Link.ImageID
+                                        FROM eZImageCatalogue_Image AS Image
+                                        LEFT JOIN  eZImageCatalogue_ImageCategoryLink AS Link
+                                        ON Image.ID=Link.ImageID
+                                        WHERE ImageID IS NULL
+                                        GROUP By ImageID" );
+        return $image["Count"];
     }
 
     /*!

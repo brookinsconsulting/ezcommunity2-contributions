@@ -1,10 +1,22 @@
 <?
-if ( $url_array[2] == "browse" )
+
+switch ( $url_array[2] )
 {
-    $CategoryID = $url_array[3];
-    include( "ezimagecatalogue/admin/browse.php" );
+    case "browse":
+    {
+        $CategoryID = $url_array[3];
+        include( "ezimagecatalogue/admin/browse.php" );
+    }
+    break;
+
+    case "unassigned":
+    {
+        include( "ezimagecatalogue/admin/unassigned.php" );
+    }
+
+    default:
+        include( "ezimagecatalogue/user/datasupplier.php" );
+    
 }
-else
-include( "ezimagecatalogue/user/datasupplier.php" );
 
 ?>
