@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.9 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: pollist.php,v 1.10 2000/11/01 07:36:47 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -36,6 +36,9 @@ require( "ezuser/admin/admincheck.php" );
 
 if ( $Action == "StoreMainPoll" )
 {
+    // clear the menu cache
+    unlink( "ezpoll/cache/menubox.cache" );
+    
     $mainPoll = new eZPoll( $MainPollID );
     if ( $mainPoll->isClosed() )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.4 2000/11/01 07:20:12 bf-cvs Exp $
+// $Id: votebox.php,v 1.5 2000/11/01 07:36:47 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -28,60 +28,100 @@ include_once( "classes/eztemplate.php" );
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZPollMain", "Language" );
-$iniError = new INIFile( "ezpoll/user/intl/" . $Language . "/votebox.php.ini", false );
+$PageCaching = $ini->read_var( "eZPollMain", "PageCaching" );
 
-include_once( "ezpoll/classes/ezpoll.php" );
-include_once( "ezpoll/classes/ezpollchoice.php" );
-
-$t = new eZTemplate( "ezpoll/user/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
-                     "ezpoll/user/intl/", $Language, "votebox.php" );
-
-$t->setAllStrings();
-
-$poll = new eZPoll( $PollID );
-$poll = $poll->mainPoll();
-$PollID = $poll->id();
-$poll = new eZPoll( $PollID );
-
-
-if ( $poll->isClosed() )
+unset( $menuCachedFile );
+// do the caching
+if ( $PageCaching == "enabled" )
 {
-    Header( "Location: /poll/result/$PollID" );
-    exit();
-}
+    $menuCachedFile = "ezpoll/cache/menubox.cache";
 
-$t->set_file( array(
-    "vote_box" => "votebox.tpl"
-    ) );
-
-$t->set_block( "vote_box", "vote_item_tpl", "vote_item" );
-
-$choice = new eZPollChoice();
-
-$choiceList = $choice->getAll( $PollID );
-
-if ( !$choiceList )
-{
-    $noitem = $iniError->read_var( "strings", "noitem" );
-    $t->set_var( "vote_item", $noitem );
-}
-
-foreach( $choiceList as $choiceItem )
-{
-    $t->set_var( "choice_name", $choiceItem->name() );
-    $t->set_var( "choice_id", $choiceItem->id() );
-
-    $t->parse( "vote_item", "vote_item_tpl", true );
     
+    if ( file_exists( $menuCachedFile ) )
+    {
+        print( "poll static" );
+        include( $menuCachedFile );
+    }
+    else
+    {
+        createPollMenu( true );
+    }            
+}
+else
+{
+    createPollMenu();
 }
 
-$poll = new eZPoll();
-$poll->get( $PollID );
-$t->set_var( "head_line", $poll->name() );
-$t->set_var( "poll_id", $PollID );
+function createPollMenu( $generateStaticPage = false )
+{
+    global $ini;
+    global $menuCachedFile;
 
-  
-$t->pparse( "output", "vote_box" );
+    $Language = $ini->read_var( "eZPollMain", "Language" );
+    
+    include_once( "ezpoll/classes/ezpoll.php" );
+    include_once( "ezpoll/classes/ezpollchoice.php" );
 
+    $t = new eZTemplate( "ezpoll/user/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
+                         "ezpoll/user/intl/", $Language, "votebox.php" );
+
+    $t->setAllStrings();
+
+    $poll = new eZPoll( $PollID );
+    $poll = $poll->mainPoll();
+    $PollID = $poll->id();
+    $poll = new eZPoll( $PollID );
+
+
+    if ( $poll->isClosed() )
+    {
+        Header( "Location: /poll/result/$PollID" );
+        exit();
+    }
+
+    $t->set_file( array(
+        "vote_box" => "votebox.tpl"
+        ) );
+
+    $t->set_block( "vote_box", "vote_item_tpl", "vote_item" );
+
+    $choice = new eZPollChoice();
+
+    $choiceList = $choice->getAll( $PollID );
+
+    if ( !$choiceList )
+    {
+        $noitem = $iniError->read_var( "strings", "noitem" );
+        $t->set_var( "vote_item", $noitem );
+    }
+
+    foreach( $choiceList as $choiceItem )
+    {
+        $t->set_var( "choice_name", $choiceItem->name() );
+        $t->set_var( "choice_id", $choiceItem->id() );
+        
+        $t->parse( "vote_item", "vote_item_tpl", true );
+    }
+
+    $poll = new eZPoll();
+    $poll->get( $PollID );
+    $t->set_var( "head_line", $poll->name() );
+    $t->set_var( "poll_id", $PollID );
+
+    if ( $generateStaticPage == true )
+    {
+        $fp = fopen ( $menuCachedFile, "w+");
+
+        $output = $t->parse( $target, "vote_box" );
+        // print the output the first time while printing the cache file.
+    
+        print( $output );
+        fwrite ( $fp, $output );
+        fclose( $fp );
+    }
+    else
+    {
+        $t->pparse( "output", "vote_box" );
+    }
+}
 ?>
