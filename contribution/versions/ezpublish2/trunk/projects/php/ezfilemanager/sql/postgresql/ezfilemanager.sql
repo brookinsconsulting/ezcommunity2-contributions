@@ -1,5 +1,5 @@
 CREATE TABLE eZFileManager_File (
-  ID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
   Name varchar(200),
   Description varchar(200),
   FileName varchar(200),
@@ -11,21 +11,21 @@ CREATE TABLE eZFileManager_File (
 );
 
 CREATE TABLE eZFileManager_FileFolderLink (
-  ID int NOT NULL,
-  FolderID int NOT NULL,
-  FileID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
+  FolderID int DEFAULT '0' NOT NULL,
+  FileID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZFileManager_FilePageViewLink (
-  ID int NOT NULL,
-  PageViewID int NOT NULL,
-  FileID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
+  PageViewID int DEFAULT '0' NOT NULL,
+  FileID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZFileManager_Folder (
-  ID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
   Name varchar(100),
   Description text,
   ParentID int NOT NULL DEFAULT '0',
@@ -37,21 +37,21 @@ CREATE TABLE eZFileManager_Folder (
 );
 
 CREATE TABLE eZFileManager_FolderPermission (
-  ID int NOT NULL,
-  ObjectID int default NULL,
-  GroupID int default NULL,
-  ReadPermission int default '0',
-  WritePermission int default '0',
-  UploadPermission int default '0',
+  ID int DEFAULT '0' NOT NULL,
+  ObjectID int DEFAULT NULL,
+  GroupID int DEFAULT NULL,
+  ReadPermission int DEFAULT '0',
+  WritePermission int DEFAULT '0',
+  UploadPermission int DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZFileManager_FilePermission (
-  ID int NOT NULL,
-  ObjectID int default NULL,
-  GroupID int default NULL,
-  ReadPermission int default '0',
-  WritePermission int default '0',
+  ID int DEFAULT '0' NOT NULL,
+  ObjectID int DEFAULT NULL,
+  GroupID int DEFAULT NULL,
+  ReadPermission int DEFAULT '0',
+  WritePermission int DEFAULT '0',
   PRIMARY KEY (ID)
 );
 

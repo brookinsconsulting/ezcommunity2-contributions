@@ -15,18 +15,18 @@ CREATE TABLE eZContact_CompanyAddressDict (
   PRIMARY KEY (CompanyID,AddressID)
 );
 
-CREATE TABLE eZContact_CompanyIndex (
-  CompanyID int NOT NULL default '0',
-  Value varchar(255) NOT NULL default '',
-  Type int NOT NULL default '0',
-  PRIMARY KEY (CompanyID,Value)
-);
-
 CREATE TABLE eZContact_CompanyImageDefinition (
   CompanyID int NOT NULL,
   CompanyImageID int DEFAULT '0' NOT NULL,
   LogoImageID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (CompanyID)
+);
+
+CREATE TABLE eZContact_CompanyIndex (
+  CompanyID int NOT NULL default '0',
+  Value varchar(255) NOT NULL default '',
+  Type int NOT NULL default '0',
+  PRIMARY KEY (CompanyID,Value)
 );
 
 CREATE TABLE eZContact_CompanyOnlineDict (
@@ -76,6 +76,12 @@ CREATE TABLE eZContact_Consultation (
   StateID int DEFAULT '0' NOT NULL,
   EmailNotifications varchar(255) DEFAULT '' NOT NULL,
   PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZContact_ConsultationCompanyDict (
+  ConsultationID int DEFAULT '0' NOT NULL,
+  CompanyID int DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ConsultationID,CompanyID)
 );
 
 CREATE TABLE eZContact_ConsultationCompanyUserDict (
@@ -159,7 +165,6 @@ CREATE TABLE eZContact_ProjectType (
   ListOrder int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZContact_UserCompanyDict (
   UserID int NOT NULL,

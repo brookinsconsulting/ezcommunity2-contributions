@@ -1,4 +1,4 @@
-CREATE TABLE eZFileManager_File (
+Create TABLE eZFileManager_File (
   ID int(11) DEFAULT '0' NOT NULL,
   Name char(200),
   Description char(200),
@@ -8,21 +8,21 @@ CREATE TABLE eZFileManager_File (
   WritePermission int(11) DEFAULT '1',
   UserID int(11),
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZFileManager_FileFolderLink (
   ID int(11) DEFAULT '0' NOT NULL,
   FolderID int(11) DEFAULT '0' NOT NULL,
   FileID int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZFileManager_FilePageViewLink (
   ID int(11) DEFAULT '0' NOT NULL,
   PageViewID int(11) DEFAULT '0' NOT NULL,
   FileID int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZFileManager_Folder (
   ID int(11) DEFAULT '0' NOT NULL,
@@ -34,23 +34,23 @@ CREATE TABLE eZFileManager_Folder (
   SectionID int(11) DEFAULT '1',
   UserID int(11),
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZFileManager_FolderPermission (
-  ID int(11) NOT NULL,
-  ObjectID int(11) default NULL,
-  GroupID int(11) default NULL,
-  ReadPermission int(11) default '0',
-  WritePermission int(11) default '0',
-  UploadPermission int(11) default '0',
+  ID int(11) DEFAULT '0' NOT NULL,
+  ObjectID int(11) DEFAULT NULL,
+  GroupID int(11) DEFAULT NULL,
+  ReadPermission int(11) DEFAULT '0',
+  WritePermission int(11) DEFAULT '0',
+  UploadPermission int(11) DEFAULT '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZFileManager_FilePermission (
-  ID int(11) NOT NULL,
-  ObjectID int(11) default NULL,
-  GroupID int(11) default NULL,
-  ReadPermission int(11) default '0',
-  WritePermission int(11) default '0',
+  ID int(11) DEFAULT '0' NOT NULL,
+  ObjectID int(11) DEFAULT NULL,
+  GroupID int(11) DEFAULT NULL,
+  ReadPermission int(11) DEFAULT '0',
+  WritePermission int(11) DEFAULT '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
