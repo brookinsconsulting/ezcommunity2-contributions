@@ -97,7 +97,6 @@ INSERT INTO eZUser_GroupPermissionLink VALUES (75,1,36,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (76,1,37,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (77,1,38,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (78,1,39,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (79,1,40,'true');
 
 #
 # Table structure for table 'eZUser_Module'
