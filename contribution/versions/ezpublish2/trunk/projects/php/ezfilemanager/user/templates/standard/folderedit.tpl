@@ -82,6 +82,16 @@
     <!-- END write_group_item_tpl -->
     </select>
     </td>
+    <td>
+    <p class="boxtext">{intl-upload_permissions}</p>
+    <select multiple size="5" name="UploadGroupArrayID[]">
+    <option value="0" {upload_everybody}>{intl-everybody}</option>
+    <!-- BEGIN upload_group_item_tpl -->
+    <option value="{group_id}" {is_upload_selected1}>{group_name}</option>
+    <!-- END upload_group_item_tpl -->
+    </select>
+    </td>
+
 </tr>
 </table>
 <br />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.30 2001/09/11 10:56:15 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.31 2001/09/13 21:05:23 fh Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -26,12 +26,12 @@
 //
 
 //!! eZUser
-//! eZObjectPermission haldes user group permissions for objects like articles and bugs.
+//! eZObjectPermission holds user group permissions for objects like articles, article categories, bugs, e.g.
 /*!
 
   Example code:
   \code
-  Check if a user has permission to an article object:
+  Check if a user has read permission to an article object:
   if( eZObjectPermission::hasPermission( $objectID, "article_article", 'r' ) )
   {
   currentuser has permission
@@ -40,7 +40,7 @@
   {
   He did not.
   }
-
+  
   \endcode
   \sa eZUser eZUserGroup eZModule eZForgot
 */
@@ -67,7 +67,7 @@ class eZObjectPermission
       Returns true if the user has the desired permission to the desired object.
       $objectID is the ID of the object you are interested in. This could be a bug, an article etc..
       $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
-      $permission either 'r' for readpermission or 'w' for writepermission.
+      $permission either 'r' for readpermission, 'w' for writepermission or 'u' for upload permission.
       $user (of type eZUser )is the user you want to check permissions for. Default is currentUser.
 
       NOTE: If you object has an owner, and this user allways should have rights, you must check this yourself.
@@ -75,12 +75,13 @@ class eZObjectPermission
     function hasPermission( $objectID, $moduleTable, $permission, $user=false )
     {
         if ( get_class( $user ) != "ezuser" )
-        {
             $user =& eZUser::currentUser();
-        }
 
         if ( is_object( $user ) && $user->hasRootAccess() )
             return true;
+
+        if( $permission != 'u' && $permission != 'w' && $permission != 'r' )
+            return false;
         
         $SQLGroups = "GroupID = '-1'";
         if ( get_class( $user ) == "ezuser" )
@@ -111,18 +112,21 @@ class eZObjectPermission
             return false;
         }
 
-        $SQLRead = "";
-        $SQLWrite = "";
+        $SQLPermission= "";
         if ( $permission == 'r' )
         {
-            $SQLRead = "AND ReadPermission='1'";
+            $SQLPermission = "AND ReadPermission='1'";
         }
         else if ( $permission == 'w' )
         {
-            $SQLWrite = "AND WritePermission='1'";
+            $SQLPermission = "AND WritePermission='1'";
+        }
+        else if( $permission == 'u' )
+        {
+            $SQLPermission = "AND UploadPermission='1'";
         }
 
-        $query = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND ( $SQLGroups ) $SQLRead $SQLWrite";
+        $query = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND ( $SQLGroups ) $SQLPermission";
         $database =& eZDB::globalDatabase();
 
         $database->query_single( $res, $query );
@@ -144,6 +148,9 @@ class eZObjectPermission
             return true;
 
         if ( !$categoryID )
+            return false;
+
+        if( $permission != 'u' && $permission != 'w' && $permission != 'r' )
             return false;
 
         $SQLGroups = "Object.GroupID = '-1'";
@@ -215,7 +222,7 @@ class eZObjectPermission
       $group is of type eZUserGroup or the group ID and is the group that gets the permission
       $objectID is the ID of the object you are interested in. This could be a bug, an article etc..
       $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
-      $permission either 'r' for readpermission or 'w' for writepermission.
+      $permission either 'r' for readpermission, 'w' for writepermission or 'u' for upload permission.
     */
     function setPermission( $group, $objectID, $moduleTable, $permission  )
     {
@@ -240,6 +247,10 @@ class eZObjectPermission
         else if( $permission == 'w' )
         {
             $SQLPermission = "WritePermission";
+        }
+        else if( $permission == 'u' )
+        {
+            $SQLPermission = "UploadPermission";
         }
         else // bogus $permission input.
         {
@@ -314,6 +325,10 @@ class eZObjectPermission
         {
             $SQLPermission = "SET WritePermission='0'";
         }
+        else if( $permission == 'u' )
+        {
+            $SQLPermission = "SET UploadPermission='0'";
+        }
         else // bogus $permission input.
         {
             return false;
@@ -329,7 +344,7 @@ class eZObjectPermission
       If one object with -1 is returned, everyone has access to the object.
       $group is of type eZUserGroup or a groupID, use -1 for objects everyone is allowed to see.
       $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
-      $permission either 'r' for readpermission or 'w' for writepermission.
+      $permission either 'r' for readpermission, 'w' for writepermission or 'u' for upload permission
      */
     function getGroups( $objectID, $moduleTable, $permission, $GroupReturn=true )
     {
@@ -348,6 +363,10 @@ class eZObjectPermission
         else if( $permission == 'w' )
         {
             $SQLPermission = "WritePermission='1'";
+        }
+        else if( $permission == 'u' )
+        {
+            $SQLPermission = "UploadPermission='1'";
         }
         else // bogus $permission input.
         {
@@ -382,7 +401,7 @@ class eZObjectPermission
       If one object with -1 is returned, everyone has access to the object.
       $group is of type eZUserGroup or a groupID, use -1 for objects everyone is allowed to see.
       $moduleTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
-      $permission either 'r' for readpermission or 'w' for writepermission.
+      $permission either 'r' for readpermission, 'w' for writepermission or 'u' for upload permission.
       $count if set to true the function will return the count of accessable objects.
       $user of type eZUser, if left out, currentuser is used.
      */
@@ -435,6 +454,10 @@ class eZObjectPermission
         else if( $permission == 'w' )
         {
             $SQLPermission = "WritePermission='1'";
+        }
+        else if( $permission == 'u' )
+        {
+            $SQLPermission = "UploadPermission='1'";
         }
         else // bogus $permission input.
         {
