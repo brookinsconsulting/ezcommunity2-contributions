@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.32 2001/09/21 12:51:34 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.33 2001/09/22 10:53:16 master Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -611,7 +611,7 @@ class eZVirtualFolder
       \static
       Returns the Section ID. Returns false if the Folder was not found.
     */
-    function sectionIDStatic($categoryID )
+    function sectionIDStatic($folderID )
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SectionID from eZFileManager_Folder WHERE ID='$folderID'");
@@ -623,7 +623,6 @@ class eZVirtualFolder
         else
             return false;
     }
-
     
     var $ID;
     var $Name;
