@@ -14,7 +14,8 @@
 
 <hr noshade size="4">
 
-<form method="post" action="/link/linkedit/{action_value}/{link_id}/">
+<form method="post" action="/link/linkedit/{action_value}/{link_id}/" enctype="multipart/form-data">
+<input type="hidden" name="max_file_size" value="3000000">
 
 <p class="error">{error_msg}</p>
 
@@ -56,6 +57,9 @@ http://<input type="text" name="Url" size="40" value="{url}">
 </select>
 
 <br /><br />
+
+<input size="40" name="ImageFile" type="file" /><br /><br />
+
 
 <hr noshade size="4"/>
 
