@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.184 2001/10/30 13:21:48 bf Exp $
+// $Id: ezarticle.php,v 1.185 2001/10/31 07:03:26 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -3238,7 +3238,11 @@ class eZArticle
             $i++;
         }
 
-        $db->array_query( $articleArray, "SELECT Keyword.ArticleID AS ID, Article.Name AS Name
+        $articleArray = array();
+
+        if ( count( $keywordArray ) > 0 )
+        {
+            $db->array_query( $articleArray, "SELECT Keyword.ArticleID AS ID, Article.Name AS Name
                                           FROM eZArticle_ArticleKeyword AS Keyword,
                                           eZArticle_Article AS Article
                                           WHERE Article.ID=Keyword.ArticleID AND
@@ -3246,6 +3250,7 @@ class eZArticle
                                           AND Article.ID <> '$this->ID'
                                           GROUP BY ArticleID
                                           " );
+        }
         return $articleArray;
 
     }
