@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.6 2001/10/02 17:56:50 br Exp $
+// $Id: categoryedit.php,v 1.7 2001/10/31 11:59:44 br Exp $
 //
 // Created on: <26-Oct-2000 14:57:28 ce>
 //
@@ -292,6 +292,7 @@ if ( $Action == "new" )
     $t->set_var( "no_image_item", "" );
     $t->set_var( "category_name", "" );
     $t->set_var( "category_description", "" );
+    $t->set_var( "category_id", "" );
     
     $t->set_var( "action_value", "insert" );
 }

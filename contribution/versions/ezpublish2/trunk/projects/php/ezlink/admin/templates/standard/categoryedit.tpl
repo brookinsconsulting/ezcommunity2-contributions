@@ -14,7 +14,7 @@
 
 <hr noshade size="4">
 
-<form method="post" action="{www_dir}{index}/link/categoryedit/{action_value}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}/link/categoryedit/{action_value}/{category_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 
