@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkedit.php,v 1.65 2001/10/05 14:26:27 br Exp $
+// $Id: linkedit.php,v 1.66 2001/10/17 14:26:03 br Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -46,6 +46,17 @@ include_once( "ezlink/classes/ezlinkattribute.php" );
 include_once( "ezlink/classes/ezmeta.php" );
 require( "ezuser/admin/admincheck.php" );
 
+if ( $Accepted == "1" || !isSet( $Accepted ) )
+{
+    $yes_selected = "selected";
+    $no_selected = "";
+}
+else
+{
+    $yes_selected = "";
+    $no_selected = "selected";
+}
+
 if ( isSet( $DeleteLinks ) )
 {
     $Action = "DeleteLinks";
@@ -56,12 +67,19 @@ if ( isSet( $Delete ) )
     $Action = "delete";
 }
 
+if( isSet( $Update ) )
+{
+    $tname = $Name;
+    $turl = $Url;
+    $tkeywords = $Keywords;
+    $tdescription = $Description;
+}
+
 if ( isSet( $Back ) )
 {
     if ( $LinkID != "" )
     {
-        $link = new eZLink();
-        $link->get( $LinkID );
+        $link = new eZLink( $LinkID );
         $catDef = $link->categoryDefinition();
         $LinkCategoryID = $catDef->id();
     }
@@ -79,7 +97,28 @@ if ( isSet( $CategoryArray ) )
 else
     $LinkCategoryIDArray = array();
 
+if ( $Action == "new" )
+{
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
+    {
+        eZHTTPTool::header( "Location: /link/norights" );
+    }
 
+    $action_value = "new";
+    if ( isSet( $OK ) || isSet( $Browse ) )
+    {
+        $Action = "insert";
+    }
+}
+
+if ( $Action == "edit" )
+{
+    $action_value = "edit";
+    if( isSet( $OK ) )
+    {
+        $Action = "update";
+    }
+}
 
 // Get images from the image browse function.
 if ( ( isSet( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric( $LinkID ) ) )
@@ -104,7 +143,7 @@ if ( $GetSite )
         if ( $metaList == false )
         {
             // Change this to use an external message
-            $terror_msg = "The site does not exists";
+            $error_msg = "The site does not exists";
         }
         else if( count( $metaList ) == 0 )
         {
@@ -114,30 +153,34 @@ if ( $GetSite )
         if ( $metaList["description"] )
             $tdescription = $metaList["description"];
         else
-            $tdescription = $description;
+            $tdescription = "";
         
         if ( $metaList["keywords"] )
             $tkeywords = $metaList["keywords"];
         else
-            $tkeywords = $keywords;
+            $tkeywords = "";
         
         if ( $metaList["title"] )
             $tname = $metaList["title"];
         else if ( $metaList["abstract"] )
             $tname = $metaList["abstract"];
         else
-            $tname = $Name;
-//          $tdescription = $metaList["description"];
-//          $tkeywords = $metaList["keywords"];
-//          $tname = $Name;
+            $tname = "";
         
         $turl = $Url;
-
+    }
+    else
+    {
+        $tname = $Name;
+        $turl = $Url;
+        $tkeywords = $Keywords;
+        $tdescription = $Description;
     }
 
-    $action_value = "insert";
-    $Action = "new";
-
+    $action_value = $Action;
+    if ( $Action != "edit" )
+        $Action = "";
+    
 }
 
 // Update a link.
@@ -150,8 +193,7 @@ if ( $Action == "update" )
              $Accepted != "" &&
              $Url != "" )
         {
-            $link = new eZLink();
-            $link->get( $LinkID );
+            $link = new eZLink( $LinkID );
             
             $link->setName( $Name );
             $link->setDescription( $Description );
@@ -194,9 +236,9 @@ if ( $Action == "update" )
                 $image = new eZImage();
                 $image->setName( "LinkImage" );
                 $image->setImage( $file );
-                
+
                 $image->store();
-                
+
                 $link->setImage( $image );
             }
 
@@ -254,6 +296,12 @@ if ( $Action == "update" )
         else
         {
             $error_msg = $error->read_var( "strings", "error_missingdata" );
+            $action_value = "edit";
+            
+            $tname = $Name;
+            $turl = $Url;
+            $tkeywords = $Keywords;
+            $tdescription = $Description;
         }
     }
     else
@@ -410,9 +458,15 @@ if ( $Action == "insert" )
             eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
             exit();
         }
-        else if ( !isSet( $Update ) )
+        else if ( !isSet( $Update ) && !isSet( $GetSite ) )
         {
             $error_msg = $error->read_var( "strings", "error_missingdata" );
+            $action_value = "new";
+            
+            $tname = $Name;
+            $turl = $Url;
+            $tkeywords = $Keywords;
+            $tdescription = $Description;
         }
     }
     else
@@ -450,26 +504,16 @@ $linkselect = new eZLinkCategory();
 $linkCategoryList =& $linkselect->getTree();
 
 // Template variables.
-$message = "Legg til link";
-$submit = "Legg til";
 
-$action_value = "update";
+// $action_value = "update";
 
-if ( $Action == "new" )
-{
-    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
-    {
-        eZHTTPTool::header( "Location: /link/norights" );
-    }
 
-    $action_value = "insert";
+$t->set_var( "image_item", "" );
+$t->set_var( "no_image_item", "" );
 
-    $t->set_var( "image_item", "" );
-    $t->set_var( "no_image_item", "" );
-}
 // set accepted link as default.
-$yes_selected = "selected";
-$no_selected = "";
+// $yes_selected = "selected";
+// $no_selected = "";
 
 // editere
 if ( $Action == "edit" )
@@ -502,14 +546,15 @@ if ( $Action == "edit" )
         $accepted = $editLink->accepted();
         $url = $editLink->url();
 
-        $action_value = "update";
-        $message = "Rediger link";
-        $submit = "Rediger";
+        $action_value = "edit";
               
-        $tname = $editLink->name();
-        $tdescription = $editLink->description();
-        $tkeywords = $editLink->keywords();
-        $turl = $editLink->url();
+        if ( !isSet( $Update ) )
+        {
+            $tname = $editLink->name();
+            $tdescription = $editLink->description();
+            $tkeywords = $editLink->keywords();
+            $turl = $editLink->url();
+        }
 
         $linkType = $editLink->type();
 
@@ -553,6 +598,17 @@ if ( $Action == "edit" )
             $yes_selected = "";
             $no_selected = "selected";
         }
+        
+        if ( isSet( $Browse ) )
+        {
+            $linkID = $editLink->id();
+            $session = eZSession::globalSession();
+            $session->setVariable( "SelectImages", "single" );
+            $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
+            $session->setVariable( "NameInBrowse", $editLink->name() );
+            eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+            exit();
+        }
     }
 }
 
@@ -564,8 +620,6 @@ if ( $Action == "AttributeList" )
     $turl = $Url;
     
     $action_value = "update";
-    $message = "Rediger link";
-    $submit = "Rediger";
     
     $t->parse( "no_image_item", "no_image_item_tpl" );
     $t->set_var( "image_item", "" );
@@ -661,19 +715,21 @@ $i = 0;
 if ( get_class( $linkType) == "ezlinktype" )    
 {
     $attributes = $linkType->attributes();
-
     foreach ( $attributes as $attribute )
     {
 	
-	       if ( ( $i %2 ) == 0 )
-	          $t->set_var( "td_class", "bglight" );
-	      else
-	          $t->set_var( "td_class", "bgdark" );
-
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+        
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
 
-        $t->set_var( "attribute_value", $attribute->value( $editLink ) );
+        if ( $Action == "new" )
+            $t->set_var( "attribute_value", $AttributeValue[$i] );
+        else
+            $t->set_var( "attribute_value", $attribute->value( $editLink ) );
         
         $t->parse( "attribute", "attribute_tpl", true );
 	$i++;
@@ -693,15 +749,14 @@ else
 $t->set_var( "yes_selected", $yes_selected );
 $t->set_var( "no_selected", $no_selected );
 
-$t->set_var( "submit_text", $submit );
 $t->set_var( "action_value", $action_value );
-$t->set_var( "message", $message );
 
 
 $t->set_var( "name", $tname );
 $t->set_var( "url", $turl );
 $t->set_var( "keywords", $tkeywords );
 $t->set_var( "description", $tdescription );
+
 // $t->set_var( "accepted", $taccepted );
 
 $t->set_var( "headline", $headline );
