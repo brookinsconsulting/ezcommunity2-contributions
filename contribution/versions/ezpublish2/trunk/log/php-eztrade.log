@@ -2377,3 +2377,21 @@ Maintainer(s) : ce@ez.no
     * user/productview.php
       admin/optionedit.php: Added the new improt
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-28  Bjoern Reiten  <br@ez.no>
+
+    * user/checkout.php
+      user/productview.php: fixed some bugs.
+    * redirect to 404 when try to access an invalid product.
+    * show price without discount.
+
+2001-11-28  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/intl/en_GB/ordersendt.php.ini
+      user/ordersendt.php
+      user/templates/standard/ordersendt.tpl:
+    Moved the license button up. ADded better checking.
+

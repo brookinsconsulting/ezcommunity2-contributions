@@ -396,3 +396,11 @@ Maintainer(s) : pkej@ez.no
     * admin/intl/es_MX/form.php.ini
       user/intl/es_MX/form.php.ini: es_MX update for 2.2.2
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-11-28  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl: Layout
+

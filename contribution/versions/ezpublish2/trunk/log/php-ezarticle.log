@@ -2362,3 +2362,15 @@ Maintainer(s) : bf@ez.no
     * user/templates/standard/articleview.tpl:
     fixed problem with downloading files
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-28  Baard Farstad  <bf@ez.no>
+
+    * user/articleview.php:
+    Fixed correct storing of section id when not passed as a parameter.
+
+    * user/articleview.php:
+    Fixed correct fetching of section id when storing article cache.
+
