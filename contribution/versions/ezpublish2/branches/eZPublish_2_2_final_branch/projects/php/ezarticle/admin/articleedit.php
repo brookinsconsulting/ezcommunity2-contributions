@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.8 2002/04/23 15:32:42 bf Exp $
+// $Id: articleedit.php,v 1.116.2.9 2002/05/02 08:32:50 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -47,6 +48,8 @@ include_once( "ezarticle/classes/ezarticletool.php" );
 include_once( "ezxml/classes/ezxml.php" );
 
 $ini =& INIFile::globalINI();
+
+$CategoryID = $HTTP_POST_VARS["CategoryID"];
 
 // article published from preview
 if ( isset( $PublishArticle ) )
@@ -176,7 +179,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             {
                 $categoryIDArray[] = $cat->id();
             }
-
+            
             // clear the cache files.
             eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
 
@@ -186,6 +189,8 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             }
 
             // add to categories
+
+
             $category = new eZArticleCategory( $CategoryID );
             $category->addArticle( $article );
             $article->setCategoryDefinition( $category );
@@ -194,18 +199,18 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             {
                 eZArticleCategory::addArticle( $article, $categoryItem );
             }
-        
+
             //EP: URL translation inside articles -------------------------
-	
+
             if ( $UrltranslatorEnabled )
             {
-                $category = $article->categoryDefinition();
-                $url1 = "/article/articleview/" . $article->id() . "/1/" . $category->id();
-                
+                $tmpCategory = $article->categoryDefinition();
+                $url1 = "/article/articleview/" . $article->id() . "/1/" . $tmpCategory->id();
+
                 include_once( "ezurltranslator/classes/ezurltranslator.php" );
                 $urltranslator = new eZURLTranslator();
                 $urltranslator->getbydest ( $url1 );
-                
+
                 if ( $Urltranslator )
                 {
                     $urltranslator->setSource( $Urltranslator );
