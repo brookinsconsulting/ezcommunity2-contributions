@@ -68,7 +68,18 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
 // Lister alle linker i kategori
 $link = new eZLink();
 
-$link_array = $link->getByGroup( $LGID );
+if ( $Action == "search" )
+{
+    $link_array = $link->getQuery( $QueryText );    
+}
+else if ( $LGID == "incoming" )
+{
+    $link_array = $link->getNotAccepted( $LGID );
+}
+else
+{
+    $link_array = $link->getByGroup( $LGID );
+} 
 
 if ( count( $link_array ) == 0 )
 {

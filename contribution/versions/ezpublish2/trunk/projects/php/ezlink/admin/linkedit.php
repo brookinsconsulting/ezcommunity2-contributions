@@ -36,7 +36,7 @@ if ( $Action == "delete" )
     $deletelink->get( $LID );
     $deletelink->delete();
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/listlink.php" );
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
 }
 
 // Legge til link
@@ -59,10 +59,9 @@ if ( $Action == "insert" )
     $message = "Legg til ny link";
     $submit = "Legg til";
     print ( "akseptert: " . $accepted );
-//    die();
     $newlink->store();
 
-    //   printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/listlink.php" );
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
 }
 
 // Sette template filer
@@ -109,7 +108,6 @@ if ( $Action == "edit" )
     $tkeywords = $editlink->keywords();
     $turl = $editlink->url();
 
-
     if ( $editlink->accepted() == "Y" )
     {
         $yes_selected = "selected";
@@ -124,10 +122,6 @@ if ( $Action == "edit" )
 
 }
     
-    
-
-
-
 // Selector
 $link_select_dict = "";
 

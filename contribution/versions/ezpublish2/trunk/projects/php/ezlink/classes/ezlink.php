@@ -91,7 +91,7 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE LinkGroup='$id' AND Accepted='Y'" );
+        array_query( $link_array, "SELECT * FROM Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
 
         return $link_array;
     }
@@ -104,12 +104,12 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE LinkGroup='$id' AND Accepted='Y'" );
+        array_query( $link_array, "SELECT * FROM Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
 
         return $link_array;
     }
 
-            /*
+    /*
       Henter ut alle linkene i gruppe med linkgroup=$linkgroup. 
     */
     function getNotAccepted( )
@@ -117,10 +117,24 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE  Accepted='N'" );
+        array_query( $link_array, "SELECT * FROM Link WHERE  Accepted='N' ORDER BY Title" );
 
         return $link_array;
     }
+
+    /*
+      Henter linkene som mather $query.
+    */
+    function getQuery( $query )
+    {
+        $this->dbInit();
+        $link_array = 0;
+        
+        array_query( $link_array, "SELECT * FROM Link WHERE KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%' ORDER BY Title" );
+
+        return $link_array;
+    }
+    
 
 
 

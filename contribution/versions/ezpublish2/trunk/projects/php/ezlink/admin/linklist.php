@@ -76,7 +76,11 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
 $link = new eZLink();
 
 
-if ( $LGID == "incoming" )
+if ( $Action == "search" )
+{
+    $link_array = $link->getQuery( $QueryText );    
+}
+else if ( $LGID == "incoming" )
 {
     $link_array = $link->getNotAccepted( $LGID );
 }
