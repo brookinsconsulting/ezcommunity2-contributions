@@ -94,8 +94,8 @@ ezcalendar
 
 for file in $files
 do
-    if [ -d $file ]; then
-	if [ -d admin/$file ]; then
+    if [ -e $file ]; then
+	if [ -e admin/$file ]; then
 	    echo "admin/$file already exist"
 	else
 	    echo "Linking ./$file to admin/$file"
