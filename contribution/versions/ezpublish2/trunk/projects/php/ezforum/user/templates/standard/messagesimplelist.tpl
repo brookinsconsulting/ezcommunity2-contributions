@@ -28,7 +28,8 @@
     <p>
     {body}
     </p>
-    <a href="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a>
+    <a class="path" href="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a><br />
+	<br />
     </td>
     </tr>
     <!-- END message_item_tpl -->
