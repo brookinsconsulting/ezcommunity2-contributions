@@ -38,6 +38,7 @@
     <td>
         <select name="ItemToAdd">
         <option value="Image">{intl-pictures}</option>
+        <option value="File">{intl-files}</option>
         </select>
     </td>
     <td>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.76 2001/08/17 14:14:07 ce Exp $
+// $Id: datasupplier.php,v 1.77 2001/08/20 11:07:08 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -495,6 +495,16 @@ switch ( $url_array[2] )
                     break;
                 }
 
+                case "filelist" :
+                {
+                    $ArticleID = $url_array[4];
+                    if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
+                        || eZArticle::isAuthor( $user, $ArticleID ) )
+                        include( "ezarticle/user/filelist.php" );
+                }
+                break;
+
+
                 case "imageedit" :
                 {
                     switch ( $url_array[4] )
@@ -503,17 +513,6 @@ switch ( $url_array[2] )
                         {
                             $Action = "New";
                             $ArticleID = $url_array[5];
-                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                                || eZArticle::isAuthor( $user, $ArticleID ) )
-                                include( "ezarticle/user/imageedit.php" );
-                        }
-                        break;
-
-                        case "edit" :
-                        {
-                            $Action = "Edit";
-                            $ArticleID = $url_array[6];
-                            $ImageID = $url_array[5];
                             if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
                                 || eZArticle::isAuthor( $user, $ArticleID ) )
                                 include( "ezarticle/user/imageedit.php" );
@@ -542,6 +541,39 @@ switch ( $url_array[2] )
                 }
                 break;
 
+                case "fileedit" :
+                {
+                    switch ( $url_array[4] )
+                    {
+                        case "new" :
+                        {
+                            $Action = "New";
+                            $ArticleID = $url_array[5];
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/fileedit.php" );
+                        }
+                        break;
+                        
+                        case "delete" :
+                        {
+                            $Action = "Delete";
+                            $ArticleID = $url_array[6];
+                            $FileID = $url_array[5];
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/fileedit.php" );
+                        }
+                        break;
+                        
+                        default :
+                        {
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/fileedit.php" );
+                        }
+                    }
+                }
             }
         }
         else

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.22 2001/08/17 14:14:07 ce Exp $
+// $Id: articleedit.php,v 1.23 2001/08/20 11:07:07 ce Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -110,11 +110,19 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
             {
                 case "Image":
                 {
-                    
                     $session->setVariable( "ArticleEditID", $article->id() );
                     $articleID = $article->id();
                     // add images
                     eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
+                    exit();
+                }
+                break;
+                case "File":
+                {
+                    $session->setVariable( "ArticleEditID", $article->id() );
+                    $articleID = $article->id();
+                    // add files
+                    eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
                     exit();
                 }
                 break;
