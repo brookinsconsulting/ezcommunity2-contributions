@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: newmessage.php,v 1.7 2000/08/28 16:39:44 bf-cvs Exp $
+    $Id: newmessage.php,v 1.8 2000/08/29 12:43:27 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -47,7 +47,7 @@ else
 
 $category = new eZForumCategory();
 
-$info = $category->categoryForumInfo( $forum_id);
+$info = $category->categoryForumInfo( $forum_id );
 $infoString = $info["CategoryName"] . "::" . $info["ForumName"];
 
 $user = new eZUser();

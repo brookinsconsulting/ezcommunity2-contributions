@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.17 2000/08/29 12:08:53 bf-cvs Exp $
+    $Id: message.php,v 1.18 2000/08/29 12:43:27 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -91,9 +91,9 @@ $messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOC_ROOT, $categ
 
 $t->set_var( "replies", $messages );
 
-$t->set_var( "link1-url", "main.php");
-$t->set_var( "link1-caption", "Gå til topp");
-$t->set_var( "link2-url", "search.php");
+$t->set_var( "link1-url", "main.php" );
+$t->set_var( "link1-caption", "Gå til topp" );
+$t->set_var( "link2-url", "search.php" );
 $t->set_var( "link2-caption", "Søk");
 
 $t->set_var( "back-url", "forum.php");
