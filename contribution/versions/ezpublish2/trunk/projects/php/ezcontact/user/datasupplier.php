@@ -1,7 +1,10 @@
 <?
 //print $REQUEST_URI;
 
-$url_array = explode( "/", $REQUEST_URI );
+include_once( "classes/ezuritool.php" );
+
+//  $url_array = explode( "/", $REQUEST_URI );
+$url_array = eZURITool::split( $REQUEST_URI );
 
 if( is_object( $user ) )
 {
@@ -62,9 +65,7 @@ switch ( $url_array[2] )
                     $Index = $url_array[4];
                 if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
                 {
-                    $SearchText = $url_array[5];
-                    $SearchText = preg_replace( "/[+]/", " ", $SearchText );
-                    $SearchText = preg_replace( "/[%2b]/i", "+", $SearchText );
+                    $SearchText = eZURITool::decode( $url_array[5] );
                 }
                 include( "ezcontact/admin/personlist.php" );
                 break;
@@ -85,20 +86,77 @@ switch ( $url_array[2] )
 
     case "company":
     {
-        if ( $url_array[3] == "list" )
+        $CompanyID = $url_array[4];
+        $Action = $url_array[3];
+        switch ( $Action )
         {
-            $CategoryID = $url_array[4];
-            include( "ezcontact/user/companylist.php" );
-        }
-        if ( $url_array[3] == "view" )
-        {
-            $CompanyID = $url_array[4];
-            include( "ezcontact/user/companyview.php" );
-        }
+            // intentional fall through
+            case "new":
+            {
+                $NewCompanyCategory = $url_array[4];
+                unset( $CompanyID );
+                include( "ezcontact/admin/companyedit.php" );
+                break;
+            }
+            case "edit":
+            case "update":
+            case "delete":
+            case "insert":
+            {
+                include( "ezcontact/admin/companyedit.php" );
+                break;
+            }
+            case "view":
+            {
+                include( "ezcontact/admin/companyview.php" );
+                break;
+            }
 
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
     }
     break;
 
+    case "companycategory" :
+    {
+        $TypeID = $url_array[4];
+        $Action = $url_array[3];
+        switch( $Action )
+        {
+            // intentional fall through
+            case "new":
+            {
+                $NewParentID = $url_array[4];
+                unset( $TypeID );
+                include( "ezcontact/admin/companytypeedit.php" );
+                break;
+            }
+            case "edit":
+            case "update":
+            case "delete":
+            case "insert":
+            {
+                include( "ezcontact/admin/companytypeedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/companytypelist.php" );
+                break;
+            }
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
 
     case "consultation":
     {
