@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.33 2001/03/08 18:43:48 jb Exp $
+// $Id: productview.php,v 1.33.2.1 2001/03/12 10:59:55 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -83,10 +83,6 @@ else
     $t->set_var( "extra_product_info", "" );
     $t->set_file( "product_view_tpl", $productview );
 }
-
-//  $t->set_file( array(
-//      "product_view_tpl" => "productview.tpl"
-//      ) );
 
 $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
