@@ -12,12 +12,12 @@
 <br /><br />
 	
 <p class="boxtext">{intl-options}:</p>
-<table>
+<table table cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-value}</th>
-	<th>{intl-main_price}</th>
+	<th>{intl-value}:</th>
+	<th>{intl-main_price}:</th>
 	<!-- BEGIN group_item_tpl -->
-	<th>{price_group_name}</th>
+	<th>{price_group_name}:</th>
 	<!-- END group_item_tpl -->
 	<th>&nbsp;</th>
 </tr>
