@@ -30,7 +30,7 @@
 //-->
 </SCRIPT>
 
-<div onLoad="MM_preloadImages('/ezcontact/admin/images/redigerminimrk.gif','/ezcontact/admin/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('{www_dir}/ezcontact/admin/images/redigerminimrk.gif','{www_dir}/ezcontact/admin/images/slettminimrk.gif')"></div>
 
 <!-- BEGIN list_tpl -->
 <h1>{intl-headline_list}</h1>

@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('/eztodo/images/redigerminimrk.gif','/eztodo/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('{www_dir}/eztodo/images/redigerminimrk.gif','{www_dir}/eztodo/images/slettminimrk.gif')"></div>
 
 <h1>{intl-todo_overview}</h1>
 

@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('../ezarticle/images/redigerminimrk.gif','../ezarticle/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('{www_dir}/ezarticle/images/redigerminimrk.gif','{www_dir}/ezarticle/images/slettminimrk.gif')"></div>
 
 <form action="{www_dir}{index}/article/articleedit/imageedit/storedef/{article_id}/" method="post">
 
@@ -63,12 +63,12 @@
 	<input type="radio" {thumbnail_image_checked} name="ThumbnailImageID" value="{image_id}" />
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','{www_dir}/ezarticle/images/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 
 <a href="#" onClick="verify( 'delete', '/article/articleedit/imageedit/delete/{image_id}/{article_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="{www_dir}/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','{www_dir}/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="{www_dir}/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
 </a>
 	</td>
 </tr>

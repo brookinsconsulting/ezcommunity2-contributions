@@ -39,7 +39,7 @@
     </tr>
     <!-- END cart_item_tpl -->
     <tr>
-	<td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
+	<td class="spacer" colspan="2" bgcolor="#999999"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
     </tr>
     <tr>
 	<td>&nbsp;{intl-shipping}:</td>
@@ -50,20 +50,20 @@
 	<td align="right">{cart_vat_sum}&nbsp;</td>
     </tr>
     <tr>
-	<td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
+	<td class="spacer" colspan="2" bgcolor="#999999"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
     </tr>
     <tr> 
 	<td>&nbsp;{intl-total}:</td>
 	<td align="right">{cart_sum}&nbsp;</td>
     </tr>
     <tr>
-	<td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
+	<td class="spacer" colspan="2" bgcolor="#999999"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
     </tr>
     <tr>
-	<td class="spacer" colspan="2"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1"></td>
+	<td class="spacer" colspan="2"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1"></td>
     </tr>
     <tr>
-	<td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1"></td>
+	<td class="spacer" colspan="2" bgcolor="#999999"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1"></td>
     </tr>
     <tr>
 	<td class="spacer5" colspan="2">
@@ -99,7 +99,7 @@
     </tr>
     <tr> 
 	<td class="bgspacer" colspan="2">
-	    <img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" />
+	    <img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" />
 	</td>
     </tr>
     <tr>

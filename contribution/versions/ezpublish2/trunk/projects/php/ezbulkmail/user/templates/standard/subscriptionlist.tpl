@@ -17,7 +17,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/bulkmail/bulklist/{category_id}/">{category_name}</a>
+	<a href="{www_dir}{index}/bulkmail/bulklist/{category_id}/">{category_name}</a>
 	</td>
 	<td class="{td_class}">
 	{category_description}

@@ -46,7 +46,7 @@
 		<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
 		</td>
 		<td >
-		<a href="/article/articleview/{article_id}"><b>{article_name}<b/></a>
+		<a href="{www_dir}{index}/article/articleview/{article_id}"><b>{article_name}<b/></a>
 		</td>
 	</tr>
 	<tr>
@@ -66,7 +66,7 @@
 		</td>
 
 		<td  width="50%">
-		<a href="/article/articleview/{article_id}"><b>{article_name}<b/></a>
+		<a href="{www_dir}{index}/article/articleview/{article_id}"><b>{article_name}<b/></a>
 		</td>
        </tr>		
        <tr>		

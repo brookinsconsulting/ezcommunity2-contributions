@@ -37,7 +37,7 @@
 <!-- BEGIN non_public_wishlist_tpl -->
 <!-- END non_public_wishlist_tpl -->
 
-<body onLoad="MM_preloadImages('/eztrade/user/images/slettminimrk.gif')">
+<body onLoad="MM_preloadImages('{www_dir}/eztrade/user/images/slettminimrk.gif')">
 
 <form action="{www_dir}{index}/trade/wishlist/" method="post">
 

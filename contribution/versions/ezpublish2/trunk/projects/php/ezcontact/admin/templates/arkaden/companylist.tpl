@@ -62,7 +62,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href=/contact/company/list/{category_id}>{category_name}</a>
+	<a href="{www_dir}{index}/contact/company/list/{category_id}">{category_name}</a>
 	</td>
 </tr>
 <!-- END category_item_tpl -->

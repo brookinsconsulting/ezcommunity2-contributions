@@ -1,4 +1,4 @@
-<form method="post" action="/trade/productedit/voucher/">
+<form method="post" action="{www_dir}{index}/trade/productedit/voucher/">
 
 <h1>{intl-head_line}</h1>
 
@@ -95,7 +95,7 @@
 </form>
 
 <div class="divider">
-	<form method="post" action="/trade/productedit/cancel/">
+	<form method="post" action="{www_dir}{index}/trade/productedit/cancel/">
 	<input type="hidden" name="ProductID" value="{product_id}" />
 	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>

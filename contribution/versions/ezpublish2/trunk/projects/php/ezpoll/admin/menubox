@@ -6,10 +6,10 @@
 </tr>
 <tr bgcolor="#C8B4B4"> 
 <td>
-<a class="small" href="/poll/polllist/">Poll liste</a><br>
+<a class="small" href="{www_dir}{index}/poll/polllist/">Poll liste</a><br>
 </td>
 </tr>
 </table>
 
-<img src="images/1x1.gif" width="120" height="4" border="0"><br>
+<img src="{www_dir}/images/1x1.gif" width="120" height="4" border="0"><br>
 	

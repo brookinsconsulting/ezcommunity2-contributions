@@ -116,7 +116,7 @@ Now all we need to do is create the actual functionality of the module. First cr
 <php>
 <h1>This is an eZ publish admin page</h1>
 
-<form action="/example/page/" method="post">
+<form action="<? print $wwwDir.$index; ?>/example/page/" method="post">
 
 <input type="text" name="Value" value="" />
 

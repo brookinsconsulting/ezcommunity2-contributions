@@ -18,7 +18,7 @@
 
 <tr>
 	<td>
-	<a  class="menu" href=/link/suggestlink/>
+	<a  class="menu" href="{www_dir}{index}/link/suggestlink/">
 	<img src="{www_dir}/images/dot.gif" width="12" heigth="10" border="0">{intl-suggest_link}
 	</a>
 	</td>

@@ -60,7 +60,7 @@
 <!-- BEGIN image_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
-	<img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
+	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	{image_caption}
 	</td>
 </tr>

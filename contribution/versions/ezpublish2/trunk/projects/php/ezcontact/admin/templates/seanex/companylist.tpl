@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('/ezcontact/admin/images/redigerminimrk.gif','/ezcontact/admin/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('{www_dir}/ezcontact/admin/images/redigerminimrk.gif','{www_dir}/ezcontact/admin/images/slettminimrk.gif')"></div>
 
 <h1>{intl-headline}</h1>aaa
 
@@ -61,7 +61,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href=/contact/company/list/{category_id}>{category_name}&nbsp;</a>
+	<a href="{www_dir}{index}/contact/company/list/{category_id}">{category_name}&nbsp;</a>
 	</td>
 
 	<td class="{td_class}" width="1%">

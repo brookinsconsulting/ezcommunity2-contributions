@@ -174,13 +174,13 @@
 <!-- BEGIN order_item_tpl -->
 <tr class="{bg_color}">
 	<td>
-        <a href="http://{admin_dir}/trade/orderedit/{order_id}/">{order_date}</a>
+        <a href="{www_dir}{index}/trade/orderedit/{order_id}/">{order_date}</a>
 	</td>
 	<td>
-        <a href="http://{admin_dir}/trade/orderedit/{order_id}/">{order_status}</a>
+        <a href="{www_dir}{index}/trade/orderedit/{order_id}/">{order_status}</a>
 	</td>
 	<td>
-        <a href="http://{admin_dir}/trade/orderedit/{order_id}/">{order_price}</a>
+        <a href="{www_dir}{index}/trade/orderedit/{order_id}/">{order_price}</a>
 	</td>
 </tr>
 <!-- END order_item_tpl -->

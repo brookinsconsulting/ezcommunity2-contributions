@@ -9,7 +9,7 @@ else
 	print( "eZ publish" );
     ?></title>
 
-<link rel="stylesheet" type="text/css" href="/sitedesign/trade/style.css" />
+<link rel="stylesheet" type="text/css" href="<? print $wwwDir; ?>/sitedesign/trade/style.css" />
 
 <script language="JavaScript1.2">
 <!--//
@@ -47,7 +47,7 @@ else
 
 <body bgcolor="#8a8ab3" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
 
-<img src="/sitedesign/trade/images/ezpublish-trade.gif" height="40" width="610" border="0" alt="" />
+<img src="<? print $wwwDir; ?>/sitedesign/trade/images/ezpublish-trade.gif" height="40" width="610" border="0" alt="" />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
@@ -70,10 +70,10 @@ else
 
    	<!-- Left menu end -->
 
-	<img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
+	<img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 	</td>
 
-	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+	<td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
     <td width="96%" bgcolor="#ffffff">
 
     <!-- Banner start -->

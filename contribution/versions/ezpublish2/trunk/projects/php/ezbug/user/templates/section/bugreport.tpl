@@ -113,7 +113,7 @@
 	{image_name}
 	</td>
 	<td width="1%" class="{td_class}">
-	  <img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
+	  <img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	</td>	
 	<td width="1%" class="{td_class}">
 	<a href="{www_dir}{index}/bug/report/imageedit/edit/{image_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="{www_dir}/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>

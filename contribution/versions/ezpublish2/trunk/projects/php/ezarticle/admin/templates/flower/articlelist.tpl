@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('../ezarticle/images/redigerminimrk.gif','../ezarticle/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('{www_dir}/ezarticle/images/redigerminimrk.gif','{www_dir}/ezarticle/images/slettminimrk.gif')"></div>
 
 <h1>{intl-head_line} - {current_category_name}</h1>
 
