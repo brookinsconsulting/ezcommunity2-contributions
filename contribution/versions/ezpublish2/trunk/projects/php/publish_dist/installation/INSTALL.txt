@@ -71,14 +71,6 @@ Chapter 7 Troubleshooting
 Chapter 8 Installing on RAQ 3
     8.1 Getting SSL to Work
 Chapter 9 Installing on Windows 
-    9.1 Programs to Install
-    9.2 Configuration of PHP
-    9.3 Apache Configuration
-    9.4 Configuration of Virtual Host for Apache/win2000
-        9.4.1 User Site
-        9.4.2 Admin Site
-    9.5 IIS Installation
-    9.6 eZ publish Installation
 Chapter 10 Mandrake
     10.1 Download the Following
 
@@ -1346,125 +1338,11 @@ I'll help if I have time: chris@net.ai
 
 Installing on Windows 
 
-eZ publish on a Windows System Running Apache<chptr: windows>
-
-Thanks to Øyvind Wærendskjold <werenskjold@disippel.net>
-for giving us this information. You can find a file called
-"install_ezpublish_win.zip" at
-the eZ publish site (http://developer.ez.no).
-
-This is untested by eZ systems, and we provide this "as
-is" without any form of guarantee or endorsement, either
-explicitly or implicitly.
-
-9.1 Programs to Install
-
-Install Apache1.3.x (http://httpd.apache.org/dist/binaries/win32/)
-
-Install PHP 4.0.x (http://www.php.net/downloads.php)
-
-Install MySQL 3.23.x (http://www.mysql.com/downloads/os-win32.html)
-
-9.2 Configuration of PHP
-
-Remember to place php_domxml.dll in the "extension_dir" directory
-of apache. Modify php.ini:
-
-
-    session.save_path=\WinNT\temp
-    extension=php_domxml.dll # remove the comment on
-this line in the ini file.
-    extension_dir=C:\Program Files\Apache Group\Apache\extensions 
-
-9.3 Apache Configuration
-
-If you're using IIS skip this and the next section.
-
-Create the virtual hosts for apache. Use the file virtualhosts.conf
-in this package as a template
-
-If you don't want to include the virtualhost config directly
-in httpd.conf, remember to use the include directive instead.
-Copy your virtualhost file to the apache configure directory
-and add the following line at the bottom of httpd.conf should
-do the trick:
-
-    include conf/virtualhosts.conf
-
-
-Also remember to enable the rewrite module in httpd.conf:
-
-
-LoadModule rewrite_module modules/ApacheModuleRewrite.dll
-
-9.4 Configuration of Virtual Host for Apache/win2000
-
-You should also check the virtual host configuration as described
-in section [sec: dual virtualhost], since the
-virtual host configuration is explained thoroughly there
-and there might be some newer information there.
-
-9.4.1 User Site
-
-    # User site
-
-    Options FollowSymLinks Indexes ExecCGI 
-
-    RewriteEngine On
-
-    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
-
-    /your/apache/documentroot/ezfilemanager/files/$1
-
-    [T="application/octet-stream",S=1]
-    RewriteRule !(\.(gif|css|jpg|png)$) /your/apache/documentroot/index.php
-
-    DocumentRoot /your/apache/documentroot
-    ServerName yourdomain.org
-
-    ServerAlias www.yourdomain.org
-
-9.4.2 Admin Site
-
-    # Admin site
-    Options FollowSymLinks Indexes ExecCGI
-    #If the following value is set directly in the
-    #php.ini file it will affect all domains on your
-    #site and create problems
-    php_value include_path \
-    ".;/;/your/apache/documentroot; \
-    /your/apache/documentroot/admin/"
-    RewriteEngine On
-    RewriteRule !.(gif|jpg|css|png)$ \
-    /your/apache/documentroot/admin/index.php
-
-    RewriteRule ^/ez(.*(gif|jpg|png)$) \
-    /your/apache/documentroot/ez$1
-    DocumentRoot /your/apache/documentroot/admin
-    ServerName admin.yourdomain.org 
-    ServerAlias admin.yourdomain.org
-
-9.5 IIS Installation
-
-If you're using Apache skip this section.
-
-Create the virtual hosts. For both of the hosts change the
-custom errors for 404 and 405 to:
-
-    Message type: URL
-    URL: /index.php
-
-If you encounter 500 errors you may need to reboot the server.
-eZ publish and IIS don't run well together.
-
-9.6 eZ publish Installation
-
-Decompress eZ publish to your documentroot. Decompress all
-the files in ezpublish-win.files.zip to the same directory,
-remember to keep the directory structure and to overwrite
-the old files. Run "modfix.bat".
-Configure the "winINIFile.php"
-to match your document root.
+Please download and read the Windows documentation from the
+eZ publish site (http://developer.ez.no). Check the "File
+Archive" link under "Downloads"
+. It covers all the steps needed for a working installation
+under Windows using Apache.
 
 Mandrake<chptr: mandrake>
 
