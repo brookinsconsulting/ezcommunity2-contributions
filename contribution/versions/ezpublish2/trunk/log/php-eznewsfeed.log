@@ -366,3 +366,11 @@ Maintainer(s) : vl@ez.no
       classes/ezbackslashimporter.php:
     fixed bugs with fopen, and emty objects from ezxml.
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2002-02-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/newsedit.php: fixed bug with redirecting on nVH
+

@@ -490,3 +490,19 @@ Maintainer(s) : fh@ez.no
       user/mailview.php: 1. Imap attachments work
     2. Step one of moving imap mail arround (creating right indexes)
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-02-07  fh  <fh@zev.ez.no>
+
+    * classes/ezimapmailfolder.php
+      classes/ezmailfunctions.php
+      classes/imapfunctions.php
+      user/maillist.php: local->imap move now works.
+    TODO: remove double mime creation code in ezmail.php
+
+    * classes/ezimapmail.php
+      classes/ezimapmailfolder.php
+      user/maillist.php: Moving inside imap folders works
+

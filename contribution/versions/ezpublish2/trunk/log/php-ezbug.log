@@ -616,3 +616,46 @@ Maintainer(s) : vl@ez.no
 
     * admin/cron.php: fix in ini file handling
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/bugedit.php.ini
+      admin/intl/pt_PT/buglist.php.ini
+      admin/intl/pt_PT/bugpreview.php.ini
+      admin/intl/pt_PT/categorylist.php.ini
+      admin/intl/pt_PT/confirmationmail.php.ini
+      admin/intl/pt_PT/mailgotbug.php.ini
+      admin/intl/pt_PT/mailreply.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/moduleedit.php.ini
+      admin/intl/pt_PT/modulelist.php.ini
+      admin/intl/pt_PT/prioritylist.php.ini
+      admin/intl/pt_PT/search.php.ini
+      admin/intl/pt_PT/statuslist.php.ini
+      admin/intl/pt_PT/unhandledbugs.php.ini
+      user/intl/pt_PT/buglist.php.ini
+      user/intl/pt_PT/bugreport.php.ini
+      user/intl/pt_PT/bugview.php.ini
+      user/intl/pt_PT/fileedit.php.ini
+      user/intl/pt_PT/imageedit.php.ini
+      user/intl/pt_PT/mailnewbug.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/menumodulelist.php.ini
+      user/intl/pt_PT/reportsuccess.php.ini
+      user/intl/pt_PT/search.php.ini
+      user/intl/pt_PT/unhandledbugs.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2002-02-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/bugedit.php
+      user/bugreport.php: fixed bug when redirecting using nVH
+
+    * admin/moduleedit.php: fixed problem with redirection on nVH
+

@@ -613,3 +613,11 @@ Maintainer(s) : bf@ez.no
 
     * ezlocale.php: added formatNumber()
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-02-07  Baard Farstad  <bf@ez.no>
+
+    * ezpostgresqldb.php: Fixed escaping for postgrsql.
+

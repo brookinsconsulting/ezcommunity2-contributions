@@ -547,3 +547,12 @@ Maintainer(s) : vl@ez.no
 
     * classes/ezsection.php: fix warnings
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2002-02-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templatelist.php
+      sql/postgresql/ezsitemanager.sql: fixed psql problems
+

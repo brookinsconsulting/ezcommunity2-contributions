@@ -3178,3 +3178,14 @@ Maintainer(s) : ce@ez.no
 
     * user/Attic/biglist.php: New file.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/postgresql/eztrade.sql: fixed psql problems
+
+    * admin/orderedit.php
+      admin/pricegroupedit.php: fixed problem with redirectin on nVH
+
