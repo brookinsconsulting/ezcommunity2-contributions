@@ -26,38 +26,52 @@
 //    $ini->save_data(); 
 //
 //    Modified by Jo Henrik Endrerud <jhe@ez.no> for eZ systems
-//
+//    Modified by Bård Farstad <bf@ez.no>
 
 //!! eZCommon
 //! The INIFile class provides .ini file functions.
 /*!
-  
+
+  \code
+  include_once( "classes/INIFile.php" );
+  $ini = new INIFile( "site.ini" );
+
+  $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
+
+  $arrayTest = $ini->read_array( "site", "ArrayTest" );
+
+  foreach ( $arrayTest as $test )
+  {
+    print( "test: ->$test<-<br>" );
+  }  
+  \endcode
 */
 
-class  INIFile
+class INIFile
 { 
-    var $INI_FILE_NAME =  ""; 
-    var $ERROR =  ""; 
-    var $GROUPS = array(); 
-    var $CURRENT_GROUP =  "";
-    var $WRITE_ACCESS = ""; 
-     
+
+    /*!
+      Constructs a new INIFile object.
+    */
     function INIFile( $inifilename="", $write=true )
     {
-        #echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
+        // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
         $this->WRITE_ACCESS = $write;
-        if(!empty($inifilename)) 
-            if(!file_exists($inifilename)){ 
+        if(!empty($inifilename))
+        {
+            if(!file_exists($inifilename))
+            { 
                 $this->error( "This file ($inifilename) does not exist!"); 
                 return; 
-            } 
+            }
+        }
         $this->parse($inifilename);
-
     } 
 
 
-// LOAD AND SAVE FUNCTIONS 
-     
+    /*!
+      Parses the ini file.
+    */
     function parse($inifilename) 
     { 
         $this->INI_FILE_NAME = $inifilename;
@@ -75,7 +89,10 @@ class  INIFile
          
         fclose($fp); 
     } 
-     
+
+    /*!
+      Parses the variabled.
+    */
     function parse_data($data) 
     { 
         if(ereg( "\[([[:alnum:]]+)\]",$data,$out)) 
@@ -89,6 +106,9 @@ class  INIFile
         } 
     } 
 
+    /*!
+      Saves the ini file.
+    */
     function save_data() 
     {
         $fp = fopen($this->INI_FILE_NAME, "w");
@@ -125,15 +145,17 @@ class  INIFile
         fclose($fp); 
     } 
 
-// FUNCTIONS FOR GROUPS 
-     
-     //returns number of groups     
+    /*!
+      Returns the number of groups.
+    */
     function get_group_count() 
     { 
         return count($this->GROUPS); 
     } 
      
-     //returns an array with the names of all the groups 
+    /*!
+      Returns an array with the names of all the groups.
+    */
     function read_groups() 
     { 
         $groups = array(); 
@@ -142,7 +164,9 @@ class  INIFile
         return $groups; 
     } 
      
-     //checks if a group exists 
+    /*!
+      Checks if a group exists.
+    */
     function group_exists( $group_name )
     { 
         $group = $this->GROUPS[$group_name]; 
@@ -150,7 +174,9 @@ class  INIFile
         else return true; 
     } 
 
-     //returns an associative array of the variables in one group     
+    /*!
+      Returns an associative array of the variables in one group.
+    */
     function read_group($group) 
     { 
         $group_array = $this->GROUPS[$group]; 
@@ -163,54 +189,94 @@ class  INIFile
         } 
     } 
      
-     //adds a new group 
+    /*!
+      Adds a new group to the ini file.
+    */
     function add_group($group_name) 
     { 
         $new_group = $this->GROUPS[$group_name]; 
-        if(empty($new_group)) 
+        if ( empty($new_group) ) 
         { 
             $this->GROUPS[$group_name] = array(); 
         } 
-        else $this->Error( "Group $group_name exists"); 
+        else
+        {
+            $this->Error( "Group $group_name exists");
+        }
     } 
 
-     //empty a group
+    /*!
+      Clears a group.
+    */
     function empty_group($group_name) 
     { 
         unset( $this->GROUPS[$group_name] );
         $this->GROUPS[$group_name] = array();
     } 
 
-
-// FUNCTIONS FOR VARIABLES 
-     
-     //reads a single variable from a group 
-    function read_var($group, $var_name) 
+    /*!
+      Reads a variable from a group.
+    */
+    function read_var( $group, $var_name )
     { 
         $var_value = $this->GROUPS[$group][$var_name]; 
-        if(!empty($var_value)) 
-            return $var_value; 
+        if ( !empty($var_value) )
+        {
+            return $var_value;
+        }
         else 
         { 
             $this->Error( "$var_name does not exist in $group"); 
             return false; 
         } 
-    } 
+    }
+
+    /*!
+      Reads a variable from a group and returns the result as an
+      array of strings.
+
+      The variable is splitted on ; characters.
+    */
+    function read_array( $group, $var_name )
+    { 
+        $var_value = $this->GROUPS[$group][$var_name]; 
+        if ( !empty($var_value) )
+        {
+            $var_array =& explode( ";", $var_value );
+            return $var_array;
+        }
+        else 
+        { 
+            $this->Error( "$var_name does not exist in $group"); 
+            return false; 
+        } 
+    }
      
-     //sets a variable in a group 
-    function set_var($group, $var_name, $var_value) 
+    /*!
+      Sets a variable in a group.
+    */
+    function set_var( $group, $var_name, $var_value )
     {
-        $this->GROUPS[$group][$var_name]=$var_value;
+        $this->GROUPS[$group][$var_name] = $var_value;
     }     
 
-// ERROR FUNCTION 
-             
-    function Error($errmsg) 
+
+    /*!
+      Prints the error message.
+    */
+    function error($errmsg) 
     { 
         $this->ERROR = $errmsg; 
         echo  "Error:".$this->ERROR. "<br>\n"; 
         return; 
-    } 
+    }
+
+    var $INI_FILE_NAME =  ""; 
+    var $ERROR =  ""; 
+    var $GROUPS = array(); 
+    var $CURRENT_GROUP =  "";
+    var $WRITE_ACCESS = ""; 
+    
 } 
 
 ?>

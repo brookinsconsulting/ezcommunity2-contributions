@@ -1,10 +1,10 @@
 <?php
-
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
+// start the buffer cache
 ob_start();
 
 include_once( "classes/ezdb.php" );
@@ -16,7 +16,6 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
-
 
 $ini = new INIFile( "site.ini" );
 $t = new Template( "." );
@@ -44,49 +43,15 @@ if ( $user )
     require( "ezuser/admin/admincheck.php" );
     if ( ! ( $HelpMode == "enabled" ) )
     {
-        if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )
-            include( "ezarticle/admin/menubox.php" );
+        $modules = $ini->read_array( "site", "EnabledModules" );
 
-        if ( $ini->read_var( "site", "eZNewsFeed" ) == "enabled" )
-            include( "eznewsfeed/admin/menubox.php" );
+        foreach ( $modules as $module )
+        {
+            $module_dir =& strtolower( $module ); 
+            include( "$module_dir/admin/menubox.php" );
+        }
         
-        if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
-            include( "ezforum/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZLink" ) == "enabled" )
-            include( "ezlink/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZTodo" ) == "enabled" )
-            include( "eztodo/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
-            include( "eztrade/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
-            include( "ezpoll/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZBug" ) == "enabled" )
-            include( "ezbug/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZAd" ) == "enabled" )
-            include( "ezad/admin/menubox.php" );
-        
-        if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
-            include( "ezcontact/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZCV" ) == "enabled" )
-            include( "ezcv/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZClassified" ) == "enabled" )
-            include( "ezclassified/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZSite" ) == "enabled" )
-            include( "ezsite/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
-            include( "ezuser/admin/menubox.php" );
-        
-    // parse the URI
+        // parse the URI
         $page = "";
     
         // Remove url parameters
@@ -99,50 +64,16 @@ if ( $user )
         // send the URI to the right decoder
         $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
 
-
         // set the module logo
-        switch ( $url_array[1] )
-        {
-            case "article" :
-            {
-                $ModuleLogo = "menu-news.gif";
-            }
-            break;
-
-            case "link" :
-            {
-                $ModuleLogo = "menu-link.gif";
-            }
-            break;
-
-            case "trade" :
-            {
-                $ModuleLogo = "menu-trade.gif";
-            }
-            break;
-
-            case "poll" :
-            {
-                $ModuleLogo = "menu-poll.gif";
-            }
-            break;
-
-            case "user" :
-            {
-                $ModuleLogo = "menu-user.gif";
-            }
-            break;
+        $moduleName =& $url_array[1];
         
-            case "forum" :
-            {
-                $ModuleLogo = "menu-forum.gif";
-            }
-            break;
-
-            default :
-            {
-                $ModuleLogo = "menu-news.gif";
-            }
+        if( file_exists( "menu-" .$moduleName . ".gif" ) )
+        {
+            $ModuleLogo = "menu-" .$moduleName . ".gif";
+        }
+        else
+        {
+            $ModuleLogo = "menu-news.gif";
         }
     
         // break the column an draw a horizontal line
@@ -197,6 +128,7 @@ else
 // html footer
 include( "footer.php" );
 
+// flush the buffer cache
 ob_end_flush();
 ?>
 
