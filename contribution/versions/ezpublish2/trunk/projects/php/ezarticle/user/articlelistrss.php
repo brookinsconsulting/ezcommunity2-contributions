@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelistrss.php,v 1.1 2000/12/11 12:52:40 bf Exp $
+// $Id: articlelistrss.php,v 1.2 2000/12/11 15:03:03 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Dec-2000 09:44:51 bf>
@@ -31,7 +31,6 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
 $ini = new INIFIle( "site.ini" );
-$Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $Title = $ini->read_var( "eZArticleRSS", "Title" );
 $Link = $ini->read_var( "eZArticleRSS", "Link" );
@@ -51,17 +50,24 @@ print( "<rss version=\"0.91\">\n" );
 
 print( "<channel>\n" );
 
+
+print( "<title>$Title</title>\n" );
+print( "<link>$Link</link>\n" );
+print( "<description>$Description</description>\n" );
+print( "<language>$Language</language>\n" );
+
 $article = new eZArticle();
 $articleList = $article->articles( $SortMode, false, 0, 10 );
 
 $locale = new eZLocale( $Language );
 foreach ( $articleList as $article )
 {
+    $articleID = $article->id();
     $headerInfo = ( getallheaders() );
     
     print( "<item>\n" );
-    print( "<title>" . $article->name() . "</title>\n" );
-    print( "<link>http://" . $headerInfo["Host"] . "/article/rssheadlines</link>\n" );
+    print( "<title>" . substr( $article->name(), 0, 99 ) . "</title>\n" );
+    print( "<link>http://" . $headerInfo["Host"] . "/article/view/$articleID/</link>\n" );
     
 //      $published = $article->published();
 //      print( $locale->format( $published ) );
@@ -69,7 +75,7 @@ foreach ( $articleList as $article )
     $renderer = new eZArticleRenderer( $article );
     $description = $renderer->renderIntro();
     
-    print( "<description>" . $article->name() . "</description>\n" );    
+    print( "<description>" . substr( trim( strip_tags( $description ) ), 0, 499 ). "</description>\n" );    
 
     print( "</item>\n" );
 }
