@@ -8,9 +8,9 @@ include_once( "template.inc" );
 include( "ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
 
-require $DOCUMENTROOT . "classes/ezlinkgroup.php";
-require $DOCUMENTROOT . "classes/ezlink.php";
-require $DOCUMENTROOT . "classes/ezhit.php";
+include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlink.php"  );
+include_once( "ezlink/classes/ezhit.php" );
 
 require $DOCUMENTROOT . "classes/ezquery.php";
 
