@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18 2001/10/10 13:18:29 jhe Exp $
+// $Id: search.php,v 1.18.2.1 2002/01/04 14:32:35 kaid Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -60,6 +60,9 @@ $t->set_var( "url_text", "" );
 $t->set_var( "search_result", "" );
 
 $db =& eZDB::globalDatabase();
+
+if ( isset( $SearchText ) and !isset( $QueryString ) )
+    $QueryString = $SearchText;
 
 if ( $QueryString != "" )
 {
