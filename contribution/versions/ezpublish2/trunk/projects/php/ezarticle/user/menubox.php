@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.16 2001/04/25 14:24:55 th Exp $
+// $Id: menubox.php,v 1.17 2001/04/26 11:06:17 bf Exp $
 //
 // 
 //
@@ -117,10 +117,9 @@ function createArticleMenu( $menuCachedFile="" )
             $i++;
         }
     }
+
     if( $i == 0 )
         $t->set_var( "article_category", "" );
-
-    $t->set_var( "articlecategory_id", $LGID );
 
 
     // user-submitted articles
