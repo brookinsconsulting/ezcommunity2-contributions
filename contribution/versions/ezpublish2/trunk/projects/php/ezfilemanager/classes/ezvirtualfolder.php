@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.13 2001/02/28 15:24:58 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.14 2001/03/08 10:28:33 fh Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -338,6 +338,26 @@ class eZVirtualFolder
         }
         
         return $ret;
+    }
+
+    /*!
+      \Static
+      Returns true if the given user is the owner of the given object.
+      $user is either a userID or an eZUser.
+      $folder is the virtual folder ID
+     */
+    function isOwner( $user, $folderID )
+    {
+        if( get_class( $user ) != "ezuser" )
+            return false;
+        
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT UserID from eZFileManager_Folder WHERE ID='$folderID'");
+        $userID = $res[ "UserID" ];
+        if(  $userID == $user->id() )
+            return true;
+
+        return false;
     }
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.18 2001/02/26 19:05:54 ce Exp $
+// $Id: ezvirtualfile.php,v 1.19 2001/03/08 10:28:33 fh Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -268,7 +268,27 @@ class eZVirtualfile
         return $ret;
     }
 
+    /*!
+      \Static
+      Returns true if the given user is the owner of the given object.
+      $user is either a userID or an eZUser.
+      $file is the ID of the file.
+     */
+    function isOwner( $user, $file )
+    {
+        if( get_class( $user ) != "ezuser" )
+            return false;
+        
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
+        $userID = $res[ "UserID" ];
+        if(  $userID == $user->id() )
+            return true;
 
+        return false;
+    }
+
+    
     /*!
       Returns the path and filename to the original virtualfile.
 

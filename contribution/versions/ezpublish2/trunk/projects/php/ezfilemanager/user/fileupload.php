@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.21 2001/03/01 14:06:25 jb Exp $
+// $Id: fileupload.php,v 1.22 2001/03/08 10:28:34 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -264,6 +264,7 @@ if ( $Action == "Update" && $error == false )
 
     $uploadedFile->store();
 
+    eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'r' );    
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
@@ -277,6 +278,7 @@ if ( $Action == "Update" && $error == false )
         }
     }
 
+    eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'w' );
     if ( count ( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
@@ -412,30 +414,33 @@ $folderList = $folder->getTree( );
 
 foreach ( $folderList as $folderItem )
 {
-    $t->set_var( "option_name", $folderItem[0]->name() );
-    $t->set_var( "option_value", $folderItem[0]->id() );
+    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_file", 'w' ) )
+    {
+        $t->set_var( "option_name", $folderItem[0]->name() );
+        $t->set_var( "option_value", $folderItem[0]->id() );
 
-    if ( $folderItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $folderItem[1] ) );
-    else
-        $t->set_var( "option_level", "" );
+        if ( $folderItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $folderItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
 
-    $t->set_var( "selected", "" );
+        $t->set_var( "selected", "" );
     
-    if ( $folder && !$FolderID )
-    {
-        $FolderID = $folder->id();
-    }
-
-    if ( $FolderID )
-    {
-        if ( $folderItem[0]->id() == $FolderID )
+        if ( $folder && !$FolderID )
         {
-            $t->set_var( "selected", "selected" );
+            $FolderID = $folder->id();
         }
-    }
 
-    $t->parse( "value", "value_tpl", true );
+        if ( $FolderID )
+        {
+            if ( $folderItem[0]->id() == $FolderID )
+            {
+                $t->set_var( "selected", "selected" );
+            }
+        }
+
+        $t->parse( "value", "value_tpl", true );
+    }
 }
 
 $t->pparse( "output", "file_upload_tpl" );

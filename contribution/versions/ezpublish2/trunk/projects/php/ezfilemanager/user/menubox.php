@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2001/03/01 14:06:25 jb Exp $
+// $Id: menubox.php,v 1.5 2001/03/08 10:28:34 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -46,7 +46,9 @@ $t->set_block( "menu_box_tpl", "user_login_tpl", "user_login" );
 
 $user = eZUser::currentUser();
 
-if ( $user )
+
+if( $user && ( eZObjectPermission::getObjects( "filemanager_folder", 'w', true ) > 0 
+               || eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) ) )
 {
     $t->parse( "user_login", "user_login_tpl" );
 }

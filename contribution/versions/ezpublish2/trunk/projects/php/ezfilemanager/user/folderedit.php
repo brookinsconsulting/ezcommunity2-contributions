@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.17 2001/03/01 14:06:25 jb Exp $
+// $Id: folderedit.php,v 1.18 2001/03/08 10:28:34 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -242,6 +242,7 @@ if ( $Action == "Update" && $error == false )
 
     $folder->store();
 
+    eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'r' );
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
         foreach ( $ReadGroupArrayID as $Read )
@@ -255,6 +256,7 @@ if ( $Action == "Update" && $error == false )
         }
     }
 
+    eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'w' );
     if ( count ( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
@@ -378,32 +380,35 @@ foreach ( $groups as $group )
 // Print out all the folders.
 foreach ( $folderList as $folderItem )
 {
-    $t->set_var( "option_name", $folderItem[0]->name() );
-    $t->set_var( "option_value", $folderItem[0]->id() );
+    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_file", 'w' ) )
+    {
+        $t->set_var( "option_name", $folderItem[0]->name() );
+        $t->set_var( "option_value", $folderItem[0]->id() );
 
-    if ( $folderItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $folderItem[1] ) );
-    else
-        $t->set_var( "option_level", "" );
+        if ( $folderItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $folderItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
 
-    $t->set_var( "selected", "" );
+        $t->set_var( "selected", "" );
     
-    if ( $folder && !$FolderID )
-    {
-        $FolderID = $folder->id();
-    }
-
-    $selectFolderID = $folderItem[0]->id();
-
-   if ( $parentID )
-    {
-        if ( $selectFolderID == $parentID )
+        if ( $folder && !$FolderID )
         {
-            $t->set_var( "selected", "selected" );
+            $FolderID = $folder->id();
         }
-    }
 
-   $t->parse( "value", "value_tpl", true );
+        $selectFolderID = $folderItem[0]->id();
+
+        if ( $parentID )
+        {
+            if ( $selectFolderID == $parentID )
+            {
+                $t->set_var( "selected", "selected" );
+            }
+        }
+
+        $t->parse( "value", "value_tpl", true );
+    }
 }
 
 $t->pparse( "output", "folder_edit_tpl" );
