@@ -1,6 +1,10 @@
 eZ publish changelog:
 ---------------------
 
+Changes from 2.2.1 final to 2.2.2
+---------------------------------
+* Fixed bug first time hosts are stored
+
 Changes from 2.2 final to 2.2.1
 -------------------------------
 * Added delete buttons in eZ mediacatalogue
