@@ -590,3 +590,36 @@ alter table eZTrade_Order add ShippingTypeID int not null;
 
 insert into eZUser_Permission set ModuleID='4', Name='AddOthers';
 insert into eZUser_Permission set ModuleID='4', Name='ViewOtherUsers';
+
+### 2.0 - 
+
+# Add quantity tables
+CREATE TABLE eZTrade_Quantity (
+  ID int(11) NOT NULL auto_increment,
+  Quantity int(11) NOT NULL default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_ProductQuantityDict (
+  ProductID int(11) NOT NULL default '0',
+  QuantityID int(11) NOT NULL default '0',
+  PRIMARY KEY (ProductID,QuantityID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_ValueQuantityDict (
+  ValueID int(11) NOT NULL default '0',
+  QuantityID int(11) NOT NULL default '0',
+  PRIMARY KEY (ValueID,QuantityID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_QuantityRange (
+  ID int(11) NOT NULL auto_increment,
+  MaxRange int(11) default NULL,
+  Name varchar(30) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+INSERT INTO eZTrade_QuantityRange VALUES ('',0,'Unavailable');
+INSERT INTO eZTrade_QuantityRange VALUES ('',NULL,'Available');
+
+ALTER TABLE eZTrade_OptionValue MODIFY Price float(10,2);
