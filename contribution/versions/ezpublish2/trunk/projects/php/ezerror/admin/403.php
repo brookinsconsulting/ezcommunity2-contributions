@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: 403.php,v 1.1 2001/03/13 10:39:06 bf Exp $
+// $Id: 403.php,v 1.2 2001/07/19 12:45:08 jakobn Exp $
 //
-// Frederik Bouwhof Holljen <fh@ez.no>
 // Created on: <23-Feb-2001 16:53:09 fh>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
