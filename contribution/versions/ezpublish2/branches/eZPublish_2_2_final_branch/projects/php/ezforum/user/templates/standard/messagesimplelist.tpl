@@ -33,7 +33,8 @@
     {body}
     </div>
 	<div class="spacer">
-	<form action="{www_dir}{index}/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">
+	<form action="{www_dir}{index}/forum/userlogin/replysimple/{forum_id}/{message_id}/">
+        <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 	<input class="stdbutton" type="submit" value="{intl-reply}" />
 	</form>
 	</div>
