@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.7 2000/10/17 15:19:58 bf-cvs Exp $
+// $Id: useredit.php,v 1.8 2000/10/25 16:44:19 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -193,14 +193,15 @@ if ( $Action == "delete" )
     }
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/useredit/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
 $DOC_ROOT . "/admin/" . "/intl", $Language, "useredit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "user_edit" => "useredit.tpl",
-    "group_list" => "groupitem.tpl"
-    ) );
+    "user_edit" => "useredit.tpl"
+     ) );
+
+$t->set_block( "user_edit", "group_item_tpl", "group_item" );
 
 if ( $Action == "new" )
 {
@@ -271,7 +272,7 @@ foreach( $groupList as $groupItem )
         $t->set_var( "selected", "" );
     }
 
-    $t->parse( "group_item", "group_list", true );
+    $t->parse( "group_item", "group_item_tpl", true );
 }
 
 $t->set_var( "error", $error_msg );

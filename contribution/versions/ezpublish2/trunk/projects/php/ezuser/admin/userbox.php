@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
+// $Id: userbox.php,v 1.3 2000/10/25 16:44:19 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -28,8 +28,8 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 // Template
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/login/",
-                     $DOC_ROOT . "/admin/" . "/intl", $Language, "login.php" );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
+                     $DOC_ROOT . "/admin/" . "/intl", $Language, "userbox.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

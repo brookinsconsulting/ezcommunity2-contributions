@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: grouplist.php,v 1.4 2000/10/16 12:42:56 ce-cvs Exp $
+// $Id: grouplist.php,v 1.5 2000/10/25 16:44:19 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -26,14 +26,15 @@ include_once( "ezuser/classes/ezusergroup.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ) . "/grouplist/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      $DOC_ROOT . "/admin/" . "/intl", $Language, "grouplist.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "group_list_page" => "grouplist.tpl",
-    "group_item" => "groupitem.tpl"
+    "group_list_page" => "grouplist.tpl"
     ) );
+
+$t->set_block( "group_list_page", "group_item_tpl", "group_item" );
 
 $group = new eZUserGroup();
 
@@ -52,7 +53,7 @@ foreach( $groupList as $groupItem )
     $t->set_var( "group_name", $groupItem->name() );
     $t->set_var( "group_description", $groupItem->description() );
 
-    $t->parse( "group_list", "group_item", true );
+    $t->parse( "group_item", "group_item_tpl", true );
     $i++;
 }
 

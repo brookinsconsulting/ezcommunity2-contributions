@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.5 2000/10/16 12:42:56 ce-cvs Exp $
+// $Id: groupedit.php,v 1.6 2000/10/25 16:44:19 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -125,7 +125,7 @@ if ( $Action == "update" )
 }
 
 // Template
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/groupedit/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
 $DOC_ROOT . "/admin/" . "/intl", $Language, "groupedit.php" );
 $t->setAllStrings();
 

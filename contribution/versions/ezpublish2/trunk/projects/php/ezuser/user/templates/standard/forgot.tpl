@@ -16,7 +16,7 @@
 	<input type="text" size="8" name="Login"/>
 	<br />
 	<br />
-	<input type="submit" value="OK" />
+	<input type="submit" value="{intl-ok}" />
 	</form>
 	</td>
 </tr>

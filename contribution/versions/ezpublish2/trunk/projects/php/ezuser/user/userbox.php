@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.1 2000/10/25 07:59:56 ce-cvs Exp $
+// $Id: userbox.php,v 1.2 2000/10/25 16:44:19 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -31,7 +31,7 @@ $user = eZUser::currentUser();
 if ( !$user ) 
 {
     $t = new eZTemplate( "ezuser/user/" .  $ini->read_var( "eZUserMain", "TemplateDir" ),
-    "ezuser/user/intl", $Language, "login.php" );
+    "ezuser/user/intl", $Language, "userbox.php" );
     $t->setAllStrings();
 
     $t->set_file( array(

@@ -1,6 +1,6 @@
 <form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
 
-<h1>Registrer ny bruker</h1>
+<h1>{intl-headline}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -69,7 +69,7 @@
 <hr noshade="noshade" size="4" />
 
 <input type="hidden" name="UserID" value="{user_id}" />
-<input class="okbutton" type="submit" value="OK" />
+<input class="okbutton" type="submit" value="{intl-ok}" />
 
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>

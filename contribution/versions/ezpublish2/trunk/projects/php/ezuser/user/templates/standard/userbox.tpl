@@ -6,9 +6,9 @@
 <tr>
 	<td>
 	<form method="post" action="/user/login/logout/">
-	<b>Innlogget bruker:</b>
+	<b>{intl-userlogin}</b>
 	{first_name} {last_name}
-	<input type="submit" value="Logg ut" /><br>
+	<input type="submit" value="{intl-logout}" /><br>
         <a href="/user/user/edit/{user_id}/">{intl-change_user_info}</a>
         </form>
 	</td>

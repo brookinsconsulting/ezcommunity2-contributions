@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: passwordchange.php,v 1.3 2000/10/08 13:54:21 bf-cvs Exp $
+// $Id: passwordchange.php,v 1.4 2000/10/25 16:44:19 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -30,12 +30,12 @@ include_once( "ezsession/classes/ezsession.php" );
 require( "ezuser/admin/admincheck.php" );
 
 // Template
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/passwordchange/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      $DOC_ROOT . "/admin/" . "/intl", $Language, "passwordchange.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "change" => "change.tpl"
+    "change" => "passwordchange.tpl"
     ) );
 
 $user = eZUser::currentUser();
