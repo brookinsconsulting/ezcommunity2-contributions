@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.41 2001/03/01 14:06:26 jb Exp $
+// $Id: productedit.php,v 1.42 2001/03/07 11:51:38 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -453,8 +453,10 @@ $t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 $t->set_block( "product_edit_tpl", "shipping_select_tpl", "shipping_select" );
 
 $t->set_block( "product_edit_tpl", "price_group_list_tpl", "price_group_list" );
-$t->set_block( "price_group_list_tpl", "price_group_header_item_tpl", "price_group_header_item" );
-$t->set_block( "price_group_list_tpl", "price_group_item_tpl", "price_group_item" );
+$t->set_block( "price_group_list_tpl", "price_groups_item_tpl", "price_groups_item" );
+$t->set_block( "price_groups_item_tpl", "price_group_header_item_tpl", "price_group_header_item" );
+$t->set_block( "price_groups_item_tpl", "price_group_item_tpl", "price_group_item" );
+$t->set_block( "price_group_list_tpl", "price_groups_no_item_tpl", "price_groups_no_item" );
 
 $t->setAllStrings();
                
@@ -614,6 +616,8 @@ foreach ( $groups as $group )
 // Show price groups
 
 $t->set_var( "price_group_list", "" );
+$t->set_var( "price_groups_item", "" );
+$t->set_var( "price_groups_no_item", "" );
 
 if ( $ShowPriceGroups )
 {
@@ -636,6 +640,8 @@ if ( $ShowPriceGroups )
     }
     $PriceGroup = $prices;
     $PriceGroupID = $price_ids;
+    $t->set_var( "price_group_header_item", "" );
+    $t->set_var( "price_group_item", "" );
     for ( $i = 0; $i < count( $PriceGroup ); $i++ )
     {
         $t->set_var( "price_group_name", $price_names[$i] );
@@ -645,6 +651,10 @@ if ( $ShowPriceGroups )
         $t->set_var( "price_group_id", $PriceGroupID[$i] );
         $t->parse( "price_group_item", "price_group_item_tpl", true );
     }
+    if ( count( $price_groups ) > 0 )
+        $t->parse( "price_groups_item", "price_groups_item_tpl" );
+    else
+        $t->parse( "price_groups_no_item", "price_groups_no_item_tpl" );
     $t->parse( "price_group_list", "price_group_list_tpl" );
 }
 
