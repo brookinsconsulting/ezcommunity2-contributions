@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.18 2001/07/15 16:55:44 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.19 2001/07/18 14:54:30 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -163,6 +163,7 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "strong_tpl", "strong"  );
         $this->Template->set_block( "articletags_tpl", "factbox_tpl", "factbox"  );
         $this->Template->set_block( "articletags_tpl", "quote_tpl", "quote"  );
+        $this->Template->set_block( "articletags_tpl", "pre_tpl", "pre"  );
 
         // lists
         $this->Template->set_block( "articletags_tpl", "bullet_tpl", "bullet"  );
@@ -630,6 +631,7 @@ class eZQDomrenderer
             case "strong" :
             case "factbox" :
             case "quote" :
+            case "pre" :
             {
                 $tmpContent = "";
                 if ( count( $paragraph->children ) )
@@ -669,6 +671,10 @@ class eZQDomrenderer
                     case "quote" :
                         $this->Template->set_var( "contents", trim( $tmpContent ) );
                         $pageContent = trim( $this->Template->parse( "quote", "quote_tpl" ) );
+                    break;
+                    case "pre" :
+                        $this->Template->set_var( "contents", trim( $tmpContent ) );
+                        $pageContent = trim( $this->Template->parse( "pre", "pre_tpl" ) );
                     break;
                 }
                 

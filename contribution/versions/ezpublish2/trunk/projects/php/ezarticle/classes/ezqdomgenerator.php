@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.13 2001/07/13 12:02:54 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.14 2001/07/18 14:54:30 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -526,6 +526,12 @@ class eZQDomGenerator
                 case "quote" :
                 {                        
                     $pageContent .= "<quote>" . $tmpContent . "</quote>";
+                }
+                break;
+
+                case "pre" :
+                {                        
+                    $pageContent .= "<pre>" . $tmpContent . "</pre>";
                 }
                 break;
             }

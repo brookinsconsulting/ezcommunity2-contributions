@@ -1,5 +1,4 @@
 <?
-
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -10,6 +9,7 @@ $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
 
 $GlobalSectionID = $ini->read_var( "eZArticleMain", "DefaultSection" );
+
 
 switch ( $url_array[2] )
 {

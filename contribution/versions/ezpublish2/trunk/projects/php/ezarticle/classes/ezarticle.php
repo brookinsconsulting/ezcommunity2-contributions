@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.124 2001/07/16 15:26:11 jb Exp $
+// $Id: ezarticle.php,v 1.125 2001/07/18 14:54:30 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -211,7 +211,6 @@ class eZArticle
                     print( "Error updating informix text blob" );
                     die();
                 }
-
 
                 $blobIDArray[] = $bid;
                 $db->setBlobArray( $blobIDArray );
@@ -706,7 +705,71 @@ class eZArticle
         // remove newlines        
         $keywords = str_replace ("\n", "", $keywords );
         $keywords = str_replace ("\r", "", $keywords );
-        $this->Keywords = $keywords;
+        $this->Keywords = $keywords;        
+    }
+    
+    /*!
+      \private
+      will index the article keywords and name for fulltext search.
+    */
+    function createIndex()
+    {
+        $str = $this->Keywords;
+        $str .= " " . $this->Name;
+
+        $str = preg_replace("(\s+)", " ", $str );
+
+        $words = explode( " ", $str );
+
+
+        
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        $ret[] = $db->query( "DELETE FROM  eZArticle_ArticleWordLink WHERE ArticleID='$this->ID'" );
+        
+        foreach ( $words as $word )
+        {
+            $indexWord = strtolower($word);
+
+            $indexWord = $db->escapeString( $indexWord );
+
+            $db->begin( );        
+
+            $query = "SELECT ID FROM eZArticle_Word
+                      WHERE Word='$indexWord'";
+
+            $db->array_query( $word_array, $query );
+
+            if ( count( $word_array ) == 1 )
+            {
+                // word exists create reference
+                $wordID = $word_array[0][$db->fieldName("ID")];
+                
+                $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
+                                      ( '$this->ID',
+                                        '$wordID' )" );
+            }
+            else
+            {
+                // lock the table
+                $db->lock( "eZArticle_Word" );
+
+                // new word, create word
+                $nextID = $db->nextID( "eZArticle_Word", "ID" );
+                $ret[] = $db->query( "INSERT INTO eZArticle_Word ( ID, Word ) VALUES
+                                      ( '$nextID',
+                                        '$indexWord' )" );
+                $db->unlock();
+
+                $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
+                                      ( '$this->ID',
+                                        '$nextID' )" );
+                
+            }            
+        }
+        eZDB::finish( $ret, $db );            
+        
     }
     
     /*!
@@ -1441,12 +1504,12 @@ class eZArticle
         $queryText = $db->escapeString( $queryText );
         
         // Build the ORDER BY
-        $OrderBy = "Article.Published DESC";
+        $OrderBy = "eZArticle_Article.Published DESC";
         switch( $sortMode )
         {
             case "alpha" :
             {
-                $OrderBy = "Article.Name DESC";
+                $OrderBy = "eZArticle_Article.Name DESC";
             }
             break;
         }
@@ -1457,7 +1520,7 @@ class eZArticle
         }
         else
         {
-            $fetchText = "AND Article.IsPublished = '1'";
+            $fetchText = "AND eZArticle_Article.IsPublished = '1'";
         }
 
         $user =& eZUser::currentUser();
@@ -1474,33 +1537,50 @@ class eZArticle
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= " Permission.GroupID=$group OR";
+                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
                 else
-                    $groupSQL .= " Permission.GroupID=$group OR";
+                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
                
                 $i++;
             }
             $currentUserID = $user->id();
-            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
+            $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
         }
 
-        // Build the search
-        $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
-        $search = $query->buildQuery();
+        $queryArray = explode( " ", trim( $queryText ) );
 
-        $queryString = "SELECT DISTINCT Article.ID AS ArticleID, Article.Published, Article.Name
-                 FROM eZArticle_Article AS Article,
-                      eZArticle_ArticleCategoryLink AS Link,
-                      eZArticle_ArticlePermission AS Permission
+        $i = 0;
+        $searchSQL = "";
+        foreach ( $queryArray as $word )
+        {
+            if ( $i > 0 and $i < count( $queryArray ) )
+                $searchSQL .= " OR ";
+
+            $searchSQL .= " eZArticle_Word.Word='$word' ";
+            
+            $i++;
+        }
+
+        $queryString = "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
+                 FROM eZArticle_Article,
+                      eZArticle_ArticleWordLink,
+                      eZArticle_Word,
+                      eZArticle_ArticleCategoryLink,
+                      eZArticle_ArticlePermission
                  WHERE
-                       Permission.ObjectID=Article.ID
-                       AND $search
-                       AND Link.ArticleID=ArticleID AND
-                       ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
-                       $fetchText 
-
+                       $searchSQL                      
+                       AND
+                       ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
+                         AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
+                         $fetchText
+                         AND eZArticle_ArticleCategoryLink.ArticleID=eZArticle_Article.ID AND
+                          ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
+                            AND eZArticle_ArticlePermission.ReadPermission='1'
+                          )
+                        ) 
                        ORDER BY $OrderBy";
-
+        
         $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );        
 
         for ( $i=0; $i < count($article_array); $i++ )
@@ -1542,20 +1622,37 @@ class eZArticle
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= " Permission.GroupID=$group OR";
+                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
                 else
-                    $groupSQL .= " Permission.GroupID=$group OR";
+                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
                
                 $i++;
             }
             $currentUserID = $user->id();
-            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
+            $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
         }
 
-        // Build the search
-        $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
-        $search = $query->buildQuery();
 
+        $queryString = "SELECT count(eZArticle_Article.ID) AS Count
+                 FROM eZArticle_Article,
+                      eZArticle_ArticleWordLink,
+                      eZArticle_Word,
+                      eZArticle_ArticleCategoryLink,
+                      eZArticle_ArticlePermission
+                 WHERE
+                       eZArticle_Word.Word='$queryText'
+                       AND
+                       ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
+                         AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
+                         $fetchText
+                         AND eZArticle_ArticleCategoryLink.ArticleID=eZArticle_Article.ID AND
+                          ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
+                            AND eZArticle_ArticlePermission.ReadPermission='1'
+                          )
+                        ) ";
+        
+        /*
         $queryString = "SELECT COUNT(DISTINCT Article.ID) AS Count
                  FROM eZArticle_Article AS Article,
                       eZArticle_ArticleCategoryLink AS Link,
@@ -1569,6 +1666,7 @@ class eZArticle
                        AND Link.ArticleID=ArticleID
                        GROUP BY ArticleID
                        ";
+        */
 
         $db->query_single( $count, $queryString, array( "LIMIT" => 1 ) );
 
@@ -1652,7 +1750,7 @@ class eZArticle
     /*!
       Returns every article in every category sorted by time.
     */
-    function &articles( $sortMode=time,
+    function &articles( $sortMode="time",
     $fetchNonPublished=true,
     $offset=0,
     $limit=50 )
@@ -2198,6 +2296,30 @@ class eZArticle
         return $ret_array;
     }
 
+    /*!
+      Returns all the articles in the database.
+      
+      The articles are returned as an array of eZArticle objects.
+    */
+    function &getAll( )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $articleArray = array();
+
+        $db->array_query( $articleArray, "SELECT ID
+                                          FROM eZArticle_Article
+                                          " );
+
+        for ( $i=0; $i < count($articleArray); $i++ )
+        {
+            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+        }
+
+        return $returnArray;
+    }
+    
     /*!
       Returns all the articles that is valid now.
       

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.10 2001/04/26 14:08:31 th Exp $
+// $Id: search.php,v 1.11 2001/07/18 14:54:30 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -48,9 +48,7 @@ $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "Templ
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "article_list_page_tpl" => "search.tpl"
-    ) );
+$t->set_file( "article_list_page_tpl", "search.tpl" );
 
 // article
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
@@ -73,6 +71,7 @@ if ( $SearchText )
 {
     $article = new eZArticle();
     $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit );
+
     $totalCount = $article->searchCount( $SearchText, "time", false );
 
     $t->set_var( "url_text", urlencode ( $SearchText ) );

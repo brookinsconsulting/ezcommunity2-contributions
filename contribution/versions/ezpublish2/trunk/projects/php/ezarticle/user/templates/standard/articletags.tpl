@@ -120,3 +120,9 @@
 {contents}
 </blockquote>
 <!-- END quote_tpl -->
+
+<!-- BEGIN pre_tpl -->
+<pre>
+{contents}
+</pre>
+<!-- END pre_tpl -->

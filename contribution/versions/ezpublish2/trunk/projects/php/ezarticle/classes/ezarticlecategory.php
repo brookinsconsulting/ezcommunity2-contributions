@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.71 2001/07/11 14:15:15 bf Exp $
+// $Id: ezarticlecategory.php,v 1.72 2001/07/18 14:54:30 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -872,8 +872,15 @@ class eZArticleCategory
                         AND Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                  ORDER BY $OrderBy";
-            
-       $db->array_query( $article_array, $query, array ( "Limit" => $limit, "Offset" => $offset ) );
+
+       if ( $limit == -1 )
+       {
+           $db->array_query( $article_array, $query );
+       }
+       else
+       {
+           $db->array_query( $article_array, $query, array ( "Limit" => $limit, "Offset" => $offset ) );
+       }
  
        for ( $i=0; $i < count($article_array); $i++ )
        {
