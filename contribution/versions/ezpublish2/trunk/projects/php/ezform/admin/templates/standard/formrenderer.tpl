@@ -26,12 +26,14 @@
 <!-- BEGIN radiobox_item_sub_item_tpl -->
 {sub_value}: <input type="radio" value="{sub_value}" name="{field_name}" />
 <!-- END radiobox_item_sub_item_tpl -->
+<br /><br />
 <!-- END radiobox_item_tpl -->
 
 <!-- BEGIN checkbox_item_tpl -->
 <!-- BEGIN checkbox_item_sub_item_tpl -->
 {sub_value}: <input type="checkbox" value="{sub_value}" name="{field_name}[]" />
 <!-- END checkbox_item_sub_item_tpl -->
+<br /><br />
 <!-- END checkbox_item_tpl -->
 
 
@@ -62,16 +64,22 @@
 <br /><br />
 
 <!-- END form_sender_tpl -->
-
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
 <!-- BEGIN form_item_tpl -->
-<span class="boxtext">
+<p class="boxtext">
 {element_name}:
-</span>
+</p>
 {element}
 <!-- BEGIN break_tpl -->
-	<br /><br />
+	</td>
+	<td>
 <!-- END break_tpl -->
 <!-- END form_item_tpl -->
+	</td>
+</tr>
+</table>
 <!-- BEGIN form_buttons_tpl -->
 <hr noshade="noshade" size="4" />
 
