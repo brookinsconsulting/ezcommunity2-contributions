@@ -168,7 +168,7 @@
 <tr>
     <td>
 <!--       <p class="boxtext">{logo_name}:</p> -->
-       <img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+       <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" />
         </td>
     <td>
    	<p class="boxtext">{intl-logo}:</p>
