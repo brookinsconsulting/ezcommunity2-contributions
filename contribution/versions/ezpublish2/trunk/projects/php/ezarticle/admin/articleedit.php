@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.112 2001/08/28 09:58:33 bf Exp $
+// $Id: articleedit.php,v 1.113 2001/09/03 12:18:37 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -696,8 +696,8 @@ foreach ( $treeArray as $catItem )
         $t->set_var( "option_value", $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
 
-        if ( $catItem[1] > 0 )
-            $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+        if ( $catItem[1] > 1 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
         else
             $t->set_var( "option_level", "" );
 

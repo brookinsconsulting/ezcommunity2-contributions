@@ -55,7 +55,7 @@
 	<select name="CategoryID">
 
 	<!-- BEGIN value_tpl -->
-	<option value="{option_value}" {selected}>{option_name}</option>
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
 	<!-- END value_tpl -->
 	
 	</select>
