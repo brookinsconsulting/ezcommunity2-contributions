@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.1 2000/10/10 13:17:57 bf-cvs Exp $
+// $Id: userwithaddress.php,v 1.2 2000/10/10 14:07:02 bf-cvs Exp $
 //
 // 
 //
@@ -22,6 +22,7 @@ $Language = $ini->read_var( "eZUserMain", "Language" );
 $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 
 if ( $Action == "Insert" )
@@ -49,6 +50,13 @@ if ( $Action == "Insert" )
 
                 $user->store();
 
+                // add user to usergroup
+                setType( $AnonymousUserGroup, "integer" );
+                
+                $group = new eZUserGroup( $AnonymousUserGroup );
+                $group->addUser( $user );
+                
+
                 $address = new eZAddress();
                 $address->setStreet1( $Street1 );
                 $address->setStreet2( $Street2 );
@@ -57,9 +65,10 @@ if ( $Action == "Insert" )
 
                 $address->store();
 
+                // add the address to the user.
                 $user->addAddress( $address );
 
-                $user->loginUser( $user );     
+                $user->loginUser( $user );
                 
                 Header( "Location: $RedirectURL" );
             }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.14 2000/10/08 13:07:10 bf-cvs Exp $
+// $Id: ezaddress.php,v 1.15 2000/10/10 14:07:02 bf-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -66,6 +66,7 @@ class eZAddress
                     SET Street1='$this->Street1',
                     Street2='$this->Street2',
                     Zip='$this->Zip',
+                    Place='$this->Place',
                     AddressType='$this->AddressType'" );            
 
             $this->ID = mysql_insert_id();
@@ -79,6 +80,7 @@ class eZAddress
                     SET Street1='$this->Street1',
                     Street2='$this->Street2',
                     Zip='$this->Zip',
+                    Place='$this->Place',
                     AddressType='$this->AddressType'
                     WHERE ID='$this->ID'" );            
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.7 2000/10/10 13:17:57 bf-cvs Exp $
+// $Id: ezuser.php,v 1.8 2000/10/10 14:07:02 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -51,6 +51,8 @@
 */
 
 include_once( "classes/ezdb.php" );
+
+include_once( "ezcontact/classes/ezaddress.php" );
 
 class eZUser
 {
@@ -465,6 +467,29 @@ class eZUser
                                 SET UserID='$this->ID', AddressID='$addressID'" );
            
        }
+    }
+
+    /*!
+      Returns the addresses a user has. It is returned as an array of eZAddress objects.      
+    */
+    function addresses()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       
+       $this->dbInit();
+       
+       $this->Database->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
+                                WHERE UserID='$this->ID'" );
+
+       foreach ( $address_array as $address )
+       {
+           $ret[] = new eZAddress( $address["AddressID"] );
+       }
+
+       return $ret;
     }
       
     
