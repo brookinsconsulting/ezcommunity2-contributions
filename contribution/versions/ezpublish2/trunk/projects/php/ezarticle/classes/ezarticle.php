@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.143 2001/08/15 11:02:30 ce Exp $
+// $Id: ezarticle.php,v 1.144 2001/08/15 14:45:52 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -597,7 +597,7 @@ class eZArticle
     function isPublished()
     {
         $ret = false;
-        if ( $this->IsPublished == "1" )
+        if ( ( $this->IsPublished == "1" ) || ( $this->IsPublished == "2" ) )
         {
             $ret = true;
         }
@@ -1112,7 +1112,18 @@ class eZArticle
     */
     function setIsPublished( $value )
     {
-        if ( $value == true )
+        $category = $this->categoryDefinition();
+        $editorID = $category->editorGroup( false );
+
+        if ( is_numeric ( $editorID ) && ( $editorID > 0 ) )
+        {
+            $group = new eZUserGroup();
+            if ( $group->isMember( eZUser::currentUser() ) )
+                $this->IsPublished = "1";
+            else
+                $this->IsPublished = "2;
+        }
+        else if ( $value == true )
         {
             $this->IsPublished = "1";
         }
@@ -1855,7 +1866,7 @@ class eZArticle
     /*!
       Returns the number of articles available, for the current user.
     */
-    function articleCount( $fetchNonPublished=true )
+    function articleCount( $fetchNonPublished=true, $excludeFromSearch=false )
     {
         $db =& eZDB::globalDatabase();
 
@@ -1892,6 +1903,9 @@ class eZArticle
             }
             $currentUserID = $user->id();
             $currentUserSQL = "Article.AuthorID=$currentUserID OR";
+            
+            if ( $user->hasRootAccess() )
+                $usePermission = false;
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
@@ -1899,7 +1913,6 @@ class eZArticle
            $permissionSQL = "( ( $loggedInSQL CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
        else
            $permissionSQL = "";
-
 
        // fetch only published articles
        if ( $fetchNonPublished  == true )  
@@ -1918,6 +1931,20 @@ class eZArticle
                $publishedSQL = " AND Article.IsPublished = '1' AND ";
        }
 
+       // fetch only published articles
+       if ( $fetchNonPublished  == "pending" )  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '2' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '2' AND ";
+       }
+
+       if ( $excludeFromSearch )
+           $excludeSQL = " AND Category.ExcludeFromSearch = '0'";
+       else
+           $excludeSQL = "";
+           
         $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article AS Article,
@@ -1933,7 +1960,8 @@ class eZArticle
                         AND Category.ID=Link.CategoryID
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
-                        AND Category.ExcludeFromSearch = '0'";
+                        $excludeSQL ";
+
 
         $db->array_query( $article_array, $query  );
 
@@ -1984,7 +2012,7 @@ class eZArticle
             $currentUserSQL = "Article.AuthorID=$currentUserID OR";
 
             if ( $user->hasRootAccess() )
-                $usePermisson = false;
+                $usePermission = false;
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
@@ -1992,23 +2020,37 @@ class eZArticle
            $permissionSQL = "( ( $loggedInSQL CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
        else
            $permissionSQL = "";
-        
+
        // fetch only published articles
-       if ( $fetchNonPublished  == false )  
-       {
-           if ( $permissionSQL == "" )
-               $publishedSQL = " Article.IsPublished = '1' AND ";
-           else
-               $publishedSQL = " AND Article.IsPublished = '1' AND ";
-       }
-       // fetch only non-published articles
-       else                                  
+       if ( $fetchNonPublished  == true )  
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '0' AND ";
            else
                $publishedSQL = " AND Article.IsPublished = '0' AND ";
        }
+       // fetch only non-published articles
+       else                                  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '1' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '1' AND ";
+       }
+
+       // fetch only published articles
+       if ( $fetchNonPublished  == "pending" )  
+       {
+           if ( $permissionSQL == "" )
+               $publishedSQL = " Article.IsPublished = '2' AND ";
+           else
+               $publishedSQL = " AND Article.IsPublished = '2' AND ";
+       }
+
+       if ( $excludeFromSearch )
+           $excludeSQL = " AND Category.ExcludeFromSearch = '0'";
+       else
+           $excludeSQL = "";
 
         $query = "SELECT DISTINCT Article.ID as ArticleID, Article.Published, Article.Name
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
@@ -2022,11 +2064,11 @@ class eZArticle
                         Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                         AND Category.ID=Link.CategoryID
-                        AND Category.ExcludeFromSearch = '0'
+                        $excludeSQL
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
                  ORDER BY $OrderBy";
-       
+
         $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset )  );
 
         for ( $i=0; $i < count($article_array); $i++ )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.78 2001/08/15 06:56:46 ce Exp $
+// $Id: ezarticlecategory.php,v 1.79 2001/08/15 14:45:52 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -79,7 +79,7 @@ class eZArticleCategory
             $res = $db->query( "INSERT INTO eZArticle_Category
             ( ID, Name, Description, ExcludeFromSearch,
               SortMode, Placement, OwnerID, SectionID,
-              ImageID,ParentID )
+              ImageID, ParentID, EditorGroupID )
             VALUES
             ( '$nextID',
               '$name',
@@ -90,7 +90,8 @@ class eZArticleCategory
               '$this->OwnerID',
               '$this->SectionID',
               '$this->ImageID',
-              '$this->ParentID' )" );
+              '$this->ParentID',
+              '$this->EditorGroupID')" );
             
 			$this->ID = $nextID;
         }
@@ -105,6 +106,7 @@ class eZArticleCategory
                                  OwnerID='$this->OwnerID',
                                  SectionID='$this->SectionID',
                                  ImageID='$this->ImageID',
+                                 EditorGroupID='$this->EditorGroupID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
 
@@ -185,6 +187,7 @@ class eZArticleCategory
                 $this->Placement = $category_array[0][$db->fieldName("Placement")];
                 $this->SectionID = $category_array[0][$db->fieldName("SectionID")];
                 $this->ImageID = $category_array[0][$db->fieldName("ImageID")];
+                $this->EditorGroupID = $category_array[0][$db->fieldName("EditorGroupID")];
                 $ret = true;
             }
         }
@@ -334,7 +337,7 @@ class eZArticleCategory
                 $currentUserID = $user->id();
 
                 if ( $user->hasRootAccess() )
-                    $usePermisson = false;
+                    $usePermission = false;
             }
 
             if ( $usePermission )
@@ -408,7 +411,7 @@ class eZArticleCategory
                 $loggedInSQL = "Article.AuthorID=$currentUserID OR";
 
                 if ( $user->hasRootAccess() )
-                    $usePermisson = false;
+                    $usePermission = false;
             }
 
             if ( $usePermission )
@@ -589,6 +592,23 @@ class eZArticleCategory
     }
 
     /*!
+      Returns the editor group if one exist. If not 0 is returned.
+    */
+    function editorGroup( $as_object = true )
+    {
+       if ( !$as_object )
+           return $this->EditorGroupID;
+       else if ( $this->EditorGroupID != 0 )
+       {
+           return new eZUserGroup( $this->EditorGroupID );
+       }
+       else
+       {
+           return 0;           
+       }
+    }
+
+    /*!
       Returns the creator of this category. Returns only the ID if given parameter is false.
      */
     function owner( $as_object = true )
@@ -748,6 +768,22 @@ class eZArticleCategory
        }
     }
 
+    /*!
+      Sets the editor group.
+    */
+    function setEditorGroup( $value )
+    {
+       if ( get_class( $value ) == "ezusergroup" )
+       {
+           $this->EditorGroupID = $value->id();
+       }
+       else
+       {
+           $this->EditorGroupID = $value;
+           setType( $this->EditorGroupID, "integer" );
+           
+       }
+    }
 
     /*!
       Sets the owner of this category.
@@ -947,8 +983,8 @@ class eZArticleCategory
            $currentUserID = $user->id();
            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
 
-           if ( $user->hasRootAccess() )
-               $usePermisson = false;
+           if ( $user->usePermission() )
+               $usePermission = false;
        }
 
        if ( $usePermission )
@@ -995,6 +1031,7 @@ class eZArticleCategory
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
                  ORDER BY $OrderBy";
+
 
        if ( $limit == -1 )
        {
@@ -1068,7 +1105,7 @@ class eZArticleCategory
            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
 
            if ( $user->hasRootAccess() )
-               $usePermisson = false;
+               $usePermission = false;
        }
 
        if ( $usePermission )
@@ -1280,7 +1317,7 @@ class eZArticleCategory
     var $Placement;
     var $SectionID;
     var $ImageID;
-    
+    var $EditorGroupID;
 }
 
 ?>

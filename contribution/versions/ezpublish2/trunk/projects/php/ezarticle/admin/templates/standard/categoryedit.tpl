@@ -103,6 +103,21 @@
 	<!--    <input type="checkbox" name="Recursive" /> -->
 	</td>
 </tr>
+<tr>
+        <td>&nbsp;</td>
+</tr>
+<tr>
+
+	<td>
+	<p class="boxtext">{intl-editor_group}:</p>
+	<select name="EditorGroupID" size="7">
+	<option value="0" {no_selected}>{intl-do_not_use_editor}</option>
+        <!-- BEGIN editor_group_item_tpl -->
+	<option value="{editor_group_id}" {editor_selected}>{editor_group_name}</option>
+	<!-- END editor_group_item_tpl -->
+	</select>
+	</td>
+</tr>
 </table>
 
 <br />

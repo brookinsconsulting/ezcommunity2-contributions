@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.16 2001/07/19 12:19:21 jakobn Exp $
+// $Id: headlines.php,v 1.17 2001/08/15 14:45:52 ce Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -65,7 +65,8 @@ if ( !isset( $HeadlineOffset ) )
 	$HeadlineOffset = 0;
 }
 
-$category = new eZArticleCategory( $CategoryID );
+// $category = new eZArticleCategory( $CategoryID );
+$category = new eZArticleCategory( 98 );
 
 if ( $CategoryID == 0 )
 {
@@ -122,9 +123,6 @@ foreach ( $articleList as $article )
     {
         $t->set_var( "current_image_item", "" );
     }
-    
-    
-    
 
     $published =& $article->published();
     $date =& $published->date();

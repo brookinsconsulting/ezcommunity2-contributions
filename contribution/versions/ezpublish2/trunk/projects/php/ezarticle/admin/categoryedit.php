@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.26 2001/08/14 10:14:19 bf Exp $
+// $Id: categoryedit.php,v 1.27 2001/08/15 14:45:52 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -89,7 +89,8 @@ if ( $Action == "insert" && !$error )
 
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
-    
+    $category->setEditorGroup( $EditorGroupID );
+
     $category->setSortMode( $SortMode );
     
     if ( $ExcludeFromSearch == "on" )
@@ -214,10 +215,9 @@ if ( $Action == "update" && !$error )
         $category->setParent( 0 );
     }
         
-        
-
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
+    $category->setEditorGroup( $EditorGroupID );
 
     $category->setSortMode( $SortMode );
 
@@ -364,6 +364,7 @@ $t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "category_owner_tpl", "category_owner" );
 $t->set_block( "category_edit_tpl", "group_item_tpl", "group_item" );
+$t->set_block( "category_edit_tpl", "editor_group_item_tpl", "editor_group_item" );
 $t->set_block( "category_edit_tpl", "bulkmail_category_item_tpl", "bulkmail_category_item" );
 $t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit_tpl", "error_permission_tpl", "error_permission" );
@@ -453,6 +454,8 @@ if ( $Action == "edit" )
     $writeGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_category", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_category", 'r', false );
 
+    $editorGroupID = $category->editorGroup( false );
+
     if( $writeGroupsID[0] != -1 )
         $t->set_var( "all_write_selected", "" );
     if( $readGroupsID[0] != -1 )
@@ -525,6 +528,22 @@ foreach( $groupList as $groupItem )
         $t->set_var( "selected", "" );
         
     $t->parse( "group_item", "group_item_tpl", true );
+
+    /* for the editor groups selector */
+    $t->set_var( "editor_group_name", $groupItem->name() );
+    $t->set_var( "editor_group_id", $groupItem->id() );
+
+    if ( $editorGroupID != 0 )
+    {
+        if( $groupItem->id() == $editorGroupID )
+            $t->set_var( "editor_selected", "selected" );
+        else
+            $t->set_var( "editor_selected", "" );
+    }
+    else
+        $t->set_var( "no_selected", "selected" );
+
+    $t->parse( "editor_group_item", "editor_group_item_tpl", true );
 }
 
 $sectionList =& eZSection::getAll();

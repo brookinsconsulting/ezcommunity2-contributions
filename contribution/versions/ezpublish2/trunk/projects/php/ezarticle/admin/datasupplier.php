@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.50 2001/08/08 12:34:52 jhe Exp $
+// $Id: datasupplier.php,v 1.51 2001/08/15 14:45:52 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -78,6 +78,21 @@ switch ( $url_array[2] )
         if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
             eZArticleCategory::isOwner( $user, $CategoryID) )
             include( "ezarticle/admin/unpublishedlist.php" );
+    }
+    break;
+
+    case "pendinglist":
+    {
+        $CategoryID = $url_array[3];
+        if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
+            $CategoryID = 0;
+
+        if ( $url_array[4] == "parent" )
+            $Offset = $url_array[5];
+
+        if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
+            eZArticleCategory::isOwner( $user, $CategoryID) )
+            include( "ezarticle/admin/pendinglist.php" );
     }
     break;
 
@@ -498,8 +513,6 @@ switch ( $url_array[2] )
 
     default :
     {
-        echo $url_array[2] . " " . $url_array[3] . " ";
-        exit();
         eZHTTPTool::header( "Location: /error/404" );
         exit();
     }
