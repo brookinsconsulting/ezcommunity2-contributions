@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.20 2001/09/28 08:03:17 jhe Exp $
+// $Id: filedownload.php,v 1.21 2001/11/14 15:52:02 ce Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -51,60 +51,60 @@ if ( get_class( $GlobalPageView ) != "ezpageview" )
     $GlobalPageView->store();
 }
 
-$originalFileName = str_replace( " ", "%20", $originalFileName );
-
 // store the statistics
 $file->addPageView( $GlobalPageView );
- 
+
 $filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
- 
-//  print( $filePath );
 
-//print( "Location: /filemanager/filedownload/$filePath/$originalFileName"  );
-//exit();
+$originalFileName = str_replace( " ", "%20", $originalFileName );
 
-
-// $host = $SERVER_NAME;
-// $location = "Location: http://" . $SERVER_NAME . ":" . $SERVER_PORT . "/" . $wwwDir . $index . "filemanager/filedownload/$filePath/$originalFileName";
-
-
-// print( $location );
-// Header( $location );
-
-// Rewrote to be compatible with virtualhost-less install
-$size = eZFile::filesize( "ezfilemanager/files/$filePath" );
-
-$nameParts = explode( ".", $originalFileName  );
-$suffix = $nameParts[count( $nameParts ) - 1];
-
-// clear what might be in the output buffer and stop the buffer.
-ob_end_clean();
-
-switch ( $suffix )
+if ( $ini->read_var( "eZFileManagerMain", "DownloadWithReWrite" ) == "enabled" )
 {
-    case "doc" :
-        header( "Content-Type: application/msword" );
-        break;
-    case "ppt" :
-        header( "Content-Type: application/vnd.ms-powerpoint" );
-        break;
-    case "xls" :
-        header( "Content-Type: application/vnd.ms-excel" );
-        break;    
-    case "pdf" :
-        header( "Content-Type: application/pdf" );
-        break;
-    default :        
-        header( "Content-Type: application/octet-stream" );
-        break;
+    $host = $SERVER_NAME;
+
+    $location = "Location: http://$host/filemanager/filedownload/$filePath/$originalFileName";
+
+    Header( $location );
+    exit();
 }
+else
+{
 
-header( "Content-Length: $size" );
-header( "Content-Disposition: attachment; filename=$originalFileName" );
-header( "Content-Transfer-Encoding: binary" );
+    
+// Rewrote to be compatible with virtualhost-less install
+    $size = eZFile::filesize( "ezfilemanager/files/$filePath" );
+    
+    $nameParts = explode( ".", $originalFileName  );
+    $suffix = $nameParts[count( $nameParts ) - 1];
+    
+// clear what might be in the output buffer and stop the buffer.
+    ob_end_clean();
+    
+    switch ( $suffix )
+    {
+        case "doc" :
+            header( "Content-Type: application/msword" );
+            break;
+        case "ppt" :
+            header( "Content-Type: application/vnd.ms-powerpoint" );
+            break;
+        case "xls" :
+            header( "Content-Type: application/vnd.ms-excel" );
+            break;    
+        case "pdf" :
+            header( "Content-Type: application/pdf" );
+            break;
+        default :        
+            header( "Content-Type: application/octet-stream" );
+            break;
+    }
 
-$fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
-fpassthru( $fh );
-exit();
-
+    header( "Content-Length: $size" );
+    header( "Content-Disposition: attachment; filename=$originalFileName" );
+    header( "Content-Transfer-Encoding: binary" );
+    
+    $fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
+    fpassthru( $fh );
+    exit();
+}
 ?>

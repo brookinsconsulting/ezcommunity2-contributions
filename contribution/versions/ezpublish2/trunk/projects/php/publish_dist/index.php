@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.124 2001/11/14 10:05:39 bf Exp $
+// $Id: index.php,v 1.125 2001/11/14 15:52:01 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -33,6 +33,8 @@ if ( file_exists( "sitedir.ini" ) )
 {
     include_once( "sitedir.ini" );
 }
+
+// apd_set_session_trace(35);
 
 // Preparing variables for nVH setup
 if ( isSet( $siteDir ) and $siteDir != "" )
@@ -96,6 +98,23 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
+// Remove the _x from input buttons with images
+if ( $HTTP_SERVER_VARS["REQUEST_METHOD"] == "POST" )
+{
+    if ( count ( $GLOBALS["HTTP_POST_VARS"] ) > 0 )
+    {
+        while ( list ($key,$val) = each ( $GLOBALS["HTTP_POST_VARS"] ) )
+        {
+            $value = true;
+            if ( preg_match ( "/_x$/", $key ) )
+            {
+                $key =& substr( $key, 0, -2 );
+                $GLOBALS["HTTP_POST_VARS"][$key] = $value;
+                $GLOBALS[$key] = $value;
+            }
+        }
+    }
+}
 
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
@@ -151,9 +170,25 @@ if ( isSet( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS[
 {
     if ( ( !$user ) && ( $ini->read_var( "eZUserMain", "AutoCookieLogin" ) == "enabled" ) )
     {
-        eZUser::autoCookieLogin( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] );
+        eeZUser::autoCookieLogin( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] );
     }
 }
+
+if ( $HTTP_SERVER_VARS["REQUEST_METHOD"] == "POST" )
+{
+    if ( count ( $GLOBALS["HTTP_POST_VARS"] ) > 0 )
+    {
+        while ( list ($key,$val) = each ( $GLOBALS["HTTP_POST_VARS"] ) )
+        {
+            if ( preg_match ( "/_x$/", $key ) )
+            {
+                print( substr( $key, 0, -2 ) );
+//                $GLOBALS["HTTP_POST_VARS"][$key][$val];
+            }
+        }
+    }
+}
+
 
 $url_array = explode( "/", $REQUEST_URI );
 

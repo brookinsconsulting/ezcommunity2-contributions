@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.12 2001/07/20 11:42:01 jakobn Exp $
+// $Id: imageedit.php,v 1.13 2001/11/14 15:52:02 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -47,6 +47,21 @@ if ( $Action == "Insert" )
         $image = new eZImage();
         $image->setName( $Name );
         $image->setCaption( $Caption );
+
+        if ( trim( $NewPhotographerName ) != "" &&
+             trim( $NewPhotographerEmail ) != ""
+             )
+        {
+            $author = new eZAuthor( );
+            $author->setName( $NewPhotographerName );
+            $author->setEmail( $NewPhotographerEmail );
+            $author->store();
+            $image->setPhotographer( $author );
+        }
+        else
+        {
+            $image->setPhotographer( $PhotoID );
+        }
 
         $image->setImage( $file );
         
@@ -184,6 +199,7 @@ $t->set_file( array(
 
 
 $t->set_block( "image_edit_page", "image_tpl", "image" );
+$t->set_block( "image_edit_page", "photographer_item_tpl", "photographer_item" );
 
 //default values
 $t->set_var( "name_value", "" );
@@ -202,6 +218,8 @@ if ( $Action == "Edit" )
     $t->set_var( "caption_value", $image->caption() );
     $t->set_var( "action_value", "Update" );
 
+    $photographer = $image->photographer();
+    $photographerID = $photographer->id();
 
     $t->set_var( "image_alt", $image->caption() );
 
@@ -212,6 +230,24 @@ if ( $Action == "Edit" )
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
     $t->parse( "image", "image_tpl" );
+}
+
+$author = new eZAuthor();
+$authorArray = $author->getAll();
+foreach ( $authorArray as $author )
+{
+    if ( $photographerID == $author->id() )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+
+    $t->set_var( "photo_id", $author->id() );
+    $t->set_var( "photo_name", $author->name() );
+    $t->parse( "photographer_item", "photographer_item_tpl", true );
 }
 
 $product = new eZProduct( $ProductID );

@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2.x to 3.0
 ---------------------------
+* Added linkurl to articles on read more.
 * Added support system for handling e-mail support and bug repports
 * Added support for showing related consultations
 * Added support for absolute placement for categories in eZLink

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.25 2001/09/07 17:33:55 fh Exp $
+// $Id: imageedit.php,v 1.26 2001/11/14 15:52:01 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -63,7 +63,6 @@ if ( $Action == "Insert" )
         {
             $image->setPhotographer( $PhotoID );
         }
-        
         
         if( $image->checkImage( $file ) && $image->setImage( $file ) )
         {
