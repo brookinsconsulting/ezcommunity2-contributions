@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.4 2000/09/12 07:54:56 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.5 2000/09/13 09:48:49 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -143,6 +143,38 @@ class eZLocale
         // TODO: implement more options for the date and time format.
         switch ( get_class( $obj ) )
         {
+            case "ezdatetime" :
+            {
+//                print( "her ja" );
+                // Date
+                $date = $this->DateFormat;
+
+                // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
+                $date = ereg_replace( "\%d", "" . $obj->day() . "", $date );
+              
+                // m - month; i.e. "01" to "12" 
+                $date = ereg_replace( "%m", "" . $obj->month(), $date );
+
+                // Y - year, 4 digits; i.e. "1999"
+                $date = ereg_replace( "%Y", "" . $obj->year(), $date );
+
+                // Time
+                $time = $this->TimeFormat;
+                
+                // H - hour, 24-hour format; i.e. "00" to "23"
+                $time = ereg_replace( "\%H", "" . $obj->hour() . "", $time );
+                
+                // i - minutes; i.e. "00" to "59"
+                $time = ereg_replace( "\%i", "" . $obj->minute() . "", $time );
+
+                // s - seconds; i.e. "00" to "59"
+                $time = ereg_replace( "\%s", "" . $obj->second() . "", $time );
+
+                $returnString = $date . " " . $time;
+
+                break;
+
+            }
             case "ezdate" :
             {
                 $date = $this->DateFormat;
@@ -173,11 +205,6 @@ class eZLocale
                 $time = ereg_replace( "\%s", "" . $obj->second() . "", $time );                                
 
                 $returnString = $time;
-                break;
-            }
-            case "ezdatetime" :
-            {
-                
                 break;
             }
             case "ezcurrency" :

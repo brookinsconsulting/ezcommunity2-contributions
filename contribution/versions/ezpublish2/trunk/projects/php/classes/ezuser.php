@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.5 2000/09/12 07:54:56 bf-cvs Exp $
+    $Id: ezuser.php,v 1.6 2000/09/13 09:48:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -129,7 +129,8 @@ class eZUser
     {
         global $PREFIX;
         $this->openDB();
-        
+
+        print( $this->ID );
         mysql_query("UPDATE $PREFIX"."UserTable SET
                            group_id='$this->GroupId',
                            first_name='$this->FirstName',
@@ -528,7 +529,7 @@ class eZUser
         $this->openDB();
         $userId = addslashes( $userId );
         $Passwd = addslashes( $Passwd );
-        
+      
         $query_id = mysql_query( "SELECT Id FROM $PREFIX"."UserTable WHERE nick_name='$userId' AND passwd=PASSWORD('$Passwd')" )
              or die( "Feil ved henting av bruker!" );
         if ( mysql_num_rows( $query_id ) == 0)
@@ -651,6 +652,21 @@ class eZUser
             return 1;
         }
     }
+
+    //! getAll
+    /*!
+      Gets all the user informasjon from the database.
+      Returns the array in $user_array ordered by Lastname.
+    */
+    function getAll()
+    {
+        $this->openDB();
+        $user_array = 0;
+
+        array_query( $user_array, "SELECT * FROM UserTable ORDER BY last_name" );
+        return $user_array;
+    }
+
 
     function getAllUsers()
     {

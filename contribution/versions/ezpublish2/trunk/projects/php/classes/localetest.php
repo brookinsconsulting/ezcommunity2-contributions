@@ -6,9 +6,18 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/eztime.php" );
 include_once( "classes/ezdatetime.php" );
 
+$locale = new eZLocale( "no_NO" );
+
+$datetime = new eZDateTime();
+
+$datetime->setMySQLDateTime( "2000-10-07 16:45:32" );
+
+print( " blabla datotime:" . $locale->format( $datetime ) . "<br>" );
+
 $datetime = new eZDateTime();
 
 $locale = new eZLocale( "no_NO" );
+
 
 $date = new eZDate( 2000, 9, 2 );
 
