@@ -1,5 +1,5 @@
 <!-- wishlist.tpl -->
-<!-- $Id: wishlist.tpl,v 1.5 2000/12/19 11:53:40 bf Exp $ --> 
+<!-- $Id: wishlist.tpl,v 1.6 2000/12/19 12:19:52 bf Exp $ --> 
 <body onLoad="MM_preloadImages('/eztrade/user/images/slettminimrk.gif')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
@@ -14,6 +14,7 @@
 		  <th>{intl-product_image}:</th>
 		  <th>{intl-product_name}:</th>
 		  <th>{intl-product_options}:</th>
+		  <th>{intl-product_qty}:</th>
 		  <th>{intl-move_to_cart}:</th>
 		  <td align="right"><b>{intl-product_price}:</b></td>
 		  <td align="right">&nbsp;</td>
@@ -29,6 +30,10 @@
 			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
 		  <td class="{td_class}"> <a href="/trade/wishlist/movetocart/{wishlist_item_id}/"> 
 			{intl-move_to_cart} </a> </td>
+  		  <td class="{td_class}">
+		  	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
+			<input size="3" type="text" name="WishlistCountArray[]" value="{wishlist_item_count}" />
+   		  </td>
 		  <td class="{td_class}" align="right"> {product_price} </td>
 		  <td class="{td_class}" align="right"><a href="/trade/wishlist/remove/{wishlist_item_id}/"  
 onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{wishlist_item_id}-slett','','/eztrade/user/images/slettminimrk.gif',1)"><img name="ezuser{wishlist_item_id}-slett" border="0" src="/eztrade/user/images/slettmini.gif" width="16" height="16" align="top"></a></td>

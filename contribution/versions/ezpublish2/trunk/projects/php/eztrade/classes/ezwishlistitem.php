@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.3 2000/11/23 10:16:30 bf-cvs Exp $
+// $Id: ezwishlistitem.php,v 1.4 2000/12/19 12:19:52 bf Exp $
 //
 // Definition of eZWishItem class
 //
@@ -334,6 +334,18 @@ class eZWishListItem
        }       
 
     }
+
+    /*!
+      Sets the number of products.
+    */
+    function setCount( $count )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Count = $count;
+    }
+        
     
     /*!
       Private function.

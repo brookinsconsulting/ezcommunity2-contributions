@@ -5,7 +5,8 @@ Changes from version 1.0.4
 --------------------------
 * Added image previews in hot deals list.
 * Speedup by 20-50%, due to more efficient ini file reading.
-* Added increasment of product count in basket when adding a product with the same options.
+* Added increasment of product count in basket/wishlist when adding a product with the same options.
+* Fixed deleting of products from the wishlist.
 * Fixed broken product search.
 * Fixed the article search.
 * Fixed the product search, does not output {next} and {prev}

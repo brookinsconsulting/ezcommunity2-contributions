@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.8 2000/12/19 10:15:00 bf Exp $
+// $Id: wishlist.php,v 1.9 2000/12/19 12:19:52 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -81,30 +81,101 @@ if ( $Action == "AddToBasket" )
 
     $product = new eZProduct( $ProductID );
 
-    $wishlistItem = new eZWishlistItem();
 
-    $wishlistItem->setProduct( $product );
-    $wishlistItem->setWishlist( $wishlist );
+    // check if a product like this is already in the basket.
+    // if so-> add the count value.
 
-    $wishlistItem->store();
-
-    if ( count( $OptionValueArray ) > 0 )
+    $productAddedToWishlist = false;
     {
-        $i = 0;
-        foreach ( $OptionValueArray as $value )
+        // fetch the cart items
+        $items = $wishlist->items( );
+
+        foreach ( $items as $item )
         {
+            $productItem =  $item->product();
+            // the same product
+            if ( ( $ProductID == $productItem->id() ) && ( $productAddedToWishlist == false ) )
+            {
+                $optionValues =& $item->optionValues();
 
-            $option = new eZOption( $OptionIDArray[$i] );
-            $optionValue = new eZOptionValue( $value );
+                if ( count( $optionValues ) > 0 )
+                { // product with options
+                    $hasTheSameOptions = true;
+                    
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $option =& $optionValue->option();
+                        $value =& $optionValue->optionValue();                        
 
-            $wishlistOption = new eZWishlistOptionValue();
-            $wishlistOption->setWishlistItem( $wishlistItem );
-            $wishlistOption->setOption( $option );
-            $wishlistOption->setOptionValue( $optionValue );
+                        $optionValueFound = false;
+                        
+                        if ( count( $OptionValueArray ) > 0 )
+                        {
+                            $i=0;
+                            foreach ( $OptionValueArray as $valueItem )
+                            {
+                                if ( ( $OptionIDArray[$i] == $option->id() )
+                                     && ( $valueItem == $value->id() ) )
+                                {
+                                    $optionValueFound = true;
+                                }
+                                $i++;
+                            }
+                        }
+                        
+                        if ( $optionValueFound == false )
+                        {
+                            $hasTheSameOptions = false;
+                        }
+                    }
 
-            $wishlistOption->store();
+                    if ( $hasTheSameOptions == true )
+                    {
+                        $item->setCount( $item->count() + 1 );
+                        $item->store();
+                        $productAddedToWishlist = true;
+                    }
+                }
+                else
+                { // product without options
+                    if ( count( $OptionValueArray ) == 0 )
+                    {
+                        $item->setCount( $item->count() + 1 );
+                        $item->store();
+                        $productAddedToWishlist = true;
+                    }
+                }
+            }
+        }
+    }
+    
+    if ( $productAddedToWishlist == false )
+    {
+        $wishlistItem = new eZWishlistItem();
 
-            $i++;
+        $wishlistItem->setProduct( $product );
+        $wishlistItem->setWishlist( $wishlist );
+
+        $wishlistItem->store();
+
+        if ( count( $OptionValueArray ) > 0 )
+        {
+            $i = 0;
+            foreach ( $OptionValueArray as $value )
+            {
+
+                $option = new eZOption( $OptionIDArray[$i] );
+                $optionValue = new eZOptionValue( $value );
+
+                $wishlistOption = new eZWishlistOptionValue();
+                $wishlistOption->setWishlistItem( $wishlistItem );
+                $wishlistOption->setOption( $option );
+                $wishlistOption->setOptionValue( $optionValue );
+
+                $wishlistOption->store();
+
+                $i++;
+            }
         }
     }
 
@@ -126,14 +197,11 @@ if ( $Action == "MoveToCart" )
     exit();
 }
 
-// SF
-
 if ( $Action == "RemoveFromWishlist" )
 {
     $wishListItem = new eZWishListItem( );
     if ( $wishListItem->get( $WishListItemID ) )
     {
-        //$wishListItem->moveToCart();
         $wishListItem->delete();
     }
 
@@ -142,7 +210,20 @@ if ( $Action == "RemoveFromWishlist" )
     exit();
 }
 
-// SF End
+
+if ( $Action == "Refresh" )
+{
+    $i=0;
+    if ( count( $WishlistIDArray ) > 0 )
+    foreach ( $WishlistIDArray as $wishlistID )
+    {
+        $wishlistItem = new eZWishlistItem( $wishlistID );
+        $wishlistItem->setCount( $WishlistCountArray[$i] );
+        $wishlistItem->store();
+        $i++;
+    }
+}
+
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "wishlist.php" );
@@ -194,11 +275,14 @@ foreach ( $items as $item )
         $t->set_var( "wishlist_image", "&nbsp;" );
     }
 
-    $currency->setValue( $product->price() );
+    $currency->setValue( $product->price() * $item->count() );
 
     $sum += $product->price();
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
+
+    $t->set_var( "wishlist_item_count", $item->count() );
+    
     $t->set_var( "product_price", $locale->format( $currency ) );
 
     if ( ( $i % 2 ) == 0 )
