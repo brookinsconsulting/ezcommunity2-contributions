@@ -73,6 +73,13 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "search":
+    case "classifiedsearch":
+    {
+        include( "ezclassified/user/classifiedsearch.php" );
+    }
+    break;
+
     default :
         header( "Location: /error.php?type=404&reason=missingpage&hint[]=/contact/company/list/&hint[]=/contact/person/list&module=ezcontact" );
         break;
