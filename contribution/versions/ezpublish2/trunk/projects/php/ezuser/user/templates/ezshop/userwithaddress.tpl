@@ -49,6 +49,15 @@
 <p class="boxtext">{intl-place}:</p>
 <input type="text" size="20" name="Place" value="{place_value}"/>
 
+<!-- BEGIN country_tpl -->
+<p class="boxtext">{intl-country}:</p>
+<select name="CountryID" size="5">
+<!-- BEGIN country_option_tpl -->
+<option value="{country_id}">{country_name}</option>
+<!-- END country_option_tpl -->
+</select>
+<!-- END country_tpl -->
+
 <br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
