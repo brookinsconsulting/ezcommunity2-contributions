@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticletype.php,v 1.4 2001/06/14 17:21:16 pkej Exp $
+// $Id: ezarticletype.php,v 1.5 2001/06/22 14:47:59 pkej Exp $
 //
 // Definition of eZArticleType class
 //
@@ -73,19 +73,19 @@ class eZArticleType
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZArticle_Type SET
+            $db->query( "INSERT INTO eZArticle_Type SET
 		                         Name='" . addslashes( $this->Name ) . "'" );
         
-			$this->ID = $this->Database->insertID();
+			$this->ID = $db->insertID();
             $this->State_ = "Coherent";
         }
         else
         {
-            $this->Database->query( "UPDATE eZArticle_Type SET
+            $db->query( "UPDATE eZArticle_Type SET
 		                         Name='" . addslashes( $this->Name ) . "' WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
@@ -98,12 +98,12 @@ class eZArticleType
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != -1  )
         {
-            $this->Database->array_query( $type_array, "SELECT * FROM eZArticle_Type WHERE ID='$id'" );
+            $db->array_query( $type_array, "SELECT * FROM eZArticle_Type WHERE ID='$id'" );
             
             if ( count( $type_array ) > 1 )
             {
@@ -124,6 +124,33 @@ class eZArticleType
         }
         
         return $ret;
+    }
+    
+    /*!
+        \static
+      Fetches the article type object based on name.
+      
+      Returns an article type object.
+    */
+    function &getByName( $name )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $type =& new eZArticleType();
+
+        $name = addslashes( $name );
+
+        if ( $name != ""  )
+        {
+            $db->array_query( $type_array, "SELECT * FROM eZArticle_Type WHERE Name='$name'" );
+            
+            if( count( $type_array ) == 1 )
+            {
+                $type =& new eZArticleType($type_array[0][ "ID" ]);
+            }
+        }
+        
+        return $type;
     }
 
     /*!
@@ -152,7 +179,7 @@ class eZArticleType
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         // delete all attributes and values
         $attributes = $this->attributes();
@@ -161,8 +188,8 @@ class eZArticleType
             $attribute->delete();
         }
 
-        $this->Database->query( "DELETE FROM eZArticle_ArticleTypeLink WHERE TypeID='$this->ID'" );
-        $this->Database->query( "DELETE FROM eZArticle_Type WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZArticle_ArticleTypeLink WHERE TypeID='$this->ID'" );
+        $db->query( "DELETE FROM eZArticle_Type WHERE ID='$this->ID'" );
     }
 
     /*!
@@ -204,24 +231,24 @@ class eZArticleType
     */
     function attributes( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        if ( $this->State_ == "Dirty" )
+                $this->get( $this->ID );
 
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
        
-       $return_array = array();
-       $attribute_array = array();
+        $return_array = array();
+        $attribute_array = array();
        
-       $this->Database->array_query( $attribute_array, "SELECT ID
+        $db->array_query( $attribute_array, "SELECT ID
                                                       FROM eZArticle_Attribute
                                                       WHERE TypeID='$this->ID' ORDER BY Placement" );
 
-       for ( $i=0; $i<count($attribute_array); $i++ )
-       {
-           $return_array[$i] = new eZArticleAttribute( $attribute_array[$i]["ID"], false );
-       }
+        for ( $i=0; $i<count($attribute_array); $i++ )
+        {
+            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i]["ID"], false );
+        }
        
-       return $return_array;       
+        return $return_array;       
     }
     
     /*!
@@ -237,14 +264,14 @@ class eZArticleType
             if ( $this->State_ == "Dirty" )
                 $this->get( $this->ID );
 
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
             
             $articleID = $article->id();
             
             $return_array = array();
             $attribute_array = array();
 
-            $this->Database->array_query( $attribute_array, "
+            $db->array_query( $attribute_array, "
             SELECT Attribute.ID
             FROM
                 eZArticle_AttributeValue AS Value,
@@ -263,19 +290,6 @@ class eZArticleType
             $ret = true;
         }
         return $ret;
-    }
-
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
     }
 
     var $ID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.97 2001/06/15 13:44:42 pkej Exp $
+// $Id: ezarticle.php,v 1.98 2001/06/22 14:47:59 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -251,6 +251,34 @@ class eZArticle
         }
         return $ret;
     }
+
+    /*!
+        \static
+        Returns the one, and only if one exists, article with the name
+        
+        Returns an object of eZArticle.
+     */
+    function &getByName( $name )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $topic =& new eZArticle();
+        
+        $name = addslashes( $name );
+
+        if( $name != "" )
+        {
+            $db->array_query( $author_array, "SELECT * FROM eZArticle_Article WHERE Name='$name'" );
+
+            if( count( $author_array ) == 1 )
+            {
+                $topic =& new eZArticle( $author_array[0][ "ID" ] );
+            }
+        }
+        
+        return $topic;
+    }
+
 
     /*!
       Deletes a eZArticle object from the database.

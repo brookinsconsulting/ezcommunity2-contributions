@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticleattribute.php,v 1.3 2001/06/14 17:21:16 pkej Exp $
+// $Id: ezarticleattribute.php,v 1.4 2001/06/22 14:47:59 pkej Exp $
 //
 // Definition of eZArticleAttribute class
 //
@@ -162,6 +162,34 @@ class eZArticleAttribute
         
         return $return_array;
     }
+
+    /*!
+        \static
+        Returns the one, and only if one exists, attribute with the name
+        
+        Returns an object of eZArticleAttribute.
+     */
+    function getByName( $name )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $topic =& new eZArticleAttribute();
+        
+        $name = addslashes( $name );
+
+        if( $name != "" )
+        {
+            $db->array_query( $author_array, "SELECT * FROM eZArticle_Attribute WHERE Name='$name'" );
+
+            if( count( $author_array ) == 1 )
+            {
+                $topic =& new eZArticleAttribute( $author_array[0][ "ID" ] );
+            }
+        }
+        
+        return $topic;
+    }
+
 
     /*!
       Deletes a option from the database.

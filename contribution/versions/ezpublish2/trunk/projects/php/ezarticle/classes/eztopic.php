@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztopic.php,v 1.2 2001/06/05 12:40:49 bf Exp $
+// $Id: eztopic.php,v 1.3 2001/06/22 14:47:59 pkej Exp $
 //
 // Definition of eZTopic class
 //
@@ -125,6 +125,35 @@ class eZTopic
 
 
     /*!
+        \static
+      Fetches an eZTopic object from the database with the same name as entered.
+
+      Always returns an object of type eZTopic, but with ID 0 if a suitable information
+      isn't found in the db.
+    */
+    function &getByName( $name )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $topic =& new eZTopic();
+
+        $name = addslashes( $name );
+
+        if( $name != "" )
+        {
+            $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE Name='$name'" );
+
+            if( count( $author_array ) == 1 )
+            {
+                $topic =& new eZTopic( $author_array[0][ "ID" ] );
+            }
+        }
+        
+        return $topic;
+    }
+
+
+    /*!
       Fetches the user id from the database. And returns a array of eZTopic objects.
     */
     function &getAll(  )
@@ -136,7 +165,7 @@ class eZTopic
 
 
         $db->array_query( $topic_array, "SELECT ID FROM eZArticle_Topic
-                                        ORDER By Created" );
+                                        ORDER By Name" );
 
         foreach ( $topic_array as $topic )
         {

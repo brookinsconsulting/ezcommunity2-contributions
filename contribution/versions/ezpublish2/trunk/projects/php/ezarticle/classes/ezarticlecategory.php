@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.67 2001/06/12 16:29:38 fh Exp $
+// $Id: ezarticlecategory.php,v 1.68 2001/06/22 14:47:59 pkej Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -208,6 +208,33 @@ class eZArticleCategory
         }
         
         return $return_array;
+    }
+
+    /*!
+        \static
+        Returns the one, and only if one exists, category with the name
+        
+        Returns an object of eZArticleCategory.
+     */
+    function &getByName( $name )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $topic =& new eZArticleCategory();
+        
+        $name = addslashes( $name );
+
+        if( $name != "" )
+        {
+            $db->array_query( $author_array, "SELECT * FROM eZArticle_Category WHERE Name='$name'" );
+
+            if( count( $author_array ) == 1 )
+            {
+                $topic =& new eZArticleCategory( $author_array[0][ "ID" ] );
+            }
+        }
+        
+        return $topic;
     }
 
     /*!
