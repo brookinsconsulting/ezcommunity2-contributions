@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: overview.php,v 1.5 2001/01/22 14:43:01 jb Exp $
+// $Id: overview.php,v 1.6 2001/02/08 18:43:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jan-2001 11:23:51 bf>
@@ -24,7 +24,10 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+include_once( "classes/ezmenubox.php" );
+
+$ini =& $GlobalSiteIni;
+$SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 
@@ -53,13 +56,23 @@ $pagesThisMonth = $query->totalPageViewsMonth( $today );
 
 $t->set_var( "total_pages_today", $pagesToday );
 
-$t->set_var( "this_year", $today->year() );
-$t->set_var( "this_month", $today->month() );
-
 $t->set_var( "total_pages_this_month", $pagesThisMonth );
 
-
-
 $t->pparse( "output", "overview_tpl" );
+
+$year = $today->year();
+$month = $today->month();
+
+$menuItems = array(
+    array( "/stats/requestpagelist/top/20/", "{intl-request_page_list}" ),
+    array( "/stats/monthreport/$year/$month/", "{intl-month_report}" ),
+    "break",
+    array( "/stats/productreport/$year/$month/", "{intl-product_report}" ),
+    array( "/stats/entryexitreport/$year/$month/", "{intl-entry_exit_report}" )
+    );
+
+eZMenuBox::createBox( "eZStats", "ezstats", "admin",
+                      $SiteStyle, $menuItems, true, "menuitems.tpl", "ezstats/admin/overview.php" );
+
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/01/23 17:46:24 jb Exp $
+// $Id: menubox.php,v 1.4 2001/02/08 18:43:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jan-2001 11:18:10 bf>
@@ -26,7 +26,10 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
-    array( "/stats/overview/", "{intl-overview}" )
+    array( "/stats/overview/", "{intl-overview}" ),
+    array( "/stats/pageviewlist/last/20", "{intl-last_page_views}" ),
+    array( "/stats/visitorlist/top/20", "{intl-top_visitors}" ),
+    array( "/stats/refererlist/top/20/", "{intl-referer_list}" )
     );
 
 ?>
