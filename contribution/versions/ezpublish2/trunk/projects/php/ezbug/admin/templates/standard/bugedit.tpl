@@ -75,7 +75,7 @@
 </table>
 
 <input type="hidden" name="CurrentOwnerID" value="{current_owner_id}" />
-<p class="boxtext">{intl-owner}</p>
+<p class="boxtext">{intl-owner}:</p>
 <select name="OwnerID">
 <option value="-1"> {intl-none}</option>
 <!-- BEGIN owner_item_tpl -->
@@ -84,17 +84,9 @@
 </select>
 <br />
 <br />
-<input type="checkbox" name="IsClosed" {is_closed} />
-<span class="boxtext">{intl-is_closed}</span><br />
-
-<br />
-<input type="checkbox" name="IsPrivate" {is_private} />
-<span class="boxtext">{intl-is_private}</span><br />
-
-<br />
 
 <!-- BEGIN file_headers_tpl -->
-<p class="boxtext">{intl-avaliable_patches}:</p>
+<h2>{intl-avaliable_patches}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-file_id}:</th>
@@ -123,7 +115,7 @@
 
 <!-- inserted Images -->
 <!-- BEGIN image_headers_tpl -->
-<p class="boxtext">{intl-avaliable_screenshots}:</p>
+<h2>{intl-avaliable_screenshots}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-image_id}:</th>
@@ -155,17 +147,36 @@
 <textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>
 <br>
 <input type="checkbox" name="MailReporter" checked />
-<span class="boxtext">{intl-mail_bug_reporter}</span><br />
+<span class="check">{intl-mail_bug_reporter}</span><br />
 
 <br />
 
 
 	<!-- BEGIN log_item_tpl -->
-	<b>{log_date}</b>
-	<p>
-	{log_description}
-	</p>
+	<p class="boxtext">{log_date}</p>
+	<div class="p">{log_description}</div>
 	<!-- END log_item_tpl -->	
+
+<br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<input type="checkbox" name="IsClosed" {is_closed} />
+	<span class="check">{intl-is_closed}</span><br />
+	</td>
+	<td>
+	<input type="checkbox" name="IsPrivate" {is_private} />
+	<span class="check">{intl-is_private}</span><br />
+	</td>
+</tr>
+</table>
+
+<br />
+
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-del_selected}" />
 
 <hr noshade="noshade" size="4" />
 
@@ -174,8 +185,6 @@
   <td><input name="InsertImage" class="stdbutton" type="submit" value="{intl-add_screenshot}" /></td>
   <td>&nbsp; </td>
   <td><input name="InsertFile" class="stdbutton" type="submit" value="{intl-add_patch}" /></td>
-  <td>&nbsp; </td>
-  <td><input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-del_selected}" /></td>
 </tr>
 </table>
 
