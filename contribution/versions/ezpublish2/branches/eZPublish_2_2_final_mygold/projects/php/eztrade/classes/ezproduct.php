@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.3 2001/11/22 11:27:49 bf Exp $
+// $Id: ezproduct.php,v 1.119.4.4 2001/11/22 14:23:14 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1568,8 +1568,8 @@ class eZProduct
                 ++$i;
             }
             $db->query( "INSERT INTO $table(ProductID)
-                         SELECT eZTrade_Product.ID FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                         WHERE eZTrade_Product.ID=eZTrade_ProductCategoryLink.ProductID AND ( $catSQL )
+                         SELECT eZTrade_ProductCategoryLink.ProductID FROM eZTrade_ProductCategoryLink
+                         WHERE  ( $catSQL )
                          GROUP BY eZTrade_Product.ID" );
         }
 
@@ -1590,7 +1590,7 @@ class eZProduct
             $table_sql = "( $table_sql )";
 
         $queryString = "SELECT count( DISTINCT eZTrade_Product.ID ) AS Count
-                        FROM eZTrade_Product, eZTrade_ProductCategoryLink $table_from
+                        FROM eZTrade_Product $table_from
                         WHERE $table_sql $price $text AND
                         eZTrade_Product.ID = $first_table.ProductID";
         $db->query_single( $res_array, $queryString );
