@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.35 2001/12/21 11:57:33 jhe Exp $
+// $Id: ezformrenderer.php,v 1.36 2001/12/21 12:39:27 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -550,6 +550,15 @@ class eZFormRenderer
                 $value = $qa[$db->fieldName( "ID" )];
             }
             $conditionArray = $element->getConditions();
+
+            // Small hack to make goto page work
+            if ( count( $conditionArray ) == 1 )
+            {
+                if ( ( $conditionArray[0]["Min"] == -1000 ) &&
+                     ( $conditionArray[0]["Max"] == 1000 ) )
+                    return $conditionArray[0]["Page"];
+            }
+            
             foreach ( $conditionArray as $condition )
             {
                 if ( $condition["Min"] <= $value &&
