@@ -1,6 +1,11 @@
-<h1>{intl-cart}</h1>
-
-<hr noshade="noshade" size="4" />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="#f08c00">
+	<div class="headline">{intl-cart}</div>
+	</td>
+</tr>
+</table>
+<br />
 
 <!-- BEGIN empty_cart_tpl -->
 <h2>{intl-empty_cart}</h2>

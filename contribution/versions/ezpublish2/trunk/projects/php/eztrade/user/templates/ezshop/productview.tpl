@@ -1,30 +1,16 @@
-<h1>{intl-head_line}</h1>
-
-<hr noshade size="4"/>
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
-
-<!-- BEGIN path_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
-<!-- END path_tpl -->
-
-<hr noshade size="4"/>
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<h2>{title_text}</h2>
-	</td>
-	<td align="right">
-	<br />
-	<span class="boxtext">{intl-nr}:</span> {product_number}
+	<td bgcolor="#f08c00">
+	<div class="headline">Produkter</div>
 	</td>
 </tr>
-<tr>
-	<td colspan="2">
-
+</table>
 <br />
+
+<!-- BEGIN path_tpl -->
+
+<!-- END path_tpl -->
+
 <!-- BEGIN main_image_tpl -->
 
 <table align="right" cellspacing="0" cellpadding="0" border="0">
@@ -110,10 +96,6 @@
 
 <!-- END option_tpl -->
 
-	</td>
-</tr>
-</table>
-
 <table width="100%" border="0">
 <tr>
 	<td>
@@ -163,7 +145,6 @@
 <!-- BEGIN add_to_cart_tpl -->
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
-<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 <!-- END add_to_cart_tpl -->
 
 <br /><br />

@@ -1,48 +1,21 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<h1>{intl-productlist}</h1>
+	<td bgcolor="#f08c00">
+	<div class="headline">Produkter</div>
 	</td>
-     <td align="right">
-	 <form action="/{module}/search/" method="post">
-	       <input type="text" name="Query">
-	       <input type="submit" name="search" value="{intl-search_button}">
-         </form>
-     </td>
 </tr>
 </table>
-
-<hr noshade="noshade" size="4"/>
-
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
+<br />
 
 <!-- BEGIN path_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
+
 <!-- END path_tpl -->
 
-<hr noshade="noshade" size="4" />
 <!-- BEGIN category_list_tpl -->
 
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th>{intl-category}:</th>
-	<th>{intl-description}:</th>
-</tr>
-
 <!-- BEGIN category_tpl -->
-<tr>
-	<td class="{td_class}">
-	<a href="/{module}/{module_list}/{category_id}/">{category_name}</a>&nbsp;
-	</td>
-	<td class="{td_class}">
-	{category_description}&nbsp;
-	</td>
-</tr>
-<!-- END category_tpl -->
 
-</table>
+<!-- END category_tpl -->
 
 <!-- END category_list_tpl -->
 
