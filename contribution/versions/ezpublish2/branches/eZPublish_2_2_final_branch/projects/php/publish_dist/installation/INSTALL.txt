@@ -187,9 +187,10 @@ For the standard installation of eZ publish you will need
 to have the following privileges on your system:
 
 * Access to Apache's httpd.conf for creating two virtual
-  hosts and for enabling the rewrite engine and creating
-  rewrite rules. This is absolutely necessary for eZ Publish
-  at the moment.
+  hosts, enabling the rewrite engine and creating rewrite
+  rules. However, this is not needed if you want to run
+  eZ publish in nVH mode. More information aboutthe nVH
+  mode is available in chapter [chpt: nVH].
 
 * Access to compiler, only needed if you can't use any of
   the pre-compiled packages available. (You will have to
@@ -209,12 +210,6 @@ to have the following privileges on your system:
 
 * You might also need the privilege to add new libraries
   to your system.
-
-You might also use other web servers than apache, but then
-you're on your own since we haven't tested eZ publish on
-other configurations. If you do try another web server,
-please keep a log of what you do and submit it to us (pkej@ez.no)
-for inclusion in future versions of this manual.
 
 2.1.2 Needed Software
 
