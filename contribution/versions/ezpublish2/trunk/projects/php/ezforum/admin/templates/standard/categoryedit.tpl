@@ -46,10 +46,10 @@
 </tr>
 </table>
 
+<hr noshade="noshade" size="4" />
+
 <form action="/forum/categoryedit/{action_value}/{category_id}/" method="post">
 <input type="hidden" name="page" value="{docroot}/admin/category.php">
-
-<hr noshade="noshade" size="4" />
 
 <p class="error">{error_msg}</p>
 
@@ -65,7 +65,7 @@
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td>
+	<td valign="top">
 	<input class="okbutton" type="submit" name="add" value="{intl-ok}">
 	</form>
 	</td>

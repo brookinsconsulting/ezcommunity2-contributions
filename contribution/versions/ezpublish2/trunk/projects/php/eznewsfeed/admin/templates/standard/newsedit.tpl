@@ -1,5 +1,7 @@
-<h1>{intl-news_edit}</h1>
 <form method="post" action="/newsfeed/news/">
+
+<h1>{intl-news_edit}</h1>
+
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-news_title}:</p>

@@ -32,9 +32,9 @@
 
 <div onLoad="MM_preloadImages('/eznewsfeed/admin/images/redigerminimrk.gif','/eznewsfeed/admin/images/slettminimrk.gif')"></div>
 
-<h1>{intl-source_sites}</h1>
-
 <form method="post" action="/newsfeed/importnews/">
+
+<h1>{intl-source_sites}</h1>
 
 <hr noshade="noshade" size="4" />
 

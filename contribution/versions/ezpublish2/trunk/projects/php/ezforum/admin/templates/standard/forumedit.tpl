@@ -32,7 +32,6 @@
 
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
@@ -47,9 +46,9 @@
 </tr>
 </table>
 
-<form action="/forum/forumedit/{action_value}/{forum_id}/" method="post">
-
 <hr noshade="noshade" size="4" />
+
+<form action="/forum/forumedit/{action_value}/{forum_id}/" method="post">
 
 <p class="error">{error_msg}</p>
 
@@ -73,7 +72,7 @@
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td>
+	<td valign="top">
 	<input class="okbutton" type="submit" name="modify" value="{intl-ok}">
 	</form>
 	</td>

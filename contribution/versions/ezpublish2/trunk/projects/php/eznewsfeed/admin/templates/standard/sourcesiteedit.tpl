@@ -1,5 +1,7 @@
-<h1>{intl-sourcesite_edit}</h1>
 <form method="post" action="/newsfeed/sourcesite/">
+
+<h1>{intl-sourcesite_edit}</h1>
+
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-source_site_title}:</p>
