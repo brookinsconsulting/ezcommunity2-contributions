@@ -31,7 +31,7 @@
 </tr>
 <tr>
 	<td class="menutext">
-	<a class="menu" href="/user/userwithaddress/new/">{intl-register}
+	<a class="menu" href="{user_edit_url}">{intl-register}
 	</td>
 </tr>
 <tr>

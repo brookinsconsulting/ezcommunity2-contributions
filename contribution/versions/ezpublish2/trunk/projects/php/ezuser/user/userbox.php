@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.8 2000/11/07 13:35:00 bf-cvs Exp $
+// $Id: userbox.php,v 1.9 2000/11/07 13:45:06 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -48,6 +48,15 @@ if ( !$user )
         "login" => "loginmain.tpl"
         ) );
 
+    if ( $UserWidthAddress == "enabled" )
+    {
+        $t->set_var( "user_edit_url", "/user/userwithaddress/new/" );
+    }
+    else
+    {
+        $t->set_var( "user_edit_url", "/user/user/new/" );
+    }
+
     
     $t->set_var( "redirect_url", $REQUEST_URI );
    
@@ -72,11 +81,11 @@ else
 
     if ( $UserWidthAddress == "enabled" )
     {
-        $t->set_var( "user_edit_url", "/user/userwithaddress/edit/" );
+        $t->set_var( "user_edit_url", "/user/userwithaddress/new/" );
     }
     else
     {
-        $t->set_var( "user_edit_url", "/user/user/edit/" );
+        $t->set_var( "user_edit_url", "/user/user/new/" );
     }
     
 
