@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.15 2001/12/13 12:40:16 jhe Exp $
+// $Id: formedit.php,v 1.16 2001/12/14 12:57:50 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -482,7 +482,6 @@ if ( $count > 0 )
         $elementTemplate->parse( "element_item", "element_item_tpl", true );
         $i++;
     }
-    
     $elementTemplate->parse( "element_list", "element_list_tpl" );
 }
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.2 2001/12/14 09:05:11 jhe Exp $
+// $Id: tableedit.php,v 1.3 2001/12/14 12:57:50 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -45,7 +45,7 @@ if ( $Action == "up" )
 {
     $element = new eZFormElement( $ElementID );
     $table->moveUp( $element );
-    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$ElementID/" );
     exit();
 }
 
@@ -53,7 +53,7 @@ if ( $Action == "down" )
 {
     $element = new eZFormElement( $ElementID );
     $table->moveDown( $element );
-    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$ElementID/" );
     exit();
 }
 
@@ -115,7 +115,6 @@ if ( isSet( $OK ) || isSet( $Update ) )
             eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
             exit();
         }
-
     }
 }
 
@@ -162,18 +161,25 @@ $elementTemplate->set_var( "form_id", $FormID );
 
 $elementList = eZFormTable::tableElements( $ElementID );
 $types = eZFormElementType::getAll();
-
 $i = 0;
-for ( $row = 0; $row < $table->rows(); $row++ )
+
+$t->set_var( "form_id", $FormID );
+$t->set_var( "table_id", $ElementID );
+
+for ( $col = 0; $col < $table->cols(); $col++ )
 {
-    $t->set_var( "row", $row + 1 );
-//    $t->parse( );
-    for ( $col = 0; $col < $table->cols(); $col++ )
+    $t->set_var( "col", $col + 1 );
+    for ( $row = 0; $row < $table->rows(); $row++ )
     {
+        if ( ( $row % 2 ) == 0 )
+            $elementTemplate->set_var( "td_class", "bglight" );
+        else
+            $elementTemplate->set_var( "td_class", "bgdark" );
+
         $element = $elementList[$i];
         if ( get_class( $element ) != "ezformelement" )
         {
-            $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
+            $newElementName = $ini->read_var( "eZFormMain", "DefaultElementName" );
             $newElementName = $newElementName . " " . $i;
 
             $element = new eZFormElement();
@@ -181,14 +187,23 @@ for ( $row = 0; $row < $table->rows(); $row++ )
             $element->store();
             $table->addElement( $element );
         }
-        
-        if ( ( $i % 2 ) == 0 )
+
+        if ( $element->isRequired() )
         {
-            $elementTemplate->set_var( "td_class", "bglight" );
+            $elementTemplate->set_var( "element_required", "checked" );
         }
         else
         {
-            $elementTemplate->set_var( "td_class", "bgdark" );
+            $elementTemplate->set_var( "element_required", "" );
+        }
+
+        if ( $element->isBreaking() )
+        {
+            $elementTemplate->set_var( "element_is_breaking", "checked" );
+        }
+        else
+        {
+            $elementTemplate->set_var( "element_is_breaking", "" );
         }
 
         $elementTemplate->set_var( "fixed_values", "" );
@@ -205,7 +220,7 @@ for ( $row = 0; $row < $table->rows(); $row++ )
         {
             $elementTemplate->set_var( "selected", "" );
             
-            if ( $type->id() == $currentType->id() )
+            if ( get_class( $currentType ) == "ezformelementtype" && $type->id() == $currentType->id() )
             {
                 $name = $currentType->name();
                 if ( $name == "multiple_select_item" ||
@@ -252,7 +267,34 @@ for ( $row = 0; $row < $table->rows(); $row++ )
         $elementTemplate->set_var( "element_name", $element->name() );
         $elementTemplate->set_var( "element_id", $element->id() );
         $elementTemplate->set_var( "element_size", $element->size() );
-        $elementTemplate->parse( "element_item", "element_item_tpl", true );
+        $elementTemplate->set_var( "item_move_up", "" );
+        $elementTemplate->set_var( "no_item_move_up", "" );
+        $elementTemplate->set_var( "item_move_down", "" );
+        $elementTemplate->set_var( "no_item_move_down", "" );
+        $elementTemplate->set_var( "item_separator", "" );
+        $elementTemplate->set_var( "no_item_separator", "" );
+
+        if ( isSet( $move_item ) )
+        {
+            $elementTemplate->parse( "item_move_up", "item_move_up_tpl" );
+        }
+        
+        if ( isSet( $move_item ) )
+        {
+            $elementTemplate->parse( "item_separator", "item_separator_tpl" );
+        }
+        
+        if ( isSet( $move_item ) )
+        {
+            $elementTemplate->parse( "item_move_down", "item_move_down_tpl" );
+        }
+
+        $elementTemplate->setAllStrings();
+
+        if ( $row == 0 )
+            $elementTemplate->parse( "element_item", "element_item_tpl" );
+        else
+            $elementTemplate->parse( "element_item", "element_item_tpl", true );
 
         $i++;
     }
@@ -265,6 +307,5 @@ for ( $row = 0; $row < $table->rows(); $row++ )
 
 $t->setAllStrings();
 $t->pparse( "output", "table_edit_page_tpl" );
-
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.5 2001/12/14 09:05:11 jhe Exp $
+// $Id: ezformtable.php,v 1.6 2001/12/14 12:57:50 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -136,13 +136,13 @@ class eZFormTable
         $returnArray = array();
         
         $db =& eZDB::globalDatabase();
-        $db->array_query( $elementArray, "SELECT ID FROM eZForm_FormTableElementDict
+        $db->array_query( $elementArray, "SELECT ElementID FROM eZForm_FormTableElementDict
                                           WHERE TableID='$tableID'
                                           ORDER BY Placement" );
 
         foreach ( $elementArray as $element )
         {
-            $returnArray[] = new eZFormElement( $element );
+            $returnArray[] = new eZFormElement( $element[$db->fieldName( "ElementID" )] );
         }
         return $returnArray;
     }

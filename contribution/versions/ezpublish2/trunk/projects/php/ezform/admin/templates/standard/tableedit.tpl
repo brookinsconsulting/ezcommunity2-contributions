@@ -1,11 +1,11 @@
-<form action="{www_dir}{index}/form/form/{action_value}/{form_id}" method="post">
+<form action="{www_dir}{index}/form/form/tableedit/{form_id}/{table_id}/" method="post">
 
 <h1>{intl-table_edit}</h1>
 
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN row_list_tpl -->
-{intl-row}: {row}
+{intl-col}: {col}
 
 {element_list}
 <!-- END row_list_tpl -->
