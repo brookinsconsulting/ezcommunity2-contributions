@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: reportsuccess.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: reportsuccess.php,v 1.2 2001/06/26 10:26:05 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 21:55:26 bf>
@@ -30,7 +30,7 @@ $Language = $ini->read_var( "eZBugMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 
-$t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/user/intl", $Language, "reportsuccess.php" );
 
 $t->setAllStrings();
