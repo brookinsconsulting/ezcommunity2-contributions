@@ -11,3 +11,37 @@ Maintainer(s) : ce@ez.no
 Module : eztrade
 Repository path : /home/cvsroot/projects/php/eztrade
 Maintainer(s) : ce@ez.no
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-07  Christofer Elo  <ce@ez.no>
+
+    * classes/ezcartitem.php
+      classes/ezproduct.php
+      user/cart.php
+      user/intl/en_GB/productview.php.ini
+      user/productview.php
+      user/templates/standard/productview.tpl: Added adjust price in the cart
+
+    * user/payment.php
+      admin/datasupplier.php
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/productedit.php.ini
+      admin/intl/en_GB/voucheredit.php.ini
+      admin/menubox.php
+      admin/productedit.php
+      admin/templates/standard/productedit.tpl
+      admin/templates/standard/voucheredit.tpl
+      admin/voucheredit.php
+      classes/ezproduct.php
+      classes/ezvoucher.php
+      classes/ezvoucheremail.php
+      classes/ezvouchersmail.php: Added voucher edit in admin
+    Added voucher usage
+    Added voucher price range
+
+2001-09-07  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/productedit.php.ini: added translation.
+

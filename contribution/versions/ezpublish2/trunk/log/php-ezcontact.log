@@ -11,3 +11,11 @@ Maintainer(s) : jhe@ez.no
 Module : ezcontact
 Repository path : /home/cvsroot/projects/php/ezcontact
 Maintainer(s) : jhe@ez.no
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-07  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/id_ID/personedit.php.ini: added id_ID
+

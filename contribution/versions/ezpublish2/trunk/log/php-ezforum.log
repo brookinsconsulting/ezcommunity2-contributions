@@ -21,3 +21,46 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/messagelist.php.ini
       user/templates/standard/messagelist.tpl: Layout
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-07  fh  <fh@zev.ez.no>
+
+    * classes/ezforum.php:
+    Search works again. Added missing $query->setPartialCompare( true ); SHAME on the person who changed it (not in the logs,
+    change probably to use eZQuery) without testing it afterwords.
+
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/gruk/messagesimplelist.tpl
+      user/templates/gruk/userlogin.tpl
+      user/templates/gruk/categorylist.tpl
+      user/templates/gruk/categorymenu.tpl
+      user/templates/gruk/forumlist.tpl
+      user/templates/gruk/latestmessages.tpl
+      user/templates/gruk/mailreply.tpl
+      user/templates/gruk/menubox.tpl
+      user/templates/gruk/message.tpl
+      user/templates/gruk/messagebody.tpl
+      user/templates/gruk/messagedelete.tpl
+      user/templates/gruk/messageedit.tpl
+      user/templates/gruk/messageerror.tpl
+      user/templates/gruk/messageform.tpl
+      user/templates/gruk/messagehiddenform.tpl
+      user/templates/gruk/messagelist.tpl
+      user/templates/gruk/messagepath.tpl
+      user/templates/gruk/messagepost.tpl
+      user/templates/gruk/messageposted.tpl
+      user/templates/gruk/messagepreview.tpl
+      user/templates/gruk/messagereply.tpl
+      user/templates/gruk/search.tpl: Layout
+
+2001-09-07  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/id_ID/messageedit.php.ini
+      user/intl/id_ID/messagepost.php.ini
+      user/intl/id_ID/messagereply.php.ini
+      user/intl/id_ID/messagesimpleedit.php.ini
+      user/intl/id_ID/messagesimplereply.php.ini: added id_ID
+

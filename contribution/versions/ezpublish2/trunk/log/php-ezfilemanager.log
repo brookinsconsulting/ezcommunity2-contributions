@@ -28,3 +28,11 @@ Maintainer(s) : jhe@ez.no
       user/templates/standard/filelist.tpl
       classes/ezvirtualfolder.php: added next/previous buttons in filelist
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini: Layout
+

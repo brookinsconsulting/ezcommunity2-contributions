@@ -20,3 +20,59 @@ Maintainer(s) : bf@ez.no
     * user/templates/gruk/forgot.tpl
       user/templates/gruk/loginmain.tpl: Layout
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-07  fh  <fh@zev.ez.no>
+
+    * admin/datasupplier.php
+      admin/templates/standard/grouplist.tpl:
+    Link from group list to userlist now works.
+
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * admin/intl/no_NO/authorlist.php.ini
+      user/templates/gruk/forgot.tpl
+      user/templates/gruk/missingemailmessage.tpl: Layout
+
+2001-09-07  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/intl/no_NO/Attic/missingmailmessage.php.ini
+      user/intl/no_NO/missingemailmessage.php.ini:
+    Used the wrong name for te file.
+
+    * user/datasupplier.php
+      user/forgot.php
+      user/intl/en_GB/missingemailmessage.php.ini
+      user/intl/no_NO/Attic/missingmailmessage.php.ini
+      user/missingemailmessage.php
+      user/templates/standard/missingemailmessage.tpl:
+    Added check for missing e-mail addresses when people is trying to reclaim
+    an user account.
+
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/gruk/loginmain.tpl
+      user/templates/gruk/userbox.tpl: Layout
+
+2001-09-07  Baard Farstad  <bf@ez.no>
+
+    * user/userbox.php: Added section id in userbox.
+
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/useredit.tpl: Layout
+
+2001-09-07  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/id_ID/groupedit.php.ini
+      admin/intl/id_ID/grouplist.php.ini
+      admin/intl/id_ID/login.php.ini
+      admin/intl/id_ID/menubox.php.ini
+      admin/intl/id_ID/passwordchange.php.ini
+      admin/intl/id_ID/sessioninfo.php.ini
+      admin/intl/id_ID/useredit.php.ini
+      admin/intl/id_ID/userlist.php.ini
+      admin/intl/id_ID/welcome.php.ini: updated id_ID
+

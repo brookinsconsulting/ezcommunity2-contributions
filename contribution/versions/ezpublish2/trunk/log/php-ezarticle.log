@@ -84,3 +84,79 @@ Maintainer(s) : bf@ez.no
       user/templates/standard/topiclist.tpl
       admin/templates/flower/articlelist.tpl: fixed missing VH-less tags
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-07  fh  <fh@zev.ez.no>
+
+    * classes/ezarticle.php:
+    Fixed SQL syntax error in authorList when sorting on article count.
+
+    * admin/imageedit.php
+      user/datasupplier.php
+      user/imageedit.php
+      user/imagelist.php
+      user/intl/en_GB/imageedit.php.ini
+      user/templates/standard/imageedit.tpl:
+    -Added photographer edit on user side
+    -fixed several GRAVE bugs. Editing images could not have worked.
+
+    * admin/imageedit.php
+      admin/intl/en_GB/imageedit.php.ini
+      admin/templates/standard/imageedit.tpl: Add image photographer on upload
+
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/gruk/menumaker.tpl
+      admin/intl/no_NO/attribute.php.ini
+      admin/intl/no_NO/filelist.php.ini
+      admin/templates/standard/attributelist.tpl
+      user/templates/gruk/articleview.tpl
+      user/templates/gruk/frontpage.tpl
+      user/templates/gruk/index.tpl: Layout
+
+2001-09-07  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/standard/menumaker.tpl:
+    added support for printing the first articles in parent category.
+
+    * user/menumaker.php: added support for printing articles first.
+
+2001-09-07  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php: Fixed user comments.
+
+    * user/newsgroup.php:
+    Fixed setting of section id and fixed correct intro for articles.
+
+    * sql/mysql/ezarticle.sql
+      classes/ezarticle.php:
+    Fixed search in MySQL, it now only returns articles where all words are present unless it's a stop word.
+
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/gruk/index.tpl
+      user/templates/gruk/articleprint.tpl
+      user/templates/gruk/topiclist.tpl: Layout
+
+2001-09-07  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/id_ID/articleheaderlist.php.ini
+      user/intl/id_ID/articlelist.php.ini
+      user/intl/id_ID/articleview.php.ini
+      user/intl/id_ID/menubox.php.ini
+      user/intl/id_ID/search.php.ini
+      admin/intl/id_ID/articleedit.php.ini
+      admin/intl/id_ID/articlelist.php.ini
+      admin/intl/id_ID/articlepreview.php.ini
+      admin/intl/id_ID/categoryedit.php.ini
+      admin/intl/id_ID/imageedit.php.ini
+      admin/intl/id_ID/imagelist.php.ini
+      admin/intl/id_ID/menubox.php.ini
+      admin/intl/id_ID/search.php.ini: updated id_ID
+
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/gruk/index.tpl: Layout
+

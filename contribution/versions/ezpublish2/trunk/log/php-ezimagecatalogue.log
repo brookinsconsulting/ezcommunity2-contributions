@@ -42,3 +42,29 @@ Maintainer(s) : br@ez.no
     * user/imagelist.php
       user/templates/standard/imagelist.tpl: fixed a list bug
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-07  fh  <fh@zev.ez.no>
+
+    * user/imageedit.php
+      user/templates/standard/imageedit.tpl:
+    Fixed a grave re-upload bug. Don't draw end table when there is no need to.
+    Still got ugly drawing bug (because of nested <tr><td> tags.
+
+    * user/imageedit.php:
+    Fixed an output bug where {selected} would be written out instead of an empty string.
+
+    * user/templates/standard/imageedit.tpl: Fixed layout bug
+
+    * user/imageedit.php
+      user/intl/en_GB/imageedit.php.ini
+      user/templates/standard/imageedit.tpl
+      user/templates/standard/imagelist.tpl: Added author edit..
+
+2001-09-07  Christofer Elo  <ce@ez.no>
+
+    * user/imagelist.php
+      classes/ezimagecategory.php: fixed some permission stuff
+

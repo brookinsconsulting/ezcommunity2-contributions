@@ -25,3 +25,12 @@ Maintainer(s) : pkej@ez.no
     * user/intl/no_NO/errors.php.ini
       user/intl/no_NO/form.php.ini: Added translation.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-09-07  Thomas Hellstroem  <th@ez.no>
+
+    * admin/intl/no_NO/form.php.ini
+      admin/templates/standard/formrenderer.tpl: Layout
+

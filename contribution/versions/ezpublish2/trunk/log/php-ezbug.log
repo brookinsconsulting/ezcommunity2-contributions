@@ -11,3 +11,12 @@ Maintainer(s) : vl@ez.no
 Module : ezbug
 Repository path : /home/cvsroot/projects/php/ezbug
 Maintainer(s) : vl@ez.no
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-09-07  fh  <fh@zev.ez.no>
+
+    * admin/bugedit.php:
+    Fixed anyoing bug that caused screenshots with empty captions to be unviewable
+
