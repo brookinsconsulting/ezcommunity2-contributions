@@ -1,8 +1,8 @@
 eZ publish changelog:
 ---------------------
 
-Changes from 2.1 to
------------------
+Changes from 2.1 to 2.2 Alpha
+-----------------------------
 * Added new module eZ mediacatalogue; handles flash, movies etc..
 * Added override system for article list and article view templates.
 * Added discussion to polls
