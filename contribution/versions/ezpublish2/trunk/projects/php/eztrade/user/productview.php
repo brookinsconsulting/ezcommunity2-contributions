@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.70 2001/09/28 09:19:50 ce Exp $
+// $Id: productview.php,v 1.71 2001/10/08 13:25:20 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -29,6 +29,19 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/eztexttool.php" );
 
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezoption.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
+include_once( "eztrade/classes/ezproductcurrency.php" );
+include_once( "eztrade/classes/ezproductpermission.php" );
+include_once( "eztrade/classes/ezproductpricerange.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+include_once( "classes/ezmodulelink.php" );
+include_once( "classes/ezlinksection.php" );
+include_once( "classes/ezlinkitem.php" );
+
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -43,6 +56,19 @@ $PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" ) == "true";
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 $locale = new eZLocale( $Language );
 
+
+$product = new eZProduct( $ProductID );
+
+if ( $CategoryID == "" )
+{
+    $category = $product->categoryDefinition();
+}
+else
+{
+    $category = new eZProductCategory();
+    $category->get( $CategoryID );
+}
+
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
 $MainImageWidth = $ini->read_var( "eZTradeMain", "MainImageWidth" );
@@ -51,23 +77,11 @@ $MainImageHeight = $ini->read_var( "eZTradeMain", "MainImageHeight" );
 $SmallImageWidth = $ini->read_var( "eZTradeMain", "SmallImageWidth" );
 $SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
 
-include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezproductcategory.php" );
-include_once( "eztrade/classes/ezoption.php" );
-include_once( "eztrade/classes/ezpricegroup.php" );
-include_once( "eztrade/classes/ezproductcurrency.php" );
-include_once( "eztrade/classes/ezproductpermission.php" );
-include_once( "eztrade/classes/ezproductpricerange.php" );
-include_once( "ezuser/classes/ezuser.php" );
-
-include_once( "classes/ezmodulelink.php" );
-include_once( "classes/ezlinksection.php" );
-include_once( "classes/ezlinkitem.php" );
 
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
 
-$GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
+$GlobalSectionID = eZProductCategory::sectionIDStatic( $category->id() );
 
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
@@ -175,18 +189,6 @@ $t->set_var( "module_print", $ModulePrint );
 $t->set_var( "attribute_header", "" );
 $t->set_var( "attribute_value", "" );
 $t->set_var( "price_range", "" );
-
-$product = new eZProduct( $ProductID );
-
-if ( $CategoryID == "" )
-{
-    $category = $product->categoryDefinition();
-}
-else
-{
-    $category = new eZProductCategory();
-    $category->get( $CategoryID );
-}
 
 $pathArray =& $category->path();
 
