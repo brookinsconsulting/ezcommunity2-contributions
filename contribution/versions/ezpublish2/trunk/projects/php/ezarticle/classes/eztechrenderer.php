@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.23 2000/10/30 21:46:29 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.24 2000/10/31 21:53:13 ce-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -491,6 +491,7 @@ class eZTechRenderer
 
     
     /*!
+      \private
       Returns a php highlighted string.
     */
     function &phpHighlight( $string )
@@ -532,6 +533,7 @@ class eZTechRenderer
     }
 
     /*!
+      \private
       Returns a sql highlighted string.
     */
     function &sqlHighlight( $string )
@@ -589,6 +591,7 @@ class eZTechRenderer
     }
 
     /*!
+      \private
       Returns a c++ highlighted string.
     */
     function &cppHighlight( $string )
@@ -631,6 +634,7 @@ class eZTechRenderer
     }
 
     /*!
+      \private
       Returns a shell script highlighted string.
     */
     function &shellHighlight( $string )
@@ -658,6 +662,7 @@ class eZTechRenderer
     }
 
     /*!
+      \private 
       Returns a perl highlighted string.
     */
     function &perlHighlight( $string )
@@ -699,6 +704,7 @@ class eZTechRenderer
 
 
     /*!
+      \private 
       Returns a lisp highlighted string.
     */
     function &lispHighlight( $string )
@@ -730,6 +736,7 @@ class eZTechRenderer
     }
 
     /*!
+      \private
       Returns a java highlighted string.
     */
     function &javaHighlight( $string )
@@ -775,6 +782,7 @@ class eZTechRenderer
     }
 
     /*!
+      \private
       Returns a html highlighted string.
     */
     function &htmlHighlight( $string )
@@ -788,8 +796,6 @@ class eZTechRenderer
         
         return $string;
     }
-    
-    
     var $Article;
 }
 
