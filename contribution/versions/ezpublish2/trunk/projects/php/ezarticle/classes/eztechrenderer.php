@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.63 2001/03/21 11:34:22 th Exp $
+// $Id: eztechrenderer.php,v 1.64 2001/03/23 16:37:16 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -574,7 +574,15 @@ class eZTechRenderer
                     }
                 }
                             
-                $imageURL = "/" . $variation->imagePath();
+                if ( get_class( $variation ) == "ezimage" )
+                {
+                    $imageURL = $variation->filePath();
+                }
+                else
+                {
+                    $imageURL = "/" . $variation->imagePath();
+                }
+
                 $imageWidth = $variation->width();
                 $imageHeight = $variation->height();
                 $imageCaption = $image->caption();
