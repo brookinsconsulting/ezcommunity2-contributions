@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.7 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: orderlist.php,v 1.8 2000/11/01 13:01:26 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -114,6 +114,8 @@ else
 $t->set_var( "limit", $Limit );
 $t->set_var( "query_text", $QueryText );
 
+if ( !$orderArray )
+    $t->set_var( "order_item", "" );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
