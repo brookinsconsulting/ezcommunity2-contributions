@@ -10,6 +10,7 @@ Changes from 2.2.3 to 2.2.4
 * Added default .htaccess file 
 * Fixed problem with html in eZ forum
 * Fixed bug when changing permissions
+* Fixed permission problems in eZ article
 * Fixed bug with deleting of contacts after a search
 * Fixed problem with redirecting on nVH setup n eZ bug
 * Fixed bug where file tag did not appear inside factbox and bold
