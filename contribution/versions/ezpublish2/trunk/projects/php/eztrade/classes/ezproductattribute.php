@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductattribute.php,v 1.4 2001/04/05 08:38:13 ce Exp $
+// $Id: ezproductattribute.php,v 1.5 2001/04/17 14:26:02 ce Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -290,6 +290,11 @@ class eZProductAttribute
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+       if ( $attributeType == 2 )
+       {
+           $this->Database->query( "DELETE FROM eZTrade_AttributeValue WHERE AttributeID='$this->ID'" );
+       }
+       
        $this->AttributeType = $attributeType;
        
     }

@@ -52,7 +52,8 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
     $parentArray = createIfNotExists( $parentName, $place->id() );
     $parent = $parentArray[0];
     $parentID = $parent->id();
-    
+
+    print( $groupName );
     if ( $parentCheck )
     {
         $db->array_query( $checkArray, "SELECT ID FROM eZTrade_Category WHERE Parent='$parentID' AND RemoteID='$groupName'" );
@@ -593,7 +594,7 @@ function addToCategory ( $categoryID, $product )
 // Insert the product.
 function insert( $args )
 {
-//          print_r( $args );
+    //          print_r( $args );
 //          return new eZXMLRPCInt( $productID );
     $data =&$args[0];
 
@@ -807,7 +808,6 @@ function insert( $args )
     $parents = belongsTo( $productCategory );
 
     // Add the product to the group.
-
     if ( count ( $parents ) > 1 )
     {
         foreach ( $parents as $parent )
@@ -818,11 +818,54 @@ function insert( $args )
     elseif ( count ( $parents ) == 1 )
         $category = addToGroup( $productCategory, $product, $parents[0], $oldDesign, $oldCategoryName, true );
 
-    if ( $productPictureName && $update == false )
+//      if ( $productPictureName && $update == false )
+//      {
+//          if ( is_file( "tmp/" . $productPictureName ) )
+//              unlink( "tmp/" . $productPictureName );
+
+
+//          if ( is_file( "tmp/" . $productPictureName ) == false )
+//          {
+//              $filePath = "tmp/" . $productPictureName;
+//              $fp = fopen( $filePath, "w+" );
+//              fwrite( $fp, $productPicture );
+//              fclose( $fp );
+            
+//              if ( is_file( "tmp/" . $productPictureName ) && ( filesize( "tmp/". $productPictureName ) != 0 ) && ( $productPictureName != ".jpg" ) )
+//              {
+//                  $file = new eZImageFile();
+//                  if ( $file->getFile( "tmp/" . $productPictureName ) )
+//                  {
+
+//                      $image = new eZImage();
+//                      $image->setImage( &$file );
+//                      $image->setName( $productName );
+//                      $image->store();
+
+//                      addImage( $image, $product );
+//                  }
+//              }
+//          }
+//      }
+
+    if ( $productPictureName )
     {
         if ( is_file( "tmp/" . $productPictureName ) )
             unlink( "tmp/" . $productPictureName );
 
+        if ( $update )
+        {
+            $images =& $product->images();
+
+            if ( count ( $images ) > 0 )
+            {
+                foreach( $images as $image )
+                {
+                    $product->deleteImage( $image );
+                    $image->delete();
+                }
+            }
+        }
 
         if ( is_file( "tmp/" . $productPictureName ) == false )
         {
@@ -830,13 +873,12 @@ function insert( $args )
             $fp = fopen( $filePath, "w+" );
             fwrite( $fp, $productPicture );
             fclose( $fp );
-            
+
             if ( is_file( "tmp/" . $productPictureName ) && ( filesize( "tmp/". $productPictureName ) != 0 ) && ( $productPictureName != ".jpg" ) )
             {
                 $file = new eZImageFile();
                 if ( $file->getFile( "tmp/" . $productPictureName ) )
                 {
-
                     $image = new eZImage();
                     $image->setImage( &$file );
                     $image->setName( $productName );
@@ -856,7 +898,7 @@ function insert( $args )
     $attribue = new eZProductAttribute();
     
     $attribue->get( 1 );
-    $attribue->setValue( $product, $attributeTotalWeight . " g");
+    $attribue->setValue( $product, $attributeTotalWeight );
     
     $attribue->get( 2 );
     $attribue->setValue( $product, $attributeGoldColor );

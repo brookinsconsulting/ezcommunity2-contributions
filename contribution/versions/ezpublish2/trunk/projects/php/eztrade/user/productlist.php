@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.20 2001/03/26 14:23:20 ce Exp $
+// $Id: productlist.php,v 1.21 2001/04/17 14:26:02 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -150,6 +150,11 @@ $locale = new eZLocale( $Language );
 $i=0;
 foreach ( $productList as $product )
 {
+    
+    print( $product->id() . "<br>");
+    if ( $product->id != "682" )
+    {
+    
     $t->set_var( "product_id", $product->id() );
 
     // preview image
@@ -197,6 +202,8 @@ foreach ( $productList as $product )
     }
     else
     {
+        $priceArray = "";
+        $priceArray = "";
         $options =& $product->options();
         if ( count ( $options ) == 1 )
         {
@@ -249,6 +256,7 @@ foreach ( $productList as $product )
 
     $t->parse( "product", "product_tpl", true );
     $i++;
+    }
 }
 
 if ( count( $productList ) > 0 )

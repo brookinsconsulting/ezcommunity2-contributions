@@ -105,7 +105,6 @@
 								{value_price} 
 								<!-- END value_price_item_tpl -->
 								<!-- BEGIN value_availability_item_tpl -->
-								({value_availability}) 
 								<!-- END value_availability_item_tpl -->
 								</option>
 								<!-- BEGIN value_price_currency_list_tpl -->
@@ -154,7 +153,7 @@
 	<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 	<!-- END add_to_cart_tpl -->
 	<br /><br />
-	<a href="/trade/productlist/{category_id}/">{intl-back}</a>
+	<a href="javascript:back()">{intl-back}</a>
 	<!-- BEGIN numbered_page_link_tpl -->
 	&nbsp;
 	<!-- END numbered_page_link_tpl -->
