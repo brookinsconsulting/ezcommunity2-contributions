@@ -30,17 +30,13 @@ CREATE TABLE eZAddress_AddressType (
 );
 
 #
-# Dumping data for table 'eZAddress_AddressDefinition'
-#
-
-#
 # Table structure for table 'eZAddress_AddressDefinition'
 #
 DROP TABLE IF EXISTS eZAddress_AddressDefinition;
 CREATE TABLE eZAddress_AddressDefinition (
   UserID int(11) DEFAULT '0' NOT NULL,
-  AddressID int(11),
-  PRIMARY KEY (UserID)
+  AddressID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (UserID, AddressID)
 );
 
 #
@@ -301,6 +297,7 @@ INSERT INTO eZAddress_Country VALUES (236,'YE','Yemen','');
 INSERT INTO eZAddress_Country VALUES (237,'YU','Yugoslavia','');
 INSERT INTO eZAddress_Country VALUES (238,'ZR','Zaire','');
 INSERT INTO eZAddress_Country VALUES (239,'ZM','Zambia','');
+INSERT INTO eZAddress_Country VALUES (240,'US','United States of America','');
 
 #
 # Table structure for table 'eZAddress_Online'
