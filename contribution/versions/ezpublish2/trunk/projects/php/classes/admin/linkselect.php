@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.5 2001/05/04 10:19:56 jb Exp $
+// $Id: linkselect.php,v 1.6 2001/05/05 10:47:27 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:33:53 amos>
@@ -398,6 +398,7 @@ switch( $module )
                 }
                 $t->parse( "tree_selector", "tree_selector_tpl" );
             }
+            $module_lower = strtolower( $module );
             $file = strtolower( $module ) . "/user/urlsupplier.php";
             if ( file_exists( $file ) )
             {
