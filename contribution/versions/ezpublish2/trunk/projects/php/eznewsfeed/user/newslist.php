@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.10 2001/01/02 14:54:59 bf Exp $
+// $Id: newslist.php,v 1.11 2001/01/12 10:40:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 11:35:19 bf>
@@ -29,6 +29,7 @@ include_once( "eznewsfeed/classes/eznewsimporter.php" );
 
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztemplate.php" );
 
 $ini = new INIFIle( "site.ini" );
 
