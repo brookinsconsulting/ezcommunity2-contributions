@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.3 2001/01/22 14:43:01 jb Exp $
+// $Id: ezpageview.php,v 1.4 2001/01/23 20:33:14 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -157,6 +157,11 @@ class eZPageView
             // check if the requested page is already stored. If so store
             // the id.
             $requestURI = $GLOBALS["REQUEST_URI"];
+            
+            // Remove url parameters
+            ereg( "([^?]+)", $requestURI, $regs);
+            $requestURI =& $regs[1];
+
 
             $this->Database->array_query( $request_page_array,
             "SELECT ID FROM eZStats_RequestPage

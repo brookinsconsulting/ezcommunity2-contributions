@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.27 2001/01/23 13:43:54 bf Exp $
+// $Id: ezsession.php,v 1.28 2001/01/23 20:33:14 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -64,6 +64,7 @@ class eZSession
     function eZSession( $id="", $fetch=true  )
     {
         $this->IsConnected = false;
+        $this->IsFetched = false;
 
         if ( $id != "" )
         {
@@ -168,10 +169,8 @@ class eZSession
     function fetch( $refresh=true )
     {
         $ret = false;
-
         
-        $globalSessionIsFetched =& $GLOBALS["eZSessionObjectIsFetched"];
-        if ( $globalSessionIsFetched != "true" )
+        if ( $this->IsFetched != true )
         {
             $db =& eZDB::globalDatabase();
             $ret = false;
@@ -202,7 +201,7 @@ class eZSession
 
                 if ( $ret == true )
                 {
-                    $globalSessionIsFetched = "true";
+                    $this->IsFetched = true;
                 }
 
                 if ( $refresh == true )
@@ -426,6 +425,8 @@ class eZSession
     var $Created;
     var $LastAccessed;
     var $SecondLastAccessed;
+
+    var $IsFetched;
 }
 
 ?>

@@ -18,6 +18,7 @@ include_once( "ezsession/classes/ezsession.php" );
 
 $session =& eZSession::globalSession();
 
+unset( $siteDesign );
 if ( $session->fetch() == false )
 {
     $siteDesign =& $ini->read_var( "site", "SiteDesign" );

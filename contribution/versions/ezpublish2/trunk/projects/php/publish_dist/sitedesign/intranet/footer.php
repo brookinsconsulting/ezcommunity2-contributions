@@ -27,6 +27,8 @@
 	<p class="smallbold" align="center"><a href="http://publish.ez.no"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></a></p>
 
     <?
+    // change design on the fly
+    
 $session =& eZSession::globalSession();
 
 if ( $session->fetch() == false )
@@ -50,10 +52,25 @@ if ( $Design == 1 )
     exit();
 }
 
-print( $REQUEST_URI );
+if ( $Design == 2 )
+{
+    $session->setVariable( "SiteDesign", "trade" );
+    include_once( "classes/ezhttptool.php" );
+
+    $redir = "/";
+    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
+    {
+        $redir = $REQUEST_URI;
+    }
+        
+    eZHTTPTool::header( "Location: $redir" );
+    exit();
+}
+
 
 ?>
-    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>"> here</a>
+    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Portal site</a>
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">E-commerce</a>
     
     <!-- Oppslagstavle fram til hit! -->
 
