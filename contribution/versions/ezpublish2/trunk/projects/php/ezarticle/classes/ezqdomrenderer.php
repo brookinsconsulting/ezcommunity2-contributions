@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.10 2001/07/04 10:38:51 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.11 2001/07/04 14:28:15 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -567,6 +567,7 @@ class eZQDomrenderer
             case "strong" :
             {
                 $tmpContent = "";
+                if ( count( $paragraph->children ) )
                 foreach ( $paragraph->children as $child )
                 {
                     if ( $child->name == "text" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unpublishedlist.php,v 1.10 2001/05/14 11:20:53 ce Exp $
+// $Id: unpublishedlist.php,v 1.11 2001/07/04 14:28:15 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -42,34 +42,6 @@ $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
 $languageIni = new INIFIle( "ezarticle/admin/intl/" . $Language . "/unpublishedlist.php.ini", false );
 
 
-if( isset( $DeleteCategories ) )
-{
-    if ( count ( $CategoryArrayID ) != 0 )
-    {
-        if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-            unlink( "ezarticle/cache/menubox.cache" );
-
-        $categories = array();
-        foreach( $CategoryArrayID as $ID )
-        {
-            $categories[] = $ID;
-            $category = new eZArticleCategory( $ID );
-            $categories[] = $category->parent( false );
-            if( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) ||
-                eZArticleCategory::isOwner( eZUser::currentUser(), $ID ) )
-                $category->delete();
-        }
-        $categories = array_unique( $categories );
-        $files =& eZCacheFile::files( "ezarticle/cache/",
-                                      array( "articlelist",
-                                             $categories, NULL ),
-                                      "cache", "," );
-        foreach( $files as $file )
-        {
-            $file->delete();
-        }
-    }
-}
 
 if( isset( $DeleteArticles ) )
 {
@@ -127,7 +99,6 @@ $t->set_block( "unpublished_list_page_tpl", "next_tpl", "next" );
 
 $t->set_var( "site_style", $SiteStyle );
 
-$category = new eZArticleCategory( $CategoryID );
 
 // set the offset/limit
 if ( !isset( $Offset ) )
@@ -146,16 +117,6 @@ $articleCount = $article->articleCount( "only" );
 $i=0;
 $t->set_var( "article_list", "" );
 
-/*
-if ( $category->sortMode() == "absolute_placement" )
-{
-    $t->parse( "absolute_placement_header", "absolute_placement_header_tpl" );
-}
-else
-{
-    $t->set_var( "absolute_placement_header", "" );
-}
-*/
 
 foreach ( $articleList as $article )
 {
@@ -189,16 +150,6 @@ foreach ( $articleList as $article )
             $t->set_var( "td_class", "bgdark" );
         }
 
-        /*
-        if ( $category->sortMode() == "absolute_placement" )
-        {
-            $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
-        }
-        else
-        {
-            $t->set_var( "absolute_placement_item", "" );
-        }
-        */
         
         if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'w') ||
             eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
@@ -216,7 +167,6 @@ foreach ( $articleList as $article )
 
 eZList::drawNavigator( $t, $articleCount, $AdminListLimit, $Offset, "unpublished_list_page_tpl" );
 
-$t->set_var( "archive_id", $CategoryID );
 
 if ( count( $articleList ) > 0 )    
     $t->parse( "article_list", "article_list_tpl" );

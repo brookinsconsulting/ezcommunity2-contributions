@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.96 2001/07/04 10:38:51 bf Exp $
+// $Id: articleedit.php,v 1.97 2001/07/04 14:28:15 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -321,245 +321,249 @@ if ( $Action == "Cancel" )
 // update an existing article in the database
 if ( $Action == "Update" )
 {
-    $article = new eZArticle( $ArticleID );
-    $article->setName( $Name );
+    $article = new eZArticle( );
 
-    $oldCategory = $article->categoryDefinition();
-    $oldCategoryID = $oldCategory->id();
-
-    $author = new eZAuthor( $ContentsWriterID );
-    $article->setContentsWriter( $author );
-
-    $topic = new eZTopic( $TopicID );
-    $article->setTopic( $topic );
-
-    $generator = new eZArticleGenerator();
-
-    $contents = $generator->generateXML( $Contents );
-
-    $article->setContents( $contents  );
-    $article->setPageCount( $generator->pageCount() );
-    $article->setAuthorText( $AuthorText );
-    $article->setAuthorEmail( $AuthorEmail );
-    $article->setLinkText( $LinkText );
-
-    if ( trim( $LogMessage ) != "" )
-        $article->addLog( $LogMessage );
-
-    if ( $Discuss == "on" )
-        $article->setDiscuss( true );
-    else
-        $article->setDiscuss( false );
-
-    // Time publising
-    $startDate = new eZDateTime();
-    $startDate->setDay( $StartDay );
-    $startDate->setMonth( $StartMonth );
-    $startDate->setYear( $StartYear );
-    $startDate->setHour( $StartHour );
-    $startDate->setMinute( $StartMinute );
-    $startDate->setSecond( 0 );
-    $stopDate = new eZDateTime();
-    $stopDate->setDay( $StopDay );
-    $stopDate->setMonth( $StopMonth );
-    $stopDate->setYear( $StopYear );
-    $stopDate->setHour( $StopHour );
-    $stopDate->setMinute( $StopMinute );
-    $stopDate->setSecond( 0 );
-    
-    $article->setStartDate( &$startDate );
-    $article->setStopDate( &$stopDate );
-
-                    
-    eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
-    if( isset( $WriteGroupArray ) )
+    if ( $article->get( $ArticleID ) == true )
     {
-        if( $WriteGroupArray[0] == 0 )
-        {
-            eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
-        }
+            $article->setName( $Name );
+
+        $oldCategory = $article->categoryDefinition();
+        $oldCategoryID = $oldCategory->id();
+
+        $author = new eZAuthor( $ContentsWriterID );
+        $article->setContentsWriter( $author );
+
+        $topic = new eZTopic( $TopicID );
+        $article->setTopic( $topic );
+
+        $generator = new eZArticleGenerator();
+
+        $contents = $generator->generateXML( $Contents );
+
+        $article->setContents( $contents  );
+        $article->setPageCount( $generator->pageCount() );
+        $article->setAuthorText( $AuthorText );
+        $article->setAuthorEmail( $AuthorEmail );
+        $article->setLinkText( $LinkText );
+
+        if ( trim( $LogMessage ) != "" )
+            $article->addLog( $LogMessage );
+
+        if ( $Discuss == "on" )
+            $article->setDiscuss( true );
         else
-        {
-            foreach ( $WriteGroupArray as $groupID )
-            {
-                eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'w' );
-            }
-        }
-    }
-    else
-    {
+            $article->setDiscuss( false );
+
+        // Time publising
+        $startDate = new eZDateTime();
+        $startDate->setDay( $StartDay );
+        $startDate->setMonth( $StartMonth );
+        $startDate->setYear( $StartYear );
+        $startDate->setHour( $StartHour );
+        $startDate->setMinute( $StartMinute );
+        $startDate->setSecond( 0 );
+        $stopDate = new eZDateTime();
+        $stopDate->setDay( $StopDay );
+        $stopDate->setMonth( $StopMonth );
+        $stopDate->setYear( $StopYear );
+        $stopDate->setHour( $StopHour );
+        $stopDate->setMinute( $StopMinute );
+        $stopDate->setSecond( 0 );
+
+        $article->setStartDate( &$startDate );
+        $article->setStopDate( &$stopDate );
+
+
         eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
-    }
-    
-    /* read access thingy */
-    eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
-    if ( isset( $GroupArray ) )
-    {
-        if( $GroupArray[0] == 0 )
+        if( isset( $WriteGroupArray ) )
         {
-            eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
-        }
-        else // some groups are selected.
-        {
-            foreach ( $GroupArray as $groupID )
+            if( $WriteGroupArray[0] == 0 )
             {
-                eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'r' );
+                eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
+            }
+            else
+            {
+                foreach ( $WriteGroupArray as $groupID )
+                {
+                    eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'w' );
+                }
             }
         }
-    }
-    else
-    {
-        eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
-    }
-
-    // add check for publishing rights here
-    if ( $IsPublished == "on" )
-    {
-        // check if the article is published now
-        if ( $article->isPublished() == false )
-        {
-            eZArticleTool::notificationMessage( $article );
-        }
-        
-        $article->setIsPublished( true );
-    }
-    else
-    {
-        $article->setIsPublished( false );
-    }
-
-
-    // check if the contents is parseable
-    if ( xmltree( $contents ) )
-    // TODO add document validation here:
-//    if ( true )
-    {
-        // generate keywords
-        $contents = strip_tags( $contents );
-        $contents = ereg_replace( "#\n#", "", $contents );
-        $contents_array =& split( " ", $contents );
-        $contents_array = array_unique( $contents_array );
-
-        $keywords = "";
-        foreach ( $contents_array as $word )
-        {
-            $keywords .= $word . " ";
-        }
-
-        $article->setKeywords( $keywords );
-
-
-        $article->store();
-
-        $article->setManualKeywords( $Keywords );
-
-        $categoryArray =& $article->categories();
-        
-        // Calculate new and unused categories
-        $old_maincategory = $article->categoryDefinition();
-        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-                                                      $article->categories( false ) ) );
-
-        $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
-        $remove_categories = array_diff( $old_categories, $new_categories );
-        $add_categories = array_diff( $new_categories, $old_categories );
-
-        $categoryIDArray = array();
-
-        foreach ( $categoryArray as $cat )
-        {
-            $categoryIDArray[] = $cat->id();
-        }
-
-        // clear the cache files.
-        eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
-
-        foreach ( $remove_categories as $categoryItem )
-        {
-            eZArticleCategory::removeArticle( $article, $categoryItem );
-        }
-
-        // add to categories
-        $category = new eZArticleCategory( $CategoryID );
-        $article->setCategoryDefinition( $category );
-
-        foreach ( $add_categories as $categoryItem )
-        {
-            eZArticleCategory::addArticle( $article, $categoryItem );
-        }
-
-        if ( isset( $AddItem ) )
-        {
-            switch( $ItemToAdd )
-            {
-                case "Image":
-                {   
-                    // add images
-                    eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
-                    exit();
-                }
-                break;
-                
-                case "File":
-                {
-                    // add files
-                    eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
-                    exit();
-                }
-                break;
-                
-                case "Attribute":
-                {
-                    // add attributes
-                    eZHTTPTool::header( "Location: /article/articleedit/attributelist/$ArticleID/" );
-                    exit();
-                }
-                break;
-
-                case "Form":
-                {
-                    // add form
-                    eZHTTPTool::header( "Location: /article/articleedit/formlist/$ArticleID/" );
-                    exit();
-                }
-                break;
-
-            }
-        }
-
-        
-        // preview
-        if ( isset( $Preview ) )
-        {
-            eZHTTPTool::header( "Location: /article/articlepreview/$ArticleID/" );
-            exit();
-        }
-
-        // log history
-        if ( isset( $Log ) )
-        {
-            eZHTTPTool::header( "Location: /article/articlelog/$ArticleID/" );
-            exit();
-        }
-        
-        
-        // get the category to redirect to
-        $category = $article->categoryDefinition( );
-        $categoryID = $category->id();
-
-        if ( $article->isPublished() )
-            eZHTTPTool::header( "Location: /article/archive/$oldCategoryID/" );
         else
-            eZHTTPTool::header( "Location: /article/unpublished/$oldCategoryID/" );
-        exit();
-    }
-    else
-    {
-        print( htmlspecialchars( $contents ) );
+        {
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
+        }
 
-        $Action = "Edit";
-        $ErrorParsing = true;        
+        /* read access thingy */
+        eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
+        if ( isset( $GroupArray ) )
+        {
+            if( $GroupArray[0] == 0 )
+            {
+                eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
+            }
+            else // some groups are selected.
+            {
+                foreach ( $GroupArray as $groupID )
+                {
+                    eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'r' );
+                }
+            }
+        }
+        else
+        {
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
+        }
+
+        // add check for publishing rights here
+        if ( $IsPublished == "on" )
+        {
+            // check if the article is published now
+            if ( $article->isPublished() == false )
+            {
+                eZArticleTool::notificationMessage( $article );
+            }
+
+            $article->setIsPublished( true );
+        }
+        else
+        {
+            $article->setIsPublished( false );
+        }
+
+
+        // check if the contents is parseable
+        if ( xmltree( $contents ) )
+        // TODO add document validation here:
+    //    if ( true )
+        {
+            // generate keywords
+            $contents = strip_tags( $contents );
+            $contents = ereg_replace( "#\n#", "", $contents );
+            $contents_array =& split( " ", $contents );
+            $contents_array = array_unique( $contents_array );
+
+            $keywords = "";
+            foreach ( $contents_array as $word )
+            {
+                $keywords .= $word . " ";
+            }
+
+            $article->setKeywords( $keywords );
+
+
+            $article->store();
+
+            $article->setManualKeywords( $Keywords );
+
+            $categoryArray =& $article->categories();
+
+            // Calculate new and unused categories
+            $old_maincategory = $article->categoryDefinition();
+            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                          $article->categories( false ) ) );
+
+            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+            $remove_categories = array_diff( $old_categories, $new_categories );
+            $add_categories = array_diff( $new_categories, $old_categories );
+
+            $categoryIDArray = array();
+
+            foreach ( $categoryArray as $cat )
+            {
+                $categoryIDArray[] = $cat->id();
+            }
+
+            // clear the cache files.
+            eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
+
+            foreach ( $remove_categories as $categoryItem )
+            {
+                eZArticleCategory::removeArticle( $article, $categoryItem );
+            }
+
+            // add to categories
+            $category = new eZArticleCategory( $CategoryID );
+            $article->setCategoryDefinition( $category );
+
+            foreach ( $add_categories as $categoryItem )
+            {
+                eZArticleCategory::addArticle( $article, $categoryItem );
+            }
+
+            if ( isset( $AddItem ) )
+            {
+                switch( $ItemToAdd )
+                {
+                    case "Image":
+                    {   
+                        // add images
+                        eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
+                        exit();
+                    }
+                    break;
+
+                    case "File":
+                    {
+                        // add files
+                        eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
+                        exit();
+                    }
+                    break;
+
+                    case "Attribute":
+                    {
+                        // add attributes
+                        eZHTTPTool::header( "Location: /article/articleedit/attributelist/$ArticleID/" );
+                        exit();
+                    }
+                    break;
+
+                    case "Form":
+                    {
+                        // add form
+                        eZHTTPTool::header( "Location: /article/articleedit/formlist/$ArticleID/" );
+                        exit();
+                    }
+                    break;
+
+                }
+            }
+
+
+            // preview
+            if ( isset( $Preview ) )
+            {
+                eZHTTPTool::header( "Location: /article/articlepreview/$ArticleID/" );
+                exit();
+            }
+
+            // log history
+            if ( isset( $Log ) )
+            {
+                eZHTTPTool::header( "Location: /article/articlelog/$ArticleID/" );
+                exit();
+            }
+
+
+            // get the category to redirect to
+            $category = $article->categoryDefinition( );
+            $categoryID = $category->id();
+
+            if ( $article->isPublished() )
+                eZHTTPTool::header( "Location: /article/archive/$oldCategoryID/" );
+            else
+                eZHTTPTool::header( "Location: /article/unpublished/$oldCategoryID/" );
+            exit();
+        }
+        else
+        {
+            print( htmlspecialchars( $contents ) );
+
+            $Action = "Edit";
+            $ErrorParsing = true;        
+        }
     }
 }
 
