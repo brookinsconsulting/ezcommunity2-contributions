@@ -1,9 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezsysinfo.php,v 1.3 2001/05/09 07:50:15 bf Exp $
-//
-// Bård Farstad <bf@ez.no>
-// Created on: <21-Apr-2001 12:11:59 bf>
+// $Id: ezsysinfo.php,v 1.4 2001/07/20 11:30:53 jakobn Exp $
 //
 // This class is based on code from
 // http://phpsysinfo.sourceforge.net/ 
@@ -11,8 +8,11 @@
 //   Uriah Welcome (precision@valinux.com)
 //   Matthew Snelham (infinite@valinux.com)
 //
+// Created on: <21-Apr-2001 12:11:59 bf>
+//
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -28,7 +28,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 //!! eZCommon
 //! The eZ sysinfo provides system information.
