@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.3 2001/01/23 21:52:13 jb Exp $
+// $Id: ezmenubox.php,v 1.4 2001/01/24 09:14:08 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -128,13 +128,7 @@ class eZMenuBox
             $t->parse( "menu_item", "menu_item_tpl", true );
         }
 
-        if ( $print )
-        {
-            $str =& $t->storeCache( "output", "menu_box_tpl" );
-            print $str;
-        }
-        else
-            return $t->parse( "output", "menu_box_tpl" );
+        return $t->storeCache( "output", "menu_box_tpl", $print );
     }
 };
 
