@@ -43,6 +43,12 @@
         ?>
 
 <?
+include( "ezcontact/user/menubox.php" );
+?>
+	<tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
+<?
 include( "ezarticle/user/menubox.php" );
 ?>
 	<tr>
