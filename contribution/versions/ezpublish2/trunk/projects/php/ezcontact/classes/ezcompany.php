@@ -67,7 +67,20 @@ class eZCompany
     
     return $company_array;
   }
-  
+
+  /*
+    Henter ut alle firma i databasen som inneholder søkestrengen.
+  */
+  function search( $query )
+  {
+    $this->dbInit();    
+    $company_array = 0;
+    
+    array_query( $company_array, "SELECT * FROM Company WHERE Name LIKE '%$query%' ORDER BY Name" );
+    
+    return $company_array;
+  }
+    
   /*!
     Setter Navn.
   */

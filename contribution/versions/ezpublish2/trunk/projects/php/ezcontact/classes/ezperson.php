@@ -66,7 +66,7 @@ class eZPerson
       }
     }
   }
-
+    
   /*
     Henter ut alle personene lagret i databasen.
   */
@@ -80,6 +80,19 @@ class eZPerson
     return $person_array;
   }
 
+  /*
+    Henter ut alle personene hvor etternavn eller fornavn inneholder søkestrengen.
+  */
+  function search( $query )
+  {
+    $this->dbInit();    
+    $person_array = 0;
+    
+    array_query( $person_array, "SELECT * FROM Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
+    
+    return $person_array;
+  }
+    
   /*
   */
   function setFirstName( $value )
@@ -107,7 +120,6 @@ class eZPerson
   {
     $this->Comment = $value;
   }
-
 
   /*!
   */

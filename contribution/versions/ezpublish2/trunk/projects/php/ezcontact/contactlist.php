@@ -21,7 +21,14 @@ $t->set_file( array(
 $person = new eZPerson();
 $personType = new eZPersonType();
 
-$person_array = $person->getAll( );
+if ( $PersonQuery != ""  )
+{
+    $person_array = $person->search( $PersonQuery );
+}
+else
+{
+    $person_array = $person->getAll( );
+}
 
 for ( $i=0; $i<count( $person_array ); $i++ )
 {
@@ -42,7 +49,15 @@ for ( $i=0; $i<count( $person_array ); $i++ )
 }
 
 $company = new eZCompany();
-$company_array = $company->getAll( );
+
+if ( $CompanyQuery != ""  )
+{
+    $company_array = $company->search( $CompanyQuery );
+}
+else
+{
+    $company_array = $company->getAll( );
+}
 
 for ( $i=0; $i<count( $company_array ); $i++ )
 {
@@ -61,6 +76,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
 }
 
 
+$t->set_var( "document_root", $DOCUMENTROOT );  
 
 $t->pparse( "output", "contact_page");
 ?>

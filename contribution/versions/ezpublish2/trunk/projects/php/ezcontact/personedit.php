@@ -34,6 +34,7 @@ if ( $Insert == "TRUE" )
   $newAddress->setStreet1( $Street1 );
   $newAddress->setStreet2( $Street2 );
   $newAddress->setZip( $Zip );
+  $newAddress->setOwner( $pid );  
   $newAddress->store();
 }
 
