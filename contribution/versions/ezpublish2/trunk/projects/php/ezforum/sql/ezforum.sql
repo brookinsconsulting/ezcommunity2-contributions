@@ -14,7 +14,7 @@ CREATE TABLE eZForum_Category (
 # Dumping data for table 'eZForum_Category'
 #
 
-INSERT INTO eZForum_Category VALUES ('Talk center','General talk','N',1);
+INSERT INTO eZForum_Category VALUES ('Talk center','General talk','0',1);
 
 #
 # Table structure for table 'eZForum_Forum'
@@ -35,12 +35,12 @@ CREATE TABLE eZForum_Forum (
 # Dumping data for table 'eZForum_Forum'
 #
 
-INSERT INTO eZForum_Forum VALUES ('Discussion','Discuss everything here','',1,27,0);
-INSERT INTO eZForum_Forum VALUES ('Demo article','','',2,0,0);
-INSERT INTO eZForum_Forum VALUES ('What is New?','','',3,0,0);
-INSERT INTO eZForum_Forum VALUES ('What can eZ publish','','',4,0,0);
-INSERT INTO eZForum_Forum VALUES ('eZ Newsfeed','','',5,0,0);
-INSERT INTO eZForum_Forum VALUES ('eZ Article','','',6,0,0);
+INSERT INTO eZForum_Forum VALUES ('Discussion','Discuss everything here','',1,27,0, 0);
+INSERT INTO eZForum_Forum VALUES ('Demo article','','',2,0,0, 0);
+INSERT INTO eZForum_Forum VALUES ('What is New?','','',3,0,0, 0);
+INSERT INTO eZForum_Forum VALUES ('What can eZ publish','','',4,0,0, 0);
+INSERT INTO eZForum_Forum VALUES ('eZ Newsfeed','','',5,0,0, 0);
+INSERT INTO eZForum_Forum VALUES ('eZ Article','','',6,0,0, 0);
 
 #
 # Table structure for table 'eZForum_ForumCategoryLink'
@@ -84,6 +84,6 @@ CREATE TABLE eZForum_Message (
 # Dumping data for table 'eZForum_Message'
 #
 
-INSERT INTO eZForum_Message VALUES (1,'First post!','This is the first post!',27,0,'N',20010122104742,1,0,0,1,1);
-INSERT INTO eZForum_Message VALUES (1,'SV: First post!','> This is the first post!\r\nThis is the reply!',27,1,'N',20010122104747,0,0,1,2,1);
+INSERT INTO eZForum_Message VALUES (1,'First post!','This is the first post!',27,0,'N',20010122104742,1,0,0,1,1,0);
+INSERT INTO eZForum_Message VALUES (1,'SV: First post!','> This is the first post!\r\nThis is the reply!',27,1,'N',20010122104747,0,0,1,2,1,0);
 
