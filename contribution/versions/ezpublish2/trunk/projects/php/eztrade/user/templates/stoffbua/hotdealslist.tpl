@@ -14,7 +14,12 @@
 
 	<a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
 
+	<!-- BEGIN product_image_tpl -->
+	<img src="{product_image_path}" border="0" align="right" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<!-- END product_image_tpl -->&nbsp;
+
 <p>{product_intro_text}</p>
+
 
 <!-- BEGIN price_tpl -->
 <p class="pris">{product_price}</p>

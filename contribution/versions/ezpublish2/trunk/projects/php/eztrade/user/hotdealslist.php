@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.3 2000/12/13 11:13:48 bf Exp $
+// $Id: hotdealslist.php,v 1.4 2000/12/13 17:56:09 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -45,6 +45,8 @@ $t->set_block( "product_list_page_tpl", "price_tpl", "price" );
 $t->set_block( "product_list_page_tpl", "product_list_tpl", "product_list" );
 $t->set_block( "product_list_tpl", "product_tpl", "product" );
 
+$t->set_block( "product_tpl", "product_image_tpl", "product_image" );
+
 
 
 $t->setAllStrings();
@@ -73,6 +75,23 @@ foreach ( $productList as $product )
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_intro_text", $product->brief() );
+
+    $image = $product->thumbnailImage();
+
+    if  ( $image )
+    {
+        $thumbnail =& $image->requestImageVariation( 100, 100 );
+
+        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+        $t->set_var( "product_image_width", $thumbnail->width() );
+        $t->set_var( "product_image_height", $thumbnail->height() );
+        $t->set_var( "product_image_caption", $image->caption() );
+        $t->parse( "product_image", "product_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "product_image", "" );
+    }
     
     if ( $product->showPrice() == true  )
     {
