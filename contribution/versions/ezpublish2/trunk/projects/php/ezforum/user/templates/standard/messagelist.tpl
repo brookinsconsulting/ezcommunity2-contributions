@@ -3,6 +3,16 @@
     <td align="left" valign="bottom">
         <h1>{intl-headline}</h1>
      </td>
+     <td align="center">
+     <form action="/forum/messagelist/{forum_id}/" method="post">
+           <!-- BEGIN hide_threads_tpl -->
+           <input class="stdbutton" type="submit" name="HideThreads" value="{intl-hide_threads}" />
+           <!-- END hide_threads_tpl -->
+           <!-- BEGIN show_threads_tpl -->
+           <input class="stdbutton" type="submit" name="ShowThreads" value="{intl-show_threads}" />
+           <!-- END show_threads_tpl -->
+     </form>
+     </td>
      <td align="right">
         <form action="/forum/search/" method="post">
            <input type="text" name="QueryString" size="12" />

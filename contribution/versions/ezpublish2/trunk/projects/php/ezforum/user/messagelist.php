@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.25 2001/05/08 09:58:30 ce Exp $
+// $Id: messagelist.php,v 1.26 2001/05/08 10:41:57 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -47,13 +47,28 @@ $t->set_file( "messagelist", "messagelist.tpl"  );
 $t->set_block( "messagelist", "message_item_tpl", "message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
 $t->set_block( "messagelist", "previous_tpl", "previous" ); 
-$t->set_block( "messagelist", "next_tpl", "next" ); 
+$t->set_block( "messagelist", "next_tpl", "next" );
+
+$t->set_block( "messagelist", "show_threads_tpl", "show_threads" );
+$t->set_block( "messagelist", "hide_threads_tpl", "hide_threads" ); 
 
 $t->setAllStrings();
 
 $forum = new eZForum( $ForumID );
 
 $categories =& $forum->categories();
+
+if ( isset ( $HideThreads ) )
+    $session->setVariable( "eZForum_Threads", "Hide" );
+
+if ( isset ( $ShowThreads ) )
+    $session->setVariable( "eZForum_Threads", "Show" );
+
+$showThreads = $session->variable( "eZForum_Threads" );
+
+
+if ( $showThreads == "" )
+    $showThreads = "Hide";
 
 $group =& $forum->group();
 $viewer = $user;
@@ -91,15 +106,19 @@ $locale = new eZLocale( $Language );
 if ( !$Offset )
     $Offset = 0;
 
-if ( $ini->read_var( "eZForumMain", "ShowReplies" ) == "enabled" )
+if ( $showThreads == "Hide" )
 {
-    $messageList =& $forum->messageTreeArray( $Offset, $UserLimit );
-    $messageCount =& $forum->messageCount( );
-}
-else
-{
+    $t->set_var( "hide_threads", "" );
+    $t->parse( "show_threads", "show_threads_tpl" );
     $messageList =& $forum->messageTreeArray( $Offset, $UserLimit, false, false );
     $messageCount =& $forum->messageCount( false, true );
+}
+elseif ( $showThreads == "Show" )
+{
+    $t->set_var( "show_threads", "" );
+    $t->parse( "hide_threads", "hide_threads_tpl" );
+    $messageList =& $forum->messageTreeArray( $Offset, $UserLimit );
+    $messageCount =& $forum->messageCount( );
 }
 
 if ( !$messageList )
@@ -134,7 +153,7 @@ else
         $userID = $message["UserID"];
         $user->get( $userID );
         
-        if ( $ini->read_var( "eZForumMain", "ShowReplies" ) == "enabled" )
+        if ( $showThreads == "Show" )
         {
             $t->set_var( "count_replies", "" );
             $level = $message["Depth"];
@@ -144,7 +163,7 @@ else
             else
                 $t->set_var( "spacer", "" );
         }
-        else
+        elseif ( $showThreads == "Hide" )
         {
             $count = $message["Count"] -1;
             $t->set_var( "spacer", "" );
