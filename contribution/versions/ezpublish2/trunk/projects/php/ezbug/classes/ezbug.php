@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.11 2001/02/15 16:16:35 fh Exp $
+// $Id: ezbug.php,v 1.12 2001/02/16 14:22:41 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -640,7 +640,7 @@ class eZBug
                                  WHERE BugID='$this->ID'" );
 
     }
-
+    
     /*!
       Searches the bug database and returns the result as an array
       of eZBug objects.
@@ -669,6 +669,126 @@ class eZBug
         return $ret;
     }
 
+    /*!
+      Connects the image $image of type eZImage with this bug.
+     */
+    function addImage( $image )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+            $this->Database->query( "INSERT INTO eZBug_BugImageLink SET BugID='$this->ID', ImageID='$Image->id()'" );
+        }
+    }
+
+    /*!
+      Disconnects an image from the bug.
+      NOTE: the image does not get deleted from the image catalogue
+     */
+    function deleteImage( $image )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $image->id();
+            $this->Database->query( "DELETE FROM eZBug_BugImageLink WHERE BugID='$this->ID' AND ImageID='$imageID'" );
+        }
+    }
+
+    /*!
+      Returns all images set to this bug as a array of eZImage objects.
+     */
+    function images()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $image_array = array();
+       
+       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZBug_BugImageLink WHERE BugID='$this->ID' ORDER BY Created" );
+       
+       for ( $i=0; $i<count($image_array); $i++ )
+       {
+           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
+       }
+       return $return_array;
+    }
+
+
+
+    /*!
+      Adds an file to the bug.
+    */
+    function addFile( $file )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $file ) == "ezvirtualfile" )
+        {
+            $this->dbInit();
+
+            $fileID = $file->id();
+
+            $this->Database->query( "INSERT INTO eZBug_BugFileLink SET BugID='$this->ID', FileID='$fileID'" );
+        }
+    }
+
+    /*!
+      Deletes an file from the article.
+
+      NOTE: the file does not get deleted from the file catalogue.
+    */
+    function deleteFile( $file )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $file ) == "ezvirtualfile" )
+        {
+            $this->dbInit();
+
+            $fileID = $file->id();
+            
+            $this->Database->query( "DELETE FROM eZBug_BugFileLink WHERE BugID='$this->ID' AND FileID='$fileID'" );
+        }
+    }
+    
+    /*!
+      Returns every file to a article as a array of eZFile objects.
+    */
+    function files()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $file_array = array();
+       
+       $this->Database->array_query( $file_array, "SELECT FileID FROM eZBug_BugFileLink WHERE BugID='$this->ID' ORDER BY Created" );
+       
+       for ( $i=0; $i<count($file_array); $i++ )
+       {
+           $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
+       }
+       
+       return $return_array;
+    }
+
+
+    
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
