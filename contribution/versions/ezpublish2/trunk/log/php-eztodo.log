@@ -11,3 +11,16 @@ Maintainer(s) : ce@ez.no
 Module : eztodo
 Repository path : /home/cvsroot/projects/php/eztodo
 Maintainer(s) : ce@ez.no
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-09-06  jhe  <jhe@zev.ez.no>
+
+    * classes/eztodo.php
+      classes/eztodolog.php
+      user/templates/standard/todoedit.tpl
+      user/templates/standard/todolist.tpl
+      user/todoedit.php
+      user/todolist.php: fixed several bugs when error in todoedit
+

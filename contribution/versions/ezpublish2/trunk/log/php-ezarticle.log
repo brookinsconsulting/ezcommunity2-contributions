@@ -11,3 +11,76 @@ Maintainer(s) : bf@ez.no
 Module : ezarticle
 Repository path : /home/cvsroot/projects/php/ezarticle
 Maintainer(s) : bf@ez.no
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-06  Baard Farstad  <bf@ez.no>
+
+    * user/index.php: Added better check for user input in article index.
+
+    * user/index.php
+      user/templates/standard/index.tpl:
+    Added display of current letter in index.
+
+    * classes/ezarticle.php
+      sql/mysql/ezarticle.sql
+      user/datasupplier.php
+      user/index.php
+      user/templates/standard/index.tpl:
+    Added limit of article index pr first letter.
+
+    * user/templates/standard/topiclist.tpl
+      user/topiclist.php: Added category definition on topiclist.
+
+2001-09-06  br  <br@zev.ez.no>
+
+    * user/templates/linmag/articlelist.tpl: added article_date_tpl block.
+
+2001-09-06  jb  <jb@zev.ez.no>
+
+    * classes/ezarticlecategory.php
+      xmlrpc/categorylist.php:
+    Improved the search for categories to only include those categories which
+    the user has access to.
+
+2001-09-06  th  <th@zev.ez.no>
+
+    * user/templates/standard/articlelist.tpl: Layout - test
+
+    * admin/intl/no_NO/articleedit.php.ini
+      admin/templates/standard/articleedit.tpl: Layout
+
+2001-09-06  jb  <jb@zev.ez.no>
+
+    * xmlrpc/categorylist.php
+      xmlrpc/article.php:
+    Added support for sending over the weburl of the item and parent
+    in a search.
+
+2001-09-06  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php: Added _blank to remove image caption.
+
+    * classes/ezqdomgenerator.php
+      classes/ezqdomrenderer.php: Added image caption override.
+
+2001-09-06  jb  <jb@zev.ez.no>
+
+    * classes/ezarticlecategory.php:
+    Bugfix: Fixed countByParent to work in the same manner as getByParent,
+    the last version did not check for category permissions and often returned
+    a wrong count(to large).
+
+2001-09-06  br  <br@zev.ez.no>
+
+    * admin/intl/en_GB/menubox.php.ini: added newline at the last line.
+
+2001-09-06  kaid  <kaid@zev.ez.no>
+
+    * admin/templates/flower/imagelist.tpl
+      user/templates/gruk/topiclist.tpl
+      user/templates/mygold/topiclist.tpl
+      user/templates/standard/topiclist.tpl
+      admin/templates/flower/articlelist.tpl: fixed missing VH-less tags
+

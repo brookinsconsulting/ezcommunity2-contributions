@@ -11,3 +11,13 @@ Maintainer(s) : vl@ez.no
 Module : ezurltranslator
 Repository path : /home/cvsroot/projects/php/ezurltranslator
 Maintainer(s) : vl@ez.no
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-09-06  Vidar Langseid  <vl@ez.no>
+
+    * admin/urledit.php:
+    BUGFIX : Now reads language setting from eZURLTranslatorMain section
+    in ini-file instead from eZSiteManager section
+

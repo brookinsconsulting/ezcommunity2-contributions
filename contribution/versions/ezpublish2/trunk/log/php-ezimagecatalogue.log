@@ -11,3 +11,34 @@ Maintainer(s) : br@ez.no
 Module : ezimagecatalogue
 Repository path : /home/cvsroot/projects/php/ezimagecatalogue
 Maintainer(s) : br@ez.no
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-06  br  <br@zev.ez.no>
+
+    * user/imagelist.php: set the template blocks next and prev default to ""
+
+2001-09-06  jb  <jb@zev.ez.no>
+
+    * classes/ezimagecategory.php
+      xmlrpc/categorylist.php:
+    Improved the search for categories to only include those categories which
+    the user has access to.
+
+    * xmlrpc/categorylist.php
+      xmlrpc/image.php:
+    Added support for sending over the weburl of the item and parent
+    in a search.
+
+2001-09-06  christoffer  <ce@zev.ez.no>
+
+    * admin/unassigned.php
+      classes/ezimage.php: fix
+
+    * user/imageedit.php
+      classes/ezimagecategory.php: Fixed a bug
+
+    * user/imagelist.php
+      user/templates/standard/imagelist.tpl: fixed a list bug
+

@@ -11,3 +11,20 @@ Maintainer(s) : jhe@ez.no
 Module : ezfilemanager
 Repository path : /home/cvsroot/projects/php/ezfilemanager
 Maintainer(s) : jhe@ez.no
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-06  th  <th@zev.ez.no>
+
+    * user/templates/standard/filelist.tpl
+      user/intl/no_NO/filelist.php.ini: Layout
+
+2001-09-06  jhe  <jhe@zev.ez.no>
+
+    * user/datasupplier.php
+      user/filelist.php
+      user/intl/en_GB/filelist.php.ini
+      user/templates/standard/filelist.tpl
+      classes/ezvirtualfolder.php: added next/previous buttons in filelist
+

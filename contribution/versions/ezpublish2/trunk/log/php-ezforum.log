@@ -11,3 +11,13 @@ Maintainer(s) : jhe@ez.no
 Module : ezforum
 Repository path : /home/cvsroot/projects/php/ezforum
 Maintainer(s) : jhe@ez.no
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-06  th  <th@zev.ez.no>
+
+    * user/intl/en_GB/messagelist.php.ini
+      user/intl/no_NO/messagelist.php.ini
+      user/templates/standard/messagelist.tpl: Layout
+

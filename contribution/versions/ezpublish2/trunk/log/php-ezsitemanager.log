@@ -11,3 +11,11 @@ Maintainer(s) : vl@ez.no
 Module : ezsitemanager
 Repository path : /home/cvsroot/projects/php/ezsitemanager
 Maintainer(s) : vl@ez.no
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-09-06  br  <br@zev.ez.no>
+
+    * admin/intl/no_NO/sectionedit.php.ini: added translation.
+

@@ -11,3 +11,12 @@ Maintainer(s) : bf@ez.no
 Module : ezuser
 Repository path : /home/cvsroot/projects/php/ezuser
 Maintainer(s) : bf@ez.no
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-06  th  <th@zev.ez.no>
+
+    * user/templates/gruk/forgot.tpl
+      user/templates/gruk/loginmain.tpl: Layout
+

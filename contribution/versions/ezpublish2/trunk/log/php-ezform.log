@@ -11,3 +11,17 @@ Maintainer(s) : pkej@ez.no
 Module : ezform
 Repository path : /home/cvsroot/projects/php/ezform
 Maintainer(s) : pkej@ez.no
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-09-06  th  <th@zev.ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      user/templates/standard/formview.tpl: Layout
+
+2001-09-06  br  <br@zev.ez.no>
+
+    * user/intl/no_NO/errors.php.ini
+      user/intl/no_NO/form.php.ini: Added translation.
+
