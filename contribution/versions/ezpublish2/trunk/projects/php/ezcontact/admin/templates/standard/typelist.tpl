@@ -41,9 +41,16 @@
 </tr>
 <!-- BEGIN line_item_tpl -->
 <tr class="{bg_color}">
+<!-- BEGIN item_plain_tpl -->
 	<td>
-        {item_name}&nbsp;
+        {item_name}
 	</td>
+<!-- END item_plain_tpl -->
+<!-- BEGIN item_linked_tpl -->
+	<td>
+        <a href="{item_sort_command}/{item_id}">{item_name}</a>
+	</td>
+<!-- END item_linked_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
 	<td width="1%"><a href="{item_up_command}/{item_id}">{intl-item_up}</a></td>
