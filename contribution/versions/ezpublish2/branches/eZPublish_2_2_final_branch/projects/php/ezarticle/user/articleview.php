@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.12 2002/05/22 13:35:33 bf Exp $
+// $Id: articleview.php,v 1.84.2.13 2002/08/23 14:41:17 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -574,6 +574,8 @@ else
 $SiteTitleAppend = $article->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0] ) );
 $SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $article->keywords() ) );
+
+$SiteKeywordsOverride  = str_replace( "qdom", "", $SiteKeywordsOverride );
 
 if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
 {    
