@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.4 2000/07/25 08:04:59 lw Exp $
+    $Id: category.php,v 1.5 2000/07/25 09:59:15 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -23,7 +23,8 @@ $t = new Template(".");
     
 $t->set_file( array("category" => "$DOCROOT/templates/category.tpl",
                     "elements" => "$DOCROOT/templates/category-elements.tpl",
-                    "navigation" => "$DOCROOT/templates/navigation.tpl"
+                    "navigation" => "$DOCROOT/templates/navigation.tpl",
+                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl"
                     )
               );
 
@@ -69,5 +70,8 @@ for ($i = 0; $i < count($forums); $i++)
 if ( count( $forums) == 0 )
     $t->set_var( "forums", "<tr><td colspan=\"3\"><b>Ingen tilgjengelige forum</td></tr></b>");
 
-$t->pparse("output","category");
+$t->set_var( "back-url", "main.php");
+$t->parse( "navigation-bar-bottom", "navigation-bottom", true);
+
+$t->pparse( "output", "category" );
 ?>

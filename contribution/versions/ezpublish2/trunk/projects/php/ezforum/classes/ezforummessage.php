@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.12 2000/07/24 13:24:48 lw Exp $
+    $Id: ezforummessage.php,v 1.13 2000/07/25 09:59:15 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -33,7 +33,7 @@ class eZforumMessage
         unset($Id);
     }
 
-    function get($Id)
+    function get( $Id )
     {
         openDB();
             
@@ -43,7 +43,7 @@ class eZforumMessage
                                                           PostingTime,
                                                           EmailNotice
                          FROM MessageTable WHERE Id='$Id'")
-             or die("get()");
+             or die("eZforumMessage::get($Id) failed, dying...");
             
         $results = mysql_fetch_array( $query_id );
             

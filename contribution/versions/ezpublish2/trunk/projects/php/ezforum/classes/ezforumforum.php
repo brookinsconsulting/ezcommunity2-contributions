@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumforum.php,v 1.3 2000/07/14 13:07:07 lw-cvs Exp $
+    $Id: ezforumforum.php,v 1.4 2000/07/25 09:59:15 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,12 +20,12 @@ class eZforumForum
     var $Moderated;
     var $Private;
         
-    function get($Id)
+    function get( $Id )
     {
         openDB();
         
         $query_id = mysql_query("SELECT CategoryId, Name, Description, Moderated, Private FROM ForumTable WHERE Id='$Id'")
-             or die("get()");    
+             or die("eZforumForum::get($Id) failed, dying...");    
             
         $this->Id = $Id;
         $this->CategoryId = mysql_result($query_id,0,"CategoryId");

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.8 2000/07/24 14:33:13 lw-cvs Exp $
+    $Id: forum.php,v 1.9 2000/07/25 09:59:15 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -22,7 +22,8 @@ $t = new Template(".");
 $t->set_file( Array("forum" => "$DOCROOT/templates/forum.tpl",
                     "elements" => "$DOCROOT/templates/forum-elements.tpl",
                     "preview" => "$DOCROOT/templates/forum-preview.tpl",
-                    "navigation" => "$DOCROOT/templates/navigation.tpl"
+                    "navigation" => "$DOCROOT/templates/navigation.tpl",
+                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl"
                    )
             );
 
@@ -125,6 +126,9 @@ else
         $t->set_var( "messages", "<tr><td colspan=\"4\">Ingen meldinger</td></tr>");
      
     $t->set_var("newmessage", $newmessage);
+
+    $t->set_var( "back-url", "category.php");
+    $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
 
     $t->pparse("output","forum");
 }
