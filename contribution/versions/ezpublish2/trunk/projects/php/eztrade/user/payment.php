@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.37 2001/03/27 13:05:23 ce Exp $
+// $Id: payment.php,v 1.38 2001/03/27 13:16:55 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -32,7 +32,6 @@ include_once( "classes/ezcurrency.php" );
 
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezcachefile.php" );
-
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -193,8 +192,6 @@ if ( $PaymentSuccess == "true" )
         
         $optionValues =& $item->optionValues();
 
-        $optionValues =& $item->optionValues();
-        
         foreach ( $optionValues as $optionValue )
         {
             $option =& $optionValue->option();
@@ -205,17 +202,18 @@ if ( $PaymentSuccess == "true" )
 
             $orderOptionValue->setRemoteID( $optionValue->remoteID() );
 
-            $descriptions =&$value->descriptions();
+            $descriptions =& $value->descriptions();
             
             $orderOptionValue->setOptionName( $option->name() );
             $orderOptionValue->setValueName( $descriptions[0] );
             // fix
-
             
             $orderOptionValue->store();
         }
     }
 
+    exit();
+    
 //      $cart->clear();
 
     //
