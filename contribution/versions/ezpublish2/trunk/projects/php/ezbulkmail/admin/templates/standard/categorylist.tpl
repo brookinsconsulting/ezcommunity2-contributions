@@ -1,6 +1,7 @@
 <h1>{intl-category_list}</h1>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
+
 <form action="/bulkmail/categorylist" method="post">
 <!-- BEGIN category_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -31,9 +32,10 @@
 </table>
 <!-- END category_tpl -->
 
-<hr noshade="noshade" size="4">
-
 <!-- BEGIN bulkmail_tpl -->
+
+<hr noshade="noshade" size="4" />
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="20%">{intl-bulkmail_subject}:</th>
@@ -54,7 +56,7 @@
 </table>
 <!-- END bulkmail_tpl -->
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>

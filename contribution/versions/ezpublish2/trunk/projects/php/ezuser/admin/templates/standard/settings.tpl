@@ -2,7 +2,7 @@
 
 <h1>{intl-headline}{first_name} {last_name}</h1>
 
-<hr noshade="noshade" />
+<hr noshade="noshade" size="4" />
 
 <br />
 <!-- BEGIN module_tab_item_tpl -->
