@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.6 2001/09/06 10:46:23 jb Exp $
+// $Id: categorylist.php,v 1.7 2001/09/08 11:15:03 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -188,7 +188,7 @@ function &categoryTree( $cat )
         $child_array[] = categoryTree( $child );
     }
     $item = array( "ID" => $cat->id(),
-                   "Name" => $cat->name(),
+                   "Name" => $cat->name( false ),
                    "Children" => $child_array );
     return $item;
 }
