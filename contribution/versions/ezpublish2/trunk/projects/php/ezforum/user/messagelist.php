@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.46 2001/09/26 15:26:35 th Exp $
+// $Id: messagelist.php,v 1.47 2001/10/04 10:04:42 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -216,6 +216,7 @@ else
     $time = new eZDateTime();
     foreach ( $messageList as $message )
     {
+        unset( $user );
         $user = new eZUser();
         $t->set_var( "user", "" );
         $t->set_var( "edit_message_item", "" );
