@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.3 2001/10/12 10:52:59 sascha Exp $
+// $Id: menubox.php,v 1.3.2.1 2001/11/01 17:51:26 ce Exp $
 //
 // Created on: <21-Apr-2001 11:46:24 bf>
 //
@@ -27,7 +27,7 @@
 $menuItems = array(
     array( "/sysinfo/sysinfo/", "{intl-system_info}" ),
     array( "/sysinfo/netinfo/", "{intl-network_info}" ),
-    array( "/sysinfo/ezinfo/", "{intl-ez_info}" ),    
+    /* array( "/sysinfo/ezinfo/", "{intl-ez_info}" ), */
     array( "/sysinfo/hwinfo/", "{intl-hw_info}" ),
     array( "/sysinfo/meminfo/", "{intl-mem_info}" ),
     array( "/sysinfo/fileinfo/", "{intl-file_info}" )
