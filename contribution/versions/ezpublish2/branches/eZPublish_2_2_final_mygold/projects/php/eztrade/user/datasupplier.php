@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54 2001/10/12 10:52:59 sascha Exp $
+// $Id: datasupplier.php,v 1.54.4.1 2001/10/22 11:52:22 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -272,8 +272,8 @@ switch ( $url_array[2] )
     case "voucherinformation" :
     {
         $ProductID = $url_array[3];
-        $PriceRange = $url_array[4];
-        $MailMethod = $url_array[5];
+        $MailMethod = $url_array[4];
+        $VoucherInformationID = $url_array[5];
 
         include( "eztrade/user/voucherinformation.php" );
     }
@@ -331,7 +331,7 @@ switch ( $url_array[2] )
     // XML rpc interface
     case "xmlrpc" :
     {
-        include( "eztrade/xmlrpc/xmlrpcserver.php" );
+        include( "eztrade/xmlrpc/xmlrpcserverimport.php" );
     }
     break;
 

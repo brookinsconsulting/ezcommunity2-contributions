@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77 2001/10/17 13:14:39 ce Exp $
+// $Id: productview.php,v 1.77.4.1 2001/10/22 11:52:22 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -69,6 +69,14 @@ else
     $category->get( $CategoryID );
 }
 
+if ( isSet ( $Voucher ) )
+{
+    eZHTTPTool::header( "Location: /trade/voucherinformation/$ProductID/$MailMethod/" );
+    exit();
+}
+else
+$session->setVariable( "VoucherInformationID", 0 );
+
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
 $MainImageWidth = $ini->read_var( "eZTradeMain", "MainImageWidth" );
@@ -128,8 +136,6 @@ else
 $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
 
-$t->set_block( "product_view_tpl", "price_to_high_tpl", "price_to_high" );
-$t->set_block( "product_view_tpl", "price_to_low_tpl", "price_to_low" );
 
 $t->set_block( "product_view_tpl", "price_range_tpl", "price_range" );
 $t->set_block( "product_view_tpl", "mail_method_tpl", "mail_method" );
@@ -192,32 +198,6 @@ $t->set_var( "module_print", $ModulePrint );
 $t->set_var( "attribute_header", "" );
 $t->set_var( "attribute_value", "" );
 $t->set_var( "price_range", "" );
-$t->set_var( "price_to_high", "" );
-$t->set_var( "price_to_low", "" );
-
-if ( isSet ( $Voucher ) )
-{
-    $range = $product->priceRange();
-    $error = false;
-    if ( ( $range->min() != 0 ) && ( $range->min() > $PriceRange ) )
-    {
-        $error = true;
-        $t->parse( "price_to_low", "price_to_low_tpl" );
-    }
-    if ( ( $range->max() != 0 ) && ( $range->max() < $PriceRange ) )
-    {
-        $error = true;
-        $t->parse( "price_to_high", "price_to_high_tpl" );
-    }
-
-    if ( !$error )
-    {
-        eZHTTPTool::header( "Location: /trade/voucherinformation/$ProductID/$PriceRange/$MailMethod/" );
-        exit();
-    }
-}
-else
-$session->setVariable( "VoucherInformationID", 0 );
 
 $pathArray =& $category->path();
 

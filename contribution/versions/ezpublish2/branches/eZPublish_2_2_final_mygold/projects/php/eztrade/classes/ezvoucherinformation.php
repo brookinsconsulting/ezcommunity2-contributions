@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8 2001/10/17 13:14:38 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.1 2001/10/22 11:52:22 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -91,11 +91,11 @@ class eZVoucherInformation
             $timeStamp =& eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherInformation
-                      ( ID, VoucherID, OnlineID, ToAddressID, FromAddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price, ProductID )
+                      ( ID, VoucherID, ToOnlineID, ToAddressID, FromAddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price, ProductID )
                       VALUES
                       ( '$nextID',
                         '$this->VoucherID',
-                        '$this->OnlineID',
+                        '$this->ToOnlineID',
                         '$this->ToAddressID',
                         '$this->FromAddressID',
                         '$description',
@@ -115,7 +115,7 @@ class eZVoucherInformation
         {
             $res = $db->query( "UPDATE eZTrade_VoucherInformation SET
                                      VoucherID='$this->VoucherID',
-                                     OnlineID='$this->OnlineID',
+                                     ToOnlineID='$this->ToOnlineID',
                                      ToAddressID='$this->ToAddressID',
                                      FromAddressID='$this->FromAddressID',
                                      Description='$description',
@@ -192,7 +192,7 @@ class eZVoucherInformation
         $db =& eZDB::globalDatabase();
         $this->ID =& $value[$db->fieldName( "ID" )];
         $this->Description =& $value[$db->fieldName( "Description" )];
-        $this->OnlineID =& $value[$db->fieldName( "OnlineID" )];
+        $this->ToOnlineID =& $value[$db->fieldName( "ToOnlineID" )];
         $this->AddressID =& $value[$db->fieldName( "AddressID" )];
         $this->VoucherID =& $value[$db->fieldName( "VoucherID" )];
         $this->PreOrderID =& $value[$db->fieldName( "PreOrderID" )];
@@ -366,18 +366,18 @@ class eZVoucherInformation
     /*!
       Sets the email for the voucher smail.
     */
-    function setEmail( &$value )
+    function setToOnline( &$value )
     {
         if ( get_class ( $value ) == "ezonline" )
-            $this->OnlineID = $value->id();
-        else
-            $this->OnlineID = $value;
+            $this->ToOnlineID = $value->id();
+        elseif ( $value )
+            $this->ToOnlineID = $value;
     }
 
     /*!
       Sets the email for the voucher smail.
     */
-    function setFromEmail( &$value )
+    function setFromOnline( &$value )
     {
         if ( get_class ( $value ) == "ezonline" )
             $this->FromOnlineID = $value->id();
@@ -451,12 +451,12 @@ class eZVoucherInformation
     /*!
       Returns the email
     */
-    function online( $asObject=true )
+    function &toOnline( $asObject=true )
     {
         if ( $asObject )
-            $ret = new eZOnline( $this->OnlineID );
+            $ret = new eZOnline( $this->ToOnlineID );
         else
-            $ret = $this->OnlineID;
+            $ret = $this->ToOnlineID;
 
         return $ret;
     }
@@ -464,7 +464,7 @@ class eZVoucherInformation
     /*!
       Returns the email
     */
-    function fromEmail( $asObject=true )
+    function &fromOnline( $asObject=true )
     {
         if ( $asObject )
             $ret = new eZOnline( $this->FromOnlineID );
@@ -477,7 +477,7 @@ class eZVoucherInformation
     /*!
       Returns the smail
     */
-    function toAddress( $asObject=true )
+    function &toAddress( $asObject=true )
     {
         if ( $asObject )
             $ret = new eZAddress( $this->ToAddressID );
@@ -490,7 +490,7 @@ class eZVoucherInformation
     /*!
       Returns the smail
     */
-    function fromAddress( $asObject=true )
+    function &fromAddress( $asObject=true )
     {
         if ( $asObject )
             $ret = new eZAddress( $this->FromAddressID );
@@ -503,7 +503,7 @@ class eZVoucherInformation
     /*!
       Returns the product
     */
-    function product( $asObject=true )
+    function &product( $asObject=true )
     {
         if ( $asObject )
             $ret = new eZProduct( $this->ProductID );
@@ -516,7 +516,7 @@ class eZVoucherInformation
     /*!
       Returns the voucher
     */
-    function voucher( $asObject=true )
+    function &voucher( $asObject=true )
     {
         if ( $asObject )
         {
@@ -538,7 +538,7 @@ class eZVoucherInformation
     /*!
       Returns the pre order
     */
-    function preOrderID( $asObject=true )
+    function &preOrderID( $asObject=true )
     {
         if ( $asObject )
             return eZPreOrderID( $this->PreOrderID );
@@ -588,7 +588,7 @@ class eZVoucherInformation
         $t->set_var( "key_number", $voucher->keyNumber() );
 
 
-        $mailAddress = $this->online();
+        $mailAddress = $this->toOnline();
         
         $mail->setTo( $mailAddress->url() );
         $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
@@ -596,10 +596,81 @@ class eZVoucherInformation
         $mail->send();
     }
 
+    /*!
+      \private
+      Mail the user.
+    */
+    function sendEMail()
+    {
+        $ini =& INIFile::globalINI();
+
+        $voucher =& $this->voucher();
+
+        $fromUser =& $this->fromEmail();
+        
+        $Language = $ini->read_var( "eZTradeMain", "Language" );
+        
+        $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                             "eztrade/user/intl/", $Language, "voucheremail.php" );
+
+        $t->setAllStrings();
+        
+        $t->set_file( "voucheremail", "voucheremail.tpl" );
+        
+        $mail = new eZMail();
+        
+        $t->set_var( "description", $this->description() );
+        $t->set_var( "from_name", $this->fromName() );
+        $t->set_var( "to_name", $this->toName() );
+        $t->set_var( "key_number", $voucher->keyNumber() );
+
+
+        $mailAddress = $this->toOnline();
+        
+        $mail->setTo( $mailAddress->url() );
+        $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
+        $mail->setFrom( $fromUser->url() );
+        $mail->send();
+    }
+
+    /*!
+      \private
+      Send a snail mail based on a LaTeX file.
+    */
+    function sendSMail()
+    {
+        $ini =& INIFile::globalINI();
+
+        $voucher =& $this->voucher();
+
+        $fromUser =& $this->fromEmail();
+        
+        $Language = $ini->read_var( "eZTradeMain", "Language" );
+        
+        $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                             "eztrade/user/intl/", $Language, "vouchersmail.php" );
+
+        $t->setAllStrings();
+        
+        $t->set_file( "vouchersmail", "vouchersmail.tex" );
+        
+        $t->set_var( "description", $this->description() );
+        $t->set_var( "from_name", $this->fromName() );
+        $t->set_var( "to_name", $this->toName() );
+        $t->set_var( "key_number", $voucher->keyNumber() );
+
+        $toAddress =& $this->toAddress();
+        $fromAddress =& $this->fromAddress();
+
+        $t->set_var( "to_address_street1", $toAddress->street1() );
+        $t->set_var( "to_address_street2", $toAddress->street1() );
+        $t->set_var( "to_address_street1", $toAddress->street1() );
+    }
+
     var $ID;
     var $Description;
     var $PreOrderID;
-    var $OnlineID;
+    var $ToOnlineID;
     var $ToAddressID;
     var $FromAddressID;
     var $VoucherID;

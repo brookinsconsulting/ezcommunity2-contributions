@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71 2001/10/17 12:06:48 ce Exp $
+// $Id: cart.php,v 1.71.4.1 2001/10/22 11:52:22 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -355,6 +355,9 @@ $t->set_block( "cart_item_tpl", "cart_savings_item_tpl", "cart_savings_item" );
 $t->set_block( "cart_item_tpl", "cart_inc_tax_item_tpl", "cart_inc_tax_item" );
 $t->set_block( "cart_item_tpl", "cart_ex_tax_item_tpl", "cart_ex_tax_item" );
 
+$t->set_block( "cart_item_tpl", "edit_voucher_info_tpl", "edit_voucher_info" );
+$t->set_block( "cart_item_list_tpl", "edit_voucher_info_header_tpl", "edit_voucher_info_header" );
+
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
 $t->set_block( "cart_item_option_tpl", "option_savings_item_tpl", "option_savings_item" );
 $t->set_block( "cart_item_option_tpl", "option_inc_tax_item_tpl", "option_inc_tax_item" );
@@ -422,6 +425,20 @@ foreach ( $items as $item )
     $t->set_var( "product_count", $item->count() );
     $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
     $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );
+
+    $voucherInfo =& $item->voucherInformation();
+    if ( is_object ( $voucherInfo ) )
+    {
+        $t->set_var( "voucher_id", $voucherInfo->id() );
+        $t->set_var( "mail_method", $voucherInfo->mailMethod() );
+        $t->parse( "edit_voucher_info", "edit_voucher_info_tpl" );
+        $t->parse( "edit_voucher_info_header", "edit_voucher_info_header_tpl" );
+    }
+    else
+    {
+        $t->set_var( "edit_voucher_info", "" );
+        $t->set_var( "edit_voucher_info_header", "" );
+    }
 
     $numberOfItems++;
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12 2001/10/10 12:30:18 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.1 2001/10/22 11:52:22 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -53,14 +53,17 @@ $t->set_file( "voucher_tpl", "voucherinformation.tpl" );
 $t->set_block( "voucher_tpl", "email_tpl", "email" );
 $t->set_block( "voucher_tpl", "smail_tpl", "smail" );
 
+$t->set_block( "voucher_tpl", "price_to_high_tpl", "price_to_high" );
+$t->set_block( "voucher_tpl", "price_to_low_tpl", "price_to_low" );
+
+
 setType( $PriceRange, "integer" );
 
-$t->set_var( "email_var", "" );
+$t->set_var( "to_email", "" );
 $t->set_var( "to_name", "" );
 $t->set_var( "from_name", "" );
 $t->set_var( "smail_var", "" );
-$t->set_var( "email_text", "" );
-$t->set_var( "smail_text", "" );
+$t->set_var( "description", "" );
 $t->set_var( "next", "" );
 $t->set_var( "name_value", "" );
 $t->set_var( "street1_value", "" );
@@ -71,21 +74,42 @@ $t->set_var( "country_name", "" );
 $t->set_var( "smail", "" );
 $t->set_var( "email", "" );
 $t->set_var( "from_email", "" );
-
-$user =& eZUser::currentUser();
+$t->set_var( "price_to_low", "" );
+$t->set_var( "price_to_high", "" );
+$error = false;
 
 $product = new eZProduct( $ProductID );
 
-if ( $product && isSet( $OK ) )
+// Check for wrong price range
+if ( isSet ( $OK ) )
 {
-    $voucherInfo = new eZVoucherInformation();
+    $range = $product->priceRange();
+    if ( ( $range->min() != 0 ) && ( $range->min() > $PriceRange ) )
+    {
+        $error = true;
+        $t->parse( "price_to_low", "price_to_low_tpl" );
+    }
+    if ( ( $range->max() != 0 ) && ( $range->max() < $PriceRange ) )
+    {
+        $error = true;
+        $t->parse( "price_to_high", "price_to_high_tpl" );
+    }
+}
+
+$user =& eZUser::currentUser();
+
+// Insert the voucher information
+if ( ( $product ) and ( isSet( $OK ) and $error == false ) )
+{
+    $voucherInfo = new eZVoucherInformation( $VoucherInformationID );
+    
             
     if ( $Mail == 1 )
     {
         $online = new eZOnline();
         $online->setUrl( $Email );
         $online->store();
-        $voucherInfo->setEmail( $online );
+        $voucherInfo->setToOnline( $online );
     }
     else if ( $Mail == 2 )
     {
@@ -111,7 +135,7 @@ if ( $product && isSet( $OK ) )
     $online = new eZOnline();
     $online->setUrl( $FromEmail );
     $online->store();
-    $voucherInfo->setFromEmail( $online );
+    $voucherInfo->setFromOnline( $online );
     $voucherInfo->setMailMethod( $Mail );
     $voucherInfo->setFromName( $FromName );
     $voucherInfo->setFromName( $FromName );
@@ -120,45 +144,64 @@ if ( $product && isSet( $OK ) )
     
     $voucherInfo->setDescription( $Description );
 
-    if ( $Price == 0 )
+    if ( $PriceRange == 0 )
     {
         $priceRange =& $product->priceRange();
         $voucherInfo->setPrice( $priceRange->min() );
     }
     else
-        $voucherInfo->setPrice( $Price );
-
+        $voucherInfo->setPrice( $PriceRange );
 
     $voucherInfo->store();
 
-    $voucherInformationID = $voucherInfo->id();
+    $id = $voucherInfo->id();
 
-    $session->setVariable( "VoucherInformationID", $voucherInformationID );
+    $session->setVariable( "VoucherInformationID", $id );
 
-
-    if ( isSet ( $OK ) && $voucherInformationID )
+    if ( isSet ( $OK ) && $id )
     {
-        eZHTTPTool::header( "Location: /trade/cart/add/$ProductID/" );
+        if ( $VoucherInformationID != "" )
+            eZHTTPTool::header( "Location: /trade/cart/" );
+        else
+            eZHTTPTool::header( "Location: /trade/cart/add/$ProductID/" );
         exit();
     }
 }
-else if ( $product )
+else if ( $product ) // Print out the addresses forms
 {
     $range = $product->priceRange();
-    $error = false;
-    if ( ( $range->min() != 0 ) && ( $range->min() > $PriceRange ) )
-    {
-        $error = true;
-    }
-    if ( ( $range->max() != 0 ) && ( $range->max() < $PriceRange ) )
-    {
-        $error = true;
-    }
 
-    if ( $error )
+    $currency = new eZCurrency();
+    $currency->setValue( $range->min() );
+    $t->set_var( "min_price", $locale->format( $currency ) );
+    $currency->setValue( $range->max() );
+    $t->set_var( "max_price", $locale->format( $currency ) );
+    $error = false;
+
+    $t->set_var( "mail_method", $MailMethod );
+    $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_id", $product->id() );
+
+    if ( $VoucherInformationID != 0 )
     {
-        eZHTTPTool::header( "Location: /trade/productview/$ProductID/" );
-        exit();
+        $info = new eZVoucherInformation( $VoucherInformationID );
+        $t->set_var( "description", $info->description() );
+
+        if ( $info->mailMethod() == 1 )
+        {
+            $from =& $info->fromOnline();
+            $to =& $info->toOnline();
+            $t->set_var( "voucher_info_id", $info->id() );
+            $t->set_var( "from_email", $from->url() );
+            $t->set_var( "to_email", $to->url() );
+            $t->set_var( "to_name", $info->toName() );
+            $t->set_var( "from_name", $info->fromName() );
+            $t->set_var( "price_range", $info->price() );
+        }
+    }
+    else
+    {
+        $t->set_var( "price_range", "" );
     }
 
     if ( $MailMethod == 1 )
@@ -172,28 +215,7 @@ else if ( $product )
         $t->parse( "smail", "smail_tpl" );
     }
 
-    $t->set_var( "mail_method", $MailMethod );
-    $t->set_var( "product_name", $product->name() );
-    $t->set_var( "product_id", $product->id() );
-
-    $currency = new eZCurrency();
-    
-    if ( $PriceRange == 0 )
-    {
-        $priceRange =& $product->priceRange();
-        $currency->setValue( $priceRange->min() );
-        $t->set_var( "product_price", $locale->format( $currency ) );
-        $t->set_var( "price_range", $priceRange->min() );
-    }
-    else
-    {
-        $currency->setValue( $PriceRange );
-        $t->set_var( "price_range", $PriceRange );
-        $t->set_var( "product_price", $locale->format( $currency ) );
-    }
 }
 
-
 $t->pparse( "output", "voucher_tpl" );
-
 ?>
