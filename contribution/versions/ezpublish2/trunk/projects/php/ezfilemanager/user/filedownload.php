@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.19 2001/09/03 16:05:31 bf Exp $
+// $Id: filedownload.php,v 1.20 2001/09/28 08:03:17 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -40,7 +40,7 @@ $file = new eZVirtualFile( $FileID );
 //}
 
 $fileName = $file->name();
-$originalFileName = $file->originalFileName();
+$originalFileName = $file->name();
 $filePath = $file->filePath( true );
 
 include_once( "ezstats/classes/ezpageview.php" );
@@ -106,4 +106,5 @@ header( "Content-Transfer-Encoding: binary" );
 $fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
 fpassthru( $fh );
 exit();
+
 ?>

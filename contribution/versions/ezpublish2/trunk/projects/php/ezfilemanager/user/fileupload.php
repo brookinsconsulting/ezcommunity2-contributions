@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.39 2001/09/27 07:59:27 jhe Exp $
+// $Id: fileupload.php,v 1.40 2001/09/28 08:03:17 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -148,16 +148,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
     
-    if ( $nameCheck )
-    {
-        
-        if ( empty( $Name ) )
-        {
-            $t->parse( "error_name", "error_name_tpl" );
-            $error = true;
-        }
-    }
-
     if ( $descriptionCheck )
     {
         if ( empty( $Description ) )
@@ -189,13 +179,17 @@ if ( $Action == "Insert" || $Action == "Update" )
 if ( $Action == "Insert" && $error == false )
 {
     $uploadedFile = new eZVirtualFile();
-    $uploadedFile->setName( $Name );
     $uploadedFile->setDescription( $Description );
     
     $uploadedFile->setUser( $user );
     
     $uploadedFile->setFile( &$file );
     
+    if ( empty( $Name ) )
+        $uploadedFile->setName( $uploadedFile->originalFileName() );
+    else
+        $uploadedFile->setName( $Name );
+
     $uploadedFile->store();
     $FileID = $uploadedFile->id();
     $folder = new eZVirtualFolder( $FolderID );

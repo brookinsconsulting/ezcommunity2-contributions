@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.43 2001/09/22 11:32:13 master Exp $
+// $Id: filelist.php,v 1.44 2001/09/28 08:03:17 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -195,11 +195,12 @@ $fileList =& $folder->files( "name", $Offset, $Limit );
 $deleteFiles = false;
 foreach ( $fileList as $file )
 {
+    $filename = $file->name();
     $t->set_var( "file_id", $file->id() );
-    $t->set_var( "original_file_name_without_spaces", str_replace( " ", "%20", $file->originalFileName() ) );
-    $t->set_var( "original_file_name", $file->originalFileName() );
-    $t->set_var( "file_name", $file->name() );
-    $t->set_var( "file_url", $file->name() );
+    $t->set_var( "original_file_name_without_spaces", str_replace( " ", "%20", $filename ) );
+    $t->set_var( "original_file_name", $filename );
+    $t->set_var( "file_name", $filename );
+    $t->set_var( "file_url", $filename );
     $t->set_var( "file_description", $file->description() );
 
     $filePath = $file->filePath( true );
@@ -210,7 +211,7 @@ foreach ( $fileList as $file )
 
     $t->set_var( "file_read", "" );
     $t->set_var( "file_write", "" );
-    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+    $t->set_var( "td_class", ( $i % 2 ) ? "bgdark" : "bglight" );
 
     if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) ||
          eZVirtualFile::isOwner( $user ,$file->id() ) )

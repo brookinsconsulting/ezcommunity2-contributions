@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.33 2001/09/24 14:04:19 jhe Exp $
+// $Id: folderedit.php,v 1.34 2001/09/28 08:03:17 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -125,7 +124,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             $error = true;
         }
         // update and not write
-        if ( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' == false ) )
+        if ( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false )
             $error = true;
 
         if ( $error )
@@ -194,8 +193,9 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     changePermissions( $FolderID, $UploadGroupArrayID, "u" );
 
     // check if user uploaded a dir and had upload permission only and is not owner.
-    if ( $Action == "Insert" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false &&
-    $parent->user( false ) != $user->id() )
+    if ( $Action == "Insert" &&
+         eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false &&
+         $parent->user( false ) != $user->id() )
     {
         eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'w' ); // no write
         eZObjectPermission::removePermissions( $FolderID, "filemanager_folder", 'r' ); // all read
@@ -206,8 +206,9 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
         $folder->store();
     }
     // if update and moving into a folder that has upload permission and not owner of that folder
-    if ( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false
-    && $parent->user( false ) != $user->id() )
+    if ( $Action == "Update" &&
+         eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false &&
+         $parent->user( false ) != $user->id() )
     {
         // recursivly edit permissions on all file and folders...
         $folders = array();
@@ -256,8 +257,16 @@ $t->set_var( "read_everybody", "" );
 $t->set_var( "upload_everybody", "" );
 if ( $Action == "New" || $error )
 {
-    $t->set_var( "action_value", "insert" );
-    $t->set_var( "folder_id", "" );
+    if ( $Action == "New" )
+    {
+        $t->set_var( "action_value", "insert" );
+        $t->set_var( "folder_id", "" );
+    }
+    else
+    {
+        $t->set_var( "action_value", "update" );
+        $t->set_var( "folder_id", $FolderID );
+    }
     $t->set_var( "write_everybody", "selected" );
     $t->set_var( "read_everybody", "selected" );
     $t->set_var( "upload_everybody", "selected" );
@@ -368,6 +377,7 @@ foreach ( $groups as $group )
             }
         }
     }
+    
     $t->parse( "upload_group_item", "upload_group_item_tpl", true );
 }
 
@@ -395,10 +405,9 @@ else
 // Print out all the folders.
 foreach ( $folderList as $folderItem )
 {
-    if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' )
-         || eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() )
-         || eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'u' )
-         )
+    if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) ||
+         eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) ||
+         eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'u' ) )
     {
         $t->set_var( "option_name", $folderItem[0]->name() );
         $t->set_var( "option_value", $folderItem[0]->id() );
@@ -447,8 +456,8 @@ function changePermissions( $objectID, $groups , $permission )
             eZObjectPermission::setPermission( $group, $objectID, "filemanager_folder", $permission );
         }
     }
-
 }
+
 // get all the files and folders of a folder recursivly.
 function getFilesAndFolders( &$folderArray, &$fileArray, $fromFolder )
 {
@@ -464,5 +473,3 @@ function getFilesAndFolders( &$folderArray, &$fileArray, $fromFolder )
 }
 
 ?>
-
- 
