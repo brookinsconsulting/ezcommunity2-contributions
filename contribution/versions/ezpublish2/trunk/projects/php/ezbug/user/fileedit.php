@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileedit.php,v 1.4 2001/03/02 16:15:30 ce Exp $
+// $Id: fileedit.php,v 1.5 2001/03/09 10:11:06 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:33:48 fh>
@@ -38,7 +38,7 @@ $Language = $ini->read_var( "eZBugMain", "Language" );
 
 $session = new eZSession();
 
-$BugID = $session->variable( "BugID" );
+//$BugID = $session->variable( "BugID" );
 
 if ( $Action == "Insert" )
 {

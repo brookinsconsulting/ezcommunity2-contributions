@@ -24,7 +24,7 @@ $t->set_block( "status_page", "status_item_tpl", "status_item" );
 
 //$t->set_var( "site_style", $SiteStyle );
 
-if( isset( $Ok ) )
+if( isset( $Ok ) || isset( $AddStatus ) )
 {
     $i = 0;
     if( count( $StatusID ) > 0 )
@@ -42,7 +42,7 @@ if( isset( $Ok ) )
 if( isset( $AddStatus ) )
 {
     $newItem = new eZBugStatus();
-    $newName = $LanguageIni->read_var( "strings", "new_status" );
+    $newName = $LanguageIni->read_var( "strings", "newstatus" );
     $newItem->setName($newName);
     $newItem->store();
 }

@@ -24,7 +24,7 @@ $t->set_block( "category_page", "category_item_tpl", "category_item" );
 
 $t->set_var( "site_style", $SiteStyle );
 
-if( isset( $Ok ) )
+if( isset( $Ok ) || isset( $AddCategory ) )
 {
     $i = 0;
     if( count( $CategoryID ) > 0 )
@@ -42,7 +42,7 @@ if( isset( $Ok ) )
 if( isset( $AddCategory ) )
 {
     $newItem = new eZBugCategory();
-    $newName = $LanguageIni->read_var( "strings", "new_name" );
+    $newName = $LanguageIni->read_var( "strings", "newcategory" );
     $newItem->setName($newName);
     $newItem->store();
 }

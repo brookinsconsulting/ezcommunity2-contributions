@@ -66,6 +66,7 @@ switch ( $url_array[2] )
                 if( isset( $AddModule ) )  // new
                 {
                     $Action = "new";
+                    $ParentID = $url_array[4];
                     include( "ezbug/admin/moduleedit.php" );
                 }
                 else 

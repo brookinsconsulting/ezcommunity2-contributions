@@ -92,6 +92,7 @@ $t->set_block( "moduleedit", "write_group_item_tpl", "write_group_item" );
 
 if ( $Action == "new" )
 {
+    $parent = new eZBugModule( $ParentID );
     $t->set_var( "module_name", "" );
     $t->set_var( "action_value", "insert" );
 }
@@ -122,7 +123,7 @@ foreach( $moduleList as $moduleItem )
     $t->set_var( "module_parent_id", $moduleItem->id() );
 
 
-    if ( $parent )
+    if ( get_class( $parent ) == "ezbugmodule" )
     {
         if ( $parent->id() == $moduleItem->id() )
         {

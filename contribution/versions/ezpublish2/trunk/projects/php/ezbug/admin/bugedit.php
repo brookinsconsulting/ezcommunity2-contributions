@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.26 2001/03/06 12:40:04 fh Exp $
+// $Id: bugedit.php,v 1.27 2001/03/09 10:11:06 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -268,16 +268,14 @@ $t->set_var( "action_value", "Insert" );
 if( isset( $InsertFile ) ) 
 {
     $Action = "";
-    $session->setVariable( "BugID", $BugID );
-    eZHTTPTool::header( "Location: /bug/report/fileedit/" );
+    eZHTTPTool::header( "Location: /bug/report/fileedit/new/$BugID" );
     exit();
 }
 
 if( isset( $InsertImage ) )
 {
     $Action = "";
-    $session->setVariable( "BugID", $BugID );
-    eZHTTPTool::header( "Location: /bug/report/imageedit/" );
+    eZHTTPTool::header( "Location: /bug/report/imageedit/new/$BugID" );
     exit();
 }
 
