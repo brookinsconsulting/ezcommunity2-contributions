@@ -1,5 +1,5 @@
 <?php
-// $Id: messageedit.php,v 1.17 2001/09/24 14:03:59 jhe Exp $
+// $Id: messageedit.php,v 1.18 2001/09/27 07:58:24 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -38,7 +38,7 @@ include_once( "classes/ezlocale.php" );
 require( "ezuser/admin/admincheck.php" );
 
 
-if ( isset ( $DeleteMessages ) )
+if ( isset( $DeleteMessages ) )
 {
     $Action = "DeleteMessages";
 }

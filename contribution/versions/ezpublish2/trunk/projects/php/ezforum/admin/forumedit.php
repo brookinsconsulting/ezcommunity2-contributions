@@ -1,5 +1,6 @@
 <?php
-// $Id: forumedit.php,v 1.31 2001/09/24 14:03:59 jhe Exp $
+//
+// $Id: forumedit.php,v 1.32 2001/09/27 07:58:24 jhe Exp $
 //
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
 //
@@ -33,7 +34,6 @@ $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 
-
 include_once( "ezuser/classes/ezusergroup.php" );
 
 include_once( "ezforum/classes/ezforumcategory.php" );
@@ -41,7 +41,7 @@ include_once( "ezforum/classes/ezforum.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-if ( isset ( $DeleteForums ) )
+if ( isSet( $DeleteForums ) )
 {
     $Action = "DeleteForums";
 }
@@ -50,9 +50,7 @@ if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZForum", "ForumAdd" ) )
     {
-        if ( $Name != "" &&
-        $Description != "" &&
-        $CategorySelectID != "" )
+        if ( $Name != "" && $Description != "" && $CategorySelectID != "" )
         {
             $forum = new eZForum();
             $forum->setName( $Name );
@@ -79,7 +77,6 @@ if ( $Action == "insert" )
                 $forum->setIsAnonymous( false );
             }
 
-
             $group = new eZUserGroup( $GroupID );
             $forum->setGroup( $group );
 
@@ -87,7 +84,6 @@ if ( $Action == "insert" )
 
             $category = new eZForumCategory( $CategorySelectID );
             $category->addForum( $forum );
-            print_r( $category );
             eZLog::writeNotice( "Forum created: $Name from IP: $REMOTE_ADDR" );
 
             eZHTTPTool::header( "Location: /forum/forumlist/$CategorySelectID" );
@@ -111,9 +107,7 @@ if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZForum", "ForumModify" ) )
     {
-        if ( $Name != "" &&
-        $Description != "" &&
-        $CategorySelectID != "" )
+        if ( $Name != "" && $Description != "" && $CategorySelectID != "" )
         {
             $forum = new eZForum();
             $forum->get( $ForumID );
@@ -223,11 +217,10 @@ if ( $Action == "DeleteForums" )
 }
 
 $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
-"ezforum//admin/" . "/intl", $Language, "forumedit.php" );
+                     "ezforum/admin/" . "/intl", $Language, "forumedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array( "forum_page" => "forumedit.tpl"
-                   ) );
+$t->set_file( "forum_page", "forumedit.tpl" );
 
 $t->set_block( "forum_page", "category_item_tpl", "category_item" );
 $t->set_block( "forum_page", "moderator_item_tpl", "moderator_item" );
@@ -276,7 +269,7 @@ if ( $Action == "edit" )
         $t->set_var( "forum_description", $forum->description() );
         $t->set_var( "forum_id", $ForumID);
 
-        if ( $forum->isModerated() == true )
+        if ( $forum->isModerated() )
         {
             $t->set_var( "forum_is_moderated", "checked" );
         }
@@ -285,7 +278,7 @@ if ( $Action == "edit" )
             $t->set_var( "forum_is_moderated", "" );
         }
 
-        if ( $forum->isAnonymous() == true )
+        if ( $forum->isAnonymous() )
         {
             $t->set_var( "forum_is_anonymous", "checked" );
         }
@@ -293,7 +286,6 @@ if ( $Action == "edit" )
         {
             $t->set_var( "forum_is_anonymous", "" );
         }
-
 
         $groupUser =& $forum->group();
 
@@ -355,8 +347,8 @@ if ( $moderator == 0 )
 
 $t->parse( "moderator_item", "moderator_item_tpl", true );
 
-foreach ( $groupList as $groupItem )
 //foreach ( $userList as $userItem )
+foreach ( $groupList as $groupItem )
 {
     $t->set_var( "user_id", $groupItem->id() );
     $t->set_var( "user_name", $groupItem->name() ); //change variable names?
@@ -405,13 +397,11 @@ foreach ( $groupList as $group )
     $t->parse( "group_item", "group_item_tpl", true );
 }
 
-
 $t->set_var( "action_value", $action_value );
 $t->set_var( "error_msg", $error_msg );
-
 $t->set_var( "category_id", $CategoryID );
-
 $t->set_var( "headline", $headline );
 
 $t->pparse( "output", "forum_page");
+
 ?>
