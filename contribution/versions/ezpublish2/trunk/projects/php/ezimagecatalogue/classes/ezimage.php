@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.43 2001/03/26 18:38:41 jb Exp $
+// $Id: ezimage.php,v 1.44 2001/04/04 16:02:50 fh Exp $
 //
 // Definition of eZImage class
 //
@@ -118,18 +118,24 @@ class eZImage
     function store()
     {
         $this->dbInit();
-
+        
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        $caption = addslashes( $this->Caption );
+        $filename = addslashes( $this->FileName );
+        $originalfilename = addslashes( $this->OriginalFileName );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZImageCatalogue_Image SET
-                                 Name='$this->Name',
-                                 Caption='$this->Caption',
-                                 Description='$this->Description',
-                                 FileName='$this->FileName',
+                                 Name='$name',
+                                 Caption='$caption',
+                                 Description='$description',
+                                 FileName='$filename',
                                  UserID='$this->UserID',
                                  WritePermission='$this->WritePermission',
                                  ReadPermission='$this->ReadPermission',
-                                 OriginalFileName='$this->OriginalFileName'
+                                 OriginalFileName='$originalfilename'
                                  " );
         }
         else
@@ -142,14 +148,14 @@ class eZImage
             }
             
             $this->Database->query( "UPDATE eZImageCatalogue_Image SET
-                                 Name='$this->Name',
-                                 Caption='$this->Caption',
-                                 Description='$this->Description',
-                                 FileName='$this->FileName',
+                                 Name='$name',
+                                 Caption='$caption',
+                                 Description='$description',
+                                 FileName='$filename',
                                  UserID='$this->UserID',
                                  WritePermission='$this->WritePermission',
                                  ReadPermission='$this->ReadPermission',
-                                 OriginalFileName='$this->OriginalFileName'
+                                 OriginalFileName='$originalfilename'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -396,34 +402,43 @@ class eZImage
     /*!
       Returns the name of the image.
     */
-    function &name()
+    function &name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Name );
+       if( $html )
+           return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
       Returns the caption of the image.
     */
-    function &caption()
+    function &caption( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Caption );
+       if( $html )
+           return htmlspecialchars( $this->Caption );
+       else
+           return $this->Caption;
     }
 
     /*!
       Returns the description of the image.
     */
-    function &description()
+    function &description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Description );
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
     }    
 
     /*!

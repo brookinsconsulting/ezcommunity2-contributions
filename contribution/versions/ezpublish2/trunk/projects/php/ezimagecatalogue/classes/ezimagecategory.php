@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.11 2001/03/10 13:46:28 bf Exp $
+// $Id: ezimagecategory.php,v 1.12 2001/04/04 16:02:50 fh Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -72,12 +72,14 @@ class eZImageCategory
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZImageCatalogue_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
@@ -85,8 +87,8 @@ class eZImageCategory
         else
         {
             $this->Database->query( "UPDATE eZImageCatalogue_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
@@ -281,23 +283,30 @@ class eZImageCategory
     /*!
       Returns the name of the category.
     */
-    function name()
+    function name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Name );
+       if( $html )
+           return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Description );
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
+           
     }
     
     /*!
