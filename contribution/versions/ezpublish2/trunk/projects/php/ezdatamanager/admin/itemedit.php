@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: itemedit.php,v 1.3 2002/02/09 15:24:05 bf Exp $
+// $Id: itemedit.php,v 1.4 2002/02/10 11:55:29 bf Exp $
 //
 // Created on: <20-Nov-2001 17:23:58 bf>
 //
@@ -52,10 +52,25 @@ if ( isset( $Store ) )
     foreach ( $dataTypeItems as $dataTypeItem )
     {
         unset( $contentsArray );
-        $contentsArray[] = $ItemValueArray[$dataTypeItem->id()];
-        $contents = $generator->generateXML( $contentsArray );        
 
-        $item->setItemValue( $dataTypeItem, $contents );
+        switch ( $ItemValueTypeID[$dataTypeItem->id()] )
+        {
+            case "1" :
+            {
+                $contentsArray[] = $ItemValueArray[$dataTypeItem->id()];
+                $contents = $generator->generateXML( $contentsArray );
+                $item->setItemValue( $dataTypeItem, $contents );
+                
+            }break;
+
+            case "2" :
+            {
+                $item->setItemValue( $dataTypeItem, $ItemValueArray[$dataTypeItem->id()] );
+            }break;
+        }
+        
+
+
     }
 
     eZHTTPTool::header( "Location: /datamanager/typelist/" . $dataType->id() );
@@ -172,6 +187,8 @@ if ( $ItemID > 0 )
 
     foreach ( $dataTypeItems as $dataTypeItem )
     {
+        $t->set_var( "item_value_type_id", $dataTypeItem->itemType() );
+
         $t->set_var( "text_item", "" );
         $t->set_var( "relation_item", "" );
         switch ( $dataTypeItem->itemType() )
@@ -182,7 +199,7 @@ if ( $ItemID > 0 )
                     $contentsArray = $generator->decodeXML( $item->itemValue( $dataTypeItem ) );
                 else
                     $contentsArray[] = "";
-            
+
                 $t->set_var( "data_type_value", $contentsArray[0] );
                 $t->set_var( "data_type_name", $dataTypeItem->name() );
                 $t->set_var( "data_type_id", $dataTypeItem->id() );
@@ -193,18 +210,24 @@ if ( $ItemID > 0 )
 
             case "2" :
             {
+                $value = $item->itemValue( $dataTypeItem );
+
                 $t->set_var( "data_type_name", $dataTypeItem->name() );
                 $t->set_var( "data_type_value", $contentsArray[0] );
                 $t->set_var( "data_type_id", $dataTypeItem->id() );
-
                 
                 $dataItems = eZDataItem::getAll( $dataTypeItem->relationID() );
 
                 $t->set_var( "relation_item_value", "" );
-                foreach ( $dataItems as $item )
+                foreach ( $dataItems as $dataItem )
                 {
-                    $t->set_var( "relation_type_id", $item->id() );                    
-                    $t->set_var( "relation_type_name", $item->name() );
+                    if ( $value == $dataItem->id() )
+                        $t->set_var( "selected", "selected" );
+                    else
+                        $t->set_var( "selected", "" );
+                    
+                    $t->set_var( "relation_type_id", $dataItem->id() );                    
+                    $t->set_var( "relation_type_name", $dataItem->name() );
 
                     $t->parse( "relation_item_value", "relation_item_value_tpl", true);                    
                 }
@@ -212,8 +235,6 @@ if ( $ItemID > 0 )
                 $t->parse( "relation_item", "relation_item_tpl" );
 
             }break;
-
-
             
         }
 

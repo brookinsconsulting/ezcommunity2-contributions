@@ -39,6 +39,8 @@
 <tr>
 	<td class="{td_class}">	
 	<b>{data_type_name}</b><br />
+	<input type="hidden" name="ItemValueTypeID[{data_type_id}]" value="{item_value_type_id}" />
+
 	<!-- BEGIN text_item_tpl -->
 	<textarea class="box" name="ItemValueArray[{data_type_id}]" cols="40" rows="5" wrap="soft">{data_type_value}</textarea>
 	<!-- END text_item_tpl -->

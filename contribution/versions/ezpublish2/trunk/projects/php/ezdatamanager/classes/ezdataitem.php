@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdataitem.php,v 1.6 2002/02/09 15:24:05 bf Exp $
+// $Id: ezdataitem.php,v 1.7 2002/02/10 11:55:29 bf Exp $
 //
 // Definition of eZDataItem class
 //
@@ -295,7 +295,7 @@ class eZDataItem
     {
         $db =& eZDB::globalDatabase();
         $typeItemID = $typeItem->id();
-        
+
         $db->array_query( $value_array, "SELECT Value
                                                 FROM eZDataManager_ItemValue
                                                 WHERE ItemID='$this->ID'

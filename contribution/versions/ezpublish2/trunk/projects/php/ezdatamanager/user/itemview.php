@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: itemview.php,v 1.2 2001/11/23 18:13:45 bf Exp $
+// $Id: itemview.php,v 1.3 2002/02/10 11:55:29 bf Exp $
 //
 // Created on: <20-Nov-2001 17:23:58 bf>
 //
@@ -76,22 +76,39 @@ if ( $ItemID > 0 )
     $dataTypeItems =& $dataType->typeItems();
 
     $article = new eZArticle();
-    $renderer = new eZQDomRenderer( $article );
+    $renderer = new eZQDomRenderer( &$article );
     $i=0;
     foreach ( $dataTypeItems as $dataTypeItem )
-    {     
-        $article->setContents( $item->itemValue( $dataTypeItem ) );
+    {
+        switch ( $dataTypeItem->itemType() )
+        {
+            case "1" :
+            {        
+                $article->setContents( $item->itemValue( $dataTypeItem ) );
+                $value =& $renderer->renderIntro();
+                $t->set_var( "data_type_value", $value );
+                $t->set_var( "data_type_value_$i", $value );
+                
+            }break;
+
+            case "2" :
+            {
+                $tempItem = new eZDataItem( $item->itemValue( $dataTypeItem ) );
+                
+                $value = ( "<a href=\"/datamanager/itemview/" . $item->itemValue( $dataTypeItem ) . "/\">". $tempItem->name() . "</a>" );
+                $t->set_var( "data_type_value", $value );
+                $t->set_var( "data_type_value_$i", $value );
+            }break;
+        }
         
-        $t->set_var( "data_type_value", $renderer->renderIntro() );
         $t->set_var( "data_type_name", $dataTypeItem->name() );
         $t->set_var( "data_type_id", $dataTypeItem->id() );
         
-        $t->set_var( "data_type_value_$i", $renderer->renderIntro() );
         $t->set_var( "data_type_name_$i", $dataTypeItem->name() );
         $t->set_var( "data_type_id_$i", $dataTypeItem->id() );        
-
+        
         $t->parse( "item_value", "item_value_tpl", true );
-        $i++;
+            $i++;
     }
     $t->parse( "item_value_list", "item_value_list_tpl" );
 }
