@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.31 2001/09/17 08:14:55 nca Exp $
+// $Id: productlist.php,v 1.32 2001/09/17 08:36:50 pkej Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -36,7 +36,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
@@ -176,13 +176,20 @@ foreach ( $productList as $product )
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
 
     if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
-         $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
+         $ShowPrice and $product->showPrice() == true )
     {
-
         $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
+        $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
 
-
+        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
+        {
+            $t->set_var( "product_price", "" );
+        }
         $t->parse( "price", "price_tpl" );
+    }
+    elseif( $product->showPrice() == false )
+    {
+        $t->set_var( "product_price", "" );
     }
     else
     {
