@@ -682,3 +682,28 @@ Maintainer(s) : br@ez.no
 
     * classes/ezlinkcategory.php: small fixes
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2002-02-12  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezlink.php
+      classes/ezlinkcategory.php: fixed bad sql query.
+
+    * admin/intl/no_NO/categorylist.php.ini
+      admin/linkedit.php: fixed language and attributes in linkedit.
+
+    * admin/linkedit.php:
+    fixed bug when update the page with attribute values.
+
+    * sql/informix/ezlink.sql
+      sql/mysql/ezlink.sql
+      sql/postgresql/ezlink.sql:
+    set the url to be text instead of 100 characters long.
+
+    * sql/informix/ezlink.sql
+      sql/mysql/ezlink.sql
+      sql/postgresql/ezlink.sql:
+    updated url to be text. (can now have more than 100 characters)
+

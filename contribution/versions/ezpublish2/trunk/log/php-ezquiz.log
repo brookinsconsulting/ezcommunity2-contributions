@@ -214,3 +214,16 @@ Maintainer(s) : pkej@ez.no
       admin/templates/standard/gamelist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2002-02-12  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/gameedit.php
+      classes/ezquizgame.php:
+    Fixed the date troubles in the store function and the page.
+
+    * classes/ezquizgame.php:
+    Fixed the fill function. The date info was set with the wrong function.
+

@@ -2804,3 +2804,14 @@ Maintainer(s) : bf@ez.no
       user/articleview.php
       user/datasupplier.php: Fixed permission bug in author view.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-12  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * admin/templates/standard/articleedit.tpl
+      admin/articleedit.php: URL translation in article edit
+
+    * sql/mysql/ezarticle.sql: UrlLink field
+
