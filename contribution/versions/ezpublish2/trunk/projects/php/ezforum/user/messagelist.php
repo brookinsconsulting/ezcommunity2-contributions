@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.49 2001/10/11 07:35:50 ce Exp $
+// $Id: messagelist.php,v 1.50 2001/10/11 07:37:13 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -45,7 +45,7 @@ $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateD
                      "ezforum/user/intl", $Language, "messagelist.php" );
 
 $t->set_file( array( "messagelist" => "messagelist.tpl",
-                     "no_access" => "noaccess.tpl" );
+                     "no_access" => "noaccess.tpl" ) );
 
 $t->set_block( "messagelist", "message_item_tpl", "message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
