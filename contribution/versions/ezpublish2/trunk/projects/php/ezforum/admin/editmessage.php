@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: editmessage.php,v 1.1 2000/07/25 15:37:05 lw-cvs Exp $
+    $Id: editmessage.php,v 1.2 2000/07/25 20:00:44 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -19,6 +19,9 @@ $t->set_file(Array( "edit" => "$DOCROOT/admin/templates/editmessage.tpl",
                     "navigation" => "$DOCROOT/templates/navigation.tpl",
                     "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl" ) );
 
+$msg = new eZforumMessage;
+$msg->get( $message_id );
+
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
@@ -26,7 +29,8 @@ $t->set_var( "forum_id", $forum_id );
 $t->parse( "navigation-bar", "navigation", true);
 
 // rest
-
+$t->set_var( "user", eZUser::resolveUser( $message_id ) );
+$t->set_var( "body", $msg->body() );
 
 $t->set_var( "link1-url", "main.php");
 $t->set_var( "link1-caption", "Gå til topp");
@@ -35,6 +39,5 @@ $t->set_var( "link2-caption", "Søk");
 
 $t->set_var( "back-url", "main.php");
 $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
-
 $t->pparse( "output", "edit" );
 ?>
