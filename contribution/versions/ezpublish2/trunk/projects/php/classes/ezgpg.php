@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezgpg.php,v 1.6 2001/07/29 23:30:57 kaid Exp $
+// $Id: ezgpg.php,v 1.7 2001/08/24 13:55:56 ce Exp $
 //
 // Definition of eZGPG class
 //
@@ -48,12 +48,13 @@ class eZGPG
 
 		$this->pcmd = "echo '$plaintxt' | ";
 		$this->pcmd .= $this->pathtogpg.$this->encryptcommand;
-		$this->pcmd.= " -a -q --no-tty -e -u $wwwuser -r'". $this->keyname ."' ";
-		$this->pcmd.= " -o".$boundary;
+		$this->pcmd.= " -a -q --no-tty -e -u $wwwuser -r$wwwuser";
+		$this->pcmd.= " -o/var/www/" . $boundary;
 
-		$pp = popen( $this->pcmd, w );
+		$pp = popen( $this->pcmd, "w" );
 		fwrite( $pp, $this->body );
 		pclose( $pp );
+
 
 		$fp = eZFile::fopen( $boundary, r );
 		$this->body = fread( $fp, eZFile::filesize( $boundary ) );
@@ -64,7 +65,7 @@ class eZGPG
 		
 	}
 
-    	var $body;
+    var $body;
 	var $keyname = array();
 	var $pathtogpg = "/usr/bin/";
 	var $pp;

@@ -1,7 +1,8 @@
 <form action="{www_dir}{index}/trade/voucherinformation/{url_arg}" method="post">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 
-<h1>{intl-description}</h1>
+<h2>{voucher_name}</h2>
+<p>{intl-description}</p>
 
 <!-- BEGIN email_tpl -->
 <tr>

@@ -1,4 +1,3 @@
-
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
   Name varchar(100) default NULL,
@@ -60,7 +59,7 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
   ImagePath varchar(100) default NULL,
   Width int default NULL,
   Height int default NULL,
-  Modification char(20) NOT NULL default '',
+  Modification varchar(20) NOT NULL default '',
   PRIMARY KEY (ID)
 );
 

@@ -119,7 +119,7 @@ INSERT INTO eZBug_Module VALUES (1,0,'My program','');
 DROP TABLE IF EXISTS eZBug_Priority;
 CREATE TABLE eZBug_Priority (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Name char(150) DEFAULT '' NOT NULL,
+  Name varchar(150) DEFAULT '' NOT NULL,
   Value int(11),
   PRIMARY KEY (ID)
 );
@@ -138,7 +138,7 @@ INSERT INTO eZBug_Priority VALUES (3,'Low',NULL);
 DROP TABLE IF EXISTS eZBug_Status;
 CREATE TABLE eZBug_Status (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Name char(150) DEFAULT '' NOT NULL,
+  Name varchar(150) DEFAULT '' NOT NULL,
   PRIMARY KEY (ID)
 );
 

@@ -25,7 +25,7 @@ CREATE TABLE eZTrade_AttributeValue (
   ID int NOT NULL,
   ProductID int default NULL,
   AttributeID int default NULL,
-  Value char(200) default NULL,
+  Value varchar(200) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -33,6 +33,8 @@ CREATE TABLE eZTrade_AttributeValue (
 CREATE TABLE eZTrade_Cart (
   ID int NOT NULL,
   SessionID int default NULL,
+  CompanyID int default '0',
+  PersonID int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -76,6 +78,14 @@ CREATE TABLE eZTrade_CategoryOptionLink (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTrade_CategoryPermission (
+  ID int NOT NULL,
+  ObjectID int default NULL,
+  GroupID int default NULL,
+  ReadPermission int default '0',
+  WritePermission int default '0',
+  PRIMARY KEY (ID)
+);
 
 CREATE TABLE eZTrade_GroupPriceLink (
   GroupID int NOT NULL default '0',
@@ -149,6 +159,9 @@ CREATE TABLE eZTrade_Order (
   Date int default NULL,
   ShippingVAT float NOT NULL default '0',
   ShippingTypeID int NOT NULL default '0',
+  IsVATInc int default '0',
+  CompanyID int default '0',
+  PersonID int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -159,6 +172,9 @@ CREATE TABLE eZTrade_OrderItem (
   Count int default NULL,
   Price decimal(10,2) default NULL,
   ProductID int default NULL,
+  PriceIncVAT float(10,2) default NULL,
+  VATValue int default NULL,
+  ExpiryDate int default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -189,8 +205,6 @@ CREATE TABLE eZTrade_OrderStatusType (
   Name varchar(25) NOT NULL default '',
   PRIMARY KEY (ID)
 );
-
-CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
 
 CREATE TABLE eZTrade_PreOrder (
   ID int NOT NULL,
@@ -226,6 +240,8 @@ CREATE TABLE eZTrade_Product (
   VATTypeID int NOT NULL default '0',
   ShippingGroupID int NOT NULL default '0',
   ProductType int default '1',
+  ExpiryTime int NOT NULL default '0',
+  Published int default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -268,6 +284,22 @@ CREATE TABLE eZTrade_ProductOptionLink (
   ID int NOT NULL,
   ProductID int default NULL,
   OptionID int default NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZTrade_ProductPermission (
+  ID int NOT NULL,
+  ObjectID int default NULL,
+  GroupID int default NULL,
+  ReadPermission int default '0',
+  WritePermission int default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZTrade_ProductPermissionLink (
+  ID int NOT NULL default '0',
+  ProductID int NOT NULL default '0',
+  GroupID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
 
@@ -322,7 +354,7 @@ CREATE TABLE eZTrade_QuantityRange (
 
 CREATE TABLE eZTrade_ShippingGroup (
   ID int NOT NULL,
-  Name char(100) default NULL,
+  Name varchar(100) default NULL,
   Created int NOT NULL,
   PRIMARY KEY (ID)
 );
@@ -330,7 +362,7 @@ CREATE TABLE eZTrade_ShippingGroup (
 
 CREATE TABLE eZTrade_ShippingType (
   ID int NOT NULL,
-  Name char(100) default NULL,
+  Name varchar(100) default NULL,
   Created int NOT NULL,
   IsDefault int NOT NULL default '0',
   VATTypeID int NOT NULL default '0',
@@ -358,7 +390,7 @@ CREATE TABLE eZTrade_Type (
 
 CREATE TABLE eZTrade_VATType (
   ID int NOT NULL,
-  Name char(100) default NULL,
+  Name varchar(100) default NULL,
   VATValue float NOT NULL default '0',
   Created int NOT NULL,
   PRIMARY KEY (ID)
@@ -369,6 +401,41 @@ CREATE TABLE eZTrade_ValueQuantityDict (
   ValueID int NOT NULL default '0',
   QuantityID int NOT NULL default '0',
   PRIMARY KEY (ValueID,QuantityID)
+);
+
+
+CREATE TABLE eZTrade_Voucher (
+  ID int default '0',
+  Created int default '0',
+  Price float default '0',
+  Available int default '0',
+  KeyNumber varchar(50) default NULL
+);
+
+
+CREATE TABLE eZTrade_VoucherEMail (
+  ID int default '0',
+  VoucherID int default '0',
+  Email varchar(40) default NULL,
+  Description text,
+  PreOrderID int default '0'
+);
+
+
+CREATE TABLE eZTrade_VoucherSMail (
+  ID int default '0',
+  VoucherID int default '0',
+  AddressID int default '0',
+  Description text,
+  PreOrderID int default '0'
+);
+
+
+CREATE TABLE eZTrade_VoucherUsed (
+  ID int default '0',
+  Used int default '0',
+  Price float default NULL,
+  VoucherID int default '0'
 );
 
 
@@ -397,3 +464,10 @@ CREATE TABLE eZTrade_WishListOptionValue (
   OptionValueID int default NULL,
   PRIMARY KEY (ID)
 );
+
+
+CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
+CREATE UNIQUE INDEX ProductPermissionObjectID ON ProductPermissionObjectID (ObjectID);
+CREATE UNIQUE INDEX ProductPermissionGroupID ON ProductPermissionObjectID (GroupID);
+CREATE UNIQUE INDEX ProductPermissionWritePermission ON ProductPermissionObjectID (WritePermission);
+CREATE UNIQUE INDEX ProductPermissionReadPermission ON ProductPermissionObjectID (ReadPermission);

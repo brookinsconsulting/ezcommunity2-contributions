@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.2 2001/08/24 07:21:08 ce Exp $
+// $Id: voucherinformation.php,v 1.3 2001/08/24 13:56:00 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -120,7 +120,7 @@ $mailID = $voucherMail[$Key];
 if ( is_numeric( $voucherID ) )
 {
     $product = new eZProduct( $voucherID );
-    $t->set_var( "product_name", $product->name() );
+    $t->set_var( "voucher_name", $product->name() );
 
     if ( $mailID == 1 )
     {

@@ -107,7 +107,7 @@ CREATE TABLE eZContact_ContactType (
 
 CREATE TABLE eZContact_ImageType (
   ID int NOT NULL,
-  Name char(50),
+  Name varchar(50),
   PRIMARY KEY (ID)
 );
 
@@ -147,7 +147,7 @@ CREATE TABLE eZContact_PersonProjectDict (
 
 CREATE TABLE eZContact_ProjectType (
   ID int NOT NULL,
-  Name char(50) DEFAULT '' NOT NULL,
+  Name varchar(50) DEFAULT '' NOT NULL,
   ListOrder int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );

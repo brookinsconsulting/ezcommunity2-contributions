@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.98 2001/08/24 10:45:56 bf Exp $
+// $Id: index.php,v 1.99 2001/08/24 13:55:55 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -351,6 +351,7 @@ else
 
     include( "sitedesign/$siteDesign/loginframe.php" );
 }
+
 
 // close the database connection.
 $db =& eZDB::globalDatabase();

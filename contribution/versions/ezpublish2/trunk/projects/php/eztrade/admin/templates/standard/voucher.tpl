@@ -99,8 +99,6 @@
 
 <hr noshade="noshade" size="4" />
 
-<hr noshade="noshade" size="4" />
-
 <div class="divider">
 	<input type="hidden" name="ProductID" value="{product_id}" />
 	<input class="okbutton" name="OK" type="submit" value="{intl-ok}" />

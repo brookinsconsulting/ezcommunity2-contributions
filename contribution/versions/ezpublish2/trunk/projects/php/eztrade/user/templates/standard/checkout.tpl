@@ -51,14 +51,12 @@
 </tr>
 <!-- BEGIN voucher_information_tpl -->
 <tr>
-       <th class="{td_class}" >{intl-send_email}
-       <th class="{td_class}" >{intl-send_smail}
-</tr>
-<tr>
-        <td class="{td_class}" >
+        <td colspan="2" width="1%" class="{td_class}" >
+	<p>{intl-send_smail}</p>
 	<input type="radio" name="MailType-{product_id}" value="1" checked />
         </td>
-        <td class="{td_class}" >
+        <td colspan="4" width="99%" class="{td_class}" >
+	<p>{intl-send_email}</p>
 	<input type="radio" name="MailType-{product_id}" value="2" />
         </td>
 	<input type="hidden" name="VoucherIDArray[]" value="{product_id}" />
@@ -66,7 +64,7 @@
 <!-- END voucher_information_tpl -->
 <!-- END cart_item_tpl -->
 <tr>
-	<td colspan="2" rowspan="3" valign="top">
+	<td colspan="3" rowspan="3" valign="top">
 	<div class="boxtext">{intl-shipping_method}:</div>
 	<select name="ShippingTypeID">
 	<!-- BEGIN shipping_type_tpl -->
@@ -103,7 +101,7 @@
 <!-- END vouchers_tpl --> 
 <tr>
 	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td colspan="{cart_colspan}" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>

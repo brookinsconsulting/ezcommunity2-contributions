@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.62 2001/08/21 11:23:58 ce Exp $
+// $Id: ezsession.php,v 1.63 2001/08/24 13:55:58 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -529,23 +529,27 @@ class eZSession
 
             $i++;
         }
-        
-        $this->setVariable( $name, $string );
+        if ( $string )
+            $this->setVariable( $name, $string );
     }
 
     function arrayValue( $name )
     {
         $tmpString = $this->variable( $name );
-        $tmpString = explode( ";", $tmpString );
-        foreach( $tmpString as $string )
+        if ( $tmpString )
         {
-            $stringArray = explode( "->", $string );
-            $key = $stringArray[0];
-            $value = $stringArray[1];
-
-            $returnArray[$key] = $value;
+            $tmpString = explode( ";", $tmpString );
+            foreach( $tmpString as $string )
+            {
+                $stringArray = explode( "->", $string );
+                $key = $stringArray[0];
+                $value = $stringArray[1];
+                
+                $returnArray[$key] = $value;
+            }
+            return $returnArray;
         }
-        return $returnArray;
+        return array();
     }
     
 

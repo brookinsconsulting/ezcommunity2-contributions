@@ -62,7 +62,7 @@ CREATE TABLE eZLink_AttributeValue (
   ID int NOT NULL,
   LinkID int default NULL,
   AttributeID int default NULL,
-  Value char(200) default NULL,
+  Value varchar(200) default NULL,
   PRIMARY KEY (ID)
 );
 

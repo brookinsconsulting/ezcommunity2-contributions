@@ -1,6 +1,6 @@
 CREATE TABLE eZTrade_AlternativeCurrency (
-  ID int(11) NOT NULL auto_increment,
-  Name char(100) NOT NULL default '',
+  ID int NOT NULL,
+  Name varchar(100) NOT NULL default '',
   PrefixSign int(11) NOT NULL default '0',
   Sign varchar(5) NOT NULL default '',
   Value float NOT NULL default '1',
@@ -8,12 +8,9 @@ CREATE TABLE eZTrade_AlternativeCurrency (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Attribute'
-#
 
 CREATE TABLE eZTrade_Attribute (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   TypeID int(11) default NULL,
   Name varchar(150) default NULL,
   Created int(11) NOT NULL,
@@ -23,34 +20,27 @@ CREATE TABLE eZTrade_Attribute (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_AttributeValue'
-#
 
 CREATE TABLE eZTrade_AttributeValue (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ProductID int(11) default NULL,
   AttributeID int(11) default NULL,
-  Value char(200) default NULL,
+  Value varchar(200) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Cart'
-#
 
 CREATE TABLE eZTrade_Cart (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   SessionID int(11) default NULL,
+  CompanyID int(11) default '0',
+  PersonID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_CartItem'
-#
 
 CREATE TABLE eZTrade_CartItem (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ProductID int(11) default NULL,
   Count int(11) default NULL,
   CartID int(11) default NULL,
@@ -58,12 +48,9 @@ CREATE TABLE eZTrade_CartItem (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_CartOptionValue'
-#
 
 CREATE TABLE eZTrade_CartOptionValue (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   CartItemID int(11) default NULL,
   OptionID int(11) default NULL,
   OptionValueID int(11) default NULL,
@@ -71,12 +58,9 @@ CREATE TABLE eZTrade_CartOptionValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Category'
-#
 
 CREATE TABLE eZTrade_Category (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Parent int(11) default NULL,
   Description text,
   Name varchar(100) default NULL,
@@ -86,20 +70,24 @@ CREATE TABLE eZTrade_Category (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_CategoryOptionLink'
-#
 
 CREATE TABLE eZTrade_CategoryOptionLink (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   CategoryID int(11) default NULL,
   OptionID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_GroupPriceLink'
-#
+
+CREATE TABLE eZTrade_CategoryPermission (
+  ID int NOT NULL,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 
 CREATE TABLE eZTrade_GroupPriceLink (
   GroupID int(11) NOT NULL default '0',
@@ -107,12 +95,9 @@ CREATE TABLE eZTrade_GroupPriceLink (
   PRIMARY KEY (GroupID,PriceID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Link'
-#
 
 CREATE TABLE eZTrade_Link (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   SectionID int(11) NOT NULL default '0',
   Name varchar(60) default NULL,
   URL text,
@@ -121,33 +106,24 @@ CREATE TABLE eZTrade_Link (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_LinkSection'
-#
 
 CREATE TABLE eZTrade_LinkSection (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(30) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Option'
-#
 
 CREATE TABLE eZTrade_Option (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(100) default NULL,
   Description text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_OptionValue'
-#
 
 CREATE TABLE eZTrade_OptionValue (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   OptionID int(11) default NULL,
   Placement int(11) NOT NULL default '1',
   Price float(10,2) default NULL,
@@ -155,36 +131,27 @@ CREATE TABLE eZTrade_OptionValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_OptionValueContent'
-#
 
 CREATE TABLE eZTrade_OptionValueContent (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Value varchar(30) default NULL,
   ValueID int(11) NOT NULL default '0',
   Placement int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_OptionValueHeader'
-#
 
 CREATE TABLE eZTrade_OptionValueHeader (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(30) default NULL,
   OptionID int(11) NOT NULL default '0',
   Placement int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Order'
-#
 
 CREATE TABLE eZTrade_Order (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   UserID int(11) NOT NULL default '0',
   ShippingCharge float(10,2) default NULL,
   PaymentMethod text,
@@ -194,28 +161,28 @@ CREATE TABLE eZTrade_Order (
   Date int(11) default NULL,
   ShippingVAT float NOT NULL default '0',
   ShippingTypeID int(11) NOT NULL default '0',
+  IsVATInc int(11) default '0',
+  CompanyID int(11) default '0',
+  PersonID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_OrderItem'
-#
 
 CREATE TABLE eZTrade_OrderItem (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   OrderID int(11) NOT NULL default '0',
   Count int(11) default NULL,
   Price float(10,2) default NULL,
   ProductID int(11) default NULL,
+  PriceIncVAT float(10,2) default NULL,
+  VATValue int(11) default NULL,
+  ExpiryDate int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_OrderOptionValue'
-#
 
 CREATE TABLE eZTrade_OrderOptionValue (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   OrderItemID int(11) default NULL,
   OptionName varchar(25) default NULL,
   ValueName varchar(25) default NULL,
@@ -223,12 +190,9 @@ CREATE TABLE eZTrade_OrderOptionValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_OrderStatus'
-#
 
 CREATE TABLE eZTrade_OrderStatus (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   StatusID int(11) NOT NULL default '0',
   Altered int(11) NOT NULL,
   AdminID int(11) default NULL,
@@ -237,93 +201,71 @@ CREATE TABLE eZTrade_OrderStatus (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_OrderStatusType'
-#
 
 CREATE TABLE eZTrade_OrderStatusType (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(25) NOT NULL default '',
   PRIMARY KEY (ID),
   UNIQUE KEY Name(Name)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_PreOrder'
-#
 
 CREATE TABLE eZTrade_PreOrder (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Created int(11) NOT NULL,
   OrderID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_PriceGroup'
-#
 
 CREATE TABLE eZTrade_PriceGroup (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(50) default NULL,
   Description text,
   Placement int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Product'
-#
 
 CREATE TABLE eZTrade_Product (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(100) default NULL,
   Brief text,
   Description text,
   Keywords varchar(100) default NULL,
   Price float(10,5) default NULL,
-  ShowPrice int(11) default NULL,
-  ShowProduct int(11) default NULL,
-  Discontinued int(11) default NULL,
-  InheritOptions int(11) default NULL,
+  ShowPrice int(11) default '1',
+  ShowProduct int(11) default '1',
+  Discontinued int(11) default '0',
   ProductNumber varchar(100) default NULL,
   ExternalLink varchar(200) default NULL,
   IsHotDeal int(11) default '0',
-  Published int(11) NOT NULL,
-  Altered int(11) NOT NULL,
   RemoteID varchar(100) default NULL,
   VATTypeID int(11) NOT NULL default '0',
   ShippingGroupID int(11) NOT NULL default '0',
   ProductType int(11) default '1',
+  ExpiryTime int(11) NOT NULL default '0',
+  Published int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductCategoryDefinition'
-#
 
 CREATE TABLE eZTrade_ProductCategoryDefinition (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ProductID int(11) NOT NULL default '0',
   CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductCategoryLink'
-#
 
 CREATE TABLE eZTrade_ProductCategoryLink (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   CategoryID int(11) default NULL,
   ProductID int(11) default NULL,
   Placement int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductImageDefinition'
-#
 
 CREATE TABLE eZTrade_ProductImageDefinition (
   ProductID int(11) NOT NULL default '0',
@@ -332,32 +274,45 @@ CREATE TABLE eZTrade_ProductImageDefinition (
   PRIMARY KEY (ProductID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductImageLink'
-#
 
 CREATE TABLE eZTrade_ProductImageLink (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ProductID int(11) default NULL,
   ImageID int(11) default NULL,
   Created int(11) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductOptionLink'
-#
 
 CREATE TABLE eZTrade_ProductOptionLink (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ProductID int(11) default NULL,
   OptionID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductPriceLink'
-#
+
+CREATE TABLE eZTrade_ProductPermission (
+  ID int NOT NULL,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID),
+  KEY ProductPermissionObjectID(ObjectID),
+  KEY ProductPermissionGroupID(GroupID),
+  KEY ProductPermissionWritePermission(WritePermission),
+  KEY ProductPermissionReadPermission(ReadPermission)
+) TYPE=MyISAM;
+
+
+CREATE TABLE eZTrade_ProductPermissionLink (
+  ID int(11) NOT NULL default '0',
+  ProductID int(11) NOT NULL default '0',
+  GroupID int(11) NOT NULL default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 
 CREATE TABLE eZTrade_ProductPriceLink (
   ProductID int(11) NOT NULL default '0',
@@ -368,9 +323,6 @@ CREATE TABLE eZTrade_ProductPriceLink (
   PRIMARY KEY (ProductID,PriceID,OptionID,ValueID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductQuantityDict'
-#
 
 CREATE TABLE eZTrade_ProductQuantityDict (
   ProductID int(11) NOT NULL default '0',
@@ -378,9 +330,6 @@ CREATE TABLE eZTrade_ProductQuantityDict (
   PRIMARY KEY (ProductID,QuantityID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductSectionDict'
-#
 
 CREATE TABLE eZTrade_ProductSectionDict (
   ProductID int(11) NOT NULL default '0',
@@ -389,68 +338,50 @@ CREATE TABLE eZTrade_ProductSectionDict (
   PRIMARY KEY (ProductID,SectionID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ProductTypeLink'
-#
 
 CREATE TABLE eZTrade_ProductTypeLink (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ProductID int(11) default NULL,
   TypeID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Quantity'
-#
 
 CREATE TABLE eZTrade_Quantity (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Quantity int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_QuantityRange'
-#
 
 CREATE TABLE eZTrade_QuantityRange (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   MaxRange int(11) default NULL,
   Name varchar(30) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ShippingGroup'
-#
 
 CREATE TABLE eZTrade_ShippingGroup (
-  ID int(11) NOT NULL auto_increment,
-  Name char(100) default NULL,
+  ID int NOT NULL,
+  Name varchar(100) default NULL,
   Created int(11) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ShippingType'
-#
 
 CREATE TABLE eZTrade_ShippingType (
-  ID int(11) NOT NULL auto_increment,
-  Name char(100) default NULL,
+  ID int NOT NULL,
+  Name varchar(100) default NULL,
   Created int(11) NOT NULL,
   IsDefault int(11) NOT NULL default '0',
   VATTypeID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ShippingValue'
-#
 
 CREATE TABLE eZTrade_ShippingValue (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ShippingGroupID int(11) NOT NULL default '0',
   ShippingTypeID int(11) NOT NULL default '0',
   StartValue float NOT NULL default '0',
@@ -458,32 +389,23 @@ CREATE TABLE eZTrade_ShippingValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_Type'
-#
 
 CREATE TABLE eZTrade_Type (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(150) default NULL,
   Description text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_VATType'
-#
 
 CREATE TABLE eZTrade_VATType (
-  ID int(11) NOT NULL auto_increment,
-  Name char(100) default NULL,
+  ID int NOT NULL,
+  Name varchar(100) default NULL,
   VATValue float NOT NULL default '0',
   Created int(11) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_ValueQuantityDict'
-#
 
 CREATE TABLE eZTrade_ValueQuantityDict (
   ValueID int(11) NOT NULL default '0',
@@ -491,23 +413,52 @@ CREATE TABLE eZTrade_ValueQuantityDict (
   PRIMARY KEY (ValueID,QuantityID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_WishList'
-#
+
+CREATE TABLE eZTrade_Voucher (
+  ID int(11) default '0',
+  Created int(11) default '0',
+  Price float default '0',
+  Available int(11) default '0',
+  KeyNumber varchar(50) default NULL
+) TYPE=MyISAM;
+
+
+CREATE TABLE eZTrade_VoucherEMail (
+  ID int(11) default '0',
+  VoucherID int(11) default '0',
+  Email varchar(40) default NULL,
+  Description text,
+  PreOrderID int(11) default '0'
+) TYPE=MyISAM;
+
+
+CREATE TABLE eZTrade_VoucherSMail (
+  ID int(11) default '0',
+  VoucherID int(11) default '0',
+  AddressID int(11) default '0',
+  Description text,
+  PreOrderID int(11) default '0'
+) TYPE=MyISAM;
+
+
+CREATE TABLE eZTrade_VoucherUsed (
+  ID int(11) default '0',
+  Used int(11) default '0',
+  Price float default NULL,
+  VoucherID int(11) default '0'
+) TYPE=MyISAM;
+
 
 CREATE TABLE eZTrade_WishList (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   UserID int(11) default NULL,
   IsPublic int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_WishListItem'
-#
 
 CREATE TABLE eZTrade_WishListItem (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   ProductID int(11) default NULL,
   Count int(11) default NULL,
   WishListID int(11) default NULL,
@@ -515,15 +466,11 @@ CREATE TABLE eZTrade_WishListItem (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Table structure for table 'eZTrade_WishListOptionValue'
-#
 
 CREATE TABLE eZTrade_WishListOptionValue (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL,
   WishListItemID int(11) default NULL,
   OptionID int(11) default NULL,
   OptionValueID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-

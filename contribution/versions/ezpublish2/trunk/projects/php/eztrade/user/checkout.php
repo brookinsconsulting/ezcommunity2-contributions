@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.74 2001/08/24 07:21:08 ce Exp $
+// $Id: checkout.php,v 1.75 2001/08/24 13:56:00 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -114,6 +114,9 @@ $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 $t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
 
 $t->set_block( "checkout_tpl", "show_payment_tpl", "show_payment" );
+
+$t->set_block( "cart_item_list_tpl", "vouchers_tpl", "vouchers" );
+$t->set_block( "vouchers_tpl", "voucher_item_tpl", "voucher_item" );
 
 $t->set_var( "show_payment", "" );
 
@@ -508,6 +511,8 @@ $can_checkout = true;
     $vouchers = $session->arrayValue( "PayWithVocuher" );
 
     $i=1;
+    $t->set_var( "vouchers", "" );
+    $t->set_var( "voucher_item_tpl", "" );
     foreach( $vouchers as $voucher )
     {
         $voucher = new eZVoucher( $voucher );
@@ -528,10 +533,12 @@ $can_checkout = true;
         $totalVoucher[] = $voucherPrice;
         $voucherSession[$voucherID] = $voucherPrice;
         $t->set_var( "number", $i );
+        $t->parse( "voucher_item", "voucher_item_tpl", true );
         $i++;
     }
     if ( is_array ( $totalVoucher ) )
     {
+        $t->parse( "vouchers", "vouchers_tpl" );
         $session->setArray( "PayedWith", $voucherSession );
         $totalVoucher = array_sum ( $totalVoucher );
     }
@@ -540,6 +547,7 @@ $can_checkout = true;
     $sum -= $totalVoucher;
     $currency->setValue( $sum );
     $t->set_var( "cart_sum", $locale->format( $currency ) );
+    $t->set_var( "cart_colspan", 1 + $i );
 
     if ( $sum <= 0 )
         $payment = false;

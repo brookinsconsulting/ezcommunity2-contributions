@@ -53,13 +53,13 @@ CREATE TABLE eZBug_Module (
 
 CREATE TABLE eZBug_Priority (
   ID int DEFAULT '0' NOT NULL,
-  Name char(150) DEFAULT '' NOT NULL,
+  Name varchar(150) DEFAULT '' NOT NULL,
   Value int,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZBug_Status (
   ID int DEFAULT '0' NOT NULL,
-  Name char(150) DEFAULT '' NOT NULL,
+  Name varchar(150) DEFAULT '' NOT NULL,
   PRIMARY KEY (ID)
 );

@@ -100,7 +100,7 @@ CREATE TABLE eZArticle_ArticleTypeLink (
 CREATE TABLE eZArticle_Attribute (
   ID int NOT NULL,
   TypeID int default NULL,
-  Name char(150) default NULL,
+  Name varchar(150) default NULL,
   Placement int default NULL,
   Created int NOT NULL,
   PRIMARY KEY (ID)

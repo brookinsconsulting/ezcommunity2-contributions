@@ -1,5 +1,5 @@
 CREATE TABLE eZBulkMail_Category (
-  ID int(11) NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   Name varchar(200) default NULL,
   Description text,
   IsPublic int NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE eZBulkMail_Category (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_Mail (
-  ID int(11) NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   UserID int(11) default '0',
   FromField varchar(100) default NULL,
   FromName varchar(100) default NULL,
@@ -33,7 +33,7 @@ CREATE TABLE eZBulkMail_MailTemplateLink (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_SentLog (
-  ID int(11) NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   MailID int(11) NOT NULL default '0',
   AddressID int(11) NOT NULL default '0',
   SentDate int(14) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE eZBulkMail_SentLog (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_SubscriptionAddress (
-  ID int(11) NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   Password varchar(50) NOT NULL,
   EMail varchar(255) default NULL,
   PRIMARY KEY (ID)
@@ -54,7 +54,7 @@ CREATE TABLE eZBulkMail_SubscriptionLink (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_Template (
-  ID int(11) NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   Name varchar(200) default NULL,
   Description lvarchar default NULL,
   Header text,
