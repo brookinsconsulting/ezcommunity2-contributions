@@ -13,6 +13,7 @@ To check out the 2.2 final branch type:
 
 cvs co -r eZPublish_2_2_final_branch  publish_dist
 
+eZPublish_2_2_4                   Stable fix of 2.2
 eZPublish_2_2_3                   Stable fix of 2.2
 eZPublish_2_2_2                   Stable fix of 2.2
 eZPublish_2_2_1		          Stable fix of 2.2
