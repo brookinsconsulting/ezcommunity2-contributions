@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* Next/Prev in company listing, ordering controllable by site.ini
 * New general link feature. It's possible to link one part of a module to another part
   of any other ez module given that they have an url supplier. This means that one
   can add "Related links" etc.. to articles.

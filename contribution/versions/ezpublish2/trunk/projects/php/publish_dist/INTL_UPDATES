@@ -5,6 +5,15 @@ mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
 ### 2.0 - 2.0.1 ####################
+mod: ezcontact/admin, companytype.php.ini
+changed: added
+next=Next
+previous=Previous
+
+mod: eztrade/admin, productedit.php.ini
+changed: added
+discontinued=Discontinued
+
 mod: ezbug/user/, menubox.php.ini
 change: added bug_unhandled
 
@@ -31,10 +40,6 @@ change: added products=Products
 
 mod: eztrade/user, extendedsearch.php.ini
 change: all_category=All
-
-mod: eztrade/admin, productedit.php.ini
-changed: added
-discontinued=Discontinued
 
 #### PRE2 - 2.0 Final ####################
 
