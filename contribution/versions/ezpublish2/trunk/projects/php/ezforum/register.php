@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: register.php,v 1.2 2000/07/14 13:18:34 lw-cvs Exp $
+    $Id: register.php,v 1.3 2000/07/19 14:55:12 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -12,9 +12,9 @@ include( "template.inc" );
 include( "ezforum/dbsettings.php" );
 include( "$DOCROOT/classes/ezdb.php" );
 include( "$DOCROOT/classes/ezuser.php" );
+include( "$DOCROOT/classes/ezsession.php" );
 
-
-$t = new Template(".");
+$t = new Template( "." );
 $t->set_file(Array( "register" => "$DOCROOT/templates/register.tpl",
                     "finish" => "$DOCROOT/templates/register-finished.tpl"));
 $t->set_var( "docroot", $DOCROOT);
@@ -30,8 +30,9 @@ if ( $registrer )
          ( $password == "" ) ||
          ( $password != $password2 ) )
     {
-        //error message - retry
-        die("register: duplicate nickname or missing arguments, dying...");
+        // Retry
+        // redirect to self - with variables -
+        die();
     }
 
     $user->newUser();
@@ -42,9 +43,13 @@ if ( $registrer )
     $user->setPassword( $password );
     $user->enableUser( );
 
-    $user->store( );
+    $user->store();
 
-    $t->pparse( "output", "finish" );
+    $session = new eZSession();
+    $session->setUserID( $tmp );
+    $session->store();
+
+    printRedirect( "/index.php?page=$DOCROOT/main.php" );
 }
 else
 {
