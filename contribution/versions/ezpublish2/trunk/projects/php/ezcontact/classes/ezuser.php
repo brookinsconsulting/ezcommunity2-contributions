@@ -9,6 +9,13 @@ class eZUser
         $this->User = $usr;
         $this->Password = $pwd;
     }
+
+    /*!
+      Constructor.
+    */    
+    function eZUser(  )      
+    {      
+    }
     
 
     /*!

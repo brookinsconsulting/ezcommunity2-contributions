@@ -11,12 +11,25 @@ class eZCompanyType
     }
 
     /*!
+    Oppdaterer informasjonen til databasen.
+  */
+    function update()
+    {
+        $this->dbInit();
+
+        print( $this->ID );
+
+        query( "UPDATE CompanyType set Name='$this->Name', Description='$this->Description' WHERE ID='$this->ID'" );
+    }
+
+
+/*!
       Lagrer informasjonen til databasen.
     */
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO CompanyType set Name='$this->Name', Comment='$this->Comment'" );
+        query( "INSERT INTO CompanyType set Name='$this->Name', Description='$this->Description'" );
     }
 
     /*
@@ -36,7 +49,7 @@ class eZCompanyType
             {
                 $this->ID = $company_type_array[ 0 ][ "ID" ];
                 $this->Name = $company_type_array[ 0 ][ "Name" ];
-                $this->Comment = $company_type_array[ 0 ][ "Name" ];
+                $this->Description = $company_type_array[ 0 ][ "Name" ];
             }
         }
     }
@@ -56,6 +69,41 @@ class eZCompanyType
   
   
     /*!
+      Setter navn.
+    */
+    function setName( $value )
+    {
+        $this->Name = $value;
+    }
+    /*!
+      Setter navn.
+    */
+    function setDescription( $value )
+    {
+        $this->Description = $value;
+        
+    }
+
+  
+    /*!
+    Returnerer navnet.
+  */
+    function name( )
+    {
+        return $this->Name;
+    }
+  
+    /*!
+    Returnerer kommentaren.
+  */
+    function description( )
+    {
+        return $this->Description;
+    }    
+
+
+
+/*!
       Privat: Initiering av database. 
     */
     function dbInit()
@@ -67,7 +115,7 @@ class eZCompanyType
 
     var $ID;
     var $Name;
-    var $Comment;
+    var $Cescription;
 }
 
 ?>
