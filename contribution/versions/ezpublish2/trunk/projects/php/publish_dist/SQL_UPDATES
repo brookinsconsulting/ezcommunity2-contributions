@@ -518,3 +518,30 @@ create table eZFileManager_FolderReadGroupLink( ID int primary key auto_incremen
 
 create table eZFileManager_FileWriteGroupLink( ID int primary key auto_increment, GroupID int, FileID int );     
 create table eZFileManager_FileReadGroupLink( ID int primary key auto_increment, GroupID int, FileID int );
+
+alter table eZBug_Bug add IsPrivate enum('true','false') default 'false'; 
+
+### BETA 3 - PRE 1
+#sync permission stuff with filemanager  
+#ALTER TABLE eZArticle_Category ADD OwnerGroupID int(11) DEFAULT NULL;
+#ALTER TABLE eZArticle_Article ADD OwnerGroupID int(11) DEFAULT NULL;
+ALTER TABLE eZArticle_Category ADD WritePermission int(1) DEFAULT '0';
+ALTER TABLE eZArticle_Article ADD WritePermission int(1) DEFAULT '0';
+#UPDATE eZArticle_Article SET WritePermission='2';
+#UPDATE eZArticle_Category SET WritePermission='2';
+ 
+CREATE TABLE eZArticle_CategoryWriteGroupLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  GroupID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+ 
+CREATE TABLE eZArticle_ArticleWriteGroupLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  GroupID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);  
