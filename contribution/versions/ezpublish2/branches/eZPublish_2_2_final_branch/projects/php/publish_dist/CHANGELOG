@@ -3,6 +3,9 @@ eZ publish changelog:
 
 Changes from 2.2.4 to 2.2.5
 ---------------------------
+* Added article edit and image category to section charset override.
+* Added support for sending over section information with article, image, article category and image category using XMLRPC.
+* Fixed XMLRPC listings for articles to only show the articles which the user can read AND write.
 * Sitewide language setting is now controlled by the Language key in group site, the old eZCalendarMain code is still present.
 * Fixed problem where the session language setting was overriden by the section language.
 * Added support for sending over the sitewide language and charset in xmlrpc interface.
