@@ -12,3 +12,4 @@
 	</td>
 </tr>
 <!-- END category_tpl -->
+
