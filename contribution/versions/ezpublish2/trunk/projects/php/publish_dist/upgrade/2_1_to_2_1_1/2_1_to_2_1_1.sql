@@ -826,3 +826,10 @@ CREATE TABLE eZMail_MailContactLink (
 );
 
 ALTER TABLE eZArticle_ArticleImageLink ADD Placement int not null default 0;
+
+# ez ad
+
+alter table eZAd_Ad add IsActiveTmp int default '0';
+update eZAd_Ad set IsActiveTmp='1' where IsActive='true';
+alter table eZAd_Ad drop IsActive;
+alter table eZAd_Ad change IsActiveTmp IsActive int;
