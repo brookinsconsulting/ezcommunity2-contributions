@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.5 2001/03/06 19:44:07 pkej Exp $
+// $Id: messageform.php,v 1.6 2001/03/08 18:34:30 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -194,6 +194,8 @@ if( $ShowMessageForm )
         }
     $quote = chr(34);
     $MessageTopic=ereg_replace( $quote, "&#034;",$MessageTopic); 
+
+    include_once( "classes/eztexttool.php" );
 
     $t->set_var( "message_topic", eztexttool::htmlspecialchars( $MessageTopic ) );
     $t->set_var( "new_message_topic", $MessageTopic );
