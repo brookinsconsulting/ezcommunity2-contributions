@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.7 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.8 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://publish.ez.no) on a Linux 
@@ -25,6 +25,7 @@
 #
 # changelog:
 #
+# 1.8: - changed to tell about new possible install (with .htaccess)
 # 1.7: - more cache directories
 # 1.6: - changed to allow installation of php files in same directory for
 #        people who can't install it properly
@@ -53,8 +54,8 @@ DEF_INSTALL=1
 ############################################################################
 #Let's go
 #
-DATE="2001-09-03"
-VERSION="1.7 [$DATE]"
+DATE="2001-09-06"
+VERSION="1.8 [$DATE]"
 
 echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert <kai@duebbert.de>"
 echo ""
@@ -194,9 +195,11 @@ function conf_inst_dir {
 	if [ "$C_INSTALL" = "new" ]; then
 		echo "-----------------------------------------------------------------"
 		echo "Now I need a directory where you want me to put the eZ publish"
-		echo "files. THIS SHOULD *NOT* BE THE SAME AS YOUR PUBLIC WWW DIRECTORY!"
-		echo "This is important for your security. If you have a web hoster, who"
-		echo "doesn't allow this, use the same directory, but put .htaccess files"
+		echo "files. If possible, this should *NOT* be the same as your public"
+		echo "WWW directory! This is important for your security."
+		echo "If you have a web hoster, who doesn't allow this, use the same"
+		echo "directory, but you *MUST* read the documentation about this"
+		echo "install to know how to make it secure!"
 		echo "in the directories with php-files to prevent direct web access."
 		echo -n "Directory for program files [$DEF_INSTDIR]: "
 		read C_INSTDIR
@@ -204,17 +207,9 @@ function conf_inst_dir {
 		# Check if the user read the warning.
 		if [ "$C_WWWDIR" = "$C_INSTDIR" ] || [ "$C_WWWDIR" = "$C_INSTDIR/" ]; then
 			echo ""
-			echo "It's important to not give anybody direct access"
-			echo "to the PHP files of eZ publish. Bad, bad people"
-			echo "might find bugs which could allow them to use"
-			echo "eZ publish in a malicious way."
+			echo "Using the same directory."
+			echo "IMPORTANT: Read the documentation to see how to make this setup secure!!"
 			echo ""
-			echo -n "Are you sure you want to use the same directories? (y/N) "
-			read Q
-			if [ "$Q" = "N" ] || [ "$Q" = "n" ] || [ "$Q" = "" ]; then
-				echo "Please give me a different directory."
-				conf_inst_dir
-			fi
 		fi
 		
 		if [ "$C_INSTDIR" = "" ]; then
@@ -263,9 +258,9 @@ if [ "$C_TITLE" = "" ]; then
 fi
 
 # TODO
-echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-echo "WARNING: ezinstaller can only install a mysql database at the moment!"
-echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo ""
+echo "WARNING: ezinstaller can only install a mySQL database at the moment!"
+echo ""
 
 # DB server
 echo -n "Database server [$DEF_DBSERVER]: "
