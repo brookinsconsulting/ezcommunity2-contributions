@@ -7,6 +7,8 @@ Changes from version 2.0 beta 3
 
 Changes from version 2.0 beta 2
 -------------------------------
+* E-mail sending on consultations.
+* Added listing of article authors.
 * Made it possible to connect eZContact Persons to Companies as well as normal users.
 * Removed contact persons from eZContact Persons.
 * Better handling of new/delete in eZContact person/company.
@@ -25,6 +27,7 @@ Changes from version 2.0 beta 2
 * Added proper deletion checks; now there are fewer cases where something belonging to objects in use can be deleted
 * Continued updating files/modules to use standard functionality and methods of doing stuff
 * Removed unsued files and clutter
+* Some Netscape layout fixes.
 * Quite a few language fixes
 * Fixed bugs in all modules
 
