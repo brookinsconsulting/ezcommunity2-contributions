@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.36 2001/03/10 00:36:37 fh Exp $
+// $Id: articlelist.php,v 1.37 2001/03/16 13:10:16 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -184,7 +184,7 @@ foreach ( $articleList as $article )
     // check if user has permission, if not break to next article.
     $aid = $article->id();
     if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' )  ||
-         eZArticle::isAuthor( eZUser::currentUser(), $categoryItem->id() ) )
+         eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
     {
     
         $t->set_var( "article_id", $article->id() );

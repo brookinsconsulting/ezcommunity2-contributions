@@ -10,11 +10,10 @@ include_once( "classes/ezmail.php" );
 
 include( "eznewsfeed/admin/cron.php" );
 
-$mail = new eZMail();
-$mail->setSubject( "cron job done" );
-$mail->setSender( "nospam@ez.no" );
-$mail->setReceiver( "bf@ez.no" );
-$mail->send();
-
+//  $mail = new eZMail();
+//  $mail->setSubject( "cron job done" );
+//  $mail->setSender( "nospam@ez.no" );
+//  $mail->setReceiver( "nospam@ez.no" );
+//  $mail->send();
 
 ?>
