@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119 2001/10/17 15:24:00 bf Exp $
+// $Id: index.php,v 1.119.2.1 2001/10/31 13:48:21 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -318,9 +318,13 @@ if ( ( $requireUserLogin == "disabled" ) ||
 //                print( "language: " . $sectionObject->language() . " <br>" );
             }
 
-        
-            $siteDesign = eZSection::siteDesign( $GlobalSectionID );
-            $GlobalSiteDesign = $siteDesign;
+            $sectionSiteDesign = eZSection::siteDesign( $GlobalSectionID );
+
+            if ( $sectionSiteDesign != "" )
+            {
+                $siteDesign = $sectionSiteDesign;
+                $GlobalSiteDesign = $sectionSiteDesign;
+            }            
         }
 
         // include some html
