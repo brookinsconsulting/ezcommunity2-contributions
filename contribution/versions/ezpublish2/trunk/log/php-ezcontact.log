@@ -28,3 +28,16 @@ Maintainer(s) : jhe@ez.no
     * admin/consultationedit.php:
     link in articlelist when article has no text but attributes
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-12  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/consultationdetaillist.tpl: small bugfixes
+
+    * admin/consultationedit.php
+      admin/personedit.php
+      user/datasupplier.php:
+    fixed bug when adding new companies and deleting consultations
+

@@ -81,3 +81,18 @@ Maintainer(s) : br@ez.no
     * xmlrpc/categorylist.php:
     Fixed &quot; problem in categoryTree() function.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-12  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezimagecategory.php: removed debuginfo from function addImage()
+
+    * classes/ezimagecategory.php: removed debuginfo in imageCount().
+
+2001-09-12  Christofer Elo  <ce@ez.no>
+
+    * admin/unassigned.php
+      classes/ezimage.php: Fixed a referance bug
+

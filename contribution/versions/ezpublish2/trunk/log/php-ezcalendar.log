@@ -11,3 +11,15 @@ Maintainer(s) : jhe@rz.no
 Module : ezcalendar
 Repository path : /home/cvsroot/projects/php/ezcalendar
 Maintainer(s) : jhe@rz.no
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@rz.no
+2001-09-12  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/monthview.php:
+    added feature: site.ini setting if user can se other users calendar
+
+    * user/appointmentview.php
+      classes/ezappointment.php: fixed small bug when viewing own appointments
+

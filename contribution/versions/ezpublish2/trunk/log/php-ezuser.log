@@ -105,3 +105,11 @@ Maintainer(s) : bf@ez.no
       admin/groupedit.php:
     Fixed huge security bug. Users with group and or person edit but without root access where able to give themselves root.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-12  Christofer Elo  <ce@ez.no>
+
+    * classes/ezuser.php: Fixed a VERY bad secruety bug
+

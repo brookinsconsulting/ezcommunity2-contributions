@@ -11,3 +11,11 @@ Maintainer(s) : br@ez.no
 Module : ezad
 Repository path : /home/cvsroot/projects/php/ezad
 Maintainer(s) : br@ez.no
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-09-12  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/adedit.php.ini: added translation.
+

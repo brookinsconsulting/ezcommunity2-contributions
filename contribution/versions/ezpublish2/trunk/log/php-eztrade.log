@@ -99,3 +99,20 @@ Maintainer(s) : ce@ez.no
     * user/templates/standard/productlist.tpl:
     updated cvs to current intelhosting version
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-12  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/productedit.php.ini: Added translation.
+
+    * admin/typeedit.php: fixed bug.
+
+2001-09-12  Christofer Elo  <ce@ez.no>
+
+    * admin/voucherlist.php: Added a file
+
+    * user/templates/standard/productlist.tpl: Reverted version
+

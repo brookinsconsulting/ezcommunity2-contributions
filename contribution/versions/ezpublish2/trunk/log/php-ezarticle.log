@@ -292,3 +292,41 @@ Maintainer(s) : bf@ez.no
 
     * user/articleview.php: Fixed bug.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-12  Christofer Elo  <ce@ez.no>
+
+    * user/datasupplier.php
+      user/search.php
+      user/templates/standard/search.tpl
+      classes/ezarticle.php: Added the advanced search functions
+
+2001-09-12  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/articlelist.php:
+    small bugfixes when listing articles (when using other list limit)
+
+2001-09-12  Baard Farstad  <bf@ez.no>
+
+    * user/articlelist.php
+      user/newsgroup.php: Fixed possibility to have 2 column article list.
+
+2001-09-12  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/menubox.php.ini: added translation.
+
+2001-09-12  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/linmag/articlelist.tpl: Layout
+
+2001-09-12  Christofer Elo  <ce@ez.no>
+
+    * user/templates/standard/searchform.tpl
+      user/intl/en_GB/searchform.php.ini
+      user/intl/no_NO/searchform.php.ini
+      user/datasupplier.php
+      user/searchform.php: Added advanced search in user
+

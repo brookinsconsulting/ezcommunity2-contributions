@@ -45,3 +45,11 @@ Maintainer(s) : jhe@ez.no
     * classes/ezvirtualfile.php
       user/search.php: search is working correctly
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-12  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/linmag/filelist.tpl: Layout
+
