@@ -161,6 +161,16 @@ td
 
 .bgdark 
 {
+	background-color: #bcbcbc;
+}
+
+.bgcurrent
+{
+	background-color: #ffdcdc;
+}
+
+.bgweekend
+{
 	background-color: #dcdcdc;
 }
 
