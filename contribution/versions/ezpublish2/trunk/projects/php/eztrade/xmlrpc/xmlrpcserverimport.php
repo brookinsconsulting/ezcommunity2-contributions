@@ -639,6 +639,9 @@ function insert( $args )
     if ( $attributeDia1Reinheit )
         $attributeDia1Reinheit = translate( $attributeDia1Reinheit, "diamondclear.ini" );
 
+    if ( $attributeDia2Reinheit )
+        $attributeDia2Reinheit = translate( $attributeDia2Reinheit, "diamondclear.ini" );
+
     $options =& $struct["productOptions"]->value();
 
     unset( $product );
@@ -698,18 +701,26 @@ function insert( $args )
     {
         $productOptions =& $product->options();
 
-        if ( get_class ( $productOptions[0] ) == "ezoption" )
+        if ( !$update )
         {
-            $option =& $productOptions[0];
-            $product->addOption( $option );
+            if ( get_class ( $productOptions[0] ) == "ezoption" )
+            {
+                $option =& $productOptions[0];
+                $product->addOption( $option );
+            }
+            else
+            {
+                $option = new eZOption();
+                $option->setName( "Groesse" );
+                $option->setDescription( $productDescription );
+                $option->store();
+                $product->addOption( $option );
+            }
         }
         else
         {
-            $option = new eZOption();
-            $option->setName( "Groesse" );
-            $option->setDescription( $productDescription );
-            $option->store();
-            $product->addOption( $option );
+            $optionArray = $product->options();
+            $option = $optionArray[0];
         }
 
         $checkOptionPriceStruct = $options[0]->value();
