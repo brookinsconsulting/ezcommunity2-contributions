@@ -1,6 +1,6 @@
 <?
 /*
-    List cvs
+    List cvs.
  */
  
 include_once( "classes/INIFile.php" );
