@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.5 2001/09/16 18:46:57 bf Exp $
+// $Id: sitemap.php,v 1.6 2001/09/17 07:32:55 bf Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -56,6 +56,7 @@ $user =& eZUser::currentUser();
 $t->set_var( "category_value", "" );
 $t->set_var( "article_value", "" );
 
+$itemCount = 0;
 foreach ( $treeArray as $catItem )
 {
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'r', $user ) == true  ||
@@ -72,17 +73,40 @@ foreach ( $treeArray as $catItem )
             $t->set_var( "option_name", $catItem[0]->name() );
             $t->set_var( "option_level", $option_level );
 
+            if ( ( $i$itemCount % 2 ) == 0 )
+            {
+                $t->set_var( "td_alt", "1" );
+                $t->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "td_alt", "2" );
+                $t->set_var( "td_class", "bgdark" );
+            }
+            
             $t->parse( "value", "category_value_tpl", true );    
             
             $articleList =& $category->articles( 1, false, true, 0, 50 );
-
+            $itemCount++;
             foreach ( $articleList as $article )
             {
+                if ( ( $i$itemCount % 2 ) == 0 )
+                {
+                    $t->set_var( "td_alt", "1" );
+                    $t->set_var( "td_class", "bglight" );
+                }
+                else
+                {
+                    $t->set_var( "td_alt", "2" );
+                    $t->set_var( "td_class", "bgdark" );
+                }
+
                 $t->set_var( "option_level", "&nbsp;&nbsp;&nbsp;&nbsp;" . $option_level );
                 
                 $t->set_var( "option_value", $article->id() );
                 $t->set_var( "option_name", $article->name() );
-                $t->parse( "value", "article_value_tpl", true );    
+                $t->parse( "value", "article_value_tpl", true );
+                $itemCount++;
             }
         }
         unset ($articleList);
