@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.12 2001/02/07 13:35:52 fh Exp $
+// $Id: bugedit.php,v 1.13 2001/02/07 13:49:11 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -169,7 +169,10 @@ if ( $Action == "Update" )
                 $mail->send();
             }
 
-            $Action = "Edit";            
+            $Action = "Edit";
+
+            Header( "Location: /bug/archive/" );
+            exit();
         }
         else
         {

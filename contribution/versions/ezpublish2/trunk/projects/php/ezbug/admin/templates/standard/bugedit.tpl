@@ -114,17 +114,13 @@
 </tr>
 </table>
 
-
-<hr noshade="noshade" size="4">
-
-<input type="submit" name="Update" value="{intl-update}">
-
 <hr noshade="noshade" size="4">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="{intl-ok}">
+	<input class="okbutton" type="submit" name="Update" value="{intl-ok}">
+	<input class="okbutton" type="submit" value="{intl-cancel}">
 	</td>
 </tr>
 
