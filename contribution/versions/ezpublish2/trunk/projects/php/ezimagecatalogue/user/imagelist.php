@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.3 2001/01/12 09:14:18 ce Exp $
+// $Id: imagelist.php,v 1.4 2001/01/12 10:24:10 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -201,7 +201,7 @@ foreach ( $imageList as $image )
         $t->set_var( "end_tr", "" );
         
     }
-
+    print( $image->id() );
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "original_image_name", $image->originalFileName() );
     $t->set_var( "image_name", $image->name() );
@@ -270,27 +270,29 @@ foreach ( $imageList as $image )
     {
     }
 
+    if ( isSet ( $DetailView ) )
+    {
+        $t->set_var( "is_detail_view", "true" );
+        $t->set_var( "detail_button", "" );
+        $t->set_var( "image", "" );
+    
+        $t->parse( "detail_view", "detail_view_tpl", true );
+        $t->parse( "normal_button", "normal_view_button" );
+    }
+    else
+    {
+        $t->set_var( "is_detail_view", "" );
+        $t->set_var( "detail_view", "" );
+        $t->set_var( "normal_button", "" );
+    
+        $t->parse( "image", "image_tpl", true );
+        $t->parse( "detail_button", "detail_view_button" );
+    }
+
+
     $i++;
 }
 
-if ( isSet ( $DetailView ) )
-{
-    $t->set_var( "is_detail_view", "true" );
-    $t->set_var( "detail_button", "" );
-    $t->set_var( "image", "" );
-    
-    $t->parse( "detail_view", "detail_view_tpl", true );
-    $t->parse( "normal_button", "normal_view_button" );
-}
-else
-{
-    $t->set_var( "is_detail_view", "" );
-    $t->set_var( "detail_view", "" );
-    $t->set_var( "normal_button", "" );
-    
-    $t->parse( "image", "image_tpl", true );
-    $t->parse( "detail_button", "detail_view_button" );
-}
 
 if ( count( $imageList ) > 0 )
 {
@@ -298,6 +300,8 @@ if ( count( $imageList ) > 0 )
 }
 else
 {
+    $t->set_var( "normal_button", "" );
+    $t->set_var( "detail_button", "" );
     $t->set_var( "image_list", "" );
 }
 
