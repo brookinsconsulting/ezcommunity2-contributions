@@ -60,8 +60,10 @@ Howto configure php
 # cd php-4.0.x 
 \layout LyX-Code
 
-# ./configure --with-xml --enable-trans-sid --with-mysql --with-magic-quotes
- --with-apxs --with-dom
+# ./configure --with-xml --enable-trans-sid 
+\layout LyX-Code
+
+--with-mysql --with-magic-quotes --with-apxs --with-dom
 \layout Subsection
 
 Compile and install the PHP package 

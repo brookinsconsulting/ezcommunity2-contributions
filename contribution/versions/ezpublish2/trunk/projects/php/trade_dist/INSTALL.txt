@@ -24,8 +24,9 @@ eZ trade installation guide
 
 # cd php-4.0.x 
 
-# ./configure --with-xml --enable-trans-sid --with-mysql --with-magic-quotes
---with-apxs --with-dom
+# ./configure --with-xml --enable-trans-sid 
+
+--with-mysql --with-magic-quotes --with-apxs --with-dom
 
 2.3 Compile and install the PHP package 
 
