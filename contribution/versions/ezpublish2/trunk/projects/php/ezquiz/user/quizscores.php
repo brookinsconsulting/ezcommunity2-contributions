@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizscores.php,v 1.2 2001/05/31 11:48:02 pkej Exp $
+// $Id: quizscores.php,v 1.3 2001/05/31 12:01:00 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -91,6 +91,7 @@ if( $game->isClosed() )
 else
 {
     $printScores = false;
+    $GenerateStaticPage = false;
     
     if( $game->isFutureGame() )
     {
@@ -163,7 +164,6 @@ if( $printScores == true )
         }
 
         $t->parse( "score_list_item", "score_list_item_tpl" );
-        eZList::drawNavigator( $t, $scoreCount, $Limit, $Offset, "score_page_tpl" );
     }
     else
     {
@@ -171,6 +171,7 @@ if( $printScores == true )
     }
 }
 
+eZList::drawNavigator( $t, $scoreCount, $Limit, $Offset, "score_page_tpl" );
 
 if( $error )
 {
@@ -185,6 +186,19 @@ if( $error )
     }
 }
 
-$t->pparse( "output", "score_page_tpl" );
+if ( $GenerateStaticPage == "true" and $cachedFile != "" )
+{
+    $fp = fopen( $cachedFile, "w+");
+
+    $output = $t->parse( $target, "score_page_tpl" );
+    // print the output the first time while printing the cache file.
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "score_page_tpl" );
+}
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizlist.php,v 1.3 2001/05/31 11:48:02 pkej Exp $
+// $Id: quizlist.php,v 1.4 2001/05/31 12:01:00 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -109,13 +109,14 @@ if( $count >= 1 )
         $i++;
     }
     
-    $t->parse( "game_list_item", "game_list_item_tpl" );
     eZList::drawNavigator( $t, $gameCount, $Limit, $Offset, "quiz_list_page_tpl" );
 }
 else
 {
     $t->parse( "no_game_list_item", "no_game_list_item_tpl" );
 }
+
+$t->parse( "game_list_item", "game_list_item_tpl" );
 
 if ( $GenerateStaticPage == "true" and $cachedFile != "" )
 {

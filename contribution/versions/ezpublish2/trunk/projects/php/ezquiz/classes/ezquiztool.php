@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquiztool.php,v 1.3 2001/05/30 14:46:57 pkej Exp $
+// $Id: ezquiztool.php,v 1.4 2001/05/31 12:00:59 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -36,7 +36,7 @@ class eZQuizTool
         $user = eZUser::currentUser();
 
         $files =& eZCacheFile::files( "ezquiz/cache/",
-                                      array( "quizlist", "quizfuture", "quizpast", "quizopen", NULL ), "cache", "," );
+                                      array( "quizlist", "quizfuture", "quizpast", "quizopen", "quizscore", "quizscores", NULL ), "cache", "," );
         foreach( $files as $file )
         {
             $file->delete();

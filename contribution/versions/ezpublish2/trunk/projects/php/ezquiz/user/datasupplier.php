@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.6 2001/05/31 11:48:02 pkej Exp $
+// $Id: datasupplier.php,v 1.7 2001/05/31 12:00:59 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -117,7 +117,28 @@ switch ( $url_array[2] )
                 }
                 $GameID = $url_array[4];
                 
-                include( "ezquiz/user/quizscores.php" );
+                if ( $PageCaching == "enabled" )
+                {
+                    include_once( "classes/ezcachefile.php" );
+                    $file = new eZCacheFile( "ezquiz/cache/", array( "quiz" . $Action, $Offset ),
+                                             "cache", "," );
+                    $cachedFile = $file->filename( true );
+
+                    if ( $file->exists() )
+                    {
+                        include( $cachedFile );
+                    }
+                    else
+                    {
+                        $GenerateStaticPage = "true";
+                        include( "ezquiz/user/quizscores.php" );
+                    }
+
+                }
+                else
+                {
+                    include( "ezquiz/user/quizscores.php" );
+                }
             }
             break;
             
