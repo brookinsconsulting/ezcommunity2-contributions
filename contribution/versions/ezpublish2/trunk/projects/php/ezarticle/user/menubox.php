@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.17 2001/04/26 11:06:17 bf Exp $
+// $Id: menubox.php,v 1.18 2001/04/27 13:49:07 jb Exp $
 //
 // 
 //
@@ -132,7 +132,7 @@ function createArticleMenu( $menuCachedFile="" )
     }
 
 
-    if ( $GenerateStaticPage == "true" )
+    if ( $GenerateStaticPage == "true" and $menuCachedFile != "" )
     {
         
         $fp = fopen ( $menuCachedFile, "w+");
