@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.1 to
 -----------------
+* Added possibility to override sender info when sending bulkmails with settings in site.ini
 * Added mail to friend script
 * Added time publising on eZ article
 * Added site map and special front page in eZ article (user site)
@@ -14,6 +15,7 @@ Changes from 2.1 to
 * Added attributes to eZ article.
 * Added eZ quiz module.
 * Added eZ form module.
+* Fixed timeout problem in bulkmail loop to avoid time outs when sending e-mails
 
 
 Changes from 2.1.0B3 to 2.1
