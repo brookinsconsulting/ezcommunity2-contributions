@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.38 2001/05/05 11:16:04 bf Exp $
+// $Id: ezproductcategory.php,v 1.39 2001/07/12 12:19:28 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -127,6 +127,7 @@ class eZProductCategory
                                  Description='$this->Description',
                                  SortMode='$this->SortMode',
                                  RemoteID='$this->RemoteID',
+                                 ImageID='$this->ImageID',
                                  Parent='$this->Parent'" );
 			$this->ID = $this->Database->insertID();
         }
@@ -137,6 +138,7 @@ class eZProductCategory
                                  Description='$this->Description',
                                  SortMode='$this->SortMode',
                                  RemoteID='$this->RemoteID',
+                                 ImageID='$this->ImageID',
                                  Parent='$this->Parent' WHERE ID='$this->ID'" );
         }
         
@@ -173,14 +175,18 @@ class eZProductCategory
             {
                 $this->Database->query( "DELETE FROM eZTrade__ProductCategoryDefinition WHERE CategoryID='$categoryID'" );
                 $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
-               
+
+
                 $product->delete();
+
             }
             else
             {
                 $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
             }
         }
+
+
 
         $this->Database->query( "DELETE FROM eZTrade_Category WHERE ID='$categoryID'" );
     }
@@ -207,6 +213,7 @@ class eZProductCategory
                 $this->Parent =& $category_array[0][ "Parent" ];
                 $this->SortMode =& $category_array[0][ "SortMode" ];
                 $this->RemoteID =& $category_array[0][ "RemoteID" ];
+                $this->ImageID =& $category_array[0][ "ImageID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -857,6 +864,29 @@ class eZProductCategory
        return $category;
     }
 
+    /*!
+      Sets the image of the category.
+    */
+    function setImage( $value )
+    {
+       if ( get_class( $value ) == "ezimage" )
+           $value = $value->id();
+       
+       $this->ImageID = $value;
+    }
+
+    /*!
+      Returns the Image ID.
+    */
+    function &image( $AsObject = true )
+    {
+        if ( $AsObject )
+            $image = new eZImage( $this->ImageID );
+        else
+            $image = $this->ImageID;
+
+        return $image;
+    }
     
     /*!
       \private
@@ -878,6 +908,7 @@ class eZProductCategory
     var $OptionArray;
     var $SortMode;
     var $RemoteID;
+    var $ImageID;
 
     ///  Variable for keeping the database connection.
     var $Database;

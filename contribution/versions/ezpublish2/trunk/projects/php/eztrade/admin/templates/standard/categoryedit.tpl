@@ -1,4 +1,5 @@
-<form method="post" action="/trade/categoryedit/{action_value}/">
+<form method="post" action="/trade/categoryedit/{action_value}/" enctype="multipart/form-data">
+<input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{head_line}</h1>
 
@@ -40,6 +41,19 @@
 <p class="boxtext">{intl-description}:</p>
 <textarea class="box" rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
+
+<p class="boxtext">{intl-th_type_current_image}:</p>
+
+<!-- BEGIN image_item_tpl -->
+<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<div><input type="checkbox" name="DeleteImage"><span class="p">{intl-delete_image}</span><div /><br />
+<!-- END image_item_tpl -->
+
+<input class="box" size="40" name="ImageFile" type="file" />
+<br /><br />
+<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+<br /><br />
+
 
 <hr noshade="noshade" size="4" />
 

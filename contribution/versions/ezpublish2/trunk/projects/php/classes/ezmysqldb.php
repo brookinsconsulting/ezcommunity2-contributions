@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.7 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezmysqldb.php,v 1.8 2001/07/12 12:19:28 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -64,7 +64,7 @@ class eZMySQLDB
         {
             print( $sql . "<br>");
         }
-        
+
         if ( $result )
         {
             return $result;
@@ -77,7 +77,6 @@ class eZMySQLDB
             if ( $GLOBALS["DEBUG"] )
             {
                 print( $this->Error );
-                exit();
             }
             return false;
         }

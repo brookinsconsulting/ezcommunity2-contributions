@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.16 2001/03/23 12:05:43 pkej Exp $
+// $Id: categoryedit.php,v 1.17 2001/07/12 12:19:28 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -44,6 +44,16 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 
+// Get images from the image browse function.
+if ( ( isSet ( $AddImages ) ) and ( is_numeric( $CategoryID ) ) and ( is_numeric ( $ImageID ) ) )
+{
+    $image = new eZImage( $ImageID );
+    $category = new eZProductCategory( $CategoryID );
+    $category->setImage( $image );
+    $category->store();
+    $Action = "Edit";
+}
+
 // Direct actions
 if ( $Action == "Insert" )
 {
@@ -57,6 +67,17 @@ if ( $Action == "Insert" )
 
     $category->setSortMode( $SortMode );
 
+    $file = new eZImageFile();
+    if ( $file->getUploadedFile( "ImageFile" ) )
+    {
+        $image = new eZImage( );
+        $image->setName( "Image" );
+        $image->setImage( $file );
+        
+        $image->store();
+        $category->setImage( $image );
+    }
+
     $category->store();
 
     include_once( "classes/ezcachefile.php" );
@@ -67,6 +88,17 @@ if ( $Action == "Insert" )
     foreach( $files as $file )
     {
         $file->delete();
+    }
+
+    if ( isSet ( $Browse ) )
+    {
+        $categoryID = $category->id();
+        $session = eZSession::globalSession();
+        $session->setVariable( "SelectImages", "single" );
+        $session->setVariable( "ImageListReturnTo", "/trade/categoryedit/edit/$categoryID/" );
+        $session->setVariable( "NameInBrowse", $category->name() );
+        eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+        exit();
     }
 
     eZHTTPTool::header( "Location: /trade/categorylist/" );
@@ -86,6 +118,20 @@ if ( $Action == "Update" )
 
     $category->setSortMode( $SortMode );
 
+    $file = new eZImageFile();
+    if ( $file->getUploadedFile( "ImageFile" ) )
+    {
+        $image = new eZImage( );
+        $image->setName( "Image" );
+        $image->setImage( $file );
+        
+        $image->store();
+        $category->setImage( $image );
+    }
+
+    if ( $DeleteImage == "on" )
+        $category->setImage( 0 );
+
     $category->store();
 
     include_once( "classes/ezcachefile.php" );
@@ -95,6 +141,17 @@ if ( $Action == "Update" )
     foreach( $files as $file )
     {
         $file->delete();
+    }
+
+    if ( isSet ( $Browse ) )
+    {
+        $categoryID = $category->id();
+        $session = eZSession::globalSession();
+        $session->setVariable( "SelectImages", "single" );
+        $session->setVariable( "ImageListReturnTo", "/trade/categoryedit/edit/$categoryID/" );
+        $session->setVariable( "NameInBrowse", $category->name() );
+        eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+        exit();
     }
 
     eZHTTPTool::header( "Location: /trade/categorylist/" );
@@ -174,7 +231,8 @@ $t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 
 
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
-               
+$t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
+
 $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
 
@@ -190,6 +248,7 @@ $t->set_var( "1_selected", "" );
 $t->set_var( "2_selected", "" );
 $t->set_var( "3_selected", "" );
 $t->set_var( "4_selected", "" );
+$t->set_var( "image_item", "" );
 
 // edit
 if ( $Action == "Edit" )
@@ -228,12 +287,34 @@ if ( $Action == "Edit" )
             $t->set_var( "4_selected", "selected" );
         }
         break;
+    }
+
+    $image =& $category->image( true );
+    if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+    {
+        $imageWidth =& $ini->read_var( "eZTradeMain", "CategoryImageWidth" );
+        $imageHeight =& $ini->read_var( "eZTradeMain", "CategoryImageHeight" );
         
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+        
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth = $variation->width();
+        $imageHeight = $variation->height();
+        $imageCaption = $image->caption();
+        
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
+    else
+    {
+
     }
 
     $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
-
 }
 
 foreach ( $categoryArray as $catItem )
