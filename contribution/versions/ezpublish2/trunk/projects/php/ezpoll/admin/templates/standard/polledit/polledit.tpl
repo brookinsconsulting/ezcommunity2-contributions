@@ -93,18 +93,18 @@
 	</td>
 	<!-- BEGIN poll_choice_tpl -->
 	<tr>
-		<td>
+		<td class="{td_class}">
 			<a href="/poll/polledit/{choice_id}/">{poll_choice_name}</a>
 		</td>
-		<td>&nbsp;</td>
-		<td align="right">
+		<td class="{td_class}">&nbsp;</td>
+		<td class="{td_class}" align="right">
 			{poll_number}
 		</td>
-		<td>&nbsp;</td>
-		<td width="1%">
+		<td class="{td_class}" >&nbsp;</td>
+		<td class="{td_class}" width="1%">
 			<a href="/poll/choiceedit/edit/{poll_id}/{choice_id}/"onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezpoll{choice_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 		</td>
-		<td width="1%">
+		<td class="{td_class}" width="1%">
 			<a href="/poll/choiceedit/delete/{poll_id}/{choice_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezpoll{choice_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 		</td>	
 	</tr>	

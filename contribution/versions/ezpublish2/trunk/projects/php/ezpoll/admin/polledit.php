@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.6 2000/10/10 13:26:03 ce-cvs Exp $
+// $Id: polledit.php,v 1.7 2000/10/23 07:24:06 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -193,14 +193,21 @@ if ( !$pollChoiceList )
     
 }
 
+$i=0;
 foreach( $pollChoiceList as $pollChoiceItem )
 {
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+
     $t->set_var( "choice_id", $pollChoiceItem->id() );
     $t->set_var( "poll_choice_name", $pollChoiceItem->name() );
     $vote = new eZVote();
     $t->set_var( "poll_number", $pollChoiceItem->voteCount() );
 
     $t->parse( "poll_choice", "poll_choice_tpl", true );
+    $i++;
 }
 
 $t->set_var( "poll_id", $PollID );
