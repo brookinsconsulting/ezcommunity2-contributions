@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.27 2000/11/23 10:19:56 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.28 2000/11/23 14:00:49 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -129,7 +129,7 @@ class eZPerson
            
             // Delete phone numbers.
 
-            $this->Database->array_query( $phone_item, "SELECT eZContact_Phone.ID AS 'PID', eZContact_PersonPhoneDict.ID AS 'DID'
+            $this->Database->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_PersonPhoneDict.ID AS 'DID'
                                      FROM eZContact_Phone, eZContact_PersonPhoneDict
                                      WHERE eZContact_Phone.ID=eZContact_PersonPhoneDict.PhoneID AND eZContact_PersonPhoneDict.PersonID='$this->ID' " );
 
@@ -143,7 +143,7 @@ class eZPerson
             
             // Delete online address.
 
-            $this->Database->array_query( $online_item, "SELECT eZContact_Online.ID AS 'OID', eZContact_PersonOnlineDict.ID AS 'DID'
+            $this->Database->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_PersonOnlineDict.ID AS 'DID'
                                      FROM eZContact_Online, eZContact_PersonOnlineDict
                                      WHERE eZContact_Online.ID=eZContact_PersonOnlineDict.OnlineID AND eZContact_PersonOnlineDict.PersonID='$this->ID' " );
 
@@ -352,7 +352,7 @@ class eZPerson
     /*!
       Returns the onlines that belong to this eZPerson object.
     */
-    function onlines( $personID )
+    function onlines()
     {
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
