@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.6 2001/04/11 14:18:41 th Exp $
+// $Id: categorylist.php,v 1.7 2001/04/11 14:40:35 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Nov-2000 09:23:42 bf>
@@ -24,6 +24,7 @@
 //
 
 
+$ini =& INIFile::globalINI();
 $PageCaching =& $ini->read_var( "eZTradeMain", "PageCaching");
 
 $PureStatic = "false";
