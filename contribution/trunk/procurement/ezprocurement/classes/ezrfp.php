@@ -142,13 +142,15 @@ class eZRfp
 
         $name = $db->escapeString( $this->Name );
         $contents = $db->escapeString( $this->Contents );
+	/*
         $authortext = $db->escapeString( $this->AuthorText );
         $authoremail = $db->escapeString( $this->AuthorEmail );
+	*/
         $keywords = $db->escapeString( $this->Keywords );
         $importID = $db->escapeString( $this->ImportID );
         $linktext = $db->escapeString( $this->LinkText );
 
-	$contentsWriters = $db->escapeString( $this->ContentsWriters );
+	// $contentsWriters = $db->escapeString( $this->ContentsWriters );
         //	echo("this is after serialization before storage: $contentsWriters<br>");
 
 	//v_array($contentsWriters);
@@ -157,6 +159,7 @@ class eZRfp
 	//	die("<br>exiting at store function ~163");
         $projectEstimate = $db->escapeString( $this->ProjectEstimate );
         $projectNumber = $db->escapeString( $this->ProjectNumber );
+        $projectManager = $this->ProjectManager;
 
         if ( is_object( $this->PublishDate ) and $this->PublishDate->isValid() )
             $publishDate = $this->PublishDate->timeStamp();
@@ -167,6 +170,14 @@ class eZRfp
             $responceDueDate = $this->ResponseDueDate->timeStamp();
         else
             $responceDueDate = $this->ResponseDueDate;
+
+        if ( is_object( $this->AwardDate ) and $this->AwardDate->isValid() )
+        {
+	  $awardDate = $this->AwardDate->timestamp();
+        }
+        else
+	  $awardDate = $this->AwardDate;
+
 
         if ( !isSet( $this->ID ) )
         {
@@ -200,44 +211,40 @@ class eZRfp
 		                        ( ID,
                                  Name,
                                  Contents,
-                                 HolderID,
-				 LinkText,
+	                         LinkText,
                                  PageCount,
                                  IsPublished,
                                  Keywords,
-                                 Discuss,
-                                 ContentsWriterID,
-				 ContentsWriters,
                                  TopicID,
                                  PublishDate,
+                                 AwardDate,
                                  ResponseDueDate,
                                  Modified,
                                  Published,
                                  Created,
                                  ImportID,
 				 ProjectEstimate,
-                                 ProjectNumber )
+                                 ProjectNumber,
+                                 ProjectManager )
                                  VALUES
                                  ( '$nextID',
-		                   '$name',
+	                           '$name',
                                     $contentsStr,
-                                   '$this->HolderID',
                                    '$linktext',
                                    '$this->PageCount',
                                    '$this->IsPublished',
                                    '$keywords',
-                                   '$this->Discuss',
-                                   '$this->ContentsWriterID',
-				   '$contentsWriters',
                                    '$this->TopicID',
                                    '$publishDate',
+                                   '$awardDate',
                                    '$responceDueDate',
                                    '$timeStamp',
                                    '$published',
                                    '$timeStamp',
                                    '$importID',
 				   '$projectEstimate',
-                                   '$projectNumber'  )
+                                   '$projectNumber',
+                                   '$projectManager' )
                                  " );
 
 			$this->ID = $nextID;
@@ -284,25 +291,22 @@ class eZRfp
             if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "1" ) )
             {
                 $ret = $db->query( "UPDATE eZRfp_Rfp SET
-		                         Name='$name',
+		                 Name='$name',
                                  $contentsStr
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
-                                 HolderID='$this->HolderID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
-                                 Discuss='$this->Discuss',
-                                 ContentsWriterID='$this->ContentsWriterID',
-				 ContentsWriters='$this->ContentsWriters',
                                  TopicID='$this->TopicID',
                                  PublishDate='$publishDate',
                                  ResponseDueDate='$responceDueDate',
+                                 AwardDate='$awardDate',
                                  Published='$published',
                                  Modified='$timeStamp',
                                  ImportID='$importID',
 				 ProjectEstimate='$projectEstimate',
-                                 ProjectNumber='$projectNumber'
-
+                                 ProjectNumber='$projectNumber',
+                                 ProjectManager='$projectManager'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -314,24 +318,22 @@ class eZRfp
                     $published = $this->Published;
 
                 $ret = $db->query( "UPDATE eZRfp_Rfp SET
-		                         Name='$name',
+		                 Name='$name',
                                  $contentsStr
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
-                                 HolderID='$this->HolderID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
-                                 Discuss='$this->Discuss',
-                                 ContentsWriterID='$this->ContentsWriterID',
-				 ContentsWriters='$this->ContentsWriters',
                                  TopicID='$this->TopicID',
                                  Published='$published',
                                  PublishDate='$publishDate',
                                  ResponseDueDate='$responceDueDate',
+                                 AwardDate='$awardDate',
                                  Modified='$timeStamp',
                                  ImportID='$importID',
 				 ProjectEstimate='$projectEstimate',
-                                 ProjectNumber='$projectNumber'
+                                 ProjectNumber='$projectNumber',
+                                 ProjectManager='$projectManager'
 
                                  WHERE ID='$this->ID'
                                  " );
@@ -344,7 +346,6 @@ class eZRfp
             $db->rollback( );
         else
             $db->commit();
-
         // index this rfp
         $this->createIndex();
 
@@ -381,9 +382,11 @@ class eZRfp
         $this->ID =& $rfp_array[$db->fieldName("ID")];
         $this->Name =& $rfp_array[$db->fieldName("Name")];
         $this->Contents =& $rfp_array[$db->fieldName("Contents")];
+	/*
         $this->AuthorText =& $rfp_array[$db->fieldName("AuthorText")];
         $this->AuthorEmail =& $rfp_array[$db->fieldName("AuthorEmail")];
         $this->HolderID =& $rfp_array[$db->fieldName("HolderID")];
+	*/
         $this->LinkText =& $article_array[$db->fieldName("LinkText")];
         $this->ProjectEstimate =& $rfp_array[$db->fieldName("ProjectEstimate")];
         $this->ProjectNumber =& $rfp_array[$db->fieldName("ProjectNumber")];
@@ -395,11 +398,13 @@ class eZRfp
         $this->PageCount =& $rfp_array[$db->fieldName("PageCount")];
         $this->IsPublished =& $rfp_array[$db->fieldName("IsPublished")];
         $this->Keywords =& $rfp_array[$db->fieldName("Keywords")];
-        $this->Discuss =& $rfp_array[$db->fieldName("Discuss")];
+	//        $this->Discuss =& $rfp_array[$db->fieldName("Discuss")];
 
-
+        $this->AwardDate =& $rfp_array[$db->fieldName("AwardDate")];
+        $this->ProjectManager =& $rfp_array[$db->fieldName("ProjectManager")];
+	/*
         $this->ContentsWriterID =& $rfp_array[$db->fieldName("ContentsWriterID")];
-
+	*/
 	// this will turn it into an array - dylan note
 	//$this->ContentsWriterID = unserialize($this->ContentsWritersID);
 	/*
@@ -582,6 +587,13 @@ class eZRfp
         $this->ProjectNumber = $value;
     }
 
+    /*!
+      Sets the rfp project manager.
+    */
+    function setProjectManager( $value )
+    {
+        $this->ProjectManager = $value;
+    }
 
     /*!
       Returns the rfp contents.
@@ -845,7 +857,30 @@ return $Names;
         else
             return $this->ResponseDueDate;
     }
+    /*!
+      Returns the awardDate date of the rfp.
+    */
+    function &awardDate( $as_object=true )
+    {
+      if ( $as_object )
+      {
+	$ret = new eZDateTime();
 
+	if($this->AwardDate != "" || $this->AwardDate != 0)
+	  $ret->setTimeStamp( $this->AwardDate );
+	else
+	  $ret = false;
+      }
+      else {
+	$ret = false;
+	if( $this->AwardDate != "" || $this->AwardDate != 0 ){
+	   $ret = $this->AwardDate;
+	}
+      }
+
+	return $ret;
+    }
+    
     /*!
       Sets the rfp name.
     */
@@ -1823,7 +1858,7 @@ this section desperate ly will need to be reviewed pending release for inconsist
     }
 
     /*!
-      Sets the start date for the rfp.
+      Sets the responce due date for the rfp.
     */
     function setResponseDueDate( &$date )
     {
@@ -1832,6 +1867,18 @@ this section desperate ly will need to be reviewed pending release for inconsist
         else
             $this->ResponseDueDate = 0;
     }
+
+    /*!
+      Sets the Award Date for the rfp.
+    */
+    function setAwardDate( &$date )
+    {
+      if ( get_class ( $date ) == "ezdatetime" )
+	$this->AwardDate = $date;
+      else
+	$this->AwardDate = 0;
+    }
+
 
     /*!
       Returns the manual keywords for an rfp.
@@ -2408,6 +2455,45 @@ if ( !empty($writersArray) ){
 
       return $ret;
     }
+
+    function projectManager( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+	/*
+        $db->array_query( $category_array, "SELECT * FROM eZProcurement_ProcurementHolderDefinition WHERE ProcurementID='$this->ID'" );
+
+        // die("SELECT * FROM eZProcurement_ProcurementHolderDefinition WHERE ProcurementID='$this->ID' ");
+
+
+        if ( $as_object )
+	  {
+	    //default : eZ User
+            foreach ( $category_array as $category )
+	      {
+                $ret[] = new eZUser( $category[$db->fieldName("UserID")] );
+	      }
+	  }
+        else
+	  {
+            foreach ( $category_array as $category )
+	      {
+                $ret[] = $category[$db->fieldName("UserID")];
+	      }
+
+            //$this>Planholders = $ret;
+	  }
+	*/
+
+	$projectManagerID = $this->ProjectManager;
+	$projectManager = new eZPerson($projectManagerID);
+	$ret = $projectManager;
+
+        return $ret;
+      }
+
+
 
     /*!
       Adds an image to the rfp, unless the image is allready added for this rfp.
@@ -4731,8 +4817,7 @@ xxxxxx
 
     var $PublishDate;
     var $ResponseDueDate;
-
-    var $BidAwardDate;
+    var $AwardDate;
     
     // tell eZ publish to show the rfp to the public
     var $IsPublished;

@@ -33,7 +33,7 @@
   \code
   $bid = new eZProcurementBid();
   $bid->setAmount( 21999.99 );
-  $bid->setUserID( 32 );
+  $bid->setPerson( 32 );
 
   $bid->store();
   \endcode
@@ -125,6 +125,7 @@ class eZProcurementBid
             $contentsStr = "'$contents'";
 	    */
 
+
 	    // i don't think we need to support informix, can we?
             if ( $db->isA() == "informix" )
             {
@@ -137,7 +138,8 @@ class eZProcurementBid
 	      */
             }
 
-            $ret = $db->query( "INSERT INTO eZProcurement_Bid
+
+            $insert_query = "INSERT INTO eZProcurement_Bid
 		               ( ID,
                                  Amount,
                                  RankID,
@@ -157,9 +159,11 @@ class eZProcurementBid
                                    '$procurement',
                                    '$winner',
                                    '$removed' )
-                                 " );
+                                 ";
 
-			$this->ID = $nextID;
+	    // die($insert_query);
+	    $ret = $db->query( $insert_query );
+            $this->ID = $nextID;
         }
         else
         {
@@ -202,38 +206,49 @@ class eZProcurementBid
                 $published = $timeStamp;
 	    */
 
-            if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "1" ) )
+            if ( ( count( $res ) > 0 ) )  // && ( $this->IsPublished == "1" ) )
             {
-                $ret = $db->query( "UPDATE eZProcurement_Bid SET
+                $update_query = "UPDATE eZProcurement_Bid SET
 		                 Amount='$amount',
                                  ProcurementID='$procurement',
                                  UserID='$user',
                                  PersonID='$person',
                                  CompanyID='$company',
                                  Winner='$winner',
-                                 Removed='$removed',
+                                 RankID='$rank',
+                                 Removed='$removed'
 
                                  WHERE ID='$this->ID'
-                                 " );
+                                 ";
+
+                // print($update_query);
+                $ret = $db->query( $update_query );
+
             }
             else
             {
+	      /*
                 if ( $this->PublishedOverride != 0 )
                     $published = $this->PublishedOverride;
                 else
                     $published = $this->Published;
+	      */
 
-		$ret = $db->query( "UPDATE eZProcurement_Bid SET
+		$update_removed_query = "UPDATE eZProcurement_Bid SET
                                  Amount='$amount',
                                  ProcurementID='$procurement',
                                  UserID='$user',
                                  PersonID='$person',
                                  CompanyID='$company',
                                  Winner='$winner',
-                                 Removed='$removed',
+                                 RankID='$rank',
+                                 Removed='$removed'
 
                                  WHERE ID='$this->ID'
-                                 " );
+                                 ";
+
+		//die($update_removed_query);
+		$ret = $db->query( $update_removed_query );
             }
         }
 
@@ -412,8 +427,9 @@ class eZProcurementBid
 //            $forum->delete();
 
             $res = array();
-
-            $res[] = $db->query( "DELETE FROM eZProcurement_Bid WHERE ID='$this->ID'" );
+                                 $id = $this->ID;
+	    $query = "DELETE FROM eZProcurement_Bid WHERE ID='$id'";
+            $res[] = $db->query( $query );
 
 	    /*
             $res[] = $db->query( "DELETE FROM eZProcurement_BidCategoryDefinition WHERE RfpID='$this->ID'" );
@@ -468,21 +484,37 @@ class eZProcurementBid
     /*!
       Returns the bid user id
     */
-    function &userID( )
+    function &user( )
     {
         return $this->UserID;
     }
 
     /*!
+      Sets the bid's user
+    */
+    function setUser( $value )
+    {
+        $this->UserID = $value;
+    }
+
+    /*!
       Returns the bid person id
     */
-    function &personID( )
+    function &person( )
     {
         return $this->PersonID;
     }
 
     /*!
-      Returns the bid rank id
+      Sets the bid's person
+    */
+    function setPerson( $value )
+    {
+        $this->PersonID = $value;
+    }
+
+    /*!
+      Returns the bid rank alpha-numeric
     */
     function &rank( )
     {
@@ -490,11 +522,27 @@ class eZProcurementBid
     }
 
     /*!
+      Returns the bid rank id
+    */
+    function &rankID( )
+    {
+        return $this->RankID;
+    }
+
+    /*!
       Returns the bid person : company id
     */
-    function &companyID( )
+    function &company( )
     {
         return $this->CompanyID;
+    }
+
+    /*!
+      Sets the bid's company
+    */
+    function setCompany( $value )
+    {
+        $this->CompanyID = $value;
     }
 
     /*!

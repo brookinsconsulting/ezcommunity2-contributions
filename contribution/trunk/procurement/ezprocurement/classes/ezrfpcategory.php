@@ -1284,12 +1284,17 @@ class eZRfpCategory
                         AND Link.RfpID=Rfp.ID
                         AND Definition.RfpID=Rfp.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
-                 GROUP BY $PermGroupBy Rfp.ID, Rfp.Published, Rfp.Name, Rfp.Contents, Rfp.ContentsWriterID, Rfp.LinkText, Rfp.AuthorID, Rfp.Modified, Rfp.Created, Rfp.PageCount, Rfp.IsPublished, Rfp.Keywords, Rfp.Discuss, Rfp.TopicID, Rfp.StartDate, Rfp.StopDate, Rfp.ImportID $GroupBy
+                 GROUP BY $PermGroupBy Rfp.ID, Rfp.Published, Rfp.Name, Rfp.Contents, Rfp.LinkText, Rfp.Modified, Rfp.Created, Rfp.PageCount, Rfp.IsPublished, Rfp.Keywords, Rfp.Discuss, Rfp.TopicID, Rfp.StartDate, Rfp.StopDate, Rfp.ImportID $GroupBy
                  $having_str
                  ORDER BY $OrderBy";
 
+  /* orig:
+                 GROUP BY $PermGroupBy Rfp.ID, Rfp.Published, Rfp.Name, Rfp.Contents, Rfp.ContentsWriterID, Rfp.LinkText, Rfp.AuthorID, Rfp.Modified, Rfp.Created, Rfp.PageCount, Rfp.IsPublished, Rfp.Keywords, Rfp.Discuss, Rfp.TopicID, Rfp.StartDate, Rfp.StopDate, Rfp.ImportID $GroupBy
+
+  */
+
 // won't list rfp!
-// print( $query);
+// print( $query ."<br /><br />");
        
        if ( $limit == -1 )
        {

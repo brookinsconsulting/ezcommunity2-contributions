@@ -52,12 +52,25 @@ switch ( $url_array[2] )
      break;
     }
     # END REMOVE THIS
+
     case "report" :
     {
-        $Year = $url_array[3];
-        $Month = $url_array[4];
+        /*$Year = $url_array[3];
+        $Month = $url_array[4];*/
+
+        $Action = $url_array[3];
+        $Param = $url_array[4];
+	$SubParam = $url_array[5];
 
         include( "ezrfp/admin/rfpreport.php" );
+    }
+    break;
+
+    case "insertstats" :
+    {
+     $Num = $url_array[3];
+
+     include( "ezrfp/admin/statinsert.php" );
     }
     break;
 

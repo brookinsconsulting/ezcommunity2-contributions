@@ -150,14 +150,12 @@ $t->set_block( "rfp_author_tpl", "procurement_holder_organization_tpl", "procure
 
 $t->set_block( "rfp_header_tpl", "rfp_estimate_tpl", "rfp_estimate" );
 $t->set_block( "rfp_header_tpl", "procurement_number_item_tpl", "procurement_number_item" );
-
 $t->set_block( "rfp_header_tpl", "procurement_become_planholder_tpl", "procurement_become_planholder" );
 
-/*
-$t->set_block( "rfp_view_page_tpl", "rfp_topic_tpl", "rfp_topic" );
-$t->set_block( "rfp_view_page_tpl", "rfp_intro_tpl", "rfp_intro" );
-*/
 
+$t->set_block( "rfp_header_tpl", "rfp_project_manager_list_tpl", "rfp_project_manager_list" );
+$t->set_block( "rfp_project_manager_list_tpl", "rfp_project_manager_tpl", "rfp_project_manager" );
+$t->set_block( "rfp_project_manager_tpl", "project_manager_organization_item_tpl", "project_manager_organization_item" );
 
 $t->set_block( "rfp_view_page_tpl", "attached_file_list_tpl", "attached_file_list" );
 $t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
@@ -166,7 +164,6 @@ $t->set_block( "rfp_view_page_tpl", "bid_list_tpl", "bid_list" );
 $t->set_block( "bid_list_tpl", "bid_tpl", "bid" );
 $t->set_block( "bid_tpl", "bid_winner_tpl", "bid_winner" );
 $t->set_block( "bid_tpl", "bid_rank_tpl", "bid_rank" );
-
 
 $t->set_block( "rfp_view_page_tpl", "image_list_tpl", "image_list" );
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
@@ -186,6 +183,8 @@ $t->set_block( "rfp_view_page_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
 
+$t->set_block( "rfp_header_tpl", "bid_award_date_item_tpl", "bid_award_date_item" );
+$t->set_block( "rfp_header_tpl", "bid_closed_item_tpl", "bid_closed_item" );
 
 // read user override variables for image size
 $ListImageWidth = $ini->read_var( "eZRfpMain", "ListImageWidth" );
@@ -325,7 +324,7 @@ if ( $rfp->get( $RfpID ) )
         $t->set_var( "rfp_name", $rfp->name() );
     }
 
-	$aProjectEstimate = number_format( $rfp->projectEstimate() );
+	$aProjectEstimate = number_format( $rfp->projectEstimate(), 2 );
 	$t->set_var( "rfp_project_estimate", $aProjectEstimate );
         $t->parse( "rfp_estimate", "rfp_estimate_tpl", true );
 
@@ -336,28 +335,81 @@ if ( $rfp->get( $RfpID ) )
 	$t->set_var( "procurement_number", $aProjectNumber );
 	$t->parse( "procurement_number_item", "procurement_number_item_tpl", true );
 
-	/*
+	/*	
+	if ( eZMail::validate( $rfp->authorEmail() ) && $rfp->authorEmail() )
+        {
+	  $t->set_var( "author_email", $rfp->authorEmail() );
+	}
+	else
+	{
+	    $author = $rfp->author();
+	    // $t->set_var( "author_email", $author->email() );
+	    $t->set_var( "author_email", $author->emailAddress() );
+	}
+	*/
+    	$t->set_var("rfp_author", "");
+
+	$projectManager = $rfp->projectManager();
+	$projectManagerID = $projectManager->id();
+
+	//	v_array($projectManager->id);
+	if ($projectManagerID){
+
+	$projectManagerID = $projectManager->id();
+	$projectManagerName =  $projectManager->name();
+	$t->set_var( "project_manager_text", $projectManagerName );
+
+	$pm_Companies = $projectManager->companies();
 	
-    if ( eZMail::validate( $rfp->authorEmail() ) && $rfp->authorEmail() )
-    {
-        $t->set_var( "author_email", $rfp->authorEmail() );
-    }
-    else
-    {
-        $author = $rfp->author();
-        // $t->set_var( "author_email", $author->email() );
-	$t->set_var( "author_email", $author->emailAddress() );
-    }
+	if(count($pm_Companies) ) {
+	  $pm_Companies = $pm_Companies[0];
+	  $pm_CompanyName = $pm_Companies->name();
+	  $pm_CompanyID = $pm_Companies->id();
+
+	  $t->set_var( "project_manager_organization", $pm_CompanyName );
+	  $t->set_var( "project_manager_organization_id", $pm_CompanyID );
+
+	  $t->parse( "project_manager_organization_item", "project_manager_organization_item_tpl");
+	} else {
+	  $pm_CompanyName = 'No Affiliation';
+	  $pm_CompanyID = '0';
+
+	  $t->set_var( "project_manager_organization", $pmCompanyName );
+
+	  $t->set_var( "project_manager_organization_item", "");
+	}
+
+	/*
+	$pmCompany = new eZCompany();
+	$pmCompany = $pmCompany->searchByPerson($projectManagerID);
+	$pmCompanyName = $pmCompany->name();
+	*/
+	/*
+
+        /*
+project_manager_organization_item_
+
+
+                <!-- BEGIN rfp_project_manager_list_tpl -->
+                <span class="subdiv">{intl-project_manager}: </span><br />
+                <!-- BEGIN rfp_project_manager_tpl -->
+
 
 	*/
-    
-       /*
-        $t->set_var( "topic_id", $topic->id() );
-        $t->set_var( "topic_name", $topic->name() );
-        $t->parse( "rfp_topic", "rfp_topic_tpl" );
-       */
 
-	$t->set_var("rfp_author", "");
+
+
+        $t->set_var( "project_manager_id", $projectManagerID );
+
+	//	$t->set_var( "project_manager_text", $projectManagerName );
+	//	$t->set_var( "project_manager_organization", $pmCompanyName );
+
+	$t->parse( "rfp_project_manager", "rfp_project_manager_tpl" );
+	$t->parse( "rfp_project_manager_list", "rfp_project_manager_list_tpl" );
+       } else {
+	 $t->set_var( "rfp_project_manager", "" );
+         $t->set_var( "rfp_project_manager_list", "" );
+       }
 
         $theContentsWriters = $rfp->planholders();
 	//	v_array($theContentsWriters[2]);
@@ -467,7 +519,8 @@ if ( $rfp->get( $RfpID ) )
 
         $modifiedDate =& $rfp->modified();
 	$responceDueDate = $rfp->responceDueDate();
-	
+        //$awardDate =& $rfp->awardDate(false);
+
     $publishDateValue =& $publishDate->date();
     $publishTimeValue =& $publishDate->time();
 	
@@ -491,7 +544,19 @@ if ( $rfp->get( $RfpID ) )
     $t->set_var( "rfp_responce_due_date_timevalue", $locale->format( $publishedTimeValue ) );
 
     $t->set_var( "rfp_responce_due_date", $locale->format( $responceDueDate ) );
-	
+
+
+    $awardDate =& $rfp->awardDate(false);
+    $awardDateTime = new eZDateTime();
+    $awardDateTime->setTimestamp($awardDate);
+    
+    if( $awardDate ){
+      $t->set_var( "bid_award_date", $locale->format( $awardDateTime ) );
+      $t->parse( "bid_award_date_item", "bid_award_date_item_tpl" );
+    }else{
+      $t->set_var( "bid_award_date_item", "" );
+    }
+
     $published = $rfp->published();
 
     $publishedDateValue =& $published->date();
@@ -502,11 +567,20 @@ if ( $rfp->get( $RfpID ) )
 
     $t->set_var( "rfp_created", $locale->format( $published ) );
 
-    // image list
+    $current_date = new eZDateTime();
+    $bid_closed_condition = $responceDueDate->isGreater($current_date, true);
 
+    if ($bid_closed_condition){
+      $t->set_var( "bid_closed_flag", '<span style="text-decoration: underline; color: red;">Closed</span>' );
+      $t->parse( "bid_closed_item", "bid_closed_item_tpl" );
+    }else {
+      $t->set_var( "bid_closed_flag", '<span style="color: green;">Open</span>' );
+      $t->parse( "bid_closed_item", "bid_closed_item_tpl" );
+    }
+
+    // image list
     $usedImages = $renderer->usedImageList();
     $images =& $rfp->images();
-    
     {
         $i=0;
         foreach ( $images as $imageArray )
@@ -560,8 +634,6 @@ if ( $rfp->get( $RfpID ) )
     }
     if ( $i == 0 )
         $t->set_var( "image_list", "" );    
-
-    
 
 }
 else
@@ -719,12 +791,12 @@ if ( count( $bids ) > 0 )
       }
 
       // bidder information
-      $bid_company_id = $bid->companyID();
+      $bid_company_id = $bid->company();
       $bid_company = new eZCompany($bid_company_id);
 
 
-      $bid_person_id = $bid->personID();
-      $bid_user_id = $bid->userID();
+      $bid_person_id = $bid->person();
+      $bid_user_id = $bid->user();
 
       $bid_person = new eZPerson($bid_person_id);
       $bid_user = new eZUser($bid_user_id);

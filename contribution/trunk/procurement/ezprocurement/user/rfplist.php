@@ -231,7 +231,7 @@ foreach ( $pathArray as $path )
         $t->set_var( "category_name", $path[1] );
     }
 
-    $SiteTitleAppend .= $path[1] . " - ";
+    $SiteTitleAppend .= $path[1] . " : ";
     
 if ( $CategoryID == '10' )
 {

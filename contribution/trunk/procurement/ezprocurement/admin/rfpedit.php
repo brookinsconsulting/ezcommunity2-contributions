@@ -35,6 +35,9 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 
 include_once( "ezuser/classes/ezauthor.php" );
 
+include_once("ezcontact/classes/ezcompany.php");
+include_once("ezcontact/classes/ezperson.php");
+
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezrfp/classes/ezrfpcategory.php" );
@@ -44,22 +47,24 @@ include_once( "ezrfp/classes/eztopic.php" );
 include_once( "ezrfp/classes/ezrfpgenerator.php" );
 include_once( "ezrfp/classes/ezrfprenderer.php" );
 
-//include_once( "ezbulkmail/classes/ezbulkmail.php" );
-//include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
-
 include_once( "ezrfp/classes/ezrfptool.php" );
 include_once( "ezxml/classes/ezxml.php" );
 
+include_once( "ezprocurement/classes/ezprocurementbid.php" );
 
+// include_once( "ezcontact/classes/ezcontact.php" );
+// include_once( "ezcontact/classes/ezcontact.php" );
+
+//include_once( "ezbulkmail/classes/ezbulkmail.php" );
+//include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezrfp/classes/fnc_viewArray.php" );
+
 
 $ini =& INIFile::globalINI();
 
 $AnonymousUserGroup = $ini->read_var( "eZRfpMain", "AnonymousUserGroup" );
 
 $CategoryID = $HTTP_POST_VARS["CategoryID"];
-
-
 
 
 
@@ -76,10 +81,6 @@ exit();
 
 */
 
-
-
-
-
 // rfp published from preview
 /* dylan note - this is to view all the crap from the db
 
@@ -95,119 +96,145 @@ echo("using get_object_vars to check out what each object contains<br>");
 	v_array($arr);
 }
 */
+
+
 if ( isset( $PublishRfp ) )
-
 {
-
     $rfp = new eZRfp();
 
-
-
     if ( $rfp->get( $RfpID ) )
-
     {
-
         $rfp->setIsPublished( true );
-
-        $rfp->store();        
-
+        $rfp->store();
+    }
+    
+    $category =& $rfp->categoryDefinition( );
+   
+    if ( $category )
+    {
+        $categoryID = $category->id();
     }
 
-    
-
-    $category =& $rfp->categoryDefinition( );
-
-    
-
-    if ( $category )
-
-    {
-
-        $categoryID = $category->id();
-
-    }        
-
-    
-
     eZHTTPTool::header( "Location: /rfp/archive/$categoryID/" );
-
     exit();
-
 }
-
 
 
 if ( $Action == "Cancel" )
-
 {
-
     $rfp = new eZRfp( $RfpID );
-
-
-
     $category = $rfp->categoryDefinition( );
 
-    
-
     if ( $category )
-
     {
-
         $categoryID = $category->id();
-
     }
-
-
-
- eZHTTPTool::header( "Location: /rfp/archive/$categoryID/" );
-
-    exit();
-
-}
-
-if ( $Action == "Delete" )
-
-{
-
-
-
-/*
-
-    $rfp = new eZRfp( $RfpID );
-
-
-
-    $category = $rfp->categoryDefinition( );
-
-
-
-    if ( $category )
-
-    {
-
-        $categoryID = $category->id();
-
-    }
-
-*/
 
     eZHTTPTool::header( "Location: /rfp/archive/$categoryID/" );
     exit();
 }
 
 
+if ( $Action == "Delete" )
+{
 
+  /*
+    $rfp = new eZRfp( $RfpID );
+    $category = $rfp->categoryDefinition( );
+
+    if ( $category )
+    {
+        $categoryID = $category->id();
+    }
+  */
+
+    eZHTTPTool::header( "Location: /rfp/archive/$categoryID/" );
+    exit();
+}
+
+
+ 
 // update an existing rfp in the database
 
 if ( $Action == "Update" || ( $Action == "Insert" ) )
-
 {
-
     $sendNotification = false;
-
+    $curDate = new eZDateTime();
     $rfp = new eZRfp( );
+    if (isset($RfpID))
+    {
+      $bidRfp = new eZRfp( $RfpID );
+      $bids = $bidRfp->bids();
 
+        if (!empty($bids))
+        {
+         foreach ($bids as $bid)
+         {
+	     $bidField = 'BidInfo' . $bid->id();
+	     $bidInfo = explode("|", $$bidField);
+         if ($bidInfo[5] == 1)
+         {
+             if ($bid->winner() != 1)
+             {
+              $bidRfp->setAwardDate(&$curDate);
+              $bidRfp->store();
+             }
+         }
+	     if (isset($bidInfo[6]))
+	     {
+	       if ($bidInfo[6] == 1)
+	       {
+		 $bid->delete();
+		 continue;
+	       }
+	     }
 
+             $bid->setProcurement( $RfpID );
+             $bid->setCompany($bidInfo[1]);
+             $bid->setPerson($bidInfo[2]);
+             $bid->setAmount($bidInfo[4]);
+             $bid->setWinner($bidInfo[5]);
+             $bid->setRank($bidInfo[3]);
+
+             if( $newBidInfo[6] != 1 ) {
+               $bid->setRemoved(0);
+	     }else {
+	       $bid->setRemoved($newBidInfo[6]);
+	     }
+
+             $bid->store();
+         }
+        }
+
+	if ($NewInfo != "")
+	{
+	  $NewArr = explode("***", $NewInfo);
+
+	  foreach ($NewArr as $NewBid)
+	  {
+	    if ($bidInfo[6] == 1)
+	      continue;
+          if ($bidInfo[5] == 1)
+         {
+              $bidRfp->setAwardDate(&$curDate);
+              $bidRfp->store();
+         }
+	    $newBidInfo = explode("|", $NewBid);
+             $bid = new eZProcurementBid();
+	     $bid->setProcurement( $RfpID );
+             $bid->setCompany($newBidInfo[1]);
+             $bid->setPerson($newBidInfo[2]);
+             $bid->setAmount($newBidInfo[4]);
+             $bid->setWinner($newBidInfo[5]);
+             $bid->setRank($newBidInfo[3]);
+	     $bid->setRemoved($newBidInfo[6]);
+
+             $bid->store();
+       }
+     }
+    }
+
+    // die("fin");
 
     if ( ( $Action == "Insert" ) or ( $rfp->get( $RfpID ) == true ) )
 
@@ -217,63 +244,38 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
         {
             $rfp = new eZRfp( );
             $user =& eZUser::currentUser();
+
+	    /*
 	    // k: add holder link into user here? why does the admin, have author data being stored, on top
 	    //k: need author to = admin user to track rfp creation not holder names that's contents writers
 
             $rfp->setAuthor( $user );
+	    */
+
         }
 
         $rfp->setName( $Name );
-
 	$rfp->setProjectEstimate( $ProjectEstimate );
         $rfp->setProjectNumber( $ProjectNumber );
 
+        $rfp->setProjectManager( $ProjectManager[0] );
 
-	// k: code for holder / user switch!
+	//echo("looking at the viewArray for Contents Writer ID: <br>");
+	//viewArray($ContentsWriterID);
+	//exit();
 
-/*
-        if ( trim( $NewAuthorName ) != "" )
+	$ia = 0;
 
-        {
-
-  //          $author = new eZAuthor();
-
-	    $author = new eZUser(); 
-
-            $author->setName( $NewAuthorName );
-
-            $author->setEmail( $NewAuthorEmail );
-
-            $author->store();
-
-            $rfp->setContentsWriter( $author );
-
-        }
-
-        else
-
-        {
-*/
+	//echo ("lets take a look at the post vars<br>");
+	//	v_array($_POST);
+	// ################# BREAKDOWN #################
 
 
-//echo("looking at the viewArray for Contents Writer ID: <br>");
-//viewArray($ContentsWriterID);
-//exit();
+	/*
 
+	$cwDbArr = serialize($ContentsWriterID);
 
-$ia = 0;
-
-
-//echo ("lets take a look at the post vars<br>");
-//	v_array($_POST);
-// ################## DJ DYLAN'S GONNA BREAK IT DOWN #################
-
-
-/*
-
-$cwDbArr = serialize($ContentsWriterID);
-
-echo("
+        echo("
 <div style='border: 1px solid #696; margin:10px; padding:5px; background: #FDF;'>
 Here's the array we are going to get ready for db input.
 <br> <br>
@@ -354,11 +356,6 @@ $rfp->setPlanholders($ContentsWriterID);
 
 
 
-// no topic
-/*
-       $topic = new eZTopic( $TopicID );
-       $rfp->setTopic( $topic );
-*/
 
 
         $generator = new eZRfpGenerator();
@@ -366,28 +363,6 @@ $rfp->setPlanholders($ContentsWriterID);
 
         $rfp->setContents( $contents );
         $rfp->setPageCount( $generator->pageCount() );
-
-// no Author Dependancies
-/*
-        $rfp->setAuthorText( $AuthorText );
-        $rfp->setAuthorEmail( $AuthorEmail );
-*/
-
-
-
-
-        $rfp->setLinkText( $LinkText );
-
-        // no log message
-
-        if ( trim( $LogMessage ) != "" )
-            $rfp->addLog( $LogMessage );
-
-        // no forum
-        if ( $Discuss == "on" )
-            $rfp->setDiscuss( true );
-        else
-            $rfp->setDiscuss( false );
 
         // check if the contents is parseable
         if ( eZXML::domTree( $contents ) )
@@ -399,6 +374,7 @@ $rfp->setPlanholders($ContentsWriterID);
             $category = new eZRfpCategory( $CategoryID );
             $rfp->setCategoryDefinition( $category );
 
+	    /*
             $iniVar = $ini->read_var( "eZRfpMain", "LowerCaseManualKeywords" );
 
             if ( $iniVar == "enabled" )
@@ -407,6 +383,8 @@ $rfp->setPlanholders($ContentsWriterID);
                 $toLower = false;
 
             $rfp->setManualKeywords( $Keywords, $toLower );
+	    */
+
             $categoryArray =& $rfp->categories();
 
             // Calculate new and unused categories
@@ -563,7 +541,7 @@ $rfp->setPlanholders($ContentsWriterID);
 	    $rfp->store();
 
             $RfpID = $rfp->id();
-
+        // process bids
 
             if ( $sendNotification )
                 eZRfpTool::notificationMessage( $rfp );
@@ -743,13 +721,6 @@ $t->set_var( "rfp_contents_1", stripslashes( $Contents[1] ) );
 $t->set_var( "rfp_contents_2", stripslashes( $Contents[2] ) );
 $t->set_var( "rfp_contents_3", stripslashes( $Contents[3] ) );
 $t->set_var( "link_text", stripslashes( $LinkText ) );
-
-
-/*
- $t->set_var( "author_text", stripslashes( $AuthorText ) );
- $t->set_var( "author_email", stripslashes( $AuthorEmail ) );
-*/
-
 
 /*
        include_once( "classes/ezdate.php" );
@@ -1023,12 +994,13 @@ if ( $Action == "Edit" )
 
     
 
-    if ( !isset( $Name ) )        
+    if ( !isset( $Name ) )
         $t->set_var( "rfp_name", $rfp->name() );
         $t->set_var( "rfp_project_estimate", $rfp->projectEstimate() );
         $t->set_var( "rfp_project_number", $rfp->projectNumber() );
 
-// rfp contents intro & body of rfp. refactor to only hold and store the body. so check out the sub components all ready and fix the code you chode.
+    // rfp contents intro & body of rfp. 
+    // refactor to only hold and store the body. 
 
     $generator = new eZRfpGenerator();
     $contentsArray = $generator->decodeXML( $rfp->contents() );
@@ -1044,15 +1016,10 @@ if ( $Action == "Edit" )
         $i++;
     }
 
+
     //EP: URL translation: rfp edit get translation
-  
-
     if ( $ini->read_var( "eZRfpMain", "AdminURLTranslator" ) == "enabled" )
-
     {    
-
-
-
         $category = $rfp->categoryDefinition();
 
         $url1 = "/rfp/rfpview/" . $rfp->id() . "/1/" . $category->id();
@@ -1061,24 +1028,21 @@ if ( $Action == "Edit" )
 
 	$t->set_var( "intl-rfp_nourl", "" );
 
-
-
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
 
         $urltranslator = new eZURLTranslator();
         $urltranslator->getbydest ( $url1 );
 
         $t->set_var( "rfp_urltranslator", $urltranslator->source() );
-
         $t->parse( "urltranslator", "urltranslator_tpl" );
     }
 
 
+
+    /*
     $t->set_var( "rfp_keywords", $rfp->manualKeywords() );
     $t->set_var( "author_text", $rfp->authorText() );
     $t->set_var( "author_email", $rfp->authorEmail() );
-
-
 
     if ( $pending )
     {
@@ -1090,21 +1054,20 @@ if ( $Action == "Edit" )
     }
 
     $t->set_var( "link_text", $rfp->linkText() );
+    */
+
+
     $t->set_var( "action_value", "update" );
 
-    /*
-    if ( $Action == "New" )
-    {
 
-      // xxx
 
-    }
-    */
+
 
     $authorz = $rfp->planholders();
     $ContentsWriterID = $authorz;
 
     $authorz__id = $authorz[0];
+
 
     /*
       viewArray($ContentsWriterID);
@@ -1115,11 +1078,6 @@ if ( $Action == "Edit" )
 
 
     /*
-        $topic = $rfp->topic(); 
-        $TopicID = $topic->id();
-    */
-
-
     $writeGroupsID = eZObjectPermission::getGroups( $RfpID, "rfp_rfp", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $RfpID, "rfp_rfp", 'r', false );
 
@@ -1128,21 +1086,30 @@ if ( $Action == "Edit" )
 
     if ( $readGroupsID[0] != -1 )
         $t->set_var( "all_selected", "" );
+    */
 
     // dates
 
     $published =& $rfp->published();
-
     $created =& $rfp->created();
-
     $modified =& $rfp->modified();
-
     $responceDue =& $rfp->responceDueDate();
+    $awardDate =& $rfp->awardDate(false);
+
+    if( $awardDate ) {
+      $awardDateObj = new eZDateTime();
+      $awardDateObj->setTimestamp( $awardDate );
+      $awardDateFormat = $Locale->format( $awardDateObj );
+    }else{
+      $awardDateFormat = "Not Awarded";
+    }
 
     $t->set_var( "published_date", $Locale->format( $published ) );
     $t->set_var( "created_date", $Locale->format( $created ) );
     $t->set_var( "modified_date", $Locale->format( $modified ) );
     $t->set_var( "responce_due_date", $Locale->format( $responceDue ) );
+    $t->set_var( "award_date", $awardDateFormat );
+
 
     if ( $rfp->isPublished() == true )
     {
@@ -1158,12 +1125,8 @@ if ( $Action == "Edit" )
     $t->parse( "publish_dates", "publish_dates_tpl" );
 }
 
-// author select
-/*
-$author = new eZAuthor();
-$authorArray = $author->getAll();
-*/
 
+// author / holder list select
 
 // eZUser Replacement Code for eZAuthor Code
 // note: still needs a group id check, name or id lookup. / compare
@@ -1173,27 +1136,10 @@ $authorArray = $author->getAll();
 
 
 $author = new eZUser();
-
-//$authorArray = $author->getAll();
-
-//$authorArray = $author->getUsersByGroup($AnonymousUserGroup);
-
-/*
-
 $authorArray = new eZUserGroup();
-
 $authorArray = $authorArray->users( $AnonymousUserGroup );
 
-*/
-
-
-$authorArray = new eZUserGroup();
-
-$authorArray = $authorArray->users( $AnonymousUserGroup );
-
-
-//    $usergroup = new eZUserGroup();
-
+ //   $usergroup = new eZUserGroup();
  //   $userList = $usergroup->users( $GroupID, $OrderBy );
 
 /*echo("<br>below is author array<br>");
@@ -1209,487 +1155,358 @@ foreach ($authorArray as $obj) {
 	v_array($mvar);
 	echo("<br>");
 }
+// exit();
 */
-	
-//exit();
+
 
 foreach ( $authorArray as $author )
-
 {
-
-$groupW = new eZUserGroup();
-
-// 3
-
-//$groupW->get( 3 );
-
-//  $groupR = $groupW->getByUser( $author );
-
-// eZUserGroup::isMember( $user ) [public] [ source ]
-
-
-
-$authora = new eZUser();
-
-$authora = $authora->getUser( $author );
-
-
-
-$groupYY = $groupW->getByUser( $author );
-
-$groupYYx = $groupYY;
-
-//$groupYYx = $groupYY[0];
-
-//$groupYYx = $groupYY[3];
-
-//print($author->id());
-
-//viewArray($groupYYx);
-
-//exit();
-
-
-
-$userGroupz = new eZUserGroup(3);
-
-//$userGroupz = $userGroupz->get($AnonymousUserGroup);
-
-
-
-$userGroupzName = $userGroupz->name();
-
-$groupR = $userGroupzName;
-
-
-
-/*
-
- foreach ( $groupYYx as $msn )
-
-{
-
-
-
-//viewArray($msn);
-
-// print($msn->Name ."<br />");
-
-//$groupR = $msn->Name; // $rfp["URI"]
-
-
-
-}
-
-*/
-
-
-
-//$groupR = $authora;
-
-//print ("<hr><b>". $ContentsWriterID .' '. $author->id() ."</b>");
-
-//$ContentsWriterID = '';
-
-//$ContentsWriterID[0] = 3;
-
-//$ContentsWriterID[1] = 2;
-
-
-
-//print( "<b>". $ContentsWriterID .' '. $author->id() ."</b><br>");
-
-//$ContentsWriterID = $ContentsWriterID[1]->id();
-
-//viewArray($ContentsWriterID); print("|- <br />");
-
-
-
-// hey dylan! comment #2, thing is first (above this) is the authorList foreach loop 
-
-// at this point (right here) we are in a loop that as you can see bellow is my rfpAuthorArray foreach loop where i try to do some matching
-
-
-
-// would you believe i got most of your stats array code to display perfectly (thank you!) but i'm having trouble doing the same thing, printing the users (my if loop kills the server / file via maxtimeout?) . in a run, will try to add more comments before 4pm today , check the timestamp , i need sleep
-
-
-
-
-
-// $writer = '';
-
-
+  $groupW = new eZUserGroup();
+  
+  $authora = new eZUser();
+  $authora = $authora->getUser( $author );
+  
+  $groupYY = $groupW->getByUser( $author );
+  $groupYYx = $groupYY;
+
+  $userGroupz = new eZUserGroup(3);
+  $userGroupzName = $userGroupz->name();
+
+  $groupR = $userGroupzName;
 
 	$loop1 = 0;
-
 	$loop2 = 0;
-
 	$loop3 = 0;
-	
-// dylan: here is the bug, i wonder if the ContentsWriterID shouldn't be preceeded by a check for if this is new rfp ie no selected writers yet or changed to ContentsWriters . . . i'm lost.
 
 	foreach( $ContentsWriterID as $writer )
-
 	{
-
-
-
 		$wID = $writer->id();
-
 		$aID = $author->id();
 
-	
-
-
-
-		if ( $wID == $aID )   
-
+		if ( $wID == $aID )
 	 	{
+		  $selectToggle = true;
+		  // $t->set_var( "selected", "selected" );
+		  // $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
 
-
-
-//	print("dylan note: hey dylan here is where i can enable a printout of the author / holder ID array items. ya dig?");
-
-	//print("<br /> $wID ==  $aID ");
-	$selectToggle = true;
-
-
-	       // $t->set_var( "selected", "selected" );
-
-//	        $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
-
-            $t->set_var( "option_level", "" );
-
-
-		$loop1 = $aID;
-
+		  $t->set_var( "option_level", "" );
+		  $loop1 = $aID;
 	    	}
-
 	    	else
-
 	    	{
-	$selectToggle = false;
+		  $selectToggle = false;
+		  //  $t->set_var( "selected", "a" );
+		  // $t->set_var( "option_level", "" );
+		}
 
-	      //  $t->set_var( "selected", "a" );
-
-	      // $t->set_var( "option_level", "" );
-
-	    	}
-	if ($wID == $aID) {
-	//print("<br /> $wID ==  $aID "); 
-	$foundOne = true; }
-
+		if ($wID == $aID) {
+		  //print("<br /> $wID ==  $aID ");
+		  $foundOne = true;
+		}
     	}
-	// dylan note - please forgive the weird variable names, it sort of happened while I was debugging the selected var
-	
 
 	if ($foundOne) {
-		$mario = 'selected';
+	 $mario = 'selected';
 	} else {
-//		$mario = 'mushroom';
 	 $mario = '';
 	}
 
-/* 
+	$foundOne=false;
 
-
-
-	if ($aID != $loop1 ){
-
-	
-
-        $t->set_var( "author_item", '' );
-
-
-
-	}else {
-
-*/
-		$foundOne=false;
-
-
-		$t->set_var( "mario", $mario);
+	$t->set_var( "mario", $mario);
     	$t->set_var( "author_id", $author->id() );
-
-//    	$t->set_var( "author_name", $author->name() .' -- '. $groupR .' -|' );
-
-
-
 	$t->set_var( "author_name", $author->name() );
-
     	$t->parse( "author_item", "author_item_tpl", true );
-
-//	}
-
 }
 
+$t->set_block( "rfp_edit_page_tpl", "project_manager_item_tpl", "project_manager_item" );
 
-
-// topic select
-
-
-
-$topic = new eZTopic();
-
-$topicArray = $topic->getAll();
-
-foreach ( $topicArray as $topic )
-
+// project manager
+$personArr = getPersonArray();
+  $projectManager = $rfp->projectManager();
+  $projectManagerID = $projectManager->id();
+for($i=0; $i<sizeof($personArr); $i++)
 {
+  // $projectManagerID = $projectManger;
 
-    if ( $TopicID == $topic->id() )
+  if( $personArr[$i]['ID'] == $projectManagerID ){
+    $pm_sel = 'selected';
+  } else {
+    $pm_sel = '';
+  }
 
-    {
-
-        $t->set_var( "selected", "selected" );
-
-    }
-
-    else
-
-    {
-
-        $t->set_var( "selected", "" );
-
-    }
-
-    $t->set_var( "topic_id", $topic->id() );
-
-    $t->set_var( "topic_name", $topic->name() );
-
-    $t->parse( "topic_item", "topic_item_tpl", true );
-
+  //  $t->set_var("person_iteration", $i);
+  if ($personArr[$i]['ID'] != 1){
+  $t->set_var("person_id", $personArr[$i]['ID']);
+  $t->set_var("person_name", $personArr[$i]['LastName'].', '.$personArr[$i]['FirstName']);
+  $t->set_var("pm_sel", $pm_sel );
+  $t->parse( "project_manager_item", "project_manager_item_tpl", true );
+  }
 }
-
 
 
 // category select
-
 $category = new eZRfpCategory();
-
 $categoryArray = $category->getAll( );
 
 
 
 $tree = new eZRfpCategory();
-
 $treeArray =& $tree->getTree();
 
 $user =& eZUser::currentUser();
 
-
-
 $catCount = count( $treeArray );
-
 $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 
-
-
 foreach ( $treeArray as $catItem )
-
 {
-
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "rfp_category", 'w', $user ) == true ||
-
          eZRfpCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
-
-    {    
-
-/*
-
-        if ( $Action == "New" )
-
-        {
-
-
-
-	}
-
-*/
-
-
-
+    {
         if ( $Action == "Edit" )
-
         {
-
             $defCat = $rfp->categoryDefinition( );
 
-        
-
             if ( get_class( $defCat ) == "ezrfpcategory" )
-
             {
 
                 if ( $rfp->existsInCategory( $catItem[0] ) && $defCat->id() != $catItem[0]->id() )
-
                 {
-
                     $t->set_var( "multiple_selected", "selected" );
-
                 }
-
                 else
-
                 {
-
                     $t->set_var( "multiple_selected", "" );
-
                 }
-
             }
-
             else
-
             {
-
                 $t->set_var( "selected", "" );
-
             }
 
-            
 
             if ( get_class( $defCat ) == "ezrfpcategory" )
-
             {
-
                 if ( $defCat->id() == $catItem[0]->id() )
-
                 {
-
                     $t->set_var( "selected", "selected" );
-
                 }
-
                 else
-
                 {
-
                     $t->set_var( "selected", "" );
-
                 }
-
             }
-
             else
-
             {
-
                 $t->set_var( "selected", "" );
-
             }
-
         }
-
         else
-
         {
+	  if ($catItem[0]->id() == 11 ) {
+	    $t->set_var( "selected", "selected" );
+	  }else{
+	    $t->set_var( "selected", "" );
+	  }
 
-		if ($catItem[0]->id() == 11 ) {
-
-                    $t->set_var( "selected", "selected" );
-
-		}else{
-
-	            $t->set_var( "selected", "" );
-
-		}
-
-            $t->set_var( "multiple_selected", "" );
-
+	  $t->set_var( "multiple_selected", "" );
         }
 
-    
 
         $t->set_var( "option_value", $catItem[0]->id() );
-
         $t->set_var( "option_name", $catItem[0]->name() );
 
-
-
         if ( $catItem[1] > 1 )
-
             $t->set_var( "option_level", "" );
-//            $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
-
+	    // $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
         else
-
             $t->set_var( "option_level", "" );
 
-    
-
-        $t->parse( "value", "value_tpl", true );    
-
+        $t->parse( "value", "value_tpl", true );
         $t->parse( "multiple_value", "multiple_value_tpl", true );
-
     }
-
 }
 
 
 
 // group selector
-
 $group = new eZUserGroup();
-
 $groupList = $group->getAll();
-
-
 
 $t->set_var( "selected", "" );
 
 foreach ( $groupList as $groupItem )
-
 {
-
     //for the group owner selector */
-
     $t->set_var( "module_owner_id", $groupItem->id() );
-
     $t->set_var( "module_owner_name", $groupItem->name() );
 
-    
-
     if ( in_array( $groupItem->id(), $writeGroupsID ) )
-
         $t->set_var( "is_selected", "" );
-
     else
-
         $t->set_var( "is_selected", "" );
-
-    
 
     $t->parse( "category_owner", "category_owner_tpl", true );
 
-    
-
     // for the read access groups selector */
-
     $t->set_var( "group_name", $groupItem->name() );
-
     $t->set_var( "group_id", $groupItem->id() );
 
- 
-
     if ( in_array( $groupItem->id(), $readGroupsID ) )
-
         $t->set_var( "selected", "selected" );
-
     else
-
         $t->set_var( "selected", "" );
 
     $t->parse( "group_item", "group_item_tpl", true );
-
 }
 
+// bids
+$rfp = new eZRfp($RfpID);
+$bidArr = $rfp->bids();
 
+$t->set_block( "rfp_edit_page_tpl", "bid_list_tpl", "bid_list" );
+$t->set_block( "bid_list_tpl", "bid_list_options_tpl", "bid_list_options" );
+$t->set_block( "bid_list_tpl", "bid_company_tpl", "bid_company" );
+$t->set_block( "rfp_edit_page_tpl", "js_company_tpl", "js_company" );
+$t->set_block( "rfp_edit_page_tpl", "js_person_tpl", "js_person" );
+$t->set_block( "js_person_tpl", "js_person_pre_tpl", "js_person_pre" );
+$t->set_block( "bid_list_tpl", "bid_rank_tpl", "bid_rank" );
+$t->set_block( "bid_list_tpl", "bid_hidden_tpl", "bid_hidden" );
+$t->set_block( "rfp_edit_page_tpl", "js_rank_tpl", "js_rank" );
+
+if (empty($bidArr))
+{
+ $t->set_var("bid_id", 'new');
+ $t->set_var("bid_list_name", 'New');
+ $t->set_var("bid_hidden_info", '');
+ $t->parse( "bid_hidden", "bid_hidden_tpl", true );
+ $t->parse( "bid_list_options", "bid_list_options_tpl", true);
+} else
+{
+  foreach ($bidArr as $bid)
+ {
+ 	# Element Positioning
+ 	# BidId = 0
+ 	# BidCompany = 1
+ 	# BidPerson = 2
+ 	# BidRank = 3
+ 	# BidAmount = 4
+ 	# BidWinner = 5
+ 	# Deleted = 6
+
+   $t->set_var("bid_id", $bid->id());
+   $t->set_var("bid_list_name", $bid->rank() . ' - ' . getCompanyName($bid->company()) );
+   $hiddenString = $bid->id() . '|' . $bid->company() . '|' . $bid->person() . '|'
+   . $bid->rankID() . '|' . $bid->amount() . '|' . $bid->winner() . '|';
+   $t->set_var("bid_hidden_info", $hiddenString);
+   $t->parse( "bid_hidden", "bid_hidden_tpl", true );
+   $t->parse( "bid_list_options", "bid_list_options_tpl", true);
+ }
+}
+
+ /*
+bid_id
+bid_list_name
+bid_company_id
+bid_person_id
+bid_person_name
+bid_rank_id
+bid_rank_name
+bid_amount
+bid_winner
+*/
+
+ // build company select
+ $compArr = getCompanyArray();
+ $t->set_var("company_iteration", 0);
+ $t->set_var("bid_company_id", 0);
+ $t->set_var("bid_company_name", 'No Company');
+ $t->parse( "js_company", "js_company_tpl", true );
+ $t->parse( "bid_company", "bid_company_tpl", true );
+ for($i=0; $i<sizeof($compArr); $i++)
+ {
+
+    $t->set_var("company_iteration", $i+1);
+    $t->set_var("bid_company_id", $compArr[$i]['ID']);
+    $t->set_var("bid_company_name", $compArr[$i]['Name']);
+    $t->parse( "js_company", "js_company_tpl", true );
+    $t->parse( "bid_company", "bid_company_tpl", true );
+ }
+ // build person select
+  $personArr = getPersonArray();
+  $l=0;
+  for($i=0; $i<sizeof($personArr); $i++)
+ {
+    if ($personArr[$i] == 1)
+      continue;
+    $personObj = new eZPerson($personArr[$i]['ID']);
+    $pCompanies = $personObj->companies();
+    $pTopCompany = $pCompanies[0];
+    if (!is_object($pTopCompany))
+    {
+     $countvar = 'noneccount';
+     $t->set_var("person_company_id", 0);
+    }
+    else
+    {
+    $countvar = $pTopCompany->id().'ccount';
+    $t->set_var("person_company_id", $pTopCompany->id());
+    }
+    if (!isset($$countvar))
+     $$countvar = 0;
+    else
+     $$countvar++;
+
+    $t->set_var("person_iteration", $$countvar);
+    $t->set_var("bid_person_id", $personArr[$i]['ID']);
+    $t->set_var("bid_person_name", $personArr[$i]['LastName'].', '.$personArr[$i]['FirstName']);
+    $t->parse("js_person_pre", "js_person_pre_tpl");
+    $t->parse( "js_person", "js_person_tpl", true );
+    $l++;
+ }
+
+ // build rank select
+  $rankArr = getRankArray();
+  for($i=0; $i<sizeof($rankArr); $i++)
+ {
+
+    $t->set_var("rank_iteration", $i);
+    $t->set_var("bid_rank_id", $rankArr[$i]['ID']);
+    $t->set_var("bid_rank_name", $rankArr[$i]['AlphaNumericName']);
+    $t->parse( "js_rank", "js_rank_tpl", true );
+    $t->parse( "bid_rank", "bid_rank_tpl", true );
+ }
+ $t->parse( "bid_list", "bid_list_tpl" );
 
 $t->pparse( "output", "rfp_edit_page_tpl" );
 
+function getCompanyArray()
+{
+ $db =& eZDB::globalDatabase();
+ $db->array_query($ret, "SELECT ID, Name FROM eZContact_Company");
+ return $ret;
+}
 
+function getPersonArray()
+{
+ $db =& eZDB::globalDatabase();
+ $db->array_query($ret, "SELECT ID, FirstName, LastName FROM eZContact_Person Where ID <> 1");
+ return $ret;
+}
 
+function getRankArray()
+{
+ $db =& eZDB::globalDatabase();
+ $db->array_query($ret, "SELECT ID, Name, AlphaNumericName FROM eZProcurement_BidRank Order by ID");
+ return $ret;
+}
+function getCompanyName($id)
+{
+ $db =& eZDB::globalDatabase();
+ $db->array_query($ret, "SELECT Name FROM eZContact_Company WHERE ID='$id'");
+ $ret = $ret[0]['Name'];
+ return $ret;
+}
 ?>
 
