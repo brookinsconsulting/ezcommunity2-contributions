@@ -4,7 +4,8 @@
 include_once( "classes/ezuritool.php" );
 
 $url_array = eZURITool::split( $REQUEST_URI );
-switch ( $url_array[2] )
+$ListType = $url_array[2];
+switch ( $ListType )
 {
     case "company":
     {
@@ -149,6 +150,20 @@ switch ( $url_array[2] )
             }
             case "list":
             {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                include( "ezcontact/admin/phonetypelist.php" );
+                break;
+            }
+            case "search":
+            {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                {
+                    $SearchText = $url_array[5];
+                    $SearchText = eZURITool::decode( $SearchText );
+                }
                 include( "ezcontact/admin/phonetypelist.php" );
                 break;
             }
@@ -182,6 +197,20 @@ switch ( $url_array[2] )
             }
             case "list":
             {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                include( "ezcontact/admin/addresstypelist.php" );
+                break;
+            }
+            case "search":
+            {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                {
+                    $SearchText = $url_array[5];
+                    $SearchText = eZURITool::decode( $SearchText );
+                }
                 include( "ezcontact/admin/addresstypelist.php" );
                 break;
             }
@@ -216,6 +245,20 @@ switch ( $url_array[2] )
             }
             case "list":
             {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                include( "ezcontact/admin/onlinetypelist.php" );
+                break;
+            }
+            case "search":
+            {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                {
+                    $SearchText = $url_array[5];
+                    $SearchText = eZURITool::decode( $SearchText );
+                }
                 include( "ezcontact/admin/onlinetypelist.php" );
                 break;
             }
@@ -347,6 +390,20 @@ switch ( $url_array[2] )
             }
             case "list":
             {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                include( "ezcontact/admin/consultationtypelist.php" );
+                break;
+            }
+            case "search":
+            {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                {
+                    $SearchText = $url_array[5];
+                    $SearchText = eZURITool::decode( $SearchText );
+                }
                 include( "ezcontact/admin/consultationtypelist.php" );
                 break;
             }
@@ -381,6 +438,20 @@ switch ( $url_array[2] )
             }
             case "list":
             {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                include( "ezcontact/admin/projecttypelist.php" );
+                break;
+            }
+            case "search":
+            {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                {
+                    $SearchText = $url_array[5];
+                    $SearchText = eZURITool::decode( $SearchText );
+                }
                 include( "ezcontact/admin/projecttypelist.php" );
                 break;
             }
@@ -415,6 +486,20 @@ switch ( $url_array[2] )
             }
             case "list":
             {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                include( "ezcontact/admin/countrylist.php" );
+                break;
+            }
+            case "search":
+            {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                {
+                    $SearchText = $url_array[5];
+                    $SearchText = eZURITool::decode( $SearchText );
+                }
                 include( "ezcontact/admin/countrylist.php" );
                 break;
             }
