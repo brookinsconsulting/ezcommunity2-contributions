@@ -5,7 +5,7 @@
      </td>
      <td align="right">
         <form action="/forum/search/" method="post">
-           <input type="text" name="QueryString" size="12" />
+           <input class="searchbox" type="text" name="QueryString" size="10" />
            <input type="submit" name="search" value="{intl-search}" />
         </form>
      </td>

@@ -15,7 +15,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td><h2>{intl-head_line} <a class="listheadline" style="text-decoration: underline;"href="mailto:{author_mail}">{author_name}</h2></a></td>
-	<td width="10%" align="right"><nobr><b>({article_start}-{article_end}/{article_count})</b></nobr></td>
+	<td width="10%" align="right"><div class="boxtext">({article_start}-{article_end}/{article_count})</div</td>
 </tr>
 </table>
 

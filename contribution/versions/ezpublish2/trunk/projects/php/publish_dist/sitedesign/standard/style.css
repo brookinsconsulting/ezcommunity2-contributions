@@ -245,6 +245,11 @@ hr
 	width: 200px;
 }
 
+.searchbox
+{
+	width: 120px;
+}
+
 .error
 {
 	font-size: 14;

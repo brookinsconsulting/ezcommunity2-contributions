@@ -19,7 +19,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-text}:</p>
-	<input type="text" name="SearchText" size="12" value="{search_text}" />
+	<input class="searchbox" type="text" name="SearchText" size="10" value="{search_text}" />
 	<input class="stdbutton" type="submit" name="Search" value="{intl-search}" />
 	</td>
 </tr>
