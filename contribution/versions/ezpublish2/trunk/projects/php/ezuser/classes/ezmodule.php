@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodule.php,v 1.5 2001/01/22 14:43:02 jb Exp $
+// $Id: ezmodule.php,v 1.6 2001/04/05 08:52:44 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -86,17 +86,17 @@ class eZModule
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZUser_Module SET
-                                     Name='$this->Name'" );
+                                     Name='$name'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZUser_Module SET
-                                     Name='$this->Name'
+                                     Name='$name'
                                      WHERE ID='$this->ID'" );
         }
         

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.59 2001/04/03 15:13:45 fh Exp $
+// $Id: ezuser.php,v 1.60 2001/04/05 08:52:44 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -102,29 +102,36 @@ class eZUser
         $db =& eZDB::globalDatabase();
 
         $GLOBALS["DEBUG"] = true;
+
+        $password = addslashes( $this->Password );
+        $email = addslashes( $this->Email );
+        $firstname = addslashes( $this->FirstName );
+        $lastname = addslashes( $this->LastName );
+        $signature = addslashes( $this->Signature );
+        $login = addslashes( $this->Login );
         
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZUser_User SET
-		                 Login='$this->Login',
-                                 Password=PASSWORD('$this->Password'),
-                                 Email='$this->Email',
+		                 Login='$login',
+                                 Password=PASSWORD('$password'),
+                                 Email='$email',
                                  InfoSubscription='$this->InfoSubscription',
-                                 FirstName='$this->FirstName',
-                                 LastName='$this->LastName',
-                                 Signature='$this->Signature',
+                                 FirstName='$firstname',
+                                 LastName='$lastname',
+                                 Signature='$signature',
 				                 SimultaneousLogins='$this->SimultaneousLogins'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $db->query( "UPDATE eZUser_User SET
-		                 Login='$this->Login',
-                                 Email='$this->Email',
+		                 Login='$login',
+                                 Email='$email',
                                  InfoSubscription='$this->InfoSubscription',
-                                 FirstName='$this->FirstName',
-                                 Signature='$this->Signature',
-                                 LastName='$this->LastName',
+                                 FirstName='$firstname',
+                                 Signature='$signature',
+                                 LastName='$lastname',
                                  SimultaneousLogins='$this->SimultaneousLogins'
                                  WHERE ID='$this->ID'" );
 
@@ -132,7 +139,7 @@ class eZUser
             if ( isset( $this->Password ) )
             {
                 $db->query( "UPDATE eZUser_User SET
-                                 Password=PASSWORD('$this->Password')
+                                 Password=PASSWORD('$password')
                                  WHERE ID='$this->ID'" );
             }
             
@@ -379,9 +386,11 @@ class eZUser
     /*!
       Returns the users login.
     */
-    function login( )
+    function login( $html = true )
     {
-       return $this->Login;
+        if( $html )
+            return htmlspecialchars( $this->Login );
+        return $this->Login;
     }
 
     
@@ -427,17 +436,21 @@ class eZUser
     /*!
       Returns the users first name.
     */
-    function firstName( )
+    function firstName( $html = true )
     {
-        return htmlspecialchars( $this->FirstName );
+        if( $html )
+            return htmlspecialchars( $this->FirstName );
+        return $this->FirstName;
     }
 
     /*!
       Returns the users last name.
     */
-    function lastName( )
+    function lastName( $html = true  )
     {
-        return htmlspecialchars( $this->LastName );
+        if( $html )
+            return htmlspecialchars( $this->LastName );
+        return $this->LastName;
     }
 
     /*!

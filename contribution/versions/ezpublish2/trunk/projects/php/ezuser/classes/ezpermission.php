@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.8 2001/02/19 13:41:11 jb Exp $
+// $Id: ezpermission.php,v 1.9 2001/04/05 08:52:44 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -130,18 +130,19 @@ class eZPermission
     {
         $this->dbInit();
         $ret = false;        
-
+        $name = addslashes( $this->Name );
+        
         if ( ( $this->ModuleID != "" ) && ( $this->ModuleID != 0 ) )
         {
             $this->Database->array_query( $value_array, "SELECT * FROM eZUser_Permission
-                                                    WHERE Name='$this->Name' AND ModuleID='$this->ModuleID'" );
+                                                    WHERE Name='$name' AND ModuleID='$this->ModuleID'" );
             if ( count( $value_array ) == 0 )
             {            
                 $ret = true;        
                 if ( !isset( $this->ID ) )
                 {
                     $this->Database->query( "INSERT INTO eZUser_Permission SET
-		                         Name='$this->Name',
+		                         Name='$name',
                                  ModuleID='$this->ModuleID'
                                  " );
                     $this->ID = mysql_insert_id();
@@ -149,7 +150,7 @@ class eZPermission
                 else
                 {
                     $this->Database->query( "UPDATE eZUser_Permission SET
-                                 Name='$this->Name',
+                                 Name='$name',
                                  ModuleID='$this->ModuleID'
                                  WHERE ID='$this->ID'" );
                 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.18 2001/03/09 11:52:56 fh Exp $
+// $Id: ezusergroup.php,v 1.19 2001/04/05 08:52:44 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -92,20 +92,22 @@ class eZUserGroup
     function store()
     {
         $db =& eZDB::globalDatabase();
-
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+             
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZUser_Group SET
-                                 Name='$this->Name',
-                                 Description='$this->Description',
+                                 Name='$name',
+                                 Description='$description',
                                  SessionTimeout='$this->SessionTimeout'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $db->query( "UPDATE eZUser_Group SET
-                                 Name='$this->Name',
-                                 Description='$this->Description',
+                                 Name='$name',
+                                 Description='$description',
                                  SessionTimeout='$this->SessionTimeout'
                                  WHERE ID='$this->ID'" );            
         }
@@ -339,16 +341,21 @@ class eZUserGroup
     /*!
       Returns the user group name.
     */
-    function name()
+    function name( $html = true )
     {
-        return $this->Name;
+        if( $html )
+            return htmlspecialchars( $this->Name );
+        else
+            return $this->Name;
     }
 
     /*!
       Returns the user group description.
     */
-    function description()
+    function description( $html = true )
     {
+        if( $html )
+            return htmlspecialchars( $this->Description );
         return $this->Description;
     }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.21 2001/03/29 11:15:46 jakobn Exp $
+// $Id: useredit.php,v 1.22 2001/04/05 08:52:44 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -315,6 +315,14 @@ if ( $Action == "edit" )
     $t->set_var( "read_only", "readonly=readonly" );
 
     $ActionValue = "update";
+}
+else // either new or failed edit... must put htmlspecialchars on stuff we got from form.
+{
+    $FirstName = htmlspecialchars( $FirstName );
+    $LastName = htmlspecialchars( $LastName );
+    $Login = htmlspecialchars( $Login );
+    $Signature = htmlspecialchars( $Signature );
+    $Email = htmlspecialchars( $Email );
 }
 
 
