@@ -1,5 +1,4 @@
 <?
-
 if ( $ReturnCatalogues == true )
 {
     $Catalogues[] = new eZXMLRPCString( "categorylist" );
@@ -14,6 +13,7 @@ else
             include( "ezarticle/xmlrpc/categorylist.php" );
         } break;
         
+        case "storecategory" :
         case "category" :
         {
             $ID = $URL_ARRAY[2];
@@ -21,12 +21,14 @@ else
             include( "ezarticle/xmlrpc/category.php" );
         } break;
 
-        case "storecategory" :
+        case "storearticle" :
+        case "article" :
         {
             $ID = $URL_ARRAY[2];
             $Action = $URL_ARRAY[1];
-            include( "ezarticle/xmlrpc/category.php" );
+            include( "ezarticle/xmlrpc/article.php" );
         }
+        break;
         
         default :
         {

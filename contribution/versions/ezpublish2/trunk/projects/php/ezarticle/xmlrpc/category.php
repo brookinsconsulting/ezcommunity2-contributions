@@ -30,27 +30,32 @@ if( $Action == "category" ) // Dump category info!
 }
 else if( $Action == "storecategory" ) // save the category data!
 {
-    if( $Data["ID"] == 0 )
+    $ID = $Data["ID"]->value();
+    if( $ID == 0 )
         $category = new eZArticleCategory();
     else
-        $category = new eZArticleCategory( $Data["ID"] );
+        $category = new eZArticleCategory( $ID );
 
+    
     $category->setName( $Data["Name"]->value() );
     $category->setDescription( $Data["Description"]->value() );
     $category->setParent( $Data["ParentID"]->value() );
     $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
     $category->setSortMode( $Data["SortMode"]->value() );
-    $category->setOwnerID( $Data["OwnerID"]->value() );
+    $category->setOwner( $Data["OwnerID"]->value() );
     $category->setSectionID( $Data["SectionID"]->value() );
     $category->setImage( $Data["ImageID"]->value() );
     $category->store();
     $ID = $category->id();
 
-    eZObjectPermisson::removePermissions( $ID, "article_category", 'r' );
-    foreach( $Data["ReadGroups"]->value() as $readGroup )
+    
+    eZObjectPermission::removePermissions( $ID, "article_category", 'r' );
+    $readGroups = $Data["ReadGroups"]->value();
+    foreach( $readGroups as $readGroup )
         eZObjectPermission::setPermission( $readGroup->value(), $ID, "article_category", 'r' );
 
-    eZObjectPermisson::removePermissions( $ID, "article_category", 'w' );
+
+    eZObjectPermission::removePermissions( $ID, "article_category", 'w' );
     foreach( $Data["WriteGroups"]->value() as $writeGroup )
         eZObjectPermission::setPermission( $writeGroup->value(), $ID, "article_category", 'w' );
     

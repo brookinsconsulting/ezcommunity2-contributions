@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.84 2001/05/19 11:11:30 bf Exp $
+// $Id: ezarticle.php,v 1.85 2001/05/30 14:55:19 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -273,12 +273,12 @@ class eZArticle
     */
     function &name( $asHTML = true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if( $asHTML == true )
-           return htmlspecialchars( $this->Name );
-       return $this->Name;
+        if( $asHTML == true )
+            return htmlspecialchars( $this->Name );
+        return $this->Name;
     }
 
     /*!
@@ -288,10 +288,10 @@ class eZArticle
     */
     function &contents()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->Contents;
+        return $this->Contents;
     }
 
     /*!
@@ -299,12 +299,12 @@ class eZArticle
     */
     function &authorText( $asHTML = true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if( $asHTML == true )
-           return htmlspecialchars( $this->AuthorText );
-       return $this->AuthorText;
+        if( $asHTML == true )
+            return htmlspecialchars( $this->AuthorText );
+        return $this->AuthorText;
     }
 
     /*!
@@ -312,24 +312,25 @@ class eZArticle
     */
     function &authorEmail( $asHTML = true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if( $asHTML == true )
-           return htmlspecialchars( $this->AuthorEmail );
-       return $this->AuthorEmail;
+        if( $asHTML == true )
+            return htmlspecialchars( $this->AuthorEmail );
+        return $this->AuthorEmail;
     }
 
     
     /*!
       Returns the link text.
     */
-    function &linkText()
+    function &linkText( $asHTML = true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-
-       return htmlspecialchars( $this->LinkText );
+        if(  $asHTML )
+            return htmlspecialchars( $this->LinkText );
+        return $this->LinkText;
     }
 
     /*!
@@ -337,14 +338,14 @@ class eZArticle
     */
     function &author( $as_object = true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if( $as_object )
-           $author = new eZUser( $this->AuthorID );
-       else
-           $author = $this->AuthorID;
-       return $author;
+        if( $as_object )
+            $author = new eZUser( $this->AuthorID );
+        else
+            $author = $this->AuthorID;
+        return $author;
     }
 
     /*!
@@ -352,10 +353,10 @@ class eZArticle
     */
     function &pageCount()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->PageCount;
+        return $this->PageCount;
     }
 
     /*!
@@ -365,13 +366,13 @@ class eZArticle
     */
     function &created()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->Created );
+        $dateTime = new eZDateTime();
+        $dateTime->setMySQLTimeStamp( $this->Created );
        
-       return $dateTime;
+        return $dateTime;
     }
 
     /*!
@@ -379,10 +380,10 @@ class eZArticle
     */
     function keywords( )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->Keywords;
+        return $this->Keywords;
     }
 
     /*!
@@ -390,15 +391,15 @@ class eZArticle
     */
     function discuss( )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $ret = false;
-       if ( $this->Discuss == 1 )
-       {
-           $ret = true;
-       }
-       return $ret;
+        $ret = false;
+        if ( $this->Discuss == 1 )
+        {
+            $ret = true;
+        }
+        return $ret;
     }
 
     
@@ -409,13 +410,13 @@ class eZArticle
     */
     function &published()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->Published );
+        $dateTime = new eZDateTime();
+        $dateTime->setMySQLTimeStamp( $this->Published );
        
-       return $dateTime;
+        return $dateTime;
     }
     
     /*!
@@ -423,15 +424,15 @@ class eZArticle
     */
     function isPublished()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $ret = false;
-       if ( $this->IsPublished == "true" )
-       {
-           $ret = true;
-       }
-       return $ret;
+        $ret = false;
+        if ( $this->IsPublished == "true" )
+        {
+            $ret = true;
+        }
+        return $ret;
     }
       
     
@@ -440,10 +441,10 @@ class eZArticle
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->Name = $value;
+        $this->Name = $value;
     }
 
     /*!
@@ -451,10 +452,10 @@ class eZArticle
     */
     function setContents( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->Contents = $value;
+        $this->Contents = $value;
     }
 
     /*!
@@ -462,10 +463,10 @@ class eZArticle
     */
     function setAuthorText( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->AuthorText = $value;
+        $this->AuthorText = $value;
     }
 
     /*!
@@ -473,10 +474,10 @@ class eZArticle
     */
     function setAuthorEmail( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->AuthorEmail = $value;
+        $this->AuthorEmail = $value;
     }
 
     /*!
@@ -484,10 +485,10 @@ class eZArticle
     */
     function setLinkText( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->LinkText = $value;
+        $this->LinkText = $value;
     }
 
     /*!
@@ -495,13 +496,13 @@ class eZArticle
     */
     function setAuthor( $user )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if ( get_class( $user ) == "ezuser" )
-       {
-           $this->AuthorID = $user->id();
-       }
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $this->AuthorID = $user->id();
+        }
     }
 
     /*!
@@ -509,10 +510,10 @@ class eZArticle
     */
     function setPageCount( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->PageCount = $value;
+        $this->PageCount = $value;
     }
 
     /*!
@@ -520,10 +521,10 @@ class eZArticle
     */
     function setKeywords( $keywords )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->Keywords = $keywords;
+        $this->Keywords = $keywords;
     }
     
     /*!
@@ -531,13 +532,13 @@ class eZArticle
     */
     function setDiscuss( $discuss )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if ( $discuss == true )
-           $this->Discuss = 1;
-       else
-           $this->Discuss = 0;
+        if ( $discuss == true )
+            $this->Discuss = 1;
+        else
+            $this->Discuss = 0;
     }
 
     /*!
@@ -735,17 +736,17 @@ class eZArticle
     */
     function setIsPublished( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if ( $value == true )
-       {
-           $this->IsPublished = "true";
-       }
-       else
-       {
-           $this->IsPublished = "false";           
-       }
+        if ( $value == true )
+        {
+            $this->IsPublished = "true";
+        }
+        else
+        {
+            $this->IsPublished = "false";           
+        }
     }
     
 
@@ -756,30 +757,30 @@ class eZArticle
     */
     function categories( $as_object = true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $this->dbInit();
 
-       $ret = array();
-       $this->Database->array_query( $category_array, "SELECT * FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
+        $ret = array();
+        $this->Database->array_query( $category_array, "SELECT * FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
 
-       if ( $as_object )
-       {
-           foreach ( $category_array as $category )
-           {
-               $ret[] = new eZArticleCategory( $category["CategoryID"] );
-           }
-       }
-       else
-       {
-           foreach ( $category_array as $category )
-           {
-               $ret[] = $category["CategoryID"];
-           }
-       }
+        if ( $as_object )
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = new eZArticleCategory( $category["CategoryID"] );
+            }
+        }
+        else
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = $category["CategoryID"];
+            }
+        }
 
-       return $ret;
+        return $ret;
     }
     
     /*!
@@ -787,32 +788,33 @@ class eZArticle
     */
     function removeFromCategories()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $this->dbInit();
 
-       $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );       
+        $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );       
         
     }
 
 
     
     /*!
-      Adds an image to the article.
+      Adds an image to the article, unless the image is allready added for this article.
     */
     function addImage( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        if ( get_class( $value ) == "ezimage" )
-        {
             $this->dbInit();
+        
+        if( get_class( $value ) == "ezimage" )
+            $value = $value->id();
 
-            $imageID = $value->id();
-            
-            $this->Database->query( "INSERT INTO eZArticle_ArticleImageLink SET ArticleID='$this->ID', ImageID='$imageID'" );
+        $this->Database->query_single( $res, "SELECT count( * ) as Count FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' AND ImageID='$value'" );
+        if( $res["Count"] == 0 )
+        {
+            $this->Database->query( "INSERT INTO eZArticle_ArticleImageLink SET ArticleID='$this->ID', ImageID='$value'" );
         }
     }
 
@@ -823,7 +825,7 @@ class eZArticle
     */
     function deleteImage( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         if ( get_class( $value ) == "ezimage" )
@@ -841,24 +843,24 @@ class eZArticle
     /*!
       Returns every image to a article as a array of eZImage objects.
     */
-    function images()
+    function images( $asObject = true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $this->dbInit();
        
-       $return_array = array();
-       $image_array = array();
+        $return_array = array();
+        $image_array = array();
        
-       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+        $this->Database->array_query( $image_array, "SELECT ImageID FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
        
-       for ( $i=0; $i < count($image_array); $i++ )
-       {
-           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
-       }
+        for ( $i=0; $i < count($image_array); $i++ )
+        {
+            $return_array[$i] = $asObject ? new eZImage( $image_array[$i]["ImageID"], false ) : $image_array[$i]["ImageID"];
+        }
        
-       return $return_array;
+        return $return_array;
     }
 
     /*!
@@ -919,26 +921,26 @@ class eZArticle
     */
     function thumbnailImage( )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $ret = false;
-       $this->dbInit();
+        $ret = false;
+        $this->dbInit();
        
-       $this->Database->array_query( $res_array, "SELECT * FROM eZArticle_ArticleImageDefinition
+        $this->Database->array_query( $res_array, "SELECT * FROM eZArticle_ArticleImageDefinition
                                      WHERE
                                      ArticleID='$this->ID'
                                    " );
        
-       if ( count( $res_array ) == 1 )
-       {
-           if ( $res_array[0]["ThumbnailImageID"] != "NULL" )
-           {
-               $ret = new eZImage( $res_array[0]["ThumbnailImageID"], false );
-           }               
-       }
+        if ( count( $res_array ) == 1 )
+        {
+            if ( $res_array[0]["ThumbnailImageID"] != "NULL" )
+            {
+                $ret = new eZImage( $res_array[0]["ThumbnailImageID"], false );
+            }               
+        }
        
-       return $ret;
+        return $ret;
        
     }
 
@@ -947,7 +949,7 @@ class eZArticle
     */
     function addFile( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         if ( get_class( $value ) == "ezvirtualfile" )
@@ -968,7 +970,7 @@ class eZArticle
     */
     function deleteFile( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         if ( get_class( $value ) == "ezvirtualfile" )
@@ -986,22 +988,22 @@ class eZArticle
     */
     function files()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $this->dbInit();
        
-       $return_array = array();
-       $file_array = array();
+        $return_array = array();
+        $file_array = array();
        
-       $this->Database->array_query( $file_array, "SELECT FileID FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+        $this->Database->array_query( $file_array, "SELECT FileID FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' ORDER BY Created" );
        
-       for ( $i=0; $i < count($file_array); $i++ )
-       {
-           $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
-       }
+        for ( $i=0; $i < count($file_array); $i++ )
+        {
+            $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
+        }
        
-       return $return_array;
+        return $return_array;
     }
     
     
@@ -1011,24 +1013,24 @@ class eZArticle
      */
     function existsInCategory( $category )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $ret = false;
-       if ( get_class( $category ) == "ezarticlecategory" )
-       {
-           $this->dbInit();
-           $catID = $category->id();
+        $ret = false;
+        if ( get_class( $category ) == "ezarticlecategory" )
+        {
+            $this->dbInit();
+            $catID = $category->id();
 
-           $this->Database->array_query( $ret_array, "SELECT ID FROM eZArticle_ArticleCategoryLink
+            $this->Database->array_query( $ret_array, "SELECT ID FROM eZArticle_ArticleCategoryLink
                                     WHERE ArticleID='$this->ID' AND CategoryID='$catID'" );
 
-           if ( count( $ret_array ) == 1 )
-           {
-               $ret = true;
-           }           
-       }
-       return $ret;
+            if ( count( $ret_array ) == 1 )
+            {
+                $ret = true;
+            }           
+        }
+        return $ret;
     }
 
     /*!
@@ -1036,58 +1038,58 @@ class eZArticle
     */
     function &search( &$queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10 )
     {
-       $db =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
-       // Build the ORDER BY
-       $OrderBy = "Article.Published DESC";
-       switch( $sortMode )
-       {
-           case "alpha" :
-           {
-               $OrderBy = "Article.Name DESC";
-           }
-           break;
-       }
+        // Build the ORDER BY
+        $OrderBy = "Article.Published DESC";
+        switch( $sortMode )
+        {
+            case "alpha" :
+            {
+                $OrderBy = "Article.Name DESC";
+            }
+            break;
+        }
        
-       if ( $fetchNonPublished == true )
-       {
-           $fetchText = "Article.IsPublished = 'true'
+        if ( $fetchNonPublished == true )
+        {
+            $fetchText = "Article.IsPublished = 'true'
                     AND";           
-       }
-       else
-       {           
-           $fetchText = "";
-       }
+        }
+        else
+        {           
+            $fetchText = "";
+        }
 
-       $user = eZUser::currentUser();
+        $user = eZUser::currentUser();
 
-       // Build the permission
-       $loggedInSQL = "";
-       if ( $user )
-       {
-           $groups = $user->groups( true );
+        // Build the permission
+        $loggedInSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
 
-           $groupSQL = "";
+            $groupSQL = "";
            
-           $i = 0;
-           foreach ( $groups as $group )
-           {
-               if ( $i == 0 )
-                   $groupSQL .= " Permission.GroupID=$group OR";
-               else
-                   $groupSQL .= " Permission.GroupID=$group OR";
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= " Permission.GroupID=$group OR";
+                else
+                    $groupSQL .= " Permission.GroupID=$group OR";
                
-               $i++;
-           }
-           $currentUserID = $user->id();
-           $loggedInSQL = "Article.AuthorID=$currentUserID OR";
-       }
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
+        }
 
-       // Build the search
-       $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
-       $search = $query->buildQuery();
+        // Build the search
+        $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
+        $search = $query->buildQuery();
 
-       $queryString = "SELECT DISTINCT Article.ID AS ArticleID
+        $queryString = "SELECT DISTINCT Article.ID AS ArticleID
                  FROM eZArticle_Article AS Article,
                       eZArticle_ArticleCategoryLink AS Link,
                       eZArticle_ArticlePermission AS Permission
@@ -1101,62 +1103,62 @@ class eZArticle
                        ORDER BY $OrderBy
                        LIMIT $offset, $limit";
 
-       $db->array_query( $article_array, $queryString );
-       for ( $i=0; $i < count($article_array); $i++ )
-       {
-           $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
-       }
+        $db->array_query( $article_array, $queryString );
+        for ( $i=0; $i < count($article_array); $i++ )
+        {
+            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
+        }
        
-       return $return_array;
+        return $return_array;
     }
 
 
-        /*!
+    /*!
       Does a search in the article archive.
     */
     function searchCount( $queryText,  $fetchNonPublished=true )
     {
-       $db =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
        
-       if ( $fetchNonPublished == true )
-       {
-           $fetchText = "eZArticle_Article.IsPublished = 'true'
+        if ( $fetchNonPublished == true )
+        {
+            $fetchText = "eZArticle_Article.IsPublished = 'true'
                     AND";           
-       }
-       else
-       {           
-           $fetchText = "";
-       }
+        }
+        else
+        {           
+            $fetchText = "";
+        }
 
-       // this code works. do not EDIT !! :)
-       $user = eZUser::currentUser();
+        // this code works. do not EDIT !! :)
+        $user = eZUser::currentUser();
 
-       $loggedInSQL = "";
-       if ( $user )
-       {
-           $groups = $user->groups( true );
+        $loggedInSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
 
-           $groupSQL = "";
+            $groupSQL = "";
            
-           $i = 0;
-           foreach ( $groups as $group )
-           {
-               if ( $i == 0 )
-                   $groupSQL .= " Permission.GroupID=$group OR";
-               else
-                   $groupSQL .= " Permission.GroupID=$group OR";
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= " Permission.GroupID=$group OR";
+                else
+                    $groupSQL .= " Permission.GroupID=$group OR";
                
-               $i++;
-           }
-           $currentUserID = $user->id();
-           $loggedInSQL = "Article.AuthorID=$currentUserID OR";
-       }
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
+        }
 
-       // Build the search
-       $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
-       $search = $query->buildQuery();
+        // Build the search
+        $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
+        $search = $query->buildQuery();
 
-       $queryString = "SELECT COUNT(DISTINCT Article.ID) AS Count
+        $queryString = "SELECT COUNT(DISTINCT Article.ID) AS Count
                  FROM eZArticle_Article AS Article,
                       eZArticle_ArticleCategoryLink AS Link,
                       eZArticle_ArticlePermission AS Permission
@@ -1170,9 +1172,9 @@ class eZArticle
                        GROUP BY ArticleID
                        LIMIT 0, 1";
 
-       $db->query_single( $count, $queryString );
+        $db->query_single( $count, $queryString );
 
-       return $count["Count"];
+        return $count["Count"];
     }
 
     /*!
@@ -1180,26 +1182,26 @@ class eZArticle
     */
     function articleCount( $fetchNonPublished=true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $this->dbInit();
 
-       $OrderBy = "Article.Published DESC";
-       switch( $sortMode )
-       {
-           case "alpha" :
-           {
-               $OrderBy = "Article.Name DESC";
-           }
-           break;
-       }
+        $OrderBy = "Article.Published DESC";
+        switch( $sortMode )
+        {
+            case "alpha" :
+            {
+                $OrderBy = "Article.Name DESC";
+            }
+            break;
+        }
 
        
-       $return_array = array();
-       $article_array = array();
+        $return_array = array();
+        $article_array = array();
 
-       $user =& eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $currentUserSQL = "";
         if ( $user )
         {
@@ -1223,16 +1225,16 @@ class eZArticle
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
         $publishedCode = "";
-       if ( $fetchNonPublished == false )
-       {
-           $publishedCode = "AND Article.IsPublished = 'true'";
-       }
-       else if ( $fetchNonPublished == "only" )
-       {
-           $publishedCode = "AND Article.IsPublished = 'false'";
-       }
+        if ( $fetchNonPublished == false )
+        {
+            $publishedCode = "AND Article.IsPublished = 'true'";
+        }
+        else if ( $fetchNonPublished == "only" )
+        {
+            $publishedCode = "AND Article.IsPublished = 'false'";
+        }
 
-       $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
+        $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission,
@@ -1247,39 +1249,39 @@ class eZArticle
                         AND Category.ID=Link.CategoryID
                         AND Category.ExcludeFromSearch = 'false'";
        
-       $this->Database->array_query( $article_array, $query  );
+        $this->Database->array_query( $article_array, $query  );
 
-       return  $article_array[0][ "Count" ];
+        return  $article_array[0][ "Count" ];
     }
 
     /*!
       Returns every article in every category sorted by time.
     */
     function &articles( $sortMode=time,
-                       $fetchNonPublished=true,
-                       $offset=0,
-                       $limit=50 )
+    $fetchNonPublished=true,
+    $offset=0,
+    $limit=50 )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $this->dbInit();
 
-       $OrderBy = "Article.Published DESC";
-       switch( $sortMode )
-       {
-           case "alpha" :
-           {
-               $OrderBy = "Article.Name DESC";
-           }
-           break;
-       }
+        $OrderBy = "Article.Published DESC";
+        switch( $sortMode )
+        {
+            case "alpha" :
+            {
+                $OrderBy = "Article.Name DESC";
+            }
+            break;
+        }
 
        
-       $return_array = array();
-       $article_array = array();
+        $return_array = array();
+        $article_array = array();
 
-       $user =& eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $currentUserSQL = "";
         if ( $user )
         {
@@ -1303,16 +1305,16 @@ class eZArticle
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
         $publishedCode = "";
-       if ( $fetchNonPublished == false )
-       {
-           $publishedCode = "AND Article.IsPublished = 'true'";
-       }
-       else if ( $fetchNonPublished == "only" )
-       {
-           $publishedCode = "AND Article.IsPublished = 'false'";
-       }
+        if ( $fetchNonPublished == false )
+        {
+            $publishedCode = "AND Article.IsPublished = 'true'";
+        }
+        else if ( $fetchNonPublished == "only" )
+        {
+            $publishedCode = "AND Article.IsPublished = 'false'";
+        }
 
-       $query = "SELECT DISTINCT Article.ID as ArticleID
+        $query = "SELECT DISTINCT Article.ID as ArticleID
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission,
@@ -1329,14 +1331,14 @@ class eZArticle
                  ORDER BY $OrderBy
                  LIMIT $offset,$limit";
        
-       $this->Database->array_query( $article_array, $query  );
+        $this->Database->array_query( $article_array, $query  );
 
-       for ( $i=0; $i < count($article_array); $i++ )
-       {
-           $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
-       }
+        for ( $i=0; $i < count($article_array); $i++ )
+        {
+            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
+        }
        
-       return $return_array;
+        return $return_array;
     }
 
     /*!
@@ -1345,11 +1347,11 @@ class eZArticle
     */
     function setCategoryDefinition( $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       if ( get_class( $value ) == "ezarticlecategory" )
-       {
+        if ( get_class( $value ) == "ezarticlecategory" )
+        {
             $this->dbInit();
 
             $categoryID = $value->id();
@@ -1364,7 +1366,7 @@ class eZArticle
                            ArticleID='$this->ID'";
             
             $this->Database->query( $query );
-       }       
+        }       
     }
 
     /*!
@@ -1372,26 +1374,26 @@ class eZArticle
     */
     function categoryDefinition( )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       $this->dbInit();
+        $this->dbInit();
 
-       $this->Database->array_query( $res, "SELECT CategoryID FROM
+        $this->Database->array_query( $res, "SELECT CategoryID FROM
                                             eZArticle_ArticleCategoryDefinition
                                             WHERE ArticleID='$this->ID'" );
 
-       $category = false;
-       if ( count( $res ) == 1 )
-       {
-           $category = new eZArticleCategory( $res[0]["CategoryID"] );
-       }
-       else
-       {
-           print( "<br><b>Failed to get article category definition for ID $this->ID</b></br>" );
-       }
+        $category = false;
+        if ( count( $res ) == 1 )
+        {
+            $category = new eZArticleCategory( $res[0]["CategoryID"] );
+        }
+        else
+        {
+            print( "<br><b>Failed to get article category definition for ID $this->ID</b></br>" );
+        }
 
-       return $category;
+        return $category;
     }
 
     /*!
@@ -1407,36 +1409,36 @@ class eZArticle
     */
     function &forum()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       $this->dbInit();
+        $this->dbInit();
 
-       $this->Database->array_query( $res, "SELECT ForumID FROM
+        $this->Database->array_query( $res, "SELECT ForumID FROM
                                             eZArticle_ArticleForumLink
                                             WHERE ArticleID='$this->ID'" );
        
-       $forum = false;
-       if ( count( $res ) == 1 )
-       {
-           $forum = new eZForum( $res[0]["ForumID"] );
-       }
-       else
-       {
-           $forum = new eZForum();
-           $forum->setName( addslashes( $this->Name ) );
-           $forum->store();
+        $forum = false;
+        if ( count( $res ) == 1 )
+        {
+            $forum = new eZForum( $res[0]["ForumID"] );
+        }
+        else
+        {
+            $forum = new eZForum();
+            $forum->setName( addslashes( $this->Name ) );
+            $forum->store();
 
-           $forumID = $forum->id();
+            $forumID = $forum->id();
 
-           $this->Database->query( "INSERT INTO eZArticle_ArticleForumLink
+            $this->Database->query( "INSERT INTO eZArticle_ArticleForumLink
                                           SET ArticleID='$this->ID', ForumID='$forumID'" );
 
-           $forum = new eZForum( $forumID );
-       }
+            $forum = new eZForum( $forumID );
+        }
 
 
-       return $forum;
+        return $forum;
     }
 
 
@@ -1470,9 +1472,9 @@ class eZArticle
         $ArticleID = 0;
 
         /* OLD
-        $db->array_query( $result, "SELECT DISTINCT ArticleID FROM
-                                    eZArticle_ArticleForumLink
-                                    WHERE ForumID='$ForumID'" );
+           $db->array_query( $result, "SELECT DISTINCT ArticleID FROM
+           eZArticle_ArticleForumLink
+           WHERE ForumID='$ForumID'" );
         */
 
         $db->array_query( $result, "SELECT ArticleID FROM
@@ -1583,12 +1585,12 @@ class eZArticle
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
         
 /*       $query = "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
-                     C.ID AS CategoryID, C.Name AS CategoryName
-                     FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
-                     eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
-                     WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
-                     A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
-                     GROUP BY A.ID $sort_text $limit_text"; */
+         C.ID AS CategoryID, C.Name AS CategoryName
+         FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
+         eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
+         WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+         A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
+         GROUP BY A.ID $sort_text $limit_text"; */
 
         $query = "SELECT A.ID , A.Name, A.AuthorText as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
                      FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryLink as ACL, eZArticle_ArticlePermission AS P
@@ -1633,11 +1635,11 @@ class eZArticle
 
         
 /* old       $query = "SELECT count( DISTINCT A.ID ) AS Count 
-                     FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
-                     eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
-                     WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
-                     A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID";
-                     */
+   FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
+   eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
+   WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+   A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID";
+*/
 
         $query = "SELECT A.ID AS Count 
                      FROM eZArticle_Article AS A,
