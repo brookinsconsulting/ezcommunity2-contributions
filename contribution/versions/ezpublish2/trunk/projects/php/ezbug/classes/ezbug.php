@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.8 2000/12/09 18:59:02 bf Exp $
+// $Id: ezbug.php,v 1.9 2001/02/04 17:00:03 bf Exp $
 //
 // Definition of eZBug class
 //
@@ -119,6 +119,7 @@ class eZBug
                                  PriorityID='$this->PriorityID',
                                  StatusID='$this->StatusID',
                                  UserEmail='$this->UserEmail',
+                                 Created=now(),
                                  UserID='$this->UserID'" );
             $this->ID = mysql_insert_id();
         }

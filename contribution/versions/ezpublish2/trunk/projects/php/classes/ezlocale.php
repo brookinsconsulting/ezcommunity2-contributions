@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.23 2001/01/23 16:36:10 gl Exp $
+// $Id: ezlocale.php,v 1.24 2001/02/04 17:00:03 bf Exp $
 //
 // Definition of eZLocale class
 //
@@ -277,18 +277,7 @@ class eZLocale
                 settype( $fracts, "integer" );
                 $integerValue =& $valueArray[0];          
 
-                $revInteger =& strrev( $integerValue );                
-                $revInteger =& ereg_replace( "([0-9]{3})", "\\1$this->ThousandsSymbol", $revInteger );
-                $integerValue =& strrev( $revInteger );
-
-                // remove leading .
-                if ( $integerValue[0] == "$this->ThousandsSymbol" )                    
-                    $integerValue = ereg_replace( "^.(.*)", "\\1", $integerValue );
-
-                if ( $fracts < 10 )
-                    $fracts = "0" . $fracts;
-
-                $value = $integerValue . $this->DecimalSymbol . $fracts;
+                $value =& number_format( $integerValue, 2, $this->DecimalSymbol, $this->ThousandsSymbol );
 
                 if ( $obj->isNegative )
                 {

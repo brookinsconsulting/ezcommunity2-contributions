@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.4 2001/01/30 10:15:00 bf Exp $
+// $Id: ezbugmodule.php,v 1.5 2001/02/04 17:00:03 bf Exp $
 //
 // Definition of eZBugModule class
 //
@@ -359,7 +359,7 @@ class eZBugModule
       If $fetchUnhandled is set to true the bugs which is not yet handled are
       also returned.
     */
-    function bugs( $sortMode="time",
+    function &bugs( $sortMode="time",
                        $fetchUnhandled=true,
                        $offset=0,
                        $limit=50 )

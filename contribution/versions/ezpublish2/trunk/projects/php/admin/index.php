@@ -248,6 +248,9 @@ else
 }
 
 
+// close the database connection.
+eZDB::close();
+
 // flush the buffer cache
 ob_end_flush();
 ?>

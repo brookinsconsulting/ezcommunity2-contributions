@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.33 2001/01/26 13:40:47 jb Exp $
+// $Id: ezdb.php,v 1.34 2001/02/04 17:00:03 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -173,6 +173,16 @@ class eZDB
     function insertID()
     {
         return mysql_insert_id();
+    }
+
+    /*!
+      \static
+
+      Closes the database connection.
+    */
+    function close()
+    {
+        mysql_close();
     }
     
 

@@ -13,6 +13,7 @@ ob_start();
 session_start();
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezdb.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
@@ -162,5 +163,9 @@ else
     }
     include( "sitedesign/$siteDesign/loginfooter.php" );
 }
+
+// close the database connection.
+eZDB::close();
+
 ob_end_flush();
 ?>

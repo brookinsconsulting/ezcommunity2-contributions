@@ -283,3 +283,5 @@ CREATE TABLE eZTrade_AttributeValue (
 ### BETA 1- BETA 2
 
 alter table eZTrade_Order add IsExported int not null default 0;    
+
+alter table eZTrade_Order add IsSendt int not null default 1;    
