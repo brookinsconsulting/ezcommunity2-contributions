@@ -13,7 +13,7 @@ Priority=1
 SubGroupSelect=disabled
 TwelveHourSelect=enabled
 MinutesSelectInterval=15
-
+UserComments=enabled
 
 # DayStartTime:           The time that you would like the Calendar to start printing each day.
 #
@@ -31,4 +31,6 @@ MinutesSelectInterval=15
 # TwelveHourSelect:       If enabled U.S 12 hour time is displayed, if disabled 24 time is displayed
 #
 # MinutesSelectInterval:  The interval displayed between minutes in the start and stop time
-                          minutes select of eventedit
+#                         minutes select of eventedit
+#
+# UserComments            The option to enable users to login and create comments on an event
