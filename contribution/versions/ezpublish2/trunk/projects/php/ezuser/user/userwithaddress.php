@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.25 2001/01/23 09:59:39 ce Exp $
+// $Id: userwithaddress.php,v 1.26 2001/01/23 10:16:26 ce Exp $
 //
 // 
 //
@@ -458,7 +458,7 @@ if ( $Action == "New" )
         $t->set_var( "street2_value", "" );
         $t->set_var( "zip_value", "" );
         $t->set_var( "place_value", "" );
-        
+
         $t->parse( "address", "address_tpl" );
     }
 
@@ -472,24 +472,20 @@ if ( $Action == "New" )
         $t->set_var( "country_option", "" );
         foreach ( $countryList as $country )
         {
-            if ( $Action == "Edit" )
+            if ( $Action == "New" )
             {
-                if ( $address )
+                $countryID = $ini->read_var( "eZUserMain", "DefaultCountry" );
+                if ( $country["ID"] == $countryID )
                 {
-                    $countryID = $address->country();
-                
-                    if ( $country["ID"] == $countryID->id() )
-                    {
-                        $t->set_var( "is_selected", "selected" );
-                    }
-                    else
-                        $t->set_var( "is_selected", "" );
+                    $t->set_var( "is_selected", "selected" );
                 }
+                else
+                    $t->set_var( "is_selected", "" );
             }
                         
-            $t->set_var( "country_id", $country["ID"] );
-            $t->set_var( "country_name", $country["Name"] );
-            $t->parse( "country_option", "country_option_tpl", true );
+        $t->set_var( "country_id", $country["ID"] );
+        $t->set_var( "country_name", $country["Name"] );
+        $t->parse( "country_option", "country_option_tpl", true );
         }
         $t->parse( "country", "country_tpl" );
     }
@@ -497,8 +493,8 @@ if ( $Action == "New" )
     {
         $t->set_var( "country", "" );
     }
-    
     $t->set_var( "action_value", "insert" );
+
 }
 
 if ( $Action == "Edit" )
