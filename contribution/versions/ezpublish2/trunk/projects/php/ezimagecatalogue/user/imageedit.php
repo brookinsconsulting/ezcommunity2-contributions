@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.44 2001/09/07 19:05:23 fh Exp $
+// $Id: imageedit.php,v 1.45 2001/09/08 15:17:38 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -359,6 +359,13 @@ if ( $Action == "Update" && $error == false )
 
     $category = new eZImageCategory( $CategoryID );
     $image->setCategoryDefinition( $category );
+    $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
+
+    foreach ( $categories as $categoryItem )
+    {
+        eZImageCategory::addImage( $image, $categoryItem );
+    }
+
     $category->addImage( $image );
     
     if ( $fileOK )
