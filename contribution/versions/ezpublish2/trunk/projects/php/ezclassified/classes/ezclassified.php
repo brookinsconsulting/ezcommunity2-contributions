@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.9 2000/12/12 16:13:57 ce Exp $
+// $Id: ezclassified.php,v 1.10 2000/12/14 16:38:33 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -43,6 +43,7 @@
 //require "ezphputils.php";
 
 include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/classes/ezcategory.php" );
 include_once( "classes/ezdate.php" );
 // include_once( "ezcontact/classes/ezonline.php" );
 
@@ -285,8 +286,10 @@ class eZClassified
         $this->dbInit();    
         $classified_array = array();
         $return_array = array();
-    
-        $this->Datbase->query_array( $classified_array, "SELECT ID FROM eZClassified_Classified WHERE Name LIKE '%$query%' ORDER BY Name" );
+        
+        $query = "SELECT ID FROM eZClassified_Classified WHERE Name LIKE '%%$query%%' ORDER BY Name";
+
+        $this->Database->array_query( $classified_array, $query );
 
         foreach( $classified_array as $classifiedItem )
         {
@@ -364,7 +367,7 @@ class eZClassified
     /*!
       Returns the categories that belong to this eZClassified object.
     */
-    function categories( $companyID )
+    function categories( $itemID )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -372,13 +375,14 @@ class eZClassified
         $return_array = array();
         $this->dbInit();
 
-        $this->Database->array_query( $categories_array, "SELECT CategoryID
+        $query = "SELECT CategoryID
                                                  FROM eZClassified_ClassifiedCategoryLink
-                                                 WHERE ClassifiedID='$companyID'" );
+                                                 WHERE ClassifiedID='$itemID'";
+        $this->Database->array_query( $categories_array, $query );
 
         foreach( $categories_array as $categoriesItem )
         {
-            $return_array[] = new eZClassified( $categoriesItem["CategoryID"] );
+            $return_array[] = new eZCategory( $categoriesItem["CategoryID"] );
         }
 
         return $return_array;
