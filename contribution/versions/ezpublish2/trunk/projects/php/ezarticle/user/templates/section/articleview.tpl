@@ -39,9 +39,11 @@
 </table>
 <!-- END article_header_tpl -->
 
+<!-- BEGIN article_intro_tpl -->
 <p>
 {article_intro}
 </p>
+<!-- END article_intro_tpl -->
 
 <p>
 {article_body}
