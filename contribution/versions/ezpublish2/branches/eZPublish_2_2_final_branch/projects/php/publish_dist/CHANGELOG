@@ -19,6 +19,7 @@ Changes from 2.2.7 to 2.2.8
 * Added indexes in eZStat. This resolves performance problems with cron.php
 * XMLRPC: Made sure the article cache is deleted when an article or article category is deleted.
 * Fixed bug with permissions in filedownload for eZ filemanager.
+* Fixed bug in eZ link. The function id() apeared twice.
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
