@@ -43,7 +43,7 @@
 	</td>
 
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/poll/polledit/edit/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezp{poll_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/poll/polledit/edit/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezp{poll_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="PollArrayID[]" value="{poll_id}">
