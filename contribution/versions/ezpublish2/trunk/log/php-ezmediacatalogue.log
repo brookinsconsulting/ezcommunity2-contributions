@@ -386,3 +386,11 @@ Maintainer(s) : ce@ez.no
 
     * admin/intl/no_NO/mediaedit.php.ini: epost -> e-post
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2003-06-02  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/mediaedit.php: fixed coding standard
+

@@ -626,3 +626,13 @@ Maintainer(s) : ce@ez.no
     Bugfix : You may now add/edit ads in SectionEdit even though you don't have any
     productcategories in eZ trade.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : ce@ez.no
+2003-06-02  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/sectionedit.php:
+    fixed bug with section override templates for articleview
+    fixed typo in variable name
+

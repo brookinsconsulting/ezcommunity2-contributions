@@ -3650,3 +3650,15 @@ Maintainer(s) : bf@ez.no
     * user/articleview.php:
     fixed security bug in articleview with check of $ArticleID
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-06-02  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/headlines.php: fixed cache problems
+
+    * user/articleview.php:
+    fixed bug with section override templates for articleview
+    fixed typo in variable name
+

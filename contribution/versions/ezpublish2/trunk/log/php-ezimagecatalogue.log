@@ -1161,3 +1161,12 @@ Maintainer(s) : br@ez.no
       classes/ezimagecategory.php:
     fixed bugs with upload of images for non-administrators.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2003-06-02  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/imagelist.php:
+    fixed bug with permission when non logged in users had write access
+
