@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.12 2001/03/19 10:00:40 bf Exp $
+// $Id: smallcart.php,v 1.13 2001/03/19 10:07:04 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -126,7 +126,7 @@ foreach ( $items as $item )
         
         if ( !$product->hasPrice() )
         {
-            $min_quantity = 0;
+            $min_quantity = false;
             foreach ( $optionValues as $optionValue )
             {
                 $option =& $optionValue->option();
@@ -138,7 +138,7 @@ foreach ( $items as $item )
                         $min_quantity = $value_quantity;
                     else
                         $min_quantity = min( $min_quantity , $value_quantity );
-                }
+                }                
             }
         }
         
