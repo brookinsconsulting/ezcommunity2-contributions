@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.17 2001/10/11 11:44:30 ce Exp $
+// $Id: ezaddress.php,v 1.18 2001/10/12 14:07:29 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -183,7 +183,7 @@ class eZAddress
     /*!
       Setter  street1.
     */
-    function setID( $id )
+    function setID( $id="" )
     {
         $this->ID = $id;
     }
