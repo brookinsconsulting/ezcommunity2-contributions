@@ -5,9 +5,9 @@
 	    <h1>{intl-headline_list}</h1>
 	</td>
 	<td rowspan="2" align="right">
-	    <form action="/contact/company/search/" method="post">
 	    <table>
-	    <tr>
+	    <form action="/contact/company/search/" method="post">
+		<tr>
 	        <td>
 	    	<input type="text" name="SearchText" size="12" />
 		<input type="submit" value="{intl-search}" />
@@ -17,14 +17,15 @@
 	    <tr>
 	        <td>
 		<input type="checkbox" name="CurrentCategory" checked />
-		<span class="boxtext">{intl-only_current_category}</span><br />
+		<span class="boxtext">{intl-only_current_category}</span>
 	        </td>
 	    </tr>
+		</form>
 	    </table>
-	    </form>
 	</td>
 </tr>
 </table>
+
 <!-- END list_tpl -->
 <!-- BEGIN view_tpl -->
 <h1>{intl-headline_view}</h1>
@@ -125,7 +126,7 @@
 <h2>{intl-companylist_headline}</h2>
 
 <!-- BEGIN no_companies_tpl -->
-	<p class="error">{intl-no_companies_error}</p>
+	<p>{intl-no_companies_error}</p>
 <!-- END no_companies_tpl -->
 
 <!-- BEGIN companies_table_tpl -->

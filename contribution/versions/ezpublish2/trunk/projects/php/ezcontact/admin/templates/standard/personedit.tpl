@@ -62,14 +62,14 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="1%" valign="bottom">
-        <select name="BirthDay">
+    <select name="BirthDay">
 	<!-- BEGIN day_item_tpl -->
 	<option value="{day_id}" {selected}>{day_value}</option>
 	<!-- END day_item_tpl -->
 	</select>
     </td>
     <td width="1%" valign="bottom">
-        <select name="BirthMonth" >
+    <select name="BirthMonth" >
 	<option value="1" {select_january}>{intl-january}</option>
 	<option value="2" {select_february}>{intl-february}</option>
 	<option value="3" {select_march}>{intl-march}</option>
@@ -102,8 +102,8 @@
 <!-- BEGIN address_table_item_tpl -->
 <!-- BEGIN address_item_tpl -->
 <tr>
-	<td>
-	    <p class="boxtext">{intl-address_pos} {address_position}</p>
+	<td colspan="2">
+	    <p class="boxtext">{intl-address_pos}&nbsp;{address_position}:</p>
 	</td>
 </tr>
 <tr>
@@ -119,19 +119,22 @@
 	<span class="boxtext">{intl-delete}</span><br />
         </p>
 	<p class="boxtext">{intl-address}:</p>
-	<input type="text" size="40" name="Street1[]" value="{street1}"/><br>
-	<input type="text" size="40" name="Street2[]" value="{street2}"/>
+	<input type="text" size="40" name="Street1[]" value="{street1}"/><br />
+	<input type="text" size="40" name="Street2[]" value="{street2}"/><br />
+	<br />
 	</td>
 </tr>
 
 <tr>
 	<td width="1%">
         <p class="boxtext">{intl-zip}:</p>
-        <input type="text" size="4" name="Zip[]" value="{zip}"/>
+        <input type="text" size="4" name="Zip[]" value="{zip}"/><br />
+		<br />
 	</td>
 	<td>
         <p class="boxtext">{intl-place}:</p>
-        <input type="text" size="20" name="Place[]" value="{place}"/>
+        <input type="text" size="20" name="Place[]" value="{place}"/><br />
+		<br />
 	</td>
 </tr>
 <tr>
@@ -148,21 +151,20 @@
 <!-- END address_table_item_tpl -->
 </table>
 
-<h2>{intl-telephone_headline}</h2><br />
+<h2>{intl-telephone_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN phone_table_item_tpl -->
 <tr>
     <!-- BEGIN phone_item_tpl -->
     <td>
-	<p class="boxtext">{intl-phone_pos} {phone_position}</p>
-	<p><select name="PhoneTypeID[]">
+	<p class="boxtext">{intl-phone_pos}&nbsp;{phone_position}:</p>
+	<select name="PhoneTypeID[]">
 	    <option value="-1">{intl-unknown_type}</option>
 	    <!-- BEGIN phone_item_select_tpl -->
 	    <option value="{type_id}" {selected}>{type_name}</option>
 	    <!-- END phone_item_select_tpl -->
 
 	    </select>
-        </p>
         <input type="text" size="20" name="Phone[]" value="{phone_number}"/>
         <input type="hidden" name="PhoneID[]" value="{phone_id}" /><br />
 	<input type="checkbox" name="PhoneDelete[]" value="{phone_index}"/>
@@ -173,21 +175,20 @@
 <!-- END phone_table_item_tpl -->
 </table>
 
-<h2>{intl-online_headline}</h2><br />
+<h2>{intl-online_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN online_table_item_tpl -->
 <tr>
     <!-- BEGIN online_item_tpl -->
     <td>
-	<p class="boxtext">{intl-online_pos} {online_position}</p>
-	<p><select name="OnlineTypeID[]">
+	<p class="boxtext">{intl-online_pos}&nbsp;{online_position}:</p>
+	<select name="OnlineTypeID[]">
 	    <option value="-1">{intl-unknown_type}</option>
 	    <!-- BEGIN online_item_select_tpl -->
 	    <option value="{type_id}" {selected}>{type_name}</option>
 	    <!-- END online_item_select_tpl -->
 
 	    </select>
-        </p>
         <input type="text" size="20" name="Online[]" value="{online_value}"/>
         <input type="hidden" name="OnlineID[]" value="{online_id}"><br />
 	<input type="checkbox" name="OnlineDelete[]" value="{online_index}"/>
@@ -200,7 +201,7 @@
 
 <!-- BEGIN project_item_tpl -->
 <h2>{intl-project_headline}</h2>
-<table width="100%" cellpadding="0" cellspacing="5" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
 	    <td width="1%" valign="top" rowspan="2">
 	            <p class="boxtext">{intl-contact}:</p>
@@ -218,7 +219,7 @@
 		    <!-- BEGIN contact_group_item_select_tpl -->
 		    <option value="{type_id}" {selected}>{type_name}</option>
 		    <!-- END contact_group_item_select_tpl -->
-		    </select>
+		    </select><br />
 		    <input type="text" name="UserSearch" value="{user_search}">
 		    <input type="submit" name="RefreshUsers" value="{intl-refresh}">
 	    </td>
@@ -251,17 +252,20 @@
 	<td>
 	<input class="stdbutton" type="submit" name="NewAddress" value="{intl-new_address}">
 	</td>
+	<td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="NewPhone" value="{intl-new_phone}">
 	</td>
+	<td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="NewOnline" value="{intl-new_online}">
 	</td>
-	<td>
-	<input class="stdbutton" type="submit" name="DeleteMarked" value="{intl-delete_marked}">
-	</td>
 </tr>
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="DeleteMarked" value="{intl-delete_marked}">
 
 <!-- END edit_tpl -->
 
@@ -281,9 +285,9 @@
 <hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
-<input class="stdbutton" type="submit" name="Back" value="{intl-back}">
+<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 <!-- BEGIN delete_item_tpl -->
-<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" />
+
 <!-- END delete_item_tpl -->
 
 </form>

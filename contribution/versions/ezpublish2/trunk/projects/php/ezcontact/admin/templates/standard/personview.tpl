@@ -1,34 +1,3 @@
-<SCRIPT LANGUAGE="JavaScript1.2">
-<!--//
-
-	function MM_swapImgRestore()
-	{
-		var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
-	}
-
-	function MM_preloadImages() 
-	{
-		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
-		var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
-		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
-	}
-
-	function MM_findObj(n, d) 
-	{
-		var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-		d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-		if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-		for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
-	}
-
-	function MM_swapImage() 
-	{
-		var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
-		if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
-	}
-	
-//-->
-</SCRIPT> 
 <table width="100%" border="0">
 <tr>
         <td valign="bottom">
@@ -44,6 +13,8 @@
 </table>
 
 <hr noshade="noshade" size="4" />
+
+<br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -120,8 +91,8 @@
 <p>{intl-error_no_onlines}</p>
 <!-- END no_online_item_tpl -->
 
-<h2>{intl-description_headline}</h2>
-<p>{description}</p>
+<p class="boxtext">{intl-description_headline}:</p>
+<div class="p">{description}</div>
 <br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -129,20 +100,20 @@
 	<td width="50%">
 	<p class="boxtext">{intl-contact_person}:</p>
 	<!-- BEGIN contact_person_tpl -->
-	<p>{contact_lastname}, {contact_firstname}</p>
+	{contact_lastname}, {contact_firstname}
 	<!-- END contact_person_tpl -->
 	<!-- BEGIN no_contact_person_tpl -->
-	<p>{intl-no_contact_person}</p>
+	{intl-no_contact_person}
 	<!-- END no_contact_person_tpl -->
 	</td>
 
 	<td width="50%">
 	<p class="boxtext">{intl-project_status}:</p>
 	<!-- BEGIN project_status_tpl -->
-	<p>{project_status}</p>
+	{project_status}
 	<!-- END project_status_tpl -->
 	<!-- BEGIN no_project_status_tpl -->
-	<p>{intl-no_project_status}</p>
+	{intl-no_project_status}
 	<!-- END no_project_status_tpl -->
 	</td>
 </tr>
@@ -172,11 +143,11 @@
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>	
 
 </tr>
@@ -185,16 +156,20 @@
 
 <!-- END consultation_table_item_tpl -->
 
-<hr noshade="noshade" size="4" />
-<br />
 
 <form method="post" action="/contact/person/edit/{person_id}/">
 
+<hr noshade="noshade" size="4" />
+
+<!-- BEGIN consultation_buttons_tpl -->
+<input class="stdbutton" type="submit" name="ListConsultation" value="{intl-consultation_list}">
+<input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
+<hr noshade="noshade" size="4" />
+<!-- END consultation_buttons_tpl -->
+
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
+<!--
 <input type="submit" name="Delete" value="{intl-delete}" />
 <input type="submit" name="Back" value="{intl-list}">
-<!-- BEGIN consultation_buttons_tpl -->
-<input type="submit" name="ListConsultation" value="{intl-consultation_list}">
-<input type="submit" name="NewConsultation" value="{intl-consultation}">
-<!-- END consultation_buttons_tpl -->
+-->
 </form>
