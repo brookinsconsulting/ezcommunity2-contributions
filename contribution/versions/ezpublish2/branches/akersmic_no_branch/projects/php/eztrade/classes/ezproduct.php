@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.11 2002/01/18 12:30:34 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.12 2002/01/18 13:43:41 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1600,6 +1600,10 @@ class eZProduct
         $musicType = $params["MusicType"];
         $searchType = $params["SearchType"];
         $albumTitle = $params["AlbumTitle"];
+        $artist = $params["Artist"];
+
+        $dvdTitle = $params["DVDTitle"];
+        $dvdArtist = $params["$DVDArtist"];
 
         if ( !is_numeric( $productTypeID ) )
             $productTypeID = 0;
@@ -1641,7 +1645,7 @@ class eZProduct
         {
             $queryArray = explode( " ", trim( $queryText ) );
 
-            $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int )" );
+            $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float )" );
 
             $count = 1;
             foreach ( $queryArray as $queryWord )
@@ -1667,18 +1671,44 @@ class eZProduct
                             $albumSQL = " AND eZTrade_Product.Name LIKE '%$albumTitle%' ";
                         }
 
+                        if ( $artist != "" )
+                        {
+                            $artistSQL = "AND (  eZTrade_AttributeValue.AttributeID='1'
+                                              AND  eZTrade_AttributeValue.Value LIKE '%$artist%' ) ";
 
-                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
+                        }
+                        
+
+                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
                  FROM eZTrade_Product
                       $attributeValueTables
                  WHERE
                          eZTrade_Product.TypeID='1'
                          $attributeSQL
                          $albumSQL
+                         $artistSQL
                        ORDER BY $OrderBy";
                         
                     }break;
 
+                    case "AdvancedDVD" :
+                    {
+                        $OrderBy = "eZTrade_Product.Name DESC";
+
+                        if ( $dvdTitle != "" )
+                        {
+                            $dvdSQL = " AND eZTrade_Product.Name LIKE '%$albumTitle%' ";
+                        }
+
+                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
+                 FROM eZTrade_Product
+                 WHERE
+                         eZTrade_Product.TypeID='2'
+                         $dvdSQL
+                       ORDER BY $OrderBy";
+                        
+                    }break;
+                    
                     default:
                     {
                      
@@ -1695,7 +1725,7 @@ class eZProduct
                             $typeSQL = "";
                         }
 
-                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
+                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
                       eZTrade_Word
@@ -1714,8 +1744,6 @@ class eZProduct
 
                 $db->query( $queryString );
 
-                print( $queryString );
-
                 // check if this is a stop word
 //                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
 //                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
@@ -1725,7 +1753,7 @@ class eZProduct
             }
             $count -= 1;
 
-            $queryString = "SELECT ProductID, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
+            $queryString = "SELECT ProductID, Name, Price, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
             
             $db->array_query( $product_array, $queryString );
 
@@ -1733,13 +1761,17 @@ class eZProduct
 
             $SearchTotalCount = count( $product_array );
             if ( $limit >= 0 )
-                $product_array =& array_slice( $product_array, $offset, $limit );            
+                $product_array =& array_slice( $product_array, $offset, $limit );
+
+            $return_array =& $product_array;
         }
 
+        /*
         for ( $i=0; $i < count($product_array); $i++ )
         {
             $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName("ProductID")], false );
         }
+        */
        
         return $return_array;
     }

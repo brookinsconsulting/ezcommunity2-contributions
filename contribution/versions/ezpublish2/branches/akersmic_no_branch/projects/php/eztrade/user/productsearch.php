@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.4 2002/01/18 12:30:35 bf Exp $
+// $Id: productsearch.php,v 1.20.8.5 2002/01/18 13:43:41 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -99,7 +99,11 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) )
     $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
                                                                       "SearchType" => $SearchType,
                                                                       "MusicType" => $MusicType,
-                                                                      "AlbumTitle" => $AlbumTitle
+                                                                      "AlbumTitle" => $AlbumTitle,
+                                                                      "Artist" => $Artist,
+                                                                      "DVDTitle" => $DVDTitle,
+                                                                      "DVDActor" => $DVDActor,
+                                                                      
                                                                       ), $total_count );
 } 
 
@@ -116,12 +120,28 @@ if ( ( $MaxSearchForProducts != 0 ) && ( $MaxSearchForProducts < $total_count ) 
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "product", "" );
+$db =& eZDB::globalDatabase();
 if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
 {
     foreach ( $productList as $product )
     {
-        // preview image
-        $thumbnailImage = $product->thumbnailImage();
+        // get thumbnail image, if exists
+        $thumbnailImage = false;
+        $db->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
+                                     WHERE
+                                     ProductID='" . $product["ProductID"] . "'
+                                   " );
+
+        if ( count( $res_array ) == 1 )
+        {
+           if ( is_numeric( $res_array[0][$db->fieldName( "ThumbnailImageID" )] ) )
+           {
+               $thumbnailImage = new eZImage( $res_array[0][$db->fieldName( "ThumbnailImageID" )], false );
+           }
+        }
+
+        
+        
         if ( $thumbnailImage )
         {
             $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
@@ -138,17 +158,15 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
             $t->set_var( "image", "" );    
         }
 
-        $t->set_var( "product_name", $product->name() );
+        $t->set_var( "product_name", $product["Name"] );        
+        $t->set_var( "product_price", number_format( $product["Price"], 2, ",", " " ) );
+        
+//        $t->set_var( "product_intro_text", $product->brief() );
+        $t->set_var( "product_intro_text", "" );
+        $t->set_var( "product_id", $product["ProductID"] );
 
-        
-        $t->set_var( "product_price", number_format( $product->price(), 2, ",", " " ) );
-        
-        
-        $t->set_var( "product_intro_text", $product->brief() );
-        $t->set_var( "product_id", $product->id() );
-
-        $defCat = $product->categoryDefinition();
-        $t->set_var( "category_id", $defCat->id() );
+//        $defCat = $product->categoryDefinition();
+//        $t->set_var( "category_id", $defCat->id() );
 
         if ( ( $i % 2 ) == 0 )
         {
