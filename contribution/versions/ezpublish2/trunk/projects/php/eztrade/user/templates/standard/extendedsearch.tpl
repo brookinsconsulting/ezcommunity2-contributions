@@ -3,12 +3,6 @@
     <td align="left" valign="bottom">
         <h1>{intl-head_line}</h1>
      </td>
-     <td align="right">
-	 <form action="/{module}/search/" method="post">
-	       <input type="text" name="Query">
-	       <input type="submit" name="search" value="{intl-search_button}">
-         </form>
-     </td>
 </tr>
 </table>
 
@@ -57,7 +51,7 @@
 </tr>
 <tr>
         <td>
-	<input type="submit" name="Search" value="{intl-search}" />
+	<input type="submit" name="SearchButton" value="{intl-search}" />
 	</td>
 </tr>
 </table>
