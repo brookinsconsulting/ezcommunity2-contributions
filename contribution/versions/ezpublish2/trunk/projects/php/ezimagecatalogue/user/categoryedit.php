@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.12 2001/03/02 14:17:01 th Exp $
+// $Id: categoryedit.php,v 1.13 2001/03/05 10:08:32 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -44,7 +44,7 @@ if ( isSet ( $Cancel ) )
 
 $user = eZUser::currentUser();
 
-if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
+if ( !$user )
 {
     eZHTTPTool::header( "Location: /error/403/" );
     exit();

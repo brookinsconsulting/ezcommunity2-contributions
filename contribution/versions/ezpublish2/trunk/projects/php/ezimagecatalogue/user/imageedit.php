@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.15 2001/03/01 14:06:25 jb Exp $
+// $Id: imageedit.php,v 1.16 2001/03/05 10:08:32 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -33,7 +33,7 @@ $user = eZUser::currentUser();
 $CurrentCategoryID = eZHTTPTool::getVar( "CategoryID" );
 $CategoryID = eZHTTPTool::getVar( "CategoryID" );
 
-if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
+if ( !$user )
 {
     eZHTTPTool::header( "Location: /error/403/" );
     exit();

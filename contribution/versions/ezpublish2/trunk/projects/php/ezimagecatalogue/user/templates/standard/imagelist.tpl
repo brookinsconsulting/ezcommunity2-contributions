@@ -96,11 +96,8 @@
 <!-- END image_list_tpl -->
 
 <!-- BEGIN write_menu_tpl -->
-
 <!-- BEGIN default_delete_tpl -->
-
 <hr noshade="noshade" size="4" />
-
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 
@@ -121,6 +118,7 @@
 </table>
 <!-- END default_delete_tpl -->
 
+<!-- BEGIN default_new_tpl -->
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
@@ -134,7 +132,7 @@
 	</td>
 </tr>
 </table>
-
+<!-- END default_new_tpl -->
 <!-- END write_menu_tpl -->
 </form>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.24 2001/03/02 10:07:38 ce Exp $
+// $Id: filelist.php,v 1.25 2001/03/05 10:08:32 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -129,7 +129,7 @@ foreach ( $folderList as $folderItem )
         $t->parse( "folder_read", "folder_read_tpl" );
     }
 
-    if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) )
+    if ( ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) ) && $user )
     {
         $t->parse( "folder_write", "folder_write_tpl" );
     }
@@ -183,7 +183,7 @@ foreach ( $fileList as $file )
         $t->set_var( "read", "" );
     }
     
-    if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) )
+    if ( ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) ) && $user )
     {
         $t->parse( "write", "write_tpl" );
     }

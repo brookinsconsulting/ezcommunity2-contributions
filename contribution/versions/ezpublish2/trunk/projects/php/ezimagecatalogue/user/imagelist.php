@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.16 2001/03/01 19:32:21 pkej Exp $
+// $Id: imagelist.php,v 1.17 2001/03/05 10:08:32 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -83,8 +83,12 @@ $t->set_block( "image_list_page_tpl", "normal_view_button", "normal_button" );
 $t->set_block( "image_list_page_tpl", "detail_view_button", "detail_button" );
 
 $t->set_block( "image_list_page_tpl", "write_menu_tpl", "write_menu" );
-$t->set_block( "write_menu_tpl", "delete_categories_button_tpl", "delete_categories_button" );
-$t->set_block( "write_menu_tpl", "delete_images_button_tpl", "delete_images_button" );
+
+$t->set_block( "write_menu_tpl", "default_new_tpl", "default_new" );
+$t->set_block( "write_menu_tpl", "default_delete_tpl", "default_delete" );
+
+$t->set_block( "default_delete_tpl", "delete_categories_button_tpl", "delete_categories_button" );
+$t->set_block( "default_delete_tpl", "delete_images_button_tpl", "delete_images_button" );
 
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "image_list_tpl", "detail_view_tpl", "detail_view" );
@@ -104,6 +108,10 @@ $t->set_block( "category_tpl", "category_read_tpl", "category_read" );
 $t->set_var( "read", "" );
 $t->set_var( "write_menu", "" );
 
+$t->set_var( "delete_images_button" , "" );
+$t->set_var( "delete_categories_button" , "" );
+$t->set_var( "default_new" , "" );
+$t->set_var( "default_delete" , "" );
 
 $category = new eZImageCategory( $CategoryID );
 
@@ -167,9 +175,12 @@ foreach ( $categoryList as $categoryItem )
     }
 
     // Check if user have write permission
-    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) )
+    if ( ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ) && $user )
     {
         $t->parse( "category_write", "category_write_tpl" );
+        $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
+        $t->parse( "default_delete", "default_delete_tpl" );
+        $t->parse( "write_menu", "write_menu_tpl" );
     }
 
     $t->parse( "category", "category_tpl", true );
@@ -259,11 +270,16 @@ foreach ( $imageList as $image )
     }
 
     // Check if user have write permission
-    if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) )
+    if ( ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) && $user )
     {
         if ( isSet ( $DetailView ) )
         {
+            $deleteImage = true;
             $t->parse( "detail_write", "detail_write_tpl" );
+
+            $t->parse( "delete_images_button", "delete_images_button_tpl" );
+            $t->parse( "default_delete", "default_delete_tpl" );
+            $t->parse( "write_menu", "write_menu_tpl" );
         }
         else
         {
@@ -300,18 +316,9 @@ foreach ( $imageList as $image )
 // Print out the category/image menu
 if ( $category->id() != 0 )
 {
-    if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "w", $user ) )
+    if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "w", $user ) && $user )
     {
-        if ( count ( $imageList ) > 0 && $DetailView )
-            $t->parse( "delete_images_button", "delete_images_button_tpl" );
-        else
-            $t->set_var( "delete_images_button", "" );
-
-        if ( count ( $categoryList ) > 0 && $DetailView )
-            $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
-        else
-            $t->set_var( "delete_categories_button", "" );
-        
+        $t->parse( "default_new", "default_new_tpl" );
         $t->parse( "write_menu", "write_menu_tpl" );
     }
 }
@@ -319,16 +326,7 @@ else
 {
     if ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) )
     {
-        if ( count ( $imageList ) > 0 && $DetailView )
-            $t->parse( "delete_images_button", "delete_images_button_tpl" );
-        else
-            $t->set_var( "delete_images_button", "" );
-
-        if ( count ( $categoryList ) > 0  && $DetailView )
-            $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
-        else
-            $t->set_var( "delete_categories_button", "" );
-
+        $t->parse( "default_new", "default_new_tpl" );
         $t->parse( "write_menu", "write_menu_tpl" );
     }
 }
