@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.4 2001/03/29 20:32:21 fh Exp $
+// $Id: ezmailfilterrule.php,v 1.5 2001/03/30 11:11:56 fh Exp $
 //
 // eZMailFilterRule class
 //
@@ -96,7 +96,7 @@ class eZMailFilterRule
         if( $id == -1 )
             $id = $this->ID;
         
-        $db->query( "DELETE FROM eZMail_MailFilter WHERE ID='$id'" );
+        $db->query( "DELETE FROM eZMail_FilterRule WHERE ID='$id'" );
         return true;
     }
 
