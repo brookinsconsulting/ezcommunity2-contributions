@@ -15,6 +15,7 @@
 <!-- END element_choice_tpl -->
     <option value="-1" {goto_selected}>{intl-go_to_page}</option>
 </select>
+<input type="hidden" name="prevElement" value="{prev_element}" />
 <br />
 <br />
 <!-- BEGIN fixed_value_list_tpl -->

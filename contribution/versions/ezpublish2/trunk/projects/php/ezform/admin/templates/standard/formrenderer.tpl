@@ -55,7 +55,6 @@
 <!-- END numerical_integer_item_tpl -->
 
 <!-- BEGIN text_block_item_tpl -->
-{header_line}
 <div>{text_block}</div>
 <!-- END text_block_item_tpl -->
 

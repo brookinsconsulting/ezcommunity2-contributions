@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.27 2001/12/21 14:41:36 jhe Exp $
+// $Id: pageedit.php,v 1.28 2001/12/21 17:43:30 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -255,11 +255,17 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
             $table->store();
         }
     }
-    
+
+    if ( $prevElement != $ElementChoiceID[0] )
+    {
+        unset( $TextFieldFrom );
+        unset( $TextFieldTo );
+        unset( $ElementRange );
+        
+    }
     
     
 // store the page jumps.
-
     // if $ElementChoiceID[0] == -1, the choice is go to table
     if ( $ElementChoiceID[0] == -1 )
     {
@@ -357,18 +363,22 @@ if ( $page->numberOfElements() == 0 )
 }
 
 
+$elements = $page->pageElements();
+$count = $page->numberOfElements();
 
 
-if ( is_Numeric( $ElementChoiceID[0] ) && $ElementChoiceID[0] != 0 )
-{
-    $elementChoiceID = $ElementChoiceID[0];
-}
-else if ( isSet( $PageID ) && is_Array( $ElementChoiceID ) )
+if ( isSet( $PageID ) && is_Array( $ElementChoiceID ) )
 {
     foreach ( $elements as $element )
     {
         $element->removeCondition();
     }
+}
+
+
+if ( is_Numeric( $ElementChoiceID[0] ) && $ElementChoiceID[0] != 0 )
+{
+    $elementChoiceID = $ElementChoiceID[0];
 }
 else if ( isSet( $PageID ) )
 {
@@ -564,6 +574,8 @@ if ( $element )
     
     if ( count( $elements ) > 0 )
     {
+        $t->set_var( "prev_element", $elementChoiceID );
+        $t->set_var( "goto_selected", "" );
         foreach ( $elements as $pageElement )
         {
             $elementType = $pageElement->elementType();
@@ -611,14 +623,14 @@ if ( $element )
         if ( count( $pages ) > 0 )
         {
             
-            $check = $FixedPage_to_page;
-                    
+            $check = $FixedPage_1[0];
+            
             if ( !$check )
             {
                 $check = $element->getConditionMaxByPage( -1000, 1000 );
             }
             $t->set_var( "fixed_value_id", 1 );
-            
+
             foreach ( $pages as $pageValue )
             {
                 if ( $page->id() != $pageValue->id() )
@@ -652,7 +664,7 @@ if ( $element )
             $name = $elementType->name();
         else
             $name =  $elementType;
-        
+
         if ( $elementType && $elementType->name() == "text_field_item" )
         {
             if ( count( $TextFieldFrom ) <= 0 )
@@ -668,7 +680,7 @@ if ( $element )
 
             }
         
-            $i=0;
+            $i = 0;
             if ( count( $ElementRange ) == 0 )
                 $ElementRange = array( 1 );
             
