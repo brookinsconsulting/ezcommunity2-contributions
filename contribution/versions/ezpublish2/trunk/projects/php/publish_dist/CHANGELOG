@@ -5,6 +5,8 @@ Changes from version 1.0.3
 --------------------------
 * Fixed max one "RE:" in reply of messages in forum.
 * Fixed so that the forum code runs under the latest version of PHP
+* Fixed so that users can change their password
+* Fixed so that admin can read forum messages.
 
 Changes from version 1.0.2
 --------------------------
