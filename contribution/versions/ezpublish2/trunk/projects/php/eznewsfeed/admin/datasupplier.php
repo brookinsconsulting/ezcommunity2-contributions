@@ -32,6 +32,11 @@ switch ( $url_array[2] )
         {
             $Action = "Edit";
         }
+        if ( $url_array[3]  == "insert" )
+        {
+            $Action = "Insert";
+        }
+
         if ( $url_array[3]  == "update" )
         {
             $Action = "Update";

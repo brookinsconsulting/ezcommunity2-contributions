@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.2 2000/12/06 12:48:36 ce-cvs Exp $
+// $Id: sourcesiteedit.php,v 1.3 2000/12/06 14:56:04 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -51,22 +51,21 @@ if ( $Action == "Insert" )
 
     if ( $SourceSiteIsActive == "on" )
     {
-        $sourcesite->setIsActive( true );
+        $sourcesite->setIsActive( "true" );
     }
     else
     {
-        $sourcesite->setIsActive( false  );
+        $sourcesite->setIsActive( "false" );
     }
 
     $sourcesite->store();
 
-    Header( "Location: /newsfeed/archive/$CategoryID/" );
+    Header( "Location: /newsfeed/importnews/" );
     exit();
 }
 
 if ( $Action == "Update" )
 {
-    print( "ohman" );
     $sourcesite = new eZSourceSite( $SourceSiteID );
     
     $sourcesite->setName( $SourceSiteName );
@@ -77,18 +76,19 @@ if ( $Action == "Update" )
     $sourcesite->setCategory( $category );
     $sourcesite->setDecoder( $SourceSiteDecoder );
 
+
     if ( $SourceSiteIsActive == "on" )
     {
-        $sourcesite->setIsActive( true );
+        $sourcesite->setIsActive( "true" );
     }
     else
     {
-        $sourcesite->setIsActive( false  );
+        $sourcesite->setIsActive( "false" );
     }
 
     $sourcesite->store();
 
-    Header( "Location: /newsfeed/archive/$CategoryID/" );
+    Header( "Location: /newsfeed/importnews/" );
     exit();
 }
 
@@ -97,7 +97,7 @@ if ( $Action == "Delete" )
     $sourcesite = new eZSourceSite( $SourceSiteID );
     $sourcesite->delete();
 
-    Header( "Location: /newsfeed/archive/$CategoryID/" );
+    Header( "Location: /newsfeed/importnews/" );
     exit();
 
 }
@@ -123,7 +123,7 @@ if ( $Action == "New" )
     $t->set_var( "source_site_login_value", "" );
     $t->set_var( "source_site_password_value", "" );
     $t->set_var( "source_site_decoder_value", "" );
-    $t->set_var( "action_value", "Insert" );    
+    $t->set_var( "action_value", "insert" );    
 }
 
 
@@ -141,6 +141,7 @@ if ( $Action == "Edit" )
     $t->set_var( "action_value", "update" );
 
     $category = $sourcesite->category();
+    $categoryID = $category->id();
 
     if ( $sourcesite->isActive() == true )
     {
@@ -148,9 +149,8 @@ if ( $Action == "Edit" )
     }
     else
     {
-        $t->set_var( "source_site_isactive", "" );
-    }
-  
+        $t->set_var( "source_site_isactive_value", "" );
+    }  
 }
 
 // category select
@@ -161,8 +161,9 @@ foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-        if ( $category->ID() == $catItem->id() )
+        if ( $categoryID == $catItem->id() )
         {
+            print( "yep" );
             $t->set_var( "selected", "selected" );
         }
         else

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.2 2000/12/06 12:48:36 ce-cvs Exp $
+// $Id: ezsourcesite.php,v 1.3 2000/12/06 14:56:05 ce-cvs Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -91,6 +91,7 @@ class eZSourceSite
                                  Login='$this->Login',
                                  Password='$this->Password',
                                  CategoryID='$this->CategoryID',
+                                 IsActive='$this->IsActive',
                                  Decoder='$this->Decoder'
                                  " );
 
@@ -108,7 +109,8 @@ class eZSourceSite
                                  Login='$this->Login',
                                  Password='$this->Password',
                                  CategoryID='$this->CategoryID',
-                                 Decoder='$this->Decoder'
+                                 Decoder='$this->Decoder',
+                                 IsActive='$this->IsActive'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -277,7 +279,7 @@ class eZSourceSite
             $this->get( $this->ID );
 
        $ret = false;
-       if ( $this->isActive == "true" )
+       if ( $this->IsActive == "true" )
            $ret = true;
 
        return $ret;
@@ -361,6 +363,7 @@ class eZSourceSite
             $this->get( $this->ID );
 
        $this->IsActive = $value;
+
     }
     
     

@@ -20,7 +20,7 @@
 <input type="text" size="40" name="SourceSiteDecoder" value="{source_site_decoder_value}" />
 
 <p class="boxtext">{intl-source_site_isactive}:</p>
-<input type="checkbox" name="SourceSiteIsActive" {source_site_isactive_value} />
+<input {source_site_isactive_value} type="checkbox" name="SourceSiteIsActive" />
 
 
 <p class="boxtext">{intl-source_site_category}:</p>
