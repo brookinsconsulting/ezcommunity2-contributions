@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.2 2001/03/01 14:06:26 jb Exp $
+// $Id: viewwishlist.php,v 1.3 2001/03/09 11:39:12 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -210,7 +210,9 @@ foreach ( $items as $item )
         $value =& $optionValue->optionValue();
 
         $t->set_var( "option_name", $option->name() );
-        $t->set_var( "option_value", $value->name() );
+        /* *** FIX THIS!!!!! *** */
+//          $t->set_var( "option_value", $value->name() );
+        $t->set_var( "option_value", "" );
 
         $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
     }
