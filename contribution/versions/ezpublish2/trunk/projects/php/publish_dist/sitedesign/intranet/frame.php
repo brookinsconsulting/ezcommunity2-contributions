@@ -136,6 +136,7 @@ else
    	<!-- Left menu start -->
 
 	<?
+    $CategoryID=0;
 	include( "ezarticle/user/menubox.php" );
 	?>
 
