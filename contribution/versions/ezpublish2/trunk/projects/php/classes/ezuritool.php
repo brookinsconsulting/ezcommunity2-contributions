@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuritool.php,v 1.4 2001/01/22 14:42:59 jb Exp $
+// $Id: ezuritool.php,v 1.5 2001/01/25 17:15:27 jb Exp $
 //
 // Definition of eZURITool class
 //
@@ -79,7 +79,7 @@ class eZURITool
 
     function &decode( &$text )
     {
-        $text = str_replace( "%20", " ", $text );
+        $text = preg_replace( "/%([0-9a-fA-F]{2})/", "".chr(hexdec('\\1'))."", $text );
         return $text;
     }
 
@@ -91,7 +91,8 @@ class eZURITool
 
     function &encode( &$text )
     {
-        $text = str_replace( " ", "%20", $text );
+        $text = preg_replace( '/\\\\"/', '"', $text );
+        $text = preg_replace( "/([ \"'&%])/", "%".bin2hex('\\1')."", $text );
         return $text;
     }
 }
