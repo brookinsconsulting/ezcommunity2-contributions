@@ -22,6 +22,9 @@
 <hr noshade="noshade" size="4" />
 <br />
 <!-- END form_start_tag_tpl -->
+<!-- BEGIN form_instructions_tpl -->
+<a href="{form_instruction_page}">{intl-instructions}</a>
+<!-- END form_instructions_tpl -->
 <input type="hidden" name="formID" value="{form_id}" />
 <input type="hidden" name="mailSubject" value="{form_name}" />
 <input type="hidden" name="redirectTo" value="{form_completed_page}" />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: formedit.php,v 1.1 2001/06/15 08:18:03 pkej Exp $
+// $Id: formedit.php,v 1.2 2001/06/15 15:03:59 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <12-Jun-2001 13:07:24 pkej>
@@ -293,6 +293,8 @@ if( $form->numberOfElements() == 0 )
         $elementB->setName( $name );
         $elementA->setElementType( $elementTypeA );
         $elementB->setElementType( $elementTypeB );
+        $elementA->setRequired( true );
+        $elementB->setRequired( true );
         $elementA->store();
         $elementB->store();
         $form->addElement( $elementA );
