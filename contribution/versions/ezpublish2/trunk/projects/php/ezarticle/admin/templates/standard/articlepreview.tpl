@@ -6,7 +6,7 @@
 <tr>
 	<td>
 	<h2>{article_name}</h2> 
-	<p class="byline">{intl-written_by} {author_text}</p>
+	<p class="byline">{intl-article_author}: {author_text}</p>
 
 
 	<p>
@@ -26,7 +26,7 @@
 
 
 <!-- BEGIN prev_page_link_tpl -->
-<a class="path" href="/article/articlepreview/{article_id}/{prev_page_number}/">{intl-prev_page}</a>
+<a class="path" href="/article/articlepreview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
 
 <!-- BEGIN page_link_tpl -->
@@ -34,7 +34,7 @@
 <!-- END page_link_tpl -->
 
 <!-- BEGIN next_page_link_tpl -->
-| <a class="path" href="/article/articlepreview/{article_id}/{next_page_number}/">{intl-next_page}</a>
+| <a class="path" href="/article/articlepreview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
 <!-- END next_page_link_tpl -->
 
 <br />

@@ -3,10 +3,10 @@
 </tr>
 <tr> 
     <td class="repeaty" background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
-    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/userlist/">User liste</a><br>
-    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/grouplist/">Group list</a><br>
-    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/useredit/new/">New user</a><br>
-    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/groupedit/new/">New group</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/userlist/">Brukeroversikt</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/grouplist/">Gruppeoversikt</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/useredit/new/">Ny bruker</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/groupedit/new/">Ny gruppe</a><br>
 	</td>
 </tr>
 <tr>

@@ -1,6 +1,6 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-
 <form method="post" action="/user/login/login/">
+
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td class="menuhead" bgcolor="#c82828">{intl-head_line}</td>
 </tr>
@@ -24,8 +24,6 @@
 <tr>
 	<td class="menuspacer">&nbsp;</td>
 </tr>
-</form>
-
 <tr>
 	<td class="menutext">
 	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/forgot/">{intl-forgot}</a>
@@ -40,4 +38,6 @@
 	<td class="menuspacer">&nbsp;</td>
 </tr>
 </table>
+
+</form>
 
