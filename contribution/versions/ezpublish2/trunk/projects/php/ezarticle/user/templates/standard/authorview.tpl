@@ -1,12 +1,11 @@
 <h1>{intl-author_info}</h1>
 <hr noshade="noshade" size="4" />
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	{intl-author_name}:
-	</td>
-	<td>
+	<p class="boxtext">{intl-author_name}:</p>
 	<a href="mailto:{author_mail}">{author_firstname} {author_lastname}</a>
 	</td>
 </tr>

@@ -16,7 +16,7 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/path-arrow.gif" height="10" width="12" border="0">
 
 <a class="path" href="/link/group/0/">{intl-top}</a>
 
@@ -24,7 +24,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/images/path-slash.gif" height="10" width="16" border="0">
 
 <a class="path" href="/link/group/{group_id}/">{group_name}</a>
 

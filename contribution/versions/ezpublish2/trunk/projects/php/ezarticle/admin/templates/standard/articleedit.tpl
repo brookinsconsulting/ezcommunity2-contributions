@@ -26,42 +26,54 @@
 <p class="boxtext">{intl-article_author}:</p>
 <input type="text" name="AuthorText" size="40" value="{author_text}" />
 
-<p class="boxtext">{intl-category}:</p>
+<br /><br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
 
-<select name="CategoryID">
+	<p class="boxtext">{intl-category}:</p>
+	
+	<select name="CategoryID">
+	
+	<!-- BEGIN value_tpl -->
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<!-- END value_tpl -->
+	
+	</select>
+	
+	<br />
+	<p class="boxtext">{intl-additional_category}:</p>
+	
+	<select multiple name="CategoryArray[]">
+	
+	<!-- BEGIN multiple_value_tpl -->
+	<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
+	<!-- END multiple_value_tpl -->
+	
+	</select>
 
-<!-- BEGIN value_tpl -->
-<option value="{option_value}" {selected}>{option_level}{option_name}</option>
-<!-- END value_tpl -->
+	</td>
+	<td align="top">
 
-</select>
-
-<br />
-<p class="boxtext">{intl-additional_category}:</p>
-
-<select multiple name="CategoryArray[]">
-
-<!-- BEGIN multiple_value_tpl -->
-<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
-<!-- END multiple_value_tpl -->
-
-</select>
-
-<p class="boxtext">{intl-owner_group}:</p>
-<select name="OwnerGroupID">
-<option value="0">{intl-none}</option>
-<!-- BEGIN category_owner_tpl -->
-<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
-<!-- END category_owner_tpl -->
-</select>
-
-<p class="boxtext">{intl-groups}:</p>
-<select name="GroupArray[]" multiple size="7">
-<option value="0" {all_selected}>{intl-all}</option>
-<!-- BEGIN group_item_tpl -->
-<option value="{group_id}" {selected}>{group_name}</option>
-<!-- END group_item_tpl -->
-</select>
+	<p class="boxtext">{intl-owner_group}:</p>
+	<select name="OwnerGroupID">
+	<option value="0">{intl-none}</option>
+	<!-- BEGIN category_owner_tpl -->
+	<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
+	<!-- END category_owner_tpl -->
+	</select>
+	
+	<p class="boxtext">{intl-groups}:</p>
+	<select name="GroupArray[]" multiple>
+	<option value="0" {all_selected}>{intl-all}</option>
+	<!-- BEGIN group_item_tpl -->
+	<option value="{group_id}" {selected}>{group_name}</option>
+	<!-- END group_item_tpl -->
+	</select>
+	
+	</td>
+</tr>
+</table>
 
 <p class="boxtext">{intl-intro}:</p>
 <textarea name="Contents[]" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>

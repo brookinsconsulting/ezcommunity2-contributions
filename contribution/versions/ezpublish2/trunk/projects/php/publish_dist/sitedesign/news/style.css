@@ -1,20 +1,18 @@
-body 
+/* Standard eZ publish stylesheet */
+
+body, div, span, p, .p, h1, h2, .listheadline, .listproducts, h3, a, td ,th, select, input, textarea, credit
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
 }
 
-p 
+body, p, .p, a, h3, .path, th, td, .check
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
 	font-size: 13px;
 	color: #000000;
 }
 
 h1 
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-weight: bold;
 	font-size: 24px;
 	color: #000000;
@@ -22,9 +20,8 @@ h1
 	text-decoration : none;
 }
 
-h2 
+h2, .listheadline, .listproducts
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-weight: bold;
 	font-size: 18px;
 	color: #000000;
@@ -33,63 +30,31 @@ h2
 	text-decoration : none;
 }
 
-.newslistheadline 
+h2, .listheadline
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 18px;
-	color: #000000;
-	margin-top: 16px;
-	margin-bottom: 8px;	
 	text-decoration : none;
 }
 
-h3 
+.listproducts 
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 13px;
-	color: #000000;
-	text-decoration : none;
-}
-
-a 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;		
-	color : #000000;
 	text-decoration : underline;
 }
 
-.small
+.listheadline, .listproducts 
 {
-	font-size: 10px;
-	font-weight: normal;
+	margin-top: 8px;
 }
 
-.smallbold 
+h3, .path
 {
-	font-size: 10px;
 	font-weight: bold;
+	text-decoration : none;
 }
 
-.menu 
+a:hover 
 {
-	font-size: 11px;
-	font-weight: normal;
-	text-decoration: none;
-}
-
-.menubold 
-{
-	font-size: 11px;
-	font-weight: bold;
-}
-
-.menutext 
-{
-	font-size: 11px;
-	margin-bottom: 4px;
+	color: #404040;
+	text-decoration: underline;
 }
 
 .menuhead
@@ -101,27 +66,63 @@ a
 	text-align: center;
 }
 
+.menu, .menutext, menubold, .pictext, .credit
+{
+	font-size: 11px;
+}
+
+.menu 
+{
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.menutext 
+{
+	margin-bottom: 4px;
+}
+
+.menubold 
+{
+	font-weight: bold;
+}
+
 .menuspacer
 {
 	font-size: 2px;
 }
 
-.path 
+.spacer
 {
-	font-size: 13px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-.byline 
-{
-	font-style: italic;
+	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 .boxtext 
 {
 	font-weight: bold;
 	margin-bottom: 4px;
+}
+
+.small, .smallbold
+{
+	font-size: 10px;
+}
+
+.smallbold 
+{
+	font-weight: bold;
+}
+
+.check 
+{
+	margin-bottom: 8px;
+}
+
+.checkhead
+{
+	font-weight: bold;
+	margin-bottom: 16px;
 }
 
 .list
@@ -133,19 +134,25 @@ a
 
 th 
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 13px;
 	font-weight: bold;
-	color: #000000;
 	text-align: left;
 }
 
-td 
+.tdmini
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 13px;
-	color: #000000;
+	font-size: 1px;
+}
 
+.byline, .pictext
+{
+	font-style: italic;
+}
+
+.pris
+{
+	font-weight: bold;
+	padding-top: 8px;
+	padding-bottom: 12px;
 }
 
 .bglight 
@@ -174,28 +181,9 @@ td
 	background-color: #787878;
 }
 
-.linkselect
+hr
 {
-	color: #ffffff;
-}
-
-.linknormal
-{
-	color: #000000;
-}
-
-select 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
-}
-
-input 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
+	color: #808080;
 }
 
 .stdbutton 
@@ -210,13 +198,6 @@ input
 	font-weight: bold;
 }
 
-textarea 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
-}
-
 .error
 {
 	font-size: 14;
@@ -224,30 +205,4 @@ textarea
     color: #f07800;
 }
 
-hr
-{
-	color: #777777;
-}
-
-a:hover 
-{
-	color: #404040;
-	text-decoration: underline;
-}
-
-.pictext 
-{
-	font-size: 11px;
-	font-style: italic;
-}
-
-.credit
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 11px;
-}
-
-.pris
-{
-	font-weight: bold;
-}
+/* Hellstrøm 23.02.2001 */

@@ -1,127 +1,101 @@
-body 
+/* Standard eZ publish stylesheet + admin styles*/
+
+body, div, span, p, .p, h1, h2, .listheadline, .listproducts, h3, a, td ,th, select, input, textarea, credit
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
 }
 
-p 
+body, p, .p, a, h3, .path, th, td, .check
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
 	font-size: 13px;
 	color: #000000;
 }
 
 h1 
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-weight: bold;
 	font-size: 24px;
 	color: #000000;
 	margin-bottom: 8px;
+	text-decoration : none;
 }
 
-h2 
+h2, .listheadline, .listproducts
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-weight: bold;
 	font-size: 18px;
 	color: #000000;
 	margin-top: 16px;
 	margin-bottom: 8px;	
+	text-decoration : none;
 }
 
-h3 
+h2, .listheadline
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	text-decoration : none;
+}
+
+.listproducts 
+{
+	text-decoration : underline;
+}
+
+.listheadline, .listproducts 
+{
+	margin-top: 8px;
+}
+
+h3, .path
+{
 	font-weight: bold;
-	font-size: 13px;
-	color: #000000;
+	text-decoration : none;
 }
 
-a 
+a:hover 
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;		
-	color : #000000;
-}
-
-a:hover
-{
+	color: #404040;
 	text-decoration: underline;
 }
 
-.p
+.menuhead
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
-}
-
-.small 
-{
-	font-size: 10px;
-}
-
-.smallbold 
-{
-	font-size: 10px;
-	font-weight: bold;
-}
-
-.top
-{
-	color: #000000;
-	font-size: 11px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-.topusername
-{
-	color: #000000;
-	font-size: 11px;
-	font-weight: normal;
-}
-
-.topmenu
-{
+	background: #777777;
+	font-size: 18px;
 	color: #ffffff;
+	font-weight: normal;
+	text-align: center;
+}
+
+.menu, .menutext, menubold, .pictext, .credit
+{
 	font-size: 11px;
-	font-weight: bold;
-	text-decoration: none;
 }
 
 .menu 
 {
-	font-size: 11px;
 	font-weight: normal;
 	text-decoration: none;
 }
 
-.modulename
+.menutext 
 {
-	font-size: 20px;
-	line-height: 20px;
-	font-weight: normal;
+	margin-bottom: 4px;
 }
 
-.path 
+.menubold 
 {
-	font-size: 13px;
 	font-weight: bold;
-	text-decoration: none;
 }
 
-.byline 
+.menuspacer
 {
-	font-style: italic;
+	font-size: 2px;
 }
 
-.pictext 
+.spacer
 {
-	font-size: 10px;
-	font-style: italic;
+	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 .boxtext 
@@ -130,11 +104,18 @@ a:hover
 	margin-bottom: 4px;
 }
 
+.small, .smallbold
+{
+	font-size: 10px;
+}
+
+.smallbold 
+{
+	font-weight: bold;
+}
+
 .check 
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 13px;
-	color: #000000;
 	margin-bottom: 8px;
 }
 
@@ -153,19 +134,8 @@ a:hover
 
 th 
 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 13px;
 	font-weight: bold;
-	color: #000000;
 	text-align: left;
-}
-
-td 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 13px;
-	color: #000000;
-	background-repeat: no-repeat;
 }
 
 .tdmini
@@ -173,16 +143,16 @@ td
 	font-size: 1px;
 }
 
-.repeatx
+.byline, .pictext
 {
-	background-repeat: repeat-x;
-	font-size: 1px;
+	font-style: italic;
 }
 
-.repeaty
+.pris
 {
-	background-repeat: repeat-y;
-	font-size: 1px;
+	font-weight: bold;
+	padding-top: 8px;
+	padding-bottom: 12px;
 }
 
 .bglight 
@@ -195,41 +165,25 @@ td
 	background-color: #dcdcdc;
 }
 
+.bgcurrent
+{
+	background-color: #f07800;
+}
+
+.bgweekend
+{
+	background-color: #a0a0a0;
+}
+
 .bgselect
 {
 	color: #ffffff;
 	background-color: #787878;
 }
 
-.linkselect
+hr
 {
-	color: #ffffff;
-}
-
-.linknormal
-{
-	color: #000000;
-}
-
-select 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
-}
-
-input 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
-}
-
-textarea 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 13px;
-	color: #000000;
+	color: #808080;
 }
 
 .stdbutton 
@@ -244,11 +198,6 @@ textarea
 	font-weight: bold;
 }
 
-.pris
-{
-	font-weight: bold;
-}
-
 .error
 {
 	font-size: 14;
@@ -256,9 +205,42 @@ textarea
     color: #f07800;
 }
 
-hr
+/* Special admin styles */
+
+.top, .topusername
 {
-	color: #808080;
+	color: #000000;
+	font-size: 11px;
 }
 
+.top
+{
+	font-weight: bold;
+	text-decoration: none;
+}
 
+.topusername
+{
+	font-weight: normal;
+}
+
+.modulename
+{
+	font-size: 20px;
+	line-height: 20px;
+	font-weight: normal;
+}
+
+.repeatx
+{
+	background-repeat: repeat-x;
+	font-size: 1px;
+}
+
+.repeaty
+{
+	background-repeat: repeat-y;
+	font-size: 1px;
+}
+
+/* Hellstrøm 23.02.2001 */
