@@ -987,3 +987,13 @@ Maintainer(s) : jhe@ez.no
 
     * user/messageedit.php: fixed problem with cr in start/stop of a message
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-01-24  Baard Farstad  <bf@ez.no>
+
+    * user/messageedit.php
+      user/messagesimplelist.php
+      user/userlogin.php: Fixed messages appended to products.
+

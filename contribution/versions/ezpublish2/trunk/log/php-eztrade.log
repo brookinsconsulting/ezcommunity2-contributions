@@ -2912,3 +2912,21 @@ Maintainer(s) : ce@ez.no
 
     * user/cart.php: *** empty log message ***
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-24  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproductcategory.php
+      user/productlist.php: Optimized product list.
+
+    * classes/ezproduct.php: Fixed search.
+
+    * user/cart.php
+      user/customerlogin.php
+      user/productlist.php: Fixed redirecting.
+
+    * user/cart.php
+      user/checkout.php: Fixed checkout redirecting.
+

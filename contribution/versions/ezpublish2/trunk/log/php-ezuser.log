@@ -964,3 +964,11 @@ Maintainer(s) : bf@ez.no
 
     * user/userwithaddress.php: Fixed new user creation.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-24  Baard Farstad  <bf@ez.no>
+
+    * user/login.php: Fixed redirects.
+

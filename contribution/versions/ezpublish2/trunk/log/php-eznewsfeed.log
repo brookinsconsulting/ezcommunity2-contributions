@@ -335,3 +335,34 @@ Maintainer(s) : vl@ez.no
 
     * classes/ezrssimporter.php: Added updates to the rssimporter.
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/pt_PT/headlines.php.ini
+      user/intl/pt_PT/newslist.php.ini
+      user/intl/pt_PT/search.php.ini
+      admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/importnews.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/newsarchive.php.ini
+      admin/intl/pt_PT/newsedit.php.ini
+      admin/intl/pt_PT/newssearch.php.ini
+      admin/intl/pt_PT/sourcesiteedit.php.ini
+      admin/intl/pt_PT/unpublished.php.ini
+      user/intl/pt_PT/allcategories.php.ini
+      user/intl/pt_PT/menubox.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2002-01-24  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezrdfimporter.php
+      classes/ezrssimporter.php
+      classes/ezbackslashimporter.php:
+    fixed bugs with fopen, and emty objects from ezxml.
+

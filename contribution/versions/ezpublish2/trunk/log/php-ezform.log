@@ -1151,3 +1151,25 @@ Maintainer(s) : pkej@ez.no
 
     * admin/formreportlist.php: fixed bug in listing
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-24  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformreportelement.php: fixed bug with graph
+
+    * classes/ezformelement.php
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php
+      user/intl/en_GB/viewreport.php.ini
+      user/intl/no_NO/viewreport.php.ini
+      user/templates/standard/viewreport.tpl
+      user/viewreport.php: added filtering og reports
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: removed empty lines when hide
+
+    * classes/ezformreportelement.php:
+    fixed problem with ascii 160 in database
+
