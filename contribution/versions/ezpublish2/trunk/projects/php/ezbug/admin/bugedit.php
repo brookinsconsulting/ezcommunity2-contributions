@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.51 2001/10/16 13:45:22 jhe Exp $
+// $Id: bugedit.php,v 1.52 2001/10/31 07:25:55 jhe Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -591,9 +591,9 @@ $t->pparse( "output", "bug_edit_tpl" );
 function sendAssignedMail( $bug, $userEmail, $ini, $Language )
 {
     $module = $bug->module();
-    $user = $bug->user();
-    if ( is_object( $user ) )
-        $reporter = $user->namedEmail();
+    $bugUser = $bug->user();
+    if ( is_object( $bugUser ) )
+        $reporter = $bugUser->namedEmail();
     else
         $reporter = $bug->userEmail();
 

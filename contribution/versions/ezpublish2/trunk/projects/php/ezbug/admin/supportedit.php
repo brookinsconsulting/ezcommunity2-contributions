@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: supportedit.php,v 1.1 2001/10/29 14:13:02 jhe Exp $
+// $Id: supportedit.php,v 1.2 2001/10/31 07:25:56 jhe Exp $
 //
 // Created on: <29-Oct-2001 14:40:06 jhe>
 //
@@ -117,6 +117,12 @@ switch ( $Action )
     case "update":
     {
         $supportUser = new eZBugSupport( $id );
+    }
+    break;
+
+    case "insert":
+    {
+        $supportUser = new eZBugSupport();
     }
     break;
 }

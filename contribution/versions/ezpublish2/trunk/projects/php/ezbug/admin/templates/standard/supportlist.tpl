@@ -2,11 +2,15 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
+        <th>{intl-id}:</th>
 	<th>{intl-name}:</th>
 	<th>{intl-expiry_date}:</th>
 </tr>
 <!-- BEGIN support_block_tpl -->
 <tr>
+    <td class={td_class}>
+        {support_id}
+    </td>
     <td class={td_class}>
 	{support_name}
     </td>

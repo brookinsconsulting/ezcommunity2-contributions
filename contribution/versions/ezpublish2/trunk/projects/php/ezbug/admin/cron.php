@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.2 2001/10/27 10:53:18 jhe Exp $
+// $Id: cron.php,v 1.3 2001/10/31 07:25:55 jhe Exp $
 //
 // Created on: <26-Oct-2001 15:57:39 jhe>
 //
@@ -26,6 +26,7 @@ include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezbug/classes/ezbug.php" );
 include_once( "ezbug/classes/ezbuglog.php" );
+include_once( "ezbug/classes/ezbugsupport.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
 
@@ -59,11 +60,11 @@ foreach ( $mailArray as $mail )
     $subject = $mail->subject();
     if ( $ini->read_var( "eZBugMain", "RequireSupportNo" ) == "true" )
     {
-        if ( ereg( "![B]#([0-9]+)", $subject, $list ) )
+        if ( ereg( " #([0-9]+)", $subject, $list ) )
         {
             $support = new eZBugSupport( $list[1] );
-            if ( $support->expiryDate() >= eZDateTime::timeStamp( true ) &&
-                 $support->userEmail() == $mail->from() )
+            if ( $support->expiryDate() >= eZDateTime::timeStamp( true ) ) //&&
+//                 $support->userEmail() == $mail->from() )
             {
                 $validUser = true;
             }
@@ -73,7 +74,7 @@ foreach ( $mailArray as $mail )
     {
         $validUser = true;
     }
-
+    
     $confmail = new eZMail();
     $confmail->setTo( $mail->replyTo() );
     $confmail->setFrom( $MailReplyTo );
@@ -96,12 +97,13 @@ foreach ( $mailArray as $mail )
                         $body .= $line . "\n";
                     }
                 }
-
+                
                 $log->setDescription( $body );
                 $log->setBug( $bug );
                 $log->store();
                 $makebug = false;
                 $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
+                $t->set_var( "bug_id", $bug->id() );
                 $mailSubject = $mail->subject();
                 $mailBody = $t->parse( "dummy", "reply_body_tpl" );
             }
@@ -114,10 +116,13 @@ foreach ( $mailArray as $mail )
             $bug->setName( $mail->subject() );
             $bug->setDescription( $mail->body() );
             $bug->setIsHandled( false );
+//            $bug->setUserEmail( $mail->from() );
+            $bug->setUserEmail( "jhe@ez.no" );
             $bug->store();
             $t->set_var( "prefix", "" );
             $t->set_var( "bug_id", $bug->ID() );
             $t->set_var( "subject", $mail->subject() );
+            $t->set_var( "bug_id", $bug->id() );
             $mailSubject = $t->parse( "dummy", "subject_tpl" );
             $mailBody = $t->parse( "dummy", "mail_body_tpl" );
         }
@@ -127,13 +132,13 @@ foreach ( $mailArray as $mail )
         $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
         $t->set_var( "subject", $mail->subject() );
         $mailSubject = $t->parse( "dummy", "refuse_subject_tpl" );
-        $mailBody = $t->parse( "dummy", "refuse_body_tpl" );
+        $mailBody = $t->parse( "dummy", "refuse_mail_body_tpl" );
     }
     
     $confmail->setSubject( $mailSubject );
     $confmail->setBody( $mailBody );
     $confmail->send();
-
+    
     $mail->delete();
 }
 
