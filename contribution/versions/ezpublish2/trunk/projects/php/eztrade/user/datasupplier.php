@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.49 2001/09/24 10:19:16 ce Exp $
+// $Id: datasupplier.php,v 1.50 2001/10/01 16:14:59 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -44,7 +44,8 @@ if ( !$ShowPrice )
     $PriceGroup = -1;
 
 $ini =& INIFile::globalINI();
-$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+$GlobalSectionID = $ini->read_var( "eZTradeMain", "DefaultSection" );
+
 
 $user =& eZUser::currentUser();
 if ( $user )
