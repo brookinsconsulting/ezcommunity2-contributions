@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.11 2000/10/03 16:47:19 bf-cvs Exp $
+    $Id: categorylist.php,v 1.12 2000/10/11 14:27:11 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,21 +11,17 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
-
+$ini = new INIFile( "site.ini" );
 
 include_once( "classes/template.inc" );
 include_once( "classes/ezdb.php" );
-include_once( "$DOC_ROOT/classes/ezforumcategory.php" );
+include_once( "ezforum/classes/ezforumcategory.php" );
 
 $t = new Template( "." );
-$t->set_file( Array( "list" => "$DOC_ROOT/templates/categorylist.tpl",
-                     "elements" => "$DOC_ROOT/templates/categorylist-elements.tpl"
-                     )
-              );
 
-$t->set_var( "docroot", $DOC_ROOT);
+$t->set_file( Array( "categorylist_tpl" => "ezforum/templates/categorylist.tpl" ) );
+
+$t->set_block( "categorylist_tpl", "category_tpl", "category" );
 
 $category = new eZForumCategory();
 $categories = $category->getAllCategories();
@@ -35,7 +31,7 @@ for ( $i = 0; $i < count( $categories ); $i++ )
     $t->set_var("id", $categories[$i]["Id"] );
     $t->set_var("name", $categories[$i]["Name"] );
 
-    $t->parse( "categories", "elements", true);
+    $t->parse( "category", "category_tpl", true);
 }
-$t->pparse( "output", "list" );
+$t->pparse( "output", "categorylist_tpl" );
 ?>
