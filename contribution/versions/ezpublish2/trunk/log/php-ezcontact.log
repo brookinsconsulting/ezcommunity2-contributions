@@ -514,3 +514,23 @@ Maintainer(s) : jhe@ez.no
       admin/intl/en_GB/menubox.php.ini
       admin/intl/en_GB/personedit.php.ini: en_GB fixxes
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/companytype.php.ini
+      admin/intl/de_DE/companyview.php.ini
+      admin/intl/de_DE/consultationdetaillist.php.ini
+      admin/intl/de_DE/consultationedit.php.ini
+      admin/intl/de_DE/consultationlist.php.ini
+      admin/intl/de_DE/consultationmail.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/personedit.php.ini
+      admin/intl/de_DE/personview.php.ini
+      user/intl/de_DE/companysearch.php.ini
+      user/intl/de_DE/personsearch.php.ini
+      user/intl/de_DE/search.php.ini
+      user/intl/de_DE/urlsupplier.php.ini: de_DE update for 2.2.1
+

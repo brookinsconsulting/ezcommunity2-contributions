@@ -103,3 +103,11 @@ Maintainer(s) : vl@ez.no
 
     * admin/intl/en_GB/menubox.php.ini: en_GB fixxes
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/menubox.php.ini: de_DE update for 2.2.1
+

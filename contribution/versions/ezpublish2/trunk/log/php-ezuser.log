@@ -573,3 +573,24 @@ Maintainer(s) : bf@ez.no
       admin/userlist.php:
     fixed bug with bglight/bgdark in authorlist, fixed coding standard errors
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/authorlist.php.ini
+      admin/intl/de_DE/groupedit.php.ini
+      admin/intl/de_DE/grouplist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/useredit.php.ini
+      admin/intl/de_DE/userlist.php.ini
+      admin/intl/de_DE/welcome.php.ini
+      user/intl/de_DE/forgot.php.ini
+      user/intl/de_DE/forgotmessage.php.ini
+      user/intl/de_DE/missingemailmessage.php.ini
+      user/intl/de_DE/norights.php.ini
+      user/intl/de_DE/userbox.php.ini
+      user/intl/de_DE/useredit.php.ini
+      user/intl/de_DE/userwithaddress.php.ini: de_DE update for 2.2.1
+

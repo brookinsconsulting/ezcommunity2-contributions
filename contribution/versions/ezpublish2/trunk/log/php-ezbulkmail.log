@@ -392,3 +392,29 @@ Maintainer(s) : fh@ez.no
       user/intl/en_GB/subscriptionmail.php.ini
       user/intl/en_GB/usermessages.php.ini: en_GB fixxes
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/categorylist.php.ini
+      admin/intl/de_DE/mailedit.php.ini
+      admin/intl/de_DE/maillist.php.ini
+      admin/intl/de_DE/mailview.php.ini
+      admin/intl/de_DE/masssubscribe.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/sendmail.php.ini
+      admin/intl/de_DE/templateedit.php.ini
+      admin/intl/de_DE/templatelist.php.ini
+      admin/intl/de_DE/userlist.php.ini
+      user/intl/de_DE/bulklist.php.ini
+      user/intl/de_DE/categoryedit.php.ini
+      user/intl/de_DE/mailview.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/subscriptionlist.php.ini
+      user/intl/de_DE/subscriptionlogin.php.ini
+      user/intl/de_DE/subscriptionmail.php.ini
+      user/intl/de_DE/usermessages.php.ini: de_DE update for 2.2.1
+

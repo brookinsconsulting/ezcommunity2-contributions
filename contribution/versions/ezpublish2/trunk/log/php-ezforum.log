@@ -663,3 +663,24 @@ Maintainer(s) : jhe@ez.no
       user/intl/en_GB/messagelist.php.ini
       user/intl/en_GB/noaccess.php.ini: en_GB fixxes
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/forumedit.php.ini
+      admin/intl/de_DE/messagelist.php.ini
+      admin/intl/de_DE/search.php.ini
+      admin/intl/de_DE/unapprovedlist.php.ini
+      user/intl/de_DE/forumlist.php.ini
+      user/intl/de_DE/latestmessages.php.ini
+      user/intl/de_DE/mailreply.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/message.php.ini
+      user/intl/de_DE/messagelist.php.ini
+      user/intl/de_DE/noaccess.php.ini
+      user/intl/de_DE/search.php.ini
+      user/intl/de_DE/userlogin.php.ini: de_DE update for 2.2.1
+

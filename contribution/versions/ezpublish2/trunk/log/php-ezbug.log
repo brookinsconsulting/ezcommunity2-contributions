@@ -366,3 +366,43 @@ Maintainer(s) : vl@ez.no
       user/intl/en_GB/search.php.ini
       admin/intl/en_GB/supportlist.php.ini: en_GB fixxes
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/bugedit.php.ini
+      admin/intl/de_DE/confirmationmail.php.ini
+      admin/intl/de_DE/mailgotbug.php.ini
+      admin/intl/de_DE/mailreply.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/modulelist.php.ini
+      user/intl/de_DE/buglist.php.ini
+      user/intl/de_DE/bugreport.php.ini
+      user/intl/de_DE/bugview.php.ini
+      user/intl/de_DE/fileedit.php.ini
+      user/intl/de_DE/mailnewbug.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/reportsuccess.php.ini
+      user/intl/de_DE/search.php.ini: de_DE update for 2.2.1
+
+2001-11-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/bugedit.php
+      admin/cron.php
+      admin/datasupplier.php
+      admin/intl/en_GB/confirmationmail.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/supportcategoryedit.php.ini
+      admin/intl/en_GB/supportcategorylist.php.ini
+      admin/menubox.php
+      admin/supportcategorydelete.php
+      admin/supportcategoryedit.php
+      admin/supportcategorylist.php
+      admin/supportlist.php
+      admin/templates/standard/supportcategoryedit.tpl
+      admin/templates/standard/supportcategorylist.tpl
+      classes/ezbugsupport.php
+      classes/ezbugsupportcategory.php: much improved support system
+

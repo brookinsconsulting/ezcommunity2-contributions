@@ -355,3 +355,16 @@ Maintainer(s) : bf@ez.no
 
     * ezmediafile.php: Fixed bugs in media catalogue
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/linkselect.php.ini: de_DE update for 2.2.1
+
+2001-11-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * ezdb.php: updated table for support
+    improved ezdb::finish method
+

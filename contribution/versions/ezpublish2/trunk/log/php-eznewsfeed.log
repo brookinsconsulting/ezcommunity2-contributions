@@ -164,3 +164,17 @@ Maintainer(s) : vl@ez.no
     * sql/postgresql/Attic/eznewfeed.sql
       sql/postgresql/eznewsfeed.sql: renamed file
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/importnews.php.ini
+      admin/intl/de_DE/newsedit.php.ini
+      admin/intl/de_DE/sourcesiteedit.php.ini
+      admin/intl/de_DE/unpublished.php.ini
+      user/intl/de_DE/allcategories.php.ini
+      user/intl/de_DE/headlines.php.ini: de_DE update for 2.2.1
+

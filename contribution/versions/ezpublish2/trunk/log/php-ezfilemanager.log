@@ -457,3 +457,29 @@ Maintainer(s) : jhe@ez.no
 
     * user/fileupload.php: fixed download problem with ie on mac
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-06  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/browse.php.ini: Added translation.
+
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/unassigned.php.ini
+      user/intl/de_DE/filelist.php.ini
+      user/intl/de_DE/fileupload.php.ini
+      user/intl/de_DE/fileview.php.ini
+      user/intl/de_DE/folderedit.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/search.php.ini
+      admin/intl/de_DE/browse.php.ini
+      admin/intl/de_DE/menubox.php.ini: de_DE update for 2.2.1
+
+2001-11-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/fileupload.php: added extension if omitted
+
+    * user/fileupload.php: appends extension if omitted
+

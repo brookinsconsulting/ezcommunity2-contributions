@@ -378,3 +378,26 @@ Maintainer(s) : br@ez.no
       user/intl/en_GB/onepagelinklist.php.ini
       user/intl/en_GB/suggestlink.php.ini: en_GB fixxes
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/attributeedit.php.ini
+      admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/categorylist.php.ini
+      admin/intl/de_DE/linkcategorylist.php.ini
+      admin/intl/de_DE/linkedit.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/search.php.ini
+      admin/intl/de_DE/typeedit.php.ini
+      admin/intl/de_DE/typelist.php.ini
+      admin/intl/de_DE/unacceptedlist.php.ini
+      user/intl/de_DE/categorylist.php.ini
+      user/intl/de_DE/linkcategorylist.php.ini
+      user/intl/de_DE/linklist.php.ini
+      user/intl/de_DE/onepagelinklist.php.ini
+      user/intl/de_DE/search.php.ini
+      user/intl/de_DE/suggestlink.php.ini: de_DE update for 2.2.1
+

@@ -235,3 +235,16 @@ Maintainer(s) : br@ez.no
       admin/intl/en_GB/requestpagelist.php.ini
       admin/intl/en_GB/visitorlist.php.ini: en_GB fixxes
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/browserlist.php.ini
+      admin/intl/de_DE/pageviewlist.php.ini
+      admin/intl/de_DE/refererlist.php.ini
+      admin/intl/de_DE/requestpagelist.php.ini
+      admin/intl/de_DE/visitorlist.php.ini
+      admin/intl/de_DE/yearreport.php.ini: de_DE update for 2.2.1
+

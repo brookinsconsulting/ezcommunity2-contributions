@@ -88,3 +88,14 @@ Maintainer(s) : bf@ez.no
       admin/intl/en_GB/messagelist.php.ini
       admin/intl/en_GB/messageview.php.ini: en_GB fixxes
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/messageedit.php.ini
+      admin/intl/de_DE/messagelist.php.ini
+      admin/intl/de_DE/messageview.php.ini: de_DE update for 2.2.1
+

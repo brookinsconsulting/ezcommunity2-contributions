@@ -635,3 +635,23 @@ Maintainer(s) : br@ez.no
     * admin/imageedit.php
       user/imageedit.php: fixed bug with permissions
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/browse.php.ini
+      admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/imageedit.php.ini
+      admin/intl/de_DE/imagelist.php.ini
+      admin/intl/de_DE/imageview.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/unassigned.php.ini
+      user/intl/de_DE/categoryedit.php.ini
+      user/intl/de_DE/imageedit.php.ini
+      user/intl/de_DE/imagelist.php.ini
+      user/intl/de_DE/imageview.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/slideshow.php.ini: de_DE update for 2.2.1
+

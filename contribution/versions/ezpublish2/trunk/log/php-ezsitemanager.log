@@ -395,3 +395,22 @@ Maintainer(s) : vl@ez.no
       admin/intl/en_GB/siteconfig.php.ini
       admin/intl/en_GB/templateedit.php.ini: en_GB fixxes
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/cacheadmin.php.ini
+      admin/intl/de_DE/fileedit.php.ini
+      admin/intl/de_DE/filelist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/menuedit.php.ini
+      admin/intl/de_DE/menulist.php.ini
+      admin/intl/de_DE/sectionedit.php.ini
+      admin/intl/de_DE/sectionlist.php.ini
+      admin/intl/de_DE/siteconfig.php.ini
+      admin/intl/de_DE/sqlquery.php.ini
+      admin/intl/de_DE/templateedit.php.ini
+      admin/intl/de_DE/templatelist.php.ini: de_DE update for 2.2.1
+

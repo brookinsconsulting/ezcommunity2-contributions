@@ -1930,3 +1930,63 @@ Maintainer(s) : bf@ez.no
       user/intl/en_GB/ratingmail.php.ini
       admin/intl/en_GB/ratinglist.php.ini: en_GB fixxes
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/articleedit.php.ini
+      admin/intl/de_DE/articlelist.php.ini
+      admin/intl/de_DE/articlelog.php.ini
+      admin/intl/de_DE/articlepreview.php.ini
+      admin/intl/de_DE/attribute.php.ini
+      admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/fileedit.php.ini
+      admin/intl/de_DE/filelist.php.ini
+      admin/intl/de_DE/formlist.php.ini
+      admin/intl/de_DE/imageedit.php.ini
+      admin/intl/de_DE/imagemap.php.ini
+      admin/intl/de_DE/mediaedit.php.ini
+      admin/intl/de_DE/medialist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/pendinglist.php.ini
+      admin/intl/de_DE/pendingmail.php.ini
+      admin/intl/de_DE/ratinglist.php.ini
+      admin/intl/de_DE/search.php.ini
+      admin/intl/de_DE/searchform.php.ini
+      admin/intl/de_DE/topiclist.php.ini
+      admin/intl/de_DE/typeedit.php.ini
+      admin/intl/de_DE/typelist.php.ini
+      admin/intl/de_DE/unpublishedlist.php.ini
+      user/intl/de_DE/articleedit.php.ini
+      user/intl/de_DE/articleheaderlist.php.ini
+      user/intl/de_DE/articlelinks.php.ini
+      user/intl/de_DE/articlelist.php.ini
+      user/intl/de_DE/articlerate.php.ini
+      user/intl/de_DE/articleview.php.ini
+      user/intl/de_DE/authorlist.php.ini
+      user/intl/de_DE/authorview.php.ini
+      user/intl/de_DE/fileedit.php.ini
+      user/intl/de_DE/filelist.php.ini
+      user/intl/de_DE/frontpage.php.ini
+      user/intl/de_DE/headlines.php.ini
+      user/intl/de_DE/imageedit.php.ini
+      user/intl/de_DE/imagelist.php.ini
+      user/intl/de_DE/mailtofriend.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/newsgroup.php.ini
+      user/intl/de_DE/ratingmail.php.ini
+      user/intl/de_DE/search.php.ini
+      user/intl/de_DE/searchform.php.ini
+      user/intl/de_DE/sendmailtofriend.php.ini
+      user/intl/de_DE/sitemap.php.ini
+      user/intl/de_DE/topiclist.php.ini
+      user/intl/de_DE/urlsupplier.php.ini: de_DE update for 2.2.1
+
+2001-11-06  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/tex.tpl
+      admin/export.php
+      admin/menubox.php: Added LaTeX export.
+

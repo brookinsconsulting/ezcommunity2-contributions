@@ -95,3 +95,16 @@ Maintainer(s) : pkej@ez.no
 
     * user/quizlist.php: fixed small bug
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/gameedit.php.ini
+      admin/intl/de_DE/gamelist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/questionedit.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/quiz.php.ini: de_DE update for 2.2.1
+

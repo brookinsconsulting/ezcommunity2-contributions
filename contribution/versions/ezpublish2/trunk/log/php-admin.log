@@ -173,3 +173,16 @@ Maintainer(s) : bf@ez.no
 
     * intl/en_GB/header.php.ini: en_GB fixxes
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-11-06  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * intl/en_GB/header.php.ini: ip address
+
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * intl/de_DE/error.ini
+      intl/de_DE/header.php.ini: de_DE update for 2.2.1
+

@@ -240,3 +240,22 @@ Maintainer(s) : ce@ez.no
       user/intl/en_GB/todomenulist.php.ini
       user/intl/en_GB/todoview.php.ini: en_GB fixxes
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/de_DE/sendmail.php.ini
+      admin/intl/de_DE/categorytypeedit.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/prioritytypeedit.php.ini
+      admin/intl/de_DE/prioritytypelist.php.ini
+      admin/intl/de_DE/statustypeedit.php.ini
+      user/intl/de_DE/maillog.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/todoedit.php.ini
+      user/intl/de_DE/todolist.php.ini
+      user/intl/de_DE/todomenulist.php.ini
+      user/intl/de_DE/todoview.php.ini: de_DE update for 2.2.1
+

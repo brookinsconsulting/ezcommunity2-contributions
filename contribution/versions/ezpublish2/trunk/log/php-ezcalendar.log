@@ -263,3 +263,15 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/en_GB/appointmentedit.php.ini: en_GB fixxes
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/typeedit.php.ini
+      user/intl/de_DE/appointmentedit.php.ini
+      user/intl/de_DE/appointmentview.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/trustees.php.ini: de_DE update for 2.2.1
+

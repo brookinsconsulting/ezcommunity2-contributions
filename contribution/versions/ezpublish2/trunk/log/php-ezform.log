@@ -321,3 +321,15 @@ Maintainer(s) : pkej@ez.no
     * admin/intl/en_GB/fixedvalues.php.ini
       admin/intl/en_GB/form.php.ini: en_GB fixxes
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/fixedvalues.php.ini
+      admin/intl/de_DE/form.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/errors.php.ini
+      user/intl/de_DE/form.php.ini: de_DE update for 2.2.1
+

@@ -1847,3 +1847,53 @@ Maintainer(s) : ce@ez.no
     * classes/ezvoucherinformation.php
       user/voucherinformation.php: Added some fixes
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/categorylist.php.ini
+      admin/intl/de_DE/customerlist.php.ini
+      admin/intl/de_DE/customerview.php.ini
+      admin/intl/de_DE/formlist.php.ini
+      admin/intl/de_DE/imageedit.php.ini
+      admin/intl/de_DE/imagelist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/optionedit.php.ini
+      admin/intl/de_DE/orderedit.php.ini
+      admin/intl/de_DE/orderlist.php.ini
+      admin/intl/de_DE/productedit.php.ini
+      admin/intl/de_DE/productpreview.php.ini
+      admin/intl/de_DE/productsearch.php.ini
+      admin/intl/de_DE/shippingtypes.php.ini
+      admin/intl/de_DE/typeedit.php.ini
+      admin/intl/de_DE/voucheredit.php.ini
+      admin/intl/de_DE/voucherlist.php.ini
+      user/intl/de_DE/cart.php.ini
+      user/intl/de_DE/categorylist.php.ini
+      user/intl/de_DE/checkout.php.ini
+      user/intl/de_DE/customerlogin.php.ini
+      user/intl/de_DE/extendedsearch.php.ini
+      user/intl/de_DE/mailorder.php.ini
+      user/intl/de_DE/mastercard.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/orderlist.php.ini
+      user/intl/de_DE/ordersendt.php.ini
+      user/intl/de_DE/orderview.php.ini
+      user/intl/de_DE/precheckout.php.ini
+      user/intl/de_DE/productlist.php.ini
+      user/intl/de_DE/productsearch.php.ini
+      user/intl/de_DE/productview.php.ini
+      user/intl/de_DE/smallcart.php.ini
+      user/intl/de_DE/smallproductlist.php.ini
+      user/intl/de_DE/viewwishlist.php.ini
+      user/intl/de_DE/visa.php.ini
+      user/intl/de_DE/voucher.php.ini
+      user/intl/de_DE/voucheremail.php.ini
+      user/intl/de_DE/voucherinformation.php.ini
+      user/intl/de_DE/voucherview.php.ini
+      user/intl/de_DE/wishlist.php.ini
+      user/intl/de_DE/wishlistmail.php.ini: de_DE update for 2.2.1
+

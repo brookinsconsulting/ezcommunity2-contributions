@@ -224,3 +224,19 @@ Maintainer(s) : ce@ez.no
       admin/intl/en_GB/menubox.php.ini
       admin/intl/en_GB/typeedit.php.ini: en_GB fixxes
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-06  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/attributeedit.php.ini
+      admin/intl/de_DE/browse.php.ini
+      admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/mediaedit.php.ini
+      admin/intl/de_DE/medialist.php.ini
+      admin/intl/de_DE/mediaview.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/typeedit.php.ini
+      admin/intl/de_DE/typelist.php.ini: de_DE update for 2.2.1
+
