@@ -8,20 +8,29 @@
 
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td class="menutext">
-
-	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
+	<td>
+	<div class="listproducts"><a class="listproducts" href="/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
 
 	<!-- BEGIN product_image_tpl -->
-	<a href="/trade/productview/{product_id}/{category_id}/">
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
-	<!-- END product_image_tpl -->&nbsp;
+    <table align="right">
+    <tr>
+        <td>
+	<a href="/{module}/{module_view}/{product_id}/{category_id}/">
+        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="pictext">
+        {thumbnail_image_caption}
+        </td>
+    </tr>
+    </table>
 
-	<br />
-	<span class="menutext">{product_intro_text}</span>
+	<div class="p">{product_intro_text}</div>
 
 <!-- BEGIN price_tpl -->
-	<div class="pris">{product_price}</div>
+	<div class="spacer"><div class="pris">{product_price}</div></div>
 <!-- END price_tpl -->
 
 	</td>
