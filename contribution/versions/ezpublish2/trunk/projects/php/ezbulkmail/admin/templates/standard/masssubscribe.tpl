@@ -1,53 +1,47 @@
 <form method="post" action="/bulkmail/masssubscribe/">
 
+<h1>{intl-head_line}</h1>
+
+<hr noshade="noshade" size="4" />
+<br />
+
 <!-- BEGIN new_email_list_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-        <td>
-	<h3>{intl-new_addresses}:</h3>
-	</td>
+    <th>{intl-new_addresses}:</th>
 </tr>
 <!-- BEGIN new_email_item_tpl -->
 <tr>
-        <td>
-	{new_email}
-        </td>
+        <td>{new_email}</td>
 </tr>
 <!-- END new_email_item_tpl -->
 </table>
-<br /><br />
+<br />
 <!-- END new_email_list_tpl -->
 
 
 <!-- BEGIN email_exists_list_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-        <td>
-	<h3>{intl-addresses_already_exists}:</h3>
-	</td>
+    <th>{intl-addresses_already_exists}:</td>
 </tr>
 <!-- BEGIN email_exists_item_tpl -->
 <tr>
-        <td>
-	{email_exists}
-        </td>
+        <td>{email_exists}</td>
 </tr>
 <!-- END email_exists_item_tpl -->
 </table>
+<br />
 <!-- END email_exists_list_tpl -->
 
 <!-- BEGIN not_valid_list_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-        <td>
-	<h3>{intl-not_valid_addresses}:</h3>
-	</td>
+    <th>{intl-not_valid_addresses}:</th>
 </tr>
 <!-- BEGIN not_valid_item_tpl -->
 <tr>
-        <td>
-	{not_valid}
-        </td>
+        <td>{not_valid}</td>
 </tr>
 <!-- END not_valid_item_tpl -->
 </table>
@@ -62,10 +56,10 @@
 	</td>
 </tr>
 <tr>
-        <td>&nbsp;</td>
+    <td>&nbsp;</td>
 </tr>
 <tr>
-        <td>
+    <td>
 	<p class="boxtext">{intl-categories}:</p>
 	<select multiple size="5" Name="CategoryArrayID[]">
 	<!-- BEGIN category_item_tpl -->
@@ -74,14 +68,13 @@
 	</select>
 	</td>
 </tr>
-<tr>
-        <td width="1%">
-	<input type="submit" value="{intl-ok}" name="OK" />
-	</td>
-        <td width="99%">
-        {intl-send_welcome_message}
-	<input type="checkbox" name="SendMail" />
-	</td>
-</tr>
 </table>
+
+<p class="boxtext"><input type="checkbox" name="SendMail" />&nbsp;{intl-send_welcome_message}</p>
+<br />
+
+<hr noshade="noshade" size="4" />
+
+<input class="okbutton" type="submit" value="{intl-ok}" name="OK" />
+
 </form>
