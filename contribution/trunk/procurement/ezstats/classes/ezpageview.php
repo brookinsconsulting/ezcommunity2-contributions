@@ -460,13 +460,14 @@ class eZPageView
         return $ret;
     }
 
+  
  /*!
    Deletes all instances of this stat from the db.
  */
  function delete()
  {
  	$db =& eZDB::globalDatabase();
- 	$result = $db->query( "DELETE FROM eZStats_PageView, eZStats_RefererURL, eZStats_RemoteHost, eZStats_RequestPage WHERE ID='$this->ID'" );
+ 	$result = $db->query( "DELETE * FROM eZStats_PageView, eZStats_RefererURL, eZStats_RemoteHost, eZStats_RequestPage WHERE ID='$this->ID'" );
  	if (!$result) return false;
  	else return true;
  }

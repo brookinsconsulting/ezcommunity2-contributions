@@ -33,11 +33,15 @@
 
 /*!TODO
  */
-
+include_once("classes/INIFile.php");
+$ini = &INIFile::globalINI();
+$Flagged = $ini->read_var("eZProcurementMain", "FlagExpiredStats");
+if ($Flagged == '') $Flagged = true;
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezquery.php" );
 include_once( "classes/ezdate.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezprocurement/classes/ezrfp.php" );
 
 class eZPageViewQuery
 {
@@ -484,10 +488,11 @@ class eZPageViewQuery
 
 
         $db->array_query( $visitor_array,
-        "SELECT eZStats_PageView.ID, eZStats_PageView.UserID, eZStats_RequestPage.ID, eZStats_RequestPage.URI
+        "SELECT eZStats_PageView.ID, eZStats_PageView.RequestPageID, eZStats_PageView.UserID, eZStats_RequestPage.ID, eZStats_RequestPage.URI
          FROM eZStats_PageView, eZStats_RequestPage
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
-         AND eZStats_RequestPage.URI LIKE '/filemanager/download/%' 
+         AND eZStats_RequestPage.URI LIKE '/filemanager/download/%'
+         AND eZStats_PageView.Expired<>'1'
          ORDER BY eZStats_RequestPage.URI DESC, eZStats_PageView.UserID DESC" );
 //  array( "Limit" => $limit,
 //               "Offset" => $offset ) );
@@ -502,6 +507,7 @@ class eZPageViewQuery
         {
             $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
                                        "URI" => $visitor_array[$i][$db->fieldName( "URI" )],
+                                       "RequestPageID" => $visitor_array[$i][$db->fieldName( "RequestPageID" )],
                                        "UserID" => $visitor_array[$i][$db->fieldName( "UserID" )]
 //                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )]
  );
@@ -780,6 +786,116 @@ class eZPageViewQuery
         return $return_array;
         
     }
+    /*!
+       Cleans stats.
+    */
+    function clean($flag, $doDeletedProcurementCleanup = false, $mYear = -1, $mMonth = 0, $mDay = 0)
+    {
+     $db =& eZDB::globalDatabase();
+     if ($flag == 'enabled') $flag = true;
+    if ($doDeletedProcurementCleanup) {
+     ################################################################################
+     # Section A
+     # Deletes or flags stats associated with files that no longer exist.
+     ################################################################################
+     $db->array_query($AllProcIDs, "SELECT ID FROM eZStats_RequestPage" );
+     $db->array_query($AllStatsIDs, "SELECT RequestPageID, ID FROM eZStats_PageView WHERE Expired<>'1'" );
+
+     foreach ($AllStatsIDs as $curStat)
+     {
+      $RemoveStat = true;
+      foreach ($AllProcIDs as $curProc)
+      {
+       if ($curProc['ID'] == $curStat['RequestPageID']) {
+       $RemoveStat = false;
+       break;
+      }
+     }
+     if ($RemoveStat)
+     $RemoveStatList[] = $curStat['ID'];
+    }
+
+    if ( !empty($RemoveStatList) )
+    {
+     foreach ($RemoveStatList as $RStatID)
+     {
+     if ($flag)
+      $db->query("UPDATE eZStats_PageView SET Expired='1' WHERE RequestPageID='$RStatID'");
+    else
+     $db->query("DELETE * FROM eZStats_PageView WHERE id='$RStatID'");
+     }
+    }
+   }
+
+   ################################################################################
+   # Section B
+   # Deletes or flags stats associated with procurements's over a year old (default).
+   ################################################################################
+   $compDate = new eZDate();
+   $compDate->move($mYear,$mMonth,$mDay);
+   $stamp = $compDate->timestamp();
+
+   $db->array_query($procIDs, "SELECT ID FROM eZRfp_Rfp WHERE ResponseDueDate<'$stamp'");
+   if (empty($procIDs)) exit();
+
+
+    foreach ($procIDs as $procid)
+    {
+      $rfp = new eZRfp($procid['ID']);
+     $fileList = $rfp->files(false);
+      foreach ($fileList as $fileID)
+      {
+     if ($flag)
+      $db->query("UPDATE eZStats_PageView SET Expired='1' WHERE RequestPageID='$fileID'");
+      else
+       {
+         $db->array_query($ids, "SELECT ID FROM eZStats_PageView WHERE RequestPageID='$fileID'");
+          foreach ($ids as $id)
+            {
+       $db->query("DELETE * FROM eZStats_PageView WHERE id='$id'");
+      }
+    }
+     }
+    }
+   }
+
+   /*!
+      Cleans stats by a specific file id
+   */
+   function cleanById($flag, $procID)
+   {
+    $db =& eZDB::globalDatabase();
+
+    if ($flag == 'enabled')
+     $db->query("UPDATE eZStats_PageView SET Expired='1' WHERE RequestPageID='$procID'");
+    else {
+     $db->array_query($statIDs, "SELECT ID FROM eZStats_PageView WHERE RequestPageID='$procID'");
+      foreach ($statIDs as $key => $statID) {
+       $db->query("DELETE * FROM eZStats_PageView WHERE id='$statID'");
+      }
+    }
+   }
+
+  /*!
+      Cleans stats by a specific user id
+   */
+   function cleanByUser($flag, $userID)
+   {
+    $db =& eZDB::globalDatabase();
+
+    if ($flag == 'enabled') {
+     //print("UPDATE eZStats_PageView SET Expired='1' WHERE UserID='$userID'<br />");
+
+     $db->query("UPDATE eZStats_PageView SET Expired='1' WHERE UserID='$userID'");
+    }else {
+     $db->array_query($statIDs, "SELECT ID, UserID FROM eZStats_PageView WHERE UserID='$userID'");
+      foreach ($statIDs as $key => $statID) {
+       $db->query("DELETE * FROM eZStats_PageView WHERE id='$statID'");
+      }
+    }
+   }
+
+
 }
 
 ?>
