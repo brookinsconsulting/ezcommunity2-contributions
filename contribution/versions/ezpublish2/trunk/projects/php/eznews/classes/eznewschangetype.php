@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewschangetype.php,v 1.13 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.14 2000/10/16 13:42:19 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -51,8 +51,13 @@
     
     if( !$ct->isCoherent() )
     {
+<<<<<<< eznewschangetype.php
+        $this->IsConnected = false;
+        if ( $id != -1 )
+=======
         $ct->setName( $changeName );
         if( !$ct->setDescription( "The item has been submitted" ) )
+>>>>>>> 1.12
         {
             echo "You need to use a real description string.<br>";
         }
@@ -408,11 +413,19 @@ class eZNewsChangeType extends eZNewsUtility
      */
     function printObject()
     {
+<<<<<<< eznewschangetype.php
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "eZNewsMain" );
+            $this->IsConnected = true;
+        }
+=======
         echo "eZNewsChangeType::printObject()<br />\n";
         echo "Description = " . $this->Description . " \n";
         echo "<br />\n";
         
         eZNewsUtility::printObject();
+>>>>>>> 1.12
     }
     
     
