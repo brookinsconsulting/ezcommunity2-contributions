@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.5 2001/04/26 13:34:13 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.6 2001/04/26 15:16:50 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -95,8 +95,6 @@ class eZBulkMailSubscriptionAddress
             // delete actual group entry
             $this->Database->query( "DELETE FROM eZBulkMail_SubscriptionAddress WHERE ID='$this->ID'" );            
         }
-        
-        return true;
     }
     
     /*!
@@ -130,7 +128,7 @@ class eZBulkMailSubscriptionAddress
 
     /*!
       \static
-      Returns object with the email if it exists. If it does't and the address is valid a new object is created and returned.
+      Returns object with the email if it exists. If it doesn't and the address is valid a new object is created and returned.
      */
     function getByEmail( $email )
     {
@@ -153,7 +151,7 @@ class eZBulkMailSubscriptionAddress
             $is_valid = new eZBulkMailSubscriptionAddress();
             if( $is_valid->setEMail( $email ) )
             {
-                $is_valid->store();
+//                $is_valid->store();
                 $return_value = $is_valid;
             }
         }

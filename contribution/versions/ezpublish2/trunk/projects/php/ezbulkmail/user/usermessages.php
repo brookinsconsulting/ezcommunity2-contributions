@@ -61,5 +61,6 @@ if( isset( $subscribed ) )
     $t->set_var( "header", $languageIni->read_var( "strings", "subscribed_header" ) );
     $t->set_var( "body", $languageIni->read_var( "strings", "subscribed_message" ) );
 }
+
 $t->pparse( "output", "message" );
 ?>

@@ -5,7 +5,7 @@ switch ( $url_array[2] )
 {
     case "subscriptionlist":
     {
-        include_once( "ezbulkmail/user/subscriptionlist.php" );
+        include( "ezbulkmail/user/subscriptionlist.php" );
     }
     break;
 
@@ -13,20 +13,20 @@ switch ( $url_array[2] )
         $New = "new";
     case "login" :
     {
-        include_once( "ezbulkmail/user/subscriptionlogin.php" );
+        include( "ezbulkmail/user/subscriptionlogin.php" );
     }
     break;
 
     case "confirmsubscription" :
     {
         $Hash = $url_array[3];
-        include_once( "ezbulkmail/user/subscriptionlogin.php" );
+        include( "ezbulkmail/user/subscriptionlogin.php" );
     }
     break;
 
     case "singlelist" :
     {
-        include_once( "ezbulkmail/user/singlelist.php" );
+        include( "ezbulkmail/user/singlelist.php" );
     }
     break;
 
@@ -34,7 +34,7 @@ switch ( $url_array[2] )
     {
         $Subscribe = "yes";
         $Hash = $url_array[3];
-        include_once( "ezbulkmail/user/singlelist.php" );
+        include( "ezbulkmail/user/singlelist.php" );
     }
     break;
     
@@ -42,14 +42,14 @@ switch ( $url_array[2] )
     {
         $UnSubscribe = "yes";
         $Hash = $url_array[3];
-        include_once( "ezbulkmail/user/singlelist.php" );
+        include( "ezbulkmail/user/singlelist.php" );
     }
     break;
     
     case "successfull" :
     {
         $mailConfirm = "";
-        include_once( "ezbulkmail/user/usermessages.php" );
+        include( "ezbulkmail/user/usermessages.php" );
     }
     break;
 

@@ -25,10 +25,10 @@
    <input type="text" size="15" name="Email" />
 </tr>
 <tr>
-  <input class="stdbutton" type="submit" name="Subscribe" value="{intl-subscribe}" />
+  <input class="stdbutton" type="submit" name="SubscribeButton" value="{intl-subscribe}" />
 </tr>
 <tr>
-  <input class="stdbutton" type="submit" name="UnSubscribe" value="{intl-unsubscribe}" />
+  <input class="stdbutton" type="submit" name="UnSubscribeButton" value="{intl-unsubscribe}" />
 </tr>
 
 <tr>

@@ -99,7 +99,14 @@ class eZBulkMailForgot
                                  Hash='$this->Hash'" );
             $this->ID = mysql_insert_id();
         }
-        return true;
+        else
+        {
+            $this->Database->query( "UPDATE eZBulkMail_Forgot SET
+                                 Mail='$this->Mail',
+                                 Password=PASSWORD( '$password' ),
+                                 Hash='$this->Hash'
+                                 WHERE ID='$this->ID'" );
+        }
     }
 
     /*!
@@ -109,13 +116,11 @@ class eZBulkMailForgot
     function delete()
     {
         $this->dbInit();
-
+        
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZBulkMail_Forgot WHERE ID='$this->ID'" );
         }
-        
-        return true;
     }
 
     /*!
@@ -152,6 +157,35 @@ class eZBulkMailForgot
 
         }
         return $ret;
+    }
+
+    /*!
+      \static
+      Returns object with the email if it exists. If it does't and the address is valid a new object is created and returned.
+     */
+    function getByEmail( $email )
+    {
+        $db = eZDB::globalDatabase();
+        $email = addslashes( $email );
+        $db->array_query( $forgot_array, "SELECT ID FROM eZBulkMail_Forgot WHERE Mail='$email'" );
+
+        $return_value = false;
+        if( count( $forgot_array ) > 1 )
+        {
+            die( "Error: Subscription addresses with the same ID was found in the database. This shouldn't happen." );
+        }
+        else if( count( $forgot_array ) == 1 )
+        {
+            $id = $forgot_array[0]["ID"];
+            $return_value = new eZBulkMailForgot( $id );
+        }
+        else
+        {
+            $is_valid = new eZBulkMailForgot();
+            $is_valid->setMail( $email );
+            $return_value = $is_valid;
+        }
+        return $return_value;
     }
 
     
