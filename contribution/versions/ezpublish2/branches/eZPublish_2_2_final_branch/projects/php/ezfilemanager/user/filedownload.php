@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.20.2.1 2001/11/23 08:55:05 jhe Exp $
+// $Id: filedownload.php,v 1.20.2.2 2001/12/11 15:32:19 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -80,12 +79,11 @@ $filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
 // Rewrote to be compatible with virtualhost-less install
 $size = eZFile::filesize( "ezfilemanager/files/$filePath" );
 
-$nameParts = explode( ".", $originalFileName  );
+$nameParts = explode( ".", $originalFileName );
 $suffix = $nameParts[count( $nameParts ) - 1];
 
 // clear what might be in the output buffer and stop the buffer.
 ob_end_clean();
-
 switch ( $suffix )
 {
     case "doc" :
@@ -105,8 +103,9 @@ switch ( $suffix )
         break;
 }
 
+header( "Cache-Control:" );
 header( "Content-Length: $size" );
-header( "Content-Disposition: attachment; filename=$originalFileName" );
+header( "Content-disposition: attachment; filename=$originalFileName" );
 header( "Content-Transfer-Encoding: binary" );
 
 $fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
