@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.24 2001/06/23 10:17:05 bf Exp $
+// $Id: useredit.php,v 1.25 2001/07/14 13:44:25 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -184,6 +184,7 @@ if ( $Action == "update" )
                                 eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
                             }
                         }
+
                         eZHTTPTool::header( "Location: /user/userlist/" );
                         exit();
                     }

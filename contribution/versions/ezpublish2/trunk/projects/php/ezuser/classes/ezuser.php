@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.77 2001/07/06 08:24:45 bf Exp $
+// $Id: ezuser.php,v 1.78 2001/07/14 13:44:25 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -117,12 +117,12 @@ class eZUser
             $nextID = $db->nextID( "eZUser_User", "ID" );
             
             // backwards compatible passwords
-            if ( $db->isA == "mysql" )
+            if ( $db->isA() == "mysql" )
             {
                 $db->query( "INSERT INTO eZUser_User SET
                                  ID='$nextID',
                                  Login='$login',
-                                 Password=PASSWORD('$password'),
+                                 Password=PASSWORD('$this->Password'),
                                  Email='$email',
                                  InfoSubscription='$this->InfoSubscription',
                                  FirstName='$firstname',
@@ -171,14 +171,16 @@ class eZUser
             if ( isset( $this->Password ) )
             {
                 // backwards compatible passwords
-                if ( $db->isA == "mysql" )
-                {                
+                if ( $db->isA() == "mysql" )
+                {
+                print( "mysql" );                    
                     $db->query( "UPDATE eZUser_User SET
-                                 Password=PASSWORD('$password')
+                                 Password=PASSWORD('$this->Password')
                                  WHERE ID='$this->ID'" );
                 }
                 else
                 {
+                print( "not mysql" );                    
                     $password = md5( $this->Password );
 
                     $db->query( "UPDATE eZUser_User SET
