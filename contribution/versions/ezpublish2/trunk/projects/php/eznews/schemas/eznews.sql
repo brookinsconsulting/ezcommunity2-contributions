@@ -1,3 +1,8 @@
+#
+# $Id: eznews.sql,v 1.2 2000/09/15 10:55:01 pkej-cvs Exp $
+#
+# eZNews database schema.
+#
 # Primarily here for creating types of nodes in a news
 # hiearchy, but also to map those nodes handling to specific
 # classes and tables for handling.
