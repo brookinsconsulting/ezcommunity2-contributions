@@ -71,7 +71,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/cv/certificate/list/{parent_id}/">
+	<form method="post" action="/cv/cv/edit/{cv_id}/">
 	<input class="okbutton" type="submit" name="back" value="{intl-button_back}" />
 	</form>
 	</td>
