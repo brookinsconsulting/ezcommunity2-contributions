@@ -182,6 +182,16 @@ td
 	background-color: #787878;
 }
 
+.linkselect
+{
+	color: #ffffff;
+}
+
+.linknormal
+{
+	color: #000000;
+}
+
 select 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
