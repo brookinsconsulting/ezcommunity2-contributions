@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.7 2002/06/10 16:41:45 fh Exp $
+// $Id: ezmail.php,v 1.44.2.8 2003/07/22 15:05:02 br Exp $
 //
 // Definition of eZMail class
 //
@@ -976,7 +976,59 @@ class eZMail
                     echo "Added attachment";
                     $filename = "ezfilemanager/files/" . $file->fileName();
                     $attachment = fread( eZFile::fopen( $filename, "r" ), eZFile::filesize( $filename ) );
-                    $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
+                    // get the correct mime type.
+                    $suffix = strtolower( preg_replace( "/^.+\.(.+)$/", "\\1", $file->originalFileName() ) );
+                    $mimeType = "";
+                    switch ( $suffix )
+                    {
+                        case "doc":
+                            $mimeType = "application/msword";
+                        break;
+                        case "ppt":
+                            $mimeType = "application/vnd.ms-powerpoint";
+                        break;
+                        case "xls":
+                            $mimeType = "application/vnd.ms-excel";
+                        break;
+                        case "pdf":
+                            $mimeType = "application/pdf";
+                        break;
+                        
+                        case "jpg":
+                        case "jpeg":
+                            $mimeType = "image/jpeg";
+                        break;
+
+                        case "bz2":
+                            $mimeType = "application/x-bzip2";
+                        break;
+
+                        case "html":
+                        case "htm":
+                            $mimeType = "text/html";
+                        break;
+
+                        case "txt":
+                            $mimeType = "text/plain";
+                        break;
+
+                        case "gif":
+                            $mimeType = "image/gif";
+                        break;
+
+                        case "png":
+                            $mimeType = "image/png";
+                        break;
+
+                        case "zip":
+                            $mimeType = "application/zip";
+                        break;
+
+                        default:
+                            $mimeType = "application/octet-stream";
+                    }
+
+                    $this->add_attachment( $attachment, $file->originalFileName(), $mimeType );
                 }
             }
         }
