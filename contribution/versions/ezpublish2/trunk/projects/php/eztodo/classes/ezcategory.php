@@ -1,5 +1,5 @@
 <?
-// $Id: ezcategory.php,v 1.8 2001/03/10 13:46:28 bf Exp $
+// $Id: ezcategory.php,v 1.9 2001/04/04 16:28:31 fh Exp $
 //
 // Definition of eZCategory class
 //
@@ -51,14 +51,14 @@ class eZCategory
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
 
         if ( !isSet( $this->ID ) )
         {
 
             $this->Database->query( "INSERT INTO eZTodo_Category SET
                                      ID='$this->ID',
-                                     Name='$this->Name' ");
+                                     Name='$name' ");
             $this->ID =  mysql_insert_id();
 
             $this->State_ = "Coherent";
@@ -67,7 +67,7 @@ class eZCategory
         {
             $this->Database->query( "UPDATE eZTodo_Category SET
                                      ID='$this->ID',
-                                     Name='$this->Name'
+                                     Name='$name'
                                      WHERE ID='$this->ID' ");
             $this->State_ = "Coherent";
         }

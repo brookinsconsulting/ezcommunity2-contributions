@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.18 2001/04/04 11:36:49 wojciechp Exp $
+// $Id: eztodo.php,v 1.19 2001/04/04 16:28:31 fh Exp $
 //
 // Definition of eZTodo class
 //
@@ -54,13 +54,15 @@ class eZTodo
     function store()
     {
         $this->dbInit();
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
         
         if ( !isSet( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTodo_Todo SET
                                      ID='$this->ID',
-                                     Name='$this->Name',
-                                     Description='$this->Description',
+                                     Name='$name',
+                                     Description='$description',
                                      Category='$this->Category',
                                      Priority='$this->Priority', 
                                      Due='$this->Due',
@@ -76,8 +78,8 @@ class eZTodo
         else
         {
             $this->Database->query( "UPDATE eZTodo_Todo SET
-                                     Name='$this->Name',
-                                     Description='$this->Description',
+                                     Name='$name',
+                                     Description='$description',
                                      Category='$this->Category',
                                      Priority='$this->Priority',
                                      Due='$this->Due',

@@ -1,5 +1,5 @@
 <?
-// $Id: ezpriority.php,v 1.6 2001/03/10 13:46:28 bf Exp $
+// $Id: ezpriority.php,v 1.7 2001/04/04 16:28:31 fh Exp $
 //
 // Definition of eZPriority class
 //
@@ -52,12 +52,12 @@ class eZPriority
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
         if ( !isSet ( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTodo_Priority SET
                                      ID='$this->ID',
-                                     Name='$this->Name'" );
+                                     Name='$name'" );
             return mysql_insert_id();
             $this->State_ = "Coherent";
         }
@@ -65,7 +65,7 @@ class eZPriority
         {
             $this->Database->query( "UPDATE eZTodo_Priority SET
                                      ID='$this->ID',
-                                     Name='$this->Name'
+                                     Name='$name'
                                      WHERE ID='$this->ID' ");
             $this->State_ = "Coherent";
         }
