@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.118 2002/01/28 18:03:11 master Exp $
+// $Id: articleedit.php,v 1.119 2002/02/12 19:35:50 master Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -210,8 +210,10 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
                 $article->setIsPublished( false );
             }
 
-	    //EP translation inside articles
-	    if ( $Urltranslator )
+
+	    //EP: URL translation inside articles
+	    
+	    if ( $UrltranslatorEnabled )
 	    {
 		$category = $article->categoryDefinition();
     		$url1 = "/article/articleview/" . $article->id() . "/1/" . $category->id();
@@ -219,9 +221,18 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 		include_once( "ezurltranslator/classes/ezurltranslator.php" );
 		$urltranslator = new eZURLTranslator();
 		$urltranslator->getbydest ( $url1 );
-
-		$urltranslator->setSource ( $Urltranslator );
-		$urltranslator->store();
+		
+		if ( $Urltranslator )
+		{
+		    $urltranslator->setSource ( $Urltranslator );
+		    $urltranslator->setDest   ( $url1 );
+		    $urltranslator->store();    
+		}
+		else
+		{
+		    $urltranslator->delete();
+		}
+		
 	    }
 	            
             // Time publishing
@@ -434,9 +445,10 @@ $t->set_var( "article_is_published", "" );
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
 
-//EP new article
+//EP: URL translation : new article
 $t->set_var( "article_url", "" );
 $t->set_var( "article_urltranslator", "" );
+$t->set_var( "urltranslator", "" );
 
 $t->set_var( "article_keywords", stripslashes( $Keywords ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
@@ -567,7 +579,7 @@ if ( $Action == "Edit" )
         $i++;
     }
     
-    // EP - article edit get translation
+    //EP: URL translation: article edit get translation
     
     if ( $ini->read_var( "eZArticleMain", "AdminURLTranslator" ) == "enabled" )
     {
@@ -582,10 +594,6 @@ if ( $Action == "Edit" )
 	
         $t->parse( "urltranslator", "urltranslator_tpl" );
     }
-    else
-    {
-	$t->set_var( "urltranslator", "" );
-    }                       
     
     $t->set_var( "article_keywords", $article->manualKeywords() );
     $t->set_var( "author_text", $article->authorText() );
