@@ -45,14 +45,17 @@ $t = new eZTemplate( "ezgroupeventcalendar/user/" . $ini->read_var( "eZGroupEven
                      "default", "ezgroupeventcalendar" . "/user", $Year );
 
 $t->set_file( "year_view_page_tpl", "yearview.tpl" );
-
+$t->set_var("date_year", $today->year());
+$t->set_var("date_month", $today->month());
+$t->set_var("date_day", $today->day());
+/*
 $build = false;
 if ( $t->hasCache() )
 {
 //    print( "cached<br />" );
     $file = new eZCacheFile( "ezgroupeventcalendar/user/cache", array( "yearview.tpl", "default", $Language, $Year ), "cache", "-" );
     $dt =& $file->lastModified();
-	
+
     if ( $Year == $today->year() && $dt->day() != $today->day() )
     {
         $file->delete();
@@ -61,13 +64,13 @@ if ( $t->hasCache() )
     else
     {
         print( $t->cache() );
-    }	
+    }
 }
 else
 {
     $build = true;
-}
-
+} */
+$build = true;
 if ( $build == true )
 {
 //    print( "not cached<br />" );

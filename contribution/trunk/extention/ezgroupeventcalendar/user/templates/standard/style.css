@@ -4,7 +4,7 @@
 	background-color: #ffffff;
 }
 
-.bgdark 
+.bgdark
 {
 	background-color: #F2f2f2;
 }
@@ -205,7 +205,6 @@ a.gcalSmallLink:link	{ color: #0066FF; }
 a.gcalSmallLink:visited	{ color: #0066FF; }
 a.gcalSmallLink:active	{ color: #3366CC; }
 a.gcalSmallLink:hover	{ color: #000099; text-decoration: underline; }
-
 .gcalEventTopBar		{ background-color: #557CA3;  }
 .gcalBorder			{ border: 1px solid gray; }
 .gcalDayViewTopBar		{ border: 1px solid white; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #E9EDF2; cursor: pointer; }
@@ -320,16 +319,16 @@ border: 1px solid #f2f2f2;
 }
 .gcalYearViewHeading
 {
-background-color: #6699cc;
 width: 100%;
 text-align: center;
 }
-a.gcalYearViewHeading
+a.gcalYearViewMonthName
 {
 text-decoration: none;
-color: white;
+color: black;
 font-weight: bold;
 }
+a:hover.gcalYearViewMonthName { color: #6699cc; }
 #gcalRecurringFormWrap
 {
 	display: none;

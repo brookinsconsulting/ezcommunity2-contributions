@@ -1,37 +1,41 @@
 <table width="100%" cellspacing="2" cellpadding="0" border="0">
 <tr>
-        <td colspan="2" align="center">
-	<span style="font-size: 25px; font-weight: bold;">
-	  {year_number}
-	</span>
-	</td>
-</tr>
-<tr>
-        <td colspan="2" align="right">
-	<form action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
- 	  <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
-          <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-	  <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-	  <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
-	</form>
-        </td>
-</tr>
-<tr>
-	<td>
-	<a class="menu" href="{www_dir}{index}/groupeventcalendar/yearview/{prev_year_number}/">&lt;&lt; {intl-previous_year}</a>
-	</td>
-	<td align="right">
-	<a class="menu" href="{www_dir}{index}/groupeventcalendar/yearview/{next_year_number}/">{intl-next_year} &gt;&gt;</a>
-	</td>
-</tr>
+	<td align="right" colspan="10" style="padding: 5px;">
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{date_year}/{date_month}/{date_day}/'">
+      {intl-day}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/weekview/{date_year}/{date_month}/{date_day}/'">
+      {intl-week}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{date_year}/{date_month}/'">
+      {intl-month}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/yearview/{date_year}/'">
+      {intl-year}
+      </span>
+      </td>
+      </tr>
 </table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  align="center" style="border: 1px solid gray; text-align: center;">
 
+<tr>
+
+ <td  id="gcalBigHeader" style="border: 0px; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;">
+  <a class="gcalMonthViewNext" href="{www_dir}{index}/groupeventcalendar/yearview/{prev_year_number}/">&lt;&lt;</a> &nbsp; &nbsp;
+  <span style="font-size: 20px;">{year_number}</span>  &nbsp; &nbsp;
+  <a class="gcalMonthViewNext" href="{www_dir}{index}/groupeventcalendar/yearview/{next_year_number}/">&gt;&gt;</a>
+  </td>
+</tr>
+<tr><td>
 <table width="100%" cellspacing="10">
 {begin_tr}
 <!-- BEGIN month_tpl -->
-     <td valign="top">
+     <td valign="top"
+     >
 
-<div class="gcalYearViewHeading"><a href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/">{month_name}:</a></div>
+<div class="gcalYearViewHeading"
+style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalSmallYearHeader.png') repeat;">
+<a class="gcalYearViewMonthName" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/">{month_name}</a></div>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="gcalYearViewTable">
 <!-- BEGIN week_tpl -->
 <tr>
@@ -57,3 +61,4 @@
 
 <!-- END month_tpl -->
 </table>
+</td></tr></table>
