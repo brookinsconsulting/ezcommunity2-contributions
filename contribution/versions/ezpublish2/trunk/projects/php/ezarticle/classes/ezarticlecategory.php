@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.90 2001/09/04 08:42:38 pkej Exp $
+// $Id: ezarticlecategory.php,v 1.91 2001/09/04 11:01:07 pkej Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -609,6 +609,19 @@ class eZArticleCategory
     }
 
     /*!
+      Returns the placement.
+    */
+    function placement()
+    {
+	   if ( isset( $this->Placement ) )
+	   {
+            return htmlspecialchars( $this->Placement );
+	   }
+	   else
+	       return;
+    }
+
+    /*!
       Returns the parent if one exist. If not 0 is returned.
     */
     function parent( $as_object = true )
@@ -756,6 +769,14 @@ class eZArticleCategory
     function setName( $value )
     {
         $this->Name = $value;
+    }
+
+    /*!
+      Sets the placement of the category.
+    */
+    function setPlacement( $value )
+    {
+        $this->Placement = $value;
     }
 
     /*!
