@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.75 2001/08/24 07:21:07 ce Exp $
+// $Id: ezproduct.php,v 1.76 2001/08/27 07:59:53 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -849,7 +849,7 @@ class eZProduct
             $db->begin();
             $db->lock( "eZTrade_ProductImageLink" );
             $nextID = $db->nextID( "eZTrade_ProductImageLink", "ID" );            
-            $res = $db->query( "INSERT INTO eZTrade_ProductImageLink ( ID, ProductID, ImageID ) VALUES ( '$nextID', '$this->ID', '$imageID'" );
+            $res = $db->query( "INSERT INTO eZTrade_ProductImageLink ( ID, ProductID, ImageID ) VALUES ( '$nextID', '$this->ID', '$imageID' )" );
             $db->unlock();
             if ( $res == false )
                 $db->rollback( );
@@ -928,10 +928,9 @@ class eZProduct
             else
             {
                 $db->lock( "eZTrade_ProductImageDefinition" );
-                $nextID = $db->nextID( "eZTrade_ProductImageDefinition", "ID" );            
                 $res[] = $db->query( "INSERT INTO eZTrade_ProductImageDefinition
-                                   ( ID, ProductID, MainImageID )
-                                   VALUES ( '$nextID', '$this->ID', '$imageID' )
+                                   ( ProductID, MainImageID )
+                                   VALUES ( '$this->ID', '$imageID' )
                                    " );
                 $db->unlock();
             }
