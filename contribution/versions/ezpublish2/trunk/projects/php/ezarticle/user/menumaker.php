@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menumaker.php,v 1.3 2001/09/04 14:10:22 br Exp $
+// $Id: menumaker.php,v 1.4 2001/09/07 13:16:27 br Exp $
 //
 // Definition of ||| class
 //
@@ -60,10 +60,12 @@ function menuMaker()
         ) );
     
     $t->set_block( "menu_maker_tpl", "menu_box_tpl", "menu_box" );
+    $t->set_block( "menu_box_tpl", "menu_header_tpl", "menu_header" );
     $t->set_block( "menu_box_tpl", "menu_article_tpl", "menu_article" );
     $t->set_block( "menu_box_tpl", "menu_category_tpl", "menu_category" );
 
     $t->set_var( "menu_box", "" );
+    $t->set_var( "menu_header", "" );
     
     if ( !isset( $CategoryID  ) )
     {
@@ -76,12 +78,31 @@ function menuMaker()
     
     $articleCategory = new eZArticleCategory( $category_id );
     $articleCategory_array = $articleCategory->getByParent( $articleCategory );
+    $article_art_array =& $articleCategory->articles( "absolute_placement", false, true, 0, 50 );
     $i = 0;
+
+    if ( count( $article_art_array ) > 0 )
+    {
+        foreach( $article_art_array as $article_item )
+        {
+            $t->set_var( "sitedesign", $GlobalSiteDesign );
+            $t->set_var( "article_link_text", $article_item->name() );
+            $t->set_var( "article_id", $article_item->id() );
+            $t->parse( "menu_article", "menu_article_tpl", true );
+        }
+    }
+    if( count( $article_cat_array ) > 0 || count( $article_art_array ) > 0 )
+    {
+        $t->set_var( "current_category_name", $articleCategory->name() );
+        $t->parse( "menu_box", "menu_box_tpl", true );
+    }
     
     foreach( $articleCategory_array as $categoryItem )
     {
+        $t->set_var( "menu_header", "" );
         $t->set_var( "menu_article", "" );
         $t->set_var( "menu_category", "" );
+        
 
         $article_cat_array = $categoryItem->getByParent( $categoryItem );
         $article_art_array =& $categoryItem->articles( "absolute_placement", false, true, 0, 50 );
@@ -112,6 +133,7 @@ function menuMaker()
         if( count( $article_cat_array ) > 0 || count( $article_art_array ) > 0 )
         {
             $t->set_var( "current_category_name", $categoryItem->name() );
+            $t->parse( "menu_header", "menu_header_tpl" );
             $t->parse( "menu_box", "menu_box_tpl", true );
         }
     }
