@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forumlist.php,v 1.3 2000/10/27 10:19:57 ce-cvs Exp $
+// $Id: forumlist.php,v 1.4 2000/10/30 11:39:04 ce-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -13,7 +13,7 @@
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
 //
-// This program is distributed in the hope that it will be useful,
+// This program is distributed in the hope that it will be useful,4
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
