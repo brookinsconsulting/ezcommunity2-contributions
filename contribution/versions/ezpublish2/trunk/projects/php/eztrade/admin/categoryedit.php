@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.22 2001/09/19 12:58:00 ce Exp $
+// $Id: categoryedit.php,v 1.23 2001/09/21 09:48:35 bf Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -162,7 +162,7 @@ if ( $Action == "Update" )
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
     $category->setSortMode( $SortMode );
-
+    
     $file = new eZImageFile();
     if ( $file->getUploadedFile( "ImageFile" ) )
     {

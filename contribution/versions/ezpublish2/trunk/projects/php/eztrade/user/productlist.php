@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.33 2001/09/17 09:18:59 br Exp $
+// $Id: productlist.php,v 1.34 2001/09/21 09:48:35 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -29,6 +30,21 @@ include_once( "classes/ezcurrency.php" );
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezlist.php" );
+
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+$GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
+
+print( $GlobalSectionID );
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
 
 $ini =& INIFile::globalINI();
 
@@ -43,9 +59,6 @@ $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );
 $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
 
-include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezproductcategory.php" );
-include_once( "eztrade/classes/ezpricegroup.php" );
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "productlist.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.48 2001/09/19 12:58:01 ce Exp $
+// $Id: ezproductcategory.php,v 1.49 2001/09/21 09:48:35 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -138,8 +138,8 @@ class eZProductCategory
         else
         {
             $res = $db->query( "UPDATE eZTrade_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  SortMode='$this->SortMode',
                                  RemoteID='$this->RemoteID',
                                  ImageID='$this->ImageID',
@@ -372,6 +372,23 @@ class eZProductCategory
         return $this->SectionID;
     }
 
+    /*!
+      \static
+      Returns the Section ID. Returns false if the Category was not found.
+    */
+    function sectionIDStatic( $categoryID )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT SectionID from eZTrade_Category WHERE ID='$categoryID'");
+        
+        $sectionID = $res[$db->fieldName("SectionID")];
+
+        if ( $sectionID > 0 )
+            return $sectionID;
+        else
+            return false;
+    }
+    
     /*!
       Returns the group description.
     */
