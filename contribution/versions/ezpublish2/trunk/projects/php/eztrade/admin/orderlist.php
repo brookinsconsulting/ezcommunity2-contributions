@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.4 2000/10/24 19:03:13 bf-cvs Exp $
+// $Id: orderlist.php,v 1.5 2000/10/27 09:26:27 bf-cvs Exp $
 //
 // 
 //
@@ -40,8 +40,70 @@ $t->set_file( array(
 $t->set_block( "order_list_tpl", "order_item_list_tpl", "order_item_list" );
 $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
 
+// next prvious
+$t->set_block( "order_list_tpl", "previous_tpl", "previous" );
+$t->set_block( "order_list_tpl", "next_tpl", "next" );
+
+if ( isSet( $URLQueryText ) )
+{
+    $QueryText = urldecode( $URLQueryText );
+}
+
+$t->set_var( "query_string", $QueryText );
+
+$t->set_var( "previous", "" );
+$t->set_var( "next", "" );
+
+
+if ( !isset( $Offset ) )
+    $Offset = 0;
+
+if ( !isset( $Limit ) )
+    $Limit = 5;
+
+
 $order = new eZOrder();
-$orderArray = $order->getAll();
+
+// perform search
+if ( isset( $QueryText ) )
+{
+    print( "Search for: ". $QueryText );
+    $orderArray = $order->search( $QueryText, $Offset, $Limit );
+    $total_count = $order->getSearchCount( $QueryText );
+}
+else
+{
+    $orderArray = $order->getAll( $Offset, $Limit );
+    $total_count = $order->getTotalCount( );
+}
+
+
+$prevOffs = $Offset - $Limit;
+$nextOffs = $Offset + $Limit;
+                
+if ( $prevOffs >= 0 )
+{
+    $t->set_var( "prev_offset", $prevOffs  );
+    $t->parse( "previous", "previous_tpl" );
+}
+else
+{
+    $t->set_var( "previous", "" );
+}
+                
+if ( $nextOffs <= $total_count )
+{
+    $t->set_var( "next_offset", $nextOffs  );
+    $t->parse( "next", "next_tpl" );
+}
+else
+{
+    $t->set_var( "next", "" );
+}
+                
+$t->set_var( "limit", $Limit );
+$t->set_var( "query_text", $QueryText );
+
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
@@ -76,11 +138,9 @@ foreach ( $orderArray as $order )
     $i++;
 }
 
-$t->parse( "order_item_list", "order_item_list_tpl" );
+$t->set_var( "url_query_string", urlencode( $QueryText ) );
 
-//  $statusType = new eZOrderStatusType( );
-//  $statusType->setName( "Undefined" );
-//  $statusType->store();
+$t->parse( "order_item_list", "order_item_list_tpl" );
 
 $t->pparse( "output", "order_list_tpl" );
 

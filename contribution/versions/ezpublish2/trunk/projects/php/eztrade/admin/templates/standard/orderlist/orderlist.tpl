@@ -33,9 +33,21 @@
 <div onLoad="MM_preloadImages('../eztrade/images/redigerminimrk.gif','../eztrade/images/slettminimrk.gif')"></div>
 
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.3 2000/10/19 13:49:10 th-cvs Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.4 2000/10/27 09:26:27 bf-cvs Exp $ -->
 
-<h1>{intl-head_line}</h1>
+<table width="100%" border="0">
+<tr>
+	<td>
+	<h1>{intl-head_line}</h1>
+	</td>
+	<td align="right">
+	<form action="/trade/orderlist/" method="post">
+	<input type="text" name="QueryText" />
+	<input type="submit" value="{intl-search}">
+	</form>
+	</td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 
@@ -80,3 +92,17 @@
 </table>
 <!-- END order_item_list_tpl -->
 
+
+<!-- BEGIN previous_tpl -->
+<a href="/trade/orderlist/?Offset={prev_offset}&URLQueryString={url_query_string}">
+prev
+</a>
+<!-- END previous_tpl -->
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<!-- BEGIN next_tpl -->
+<a href="/trade/orderlist/?Offset={next_offset}&URLQueryString={url_query_string}">
+next
+</a>
+<!-- END next_tpl -->

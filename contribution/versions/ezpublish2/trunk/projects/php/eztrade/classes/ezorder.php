@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.9 2000/10/10 14:47:23 bf-cvs Exp $
+// $Id: ezorder.php,v 1.10 2000/10/27 09:26:27 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -185,7 +185,8 @@ class eZOrder
         $return_array = array();
         $order_array = array();
 
-        $this->Database->array_query( $order_array, "SELECT ID FROM eZTrade_Order" );
+        $this->Database->array_query( $order_array, "SELECT ID FROM eZTrade_Order
+                                                     LIMIT $offset, $limit" );
 
         for ( $i=0; $i<count( $order_array ); $i++ )
         {
@@ -195,6 +196,67 @@ class eZOrder
         return $return_array;
     }
 
+    /*!
+      Does a search in the order database.
+
+      Note: Default limit is 20.
+    */
+    function search( $queryText, $offset=0, $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $order_array = array();
+
+        $this->Database->array_query( $order_array, "SELECT ID
+                                                     FROM eZTrade_Order
+                                                     WHERE ID LIKE '%$queryText%'
+                                                      LIMIT $offset, $limit" );
+
+        for ( $i=0; $i<count( $order_array ); $i++ )
+        {
+            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
+        }
+
+        return $return_array;
+    }
+
+    /*!
+      Returns the total count of a query.
+    */
+    function getSearchCount( $queryText )
+    {
+        $this->dbInit();
+
+        $this->Database->array_query( $order_array, "SELECT count(ID) as Count
+                                                     FROM eZTrade_Order
+                                                     WHERE ID LIKE '%$queryText%'" );
+
+        $ret = 0;
+        if ( count( $order_array ) == 1 )
+            $ret = $order_array[0]["Count"];
+
+        return $ret;
+    }
+
+    /*!
+      Returns the total count of orders.
+    */
+    function getTotalCount(   )
+    {
+        $this->dbInit();
+
+        $this->Database->array_query( $order_array, "SELECT count(ID) as Count
+                                                     FROM eZTrade_Order" );
+
+        $ret = 0;
+        if ( count( $order_array ) == 1 )
+            $ret = $order_array[0]["Count"];
+
+        return $ret;
+    }
+    
+    
     /*!
       Returns the object id.
     */
