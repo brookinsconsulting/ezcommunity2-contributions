@@ -62,10 +62,11 @@
 
 
     <!-- Banner -->
+
     <div align="center">
         <?
         $CategoryID = 4;
         $Limit = 1; 
         include( "ezad/user/adlist.php" );
         ?>
-    </div>
+    </div><br />

@@ -45,14 +45,14 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="repeaty" width="1%" background="/images/{site_style}/top-l02.gif" valign="top"><img src="/images/{site_style}/top-l01.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/images/{site_style}/top-m01.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeaty" width="1%" background="/images/{site_style}/top-r02.gif" valign="top"><img src="/images/{site_style}/top-r01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1" background="/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="/images/{site_style}/top-l01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/images/{site_style}/top-m01.gif" valign="absmiddle" bgcolor="#b5b5b5" align="left"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/images/{site_style}/top-m01.gif" valign="absmiddle" bgcolor="#b5b5b5" align="left"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeaty" width="1" background="/images/{site_style}/top-r02.gif" valign="top" align="left"><img src="/images/{site_style}/top-r01.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
-    <td class="repeaty" width="1%" background="/images/{site_style}/top-l02.gif" valign="top"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" valign="absmiddle" bgcolor="#b5b5b5">
-
+    <td class="repeaty" width="1" background="/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" colspan="2" width="98%" valign="absmiddle" bgcolor="#b5b5b5" align="left">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -64,16 +64,19 @@
 	</td>
 	<td width="1%">
 	<span class="top">{intl-site_url}:</span><br />
-	<span class="topusername"><nobr>{site_url}</nobr></span>
+	<span class="topusername">{site_url}</span><br />
+	<img src="/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
 	<span class="top">{intl-user_name}:</span><br />
-	<span class="topusername"><nobr>{first_name} {last_name}</nobr></span>
+	<span class="topusername">{first_name}&nbsp;{last_name}</span><br />
+	<img src="/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
-	<nobr><img src="/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/user/passwordchange/">Endre brukerinfo</a></nobr><br />
+	<img src="/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/user/passwordchange/">Endre&nbsp;brukerinfo</a><br />
+	<img src="/images/1x1.gif" width="150" height="10" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%" align="right">
@@ -83,15 +86,17 @@
 </table>
 
 	</td>
-    <td class="repeaty" width="1%" background="/images/{site_style}/top-r02.gif" valign="top"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="%" background="/images/{site_style}/top-r02.gif" valign="top" align="left"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
-    <td class="repeaty" width="1%" valign="top"><img src="/images/{site_style}/top-l03.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/images/{site_style}/top-m02.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeaty" width="1%" valign="top"><img src="/images/{site_style}/top-r03.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1" valign="top" align="left"><img src="/images/{site_style}/top-l03.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/images/{site_style}/top-m02.gif" valign="absmiddle" align="left" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/images/{site_style}/top-m02.gif" valign="absmiddle" align="left" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeaty" width="1" valign="top" align="left"><img src="/images/{site_style}/top-r03.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 </table>
 <img src="/images/{site_style}/1x1.gif" width="6" height="6" border="0" /><br />
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" valign="top">
