@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelistrss.php 9870 2003-07-22 09:55:52Z vl $
+// $Id: articlelistrss.php,v 1.6.2.2 2003/07/22 09:55:52 vl Exp $
 //
 // Created on: <11-Dec-2000 09:44:51 bf>
 //
@@ -25,57 +25,91 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztexttool.php" );
+
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
+
+
 $ini =& INIFile::globalINI();
-$Title = $ini->read_var( "eZArticleRSS", "Title" );
+$Title = htmlspecialchars($ini->read_var( "eZArticleRSS", "Title" ));
 $Link = $ini->read_var( "eZArticleRSS", "Link" );
-$Description = $ini->read_var( "eZArticleRSS", "Description" );
+$Description = htmlspecialchars($ini->read_var( "eZArticleRSS", "Description" ));
 $Language = $ini->read_var( "eZArticleRSS", "Language" );
+
+$Image = $ini->read_var( "eZArticleRSS", "Image" );
+$CategoryID = $ini->read_var( "eZArticleRSS", "CategoryID" );
+$Limit = $ini->read_var( "eZArticleRSS", "Limit" );
+
+$headerInfo = ( getallheaders() );
+$Host =  $headerInfo["Host"] ;
 
 // clear what might be in the output buffer
 ob_end_clean();
 
 // xml header
 header( "Content-type: text/xml" );
-print( "<?xml version=\"1.0\"?>\n\n" );
+print( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n\n" );
 
 // rss header
-print( "<!DOCTYPE rss PUBLIC \"-//Netscape Communications//DTD RSS 0.91//EN\" \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">\n\n" );
-
-print( "<rss version=\"0.91\">\n" );
+//print( "<!DOCTYPE rss PUBLIC \"-//Netscape Communications//DTD RSS 0.91//EN\" \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">\n\n" );
+print( "<rss version=\"0.92\">\n" );
 
 print( "<channel>\n" );
 
 
-print( "<title></title>\n" );
+print( "<title>$Title</title>\n" );
 print( "<link>$Link</link>\n" );
 print( "<description>$Description</description>\n" );
 print( "<language>$Language</language>\n" );
 
-$article = new eZArticle();
-$articleList = $article->articles( $SortMode, false, 0, 10 );
+// Print Channel Image Tag
+print( "<image>\n" );
+print( "<url>http://".$Host.$Image."</url>\n" );
+print( "<link>http://".$Link."</link>\n" );
+print( "<title>".Title."</title>\n" );
+print( "</image>\n" );
+
+// get articles. Always sort by date/time (newest first)
+if ( $CategoryID == 0 )
+{
+    $article = new eZArticle();
+    $articleList = $article->articles( "time", false, 0 , $Limit);
+} 
+else
+{
+    $category = new eZArticleCategory( $CategoryID );
+    $articleList = $category->articles( "time", false, true, 0 , $Limit );
+}
+
 
 $locale = new eZLocale( $Language );
 foreach ( $articleList as $article )
 {
     $articleID = $article->id();
-    $headerInfo = ( getallheaders() );
+
     
     print( "<item>\n" );
-    print( "<title>" . substr( $article->name(), 0, 99 ) . "</title>\n" );
-    print( "<link>http://" . $headerInfo["Host"] . "/article/view/$articleID/</link>\n" );
+    print( "<title>" . htmlspecialchars($article->name()) . "</title>\n" );
+    print( "<link>http://" . $Host . "/article/view/$articleID/</link>\n" );
     
 //      $published = $article->published();
 //      print( $locale->format( $published ) );
 
-    $renderer = new eZArticleRenderer( $article );
-    $description = $renderer->renderIntro();
-    
-    print( "<description>" . substr( trim( strip_tags( $description ) ), 0, 499 ). "</description>\n" );    
+ 
+ // render the intro as HTML into the description tag:
+ $renderer = new eZArticleRenderer( $article );
+ $description = $renderer->renderIntro();
+ 
+ // prefix relative Links in href and src attributes with the Hostname, so the feed does not contain relative links and feedreaders can parse the links and show the images.
+ $description = str_replace("href=\"/", "href=\"http://".$Host."/", $description);
+ $description = str_replace("src=\"/", "src=\"http://".$Host."/", $description);
+   
+// encode HTML special character like < , > and " and print the tag   
+    print( "<description>" . htmlspecialchars( $description ). "</description>\n" );    
 
     print( "</item>\n" );
 }
