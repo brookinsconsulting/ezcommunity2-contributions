@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.52.2.1 2001/11/15 18:02:37 ce Exp $
+// $Id: ezvirtualfile.php,v 1.52.2.2 2002/04/22 08:35:45 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -191,7 +191,7 @@ class eZVirtualfile
 
       Default limit is set to 30.
      */
-    function &search( &$queryText, $offset=0, $limit=30, $userID = -1 )
+    function &search( &$queryText, $offset = 0, $limit = 30, $userID = -1 )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -200,16 +200,16 @@ class eZVirtualfile
             $user = new eZUser( $userID );
         else
             $user =& eZUser::currentUser();
-        $groupString = "AND f.ID=p.ObjectID AND ( ( ( p.GroupID='-1' ";
+        $groupString = "AND f.ID=p.ObjectID AND fo.ID=ffl.FolderID AND ffl.FileID=f.ID AND fp.ObjectID=fo.ID AND fp.ReadPermission='1' AND ( ( ( (p.GroupID='-1' AND fp.GroupID='-1')";
         if ( $user )
         {
             foreach ( $user->groups( false ) as $group )
             {
-                $groupString .= "OR p.GroupID='$group' ";
+                $groupString .= "OR (p.GroupID='$group' AND fp.GroupID='$group') ";
             }
         }
         $groupString .= ") AND p.ReadPermission='1' ) OR ( f.UserID='$userID' ) )";
-        $query = new eZQuery( array( "Name", "Description" ), $queryText );
+        $query = new eZQuery( array( "f.Name", "f.Description" ), $queryText );
         $query->setPartialCompare( true );
         $queryString = "SELECT f.ID, f.Name as Count FROM eZFileManager_File as f";
         if ( $user && $user->hasRootAccess() )
@@ -218,10 +218,11 @@ class eZVirtualfile
         }
         else
         {
-            $queryString .= ", eZFileManager_FilePermission as p";
+            $queryString .= ", eZFileManager_FilePermission as p, eZFileManager_Folder as fo,
+                               eZFileManager_FileFolderLink as ffl, eZFileManager_FolderPermission as fp";
         }
         $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
-        $queryString .= " ORDER BY Name";
+        $queryString .= " ORDER BY f.Name";
         $limit = array( "Limit" => $limit,
                         "Offset" => $offset );
         $db->array_query( $fileArray, $queryString, $limit );
@@ -230,7 +231,6 @@ class eZVirtualfile
             $returnArray[] = new eZVirtualFile( $file[$db->fieldName( "ID" )] );
         }
         return $returnArray;
-
     }
 
     /*!
@@ -501,7 +501,7 @@ class eZVirtualfile
     /*!
       Retuns the folder for this eZVirtualFile object.
     */
-    function &folder()
+    function &folder( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
         $result = array();
@@ -511,7 +511,7 @@ class eZVirtualfile
         
         foreach ( $result as $folder )
         {
-            return new eZVirtualFolder( $folder[$db->fieldName( "FolderID" )] );
+            return $as_object ? new eZVirtualFolder( $folder[$db->fieldName( "FolderID" )] ) : $folder[$db->fieldName( "FolderID" )];
         }
     }
     

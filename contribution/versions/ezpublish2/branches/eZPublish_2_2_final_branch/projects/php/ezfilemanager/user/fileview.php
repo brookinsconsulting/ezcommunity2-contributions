@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileview.php,v 1.16.2.1 2002/02/14 09:35:03 jhe Exp $
+// $Id: fileview.php,v 1.16.2.2 2002/04/22 08:35:46 jhe Exp $
 //
 // Created on: <04-Jan-2001 16:47:23 ce>
 //
@@ -83,14 +83,16 @@ if ( $FileID != 0 )
     // tempo fix for admin users - maybe in the future must be changed
     if ( $parent_folder != 0 && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
-	$GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $parent_folder->id() );
+        $GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $parent_folder->id() );
     }
     
     // init the section
     $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
     $sectionObject->setOverrideVariables();
 
-    if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) )
+    if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) &&
+         ( eZObjectPermission::hasPermission( $file->folder( false ), "filemanager_folder", "r", $user ) ||
+           eZVirtualFolder::isOwner( $user, $file->folder( false ) ) ) )
     {
         $t->parse( "download", "download_tpl" );
     }

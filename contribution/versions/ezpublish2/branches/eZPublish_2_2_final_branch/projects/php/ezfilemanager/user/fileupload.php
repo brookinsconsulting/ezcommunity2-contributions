@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.44.2.8 2002/04/22 06:50:24 jhe Exp $
+// $Id: fileupload.php,v 1.44.2.9 2002/04/22 08:35:46 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -349,6 +349,14 @@ if ( $Action == "Edit" )
 {
     $file = new eZVirtualFile( $FileID );
 
+    if ( !( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) &&
+            ( eZObjectPermission::hasPermission( $file->folder( false ), "filemanager_folder", "r", $user ) ||
+              eZVirtualFolder::isOwner( $user, $file->folder( false ) ) ) ) )
+    {
+        eZHTTPTool::header( "Location: /error/403/" );
+        exit();
+    }
+    
     $t->set_var( "name_value", $file->name() );
     $t->set_var( "description_value", $file->description() );
     $t->set_var( "file_id", $file->id() );
