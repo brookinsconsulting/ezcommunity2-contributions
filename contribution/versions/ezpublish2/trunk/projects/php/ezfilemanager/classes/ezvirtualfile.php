@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.50 2001/09/28 10:14:40 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.51 2001/10/16 13:49:25 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -215,7 +215,7 @@ class eZVirtualfile
         $query = new eZQuery( array( "Name", "Description" ), $queryText );
         $query->setPartialCompare( true );
         $queryString = "SELECT f.ID, f.Name as Count FROM eZFileManager_File as f";
-        if ( $user->hasRootAccess() )
+        if ( $user && $user->hasRootAccess() )
         {
             $groupString = "";
         }
@@ -259,7 +259,7 @@ class eZVirtualfile
         $query = new eZQuery( array( "Name", "Description" ), $queryText );
         $query->setPartialCompare( true );
         $queryString = "SELECT COUNT(f.ID) as Count FROM eZFileManager_File as f";
-        if ( $user->hasRootAccess() )
+        if ( $user && $user->hasRootAccess() )
         {
             $groupString = "";
         }
