@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.30 2001/02/13 11:12:12 jb Exp $
+// $Id: eztemplate.php,v 1.31 2001/02/16 11:33:44 fh Exp $
 //
 // Definition of eZTemplate class
 //
@@ -476,9 +476,14 @@ class eZTemplate
 
     /*!
       Sets a template variable to contain a certain value.
+      If $value is an emtpy string the contents will be replaced
+      with the contents of $subsIfEmtpy (which also is emtpy as default)
     */
-    function set_var( $varname, $value = "")
+    function set_var( $varname, $value = "", $substIfEmpty = "" )
     {
+        if( $value == "" )
+            $value = $substIfEmpty;
+
         $this->set_var_internal( $varname, $value );
     }
 
