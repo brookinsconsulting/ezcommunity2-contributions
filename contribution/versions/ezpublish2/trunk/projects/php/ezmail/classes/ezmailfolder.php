@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.14 2001/04/03 08:46:32 fh Exp $
+// $Id: ezmailfolder.php,v 1.15 2001/04/03 14:06:11 fh Exp $
 //
 // eZMailFolder class
 //
@@ -425,6 +425,18 @@ class eZMailFolder
         if( $folderID == -1 )
             $folderID = $this->ID;
 
+        $orderBySQL = "Mail.UDate ASC";
+        switch( $sortmode )
+        {
+            case "subject" : $orderBySQL = "Mail.Subject ASC"; break;
+            case "date_asc" : $orderBySQL = "Mail.UDate ASC"; break;
+            case "date_desc" : $orderBySQL = "Mail.UDate DESC"; break;
+            case "from_asc" : $orderBySQL = "Mail.FromField ASC"; break;
+            case "from_desc" : $orderBySQL = "Mail.FromField DESC"; break;
+            case "size_asc" : $orderBySQL = "Mail.Size ASC"; break;
+            case "size_desc" : $orderBySQL = "Mail.Size DESC"; break;
+        }
+        
         $db =& eZDB::globalDatabase();
         $query = "SELECT Mail.ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
                   WHERE Mail.ID=Link.MailID AND Link.FolderID='$folderID'
