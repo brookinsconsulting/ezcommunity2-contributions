@@ -3,6 +3,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezbug/classes/ezbugmodule.php" );
 include_once( "ezbug/classes/ezbug.php" );
+include_once( "classes/ezhttptool.php" );
 
 switch ( $url_array[2] )
 {
@@ -16,7 +17,14 @@ switch ( $url_array[2] )
         $module = $bug->module();
         $ownerGroup = $module->ownerGroup();
         if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
+        {
             include( "ezbug/admin/bugedit.php" );
+        }
+        else // someone is trying to push the envelope
+        {
+            eZHTTPTool::header( "Location: /bug/archive/");
+            exit();
+        }
     }
     break;
     
