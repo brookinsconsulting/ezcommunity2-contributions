@@ -5,7 +5,7 @@
 */
 
 include  "template.inc";
-require "ezcontact_ce/dbsettings.php";
+require "ezcontact/dbsettings.php";
 require  "ezphputils.php";
 
 require $DOCUMENTROOT . "classes/ezsession.php";

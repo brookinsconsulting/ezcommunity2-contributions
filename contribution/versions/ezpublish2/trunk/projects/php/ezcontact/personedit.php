@@ -1,7 +1,7 @@
 <?
 include  "template.inc";
 require "ezphputils.php";
-require "ezcontact_ce/dbsettings.php";
+require "ezcontact/dbsettings.php";
 
 require $DOCUMENTROOT . "classes/ezperson.php";
 require $DOCUMENTROOT . "classes/ezpersontype.php";
