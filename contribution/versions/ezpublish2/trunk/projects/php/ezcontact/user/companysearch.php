@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companysearch.php,v 1.6 2001/07/20 12:01:51 jakobn Exp $
+// $Id: companysearch.php,v 1.7 2001/07/24 14:03:00 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -37,16 +37,42 @@ $errorIni = new INIFIle( "ezcontact/user/intl/" . $Language . "/search.php.ini",
 
 $t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "TemplateDir" ),
                      "ezcontact/user/intl/", $Language, "search.php" );
-$t->set_file( array(
-    "search" => "companysearch.tpl" ) );
 
-$t->set_block( "search", "search_box_tpl", "search_box" );
-$t->set_block( "search", "advanced_search_box_tpl", "advanced_search_box" );
-$t->set_block( "advanced_search_box_tpl", "category_option_tpl", "category_option" );
-$t->set_block( "search", "search_results_tpl", "search_results" );
-$t->set_block( "search_results_tpl", "result_item_tpl", "result_item" );
-$t->set_block( "result_item_tpl", "result_category_tpl", "result_category" );
-$t->set_block( "search", "no_results_tpl", "no_results" );
+$t->set_file( "search", "companysearch.tpl" );
+
+$t->set_block( "search", "current_type_tpl", "current_type" );
+$t->set_block( "search", "view_tpl", "view" );
+$t->set_block( "search", "list_tpl", "list" );
+$t->set_block( "search", "not_root_tpl", "not_root" );
+$t->set_block( "search", "type_list_tpl", "type_list" );
+
+$t->set_block( "type_list_tpl", "type_item_tpl", "type_item" );
+$t->set_block( "type_item_tpl", "type_edit_button_tpl", "type_edit_button" );
+$t->set_block( "type_item_tpl", "type_delete_button_tpl", "type_delete_button" );
+
+$t->set_block( "search", "type_new_button_tpl", "type_new_button" );
+
+$t->set_block( "search", "category_list_tpl", "category_list" );
+
+$t->set_block( "search", "no_type_item_tpl", "no_type_item" );
+$t->set_block( "search", "no_category_item_tpl", "no_category_item" );
+$t->set_block( "search", "path_tpl", "path" );
+$t->set_block( "path_tpl", "path_item_tpl", "path_item" );
+$t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
+$t->set_block( "search", "company_item_tpl", "company_item" );
+$t->set_block( "company_item_tpl", "image_view_tpl", "image_view" );
+$t->set_block( "search", "no_companies_tpl", "no_companies" );
+$t->set_block( "search", "companies_table_tpl", "companies_table" );
+$t->set_block( "companies_table_tpl", "company_stats_header_tpl", "company_stats_header" );
+
+$t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
+$t->set_block( "company_item_tpl", "company_view_button_tpl", "company_view_button" );
+$t->set_block( "company_item_tpl", "no_company_view_button_tpl", "no_company_view_button" );
+$t->set_block( "company_item_tpl", "company_consultation_button_tpl", "company_consultation_button" );
+$t->set_block( "company_item_tpl", "company_edit_button_tpl", "company_edit_button" );
+$t->set_block( "company_item_tpl", "company_delete_button_tpl", "company_delete_button" );
+$t->set_block( "company_item_tpl", "company_stats_item_tpl", "company_stats_item" );
+$t->set_block( "search", "company_new_button_tpl", "company_new_button" );
 
 $t->set_var( "search_box", "" );
 $t->set_var( "advanced_search_box", "" );
@@ -61,110 +87,43 @@ $t->set_var( "search_text", "$SearchText" );
 $Action = "new";
 $results = "false";
 
-if( $SearchObject == "company" )
+if ( $SearchObject == "company" )
 {
     $Action = "search";
 }
 
-if( !empty( $SearchText ) )
+if ( !empty( $SearchText ) )
 {
     $Action = "search";
 }
 
-if( !empty( $AdvancedSearch ) )
+if ( !empty( $AdvancedSearch ) )
 {
     $Action = "advanced";
     $t->set_var( "advanced_search", "true" );
-}
-
-if( $Action == "new" )
-{
-    $t->parse( "search_box", "search_box_tpl" );
 }
 
 $company = new eZCompany();
 
 if( $Action == "search" )
 {
-    
     $companyArray = $company->search( $SearchText );
     
     $count = count( $companyArray );
-    
-    if( $count > 0 )
+    if ( $count > 0 )
     {
         $results = true;
     }
-    
-    $t->parse( "search_box", "search_box_tpl" );
 }
 
-function byParent( $inParentID, $indent, $maxLevel = 3 )
-{
-    global $t;
-    global $CategoryArray;
-    
-    $type = new eZCompanyType();
-    $typeArray = $type->getByParentID( $inParentID );
-    
-    $count = count( $typeArray );
-    
-    if( $indent > $maxLevel )
-    {
-        $indent == $maxLevel;
-    }
-    $indentLine = str_pad( $indentLine, $indent * 6, "&nbsp;" );
-    
-    foreach( $typeArray as $ct )
-    {
-        $CategoryID = $ct->id();
-        $t->set_var( "category_id", $CategoryID );
-        $t->set_var( "category_value", $indentLine . $ct->name() );
-        $t->set_var( "category_selected", "" );
-        
-        if( is_array( $CategoryArray ) )
-        foreach( $CategoryArray as $Category )
-        {
-            if( $CategoryID == $Category )
-            {
-                $t->set_var( "category_selected", "selected" );
-            }
-        }
-        
-        $t->parse( "category_option", "category_option_tpl", true );
-        byParent( $ct->id(), $indent + 1 );
-    }
-}
-
-if( $Action == "advanced" )
-{
-    
-    byParent( $ParentID, 0 );
-    
-    $companyArray = array();
-    $count = count( $CategoryArray );
-
-    if( $count )
-    {
-        foreach( $CategoryArray as $Category )
-        {
-            $companyArray = array_merge( $companyArray, $company->searchByCategory( $Category, $SearchText ) );
-        }
-        $companyArray = array_unique( $companyArray );
-        $results = true;
-    }
-    
-    $t->parse( "advanced_search_box", "advanced_search_box_tpl" );
-}
-
-if( $results == true )
+if ( $results == true )
 {
     $count = count( $companyArray );
     $t->set_var( "results", $count );
-    $i;
-    foreach( $companyArray as $company )
+    $i = 0;
+    foreach ( $companyArray as $company )
     {
-        if ( ( $i %2 ) == 0 )
+        if ( ( $i % 2 ) == 0 )
             $t->set_var( "item_color", "bglight" );
         else
             $t->set_var( "item_color", "bgdark" );
@@ -180,7 +139,7 @@ if( $results == true )
         
         $t->set_var( "result_category", "" );
         
-        foreach( $categoryArray as $category )
+        foreach ( $categoryArray as $category )
         {
             $t->set_var( "item_category_name", $category->name() );
             $t->set_var( "item_category_id", $category->id() );
@@ -191,7 +150,7 @@ if( $results == true )
         $t->parse( "result_item", "result_item_tpl", true );
     }
     
-    if( $count > 0 )
+    if ( $count > 0 )
     {
         $t->parse( "search_results", "search_results_tpl" );
     }

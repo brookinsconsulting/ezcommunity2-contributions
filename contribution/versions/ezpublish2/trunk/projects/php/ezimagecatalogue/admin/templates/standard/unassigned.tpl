@@ -11,7 +11,7 @@
 <tr>
 	<!-- BEGIN detail_read_tpl -->
 	<td valign="top" class="{td_class}">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/unassigned/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/unassigned/{offset}/{limit}"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<td class="{td_class}">
 	{image_size}&nbsp;{image_unit}
