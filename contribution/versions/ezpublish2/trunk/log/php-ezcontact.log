@@ -858,3 +858,14 @@ Maintainer(s) : jhe@ez.no
       admin/templates/standard/companyedit.tpl
       admin/templates/standard/companytypelist.tpl: removed bug....
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-11-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personlist.php
+      admin/templates/standard/personlist.tpl: removed more image stuff
+
+    * admin/personlist.php: removed image for persons
+
