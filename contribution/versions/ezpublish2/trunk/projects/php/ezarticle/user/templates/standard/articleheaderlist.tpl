@@ -30,7 +30,7 @@
 
 
 <!-- BEGIN article_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
 	{intl-article}:

@@ -38,10 +38,12 @@
 		<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
 		<td width="99%"><a class="menu" href="/newsfeed/allcategories/">Latest news feeds</a></td>
 	</tr>
+<!--
 	<tr>
 		<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
-		<td width="99%"><a class="menu" href="/article/articleheaderlist/0/">Archive</a></td>
+		<td width="99%"><a class="menu" href="/newsfeed">Archive</a></td>
 	</tr>
+-->
 	<tr>
 		<td colspan="2" class="menuspacer">&nbsp;</td>
 	</tr>
