@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.32 2001/09/21 14:28:49 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.33 2001/09/27 11:35:38 bf Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -182,7 +182,9 @@ class eZObjectPermission
                     $first = false;
                 }
                 
-                $SQLGroups .= ") OR ( Object.GroupID = '-1' AND Category.GroupID = '-1' ) ";
+                $SQLGroups .= ") OR ( Object.GroupID = '-1' AND Category.GroupID = '-1' )
+                OR ( Object.GroupID = '$groupItem' AND Category.GroupID = '-1' )
+                OR ( Object.GroupID = '-1' AND Category.GroupID = '$groupItem' )";
             }
         }
 
