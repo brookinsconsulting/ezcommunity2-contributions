@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.46 2001/03/15 19:18:35 ce Exp $
+// $Id: ezproduct.php,v 1.47 2001/03/15 19:41:36 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -254,17 +254,25 @@ class eZProduct
             $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
 
+            $this->Database->array_query( $qry_array, "SELECT QuantityID FROM eZTrade_ProductQuantityDict
+                                                       WHERE ProductID='$this->ID'" );
+            foreach( $qry_array as $row )
+            {
+                $id = $row["QuantityID"];
+                $this->Database->query( "DELETE FROM eZTrade_Quantity WHERE ID='$id'" );
+            }
+            $this->Database->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$this->ID'" );
+
             $options = $this->options();
             foreach ( $options as $option )
             {
                 $option->delete();
             }            
-            
+
             $this->Database->query( "DELETE FROM eZTrade_Product WHERE ID='$this->ID'" );
         }
-        
         return true;
-    }    
+    }
 
     /*!
       Returns the object ID to the product. This is the unique ID stored in the database.
@@ -383,11 +391,99 @@ class eZProduct
        {
            $value =& $vatType->value();
            $vat = ( $calcPrice / ( $value + 100  ) ) * $value;        
-       }       
-       
+       }
        return $vat;
     }
-    
+
+    /*!
+      Sets the total quantity of the product.
+    */
+    function setTotalQuantity( $quantity )
+    {
+        $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array,
+                          "SELECT Q.ID
+                           FROM eZTrade_Quantity AS Q, eZTrade_ProductQuantityDict AS PQD
+                           WHERE Q.ID=PQD.QuantityID AND ProductID='$id'" );
+        $db->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$id'" );
+        foreach( $qry_array as $row )
+        {
+            $q_id = $row["ID"];
+            $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$q_id'" );
+        }
+        if ( is_bool( $quantity ) and !$quantity )
+            return;
+        $db->query( "INSERT INTO eZTrade_Quantity VALUES('','$quantity')" );
+        $q_id = $db->insertID();
+        $db->query( "INSERT INTO eZTrade_ProductQuantityDict VALUES('$id','$q_id')" );
+    }
+
+    /*!
+      \static
+      Returns the total quantity of this product.
+    */
+    function totalQuantity( $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array,
+                          "SELECT Q.Quantity
+                           FROM eZTrade_Quantity AS Q, eZTrade_ProductQuantityDict AS PQD
+                           WHERE Q.ID=PQD.QuantityID AND ProductID='$id'" );
+        $quantity = 0;
+        if ( count( $qry_array ) > 0 )
+        {
+            foreach( $qry_array as $row )
+            {
+                if ( $row["Quantity"] == "NULL" )
+                    return false;
+                $quantity += $row["Quantity"];
+            }
+        }
+        else
+            return false;
+        return $quantity;
+    }
+
+    /*!
+      Returns a textual version of the quantity, this allows a site to hide the
+      exact quantity but instead give indications.
+      If no named quantity can be found the quantity is returned.
+    */
+    function namedQuantity( $quantity )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( is_bool( $quantity ) and !$quantity )
+        {
+            $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
+                                       WHERE MaxRange=-1 LIMIT 1", 0, 1 );
+            $name = $qry_array[0]["Name"];
+        }
+        else
+        {
+            $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
+                                       WHERE MaxRange IS NOT NULL AND MaxRange>=$quantity
+                                       ORDER BY MaxRange LIMIT 1", 0, 1 );
+            $name = "";
+            if ( count( $qry_array ) == 1 )
+            {
+                $name = $qry_array[0]["Name"];
+            }
+            else
+            {
+                $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
+                                           WHERE MaxRange IS NULL LIMIT 1", 0, 1 );
+                if ( count( $qry_array ) == 1 )
+                    $name = $qry_array[0]["Name"];
+                else
+                    $name = $quantity;
+            }
+        }
+        return $name;
+    }
+
     /*!
       Returns the keywords of the product.
     */
@@ -956,169 +1052,6 @@ class eZProduct
        
        return $res_array[0]["Count"];
     }
-
-    /*!
-      Search through the products.
-
-      Returns the products as an array of eZProducts objects.
-    */
-    function extendedSearch( $priceLower, $priceHigher, $text, $offset=0, $limit=10, $categoryArrayID=array() )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
-
-        $products = array();
-
-        if ( count ( $categoryArrayID ) > 0 )
-        {
-            foreach( $categoryArrayID as $categoryID )
-            {
-                if ( $i == 0 )
-                    $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-                else
-                    $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-            }
-        }
-        if ( $priceLower || $priceHigher )
-        {
-            if ( ( is_numeric( $priceLower ) ) || ( is_numeric ( $priceHigher ) ) )
-            {
-                if ( $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower";
-                }
-                if ( $priceHigher )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price < $priceHigher";
-                }
-                if ( $priceHigher && $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower AND Price < $priceHigher";
-                }
-            }
-        }
-        if ( $text != "" )
-        {
-            $query = new eZQuery( array( "Name", "Keywords", "Description" ), $text );
-            if ( $price || $catID )
-                $text = "AND (" . $query->buildQuery()  . ")";
-            else
-                $text = "(" . $query->buildQuery()  . ")";
-        }
-
-        if ( $catID || $price || $text )
-        {
-            $queryString = "SELECT DISTINCT eZTrade_ProductCategoryLink.ProductID as PID
-                        FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                        WHERE $catID $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID LIMIT $offset, $limit";
-        }               
-
-        $this->Database->array_query( $res_array, $queryString );
-
-        if ( count ( $res_array ) > 0 )
-        {
-            foreach( $res_array as $productItem )
-            {
-                $products[] = new eZProduct( $productItem["PID"] );
-            }
-        }
-
-        return $products;
-    }
-
-
-    /*!
-      Search through the products and returns the count.
-    */
-    function extendedSearchCount( $priceLower, $priceHigher, $text, $categoryArrayID=array() )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
-
-        $products = array();
-
-        if ( count ( $categoryArrayID ) > 0 )
-        {
-            foreach( $categoryArrayID as $categoryID )
-            {
-                if ( $i == 0 )
-                    $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-                else
-                    $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-            }
-        }
-        if ( $priceLower || $priceHigher )
-        {
-            if ( ( is_numeric( $priceLower ) ) || ( is_numeric ( $priceHigher ) ) )
-            {
-                if ( $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower";
-                }
-                if ( $priceHigher )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price < $priceHigher";
-                }
-                if ( $priceHigher && $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower AND Price < $priceHigher";
-                }
-            }
-        }
-        if ( $text != "" )
-        {
-            $query = new eZQuery( array( "Name", "Keywords", "Description" ), $text );
-            if ( $price || $catID )
-                $text = "AND (" . $query->buildQuery()  . ")";
-            else
-                $text = "(" . $query->buildQuery()  . ")";
-        }
-
-        if ( $catID || $price || $text )
-        {
-            $queryString = "SELECT count(DISTINCT eZTrade_ProductCategoryLink.ProductID) as PID
-                        FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                        WHERE $catID $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID";
-        }               
-
-        $this->Database->array_query( $res_array, $queryString );
-
-        return $res_array[0]["Count"];    }
-   
     
     /*!
       Returns the products set to hot deal.
