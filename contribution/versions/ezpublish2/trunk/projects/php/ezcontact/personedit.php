@@ -187,7 +187,10 @@ $address_type_array = $addressType->getAll( );
 $phone_type_array = $phoneType->getAll( );
 
 $t->set_var( "phone_action_type", "hidden" );
+$t->set_var( "phone_list", "" );
 
+$t->set_var( "address_action_type", "hidden" );
+$t->set_var( "address_list", "" );
 
 // address type selector
 for ( $i=0; $i<count( $address_type_array ); $i++ )
