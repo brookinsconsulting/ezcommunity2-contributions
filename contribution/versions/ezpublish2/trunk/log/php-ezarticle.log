@@ -734,3 +734,17 @@ Maintainer(s) : vl@ez.no
 
     * user/sitemap.php: Fixed alternating bgcolor in sitemap.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : vl@ez.no
+2001-09-18  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/linmag/frontpage.tpl: Layout
+
+2001-09-18  Baard Farstad  <bf@ez.no>
+
+    * user/frontpage.php
+      user/templates/standard/frontpage.tpl:
+    Fixed showing of HTML banner on the frontpage.
+
