@@ -58,7 +58,7 @@
 	</h2>
 
 	<!-- BEGIN article_image_tpl -->
-	    <table align="right">
+	    <table align="right"  width="{thumbnail_image_width}">
 	        <tr>
 			<td>
                         <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
