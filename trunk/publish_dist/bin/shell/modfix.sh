@@ -16,7 +16,7 @@ chmod 666 bin/logs/error.log
 # that they are writeable by php.
 
 dirs="
-admin/tmp
+design/admin/tmp
 ezad/admin/cache
 ezaddress/admin/cache
 ezarticle/admin/cache

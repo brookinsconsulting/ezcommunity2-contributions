@@ -19,16 +19,16 @@ if [ -f "override/site.ini.append" ]; then
     chmod 640 override/site.ini.append
 fi
 
-touch error.log
-chmod 660 error.log
-chown $1:$2 error.log
+touch bin/logs/error.log
+chmod 660 bin/logs/error.log
+chown $1:$2 bin/logs/error.log
 
 # [cache section]
 # This part will create the cache dirs which are needed and make sure
 # that they are writeable by php.
 
 dirs="
-admin/tmp
+design/admin/tmp
 ezad/admin/cache
 ezaddress/admin/cache
 ezarticle/admin/cache
