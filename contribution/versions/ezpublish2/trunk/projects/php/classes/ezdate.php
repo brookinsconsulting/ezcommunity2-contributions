@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.5 2000/11/02 17:21:23 bf-cvs Exp $
+// $Id: ezdate.php,v 1.6 2000/11/28 16:36:51 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -133,6 +133,16 @@ class eZDate
         {
             print( "<b>Error:</b> eZDate::setMySQLDate() received wrong MySQL date format." );
         }
+    }
+    
+    /*!
+        Returns the date foramtted for mySQL...
+     */
+    function mySQLDate()
+    {
+        $return = $this->Year;
+        $return = $return . "-" . $this->Month;
+        $return = $return . "-" . $this->Day;
     }
         
     var $Year;
