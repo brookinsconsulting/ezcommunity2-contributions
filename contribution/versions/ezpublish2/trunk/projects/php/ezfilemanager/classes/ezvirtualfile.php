@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.34 2001/06/29 11:21:24 bf Exp $
+// $Id: ezvirtualfile.php,v 1.35 2001/06/29 11:23:29 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -373,12 +373,6 @@ class eZVirtualfile
     {
         $filepath =& $this->filePath( true );
         $size = filesize( $filepath );
-
-        print( "path: " . $filepath . "<br>");
-        print( "direkte: " . filesize( "ezfilemanager/files/phphjhrHe" ) . "<br>");
-        print( "fra var: ". $filepath . filesize( $filepath ) . "<br>");
-
-//        print( filesize ( "ezfilemanager/files/phphjhrHe" ) );
 
         return $size;
     }
