@@ -52,9 +52,17 @@ switch ( $url_array[2] )
     }
     break;
 
-    
+// FIXME: test for writeable categories!!!    
     case "articleedit":
     {
+        if(  eZObjectPermission::getObjects( "article_category", 'w', true ) < 1 )
+        {
+            $text = "You do not have write permission to any categories";
+            $info = urlencode( $text );
+            eZHTTPTool::header( "Location: /error/403?Info=$info" );
+            exit();
+        }
+            
         switch ( $url_array[3] )
         {
             case "insert" :
