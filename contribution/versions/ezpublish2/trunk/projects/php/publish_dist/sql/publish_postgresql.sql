@@ -79,6 +79,7 @@ CREATE TABLE eZAddress_Country (
   ID int NOT NULL,
   ISO varchar(2),
   Name varchar(100),
+  HasVAT int DEFAULT '0',
   Removed int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
@@ -1341,6 +1342,25 @@ CREATE TABLE eZMail_MailContactLink (
   MailID int NOT NULL default '0',
   PersonID int,
   CompanyID int,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZMessage (
+  ID int NOT NULL,
+  UserID int NOT NULL default '0',
+  Subject varchar(255) NOT NULL default '',
+  Description text,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZMessage_Message (
+  ID int NOT NULL,
+  FromUserID int NOT NULL default '0',
+  ToUserID int NOT NULL default '0',
+  Created int NOT NULL,
+  IsRead int NOT NULL default '0',
+  Subject varchar(255) NOT NULL default '',
+  Description text,
   PRIMARY KEY (ID)
 );
 CREATE TABLE eZModule_LinkModuleType (
