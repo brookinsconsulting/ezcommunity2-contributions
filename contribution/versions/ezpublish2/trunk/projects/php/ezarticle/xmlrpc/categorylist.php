@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.13 2001/07/25 10:35:25 jb Exp $
+// $Id: categorylist.php,v 1.14 2001/08/08 13:34:21 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -152,7 +152,7 @@ if ( $Command == "list" )
 else if ( $Command == "tree" )
 {
     $cat = new eZArticleCategory();
-    $cat->setName( "test" );
+//      $cat->setName( "test" );
     $tree =& categoryTree( $cat );
     $ReturnData = createTreeStruct( $tree, "ezarticle", "category" );
 }

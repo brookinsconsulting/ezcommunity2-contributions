@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.12 2001/07/25 10:35:04 jb Exp $
+// $Id: article.php,v 1.13 2001/08/08 13:34:21 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -144,6 +144,11 @@ else if( $Command == "storedata" )
         foreach( $cats as $cat )
         {
             $cat = $cat->value();
+            eZArticleCategory::addArticle( $article, $cat );
+        }
+        if ( isset( $Data["Category"] ) )
+        {
+            $cat = $Data["Category"]->value();
             eZArticleCategory::addArticle( $article, $cat );
         }
     }
