@@ -69,8 +69,25 @@ if( $Action == "insert" || $Action == "update" )
     }
     $type->setName( $TypeName );
     $type->setDescription( $TypeDescription );
-    if ( !empty( $TypeID ) and $SelectParentID == $TypeID )
-        $SelectParentID = 0;
+    if ( !empty( $TypeID ) )
+    {
+        if ( $SelectParentID != $type->id() )
+        {
+            $tree =& $type->getTree( $type->id() );
+            foreach( $tree as $item )
+            {
+                if ( $item[0]->id() == $SelectParentID )
+                {
+                    $SelectParentID = 0;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            $SelectParentID = 0;
+        }
+    }
     $type->setParentID( $SelectParentID ); 
 
     $file = new eZImageFile();
