@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.7 2000/10/25 20:13:54 bf-cvs Exp $
+// $Id: articleview.php,v 1.8 2000/10/26 12:18:27 bf-cvs Exp $
 //
 // 
 //
@@ -34,10 +34,21 @@ $t->set_file( array(
     "article_view_page_tpl" => "articleview.tpl"
     ) );
 
+$t->set_block( "article_view_page_tpl", "article_header_tpl", "article_header" );
+
 $t->set_block( "article_view_page_tpl", "page_link_tpl", "page_link" );
 $t->set_block( "article_view_page_tpl", "current_page_link_tpl", "current_page_link" );
 $t->set_block( "article_view_page_tpl", "next_page_link_tpl", "next_page_link" );
 $t->set_block( "article_view_page_tpl", "prev_page_link_tpl", "prev_page_link" );
+
+if ( $StaticRendering == true )
+{
+    $t->set_var( "article_header", "" );
+}
+else
+{
+    $t->parse( "article_header", "article_header_tpl" );
+}
 
 $article = new eZArticle( $ArticleID );
 
