@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.34 2001/10/05 09:42:43 bf Exp $
+// $Id: useredit.php,v 1.34.2.1 2002/04/04 16:14:47 br Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -334,11 +334,11 @@ $groupList = $group->getAll();
 
 $user = 0;
 $t->set_var( "read_only", "" );
+$user = new eZUser();
+$user->get( $UserID );
+
 if ( $Action == "edit" )
 {
-    $user = new eZUser();
-    $user->get( $UserID );
-
     if( $user->infoSubscription() == true )
         $InfoSubscription = "checked";
     else
@@ -365,7 +365,6 @@ else // either new or failed edit... must put htmlspecialchars on stuff we got f
     $Login = htmlspecialchars( $Login );
     $Signature = htmlspecialchars( $Signature );
     $Email = htmlspecialchars( $Email );
-    $user =& eZUser::currentUser();
 }
 
 $mainGroup = $user->groupDefinition();
