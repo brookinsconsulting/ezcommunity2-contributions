@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.175 2001/09/27 08:52:56 jb Exp $
+// $Id: ezarticle.php,v 1.176 2001/09/27 10:26:55 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1968,7 +1968,6 @@ class eZArticle
 
             $queryString = "SELECT ArticleID, Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count='$count'";
 
-            
             $db->array_query( $article_array, $queryString );
             
 //            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );

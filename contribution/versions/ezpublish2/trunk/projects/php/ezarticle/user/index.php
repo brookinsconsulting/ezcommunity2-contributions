@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.7 2001/09/06 17:31:08 bf Exp $
+// $Id: index.php,v 1.8 2001/09/27 10:26:56 bf Exp $
 //
 // Created on: <27-Apr-2001 10:15:40 amos>
 //
@@ -66,11 +66,11 @@ foreach ( $letterArray as $letter )
 
 
 $indexes =& eZArticle::manualKeywordIndex( $CurrentIndex );
-foreach( $indexes as $index )
+foreach( $indexes as $indexKeyword )
 {
     $t->set_var( "article_item", "" );
-    $t->set_var( "index_name", $index );
-    $articles =& eZArticle::searchByShortContent( "", array( $index ) );
+    $t->set_var( "index_name", $indexKeyword );
+    $articles =& eZArticle::searchByShortContent( "", array( $indexKeyword ) );
     $i = 0;
     foreach( $articles as $article )
     {
