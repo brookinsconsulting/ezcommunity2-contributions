@@ -1237,6 +1237,8 @@ INSERT INTO eZContact_PersonIndex (PersonID, Value, Type) SELECT ID, lower(LastN
 INSERT INTO eZContact_PersonIndex (PersonID, Value, Type) SELECT P.ID, lower(O.URL), '2' FROM eZContact_Person AS P, eZAddress_Online AS O, eZContact_PersonOnlineDict AS OD WHERE OD.PersonID=P.ID AND OD.OnlineID=O.ID;
 INSERT INTO eZContact_PersonIndex (PersonID, Value, Type) SELECT P.ID, lower(Ph.Number), '1' FROM eZContact_Person AS P, eZAddress_Phone AS Ph, eZContact_PersonPhoneDict as PD WHERE PD.PersonID=P.ID AND PD.PhoneID=Ph.ID;
 
+INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
+INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');
 INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
 INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select');
 INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
