@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.16 2000/08/09 10:28:06 th-cvs Exp $
+    $Id: category.php,v 1.17 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -50,7 +50,8 @@ else
 }
 $t->parse( "navigation-bar", "navigation", true);
 
-$forums = eZforumForum::getAllForums( $category_id );
+$forum = new eZForumForum();
+$forums = $forum->getAllForums( $category_id );
 
 for ($i = 0; $i < count( $forums ); $i++)
 {
@@ -61,7 +62,8 @@ for ($i = 0; $i < count( $forums ); $i++)
                                                   )
                    );
 
-    $t->set_var( "messages", eZforumMessage::countMessages( $t->get_var( "forum_id" ) ) );
+    $message = new eZForumMessage();
+    $t->set_var( "messages", $message->countMessages( $t->get_var( "forum_id" ) ) );
     $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
 
     $t->parse("forums","elements",true);

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezdb.php,v 1.1 2000/08/16 11:40:56 bf-cvs Exp $
+    $Id: ezdb.php,v 1.2 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,19 +9,19 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-/*!
-  openDB() : opens the database for queries
-*/
-function openDB()
-{
-    global $HOST;
-    global $USER;
-    global $PWD;
-    global $DB;
+//  /*!
+//    openDB() : opens the database for queries
+//  */
+//  function openDB()
+//  {
+//      global $HOST;
+//      global $USER;
+//      global $PWD;
+//      global $DB;
     
-    mysql_pconnect($HOST,$USER,$PWD);
-    mysql_select_db($DB);
-}
+//      mysql_pconnect($HOST,$USER,$PWD);
+//      mysql_select_db($DB);
+//  }
 
 class eZDB
 {

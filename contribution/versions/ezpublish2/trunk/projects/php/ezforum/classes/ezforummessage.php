@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.32 2000/08/09 14:12:44 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.33 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -12,7 +12,7 @@
 //  include( "ezforum/dbsettings.php" );
 //  include_once( "$DOCROOT/classes/ezmail.php" );
 
-class eZforumMessage
+class eZForumMessage
 {
     var $Id;
     var $ForumId;
@@ -23,7 +23,7 @@ class eZforumMessage
     var $PostingTime;
     var $EmailNotice;
     
-    function eZforumMessage($ForumId = 0)
+    function eZForumMessage($ForumId = 0)
     {
         $this->ForumId = $ForumId;
     }
@@ -35,17 +35,15 @@ class eZforumMessage
 
     function get( $Id )
     {
-        global $PREFIX;
-        
-        openDB();
+        $this->openDB();
             
         $query_id = mysql_query("SELECT ForumId, Parent, Topic,
                                                           Body,
                                                           UserId,
                                                           PostingTime,
                                                           EmailNotice
-                         FROM $PREFIX"."MessageTable WHERE Id='$Id'")
-             or die("eZforumMessage::get($Id) failed, dying...");
+                         FROM ezforum_MessageTable WHERE Id='$Id'")
+             or die("eZForumMessage::get($Id) failed, dying...");
             
         $results = mysql_fetch_array( $query_id );
 
@@ -61,16 +59,15 @@ class eZforumMessage
         
     function getAllHeaders( $forum_id )
     {
-	global $PREFIX;
 
-    openDB();
+    $this->openDB();
 
         $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM $PREFIX"."MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
+                 FROM ezforum_MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
             
         $query_id = mysql_query( $query_string )
-             or die("eZforumMessage::getAllHeaders() failed, dying...");
+             or die("eZForumMessage::getAllHeaders() failed, dying...");
             
         for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
             $resultArray[$i] = mysql_fetch_array( $query_id );
@@ -80,12 +77,9 @@ class eZforumMessage
     
     function getHeaders($forum_id,$Parent = "NULL", $startMessage = "0",$maxMessages = "25")
     {
-        global $eZUser;
         $usr = new eZUser;
         
-        global $PREFIX;
-
-        openDB();
+        $this->openDB();
                 
         if ($Parent == "NULL")
         {
@@ -98,11 +92,11 @@ class eZforumMessage
             
         $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM $PREFIX"."MessageTable WHERE ForumId='$forum_id' AND " . $optstr . "
+                 FROM ezforum_MessageTable WHERE ForumId='$forum_id' AND " . $optstr . "
                  ORDER BY PostingTime DESC";
         
         $query_id = mysql_query( $query_string )
-             or die("eZforumMessage::getHeaders() failed, dying...");
+             or die("eZForumMessage::getHeaders() failed, dying...");
             
         for ($i = 0;$i < mysql_num_rows($query_id); $i++)
         {
@@ -115,9 +109,7 @@ class eZforumMessage
 
     function store()
     {
-        global $PREFIX;
-
-        openDB();
+        $this->openDB();
             
         $this->ForumId = addslashes( $this->ForumId );
         $this->Parent = addslashes( $this->Parent );
@@ -128,7 +120,7 @@ class eZforumMessage
                     
         if ($this->Id)
         {
-            mysql_query("UPDATE $PREFIX"."MessageTable SET ForumId = '$this->ForumId',
+            mysql_query("UPDATE ezforum_MessageTable SET ForumId = '$this->ForumId',
                                                      Parent = '$this->Parent',
                                                      Topic = '$this->Topic',
                                                      Body = '$this->Body',
@@ -152,7 +144,7 @@ class eZforumMessage
             {
                 $this->EmailNotice = "N";
             }
-            $query_str = "INSERT INTO $PREFIX"."MessageTable(ForumId, " . $val . "
+            $query_str = "INSERT INTO ezforum_MessageTable(ForumId, " . $val . "
                           Topic, Body, UserId, EmailNotice)
                                          VALUES('$this->ForumId'," . $tmp . " '$this->Topic',
                                          '$this->Body', '$this->UserId', '$this->EmailNotice')";
@@ -167,20 +159,16 @@ class eZforumMessage
         
     function delete($Id)
     {
-        global $PREFIX;
-
-        openDB();
+        $this->openDB();
             
-        mysql_query("DELETE FROM $PREFIX"."MessageTable WHERE Id='$Id'")
+        mysql_query("DELETE FROM ezforum_MessageTable WHERE Id='$Id'")
             or die("delete()");    
     }
         
     function search( $criteria )
     {
-        global $PREFIX;
-
-        openDB();
-        $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM $PREFIX"."MessageTable
+        $this->openDB();
+        $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM ezforum_MessageTable
                       WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$criteria%'" )
             or die("Could not execute search, dying...");
 
@@ -283,8 +271,6 @@ class eZforumMessage
      */
     function recursiveEmailNotice( $startId, $msgId, &$liste )
     {
-        global $SERVER_NAME;
-        
         $this->get( $msgId );
         if ( $this->Id != $startId) // root of search - do not check current message
         {
@@ -295,7 +281,7 @@ class eZforumMessage
                     array_push( $liste, $this->UserId );
                     $email = new eZMail();
                     $usr = new eZUser();
-                    $msg = new eZforumMessage;
+                    $msg = new eZForumMessage;
                     $msg->get( $startId );
                     $usr->get( $this->UserId );
                     $email->setTo( $usr->email() );
@@ -315,26 +301,22 @@ class eZforumMessage
 
     function countMessages( $Id )
     {
-        global $PREFIX;
-
-        openDB();
+        $this->openDB();
         
         $query_id = mysql_query("SELECT COUNT(Id) AS Messages
-                             FROM $PREFIX"."MessageTable
+                             FROM ezforum_MessageTable
                              WHERE ForumId='$Id'
                              AND Parent IS NULL")
-             or die("eZforumMessage::countMessages($Id) failed, dying...");
+             or die("eZForumMessage::countMessages($Id) failed, dying...");
         
         return mysql_result($query_id,0,"Messages");
     }
     
     function countReplies( $Id )
     {
-        global $PREFIX;
-
-        openDB();
+        $this->openDB();
          
-        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM $PREFIX"."MessageTable WHERE Parent='$Id'")
+        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM ezforum_MessageTable WHERE Parent='$Id'")
              or die("could not count replies, dying");
          
         return mysql_result($query_id,0,"replies");
@@ -350,9 +332,7 @@ class eZforumMessage
     {
         $ret_id = "";
 
-        global $PREFIX;
-
-        openDB();
+        $this->openDB();
 
         $msg = new eZForumMessage( );
         $msg->get( $id );
@@ -401,7 +381,7 @@ class eZforumMessage
         
             $t->set_var( "id", $Id );
 
-            $replies = eZforumMessage::countReplies( $Id );
+            $replies = eZForumMessage::countReplies( $Id );
             
             $t->set_var( "replies", $replies );
 
@@ -467,6 +447,27 @@ class eZforumMessage
         }
         return $messages;
     }
+
+
+    /*!
+      Privat funksjon, skal kun brukes ac ezuser klassen.
+      Funksjon for å åpne databasen.
+    */
+    function openDB( )
+    {
+        include_once( "class.INIFile.php" );
+
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "site", "Server" );
+        $DATABASE = $ini->read_var( "site", "Database" );
+        $USER = $ini->read_var( "site", "User" );
+        $PWD = $ini->read_var( "site", "Password" );
+        
+        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
+        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+    }
+    
     
 }
 ?>

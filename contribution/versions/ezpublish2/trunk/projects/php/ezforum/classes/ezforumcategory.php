@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumcategory.php,v 1.8 2000/08/09 14:12:44 lw-cvs Exp $
+    $Id: ezforumcategory.php,v 1.9 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -25,11 +25,9 @@ class eZforumCategory
         
     function get( $Id )
     {
-        global $PREFIX;
-        
-        openDB();
+        $this->openDB();
             
-        $query_id = mysql_query("SELECT Name, Description, Private FROM $PREFIX"."CategoryTable WHERE Id='$Id'")
+        $query_id = mysql_query("SELECT Name, Description, Private FROM ezforum_CategoryTable WHERE Id='$Id'")
              or die("eZforumCategory::get($id) failed, dying...");
             
         $this->Id = $Id;
@@ -40,11 +38,9 @@ class eZforumCategory
         
     function getAllCategories()
     {
-        global $PREFIX;
-        
-        openDB();
+        $this->openDB();
 
-        $query_id = mysql_query( "SELECT * FROM $PREFIX" . "CategoryTable" )
+        $query_id = mysql_query( "SELECT * FROM ezforum_CategoryTable" )
              or die("eZforumCategory::getAllCategories() failed, dying...");
             
         for ($i = 0;$i < mysql_num_rows( $query_id ); $i++ )
@@ -56,9 +52,7 @@ class eZforumCategory
         
     function store()
     {
-        global $PREFIX;
-        
-        openDB();
+        $this->openDB();
             
         $this->Name = addslashes($this->Name);
         $this->Description = addslashes($this->Description);
@@ -66,7 +60,7 @@ class eZforumCategory
 
         if ( $this->Id )
         {
-            $query_id = mysql_query("UPDATE $PREFIX"."CategoryTable SET Name='$this->Name',
+            $query_id = mysql_query("UPDATE ezforum_CategoryTable SET Name='$this->Name',
                                                              Description='$this->Description',
                                                              Private='$this->Private'
                                          WHERE Id='$this->Id'")
@@ -74,7 +68,7 @@ class eZforumCategory
         }
         else
         {
-            $query_id = mysql_query("INSERT INTO $PREFIX"."CategoryTable(Name, Description, Private)
+            $query_id = mysql_query("INSERT INTO ezforum_CategoryTable(Name, Description, Private)
                                                      VALUES('$this->Name', '$this->Description', '$this->Private')")
                  or die("store() near INSERT...");
             return mysql_insert_id();
@@ -83,11 +77,9 @@ class eZforumCategory
         
     function delete($Id)
     {
-        global $PREFIX;
+        $this->openDB();
         
-        openDB();
-        
-        mysql_query("DELETE FROM $PREFIX"."CategoryTable WHERE Id='$Id'")
+        mysql_query("DELETE FROM ezforum_CategoryTable WHERE Id='$Id'")
             or die("delete($Id)");
     }
         
@@ -128,18 +120,36 @@ class eZforumCategory
 
     function categoryForumInfo($Id)
     {
-        global $PREFIX;
-        
-        openDB();
+        $this->openDB();
     
-        $query_id = mysql_query("SELECT $PREFIX"."ForumTable.Name AS ForumName,
-                                $PREFIX"."CategoryTable.Name AS CategoryName
-                                FROM $PREFIX"."ForumTable, $PREFIX"."CategoryTable
-                                WHERE $PREFIX"."CategoryTable.Id = $PREFIX"."ForumTable.CategoryId
-                                AND $PREFIX"."ForumTable.Id = '$Id'")
+        $query_id = mysql_query("SELECT ezforum_ForumTable.Name AS ForumName,
+                                ezforum_CategoryTable.Name AS CategoryName
+                                FROM ezforum_ForumTable, ezforum_CategoryTable
+                                WHERE ezforum_CategoryTable.Id = ezforum_ForumTable.CategoryId
+                                AND ezforum_ForumTable.Id = '$Id'")
              or die("categoryForumInfo()");
         
         return mysql_fetch_array($query_id);
     }
+
+    /*!
+      Privat funksjon, skal kun brukes ac ezuser klassen.
+      Funksjon for å åpne databasen.
+    */
+    function openDB( )
+    {
+        include_once( "class.INIFile.php" );
+
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "site", "Server" );
+        $DATABASE = $ini->read_var( "site", "Database" );
+        $USER = $ini->read_var( "site", "User" );
+        $PWD = $ini->read_var( "site", "Password" );
+        
+        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
+        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+    }
+    
 }
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.2 2000/08/09 14:12:44 lw-cvs Exp $
+    $Id: categorylist.php,v 1.3 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,14 +8,22 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
+
+//include( "ezforum/dbsettings.php" );
+
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+
+
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( "../classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezforumcategory.php" );
+include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
   
 $cat = new eZforumCategory();
-$t = new Template( "$DOCROOT/admin/templates" );
+$t = new Template( $DOC_ROOT . "admin/templates" );
 
 $t->set_file(array( "category" => "category.tpl",
                     "category-add" => "category-add.tpl",
@@ -23,10 +31,11 @@ $t->set_file(array( "category" => "category.tpl",
                     "listelements" => "category-list-elements.tpl"
                     ) );
 
-$t->set_var( "docroot", $DOCROOT );
+$t->set_var( "docroot", $DOC_ROOT );
 $t->set_var( "box", "" );
 
-$categories = eZforumCategory::getAllCategories();
+$category = new eZforumCategory();
+$categories = $category->getAllCategories();
 
 for ($i = 0; $i < count( $categories ); $i++)
 {

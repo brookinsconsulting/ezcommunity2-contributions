@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.6 2000/08/09 14:55:18 lw-cvs Exp $
+    $Id: categorylist.php,v 1.7 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,7 +21,8 @@ $t->set_file( Array( "list" => "$DOCROOT/templates/categorylist.tpl",
 
 $t->set_var( "docroot", $DOCROOT);
 
-$categories = eZforumCategory::getAllCategories();
+$category = new eZForumCategory();
+$categories = $category->getAllCategories();
 
 for ($i = 0; $i < count( $categories ); $i++ )
 {

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.13 2000/08/11 09:39:28 lw-cvs Exp $
+    $Id: message.php,v 1.14 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,17 +8,22 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
+
 include_once( "class.INIFile.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/eztemplate.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+
+include_once( "class.INIFile.php" );
+include_once( $DOC_ROOT . "classes/ezforummessage.php" );
+include_once( $DOC_ROOT . "classes/eztemplate.php" );
 include_once( "../classes/ezusergroup.php" );
 include_once( "../classes/ezsession.php" );
 
 $ini = new INIFile( "../ezforum.ini" ); // get language settings
 $Language = $ini->read_var( "MAIN", "Language" );
 
-$t = new eZTemplate( "$DOCROOT/admin/templates", "$DOCROOT/intl", $Language, "forum.php" );
+$t = new eZTemplate( $DOC_ROOT . "admin/templates", $DOC_ROOT . "intl", $Language, "forum.php" );
 $t->setAllStrings();
 
 $t->set_file( Array( "messages" => "message.tpl",
@@ -26,7 +31,7 @@ $t->set_file( Array( "messages" => "message.tpl",
                      "navigation" => "navigation.tpl",
                      "navigation-bottom" => "navigation-bottom.tpl" ) );
 
-$t->set_var( "docroot", $DOCROOT );
+$t->set_var( "docroot", $DOC_ROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
 
@@ -71,7 +76,8 @@ if ( $deletemessage )
     eZforumMessage::delete( $message_id );
 }
 
-$headers = ezForumMessage::getAllHeaders( $forum_id );
+$message = new eZForumMessage();
+$headers = $message->getAllHeaders( $forum_id );
 
 if ( count ( $headers ) == 0 )
 {

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.1 2000/08/16 11:40:56 bf-cvs Exp $
+    $Id: ezsession.php,v 1.2 2000/08/22 09:35:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -28,7 +28,7 @@ class eZSession
     */    
     function store( )
     {
-        openDB();
+        $this->openDB();
         $this->Hash = md5( time() );
 
         setcookie ( "AuthenticatedSession", $this->Hash, 0, "/",  "", 0 )
@@ -52,7 +52,7 @@ class eZSession
 
         $ret = 1;
 
-        openDB();
+        $this->openDB();
         if ( $hash != "" )
         {
             array_query( $session_array, "SELECT * FROM SessionTable WHERE sid='$hash'" );
@@ -117,10 +117,30 @@ class eZSession
     {
         global $PREFIX;
         
-        openDB();
+        $this->openDB();
         mysql_query("DELETE FROM SessionTable WHERE sid='$hash'")
             or die("delete session $hash failed, dying...");
     }
+
+    /*!
+      Privat funksjon, skal kun brukes ac ezuser klassen.
+      Funksjon for å åpne databasen.
+    */
+    function openDB( )
+    {
+        include_once( "class.INIFile.php" );
+
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "site", "Server" );
+        $DATABASE = $ini->read_var( "site", "Database" );
+        $USER = $ini->read_var( "site", "User" );
+        $PWD = $ini->read_var( "site", "Password" );
+        
+        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
+        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+    }
+    
 }
 
 ?>
