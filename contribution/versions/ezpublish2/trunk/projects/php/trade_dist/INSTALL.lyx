@@ -67,7 +67,10 @@ Howto configure php
 Compile and install the PHP package 
 \layout LyX-Code
 
-# make # make install
+# make 
+\layout LyX-Code
+
+# make install
 \layout Section
 
 Apache config
@@ -83,17 +86,18 @@ The rewrite and php modules needs to be active to use trade.
 Apache configuration
 \layout Standard
 
-This is an example of a httpd.conf virtalhost (change trade.org to your own
- domain).
+This is an example of a httpd.conf virtalhost.
+ Remember to change ipaddress, domainname mailaddress nad path to refelct
+ your system.
 \layout LyX-Code
 
-NameVirtalHost trade.org:80
+NameVirtalHost [yourIPaddress]:80
 \layout LyX-Code
 
 # User site 
 \layout LyX-Code
 
-<VirtualHost trade.org> 
+<VirtualHost yourdomain.org> 
 \layout LyX-Code
 
   <Directory /home/trade/www> 
@@ -115,19 +119,19 @@ RewriteEngine On
 
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png) /home/trade/www/index.php 
+.(gif|css|jpg|png) /your/apache/documentroot/index.php 
 \layout LyX-Code
 
 ServerAdmin your_mail@domain.no 
 \layout LyX-Code
 
-DocumentRoot /home/trade/www
+DocumentRoot /your/apache/documentroot
 \layout LyX-Code
 
-ServerName trade.org 
+ServerName yourdomain.org 
 \layout LyX-Code
 
-ServerAlias www.trade.org 
+ServerAlias www.yourdomain.org 
 \layout LyX-Code
 
 </VirtualHost>
@@ -138,10 +142,10 @@ ServerAlias www.trade.org
 # Admin site 
 \layout LyX-Code
 
-<VirtualHost admin.trade.org> 
+<VirtualHost admin.yourdomain.org> 
 \layout LyX-Code
 
-  <Directory /home/trade/www/admin> 
+  <Directory /your/apache/documentroot/admin> 
 \layout LyX-Code
 
          Options FollowSymLinks Indexes ExecCGI 
@@ -158,19 +162,19 @@ RewriteEngine On
 
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png) /home/trade/www/admin/index.php 
+.(gif|css|jpg|png) /your/apache/documentroot/admin/index.php 
 \layout LyX-Code
 
 ServerAdmin your_mail@domain.no 
 \layout LyX-Code
 
-DocumentRoot /home/trade/www/admin 
+DocumentRoot /your/apache/documentroot/admin 
 \layout LyX-Code
 
-ServerName admin.trade.org 
+ServerName admin.yourdomain.org 
 \layout LyX-Code
 
-ServerAlias admin.trade.org 
+ServerAlias admin.yourdomain.org 
 \layout LyX-Code
 
 </VirtualHost>
@@ -188,7 +192,7 @@ Create a database, name it trade or whatever you like .
 # mysqladmin -uroot -p create trade
 \layout Itemize
 
-Add a trade user in MySQL, to add a user you can use the MySQL client
+Add a trade user in MySQL To add a user you can use the MySQL client
 \layout LyX-Code
 
 mysql>grant all on trade.* to trade@localhost identified by "secret";
@@ -207,10 +211,13 @@ Install the php files
 Put all the trade files in your apache documentroot.
 \layout LyX-Code
 
-# cd /path/to/apache/documentroot/ 
+# cd /tmp
 \layout LyX-Code
 
 # tar zxvf /path/to/eztrade-1.0.tar.gz
+\layout LyX-Code
+
+# mv /tmp/trade_dist /your/apache/documentroot
 \layout Itemize
 
 Edit site.ini and add all the modules you need, and set the username and
