@@ -93,6 +93,8 @@ update eZTrade_ProductCategoryLink set Placement=ProductID;
 # Dates for products
 alter table eZTrade_Product add Published timestamp; 
 alter table eZTrade_Product add Altered timestamp;    
+<<<<<<< README
+=======
 
 
 # Rigths to image and file:
@@ -103,3 +105,4 @@ insert into eZUser_Permission set ModuleID='10', Name='WritePermission';
 insert into eZUser_Permission set Name='WriteToRoot', ModuleID='9';
 insert into eZUser_Permission set Name='WriteToRoot', ModuleID='10';
 
+>>>>>>> 1.16

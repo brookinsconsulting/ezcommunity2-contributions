@@ -75,7 +75,7 @@
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
-	<img src="/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/user/passwordchange/">Endre&nbsp;brukerinfo</a><br />
+	<img src="/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/user/passwordchange/">{intl-change_user_info}</a><br />
 	<img src="/images/1x1.gif" width="150" height="10" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>

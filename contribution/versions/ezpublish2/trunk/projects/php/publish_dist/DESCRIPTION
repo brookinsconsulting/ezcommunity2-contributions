@@ -94,9 +94,10 @@ it can be used as a basis for adding new modules and functionality
 tailored to your specific needs.
 
 The target audience for eZ publish are e-commerce, ASP (Application
-Service Providers), news publishing, intranets, bug reporting, content
-management, discussion boards, FAQ and knowledge handling, file and image
-management, group ware, calendaring, appointments.
+Service Providers), BSP (Business Service Providers), news publishing,
+intranets, bug reporting, content management, discussion boards, FAQ and
+knowledge handling, file and image management, group ware, calendaring,
+polls, todo lists, appointments as well as personal web sites.
 
      
 (1) We do not encourage copyright infringements with this feature. Our

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.23 2001/01/24 16:27:12 bf Exp $
+// $Id: header.php,v 1.24 2001/01/26 11:29:38 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -45,6 +45,11 @@ if ( $user )
 {
     $t->set_var( "first_name", $user->firstName() );
     $t->set_var( "last_name", $user->lastName() );
+}
+else
+{
+    $t->set_var( "first_name", "" );
+    $t->set_var( "last_name", "" );
 }
 
 
