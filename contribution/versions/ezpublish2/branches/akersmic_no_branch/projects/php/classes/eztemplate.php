@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztemplate.php,v 1.46.2.1.4.2 2002/03/05 16:01:50 ce Exp $
+// $Id: eztemplate.php,v 1.46.2.1.4.3 2002/03/06 15:07:48 ce Exp $
 //
 // Definition of eZTemplate class
 //
@@ -473,7 +473,18 @@ class eZTemplate
         $section =& eZSection::globalSectionObject( $GlobalSectionID );
         if ( $section->id() != 0 )
         {
-            $this->set_var( "global_section_name", strtolower( $section->name() ) );
+            $sectionName = strtolower( $section->name() );
+            $this->set_var( "global_section_name", $sectionName );
+
+            if ( ( $section->id() == 5 ) or
+                 ( $section->id() == 6 ) or
+                 ( $section->id() == 7 ) or
+                 ( $section->id() == 9 )
+                 )
+            {
+                $sectionName = "multimedia";
+            }
+            $this->set_var( "global_section_shortname", strtolower( $sectionName ) );
         }
         else
         {
