@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.35 2001/04/23 12:09:41 fh Exp $
+// $Id: messagereply.php,v 1.36 2001/04/23 12:23:16 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -46,7 +46,8 @@ if ( $StartAction == "reply" )
     
     $messages = $forum->messageThreadTree( $msg->threadID() );
 
-    $mail->setFrom( "noreply@ez.no" );
+    $replyAddress = $ini->read_var( "eZForumMain", "ReplyAddress" );
+    $mail->setFrom( $replyAddress );
     
     $locale = new eZLocale( $Language );
     
