@@ -54,6 +54,7 @@
 <option value="{photo_id}" {selected}>{photo_name}</option>
 <!-- END photographer_item_tpl -->
 </select>
+<br /><br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
