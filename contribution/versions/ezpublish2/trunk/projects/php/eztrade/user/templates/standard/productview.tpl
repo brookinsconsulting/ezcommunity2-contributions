@@ -1,7 +1,6 @@
-<table width="100%" border="0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td valign="bottom">
-	<td>
 	<h1>{intl-head_line}</h1>
 	</td>
 	<td align="right">
