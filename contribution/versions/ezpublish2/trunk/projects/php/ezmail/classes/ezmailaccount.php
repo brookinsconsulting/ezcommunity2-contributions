@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.2 2001/03/19 20:09:35 fh Exp $
+// $Id: ezmailaccount.php,v 1.3 2001/03/20 20:51:03 fh Exp $
 //
 // eZMailAccount class
 //
@@ -33,7 +33,9 @@
   \endcode
 
 */
-	      
+
+include_once( "ezmail/classes/ezmail.php" );
+
 class eZMailAccount
 {
 /************* CONSTRUCTORS DESTRUCTORS (virtual) ************************/    
@@ -44,9 +46,6 @@ class eZMailAccount
     {
         $this->IsConnected = false;
 
-        // default value
-        $this->IsPublished = "false";
-        
         if ( $id != "" )
         {
 
@@ -171,6 +170,7 @@ class eZMailAccount
         return $ret;
     }
 
+    
 /****************** BORING SET AND GET FUNCTIONS ***************************/
     
   /*!
@@ -334,6 +334,59 @@ class eZMailAccount
         $this->ServerType = $value;
     }
 
+/********** INTERESTING FUNCTIONS *********************/
+    /*!
+      \static
+      
+      Returns all mail accounts for a selected user as an array of eZMailAccount objects.
+     */
+    function getByUser( $userID )
+    {
+        $database =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $account_array = array();
+ 
+        $database->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$userID'" );
+ 
+        for ( $i=0; $i < count($account_array); $i++ )
+        {
+            $return_array[$i] = new eZMailAccount( $account_array[$i]["ID"] );
+        }
+ 
+        return $return_array; 
+    }
+
+    /*
+      Checks if there is any new mail in this accounts. Downloads according to the setup, and filters it
+      to the correct folder if filters are enabled. Currently this function only works for pop3.
+     */
+    function checkMail()
+    {
+        $user = eZUser::currentUser();
+        $server = "{" . $this->Server . "/pop3:110}";
+        $mbox = imap_open( $server, $this->LoginName, $this->Password, OP_HALFOPEN)
+             or die("can't connect: ".imap_last_error());
+
+        $num = imap_num_msg( $mbox );         // fetch numbers of all new mails
+        for( $i=1; $i <= $num; $i++ )  // go through each mail in inbox
+        {
+            $headerinfo = imap_header( $mbox, $i );           // fetch mail headers
+            // check if allready downloaded
+            if( !eZMail::isDownloaded( $headerinfo->message_id, $user->id() ) )
+            {
+                // mail is not downloaded... do your thing!!!
+                print("Fetch it" );
+            }
+            
+        }
+        
+//        $headers = imap_headers( $mbox );
+//        print("<pre>"); print_r( $headers ); print("</pre>" );
+
+        imap_close( $mbox );
+    }
+    
     
     /*!
       \private
@@ -344,7 +397,7 @@ class eZMailAccount
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

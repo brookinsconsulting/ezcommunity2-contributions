@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.1 2001/03/19 20:09:35 fh Exp $
+// $Id: maillist.php,v 1.2 2001/03/20 20:51:03 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -26,8 +26,15 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezmail/classes/ezmailaccount.php" );
+
+$user = eZUser::currentUser();
+$accounts = eZMailAccount::getByUser( $user->id() );
+
+foreach( $accounts as $account )
+    $account->checkMail();
 
 /*
 $user = eZUser::currentUser();
@@ -39,11 +46,11 @@ $account->setPassword( "AcRXYJJA" );
 $account->setDeleteFromServer( 1 );
 $account->setIsActive( 1 );
 $account->setServerType( "pop" );
-$account->store();
 $account->setServer( "zap.ez.no" );
 $account->store();
 */
 
+/*
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" ); // SET MAIL HERE!!!
 
@@ -58,4 +65,5 @@ $t->set_file( array(
 
 
 $t->pparse( "output", "mail_list_page_tpl" );
+*/
 ?>

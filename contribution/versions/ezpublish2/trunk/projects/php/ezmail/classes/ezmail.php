@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.1 2001/03/19 18:52:31 fh Exp $
+// $Id: ezmail.php,v 1.2 2001/03/20 20:51:03 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -448,6 +448,24 @@ class eZMail
         return $pos;
     }
 
+    /*
+      \static
+      
+      Returns true if the mail with the given identification is allready downloaded for the given user.
+     Note: this is the header ID we are talking about.
+    */
+    function isDownloaded( $mailident, $userID )
+    {
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT count( ID ) as Count FROM eZMail_Mail WHERE UserID='$userID' AND MessageID='$mailident'" );
+
+        $ret = true;
+        if( $res["Count"] == 0 )
+            $ret = false;
+        
+        return $ret;    
+    }
+    
     /*!
       \private
       
@@ -484,9 +502,6 @@ class eZMail
     var $IsConnected;
     var $State_;
 }
-?>
-
-
 /*
        The ADDRESS structure is a parsed form of a linked list of RFC 822
 addresses.  It contains the following information:
@@ -527,3 +542,7 @@ char *newsgroups;		USENET newsgroups
 char *followup_to;		USENET reply newsgroups
 char *references;		USENET references
 */
+
+?>
+
+
