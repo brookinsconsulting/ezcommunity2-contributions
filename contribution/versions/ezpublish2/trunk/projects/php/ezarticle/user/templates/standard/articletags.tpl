@@ -1,9 +1,9 @@
 <!-- BEGIN header_1_tpl -->
-<h1>{contents}</h1>
+<h2>{contents}</h2>
 <!-- END header_1_tpl -->
 
 <!-- BEGIN header_2_tpl -->
-<h2>{contents}</h2>
+<h3>{contents}</h3>
 <!-- END header_2_tpl -->
 
 <!-- BEGIN header_3_tpl -->
@@ -11,15 +11,15 @@
 <!-- END header_3_tpl -->
 
 <!-- BEGIN header_4_tpl -->
-<h4>{contents}</h4>
+<h3>{contents}</h3>
 <!-- END header_4_tpl -->
 
 <!-- BEGIN header_5_tpl -->
-<h5>{contents}</h5>
+<h3>{contents}</h3>
 <!-- END header_5_tpl -->
 
 <!-- BEGIN header_6_tpl -->
-<h6>{contents}</h6>
+<h3>{contents}</h3>
 <!-- END header_6_tpl -->
 
 <!-- BEGIN image_tpl -->
