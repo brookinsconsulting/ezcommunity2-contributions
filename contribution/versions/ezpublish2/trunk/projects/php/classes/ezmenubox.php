@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.13 2001/03/20 13:26:07 bf Exp $
+// $Id: ezmenubox.php,v 1.14 2001/04/26 11:44:20 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -59,7 +59,7 @@ class eZMenuBox
 
     function createBox( $ModuleName, $module_dir, $place, $SiteStyle,
                         &$menuItems, $print = true, $templatefile = false,
-                        $phpfile = false, $ignore_status = false )
+                        $phpfile = false, $ignore_status = false, $allow_module_template = false )
     {
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
@@ -91,7 +91,19 @@ class eZMenuBox
             $modified = filemtime( $phpfile );
         }
 
-        $t = new eZTemplate( "admin/templates/" . $SiteStyle,
+        $template_dir = "admin/templates/" . $SiteStyle;
+        if ( $allow_module_template )
+        {
+            $mod_dir = $ini->read_var( $ModuleName . "Main", "AdminTemplateDir" );
+            $mod_dir = "$module_dir/admin/$mod_dir";
+            if ( file_exists( "$mod_dir/menubox.tpl" ) and
+                 file_exists( "$mod_dir/menubox_closed.tpl" ) )
+            {
+                $template_dir = $mod_dir;
+            }
+        }
+
+        $t = new eZTemplate( $template_dir,
                              $module_dir . "/$place/intl", $Language, "menubox.php",
                              $SiteStyle, $module_dir . "/$place", $menuStatus, $modified );
 
