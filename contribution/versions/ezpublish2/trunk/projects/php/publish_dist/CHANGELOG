@@ -1,3 +1,10 @@
+Changes from version 1.0.1
+-------------------------
+* Added assignment of articles to multiple categories.
+* Fixed deleting of cached printed version, when an article is updated.
+* Added showing of number of users registered.
+* Stripped tags from forum messages.
+
 Changes from version 1.0
 ------------------------
 * Added printable version of the articles

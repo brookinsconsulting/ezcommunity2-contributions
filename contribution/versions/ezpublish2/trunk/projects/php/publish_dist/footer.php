@@ -1,7 +1,7 @@
 
     </td>
-    <td width="1%" bgcolor="#ffffff" background="/images/line-vert.gif"><img src="/images/1x1.gif" width="20" height="8"></td>
     <td width="1%" bgcolor="#ffffff">
+    <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	
 	<!-- Oppslagstavle kommer her! -->
     
