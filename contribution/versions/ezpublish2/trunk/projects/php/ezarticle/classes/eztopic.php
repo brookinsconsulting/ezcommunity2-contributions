@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztopic.php,v 1.8 2001/08/16 13:57:04 jhe Exp $
+// $Id: eztopic.php,v 1.9 2001/09/03 13:28:30 bf Exp $
 //
 // Definition of eZTopic class
 //
@@ -33,6 +33,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezarticle/classes/ezarticle.php" );
 
 
 class eZTopic
@@ -172,7 +173,6 @@ class eZTopic
         return $topic;
     }
 
-
     /*!
       Fetches the user id from the database. And returns a array of eZTopic objects.
     */
@@ -193,6 +193,27 @@ class eZTopic
         }
         return $return_array;
     }
+
+    /*!
+      Returns all articles with the current topic.
+    */
+    function &articles(  )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $article_array = array();
+
+        $db->array_query( $article_array, "SELECT ID, Name FROM eZArticle_Article WHERE TopicID='$this->ID'
+                                        ORDER By Name" );
+
+        foreach ( $article_array as $article )
+        {
+            $return_array[] = new eZArticle( $article[$db->fieldName("ID")] );
+        }
+        return $return_array;
+    }
+    
     /*!
       Returns the object id.
     */

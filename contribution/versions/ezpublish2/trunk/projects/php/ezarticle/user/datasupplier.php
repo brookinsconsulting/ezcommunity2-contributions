@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.79 2001/08/23 18:04:52 bf Exp $
+// $Id: datasupplier.php,v 1.80 2001/09/03 13:28:30 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -43,6 +43,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "topiclist":
+    {
+        include( "ezarticle/user/topiclist.php" );
+    }
+    break;
+    
     case "sitemap":
     {
         if ( isset( $url_array[3] ) )
