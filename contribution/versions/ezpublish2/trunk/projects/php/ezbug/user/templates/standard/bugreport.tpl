@@ -31,7 +31,7 @@
 <input type="text" size="40" name="Name" />
 
 <p class="boxtext">{intl-bug_description}:</p>
-<textarea name="Description" cols="40" rows="5" wrap="soft"></textarea>
+<textarea name="Description" cols="40" rows="8" wrap="soft"></textarea>
 <br /><br />
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.3 2000/12/03 14:37:12 bf-cvs Exp $
+// $Id: bugedit.php,v 1.4 2000/12/03 16:31:33 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -85,36 +85,42 @@ if ( $Action == "Update" )
 
     if ( $user )
     {
-        $category = new eZBugCategory( $CategoryID );
-        $module = new eZBugModule( $ModuleID );
-        
-        $bug = new eZBug( $BugID );
-        $bug->setName( $Name );
-        $bug->setDescription( $Description );
-        $bug->setUser( $user );
-        $bug->setIsHandled( true );
-        
-        if ( $IsClosed == 'on' )
-            $bug->setIsClosed( true );
-        else
-            $bug->setIsClosed( false );
-        
-        $bug->store();
-
-        $log = new eZBugLog();
-        $log->setDescription( $LogMessage );
-        $log->setUser( $user );
-        $log->setBug( $bug );
-        $log->store();
-
-        if ( !isset( $Update ) )
-        {
-            Header( "Location: /bug/archive/" );
-            exit();
+        if ( isset( $Update ) )
+        {        
+            $category = new eZBugCategory( $CategoryID );
+            $module = new eZBugModule( $ModuleID );
+            
+            $priority = new eZBugPriority( $PriorityID );
+            $status = new eZBugStatus( $StatusID );
+            
+            $bug = new eZBug( $BugID );
+            
+            $bug->setUser( $user );
+            $bug->setIsHandled( true );
+            
+            $bug->setPriority( $priority );
+            $bug->setStatus( $status );
+            
+            if ( $IsClosed == 'on' )
+                $bug->setIsClosed( true );
+            else
+                $bug->setIsClosed( false );
+            
+            $bug->store();
+            
+            $log = new eZBugLog();
+            $log->setDescription( $LogMessage );
+            $log->setUser( $user );
+            $log->setBug( $bug );
+            $log->store();
+            
+            $Action = "Edit";            
         }
         else
         {
-            $Action = "Edit";
+            Header( "Location: /bug/archive/" );
+            exit();
+            
         }
     }
 }
@@ -191,12 +197,7 @@ if ( $Action == "Edit" )
         
         $t->parse( "log_item", "log_item_tpl", true );
     }
-    
 }
-
-
-
-
 
 $t->pparse( "output", "bug_edit_tpl" );
 

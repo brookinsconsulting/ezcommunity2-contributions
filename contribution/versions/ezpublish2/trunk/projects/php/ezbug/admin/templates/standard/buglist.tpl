@@ -35,7 +35,7 @@
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line} - {current_module_name}</h1>
+	<h1>{intl-bug_archive} - {current_module_name}</h1>
 	</td>
 	<td rowspan="2" align="right">
 	<form action="/bug/search/" method="post">
@@ -56,7 +56,7 @@
 
 <img src="/ezbug/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
-<a class="path" href="/bug/archive/0/">{intl-topmodule}</a>
+<a class="path" href="/bug/archive/0/">{intl-top_level}</a>
 
 <!-- END path_tpl -->
 
@@ -82,9 +82,11 @@
 	<td class="{td_class}">
 	<a href="/bug/archive/{module_id}/">{module_name}</a>&nbsp;
 	</td>
+
 	<td class="{td_class}">
 	{module_description}&nbsp;
 	</td>
+
 	<td width="1%" class="{td_class}">
 	<a href="/bug/moduleedit/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezac{module_id}-red" border="0" src="/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
@@ -103,6 +105,10 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-slet
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-bug}:</th>
+	<th>{intl-status}:</th>
+	<th>{intl-priority}:</th>
+	<th>{intl-is_closed}:</th>
+
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -110,9 +116,29 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-slet
 <tr>
 	<td class="{td_class}">
 	<a href="/bug/bugpreview/{bug_id}/">
-	{bug_name}
+	{bug_name}&nbsp;
 	</a>
 	</td>
+
+	<td class="{td_class}">
+	{bug_status}&nbsp;
+	</td>
+
+	<td class="{td_class}">
+	{bug_priority}&nbsp;
+	</td>
+
+	<td class="{td_class}">
+	<!-- BEGIN bug_is_closed_tpl -->
+	{intl-is_closed}&nbsp;
+	<!-- END bug_is_closed_tpl -->
+
+	<!-- BEGIN bug_is_open_tpl -->
+	{intl-is_open}&nbsp;
+	<!-- END bug_is_open_tpl -->
+
+	</td>
+
 	<td width="1%" class="{td_class}">
 	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.3 2000/12/03 14:37:13 bf-cvs Exp $
+// $Id: ezbug.php,v 1.4 2000/12/03 16:31:34 bf-cvs Exp $
 //
 // Definition of eZBug class
 //
@@ -69,6 +69,9 @@ include_once( "classes/ezdb.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
+include_once( "ezbug/classes/ezbugpriority.php" );
+include_once( "ezbug/classes/ezbugstatus.php" );
+
 class eZBug
 {
     /*!
@@ -112,6 +115,8 @@ class eZBug
                                  Description='$this->Description',
                                  IsHandled='$this->IsHandled',
                                  IsClosed='$this->IsClosed',
+                                 PriorityID='$this->PriorityID',
+                                 StatusID='$this->StatusID',
                                  UserID='$this->UserID'" );
             $this->ID = mysql_insert_id();
         }
@@ -123,6 +128,8 @@ class eZBug
                                  IsHandled='$this->IsHandled',
                                  IsClosed='$this->IsClosed',
                                  Created='Created',
+                                 PriorityID='$this->PriorityID',
+                                 StatusID='$this->StatusID',
                                  UserID='$this->UserID'
                                  WHERE ID='$this->ID'" );
         }
@@ -171,6 +178,8 @@ class eZBug
                 $this->Created = $module_array[0][ "Created" ];
                 $this->IsHandled = $module_array[0][ "IsHandled" ];
                 $this->IsClosed = $module_array[0][ "IsClosed" ];
+                $this->PriorityID = $module_array[0][ "PriorityID" ];
+                $this->StatusID = $module_array[0][ "StatusID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -394,6 +403,76 @@ class eZBug
            $this->UserID = $user->id();
        }
     }
+
+    /*!
+      Sets the priority assigned to the bug.
+    */
+    function setPriority( $pri )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $pri ) == "ezbugpriority" )
+       {
+           $this->PriorityID = $pri->id();
+       }
+    }
+
+    /*!
+      Sets the status assigned to the bug.
+    */
+    function setStatus( $status )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $status ) == "ezbugstatus" )
+       {
+           $this->StatusID = $status->id();
+       }
+    }
+
+    /*!
+      Returns the priority assigned to the bug as an
+      eZBugPriority object.
+
+      If no priority is assigned 0 / false is returned.
+    */
+    function priority()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+
+        if ( $this->PriorityID != 0 )
+        {
+            $ret = new eZBugPriority( $this->PriorityID );
+        }
+
+        return $ret;        
+    }
+
+    /*!
+      Returns the status assigned to the bug as an
+      eZBugStatus object.
+
+      If no staus is assigned 0 / false is returned.
+    */
+    function status()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+
+        if ( $this->StatusID != 0 )
+        {
+            $ret = new eZBugStatus( $this->StatusID );
+        }
+
+        return $ret;        
+    }
     
     /*!
       Private function.
@@ -415,6 +494,8 @@ class eZBug
     var $IsClosed;
     var $Created;
     var $UserID;
+    var $PriorityID;
+    var $StatusID;    
     
     ///  Variable for keeping the database connection.
     var $Database;
