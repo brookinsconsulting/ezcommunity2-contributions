@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.42 2000/10/13 12:31:17 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.43 2000/10/13 13:15:38 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -367,7 +367,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setImage( $ImageID,  $isFrontImage = false )
     {
-        echo "eZNewsItem::createLogItem( \$ImageID = $ImageID \$isFrontImage = $isFrontImage )<br />\n";
+        #echo "eZNewsItem::createLogItem( \$ImageID = $ImageID \$isFrontImage = $isFrontImage )<br />\n";
         $value = false;
         
         if( !$this->isDirty() )
@@ -393,7 +393,11 @@ class eZNewsItem extends eZNewsUtility
                     $value = false;
                     $this->Errors[] = "intl-eznews-eznewsitem-image-doesnt-exist";
                 }
-
+                else
+                {
+                    $value = true;
+                }
+                
                 if( $value == true )
                 {
                     if( $isFrontImage == true )
@@ -627,14 +631,17 @@ class eZNewsItem extends eZNewsUtility
                 }
             }
 
-            if( $oldParentID != $ImageID )
+            if( $oldParentID != $ParentID )
             {
-                $item = new eZNewsItem( $ParentID );
-
+                $item = new eZNewsItem( $ParentID, true );
                 if( $item->isCoherent() == false )
                 {
                     $value = false;
                     $this->Errors[] = "intl-eznews-eznewsitem-parent-doesnt-exist";
+                }
+                else
+                {
+                    $value = true;
                 }
 
                 if( $value == true )
@@ -1418,6 +1425,8 @@ class eZNewsItem extends eZNewsUtility
         $this->Database->array_query( $itemArray, $query );        
         $maxCount = $itemArray[0][0];
         
+        #echo "\$maxCount = $maxCount<br />\n";
+        
         $query =
         "
             SELECT
@@ -1443,6 +1452,8 @@ class eZNewsItem extends eZNewsUtility
         
         for( $i = 0; $i != $count; $i++ )
         {   
+            #echo "\$i $i<br />\n";
+            #echo "\$itemArray[$i][ \"ID\" ] " . $itemArray[$i][ "ID" ] . "<br />\n";
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
         }
         

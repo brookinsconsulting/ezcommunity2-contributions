@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.10 2000/10/13 12:09:34 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.11 2000/10/13 13:15:38 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -224,8 +224,8 @@ class eZNewsArticle extends eZNewsItem
      */
     function setAuthorText( $inAuthorText )
     {
-        echo "eZNewsArticle::setAuthorText( \$inAuthorText = $inAuthorText )<br />\n";
-        echo "\$this->AuthorText = " . $this->AuthorText . ", \$inAuthorText = $inAuthorText<br />\n";
+        #echo "eZNewsArticle::setAuthorText( \$inAuthorText = $inAuthorText )<br />\n";
+        #echo "\$this->AuthorText = " . $this->AuthorText . ", \$inAuthorText = $inAuthorText<br />\n";
         $value = false;
         
         $this->dirtyUpdate();
