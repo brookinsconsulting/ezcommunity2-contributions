@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.10 2000/11/10 10:44:41 bf-cvs Exp $
+// $Id: orderedit.php,v 1.11 2001/01/18 18:52:43 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -87,9 +87,6 @@ $t->set_file( array(
     "order_edit_tpl" => "orderedit.tpl",
     ) );
 
-$t->set_block( "order_edit_tpl", "address_tpl", "address" );
-
-
 $t->set_block( "order_edit_tpl", "visa_tpl", "visa" );
 $t->set_block( "order_edit_tpl", "mastercard_tpl", "mastercard" );
 $t->set_block( "order_edit_tpl", "cod_tpl", "cod" );
@@ -120,21 +117,26 @@ if ( $user )
 
 // print out the addresses
 
-    $addressArray = $user->addresses();
+    $shippingAddress =& $order->shippingAddress();
 
-    foreach ( $addressArray as $address )
-    {
-        $t->set_var( "street1", $address->street1() );
-        $t->set_var( "street2", $address->street2() );
-        $t->set_var( "zip", $address->zip() );
-        $t->set_var( "place", $address->place() );
+    $t->set_var( "street1", $shippingAddress->street1() );
+    $t->set_var( "street2", $shippingAddress->street2() );
+    $t->set_var( "zip", $shippingAddress->zip() );
+    $t->set_var( "place", $shippingAddress->place() );
+    
+    $country = $shippingAddress->country();
+    $t->set_var( "country", $country->name() );
 
-        $country = $address->country();
-        $t->set_var( "country", $country->name() );
+    $billingAddress =& $order->billingAddress();
 
-        $t->parse( "address", "address_tpl", true );
-    }
-
+    $t->set_var( "street1", $billingAddress->street1() );
+    $t->set_var( "street2", $billingAddress->street2() );
+    $t->set_var( "zip", $billingAddress->zip() );
+    $t->set_var( "place", $billingAddress->place() );
+    
+    $country = $billingAddress->country();
+    $t->set_var( "country", $country->name() );
+    
 }
 
 

@@ -99,6 +99,9 @@ switch ( $url_array[2] )
         if ( isset( $WishList ) )
         {
             include( "eztrade/user/wishlist.php" );
+
+//              Header( "Location: /trade/wishlist/add/$ProductID" );
+//              exit();
         }
         else
         {
@@ -108,6 +111,12 @@ switch ( $url_array[2] )
         break;
 
     case "wishlist" :
+    {
+        if ( $url_array[3] == "add" )
+        {
+            $Action = "AddToBasket";
+            $ProductID = $url_array[4];
+        }
         
         if ( $url_array[3] == "movetocart" )
         {
@@ -122,6 +131,7 @@ switch ( $url_array[2] )
         }
 
         include( "eztrade/user/wishlist.php" );
+    }
     break;
 
     case "viewwishlist" :

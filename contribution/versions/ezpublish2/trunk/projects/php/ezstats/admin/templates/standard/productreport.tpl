@@ -50,6 +50,30 @@
 
 </table>
 
+<h2>{intl-most_added_to_wishlist_products}:</h2>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<th>
+	{intl-product_name}:
+	</th>
+	<th>
+	{intl-add_to_wishlist_count}:
+	</th>
+</tr>
+<!-- BEGIN most_added_to_wishlist_products_tpl -->
+<tr>
+	<td>
+	{product_name}
+	</td>
+	<td>
+	{add_count}
+	</td>
+</tr>
+<!-- END most_added_to_wishlist_products_tpl -->
+
+</table>
+
 <h2>{intl-most_bought_products}:</h2>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

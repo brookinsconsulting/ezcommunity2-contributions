@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.6 2001/01/12 17:44:36 bf Exp $
+// $Id: ezpageviewquery.php,v 1.7 2001/01/18 18:52:43 bf Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -200,7 +200,7 @@ class eZPageViewQuery
       The files are returned as an assiciative array of
       array( ID => $id, Domain => $domain, URI => $uri, Count => $count ).
     */
-    function &topReferers( $limit=20, $excludeDomain="" )
+    function &topReferers( $limit=40, $excludeDomain="" )
     {
         $this->dbInit();
 
@@ -301,6 +301,35 @@ class eZPageViewQuery
          FROM eZStats_PageView, eZStats_RequestPage
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
          AND eZStats_RequestPage.URI LIKE '/trade/cart/add/%'
+         GROUP BY eZStats_RequestPage.ID
+         ORDER BY Count DESC
+         LIMIT 0,$limit" );
+        
+        for ( $i=0; $i<count($visitor_array); $i++ )
+        {
+            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
+                                       "URI" => $visitor_array[$i]["URI"],
+                                       "Count" => $visitor_array[$i]["Count"] );
+        }
+        
+        return $return_array;
+    }
+
+    /*!
+      Returns the most frequent products added to the wishlist.
+    */
+    function &topProductAddToWishlist( $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
+         FROM eZStats_PageView, eZStats_RequestPage
+         WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
+         AND eZStats_RequestPage.URI LIKE '/trade/wishlist/add/%'
          GROUP BY eZStats_RequestPage.ID
          ORDER BY Count DESC
          LIMIT 0,$limit" );

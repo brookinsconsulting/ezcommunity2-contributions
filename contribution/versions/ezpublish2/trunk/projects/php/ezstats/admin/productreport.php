@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productreport.php,v 1.2 2001/01/12 16:07:23 bf Exp $
+// $Id: productreport.php,v 1.3 2001/01/18 18:52:43 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Jan-2001 14:47:56 bf>
@@ -48,6 +48,7 @@ $t->set_file( array(
 
 $t->set_block( "product_report_tpl", "most_viewed_product_tpl", "most_viewed_product" );
 $t->set_block( "product_report_tpl", "most_added_to_cart_products_tpl", "most_added_to_cart_products" );
+$t->set_block( "product_report_tpl", "most_added_to_wishlist_products_tpl", "most_added_to_wishlist_products" );
 $t->set_block( "product_report_tpl", "most_bought_products_tpl", "most_bought_products" );
 
 
@@ -104,6 +105,34 @@ foreach ( $productArray as $productItem )
     $t->set_var( "add_count", $productItem["Count"] );
 
     $t->parse( "most_added_to_cart_products", "most_added_to_cart_products_tpl", true );
+}
+
+// mostly added to wishlist
+
+$productReport =& $query->topProductAddToWishlist( );
+
+$productArray = array();
+foreach ( $productReport as $product )
+{
+
+    if ( preg_match( "#^/trade/wishlist/add/(.*?)#", $product["URI"], $regArray ) )
+    {
+        $idx = $regArray[1];
+        
+        $count = $productArray[$idx]["Count"];
+        
+        $productArray[$idx]["Count"] = $count + $product["Count"];
+        $productArray[$idx]["ID"] = $regArray[1];
+    }
+}
+
+foreach ( $productArray as $productItem )
+{
+    print( 
+    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"]  ) );
+    $t->set_var( "add_count", $productItem["Count"] );
+
+    $t->parse( "most_added_to_wishlist_products", "most_added_to_wishlist_products_tpl", true );
 }
 
 // Most bought product
