@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.58 2001/03/10 16:19:30 fh Exp $
+// $Id: articleedit.php,v 1.59 2001/03/15 10:56:03 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -87,7 +87,7 @@ function notificationMessage( &$article )
 function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 {
     $user = eZUser::currentUser();
-    $groupstr = "";
+/*    $groupstr = "";
     if( get_class( $user ) == "ezuser" )
     {
         $groupIDArray = $user->groups( true );
@@ -98,11 +98,11 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
             $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
             $first = false;
         }
-    }
+        }*/
 
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( array( "articleprint", "articleview", "articlestatic", "static", "view"  ),
-                                        $ArticleID, NULL, $groupstr ), "cache", "," );
+                                        $ArticleID, NULL, NULL ), "cache", "," );
     foreach( $files as $file )
     {
         $file->delete();
@@ -111,7 +111,7 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( "articlelist",
                                         array_merge( 0, $CategoryID, $CategoryArray ),
-                                        NULL, array( "", $groupstr ) ),
+                                        NULL, array( "", NULL ) ),
                                  "cache", "," );
     foreach( $files as $file )
     {
