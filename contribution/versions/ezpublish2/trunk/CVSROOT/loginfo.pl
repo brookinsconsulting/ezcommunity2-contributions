@@ -9,6 +9,8 @@
 
 # This also doesn't like files or directories with spaces in them.
 
+# Slightly modified by Vidar Langseid <vl@ez.no> to work with eZ's repository
+
 use strict;
 
 use Socket;
@@ -22,6 +24,8 @@ my $smtpserver = "194.248.148.68";
 my $smtpport   = 25;
 my $cvs        = "/usr/bin/cvs";
 my $cvsroot    = $ENV{CVSROOT}."/";
+my $outputfile	= "/home/cvsroot/log/";
+
 # remove double trailing slash
 $cvsroot =~ s/\/\/$/\//;
 my $cvsusers   = "/repository/CVSROOT/cvsusers";
@@ -45,10 +49,10 @@ my $directory = shift @args;
 my $module = $directory;
 $module =~ s/\/.+$//;
 
-if ($cvsuser eq "changelog" && $module ne "php-gtk") {
-	$envaddr = "php-cvs-daily-private\@lists.php.net";
-	$mailto  = "php-cvs-daily\@lists.php.net";
-}
+# if ($cvsuser eq "changelog" && $module ne "php-gtk") {
+#	$envaddr = "php-cvs-daily-private\@lists.php.net";
+#	$mailto  = "php-cvs-daily\@lists.php.net";
+# }
 
 # bail when this is a new directory
 &bail if $args[0] eq '-' && "$args[1] $args[2]" eq 'New directory';
@@ -58,7 +62,7 @@ if ($cvsuser eq "changelog" && $module ne "php-gtk") {
 
 # find out the last directory being processed
 open FC, "$last_file.$id"
-	or die "last file does not exist";
+	or die "last file does not exist : $last_file.$id";
 my $last_directory = <FC>;
 chop $last_directory;
 close FC;
@@ -244,26 +248,46 @@ $email =~ s/\n/\r\n/g;
 # send our email
 
 print "Mailing the commit email to $mailto\n";
+# "MAIL FROM:<this-will-bounce\@php.net>\r\n".
 
-#print $email;
+# print $email;
 
 my $paddr = sockaddr_in($smtpport, inet_aton($smtpserver));
-socket(SOCK, PF_INET, SOCK_STREAM, 0) || die "socket failed";
-connect(SOCK, $paddr) || die "connect $smtpserver:$smtpport failed";
-select(SOCK);
-$|=1;
+print "########\n";
+print "paddr = $paddr    smtpport = $smtpport   smptpserver = $smtpserver\n";
+print "hei paa deg\n";
 
-print "HELO cvsserver\r\n".
-"MAIL FROM:<this-will-bounce\@php.net>\r\n".
-"RCPT TO:<$envaddr>\r\n".
-"DATA\r\n".
-"$email\r\n".
-".\r\n".
-"QUIT\r\n";
 
-while(<SOCK>) { alarm(20); };
+# socket(SOCK, PF_INET, SOCK_STREAM, 0) || die "socket failed";
+# connect(SOCK, $paddr) || die "connect $smtpserver:$smtpport failed";
+# select(SOCK);
+# $|=1;
 
-close(SOCK);
+# print "HELO cvsserver\r\n".
+# "MAIL FROM:<this-will-bounce\@ez.no>\r\n".
+# "RCPT TO:<$envaddr>\r\n".
+# "DATA\r\n".
+# "$email\r\n".
+# ".\r\n".
+# "QUIT\r\n";
+# 
+# while(<SOCK>) { alarm(20); };
+# 
+# close(SOCK);
+# 
+
+
+open(FC, ">>$outputfile.$id") || die "cannot open output file, $outputfile.$id";
+# foreach my $arg (@args) {
+#         print FC "$directory/$arg\n";
+#}
+print $email;
+close(FC);
+
+
+select(STDOUT);
+print "quiting";
+
 exit 0;
 
 sub get_log_message {
