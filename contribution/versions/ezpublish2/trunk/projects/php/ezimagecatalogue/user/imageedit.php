@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.34 2001/07/11 06:55:42 jhe Exp $
+// $Id: imageedit.php,v 1.35 2001/07/11 08:09:37 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -487,7 +487,7 @@ foreach ( $treeArray as $catItem )
             }
             else
             {
-                $t->set_var( "selected", "" );
+                $t->set_var( "multiple_selected", "" );
             }
             
             if ( get_class( $defCat ) == "ezimagecategory" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkcategory.php,v 1.4 2001/07/03 12:11:07 jhe Exp $
+// $Id: ezlinkcategory.php,v 1.5 2001/07/11 08:09:37 jhe Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -62,13 +62,13 @@ class eZLinkCategory
         
         $nextID = $db->nextID( "eZLink_Category", "ID" );        
         $res = $db->query( "INSERT INTO eZLink_Category
-                ( ID, Parent, Name, ImageID, Description )
+                (ID, Parent, Name, ImageID, Description)
                 VALUES
-                ( '$nextID',
-                  '$this->Parent',
-                  '$name',
-                  '$this->ImageID',
-                  '$description')" );
+                ('$nextID',
+                 '$this->Parent',
+                 '$name',
+                 '$this->ImageID',
+                 '$description')" );
         
         $db->unlock();
         
@@ -143,14 +143,22 @@ class eZLinkCategory
             $categoryid = $this->ID;
             
         $db =& eZDB::globalDatabase();
+
+        $db->begin();
+        $db->lock( "eZLink_LinkCategoryLink" );
         
         $nextID = $db->nextID( "eZLink_LinkCategoryLink", "ID" );
-        $db->query( "INSERT INTO eZLink_LinkCategoryLink
-                     (ID, LinkID, CategoryID)
-                     VALUES
-                     ('$nextID',
-                      '$linkID',
-                      '$categoryid')");
+        $res = $db->query( "INSERT INTO eZLink_LinkCategoryLink
+                            (ID, LinkID, CategoryID)
+                            VALUES
+                            ('$nextID',
+                             '$linkID',
+                             '$categoryid')");
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
     }
     
     /*!

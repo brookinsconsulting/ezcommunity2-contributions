@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhit.php,v 1.23 2001/07/09 11:56:42 jhe Exp $
+// $Id: ezhit.php,v 1.24 2001/07/11 08:09:37 jhe Exp $
 //
 // Definition of eZHit class
 //
@@ -68,10 +68,15 @@ class eZHit
     function store()
     {
         $this->dbInit();
-        $this->Database->query( "INSERT INTO eZLink_Hit SET
-				RemoteIP='$this->RemoteIP',
-                ID='$this->ID',
-                Link='$this->Link'" );
+        
+        $res = $this->Database->query( "INSERT INTO eZLink_Hit
+                                        (RemoteIP, ID, Link)
+                                        VALUES
+                                        ('$this->RemoteIP','$this->ID','$this->Link')" );
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkattribute.php,v 1.4 2001/07/11 06:55:42 jhe Exp $
+// $Id: ezlinkattribute.php,v 1.5 2001/07/11 08:09:37 jhe Exp $
 //
 // Definition of eZLinkAttribute class
 //
@@ -62,6 +62,7 @@ class eZLinkAttribute
     {
         $this->dbInit();
 
+        $this->Database->begin();
         $this->Database->lock( "eZLink_Attribute" );
 
         if ( !isset( $this->ID ) )
@@ -269,33 +270,43 @@ class eZLinkAttribute
     */
     function setValue( $link, $value )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if ( get_class( $link ) == "ezlink" )
-       {
-           $linkID = $link->id();
+        if ( get_class( $link ) == "ezlink" )
+        {
+            $linkID = $link->id();
+            
+            // check if the attribute is already set, if so update
+            $this->Database->array_query( $value_array,
+            "SELECT ID FROM eZLink_AttributeValue WHERE LinkID='$linkID' AND AttributeID='$this->ID'" );
+            
+            $this->Database->begin();
+            
+            if ( count( $value_array ) > 0 )
+            {
+                $valueID = $value_array[0]["ID"];
+                
+                $res = $this->Database->query( "UPDATE eZLink_AttributeValue SET
+                                                Value='$value'
+                                                WHERE ID='$valueID'" );
+            }
+            else
+            {
+                $this->Database->lock( "eZLink_AttributeValue" );
+                $nextID = $this->Database->nextID( "eZLink_AttributeValue", "ID" );
+                
+                $res = $this->Database->query( "INSERT INTO eZLink_AttributeValue
+                                                (ID, LinkID, AttributeID, Value)
+                                                VALUES
+		                                        ('$nextID','$linkID','$this->ID','$value')" );
+            }
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
 
-           // check if the attribute is already set, if so update
-           $this->Database->array_query( $value_array,
-           "SELECT ID FROM eZLink_AttributeValue WHERE LinkID='$linkID' AND AttributeID='$this->ID'" );
-
-           if ( count( $value_array ) > 0 )
-           {
-               $valueID = $value_array[0]["ID"];
-               
-               $this->Database->query( "UPDATE eZLink_AttributeValue SET
-                                 Value='$value'
-                                 WHERE ID='$valueID'" );
-           }
-           else
-           {
-               $this->Database->query( "INSERT INTO eZLink_AttributeValue SET
-		                         LinkID='$linkID',
-                                 AttributeID='$this->ID',
-                                 Value='$value'" );
-           }
-       }
+        }
     }
 
     /*!
