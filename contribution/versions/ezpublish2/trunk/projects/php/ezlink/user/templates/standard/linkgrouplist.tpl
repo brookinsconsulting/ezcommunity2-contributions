@@ -68,11 +68,16 @@
 </tr>
 <!-- BEGIN link_item_tpl -->
 <tr>
-	<td  class="{td_class}">
+	<td  width="20%" valign="top"  class="{td_class}">
+	<!-- BEGIN link_image_item_tpl -->
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+	<!-- END link_image_item_tpl -->
+	</td>
+	<td  width="80%"  valign="top" class="{td_class}">
+
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
         {link_description}
-	</td>
-	<td  class="{td_class}" width="80" align="right">
+	<br />
 	(Hits: {link_hits})
      	</td>
 </tr>

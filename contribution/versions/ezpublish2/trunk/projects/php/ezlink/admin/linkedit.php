@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.42 2001/01/25 10:43:16 ce Exp $
+// $Id: linkedit.php,v 1.43 2001/02/21 13:00:21 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -131,6 +131,18 @@ if ( $Action == "update" )
             $link->setKeyWords( $Keywords );
             $link->setAccepted( $Accepted );
             $link->setUrl( $Url );
+
+            $file = new eZImageFile();
+            if ( $file->getUploadedFile( "ImageFile" ) )
+            {
+                $image = new eZImage( );
+                $image->setName( "LinkImage" );
+                $image->setImage( $file );
+
+                $image->store();
+                
+                $link->setImage( $image );
+            }
             
             $link->update();
             
@@ -145,6 +157,7 @@ if ( $Action == "update" )
     else
     {
         eZHTTPTool::header( "Location: /link/norights" );
+        exit();
     }
 }
 
@@ -228,7 +241,18 @@ if ( $Action == "insert" )
                 $tdescription = $Description;
             }
 
-            print( $link->title() );
+            $file = new eZImageFile();
+            if ( $file->getUploadedFile( "ImageFile" ) )
+            {
+                $image = new eZImage( );
+                $image->setName( "LinkImage" );
+                $image->setImage( $file );
+
+                $image->store();
+                
+                $link->setImage( $image );
+            }
+            
             $link->store();
             
             eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
@@ -258,6 +282,11 @@ $t->set_file( array(
     ));
 
 $t->set_block( "link_edit", "link_group_tpl", "link_group" );
+
+$t->set_block( "link_edit", "image_item_tpl", "image_item" );
+$t->set_block( "link_edit", "no_image_item_tpl", "no_image_item" );
+
+
 
 $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
 $headline = $languageIni->read_var( "strings", "headline_insert" );
@@ -321,6 +350,37 @@ if ( $Action == "edit" )
         $tdescription = $editlink->description();
         $tkeywords = $editlink->keywords();
         $turl = $editlink->url();
+
+        $image = $editlink->image();
+
+        if ( $image )
+        {
+            $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
+            $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
+            
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+            
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth = $variation->width();
+            $imageHeight = $variation->height();
+            $imageCaption = $image->caption();
+            
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );
+            $t->set_var( "no_image", "" );
+            $t->parse( "image_item", "image_item_tpl" );
+
+            $t->set_var( "no_image_item", "" );
+        }
+        else
+        {
+            $t->parse( "no_image_item", "no_image_item_tpl" );
+            $t->set_var( "image_item", "" );
+        }
+        
+        
 
         if ( $editlink->accepted() == "Y" )
         {

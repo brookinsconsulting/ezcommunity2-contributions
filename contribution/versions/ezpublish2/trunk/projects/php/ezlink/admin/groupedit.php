@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.38 2001/02/15 10:50:52 ce Exp $
+// $Id: groupedit.php,v 1.39 2001/02/21 13:00:21 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -94,6 +94,7 @@ if ( $Action == "insert" )
     {
         $error_msg = $error->read_var( "strings", "error_norights" );
         eZHTTPTool::header( "Location: /link/norights" );
+        exit();
     }
 }
 

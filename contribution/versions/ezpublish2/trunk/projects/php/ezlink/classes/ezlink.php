@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.38 2001/01/22 14:43:01 jb Exp $
+// $Id: ezlink.php,v 1.39 2001/02/21 13:00:21 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -105,6 +105,7 @@ class eZLink
                 KeyWords='$this->KeyWords',
                 Created='$this->Created',
                 Url='$this->Url',
+                ImageID='$this->ImageID',
                 Accepted='$this->Accepted'" );
     }
 
@@ -120,6 +121,7 @@ class eZLink
                 LinkGroup='$this->LinkGroupID',
                 KeyWords='$this->KeyWords',
                 Url='$this->Url',
+                ImageID='$this->ImageID',
                 Accepted='$this->Accepted'
                 WHERE ID='$this->ID'" );
     }
@@ -158,7 +160,7 @@ class eZLink
                 $this->Modified = $link_array[ 0 ][ "Modified" ];
                 $this->Accepted = $link_array[ 0 ][ "Accepted" ];
                 $this->Url = $link_array[ 0 ][ "Url" ];
-
+                $this->ImageID = $link_array[ 0 ][ "ImageID" ];
             }
         }
     }
@@ -500,6 +502,44 @@ class eZLink
     }
 
     /*!
+        Set an image for this category.
+     */
+    function setImage( &$value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezimage" )
+        {
+            $this->ImageID = $value->id();
+        }
+        elseif( is_numeric( $value ) )
+        {
+            $this->ImageID = $value;
+        }
+    }
+
+    /*!
+      Returns the image as a eZImage object.
+
+      false is returned if no link is assigned to the link.
+    */
+    function &image( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+        if ( $this->ImageID != 0 )
+        {
+            $ret = new eZImage( $this->ImageID );
+            
+        }
+
+        return $ret;
+    }
+    
+    /*!
       \private
       
       Open the database for read and write. Gets all the database information from site.ini.
@@ -508,7 +548,7 @@ class eZLink
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
@@ -521,8 +561,10 @@ class eZLink
     var $Created;
     var $Modified;
     var $Accepted;
+    var $ImageID;
     var $Url;
     var $url_array;
+
 
     /// Is true if the object has database connection, false if not.
     var $IsConnected;

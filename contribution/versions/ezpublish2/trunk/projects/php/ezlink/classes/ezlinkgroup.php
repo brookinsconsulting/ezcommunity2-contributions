@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.45 2001/02/15 10:50:52 ce Exp $
+// $Id: ezlinkgroup.php,v 1.46 2001/02/21 13:00:21 bf Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -409,7 +409,7 @@ class eZLinkGroup
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

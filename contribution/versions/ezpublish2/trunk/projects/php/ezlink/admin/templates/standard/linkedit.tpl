@@ -58,6 +58,17 @@ http://<input type="text" name="Url" size="40" value="{url}">
 
 <br /><br />
 
+<!-- BEGIN image_item_tpl -->
+<p class="boxtext">{intl-current_image}:</p>
+<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+</p>
+<!-- END image_item_tpl -->
+
+<!-- BEGIN no_image_item_tpl -->
+
+<!-- END no_image_item_tpl -->
+
+<p class="boxtext">{intl-upload_image}:</p>
 <input size="40" name="ImageFile" type="file" /><br /><br />
 
 
@@ -69,9 +80,6 @@ http://<input type="text" name="Url" size="40" value="{url}">
 	<input class="okbutton" type="submit" value="{intl-ok}">
 	</td>
 	<td>&nbsp;</td>
-	<td>
-	<input class="okbutton" type="submit" name="Delete" value="{intl-delete}">
-	</td>
 	<td>&nbsp;</td>
 	<td>
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">

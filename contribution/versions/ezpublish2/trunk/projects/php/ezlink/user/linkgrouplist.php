@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.9 2001/02/09 11:05:49 ce Exp $
+// $Id: linkgrouplist.php,v 1.10 2001/02/21 13:00:21 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -54,6 +54,8 @@ $t->set_block( "group_item_tpl", "no_image_tpl", "no_image" );
 
 $t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
 $t->set_block( "link_list_tpl", "link_item_tpl", "link_item" );
+
+$t->set_block( "link_item_tpl", "link_image_item_tpl", "link_image_item" );
 
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
@@ -200,6 +202,28 @@ else
         $t->set_var( "link_accepted", $linkItem->accepted() );
         $t->set_var( "link_url", $linkItem->url() );
 
+        $image =& $linkItem->image();
+        
+        if ( $image )
+        {
+            $imageWidth =& $ini->read_var( "eZLinkMain", "LinkImageWidth" );
+            $imageHeight =& $ini->read_var( "eZLinkMain", "LinkImageHeight" );
+            
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+            
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth = $variation->width();
+            $imageHeight = $variation->height();
+            $imageCaption = $image->caption();
+            
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );
+            
+            $t->parse( "link_image_item", "link_image_item_tpl" );
+        }
+        
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $linkItem->id() );
         $t->set_var( "link_hits", $hits );
