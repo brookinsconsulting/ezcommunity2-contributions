@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.2 2001/04/18 14:09:01 fh Exp $
+// $Id: categoryedit.php,v 1.3 2001/04/27 20:13:32 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 11:15:33 fh>
@@ -26,6 +26,7 @@
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
@@ -48,8 +49,22 @@ if( isset( $Ok ) ) // cancel pressed, redirect to categorylist page...
     }
     $category->setDescription( $Description );
     $category->setName( $Name );
+
+    if( isset( $PublicList ) )
+        $category->setIsPublic( true );
+    else
+        $category->setIsPublic( false );
+    
     $category->store();
-    eZHTTPTool::header( "Location: /bulkmail/categorylist/" );
+
+    $category->removeGroupSubscription( true );
+    if( count( $SubscriptionGroupsArrayID ) > 0 )
+    {
+        foreach( $SubscriptionGroupsArrayID as $groupID )
+            $category->addGroupSubscription( $groupID );
+    }
+    $id = $category->id();
+    eZHTTPTool::header( "Location: /bulkmail/categorylist/$id" );
     exit();
 }
 
@@ -61,11 +76,13 @@ $t->set_file( array(
     ) );
 
 $t->setAllStrings();
+$t->set_block( "category_edit_tpl", "subscribe_group_item_tpl", "subscribe_group_item" );
 $t->set_var( "site_style", $SiteStyle );
 
 $t->set_var( "category_name", "" );
 $t->set_var( "description", "" );
 $t->set_var( "category_id", $CategoryID );
+$t->set_var( "subscribe_group_item", "" );
 
 if( $CategoryID != 0  )
 {
@@ -74,7 +91,28 @@ if( $CategoryID != 0  )
     {
         $t->set_var( "category_name", $category->name() );
         $t->set_var( "description", $category->description() );
+        $subscribedGroups = $category->groupSubscriptions( false );
+
+        if( $category->isPublic() )
+            $t->set_var( "checked", "checked" );
+        else
+            $t->set_var( "checked", "" );
     }
+}
+
+// show all user groups in the list!
+// Print out all the groups.
+$groups =& eZUserGroup::getAll();
+foreach ( $groups as $group )
+{
+    $t->set_var( "group_id", $group->id() );
+    $t->set_var( "group_name", $group->name() );
+
+    $t->set_var( "selected", "" );
+    if( in_array( $group->id(), $subscribedGroups ) )
+        $t->set_var( "selected", "selected" );
+
+    $t->parse( "subscribe_group_item", "subscribe_group_item_tpl", true );
 }
 
 $t->pparse( "output", "category_edit_tpl" );

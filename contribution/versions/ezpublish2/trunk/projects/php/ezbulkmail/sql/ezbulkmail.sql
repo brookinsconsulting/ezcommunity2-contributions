@@ -22,9 +22,21 @@ DROP TABLE IF EXISTS eZBulkMail_Category;
 CREATE TABLE eZBulkMail_Category (
   ID int(11) default '0' NOT NULL auto_increment,
   Name varchar(200) default NULL,
+  IsPublic int(1) default '0',
   Description text,
   PRIMARY KEY (ID)
 );
+
+#
+# Table structure for table 'eZBulkMail_GroupCategoryLink'
+#
+
+DROP TABLE IF EXISTS eZBulkMail_GroupCategoryLink;
+CREATE TABLE eZBulkMail_GroupCategoryLink (
+  CategoryID int(11) NOT NULL default '0',
+  GroupID int(11) NOT NULL default '0',
+  PRIMARY KEY (GroupID, CategoryID)
+) TYPE=MyISAM;
 
 
 #

@@ -6,8 +6,9 @@
 <!-- BEGIN category_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="30%">{intl-category_name}:</th>
-	<th width="63%">{intl-category_description}:</th>
+	<th width="15%">{intl-category_name}:</th>
+	<th width="69%">{intl-category_description}:</th>
+	<th width="9%">{intl-category_is_public}:</th>
         <th width="5%">{intl-subscription_count}:</th>
 	<th width="1%">&nbsp;</th>
 	<th width="1%">&nbsp;</th>
@@ -19,6 +20,9 @@
 	</td>
 	<td class="{td_class}">
 	{category_description}
+	</td>
+	<td class="{td_class}">
+	{category_is_public}
 	</td>
 	<td class="{td_class}">
 	{subscription_count}

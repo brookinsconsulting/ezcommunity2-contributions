@@ -68,6 +68,7 @@ class eZBulkMailCategory
         {
             $this->Database->query( "INSERT INTO eZBulkMail_Category SET
 		                         Name='$name',
+                                 IsPublic='$this->IsPublic',
                                  Description='$description'" );
             $this->ID = mysql_insert_id();
         }
@@ -75,6 +76,7 @@ class eZBulkMailCategory
         {
             $this->Database->query( "UPDATE eZBulkMail_Category SET
 		                         Name='$name',
+                                 IsPublic='$this->IsPublic',
                                  Description='$description'
                                  WHERE ID='$this->ID'" );
         }
@@ -115,6 +117,7 @@ class eZBulkMailCategory
             {
                 $this->ID = $category_array[0][ "ID" ];
                 $this->Name = $category_array[0][ "Name" ];
+                $this->IsPublic = $category_array[0][ "IsPublic" ];
                 $this->Description = $category_array[0][ "Description" ];
             }
                  
@@ -212,7 +215,64 @@ class eZBulkMailCategory
     }
 
     /*!
-      Adds a bug to the category.
+      Sets if this category is public or not. Categories that are public show up on the user side and users can subscribe/unsubscribe themselves..
+     */
+    function setIsPublic( $value )
+    {
+        $this->IsPublic = $value;
+    }
+    
+    /*!
+      Returns true if this this is a public list
+     */
+    function isPublic( )
+    {
+        return $this->IsPublic;
+    }
+    
+    /*!
+      Subscribes a user group to a category
+     */
+    function addGroupSubscription( $groupID )
+    {
+        if( get_class( $groupID ) == "ezusergroup" )
+            $groupID = $groupID->id();
+        $this->Database->query( "INSERT INTO eZBulkMail_GroupCategoryLink SET CategoryID='$this->ID', GroupID='$groupID'" );
+    }
+
+    /*!
+      Unsubscribes the given  user group from this category. If the supplied argument is true, the group is unsubscibed from all categories.
+     */
+    function removeGroupSubscription( $group )
+    {
+        if( get_class( $group ) == "ezusergroup" )
+        {
+            $groupID = $group->id();
+            $this->Database->query( "DELETE FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID' AND GroupID='$groupID'" );
+        }
+        else if( $group == true )
+        {
+            $this->Database->query( "DELETE FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
+        }
+    }
+    
+    /*!
+      Returns all the groups that are subscribed to this category.
+     */
+    function groupSubscriptions( $asObjects = true )
+    {
+        $final_result = array();
+        $this->Database->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
+        if( count( $result_array ) > 0 )
+        {
+            foreach( $result_array as $result )
+                $final_result[] = $asObjects ? new eZUserGroup( $result[ "GroupID" ] ) : $result[ "GroupID" ];
+        }
+        return $final_result;
+    }
+
+    /*!
+      Adds a mail to the category.
     */
     function addMail( $value )
     {
@@ -231,7 +291,7 @@ class eZBulkMailCategory
     }
 
     /*!
-      Returns every bug in a category as a array of eZBug objects.
+      Returns every mail in a category as a array of eZBulkmail objects.
 
     */
     function mail( $offset=0,
@@ -318,7 +378,8 @@ class eZBulkMailCategory
     var $ID;
     var $Name;
     var $Description;
-
+    var $IsPublic;
+    
     ///  Variable for keeping the database connection.
     var $Database;
 

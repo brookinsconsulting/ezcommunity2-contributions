@@ -8,7 +8,19 @@
 <input type="text" name="Name" value="{category_name}">
 <br>
 <p class="boxtext">{intl-description}:</p>
-<textarea name="Description" cols="40" rows="5" wrap="soft">{description}</textarea>
+<textarea name="Description" cols="40" rows="3" wrap="soft">{description}</textarea>
+
+<p class="boxtext">{intl-subscribed_usergroups}:</p>
+<select multiple size="5" name="SubscriptionGroupsArrayID[]">
+<!-- BEGIN subscribe_group_item_tpl -->
+<option value="{group_id}" {selected}>{group_name}</option>
+<!-- END subscribe_group_item_tpl -->
+</select>
+
+<br /><br />
+<input type="checkbox" name="PublicList" value="true" {checked} />&nbsp;{intl-public_list}
+
+
 
 <hr noshade="noshade" size="4">
 <table cellspacing="0" cellpadding="0" border="0">

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.6 2001/04/27 09:42:56 fh Exp $
+// $Id: categorylist.php,v 1.7 2001/04/27 20:13:32 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -89,6 +89,12 @@ foreach( $categories as $categoryitem )
     $t->set_var( "category_description", $categoryitem->description() );
     $t->set_var( "subscription_count", $categoryitem->subscriberCount() );
     $t->set_var( "category_id", $categoryitem->id() );
+    if( $categoryitem->isPublic() )
+        $t->set_var( "category_is_public", $iniLanguage->read_var( "strings", "yes" ) );
+    else
+        $t->set_var( "category_is_public", $iniLanguage->read_var( "strings", "no" ) );
+                     
+    
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
     $t->parse( "category_item", "category_item_tpl", true );
