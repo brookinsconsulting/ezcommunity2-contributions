@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.15 2001/02/20 13:38:53 gl Exp $
+// $Id: ezappointment.php,v 1.16 2001/02/22 15:38:37 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -309,23 +309,37 @@ class eZAppointment
     /*!
       Returns the name of the appointment.
     */
-    function name()
+    function name( $htmlchars=true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Name;
+
+        if ( $htmlchars == true )
+        {           
+            return htmlspecialchars( $this->Name );
+        }
+        else
+        {
+            return $this->Name;
+        }
     }
 
     /*!
       Returns the type description.
     */
-    function description()
+    function description( $htmlchars=true )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->Description;
+        if ( $htmlchars == true )
+        {           
+            return htmlspecialchars( $this->Description );
+        }
+        else
+        {
+            return $this->Description;
+        }
     }
 
     /*!

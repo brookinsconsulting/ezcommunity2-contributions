@@ -80,7 +80,7 @@
 	</tr>
 	<tr>
 		<td colspan="3">
-		{appointment_description}
+		{appointment_description}&nbsp;
 		</td>
 	</tr>
 	</table>
@@ -96,6 +96,7 @@
 
 	<!-- BEGIN no_appointment_tpl -->
 	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
+	&nbsp;
 	</td>
 	<!-- END no_appointment_tpl -->
 

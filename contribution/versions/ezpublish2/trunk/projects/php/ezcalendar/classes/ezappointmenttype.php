@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointmenttype.php,v 1.5 2001/02/19 22:13:10 gl Exp $
+// $Id: ezappointmenttype.php,v 1.6 2001/02/22 15:38:37 gl Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -271,17 +271,31 @@ class eZAppointmentType
     /*!
       Returns the name of the AppointmentType.
     */
-    function name()
+    function name( $htmlchars=true )
     {
-        return $this->Name;
+        if ( $htmlchars == true )
+        {           
+            return htmlspecialchars( $this->Name );
+        }
+        else
+        {
+            return $this->Name;
+        }
     }
 
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $htmlchars=true )
     {
-        return $this->Description;
+        if ( $htmlchars == true )
+        {           
+            return htmlspecialchars( $this->Description );
+        }
+        else
+        {
+            return $this->Description;
+        }
     }
     
     /*!
