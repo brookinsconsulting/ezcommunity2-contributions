@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.9 2001/03/01 14:06:24 jb Exp $
+// $Id: ezlist.php,v 1.10 2001/03/03 20:34:06 jb Exp $
 //
 // Definition of eZList class
 //
@@ -387,7 +387,9 @@ class eZList
           previous_inactive: The block containing the inactive previous button
           previous_index: The index variable for the previous button
           item: The block containing the hotlink items
+          item_inactive: The block containing the inactive hotlink items
           item_index: The item index variable used with hotlinks
+          item_list: The block containing the active and inactive hotlink items
           item_name: The item name variable used with hotlinks
           type_list: The block containing the whole navigator HTML
     */
