@@ -272,13 +272,13 @@
  </select>
  
  <div id="gcalRecurringWeekly">
- <input {recur_weekly_mon} type="checkbox" value="mon" name="RecurWeekly[]" />&nbsp; <span class="check">{intl-mon}</span>
-  <input {recur_weekly_mon} type="checkbox" value="tue" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-tue}</span>
- <input {recur_weekly_mon} type="checkbox" value="wed" name="RecurWeekly[]" />&nbsp; <span class="check">{intl-wed}</span>
-  <span class="check">{intl-thu}</span><input {recur_weekly_mon} type="checkbox" value="thu" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-thu}</span>
- <input {recur_weekly_mon} type="checkbox" value="fri" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-fri}</span>
-  <span class="check">{intl-sat}</span><input {recur_weekly_mon} type="checkbox" value="sat" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-sat}</span>;
-  <input {recur_weekly_mon} type="checkbox" value="sun" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-sun}</span>
+ <input type="checkbox" value="mon" name="RecurWeekly[]" {recur_weekly_mon} />&nbsp;<span class="check">{intl-mon}</span>
+ <input type="checkbox" value="tue" name="RecurWeekly[]" {recur_weekly_tue} />&nbsp;<span class="check">{intl-tue}</span>
+ <input type="checkbox" value="wed" name="RecurWeekly[]" {recur_weekly_wed} />&nbsp;<span class="check">{intl-wed}</span>
+ <input type="checkbox" value="thu" name="RecurWeekly[]" {recur_weekly_thu} />&nbsp;<span class="check">{intl-thu}</span>
+ <input type="checkbox" value="fri" name="RecurWeekly[]" {recur_weekly_fri} />&nbsp;<span class="check">{intl-fri}</span>
+ <input type="checkbox" value="sat" name="RecurWeekly[]" {recur_weekly_sat} />&nbsp;<span class="check">{intl-sat}</span>
+ <input type="checkbox" value="sun" name="RecurWeekly[]" {recur_weekly_sun} />&nbsp;<span class="check">{intl-sun}</span>
  </div>
  <div id="gcalRecurringMonthly">
    <input type="radio" name="RecurTypeMonth" value="daily" {start_daily} />&nbsp;&nbsp;
@@ -291,11 +291,11 @@
    [last] [day name] {intl-of_the_month}. <i> ex. Last Thursday {intl-of_the_month}.</i>
  </div>
  <br /><br />
- <input type="radio" name="RepeatOptions" value="forever" /> {intl-repeat_forever}
+ <input type="radio" name="RepeatOptions" value="forever" {repeat_forever} /> {intl-repeat_forever}
  <br />
- <input type="radio" name="RepeatOptions" value="numTimes" /> {intl-repeat_number} <input type="text" size="10" name="NumberOfTimes" />
+ <input type="radio" name="RepeatOptions" value="numTimes" {repeat_times} /> {intl-repeat_number} <input type="text" size="10" name="NumberOfTimes" value='{num_times}' />
  <br />
- <input type="radio" name="RepeatOptions" value="untilDate" /> {intl-repeat_until} <input type="text" size="20" name="UntilDate" />
+ <input type="radio" name="RepeatOptions" id="untilDate" value="untilDate" [repeat_until] /> {intl-repeat_until} <input type="text" size="20" name="UntilDate" value='{until_date}'/><input type="reset" value=" ... " onclick="return showCalendar('untilDate', '%Y-%m-%d', '12');" />
  <br />
  <br />
 {intl-repeat_exceptions} <br />

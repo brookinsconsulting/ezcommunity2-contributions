@@ -671,7 +671,6 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
         {
             $resultz = $event->store();
-            // echo 'made it here';
             exec("secure_clearcache.sh");
             $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
@@ -920,6 +919,68 @@ if ( $Action == "Edit" && $groupError == false )
     $t->set_var( "event_id", $event->id() );
     $t->set_var( "description_value", $event->description() );
 
+    // spectrum: adding recurring event template vars
+    if ($event->isRecurring()) {
+        $t->set_var( "recur_freq", "1" ); 
+    $t->set_var( "is_recurring", "" ); 
+    $t->set_var( "recur_weekly_mon", "" ); 
+    $t->set_var( "rtselect_day", "" ); 
+    $t->set_var( "rtselect_week", "" ); 
+    $t->set_var( "rtselect_month", "" ); 
+    $t->set_var( "rtselect_year", "" ); 
+    $t->set_var( "start_daily", "" ); 
+    $t->set_var( "start_strdayname", "" ); 
+    $t->set_var( "start_numdayname", "" );
+    $t->set_var( "recur_weekly_mon", "" );
+    $t->set_var( "recur_weekly_tue", "" );
+    $t->set_var( "recur_weekly_wed", "" );
+    $t->set_var( "recur_weekly_thu", "" );
+    $t->set_var( "recur_weekly_fri", "" );
+    $t->set_var( "recur_weekly_sat", "" );
+    $t->set_var( "recur_weekly_sun", "" );
+    $t->set_var( "recur_weekly_sun", "" );
+    $t->set_var( "until_date", "" );
+    $t->set_var( "num_times", "" );
+    $t->set_var( "repeat_until", "");
+    $t->set_var( "repeat_times", "");
+    $t->set_var( "repeat_forever", "");
+    
+      $t->set_var( "is_recurring", 'checked' );
+      $t->set_var( "recur_freq", $event->recurFreq() );
+      $t->set_var( "rtselect_".$event->recurType(), 'selected' );
+      if ('week' == $event->recurType()) {
+        foreach ($event->recurDay() as $keyDay) 
+	{
+	$t->set_var( "recur_weekly_".$keyDay, 'checked' );
+	}
+      }
+      if ('month' == $event->recurType()) 
+      {
+        $t->set_var( "start_".$event->recurMonthlyType(), 'checked');
+      }
+      
+      if ($event->repeatTimes()) 
+      {
+        $t->set_var( "repeat_times", 'checked' );
+	$t->set_var( "num_times", $event->repeatTimes());
+      } 
+      elseif ($event->repeatUntilDate()) 
+      {
+        $t->set_var( "repeat_until", 'checked' );
+	$t->set_var( "until_date", $event->repeatUntilDate());
+      }
+      else
+      {
+        $t->set_var( "repeat_forever", 'checked' );
+      }
+      
+       // still need to add exception handling, once it's all ready
+       
+       
+    
+    
+    
+    }
 	include_once("ezuser/classes/ezusergroup.php" );
 	$group = new eZUserGroup( $groupID );
 	
@@ -1280,7 +1341,21 @@ if ( $Action == "New" && $groupError == false )
     $t->set_var( "rtselect_year", "" ); 
     $t->set_var( "start_daily", "" ); 
     $t->set_var( "start_strdayname", "" ); 
-    $t->set_var( "start_numdayname", "" ); 
+    $t->set_var( "start_numdayname", "" );
+    $t->set_var( "recur_weekly_mon", "" );
+    $t->set_var( "recur_weekly_tue", "" );
+    $t->set_var( "recur_weekly_wed", "" );
+    $t->set_var( "recur_weekly_thu", "" );
+    $t->set_var( "recur_weekly_fri", "" );
+    $t->set_var( "recur_weekly_sat", "" );
+    $t->set_var( "recur_weekly_sun", "" );
+    $t->set_var( "recur_weekly_sun", "" );
+    $t->set_var( "until_date", "" );
+    $t->set_var( "num_times", "" );
+    $t->set_var( "repeat_until", "");
+    $t->set_var( "repeat_times", "");
+    $t->set_var( "repeat_forever", "");
+    
     
     $t->set_var( "description_value", "" );
     $t->set_var( "is_private", "" );

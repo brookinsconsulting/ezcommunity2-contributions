@@ -637,17 +637,18 @@ class eZGroupEvent
 				      // finally we have to check
 				      if ( $date->dayName(true) != $rDate->dayName(true) ) $event_array[$i]['unset'] = true;
 				      }
-				   if ( $RecurMonthlyType == 'weekdayname' ) {
+				   if ( $RecurMonthlyType == 'strdayname' ) {
 				    // the only value this will ever be is 'last'
 				    // we have to find the amount of days in this month
 				    // then calculate when the last one will happen
 				    // the first thing to do is check if the day is before the 22nd
 				    // because if it is, it's not going to be in the last week
-				    if ( $date->day < 22 ) { $event_array[$i]['unset'] = true; }
-
-				    // finally got it, if the day plus seven is less than or equal to
+				    // next if the day plus seven is less than or equal to
 				    // the number of days in the month, it is not the last day.
-				     elseif ( ( $date->day + 7 ) <= $date->daysOfMonth() ) $event_array[$i]['unset'] = true; 
+				     if ( $date->day() < 22 || ( $date->day() + 7 ) <= $date->daysInMonth() || $date->dayName(true) != $rDate->dayName(true) ) 
+				       $event_array[$i]['unset'] = true; 
+
+				
 				    }
 				    break;
 				    case 'year':
@@ -656,7 +657,8 @@ class eZGroupEvent
 				     if ( strstr( $diffDiv, '.' ) ) $event_array[$i]['unset'] = true;
 				     }
 				     // if at this point the month and day match, we are golden
-				     if ( ( $date->month() . $date->day() ) != ( $rDate->month() . $rDate->day() ) ) 
+				     // note the dash inbetween, its needed to seperate the two otherwise 11-5 and 1-15 are the same  :)
+				     if ( ( $date->month() . '-' . $date->day() ) != ( $rDate->month() . '-' . $rDate->day() ) ) 
 				       $event_array[$i]['unset'] = true;
 				    break;
 				  }
@@ -675,8 +677,7 @@ class eZGroupEvent
 				{
 					$displayGroup = true;
 				}
-
-				if( $displayGroup == true && !$event_array[$i]['unset'])
+				if( $displayGroup == true && isset($event_array[$i]["ID"]) && !$event_array[$i]['unset'])
 					$return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
             }
 
@@ -1452,6 +1453,109 @@ class eZGroupEvent
     }
 // spectrum : methods for processing recurring information
     /*!
+      Returns true if the event is recurring.
+    */
+    function &isRecurring()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $this->IsRecurring == 0 )
+           $ret = false;
+       else
+           $ret = true;
+       
+       return $ret;
+    }    
+    /*!
+      Returns value of RecurType
+    */
+    function &recurType()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       $ret = $this->RecurType;
+       
+       return $ret;
+    }     
+    /*!
+      Returns value of RecurFreq
+    */
+    function &recurFreq()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       $ret = $this->RecurFreq;
+       
+       return $ret;
+    }
+    /*!
+      Returns an array form of RecurDay
+    */
+    function &recurDay()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       $ret = explode (":", $this->RecurDay);
+       
+       return $ret;
+    }
+        /*!
+      Returns an array form of RecurDay
+    */
+    function &recurMonthlyType()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       $ret = $this->RecurMonthlyType;
+       
+       return $ret;
+    }
+    /*!
+      Returns RepeatUntilDate or false
+    */
+    function &repeatUntilDate()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ($this->RepeatUntilDate != '00000000000000')
+         $ret = $this->RepeatUntilDate;
+       else
+         $ret = false;
+       
+       return $ret;
+    }
+     
+    /*!
+      Returns RepeatTimes or false
+    */
+    function &repeatTimes()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ($this->RepeatTimes)
+         $ret = $this->RepeatTimes;
+       else
+         $ret = false;
+           
+       return $ret;
+    }   
+    /*!
+      Returns RepeatForever
+    */
+    function &repeatForever()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+	    
+       $ret = $this->RepeatForever;
+       
+       return $ret;
+    }     
+    
+    /*!
       Sets the IsRecurring 
     */
     function setIsRecurring( $IsRecurring )
@@ -1565,7 +1669,6 @@ class eZGroupEvent
        // because we need the move method
        
        if ( get_class( $datetime ) == 'ezdatetime')
-        //echo(print_r(get_object_vars($date)) . '<br>');
 	// BUG in eZDate2.2 -> For some reason the day is not preserved when calling &date.
 	// we have to set it manually
 	// the below line should be the corrent one.
@@ -1658,14 +1761,14 @@ class eZGroupEvent
 	    } 
 	   }
 	   $datet = new eZDateTime($date->year(), $date->month(), $date->day(), $datetime->hour(), $datetime->minute(), $datetime->second());
-	   $stamp = $date->mysqlTimeStamp;
+	   $stamp = $datet->mysqlTimeStamp;
        } //this ends the switch($type)
        break;
        case 'year': // the easy one #dos
        $date->move(($freq * $not), 0, 0);
        // format this for mysql
        $datet = new eZDateTime($date->year(), $date->month(), $date->day(), $datetime->hour(), $datetime->minute(), $datetime->second());
-	$stamp = $date->mysqlTimeStamp();
+	$stamp = $datet->mysqlTimeStamp();
        break;
        }
        $this->RepeatTimes = $not;
@@ -1708,6 +1811,25 @@ class eZGroupEvent
     }
 
     
+    var $ID;
+    var $Name;
+    var $Description;
+
+    var $URL;
+    var $Location;
+    var $EventCategoryID;
+    
+    var $GroupID;
+    var $Date;
+    var $Duration;
+    var $EventTypeID;
+    var $EMailNotice;
+
+    var $EventAlarmNotice;
+
+    /// boolean stored as an int
+    var $IsPrivate;          
+   
     var $ID;
     var $Name;
     var $Description;
