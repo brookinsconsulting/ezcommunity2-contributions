@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.19 2000/12/23 14:19:19 jb Exp $
+// $Id: ezdb.php,v 1.20 2000/12/27 16:37:02 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -74,12 +74,14 @@ class eZDB
         $result = mysql_query( $sql );
   
         if ( $result )
+        {
             return $result;
-        elseif( !$DEBUG )
+        }
+        else
+        {
+            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
             return false;
-                             
-        echo "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
-        exit();
+        }
     }
 
     /*!
@@ -92,7 +94,7 @@ class eZDB
         $array = array();
         $result =& $this->query( $sql );
 
-        if ( count( $result ) > 0 )
+        if ( mysql_num_rows( $result ) > 0 )
         {
             for($i = 0; $i < mysql_num_rows( $result ); $i++ )
                 $array[$i] =& mysql_fetch_array( $result );
@@ -115,6 +117,14 @@ class eZDB
         }
     }
 
+    /*!
+      Returns the last error message.
+    */
+    function error()
+    {
+        return $this->Error;
+    }
+
     /// the server to connect to
     var $Server;
     /// the database to use
@@ -123,6 +133,9 @@ class eZDB
     var $User;
     /// the password to use
     var $Password;
+
+    // the last error message
+    var $Error;
 }
 
 /*!
