@@ -83,6 +83,7 @@ DROP TABLE IF EXISTS eZBulkMail_SubscriptionAddress;
 CREATE TABLE eZBulkMail_SubscriptionAddress (
   ID int(11) default '0' NOT NULL auto_increment,
   EMail varchar(255),
+  Password varchar(50) default '' NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
