@@ -4,8 +4,9 @@ include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezbulkmail/classes/ezbulkmailforgot.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
-$languageIni = new INIFIle( "ezbulkmail/user/intl/" . $Language . "/subscriptionlogin.php.ini", false );
 $ini =& $GLOBALS["GlobalSiteIni"];
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
+$languageIni = new INIFIle( "ezbulkmail/user/intl/" . $Language . "/subscriptionlogin.php.ini", false );
 $categoryName = $ini->read_var( "eZBulkMailMain", "SingleListLogon" );
 $category = eZBulkMailCategory::getByName( $categoryName );
 
@@ -49,7 +50,6 @@ else if( isset( $Hash ) && !is_object( $category ) )
 
 if( isset( $SubscribeButton ) )
 {
-    echo "Inside Subscribebutton";
         $subscriptionaddress = new eZBulkMailSubscriptionAddress();
         if( $subscriptionaddress->setEMail( $Email ) && !$subscriptionaddress->addressExists( $Email ) )
         {
@@ -81,7 +81,6 @@ if( isset( $SubscribeButton ) )
 
 if( isset( $UnSubscribeButton ) )
 {
-    echo "Inside Unsubscribebutton";
     $subscriptionaddress = new eZBulkMailSubscriptionAddress();
     if( $subscriptionaddress->addressExists( $Email ) )
     {
