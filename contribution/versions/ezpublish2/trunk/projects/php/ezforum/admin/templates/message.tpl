@@ -1,0 +1,11 @@
+<table>
+   <tr>
+     <td>Id:</td>
+     <td>Emne:</td>
+     <td>Opphav:</td>
+     <td>Forfatter:</td>
+     <td>Tidspunkt:</td>
+     <td>Emailnotis:</td>
+   </tr>
+   {messages}
+</table>
