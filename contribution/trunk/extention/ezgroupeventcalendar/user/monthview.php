@@ -514,6 +514,8 @@ else {
     $group = new eZUserGroup();
     $group_array =& $group->getAll();
 
+    $t->set_var( "selected_group_id", 0 );
+
     foreach( $group_array as $groupItem )
     {
 		if( $noShowGroup->groupEntry( $groupItem->id() ) == false )
@@ -530,7 +532,7 @@ else {
 
 			//elseif ( $eventGroup->id() == 0 ) {
 			  $t->set_var( "group_is_selected", "selected" );
-			  //$t->set_var( "selected_group_id", 0 );
+			  $t->set_var( "selected_group_id", 0 );
 			}
 			else {
 			  $t->set_var( "group_is_selected", "" );
