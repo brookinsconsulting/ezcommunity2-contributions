@@ -6,7 +6,16 @@
 <p>{intl-consultation_no_consultations}:</p>
 <!-- END no_consultations_item_tpl -->
 
+
 <!-- BEGIN consultation_table_item_tpl -->
+
+<!-- BEGIN new_person_consultation_item_tpl -->
+<form method="post" action="/contact/consultation/person/new/{person_id}">
+<!-- END new_person_consultation_item_tpl -->
+<!-- BEGIN new_company_consultation_item_tpl -->
+<form method="post" action="/contact/consultation/company/new/{company_id}">
+<!-- END new_company_consultation_item_tpl -->
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="30%">{intl-consultation_date}:</th>
@@ -32,7 +41,8 @@
 	</td>
 
 	<td width="1%">
-	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+<!--  	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/admin/images/slettmini.gif" width="16" height="16" align="top"></a> -->
+	<input type="checkbox" name="ConsultationList[]" value="{consultation_id}">
 	</td>	
 
 </tr>
@@ -44,13 +54,9 @@
 <table>
 <tr>
 <td>
-<!-- BEGIN new_person_consultation_item_tpl -->
-<form method="post" action="/contact/consultation/person/new/{person_id}">
-<!-- END new_person_consultation_item_tpl -->
-<!-- BEGIN new_company_consultation_item_tpl -->
-<form method="post" action="/contact/consultation/company/new/{company_id}">
-<!-- END new_company_consultation_item_tpl -->
-<input class="stdbutton" type="submit" value="{intl-new_consultation}">
+
+<input class="okbutton" type="submit" name="New" value="{intl-new_consultation}">
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_consultations}">
 </form>
 </td>
 <td>

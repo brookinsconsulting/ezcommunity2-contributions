@@ -125,15 +125,7 @@ if ( isset( $ConsultationList ) )
 
     foreach ( $consultations as $consultation )
     {
-        if( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "bg_color", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "bg_color", "bgdark" );
-        }
-
+        $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
         $t->set_var( "consultation_id", $consultation->id() );
         $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
         $t->set_var( "consultation_short_description", $consultation->shortDescription() );

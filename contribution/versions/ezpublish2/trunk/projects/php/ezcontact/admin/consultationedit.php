@@ -31,12 +31,20 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
 
-if( $Action == "delete" )
+if( $Action == "delete" or isset( $Delete ) )
 {
-    $consultation = new eZConsultation( $ConsultationID );
-    $person = $consultation->person( $user );
-    $company = $consultation->company( $user );
-    $consultation->delete();
+    unset( $person );
+    unset( $company );
+    foreach( $ConsultationList as $consultation_id )
+    {
+        $consultation = new eZConsultation( $consultation_id );
+        if ( !isset( $person ) and !isset( $company ) )
+        {
+            $person = $consultation->person( $user );
+            $company = $consultation->company( $user );
+        }
+        $consultation->delete();
+    }
     if ( is_numeric( $person ) )
     {
         $contact_type = "person";
