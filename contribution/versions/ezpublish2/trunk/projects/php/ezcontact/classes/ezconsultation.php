@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.1 2001/01/11 21:45:18 jb Exp $
+// $Id: ezconsultation.php,v 1.2 2001/01/12 17:51:39 jb Exp $
 //
 // Definition of eZConsultation class
 //
@@ -116,21 +116,24 @@ class eZConsultation
     /*!
       Deletes an eZConsultation object from the database.
     */
-    function delete()
+    function delete( $id = false )
     {
-        if ( isset( $this->ID ) )
+        if ( !$id )
+            $id = $this->ID;
+
+        if ( isset( $id ) && is_numeric( $id ) )
         {
             $db = eZDB::globalDatabase();
-            $db->query( "DELETE FROM eZContact_Consultation WHERE ID='$this->ID'" );
-            $db->query( $qry_array, "SELECT ConsultationID FROM eZContact_ConsultationPersonDict WHERE ConsultationID='$this->ID'" );
+            $db->query( "DELETE FROM eZContact_Consultation WHERE ID='$id'" );
+            $db->query( $qry_array, "SELECT ConsultationID FROM eZContact_ConsultationPersonDict WHERE ConsultationID='$id'" );
             if ( count( $qry_array ) > 0 )
             {
-                $db->query( "DELETE FROM eZContact_ConsultationPersonDict WHERE ConsultationID='$this->ID'" );
+                $db->query( "DELETE FROM eZContact_ConsultationPersonDict WHERE ConsultationID='$id'" );
             }
-            $db->query( $qry_array, "SELECT ConsultationID FROM eZContact_ConsultationCompanyDict WHERE ConsultationID='$this->ID'" );
+            $db->query( $qry_array, "SELECT ConsultationID FROM eZContact_ConsultationCompanyDict WHERE ConsultationID='$id'" );
             if ( count( $qry_array ) > 0 )
             {
-                $db->query( "DELETE FROM eZContact_ConsultationCompanyDict WHERE ConsultationID='$this->ID'" );
+                $db->query( "DELETE FROM eZContact_ConsultationCompanyDict WHERE ConsultationID='$id'" );
             }
         }
         return true;
