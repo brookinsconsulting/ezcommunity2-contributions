@@ -3633,3 +3633,11 @@ Maintainer(s) : bf@ez.no
     * admin/categoryedit.php:
     Set category_id default to blank in the template.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-05-07  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezqdomrenderer.php: fixed bug with mail in mail tag.
+
