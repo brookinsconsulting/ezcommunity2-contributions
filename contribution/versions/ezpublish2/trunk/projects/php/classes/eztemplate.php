@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: eztemplate.php,v 1.9 2000/10/06 13:46:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -37,10 +37,17 @@ class eZTemplate extends Template
         $this->language =& $language;
         $this->phpFile =& $phpFile;
         $this->Template( $templateDir );
-//        print( $intlDir . "/" . $language . "/" . $phpFile . ".ini" );
-        $this->ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
 
-        $this->TextStrings = $this->ini->read_group( "strings" );
+        $languageFile = $intlDir . "/" . $language . "/" . $phpFile . ".ini";
+        if ( file_exists( $languageFile ) )
+        {        
+            $this->ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
+            $this->TextStrings = $this->ini->read_group( "strings" );
+        }
+        else
+        {
+            print( "<br><b>Error: language file, $languageFile, could not be found.</b><br>" );
+        }
     }
 
     /*!

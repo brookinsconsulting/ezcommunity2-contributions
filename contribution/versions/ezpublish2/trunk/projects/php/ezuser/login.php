@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.1 2000/10/02 15:46:54 ce-cvs Exp $
+// $Id: login.php,v 1.2 2000/10/06 13:46:24 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -27,6 +27,7 @@ include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
+print( $RedirectURL );
 
 // Template
 $t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZUserMain", "TemplateDir" ). "/login/",
@@ -53,7 +54,14 @@ if ( $Action == "login" )
     if ( $user )
     {
         eZUser::loginUser( $user );
-        Header( "Location: /" );
+        if ( isSet( $RedirectURL ) )
+        {
+            Header( "Location: $RedirectURL" );
+        }
+        else
+        {
+            Header( "Location: /" );
+        }
         exit();
     }
     else

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.6 2000/10/06 09:39:42 bf-cvs Exp $
+// $Id: ezorder.php,v 1.7 2000/10/06 13:46:24 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -130,7 +130,10 @@ class eZOrder
                 $item->delete();
             }
         }
-            
+
+        $this->Database->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
+
+        
         $this->Database->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
             
         return true;

@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: checkout.php,v 1.4 2000/10/03 09:45:18 bf-cvs Exp $
+// $Id: checkout.php,v 1.5 2000/10/06 13:46:24 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// 
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -21,7 +21,8 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
+$OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
+$OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -34,6 +35,8 @@ include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
+
+include_once( "classes/ezmail.php" );
 
 
 $cart = new eZCart();
@@ -52,8 +55,8 @@ if ( !$cart )
     print( "ERROR: no cart." );
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/checkout/",
-                     $DOC_ROOT . "/intl/", $Language, "checkout.php" );
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/checkout/",
+                     "eztrade/intl/", $Language, "checkout.php" );
 
 $t->setAllStrings();
 
@@ -61,52 +64,140 @@ $t->set_file( array(
     "checkout_tpl" => "checkout.tpl"
     ) );
 
+$t->set_block( "checkout_tpl", "cart_item_list_tpl", "cart_item_list" );
+$t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
+$t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
+
 //  $t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
 
 
-// create a new order
-$order = new eZOrder();
-$user = eZUser::currentUser();
-$order->setUser( $user );
-$order->setAddress( 42 );
-$order->setShippingCharge( 120.0 );
-$order->store();
+// create an order and empty the cart.
+if ( $SendOrder == "true" ) 
+{ 
+    // create a new order
+    $order = new eZOrder();
+    $user = eZUser::currentUser();
+    $order->setUser( $user );
+    $order->setAddress( 42 );
+    $order->setShippingCharge( 120.0 );
+    $order->store();
 
-// fetch the cart items
-$items = $cart->items( $CartType );
+    // fetch the cart items
+    $items = $cart->items( $CartType );
 
-foreach ( $items as $item )
-{
-    $product = $item->product();
-    print( $product->name() . "<br>" );
+    foreach ( $items as $item )
+        {
+            $product = $item->product();
+            print( $product->name() . "<br>" );
 
-    // create a new order item
-    $orderItem = new eZOrderItem();
-    $orderItem->setOrder( $order );
-    $orderItem->setProduct( $product );
-    $orderItem->setCount( $item->count() );
-    $orderItem->setPrice( $product->price() );
-    $orderItem->store();
+            // create a new order item
+            $orderItem = new eZOrderItem();
+            $orderItem->setOrder( $order );
+            $orderItem->setProduct( $product );
+            $orderItem->setCount( $item->count() );
+            $orderItem->setPrice( $product->price() );
+            $orderItem->store();
 
-    $optionValues =& $item->optionValues();
+            $optionValues =& $item->optionValues();
 
-    $t->set_var( "cart_item_option", "" );
-    foreach ( $optionValues as $optionValue )
-    {
-        $option =& $optionValue->option();
-        $value =& $optionValue->optionValue();
+            $t->set_var( "cart_item_option", "" );
+            foreach ( $optionValues as $optionValue )
+                {
+                    $option =& $optionValue->option();
+                    $value =& $optionValue->optionValue();
 
-        $orderOptionValue = new eZOrderOptionValue();
-        $orderOptionValue->setOrderItem( $orderItem );
-        $orderOptionValue->setOptionName( $option->name() );
-        $orderOptionValue->setValueName( $value->name() );
-        $orderOptionValue->store();
+                    $orderOptionValue = new eZOrderOptionValue();
+                    $orderOptionValue->setOrderItem( $orderItem );
+                    $orderOptionValue->setOptionName( $option->name() );
+                    $orderOptionValue->setValueName( $value->name() );
+                    $orderOptionValue->store();
         
-        print( "&nbsp;&nbsp;" . $option->name() . " " . $value->name() . "<br>");
-    }    
+                    print( "&nbsp;&nbsp;" . $option->name() . " " . $value->name() . "<br>");
+                }    
+        }
+
+    $cart->clear();
+
+    Header( "Location: /trade/ordersendt/" );
 }
 
-$cart->clear();
+// print the cart contents
+
+{
+// fetch the cart items
+    $items = $cart->items( $CartType );
+
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
+    
+    $i = 0;
+    $sum = 0.0;
+    foreach ( $items as $item )
+        {
+            $product = $item->product();
+
+            $image = $product->thumbnailImage();
+
+            $thumbnail =& $image->requestImageVariation( 35, 35 );        
+
+            $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+            $t->set_var( "product_image_width", $thumbnail->width() );
+            $t->set_var( "product_image_height", $thumbnail->height() );
+            $t->set_var( "product_image_caption", $image->caption() );
+
+            $currency->setValue( $product->price() );
+
+            $sum += $product->price();
+            $t->set_var( "product_name", $product->name() );
+            $t->set_var( "product_price", $locale->format( $currency ) );
+
+            if ( ( $i % 2 ) == 0 )
+                $t->set_var( "td_class", "bglight" );
+            else
+                $t->set_var( "td_class", "bgdark" );
+
+            $optionValues =& $item->optionValues();
+
+            $t->set_var( "cart_item_option", "" );
+            foreach ( $optionValues as $optionValue )
+                {
+                    $option =& $optionValue->option();
+                    $value =& $optionValue->optionValue();
+                 
+                    $t->set_var( "option_name", $option->name() );
+                    $t->set_var( "option_value", $value->name() );
+            
+                    $t->parse( "cart_item_option", "cart_item_option_tpl", true );
+                }
+        
+            $t->parse( "cart_item", "cart_item_tpl", true );
+        
+            $i++;
+        }
+
+    $shippingCost = 100.0;
+    $currency->setValue( $shippingCost );
+    $t->set_var( "shipping_cost", $locale->format( $currency ) );
+
+    $sum += $shippingCost;
+    $currency->setValue( $sum );
+    $t->set_var( "cart_sum", $locale->format( $currency ) );
+
+    $mail = new eZMail();
+    $mail->setFrom( $OrderSenderEmail );
+    $mail->setTo( $OrderReceiverEmail );
+    $mail->setSubject( "Ny ordre" );
+    $mail->setBody( "Ny ordre" );
+    $mail->send();
+         
+}
+
+$t->parse( "cart_item_list", "cart_item_list_tpl" );
+
+$user = eZUser::currentUser();
+
+$t->set_var( "customer_first_name", $user->firstName() );
+$t->set_var( "customer_last_name", $user->lastName() );
 
 $t->pparse( "output", "checkout_tpl" );
 

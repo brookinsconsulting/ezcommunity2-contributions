@@ -1,10 +1,12 @@
 <?
 $url_array = explode( "/", $REQUEST_URI );
+
+print( $RedirectURL );
+
 switch ( $url_array[2] )
 {
     case "login" :
     {
-        
         $Action = $url_array[3];
         include( "ezuser/login.php" );
     }

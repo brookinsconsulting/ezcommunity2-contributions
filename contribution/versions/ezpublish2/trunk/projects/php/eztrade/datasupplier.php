@@ -105,6 +105,10 @@ switch ( $url_array[2] )
         include( "eztrade/checkout.php" );        
         break;
 
+    case "ordersendt" :
+        include( "eztrade/ordersendt.php" );        
+        break;
+
         
 
     case "search" :

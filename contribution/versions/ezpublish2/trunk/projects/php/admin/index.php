@@ -60,7 +60,7 @@ if ( $user )
     if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
         include( "ezuser/admin/menubox.php" );
 
-    include( "ezuser/admin/userbox.php" );
+//      include( "ezuser/admin/userbox.php" );
 
     // break the column an draw a horizontal line
     include( "separator.php" );

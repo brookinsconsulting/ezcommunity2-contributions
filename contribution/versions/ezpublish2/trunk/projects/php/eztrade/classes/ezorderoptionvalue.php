@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderoptionvalue.php,v 1.3 2000/10/06 09:39:42 bf-cvs Exp $
+// $Id: ezorderoptionvalue.php,v 1.4 2000/10/06 13:46:24 bf-cvs Exp $
 //
 // Definition of eZOrderOptionValue class
 //
@@ -34,7 +34,7 @@ class eZOrderOptionValue
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrder( $id="", $fetch=true )
+    function eZOrderOptionValue( $id="", $fetch=true )
     {
         $this->IsConnected = false;
 

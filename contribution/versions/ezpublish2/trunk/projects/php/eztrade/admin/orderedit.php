@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.2 2000/10/03 14:09:48 bf-cvs Exp $
+// $Id: orderedit.php,v 1.3 2000/10/06 13:46:24 bf-cvs Exp $
 //
 // 
 //
@@ -118,7 +118,6 @@ foreach ( $items as $item )
     $t->set_var( "order_item_option", "" );
     foreach ( $optionValues as $optionValue )
     {
-                 
         $t->set_var( "option_name", $optionValue->optionName() );
         $t->set_var( "option_value", $optionValue->valueName() );
             

@@ -7,7 +7,6 @@ switch ( $url_array[2] )
 {
     case "polls" :
     {
-
         include( "ezpoll/polllist.php" );
     }
     break;
@@ -28,11 +27,11 @@ switch ( $url_array[2] )
     }
     break;
 
-case "votebox" :
- {
-     $PollID = $url_array[3];
-     include( "ezpoll/votebox.php" );
- }
- break;
+    case "votebox" :
+    {
+        $PollID = $url_array[3];
+        include( "ezpoll/votebox.php" );
+    }
+    break;
 }
 ?>
