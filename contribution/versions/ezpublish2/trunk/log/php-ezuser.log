@@ -522,3 +522,28 @@ Maintainer(s) : bf@ez.no
     * admin/useredit.php
       classes/ezuser.php: Added title edit.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/authorlist.php.ini
+      admin/intl/es_MX/groupedit.php.ini
+      admin/intl/es_MX/grouplist.php.ini
+      admin/intl/es_MX/login.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/sessioninfo.php.ini
+      admin/intl/es_MX/settings.php.ini
+      admin/intl/es_MX/useredit.php.ini
+      admin/intl/es_MX/userlist.php.ini
+      admin/intl/es_MX/welcome.php.ini
+      user/intl/es_MX/forgot.php.ini
+      user/intl/es_MX/forgotmessage.php.ini
+      user/intl/es_MX/missingemailmessage.php.ini
+      user/intl/es_MX/norights.php.ini
+      user/intl/es_MX/userbox.php.ini
+      user/intl/es_MX/useredit.php.ini
+      user/intl/es_MX/userwithaddress.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

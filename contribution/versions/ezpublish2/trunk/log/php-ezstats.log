@@ -153,3 +153,26 @@ Maintainer(s) : br@ez.no
       admin/intl/fi_FI/requestpagelist.php.ini
       admin/intl/fi_FI/visitorlist.php.ini: updated fi_FI for 2.2 final
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-10-30  Bjoern Reiten  <br@ez.no>
+
+    * admin/cron.php: Canged the variable $user to $userID.
+
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/browserlist.php.ini
+      admin/intl/es_MX/dayreport.php.ini
+      admin/intl/es_MX/entryexitpages.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/monthreport.php.ini
+      admin/intl/es_MX/pageviewlist.php.ini
+      admin/intl/es_MX/productreport.php.ini
+      admin/intl/es_MX/refererlist.php.ini
+      admin/intl/es_MX/requestpagelist.php.ini
+      admin/intl/es_MX/visitorlist.php.ini
+      admin/intl/es_MX/yearreport.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

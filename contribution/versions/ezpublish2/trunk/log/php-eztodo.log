@@ -197,3 +197,21 @@ Maintainer(s) : ce@ez.no
       user/intl/fi_FI/todomenulist.php.ini
       user/intl/fi_FI/todoview.php.ini: updated fi_FI for 2.2 final
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/categorytypeedit.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/prioritytypeedit.php.ini
+      admin/intl/es_MX/statustypeedit.php.ini
+      admin/intl/es_MX/statustypelist.php.ini
+      user/intl/es_MX/maillog.php.ini
+      user/intl/es_MX/sendmail.php.ini
+      user/intl/es_MX/todoedit.php.ini
+      user/intl/es_MX/todolist.php.ini
+      user/intl/es_MX/todoview.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

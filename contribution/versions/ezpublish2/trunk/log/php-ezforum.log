@@ -563,3 +563,36 @@ Maintainer(s) : jhe@ez.no
       user/intl/fi_FI/search.php.ini
       user/intl/fi_FI/userlogin.php.ini: updated fi_FI for 2.2 final
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-30  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messageedit.php
+      user/messageform.php: fixed bug with admin url
+
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/categoryedit.php.ini
+      admin/intl/es_MX/categorylist.php.ini
+      admin/intl/es_MX/forumlist.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/message.php.ini
+      admin/intl/es_MX/messagelist.php.ini
+      admin/intl/es_MX/noright.php.ini
+      admin/intl/es_MX/search.php.ini
+      admin/intl/es_MX/unapprovedlist.php.ini
+      user/intl/es_MX/categorylist.php.ini
+      user/intl/es_MX/forumlist.php.ini
+      user/intl/es_MX/latestmessages.php.ini
+      user/intl/es_MX/mailreply.php.ini
+      user/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/message.php.ini
+      user/intl/es_MX/messagelist.php.ini
+      user/intl/es_MX/messagesimplelist.php.ini
+      user/intl/es_MX/noaccess.php.ini
+      user/intl/es_MX/search.php.ini
+      user/intl/es_MX/userlogin.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

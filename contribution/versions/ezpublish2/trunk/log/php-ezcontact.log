@@ -431,3 +431,35 @@ Maintainer(s) : jhe@ez.no
       user/intl/fi_FI/search.php.ini
       user/intl/fi_FI/urlsupplier.php.ini: updated fi_FI for 2.2 final
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-30  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personedit.php: fixed bug with double addresses and so on
+
+    * admin/personedit.php: fixed bug with double addresses and phone numbers
+
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/companyedit.php.ini
+      admin/intl/es_MX/companystats.php.ini
+      admin/intl/es_MX/companytype.php.ini
+      admin/intl/es_MX/companyview.php.ini
+      admin/intl/es_MX/consultationdetaillist.php.ini
+      admin/intl/es_MX/consultationedit.php.ini
+      admin/intl/es_MX/consultationlist.php.ini
+      admin/intl/es_MX/consultationtype.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/nopermission.php.ini
+      admin/intl/es_MX/personedit.php.ini
+      admin/intl/es_MX/personview.php.ini
+      admin/intl/es_MX/projecttype.php.ini
+      user/intl/es_MX/companysearch.php.ini
+      user/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/personsearch.php.ini
+      user/intl/es_MX/search.php.ini
+      user/intl/es_MX/urlsupplier.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

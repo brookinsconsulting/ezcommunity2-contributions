@@ -308,3 +308,43 @@ Maintainer(s) : fh@ez.no
     Fixed bug with missing function eMail().
     Fixed bug with subscribed email addresses not showing up.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-10-30  fh  <fh@zev.ez.no>
+
+    * classes/ezbulkmailsubscriptionaddress.php
+      user/subscriptionlist.php:
+    Fix login procedure that with useEZUser that was broken because of
+    bad new impl by ELO :)
+
+    * classes/ezbulkmailcategory.php
+      admin/datasupplier.php
+      admin/menubox.php:
+    -delete all links to categories when they are deleted.
+    -don't show massubscribe link when in eZUser mode
+
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/es_MX/bulklist.php.ini
+      user/intl/es_MX/categoryedit.php.ini
+      user/intl/es_MX/mailview.php.ini
+      user/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/subscriptionlist.php.ini
+      user/intl/es_MX/subscriptionlogin.php.ini
+      user/intl/es_MX/subscriptionmail.php.ini
+      user/intl/es_MX/usermessages.php.ini
+      admin/intl/es_MX/categoryedit.php.ini
+      admin/intl/es_MX/categorylist.php.ini
+      admin/intl/es_MX/mailedit.php.ini
+      admin/intl/es_MX/maillist.php.ini
+      admin/intl/es_MX/mailview.php.ini
+      admin/intl/es_MX/masssubscribe.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/sendmail.php.ini
+      admin/intl/es_MX/templateedit.php.ini
+      admin/intl/es_MX/templatelist.php.ini
+      admin/intl/es_MX/userlist.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

@@ -127,3 +127,17 @@ Maintainer(s) : vl@ez.no
       classes/ezrssimporter.php:
     Added support for libxml instead of qdom XML parser. People happy now? ;)
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/importnews.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/newsarchive.php.ini
+      admin/intl/es_MX/newssearch.php.ini
+      admin/intl/es_MX/unpublished.php.ini
+      user/intl/es_MX/headlines.php.ini
+      user/intl/es_MX/menubox.php.ini: updated es_MX (Mexican Spanish) for 2.2
+

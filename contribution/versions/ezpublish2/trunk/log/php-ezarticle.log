@@ -1679,3 +1679,92 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: Removed a / on file links.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-30  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/templates/standard/articlestatic.tpl: topiclist
+
+    * user/frontpage.php: section patch
+
+    * user/frontpage.php
+      user/sitemap.php
+      user/smallarticlelist.php
+      user/mailtofriend.php
+      user/headlines.php
+      user/templates/standard/articlestatic.tpl
+      user/templates/standard/articleview.tpl
+      user/templates/standard/articleprint.tpl
+      user/templates/standard/authorview.tpl
+      user/templates/standard/headlines.tpl
+      user/templates/standard/topiclist.tpl
+      user/templates/standard/mailtofriend.tpl
+      user/templates/standard/sendmailtofriend.tpl
+      user/templates/standard/smallarticlelist.tpl
+      user/templates/standard/sitemap.tpl
+      user/templates/standard/index.tpl: Section patch
+
+2001-10-30  Baard Farstad  <bf@ez.no>
+
+    * user/intl/en_GB/articleview.php.ini
+      user/templates/standard/articleview.tpl
+      admin/datasupplier.php
+      admin/menubox.php
+      classes/ezarticle.php
+      user/articlelist.php
+      user/articleview.php:
+    Added related articles list in article view based on article keywords.
+
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/articleedit.php.ini
+      admin/intl/es_MX/articlelist.php.ini
+      admin/intl/es_MX/articlelog.php.ini
+      admin/intl/es_MX/articlepreview.php.ini
+      admin/intl/es_MX/attribute.php.ini
+      admin/intl/es_MX/categoryedit.php.ini
+      admin/intl/es_MX/filelist.php.ini
+      admin/intl/es_MX/formlist.php.ini
+      admin/intl/es_MX/imageedit.php.ini
+      admin/intl/es_MX/imagelist.php.ini
+      admin/intl/es_MX/imagemap.php.ini
+      admin/intl/es_MX/mediaedit.php.ini
+      admin/intl/es_MX/medialist.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/pendinglist.php.ini
+      admin/intl/es_MX/pendingmail.php.ini
+      admin/intl/es_MX/search.php.ini
+      admin/intl/es_MX/searchform.php.ini
+      admin/intl/es_MX/sitemap.php.ini
+      admin/intl/es_MX/topiclist.php.ini
+      admin/intl/es_MX/typeedit.php.ini
+      admin/intl/es_MX/typelist.php.ini
+      admin/intl/es_MX/unpublishedlist.php.ini
+      user/intl/es_MX/articleedit.php.ini
+      user/intl/es_MX/articleheaderlist.php.ini
+      user/intl/es_MX/articlelinks.php.ini
+      user/intl/es_MX/articlelist.php.ini
+      user/intl/es_MX/articleview.php.ini
+      user/intl/es_MX/authorlist.php.ini
+      user/intl/es_MX/authorview.php.ini
+      user/intl/es_MX/extendedsearch.php.ini
+      user/intl/es_MX/fileedit.php.ini
+      user/intl/es_MX/filelist.php.ini
+      user/intl/es_MX/frontpage.php.ini
+      user/intl/es_MX/headlines.php.ini
+      user/intl/es_MX/imageedit.php.ini
+      user/intl/es_MX/imagelist.php.ini
+      user/intl/es_MX/index.php.ini
+      user/intl/es_MX/mailtofriend.php.ini
+      user/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/newsgroup.php.ini
+      user/intl/es_MX/search.php.ini
+      user/intl/es_MX/searchform.php.ini
+      user/intl/es_MX/sendmailtofriend.php.ini
+      user/intl/es_MX/sitemap.php.ini
+      user/intl/es_MX/topiclist.php.ini
+      user/intl/es_MX/urlsupplier.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

@@ -1689,3 +1689,54 @@ Maintainer(s) : ce@ez.no
       user/voucherview.php
       user/wishlist.php: Added checkbox for delete
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/attributeedit.php.ini
+      admin/intl/es_MX/categoryedit.php.ini
+      admin/intl/es_MX/categorylist.php.ini
+      admin/intl/es_MX/customerlist.php.ini
+      admin/intl/es_MX/customerview.php.ini
+      admin/intl/es_MX/formlist.php.ini
+      admin/intl/es_MX/imageedit.php.ini
+      admin/intl/es_MX/imagelist.php.ini
+      admin/intl/es_MX/linklist.php.ini
+      admin/intl/es_MX/linkselect.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/optionedit.php.ini
+      admin/intl/es_MX/orderedit.php.ini
+      admin/intl/es_MX/orderlist.php.ini
+      admin/intl/es_MX/pricegroupedit.php.ini
+      admin/intl/es_MX/productedit.php.ini
+      admin/intl/es_MX/productpreview.php.ini
+      admin/intl/es_MX/productsearch.php.ini
+      admin/intl/es_MX/shippingtypes.php.ini
+      admin/intl/es_MX/typeedit.php.ini
+      admin/intl/es_MX/voucheredit.php.ini
+      admin/intl/es_MX/voucherlist.php.ini
+      user/intl/es_MX/cart.php.ini
+      user/intl/es_MX/categorylist.php.ini
+      user/intl/es_MX/checkout.php.ini
+      user/intl/es_MX/customerlogin.php.ini
+      user/intl/es_MX/extendedsearch.php.ini
+      user/intl/es_MX/mailorder.php.ini
+      user/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/orderlist.php.ini
+      user/intl/es_MX/ordersendt.php.ini
+      user/intl/es_MX/orderview.php.ini
+      user/intl/es_MX/precheckout.php.ini
+      user/intl/es_MX/productlist.php.ini
+      user/intl/es_MX/productsearch.php.ini
+      user/intl/es_MX/productview.php.ini
+      user/intl/es_MX/smallproductlist.php.ini
+      user/intl/es_MX/viewwishlist.php.ini
+      user/intl/es_MX/voucher.php.ini
+      user/intl/es_MX/voucheremail.php.ini
+      user/intl/es_MX/voucherinformation.php.ini
+      user/intl/es_MX/voucherview.php.ini
+      user/intl/es_MX/wishlist.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

@@ -408,3 +408,18 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/en_GB/search.php.ini: removed norwegian word
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/browse.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/unassigned.php.ini
+      user/intl/es_MX/filelist.php.ini
+      user/intl/es_MX/fileupload.php.ini
+      user/intl/es_MX/fileview.php.ini
+      user/intl/es_MX/folderedit.php.ini
+      user/intl/es_MX/search.php.ini: updated es_MX (Mexican Spanish) for 2.2
+

@@ -298,3 +298,21 @@ Maintainer(s) : vl@ez.no
       admin/supportedit.php
       admin/supportlist.php: fixed admin interface for support list in bug
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/bugedit.php.ini
+      admin/intl/es_MX/categorylist.php.ini
+      admin/intl/es_MX/confirmationmail.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/bugreport.php.ini
+      user/intl/es_MX/bugview.php.ini
+      user/intl/es_MX/imageedit.php.ini
+      user/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/search.php.ini
+      user/intl/es_MX/unhandledbugs.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

@@ -240,3 +240,18 @@ Maintainer(s) : jhe@ez.no
       user/intl/fi_FI/trustees.php.ini
       user/intl/fi_FI/yearview.php.ini: updated fi_FI for 2.2 final
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/es_MX/appointmentedit.php.ini
+      user/intl/es_MX/dayview.php.ini
+      user/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/monthview.php.ini
+      user/intl/es_MX/trustees.php.ini
+      user/intl/es_MX/yearview.php.ini
+      admin/intl/es_MX/typeedit.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

@@ -301,3 +301,27 @@ Maintainer(s) : br@ez.no
       admin/templates/standard/categoryedit.tpl
       classes/ezlinkcategory.php: Fixed editing link categories
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/attributeedit.php.ini
+      admin/intl/es_MX/categoryedit.php.ini
+      admin/intl/es_MX/categorylist.php.ini
+      admin/intl/es_MX/linkcategorylist.php.ini
+      admin/intl/es_MX/linkedit.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/search.php.ini
+      admin/intl/es_MX/typeedit.php.ini
+      admin/intl/es_MX/typelist.php.ini
+      admin/intl/es_MX/unacceptedlist.php.ini
+      user/intl/es_MX/categorylist.php.ini
+      user/intl/es_MX/linkcategorylist.php.ini
+      user/intl/es_MX/linklist.php.ini
+      user/intl/es_MX/onepagelinklist.php.ini
+      user/intl/es_MX/search.php.ini
+      user/intl/es_MX/suggestlink.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+

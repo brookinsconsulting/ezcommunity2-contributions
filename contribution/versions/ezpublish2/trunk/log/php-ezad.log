@@ -161,3 +161,22 @@ Maintainer(s) : br@ez.no
 
     * user/adlist.php: process external/internal ads
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-30  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/adlist.php: local/external banners
+
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/adedit.php.ini
+      admin/intl/es_MX/adlist.php.ini
+      admin/intl/es_MX/categoryedit.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+
+2001-10-30  Bjoern Reiten  <br@ez.no>
+
+    * user/adlist.php: Fixed some formating of code.
+

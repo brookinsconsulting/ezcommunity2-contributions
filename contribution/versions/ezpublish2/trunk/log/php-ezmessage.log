@@ -66,3 +66,15 @@ Maintainer(s) : bf@ez.no
       admin/intl/fi_FI/messagelist.php.ini
       admin/intl/fi_FI/messageview.php.ini: updated fi_FI for 2.2 final
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-10-30  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/messageedit.php.ini
+      admin/intl/es_MX/messagelist.php.ini
+      admin/intl/es_MX/messageview.php.ini:
+    updated es_MX (Mexican Spanish) for 2.2
+
