@@ -621,7 +621,16 @@ if (isset($allDayEvents))
                     $t->set_var( "event_stop", $evStopTime );
                     $evStopStr = $evStop->hour()  . addZero( $evStop->minute() );
 	                $evStartStr = $evStart->hour()  . addZero( $evStart->minute() );
-
+                     echo "Doing $evStopStr - $evStartStr<br>";
+                     // fix for 15 min stop times that end on another hour
+                     if (substr($evStopStr, 1, 2) == '00')
+                     {
+                      $evStopStr = substr($evStopStr, 0, 1) - 1 . '60';
+                     }
+                     settype($evStopStr, "integer");
+                     settype($evStartStr, "integer");
+                     $res = ($evStopStr - $evStartStr);
+                     echo "It equals " . $res . "<br>";
 					if ($evStopStr - $evStartStr == 15)
 			        {
 
