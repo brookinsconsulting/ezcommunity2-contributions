@@ -114,6 +114,7 @@
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">
+	</td>
 </tr>
 <!-- END article_item_tpl -->
 </table>

@@ -1,4 +1,4 @@
-<table width="100%" border="0" alt="" />
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td valign="bottom">
 	<h1>{intl-head_line} - {current_category_name}</h1>
@@ -34,9 +34,9 @@
 <div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" alt="" />
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-category}:</td>
+	<th>{intl-category}:</th>
 	<th>{intl-description}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
@@ -69,7 +69,7 @@
 
 
 <!-- BEGIN article_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" alt="" />
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-article}:</th>
 	<th>{intl-published}:</th>
@@ -112,6 +112,7 @@
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">
+	</td>
 </tr>
 <!-- END article_item_tpl -->
 </table>
