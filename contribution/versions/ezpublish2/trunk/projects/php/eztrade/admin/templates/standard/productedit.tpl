@@ -165,7 +165,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <hr noshade="noshade" size="4" />
 
-<table cellspacing="0" cellpadding="4" border="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
         <select name="ItemToAdd">
