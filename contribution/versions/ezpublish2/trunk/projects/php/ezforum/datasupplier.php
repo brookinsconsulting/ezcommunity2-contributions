@@ -29,7 +29,12 @@ switch ( $url_array[2] )
         include( "ezforum/replymessage.php" );                
     }
     break;
-    
+
+    case "categorylist":
+    {
+        include( "ezforum/categorylist.php" );
+    }
+    break;
         
     case "category" :
         if ( $url_array[3] == "forum" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.24 2000/10/13 09:38:34 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.25 2000/10/13 12:52:25 ce-cvs Exp $
 //
 // 
 //
@@ -156,6 +156,32 @@ class eZForumForum
     {
 
     }
+
+        /*!
+      Returns every forum.
+    */
+    function getAllByCategory( $CategoryID )
+    {
+        $this->dbInit();
+
+        $ret = array();
+
+        $this->dbInit();
+
+        $this->Database->array_query( $forum_array, "SELECT Id as ID FROM
+                                                       ezforum_ForumTable WHERE CategoryId='$CategoryID'" );
+                                                     
+        $ret = array();
+
+        foreach ( $forum_array as $forum )
+            {
+                $ret[] = new eZForumForum( $forum["ID"] );
+            }
+
+        return $ret;
+
+    }
+
 
     /*!
       Returns the messages in a forum.

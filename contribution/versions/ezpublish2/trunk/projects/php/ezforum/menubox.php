@@ -7,5 +7,5 @@
 </tr>
 
 <?
-include( "ezforum/categorylist.php" );
+include( "ezforum/categorymenu.php" );
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.18 2000/10/12 11:00:29 ce-cvs Exp $
+// $Id: ezforumcategory.php,v 1.19 2000/10/13 12:52:25 ce-cvs Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -191,14 +191,21 @@ class eZForumCategory
     {
         $this->dbInit();
 
-        $query_id = mysql_query( "SELECT * FROM ezforum_CategoryTable" )
-             or die("eZforumCategory::getAllCategories() failed, dying...");
-            
-        for ($i = 0;$i < mysql_num_rows( $query_id ); $i++ )
+        $this->Database->array_query( $category_array, "SELECT Id as ID FROM ezforum_CategoryTable" );
+  //        $query_id = mysql_query( "SELECT * FROM ezforum_CategoryTable" )
+//               or die("eZforumCategory::getAllCategories() failed, dying...");
+
+        $ret = array();
+        foreach( $category_array as $category )
         {
-            $returnArray[$i] = mysql_fetch_array($query_id);   
+            $ret[] = new eZForumCategory( $category["ID"] );
         }
-        return $returnArray;
+//          for ($i = 0;$i < mysql_num_rows( $query_id ); $i++ )
+//          {
+//              $returnArray[$i] = mysql_fetch_array($query_id);   
+//          }
+//          return $returnArray;
+        return $ret;
     }
 
     /*
