@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.29 2001/08/20 09:40:34 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.30 2001/08/20 09:59:49 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -804,6 +804,9 @@ class eZQDomrenderer
                     break;
                     case "factbox" :
                         $pageContent = trim( $this->Template->parse( "factbox", "factbox_tpl" ) );
+                    break;
+                    case "pre" :
+                        $pageContent = trim( $this->Template->parse( "pre", "pre_tpl" ) );
                     break;
                     case "quote" :
                         $this->Template->set_var( "contents", trim( $tmpContent ) );
