@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.31 2000/10/25 07:27:23 th-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.32 2000/10/25 10:21:44 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -106,7 +106,7 @@ class eZLinkGroup
     function get( $id )
     {
         $this->dbInit();
-        array_query( $linkgroup_array,  "SELECT * FROM eZLink_LinkGroup WHERE ID='$id'" );
+        $this->Database->array_query( $linkgroup_array,  "SELECT * FROM eZLink_LinkGroup WHERE ID='$id'" );
         if ( count( $linkgroup_array ) > 1 )
         {
             die( "feil, flere grupper med samme id" );
@@ -173,7 +173,7 @@ class eZLinkGroup
 
         if ( $id == $start_id )
         {
-            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y'" );
+            $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y'" );
             $count += $link_count[0][ "LinkCount" ];
         }
         
@@ -181,7 +181,7 @@ class eZLinkGroup
         {
             $group_id =  $sibling_array[ $i][ "ID" ];
             $count += $this->getTotalSubLinks( $group_id, $start_id );
-            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y'" );
+            $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y'" );
             $count += $link_count[0][ "LinkCount" ];            
         }
         return $count;
@@ -199,7 +199,7 @@ class eZLinkGroup
 
         if ( $id == $start_id )
         {
-            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' AND ( TO_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
+            $this->Database->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' AND ( TO_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
             $count += $link_count[0][ "LinkCount" ];
         }
         
@@ -207,7 +207,7 @@ class eZLinkGroup
         {
             $group_id =  $sibling_array[ $i][ "ID" ];
             $count += $this->getNewSubLinks( $group_id, $start_id, $new_limit );
-            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y' AND ( To_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
+            $this->Database->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y' AND ( To_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
             $count += $link_count[0][ "LinkCount" ];            
         }
         return $count;
@@ -219,7 +219,7 @@ class eZLinkGroup
     function getTotalIncomingLinks()
     {
         $count = 0;
-        array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE Accepted='N'" );
+        $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE Accepted='N'" );
         $count = $link_count[0][ "LinkCount" ];
         return $count;
     }

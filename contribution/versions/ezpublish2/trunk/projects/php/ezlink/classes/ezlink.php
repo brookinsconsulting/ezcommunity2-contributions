@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.30 2000/10/19 12:26:25 ce-cvs Exp $
+// $Id: ezlink.php,v 1.31 2000/10/25 10:21:44 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -129,7 +129,7 @@ class eZLink
         $this->dbInit();
         if ( $id != "" )
         {
-            array_query( $link_array, "SELECT * FROM eZLink_Link WHERE ID='$id'" );
+            $this->Database->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE ID='$id'" );
             if ( count( $link_array ) > 1 )
             {
                 die( "Feil: flere linker med samme ID ble funnet i databasen, dette skal ikke være mulig." );
@@ -215,7 +215,7 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='Y' ORDER BY Title DESC LIMIT $offset, $limit" );
+        $this->Database->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='Y' ORDER BY Title DESC LIMIT $offset, $limit" );
 
         return $link_array;
     }
@@ -263,7 +263,7 @@ class eZLink
              $query->buildQuery()  .
              ") AND Accepted='Y' ORDER BY Title";
 
-        array_query( $link_array, $query_str );
+        $this->Database->array_query( $link_array, $query_str );
 
         $ret = 0;
         if ( count( $link_array ) == 1 )
@@ -281,7 +281,7 @@ class eZLink
         $this->dbInit();
         $group_array = 0;
 
-        array_query( $group_array, "SELECT * FROM eZLink_Link ORDER BY Title" );
+        $this->Database->array_query( $group_array, "SELECT * FROM eZLink_Link ORDER BY Title" );
 
         return $group_array;
     }
@@ -293,7 +293,7 @@ class eZLink
     {
         $this->dbInit();
 
-        array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
+        $this->Database->array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
 
         return count( $url_array );
     }

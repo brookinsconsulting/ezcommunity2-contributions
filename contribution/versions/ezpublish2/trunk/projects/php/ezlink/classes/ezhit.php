@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezhit.php,v 1.15 2000/10/17 10:51:12 bf-cvs Exp $
+// $Id: ezhit.php,v 1.16 2000/10/25 10:21:44 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -85,7 +85,7 @@ class eZHit
     function getLinkHits( $id )
     {
         $this->dbInit();        
-        array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE Link='$id'" );        
+        $this->Database->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE Link='$id'" );        
         $count = count( $hit_array );
         return $count;
     }
@@ -96,7 +96,7 @@ class eZHit
     function get( $id )
     {
         $this->dbInit();
-        array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE ID='$id'" );
+        $this->Database->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE ID='$id'" );
         return count( $hit_array );
     }
 

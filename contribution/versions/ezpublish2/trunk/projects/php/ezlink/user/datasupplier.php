@@ -23,7 +23,7 @@ switch ( $url_array[2] )
         break;
 
     case "success" :
-        include( "ezlink/success.php" );
+        include( "ezlink/user/success.php" );
         break;
 
     case "group" :
