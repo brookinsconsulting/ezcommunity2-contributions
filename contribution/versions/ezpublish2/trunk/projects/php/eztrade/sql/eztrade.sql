@@ -157,6 +157,10 @@ CREATE TABLE eZTrade_Product (
   Discontinued enum('true','false'),
   InheritOptions enum('true','false'),
   ProductNumber varchar(100),
+  ExternalLink varchar(200),
+  IsHotDeal enum('true','false'),
+  Published timestamp(14),
+  Altered timestamp(14),
   PRIMARY KEY (ID)
 );
 
