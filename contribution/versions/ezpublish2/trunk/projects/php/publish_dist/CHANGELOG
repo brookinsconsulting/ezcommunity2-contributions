@@ -30,6 +30,7 @@ Changes from version 1.0.5
 * Added preferred layout for users
 * Added product types which lets products aquire certain attributes which can
   be used for product comparision.
+* Added floating images to products.
 * Added hot deals list for products.
 * Made the menus in the admin module expandable/collapsable as well as moveable.
   This is remembered by the preferences for each user. We've also changed the
