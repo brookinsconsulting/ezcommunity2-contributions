@@ -27,25 +27,31 @@
 
 $menuItems = array(
     array( "/procurement/sitemap/", "{intl-rfp_list}" ),
-
-//    array( "/procurement/archive/10", "{intl-rfp_list}" ),
-//    array( "/procurement/archive/0", "{intl-archive}" ),
     array( "/procurement/edit/new/", "{intl-new_rfp}" ),
-    array( "/user/ingroup/5", "{intl-user_list}" ),
-    array( "/user/new", "{intl-new_user}" ),
-    array( "/filemanager/map", "{intl-rfp_attachments}" ),
-    array( "/filemanager/new", "{intl-rfp_new_file}" ),
-
-//    array( "/procurement/categoryedit/new/", "{intl-new_category}" ),
-    array( "/procurement/unpublished/", "{intl-unpublished}" ),
-    // array( "/procurement/search/advanced", "{intl-search_advanced}" ),
 
     array( "/procurement/report", "{intl-rfp_report}" ),
 
-    array( "/procurement/cache/clear", "{intl-rfp_cache}" )
+    // array( "/procurement/archive/10", "{intl-rfp_list}" ),
+    // array( "/procurement/archive/0", "{intl-archive}" ),
 
+    array( "/filemanager/map", "{intl-rfp_attachments}" ),
+    array( "/filemanager/new", "{intl-rfp_new_file}" ),
 
-  //  array( "/procurement/sitemap/", "{intl-sitemap}" ),
+    // array( "/procurement/categoryedit/new/", "{intl-new_category}" ),
+    // array( "/procurement/search/advanced", "{intl-search_advanced}" ),
+    
+    array( "/contact/company/list/", "{intl-companytypelist}" ),
+    array( "/contact/company/new/", "{intl-companyadd}" ),
+    array( "/contact/person/list/", "{intl-personlist}" ),
+    array( "/contact/person/new/", "{intl-personadd}" ),
+
+    array( "/user/ingroup/5", "{intl-user_list}" ),
+    array( "/user/new", "{intl-new_user}" ),
+
+    array( "/procurement/cache/clear", "{intl-rfp_cache}" ),
+    array( "/procurement/unpublished/", "{intl-unpublished}" )
+
+//    array( "/procurement/sitemap/", "{intl-sitemap}" ),
 //    array( "/procurement/pendinglist/", "{intl-pending_list}" ),
 //    array( "/procurement/topiclist/", "{intl-topiclist}" ),
 //    array( "/procurement/type/list", "{intl-list_type}" ),
