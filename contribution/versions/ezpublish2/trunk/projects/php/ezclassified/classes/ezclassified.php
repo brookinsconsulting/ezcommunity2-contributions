@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.1 2000/11/28 14:30:11 ce-cvs Exp $
+// $Id: ezclassified.php,v 1.2 2000/11/29 15:49:35 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -96,10 +96,11 @@ class eZClassified
 	                                              Price='$this->Price',
 	                                              Created=now()
                                                   ");
-
             $this->ID = mysql_insert_id();
             
             $this->State_ = "Coherent";
+            
+            $this->Status_ = "Insert";
         }
         else
         {
@@ -112,6 +113,8 @@ class eZClassified
                                                	  WHERE ID='$this->ID'
                                                	  " );
             $this->State_ = "Coherent";
+
+            $this->Status_ = "Update";
         }
 
         return true;
@@ -289,10 +292,19 @@ class eZClassified
         $this->Description = $value;
     }
 
+
     /*!
-      Sets the creatorID of the company.
+      Sets the description of the company.
     */
-    function setCreatorID( $user )
+    function setPrice( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->Price = $value;
+    }
+
+    function setUser( $user )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -300,19 +312,8 @@ class eZClassified
         if ( get_class( $user ) == "ezuser" )
         {
             $userID = $user->id();
-
-            $this->CreatorID = $userID;
+            $this->UserID = $userID;
         }
-    }
-    /*!
-      Sets the contact type of the company.
-    */
-    function setCompanyNo( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->CompanyNo = $value;
     }
 
 
@@ -336,17 +337,6 @@ class eZClassified
     }
 
     /*!
-      Returnerer ID til eier av firma ( brukeren som opprettet det ).
-    */
-    function creatorID()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->CreatorID;
-    }
-    
-    /*!
       Returnerer kommentar.
     */
     function description()
@@ -357,6 +347,17 @@ class eZClassified
         return $this->Description;
     }
 
+    /*!
+      Returnerer kommentar.
+    */
+    function price()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->Price;
+    }
+    
     /*!
       Returns the postimg time as a eZTimeDate object.
     */
@@ -402,6 +403,9 @@ class eZClassified
     var $State_;
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
+
+    /// Check for update or insert
+    var $Status_;
 }
 
 ?>
