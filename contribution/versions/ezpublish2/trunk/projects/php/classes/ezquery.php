@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquery.php,v 1.7 2001/01/22 14:42:59 jb Exp $
+// $Id: ezquery.php,v 1.8 2001/01/25 11:43:34 jb Exp $
 //
 // Definition of eZQuery class
 //
@@ -58,32 +58,91 @@ class eZQuery
         $QueryText = $this->QueryText;
         
         $QueryText = trim( $QueryText );
-        $QueryText = ereg_replace( "[ ]+", " ", $QueryText );
-        $queryArray = explode( " ", $QueryText );
-
-        $query = "";
-        for ( $i=0; $i<count($queryArray); $i++ )            
+//          $QueryText = ereg_replace( "[ ]+", " ", $QueryText );
+//        $queryArray = explode( " ", $QueryText );
+        $QueryText = ereg_replace( '\\\\"', '"', $QueryText );
+        preg_match_all( "/((\"[^\"]+\")|([^ ]+))/", $QueryText, $m );
+        $queryArray = array();
+        foreach( $m[0] as $match )
         {
-            for ( $j=0; $j<count($this->Fields); $j++ )
-            {
-                $queryItem = $queryArray[$i];
-                
-                $queryItem = $this->Fields[$j] ."  LIKE '%" . $queryItem . "%' ";
-
-                if ( $j > 0 )                    
-                    $queryItem = "OR " . $queryItem . " ";
-                    
-            
-                $query .= $queryItem;
-            }
-
-            if (  count( $queryArray) != ($i+1) )
-                $query = " (" . $query . ") OR ";
-            else
-                $query = " (" . $query . ") ";
-            
+            $queryArray[] = $match;
         }
-        return $query;
+
+        $normalArray = array();
+        $addArray = array();
+        $subArray = array();
+
+        foreach( $queryArray as $queryItem )
+        {
+            switch ( $queryItem[0] )
+            {
+                case '-':
+                {
+                    $subArray[] = substr( $queryItem, 1 );
+                    break;
+                }
+                case '+':
+                {
+                    $addArray[] = substr( $queryItem, 1 );
+                    break;
+                }
+                default:
+                {
+                    $normalArray[] = $queryItem;
+                }
+            }
+        }
+
+        $arrs = array( array( "array" => "normalArray", "item_delim" => "OR", "delim" => "OR", "compare" => "LIKE" ),
+                       array( "array" => "addArray", "item_delim" => "OR", "delim" => "AND", "compare" => "LIKE" ),
+                       array( "array" => "subArray", "item_delim" => "AND", "delim" => "AND", "compare" => "NOT LIKE" ) );
+
+        $total_query = "";
+        foreach( $arrs as $arr )
+        {
+            $queryArray = ${$arr["array"]};
+            $item_delim = $arr["item_delim"];
+            $delim = $arr["delim"];
+            $compare = $arr["compare"];
+            $query = "";
+            for ( $i=0; $i<count($queryArray); $i++ )
+            {
+                $queryVal = $queryArray[$i];
+                if ( strlen( $queryVal ) > 1 and $queryVal[0] == '"' and $queryVal[strlen($queryVal)-1] == '"' )
+                {
+                    $queryVal = substr( $queryVal, 1, strlen( $queryVal ) - 2 );
+                }
+
+                $subquery = "";
+                for ( $j=0; $j<count($this->Fields); $j++ )
+                {
+                    $queryItem = $queryVal;
+
+                    $queryItem = $this->Fields[$j] ." $compare '%" . $queryItem . "%' ";
+
+                    if ( $j > 0 )
+                        $queryItem = $item_delim . " " . $queryItem . " ";
+
+                    $subquery .= $queryItem;
+                }
+                $query .= "( $subquery )";
+
+                if ( count( $queryArray) != ($i+1) )
+                    $query .= " $delim ";
+            }
+            if ( count( $queryArray ) )
+            {
+                if ( !empty( $total_query ) )
+                {
+                    $total_query = "$total_query $delim ( $query )";
+                }
+                else
+                {
+                    $total_query = "( $query )";
+                }
+            }
+        }
+        return $total_query;
     }
 
 //      /*!
