@@ -23,7 +23,7 @@ switch ( $url_array[2] )
         include( "ezuser/user/norights.php" );        
     }
     break;
-    
+
     case "userwithaddress" :
     {
         if ( $url_array[3] == "new" )

@@ -1,6 +1,6 @@
 <?
 //
-// $Id: norights.php,v 1.3 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: norights.php,v 1.4 2000/11/02 10:59:02 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:56:23 ce>
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "classes/INIFile.php" );
 
