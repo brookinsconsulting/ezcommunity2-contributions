@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.16 2001/10/16 10:32:43 ce Exp $
+// $Id: sectionedit.php,v 1.17 2001/11/15 18:09:48 bf Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -165,11 +165,16 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
             $i++;
         }
     }
+    
     if ( isSet ( $AddRow ) )
     {
         $pageRow = new eZSectionFrontPage();
         $pageRow->store();
         $section->addFrontPageRow( $pageRow );
+
+        eZHTTPTool::header( "Location: /sitemanager/section/edit/" . $section->id() );
+        exit();
+        
     }
     else if ( !$DeleteRows and !$Store )
     {
