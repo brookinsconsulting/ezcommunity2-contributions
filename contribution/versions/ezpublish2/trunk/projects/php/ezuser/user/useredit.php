@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.5 2000/10/26 17:58:54 ce-cvs Exp $
+// $Id: useredit.php,v 1.6 2000/10/29 10:21:10 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -38,8 +38,6 @@ include_once( "ezuser/classes/ezusergroup.php" );
 
 if ( $Action == "Insert" )
 {
-    print( "<br>trying<br>" );
-    
     // check for valid data
     if ( $Login != "" &&
     $Email != "" &&
@@ -57,6 +55,12 @@ if ( $Action == "Insert" )
                     $user->setLogin( $Login );
                     $user->setPassword( $Password );
                     $user->setEmail( $Email );
+                    
+                    if ( $InfoSubscription == "on" )
+                        $user->setInfoSubscription( "true" );
+                    else
+                        $user->setInfoSubscription( "false" );
+                    
                     $user->setFirstName( $FirstName );
                     $user->setLastName( $LastName );
 
@@ -114,6 +118,12 @@ if ( $Action == "Update" )
         $user->setEmail( $Email );
         $user->setFirstName( $FirstName );
         $user->setLastName( $LastName );
+
+        if ( $InfoSubscription == "on" )
+            $user->setInfoSubscription( "true" );
+        else
+            $user->setInfoSubscription( "false" );
+        
         if ( $Password )
         {
             if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 3 ) )
@@ -161,6 +171,11 @@ if ( $Action == "Edit" )
     $user = new eZUser();
     $user->get( $UserID );
 
+    if( $user->infoSubscription() == "true" )
+        $InfoSubscription = "checked";
+    else
+        $InfoSubscription = "";
+    
     $Login = $user->login();
     $Email = $user->email();
     $FirstName = $user->firstName();
@@ -220,6 +235,7 @@ $t->set_var( "login_value", $Login );
 $t->set_var( "password_value", $Password );
 $t->set_var( "verify_password_value", $VerifyPassword );
 $t->set_var( "email_value", $Email );
+$t->set_var( "info_subscription", $InfoSubscription );
 
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );

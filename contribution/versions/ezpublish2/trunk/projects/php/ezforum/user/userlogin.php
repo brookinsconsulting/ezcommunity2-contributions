@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.3 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: userlogin.php,v 1.4 2000/10/29 10:21:09 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -32,8 +32,6 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-print( $Action );
-print( $ForumID );
 if ( eZUser::currentUser() )
 {
     

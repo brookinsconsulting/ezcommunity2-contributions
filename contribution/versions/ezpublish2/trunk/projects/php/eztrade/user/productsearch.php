@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.2 2000/10/28 13:40:10 bf-cvs Exp $
+// $Id: productsearch.php,v 1.3 2000/10/29 10:21:09 ce-cvs Exp $
 //
 // 
 //
@@ -29,7 +29,7 @@ include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) ,
                      "eztrade/user/intl/", $Language, "productsearch.php" );
 
 $t->setAllStrings();
@@ -49,6 +49,8 @@ if ( !isSet( $Offset ) )
 
 
 $productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
+
+
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -99,6 +101,7 @@ if ( isSet( $Query ) )
     }
 }
 
+$t->set_var( "query_string", "1" );
 $t->set_var( "query", $Query );
 $t->set_var( "limit", $Limit );
 $prevOffs = $Offset - $Limit;
@@ -108,5 +111,5 @@ $t->set_var( "prev_offset", $prevOffs );
 $t->set_var( "next_offset", $nextOffs );
 
 $t->pparse( "output", "product_search_tpl" );
-
 ?>
+

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.13 2000/10/28 12:29:01 bf-cvs Exp $
+// $Id: ezuser.php,v 1.14 2000/10/29 10:21:10 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -109,6 +109,7 @@ class eZUser
 		                         Login='$this->Login',
                                  Password=PASSWORD('$this->Password'),
                                  Email='$this->Email',
+                                 InfoSubscription='$this->InfoSubscription',
                                  FirstName='$this->FirstName',
                                  LastName='$this->LastName'" );
             $this->ID = mysql_insert_id();
@@ -118,6 +119,7 @@ class eZUser
             $this->Database->query( "UPDATE eZUser_User SET
 		                         Login='$this->Login',
                                  Email='$this->Email',
+                                 InfoSubscription='$this->InfoSubscription',
                                  FirstName='$this->FirstName',
                                  LastName='$this->LastName'
                                  WHERE ID='$this->ID'" );
@@ -177,6 +179,7 @@ class eZUser
                 $this->Login = $user_array[0][ "Login" ];
 //                  $this->Password = $user_array[0][ "Password" ];
                 $this->Email = $user_array[0][ "Email" ];
+                $this->InfoSubscription = $user_array[0][ "InfoSubscription" ];
                 $this->FirstName = $user_array[0][ "FirstName" ];
                 $this->LastName = $user_array[0][ "LastName" ];
 
@@ -294,6 +297,18 @@ class eZUser
        return $this->Login;
     }
 
+    
+    /*!
+      Returns the users InfoSubscription.
+    */
+    function infoSubscription( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->InfoSubscription;
+    }
+
 
     /*!
       Returns the users e-mail address.
@@ -360,7 +375,19 @@ class eZUser
 
        $this->Email = $value;
     }
-    
+
+    /*!
+      Sets the infoSubscription to the user.
+
+    */
+    function setInfoSubscription( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->InfoSubscription = $value;
+    }
+
     /*!
       Sets the users first name.
     */
@@ -546,6 +573,7 @@ class eZUser
     var $Email;
     var $FirstName;
     var $LastName;
+    var $InfoSubscription;
 
     ///  Variable for keeping the database connection.
     var $Database;

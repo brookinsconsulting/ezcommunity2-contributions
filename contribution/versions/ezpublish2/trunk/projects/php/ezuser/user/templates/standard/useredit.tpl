@@ -55,6 +55,12 @@
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>
+<tr>
+	<td>
+	<p class="boxtext">{intl-infosubscription}</p>
+	<input {info_subscription} type="checkbox" name="InfoSubscription" /
+	</td>
+</tr>
 </table>
 
 <br />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.10 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: useredit.php,v 1.11 2000/10/29 10:21:10 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -60,6 +60,11 @@ if ( $Action == "insert" )
                         $user->setEmail( $Email );
                         $user->setFirstName( $FirstName );
                         $user->setLastName( $LastName );
+
+                        if ( $InfoSubscription == "on" )
+                            $user->setInfoSubscription( "true" );
+                        else
+                            $user->setInfoSubscription( "false" );
                         
                         $user->store();
                         eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
@@ -126,8 +131,13 @@ if ( $Action == "update" )
                         $user = new eZUser();
                         $user->get( $UserID );
                         
-//                          $user->setLogin( $Login );
                         $user->setEmail( $Email );
+
+                        if ( $InfoSubscription == "on" )
+                            $user->setInfoSubscription( "true" );
+                        else
+                            $user->setInfoSubscription( "false" );
+
                         $user->setFirstName( $FirstName );
                         $user->setLastName( $LastName );
                         
@@ -241,6 +251,11 @@ if ( $Action == "edit" )
     $user = new eZUser();
     $user->get( $UserID );
 
+    if( $user->infoSubscription() == "true" )
+        $InfoSubscription = "checked";
+    else
+        $InfoSubscription = "";
+    
     $FirstName = $user->firstName();
     $LastName = $user->lastName();
     $Email = $user->email();
@@ -285,6 +300,7 @@ foreach( $groupList as $groupItem )
     $t->parse( "group_item", "group_item_tpl", true );
 }
 
+$t->set_var( "info_subscription", $InfoSubscription );
 $t->set_var( "error", $error_msg );
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
