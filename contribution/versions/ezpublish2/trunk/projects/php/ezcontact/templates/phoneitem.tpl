@@ -6,6 +6,6 @@
 {phone_type_name}
 </td>
 <td bgcolor="#dddddd">
-<a href="index.php4?page={document_root}{script_name}&PhoneAction=DeletePhone&PhoneID={phone_id}&CID={company_id}&Action=edit">slett</a>
+<a href="index.php4?page={document_root}{script_name}&PhoneAction=DeletePhone&PhoneID={phone_id}&CID={company_id}&PID={person_id}&Action=edit">slett</a>
 </td>
 </tr>

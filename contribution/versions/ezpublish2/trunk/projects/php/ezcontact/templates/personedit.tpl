@@ -33,7 +33,7 @@
 <tr>
 	<td valign="top"  bgcolor="#eeeeff">
 
-<form method="post" action="index.php4?page={document_root}personedit.php4">
+<form method="post"  name="CompanyAddressEdit" action="index.php4?page={document_root}personedit.php4">
 Kontakt person type:
 <br>
 <select name="PersonType">
@@ -82,14 +82,14 @@ Postnummer:<br>
 <input type="hidden" name="Action" value="edit">
 <input type="hidden" name="PID" value="{person_id}">
 
-<input type="submit" value="{submit_text}">
+<input type="submit"  name="AddressSubmit" value="{submit_text}">
 
 </form>
 
 	</td>
 	<td valign="top" bgcolor="#eeeeee">
 
-<form method="post" action="index.php4?page={document_root}personedit.php4">
+<form method="post" name="CompanyPhoneEdit" action="index.php4?page={document_root}personedit.php4">
 
 Telefon:<br>
 <select name="PhoneType">
@@ -99,7 +99,7 @@ Telefon:<br>
 <input type="text" name="PhoneNumber" value="{phone_edit_number}">
 <input type="hidden" name="PhoneID" value="{phone_edit_id}">
 <input type="hidden" name="PhoneAction" value="{phone_action}">
-<input type="{phone_action_type}" value="{phone_action_value}">
+<input type="{phone_action_type}" name="PhoneSubmit" value="{phone_action_value}">
 <br>
 	<center>
 	<table width="80%" cellspacing="0" cellpadding="3" border="0">

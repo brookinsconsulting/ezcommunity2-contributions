@@ -206,11 +206,8 @@ if ( $Action == "edit" )
     $phone_dict = new eZPersonPhoneDict();
     $phone_dict_array = $phone_dict->getByPerson( $PID );
 
-    print( "antall: " . count( $phone_dict_array ) );
     for ( $i=0; $i<count( $phone_dict_array ); $i++ )
     {
-        print( "antall: " . count( $phone_dict_array ) );
-        
         $phone->get( $phone_dict_array[ $i ][ "PhoneID" ] );
         $phoneType->get( $phone->type() );
 

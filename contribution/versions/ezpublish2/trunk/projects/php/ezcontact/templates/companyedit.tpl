@@ -30,7 +30,7 @@
 
 <table width="100%">
 <tr>
-	<td valign="top">
+	<td valign="top" bgcolor="#ddeedd">
 <form method="post" name="CompanyEdit" action="index.php4?page={document_root}companyedit.php4">
 Kontakt firma type:
 <br>
@@ -55,11 +55,7 @@ Kommentar:<br>
 </form>
 
        </td>
-       <td valign="top">
-
-<table  border="0">
-<tr>
-	<td bgcolor="#eeeedd">
+       <td valign="top" bgcolor="#eeeedd">
 
 <form method="post" name="CompanyAddressEdit" action="index.php4?page={document_root}companyedit.php4">
 
@@ -85,24 +81,15 @@ Postnummer:<br>
 	{address_list}
 	</table>
 	</center>
-	</td>	
-
-       </td>
-</tr>
-</table>
 
 <input type="hidden" name="CID" value="{company_id}">
 <input type="hidden" name="Action" value="edit">
 
 </form>
 	</td>
-	<td valign="top">
+	<td valign="top" bgcolor="#eeeeee">
 
 <form method="post" name="CompanyPhoneEdit" action="index.php4?page={document_root}companyedit.php4">
-
-<table  border="0">
-<tr>
-	<td bgcolor="#eeeeee">
 
 Telefon:<br>
 <select name="PhoneType">
@@ -119,9 +106,6 @@ Telefon:<br>
 	{phone_list}
 	</table>
 	</center>
-	</td>
-</tr>
-</table>
 
 <input type="hidden" name="CID" value="{company_id}">
 <input type="hidden" name="Action" value="edit">
