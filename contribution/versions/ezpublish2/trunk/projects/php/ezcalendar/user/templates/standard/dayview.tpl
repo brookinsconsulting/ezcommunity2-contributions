@@ -80,7 +80,7 @@
 
 <hr noshade size="4" />
 
-<form action=/calendar/appointmentedit/edit/">
+<form action="/calendar/appointmentedit/edit/">
 <input type="submit" name="GoDay" value="{intl-day}">
 <input type="submit" name="GoMonth" value="{intl-month}">
 <input type="submit" name="GoYear" value="{intl-year}">

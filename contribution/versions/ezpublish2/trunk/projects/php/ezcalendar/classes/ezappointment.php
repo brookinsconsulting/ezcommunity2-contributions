@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.11 2001/01/22 16:53:04 gl Exp $
+// $Id: ezappointment.php,v 1.12 2001/01/24 13:17:06 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -163,7 +163,7 @@ class eZAppointment
 
       The appointments are returned as an array of eZAppointment objects.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         
@@ -186,7 +186,7 @@ class eZAppointment
 
       The appointments are returned as an array of eZAppointment objects.
     */
-    function getAllByOthers()
+    function &getAllByOthers()
     {
         $this->dbInit();
         
@@ -206,11 +206,11 @@ class eZAppointment
 
 
     /*!
-      Returns all the appointments on the given date.
+      Returns all the appointments for the given user on the given date.
 
       The appointments are returned as an array of eZAppointment objects.
     */
-    function getByDate( $date, $user, $showPrivate=false )
+    function &getByDate( $date, $user, $showPrivate=false )
     {
         $ret = array();
 
@@ -242,7 +242,48 @@ class eZAppointment
                 $this->Database->array_query( $appointment_array,
                 "SELECT ID FROM eZCalendar_Appointment
                  WHERE Date LIKE '$stamp%' AND UserID='$userID' ORDER BY Date ASC" );
+            }
                 
+            for ( $i=0; $i<count($appointment_array); $i++ )
+            {
+                $return_array[] = new eZAppointment( $appointment_array[$i]["ID"], 0 );
+            }
+
+            $ret =& $return_array;            
+        }
+        return $ret;
+    }
+
+
+    /*!
+      Returns all the appointments for the given user.
+
+      The appointments are returned as an array of eZAppointment objects.
+    */
+    function &getByUser( $user, $showPrivate=false )
+    {
+        $ret = array();
+
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $this->dbInit();
+        
+            $return_array = array();
+            $appointment_array = array();
+
+            $userID = $user->id();
+
+            if ( $showPrivate == false )
+            {
+                $this->Database->array_query( $appointment_array,
+                "SELECT ID FROM eZCalendar_Appointment
+                 WHERE IsPrivate='0' AND UserID='$userID' ORDER BY Date ASC", true );
+            }
+            else
+            {
+                $this->Database->array_query( $appointment_array,
+                "SELECT ID FROM eZCalendar_Appointment
+                 WHERE UserID='$userID' ORDER BY Date ASC" );
             }
                 
             for ( $i=0; $i<count($appointment_array); $i++ )
@@ -380,7 +421,7 @@ class eZAppointment
 
 
     /*!
-      Returns true if the appointment is public.
+      Returns true if the appointment is private.
     */
     function &isPrivate()
     {
@@ -470,6 +511,14 @@ class eZAppointment
        {
            $this->UserID = $user->id();
        }
+    }
+    
+    /*!
+      Returns the user ID of the appointment owner.
+    */
+    function userID()
+    {
+        return $this->UserID;
     }
     
     /*!

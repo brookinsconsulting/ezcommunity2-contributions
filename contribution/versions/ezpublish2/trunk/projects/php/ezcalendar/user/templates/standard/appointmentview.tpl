@@ -1,6 +1,11 @@
 <h1>{intl-appointment_view}</h1>
 
+<!-- BEGIN error_tpl -->
+<p class="error">{intl-error}</p>
+<!-- END error_tpl -->
+
 <hr noshade size="4" />
+<!-- BEGIN view_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <tr><td colspan="3"><br /></td></tr>
@@ -87,6 +92,7 @@
 </form>
 
 <hr noshade size="4" />
+<!-- END view_tpl -->
 
 <form action="/calendar/appointmentedit/edit/">
 <input type="submit" name="GoDay" value="{intl-day}">

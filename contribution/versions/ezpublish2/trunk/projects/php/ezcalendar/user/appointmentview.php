@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentview.php,v 1.7 2001/01/23 12:42:12 gl Exp $
+// $Id: appointmentview.php,v 1.8 2001/01/24 13:17:07 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 11:53:05 bf>
@@ -47,61 +47,106 @@ $t->set_file( "appointment_view_tpl", "appointmentview.tpl" );
 
 $t->setAllStrings();
 
-$t->set_block( "appointment_view_tpl", "public_tpl", "public" );
-$t->set_block( "appointment_view_tpl", "private_tpl", "private" );
+$t->set_block( "appointment_view_tpl", "error_tpl", "error" );
+$t->set_block( "appointment_view_tpl", "view_tpl", "view" );
+$t->set_block( "view_tpl", "public_tpl", "public" );
+$t->set_block( "view_tpl", "private_tpl", "private" );
+$t->set_block( "view_tpl", "low_tpl", "low" );
+$t->set_block( "view_tpl", "normal_tpl", "normal" );
+$t->set_block( "view_tpl", "high_tpl", "high" );
 
-$t->set_block( "appointment_view_tpl", "low_tpl", "low" );
-$t->set_block( "appointment_view_tpl", "normal_tpl", "normal" );
-$t->set_block( "appointment_view_tpl", "high_tpl", "high" );
+$user = eZUser::currentUser();
+$session =& eZSession::globalSession();
+$session->fetch();
 
-
-$appointment = new eZAppointment( $AppointmentID );
-$appointmentType = $appointment->type();
-$datetime = $appointment->dateTime();
-
-$t->set_var( "appointment_id", $appointment->id() );
-$t->set_var( "appointment_title", $appointment->name() );
-$t->set_var( "appointment_type", $appointmentType->name() );
-$t->set_var( "appointment_date", $locale->format( $datetime->date() ) );
-$t->set_var( "appointment_starttime", $locale->format( $appointment->startTime(), true ) );
-$t->set_var( "appointment_stoptime", $locale->format( $appointment->stopTime(), true ) );
-$t->set_var( "appointment_description", $appointment->description() );
-
-if ( $appointment->isPrivate() == true )
+if ( $GetByUserID == false )
 {
-    $t->parse( "private", "private_tpl" );
-    $t->set_var( "public", "" );
+    $GetByUserID = $user->id();
+}
+
+if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+{
+    $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
+}
+
+$tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
+
+if ( $tmpUser->id() == $user->id() )
+{
+    $showPrivate = true;
 }
 else
 {
-    $t->parse( "public", "public_tpl" );
-    $t->set_var( "private", "" );
+    $showPrivate = false;
 }
 
-switch( $appointment->priority() )
+$appointment = new eZAppointment();
+$appointments =& $appointment->getByUser( $tmpUser, $showPrivate );
+
+foreach ( $appointments as $appointment )
 {
-    case 0:
+    if ( $appointment->id() == $AppointmentID )
+        $foundAppointment = true;
+}
+
+
+if ( $foundAppointment == false )
+{
+    $t->parse( "error", "error_tpl" );
+}
+else
+{
+    $appointment = new eZAppointment( $AppointmentID );
+    $appointmentType = $appointment->type();
+    $datetime = $appointment->dateTime();
+
+    $t->set_var( "appointment_id", $appointment->id() );
+    $t->set_var( "appointment_title", $appointment->name() );
+    $t->set_var( "appointment_type", $appointmentType->name() );
+    $t->set_var( "appointment_date", $locale->format( $datetime->date() ) );
+    $t->set_var( "appointment_starttime", $locale->format( $appointment->startTime(), true ) );
+    $t->set_var( "appointment_stoptime", $locale->format( $appointment->stopTime(), true ) );
+    $t->set_var( "appointment_description", $appointment->description() );
+
+    if ( $appointment->isPrivate() == true )
     {
-        $t->parse( "low", "low_tpl" );
-        $t->set_var( "normal", "" );
-        $t->set_var( "high", "" );
+        $t->parse( "private", "private_tpl" );
+        $t->set_var( "public", "" );
     }
-    break;
-    case 1:
+    else
     {
-        $t->parse( "normal", "normal_tpl" );
-        $t->set_var( "low", "" );
-        $t->set_var( "high", "" );
+        $t->parse( "public", "public_tpl" );
+        $t->set_var( "private", "" );
     }
-    break;
-    case 2:
+
+    switch( $appointment->priority() )
     {
-        $t->parse( "high", "high_tpl" );
-        $t->set_var( "low", "" );
-        $t->set_var( "normal", "" );
+        case 0:
+        {
+            $t->parse( "low", "low_tpl" );
+            $t->set_var( "normal", "" );
+            $t->set_var( "high", "" );
+        }
+        break;
+        case 1:
+        {
+            $t->parse( "normal", "normal_tpl" );
+            $t->set_var( "low", "" );
+            $t->set_var( "high", "" );
+        }
+        break;
+        case 2:
+        {
+            $t->parse( "high", "high_tpl" );
+            $t->set_var( "low", "" );
+            $t->set_var( "normal", "" );
+        }
+        break;
     }
-    break;
-    
+
+    $t->set_var( "error", "" );
+
+    $t->parse( "view", "view_tpl" );
 }
 
 $t->pparse( "output", "appointment_view_tpl" );

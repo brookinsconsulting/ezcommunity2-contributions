@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.9 2001/01/22 14:43:00 jb Exp $
+// $Id: yearview.php,v 1.10 2001/01/24 13:17:07 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -33,7 +33,7 @@ include_once( "classes/ezdate.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
-$locale = new eZLocale( $Language );
+$Locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "yearview.php" );
@@ -89,7 +89,7 @@ for ( $month=1; $month<13; $month++ )
     
     $date->setMonth( $month );
     $t->set_var( "month_number", $month );
-    $t->set_var( "month_name", $locale->monthName( $date->monthName(), false ) );
+    $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
 
     $t->set_var( "week", "" );
     for ( $week=0; $week<6; $week++ )
@@ -100,7 +100,7 @@ for ( $month=1; $month<13; $month++ )
         for ( $day=1; $day<=7; $day++ )
         {
             $date->setDay( 1 );
-            $firstDay = $date->dayOfWeek();
+            $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
 
             $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.16 2001/01/23 13:21:58 gl Exp $
+// $Id: monthview.php,v 1.17 2001/01/24 13:17:07 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -44,7 +44,6 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
 $t->setAllStrings();
-
 
 $t->set_block( "month_view_page_tpl", "user_item_tpl", "user_item" );
 $t->set_block( "month_view_page_tpl", "month_tpl", "month" );
@@ -118,7 +117,7 @@ else
 for ( $week_day=1; $week_day<=7; $week_day++ )
 {
     $headerDate->setDay( $week_day );
-    $t->set_var( "week_day_name", $Locale->dayName( $headerDate->dayName(), false ) );
+    $t->set_var( "week_day_name", $Locale->dayName( $headerDate->dayName( $Locale->mondayFirst() ), false ) );
 
     $t->parse( "week_day", "week_day_tpl", true );
 }
@@ -134,7 +133,7 @@ for ( $week=0; $week<6; $week++ )
     if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $date->daysInMonth()  ) )
     {        
         $date->setDay( 1 );
-        $firstDay = $date->dayOfWeek();
+        $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
 
         for ( $day=1; $day<=7; $day++ )
         {
@@ -151,7 +150,7 @@ for ( $week=0; $week<6; $week++ )
                 $tmpDate->setMonth( $date->month() );
                 $tmpDate->setDay( $date->day() );
 
-                $appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
+                $appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
                 $t->set_var( "appointment", "" );
                 foreach ( $appointments as $appointment )
                 {

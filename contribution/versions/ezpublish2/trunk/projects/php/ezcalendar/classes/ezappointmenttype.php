@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointmenttype.php,v 1.2 2001/01/22 14:42:59 jb Exp $
+// $Id: ezappointmenttype.php,v 1.3 2001/01/24 13:17:06 gl Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -141,7 +141,7 @@ class eZAppointmentType
 
       The categories are returned as an array of eZAppointmentType objects.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         
@@ -166,7 +166,7 @@ class eZAppointmentType
 
       The categories are returned as an array of eZAppointmentType objects.      
     */
-    function getByParent( $parent, $showAll=false, $sortby=name )
+    function &getByParent( $parent, $showAll=false, $sortby=name )
     {
         if ( get_class( $parent ) == "ezappointmenttype" )
         {
@@ -245,7 +245,7 @@ class eZAppointmentType
     {
         $AppointmentType = new eZAppointmentType( $parentID );
 
-        $AppointmentTypeList = $AppointmentType->getByParent( $AppointmentType, true );
+        $AppointmentTypeList =& $AppointmentType->getByParent( $AppointmentType, true );
         
         $tree = array();
         $level++;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.20 2001/01/23 13:16:57 jb Exp $
+// $Id: appointmentedit.php,v 1.21 2001/01/24 13:17:07 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -85,6 +85,30 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $Locale = new eZLocale( $Language );
+
+
+$user = eZUser::currentUser();
+$app = new eZAppointment( $AppointmentID );
+
+// current user is not allowed to edit this appointment
+if ( $app->userID() != $user->id() )
+{
+    $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
+                         "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
+
+    $t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
+
+    $t->setAllStrings();
+
+    $t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
+    $t->set_block( "appointment_edit_tpl", "no_user_error_tpl", "no_user_error" );
+
+    $t->set_var( "no_user_error", "" );
+    $t->parse( "user_error", "user_error_tpl" );
+    $t->pparse( "output", "appointment_edit_tpl" );
+
+    exit();
+}
 
 
 // Allowed format for start and stop time:
@@ -242,14 +266,17 @@ $t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
 
 $t->setAllStrings();
 
-$t->set_block( "appointment_edit_tpl", "title_error_tpl", "title_error" );
-$t->set_block( "appointment_edit_tpl", "start_time_error_tpl", "start_time_error" );
-$t->set_block( "appointment_edit_tpl", "stop_time_error_tpl", "stop_time_error" );
-    
-$t->set_block( "appointment_edit_tpl", "value_tpl", "value" );
+$t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
+$t->set_block( "appointment_edit_tpl", "no_user_error_tpl", "no_user_error" );
 
-$t->set_block( "appointment_edit_tpl", "month_tpl", "month" );
-$t->set_block( "appointment_edit_tpl", "day_tpl", "day" );
+$t->set_block( "no_user_error_tpl", "title_error_tpl", "title_error" );
+$t->set_block( "no_user_error_tpl", "start_time_error_tpl", "start_time_error" );
+$t->set_block( "no_user_error_tpl", "stop_time_error_tpl", "stop_time_error" );
+$t->set_block( "no_user_error_tpl", "value_tpl", "value" );
+$t->set_block( "no_user_error_tpl", "month_tpl", "month" );
+$t->set_block( "no_user_error_tpl", "day_tpl", "day" );
+
+$t->set_var( "user_error", "" );
 
 
 if ( $Action == "Update" )
@@ -463,6 +490,7 @@ for ( $i=1; $i<13; $i++ )
 if ( $Action != "Edit" )
     $t->set_var( "year_value", $tmpdate->year() );
 
+$t->parse( "no_user_error", "no_user_error_tpl" );
 $t->pparse( "output", "appointment_edit_tpl" );
 
 ?>

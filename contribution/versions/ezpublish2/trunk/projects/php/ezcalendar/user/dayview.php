@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.21 2001/01/23 13:21:58 gl Exp $
+// $Id: dayview.php,v 1.22 2001/01/24 13:17:07 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -106,7 +106,7 @@ $tmpDate = new eZDate( $date->year(), $date->month(), $date->day() );
 $tmpAppointment = new eZAppointment();
 
 // fetch the appointments for the selected day
-$appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
+$appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
 
 $startTime =& $tmpAppointment->dayStartTime();
 $interval =& $tmpAppointment->dayInterval();

@@ -1,7 +1,12 @@
 
-<form method="post" action="/calendar/appointmentedit/{action_value}/{appointment_id}/">
-
 <h1>{intl-appointment_edit}</h1>
+
+<!-- BEGIN user_error_tpl -->
+<p class="error">{intl-user_error}</p>
+<!-- END user_error_tpl -->
+
+
+<!-- BEGIN no_user_error_tpl -->
 
 <!-- BEGIN title_error_tpl -->
 <p class="error">{intl-title_error}</p>
@@ -16,6 +21,8 @@
 <!-- END stop_time_error_tpl -->
 
 <hr noshade="noshade" size="4" />
+
+<form method="post" action="/calendar/appointmentedit/{action_value}/{appointment_id}/">
 
 <br />
 
@@ -113,3 +120,4 @@
 <input type="hidden" name="AppointmentID" value="{appointment_id}" />
 </form>
 
+<!-- END no_user_error_tpl -->
