@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.8 2001/02/16 11:34:16 fh Exp $
+// $Id: unhandledbugs.php,v 1.9 2001/02/23 16:35:18 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -72,12 +72,12 @@ foreach ( $unhandleBugs as $bug )
 
     if( get_class( $owner) == "ezuser" )
     {
-        $t->set_var( "bug_submiter", $owner->name(), "&nbsp;" );
+        $t->set_var( "bug_submitter", $owner->name(), "&nbsp;" );
     }
     else
     {
         $errorMsg = $errorIni->read_var( "strings", "unknown" );
-        $t->set_var( "bug_submiter", $errorMsg );
+        $t->set_var( "bug_submitter", $errorMsg );
     }
 
     $t->parse( "bug", "bug_tpl", true );

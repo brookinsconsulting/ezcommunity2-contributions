@@ -7,7 +7,7 @@
 	<th width="5%">{intl-bug_id}:</th>
 	<th width="44%">{intl-bug_name}:</th>
 	<th width="20%">{intl-bug_module_name}:</th>
-	<th width="30%">{intl-bug_submiter}:</th>
+	<th width="30%">{intl-bug_submitter}:</th>
 	<th width="1%">&nbsp;</th>
 </tr>
 <!-- BEGIN bug_tpl -->
@@ -23,7 +23,7 @@
 	{bug_module_name}
 	</td>
 	<td class="{td_class}">
-	{bug_submiter}
+	{bug_submitter}
 	</td>
 	<td class="{td_class}">
 	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bug_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bug_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
