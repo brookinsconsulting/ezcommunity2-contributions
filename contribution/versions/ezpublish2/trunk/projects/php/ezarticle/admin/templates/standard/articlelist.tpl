@@ -34,21 +34,20 @@
 
 <table width="100%" border="0">
 <tr>
-	<td>
+	<td valign="bottom">
 	<h1>{intl-head_line} - {current_category_name}</h1>
 	</td>
-	<td align="right">
+	<td rowspan="2" align="right">
 	<form action="/article/search/" method="post">
-	<input type="text" name="SearchText" size="10" />	
+	<input type="text" name="SearchText" size="12" />	
 	<input type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
+<tr>
+	<td>{current_category_description}</td>
+</tr>
 </table>
-
-<p>
-{current_category_description}
-</p>
 
 <hr noshade="noshade" size="4" />
 
