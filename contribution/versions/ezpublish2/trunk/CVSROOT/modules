@@ -55,7 +55,7 @@ ezaddress	projects/php/ezaddress
 ezexchange	projects/php/ezexchange
  
 # Distribution
-publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar
+publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager
 trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin
 
 # site alias
