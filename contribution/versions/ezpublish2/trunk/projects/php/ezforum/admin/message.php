@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.7 2000/07/25 20:22:23 lw Exp $
+    $Id: message.php,v 1.8 2000/07/25 20:44:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,11 +16,34 @@ include_once( "$DOCROOT/classes/ezuser.php" );
 
 $t = new Template( "." );
 $t->set_file(Array( "messages" => "$DOCROOT/admin/templates/message.tpl",
-                    "elements" => "$DOCROOT/admin/templates/message-elements.tpl") );
+                    "elements" => "$DOCROOT/admin/templates/message-elements.tpl",
+                    "navigation" => "$DOCROOT/templates/navigation.tpl",
+                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl" ) );
 
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
+
+$t->parse( "navigation-bar", "navigation" );
+
+if ( $modifymessage )
+{
+    $msg = new eZforumMessage;
+    $msg->get( $message_id );
+    $msg->setTopic( $topic );
+    $msg->setBody( $body );
+    if ( $notice )
+        $msg->enableEmailNotice();
+    else
+        $msg->disableEmailNotice();
+    
+    $msg->store();
+}
+
+if ( $deletemessage )
+{
+    eZforumMessage::delete( $message_id );
+}
 
 $headers = ezForumMessage::getAllHeaders( $forum_id );
 
@@ -44,6 +67,14 @@ for ($i = 0; $i < count( $headers ); $i++)
 
     $t->parse( "fields", "elements", true );
 }
+
+$t->set_var( "link1-url", "admin/category.php");
+$t->set_var( "link1-caption", "Gå til topp");
+$t->set_var( "link2-url", "search.php");
+$t->set_var( "link2-caption", "Søk");
+
+$t->set_var( "back-url", "admin/forum.php" );
+$t->parse( "navigation-bar-bottom", "navigation-bottom", true);
 
 $t->pparse( "output", "messages" );
 ?>

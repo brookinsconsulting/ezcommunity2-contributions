@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: editmessage.php,v 1.4 2000/07/25 20:30:34 lw-cvs Exp $
+    $Id: editmessage.php,v 1.5 2000/07/25 20:44:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -36,19 +36,19 @@ $t->set_var( "body", $msg->body() );
 
 if ( $msg->emailNotice() == "Y" )
 {
-    $t->set_var( "email-notice", "checked");
+    $t->set_var( "email-notice", "checked" );
 }
 else
 {
-    $t->set_var( "email-notice", "");
+    $t->set_var( "email-notice", "" );
 }
 
-$t->set_var( "link1-url", "admin/category.php");
-$t->set_var( "link1-caption", "Gå til topp");
-$t->set_var( "link2-url", "search.php");
-$t->set_var( "link2-caption", "Søk");
+$t->set_var( "link1-url", "admin/category.php" );
+$t->set_var( "link1-caption", "Gå til topp" );
+$t->set_var( "link2-url", "search.php" );
+$t->set_var( "link2-caption", "Søk" );
 
-$t->set_var( "back-url", "admin/message.php");
-$t->parse( "navigation-bar-bottom", "navigation-bottom", true);
+$t->set_var( "back-url", "admin/message.php" );
+$t->parse( "navigation-bar-bottom", "navigation-bottom", true );
 $t->pparse( "output", "edit" );
 ?>

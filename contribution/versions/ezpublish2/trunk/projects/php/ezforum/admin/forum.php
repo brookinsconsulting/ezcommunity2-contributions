@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.9 2000/07/25 20:30:34 lw-cvs Exp $
+    $Id: forum.php,v 1.10 2000/07/25 20:44:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -12,7 +12,6 @@ include_once( "ezforum/dbsettings.php" );
 include_once( "template.inc" );
 include_once( "$DOCROOT/classes/ezforumcategory.php" );
 include_once( "$DOCROOT/classes/ezforumforum.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
 
 $t = new Template( "." );
 $t->set_file(Array("forum" => "$DOCROOT/admin/templates/forum.tpl",
@@ -71,25 +70,6 @@ if ( $delete )
 {
     $forum = new eZforumForum;
     $forum->delete( $forum_id );
-}
-
-if ( $modifymessage )
-{
-    $msg = new eZforumMessage;
-    $msg->get( $message_id );
-    $msg->setTopic( $topic );
-    $msg->setBody( $body );
-    if ( $notice )
-        $msg->enableEmailNotice();
-    else
-        $msg->disableEmailNotice();
-    
-    $msg->store();
-}
-
-if ( $deletemessage )
-{
-    eZforumMessage::delete( $message_id );
 }
 
 // boxes

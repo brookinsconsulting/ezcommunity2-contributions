@@ -1,3 +1,5 @@
+{navigation-bar}
+<br>
 <table>
    <tr>
      <td>Id:</td>
@@ -10,3 +12,5 @@
    </tr>
    {fields}
 </table>
+<br>
+{navigation-bar-bottom}
