@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.8 2001/07/03 13:24:49 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.9 2001/07/03 15:25:03 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -614,6 +614,39 @@ class eZQDomrenderer
             $pageContent =& $this->Template->parse( "link", "link_tpl" );
         }
 
+
+        // mail
+        if ( $paragraph->name == "mail" )
+        {
+            foreach ( $paragraph->attributes as $mailItem )
+                {
+                    switch ( $mailItem->name )
+                    {
+                        case "to" :
+                        {
+                            $to = $mailItem->children[0]->content;
+                        }
+                        break;
+
+                        case "subject" :
+                        {
+                            $subject = $mailItem->children[0]->content;
+                        }
+                        break;
+
+                        case "text" :
+                        {
+                            $text = $mailItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+
+            $this->Template->set_var( "href", "mailto:$to?subject=$subject" );
+            $this->Template->set_var( "link_text", $text );
+            $pageContent =& $this->Template->parse( "link", "link_tpl" );
+        }
+        
         return $pageContent;
     }
 
