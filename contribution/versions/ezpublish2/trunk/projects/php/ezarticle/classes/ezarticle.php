@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.152 2001/08/21 15:10:51 jb Exp $
+// $Id: ezarticle.php,v 1.153 2001/08/23 12:43:16 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -105,9 +105,6 @@ class eZArticle
     */
     function store()
     {
-        // index this article
-        $this->createIndex();
-        
         $db =& eZDB::globalDatabase();
         $db->begin();
 
@@ -292,6 +289,9 @@ class eZArticle
         else
             $db->commit();
 
+        // index this article
+        $this->createIndex();
+        
         return true;
     }
 
