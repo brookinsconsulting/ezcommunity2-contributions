@@ -74,9 +74,10 @@
 </tr>
 </table>
 
+<input type="text" name="CurrentOwnerID" value="{current_owner_id}" />
 <p class="boxtext">{intl-owner}</p>
 <select name="OwnerID">
-<option value="NULL"> {intl-none}</option>
+<option value="-1"> {intl-none}</option>
 <!-- BEGIN owner_item_tpl -->
 <option value="{owner_id}" {selected}>{owner_login}</option>
 <!-- END owner_item_tpl -->

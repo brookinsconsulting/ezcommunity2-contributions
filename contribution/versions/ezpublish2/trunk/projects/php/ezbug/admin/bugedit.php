@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.15 2001/02/15 14:03:46 fh Exp $
+// $Id: bugedit.php,v 1.16 2001/02/15 20:43:03 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -132,6 +132,13 @@ if ( $Action == "Update" )
             $log->setBug( $bug );
             $log->store();
 
+            // check if the owner has changed
+            if( get_class( $owner ) == "ezuser" && $OwnerID != $CurrentOwnerID )
+            {
+                print("Owner has changed, we should send a mail");
+                exit();
+            }
+            
             if ( $MailReporter == "on" )
             {            
                 // send email notice to the reporter            
@@ -350,6 +357,7 @@ foreach ( $statuses as $status )
 $module = new eZBugModule( $moduleID );
 $ownerGroup = $module->ownerGroup();
 $owner = $bug->owner();
+$currentOwner = -1;
 if( get_class( $ownerGroup ) == "ezusergroup" )
 {
     $users = $ownerGroup->users( $ownerGroup );
@@ -362,6 +370,7 @@ if( get_class( $ownerGroup ) == "ezusergroup" )
             if( get_class( $owner ) == "ezuser" && $userItem->id() == $owner->id() )
             {
                 $t->set_var( "selected", "selected" );
+                $currentOwner = $owner->id();
             }
             else
             {
@@ -378,5 +387,41 @@ else
     $t->set_var( "owner_item", "" );
 }
 
+$t->set_var( "current_owner_id", $currentOwner );
 $t->pparse( "output", "bug_edit_tpl" );
+
+/*!
+  This function sends a mail to the person whom the bug is assigned to.
+  The code could just as well be pasted right in where function call is, but to keep
+  things a little bit simpler, ive put it in here.
+ */
+function sendAssignedMail( $bug )
+{
+/*    $mail = new eZMail();
+    $mail->setFrom( $user->email() );
+
+    $locale = new eZLocale( $Language );
+    
+    $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
+                                    "ezbug/admin/intl", $Language, "mailreply.php" );
+            
+    $headerInfo = ( getallheaders() );
+
+    $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
+    $mailTemplate->setAllStrings();
+
+    $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
+            
+    $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
+    $mailTemplate->set_var( "log_message", $LogMessage );
+    $mailTemplate->set_var( "bug_id", $bug->id() );
+            
+    $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
+    $mail->setSubject( $bug->name() );
+    $mail->setTo( $reporter_email );
+    $mail->setBody( $bodyText );
+
+    $mail->send();*/
+}
+
 ?>
