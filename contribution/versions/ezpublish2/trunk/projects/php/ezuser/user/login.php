@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.29 2001/04/19 13:07:24 ce Exp $
+// $Id: login.php,v 1.30 2001/05/21 06:33:14 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -170,6 +170,7 @@ if ( $Action == "logout" )
     
     eZUser::logout();
     eZHTTPTool::header( "Location: /" );
+    exit();
 }
 
 $t->set_var( "redirect_url", $RedirectURL );
