@@ -33,3 +33,4 @@ CREATE TABLE eZBulkMail_GroupCategoryLink (
 
 alter table eZBulkMail_SentLog add Mail varchar(255); 
 alter table eZBulkMail_SentLog drop AddressID; 
+alter table eZBulkMail_Category add IsSingleCategory int(1) default '0'; 
