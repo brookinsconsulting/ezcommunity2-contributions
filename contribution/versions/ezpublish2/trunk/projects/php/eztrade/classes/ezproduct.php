@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.59 2001/05/05 11:16:04 bf Exp $
+// $Id: ezproduct.php,v 1.60 2001/06/21 09:08:37 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -58,6 +58,7 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezproducttype.php" );
 include_once( "eztrade/classes/ezvattype.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezshippinggroup.php" );
 
 
 class eZProduct
@@ -1638,6 +1639,7 @@ class eZProduct
     var $RemoteID;
     var $VATTypeID;
     var $ShippingGroupID;
+    var $Price;
     
     ///  Variable for keeping the database connection.
     var $Database;

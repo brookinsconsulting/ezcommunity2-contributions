@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.21 2001/05/09 15:08:19 bf Exp $
+// $Id: ezad.php,v 1.22 2001/06/21 09:08:36 ce Exp $
 //
 // Definition of eZAd class
 //
@@ -544,6 +544,7 @@ class eZAd
     {
        $this->dbInit();
 
+       print( "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
        $this->Database->array_query( $click_result, "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
 
        return $click_result[0]["Revenue"];

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.33 2001/05/05 11:16:04 bf Exp $
+// $Id: ezorder.php,v 1.34 2001/06/21 09:08:37 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -197,8 +197,6 @@ class eZOrder
 
     /*!
       Fetches all active orders.
-
-      
 
       Note: Default limit is 40.
     */

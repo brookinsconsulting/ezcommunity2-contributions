@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: visa.php,v 1.3 2001/06/08 12:24:55 ce Exp $
+// $Id: visa.php,v 1.4 2001/06/21 09:08:37 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Feb-2001 14:11:48 ce>
@@ -34,8 +34,6 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
-
-
 if ( $Action == "Verify" )
 {
     // add clearing code here
@@ -61,7 +59,7 @@ $t->set_var( "l", $ini->read_var( "eZCCMain", "Language" ) );
 $t->set_var( "m", $ini->read_var( "eZCCMain", "VendorID" ) );
 $t->set_var( "d", $ini->read_var( "eZCCMain", "Currency" ) );
 $t->set_var( "p", $ini->read_var( "eZCCMain", "p" ) );
-$t->set_var( "i", $ini->read_var( "eZCCMain", "i" ) );
+$t->set_var( "i", $ChargeTotal );
 
 $t->set_var( "email", $user->email() );
 $t->set_var( "first_name", $user->firstName() );

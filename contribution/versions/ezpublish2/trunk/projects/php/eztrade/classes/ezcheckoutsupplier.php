@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcheckoutsupplier.php,v 1.1 2001/03/07 11:38:15 bf Exp $
+// $Id: ezcheckoutsupplier.php,v 1.2 2001/06/21 09:08:37 ce Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -86,17 +86,20 @@ class eZCheckoutSupplier
             case 1 :
             {
                 $ret = "eztrade/user/visa.php";
-            }break;
+            }
+            break;
 
             case 2 :
             {
                 $ret = "eztrade/user/mastercard.php";
-            }break;
+            }
+            break;
 
             case 3 :
             {
                 $ret = "eztrade/user/invoice.php";
-            }break;
+            }
+            break;
         }
         return $ret;
     }    

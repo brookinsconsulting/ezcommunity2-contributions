@@ -137,6 +137,9 @@ alter table eZTrade_OrderOptionValue add RemoteID varchar(100) default '';
 # Author list
 create table eZUser_Author( ID int primary key auto_increment, Name char(255), EMail char(255) );
 
+# Photographer list
+create table eZUser_Photographer( ID int primary key auto_increment, Name char(255), EMail char(255) );
+
 #
 # convert old author fields to new
 #

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.20 2001/04/03 13:52:46 jakobn Exp $
+// $Id: login.php,v 1.21 2001/06/21 09:08:37 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -73,11 +73,10 @@ if ( $Action == "login" )
 
             if ( ( $logins < $MaxLogins ) || ( $MaxLogins == 0 ) )
             {
-            
                 eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
 
                 eZUser::loginUser( $user );
-
+                exit();
                 if ( !isset( $RefererURL ) )
                     $RefererURL = "/";
                 
