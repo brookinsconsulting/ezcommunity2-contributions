@@ -48,6 +48,18 @@ h2
 	color: #000000;
 	margin-top: 8px;
 	margin-bottom: 8px;	
+	text-decoration : none;
+}
+
+.listproducts 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 18px;
+	color: #000000;
+	margin-top: 8px;
+	margin-bottom: 8px;	
+	text-decoration : underline;
 }
 
 h3 
@@ -64,17 +76,6 @@ a
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
 	font-size: 13px;		
 	color : #000000;
-	text-decoration : underline;
-}
-
-.noline
-{
-	text-decoration : none;
-}
-
-.underline
-{
-	text-decoration : underline;
 }
 
 .small
