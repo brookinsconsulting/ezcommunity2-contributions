@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: recreate.php,v 1.1 2000/07/18 13:40:35 lw-cvs Exp $
+    $Id: recreate.php,v 1.2 2000/07/18 13:46:00 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -14,7 +14,7 @@ include( "template.inc" );
 include( "$DOCROOT/classes/ezdb.php" );
 include( "$DOCROOT/classes/ezuser.php" );
 
-$t = new Templaet( "." );
+$t = new Template( "." );
 $t->set_file( Array( "recreate" => "$DOCROOT/templates/recreate.tpl",
                      "fixed" => "$DOCROOT/templates/recreate-fixed.tpl",
                      "error" => "$DOCROOT/templates/recreate-error.tpl" ));
