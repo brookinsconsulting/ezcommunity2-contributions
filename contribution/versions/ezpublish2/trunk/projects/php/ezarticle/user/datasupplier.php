@@ -53,6 +53,7 @@ switch ( $url_array[2] )
     }
     break;
     
+    case "view":
     case "articleview":
     {
         $StaticRendering = false;        
@@ -86,6 +87,7 @@ switch ( $url_array[2] )
     break;
     
 
+    case "static":
     case "articlestatic":
     {
         $StaticRendering = true;

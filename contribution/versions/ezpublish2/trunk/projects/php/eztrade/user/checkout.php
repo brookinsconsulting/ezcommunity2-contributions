@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.12 2000/11/01 14:34:52 ce-cvs Exp $
+// $Id: checkout.php,v 1.13 2000/11/02 09:25:24 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -213,10 +213,12 @@ if ( $SendOrder == "true" )
 
     $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     $mail->setFrom( $OrderSenderEmail );
-    $mail->setTo( $user->email() );
+    
+    $mail->setTo( $user->email() );    
     $mail->setSubject( $mailSubjectUser );
     $mail->setBody( $mailBody );
     $mail->send();
+    
     $mail->setSubject( $mailSubjectAdmin );
     $mail->setTo( $mailToAdmin );
     $mail->send();
