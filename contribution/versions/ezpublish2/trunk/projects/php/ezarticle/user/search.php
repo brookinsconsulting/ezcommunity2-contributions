@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.7 2001/03/01 14:06:25 jb Exp $
+// $Id: search.php,v 1.8 2001/04/26 10:44:38 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "classes/ezlist.php" );
 
 if ( isset( $GLOBALS["SiteIni"] ) )
 {
@@ -50,7 +51,6 @@ $t->set_file( array(
     "article_list_page_tpl" => "search.tpl"
     ) );
 
-
 // article
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
@@ -64,39 +64,60 @@ $t->set_var( "current_category_description", $category->description() );
 $t->set_var( "search_text", $SearchText );
 
 // articles
-$article = new eZArticle();
-$articleList = $article->search( $SearchText, "time", false );
 
-$locale = new eZLocale( $Language );
-$i=0;
-$t->set_var( "article_list", "" );
-foreach ( $articleList as $article )
+if ( $SearchText )
 {
-    $t->set_var( "article_name", $article->name() );
+    $article = new eZArticle();
+    $articleList = $article->search( $SearchText, "time", false );
+    $totalCount = $article->searchCount( $SearchText, "time", false );
 
-    $t->set_var( "article_id", $article->id() );
-
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-
-    $published = $article->published();
-
-    $t->set_var( "article_published", $locale->format( $published ) );    
-    
-    $t->parse( "article_item", "article_item_tpl", true );
-    $i++;
+    $t->set_var( "url_text", urlencode ( $SearchText ) );
 }
+
+// if ( ( $MaxSearchForArticles != 0 ) && ( $MaxSearchForArticles < $totalCount ) )
+
+if ( count ( $articleList ) > 0 )
+{
+    $locale = new eZLocale( $Language );
+    $i=0;
+    $t->set_var( "article_list", "" );
+    foreach ( $articleList as $article )
+    {
+        $t->set_var( "article_name", $article->name() );
+
+        $t->set_var( "article_id", $article->id() );
+
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
+        $published = $article->published();
+
+        $t->set_var( "article_published", $locale->format( $published ) );    
+    
+        $t->parse( "article_item", "article_item_tpl", true );
+        $i++;
+    }
+}
+$Limit = 10;
+
+eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "article_list_page_tpl" );
+
 
 if ( count( $articleList ) > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
 else
-    $t->set_var( "article_list", "" );
+$t->set_var( "article_list", "" );
+
+$t->set_var( "article_start", $Offset + 1 );
+$t->set_var( "article_end", min( $Offset + $Limit, $totalCount ) );
+$t->set_var( "article_total", $totalCount );
+
 
 
 $t->pparse( "output", "article_list_page_tpl" );

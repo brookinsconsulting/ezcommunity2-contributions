@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.16 2001/03/29 12:42:00 ce Exp $
+// $Id: productsearch.php,v 1.17 2001/04/26 10:44:39 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -93,8 +93,11 @@ if ( isset( $URLQueryString ) )
     $Query = $URLQueryString;
 }
 
-$productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
-$total_count = $product->activeProductSearchCount( $Query );
+if ( $Query )
+{
+    $productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
+    $total_count = $product->activeProductSearchCount( $Query );
+} 
 
 $t->set_var( "url_text", urlencode( $Query ) );
 
@@ -109,7 +112,7 @@ if ( ( $MaxSearchForProducts != 0 ) && ( $MaxSearchForProducts < $total_count ) 
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "product", "" );
-if ( isSet( $Query ) )
+if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
 {
     foreach ( $productList as $product )
     {
@@ -186,11 +189,9 @@ $t->set_var( "query_string", $Query );
 
 $t->set_var( "query", $Query );
 $t->set_var( "limit", $Limit );
-$prevOffs = $Offset - $Limit;
-$nextOffs = $Offset + $Limit;
-
-$t->set_var( "prev_offset", $prevOffs );
-$t->set_var( "next_offset", $nextOffs );
+$t->set_var( "product_start", $Offset + 1 );
+$t->set_var( "product_end", min( $Offset + $Limit, $total_count ) );
+$t->set_var( "product_total", $total_count );
 
 $t->pparse( "output", "product_search_tpl" );
 ?>

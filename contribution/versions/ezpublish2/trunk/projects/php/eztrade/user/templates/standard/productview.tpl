@@ -1,6 +1,18 @@
-<h1>{intl-head_line}</h1>
+<table width="100%" border="0">
+<tr>
+	<td valign="bottom">
+	<td>
+	<h1>{intl-head_line}</h1>
+	</td>
+	<td align="right">
+	<form action="/trade/search/" method="post">
+	<input type="text" name="SearchText" size="12" />	
+	<input class="stdbutton" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
 
-<hr noshade size="4"/>
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 

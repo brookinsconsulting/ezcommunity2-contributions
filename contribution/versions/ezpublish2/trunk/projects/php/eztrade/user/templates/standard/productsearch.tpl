@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-head_line}</h1>
+	<h1>{intl-head_line} - ({product_start}-{product_end}/{product_total})</h1>
      </td>
      <td align="right">
 	 <form action="/{module}/search/" method="post">
@@ -48,24 +48,57 @@
 	</td>
 </tr>
 <!-- END product_tpl -->
-<tr>
-	<td>
-
-<!-- BEGIN previous_tpl -->
-<a href="/{module}/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
-{intl-prev}
-</a>
-<!-- END previous_tpl -->
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-<!-- BEGIN next_tpl -->
-<a href="/{module}/search/?Offset={next_offset}&URLQueryString={url_query_string}">
-{intl-next}
-</a>
-<!-- END next_tpl -->
-     </td>
-</tr>
-
 </table>
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+	<td>
+	    <!-- BEGIN type_list_tpl -->
+	    <br />
+	    <table cellpadding="0" cellspacing="0" border="0">
+		<tr>
+		    <!-- BEGIN type_list_previous_tpl -->
+		    <td>
+			&lt;&lt;&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+		    </td>
+		    <!-- END type_list_previous_tpl -->
+		    
+		    <!-- BEGIN type_list_previous_inactive_tpl -->
+		    <td class="inactive">
+			{intl-previous}&nbsp;
+		    </td>
+		    <!-- END type_list_previous_inactive_tpl -->
+
+		    <!-- BEGIN type_list_item_list_tpl -->
+
+		    <!-- BEGIN type_list_item_tpl -->
+		    <td>
+			&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+		    </td>
+		    <!-- END type_list_item_tpl -->
+
+		    <!-- BEGIN type_list_inactive_item_tpl -->
+		    <td class="inactive">
+			&nbsp;{type_item_name}&nbsp;|
+		    </td>
+		    <!-- END type_list_inactive_item_tpl -->
+
+		    <!-- END type_list_item_list_tpl -->
+
+		    <!-- BEGIN type_list_next_tpl -->
+		    <td>
+			&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+		    </td>
+		    <!-- END type_list_next_tpl -->
+
+		    <!-- BEGIN type_list_next_inactive_tpl -->
+		    <td class="inactive">
+			{intl-next}&nbsp;&gt;&gt;
+		    </td>
+		    <!-- END type_list_next_inactive_tpl -->
+		</tr>
+	    </table>
+	    <!-- END type_list_tpl -->
+	</td>
+    </tr>
+</table>

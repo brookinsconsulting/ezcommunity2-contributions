@@ -12,6 +12,12 @@
 	<td>
 	<h1>{article_name}</h1>
 	</td>
+	<td align="right">
+	<form action="/article/search/" method="post">
+	<input type="text" name="SearchText" size="12" />	
+	<input class="stdbutton" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
 </tr>
 </table>
 

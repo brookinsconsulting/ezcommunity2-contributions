@@ -99,6 +99,11 @@ switch ( $url_array[2] )
 
     case "search":
     {
+        if ( $url_array[3] == "move" )
+        {
+            $SearchText = urldecode( $url_array[4] );
+            $Offset = urldecode ( $url_array[5] );
+        }
         include( "ezarticle/user/search.php" );
     }
     break;

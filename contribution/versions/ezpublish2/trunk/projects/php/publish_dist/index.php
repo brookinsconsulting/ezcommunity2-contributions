@@ -109,16 +109,13 @@ if ( ( $requireUserLogin == "disabled" ) ||
     {
         if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
         {
-
-        $REQUEST_URI = ( $ini->read_var( "site", "DefaultPage" ) );
-
+            $REQUEST_URI = ( $ini->read_var( "site", "DefaultPage" ) );
         }
         else
         {
-         $REQUEST_URI = "/article/archive/0/";
+            $REQUEST_URI = "/article/archive/0/";
         }
      }
-
 
     // Load the main contents and store in a variable
     $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";

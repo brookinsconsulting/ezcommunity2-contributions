@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.67 2001/04/23 11:02:53 fh Exp $
+// $Id: ezarticle.php,v 1.68 2001/04/26 10:44:38 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -922,13 +922,97 @@ class eZArticle
                     AND
                     eZArticle_Category.ExcludeFromSearch = 'false'
                     GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
- 
+
+
        for ( $i=0; $i < count($article_array); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
        }
        
        return $return_array;
+    }
+
+
+        /*!
+      Does a search in the article archive.
+    */
+    function searchCount( $queryText, $sortMode=time, $fetchNonPublished=true )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $OrderBy = "eZArticle_Article.Published DESC";
+       switch( $sortMode )
+       {
+           case "alpha" :
+           {
+               $OrderBy = "eZArticle_Article.Name DESC";
+           }
+           break;
+       }
+
+       if ( $fetchNonPublished == true )
+       {
+           $fetchText = "eZArticle_Article.IsPublished = 'true'
+                    AND";           
+       }
+       else
+       {           
+           $fetchText = "";
+       }
+
+       // this code works. do not EDIT !! :)
+       $user = eZUser::currentUser();
+
+       $loggedInSQL = "";
+       if ( $user )
+       {
+           $groups = $user->groups( true );
+
+           $groupSQL = "";
+           
+           $i = 0;
+           foreach ( $groups as $group )
+           {
+               if ( $i == 0 )
+                   $groupSQL .= " Permission.GroupID=$group OR";
+               else
+                   $groupSQL .= " Permission.GroupID=$group OR";
+               
+               $i++;
+           }
+           $currentUserID = $user->id();
+           $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
+       }
+
+       
+       $return_array = array();
+       $article_array = array();
+
+
+       $this->Database->array_query( $article_array,
+                    "SELECT COUNT(*) AS Count
+                    FROM eZArticle_Article LEFT JOIN eZArticle_ArticlePermission AS Permission
+                    ON eZArticle_Article.ID=Permission.ObjectID,
+                    eZArticle_Category, eZArticle_ArticleCategoryLink 
+                    WHERE 
+                    ( 
+                    eZArticle_Article.Name LIKE '%$queryText%' OR
+                    eZArticle_Article.Keywords LIKE '%$queryText%'
+                    )
+                    AND
+                    ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                    AND
+                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                    AND
+                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
+                    AND
+                    eZArticle_Category.ExcludeFromSearch = 'false'
+                    " );
+
+       return $article_array[0]["Count"];
     }
 
     /*!
