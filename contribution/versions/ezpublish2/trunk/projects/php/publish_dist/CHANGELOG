@@ -1,5 +1,6 @@
 Changes from version 1.0.1
 -------------------------
+* Fixed a timestamp bug in eZ forum message.
 * Added assignment of articles to multiple categories.
 * Fixed deleting of cached printed version, when an article is updated.
 * Added showing of number of users registered.
