@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.2.5 2001/11/22 15:49:12 pkej Exp $
+// $Id: checkout.php,v 1.96.2.6 2001/11/28 17:35:28 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -267,8 +267,8 @@ else
 {
     $address = new eZAddress();
     $mainAddress = $address->mainAddress( $user );
-    
-    $country =& $mainAddress->country();    
+
+    $country =& $mainAddress->country();
     if ( !$country->hasVAT() )
     {
         $vat = false;
@@ -335,7 +335,7 @@ foreach ( $items as $item )
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_number", $product->productNumber() );
-    $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT ) );
+    $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT, false ) );
     $t->set_var( "product_count", $item->count() );
     $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
     $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );

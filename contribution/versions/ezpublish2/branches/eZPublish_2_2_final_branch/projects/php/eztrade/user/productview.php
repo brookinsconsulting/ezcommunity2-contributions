@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.2.3 2001/11/27 18:30:42 br Exp $
+// $Id: productview.php,v 1.77.2.4 2001/11/28 17:35:28 br Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -57,7 +57,13 @@ $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enab
 $locale = new eZLocale( $Language );
 
 
-$product = new eZProduct( $ProductID );
+$product = new eZProduct( );
+
+if ( !$product->get( $ProductID ) )
+{
+    eZHTTPTool::header( "Location: /error/404/" );
+    exit();
+}
 
 if ( $CategoryID == "" )
 {
