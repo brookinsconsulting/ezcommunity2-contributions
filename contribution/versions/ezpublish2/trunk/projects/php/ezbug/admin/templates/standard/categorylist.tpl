@@ -1,4 +1,4 @@
-<form action="/bug/category/new/">
+<form action="/bug/category/list/">
 
 <h1>{intl-headline}</h1>
 
@@ -8,13 +8,13 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{category_name}
+	  <input type="text" name="CategoryID[]" value="{category_id}" />
+	  <input type="text" name="CategoryName[]" value="{category_name}" />
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/bug/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="pt{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/bug/category/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{category_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="pt{category_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	  <input type="checkbox" name="CategoryArrayID[]" value="{index_nr}">
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -22,6 +22,17 @@
 
 <hr noshade size="4" />
 
-<input class="okbutton" type="submit" value="{intl-newcategory}">
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td><input class="okbutton" type="submit" name="Ok" value="{intl-ok}"></td>
+  <td>&nbsp;</td>
+  <td><input type="submit" name="AddCategory" value="{intl-newcategory}"></td>
+  <td>&nbsp;</td>
+  <td><input type="submit" name="DeleteCategories" value="{intl-delete_categories}"></td>
+</tr>
+</table>
+
+
 
 </form>
