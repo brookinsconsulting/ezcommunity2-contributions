@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.24 2001/02/04 17:00:03 bf Exp $
+// $Id: ezlocale.php,v 1.25 2001/02/06 18:10:51 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -126,6 +126,7 @@ class eZLocale
             $this->$LocaleIni = new INIFile( "classes/locale/en_GB.ini", false );
         }
 
+        $this->LanguageISO =& $this->$LocaleIni->read_var( "RegionalSettings", "LanguageISO" );
         $this->CurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "CurrencySymbol" );
         $this->DecimalSymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "DecimalSymbol" );
         $this->ThousandsSymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "ThousandsSymbol" );
@@ -385,6 +386,17 @@ class eZLocale
     }
 
     /*!
+      Returns the ISO code of the current language, or false if it is not specified.
+    */
+    function languageISO()
+    {
+        if ( $this->LanguageISO != "" )
+            return $this->LanguageISO;
+        else
+            return false;
+    }
+
+    /*!
       \private
       Adds a "0" in front of the value if it's below 10.
     */
@@ -402,6 +414,7 @@ class eZLocale
     var $PositivePrefixCurrencySymbol;
     var $NegativePrefixCurrencySymbol;
 
+    var $LanguageISO;
     var $CurrencySymbol;
     var $DecimalSymbol;
     var $ThousandsSymbol;

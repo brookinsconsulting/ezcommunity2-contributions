@@ -16,6 +16,14 @@ include_once( "classes/ezdb.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
+// set character set
+include_once( "classes/ezlocale.php" );
+$Language = $ini->read_var( "eZCalendarMain", "Language" );
+$Locale = new eZLocale( $Language );
+$iso = $Locale->languageISO();
+if ( $iso != false )
+    header( "Content-type: text/html;charset=$iso" );
+
 // Design
 include_once( "ezsession/classes/ezsession.php" );
 
