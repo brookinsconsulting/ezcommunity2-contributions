@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.57 2001/01/25 17:11:33 jb Exp $
+// $Id: ezcompany.php,v 1.58 2001/01/25 19:16:12 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -49,7 +49,7 @@ include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 // include_once( "ezclassified/classes/ezclassified.php" );
 
-// include_once( "ezcontact/classes/ezonline.php" );
+// include_once( "ezaddress/classes/ezonline.php" );
 
 class eZCompany
 {

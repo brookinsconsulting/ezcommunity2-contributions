@@ -11,8 +11,8 @@ $errorIni = new INIFIle( "ezcontact/user/intl/" . $Language . "/companyinfo.php.
 include_once( "classes/eztemplate.php" );
 
 include_once( "ezcontact/classes/ezcompany.php" );
-include_once( "ezcontact/classes/ezonline.php" );
-include_once( "ezcontact/classes/ezphone.php" );
+include_once( "ezaddress/classes/ezonline.php" );
+include_once( "ezaddress/classes/ezphone.php" );
 
 // include_once( "ezcontact/topmenu.php" );
 

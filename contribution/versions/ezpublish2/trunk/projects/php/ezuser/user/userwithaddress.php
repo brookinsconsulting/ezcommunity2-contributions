@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.29 2001/01/23 13:31:26 ce Exp $
+// $Id: userwithaddress.php,v 1.30 2001/01/25 19:16:13 jb Exp $
 //
 // 
 //
@@ -38,8 +38,8 @@ $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
-include_once( "ezcontact/classes/ezaddress.php" );
-include_once( "ezcontact/classes/ezcountry.php" );
+include_once( "ezaddress/classes/ezaddress.php" );
+include_once( "ezaddress/classes/ezcountry.php" );
 include_once( "classes/ezmail.php" );
 
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforgot.php,v 1.6 2001/01/22 14:43:02 jb Exp $
+// $Id: ezforgot.php,v 1.7 2001/01/25 19:16:13 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -49,7 +49,7 @@
 include_once( "classes/ezdb.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
-include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 class eZForgot

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: addressedit.php,v 1.5 2001/01/23 13:16:58 jb Exp $
+// $Id: addressedit.php,v 1.6 2001/01/25 19:16:13 jb Exp $
 //
 // 
 //
@@ -37,8 +37,8 @@ $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
-include_once( "ezcontact/classes/ezaddress.php" );
-include_once( "ezcontact/classes/ezcountry.php" );
+include_once( "ezaddress/classes/ezaddress.php" );
+include_once( "ezaddress/classes/ezcountry.php" );
 
 if ( $Action == "Insert" )
 {
