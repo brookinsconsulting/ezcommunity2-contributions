@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: loginheader.php,v 1.5 2001/03/20 13:26:07 bf Exp $
+// $Id: loginheader.php,v 1.6 2001/03/28 13:00:48 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -33,7 +33,7 @@ $iso = $Locale->languageISO();
 
 
 $t = new eZTemplate( "admin/templates/" . $SiteStyle,
-                     "admin/ezuser/admin/intl/", $Language, "menubox.php" );
+                     "ezuser/admin/intl/", $Language, "menubox.php" );
 
 $t->set_file( array(
     "header_tpl" => "loginheader.tpl"
