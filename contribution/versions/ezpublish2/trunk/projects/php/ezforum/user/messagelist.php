@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.31 2001/06/29 07:08:38 bf Exp $
+// $Id: messagelist.php,v 1.32 2001/07/02 16:10:44 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -63,7 +63,7 @@ $forum = new eZForum( $ForumID );
 
 $categories =& $forum->categories();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( $user )
 {
@@ -74,7 +74,7 @@ if ( $user )
     if ( isset ( $ShowThreads ) )
         $preferences->setVariable( "eZForum_Threads", "Show" );
 
-    $showThreads = $preferences->variable( "eZForum_Threads" );
+    $showThreads =& $preferences->variable( "eZForum_Threads" );
 }
 else
 {
@@ -192,8 +192,8 @@ else
         if ( $showThreads == "Show" )
         {
             $t->set_var( "count_replies", "" );
-            $level = $message["Depth"];
-            
+            $level = $message[$db->fieldName("Depth")];
+
             if ( $level > 0 )
                 $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
             else
@@ -201,7 +201,7 @@ else
         }
         elseif ( $showThreads == "Hide" )
         {
-            $count = $message[$db->fieldName("Count")] - 1;
+            $count = eZForumMessage::threadMessageCount( $message[$db->fieldName("ThreadID")] ) - 1;
             $t->set_var( "spacer", "" );
             $t->set_var( "count_replies", "(" . $count . ")" );
         }

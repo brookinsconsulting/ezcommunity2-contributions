@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.91 2001/06/29 11:39:54 bf Exp $
+// $Id: ezforummessage.php,v 1.92 2001/07/02 16:10:44 bf Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -593,6 +593,23 @@ class eZForumMessage
     {
        return $this->TreeID;
     }
+
+    /*!
+      Returns the number of messages in the given thread.
+    */
+    function threadMessageCount( $threadID )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $message_array,
+                          "SELECT COUNT(*) AS Count
+                           FROM eZForum_Message
+                           WHERE ThreadID='$threadID'
+                           AND IsTemporary='0'" );
+
+        return $message_array[0][$db->fieldName("Count")];
+    }
+
     
     /*!
       Returns the number of messages.
@@ -698,7 +715,24 @@ class eZForumMessage
         }
         
         return $ret;
+    }
 
+    /*!
+      Returns the last n forum messages.
+
+      The returned array has the following values
+      array( "ID" => $id, "Topic" => $topic );
+    */
+    function &lastMessages( $limit )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = array();
+
+        $db->array_query( $message_array, "SELECT ID, Topic, PostingTime FROM eZForum_Message
+         WHERE IsTemporary='0' ORDER BY PostingTime DESC", array( "Limit" => $limit ) );
+
+        return $message_array;
     }
     
     var $ID;

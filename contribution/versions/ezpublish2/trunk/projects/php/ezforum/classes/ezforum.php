@@ -1,6 +1,6 @@
 <?
 //
-// $Id: ezforum.php,v 1.35 2001/06/29 07:08:38 bf Exp $
+// $Id: ezforum.php,v 1.36 2001/07/02 16:10:44 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -316,7 +316,7 @@ class eZForum
             $timeStamp =& eZDateTime::timeStamp( true );            
            
             $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
-                                          ( $timeStamp  - PostingTime ) AS Age
+                                          ( $timeStamp  - PostingTime ) AS Age, TreeID
                                           FROM
                                           eZForum_Message
                                           WHERE ForumID='$this->ID'
@@ -328,15 +328,13 @@ class eZForum
        }
        else
        {
-           $db->array_query( $message_array, "SELECT COUNT(ThreadID) as Count, ID, Topic, UserID, PostingTime, Depth,
-                                          ( $timeStamp  -  PostingTime ) AS Age, TreeID
+           $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
+                                          ( $timeStamp  -  PostingTime ) AS Age, TreeID, ThreadID
                                           FROM eZForum_Message
-                                          WHERE ForumID='$this->ID'
+                                          WHERE ForumID='$this->ID' AND Depth='0'
                                           AND IsTemporary='0'
                                           $approvedCode
-                                          GROUP BY ThreadID, ID, Topic, TreeID, UserID, PostingTime, Depth
-                                          ORDER BY TreeID
-                                          DESC ",
+                                          ORDER BY TreeID DESC ",
                        array( "Limit" => $limit, "Offset" => $offset ) );
        }
        return $message_array;
@@ -569,11 +567,13 @@ class eZForum
        if( $countUnapproved == false )
            $unapprovedSQL = "AND IsApproved='1'";
 
-       $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
-                                          WHERE ForumID='$this->ID'
-                                          AND IsTemporary='0' $unapprovedSQL GROUP BY ID, ThreadID" );
+       $db->array_query( $message_array, "SELECT Count(ID) AS Count FROM eZForum_Message
+                                          WHERE ForumID='$this->ID' AND Depth='0'
+                                          AND IsTemporary='0' $unapprovedSQL " );
 
-       $ret = count( $message_array );
+       $ret = $message_array[0][$db->fieldName( "Count" )];
+
+       setType( $ret, "integer" );
 
        return $ret;
     }
