@@ -46,7 +46,7 @@
 	<a href="/poll/polledit/edit/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezp{poll_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/poll/polledit/delete/{poll_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezp{poll_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	  <input type="checkbox" name="PollArrayID[]" value="{poll_id}">
 	</td>
 	</tr>
 	<!-- END poll_item_tpl -->
@@ -58,15 +58,15 @@
 <table cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<input type="hidden" name="Action" value="StoreMainPoll" />
-	<input class="okbutton" type="submit" value="{intl-save}" />
-	</form>
+          <input type="hidden" name="Action" value="StoreMainPoll" />
+	  <input class="okbutton" type="submit" value="{intl-save}" />
 	</td>
-	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/poll/polledit/new/">
-	<input class="okbutton" type="submit" value="{intl-addpoll}" />
-	</form>
+	  <input class="okbutton" name="AddPoll" type="submit" value="{intl-addpoll}" />
+	</td>  
+	<td>
+	  <input class="okbutton" type="submit" name="DeletePolls" value="{intl-deletepoll}" />
 	</td>
 </tr>
 </table>
+</form>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.18 2001/02/01 12:05:02 th Exp $
+// $Id: pollist.php,v 1.19 2001/02/12 18:12:51 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -60,6 +60,22 @@ if ( $Action == "StoreMainPoll" )
     {
         $mainPoll->setMainPoll( $mainPoll );
     }
+}
+
+// added FH
+if( $Action == "Delete" )
+{
+    if( count( $PollArrayID ) > 0 )
+    {
+        foreach( $PollArrayID as $doomedPoll )
+        {
+            $poll = new eZPoll( $doomedPoll );
+            $poll->delete();
+        }
+    }
+    // clear the menu cache
+    if ( file_exists("ezpoll/cache/menubox.cache" )  )
+        unlink( "ezpoll/cache/menubox.cache" );
 }
 
 $t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "AdminTemplateDir" ),

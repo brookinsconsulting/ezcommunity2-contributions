@@ -7,6 +7,14 @@ switch ( $url_array[2] )
 {
     case "pollist" :
     {
+        if( isset( $DeletePolls ) )
+            $Action = "Delete";
+        if( isset( $AddPoll ) )
+        {
+            include( "ezpoll/admin/polledit.php" );
+            exit();
+        }
+        
         include( "ezpoll/admin/pollist.php" );
     }
     break;
@@ -25,12 +33,6 @@ switch ( $url_array[2] )
         else if( ( $url_array[3] == "edit" ) )
         {
             $Action = "Edit";
-            $PollID = $url_array[4];
-            include( "ezpoll/admin/polledit.php" );
-        }
-        else if( ( $url_array[3] == "delete" ) )
-        {
-            $Action = "Delete";
             $PollID = $url_array[4];
             include( "ezpoll/admin/polledit.php" );
         }
