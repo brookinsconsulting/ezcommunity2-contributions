@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.4 2001/01/05 14:21:55 ce Exp $
+// $Id: filelist.php,v 1.5 2001/01/05 15:15:37 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -51,6 +51,7 @@ $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
 $t->set_block( "file_tpl", "read_tpl", "read" );
+$t->set_block( "read_tpl", "write_tpl", "write" );
 $t->set_block( "file_list_page_tpl", "folder_list_tpl", "folder_list" );
 $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
 
@@ -160,51 +161,28 @@ foreach ( $fileList as $file )
         $t->set_var( "file_size", $size );
     }
 
-    // Read check
-    $read = $file->readPermission();
+    $user = eZUser::currentUser();
 
-    $currentUser = eZUser::currentUser();
+    $writePermission = $file->checkWritePermission( $user );
+    $readPermission = $file->checkReadPermission( $user );
 
-    $user = $file->user();
-    
-    if ( $read == "User" )
-    {
-        if ( $user )
-        {
-            if ( $currentUser->id() == $user->id() )
-            {
-                $t->parse( "read", "read_tpl" );
-            }
-            else
-            {
-            }
-        }
-    }
-    else if ( $read == "Group" )
-    {
-        if ( $user )
-        {
-            $currentGroups = $currentUser->groups();
-            foreach( $currentGroups as $Groups )
-            {
-                $userGroups = $user->groups();
-                
-                foreach( $userGroups as $userGroup )
-                {
-                    if ( $Groups->id() == $userGroup->id() )
-                    {
-                        $t->parse( "read", "read_tpl" );
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-        }
-    }
-    else if ( $read == "All" )
+    $t->set_var( "read", "" );
+    $t->set_var( "write", "" );
+
+    if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
     {
         $t->parse( "read", "read_tpl" );
+    }
+    else
+    {
+    }
+
+    if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
+    {
+        $t->parse( "write", "write_tpl" );
+    }
+    else
+    {
     }
 
     $t->parse( "file", "file_tpl", true );

@@ -56,6 +56,11 @@
 	<td>
 	<a href="/filemanager/download/{file_id}/{original_file_name}/"><img src="/ezfilemanager/user/{image_dir}/file.png" border="0" alt="" width="32" height="32" /><br />{original_file_name}</a><br />
 	</td>
+	<!-- BEGIN write_tpl -->
+	<td>
+	<a href="/filemanager/edit/{file_id}/">edit</a><br />
+	</td>
+	<!-- END write_tpl -->
 	<!-- END read_tpl -->
 </tr>
 <!-- END file_tpl -->

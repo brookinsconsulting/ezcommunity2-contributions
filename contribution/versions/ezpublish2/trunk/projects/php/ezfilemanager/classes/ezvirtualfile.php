@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.5 2001/01/05 14:21:55 ce Exp $
+// $Id: ezvirtualfile.php,v 1.6 2001/01/05 15:15:37 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -169,6 +169,136 @@ class eZVirtualfile
         
         return $return_array;
     }
+
+    /*!
+      Check what read permission the user have to this eZVirtualFile object.
+
+      Returns:
+      User - if the user owns the file
+      Group - if the user is member of the group
+      All - if the file can be read by everybody
+      False - if the user don't have access
+    */
+    function checkReadPermission( $currentUser )
+    {
+        $ret = false;
+
+        if ( get_class( $currentUser ) == "ezuser" )
+        {
+            $read = eZVirtualFile::readPermission();
+
+            if ( $read == "User" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    if ( $currentUser->id() == $this->UserID )
+                    {
+                        $ret = "User";
+                    }
+                    else
+                    {
+                        return $ret;
+                    }
+                }
+            }
+            else if ( $read == "Group" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    $currentGroups = $currentUser->groups();
+                    foreach( $currentGroups as $Groups )
+                    {
+                        $user = new eZUser( $this->UserID );
+                        $userGroups = $user->groups();
+                            
+                        foreach( $userGroups as $userGroup )
+                        {
+                            if ( $Groups->id() == $userGroup->id() )
+                            {
+                                $ret = "Group";
+                            }
+                            else
+                            {
+                                return $ret;
+                            }
+                        }
+                    }
+                }
+            }
+            else if ( $read == "All" )
+            {
+                $ret = "Group";
+            }
+        }
+
+        return $ret;
+
+    }
+
+    /*!
+      Check what write permission the user have to this eZVirtualFile object.
+
+      Returns:
+      User - if the user owns the file
+      Group - if the user is member of the group
+      All - if the file can be write by everybody
+      False - if the user don't have access
+    */
+    function checkWritePermission( $currentUser )
+    {
+        $ret = false;
+
+        if ( get_class( $currentUser ) == "ezuser" )
+        {
+            $write = eZVirtualFile::writePermission();
+
+            if ( $write == "User" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    if ( $currentUser->id() == $this->UserID )
+                    {
+                        $ret = "User";
+                    }
+                    else
+                    {
+                        return $ret;
+                    }
+                }
+            }
+            else if ( $write == "Group" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    $currentGroups = $currentUser->groups();
+                    foreach( $currentGroups as $Groups )
+                    {
+                        $user = new eZUser( $this->UserID );
+                        $userGroups = $user->groups();
+                            
+                        foreach( $userGroups as $userGroup )
+                        {
+                            if ( $Groups->id() == $userGroup->id() )
+                            {
+                                $ret = "Group";
+                            }
+                            else
+                            {
+                                return $ret;
+                            }
+                        }
+                    }
+                }
+            }
+            else if ( $write == "All" )
+            {
+                $ret = "Group";
+            }
+        }
+
+        return $ret;
+    }
+
     
     /*!
       Returns the id of the virtual file.
