@@ -55,6 +55,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $SiteDesign = $ini->read_var( "site", "SiteDesign" );
 $Language   = $ini->read_var( "eZGroupEventCalendarMain", "Language" );
 $Sitedesign = $ini->read_var( "site", "SiteDesign" );
+$TruncateTitle = $ini->read_var( "eZGroupEventCalendarMain", "TruncateTitle" );
 $Locale     = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
@@ -302,14 +303,15 @@ if( $user )
                     {	
 		      // kracker : trim apointment name to keep the calendar easy to read
 		      $appointmentName = $appointment->name();
-		      $appointmentNameLen = strlen($appointmentName);
-		      $appointmentNameLenHalf = 12;
+		      if ($TruncateTitle == "enabled"){
+		       $appointmentNameLen = strlen($appointmentName);
+		       $appointmentNameLenHalf = 12;
 
-		      if ( $appointmentNameLen > $appointmentNameLenHalf ){
+		       if ( $appointmentNameLen > $appointmentNameLenHalf ){
 			$appointmentNameLenHalf = $appointmentNameLen / 2;
 			$appointmentName = shortenText($appointmentName, 12);
+		       }
 		      }
-
 				$t->set_var ( "appointment_name", $appointmentName );
 				$t->set_var ( "appointment_id" , $appointment->id() );
 
