@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.21 2001/01/24 18:54:44 bf Exp $
+// $Id: ezproductcategory.php,v 1.22 2001/01/24 19:04:25 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -574,10 +574,6 @@ class eZProductCategory
                 eZTrade_Category.ID='$this->ID'
                 GROUP BY eZTrade_Product.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
        
-//         $this->Database->array_query( $product_array, "SELECT ProductID
-//                                                        FROM eZTrade_ProductCategoryLink
-//                                                        WHERE CategoryID='$this->ID'" );
-
        for ( $i=0; $i<count($product_array); $i++ )
        {
            $return_array[$i] = new eZProduct( $product_array[$i]["ProductID"], false );
@@ -589,27 +585,11 @@ class eZProductCategory
     /*!
       Returns every active product to a category as a array of eZProduct objects.
     */
-    function &activeProducts()
+    function &activeProducts( $sortMode="time",
+                              $offset=0,
+                              $limit=50 )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-       
-       $return_array = array();
-       $product_array = array();
-       
-       $this->Database->array_query( $product_array, "SELECT eZTrade_Product.ID AS ProductID from eZTrade_ProductCategoryLink,
-                                                             eZTrade_Product WHERE eZTrade_ProductCategoryLink.CategoryID='$this->ID' AND
-                                                             eZTrade_Product.ShowProduct='true'
-                                                             AND eZTrade_ProductCategoryLink.ProductID=eZTrade_Product.ID
-                                                             GROUP BY eZTrade_Product.ID" );
-       for ( $i=0; $i<count($product_array); $i++ )
-       {
-           $return_array[$i] = new eZProduct( $product_array[$i]["ProductID"], false );
-       }
-       
-       return $return_array;
+       return $this->products( $sortMode, false, $offset, $limit );
     }
     
 

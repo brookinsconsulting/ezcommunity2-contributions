@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.8 2001/01/17 10:23:29 bf Exp $
+// $Id: productlist.php,v 1.9 2001/01/24 19:04:25 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -76,7 +76,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path", "path_tpl", true );
 }
 
-$categoryList = $category->getByParent( $category );
+$categoryList =& $category->getByParent( $category );
 
 // categories
 $i=0;
@@ -123,7 +123,7 @@ else
 }
 
 // products
-$productList =& $category->activeProducts();
+$productList =& $category->activeProducts( $category->sortMode() );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -164,8 +164,6 @@ foreach ( $productList as $product )
         $t->set_var( "price", "" );
     }
     
-
-    
     $t->set_var( "category_id", $category->id() );
 
     if ( ( $i % 2 ) == 0 )
@@ -189,8 +187,6 @@ else
 {
     $t->set_var( "product_list", "" );
 }
-
-
 
 
 if ( $GenerateStaticPage == "true" )
