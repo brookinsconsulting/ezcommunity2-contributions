@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: result.php,v 1.9 2001/07/20 11:22:30 jakobn Exp $
+// $Id: result.php,v 1.10 2001/10/14 21:33:08 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -89,6 +89,12 @@ foreach ( $pollArray as $poll )
             if ( $total != 0 )
             {
                 $percent = ( ( $choiceItem->voteCount() / $total ) * 100 );
+                $percent = round( $percent );
+                // we can still have errors, if two numbers come up with a ,5 result there will be a percent to much.
+                // consider the case
+                // a - 1 vote 
+                // b - 3 votes
+                // c - 4 votes
                 setType( $percent, "integer" );
                 $t->set_var( "choice_percent", $percent );
                 $t->set_var( "choice_inverted_percent", 100 - $percent );
