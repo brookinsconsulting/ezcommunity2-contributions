@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.32 2001/02/01 15:11:20 th Exp $
+// $Id: dayview.php,v 1.33 2001/02/16 16:16:53 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -90,7 +90,8 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
-if ( $t->hasCache() )
+
+if ( false/*$t->hasCache()*/ )
 {
 //    print( "cached<br />" );
     print( $t->cache() );
@@ -162,6 +163,36 @@ else
         $interval->setSecond( 0 );
     }
 
+    // increase schedule span to fit early/late appointments
+    $midNight = new eZTime();
+    $midNight->setSecondsElapsed( 0 );
+    $lastInterval = $midNight->subtract( $interval );
+    $firstInterval = $midNight->add( $interval );
+//    print( $Locale->format( $midNight, false ) . "<br />" );
+//    print( $Locale->format( $lastInterval, false ) . "<br />" );
+
+    foreach ( $appointments as $appointment )
+    {
+        $appStartTime =& $appointment->startTime();
+        $appStopTime =& $appointment->stopTime();
+
+        if ( $appStartTime->isGreater( $firstInterval ) )
+            $startTime = $midNight;
+
+        while ( $appStartTime->isGreater( $startTime ) )
+        {
+            $startTime = $startTime->subtract( $interval );
+        }
+
+        if ( $lastInterval->isGreater( $appStopTime ) )
+            $stopTime = new eZTime( 23, 59 );
+
+        while ( $stopTime->isGreater( $appStopTime ) )
+        {
+            $stopTime = $stopTime->add( $interval );
+        }
+    }
+
 
     // places appointments into columns, creates extra columns as necessary
     $numRows = 0;
@@ -171,9 +202,10 @@ else
     $colTaken = array();           // number of non free rows in the current column, after the last appointment. 0 means col free.
     $emptyRows = array();          // number of empty rows in the current column, after the last appointment
     $appointmentDone = array();    // true when the appointment has been inserted into the table
-    $tmpStartTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
+    $tmpTime = new eZTime();
+    $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
 
-    while ( $tmpStartTime->isGreater( $stopTime ) == true )
+    while ( $tmpTime->isGreater( $stopTime ) == true )
     {
         $numRows++;
         $tableCellsId[$numRows-1] = array();
@@ -192,7 +224,7 @@ else
         {
             // if this appointment should be inserted into the table now
             if ( $appointmentDone[$appointment->id()] == false &&
-            intersects( $appointment, $tmpStartTime, $tmpStartTime->add( $interval ) ) == true )
+                 intersects( $appointment, $tmpTime, $tmpTime->add( $interval ) ) == true )
             {
                 $foundFreeColumn = false;
                 $col = 0;
@@ -202,7 +234,7 @@ else
                     if ( $tableCellsId[$numRows-1][$col] == 0 )
                     {
                         $tableCellsId[$numRows-1][$col] = $appointment->id();
-                        $tableCellsRowSpan[$numRows-1][$col] = appointmentRowSpan( $appointment, $tmpStartTime, $interval );
+                        $tableCellsRowSpan[$numRows-1][$col] = appointmentRowSpan( $appointment, $tmpTime, $interval );
                         $colTaken[$col] = $tableCellsRowSpan[$numRows-1][$col];
                         $appointmentDone[$appointment->id()] = true;
                         $foundFreeColumn = true;
@@ -241,7 +273,10 @@ else
             }
         }
 
-        $tmpStartTime = $tmpStartTime->add( $interval );
+        if ( $tmpTime > $tmpTime->add( $interval ) )
+            $tmpTime = new eZTime( 23, 59 );
+        else
+            $tmpTime = $tmpTime->add( $interval );
     }
 
     // mark remaining empty spaces as empty, -2
@@ -253,6 +288,7 @@ else
             $tableCellsRowSpan[ $numRows - $emptyRows[$col] ][$col] = $emptyRows[$col];
         }
     }
+
 
 
 // debug contents table
@@ -275,11 +311,13 @@ else
     $now = new eZTime();
     $nowSet = false;
     $row = 0;
+    $tmpTime = new eZTime();
+    $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
 
-    while ( $startTime->isGreater( $stopTime ) == true )
+    while ( $tmpTime->isGreater( $stopTime ) == true )
     {
-        $t->set_var( "short_time", $Locale->format( $startTime, true ) );
-        $t->set_var( "start_time", addZero( $startTime->hour() ) . addZero( $startTime->minute() ) );
+        $t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
+        $t->set_var( "start_time", addZero( $tmpTime->hour() ) . addZero( $tmpTime->minute() ) );
 
         $drawnColumn = array();
 
@@ -334,13 +372,16 @@ else
 
 // Mark current time with bgcurrent. Does not currently go well together with caching.
 //        if ( $date->equals( $today ) && $nowSet == false &&
-//        $startTime->isGreater( $now, true ) && $now->isGreater( $startTime->add( $interval ) ) )
+//        $tmpTime->isGreater( $now, true ) && $now->isGreater( $tmpTime->add( $interval ) ) )
 //        {
 //            $t->set_var( "td_class", "bgcurrent" );
 //            $nowSet = true;
 //        }
 
-        $startTime = $startTime->add( $interval );
+        if ( $tmpTime > $tmpTime->add( $interval ) )
+            $tmpTime = new eZTime( 23, 59 );
+        else
+            $tmpTime = $tmpTime->add( $interval );
         $row++;
 
         $t->parse( "time_table", "time_table_tpl", true );
@@ -489,12 +530,17 @@ else
 function appointmentRowSpan( &$appointment, &$startTime, &$interval )
 {
     $ret = 0;
-    $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
+    $tmpTime = new eZTime();
+    $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
     $aStop =& $appointment->stopTime();
 
     while ( $tmpTime->isGreater( $aStop ) )
     {
-        $tmpTime = $tmpTime->add( $interval );
+        if ( $tmpTime > $tmpTime->add( $interval ) )
+            $tmpTime = new eZTime( 23, 59 );
+        else
+            $tmpTime = $tmpTime->add( $interval );
+
         $ret++;
     }
 
