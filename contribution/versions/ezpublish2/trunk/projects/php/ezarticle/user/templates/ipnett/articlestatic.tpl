@@ -36,6 +36,14 @@
 {article_body}
 </p>
 
+<!-- BEGIN image_list_tpl -->
+
+<!-- BEGIN image_tpl -->
+
+<!-- END image_tpl -->
+
+<!-- END image_list_tpl -->
+
 <!-- BEGIN attribute_list_tpl -->
 <!-- BEGIN type_item_tpl -->
 <h2>{type_name}</h2>

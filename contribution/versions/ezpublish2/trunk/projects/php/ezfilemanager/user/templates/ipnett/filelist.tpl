@@ -1,4 +1,4 @@
-<h1>Programvare</h1>
+<h1>{top_folder_name}</h1>
 
 <!-- BEGIN current_folder_tpl -->
 <!--
@@ -15,13 +15,15 @@
 </table>
 -->
 <!-- END current_folder_tpl -->
-
+<!--
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/filemanager/list/0/">Kategorier</a>
-
+-->
 <!-- BEGIN path_item_tpl -->
+<!--
 <img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/filemanager/list/{folder_id}/">{folder_name}</a>
+-->
 <!-- END path_item_tpl -->
 
 <div class="spacer"><div class="p">{current_folder_description}</div></div>

@@ -3,33 +3,32 @@
     <td align="left" valign="bottom">
         <h1>{intl-headline}</h1>
      </td>
-<!--     <td align="right">
+  	<td align="right">
 	 <form action="/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
-	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
+	       <input class="stdbutton" type="submit" name="search" value="Søk etter linker" />
          </form>
      </td>
--->
 </tr>
 </table>
 
 <!-- BEGIN path_tpl -->
-
+<!--
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 <a class="path" href="/link/category/0/">{intl-top}</a>
-
+-->
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
-
+<!--
 <img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 <a class="path" href="/link/category/{category_id}/">{category_name}</a>
-
+-->
 <!-- END path_item_tpl -->
 
-<br /><br />
+<br />
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!--

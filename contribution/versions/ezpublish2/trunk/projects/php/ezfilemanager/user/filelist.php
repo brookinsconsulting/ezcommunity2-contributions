@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.34 2001/07/19 13:01:02 jakobn Exp $
+// $Id: filelist.php,v 1.35 2001/08/13 14:24:04 th Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -113,6 +113,8 @@ foreach ( $pathArray as $path )
     
     $t->parse( "path_item", "path_item_tpl", true );
 }
+
+$t->set_var( "top_folder_name", $path[1] );
 
 // Print out the folders.
 
