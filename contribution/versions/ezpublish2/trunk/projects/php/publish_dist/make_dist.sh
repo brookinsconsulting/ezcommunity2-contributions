@@ -12,6 +12,7 @@ cd ..
 
 file_a=ezaddress.php
 file_b=ezcountry.php
+file_c=ezaddresstype.php
 
 cd ezcontact
 cd classes
@@ -19,8 +20,10 @@ cd classes
 for i in *; do
     if [ "$i" != "$file_a" ]; then
 	if [ "$i" != "$file_b" ]; then
-	    echo "deleting $i"
-	    rm -f "$i";
+	    if [ "$i" != "$file_c" ]; then
+		echo "deleting $i"
+		rm -f "$i";
+	    fi
 	fi
     fi
 done
