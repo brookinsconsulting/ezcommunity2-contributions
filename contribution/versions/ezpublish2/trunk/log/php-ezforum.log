@@ -1195,3 +1195,19 @@ Maintainer(s) : jhe@ez.no
       user/messageform.php:
     posting time is not shown when message is temporary
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-05-02  Baard Farstad  <bf@ez.no>
+
+    * user/search.php: Fixed security bug.
+
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-05-03  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforum.php: fixed permission bug
+
