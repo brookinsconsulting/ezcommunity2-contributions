@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.8 2001/12/18 18:29:20 jhe Exp $
+// $Id: ezformpage.php,v 1.9 2001/12/19 15:55:06 br Exp $
 //
 // Definition of ||| class
 //
@@ -498,6 +498,13 @@ class eZFormPage
     function &name()
     {
         return $this->Name;
+    }
+
+    function getConditionElement()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $q, "select eZForm_FormCondition.ElementID as ID from eZForm_FormCondition, eZForm_PageElementDict where eZForm_FormCondition.ElementID=eZForm_PageElementDict.ElementID AND eZForm_PageElementDict.PageID=" . $this->ID );
+        return $q[$db->fieldName( "ID" )];
     }
     
     var $ID;

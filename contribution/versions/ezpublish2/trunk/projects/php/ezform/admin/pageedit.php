@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.16 2001/12/19 15:27:25 br Exp $
+// $Id: pageedit.php,v 1.17 2001/12/19 15:55:06 br Exp $
 //
 // Definition of ||| class
 //
@@ -362,12 +362,16 @@ if ( is_Numeric( $ElementChoiceID[0] ) && $ElementChoiceID[0] != 0 )
 {
     $elementChoiceID = $ElementChoiceID[0];
 }
-else if ( isSet( $PageID ) )
+else if ( isSet( $PageID ) && is_Array( $ElementChoiceID ) )
 {
     foreach( $elements as $element )
     {
         $element->removeCondition();
     }
+}
+else if( isSet( $PageID ) )
+{
+    $elementChoiceID = $page->getConditionElement();
 }
 
 if ( $count > 0 )
