@@ -998,7 +998,7 @@ class eZCompany
         $db->array_query( $company_array,
                           "SELECT eZContact_Company.ID as ID
                            FROM eZContact_Company, eZContact_Person
-                           WHERE ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%')
+                           WHERE ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%' OR eZContact_Person.ID LIKE '%$query%')
                            AND eZContact_Company.ID=eZContact_Person.Company) GROUP BY eZContact_Company.ID ORDER BY eZContact_Company.ID" );
 
         foreach ( $company_array as $companyItem )

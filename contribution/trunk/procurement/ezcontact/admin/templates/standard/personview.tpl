@@ -134,11 +134,11 @@
 	<!-- BEGIN no_project_status_tpl -->
 	<p>{intl-no_project_status}</p>
 	<!-- END no_project_status_tpl -->
-	<br /><br />
+<!--	<br /><br />   -->
 	</td>
 </tr>
 </table>
-<!-- END project_status_item_tpl-->
+<!-- END project_status_item_tpl -->
 
 
 <!-- BEGIN consultation_table_item_tpl -->
@@ -233,10 +233,11 @@
 
 <form method="post" action="{www_dir}{index}/contact/person/edit/{person_id}/">
 <!-- BEGIN consultation_buttons_tpl -->
+<!-- BEGIN consultation_button_tpl -->
 <hr noshade="noshade" size="4" />
-
 <input class="stdbutton" type="submit" name="ListConsultation" value="{intl-consultation_list}">
 <input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
+<!-- END consultation_button_tpl -->
 
 <!-- BEGIN file_button_tpl -->
 <input class="stdbutton" type="submit" name="FileButton" value="{intl-files}">
@@ -247,9 +248,9 @@
 <!-- BEGIN mail_button_tpl -->
 <input class="stdbutton" type="submit" name="MailButton" value="{intl-mail}">
 <!-- END mail_button_tpl -->
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN edit_person_button_tpl -->
+<hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
 <!-- END edit_person_button_tpl -->
 <!-- END consultation_buttons_tpl -->

@@ -27,12 +27,13 @@
 
 $menuItems = array(
     array( "/contact/company/list/", "{intl-companytypelist}" ),
-    array( "/contact/person/list/", "{intl-personlist}" ),
-    array( "/contact/consultation/list/", "{intl-consultationlist}" ),
     array( "/contact/company/new/", "{intl-companyadd}" ),
-    array( "/contact/person/new/", "{intl-personadd}" ),
-    array( "/contact/projecttype/list/", "{intl-projecttypelist}" ),
-    array( "/contact/consultationtype/list/", "{intl-consultationtypelist}" )
+    array( "/contact/person/list/", "{intl-personlist}" ),
+    array( "/contact/person/new/", "{intl-personadd}" )
+
+    //    array( "/contact/projecttype/list/", "{intl-projecttypelist}" ),
+    //    array( "/contact/consultation/list/", "{intl-consultationlist}" ),
+    //    array( "/contact/consultationtype/list/", "{intl-consultationtypelist}" )
     );
 
 ?>

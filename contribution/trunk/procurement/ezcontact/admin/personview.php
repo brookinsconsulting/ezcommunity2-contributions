@@ -25,7 +25,7 @@
 
 /*
     View a person
- */
+*/
 
 include_once( "classes/INIFile.php" );
 
@@ -92,8 +92,8 @@ $t->setAllStrings();
 $t->set_file( "person_view", "personview.tpl" );
 
 $t->set_block( "person_view", "birth_date_item_tpl", "birth_date_item" );
-$t->set_block( "birth_date_item", "birth_item_tpl", "birth_item" );
-$t->set_block( "birth_date_item", "no_birth_item_tpl", "no_birth_item" );
+$t->set_block( "birth_date_item_tpl", "birth_item_tpl", "birth_item" );
+$t->set_block( "birth_date_item_tpl", "no_birth_item_tpl", "no_birth_item" );
 
 $t->set_block( "person_view", "description_item_tpl", "description_item" );
 
@@ -114,8 +114,11 @@ $t->set_block( "person_view", "image_item_tpl", "image_item" );
 
 //  $t->set_block( "person_view", "contact_person_tpl", "contact_person" );
 //  $t->set_block( "person_view", "no_contact_person_tpl", "no_contact_person" );
-$t->set_block( "person_view", "project_status_tpl", "project_status" );
-$t->set_block( "person_view", "no_project_status_tpl", "no_project_status" );
+
+$t->set_block( "person_view", "project_status_item_tpl", "project_status_item" );
+
+$t->set_block( "project_status_item_tpl", "project_status_tpl", "project_status" );
+$t->set_block( "project_status_item_tpl", "no_project_status_tpl", "no_project_status" );
 
 $t->set_block( "person_view", "consultation_table_item_tpl", "consultation_table_item" );
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
@@ -127,6 +130,9 @@ $t->set_block( "mail_table_item_tpl", "mail_item_tpl", "mail_item" );
 
 $t->set_block( "person_view", "consultation_buttons_tpl", "consultation_buttons" );
 
+$t->set_block( "person_view", "person_search_item_tpl", "person_search_item" );
+$t->parse( "person_search_item", "person_search_item_tpl" );
+
 /*
 $t->set_block( "consultation_buttons_tpl", "buy_button_tpl", "buy_button" );
 $t->set_block( "consultation_buttons_tpl", "file_button_tpl", "file_button" );
@@ -134,13 +140,15 @@ $t->set_block( "consultation_buttons_tpl", "mail_button_tpl", "mail_button" );
 $t->set_block( "consultation_buttons_tpl", "edit_person_button_tpl", "edit_person_button" );
 */
 
+$t->set_block( "consultation_buttons_tpl", "consultation_button_tpl", "consultation_button" );
+
 $t->set_block( "consultation_buttons_tpl", "buy_button_tpl", "buy_button" );
 $t->set_block( "consultation_buttons_tpl", "file_button_tpl", "file_button" );
 $t->set_block( "consultation_buttons_tpl", "mail_button_tpl", "mail_button" );
 $t->set_block( "consultation_buttons_tpl", "edit_person_button_tpl", "edit_person_button" );
-$t->set_block( "address_table_tpl", "address_table_tpl", "address_table" );
-$t->set_block( "phone_table_tpl", "phone_table_tpl", "phone_table" );
-$t->set_block( "online_table_tpl", "online_table_tpl", "online_table" );
+$t->set_block( "person_view", "address_table_tpl", "address_table" );
+$t->set_block( "person_view", "phone_table_tpl", "phone_table" );
+$t->set_block( "person_view", "online_table_tpl", "online_table" );
 
 $t->set_var( "buy_button", "" );
 $t->set_var( "file_button", "" );
@@ -399,6 +407,9 @@ if ( $Action == "view" )
         $t->parse( "no_project_status", "no_project_status_tpl" );
     }
 
+    $t->parse( "project_status_item", "project_status_item_tpl" );
+
+
 /*    $image =& $person->image();
     if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
     {
@@ -462,7 +473,7 @@ if ( $Action == "view" )
             $t->set_var( "consultation_short_description", eZTextTool::htmlspecialchars( $consultation->shortDescription() ) );
             $t->set_var( "consultation_status_id", $consultation->state() );
             $t->set_var( "consultation_status", eZTextTool::htmlspecialchars( eZConsultation::stateName( $consultation->state() ) ) );
-            $t->parse( "consultation_item", "consultation_item_tpl", true );
+	    $t->parse( "consultation_item", "consultation_item_tpl", true );
             $i++;
         }
     }
@@ -477,9 +488,9 @@ if ( $Action == "view" )
         $t->set_var( "consultation_table_item", "" );
     }
 
-    // nsb: specific
     /*
-     xxxxxx
+     nsb: specific
+    consultation_buttons_tpl
     */
 
     if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
@@ -497,25 +508,34 @@ if ( $Action == "view" )
       $t->parse( "buy_buttons", "consultation_buttons_tpl" );
       $t->parse( "mail_buttons", "consultation_buttons_tpl" );
 
-
-
       $t->parse( "file_button", "consultation_button_tpl" );
       $t->parse( "buy_button", "consultation_button_tpl" );
       $t->parse( "mail_button", "consultation_button_tpl" );
 
-      */
+#############
+
       $t->parse( "file_button", "file_button_tpl" );
       $t->parse( "buy_button", "buy_button_tpl" );
       $t->parse( "mail_button", "mail_button_tpl" );
 
       $t->parse( "edit_person_button", "edit_person_button_tpl" );
+      $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
 
+      */
+
+      $t->set_var( "consultation_button", "" );
+      $t->set_var( "mail_button", "" );
+      $t->set_var( "buy_button", "" );
+      $t->set_var( "file_button", "" );
+
+      $t->parse( "edit_person_button", "edit_person_button_tpl" );
       $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
 
     }
     else
     {
         $t->set_var( "consultation_buttons", "" );
+	$t->set_var( "consultation_button", "" );
 
 	$t->set_var( "file_button", "" );
 	$t->set_var( "buy_button", "" );

@@ -5,7 +5,9 @@
 	<td rowspan="2" valign="bottom">
 	    <h1>{intl-headline_list}</h1>
 	</td>
+-->
 	<!-- BEGIN company_search_item_tpl -->
+<!--
 	<form action="{www_dir}{index}/contact/search/company/" method="get">
   	<td align="right">
   	    	<input type="text" name="SearchText" size="12" />
@@ -13,10 +15,13 @@
   	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
   	</td>
 	</form>
+-->
 	<!-- END company_search_item_tpl -->
+<!--
 </tr>
 </table>
 -->
+
 <!-- END list_tpl -->
 
 <!-- BEGIN view_tpl -->
@@ -49,6 +54,8 @@
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 -->
 
+<hr style="text-align: left;" noshade="noshade" size="4">
+
 <span class="subdiv">
 &nbsp; <a class="subdiv" href="{www_dir}{index}/contact/{command_type}/list/0">{intl-root_category}</a>
 
@@ -59,11 +66,15 @@
 <span class="subdiv">/</span>
 <a class="subdiv" href="{www_dir}{index}/contact/{command_type}/list/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
-</span>
+
+<hr noshade="noshade" size="4">
 
 <!--
+<hr noshade="noshade" size="4">
+
 <hr class="dr" noshade="noshade" size="4" />
 -->
+
 
 <!-- BEGIN company_tool_bar_incomplete -->
 <!--
@@ -106,7 +117,6 @@
 <!-- END path_tpl -->
 
 <!-- BEGIN current_type_tpl -->
-
 <!-- <h2>{current_name}</h2>
 <p>{current_description}</p> -->
 
@@ -120,16 +130,16 @@
 <!-- <p><a href="{www_dir}{index}/contact/{command_type}/edit/{current_id}">{intl-button_edit}</a></p> -->
 <!-- END not_root_tpl -->
 
-<!-- BEGIN category_list_tpl -->
 
+<!-- BEGIN category_list_tpl -->
 <h2>{intl-headline_categories}</h2>
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
     <th><a href="{www_dir}{index}/contact/{command_type}/list/{current_id}?OrderBy=Name">{intl-th_type_name}:</a></th>
     <th><a href="{www_dir}{index}/contact/{command_type}/list/{current_id}?OrderBy=Description">{intl-th_type_description}:</a></th>
     <th colspan="2">&nbsp;</th>
 </tr>
-
 </table>
 <!-- END category_list_tpl -->
 
@@ -140,7 +150,7 @@
 
 
 <!-- BEGIN type_list_tpl -->
-<h2>{intl-headline_types}</h2>
+<h2 style="padding-top: 2px;" class="contactMain">{intl-headline_types}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
     <th><a href="{www_dir}{index}/contact/{command_type}/list/{current_id}?OrderBy=Name">{intl-th_type_name}:</a></th>
@@ -180,7 +190,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" value="{intl-new_company_category}">
+	<input class="stdbutton" type="submit" value="{intl-new_company_category}">
 </form>
 <!-- END type_new_button_tpl -->
 
@@ -227,21 +237,27 @@
 	<!-- END company_stats_item_tpl -->
 
 	<!-- BEGIN company_buy_button_tpl -->
+<!--
 	<td class="{td_class}" width="1%">
 	<a href="{www_dir}{index}/contact/company/buy/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{company_id}-red','','/design/admin/images/button-cart-ro.gif',1)"><img name="ezb{company_id}-red" border="0" src="{www_dir}/design/admin/images/button-cart.gif" width="16" height="16" align="top" alt="Buy" /></a>
 	</td>
+-->
 	<!-- END company_buy_button_tpl -->
 
 	<!-- BEGIN company_folder_button_tpl -->
+<!--
 	<td class="{td_class}" width="1%">
 	<a href="{www_dir}{index}/contact/company/folder/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{company_id}-red','','/design/admin/images/button-folder-ro.gif',1)"><img name="ezf{company_id}-red" border="0" src="{www_dir}/design/admin/images/button-folder.gif" width="16" height="16" align="top" alt="Folder" /></a>
 	</td>
+-->
 	<!-- END company_folder_button_tpl -->
 
 	<!-- BEGIN company_consultation_button_tpl -->
+<!--
 	<td class="{td_class}" width="1%">
 	<a href="{www_dir}{index}/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{company_id}-red','','/design/admin/images/addminimrk.gif',1)"><img name="ezn{company_id}-red" border="0" src="{www_dir}/design/admin/images/addmini.gif" width="16" height="16" align="top" alt="Add consultation" /></a>
 	</td>
+-->
 	<!-- END company_consultation_button_tpl -->
 
 	<!-- BEGIN company_edit_button_tpl -->
@@ -318,3 +334,5 @@
 
 </form>
 <!-- END company_new_button_tpl -->
+
+</span>
