@@ -44,7 +44,7 @@
 	<td>
 
 	<form method="post" action="/article/articleedit/imagelist/{article_id}/">
-	<input class="okbutton" type="submit" value="{intl-avbryt}" />
+	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>
 
 	</td>
