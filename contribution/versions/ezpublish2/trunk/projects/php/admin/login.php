@@ -19,8 +19,11 @@ if ($tmp != 0 )
 }
 else
 {
-    $message = "Feil brukernavn/passord!";
-    include( "index.php" );
+    Header( "Location: index.php" );
+    exit();
+
+//      $message = "Feil brukernavn/passord!";
+//      include( "index.php" );
 }
 
 ob_end_flush();
