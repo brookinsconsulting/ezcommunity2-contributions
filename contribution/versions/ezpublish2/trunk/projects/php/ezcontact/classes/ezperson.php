@@ -22,7 +22,8 @@ class eZPerson
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Person set FirstName='$this->FirstName',
+        query( "INSERT INTO Person set
+    FirstName='$this->FirstName',
 	LastName='$this->LastName',
 	Owner='$this->Owner',
 	Comment='$this->Comment',

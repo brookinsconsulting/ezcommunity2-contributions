@@ -9,7 +9,7 @@
 	<a href="index.php4?page={document_root}noteedit.php4&Action=edit&NID={note_id}' );">Rediger</a>
 	</td>
 	<td bgcolor="{bg_color}">
-	<a href="index.php4?prePage={document_root}noteedit.php4&Action=delete&NID={note_id}' );">Slett</a>
+	<a href="#" onClick="verify( 'Slette notat?', 'index.php4?prePage={document_root}noteedit.php4&Action=delete&NID={note_id}'); return false;">Slette notat</a>
 	</td>
 
 </tr>

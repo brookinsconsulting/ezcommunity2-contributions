@@ -13,7 +13,23 @@ require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezpersonphonedict.php";
 require $DOCUMENTROOT . "classes/ezpersonaddressdict.php";
 
-if ( $Insert == "TRUE" )
+
+
+// Oppdatere informasjon
+if ( $Action == "update" )
+{
+    $updatePerson = new eZPerson();
+    $updatePerson->setFirstName( $FirstName );
+    $updatePerson->setLastName( $LastName );
+    $updatePerson->setContactType( $PersonType );
+    $updatePerson->setCompany( $Company );
+    $updatePerson->setComment( $Comment );
+    $updatePerson->update();
+}
+
+
+// Legge til kontakt person
+if ( $Action == "insert" )
 {
   $newPerson = new eZPerson();
   $newPerson->setFirstName( $FirstName );
@@ -42,6 +58,10 @@ if ( $Insert == "TRUE" )
   $link->setPersonID( $pid );
   $link->setAddressID( $aid );
   $link->store();
+
+  $message = "Legg til ny kontakt person informasjon";
+  $submit_text = "Legg til";
+  $action_value = "insert";
 }
 
 // sjekke session
@@ -65,6 +85,27 @@ $addressType = new eZAddressType();
 $person_type_array = $personType->getAll( );
 $company_array = $company->getAll( );
 $address_type_array = $addressType->getAll( );
+
+// Editere kontakt person
+if ( $Action == "edit" )
+{
+    print ( "banan" );
+    $editPerson = new eZPerson();
+    $editPerson->get( $PID );
+    
+    $FirstName = $editPerson->firstName();
+    $LastName = $editPerson->lastName();
+    $PersonType = $editPerson->contactType();
+    $Company = $editPerson->company();
+    $Comment = $editPerson->comment();
+
+    print ( "eple" );
+
+    $message = "Rediger kontakt person informasjon";
+    $submit_text = "Endre informasjon";
+    $action_value = "update";
+}
+
 
 // person type selector
 for ( $i=0; $i<count( $person_type_array ); $i++ )
@@ -130,16 +171,11 @@ $t->set_var( "street_1", $Street1 );
 $t->set_var( "street_2", $Street2 );
 $t->set_var( "zip_code", $Zip );
 
-if ( $EditMode == "edit" )
-{  
-  $t->set_var( "submit_text", "lagre endringer" );
-}
-else
-{
- $t->set_var( "submit_text", "lagre" );
-}
 
-$t->set_var( "message", "ny kontaktperson" );
+$t->set_var( "submit_text", $submit_text );
+$t->set_var( "action_value", $action_value );
+$t->set_var( "message", $message );
+
 $t->set_var( "document_root", $DOCUMENTROOT );
 
 $t->pparse( "output", "person_edit"  );

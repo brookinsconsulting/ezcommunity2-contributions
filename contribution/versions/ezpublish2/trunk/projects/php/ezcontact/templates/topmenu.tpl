@@ -1,7 +1,7 @@
 - | <a href="index.php4?page={document_root}contactlist.php4">liste</a>
 | <a href="index.php4?page={document_root}loginedit.php4">login</a>
 | <a href="index.php4?page={document_root}noteslist.php4"><img src="{document_root}images/huskelapp.gif" border="0" alt="Notater"></a>
-| <a href="index.php4?page={document_root}personedit.php4"><img src="{document_root}images/person.gif" border="0" alt="Ny kontaktperson"></a>
+| <a href="index.php4?page={document_root}personedit.php4&Action=insert"><img src="{document_root}images/person.gif" border="0" alt="Ny kontaktperson"></a>
 | <a href="index.php4?page={document_root}companyedit.php4"><img src="{document_root}images/firma.gif" border="0" alt="Nytt kontaktfirma"></a>
 
 | <a href="index.php4?page={document_root}phonetypelist.php4">Telefon typer</a>
