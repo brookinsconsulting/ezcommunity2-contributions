@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.12 2001/01/26 10:39:34 ce Exp $
+// $Id: filelist.php,v 1.13 2001/01/28 14:16:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -194,7 +194,7 @@ foreach ( $fileList as $file )
     }
     else
     {
-        $t->set_var( "file_size", $size );
+        $t->set_var( "file_size", number_format( ( $size / 1024 ), 2) );
     }
 
     $writePermission = $file->checkWritePermission( $user );

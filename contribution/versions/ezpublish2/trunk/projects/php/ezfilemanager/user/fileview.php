@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.2 2001/01/22 14:43:00 jb Exp $
+// $Id: fileview.php,v 1.3 2001/01/28 14:16:59 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -82,7 +82,7 @@ if ( $FileID != 0 )
     }
     else
     {
-        $t->set_var( "file_size", $size );
+        $t->set_var( "file_size", number_format( ( $size / 1024 ), 2) );
     }
 
     $fileOwner = $file->user();
