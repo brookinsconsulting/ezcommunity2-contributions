@@ -1,5 +1,5 @@
 <?
-// $Id: ezpriority.php,v 1.3 2000/11/20 13:21:17 ce-cvs Exp $
+// $Id: ezpriority.php,v 1.4 2001/01/11 15:19:30 ce Exp $
 //
 // Definition of eZPriority class
 //
@@ -53,7 +53,7 @@ class eZPriority
     {
         $this->dbInit();
 
-        if ( isSet ( $this->ID ) )
+        if ( !isSet ( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTodo_Priority SET
                                      ID='$this->ID',

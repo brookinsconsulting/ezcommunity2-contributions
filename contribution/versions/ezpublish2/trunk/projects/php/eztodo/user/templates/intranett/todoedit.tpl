@@ -73,3 +73,13 @@
 <input class="okbutton" type="submit" value="{intl-ok}">
 
 </form>
+ndMail">&nbsp;</div>
+	</td>
+</tr>
+</table>
+
+<hr noshade size="4"/>
+
+<input class="okbutton" type="submit" value="{intl-ok}">
+
+</form>

@@ -110,3 +110,6 @@
 <hr noshade size="4">
 
 <form action="/todo/todoedit/new"><input class="okbutton" type="submit" value="Ny to do"></form>
+ noshade size="4">
+
+<form action="/todo/todoedit/new"><input class="okbutton" type="submit" value="Ny to do"></form>

@@ -1,5 +1,5 @@
 <?
-// $Id: ezcategory.php,v 1.5 2000/11/20 13:21:17 ce-cvs Exp $
+// $Id: ezcategory.php,v 1.6 2001/01/11 15:19:30 ce Exp $
 //
 // Definition of eZCategory class
 //
@@ -52,8 +52,10 @@ class eZCategory
     {
         $this->dbInit();
 
-        if ( isSet( $this->ID ) )
+
+        if ( !isSet( $this->ID ) )
         {
+
             $this->Database->query( "INSERT INTO eZTodo_Category SET
                                      ID='$this->ID',
                                      Name='$this->Name' ");
