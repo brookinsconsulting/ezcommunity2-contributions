@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.16 2001/03/07 11:28:00 fh Exp $
+// $Id: ezmail.php,v 1.17 2001/03/21 12:34:17 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -65,7 +65,8 @@ class eZMail
     */
     function eZMail()
     {
-
+        // normal priority. 1=highest, 5=lowest
+        $this->Priority = 3;
     }
 
     /*!
@@ -194,7 +195,7 @@ class eZMail
             $headers .= "From: $this->FromName <$this->From>\n";
         $headers .= "X-Sender: <$this->From>\n"; 
         $headers .= "X-Mailer: eZ publish PHP\n"; // mailer
-        $headers .= "X-Priority: 1\n"; // Urgent message!
+        $headers .= "X-Priority: $this->Priority\n"; // Urgent message!
         $headers .= "Return-Path: <$this->From>\n";  // Return path for errors
         
         mail( $this->To, $this->Subject, $this->Body, $headers )
@@ -242,6 +243,7 @@ class eZMail
     var $FromName;
     var $Subject;
     var $Body;
+    var $Priority;
     
 }
 ?>

@@ -38,10 +38,19 @@
 	<tr>
 	  <td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
 	</tr>
-	<tr> 
-	  <td>&nbsp;{intl-shipping}:</td>
-	  <td align="right">{shipping_cost}&nbsp;</td>
-	</tr>
+	<tr>
+	   <td>{intl-shipping}:</td>
+  	   <td align="right">
+	   {shipping_sum}
+           </td>
+       </tr>
+       <tr>
+	 <td >{intl-vat}:</td>
+	 <td align="right">
+	 {cart_vat_sum}
+	 </td>
+        </tr>
+
 	<tr>
 	  <td class="spacer" colspan="2" bgcolor="#999999"><img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
 	</tr>
