@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.3 2001/11/16 15:15:14 bf Exp $
+// $Id: ezxml.php,v 1.4 2001/11/16 16:20:28 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -158,8 +158,6 @@ class eZXML
                                 // remove " from value part
                                 $attributeValue = substr( $attributeValue, 1, strlen( $attributeValue ) - 2);
 
-//                                print( $attributeName . "=" . $attributeValue );
-
                                 // start tag
                                 unset( $attrNode );
                                 $attrNode = new eZDOMNode();
@@ -182,8 +180,6 @@ class eZXML
                         unset( $currentNode );
                         $currentNode =& $subNode;
                     }
-
-//                    print( "tag name: $justName <br> " );
                 }
             }
 
@@ -206,13 +202,20 @@ class eZXML
                     $subNode = new eZDOMNode();
                     $subNode->name = "text";
                     $subNode->type = 3;
+
+                    // convert special chars
+                    $tagContent = preg_replace("/&amp;/U", "&", $tagContent );
+                    $tagContent = preg_replace("/&gt;/U", ">", $tagContent );
+                    $tagContent = preg_replace("/&lt;/U", "<", $tagContent );
+                    $tagContent = preg_replace("/&apos;/U", "'", $tagContent );
+                    $tagContent = preg_replace("/&quot;/U", '"', $tagContent );
+                    
                     $subNode->content = $tagContent;
                     
                     $currentNode->children[] =& $subNode;
                 }
             }
         }
-        
 
         return $domDocument;
     }
