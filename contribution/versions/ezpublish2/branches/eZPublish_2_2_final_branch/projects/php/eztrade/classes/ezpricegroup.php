@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.17.2.3 2001/11/29 11:02:24 bf Exp $
+// $Id: ezpricegroup.php,v 1.17.2.4 2002/02/13 09:14:20 br Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -181,15 +181,18 @@ class eZPriceGroup
                 $group_string = $group_string . " OR GroupID=$group";
             }
             $i++;
-       }
-         
-        $db =& eZDB::globalDatabase();
-        $db->array_query( $array, "SELECT PriceID AS ID FROM eZTrade_GroupPriceLink
-                                   WHERE $group_string" );
+        }
+
         $ret = array();
-        foreach( $array as $row )
+        if ( $group_string != "" )
         {
-            $ret[] = $as_object ? new eZPriceGroup( $row[$db->fieldName("ID")] ) : $row[$db->fieldName("ID")];
+            $db =& eZDB::globalDatabase();
+            $db->array_query( $array, "SELECT PriceID AS ID FROM eZTrade_GroupPriceLink
+                                   WHERE $group_string" );
+            foreach( $array as $row )
+            {
+                $ret[] = $as_object ? new eZPriceGroup( $row[$db->fieldName("ID")] ) : $row[$db->fieldName("ID")];
+            }
         }
         return $ret;
     }
