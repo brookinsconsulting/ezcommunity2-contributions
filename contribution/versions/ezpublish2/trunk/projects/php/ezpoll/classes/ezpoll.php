@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpoll.php,v 1.25 2001/08/03 08:06:36 bf Exp $
+// $Id: ezpoll.php,v 1.26 2001/12/12 15:28:00 br Exp $
 //
 // Definition of eZPoll class
 //
@@ -140,6 +140,7 @@ class eZPoll
             $db->query( "DELETE FROM eZPoll_Vote WHERE PollID='$this->ID'" );
             $db->query( "DELETE FROM eZPoll_PollChoice WHERE PollID='$this->ID'" );
             $db->query( "DELETE FROM eZPoll_Poll WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZPoll_PollForumLink WHERE PollID='$this->ID'" );
         }
         return true;
     }
