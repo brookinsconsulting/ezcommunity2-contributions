@@ -3403,3 +3403,36 @@ Maintainer(s) : ce@ez.no
     In the admin will only orders which are confirmed in eZTrade_PreOrder
     be shown in the orderlist.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-04-11  christoffer  <ce@zev.ez.no>
+
+    * user/payment.php
+      user/productsearch.php: Fixed a string
+
+    * classes/ezproductattribute.php
+      classes/ezproductcategory.php
+      user/Attic/biglist.php
+      user/Attic/confirmation.php
+      user/cart.php
+      user/checkout.php
+      user/datasupplier.php
+      user/ordersendt.php
+      user/payment.php
+      user/productlist.php
+      user/productsearch.php
+      user/productview.php
+      classes/Attic/ezorderconfirmation.php
+      classes/ezcart.php
+      classes/ezoption.php
+      classes/ezoptionvalue.php
+      classes/ezorder.php
+      classes/ezproduct.php
+      admin/categoryedit.php
+      admin/currency.php
+      admin/datasupplier.php
+      admin/productedit.php
+      admin/productsearch.php: Added the correct files
+
