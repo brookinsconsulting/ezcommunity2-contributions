@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.6 2001/01/02 14:54:59 bf Exp $
+// $Id: eznewsimporter.php,v 1.7 2001/01/02 15:38:36 bf Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -91,7 +91,8 @@ class eZNewsImporter
                         {
                             $newsItem->setIsPublished( false );
                         }
-                            
+                        $newsItem->store();
+                        
                         $category->addNews( $newsItem );
                         print( "storing: -" .$newsItem->name() . "<br>");
                     }
@@ -114,6 +115,17 @@ class eZNewsImporter
                 {
                     if ( $newsItem->store() == true )
                     {
+                        if ( $this->AutoPublish == true )
+                        {
+                            print( "publishing" );
+                            $newsItem->setIsPublished( true );
+                        }
+                        else
+                        {
+                            $newsItem->setIsPublished( false );
+                        }
+                        $newsItem->store();
+                        
                         $category->addNews( $newsItem );
                         print( "storing: -" .$newsItem->name() . "<br>");
                     }
@@ -136,6 +148,16 @@ class eZNewsImporter
                 {
                     if ( $newsItem->store() == true )
                     {
+                        if ( $this->AutoPublish == true )
+                        {
+                            $newsItem->setIsPublished( true );
+                        }
+                        else
+                        {
+                            $newsItem->setIsPublished( false );
+                        }
+                        $newsItem->store();
+                        
                         $category->addNews( $newsItem );
                         print( "storing: -" .$newsItem->name() . "<br>");
                     }

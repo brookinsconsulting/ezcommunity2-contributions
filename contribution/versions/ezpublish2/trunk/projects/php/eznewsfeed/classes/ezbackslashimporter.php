@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.1 2001/01/02 14:57:47 bf Exp $
+// $Id: ezbackslashimporter.php,v 1.2 2001/01/02 15:38:36 bf Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -78,34 +78,37 @@ class eZBackslashImporter
                         
                         foreach ( $channel->children as $item )
                         {
-                            print( $item->content );
-                            
+                            $content = "";
                             foreach ( $item->children as $value )
                             {
-                                switch ( $value->name )
+                                if ( $value->name == "#text" )
                                 {
-                                    case "title" :
-                                    {
-                                        $title = $value->content;
-                                    }
-                                    break;
-                                    
-                                    case "url" :
-                                    {
-                                        $link = $value->content;
-                                    }
-                                    break;
-
-                                    case "time" :
-                                    {
-                                        $publishingDate = $value->content;
-                                    }
-                                    break;                                    
+                                    $content = $value->content;
+                                }                                        
+                            }
+                            
+                            switch ( $item->name )
+                            {
+                                case "title" :
+                                {
+                                    $title = $content;
                                 }
+                                break;
+                                
+                                case "url" :
+                                {
+                                    $link = $content;
+                                }
+                                break;
+                                
+                                case "time" :
+                                {
+                                    $publishingDate = $content;
+                                }
+                                break;                                    
                             }
                         }
 
-                        print( $title );
                         $news = new eZNews(  );
                         $news->setName( addslashes( $title ) );
                         $news->setURL( addslashes($link ) );
