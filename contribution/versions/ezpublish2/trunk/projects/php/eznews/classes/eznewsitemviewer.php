@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.8 2000/10/12 11:49:36 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.9 2000/10/12 12:29:47 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -68,7 +68,7 @@ class eZNewsItemViewer
         $this->URLObject = new eZURL();
         $this->IniObject = new eZNewsOutput( $inNewsConfigFileName );
         
-        $this->inNewsConfigFileName = $inNewsConfigFileNam;
+        $this->inNewsConfigFileName = $inNewsConfigFileName;
     }
 
 
@@ -88,7 +88,7 @@ class eZNewsItemViewer
         global $REQUEST_URI;
         $value = false;
         
-        $Adminsite = $this->IniObject->read_var( "eZNewsAdmin", "Adminsite" );
+        $Adminsite = $this->IniObject->GlobalIni->read_var( "eZNewsAdmin", "Adminsite" );
         
         if( ereg( $Adminsite, $SERVER_NAME ) || ereg( $Adminsite, $REQUEST_URI ) )
         {
@@ -343,7 +343,7 @@ class eZNewsItemViewer
         if( $count && $continue )
         {
             include_once( "eznews/admin/eznewsitem/eznewsitemcreator.php" );
-            $item = new eZNewsItemCreator( $this->IniObject, $itemNo );
+            $item = new eZNewsItemCreator( $this->inNewsConfigFileName, $itemNo );
  
             if( !$item->doAction( "create", "child" ) )
             {
@@ -368,7 +368,7 @@ class eZNewsItemViewer
     function doAdminEdit( &$itemNo )
     {
         #echo "eZNewsItemViewer::doAdminEdit()<br>\n";
-        $item = new eZNewsItemCreator( $this->IniObject, $$itemNo );
+        $item = new eZNewsItemCreator( $this->inNewsConfigFileName, $$itemNo );
         $item->doAction( "edit", "this" );
     }
 
@@ -826,7 +826,7 @@ class eZNewsItemViewer
         $this->IniObject->set_block( "eznewscommand", "orphans_template", "orphans" );
         $this->IniObject->set_block( "orphans_template", "orphan_item_template", "orphan_item" );
         
-        $maxItems = $this->IniObject->read_var( "eZNewsAdmin", "OrphansMainPage" );
+        $maxItems = $this->IniObject->GlobalIni->read_var( "eZNewsAdmin", "OrphansMainPage" );
         
         // Show orphans
         $this->Item->getOrphans( $returnArray, $this->OrphansSortBy, "asc", 0, $maxItems );
@@ -866,7 +866,7 @@ class eZNewsItemViewer
         $this->IniObject->set_block( "eznewscommand", "navigate_template", "navigate" );
         $this->IniObject->set_block( "navigate_template", "navigate_item_template", "navigate_item" );
         
-        $maxItems = $this->IniObject->read_var( "eZNewsAdmin", "NavigationMainPage" );
+        $maxItems = $this->IniObject->GlobalIni->read_var( "eZNewsAdmin", "NavigationMainPage" );
         
         // Show navigate
         $this->Item->getChildren( $returnArray, $this->NavigatesSortBy, "asc", 0, $maxItems );

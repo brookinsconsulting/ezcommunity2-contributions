@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsoutput.php,v 1.2 2000/10/12 11:27:46 pkej-cvs Exp $
+// $Id: eznewsoutput.php,v 1.3 2000/10/12 12:29:47 pkej-cvs Exp $
 //
 // Definition of eZNewsOutput class
 //
@@ -31,12 +31,13 @@ class eZNewsOutput extends eZTemplate
      */
     function eZNewsOutput( $inNewsConfigFileName )
     {
-        $this->ini = new INIFile( $inNewsConfigFileName );
+        global $DOCUMENT_ROOT;
+
+        $this->GlobalIni = new INIFile( $inNewsConfigFileName );
         
-        $DocumentPath = $this->read_var( "eZNewsMain", "DocumentRoot" );
-        $TemplatePath = $this->read_var( "eZNewsMain", "TemplateDir" );
-        $Language    = $this->read_var( "eZNewsMain", "Language" );
-        
+        $DocumentPath = $this->GlobalIni->read_var( "eZNewsMain", "DocumentRoot" );
+        $TemplatePath = $this->GlobalIni->read_var( "eZNewsMain", "TemplateDir" );
+        $Language    = $this->GlobalIni->read_var( "eZNewsMain", "Language" );
 
         $this->AdminLanguagePath = $DocumentPath . "/admin/intl/";
         $this->AdminTemplatePath = $DocumentPath . "/admin/" . $TemplatePath;
@@ -68,7 +69,6 @@ class eZNewsOutput extends eZTemplate
         #$this->printObject();
         
         eZTemplate::eZTemplate( $this->AdminTemplatePath . $inSubPath, $this->AdminLanguagePath, $this->Language, $inSubPath . "/" . $inLanguageFileName );
-        
         $this->LanguageConfig = $this->ini();
     }
 
@@ -137,6 +137,10 @@ class eZNewsOutput extends eZTemplate
         }
     }
     
+    
+    
+    /* The global ini object */
+    var $GlobalIni;
     
     
     /* The local language configuration object */
