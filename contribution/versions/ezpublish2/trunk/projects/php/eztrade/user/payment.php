@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.32 2001/03/26 09:54:53 bf Exp $
+// $Id: payment.php,v 1.33 2001/03/26 13:31:24 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -95,6 +95,15 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
         }
     }
 }
+
+$session = new eZSession();
+
+// if no session exist create one.
+if ( !$session->fetch() )
+{
+    $session->store();
+}
+
 
 // fetch the cart
 $cart = new eZCart();
@@ -540,7 +549,6 @@ if ( $PaymentSuccess == "true" )
     $Action = "PostPayment";
     include( $instance->paymentFile( $paymentMethod ) );
 
-
     // Turn of SSL and redirect to http://
 
     $session->setVariable( "SSLMode", "" );
@@ -548,7 +556,6 @@ if ( $PaymentSuccess == "true" )
     eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
 }
-
 
 
 ?>

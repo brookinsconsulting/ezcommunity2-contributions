@@ -113,10 +113,6 @@ function &newOrders( $args )
                         $optionArray[] = new eZXMLRPCStruct( array( "OptionName" => new eZXMLRPCString( $optionValue->optionName() ),
                                                               "OptionValue" => new eZXMLRPCString( $optionValue->valueName() ) )
                                                               );
-                        
-                        
-                        
-                        
                     }
                     
                     
