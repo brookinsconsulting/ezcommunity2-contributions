@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.11 2001/02/19 18:33:54 fh Exp $
+// $Id: bugreport.php,v 1.12 2001/02/20 12:20:08 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -28,6 +28,8 @@ include_once( "classes/ezmail.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -110,14 +112,17 @@ if( $Action == "New" )
         $AllFieldsError = true;
     }
     */
-    $bug = new eZBug();
-    $bug->store();
-    $BugID = $bug->id();
+//    $bug = new eZBug();
+//    $bug->store();
+//    $BugID = $bug->id();
 }
 
 if( $Action == "Update" )
 {
-    $bug = new eZBug( $BugID );
+    if( $BugID == -1 )
+        $bug = new eZBug();
+    else
+        $bug = new eZBug( $BugID );
     $bug->setName( $Name );
     $bug->setDescription( $Description );
 
@@ -136,11 +141,15 @@ if( $Action == "Update" )
         $bug->setUser( $user );
     else
         $bug->setUserEmail( $Email );
+
+    if( $IsPrivate == "true" )
+        $bug->setIsPrivate( true );
     
     $bug->setIsHandled( false );
     $bug->store();
     
     $actionValue = "Update";
+    $BugID = $bug->id();
 }
 
 
@@ -194,6 +203,27 @@ if( isset( $InsertImage ) )
     exit();
 }
 
+if( isset( $DeleteSelected ) )
+{
+    if( count( $ImageArrayID ) > 0 )
+    {
+        foreach( $ImageArrayID as $imageID )
+        {
+            $image = new eZImage( $imageID );
+            $bug->deleteImage( $image );
+        }
+    }
+
+    if( count( $FileArrayID ) > 0 )
+    {
+        foreach( $FileArrayID as $fileID )
+        {
+            $file = new eZVirtualFile( $fileID );
+            $bug->deleteFile( $file );
+        }
+    }
+}
+
 /* user didn't press any buttons.. lets set up the view correctly then..*/
 $catName = "";
 $modName = "";
@@ -201,6 +231,7 @@ $t->set_var( "description_value", "" );
 $t->set_var( "title_value", "" );
 $t->set_var( "file", "" );
 $t->set_var( "image", "" );
+$t->set_var( "private_checked", "" );
 
 if( $Action == "Edit" ) // load values from database
 {
@@ -216,6 +247,8 @@ if( $Action == "Edit" ) // load values from database
     $t->set_var( "description_value", $bug->description() );
     $t->set_var( "title_value", $bug->name() );
 
+    if( $bug->isPrivate() )
+        $t->set_var( "private_checked", "checked" );
 
 // get the files
     $files = $bug->files();

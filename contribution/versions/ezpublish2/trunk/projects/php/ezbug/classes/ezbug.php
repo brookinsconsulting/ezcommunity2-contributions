@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.14 2001/02/20 10:08:44 fh Exp $
+// $Id: ezbug.php,v 1.15 2001/02/20 12:20:08 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -350,7 +350,14 @@ class eZBug
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $Private;
+        $ret = false;
+        if ( $this->IsPrivate == "true" )
+        {
+            $ret = true;
+        }
+        return $ret;
+
+        return $IsPrivate;
     }
     
     /*!
@@ -540,8 +547,14 @@ class eZBug
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        if( is_bool( $priv ) )
-            $Private = $priv;
+        if ( $priv == true )
+        {
+            $this->IsPrivate = "true";
+        }
+        else
+        {
+            $this->IsPrivate = "false";           
+        }
     }
     
    /*!
@@ -713,7 +726,7 @@ class eZBug
     }
 
     /*!
-      Disconnects an image from the bug.
+      Disconnects an eZImage from the bug.
       NOTE: the image does not get deleted from the image catalogue
      */
     function deleteImage( $image )
