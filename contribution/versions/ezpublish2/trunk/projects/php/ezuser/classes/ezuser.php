@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.94 2001/09/21 15:25:28 bf Exp $
+// $Id: ezuser.php,v 1.95 2001/09/27 13:23:23 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -417,6 +417,8 @@ class eZUser
         if ( count( $user_array ) == 1 )
         {
             $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
+            $GLOBALS["eZCurrentUserObject"] =& $ret;
+
         }
         return $ret;
     }
@@ -679,6 +681,9 @@ class eZUser
 //            $session->refresh();
 
             $session->setVariable( "AuthenticatedUser", $user->id() );
+
+            $GLOBALS["eZCurrentUserObject"] =& $user;
+            
             $ret = true;
         }
         return $ret;
