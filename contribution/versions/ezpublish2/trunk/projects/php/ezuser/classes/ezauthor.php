@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.8 2001/08/01 12:59:52 bf Exp $
+// $Id: ezauthor.php,v 1.9 2001/08/14 10:37:21 br Exp $
 //
 // Definition of eZAuthor class
 //
@@ -156,16 +156,13 @@ class eZAuthor
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        if ( $id != "" )
+        $db->array_query( $author_array, "SELECT * FROM eZUser_Author WHERE Name='$name'" );
+        if( count( $author_array ) == 1 )
         {
-            $db->array_query( $author_array, "SELECT * FROM eZUser_Author WHERE Name='$name'" );
-            if( count( $author_array ) == 1 )
-            {                
-                $this->ID =& $author_array[0][$db->fieldName("ID")];
-                $this->Name =& $author_array[0][$db->fieldName("Name")];
-                $this->EMail =& $author_array[0][$db->fieldName("EMail")];
-                $ret = true;
-            }
+            $this->ID =& $author_array[0][$db->fieldName("ID")];
+            $this->Name =& $author_array[0][$db->fieldName("Name")];
+            $this->EMail =& $author_array[0][$db->fieldName("EMail")];
+            $ret = true;
         }
         return $ret;
     }
