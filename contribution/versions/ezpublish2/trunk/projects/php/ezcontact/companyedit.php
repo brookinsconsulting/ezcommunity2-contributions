@@ -47,7 +47,6 @@ if ( $Action == "insert" )
   $phone = new eZPhone();
 }
 
-<<<<<<< companyedit.php
 if ( isset( $AddPhone ) )
 {
     print( "Add phone" . $PhoneNumber ." - " . $PhoneType );
