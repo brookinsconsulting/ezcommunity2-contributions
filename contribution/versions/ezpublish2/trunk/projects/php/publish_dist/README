@@ -308,3 +308,6 @@ Update eZStats_PageView SET Date=Date, TimeValue=DATE_FORMAT( eZStats_PageView.D
 alter table eZStats_PageView add index ( DateValue ); 
 alter table eZStats_PageView add index ( TimeValue ); 
 alter table eZStats_PageView add index ( Date );
+
+# Set if order is active or not
+alter table eZTrade_Order add IsActive int default 0;  
