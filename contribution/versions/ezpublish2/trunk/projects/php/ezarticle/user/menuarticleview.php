@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menuarticleview.php,v 1.2 2001/08/21 15:12:57 bf Exp $
+// $Id: menuarticleview.php,v 1.3 2001/09/14 08:28:59 ce Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -454,7 +454,6 @@ $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0
 
 if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
 {
-    
     $fp = eZFile::fopen( $cachedFile, "w+");
 
     // add PHP code in the cache file to store variables
