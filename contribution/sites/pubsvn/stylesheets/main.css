@@ -1,0 +1,30 @@
+.box-right {
+	BORDER-RIGHT: blue 2px dotted;
+	PADDING-RIGHT: 5px;
+	BORDER-TOP: blue 2px dotted; 
+	PADDING-LEFT: 5px; 
+	FONT-SIZE: 90%; 
+	PADDING-BOTTOM: 5px;
+	MARGIN: 10px;
+	BORDER-LEFT: blue 2px dotted;
+	WIDTH: 25%;
+	PADDING-TOP: 5px;
+	BORDER-BOTTOM: blue 2px dotted;
+	float:right;
+}
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.warning {
+	color: #FF0000;
+}
+.note {
+	font-size: 75%;
+}
+.pre {
+	font-size: 65%;
+}
+#main {
+	background-color: #FFFFFF;
+	width: 100%;
+}
