@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.13 2001/02/20 20:55:04 gl Exp $
+// $Id: imageedit.php,v 1.14 2001/02/21 12:38:09 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
@@ -51,10 +51,15 @@ if ( $Action == "Insert" )
         $image->setCaption( $Caption );
 
         $image->setImage( $file );
-        
+
         $image->store();
-        
+
         $article->addImage( $image );
+
+        if ( count( $article->images() ) == 1 )
+        {
+            $article->setThumbnailImage( $image );
+        }
 
         eZLog::writeNotice( "Picture added to article: $ArticleID  from IP: $REMOTE_ADDR" );
     }
@@ -126,17 +131,19 @@ if ( $Action == "StoreDef" )
 {
     $article = new eZArticle( $ArticleID );
 
+    // Unset frontpage image radiobutton
+    if ( isset( $NoFrontImage ) )
+    {
+        $article->setThumbnailImage( false );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+        exit();
+    }
+
     if ( isset( $ThumbnailImageID ) && ( $ThumbnailImageID != 0 ) && ( $ThumbnailImageID != "" ) )
     {
-        if ( isset( $NoFrontImage ) )
-        {
-            $article->setThumbnailImage( false );
-        }
-        else
-        {
-            $thumbnail = new eZImage( $ThumbnailImageID );
-            $article->setThumbnailImage( $thumbnail );
-        }
+        $thumbnail = new eZImage( $ThumbnailImageID );
+        $article->setThumbnailImage( $thumbnail );
     }
 
     if ( isset( $NewImage ) )

@@ -4,6 +4,11 @@
 
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN no_images_tpl -->
+{intl-no_images}
+<!-- END no_images_tpl -->
+
+<!-- BEGIN image_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-image_id}:</th>
@@ -38,6 +43,7 @@
 <!-- END image_tpl -->
 
 </table>
+<!-- END image_list_tpl -->
 
 <br/>
 
