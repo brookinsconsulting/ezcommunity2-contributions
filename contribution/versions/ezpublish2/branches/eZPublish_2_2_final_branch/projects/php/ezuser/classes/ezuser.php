@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100.2.4 2002/02/08 10:56:43 bf Exp $
+// $Id: ezuser.php,v 1.100.2.5 2002/03/25 13:55:26 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -253,15 +253,15 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
 
-        $this->ID =& $user_array[$db->fieldName("ID")];
-        $this->Login =& $user_array[$db->fieldName("Login")];
-        $this->Email =& $user_array[$db->fieldName("Email")];
-        $this->InfoSubscription =& $user_array[$db->fieldName("InfoSubscription")];
-        $this->FirstName =& $user_array[$db->fieldName("FirstName")];
-        $this->LastName =& $user_array[$db->fieldName("LastName")];
-        $this->Signature =& $user_array[$db->fieldName("Signature")];
-        $this->CookieLogin =& $user_array[$db->fieldName("CookieLogin")];
-        $this->SimultaneousLogins =& $user_array[$db->fieldName("SimultaneousLogins")];
+        $this->ID =& $user_array[$db->fieldName( "ID" )];
+        $this->Login =& $user_array[$db->fieldName( "Login" )];
+        $this->Email =& $user_array[$db->fieldName( "Email" )];
+        $this->InfoSubscription =& $user_array[$db->fieldName( "InfoSubscription" )];
+        $this->FirstName =& $user_array[$db->fieldName( "FirstName" )];
+        $this->LastName =& $user_array[$db->fieldName( "LastName" )];
+        $this->Signature =& $user_array[$db->fieldName( "Signature" )];
+        $this->CookieLogin =& $user_array[$db->fieldName( "CookieLogin" )];
+        $this->SimultaneousLogins =& $user_array[$db->fieldName( "SimultaneousLogins" )];
     }
 
     /*!
@@ -280,7 +280,7 @@ class eZUser
         else
             $db->query_single( $user_array, "SELECT count( ID ) AS Count FROM eZUser_User" );
 
-        return $user_array[$db->fieldName("Count")];
+        return $user_array[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -365,7 +365,7 @@ class eZUser
         {
             foreach ( $user_array as $user )
             {
-                $return_array[] = $user[ $db->fieldName( "ID" ) ];
+                $return_array[] = $user[$db->fieldName( "ID" )];
             }
         }
         return $return_array;
@@ -385,7 +385,7 @@ class eZUser
                                                     WHERE Login='$login'" );
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
+            $ret = new eZUser( $user_array[0][$db->fieldName( "ID" )] );
         }
         return $ret;
     }
@@ -421,7 +421,7 @@ class eZUser
         
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
+            $ret = new eZUser( $user_array[0][$db->fieldName( "ID" )] );
             $GLOBALS["eZCurrentUserObject"] =& $ret;
 
         }
@@ -444,7 +444,7 @@ class eZUser
 
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
+            $ret = new eZUser( $user_array[0][$db->fieldName( "ID" )] );
         }
 
         return $ret;        
@@ -710,7 +710,7 @@ class eZUser
             $db->array_query( $userArray, "SELECT UserID FROM eZUser_Cookie WHERE Hash='$hash'" );
             if ( count ( $userArray ) == 1 )
             {
-                $user = new eZUser( $userArray[0][$db->fieldName("UserID")] );
+                $user = new eZUser( $userArray[0][$db->fieldName( "UserID" )] );
                 if ( $user )
                 {
                     eZUser::loginUser( $user );
@@ -776,7 +776,7 @@ class eZUser
 
         if ( $session->fetch( false ) )
         {
-            $user = new eZUser( $session->variable("AuthenticatedUser" ) );
+            $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
             
 //            $val =& $session->variable( "AuthenticatedUser" );
 //            $user = new eZUser( $val );
@@ -927,7 +927,7 @@ class eZUser
                                                     WHERE eZUser_UserGroupLink.UserID='$this->ID'
                                                     AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
                                                     AND eZUser_Group.IsRoot='1'" );
-        if ( $result[$db->fieldName("Count")] > 0 )
+        if ( $result[$db->fieldName( "Count" )] > 0 )
             return true;
         return false;
     }
@@ -1090,14 +1090,14 @@ class eZUser
         {
             foreach ( $trusteeArray as $trustee )
             {
-                $ret[] = new eZUser( $trustee[ $db->fieldName( "UserID" ) ] );
+                $ret[] = new eZUser( $trustee[$db->fieldName( "UserID" )] );
             }
         }
         else
         {
             foreach ( $trusteeArray as $trustee )
             {
-                $ret[] = $trustee[ $db->fieldName( "UserID" ) ];
+                $ret[] = $trustee[$db->fieldName( "UserID" )];
             }
         }
         return $ret;
@@ -1117,14 +1117,14 @@ class eZUser
         {
             foreach ( $trusteeArray as $trustee )
             {
-                $ret[] = new eZUser( $trustee[ $db->fieldName( "OwnerID" ) ] );
+                $ret[] = new eZUser( $trustee[$db->fieldName( "OwnerID" )] );
             }
         }
         else
         {
             foreach ( $trusteeArray as $trustee )
             {
-                $ret[] = $trustee[ $db->fieldName( "OwnerID" ) ];
+                $ret[] = $trustee[$db->fieldName( "OwnerID" )];
             }
         }
         return $ret;
@@ -1214,7 +1214,7 @@ class eZUser
 
        if ( count( $timeout_array ) == 1 )
        {
-           $ret = $timeout_array[0][$db->fieldName("SessionTimeout")];
+           $ret = $timeout_array[0][$db->fieldName( "SessionTimeout" )];
            $this->StoredTimeout = $ret;
        }
 
@@ -1248,7 +1248,7 @@ class eZUser
         $db->array_query( $user_array, $query );
         for ( $i = 0; $i < count( $user_array ); $i++ )
         {
-            $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName("ID")] );
+            $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
