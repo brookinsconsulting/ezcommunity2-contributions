@@ -58,7 +58,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $deletePerson->get ( $PID );
             $deletePerson->delete();
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "contactlist.php" ); 
+            Header( "Location: /contact/" ); 
         }
 
         // Legge til kontakt person.
@@ -189,7 +189,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $consult->delete();
             $dict->delete();
 
-            Header( "Location: index.php?page=ezcontact/personedit.php&Action=edit&PID=" . $PID );
+            Header( "Location: /contact/personedit/?Action=edit&PID=" . $PID );
         }
 
         // Legge til adresse.
@@ -494,6 +494,6 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
-    Header( "Location: index.php?page=common/error.php" );
+    Header( "Location: /common/error.php" );
 }
 ?>

@@ -76,7 +76,7 @@
 </tr>
 <tr>
 	<td valign="top" bgcolor="#f0f0f0">
-<form method="post" name="CompanyEdit" action="index.php?page={document_root}companyedit.php">
+<form method="post" name="CompanyEdit" action="/contact/companyedit/">
 <br>
 &nbsp;&nbsp;{intl-contacttype}
 <br>
@@ -122,7 +122,7 @@
 
        <td valign="top" bgcolor="#f0f0f0">
 
-<form method="post" name="CompanyAddressEdit" action="index.php?page={document_root}companyedit.php">
+<form method="post" name="CompanyAddressEdit" action="/contact/companyedit/">
 
 <br>
 &nbsp;&nbsp;{intl-addresstype}
@@ -171,7 +171,7 @@
 </tr>
 	<td valign="top" bgcolor="#f0f0f0">
 
-<form method="post" name="CompanyPhoneEdit" action="index.php?page={document_root}companyedit.php">
+<form method="post" name="CompanyPhoneEdit" action="/contact/companyedit/">
 
 <br>
 &nbsp;&nbsp;{intl-contact}<br>
@@ -218,7 +218,7 @@
 </tr>
 	<td valign="top" bgcolor="#f0f0f0">
 
-<form method="post" name="CompanyConsultEdit" action="index.php?page={document_root}companyedit.php">
+<form method="post" name="CompanyConsultEdit" action="/contact/companyedit/">
 
 <br>
 &nbsp;&nbsp;{intl-consult}<br>
