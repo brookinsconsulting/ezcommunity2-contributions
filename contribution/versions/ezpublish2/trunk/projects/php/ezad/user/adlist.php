@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adlist.php,v 1.22 2001/10/29 16:35:30 master Exp $
+// $Id: adlist.php,v 1.23 2001/10/30 08:07:53 br Exp $
 //
 // Created on: <25-Nov-2000 15:44:37 bf>
 //
@@ -67,16 +67,16 @@ foreach ( $adList as $ad )
     }
     else
     {
-	if ( strpos( $ad->URL, "http://" ) === 0 )
-	{
-	    print( "<a target=\"_blank\" href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
-	}
-	else
-	{
-	    print( "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
-	}
-
-	print ("<img src=\"".$GlobalSiteIni->WWWDir."$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
+        if ( strpos( $ad->URL, "http://" ) === 0 )
+        {
+            print( "<a target=\"_blank\" href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
+        }
+        else
+        {
+            print( "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
+        }
+        
+        print ("<img src=\"".$GlobalSiteIni->WWWDir."$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
     }
 }
 
