@@ -66,15 +66,22 @@ if( is_object( $user ) )
     {
         $user = $person->user();
         
-        if( $user[0]->id() != $UserID )
+        if( is_object( $user[0] ) )
         {
-        
-            // We will need to check if people can view, if they have special
-            // info.
-            $person = $person->getByUserID( $UserID );
-            $PersonID = $person->id();
-            header( "Location: /contact/person/view/$PersonID" );
-            exit();
+            if( $user[0]->id() != $UserID )
+            {
+
+                // We will need to check if people can view, if they have special
+                // info.
+                $person = $person->getByUserID( $UserID );
+                $PersonID = $person->id();
+                header( "Location: /contact/person/view/$PersonID" );
+                exit();
+            }
+        }
+        else
+        {
+            header( "Location: /contact/person/list" );
         }
     }
     else
