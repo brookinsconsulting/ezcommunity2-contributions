@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.9 2001/09/19 11:35:52 bf Exp $
+// $Id: ezlinkcategory.php,v 1.10 2001/09/21 16:26:34 br Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -62,13 +62,14 @@ class eZLinkCategory
         
         $nextID = $db->nextID( "eZLink_Category", "ID" );        
         $res = $db->query( "INSERT INTO eZLink_Category
-                (ID, Parent, Name, ImageID, Description)
+                (ID, Parent, Name, ImageID, Description, SectionID)
                 VALUES
                 ('$nextID',
                  '$this->Parent',
                  '$name',
                  '$this->ImageID',
-                 '$description')" );
+                 '$description',
+                 '$this->SectionID' )" );
         
         $db->unlock();
         
@@ -96,7 +97,8 @@ class eZLinkCategory
                 Name='$name',
                 Description='$description',
                 Parent='$this->Parent',
-                ImageID='$this->ImageID'
+                ImageID='$this->ImageID',
+                SectionID='$this->SectionID'
                 WHERE ID='$this->ID'" );
          
         if ( $res == false )
@@ -245,7 +247,8 @@ class eZLinkCategory
             $this->Name =& $linkcategory_array[0][$db->fieldName("Name")];
             $this->Description =& $linkcategory_array[0][$db->fieldName("Description")];
             $this->Parent =& $linkcategory_array[0][$db->fieldName("Parent")];
-            $this->ImageID = $linkcategory_array[0][$db->fieldName("ImageID")];
+            $this->ImageID =& $linkcategory_array[0][$db->fieldName("ImageID")];
+            $this->SectionID =& $linkcategory_array[0][$db->fieldName("SectionID")];
         }
     }
 
@@ -449,6 +452,14 @@ class eZLinkCategory
     }
 
     /*!
+      Returns the section of the category
+    */
+    function sectionID()
+    {
+        return $this->SectionID;
+    }
+    
+    /*!
       Sets the name of a group.
     */
     function setName( &$value )
@@ -473,6 +484,14 @@ class eZLinkCategory
     }
 
     /*!
+      Sets the section of the category
+    */
+    function setSectionID( $value )
+    {
+        $this->SectionID = $value;
+    }
+    
+   /*!
       Return the name of the link.
     */
     function &name()
@@ -548,6 +567,7 @@ class eZLinkCategory
     var $Description;
     var $Parent;
     var $ImageID;
+    var $SectionID;
 }
 
 ?>
