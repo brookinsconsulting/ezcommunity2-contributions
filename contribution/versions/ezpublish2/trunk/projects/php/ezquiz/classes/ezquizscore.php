@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizscore.php,v 1.6 2001/05/31 14:44:50 pkej Exp $
+// $Id: ezquizscore.php,v 1.7 2001/06/29 18:23:55 bf Exp $
 //
 // eZQuizScore class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZQuizScore
+//!! eZQuiz
 //! eZQuizScore documentation.
 /*!
 

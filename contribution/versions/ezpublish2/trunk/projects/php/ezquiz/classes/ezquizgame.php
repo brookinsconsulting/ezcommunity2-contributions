@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.14 2001/05/31 14:44:50 pkej Exp $
+// $Id: ezquizgame.php,v 1.15 2001/06/29 18:23:55 bf Exp $
 //
 // ezquizgame class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! ezquizgame
+//!! eZQuiz
 //! ezquizgame documentation.
 /*!
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquiztool.php,v 1.4 2001/05/31 12:00:59 pkej Exp $
+// $Id: ezquiztool.php,v 1.5 2001/06/29 18:23:55 bf Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -24,6 +24,13 @@
 //
 
 include_once( "classes/ezcachefile.php" );
+
+//!! eZQuiz
+//! eZQuiz utility class
+/*!
+
+*/
+
 
 class eZQuizTool
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.41 2001/06/29 18:03:20 bf Exp $
+// $Id: ezdb.php,v 1.42 2001/06/29 18:23:55 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -47,7 +47,7 @@
   // get the next ID
   $id = $db->nextID( "TableA", "ID" );
 
-  $string =& $db->escapeString( "THis is a \nbold nstatement " );
+  $string =& $db->escapeString( "This is a text string" );
 
   $count = 100+$i;
   $dateTime = new eZDateTime( 1977, 9, 2, 14, 30, 42 );
@@ -106,10 +106,6 @@
   \endcode   
 */
 
-/*!TODO
-  Add a generic query builder for use with search. A more advanced version of the query
-  class found in ezlink/class/ezquery.
-*/
 
 include_once( "classes/ezlog.php" );
 include_once( "classes/INIFile.php" );
@@ -129,86 +125,6 @@ class eZDB
         print( "This object should not be created use eZDB::globalDatabase();" );
     }
 
-    /*!
-      Execute a query on the global MySQL database link.  If it returns an error,
-      the script is halted and the attempted SQL query and MySQL error message are printed.
-    */
-    function &query( $sql, $print=false )
-    {
-        print( "Obsolete function.. Do NOT USE!" );
-    }
-
-    /*!
-      Executes a SELECT query that returns multiple rows and puts the results into the passed
-      array as an indexed associative array.  The array is cleared first.  The results start with
-      the array start at 0, and the number of results can be found with the count() function.
-      The minimum and maximum expected rows can be set by supplying $min and $max,
-      default is to allow zero or more rows.
-      If a string is supplied to $column it is used for extracting a specific column from the
-      query into the resulting array, this is useful when you just want one column from
-      the query and don't want to iterate over it afterwards to extract the column.
-    */
-    function array_query( &$array, $sql, $min = 0, $max = -1, $column = false )
-    {
-        print( "Obsolete function.. Do NOT USE!" );
-    }
-
-    /*!
-      Same as array_query() but expects to recieve 1 row only (no array), no more no less.
-      $column is the same as in array_query().
-    */
-    function query_single( &$row, $sql, $column = false )
-    {
-        print( "Obsolete function.. Do NOT USE!" );
-    }
-
-    /*!
-      Differs from the above function only by not creating av empty array,
-      but simply appends to the array passed as an argument.
-     */    
-    function array_query_append( &$array, $sql, $min = 0, $max = -1, $column = false )
-    {
-        print( "Obsolete function.. Do NOT USE!" );
-    }
-
-    /*!
-      Returns the last error message.
-    */
-    function error()
-    {
-        print( "Obsolete function.. Do NOT USE!" );
-    }
-
-    /*!
-      Returns the ID of the last inserted row.
-    */
-    function insertID()
-    {
-        print( "Obsolete function.. Do NOT USE!" );
-    }
-
-    /*!
-      \static
-
-      Closes the database connection.
-    */
-    function close()
-    {
-        print( "Obsolete function.. Do NOT USE!" );
-    }
-    
-/*
-    function &globalDatabase()
-    {
-        $eZDB =& $GLOBALS["eZDB"];
-                
-        if ( get_class( $eZDB ) != "ezdb" )
-        {
-            $eZDB = new eZDB( "site.ini", "site" );
-        }
-        return $eZDB;
-    }
-*/
 
     /*!
       \static

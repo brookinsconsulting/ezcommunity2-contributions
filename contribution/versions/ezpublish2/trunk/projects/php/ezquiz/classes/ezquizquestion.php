@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizquestion.php,v 1.6 2001/06/15 08:04:16 pkej Exp $
+// $Id: ezquizquestion.php,v 1.7 2001/06/29 18:23:55 bf Exp $
 //
 // eZQuizQuestion class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZQuizQuestion
+//!! eZQuiz
 //! eZQuizQuestion documentation.
 /*!
 
