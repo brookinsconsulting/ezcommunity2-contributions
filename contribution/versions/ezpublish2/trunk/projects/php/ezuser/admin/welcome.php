@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: welcome.php,v 1.2 2000/11/13 13:39:35 pkej-cvs Exp $
+// $Id: welcome.php,v 1.3 2000/11/22 15:16:49 bf-cvs Exp $
 //
 // Christoffer A. Elo <bf@ez.no>
 // Created on: <13-Nov-2000 10:57:15 bf>
@@ -36,8 +36,11 @@ $t->set_file( array(
 
 $user = eZUser::currentUser();
 
-$t->set_var( "first_name", $user->firstName() );
-$t->set_var( "last_name", $user->lastName() );
+if ( $user )
+{
+    $t->set_var( "first_name", $user->firstName() );
+    $t->set_var( "last_name", $user->lastName() );
+} 
 
 $t->pparse( "output", "welcome_tpl" );
 

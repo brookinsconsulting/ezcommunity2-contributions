@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.24 2000/11/22 14:58:29 bf-cvs Exp $
+// $Id: ezuser.php,v 1.25 2000/11/22 15:16:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -464,6 +464,9 @@ class eZUser
                 $session->store();
             }
             
+            $session->refresh();
+            $session->refresh();
+            
             $session->setVariable( "AuthenticatedUser", $user->id() );
             $ret = true;            
         }
@@ -502,10 +505,9 @@ class eZUser
 
             $idle = $session->idle();
             $idle = $idle / 60;
-                 
+ 
             if ( $idle > $user->timeoutValue() )
             {
-                print( "logut" . $user->timeoutValue() );
                 $user->logout();
             }
             else            
@@ -642,14 +644,14 @@ class eZUser
 
     /*!
       Returns the timeout for the user. If the user is not a member of any user groups the timeout
-      is set to 0. If the user is a member of several user groups, the fastest timeout is returned.
+      is set to 30. If the user is a member of several user groups, the fastest timeout is returned.
     */
     function timeoutValue()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $ret = 0;
+       $ret = 30;
        
        $this->dbInit();
 
@@ -657,7 +659,7 @@ class eZUser
                                                       FROM eZUser_User, eZUser_UserGroupLink, eZUser_Group
                                                       WHERE eZUser_User.ID=eZUser_UserGroupLink.UserID
                                                       AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
-                                                      AND eZUser_User.ID=25
+                                                      AND eZUser_User.ID='$this->ID'
                                                       ORDER BY eZUser_Group.SessionTimeout ASC
                                                       LIMIT 1" );
 
