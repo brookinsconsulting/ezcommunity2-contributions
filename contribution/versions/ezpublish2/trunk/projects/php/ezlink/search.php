@@ -12,6 +12,8 @@ require $DOCUMENTROOT . "classes/ezlinkgroup.php";
 require $DOCUMENTROOT . "classes/ezlink.php";
 require $DOCUMENTROOT . "classes/ezhit.php";
 
+require $DOCUMENTROOT . "classes/ezquery.php";
+
 // setter template filer
 $t = new Template( "." );
 $t->set_file( array(
@@ -32,8 +34,8 @@ $link = new eZLink();
 
 if ( $Action == "search" )
 {
-    $link_array = $link->getQueryLimit( $QueryText, $limit, $offset );
-    $thit_count = count( $link->getQuery( $QueryText ) );
+    $link_array = $link->getQuery( $QueryText, $limit, $offset );
+//      $thit_count = count( $link->getQuery( $QueryText ) );
     $tlink_message = "Søk resultater";
 }
 
@@ -83,11 +85,11 @@ else
 }
 
 
-if ( $Action == "search" )
-{
-    $link_array = $link->getQueryLimit( $QueryText, $limit, $offset );
-    $tlink_message = "Søk resultater";
-}
+//  if ( $Action == "search" )
+//  {
+//      $link_array = $link->getQuery( $QueryText, $limit, $offset );
+//      $tlink_message = "Søk resultater";
+//  }
 
 
 $t->set_var( "hit_count", $thit_count );

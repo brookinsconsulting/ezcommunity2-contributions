@@ -148,35 +148,32 @@ class eZLink
 
         return $link_array;
     }
- 
-
 
     /*
       Henter linkene som mather $query.
     */
-    function getQuery( $query )
+    function getQuery( $query, $limit = -1, $offset = -1 )
     {
         $this->dbInit();
         $link_array = 0;
+
+        $query = new eZQuery( array( "KeyWords", "Title", "Description" ), $query );
         
-        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE (KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%') AND Accepted='Y' ORDER BY Title" );
+        $query_str = "SELECT * FROM eZLink_Link WHERE (" .
+             $query->buildQuery()  .
+             ") AND Accepted='Y' ORDER BY Title";
+
+        if ( $limit != -1 )
+        {
+              $query_str .= "  LIMIT $offset,$limit";
+        }
+        
+         print( $query_str . "<br>" );
+
+         array_query( $link_array, $query_str );
 
         return $link_array;
     }
-
-        /*
-      Henter linkene som mather $query. antall 10 om gangen
-    */
-    function getQueryLimit( $query, $limit, $offset )
-    {
-        $this->dbInit();
-        $link_array = 0;
-        
-        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE (KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%') AND Accepted='Y' ORDER BY Title LIMIT $offset, $limit" );
-
-        return $link_array;
-    }
-
 
     /*
       Henter ut alt fra Link
