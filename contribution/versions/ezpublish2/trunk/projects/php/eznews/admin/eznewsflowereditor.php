@@ -330,10 +330,7 @@ EOD;
         
         $cat = new eZNewsCategory();
         
-        echo "\$cat = $cat <br>";
-        
         $cat->getByName( "Heistad Hagesenter" );
-        
         
         $categories = $cat->getAllChildrenCategories();
 
