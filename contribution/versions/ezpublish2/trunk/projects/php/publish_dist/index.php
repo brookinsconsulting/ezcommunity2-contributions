@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119 2001/10/17 15:24:00 bf Exp $
+// $Id: index.php,v 1.120 2001/10/31 13:42:16 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -70,7 +70,7 @@ ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];
 
   
-$GLOBALS["DEBUG"] = false;
+$GLOBALS["DEBUG"] = true;
 $UsePHPSessions = false;
 
 ob_start();
@@ -318,9 +318,13 @@ if ( ( $requireUserLogin == "disabled" ) ||
 //                print( "language: " . $sectionObject->language() . " <br>" );
             }
 
-        
-            $siteDesign = eZSection::siteDesign( $GlobalSectionID );
-            $GlobalSiteDesign = $siteDesign;
+            $sectionSiteDesign = eZSection::siteDesign( $GlobalSectionID );
+
+            if ( $sectionSiteDesign != "" )
+            {
+                $siteDesign = $sectionSiteDesign;
+                $GlobalSiteDesign = $sectionSiteDesign;
+            }
         }
 
         // include some html
@@ -382,4 +386,5 @@ $db =& eZDB::globalDatabase();
 $db->close();
 
 ob_end_flush();
+
 ?>
