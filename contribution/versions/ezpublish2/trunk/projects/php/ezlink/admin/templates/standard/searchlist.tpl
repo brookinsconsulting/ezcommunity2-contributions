@@ -30,7 +30,7 @@
 <tr>
 
 	<td bgcolor="{bg_color}">
-	<a href="/link/gotolink/?LID={link_id}&Url={link_url}&Action=addhit">{link_title}</a> ( {intl-max} {link_hits} )<br>
+	<a href="/link/gotolink/addhit/{link_id}/{link_url}/">{link_title}</a> ( {intl-max} {link_hits} )<br>
         {link_description}<br><br>
 	<td class="{td_class}" width="1%" bgcolor="{bg_color}">
 	<a href="/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/ezlink/images/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="/ezlink/images/redigermini.gif" width="16" height="16" align="top"></a>

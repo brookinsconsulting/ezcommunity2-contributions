@@ -100,6 +100,14 @@ switch ( $url_array[2] )
     case "norights" :
         include( "ezlink/admin/norights.php" );        
         break;
+    case "gotolink" :
+    {
+        $Action = $url_array[3];
+        $LinkID = $url_array[4];
+        $Url = $url_array[5];
+        include( "ezlink/admin/gotolink.php" );
+    }
+
 
     default :
         print( "<h1>Sorry, Your link page could not be found. </h1>" );
