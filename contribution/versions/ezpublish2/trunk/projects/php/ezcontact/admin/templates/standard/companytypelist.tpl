@@ -1,30 +1,24 @@
 <!-- BEGIN list_tpl -->
-<table width="100%" border="0">
+<form action="/contact/company/search/" method="post">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td valign="bottom">
+	<td rowspan="2" valign="bottom">
 	    <h1>{intl-headline_list}</h1>
 	</td>
-	<td rowspan="2" align="right">
-	    <form action="/contact/company/search/" method="post">
-	    <table>
-		<tr>
-	        <td>
+	<td align="right">
 	    	<input type="text" name="SearchText" size="12" />
 			<input class="stdbutton" type="submit" value="{intl-search}" />
 	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
 	        </td>
 	    </tr>
 	    <tr>
-	        <td>
+	        <td align="right">
 		<input type="checkbox" name="CurrentCategory" checked />
-		<span class="smallbold">{intl-only_current_category}</span>
-	        </td>
-	    </tr>
-	    </table>
-		</form>
+		<span class="small">{intl-only_current_category}</span>
 	</td>
 </tr>
 </table>
+</form>
 
 <!-- END list_tpl -->
 <!-- BEGIN view_tpl -->
