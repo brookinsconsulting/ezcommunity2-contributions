@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.6 2001/01/22 14:43:00 jb Exp $
+// $Id: ezconsultation.php,v 1.7 2001/01/25 00:20:27 jb Exp $
 //
 // Definition of eZConsultation class
 //
@@ -477,27 +477,36 @@ class eZConsultation
       Finds all consultations on a specific contact person or company.
     */
 
-    function findConsultationsByContact( $contact, $user, $is_user = true )
+    function findConsultationsByContact( $contact, $user, $is_person = true, $index = 0, $max = -1 )
     {
+        if ( $max > 0 )
+        {
+            $limit = "LIMIT $index, $max";
+        }
+        else
+        {
+            $limit = "";
+        }
+
         $qry_array = array();
         $db = eZDB::globalDatabase();
-        if ( $is_user )
+        if ( $is_person )
         {
             $db->array_query( $qry_array, "SELECT CPUD.ConsultationID FROM eZContact_ConsultationPersonUserDict AS CPUD, eZContact_Consultation AS C
                                            WHERE CPUD.PersonID='$contact' AND CPUD.UserID='$user' AND CPUD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC" );
+                                           ORDER BY C.Date DESC, C.ID DESC $limit" );
         }
         else
         {
             $db->array_query( $qry_array, "SELECT CPCD.ConsultationID FROM eZContact_ConsultationCompanyUserDict AS CPCD, eZContact_Consultation AS C
                                            WHERE CPCD.CompanyID='$contact' AND CPCD.UserID='$user' AND CPCD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC" );
+                                           ORDER BY C.Date DESC, C.ID DESC $limit" );
         }
         $ret_array = array();
         foreach ( $qry_array as $qry )
-            {
-                $ret_array[] = new eZConsultation( $qry["ConsultationID"] );
-            }
+        {
+            $ret_array[] = new eZConsultation( $qry["ConsultationID"] );
+        }
         return $ret_array;
     }
 
