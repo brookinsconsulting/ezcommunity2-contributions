@@ -35,6 +35,14 @@
 <li>{intl-error_password}
 <!-- END error_password_item_tpl -->
 
+<!-- BEGIN error_password_too_short_item_tpl -->
+<li>{intl-error_password_too_short}
+<!-- END error_password_too_short_item_tpl -->
+
+<!-- BEGIN error_email_not_valid_item_tpl -->
+<li>{intl-error_email_not_valid_item}
+<!-- END error_email_not_valid_item_tpl -->
+
 <!-- BEGIN error_passwordrepeat_item_tpl -->
 <li>{intl-error_passwordrepeat}
 <!-- END error_passwordrepeat_item_tpl -->

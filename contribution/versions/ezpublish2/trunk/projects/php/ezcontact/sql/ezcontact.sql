@@ -6,19 +6,18 @@
 
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CompanyAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
-INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'TypeAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CompanyDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
-INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'TypeDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CompanyModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
-INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'TypeModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonView' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonList' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
 #
 # Table structure for table 'eZContact_Company'
 #
@@ -98,7 +97,7 @@ CREATE TABLE eZContact_Address (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Street1 char(50),
   Street2 char(50),
-  AddressType int(11),
+  AddressTypeID int(11),
   Place char(50),
   Zip char(10),
   CountryID int(11),
@@ -154,6 +153,11 @@ CREATE TABLE eZContact_AddressType (
 # Dumping data for table 'eZContact_AddressType'
 #
 
+INSERT INTO eZContact_AddressType VALUES ( 1, 'private_postal' );
+INSERT INTO eZContact_AddressType VALUES ( 2, 'company_postal' );
+INSERT INTO eZContact_AddressType VALUES ( 3, 'private_vacation' );
+INSERT INTO eZContact_AddressType VALUES ( 4, 'company_visiting' );
+
 #
 # Table structure for table 'eZContact_PhoneType'
 #
@@ -167,6 +171,15 @@ CREATE TABLE eZContact_PhoneType (
 #
 # Dumping data for table 'eZContact_PhoneType'
 #
+
+INSERT INTO eZContact_PhoneType VALUES ( 1, 'private_home' );
+INSERT INTO eZContact_PhoneType VALUES ( 2, 'company_office' );
+INSERT INTO eZContact_PhoneType VALUES ( 3, 'personal_mobile' );
+INSERT INTO eZContact_PhoneType VALUES ( 4, 'personal_work' );
+INSERT INTO eZContact_PhoneType VALUES ( 5, 'company_switchboard' );
+INSERT INTO eZContact_PhoneType VALUES ( 6, 'company_mobile' );
+INSERT INTO eZContact_PhoneType VALUES ( 7, 'company_hotline' );
+
 
 #
 # Table structure for table 'eZContact_ContactType'
@@ -182,6 +195,10 @@ CREATE TABLE eZContact_ContactType (
 #
 # Dumping data for table 'eZContact_ContactType'
 #
+
+INSERT INTO eZContact_ContactType VALUES ( 1, 'company', '' );
+INSERT INTO eZContact_ContactType VALUES ( 2, 'person', '' );
+INSERT INTO eZContact_ContactType VALUES ( 3, 'work_applicant', '' );
 
 #
 # Table structure for table 'eZContact_CompanyType'
@@ -275,6 +292,11 @@ CREATE TABLE eZContact_OnlineType (
 #
 # Dumping data for table 'eZContact_OnlineType'
 #
+
+INSERT INTO eZContact_OnlineType VALUES ( 1, 'personal_email' );
+INSERT INTO eZContact_OnlineType VALUES ( 2, 'personal_website' );
+INSERT INTO eZContact_OnlineType VALUES ( 3, 'personal_ftpsite' );
+INSERT INTO eZContact_OnlineType VALUES ( 4, 'company_website' );
 
 #
 # Table structure for table 'eZContact_PersonAddressDict'
