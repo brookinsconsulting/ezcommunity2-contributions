@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: subscriptionlist.php,v 1.8 2001/09/10 10:04:23 ce Exp $
+// $Id: subscriptionlist.php,v 1.9 2001/09/10 12:38:15 ce Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -38,7 +38,7 @@ if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
     $subscriptionaddress = new eZBulkMailUserSubscripter( $user );
     if( !is_object ( $user ) )
     {
-        eZHTTPTool::header( "Location: /user/login" );
+        eZHTTPTool::header( "Location: /user/login/?RedirectURL=/bulkmail/subscriptionlist/" );
         exit();
     }
 }
