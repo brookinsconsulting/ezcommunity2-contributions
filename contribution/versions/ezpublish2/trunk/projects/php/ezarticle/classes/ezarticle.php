@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.92 2001/06/06 11:57:16 pkej Exp $
+// $Id: ezarticle.php,v 1.93 2001/06/08 12:05:02 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1237,12 +1237,11 @@ class eZArticle
        
         if ( $fetchNonPublished == true )
         {
-            $fetchText = "Article.IsPublished = 'true'
-                    AND";           
+            $fetchText = "";
         }
         else
-        {           
-            $fetchText = "";
+        {
+            $fetchText = "AND Article.IsPublished = 'true'";
         }
 
         $user = eZUser::currentUser();
@@ -1282,6 +1281,7 @@ class eZArticle
                        AND $search
                        )
                        $publishedCode
+                       $fetchText
                        AND Permission.ObjectID=Article.ID
                        AND Link.ArticleID=ArticleID
                        ORDER BY $OrderBy
@@ -1306,12 +1306,11 @@ class eZArticle
        
         if ( $fetchNonPublished == true )
         {
-            $fetchText = "eZArticle_Article.IsPublished = 'true'
-                    AND";           
+            $fetchText = "";
         }
         else
-        {           
-            $fetchText = "";
+        {
+            $fetchText = "AND eZArticle_Article.IsPublished = 'true'";            
         }
 
         // this code works. do not EDIT !! :)
@@ -1351,6 +1350,7 @@ class eZArticle
                        AND $search
                        )
                        $publishedCode
+                       $fetchText
                        AND Permission.ObjectID=Article.ID
                        AND Link.ArticleID=ArticleID
                        GROUP BY ArticleID
