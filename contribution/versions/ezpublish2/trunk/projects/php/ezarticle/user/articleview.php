@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.40 2001/05/08 13:29:40 ce Exp $
+// $Id: articleview.php,v 1.41 2001/05/14 11:20:53 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -149,7 +149,7 @@ if ( $article->get( $ArticleID ) )
         $t->set_var( "article_name", $article->name() );
     }
 
-    if ( eZMail::validate( $article->authorEmail() ) )
+    if ( eZMail::validate( $article->authorEmail() ) && $article->authorEmail() )
     {
         $t->set_var( "author_email", $article->authorEmail() );
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unpublishedlist.php,v 1.9 2001/04/27 14:03:18 bf Exp $
+// $Id: unpublishedlist.php,v 1.10 2001/05/14 11:20:53 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -146,6 +146,7 @@ $articleCount = $article->articleCount( "only" );
 $i=0;
 $t->set_var( "article_list", "" );
 
+/*
 if ( $category->sortMode() == "absolute_placement" )
 {
     $t->parse( "absolute_placement_header", "absolute_placement_header_tpl" );
@@ -154,6 +155,7 @@ else
 {
     $t->set_var( "absolute_placement_header", "" );
 }
+*/
 
 foreach ( $articleList as $article )
 {
@@ -187,6 +189,7 @@ foreach ( $articleList as $article )
             $t->set_var( "td_class", "bgdark" );
         }
 
+        /*
         if ( $category->sortMode() == "absolute_placement" )
         {
             $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
@@ -195,6 +198,8 @@ foreach ( $articleList as $article )
         {
             $t->set_var( "absolute_placement_item", "" );
         }
+        */
+        
         if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'w') ||
             eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
         {
