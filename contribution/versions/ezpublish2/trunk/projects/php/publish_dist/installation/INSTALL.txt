@@ -1,6 +1,6 @@
 
 
-eZ publish Installation Guide
+eZ publish 2.1 Installation Guide
 
 
 
@@ -47,6 +47,8 @@ Chapter 4 Apache Configuration
         4.1.1 Configuring Through httpd.conf
             4.1.1.1 User Site
             4.1.1.2 Admin Site
+            4.1.1.3 Error Checking
+            4.1.1.4 Explanation of the Rewrite Rules
         4.1.2 Configuring Through .htaccess
             4.1.2.1 User Site
             4.1.2.2 Admin Site
@@ -64,6 +66,8 @@ Chapter 7 Troubleshooting
         7.1.2 Missing Compiler/Can not Compile (C++/C)
     7.2 Problems After Installation
         7.2.1 Permission Denied
+        7.2.2 Can not see Images
+        7.2.3 Warning about Temp Directory
 Chapter 8 Installing on RAQ 3
     8.1 Getting SSL to Work
 Chapter 9 Installing on Windows 
@@ -90,12 +94,16 @@ eZ publish is a content management system, among a lot of
 other things. This installation manual will try to cover
 the job of installing eZ publish on your server.
 
-This manual covers installation on a Red Hat Linux system;
-most of what is described here can also be applied to other
-installations, especially if your system uses RPM for installation.
-For other systems you would need to do a lot of compiling
-yourself to make this work, or apply the system's own package
-manager.
+This manual is mainly intended for installation on a Red
+Hat Linux system, but a lot of friendly people have contributed
+information for installation on other operating systems,
+take a look at chapter 2 and learn which systems those are.
+
+Most of what is described here regarding Red Hat installation
+can also be applied to other installations, especially if
+your system uses RPM for installation. For other systems
+you would need to do a lot of compiling yourself to make
+this work, or apply the system's own package manager.
 
 Finding packages can be done dirctly from vendor sites, though
 you might not be guaranteed that you'll find the package
@@ -146,18 +154,18 @@ For the standard installation (and for the moment the only
 method) of eZ publish you will need to have the following
 privileges on your system:
 
-* Access to Apache's httpd.conf
+* Access to Apache's httpd.conf for creating two virtual
+  hosts and for enabling the rewrite engine and creating
+  rewrite rules. This is absolutely necessary for eZ Publish
+  at the moment.
 
-* Access to compiler (You will have to install the gcc compiler
-  on your system, see chapter [chptr: introduction]
+* Access to compiler, only needed if you can't use any of
+  the pre-compiled packages available. (You will have to
+  install the gcc compiler on your system, see chapter [chptr: introduction]
   for a list of sites providing software for different Unixes.)
 
 * Access to a shell (You must run certain scripts during
-  installation. Some of them are just creating links to
-  different directories; you might therefore just create
-  those links via FTP.)
-
-* Access to a shell
+  installation, and sometimes for maintenance.)
 
 * Access to cron jobs (Only needed if you want to use the
   eZ news feed module for regular updates of headlines imported
@@ -184,11 +192,11 @@ if they aren't present on your system already:
 * MySQL (http://www.mysql.com) version 3.23 or later. (eZ
   publish requires MySQL for storage of its data.)
 
-* libXml (http://xmlsoft.org/#Downloads) version 2.2.7, 2.2.8
-  or 2.2.9. (Needed by eZ article. If you wish to use the
-  default article renderer you need libXml2 installed. You
-  can create your own renderers if you don't want to use
-  the default.)
+* libXml2 (http://xmlsoft.org/#Downloads) version 2.2.7,
+  2.2.8 or 2.2.9. (Needed by eZ article. If you wish to
+  use the default article renderer you need libXml2 installed.
+  You can create your own renderers if you don't want to
+  use the default.)
 
 * libQdom (http://www.trolltech.com) is a part of QT, you
   need version 2.2.3 or later. (Needed by eZ news feed's
@@ -211,16 +219,17 @@ if they aren't present on your system already:
   mod_php. (http://modules.apache.org/)
 
 * PHP (http://www.php.net/) version 4.0.4pl1 or later, you
-  need the source code version. (eZ publish uses references
+  need the source code version from this site, for windows
+  you can just download the binary. (eZ publish uses references
   for objects and foreach loops. Only version 4.0.4pl1 and
   later supports both of these features satisfactorily.)
 
 * eZ publish (http://developer.ez.no/) verision 2.0 or later
   stable releases.
 
-The libraries and php will appear pre-compiled for Linux
-i386 on http://developer.ez.no in the future. The software
-is listed in the order of installation.
+The libraries and php are packaged pre-compiled for Linux
+i386 on http://developer.ez.no. The software is listed in
+the order of installation.
 
 You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
 
@@ -495,7 +504,11 @@ and "administration.mysite.com".
 The virtual host is configured through the "httpd.conf"
 file which is the main configuration of Apache. Following
 is an example of such a host, modify it to reflect your
-own installation and preferences.
+own installation and preferences, but before that be sure
+to add the "NameVirtualServer"
+directive to the configuration file. The directive is "NameVirtualServer
+ip-address" where the ip address is the address
+where the server will receive requests (http://httpd.apache.org/docs/mod/core.html#namevirtualhost).
 
 You should consider using the utility which we have online
 for creating the configuration. The URL is http://developer.ez.no/virtualhost
@@ -554,7 +567,7 @@ so we recommend the online tool.
 
   <VirtualHost admin.yourdomain.org>
 
-    <Directory /your/apache/documentroot/admin>
+    <Directory /your/apache/documentroot/publish_dist>
 
       Options FollowSymLinks Indexes ExecCGI
 
@@ -562,7 +575,7 @@ so we recommend the online tool.
 
       RewriteEngine On
 
-      RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php
+      RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index_admin.php
 
     </Directory>
 
@@ -580,7 +593,20 @@ file is covered at http://httpd.apache.org/docs/ for a complete
 understanding of the above information you'll need to read
 that documentation.
 
-The rewrite rules does the following:
+The directory "/your/apache/documentroot/publish_dist"
+is the directory where you extracted eZ publish.
+
+4.1.1.3 Error Checking
+
+You can check that everything is correct with your rewrite
+rules by running "apache -s",
+which will check for virtual hosts. There should also be
+an error log (consult the apache documentation) which you
+can read to check for errors.
+
+4.1.1.4 Explanation of the Rewrite Rules
+
+The rewrite rules do the following:
 
 
     RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
@@ -622,9 +648,10 @@ is found in both sites (admin and user). This means that
 every file, except gif, css, jpg and png (and files matched
 against the previous rule when in the user site) should
 be redirected to the file in the second part, ie. the index.php
-file. The reason for this is that we don't want anyone trying
-to get direct access to anything which might be sensitive,
-or revealing about the site's operation.
+or index_admin.php file. The reason for this is that we
+don't want anyone trying to get direct access to anything
+which might be sensitive, or revealing about the site's
+operation.
 
 If you compiled PHP with magic quotes; or other software
 relies on PHP using magic quotes you can add the following
@@ -638,7 +665,8 @@ NOTE: It isn't possible to use the form http://mysite.com/admin
 at all; since the admin module assumes that the url "/"
 is the start of the admin pages. If you do change eZ publish
 code in order to do this anyway; please send the code to
-bf@ez.no for future inclusion.
+bf@ez.no for future inclusion. The only correct way to access
+the admin site is through its own virtual host address.
 
 4.1.2 Configuring Through .htaccess
 
@@ -659,7 +687,15 @@ called ".htaccess" containing the following text:
 
     Options FollowSymLinks Indexes ExecCGI
 
-    RewriteEngine On
+    RewriteEngine On 
+
+    RewriteRule ^/stats/store/(.*).gif$ 
+
+    /publish/ezstats/user/storestats.php [S=2] 
+
+    # The two lines above should appear on the 
+
+    # same line in your configuration file.
 
     RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 
@@ -667,9 +703,9 @@ called ".htaccess" containing the following text:
 
     [T="application/oct-stream",S=1]
 
-    # The lines above should appear on the same
+    # The three lines above should appear on the
 
-    # line in your configuration file!
+    # same line in your configuration file!
 
     RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index.php
 
@@ -683,11 +719,8 @@ the following text:
 
     RewriteEngine On
 
-    RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/admin/index.php
+    RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index_admin.php
 
-
-Note the extra "\" in the rewrite rule. Its slightly different
-to the line used in the httpd.conf method.
 
 eZ publish Installation
 
@@ -726,24 +759,27 @@ can do with "site.ini"
 can be found in the "eZ publish Customisation
 Guide".
 
-The next important step is to run the script modfix. This
-script will create symbolic links needed and set permissions.
+The next important step is to run the script "secure_modfix.sh". 
 
 
-    # ./modfix_secure.sh
+    # ./secure_modfix.sh
 
 
 Then you need to create cache directories:
 
 
     # su
-    # ./cachefix_secure.sh [package_user] [apache_process_group]
+    # ./secure_cachefix.sh [package_user] [apache_process_group]
 
 
 Where [package_user] is the web admin user and [apache_process_group]
 is the group of the running apache process.
 
 5.2 Database
+
+Some people might prefer to use phpMyAdmin (http://www.phpwizard.net/projects/phpMyAdmin/)
+for most of this part; we can not help you with installation
+of that program, though.
 
 5.2.1 First Time Installation
 
@@ -783,11 +819,11 @@ the database.
     # tar zpxvf data.tar.gz
 
 
-Then we need to run modfix to make sure that everything is
-readable.
+Then we need to run "secure_modfix.sh"
+to make sure that everything is readable.
 
 
-    # ./modfix.sh
+    # ./secure_modfix.sh
 
 
 Then we need to send the SQL data into the database:
@@ -805,10 +841,11 @@ is cached correctly:
 5.2.2 Updating the Installation
 
 This section is for users who are updating from a previous
-version of eZ publish. There should be a file called SQL_UPDATES
-in the distribution root. Run the commands in each section
-starting at the version after your current and for each
-version after that until the current version.
+version of eZ publish. There should be several files ending
+with ".sql" in the directory "updates".
+Run the files needed to update your version to the current.
+You need to apply all the updates for every version since
+your version.
 
 Now What?
 
@@ -836,16 +873,28 @@ developments.
 
 6.1 Post Install Checklist
 
-1. Consider this: all eZ publish sites has an admin site,
+1. Does Apache run?
+
+2. Does PHP run/work as an Apache module?
+
+3. Does MySQL run?
+
+4. Can you access your virtual hosts at all?
+
+5. Does the user site work?
+
+6. Does the admin site work?
+
+7. Consider this: all eZ publish sites has an admin site,
   perhaps you should call the admin host something different
   than admin?
 
-2. Check that you've downloaded and read the configuration
+8. Check that you've downloaded and read the configuration
   manual. A quick tip is to read through the file "site.ini"
   and change any e-mail addresses, passwords etc. to fit
   your own choices.
 
-3. Log in on your admin site (http://admin.yoursite.com/).
+9. Log in on your admin site (http://admin.yoursite.com/).
   You will be presented with a page which will list any
   install problems. If any problems appear read the error
   message presented and follow any instructions. If that
@@ -855,16 +904,19 @@ developments.
   your problem. Finally you should register to the mailing
   list and try asking for help there.
 
-4. If everything is okay go to the "user"
+10. If everything is okay go to the "user"
   module and change the e-mail address of the site administrator
   immediatly.
 
-5. Change the password of the administration user to something
+11. Change the password of the administration user to something
   only you know.
 
-6. Start browsing the public part of your site, just to check
+12. Start browsing the public part of your site, just to check
   that everything is working; some of the articles supplied
   as default will inform you about features of the software.
+
+13. Check that ImageMagick is working. Try to upload an image
+  to your site.
 
 Troubleshooting
 
@@ -873,7 +925,7 @@ Troubleshooting
 7.1.1 FreeBSD 4.2 and libxml2
 
 The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
-and goes unrecognized by configure (PHP). Link the fiels
+and goes unrecognized by configure (PHP). Link the files
 to /usr/local/lib/libxml.a|so.
 
 7.1.2 Missing Compiler/Can not Compile (C++/C)
@@ -895,8 +947,18 @@ Warning: fopen("site.ini","r+")
 
 Permission denied in classes/INIFile.php on line 80
 
-If you get this error message you need to run the modfix.sh
+If you get this error message you need to run the "secure_modfix.sh"
 script.
+
+7.2.2 Can not see Images
+
+ImageMagick is not working, make sure that it is working
+by using the command line command "convert".
+
+7.2.3 Warning about Temp Directory
+
+If you get any such warning you need to set the temp directory
+in php.ini.
 
 Installing on RAQ 3<chptr: raq 3>
 
