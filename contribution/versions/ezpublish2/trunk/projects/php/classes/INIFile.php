@@ -263,8 +263,8 @@ class INIFile
     */
     function read_array( $group, $var_name )
     {
-        $var =& $this->read_var( $group, $var_name );
-        if ( $var )
+        $var_value =& $this->read_var( $group, $var_name );
+        if ( $var_value )
         {
             $var_array =& explode( ";", $var_value );
             return $var_array;
