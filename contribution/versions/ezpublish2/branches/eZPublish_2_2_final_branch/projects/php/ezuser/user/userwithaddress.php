@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75.2.1 2001/11/01 13:05:52 ce Exp $
+// $Id: userwithaddress.php,v 1.75.2.2 2001/12/05 09:15:59 br Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -115,12 +115,12 @@ $t->set_var( "error_address_zip", "" );
 $t->set_var( "error_address_street1", "" );
 $t->set_var( "error_address_street2", "" );
 
-$t->set_var( "first_name_value", "$FirstName" );
-$t->set_var( "last_name_value", "$LastName" );
-$t->set_var( "login_value", "$Login" );
-$t->set_var( "email_value", "$Email" );
-$t->set_var( "password_value", "$Password" );
-$t->set_var( "verify_password_value", "$VerifyPassword" );
+$t->set_var( "first_name_value", $FirstName );
+$t->set_var( "last_name_value", $LastName );
+$t->set_var( "login_value", $Login );
+$t->set_var( "email_value", $Email );
+$t->set_var( "password_value", $Password );
+$t->set_var( "verify_password_value", $VerifyPassword );
 $t->set_var( "address_actions", "" );
 
 if ( $AutoCookieLogin == "on" )
@@ -380,9 +380,15 @@ if ( isSet( $OK ) and $error == false )
     $group = new eZUserGroup( $AnonymousUserGroup );
     $group->addUser( $user_insert );
     $user_insert->setGroupDefinition( $group );
-    
-    $MainAddressID = eZAddress::mainAddress( $user );
 
+    if ( !$MainAddressID )
+    {
+        $mainAddress = eZAddress::mainAddress( $user );
+
+        if ( $mainAddress )
+            $MainAddressID = $mainAddress->id();
+    }
+            
     if ( !$MainAddressID && count( $AddressID ) > 0 )
         $MainAddressID = $AddressID[0];
 
@@ -420,8 +426,8 @@ if ( isSet( $OK ) and $error == false )
         if ( !is_numeric( $realAddressID ) )
             $RealAddressID[$i] = $address->id();
         
-        if ( $MainAddressID == $AddressID[$i] )
-            $main_id = $address->id();
+        if ( $MainAddressID == $RealAddressID[$i] )
+            $main_id = $MainAddressID;
 
         if ( count ( $AddressID ) == 1 )
             $main_id = $address->id();
@@ -448,7 +454,6 @@ if ( isSet( $OK ) and $error == false )
     {
         $RedirectURL = $session->variable( "RedirectURL" );
     }
-
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
         $session->setVariable( "RedirectURL", "$RedirectURL" );
@@ -531,7 +536,10 @@ if ( get_class( $user ) == "ezuser" )
         foreach ( $addressArray as $address )
         {
             if ( ( get_class( $mainAddress ) == "ezaddress" ) and ( $address->id() == $mainAddress->id()  ) and !isSet( $MainAddressID ) )
-                $MainAddressID = $i + 1;            
+            {
+//                $MainAddressID = $i + 1;
+                $MainAddressID = $address->id();
+            }
             if ( !isSet( $AddressID[$i] ) )
                 $AddressID[$i] = $i + 1;
             if ( !isSet( $RealAddressID[$i] ) )
@@ -573,7 +581,9 @@ else
         if ( !isSet( $CountryID ) )
             $CountryID = array( $ini->read_var( "eZUserMain", "DefaultCountry" ) );
         if ( !isSet( $MainAddressID ) )
+        {
             $MainAddressID = 1;
+        }
     }
     else
     {
@@ -632,8 +642,10 @@ for ( $i = 0; $i < count( $AddressID ); ++$i )
     $variable = "DeleteAddressButton$address_id";
     if ( in_array( $AddressID[$i], $DeleteAddressArrayID ) or isSet( $$variable ) )
     {
-        if ( $AddressID[$i] == $MainAddressID )
+        if ( $RealAddressID[$i] == $MainAddressID )
+        {
             $deleted = true;
+        }
     }
 }
 
@@ -645,7 +657,7 @@ if ( $deleted )
         $variable = "DeleteAddressButton$address_id";
         if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isSet( $$variable ) )
         {
-            $MainAddressID = $AddressID[$i];
+            $MainAddressID = $RealAddressID[$i];
             break;
         }
     }
@@ -653,25 +665,18 @@ if ( $deleted )
 
 // Check if we will add delete buttons
 $checkArray = array_diff( $AddressID, $DeleteAddressArrayID );
-if ( count ( $checkArray ) == 1 )
-{
-    $t->set_var( "delete_address", "" );
-	$t->set_var( "main_address", "" );
-}
-else
-{
-    $t->parse( "main_address", "main_address_tpl" );
-    $t->parse( "delete_address", "delete_address_tpl" );
-}
 
-// delete addresses
-foreach ( $DeleteAddressArrayID as $aid )
+if ( count( $DeleteAddressArrayID ) )
 {
-    $delete_address = new eZAddress( $RealAddressID[$aid-1] );
-    if ( $user )
-        $user->removeAddress( $delete_address );
+    // delete addresses
+    foreach ( $DeleteAddressArrayID as $aid )
+    {
+        $delete_address = new eZAddress( $RealAddressID[$aid-1] );
+        if ( $user )
+            $user->removeAddress( $delete_address );
+    }
 }
-
+        
 // Render addresses
 if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
 {
@@ -681,6 +686,23 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
         $variable = "DeleteAddressButton$address_id";
         if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isSet( $$variable ) )
         {
+            if ( is_numeric( $MainAddressID ) )
+            {
+                $t->set_var( "is_checked", $RealAddressID[$i] == $MainAddressID ? "checked" : "" );
+            }
+
+            if ( count ( $checkArray ) == 1 )
+            {
+                $t->set_var( "delete_address", "" );
+                $t->set_var( "main_address", "" );
+            }
+            else
+            {
+                $t->set_var( "address_id", $RealAddressID[$i] );
+                $t->parse( "main_address", "main_address_tpl" );
+                $t->set_var( "address_id", $AddressID[$i] );
+                $t->parse( "delete_address", "delete_address_tpl" );
+            }
             $t->set_var( "address_id", $AddressID[$i] );
 
             $t->set_var( "real_address_id", $RealAddressID[$i] );
@@ -688,10 +710,6 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
             $t->set_var( "street1_value", $Street1[$i] );
             $t->set_var( "street2_value", $Street2[$i] );
             
-            if ( is_numeric( $MainAddressID ) )
-            {
-                $t->set_var( "is_checked", $AddressID[$i] == $MainAddressID ? "checked" : "" );
-            }
             
             $t->set_var( "zip_value", $Zip[$i] );
             $t->set_var( "place_value", $Place[$i] );
