@@ -1,10 +1,8 @@
 <?
 if ( isset( $BF ) )
 {
-    print( "blablalbalblala" );
+    print( "blablalbalblala" .  $BF );
 }
-print( "bf..:" . $BF );
-
 include  "template.inc";
 require "ezcontact/dbsettings.php";
 require "ezphputils.php";

@@ -1,5 +1,4 @@
 <?
-
 include  "template.inc";
 require "ezphputils.php";
 require "ezcontact/dbsettings.php";
@@ -22,13 +21,12 @@ if ( $TryLogin == "true" )
 
         $session->store();
 
-        setcookie ( "AuthenticatedSession", $hash, time() + 3600, "/", "devel.ez.no" ) or die( "Feil: kunne ikke sette cookie." );        
+        setcookie ( "AuthenticatedSession", $hash, time() + 3600, "/",  $DOMAIN, 0 ) or die( "Feil: kunne ikke sette cookie." );        
         
-        print( $hash );
-
         // redirect..
         print "<html><head>";
-        $url = "../index.php?page=new/successlogin.php";
+//        $url = "login.php";
+        $url = "../index.php?page=" . $DOCUMENTROOT . "successlogin.php";
         print "<meta HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=$url\">";
         print "<link rel=\"stylesheet\" href=\"ez.css\">";
         print "</head><body bgcolor=#000000></body></html>";   
@@ -37,7 +35,7 @@ if ( $TryLogin == "true" )
     {
         // redirect.. 
         print "<html><head>";
-        $url = "../index.php?page=new/loginedit.php&Login=$Login";
+        $url = "../index.php?page=" . $DOCUMENTROOT . "loginedit.php&Login=$Login";
         print "<meta HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=$url\">";
         print "<link rel=\"stylesheet\" href=\"ez.css\">";
         print "</head><body bgcolor=#000000></body></html>";    
@@ -47,7 +45,7 @@ if ( $TryLogin == "true" )
 else
 {
     print "<html><head>";
-    $url = "../index.php?page=new/loginedit.php&Login=$Login";
+    $url = "../index.php?page=" . $DOCUMENTROOT . "loginedit.php&Login=$Login";
     print "<meta HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=$url\">";
     print "<link rel=\"stylesheet\" href=\"ez.css\">";
     print "</head><body bgcolor=#000000></body></html>";      
