@@ -74,7 +74,9 @@
 <tr>
 	<td>
 	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
+<!-- BEGIN article_date_tpl -->
 	<div class="small">( {article_published} )</div>
+<!-- END article_date_tpl -->
 
 	<!-- BEGIN article_image_tpl -->
 	    <table width="1%" align="right" width="{thumbnail_image_width}">
