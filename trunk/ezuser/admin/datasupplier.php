@@ -29,6 +29,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
+include_once( "classes/INIFile.php" );
 
 $user =& eZUser::currentUser();
 
@@ -188,8 +189,16 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
 
         case "passwordchange" :
         {
-            $Action = $url_array[3];
-            include( "ezuser/admin/passwordchange.php" );
+	  $ini =& INIFile::globalINI();
+	  $DemoSite = $ini->read_var( "site", "DemoSite" );
+
+	  if ( $DemoSite == "enabled" ) {
+	    print("<div align='center'>This is a demosite only. You are not allowed to change the admin password!</div>\n"); 
+	  }else{
+	    $Action = $url_array[3];
+            // include( "ezuser/admin/passwordchange.php" );
+	  }
+	  
         }
         break;
 
