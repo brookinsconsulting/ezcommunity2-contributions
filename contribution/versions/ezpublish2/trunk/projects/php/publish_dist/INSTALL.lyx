@@ -54,14 +54,17 @@ Unpack your php-4.0.x.tar.gz package:
 # tar zxvf php-4.0.x.tar.gz
 \layout Subsection
 
-- Howto configure php # cd php-4.0.x 
+Howto configure php 
+\layout LyX-Code
+
+# cd php-4.0.x 
 \layout LyX-Code
 
 # ./configure --with-xml --enable-trans-sid --with-mysql --with-magic-quotes
  --with-apxs --with-dom
 \layout Subsection
 
-- Compile and install the PHP package 
+Compile and install the PHP package 
 \layout LyX-Code
 
 # make # make install
@@ -73,15 +76,15 @@ Apache config
 Apache modules
 \layout Standard
 
-Rewrite and php modules needs to be active to use publish.
+The rewrite and php modules needs to be active to use publish.
  
 \layout Subsection
 
 Apache configuration
 \layout Standard
 
-A httpd.conf virtalhost example will looks something like this (change the
- publish.org to your own domain).
+This is an example of a httpd.conf virtalhost (change publish.org to your
+ own domain).
 \layout LyX-Code
 
 # User site 
@@ -125,6 +128,8 @@ ServerAlias www.publish.org
 \layout LyX-Code
 
 </VirtualHost>
+\layout LyX-Code
+
 \layout LyX-Code
 
 # Admin site 
@@ -174,7 +179,7 @@ Install eZ publish
 Database install
 \layout Itemize
 
-Make a database, call it publish ( or whatever you like ) 
+Create a database, name it publish or whatever you like .
 \layout LyX-Code
 
 # mysqladmin -uroot -p create database publish
@@ -192,11 +197,10 @@ Dump all the sql data from sql/publish.sql into your database
 # mysql -uroot -p publish < sql/publish.sql
 \layout Subsection
 
-Install php files
+Install the php files
 \layout Itemize
 
-Put all the publish files in your apache documentrootPut all the publish
- files in your apache documentroot
+Put all the publish files in your apache documentroot.
 \layout LyX-Code
 
 # cd /path/to/apache/documentroot/ 
@@ -224,7 +228,7 @@ Start konqueror and have fun!
 
 
 \emph on 
-NOTE!: The default admin username and password will be admin/trade.
+NOTE!: The default admin username and password will be admin/publish.
  Remember to change the password!!\SpecialChar ~
 
 \layout LyX-Code
