@@ -76,13 +76,13 @@ if( is_object( $user ) )
     }
     else
     {
-        header( "Location: /kicked out/" );
+        header( "Location: /contact/person/new/" );
         exit();
     }
 }
 else
 {
-    header( "Location: /kicked out/" );
+    header( "Location: /contact/person/new/" );
     exit();
 }
 
