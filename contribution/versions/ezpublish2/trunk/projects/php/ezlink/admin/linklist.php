@@ -10,23 +10,24 @@ include_once( "template.inc" );
 require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
-include_once( "/" . $DOCUMENTROOT . "classes/ezlinkgroup.php" );
-include_once( "/" . $DOCUMENTROOT . "classes/ezlink.php" );
-include_once("/"  . $DOCUMENTROOT . "classes/ezhit.php" );
+
+include_once( "../ezlink/classes/ezlinkgroup.php" );
+include_once( "../ezlink/classes/ezlink.php" );
+include_once( "../ezlink/classes/ezhit.php" );
 
 // setter template filer
 $t = new Template( "." );
 $t->set_file( array(
-    "linkgroup_list" => $DOCUMENTROOT . "templates/linkgrouplist.tpl",
-    "linkgroup_item" => $DOCUMENTROOT . "templates/linkgroupitem.tpl",
-    "link_item" => $DOCUMENTROOT . "templates/linkitem.tpl"
+    "linkgroup_list" => "../ezlink/templates/linkgrouplist.tpl",
+    "linkgroup_item" => "../ezlink/templates/linkgroupitem.tpl",
+    "link_item" => "../ezlink/templates/linkitem.tpl"
     ) );
 
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-$linkGroup->printPath( $LGID, $DOCUMENTROOT . "admin/linklist.php" );
+$linkGroup->printPath( $LGID, "../ezlink/admin/linklist.php" );
 
 $linkGroup_array = $linkGroup->getByParent( $LGID );
 
@@ -38,6 +39,16 @@ else
 {
     for ( $i=0; $i<count( $linkGroup_array ); $i++ )
     {
+
+        if ( ( ( $i / 2 ) % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "#f0f0f0" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "#dcdcdc" );
+        }  
+        
         $t->set_var( "bg_color", "#eeeedd" );
 
         $link_group_id = $linkGroup_array[ $i ][ "ID" ];
@@ -60,7 +71,15 @@ else
 
 if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
 {
-    $t->set_var( "bg_color", "#ffffdd" );
+    if ( ( ( $i / 2 ) % 2 ) == 0 )
+    {
+        $t->set_var( "bg_color", "#f0f0f0" );
+    }
+    else
+    {
+        $t->set_var( "bg_color", "#dcdcdc" );
+    }  
+
 
     $t->set_var( "linkgroup_id", "incoming" );
     $t->set_var( "linkgroup_title", "Ikke godkjente liker..." );
@@ -104,7 +123,16 @@ else
 {
     for ( $i=0; $i<count( $link_array ); $i++ )
     {
-        $t->set_var( "bg_color", "#eeddaa" );
+        if ( ( ( $i / 2 ) % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "#f0f0f0" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "#dcdcdc" );
+        }  
+
+
 
         $t->set_var( "link_id", $link_array[ $i ][ "ID" ] );
         $t->set_var( "link_title", $link_array[ $i ][ "Title" ] );

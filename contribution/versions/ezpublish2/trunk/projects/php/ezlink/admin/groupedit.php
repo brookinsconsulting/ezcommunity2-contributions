@@ -8,9 +8,9 @@ include_once( "template.inc" );
 require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
-require $DOCUMENTROOT . "classes/ezlinkgroup.php";
-require $DOCUMENTROOT . "classes/ezlink.php";
-require $DOCUMENTROOT . "classes/ezhit.php";
+require "../ezlink/classes/ezlinkgroup.php";
+require "../ezlink/classes/ezlink.php";
+require "../ezlink/classes/ezhit.php";
 
 
 // Slett
@@ -20,7 +20,7 @@ if ( $Action == "delete" )
     $deletelinkgroup->get( $LGID );
     $deletelinkgroup->delete();
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
+    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );
 }
 
 // Legg til gruppe
@@ -38,28 +38,29 @@ if ( $Action == "insert" )
     
     $message = "Legg til gruppe";
     $submit = "Legg til";
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );    
+    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );    
 }
 
 // Oppdatere
 if ( $Action == "update" )
 {
-
+    print ( "banan" );
+    //   die();
     $updatelinkgroup = new eZLinkGroup();
 
     $updatelinkgroup->get ( $LGID );
 
     $updatelinkgroup->setTitle ( $title );
     $updatelinkgroup->update();
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );    
+    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );    
 
 }
 
 // Sette template filer
 $t = new Template();
 $t->set_file( array(
-    "group_edit" => $DOCUMENTROOT . "templates/groupedit.tpl",
-    "group_parent_select" => $DOCUMENTROOT . "templates/groupparentselect.tpl" ));
+    "group_edit" => "../ezlink/templates/groupedit.tpl",
+    "group_parent_select" => "../ezlink/templates/groupparentselect.tpl" ));
 
 
 $groupselect = new eZLinkGroup();
@@ -74,6 +75,7 @@ $grouplink_array = $groupselect->getAll( );
 // Redigering av gruppe
 if ( $Action == "edit" )
 {
+    print ( "hallo" );
     $editlinkgroup = new eZLinkGroup();
     $editlinkgroup->get ( $LGID );
 

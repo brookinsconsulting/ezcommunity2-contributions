@@ -8,9 +8,10 @@ include_once( "template.inc" );
 require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
-include_once( "/" . $DOCUMENTROOT . "classes/ezlinkgroup.php" );
-include_once( "/" . $DOCUMENTROOT . "classes/ezlink.php" );
-include_once( "/"  . $DOCUMENTROOT . "classes/ezhit.php" );
+
+require "../ezlink/classes/ezlinkgroup.php";
+require "../ezlink/classes/ezlink.php";
+require "../ezlink/classes/ezhit.php";
 
 // Oppdatere
 if ( $Action == "update" )
@@ -27,8 +28,9 @@ if ( $Action == "update" )
     $updatelink->setUrl( $url );
     
     $updatelink->update();
-    
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );    
+
+    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
+//    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );    
 }
 
 // Slette link
@@ -38,7 +40,7 @@ if ( $Action == "delete" )
     $deletelink->get( $LID );
     $deletelink->delete();
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
+    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );
 }
 
 // Legge til link
@@ -64,14 +66,14 @@ if ( $Action == "insert" )
     print ( "akseptert: " . $accepted );
     $newlink->store();
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
+    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );
 }
 
 // Sette template filer
 $t = new Template();
 $t->set_file( array(
-    "link_edit" => $DOCUMENTROOT . "templates/linkedit.tpl",
-    "link_group_select" => $DOCUMENTROOT . "templates/linkgroupselect.tpl" ));
+    "link_edit" => "../ezlink/templates/linkedit.tpl",
+    "link_group_select" => "../ezlink/templates/linkgroupselect.tpl" ));
 
 
 $linkselect = new eZLinkGroup();
