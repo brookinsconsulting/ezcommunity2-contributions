@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.12 2000/08/03 13:22:16 lw-cvs Exp $
+    $Id: message.php,v 1.13 2000/08/28 13:26:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,12 +8,17 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
-include_once( "$DOCROOT/classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
-include_once( "$DOCROOT/classes/ezsession.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/eztemplate.php" );
+
+$ini = new INIFile( "site.ini" ); // get language settings
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+
+//include( "ezforum/dbsettings.php" );
+
+include_once( $DOC_ROOT . "/classes/ezdb.php" );
+include_once( $DOC_ROOT . "/classes/ezuser.php" );
+include_once( $DOC_ROOT . "/classes/ezsession.php" );
+include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+include_once( "classes/eztemplate.php" );
 
 $msg = new eZforumMessage;
 $usr = new eZUser;
@@ -21,7 +26,7 @@ $session = new eZSession;
 $ini = new INIFile( "ezforum.ini" ); // get language settings
 $Language = $ini->read_var( "MAIN", "Language" );
 
-$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "message.php" );
+$t = new eZTemplate( "$DOC_ROOT/templates", "$DOC_ROOT/intl", $Language, "message.php" );
 $t->setAllStrings();
     
 $t->set_file( array("message" => "message.tpl",
@@ -33,7 +38,7 @@ $t->set_file( array("message" => "message.tpl",
                     )
               );
 
-$t->set_var( "docroot", $DOCROOT);
+$t->set_var( "docroot", $DOC_ROOT);
 $t->set_var( "category_id", $category_id);
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
@@ -61,7 +66,7 @@ $t->set_var( "forum_id", $forum_id );
 
 $top_message = $msg->getTopMessage( $message_id );
     
-$messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOCROOT, $category_id );
+$messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOC_ROOT, $category_id );
 $t->set_var( "replies", $messages );
 
 $t->set_var( "link1-url", "main.php");

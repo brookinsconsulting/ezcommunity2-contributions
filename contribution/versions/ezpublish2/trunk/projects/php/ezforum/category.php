@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.18 2000/08/23 14:46:52 bf-cvs Exp $
+    $Id: category.php,v 1.19 2000/08/28 13:26:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -26,7 +26,7 @@ include_once( "classes/eztemplate.php" );
 $session = new eZSession;
 
 $ini = new INIFile( "site.ini" ); // get language settings
-$Language = $ini->read_var( "MAIN", "Language" );
+$Language = $ini->read_var( "eZForumMain", "Language" );
 
 $t = new eZTemplate( "$DOC_ROOT/templates", "$DOC_ROOT/intl", $Language, "category.php" );
 $t->setAllStrings();

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.23 2000/08/23 07:08:48 bf-cvs Exp $
+    $Id: main.php,v 1.24 2000/08/28 13:26:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,17 +8,20 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
+
+$ini = new INIFile( "site.ini" ); // get language settings
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( "class.INIFile.php" );
 
-include_once( "$DOCROOT/classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezforumcategory.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
-include_once( "$DOCROOT/classes/ezsession.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/eztemplate.php" );
+include_once( $DOC_ROOT . "/classes/ezdb.php" );
+include_once( $DOC_ROOT . "/classes/ezforumcategory.php" );
+include_once( $DOC_ROOT . "/classes/ezuser.php" );
+include_once( $DOC_ROOT . "/classes/ezsession.php" );
+include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+include_once( "classes/eztemplate.php" );
 
 echo "";
 $session = new eZSession();
@@ -26,7 +29,7 @@ $session = new eZSession();
 $ini = new INIFile( "site.ini" ); // get language settings
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
-$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "main.php" );
+$t = new eZTemplate( "$DOC_ROOT/templates", "$DOC_ROOT/intl", $Language, "main.php" );
 $t->setAllStrings();
 
 $t->set_file( Array("main" => "main.tpl",
@@ -39,7 +42,7 @@ $t->set_file( Array("main" => "main.tpl",
                     "logout" => "logout.tpl"
                     ) );
 
-$t->set_var( "docroot", $DOCROOT);
+$t->set_var( "docroot", $DOC_ROOT);
 $category = new eZForumCategory();
 $categories = $category->getAllCategories();
 

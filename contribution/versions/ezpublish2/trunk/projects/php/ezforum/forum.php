@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.21 2000/08/03 10:33:25 lw-cvs Exp $
+    $Id: forum.php,v 1.22 2000/08/28 13:26:02 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,21 +8,26 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
+
+$ini = new INIFile( "site.ini" ); // get language settings
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+
+//include( "ezforum/dbsettings.php" );
+
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( "class.INIFile.php" );
-include_once( "$DOCROOT/classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/ezsession.php" );
-include_once( "$DOCROOT/classes/eztemplate.php" );
+include_once( $DOC_ROOT . "/classes/ezdb.php" );
+include_once( $DOC_ROOT . "/classes/ezuser.php" );
+include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+include_once( $DOC_ROOT . "/classes/ezsession.php" );
+include_once( "classes/eztemplate.php" );
 
 $ini = new INIFile( "ezforum.ini" ); // get language settings
 $Language = $ini->read_var( "MAIN", "Language" );
 
 $msg = new eZforumMessage( $forum_id );
-$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "forum.php" );
+$t = new eZTemplate( "$DOC_ROOT/templates", $DOC_ROOT . "/intl", $Language, "forum.php" );
 $t->setAllStrings();
 
 $t->set_file( Array("forum" => "forum.tpl",
@@ -38,7 +43,7 @@ $t->set_file( Array("forum" => "forum.tpl",
 
 $session = new eZSession();
 
-$t->set_var( "docroot", $DOCROOT );
+$t->set_var( "docroot", $DOC_ROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
 
@@ -102,7 +107,7 @@ if ( $preview )
 }
 else
 {
-    $messages = $msg->printHeaderTree( $forum_id, 0, 0, $DOCROOT, $category_id );
+    $messages = $msg->printHeaderTree( $forum_id, 0, 0, $DOC_ROOT, $category_id );
     $t->set_var( "messages", $messages );
     
     $t->set_var( "newmessage", $newmessage);
