@@ -99,23 +99,41 @@
 <hr noshade="noshade" size="1" />
 <br />
 
-{intl-payment_methods_description}:&nbsp;
-<table cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td>
+    <td valign="top">
+      {intl-payment_methods_description}:<br />
       <select name="PaymentMethod">
         <!-- BEGIN payment_method_tpl -->
         <option value="{payment_method_id}">{payment_method_text}</option>
         <!-- END payment_method_tpl -->
       </select>
     </td>
-    <td>&nbsp;</td>
-    <td align="center">
-      <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914"><img src="/images/paybox_logo.gif" border="0" width="110" height="81" alt="paybox - bezahlen mit dem Handy" /></a>
-      <br />paybox - bezahlen Sie mit Ihrem Handy
+    <td width="1%">&nbsp;</td>
+    <td>
+      <table width="1%">
+        <tr>
+	  <td valign="top" width="1%">
+	    <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="/sitedesign/mygold/images/paybox_logo.gif" border="0" width="89" height="66" alt="" /></a>
+	    <br />paybox - bezahlen Sie mit Ihrem Handy
+          </td>
+	  <!--
+          <td width="1%">&nbsp;</td>
+          <td valign="top" width="1%">
+            <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="88" height="66" border="0" /></a>
+            <br />Euro- Mastercard
+          </td>
+          <td width="1%">&nbsp;</td>
+          <td valign="top" width="1%">  
+            <a href="http://www.visa.de" target="new"><img src="/sitedesign/mygold/images/visa_logo.gif" alt="" width="105" height="66" border="0" /></a>
+            <br />Visa
+          </td>
+	  -->
+        </tr>
+      </table>
     </td>
   </tr>
-</table>
+</table>  
 <br /><br />
 <hr noshade="noshade" size="1" />
 <input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
