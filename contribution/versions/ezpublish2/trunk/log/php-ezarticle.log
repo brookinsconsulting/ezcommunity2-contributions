@@ -364,3 +364,38 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomrenderer.php:
     Fixed rendering of file and media inside a table.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-14  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/formlist.php.ini: Added translation form no_forms_exist
+
+    * user/templates/linmag/search.tpl: set Article to be intl-article
+
+    * user/intl/en_GB/search.php.ini: Added translation.
+
+    * user/intl/no_NO/search.php.ini: added translation
+
+    * user/templates/standard/search.tpl: set Article to be a intl- variable.
+
+2001-09-14  Christofer Elo  <ce@ez.no>
+
+    * admin/articlelist.php: FIxed refrence bugs
+    Fixed a published bug in article
+
+2001-09-14  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php
+      user/articlelist.php
+      user/datasupplier.php
+      user/templates/standard/articlelist.tpl
+      user/topiclist.php
+      classes/ezarticle.php: Fixed topic link from article list.
+
+2001-09-14  Christofer Elo  <ce@ez.no>
+
+    * user/menuarticleview.php
+      user/templates/standard/articlelist.tpl: Added cache
+

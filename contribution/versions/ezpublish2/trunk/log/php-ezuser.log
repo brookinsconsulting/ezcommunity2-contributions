@@ -127,3 +127,11 @@ Maintainer(s) : bf@ez.no
 
     * admin/useredit.php: Fixed used editing.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezuser.sql: added missing sql information
+

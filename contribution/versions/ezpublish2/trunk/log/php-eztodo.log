@@ -36,3 +36,11 @@ Maintainer(s) : ce@ez.no
 
     * user/intl/nl_NL/maillog.php.ini: updated nl_NL
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-09-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/eztodo.sql: added missing sql information
+

@@ -56,3 +56,29 @@ Maintainer(s) : jhe@ez.no
       classes/ezconsultation.php:
     added setting to make consultations visible for everyone
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personedit.php: small bug fix when adding new companies
+
+    * admin/buy.php
+      admin/folder.php: buttons in contact list
+
+    * classes/ezconsultation.php
+      user/datasupplier.php
+      admin/consultationedit.php
+      admin/consultationview.php
+      admin/datasupplier.php
+      admin/intl/en_GB/consultationedit.php.ini
+      admin/personedit.php
+      admin/personlist.php
+      admin/templates/standard/companytypelist.tpl
+      admin/templates/standard/consultationview.tpl
+      admin/templates/standard/personlist.tpl
+      admin/companytypelist.php:
+    added buttons for buy and file folder in contact lists
+    several bugfixes in calendar
+

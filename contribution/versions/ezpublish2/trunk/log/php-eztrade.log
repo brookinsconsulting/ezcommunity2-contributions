@@ -125,3 +125,110 @@ Maintainer(s) : ce@ez.no
     * user/intl/nl_NL/extendedsearch.php.ini
       user/intl/nl_NL/mailorder.php.ini: updated nl_NL
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-14  Bjoern Reiten  <br@ez.no>
+
+    * user/productview.php: added set( "price_range", "" );
+
+    * admin/intl/no_NO/categorylist.php.ini: added translation.
+
+    * user/cart.php: changed inLanguage to Language
+
+    * user/smallcart.php: changed inLanguage to Language.
+
+    * user/intl/no_NO/checkout.php.ini
+      user/intl/en_GB/checkout.php.ini: added translation
+
+    * user/templates/standard/checkout.tpl: updated template.
+
+    * user/checkout.php: set calculations to be done in the classes.
+
+2001-09-14  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/templates/standard/cart.tpl: Removed an hr which we didn't need.
+
+    * user/templates/standard/cart.tpl:
+    Moved two buttons to the correct template block.
+
+2001-09-14  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/standard/cart.tpl: Layout
+
+2001-09-14  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/templates/standard/cart.tpl
+      user/cart.php: Missed the alternating colours on the tax specification.
+
+    * user/smallcart.php:
+    Fixed this to use the correct info as fetched from the objects. (Prices,
+    totals and vat.)
+
+    * classes/ezpricegroup.php: An extra echo in highestPrice removed.
+
+    * classes/ezproduct.php: A $ too many in the function correctPriceRange
+
+    * user/hotdealslist.php:
+    Added min and max prices to the printing of prices in hotdealslist.
+
+    * classes/ezproduct.php:
+    Fixed a bug in correctPriceRange where the low and max prices wheren't
+    added correctly.
+
+    * classes/ezpricegroup.php
+      classes/ezproduct.php
+      user/productview.php:
+    Added price range printing in product view when products has options.
+
+2001-09-14  Christofer Elo  <ce@ez.no>
+
+    * classes/ezcart.php
+      classes/ezcartitem.php
+      classes/ezproduct.php
+      classes/ezshippinggroup.php
+      classes/ezvattype.php
+      user/smallcart.php
+      user/templates/standard/productlist.tpl: FIxed refrence bugs
+    Fixed a published bug in article
+
+2001-09-14  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/intl/no_NO/cart.php.ini
+      user/templates/standard/cart.tpl
+      user/intl/en_GB/cart.php.ini: Added delete selected products.
+
+    * user/cart.php: Fixed following bugs:
+    i++ in wrong level of if, led to deletion of all items in cart after the
+    first item set to zero.
+
+    Added delete selected items.
+
+2001-09-14  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/standard/cart.tpl: Layout
+
+2001-09-14  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/intl/en_GB/cart.php.ini
+      user/intl/no_NO/cart.php.ini
+      user/templates/standard/cart.tpl
+      classes/ezcart.php
+      classes/ezcartitem.php
+      classes/ezoptionvalue.php
+      classes/ezpricegroup.php
+      classes/ezproduct.php
+      user/cart.php:
+    Fixed the shopping cart. It should now take proper care of:
+    VAT handling
+    Price Groups
+    Quantity.
+    You can now turn off total columns independetly, as well as turn on off
+    the sums including VAT. All should be well.
+
+    TODO:
+    Add support for moving to wishlist
+    Add support for showing "you save" info (when the price you pay is lower
+    than the list price/using price groups).k
+

@@ -36,3 +36,20 @@ Maintainer(s) : jhe@rz.no
 
     * user/intl/nl_NL/appointmentedit.php.ini: updated nl_NL
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@rz.no
+2001-09-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/appointmentedit.php
+      user/dayview.php
+      user/intl/en_GB/appointmentedit.php.ini
+      user/monthview.php
+      user/templates/standard/appointmentedit.tpl
+      classes/ezappointment.php
+      sql/mysql/ezcalendar.sql
+      sql/postgresql/ezcalendar.sql:
+    added buttons for buy and file folder in contact lists
+    several bugfixes in calendar
+

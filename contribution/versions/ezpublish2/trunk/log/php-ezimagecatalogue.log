@@ -114,3 +114,11 @@ Maintainer(s) : br@ez.no
 
     * user/templates/linmag/imageedit.tpl: added template blocks.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-14  Christofer Elo  <ce@ez.no>
+
+    * classes/ezimage.php: Added cache
+

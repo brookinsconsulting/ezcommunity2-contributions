@@ -27,3 +27,27 @@ Maintainer(s) : ce@ez.no
       admin/templates/standard/mediaedit.tpl:
     Add possibility to enter new creator
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-09-14  nca_intelhosting3  <bf@ez.no>
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/mediaview.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/typelist.php.ini: Fix on norwegian translation.
+
+    * admin/intl/no_NO/attributeedit.php.ini
+      admin/intl/no_NO/browse.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/mediaview.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/typelist.php.ini: Translated to norwegian.
+

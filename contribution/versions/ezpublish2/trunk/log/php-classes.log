@@ -39,3 +39,19 @@ Maintainer(s) : bf@ez.no
 
     * locale/nl_NL.ini: updated nl_NL
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-14  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * ezlocale.php:
+    Added &nbsp; in the ezcurrency section of format(). This is due to the fact
+    that one doesn't want breaks for the currency, if it can be omitted.
+
+2001-09-14  Bjoern Reiten  <br@ez.no>
+
+    * ezlist.php: fix.
+
+    * ezlist.php: fixed so numbers always start at 1 when at the end.
+

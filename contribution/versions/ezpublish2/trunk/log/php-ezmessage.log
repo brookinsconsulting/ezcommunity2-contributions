@@ -11,3 +11,14 @@ Maintainer(s) : bf@ez.no
 Module : ezmessage
 Repository path : /home/cvsroot/projects/php/ezmessage
 Maintainer(s) : bf@ez.no
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-09-14  nca_intelhosting3  <bf@ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/messageedit.php.ini
+      admin/intl/no_NO/messagelist.php.ini
+      admin/intl/no_NO/messageview.php.ini: Translated to norwegian.
+

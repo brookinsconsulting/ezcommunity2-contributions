@@ -94,3 +94,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/nl_NL/message.php.ini: updated nl_NL
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforummessage.php: latest messages now contains replies
+
