@@ -28,6 +28,7 @@ $company = new eZCompany();
 $user = eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
+    include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
 }

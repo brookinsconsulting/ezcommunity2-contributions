@@ -80,6 +80,7 @@ switch ( $ListType )
             }
             case "view":
             {
+                $PersonOffset = $url_array[5];
                 include( "ezcontact/admin/companyview.php" );
                 break;
             }

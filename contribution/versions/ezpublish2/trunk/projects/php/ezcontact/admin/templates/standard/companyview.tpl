@@ -129,6 +129,69 @@
 </tr>
 </table>
 
+<!-- BEGIN person_table_item_tpl -->
+<h2>{intl-person_headline} - ({person_start}-{person_end}/{person_max})</h2>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN person_item_tpl -->
+<tr class="{bg_color}">
+	<td>
+	<a href="/contact/person/view/{person_id}/">{person_lastname}, {person_firstname}</a>
+	</td>
+</tr>
+<!-- END person_item_tpl -->
+</table>
+
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<!-- BEGIN type_list_previous_tpl -->
+	<td>
+	<a class="path" href="/contact/company/view/{company_id}/{item_previous_index}/">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	</td>
+	<!-- END type_list_previous_tpl -->
+
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	&nbsp;
+	</td>
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	&nbsp;<a class="path" href="/contact/company/view/{company_id}/{item_index}">{type_item_name}</a>&nbsp;|
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	&nbsp;&lt;{type_item_name}&gt;&nbsp;|
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	&nbsp;<a class="path" href="/contact/company/view/{company_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	{intl-next}
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
+</tr>
+</table>
+<!-- END type_list_tpl -->
+
+<!-- END person_table_item_tpl -->
+
 <!-- BEGIN consultation_table_item_tpl -->
 <h2>{intl-consultation_headline}</h2>
 
@@ -137,7 +200,6 @@
 	<th>{intl-consultation_date}:</th>
 	<th>{intl-consultation_short_description}:</th>
 	<th>{intl-consultation_status}:</th>
-	<th colspan="2">&nbsp;</th>
 </tr>
 
 <!-- BEGIN consultation_item_tpl -->
@@ -151,15 +213,6 @@
 	<td>
         <a href="/contact/consultation/type/list/{consultation_status_id}">{consultation_status}</a>
 	</td>
-
-	<td width="1%">
-	<a href="/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
-	</td>
-
-	<td width="1%">
-	<a href="/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
-	</td>	
-
 </tr>
 <!-- END consultation_item_tpl -->
 </table>

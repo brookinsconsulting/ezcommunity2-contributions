@@ -28,6 +28,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 $user = eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
+    include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
 }
@@ -51,6 +52,8 @@ $t->set_file( array(
     ) );
 $t->set_block( "person_view", "birth_item_tpl", "birth_item" );
 $t->set_block( "person_view", "no_birth_item_tpl", "no_birth_item" );
+
+$t->set_block( "person_view", "company_item_tpl", "company_item" );
 
 $t->set_block( "person_view", "address_item_tpl", "address_item" );
 $t->set_block( "address_item_tpl", "address_line_tpl", "address_line" );
@@ -244,7 +247,17 @@ if ( $Action == "view" )
         $t->set_var( "online_item", "" );
         $t->parse( "no_online_item", "no_online_item_tpl" );
     }
-    
+
+    // List companies this person is related to
+    $t->set_var( "company_item", "" );
+    $companies = $person->companies();
+    foreach( $companies as $company )
+    {
+        $t->set_var( "company_id", $company->id() );
+        $t->set_var( "company_name", $company->name() );
+        $t->parse( "company_item", "company_item_tpl", true );
+    }
+
     $t->set_var( "person_id", $PersonID );
 
     // Project info

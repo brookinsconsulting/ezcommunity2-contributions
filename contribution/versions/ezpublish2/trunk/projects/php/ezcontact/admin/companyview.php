@@ -11,6 +11,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
@@ -31,6 +32,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 $user = eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
+    include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
 }
@@ -57,6 +59,9 @@ $t->set_block( "company_edit", "project_status_tpl", "project_status" );
 $t->set_block( "company_edit", "no_project_status_tpl", "no_project_status" );
 
 $t->set_block( "company_edit", "consultation_buttons_tpl", "consultation_buttons" );
+
+$t->set_block( "company_edit", "person_table_item_tpl", "person_table_item" );
+$t->set_block( "person_table_item_tpl", "person_item_tpl", "person_item" );
 
 $t->set_block( "company_edit", "consultation_table_item_tpl", "consultation_table_item" );
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
@@ -280,6 +285,34 @@ else
     $t->parse( "no_project_status", "no_project_status_tpl" );
 }
 
+// Person list
+if ( !isset( $PersonLimit ) or !is_numeric( $PersonLimit ) )
+    $PersonLimit = 5;
+if ( !isset( $PersonOffset ) or !is_numeric( $PersonOffset ) )
+    $PersonOffset = 0;
+$t->set_var( "person_table_item", "" );
+$persons = $company->persons( false, true, $PersonLimit, $PersonOffset );
+if ( count( $persons ) > 0 )
+{
+    $person_count = $company->personCount();
+    $i = 0;
+    $t->set_var( "person_max", $person_count );
+    $t->set_var( "person_start", $PersonOffset + 1 );
+    $t->set_var( "person_end", min( $PersonOffset + $PersonLimit, $person_count ) );
+    foreach( $persons as $person )
+    {
+        $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "person_id", $person->id() );
+        $t->set_var( "person_lastname", $person->lastName() );
+        $t->set_var( "person_firstname", $person->firstName() );
+        $t->parse( "person_item", "person_item_tpl", true );
+        $i++;
+    }
+    eZList::drawNavigator( $t, $person_count, $PersonLimit, $PersonOffset, "person_table_item_tpl" );
+
+    $t->parse( "person_table_item", "person_table_item_tpl" );
+}
+
 // Consultation list
 $user = eZUser::currentUser();
 if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
@@ -294,14 +327,7 @@ if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
 
     foreach ( $consultations as $consultation )
     {
-        if( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "bg_color", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "bg_color", "bgdark" );
-        }
+        $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
         $t->set_var( "consultation_id", $consultation->id() );
         $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );

@@ -24,6 +24,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 $user = eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
+    include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
 }
@@ -192,6 +193,7 @@ else
 {
     $t->set_block( "edit_tpl", "person_item_tpl", "person_item" );
     $t->set_block( "person_item_tpl", "day_item_tpl", "day_item" );
+    $t->set_block( "person_item_tpl", "company_select_tpl", "company_select" );
 }
 
 $t->set_block( "edit_tpl", "address_table_item_tpl", "address_table_item" );
@@ -511,6 +513,12 @@ if ( !$confirm )
             $person->setComment( $Comment );
             $person->store();
 
+            $person->removeCompanies();
+            for( $i = 0; $i < count( $CompanyID ); $i++ )
+            {
+                eZCompany::addPerson( $person->id(), $CompanyID[$i] );
+            }
+
             $item_id = $person->id();
             $PersonID = $item_id;
 
@@ -746,6 +754,36 @@ if ( !$confirm )
                 $t->set_var( "firstname", $FirstName );
             if ( isset( $LastName ) )
                 $t->set_var( "lastname", $LastName );
+
+            $companyTypeList = eZCompanyType::getTree();
+
+            $categoryList = array();
+            $categoryList = eZPerson::companies( $PersonID, false );
+            $category_values = array_values( $categoryList );
+            $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
+            foreach( $companyTypeList as $companyTypeItem )
+            {
+                $t->set_var( "company_name", "[" . $companyTypeItem[0]->name() . "]" );
+                $t->set_var( "company_id", "-1" );
+
+                $level = $companyTypeItem[1] > 0 ? str_repeat( "&nbsp;", $companyTypeItem[1] ) : "";
+                $t->set_var( "company_level", $level );
+                $t->set_var( "is_selected", "" );
+                $t->parse( "company_select", "company_select_tpl", true );
+
+                $level = str_repeat( "&nbsp;", $companyTypeItem[1] + 1 );
+                $t->set_var( "company_level", $level );
+
+                $companies = eZCompany::getByCategory( $companyTypeItem[0]->id() );
+                foreach( $companies as $companyItem )
+                {
+                    $t->set_var( "company_name", $companyItem->name() );
+                    $t->set_var( "company_id", $companyItem->id() );
+                    $t->set_var( "is_selected", in_array( $companyItem->id(), $category_values )
+                                 ? "selected" : "" );
+                    $t->parse( "company_select", "company_select_tpl", true );
+                }
+            }
 
             for ( $i = 1; $i <= 31; $i++ )
             {

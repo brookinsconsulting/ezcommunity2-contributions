@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.44 2001/02/19 15:17:21 jb Exp $
+// $Id: ezperson.php,v 1.45 2001/02/20 13:37:55 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -73,7 +73,7 @@ class eZPerson
     {
         $db = eZDB::globalDatabase();
         $birth = "NULL";
-        if ( isset( $this->BirthDate ) and $this->BirthDate == "" )
+        if ( isset( $this->BirthDate ) and $this->BirthDate != "" )
             $birth = "'$this->BirthDate'";
         if( !isSet( $this->ID ) )
         {
@@ -910,6 +910,48 @@ class eZPerson
     function hasBirthDate()
     {
         return isset( $this->BirthDate );
+    }
+
+    function removeCompanies( $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+
+        $db = eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZContact_CompanyPersonDict
+                     WHERE PersonID='$id'" );
+    }
+
+    /*!
+      Returns an array of companies this person is related to.
+    */
+    function companies( $id = false, $as_object = true )
+    {
+        if ( !$id )
+            $id = $this->ID;
+
+        $db = eZDB::globalDatabase();
+        $db->array_query( $arr,
+                          "SELECT CPD.CompanyID
+                           FROM eZContact_CompanyPersonDict AS CPD, eZContact_Company AS C
+                           WHERE CPD.PersonID='$id' AND CPD.CompanyID=C.ID
+                           ORDER BY C.Name" );
+        $ret = array();
+        if ( $as_object )
+        {
+            foreach( $arr as $row )
+            {
+                $ret[] = new eZCompany( $row["CompanyID"] );
+            }
+        }
+        else
+        {
+            foreach( $arr as $row )
+            {
+                $ret[] = $row["CompanyID"];
+            }
+        }
+        return $ret;
     }
 
     var $ID;

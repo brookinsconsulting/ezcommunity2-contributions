@@ -59,8 +59,16 @@
 	    <input type="text" size="20" name="LastName" value="{lastname}"/>
 	    </td>
     </tr>
-</table>
-
+    <tr>
+    	<td rowspan="2">
+	<p class="boxtext">{intl-company}:</p>
+	<select multiple size="10" name="CompanyID[]">
+	<!-- BEGIN company_select_tpl -->
+	<option value="{company_id}" {is_selected}>{company_level}{company_name}</option>
+	<!-- END company_select_tpl -->
+	</select>
+    	</td>
+    	<td>
 <p class="boxtext">{intl-birthday_headline}:</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -95,9 +103,18 @@
     </td>
 </tr>
 </table>
+    	</td>
+    </tr>
+    <tr>
+    	<td>
+    	</td>
+    	<td>
+	<p class="boxtext">{intl-comment_headline}:</p>
+	<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
+	</td>
+    </tr>
+</table>
 
-<p class="boxtext">{intl-comment_headline}:</p>
-<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
 <!-- END person_item_tpl -->
 
 <h2>{intl-address_headline}</h2>

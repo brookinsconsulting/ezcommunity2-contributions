@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.61 2001/02/15 18:03:54 jb Exp $
+// $Id: ezcompany.php,v 1.62 2001/02/20 13:37:55 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -161,6 +161,7 @@ class eZCompany
             $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
             $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
         }
+        $this->removePersons();
         return true;
     }
 
@@ -898,6 +899,84 @@ class eZCompany
                 $db->query( $checkQuery );
             }
         }
+    }
+
+    /*!
+      Makes the person a part of the company.
+    */
+    function removePersons( $companyid = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( !$companyid )
+            $companyid = $this->ID;
+
+        $db->query( "DELETE FROM eZContact_CompanyPersonDict
+                     WHERE CompanyID='$companyid'" );
+    }
+
+    /*!
+      Makes the person a part of the company.
+    */
+    function addPerson( $personid, $companyid = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( get_class( $personid ) == "ezperson" )
+            $personid = $personid->id();
+        if ( !$companyid )
+            $companyid = $this->ID;
+
+        $db->query( "DELETE FROM eZContact_CompanyPersonDict
+                     WHERE CompanyID='$companyid' AND PersonID='$personid'" );
+        $db->query( "INSERT INTO eZContact_CompanyPersonDict
+                     SET PersonID='$personid', CompanyID='$companyid'" );
+    }
+
+    /*!
+      Returns the number of persons related to this company
+    */
+    function personCount( $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $arr, "SELECT count( PersonID ) AS Count
+                                  FROM eZContact_CompanyPersonDict
+                                  WHERE CompanyID='$id'" );
+        return $arr["Count"];
+    }
+
+    /*!
+      Returns an array of persons related to this company
+    */
+    function persons( $id = false, $as_object = true, $limit = -1, $offset = 0 )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        if ( $limit >= 0 )
+        {
+            $limit_text = "LIMIT $offset, $limit";
+        }
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $arr, "SELECT CPD.PersonID
+                                 FROM eZContact_CompanyPersonDict AS CPD, eZContact_Person AS P
+                                 WHERE CPD.CompanyID='$id' AND CPD.PersonID=P.ID
+                                 ORDER BY P.LastName, P.FirstName $limit_text" );
+        $ret = array();
+        if ( $as_object )
+        {
+            foreach( $arr as $row )
+            {
+                $ret[] = new eZPerson( $row["PersonID"] );
+            }
+        }
+        else
+        {
+            foreach( $arr as $row )
+            {
+                $ret[] = $row["PersonID"];
+            }
+        }
+        return $ret;
     }
 
     var $ID;
