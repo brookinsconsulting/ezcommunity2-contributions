@@ -1,3 +1,4 @@
+<h1>{intl-head_line}</h1>
 
 <!-- BEGIN path_item_tpl -->
 
@@ -16,20 +17,24 @@
 
 
 <!-- BEGIN article_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<tr>
-	<td>
-	</td>
+	<th>
+	{intl-article}
+	</th>
+	<th>
+	{intl-publishing_date}
+	</th>
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
 	<a href="/article/articleview/{article_id}/">
-	<h3>{article_name}</h3>
+	{article_name}
 	</a>
-
-	<br />
+	</td>
+	<td>
+	{article_published}
 	</td>
 </tr>
 <!-- END article_item_tpl -->
