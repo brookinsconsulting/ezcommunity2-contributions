@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.114 2001/10/10 08:17:54 br Exp $
+// $Id: ezproduct.php,v 1.115 2001/10/10 11:42:01 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -353,22 +353,20 @@ class eZProduct
         if ( get_class( $inUser ) == "ezuser" )
         {
             $groups = $inUser->groups( false );
+            $priceIdArr = eZPriceGroup::prices( $this->ID );
 
-            $in_groups = eZPriceGroup::prices( $this->ID );
-            $price_arr = array();
-
-            for( $i=0; $i< count( $in_groups ); $i++ )
+            for( $i=0; $i< count( $priceIdArr ); $i++ )
             {
-                $price_id = $in_groups[$i][$db->fieldName( "PriceID" )];
-                $groupIdArr =& eZPriceGroup::userGroups( $price_id, false );
+                $priceId = $priceIdArr[$i][$db->fieldName( "PriceID" )];
+                $groupIdArr =& eZPriceGroup::userGroups( $priceId, false );
 
                 foreach( $groupIdArr as $groupId )
                 {
                     if ( in_array( $groupId, $groups ) )
                     {
-                        $tmp_price = eZPriceGroup::correctPrice( $this->ID, $price_id );
-                        if ( $tmp_price < $price || !$price )
-                            $price = $tmp_price;
+                        $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
+                        if ( $tmpPrice < $price || !$price )
+                            $price = $tmpPrice;
                     }
                 }
             }
