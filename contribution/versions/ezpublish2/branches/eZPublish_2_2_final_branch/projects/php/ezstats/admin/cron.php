@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1.2.4 2002/06/13 10:24:04 jhe Exp $
+// $Id: cron.php,v 1.1.2.5 2002/06/19 15:02:28 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -99,7 +99,7 @@ foreach ( $newelements as $element )
 {
     $refer = array();
     $db->array_query( $refer, "SELECT URI, Domain FROM eZStats_RefererURL WHERE ID=" . $element[$db->fieldName("RefererURLID")] );
-    print_r( $refer );
+
     $refername = $refer[0][$db->fieldName("URI")];
     $domain = $refer[0][$db->fieldName("Domain")];
     
@@ -107,12 +107,13 @@ foreach ( $newelements as $element )
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
     $month = new eZDateTime( $date->year(), $date->month() );
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RefererURL WHERE URI='$refername' AND Domain='$domain' AND Month='". $month->timeStamp() . "'" );
+
     if ( count( $oldelements ) == 0 )
     {
         $db->lock( "eZStats_Archive_RefererURL" );
         $nextid = $db->nextID( "eZStats_Archive_RefererURL", "ID" );
-        $res[] = $db->query( "INSERT INTO eZStats_Archive_RefererURL (ID, URI, Domain, Month, Count) VALUES " .
-                             "('$nextid', '$refername', '$domain', '" . $month->timeStamp() . "', '1')" );
+        $res[] = $db->query( "INSERT INTO eZStats_Archive_RefererURL (ID, URI, Domain, Month, Count, Language ) VALUES " .
+                             "('$nextid', '$refername', '$domain', '" . $month->timeStamp() . "', '1', '' )" );
         $db->unlock();
     }
     else

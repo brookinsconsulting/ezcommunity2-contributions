@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: refererlist.php,v 1.10.2.1 2001/11/02 06:46:24 br Exp $
+// $Id: refererlist.php,v 1.10.2.2 2002/06/19 15:02:28 br Exp $
 //
 // Created on: <07-Jan-2001 16:13:21 bf>
 //
@@ -58,7 +58,7 @@ $t->set_var( "item_start", $Offset + 1 );
 $t->set_var( "item_end", $Offset + $ViewLimit );
 $t->set_var( "item_count", $ItemCount );
 $t->set_var( "item_limit", $ViewLimit );
-$t->set_var( "exclude_domain", $ExcludeDomain );
+$t->set_var( "exclude_domain", trim( $ExcludeDomain ) );
 
 if ( count( $latest ) > 0 )
 {

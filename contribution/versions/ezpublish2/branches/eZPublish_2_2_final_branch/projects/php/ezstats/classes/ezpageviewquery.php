@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.6 2002/05/14 08:48:36 br Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.7 2002/06/19 15:02:28 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -292,23 +292,21 @@ class eZPageViewQuery
 
         $return_array = array();
         $visitor_array = array();
-
+        $excludeTableName = "";
+        
         if ( $excludeDomain != "" )
         {
             $query = new eZQuery( array( "eZStats_Archive_RefererURL.Domain", "eZStats_Archive_RemoteHost.IP" ),
                                   $excludeDomain );
             $search_text =  "WHERE " . $query->buildQuery();
+            $excludeTableName = ", eZStats_Archive_RemoteHost";
         }
 
         $db->array_query( $visitor_array,
-        "SELECT sum( eZStats_Archive_RemoteHost.Count ) as Count, eZStats_Archive_RefererURL.Domain,
-                     eZStats_Archive_RefererURL.URI
-                FROM eZStats_Archive_RefererURL, eZStats_Archive_RemoteHost
-                $searc_text
-                GROUP BY Domain, URI
-                ORDER BY Count DESC",
-              array( "Limit" => $limit,
-                     "Offset" => $offset ) );
+        "SELECT eZStats_Archive_RefererURL.Domain, eZStats_Archive_RefererURL.URI , eZStats_Archive_RefererURL.Count
+         FROM eZStats_Archive_RefererURL $excludeTableName $search_text GROUP BY Domain, URI ORDER BY Count DESC, URI ASC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
 
         for ( $i=0; $i < count($visitor_array); $i++ )
         {
@@ -326,19 +324,24 @@ class eZPageViewQuery
     {
         $db =& eZDB::globalDatabase();
 
+        $search_text = "";
+        $excludeTableName = "";
+        
         if ( $excludeDomain != "" )
         {
             $query = new eZQuery( array( "eZStats_Archive_RefererURL.Domain", "eZStats_Archive_RemoteHost.IP" ),
                                   $excludeDomain );
             $search_text = "WHERE " . $query->buildQuery();
+            $excludeTableName = ", eZStats_Archive_RemoteHost";
         }
 
         $db->array_query( $visitor_array,
-        "SELECT count( eZStats_Archive_RemoteHost.ID ) as ID
-                FROM eZStats_Archive_RefererURL, eZStats_Archive_RemoteHost
-                $searc_text
+        "SELECT count( eZStats_Archive_RefererURL.ID ) as ID
+                FROM eZStats_Archive_RefererURL $excludeTableName
+                $search_text
                 GROUP BY Domain, URI" );
-        return $visitor_array[$db->fieldName( "ID" )];
+
+        return count( $visitor_array );
     }
 
     /*!
