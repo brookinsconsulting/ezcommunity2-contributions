@@ -1,6 +1,6 @@
-<?
+<? 
 // 
-// $Id: ezinformixdb.php,v 1.9 2001/06/29 13:54:11 bf Exp $
+// $Id: ezinformixdb.php,v 1.10 2001/06/29 17:55:33 bf Exp $
 //
 // Definition of eZInformixDB class
 //
@@ -106,8 +106,27 @@ class eZInformixDB
     */
     function array_query( &$ret_array, $query, $min=0, $max=-1 )
     {
+        $limit = -1;
+        $offset = 0;
+        // check for array parameters
+        if ( is_array( $min ) )
+        {
+            $params = $min;
+            
+            if ( is_numeric( $params["Limit"] ) )
+            {
+                $limit = $params["Limit"];
+            }
+
+            if ( is_numeric( $params["Offset"] ) )
+            {
+                $offset = $params["Offset"];
+            }
+
+        }
+        
         $ret_array = array();
-        $res_id = ifx_prepare( $query, $this->Database );
+        $res_id = ifx_prepare( $query, $this->Database, IFX_SCROLL );
 
         if ( !$res_id )
         {
@@ -129,15 +148,25 @@ class eZInformixDB
         }
 
 
-        if ( $min != 0 )
-            $row = ifx_fetch_row( $res_id, $min );
+        if ( $offset != 0 )
+        {
+            $row = ifx_fetch_row( $res_id, (int)$offset + 1 );
+        }
         else
             $row = ifx_fetch_row( $res_id, "NEXT" );
 
-        while ( is_array( $row ) )
+        $i=0;
+        while ( is_array( $row )  )
         {
             $ret_array[] = $row;
             $row = ifx_fetch_row( $res_id, "NEXT" );
+            
+            $i++;
+            if ( $limit != -1 )
+            {
+                if ( $i >= $limit )
+                    break;
+            }
         }
         ifx_free_result( $res_id );
         
