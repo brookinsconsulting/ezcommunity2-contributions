@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.3 2000/09/12 12:15:37 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.4 2000/09/12 13:53:10 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -88,7 +88,6 @@ class eZProductCategory
         $this->dbInit();
 
         $this->Database->query( "INSERT INTO eZTrade_Category SET
-                                 ID='$this->ID',
 		                         Name='$this->Name',
                                  Description='$this->Description'" );
         
@@ -131,6 +130,8 @@ class eZProductCategory
     */
     function getAll()
     {
+        $this->dbInit();
+        
         $return_array = array();
         $category_array = array();
         
@@ -143,7 +144,7 @@ class eZProductCategory
         
         return $return_array;
     }
-
+    
     /*!
       Returns the name of the category.
     */
@@ -232,9 +233,12 @@ class eZProductCategory
     var $Description;
     var $OptionArray;
 
+    ///  Variable for keeping the database connection.
     var $Database;
-    
+
+    /// Indicates the state of the object. In regard to database information.
     var $State_;
+    /// Is true if the object has database connection, false if not.
     var $IsConnected;
 }
 
