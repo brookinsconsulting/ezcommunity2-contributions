@@ -41,7 +41,7 @@ if ( $Design == 2 )
 }
 
     ?>
-    <a href="<? print( $REQUEST_URI . "/?Design=2"); ?>"> here</a>
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"> here</a>
 
 	</td>
   </tr>

@@ -39,12 +39,21 @@ if ( $Design == 1 )
 {
     $session->setVariable( "SiteDesign", "standard" );
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: $REQUEST_URI" );
+
+    $redir = "/";
+    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
+    {
+        $redir = $REQUEST_URI;
+    }
+        
+    eZHTTPTool::header( "Location: $redir" );
     exit();
 }
 
-    ?>
-    <a href="<? print( $REQUEST_URI . "/?Design=1"); ?>"> here</a>
+print( $REQUEST_URI );
+
+?>
+    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>"> here</a>
     
     <!-- Oppslagstavle fram til hit! -->
 

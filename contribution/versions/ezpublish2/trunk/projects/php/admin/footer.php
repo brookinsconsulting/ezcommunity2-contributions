@@ -1,19 +1,48 @@
-	</td>
-    <td width="1%" class="repeaty" background="/images/<? echo $SiteStyle; ?>/main-r.gif"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="1" height="1"></td>
-</tr>
-<tr>
-    <td width="1%"><img src="/images/<? echo $SiteStyle; ?>/main-bl.gif" width="26" height="44"></td>
-    <td width="98%" colspan="2" class="repeatx" background="/images/<? echo $SiteStyle; ?>/main-b.gif"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="392" height="1"></td>
-    <td width="1%"><img src="/images/<? echo $SiteStyle; ?>/main-br.gif" width="26" height="44"></td>
-</tr>
-<tr>
-	<td colspan="4" align="right"><a href="http://www.ez.no"><img src="/images/<? echo $SiteStyle; ?>/bottom-ez-logo.gif" width="87" height="25" border="0"></a><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="4" height="1" border="0"></td>
-</tr>
-</table>
+<?
+// 
+// $Id: footer.php,v 1.10 2001/01/23 15:26:29 bf Exp $
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <23-Jan-2001 16:06:07 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
 
-	</td>
-</tr>
-</table>
+include_once( "classes/INIFile.php" );
+$ini = new INIFile( "site.ini" );
 
-</body>
-</html>
+$Language = $ini->read_var( "eZArticleMain", "Language" );
+
+include_once( "classes/template.inc" );
+
+$t = new Template( "templates/" . $SiteStyle );
+                 
+
+$t->set_file( array(
+    "footer_tpl" => "footer.tpl"
+    ) );
+
+$t->set_var( "site_style", $SiteStyle );
+$t->set_var( "module_dir", $moduleName );
+
+
+$t->pparse( "output", "footer_tpl" );
+    
+
+?>
+

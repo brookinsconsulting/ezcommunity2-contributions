@@ -21,7 +21,9 @@ function verify( msg, url )
 
 </head>
 
-<body bgcolor="<? echo $SiteBackground; ?>">
+
+
+<body bgcolor="#777777">
 
 <?
 // This page should have templates, but because of speed concerns
@@ -37,58 +39,20 @@ $userLogin = $LanguageIni->read_var( "strings", "login_user" );
 $status = $LanguageIni->read_var( "strings", "status" );
 $passwordChange = $LanguageIni->read_var( "strings", "password_change" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( $user )
 {
     $firstName =& $user->firstName();
     $lastName =& $user->lastName();
 }
+
 ?>
+
+<h1>HEADER</h1>
+    
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td width="1%"><img src="/images/<? echo $SiteStyle; ?>/top-logo.gif" width="300" height="70" border="0"></td>
-	<td width="96%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif">&nbsp;</td>
-	<td width="1%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top">
-    <img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="150" height="16" border="0"><br>
-<?
-if ( $user )
-{        
-?>
-     <div class="top"><? echo $userLogin ?>:</div><div class="topusername"><? print( $firstName . " " . $lastName ); ?></div>
-<?
-}
-?>
-</td>
-	<td width="1%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="150" height="16" border="0"><br />
-<?
-if ( $user )
-{        
-?>
-<!--
-    <img src="/images/<? echo $SiteStyle; ?>//topmenu-arrow.gif" width="20" height="10"><a class="topmenu">$status</a><br />
--->
-    <img src="/images/<? echo $SiteStyle; ?>/topmenu-arrow.gif" width="20" height="10" border="0"><a href="/user/passwordchange/" class="topmenu"><? echo $passwordChange ?></a></td>
-<?
-}
-?>
-	<td width="1%">	<img src="/images/<? echo $SiteStyle; ?>/top-logout.gif" width="50" height="70" usemap="#topmap" border="0"></td>
-</tr>
-</table>
-
-<map name="topmap">
-<area shape="rect" coords="0,10,35,48" href="/user/login/logout/">
-</map>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-<?php
-//    if ( !$LoginSeparator )
-//  {
-?>
 	<td width="1%" valign="top">
     <table width="150" border="0" cellspacing="0" cellpadding="0">
-<?php
-//    }
-?>

@@ -1,1 +1,0 @@
-<option value="{group_id}">{caption}</option>

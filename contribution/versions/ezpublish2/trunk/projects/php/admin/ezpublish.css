@@ -1,14 +1,14 @@
 body 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
 p 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
@@ -35,21 +35,26 @@ h3
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
 a 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;		
+	font-size: 13px;		
 	color : #000000;
 }
 
-.text
+a:hover
+{
+	text-decoration: underline;
+}
+
+.p
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
@@ -66,21 +71,22 @@ a
 
 .top
 {
-	color: #ffffff;
-	font-size: 10px;
+	color: #000000;
+	font-size: 11px;
 	font-weight: bold;
 }
 
 .topusername
 {
-	color: #ffffff;
-	font-size: 10px;
+	color: #000000;
+	font-size: 11px;
+	font-weight: normal;
 }
 
 .topmenu
 {
 	color: #ffffff;
-	font-size: 10px;
+	font-size: 11px;
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -88,23 +94,22 @@ a
 
 .menu 
 {
-	font-size: 10px;
-	font-weight: bold;
+	font-size: 11px;
+	font-weight: normal;
 	text-decoration: none;
+}
+
+.modulename
+{
+	font-size: 20px;
+	font-weight: normal;
 }
 
 .path 
 {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	text-decoration: none;
-}
-
-.slash
-{
-	font-weight: bold;
-	font-size: 18px;
-	color: #c80000;
 }
 
 .byline 
@@ -127,7 +132,7 @@ a
 .check 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 	margin-bottom: 8px;
 }
@@ -148,7 +153,7 @@ a
 th 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	color: #000000;
 	text-align: left;
@@ -157,7 +162,7 @@ th
 td 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 	background-repeat: no-repeat;
 }
@@ -170,11 +175,13 @@ td
 .repeatx
 {
 	background-repeat: repeat-x;
+	font-size: 1px;
 }
 
 .repeaty
 {
 	background-repeat: repeat-y;
+	font-size: 1px;
 }
 
 .bglight 
@@ -206,14 +213,14 @@ td
 select 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
 input 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
@@ -230,7 +237,7 @@ input
 
 textarea 
 {
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 	width: 500px;
 }
@@ -249,6 +256,6 @@ textarea
 
 hr
 {
-	color: #640000;
+	color: #808080;
 }
 
