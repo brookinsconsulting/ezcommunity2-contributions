@@ -201,6 +201,8 @@ if( $Action == "insert" || $Action == "update" )
     {
         $t->set_block( "errors_tpl", "error_password_item_tpl", "error_password_item" );
         $t->set_block( "errors_tpl", "error_password_too_short_item_tpl", "error_password_too_short_item" );
+        $t->set_block( "errors_tpl", "error_passwordmatch_item_tpl", "error_passwordmatch_item" );
+        $t->set_block( "errors_tpl", "error_passwordrepeat_item_tpl", "error_passwordrepeat_item" );
         $t->set_var( "error_password_item", "&nbsp;" );
         $t->set_var( "error_password_too_short_item", "&nbsp;" );
         $t->set_var( "error_passwordrepeat_item", "&nbsp;" );

@@ -38,6 +38,14 @@
     <li>{intl-error_password_too_short}
     <!-- END error_password_too_short_item_tpl -->
 
+    <!-- BEGIN error_passwordrepeat_item_tpl -->
+    <li>{intl-error_passwordrepeat_item}
+    <!-- END error_passwordrepeat_item_tpl -->
+
+    <!-- BEGIN error_passwordmatch_item_tpl -->
+    <li>{intl-error_passwordmatch_item}
+    <!-- END error_passwordmatch_item_tpl -->
+
     <!-- BEGIN error_loginname_item_tpl -->
     <li>{intl-error_loginname}
     <!-- END error_loginname_item_tpl -->
