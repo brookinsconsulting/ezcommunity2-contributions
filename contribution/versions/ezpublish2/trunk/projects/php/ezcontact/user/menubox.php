@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2000/11/16 16:59:34 pkej-cvs Exp $
+// $Id: menubox.php,v 1.3 2001/01/16 13:23:59 jb Exp $
 //
 // 
 //
@@ -25,53 +25,30 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
-
-$Language = $ini->read_var( "eZUserMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-
-$t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "TemplateDir" ),
-                     "ezcontact/user/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-
-$t->set_block( "menu_box_tpl", "logged_in_person_menu_tpl", "logged_in_person_menu" );
-
-include_once( "ezuser/classes/ezuser.php" );
 $user = eZUser::currentUser();
-
-if( get_class( $user ) == "ezuser"  )
+if ( $user )
 {
-    $UserID = $user->id();
-}
 
-if( $UserID != 0 ) // 1
-{
-    include_once( "ezcontact/classes/ezperson.php" );
-    $person = new eZPerson();
-    $returnArray = $person->getByUserID( $UserID ); // 1.1
-    if( get_class( $returnArray[0] ) == "ezperson" ) // 1.2
-    {
-        $PersonID = $returnArray[0]->id();
-        $t->set_var( "person_id", $PersonID );
-    }
-    $t->parse( "logged_in_person_menu", "logged_in_person_menu_tpl" );
-}
-else
-{
-    $t->set_var( "logged_in_person_menu", "" );
-}       
+    include_once( "classes/INIFile.php" );
+    $ini = new INIFile( "site.ini" );
 
+    $Language = $ini->read_var( "eZUserMain", "Language" );
 
-$t->set_var( "site_style", $SiteStyle );
+    include_once( "classes/eztemplate.php" );
 
-$t->pparse( "output", "menu_box_tpl" );
-    
+    $t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "TemplateDir" ),
+                         "ezcontact/user/intl", $Language, "menubox.php" );
+
+    $t->setAllStrings();
+
+    $t->set_file( array(
+        "menu_box_tpl" => "menubox.tpl"
+        ) );
+
+    include_once( "ezuser/classes/ezuser.php" );
+    $user = eZUser::currentUser();
+
+    $t->pparse( "output", "menu_box_tpl" );
+}   
 
 ?>
