@@ -1,8 +1,10 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.24 2001/01/24 20:10:08 jb Exp $
+// $Id: eztemplate.php,v 1.25 2001/01/25 00:23:16 jb Exp $
 //
 // Definition of eZTemplate class
+//
+// Originally done by Kristian Koehntopp @ NetUSE GmbH
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -334,8 +336,8 @@ class eZTemplate
     /*!
       Sets the file(s) to be working on, its either set to one file with
       two parameters, set_file( $handle, $filename ), or by several file
-      using an array, set_file( array( "file1_tpl", "file1.tpl",
-                                       "file2_tpl", "file2.tpl" ) );
+      using an array, set_file( array( "file1_tpl" => "file1.tpl",
+                                       "file2_tpl" => "file2.tpl" ) );
     */
     function set_file($handle, $filename = "")
     {
@@ -347,16 +349,15 @@ class eZTemplate
                 return false;
             }
             $this->file[$handle] = $this->filename($filename);
-            $this->files = array();
-            $this->files[0] = $filename;
+            $this->files = array( $filename );
         }
         else
         {
+            $this->files = array();
             reset($handle);
             while(list($h, $f) = each($handle))
             {
                 $this->file[$h] = $this->filename($f);
-                $this->files = array();
                 $this->files[] = $f;
             }
         }
@@ -365,24 +366,65 @@ class eZTemplate
     /*!
       Extract a template block and set it as a template variable,
       the content of the template variable is the same as the content of the block.
+      If $parent is an array each entry is extracted and set as a block,
+      each entry is assumed to contain a parent, a handle and a name.
     */
-    function set_block($parent, $handle, $name = "")
+    function set_block($parent, $handle = "", $name = "")
     {
-        if (!$this->loadfile($parent))
+        if ( !is_array( $parent ) )
         {
-            $this->halt("subst: unable to load $parent.");
-            return false;
-        }
-        if ($name == "")
-            $name = $handle;
+            if (!$this->loadfile($parent))
+            {
+                $this->halt("subst: unable to load $parent.");
+                return false;
+            }
+            if ($name == "")
+                $name = $handle;
 
-        $str = $this->get_var($parent);
-        $reg = "/<!--\s+BEGIN $handle\s+-->(.*)\n\s*<!--\s+END $handle\s+-->/sm";
-        preg_match($reg, $str, $m);
-        $str =& preg_replace($reg, "{" . "$name}", $str);
-        $this->set_var_internal($handle, $m[1]);
-        $this->set_var_internal($parent, $str);
+            $str =& $this->get_var($parent);
+            $reg = "/<!--\s+BEGIN $handle\s+-->(.*)\n\s*<!--\s+END $handle\s+-->/sm";
+            preg_match($reg, $str, $m);
+            $str =& preg_replace($reg, "{" . "$name}", $str);
+            $this->set_var_internal($handle, $m[1]);
+            $this->set_var_internal($parent, $str);
+        }
+        else
+        {
+            foreach( $parent as $block )
+            {
+                $this->set_block( $block[0], $block[1], $block[2] );
+            }
+        }
     }
+
+    /*!
+      Extract the contents of a file named with set_file and sets it as a template_variable.
+    */
+    function set_file_block( $parent )
+    {
+        if ( is_array( $parent ) )
+        {
+            reset( $parent );
+            while( list($file, $val) = each( $parent ) )
+            {
+                if ( !$this->loadfile( $file ) )
+                {
+                    $this->halt("set_file_block: unable to load $parent.");
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            if (!$this->loadfile($parent))
+            {
+                $this->halt("set_file_block: unable to load $parent.");
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /*!
       Sets a template variable to contain a certain value.
@@ -452,13 +494,33 @@ class eZTemplate
 
     /*!
       Parses a the content of a block into a template variable and returns it.
+      If $target is array treat each key/value as a target and handle.
+      If $handle is array set $target to content of all $handle variables
     */
-    function &parse( $target, $handle, $append = false )
+    function &parse( $target, $handle = "", $append = false )
     {
-        if (!is_array($handle))
+        if ( is_array( $target ) )
+        {
+            reset( $target );
+            while( list($targ,$hndl) = each( $target ) )
+            {
+                unset( $str );
+                $str =& $this->subst($hndl);
+                if ( $append )
+                {
+                    $tmp = $this->get_var( $targ ) . $str;
+                    $this->set_var_internal($targ, $tmp );
+                }
+                else
+                {
+                    $this->set_var_internal($targ, $str);
+                }
+            }
+        }
+        else if (!is_array($handle))
         {
             $str =& $this->subst($handle);
-            if ($append)
+            if ( $append )
             {
                 $tmp = $this->get_var($target) . $str;
                 $this->set_var_internal($target, $tmp );
