@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: wishlist.php,v 1.1 2000/10/22 10:33:23 bf-cvs Exp $
+// $Id: wishlist.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
 //
 // 
 //
@@ -105,8 +105,8 @@ if ( $Action == "AddToBasket" )
     exit();
 }
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/intl/", $Language, "wishlist.php" );
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/user/intl/", $Language, "wishlist.php" );
 
 $t->setAllStrings();
 

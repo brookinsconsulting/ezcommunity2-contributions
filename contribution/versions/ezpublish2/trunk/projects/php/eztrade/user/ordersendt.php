@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.1 2000/10/22 10:33:23 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
 //
 // 
 //
@@ -15,8 +15,8 @@
 
 include_once( "classes/eztemplate.php" ); 
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/intl/", $Language, "ordersendt.php" );
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/user/intl/", $Language, "ordersendt.php" );
 
 $t->setAllStrings();
 

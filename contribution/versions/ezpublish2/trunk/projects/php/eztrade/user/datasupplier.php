@@ -92,8 +92,8 @@ switch ( $url_array[2] )
         
     case "wishlist" :
         $CartType = "WishList";        
-         include( "eztrade/user/wishlist.php" );
-        break;
+    include( "eztrade/user/wishlist.php" );
+    break;
 
     case "customerlogin" :
         include( "eztrade/user/customerlogin.php" );

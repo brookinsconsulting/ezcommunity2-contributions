@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.1 2000/10/22 10:33:23 bf-cvs Exp $
+// $Id: productlist.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
 //
 // 
 //
@@ -25,11 +25,10 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/intl/", $Language, "productlist.php" );
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/user/intl/", $Language, "productlist.php" );
 
 $t->set_file( "product_list_page_tpl", "productlist.tpl" );
-
 
 $t->set_block( "product_list_page_tpl", "path_tpl", "path" );
 $t->set_block( "product_list_page_tpl", "product_list_tpl", "product_list" );

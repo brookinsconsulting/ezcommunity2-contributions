@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.1 2000/10/22 10:33:23 bf-cvs Exp $
+// $Id: customerlogin.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
 //
 // 
 //
@@ -28,8 +28,8 @@ if ( eZUser::currentUser() )
 }
 else
 {
-    $t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/customerlogin/",
-                         "eztrade/intl/", $Language, "customerlogin.php" );
+    $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                         "eztrade/user/intl/", $Language, "customerlogin.php" );
 
     $t->setAllStrings();
 
