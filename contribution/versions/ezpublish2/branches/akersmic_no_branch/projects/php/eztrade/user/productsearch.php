@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productsearch.php,v 1.20.8.18 2002/04/11 12:08:33 ce Exp $
+// $Id: productsearch.php,v 1.20.8.19 2002/04/12 08:24:08 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -98,6 +98,45 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
 ( $SearchType == "AdvancedMultimedia" ) || ( $SearchType == "AdvancedHIFI" )
      )
 {
+    if ( $Type == 6 )
+    {
+        $SearchType = "AdvancedMusic";
+        $Artist = $Query;
+        $MusicType = "All";
+    }
+
+    if ( $Type == 7 )
+    {
+        $SearchType = "AdvancedMusic";
+        $AlbumTitle = $Query;
+        $MusicType = "All";
+    }
+
+    if ( $Type == 8 )
+    {
+        $SearchType = "AdvancedDVD";
+        $DVDTitle = $Query;
+    }
+
+    if ( $Type == 9 )
+    {
+        $SearchType = "AdvancedDVD";
+        $DVDTitle = $Query;
+    }
+
+    if ( $Type == 10 )
+    {
+        $SearchType = "AdvancedDVD";
+        $DVDActor = $Query;
+    }
+
+    if ( $Type == 11 )
+    {
+        $SearchType = "AdvancedMultimedia";
+        $GameTitle = $Query;
+        $MultimediaType = "All";
+    }
+    
     $MusicType = urldecode ( $MusicType );
     $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
                                                                       "SearchType" => $SearchType,
