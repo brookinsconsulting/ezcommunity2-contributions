@@ -12,8 +12,10 @@ $GLOBALS["DEBUG"] = true;
 
 $UsePHPSessions = false;
 
+ob_start();
 // Turn on output buffering with gz compression
 ob_start("ob_gzhandler");
+//ob_start("ob_gzhandler");
 
 if ( $UsePHPSessions == true )
 {
@@ -147,7 +149,28 @@ if ( ( $requireUserLogin == "disabled" ) ||
     // fill the buffer with the old values
     ob_start();
     print( $buffer );
-    
+
+
+    if ( is_numeric( $GlobalSectionID ) )
+    {
+        switch ( $GlobalSectionID )
+        {
+            case "1":
+                $siteDesign = "news";
+                break;
+            case "2":
+                $siteDesign = "trade";
+                break;
+                
+            default:
+                $siteDesign = "standard";                
+                break;
+        }
+        print( "<b>" . $GlobalSectionID . "</b>" );
+    }
+    else
+        print( "<b>Section not set</b>" );
+    $GlobalSiteDesign = $siteDesign;
 
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
