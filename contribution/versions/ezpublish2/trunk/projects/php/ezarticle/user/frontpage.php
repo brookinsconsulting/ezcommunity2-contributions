@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.24 2001/10/16 10:28:05 bf Exp $
+// $Id: frontpage.php,v 1.25 2001/10/16 10:35:04 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -361,12 +361,9 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 	
 	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 	
-    if ( $CategoryID == 0 )
-    {
-        $category =& $article1->categoryDefinition();
-        $CategoryID = $category->id();
-    }
-        
+    $category =& $article1->categoryDefinition();
+    $CategoryID = $category->id();
+
     $t->set_var( "category_id", $CategoryID );
     
     $t->set_var( "article_id", $article1->id() );
@@ -434,14 +431,11 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     $t->parse( "left_article", "left_article_tpl"  );
     $aid = $article2->id();
 
-    if ( $CategoryID == 0 )
-    {
-        $category =& $article2->categoryDefinition();
-        $CategoryID = $category->id();
-    }
+    $category =& $article2->categoryDefinition();
+    $CategoryID = $category->id();
         
     $t->set_var( "category_id", $CategoryID );
-    
+
     $t->set_var( "article_id", $article2->id() );
     $t->set_var( "article_name", $article2->name() );
     $t->set_var( "author_text", $article2->authorText() );
