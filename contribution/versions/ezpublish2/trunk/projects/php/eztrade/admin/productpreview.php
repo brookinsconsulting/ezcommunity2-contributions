@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.10 2000/11/12 19:41:44 bf-cvs Exp $
+// $Id: productpreview.php,v 1.11 2000/11/12 20:06:59 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -60,6 +60,8 @@ if ( $mainImage )
     $t->set_var( "main_image_caption", $mainImage->caption() );
 
     $mainImageID = $mainImage->id();
+
+    $t->parse( "main_image", "main_image_tpl" );
 }
 else
 {

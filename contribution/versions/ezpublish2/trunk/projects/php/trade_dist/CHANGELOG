@@ -1,5 +1,7 @@
 Changes from version 1.0.1
 -------------------------
+* Added clickable thumbnail images on product view.
+* Removed Javascript from the cart.
 * Fixed some issues with cache coherence
 * Removed broken image on product preview if no image exists.
 * Language updates.

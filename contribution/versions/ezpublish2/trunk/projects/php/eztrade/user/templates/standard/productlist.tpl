@@ -51,7 +51,9 @@
     <table align="right">
     <tr>
         <td>
+	<a href="/trade/productview/{product_id}/{category_id}/">
         <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	</a>
         </td>
     </tr>
     <tr>

@@ -31,7 +31,7 @@
 </SCRIPT> 
 
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.7 2000/11/02 12:43:25 pkej-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.8 2000/11/12 20:06:59 bf-cvs Exp $ -->
 
 <h1>{intl-cart}</h1>
 
@@ -79,8 +79,8 @@
 	{product_price}
 	</td>
 	<td class="{td_class}" align="right">
-	<a href="#" onClick="verify( '{intl-delete}', '/trade/cart/remove/{cart_item_id}/'); return false;" 
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{cart_item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/trade/cart/remove/{cart_item_id}/"  
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{cart_item_id}-slett','','/eztrade/user/images/slettminimrk.gif',1)"><img name="ezuser{cart_item_id}-slett" border="0" src="/eztrade/user/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END cart_item_tpl -->

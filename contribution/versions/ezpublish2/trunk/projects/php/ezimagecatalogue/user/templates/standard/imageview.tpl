@@ -4,7 +4,9 @@
 <table align="center" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
+	<a href="{referer_url}">
 	<img src="{image_uri}" border="0" width="{image_width}" height="{image_height}" />
+	</a>
 	</td>
 </tr>
 <tr>

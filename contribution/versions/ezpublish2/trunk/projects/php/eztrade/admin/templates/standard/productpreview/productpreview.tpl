@@ -36,6 +36,7 @@
 
 <p>{description_text}</p>
 
+<br clear="all" />
 <table width="100%" cellspacing="0" cellpadding="7">
 <tr>
 <!-- BEGIN image_tpl -->

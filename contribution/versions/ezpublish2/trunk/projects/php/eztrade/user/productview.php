@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.6 2000/11/01 09:59:19 bf-cvs Exp $
+// $Id: productview.php,v 1.7 2000/11/12 20:06:59 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -80,6 +80,7 @@ if ( $mainImage )
 {
     $variation = $mainImage->requestImageVariation( 250, 250 );
     
+    $t->set_var( "main_image_id", $mainImage->id() );
     $t->set_var( "main_image_uri", "/" . $variation->imagePath() );
     $t->set_var( "main_image_width", $variation->width() );
     $t->set_var( "main_image_height", $variation->height() );
@@ -97,7 +98,6 @@ else
 $t->set_var( "title_text", $product->name() );
 $t->set_var( "intro_text", $product->brief() );
 $t->set_var( "description_text", nl2br( $product->description() ) );
-
 
 $images = $product->images();
 
