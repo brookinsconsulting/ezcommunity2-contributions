@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.4 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.5 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://publish.ez.no) on a Linux 
@@ -23,9 +23,10 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 #---------------------------------------------------------------------------
 #
+# 1.5: - partial rewrite
+#      - fixed for 2.2 alpha
 # 1.4: - fixed to have it work with older Bash
 #
-
 
 ############################################################################
 # Default values
@@ -38,12 +39,19 @@ DEF_DBNAME=publish
 DEF_DBUSER=publish
 DEF_TITLE="eZ publish"
 DEF_DBSERVER=localhost
-DEF_URLDIR=/
+DEF_URLDIR=/publish
+DEF_INSTALL=1
 
+
+
+############################################################################
 ############################################################################
 #Let's go
 #
-echo "ezinstaller.sh - version 1.4 - (c) 2001 Kai Dübbert <kai@duebbert.de>"
+DATE="2001-08-29"
+VERSION="1.5 [$DATE]"
+
+echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert <kai@duebbert.de>"
 echo ""
 echo "This tool will help you install eZ publish on your server."
 echo ""
@@ -58,24 +66,56 @@ echo "##################################################################"
 function install_q {
 	echo ""
 	echo "#################################################################"
-	echo "Old install mechanism or new install mechanism:"
-	echo "You can install eZ publish the old way (virtual hosts, mod_rewrite)"
-	echo "or the new way (no virtual hosts needed, no mod_rewrite needed,"
-	echo "no root access needed, installation in subdirectories possible)."
+	echo "                I N S T A L L   M E C H A N I S M"
 	echo ""
-	echo -n "Which mechanism do you want to use? (new|old): "
+	echo "       [1] with virtual_hosts and mod_rewrite (needs root priviledges)"
+	echo "       [2] without virtual_hosts and mod_rewrite"
+	echo "       [h] Help"
+	echo ""
+	echo -n "Choose:  "
+
 	read Q
-	if [ "$Q" = "new" ]; then
+	if [ "$Q" = "2" ]; then
 		C_INSTALL=new
-	elif [ "$Q" = "old" ]; then
+	elif [ "$Q" = "1" ]; then
 		C_INSTALL=old
 		if [ `whoami` !=  "root" ]; then
-		    echo "For the old install you must be root. (The new install"
-			echo "doesn't care as much.)"
-		    exit 0
+			echo "To install eZ publish with virtual_hosts/mod_rewrite you"
+			echo "must be root."
+			echo "Choose [2] if you don't have or want to install as root."
+			exit 0
 		fi
+	elif [ "$Q" = "h" ] || [ "$Q" = "H" ]; then
+		echo ""
+		echo "[1]: lets you install eZ publish like it is explained in"
+		echo "     section 4.1 in the installation manual."
+		echo "     You need mod_rewrite for Apache and have to setup"
+		echo "     2 virtual hosts in your Apache configuration."
+		echo "     It also has to chown/chmod the files appropriately which"
+		echo "     is the reason, why you need root priviledges (you also"
+		echo "     need them for changing your Apache configuration afterwards.)"
+		echo "     Advantages compared to [2]:"
+		echo "        - better tested"
+		echo "        - better for upgrading existing eZ publish sites"
+		echo "     Disadvantages (see [2])"
+		echo ""
+		echo "[2]: lets you install eZ publish much like other PHP programs."
+		echo "     It doesn't need any special configurations in the Apache"
+		echo "     configuration, which makes it first choice, if you don't have"
+		echo "     root access."
+		echo "     This installation is explained in section 4.2 in the"
+		echo "     installation manual."
+		echo "     Advantages compared to [1]:"
+		echo "        - you can keep your old HTML documents on the server"
+		echo "        - can be installed in subdirectories of your webserver"
+		echo "        - doesn't need root priviledges"
+		echo "        - doesn't need mod_rewrite/virtual_hosts"
+		echo "     Disadvantages:"
+		echo "        - not tested as well as [1] (yet)"
+		echo ""
+		install_q
 	else
-		echo "No no no, please choose \"new\" or \"old\"."
+		echo "Please choose \"1\", \"2\" or \"h\"."
 		install_q
 	fi
 }
@@ -83,15 +123,108 @@ install_q
 
 
 ############################################################################
-# Both methods: Ask some configuration questions
+# configuration functions
 #
+
 echo ""
 echo "#################################################################"
-echo "Configuration questions:"
-echo "Now some questions to setup your site.ini file. Have a look at it"
-echo "when I am finished, because all I try is to get you a working"
-echo "setup!"
+echo "                   C O N F I G U R A T I O N"
 echo ""
+
+# Let's first check for directories and permissions, so the user
+# doesn't have to do all again
+
+# Web directory
+echo -n "Apache web directory [$DEF_WWWDIR]: "
+read C_WWWDIR
+if [ "$C_WWWDIR" = "" ]; then
+	C_WWWDIR=$DEF_WWWDIR
+fi
+
+# New install: Installdir
+if [ "$C_INSTALL" = "new" ]; then
+	echo -n "Web directory for eZ publish as subdirectory of $C_WWWDIR [$DEF_URLDIR]: "
+	read C_URLDIR
+	if [ "$C_URLDIR" = "" ]; then
+		C_URLDIR=$DEF_URLDIR
+	fi
+	
+	# add a slash if needed!
+	if ! echo $C_URLDIR | grep /$ > /dev/null; then
+		C_URLDIR=$C_URLDIR/
+		#echo "slash added"
+	fi
+	
+	if ! echo $C_URLDIR | grep ^/ > /dev/null; then
+		C_URLDIR=/$C_URLDIR
+		#echo "slash added"
+	fi
+	C_WWWDIR="$C_WWWDIR$C_URLDIR"
+	if [ ! -d "$C_WWWDIR" ]; then
+		echo -n "$C_WWWDIR does not exist. Creating it... "
+		mkdir -p $C_WWWDIR
+		if [ ! $? = 0 ]; then
+			echo "FAILED. Check error message. Aborting."
+			exit 1
+		else
+			echo "done."
+		fi
+	else
+		touch $C_WWWDIR/test_delete_me
+		if [ ! $? = 0 ]; then
+			echo "Don't seem to have the right permissions for $C_WWWDIR!"
+			echo "Aborting."
+			exit 1
+		else
+			rm $C_WWWDIR/test_delete_me
+		fi
+	fi
+fi
+
+function conf_inst_dir {
+	if [ "$C_INSTALL" = "new" ]; then
+		echo "-----------------------------------------------------------------"
+		echo "Now I need a directory where you want me to put the eZ publish"
+		echo "files. THIS *MUST NOT* BE THE SAME AS YOUR PUBLIC WWW DIRECTORY!"
+		echo "This is very important for your security."
+		echo -n "Directory for program files [$DEF_INSTDIR]: "
+		read C_INSTDIR
+		
+		# Check if the user read the warning.
+		if [ "$C_WWWDIR" = "$C_INSTDIR" ] || [ "$C_WWWDIR" = "$C_INSTDIR/" ]; then
+			echo ""
+			echo "AAAAARGHH! Please read the warning above."
+			echo "It's important to not give anybody direct access"
+			echo "to the PHP files of eZ publish. Bad, bad people"
+			echo "might find bugs which could allow them to use"
+			echo "eZ publish in a malicious way."
+			echo "Please give me a different directory."
+			conf_inst_dir
+		fi
+		
+		if [ "$C_INSTDIR" = "" ]; then
+			C_INSTDIR=$DEF_INSTDIR
+		fi
+		if [ ! -d "$C_INSTDIR" ]; then
+			echo -n "$C_INSTDIR does not exist. Creating it... "
+			mkdir -p $C_INSTDIR
+			if [ ! $? = 0 ]; then
+				echo "FAILED. Check error message. Aborting."
+				exit 1
+			else
+				echo "done."
+			fi
+		fi
+		# add a slash if needed!
+		if ! echo $C_INSTDIR | grep /$ > /dev/null; then
+			C_INSTDIR=$C_INSTDIR/
+			#echo "slash added"
+		fi
+	else
+		C_INSTDIR=.
+	fi
+}
+conf_inst_dir
 
 # Hostname
 DEF_HOSTNAME="$(hostname -f)"
@@ -108,7 +241,7 @@ if [ "$C_INSTALL" = "old" ]; then
 fi
 
 # Title
-echo -n "Title of your pages [$DEF_TITLE]: "
+echo -n "Title for your site [$DEF_TITLE]: "
 read C_TITLE
 if [ "$C_TITLE" = "" ]; then
 	C_TITLE=$DEF_TITLE
@@ -136,87 +269,36 @@ if [ "$C_DBUSER" = "" ]; then
 fi
 
 # DB pass
-echo -n "Password for user \"$C_DBUSER\": "
-read C_DBPASS
+function conf_db_pass {
+	echo -n "Password for user \"$C_DBUSER\": "
+	read -s C_DBPASS
+	echo -en "\nRetype password: "
+	read -s C_DBPASS2
+	if [ ! "$C_DBPASS" = "$C_DBPASS2" ]; then
+		echo -en "\n"
+		conf_db_pass
+	fi
+	echo ""
+}
+conf_db_pass
 
 # For old install
 if [ "$C_INSTALL" = "old" ]; then
 	# Owner of Webserver
-	echo -n "Owner of webserver [$DEF_OWNER]: "
+	echo -n "Webserver Owner (UID) [$DEF_OWNER]: "
 	read C_OWNER
 	if [ "$C_OWNER" = "" ]; then
 		C_OWNER=$DEF_OWNER
 	fi
-
 fi
-	
+
 # Group of Webserver
-echo -n "Group of webserver [$DEF_GROUP]: "
+echo -n "Webserver Group (GID) [$DEF_GROUP]: "
 read C_GROUP
 if [ "$C_GROUP" = "" ]; then
 	C_GROUP=$DEF_GROUP
 fi
-	
-# Web directory
-echo -n "Web directory [$DEF_WWWDIR]: "
-read C_WWWDIR
-if [ "$C_WWWDIR" = "" ]; then
-	C_WWWDIR=$DEF_WWWDIR
-fi
-if [ ! -d "$C_WWWDIR" ]; then
-	echo -n "$C_WWWDIR does not exist. Creating it... "
-	mkdir -p $C_WWWDIR
-	echo "done."
-else
-	touch $C_WWWDIR/test_delete_me
-	if [ ! $? = 0 ]; then
-		echo "Don't seem to have the right permissions for $C_WWWDIR!"
-		echo "Check and start ezinstall.sh again!"
-		exit 1
-	else
-		rm $C_WWWDIR/test_delete_me
-	fi
-fi
 
-# New install: Installdir
-if [ "$C_INSTALL" = "new" ]; then
-	echo "-----------------------------------------------------------------"
-	echo "New install: the url to the web directory"
-	echo -n "URL directory [$DEF_URLDIR]: "
-	read C_URLDIR
-	if [ "$C_URLDIR" = "" ]; then
-		C_URLDIR=$DEF_URLDIR
-	fi
-	# add a slash if needed!
-	if ! echo $C_URLDIR | grep /$ > /dev/null; then
-		C_URLDIR=$C_URLDIR/
-		echo "slash added"
-	fi
-	C_WWWDIR="$C_WWWDIR$C_URLDIR"
-
-	echo "-----------------------------------------------------------------"
-	echo "New install: now I need a directory where you want me"
-	echo "to put the eZ publish files. This should *NOT* be"
-	echo "the same as your public www directory! This is important"
-	echo "for security!"
-	echo -n "Site directory [$DEF_INSTDIR]: "
-	read C_INSTDIR
-	if [ "$C_INSTDIR" = "" ]; then
-		C_INSTDIR=$DEF_INSTDIR
-	fi
-	if [ ! -d "$C_INSTDIR" ]; then
-		echo -n "$C_INSTDIR does not exist. Creating it... "
-		mkdir -p $C_INSTDIR
-		echo "done."
-	fi
-	# add a slash if needed!
-	if ! echo $C_INSTDIR | grep /$ > /dev/null; then
-		C_INSTDIR=$C_INSTDIR/
-		echo "slash added"
-	fi
-else
-	C_INSTDIR=.
-fi
 # Configuration finished
 
 
@@ -225,56 +307,60 @@ fi
 #
 echo ""
 echo "#################################################################"
-echo "Database:"
-echo "If you have already a working database and gave the db name,"
-echo "username and password, you *DON'T* want to create the database."
+echo "                   D A T A B A S E   S E T U P"
+echo ""
+echo "If \"$C_DBNAME\" is already a working database for eZ publish which"
+echo "you would like to use, choose no here."
 echo "If you do a clean or first install, say yes to these options."
 echo ""
 echo -n "Shall I setup the database for you (Y/n): "
 read Q
 if [ "$Q" = "y" ] || [ "$Q" = "Y" ] || [ "$Q" = "" ]; then
-	echo "Is the db user \"$C_DBUSER\" allowed to create the"
-	echo "database \"$C_DBNAME\"? This will quite certainly"
-	echo "not be the case, if you haven't setup this user in"
-	echo "mySQL yet."
-	echo -n "Can I create and use the database with user \"$C_DBUSER\"? (Y/n)? "
-	read Q
-	if [ "$Q" = "n" ] || [ "$Q" = "N" ]; then
-		echo ""
-		echo "Ok, please tell me a user that is allowed to create the database"
-		echo -n "and to give the right permissions to user \"$C_DBUSER\" (e.g. root): "
-		read C_DBUSER2
-		if [ "$C_DBUSER2" = "" ]; then
-			echo "ARGH.... you were supposed to give me a name! I will use \"root\""
-			echo "for now."
-			C_DBUSER2=root
-		fi
+	Q_DB_CREATE=1
+else
+	Q_DB_CREATE=0
+fi
+
+if [ $Q_DB_CREATE = 1 ]; then
+	echo ""
+	echo "Please tell me a user that is allowed to create"
+	echo -n "the database (e.g. root): "
+	read C_DBUSER2
+	if [ "$C_DBUSER2" = "" ]; then
+		echo "ARGH.... you were supposed to give me a name! I will use \"root\""
+		echo "for now."
+		C_DBUSER2=root
+	fi
+fi
+
+
+function db_root_pass {
+	if [ $Q_DB_CREATE = 1 ]; then
+		# Password
 		echo -n "Password for db user \"$C_DBUSER2\": "
-		read C_DBPASS2
+		read -s C_DBPASS2
+		echo -en "\nRetype password: "
+		read -s C_DBPASS_CHECK
+		if [ ! $C_DBPASS2 = $C_DBPASS_CHECK ]; then
+			echo "Passwords were not the same."
+			echo -en "\n"
+			db_root_pass
+		fi
+
+		# Warning... feel like a teacher. ;)
 		if [ "$C_DBPASS2" = "" ]; then
 			echo "Uh-oh, having a powerful user like this and not having a password"
-			echo "is *VERY* bad in respect to security. But I will continue..."
+			echo "is *VERY* bad in respect to security. You should seriously think"
+			echo "about setting a password for root. But I will continue..."
 			DBOPTIONS="-u$C_DBUSER2"
 		else
 			DBOPTIONS="-u$C_DBUSER2 -p$C_DBPASS2"
 		fi
-		
-		echo -n "Creating the user \"$C_DBUSER\" to use the database \"$C_DBNAME\"... "
-		echo "grant all on ${C_DBNAME}.* to ${C_DBUSER}@localhost identified by \"$C_DBPASS\"" | mysql $DBOPTIONS
-		if [ $? = 0 ];then
-			echo "done."
-		else
-			echo "Sorry, but this failed... I have to stop. Please try to find your error (or mine)."
-			exit 1
-		fi
-	else
-		if [ "$C_DBPASS" = "" ]; then
-			DBOPTIONS="-u$C_DBUSER"
-		else
-			DBOPTIONS="-u$C_DBUSER -p$C_DBPASS"
-		fi
 	fi
+}
+db_root_pass
 
+if [ $Q_DB_CREATE = 1 ]; then
 	# database creation
 	echo -n "Creating the database... "
 	mysqladmin $DBOPTIONS create $C_DBNAME
@@ -284,23 +370,39 @@ if [ "$Q" = "y" ] || [ "$Q" = "Y" ] || [ "$Q" = "" ]; then
 	else
 		echo "done."
 	fi
+fi
 
+if [ $Q_DB_CREATE = 1 ]; then
+	# Creating the user
+	echo -n "Creating the user \"$C_DBUSER\" to use the database \"$C_DBNAME\"... "
+	echo "grant all on ${C_DBNAME}.* to ${C_DBUSER}@localhost identified by \"$C_DBPASS\"" | mysql $DBOPTIONS
+	if [ $? = 0 ];then
+		echo "done."
+	else
+		echo "Sorry, but this failed... I have to stop. Please try to fix the error."
+		exit 1
+	fi
+fi
+
+if [ $Q_DB_CREATE = 1 ]; then
 	# db structure creation
 	echo -n "Creating data structures... "
-	mysql $DBOPTIONS $C_DBNAME < sql/publish.sql
+	mysql $DBOPTIONS $C_DBNAME < sql/publish_mysql.sql
 	if [ ! $? = 0 ]; then
 		echo "Creating the data structures failed! Abort."
 		exit 1
 	else
 		echo "done."
 	fi
-	
+fi
+
+if [ $Q_DB_CREATE = 1 ]; then
 	# example data
 	echo -n "Shall I fill the database with an example site (y/N)? "
 	read Q
 	if [ "$Q" = "y" ] || [ "$Q" = "Y" ]; then
 		echo -n "Filling the database... "
-		mysql $DBOPTIONS $C_DBNAME < sql/data.sql
+		mysql $DBOPTIONS $C_DBNAME < sql/data_mysql.sql
 		if [ ! $? = 0 ]; then
 			echo "Filling the database with example data failed! Aborting."
 			exit 1
@@ -308,9 +410,6 @@ if [ "$Q" = "y" ] || [ "$Q" = "Y" ] || [ "$Q" = "" ]; then
 			echo "done."
 		fi
 	fi
-
-	# TODO
-	mysql $DBOPTIONS $C_DBNAME < upgrade/2_1_to_2_1_1/2_1_to_2_1_1.sql
 fi
 
 ############################################################################
@@ -325,7 +424,6 @@ else
 	echo "done."
 fi
 
-
 ############################################################################
 # Old install: using modfix_secure
 #
@@ -339,47 +437,55 @@ if [ "$C_INSTALL" = "old" ]; then
 	if [ $? = 0 ]; then
 		echo "done."
 	else
-		echo "FAILED! You might have problems with permissions. Do it yourself."
+		echo "FAILED! You might have problems with permissions."
+		echo "You have to do it yourself."
 	fi
 else
+	# TODO: let's try to find a better solution
 	echo "Creating the needed cache directories and files... "
 	touch error.log
 	chmod 660 error.log
 
 	dirs="
 	admin/tmp
+	classes/cache
 	ezad/admin/cache
 	ezaddress/admin/cache
 	ezarticle/admin/cache
 	ezarticle/cache
 	ezbug/user/cache
 	ezbug/admin/cache
+	ezbulkmail/admin/cache
 	ezcalendar/admin/cache
 	ezcalendar/user/cache
 	ezcontact/admin/cache
 	ezexample/admin/cache
+	ezfilemanager/admin/cache
 	ezfilemanager/files
+	ezform/admin/cache
 	ezforum/admin/cache
 	ezforum/cache
+	ezimagecatalogue/admin/cache
 	ezimagecatalogue/catalogue
 	ezimagecatalogue/catalogue/variations
 	ezlink/admin/cache
 	ezlink/cache
+	ezmediacatalogue/admin/cache
+	ezmessage/admin/cache
 	eznewsfeed/admin/cache
 	eznewsfeed/cache
 	ezpoll/admin/cache
 	ezpoll/cache
+	ezquiz/admin/cache
+	ezquiz/cache
+	ezsitemanager/admin/cache
 	ezstats/admin/cache
+	ezsysinfo/admin/cache
 	eztodo/admin/cache
 	eztrade/admin/cache
 	eztrade/cache
-	ezuser/admin/cache
-	ezfilemanager/admin/cache
-	ezimagecatalogue/admin/cache
-	ezbulkmail/admin/cache
-	classes/cache
-	ezsysinfo/admin/cache
-	ezurltranslator/admin/cache"
+	ezurltranslator/admin/cache
+	ezuser/admin/cache"
 
 	for dir in $dirs; do
 		mkdir -p $dir
@@ -505,6 +611,7 @@ if [ "$C_INSTALL" = "new" ]; then
 	echo "Now I will move the files to the installation dir."
 	echo -n "Moving files... "
 	mv * $C_INSTDIR
+	#find . -exec mv {} $C_INSTDIR \;
 	if [ ! $? = 0 ]; then
 		echo "Moving of files failed! Aborting."
 		exit 1
@@ -604,4 +711,5 @@ echo ""
 echo ""
 echo "Have fun!"
 echo ""
-echo "Kai Dübbert <kai@duebbert.de> - 25th July 2001"
+echo "Kai Dübbert <kai@duebbert.de> - $DATE"
+
