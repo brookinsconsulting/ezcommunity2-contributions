@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.9 2000/10/13 10:14:42 bf-cvs Exp $
+// $Id: ezuser.php,v 1.10 2000/10/21 12:07:19 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -53,6 +53,7 @@
 include_once( "classes/ezdb.php" );
 
 include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezsession/classes/ezsession.php" );
 
 class eZUser
 {

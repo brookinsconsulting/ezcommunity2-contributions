@@ -43,7 +43,7 @@ switch ( $url_array[2] )
             {
                 print( "first time generated" );                
                 $GenerateStaticPage = "true";
-                include( "ezlink/linklist.php" );                
+                include( "ezlink/user//linklist.php" );                
             }            
         }
         else
