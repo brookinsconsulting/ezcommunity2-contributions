@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.15 2002/04/10 11:34:02 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.16 2002/04/22 07:52:03 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -531,7 +531,7 @@ class eZQDomrenderer
             // check if it should link to original image
             if ( $imageHref == "originalimage" )
             {
-                $imageHref = $image->filePath();;
+                $imageHref = $image->filePath();
             }
 
             $hasMap = false;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.12.2.5 2002/02/27 14:54:18 master Exp $
+// $Id: ezarticletool.php,v 1.12.2.6 2002/04/22 07:52:03 bf Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -89,7 +89,7 @@ class eZArticleTool
         foreach ( $files as $file )
         {
             $file->delete();
-        }        
+        }
 
         $files =& eZCacheFile::files( "ezarticle/cache/",
                                       array( "menubox",
@@ -195,9 +195,9 @@ class eZArticleTool
         $articleCategories = $article->categories();
         $bulkMailCategories = array();
 
-        $bulkMailCategory = $articleCategory->bulkMailCategory();
+        $bulkMailCategory =& $articleCategory->bulkMailCategory();
         if ( $bulkMailCategory != false )
-            $bulkMailCategories[] = $bulkMailCategory;
+            $bulkMailCategories[] =& $bulkMailCategory;
 
         foreach ( $articleCategories as $articleCategory )
         {
