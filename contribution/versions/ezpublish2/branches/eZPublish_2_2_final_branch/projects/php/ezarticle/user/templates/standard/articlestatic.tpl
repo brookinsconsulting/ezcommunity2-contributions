@@ -52,14 +52,23 @@
 <!-- END article_topic_tpl -->
 
 <!-- BEGIN article_intro_tpl -->
-<p>
-{article_intro}
-</p>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	{article_intro}
+	</td>
+</tr>
+</table>
+<br />
 <!-- END article_intro_tpl -->
 
-<p>
-{article_body}
-</p>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	{article_body}
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN image_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
