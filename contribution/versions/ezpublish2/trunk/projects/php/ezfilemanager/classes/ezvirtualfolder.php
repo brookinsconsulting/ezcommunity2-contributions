@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.1 2000/12/12 11:00:57 bf Exp $
+// $Id: ezvirtualfolder.php,v 1.2 2001/01/05 14:21:55 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -420,7 +420,7 @@ class eZVirtualFolder
        
        return $return_array;
     }
-    
+
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

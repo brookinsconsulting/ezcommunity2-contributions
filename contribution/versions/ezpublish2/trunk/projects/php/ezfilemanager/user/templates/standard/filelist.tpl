@@ -31,11 +31,11 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
 
 <!-- BEGIN folder_tpl -->
-{begin_tr}
+<tr>
 	<td>
 	<a href="/filemanager/list/{folder_id}/"><img src="/ezfilemanager/user/{image_dir}/folder.png" alt="" width="32" height="32" />{folder_name}</a><br />
 	</td>
-{end_tr}
+</tr>
 <!-- END folder_tpl -->
 
 </table>
@@ -45,11 +45,19 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
 <!-- BEGIN file_tpl -->
-{begin_tr}
+<tr>
+	<!-- BEGIN read_tpl -->
 	<td>
-<a href="/filemanager/download/{file_id}/{original_file_name}/"><img src="/ezfilemanager/user/{image_dir}/file.png" border="0" alt="" width="32" height="32" /><br />{original_file_name}</a><br />
+	<a href="/filemanager/fileview/{file_id}/"><img src="/ezfilemanager/user/{image_dir}/file.png" border="0" alt="" width="32" height="32" /><br />{original_file_name}</a><br />
 	</td>
-{end_tr}
+	<td>
+	{file_size}Kb
+	</td>
+	<td>
+	<a href="/filemanager/download/{file_id}/{original_file_name}/"><img src="/ezfilemanager/user/{image_dir}/file.png" border="0" alt="" width="32" height="32" /><br />{original_file_name}</a><br />
+	</td>
+	<!-- END read_tpl -->
+</tr>
 <!-- END file_tpl -->
 </table>
 

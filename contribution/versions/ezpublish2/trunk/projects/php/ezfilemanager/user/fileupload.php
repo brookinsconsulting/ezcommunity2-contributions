@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.4 2001/01/03 16:26:27 bf Exp $
+// $Id: fileupload.php,v 1.5 2001/01/05 14:21:55 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -35,19 +35,29 @@ include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 //  $folder->setDescription( "Documentation goes here" );
 //  $folder->store();
 
-
 if ( $Action == "Insert" )
 {
     print( "uploading file" );
-
     $file = new eZFile();
 
     if ( $file->getUploadedFile( "userfile" ) )
-    { 
+    {
         $uploadedFile = new eZVirtualFile();
         $uploadedFile->setName( $Name );
         $uploadedFile->setDescription( $Description );
+        $uploadedFile->setReadPermission( $Read );
+        $uploadedFile->setWritePermission( $Write );
 
+        $user = eZUser::currentUser();
+
+        if ( !$user )
+        {
+            Header( "Location: /" );
+            exit();
+        }
+
+        $uploadedFile->setUser( $user );
+        
         $uploadedFile->setFile( $file );
         
         $uploadedFile->store();
@@ -68,6 +78,37 @@ if ( $Action == "Insert" )
 
 }
 
+if ( $Action == "Update" )
+{
+    $file = new eZFile( );
+
+    $uploadedFile = new eZVirtualFile( $FileID );
+
+    $uploadedFile->setName( $Name );
+    $uploadedFile->setDescription( $Description );
+    $uploadedFile->setReadPermission( $Read );
+    $uploadedFile->setWritePermission( $Write );
+    
+    if ( $file->getUploadedFile( "userfile" ) )
+    {
+        $uploadedFile->setFile( $file );
+    }    
+
+    $uploadedFile->store();
+
+    $folder = new eZVirtualFolder( $FolderID );
+
+    $uploadedFile->removeFolders();
+    
+    $folder->addFile( $uploadedFile );
+        
+
+    eZLog::writeNotice( "File added to file manager from IP: $REMOTE_ADDR" );
+    Header( "Location: /filemanager/list/$FolderID/" );
+    
+    exit();
+}
+
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
@@ -82,9 +123,53 @@ $t->setAllStrings();
 
 $t->set_block( "file_upload_tpl", "value_tpl", "value" );
 
-$t->set_var( "action_value", "Insert" );
-$t->set_var( "name_value", "" );
-$t->set_var( "description_value", "" );
+if ( $Action == "New" )
+{
+    $t->set_var( "action_value", "insert" );
+    $t->set_var( "name_value", "" );
+    $t->set_var( "description_value", "" );
+}
+
+if ( $Action == "Edit" )
+{
+    $file = new eZVirtualFile( $FileID );
+
+    $t->set_var( "name_value", $file->name() );
+    $t->set_var( "description_value", $file->description() );
+    $t->set_var( "file_id", $file->id() );
+
+    $write = $file->writePermission();
+
+    if ( $write == "User" )
+    {
+        $t->set_var( "user_write_checked", "checked" );
+    }
+    else if ( $write == "Group" )
+    {
+        $t->set_var( "group_write_checked", "checked" );
+    }
+    else if ( $write == "All" )
+    {
+        $t->set_var( "all_write_checked", "checked" );
+    }
+
+    $read = $file->readPermission();
+
+    if ( $read == "User" )
+    {
+        $t->set_var( "user_read_checked", "checked" );
+    }
+    else if ( $read == "Group" )
+    {
+        $t->set_var( "group_read_checked", "checked" );
+    }
+    else if ( $read == "All" )
+    {
+        $t->set_var( "all_read_checked", "checked" );
+    }
+
+    $t->set_var( "action_value", "update" );
+}
 
 $folder = new eZVirtualFolder( $FolderID );
 

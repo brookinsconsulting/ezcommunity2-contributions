@@ -1,5 +1,5 @@
 
-<form method="post" action="/filemanager/upload/" enctype="multipart/form-data">
+<form method="post" action="/filemanager/{action_value}/{file_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-file_upload}</h1>
@@ -20,14 +20,37 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<p class="boxtext">{intl-file_name}:</p>
-	<input type="text" size="40" name="Name" value="{name_value}"/>
-	
-	<p class="boxtext">{intl-file_description}:</p>
+    <td>
+    <p class="boxtext">{intl-file_name}:</p>
+    <input type="text" size="40" name="Name" value="{name_value}"/>
+
+    <p class="boxtext">{intl-file_description}:</p>
 	
 	<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
 	
+    </td>
+</tr>
+<tr>
+    <td>
+    <br />
+    <p class="boxtext">{intl-read_permissions}</p>
+    <input type="radio" name="Read" value="User" {user_read_checked} /> {intl-user}
+    <input type="radio" name="Read" value="Group" {group_read_checked} />{intl-group}
+    <input type="radio" name="Read" value="All" {all_read_checked} /> {intl-all}
+    <br /><br />
+    </td>
+</tr>
+<tr>    
+    <td>
+    <p class="boxtext">{intl-write_permissions}</p>
+    <input type="radio" name="Write" value="User" {user_write_checked} /> {intl-user}
+    <input type="radio" name="Write" value="Group" {group_write_checked} /> {intl-group}
+    <input type="radio" name="Write" value="All" {all_write_checked} /> {intl-all}
+    <br /><br />
+    </td>
+</tr>
+<tr>
+        <td>
 	<p class="boxtext">{intl-file}:</p>
 	<input size="40" name="userfile" type="file" />
 	</td>

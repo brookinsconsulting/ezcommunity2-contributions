@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.4 2001/01/04 19:18:00 jb Exp $
+// $Id: ezvirtualfile.php,v 1.5 2001/01/05 14:21:55 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -65,6 +65,7 @@ class eZVirtualfile
         {
             $this->State_ = "New";
         }
+
     }
 
     /*!
@@ -81,9 +82,11 @@ class eZVirtualfile
                                  Description='$this->Description',
                                  FileName='$this->FileName',
                                  OriginalFileName='$this->OriginalFileName',
-                                 Read='$this->Read',
-                                 Write='$this->Write'
+                                 ReadPermission='$this->ReadPermission',
+                                 WritePermission='$this->WritePermission',
+                                 UserID='$this->UserID'
                                  " );
+            $this->ID = mysql_insert_id();
         }
         else
         {
@@ -92,14 +95,12 @@ class eZVirtualfile
                                  Description='$this->Description',
                                  FileName='$this->FileName',
                                  OriginalFileName='$this->OriginalFileName',
-                                 Read='$this->Read',
-                                 Write='$this->Write'
+                                 ReadPermission='$this->ReadPermission',
+                                 WritePermission='$this->WritePermission'
                                  WHERE ID='$this->ID'
                                  " );
         }
         
-        $this->ID = mysql_insert_id();
-
         $this->State_ = "Coherent";
     }
     
@@ -125,8 +126,9 @@ class eZVirtualfile
                 $this->Description =& $virtualfile_array[0][ "Description" ];
                 $this->FileName =& $virtualfile_array[0][ "FileName" ];
                 $this->OriginalFileName =& $virtualfile_array[0][ "OriginalFileName" ];
-                $this->Read =& $virtualfile_array[0][ "Read" ];
-                $this->Write =& $virtualfile_array[0][ "Write" ];
+                $this->ReadPermission =& $virtualfile_array[0][ "ReadPermission" ];
+                $this->WritePermission =& $virtualfile_array[0][ "WritePermission" ];
+                $this->UserID =& $virtualfile_array[0][ "UserID" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -226,25 +228,73 @@ class eZVirtualfile
     }
 
     /*!
-      Returns the write permission of the virtual file.
+      Returns the writePermission permission of the virtual file.
     */
-    function write()
+    function writePermission()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Write;
+
+       switch( $this->WritePermission )
+       {
+           case 1:
+           {
+               $ret = "User";
+           }
+           break;
+
+           case 2:
+           {
+               $ret = "Group";
+           }
+           break;
+           
+           case 3:
+           {
+               $ret = "All";
+           }
+           break;
+
+           default:
+               $ret = "User";
+       }
+
+       return $ret;
     }
 
     /*!
       Returns the read permission of the virtual file.
     */
-    function read()
+    function readPermission()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Read;
+
+       switch( $this->ReadPermission )
+       {
+           case 1:
+           {
+               $ret = "User";
+           }
+           break;
+
+           case 2:
+           {
+               $ret = "Group";
+           }
+           break;
+           
+           case 3:
+           {
+               $ret = "All";
+           }
+           break;
+
+           default:
+               $ret = "User";
+       }
+       
+       return $ret;
     }
 
     /*!
@@ -321,14 +371,14 @@ class eZVirtualfile
     }
 
     /*!
-      Sets the write permission of the virtual filename.
+      Sets the writePermission permission of the virtual filename.
 
       1 = User
       2 = Group
       3 = All
       
     */
-    function setWrite( $value )
+    function setWritePermission( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -358,7 +408,7 @@ class eZVirtualfile
                $value = 1;
        }
        
-       $this->Write = $value;
+       $this->WritePermission = $value;
     }
 
     /*!
@@ -369,7 +419,7 @@ class eZVirtualfile
       3 = All
       
     */
-    function setRead( $value )
+    function setReadPermission( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -399,7 +449,7 @@ class eZVirtualfile
                $value = 1;
        }
        
-       $this->Read = $value;
+       $this->ReadPermission = $value;
     }
 
     /*!
@@ -471,6 +521,19 @@ class eZVirtualfile
         return $value;
     }
 
+    /*!
+      Removes the file from every folders.
+    */
+    function removeFolders()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $query = ( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
+       $this->Database->query( $query );
+    }
     
     /*!
       \private
@@ -491,8 +554,8 @@ class eZVirtualfile
     var $Description;
     var $FileName;
     var $OriginalFileName;
-    var $Read;
-    var $Write;
+    var $ReadPermission;
+    var $WritePermission;
     var $UserID;
 
     ///  Variable for keeping the database connection.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.3 2000/12/23 14:23:50 bf Exp $
+// $Id: filelist.php,v 1.4 2001/01/05 14:21:55 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -50,8 +50,11 @@ $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
 
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
+$t->set_block( "file_tpl", "read_tpl", "read" );
 $t->set_block( "file_list_page_tpl", "folder_list_tpl", "folder_list" );
 $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
+
+$t->set_var( "read", "" );
 
 $folder = new eZVirtualFolder( $FolderID );
 
@@ -84,21 +87,21 @@ $folderList =& $folder->getByParent( $folder );
 $i=0;
 foreach ( $folderList as $folder )
 {
-    if ( ( $i % 4 ) == 0 )
-    {
-        $t->set_var( "begin_tr", "<tr>" );
-        $t->set_var( "end_tr", "" );        
-    }
-    else if ( ( $i % 4 ) == 3 )
-    {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "</tr>" );
-    }
-    else
-    {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "" );        
-    }
+//      if ( ( $i % 2 ) == 0 )
+//      {
+//          $t->set_var( "begin_tr", "<tr>" );
+//          $t->set_var( "end_tr", "" );        
+//      }
+//      else if ( ( $i % 4 ) == 3 )
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "</tr>" );
+//      }
+//      else
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "" );        
+//      }
 
     $t->set_var( "folder_name", $folder->name() );
     $t->set_var( "folder_id", $folder->id() );
@@ -122,27 +125,88 @@ $fileList =& $folder->files();
 //$i=0;
 foreach ( $fileList as $file )
 {
-    if ( ( $i % 4 ) == 0 )
-    {
-        $t->set_var( "begin_tr", "<tr>" );
-        $t->set_var( "end_tr", "" );        
-    }
-    else if ( ( $i % 4 ) == 3 )
-    {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "</tr>" );
-    }
-    else
-    {
-        $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "" );
+//      if ( ( $i % 4 ) == 0 )
+//      {
+//          $t->set_var( "begin_tr", "<tr>" );
+//          $t->set_var( "end_tr", "" );        
+//      }
+//      else if ( ( $i % 4 ) == 3 )
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "</tr>" );
+//      }
+//      else
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "" );
         
-    }
-    
+//      }
+
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "original_file_name", $file->originalFileName() );
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_url", $file->name() );
+
+    $filePath = $file->filePath( true );
+
+    $size = filesize( $filePath );
+
+    if ( $size == 0 )
+    {
+        $t->set_var( "file_size", 0 );
+    }
+    else
+    {
+        $t->set_var( "file_size", $size );
+    }
+
+    // Read check
+    $read = $file->readPermission();
+
+    $currentUser = eZUser::currentUser();
+
+    $user = $file->user();
+    
+    if ( $read == "User" )
+    {
+        if ( $user )
+        {
+            if ( $currentUser->id() == $user->id() )
+            {
+                $t->parse( "read", "read_tpl" );
+            }
+            else
+            {
+            }
+        }
+    }
+    else if ( $read == "Group" )
+    {
+        if ( $user )
+        {
+            $currentGroups = $currentUser->groups();
+            foreach( $currentGroups as $Groups )
+            {
+                $userGroups = $user->groups();
+                
+                foreach( $userGroups as $userGroup )
+                {
+                    if ( $Groups->id() == $userGroup->id() )
+                    {
+                        $t->parse( "read", "read_tpl" );
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+        }
+    }
+    else if ( $read == "All" )
+    {
+        $t->parse( "read", "read_tpl" );
+    }
+
     $t->parse( "file", "file_tpl", true );
     
     $i++;
