@@ -1330,7 +1330,7 @@
     <message>
         <source>Author Email</source>
         <comment>Key: article_author_email</comment>
-        <translation>Forfatters epost</translation>
+        <translation>Forfatters e-post</translation>
     </message>
     <message>
         <source>Link text</source>
@@ -1535,7 +1535,7 @@
     <message>
         <source>New author email</source>
         <comment>Key: new_author_email</comment>
-        <translation>Ny forfatter-epost</translation>
+        <translation>Ny forfatter-e-post</translation>
     </message>
     <message>
         <source>Link text URL</source>
@@ -2122,7 +2122,7 @@
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation>Epost til ny fotograf</translation>
+        <translation>E-post til ny fotograf</translation>
     </message>
 </context>
 <context>
@@ -2314,7 +2314,7 @@
     <message>
         <source>Email address of new media creator</source>
         <comment>Key: new_creator_email</comment>
-        <translation>Epost til ny person</translation>
+        <translation>E-post til ny person</translation>
     </message>
 </context>
 <context>
@@ -3082,17 +3082,17 @@
     <message>
         <source>Receivers email</source>
         <comment>Key: send_to</comment>
-        <translation>Mottakers epost</translation>
+        <translation>Mottakers e-post</translation>
     </message>
     <message>
         <source>Your email</source>
         <comment>Key: from_mail</comment>
-        <translation>Din epost</translation>
+        <translation>Din e-post</translation>
     </message>
     <message>
         <source>Send</source>
         <comment>Key: send_mail</comment>
-        <translation>Send epost</translation>
+        <translation>Send e-post</translation>
     </message>
 </context>
 <context>
@@ -3115,7 +3115,7 @@
     <message>
         <source>Click on the name of the author to find more information about them including other articles they have written and their email address. Sorting is controlled by clicking the various list headers.</source>
         <comment>Key: author_info</comment>
-        <translation>Klikk på en forfatter for å finne mer informasjon, bl.a. epostadresse og artikler vedkommede har skrevet. Du kan sortere ved å klikke på listeoverskriftene.</translation>
+        <translation>Klikk på en forfatter for å finne mer informasjon, bl.a. e-postadresse og artikler vedkommede har skrevet. Du kan sortere ved å klikke på listeoverskriftene.</translation>
     </message>
 </context>
 <context>
@@ -3391,7 +3391,7 @@
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation>Epost til ny fotograf</translation>
+        <translation>E-post til ny fotograf</translation>
     </message>
 </context>
 <context>
@@ -3490,12 +3490,12 @@
     <message>
         <source>Send to e-mail address</source>
         <comment>Key: send_to</comment>
-        <translation>Mottakers epost adresse</translation>
+        <translation>Mottakers e-post adresse</translation>
     </message>
     <message>
         <source>From e-mail address</source>
         <comment>Key: from_mail</comment>
-        <translation>Din epost adresse</translation>
+        <translation>Din e-post adresse</translation>
     </message>
     <message>
         <source>Your comment to this article</source>
@@ -4139,7 +4139,7 @@ If you have any other information about the bug, please reply to this message.</
         <comment>Key: body</comment>
         <translation>Takk for bugrapporten.
 Din bug vil bli undersøkt så fort som mulig.
-Hvis du har mer informasjon om denne buggen, venligst svar på denne eposten.</translation>
+Hvis du har mer informasjon om denne buggen, venligst svar på denne e-posten.</translation>
     </message>
     <message>
         <source>Your bug report has been updated.
@@ -4554,7 +4554,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email address</source>
         <comment>Key: email_address</comment>
-        <translation>Epostadresse</translation>
+        <translation>E-postadresse</translation>
     </message>
     <message>
         <source>If you are a registered user, please log in</source>
@@ -4569,7 +4569,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Error: you must provide a valid e-mail address.</source>
         <comment>Key: email_error</comment>
-        <translation>Feil: Du må oppgi en gyldig epostadresse.</translation>
+        <translation>Feil: Du må oppgi en gyldig e-postadresse.</translation>
     </message>
     <message>
         <source>Add patch</source>
@@ -5082,7 +5082,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Edit bulkmail</source>
         <comment>Key: mailedit</comment>
-        <translation>Endre masse-epost</translation>
+        <translation>Endre masse-e-post</translation>
     </message>
     <message>
         <source>From</source>
@@ -5155,7 +5155,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>New bulkmail</source>
         <comment>Key: new</comment>
-        <translation>Ny masse-epost</translation>
+        <translation>Ny masse-e-post</translation>
     </message>
     <message>
         <source>Delete selected</source>
@@ -5178,7 +5178,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Mail view</source>
         <comment>Key: mail_preview</comment>
-        <translation>Masse-epost</translation>
+        <translation>Masse-e-post</translation>
     </message>
     <message>
         <source>From</source>
@@ -5269,7 +5269,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>New bulkmail</source>
         <comment>Key: new_mail</comment>
-        <translation>Ny epostliste</translation>
+        <translation>Ny e-postliste</translation>
     </message>
     <message>
         <source>Templates</source>
@@ -5307,7 +5307,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>mailinglist!</source>
         <comment>Key: welcome_message_end</comment>
-        <translation>epostlisten!</translation>
+        <translation>e-postlisten!</translation>
     </message>
     <message>
         <source>This list is about...</source>
@@ -5327,7 +5327,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>To change your subscriptions, please visit the site that subscribed you to the lists. There you can log into the news section with your email address and your password and change the subscription data.</source>
         <comment>Key: list_info</comment>
-        <translation>For å endre dine abonnement, venligst besøk siden der du meldte deg på listen. Der kan du logge deg inn i nyhetsseksjonen med din epostadresse og passord for å endre din informasjon.</translation>
+        <translation>For å endre dine abonnement, venligst besøk siden der du meldte deg på listen. Der kan du logge deg inn i nyhetsseksjonen med din e-postadresse og passord for å endre din informasjon.</translation>
     </message>
 </context>
 <context>
@@ -5520,7 +5520,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Mail view</source>
         <comment>Key: mail_preview</comment>
-        <translation>Masse-epost</translation>
+        <translation>Masse-e-post</translation>
     </message>
     <message>
         <source>From</source>
@@ -5558,7 +5558,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>News mail</source>
         <comment>Key: news_mail</comment>
-        <translation>Nyhets-epost</translation>
+        <translation>Nyhets-e-post</translation>
     </message>
     <message>
         <source>Change subscriptions</source>
@@ -5659,7 +5659,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Password</source>
@@ -5694,7 +5694,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Click on the link to confirm that this email address is yours.</source>
         <comment>Key: body_text</comment>
-        <translation>Følg lenken for å bekrefte påmelding av din epostadresse.</translation>
+        <translation>Følg lenken for å bekrefte påmelding av din e-postadresse.</translation>
     </message>
     <message>
         <source>Confirm unsubscription at</source>
@@ -5704,12 +5704,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>Click on the link to confirm that you want to unsubscribe from this mailing list</source>
         <comment>Key: body_text_unsubscribe</comment>
-        <translation>Følg lenken for å bekrefte avmelding av din epostadresse</translation>
+        <translation>Følg lenken for å bekrefte avmelding av din e-postadresse</translation>
     </message>
     <message>
         <source>You must supply a valid email address.</source>
         <comment>Key: email_error</comment>
-        <translation>Du må bruke en gyldig epostadresse.</translation>
+        <translation>Du må bruke en gyldig e-postadresse.</translation>
     </message>
     <message>
         <source>You must supply a password.</source>
@@ -5732,17 +5732,17 @@ Takk for din kommentar.</translation>
     <message>
         <source>You have requested to add your address to the mail information system. If you have no idea what this mail is about, please ignore it!</source>
         <comment>Key: information</comment>
-        <translation>Du har valgt å legge til din adresse i postinformasjonssystemet. Hvis du ikke vet hvorfor du har fått denne eposten, venligst ignorer den!</translation>
+        <translation>Du har valgt å legge til din adresse i postinformasjonssystemet. Hvis du ikke vet hvorfor du har fått denne e-posten, venligst ignorer den!</translation>
     </message>
     <message>
         <source>Pressing the link will add this mail address to the mail information system and take you to the list of available information lists.</source>
         <comment>Key: click_me</comment>
-        <translation>Ved å klikke på lenken blir denne epostadressen lagt til postinformasjonssystemet, og du får se listen over tilgengelige informasjonslister.</translation>
+        <translation>Ved å klikke på lenken blir denne e-postadressen lagt til postinformasjonssystemet, og du får se listen over tilgengelige informasjonslister.</translation>
     </message>
     <message>
         <source>If you want to change your subscribtion data later you can log into the news info section of the site with your email address and your password.</source>
         <comment>Key: list_info</comment>
-        <translation>Hvis du vil endre dine abonnementsdata senere kan du logge deg inn i nyhetsseksjonen til siden med din epost adresse og ditt passord.</translation>
+        <translation>Hvis du vil endre dine abonnementsdata senere kan du logge deg inn i nyhetsseksjonen til siden med din e-post adresse og ditt passord.</translation>
     </message>
     <message>
         <source>Enjoy!</source>
@@ -5760,7 +5760,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>You will receive a mail in a short time to confirm that the email address is yours. Click on the link in the mail to confirm the address.</source>
         <comment>Key: mail_sent_message</comment>
-        <translation>Du vil nå få tilsendt en epost for å bekrefte at epostadressen din er korrekt. Klikk på lenken i eposten for å fullføre innmeldingen.</translation>
+        <translation>Du vil nå få tilsendt en e-post for å bekrefte at epostadressen din er korrekt. Klikk på lenken i eposten for å fullføre innmeldingen.</translation>
     </message>
     <message>
         <source>Confirmation mail sent</source>
@@ -5770,27 +5770,27 @@ Takk for din kommentar.</translation>
     <message>
         <source>You will receive a mail in a short time to confirm that you want to unsubscribe from the list.</source>
         <comment>Key: unsubscribe_mail_message</comment>
-        <translation>Du vil nå få tilsendt en epost for å bekrefte avmeldingen. Klikk på lenken i eposten for å fullføre avmeldingen.</translation>
+        <translation>Du vil nå få tilsendt en e-post for å bekrefte avmeldingen. Klikk på lenken i eposten for å fullføre avmeldingen.</translation>
     </message>
     <message>
         <source>Unsubscribed</source>
         <comment>Key: unsubscribed_header</comment>
-        <translation>Avmelding fra epostliste</translation>
+        <translation>Avmelding fra e-postliste</translation>
     </message>
     <message>
         <source>You are now unsubscribed from the list</source>
         <comment>Key: unsubscribed_message</comment>
-        <translation>Du er nå avmeldt fra epostlisten</translation>
+        <translation>Du er nå avmeldt fra e-postlisten</translation>
     </message>
     <message>
         <source>Subscribed</source>
         <comment>Key: subscribed_header</comment>
-        <translation>Påmelding til epostliste</translation>
+        <translation>Påmelding til e-postliste</translation>
     </message>
     <message>
         <source>You are now subscribed to the list</source>
         <comment>Key: subscribed_message</comment>
-        <translation>Du er nå påmeldt epostlisten</translation>
+        <translation>Du er nå påmeldt e-postlisten</translation>
     </message>
     <message>
         <source>Error during confirmation.</source>
@@ -6633,7 +6633,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Addresses used on the Internet, this is usually web and email addresses. To get additional online addresses press the &quot;New online address&quot; button on the bottom.</source>
         <comment>Key: online_information</comment>
-        <translation>Firmaets internett-adresser, vanligvis epost og web-adresser. For å legge til flere adresser trykk på &quot;Ny elektronisk adresse&quot;-knappen på bunnen av siden.</translation>
+        <translation>Firmaets internett-adresser, vanligvis e-post og web-adresser. For å legge til flere adresser trykk på &quot;Ny elektronisk adresse&quot;-knappen på bunnen av siden.</translation>
     </message>
     <message>
         <source>An online address is ignored if no type is selected and all fields are empty.</source>
@@ -6769,7 +6769,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Send mail</source>
         <comment>Key: send_mail</comment>
-        <translation>Send epost</translation>
+        <translation>Send e-post</translation>
     </message>
     <message>
         <source>Parent category</source>
@@ -7127,7 +7127,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mails</source>
         <comment>Key: mail_headline</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Date</source>
@@ -7142,12 +7142,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: mail_email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Send mail</source>
         <comment>Key: mail</comment>
-        <translation>Send epost</translation>
+        <translation>Send e-post</translation>
     </message>
 </context>
 <context>
@@ -7233,7 +7233,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Error in email note</source>
         <comment>Key: error_email_notice</comment>
-        <translation>Feil i epost notis</translation>
+        <translation>Feil i e-post notis</translation>
     </message>
     <message>
         <source>Company</source>
@@ -7303,7 +7303,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email note</source>
         <comment>Key: email_notice</comment>
-        <translation>Epostnotis</translation>
+        <translation>E-postnotis</translation>
     </message>
     <message>
         <source>OK</source>
@@ -8164,7 +8164,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Send mail</source>
         <comment>Key: send_mail</comment>
-        <translation>Send epost</translation>
+        <translation>Send e-post</translation>
     </message>
     <message>
         <source>Confirm delete</source>
@@ -8219,7 +8219,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Addresses used on the Internet, this is usually web and email addresses. To get additional online addresses press the &quot;New online address&quot; button on the bottom.</source>
         <comment>Key: online_information</comment>
-        <translation>En persons elektroniske adresser, vanligvis epost og web. For å lage flere elektroniske adresser trykk på &quot;Ny elektronisk adresse&quot;-knappen på bunnen av siden.</translation>
+        <translation>En persons elektroniske adresser, vanligvis e-post og web. For å lage flere elektroniske adresser trykk på &quot;Ny elektronisk adresse&quot;-knappen på bunnen av siden.</translation>
     </message>
     <message>
         <source>An online address is ignored if no type is selected and all fields are empty.</source>
@@ -8477,7 +8477,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mails</source>
         <comment>Key: mail_headline</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Date</source>
@@ -8492,12 +8492,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: mail_email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Send mail</source>
         <comment>Key: mail</comment>
-        <translation>Send epost</translation>
+        <translation>Send e-post</translation>
     </message>
 </context>
 <context>
@@ -10008,17 +10008,17 @@ Takk for din kommentar.</translation>
     <message>
         <source>You must enter a valid e-mail address for the form receiver</source>
         <comment>Key: form_receiver_not_valid</comment>
-        <translation>Du må fylle inn en gyldig epostadresse i skjemaet for mottager feltet</translation>
+        <translation>Du må fylle inn en gyldig e-postadresse i skjemaet for mottager feltet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the receiver of the form</source>
         <comment>Key: form_receiver_not_set</comment>
-        <translation>Du må fylle inn en epostadresse for mottageren i skjemaet</translation>
+        <translation>Du må fylle inn en e-postadresse for mottageren i skjemaet</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the copy to field</source>
         <comment>Key: form_cc_not_valid</comment>
-        <translation>Du må fylle inn en gyldig epostadresse i kopifeltet</translation>
+        <translation>Du må fylle inn en gyldig e-postadresse i kopifeltet</translation>
     </message>
     <message>
         <source>You must select a name for your form</source>
@@ -10128,7 +10128,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Your e-mail address</source>
         <comment>Key: form_sender</comment>
-        <translation>Epostadresse</translation>
+        <translation>E-postadresse</translation>
     </message>
     <message>
         <source>You can&apos;t let the user select the sender as well as define a sender for this form</source>
@@ -10138,17 +10138,17 @@ Takk for din kommentar.</translation>
     <message>
         <source>You must either select &quot;Let the user select sender&quot; or fill in an e-mail address in &quot;Sender of this form&quot;</source>
         <comment>Key: form_must_have_sender</comment>
-        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en epostadresse i &quot;Sender av dette skjemaet&quot;</translation>
+        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en e-postadresse i &quot;Sender av dette skjemaet&quot;</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the form sender</source>
         <comment>Key: form_sender_not_valid</comment>
-        <translation>Du må sette en gyldig epostadresse i sender på skjemaet</translation>
+        <translation>Du må sette en gyldig e-postadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the form sender</source>
         <comment>Key: form_sender_missing</comment>
-        <translation>Du må sette en epostadresse i sender på skjemaet</translation>
+        <translation>Du må sette en e-postadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>Move up</source>
@@ -10332,17 +10332,17 @@ Takk for din kommentar.</translation>
     <message>
         <source>You must enter a valid e-mail address for the form receiver</source>
         <comment>Key: form_receiver_not_valid</comment>
-        <translation>Du må fylle inn en gyldig epostadresse i skjemaet for mottager feltet</translation>
+        <translation>Du må fylle inn en gyldig e-postadresse i skjemaet for mottager feltet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the receiver of the form</source>
         <comment>Key: form_receiver_not_set</comment>
-        <translation>Du må fylle inn en epostadresse for mottageren i skjemaet</translation>
+        <translation>Du må fylle inn en e-postadresse for mottageren i skjemaet</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the copy to field</source>
         <comment>Key: form_cc_not_valid</comment>
-        <translation>Du må fylle in en gyldig epostadresse i kopi feltet</translation>
+        <translation>Du må fylle in en gyldig e-postadresse i kopi feltet</translation>
     </message>
     <message>
         <source>You must select a name for your form</source>
@@ -10442,17 +10442,17 @@ Takk for din kommentar.</translation>
     <message>
         <source>You must either select &quot;Let the user select sender&quot; or fill in an e-mail address in &quot;Sender of this form&quot;</source>
         <comment>Key: form_must_have_sender</comment>
-        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en epostadresse i &quot;Sender av dette skjemaet&quot;</translation>
+        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en e-postadresse i &quot;Sender av dette skjemaet&quot;</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the form sender</source>
         <comment>Key: form_sender_not_valid</comment>
-        <translation>Du må sette en gyldig epostadresse i sender på skjemaet</translation>
+        <translation>Du må sette en gyldig e-postadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the form sender</source>
         <comment>Key: form_sender_missing</comment>
-        <translation>Du må sette en epostadresse i sender på skjemaet</translation>
+        <translation>Du må sette en e-postadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>Move up</source>
@@ -10520,7 +10520,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Your e-mail address isn&apos;t valid.</source>
         <comment>Key: error_email</comment>
-        <translation>Ugyldig epostadresse.</translation>
+        <translation>Ugyldig e-postadresse.</translation>
     </message>
     <message>
         <source>The user name exists.</source>
@@ -10896,7 +10896,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Your e-mail address isn&apos;t valid.</source>
         <comment>Key: error_email</comment>
-        <translation>Ugyldig epostadresse.</translation>
+        <translation>Ugyldig e-postadresse.</translation>
     </message>
     <message>
         <source>The user name exists.</source>
@@ -11345,7 +11345,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>You have requested e-mail notification on responses to your posting</source>
         <comment>Key: info_message_1</comment>
-        <translation>Du har bedt om epostnotiser når noen svarer på din melding</translation>
+        <translation>Du har bedt om e-postnotiser når noen svarer på din melding</translation>
     </message>
     <message>
         <source>Visit this link</source>
@@ -12260,7 +12260,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation>Epost til ny fotograf</translation>
+        <translation>E-post til ny fotograf</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -12633,7 +12633,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation>Epost til ny fotograf</translation>
+        <translation>E-post til ny fotograf</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -13855,7 +13855,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Configure your mail</source>
         <comment>Key: configure</comment>
-        <translation>Epostinnstillinger</translation>
+        <translation>E-postinnstillinger</translation>
     </message>
     <message>
         <source>New account</source>
@@ -14265,7 +14265,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Link e-mail to these companies/persons</source>
         <comment>Key: message</comment>
-        <translation>Knytt epost til disse firma/personer</translation>
+        <translation>Knytt e-post til disse firma/personer</translation>
     </message>
     <message>
         <source>Companies</source>
@@ -14298,7 +14298,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Mail edit</source>
         <comment>Key: mailedit</comment>
-        <translation>Skriv epost</translation>
+        <translation>Skriv e-post</translation>
     </message>
     <message>
         <source>To</source>
@@ -14378,7 +14378,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>You must supply at least one email address to send a mail</source>
         <comment>Key: address_error</comment>
-        <translation>Du må oppgi minst en epost adresse for å sende en e-mail</translation>
+        <translation>Du må oppgi minst en e-post adresse for å sende en e-mail</translation>
     </message>
     <message>
         <source>Append signature</source>
@@ -14912,7 +14912,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email address of new media creator</source>
         <comment>Key: new_creator_email</comment>
-        <translation>Epost til ny medieopphavsmann</translation>
+        <translation>E-post til ny medieopphavsmann</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -18464,7 +18464,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Mail log</source>
         <comment>Key: mail_log</comment>
-        <translation>Epost-logg</translation>
+        <translation>E-post-logg</translation>
     </message>
     <message>
         <source>Add log</source>
@@ -19166,7 +19166,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Orders</source>
@@ -19908,7 +19908,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Customer E-mail</source>
         <comment>Key: customer_email</comment>
-        <translation>Kundens epost</translation>
+        <translation>Kundens e-post</translation>
     </message>
     <message>
         <source>Vat</source>
@@ -21113,7 +21113,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Mail to</source>
         <comment>Key: mail_to</comment>
-        <translation>Epost til</translation>
+        <translation>E-post til</translation>
     </message>
     <message>
         <source>Description</source>
@@ -21128,7 +21128,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Send e-mail</source>
         <comment>Key: send_email</comment>
-        <translation>Send epost</translation>
+        <translation>Send e-post</translation>
     </message>
     <message>
         <source>Send s-mail</source>
@@ -21655,7 +21655,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>You&apos;re order has been registered and an e-mail will be sent with this order confirmation.</source>
         <comment>Key: email_notice</comment>
-        <translation>Din bestilling er registrert og en epost vil bli sendt til deg som bekreftelse.</translation>
+        <translation>Din bestilling er registrert og en e-post vil bli sendt til deg som bekreftelse.</translation>
     </message>
     <message>
         <source>Order number</source>
@@ -22160,7 +22160,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-Mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Next</source>
@@ -22193,7 +22193,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email address to send wishlist to</source>
         <comment>Key: send_wishlist_to</comment>
-        <translation>Epostadresse å sende ønskelisten til</translation>
+        <translation>E-postadresse å sende ønskelisten til</translation>
     </message>
     <message>
         <source>Personal message</source>
@@ -22474,7 +22474,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Receiver email</source>
         <comment>Key: to_email</comment>
-        <translation>Mottakters epost</translation>
+        <translation>Mottakters e-post</translation>
     </message>
     <message>
         <source>Text</source>
@@ -22534,7 +22534,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>From email</source>
         <comment>Key: from_email</comment>
-        <translation>Fra epost</translation>
+        <translation>Fra e-post</translation>
     </message>
 </context>
 <context>
@@ -22842,7 +22842,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Email</source>
         <comment>Key: author_email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>New</source>
@@ -23095,7 +23095,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Seconds Idle</source>
@@ -23161,12 +23161,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Invalid e-mail address. </source>
         <comment>Key: error_email</comment>
-        <translation>Ugyldig epostadresse.</translation>
+        <translation>Ugyldig e-postadresse.</translation>
     </message>
     <message>
         <source>You need to fill in all the form elements.</source>
@@ -23274,7 +23274,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>User List</source>
@@ -23370,7 +23370,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>First name</source>
@@ -23453,7 +23453,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Type your username in the field, you will then receive an email. There it wil be a link which you must follow to get a new password. This link will be valid for 1 day.</source>
         <comment>Key: forgot-text</comment>
-        <translation>Skriv inn ditt brukernavn i feltet under, og du vil få en epost med en lenke du må følge for å få nytt passord. Lenken som følger med eposten vil kun være gyldig i et døgn.</translation>
+        <translation>Skriv inn ditt brukernavn i feltet under, og du vil få en e-post med en lenke du må følge for å få nytt passord. Lenken som følger med eposten vil kun være gyldig i et døgn.</translation>
     </message>
     <message>
         <source>Forgotten password at</source>
@@ -23463,7 +23463,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Click on the link to get a new password generated. The new password will be sent in mail.</source>
         <comment>Key: body_text</comment>
-        <translation>Klikk på lenken for å få et nytt passord, det nye passordet vil bli sendt i epost.</translation>
+        <translation>Klikk på lenken for å få et nytt passord, det nye passordet vil bli sendt i e-post.</translation>
     </message>
     <message>
         <source>New password at</source>
@@ -23491,12 +23491,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>Mail sent</source>
         <comment>Key: mail_sent</comment>
-        <translation>Epostbeskjed er sendt</translation>
+        <translation>E-postbeskjed er sendt</translation>
     </message>
     <message>
         <source>You will receive an e-mail from us containing a link</source>
         <comment>Key: mail_sent_text</comment>
-        <translation>Du vil motta en epost fra oss med en lenke</translation>
+        <translation>Du vil motta en e-post fra oss med en lenke</translation>
     </message>
     <message>
         <source>Visit that link to change your password</source>
@@ -23511,7 +23511,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>If you don&apos;t receive the e-mail within a short while, please contact the site admininstrator</source>
         <comment>Key: mail_sent_text_4</comment>
-        <translation>Hvis du ikke mottar eposten innen kort tid vennligst kontakt vår administrator</translation>
+        <translation>Hvis du ikke mottar e-posten innen kort tid vennligst kontakt vår administrator</translation>
     </message>
     <message>
         <source>Please go back to the previous page, and make sure that you write the user name you selected when you first registered with us</source>
@@ -23531,12 +23531,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>Your new password has been generated and sent to your e-mail address</source>
         <comment>Key: generated_password</comment>
-        <translation>Ditt nye passord har blitt generert og sendt til din epostadresse</translation>
+        <translation>Ditt nye passord har blitt generert og sendt til din e-postadresse</translation>
     </message>
     <message>
         <source>Your new password has been generated and sent to your e-mail address</source>
         <comment>Key: generated_password_2</comment>
-        <translation>Ditt nye passord har blitt generert og sendt til din epostadresse</translation>
+        <translation>Ditt nye passord har blitt generert og sendt til din e-postadresse</translation>
     </message>
     <message>
         <source>Login with your user name and your new password, then go to your user page</source>
@@ -23612,12 +23612,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>No e-mail address registered</source>
         <comment>Key: user_missing_email_head</comment>
-        <translation>Ingen registrert epostadresse</translation>
+        <translation>Ingen registrert e-postadresse</translation>
     </message>
     <message>
         <source>There is no e-mail address associated with the user account, thus we can&apos;t help you with a new password</source>
         <comment>Key: user_missing_email</comment>
-        <translation>Det er ikke registrert noen epostadresse for denne brukeren, vi kan derfor ikke sende deg et nytt passord</translation>
+        <translation>Det er ikke registrert noen e-postadresse for denne brukeren, vi kan derfor ikke sende deg et nytt passord</translation>
     </message>
     <message>
         <source>Please contact the site administrator for instructions for further help</source>
@@ -23711,7 +23711,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>First name</source>
@@ -23771,7 +23771,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>You must type in a valid e-mail address.</source>
         <comment>Key: email_error</comment>
-        <translation>Du må oppgi en gyldig epostadressse</translation>
+        <translation>Du må oppgi en gyldig e-postadressse</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -23814,7 +23814,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>Epost</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>First name</source>
@@ -23924,7 +23924,7 @@ Takk for din kommentar.</translation>
     <message>
         <source>Click to get news and updates from this site.</source>
         <comment>Key: infosubscription</comment>
-        <translation>Jeg vil gjerne motta epost med nyheter fra dette nettstedet.</translation>
+        <translation>Jeg vil gjerne motta e-post med nyheter fra dette nettstedet.</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -23954,12 +23954,12 @@ Takk for din kommentar.</translation>
     <message>
         <source>You must supply a email address</source>
         <comment>Key: error_email</comment>
-        <translation>Du må fylle inn en epostadresse</translation>
+        <translation>Du må fylle inn en e-postadresse</translation>
     </message>
     <message>
         <source>You must supply a real E-mail address</source>
         <comment>Key: error_email_not_valid</comment>
-        <translation>Epostadressen er ugyldig</translation>
+        <translation>E-postadressen er ugyldig</translation>
     </message>
     <message>
         <source>You password does not match</source>
