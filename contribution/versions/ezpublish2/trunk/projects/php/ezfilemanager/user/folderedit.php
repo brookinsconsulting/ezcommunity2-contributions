@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.18 2001/03/08 10:28:34 fh Exp $
+// $Id: folderedit.php,v 1.19 2001/03/08 20:45:43 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -380,7 +380,8 @@ foreach ( $groups as $group )
 // Print out all the folders.
 foreach ( $folderList as $folderItem )
 {
-    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_file", 'w' ) )
+    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' )
+        || eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) )
     {
         $t->set_var( "option_name", $folderItem[0]->name() );
         $t->set_var( "option_value", $folderItem[0]->id() );

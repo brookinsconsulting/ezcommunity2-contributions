@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.23 2001/03/08 20:31:00 fh Exp $
+// $Id: fileupload.php,v 1.24 2001/03/08 20:45:43 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -414,7 +414,8 @@ $folderList = $folder->getTree( );
 
 foreach ( $folderList as $folderItem )
 {
-    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) )
+    if( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) ||
+        eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) )
     {
         $t->set_var( "option_name", $folderItem[0]->name() );
         $t->set_var( "option_value", $folderItem[0]->id() );
