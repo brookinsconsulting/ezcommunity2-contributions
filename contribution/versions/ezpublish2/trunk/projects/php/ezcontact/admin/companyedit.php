@@ -55,15 +55,23 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 //      exit();
 //  }
 
+
 if ( isSet ( $Back ) )
 {
-    header( "Location: /contact/companytype/list/" );
+    $company = new eZCompany( );
+    $category = $company->categories( $CompanyID );
+    $CategoryID = $category[0]->id();
+
+    header( "Location: /contact/companytype/list/$CategoryID" );
     exit();
 }
 
-if ( isSet ( $Edit ) )
+if ( isSet ( $Edit ) || ( $Update ) )
 {
-    $Action = "edit";
+    if ( is_numeric( $CompanyID ) )
+        $Action = "edit";
+    else
+        $Action = "insert";
 }
 
 if ( isSet ( $Delete ) )
@@ -74,8 +82,7 @@ if ( isSet ( $Delete ) )
 
 if ( isSet ( $Preview ) )
 {
-    header( "Location: /contact/company/view/$CompanyID" );
-    exit();
+    $Action = "update";
 }
 
 if( $Action == "delete" )
@@ -88,9 +95,13 @@ if( $Action == "delete" )
     $company->removeImages();
     $company->removeUser();
     $company->removeClassified();
-    $company->delete();
 
-    header( "Location: /contact/company/list/" );
+    $category = $company->categories( $CompanyID );
+    $CategoryID = $category[0]->id();
+
+    $company->delete();
+    
+    header( "Location: /contact/company/list/$CategoryID" );
 }
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
@@ -405,6 +416,14 @@ if( $Action == "insert" && $error == false )
         print( $file->name() . " not uploaded successfully" );
     }
 
+    if ( isSet( $Update ) )
+    {
+        $CompanyID = $company->id();
+        
+        header( "Location: /contact/company/edit/$CompanyID/" );
+        exit();
+    }
+
     // Add to user object
     $company->addAddress( $address );
     header( "Location: /contact/company/list/" );
@@ -568,16 +587,24 @@ if ( $Action == "update" )
 
     $company->store();
 
+    if ( isSet ( $Preview ) )
+    {
+        header( "Location: /contact/company/view/$CompanyID" );
+        exit();
+    }
+    
     if ( isSet( $Update ) )
     {
         header( "Location: /contact/company/edit/$CompanyID/" );
         exit();
     }
-    else
-    {
-        header( "Location: /contact/companytype/list" );
-        exit();
-    }
+
+    $category = $company->categories( $CompanyID );
+    $CategoryID = $category[0]->id();
+    
+    header( "Location: /contact/companytype/list/$CategoryID" );
+    exit();
+
 }
 
 if ( $Action == "new" || $error)

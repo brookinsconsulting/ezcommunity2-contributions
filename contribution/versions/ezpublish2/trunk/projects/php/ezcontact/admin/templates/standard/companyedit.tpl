@@ -233,6 +233,7 @@
 
 <input class="stdbutton" type="submit" name="Update" value="{intl-update}">
 <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}">
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" />
 
 <hr noshade="noshade" size="4" />
 

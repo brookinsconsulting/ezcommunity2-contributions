@@ -37,6 +37,7 @@ switch ( $url_array[2] )
             {
                 $Action = "edit";
                 $CompanyID = $url_array[4];
+
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }

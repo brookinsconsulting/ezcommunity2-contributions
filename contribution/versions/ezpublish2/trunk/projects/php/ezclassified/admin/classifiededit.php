@@ -63,7 +63,7 @@ if ( $Action == "insert" )
         }
     }
 
-    Header( "Location: /classified/classifiedlist/list" );
+    Header( "Location: /classified/list" );
     exit();
 }
 
@@ -99,7 +99,7 @@ if ( $Action == "update" )
     }
 
 
-    Header( "Location: /classified/classifiedlist/list" );
+    Header( "Location: /classified/list" );
     exit();
 }
 
@@ -108,7 +108,7 @@ if( $Action == "delete" )
     $position = new eZPosition( $ClassifiedID );
     $position->delete();
 
-    Header( "Location: /classified/classifiedlist/list" );
+    Header( "Location: /classified/list" );
     exit();
 }
 
@@ -256,12 +256,12 @@ if ( $position )
     {
         for( $i=0; $i<count ( $phoneList ); $i++ )
         {
-            if ( $phoneList[$i]->phoneTypeID() == 1 )
+            if ( $phoneList[$i]->phoneTypeID() == 5 )
             {
                 $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
                 $t->set_var( "telephone", $phoneList[$i]->number() );
             }
-            if ( $phoneList[$i]->phoneTypeID() == 2 )
+            if ( $phoneList[$i]->phoneTypeID() == 8 )
             {
                 $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
                 $t->set_var( "fax", $phoneList[$i]->number() );
@@ -300,12 +300,12 @@ if ( $position )
     {
         for( $i=0; $i<count ( $onlineList ); $i++ )
         {
-            if ( $onlineList[$i]->onlineTypeID() == 1 )
+            if ( $onlineList[$i]->onlineTypeID() == 4 )
             {
                 $t->set_var( "web_online_id", $onlineList[$i]->id() );
                 $t->set_var( "web", $onlineList[$i]->URL() );
             }
-            if ( $onlineList[$i]->onlineTypeID() == 2 )
+            if ( $onlineList[$i]->onlineTypeID() == 5 )
             {
                 $t->set_var( "email_online_id", $onlineList[$i]->id() );
                 $t->set_var( "email", $onlineList[$i]->URL() );
