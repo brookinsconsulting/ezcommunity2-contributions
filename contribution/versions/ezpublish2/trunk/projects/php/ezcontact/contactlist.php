@@ -141,7 +141,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
-    Header( "Location: index.php?page=" . $DOC_ROOT . "common/error.php" );
+    Header( "Location: index.php?page=common/error.php" );
 }
 
 ?>

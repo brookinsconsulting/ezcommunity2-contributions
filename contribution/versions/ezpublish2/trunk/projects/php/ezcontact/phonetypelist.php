@@ -1,55 +1,29 @@
 <?
+/*
+  Viser liste over kontakt typer.
+*/
 include_once( "class.INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
-
 $Language = $ini->read_var( "eZContactMain", "Language" );
-
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
-include_once( "../classes/eztemplate.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezsession.php" );
+include_once( "classes/ezusergroup.php" );
+include_once( "classes/ezuser.php" );
+
 include_once( "ezphputils.php" );
-// include_once( "../classes/ezsession.php" );
-// include_once( "../ezcontact/classes/ezuser.php" );
-include_once( "../classes/ezusergroup.php" );
-include_once( "../classes/ezphonetype.php" );
 
-// sjekke session
-//  {
-//    include( $DOC_ROOT . "checksession.php" );
-//  }
+include_once( "../ezcontact/classes/ezphonetype.php" );
 
-// hente ut rettigheter
-//  {    
-//      $session = new eZSession();
-    
-//      if ( !$session->get( $AuthenticatedSession ) )
-//      {
-//          die( "Du må logge deg på." );    
-//      }        
-    
-//      $usr = new eZUser();
-//      $usr->get( $session->userID() );
-
-//      $usrGroup = new eZUserGroup();
-//      $usrGroup->get( $usr->group() );
-//  }
-
-// vise feilmelding dersom brukeren ikke har rettigheter.
-//  if ( $usrGroup->phoneTypeAdmin() == 'N' )
-//  {    
-//      $t = new Template( "." );
-//      $t->set_file( array(
-//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
-//          ) );
-
-//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-//      $t->pparse( "output", "error_page" );
-//  }
-//  else
+// Sjekker rettigheter
+$session = new eZSession();
+if( $session->get( $AuthenticatedSession ) == 0 )
 {
+    if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
+    {
 
-//    $t = new Template( "." );
     $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "phonetypelist.php" );
     $t->setAllStrings();
 
@@ -80,5 +54,15 @@ include_once( "../classes/ezphonetype.php" );
     } 
 
     $t->pparse( "output", "phone_type_page" );
+    }
+    else
+    {
+        print( "\nDu har ikke rettigheter\n" );
+    }
 }
+else
+{
+    Header( "Location: index.php?page=common/error.php" );
+}
+
 ?>
