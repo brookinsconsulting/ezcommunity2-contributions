@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20 2001/10/16 14:01:06 jb Exp $
+// $Id: article.php,v 1.21 2001/10/24 12:42:37 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -90,10 +90,13 @@ else if( $Command == "data" ) // return all the data in the category
         $cats = $article->categories( false );
         $cats = array_diff( $cats, array( $cat_def_id ) );
 
+        $art_contents = $article->contents( false );
+        $art_contents = preg_replace( "/&amp;/", "&", $art_contents );
+
         $ret = array( "Location" => createURLStruct( "ezarticle", "article", $article->id() ),
                       "AuthorID" => new eZXMLRPCInt( $article->author( false ) ),
                       "Name" => new eZXMLRPCString( $article->name( false ) ), // title
-                      "Contents" => new eZXMLRPCString( $article->contents( false ) ),
+                      "Contents" => new eZXMLRPCString( $art_contents ),
                       "ContentsWriterID" => new eZXMLRPCInt( $contentsWriter->id() ),
                       "LinkText" => new eZXMLRPCString( $article->linkText( false ) ),
                       "ManualKeyWords" => new eZXMLRPCString( $article->manualKeywords() ),
@@ -132,7 +135,9 @@ else if( $Command == "storedata" )
 
     $article->setAuthor( $Data["AuthorID"]->value() );
     $article->setName( $Data["Name"]->value() ); // title
-    $article->setContents( $Data["Contents"]->value() );
+    $art_contents = $Data["Contents"]->value();
+    $art_contents = preg_replace( "/&/", "&amp;", $art_contents );
+    $article->setContents( $art_contents );
     $article->setContentsWriter( $Data["ContentsWriterID"]->value() );
     $article->setLinkText( $Data["LinkText"]->value() );
     $article->setManualKeywords( $Data["ManualKeyWords"]->value() );
