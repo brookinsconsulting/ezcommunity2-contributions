@@ -3,6 +3,9 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezbug/ admin, mailreply.php.ini
+change: added bug_handled=BUG HANDLED
+
 mod: admin, print_header.php.ini
 change: added
 site=Site
