@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.149 2001/08/17 12:57:42 bf Exp $
+// $Id: ezarticle.php,v 1.150 2001/08/17 14:14:06 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2641,6 +2641,7 @@ class eZArticle
     function sendPendingMail()
     {
         $ini =& INIFile::globalINI();
+        $Language = $ini->read_var( "eZArticleMain", "Language" );
         $definition = $this->categoryDefinition();
 
         $editorGroup = $definition->editorGroup();
@@ -2651,23 +2652,27 @@ class eZArticle
 
         $mailTemplate->set_file( "pending_mail_tpl", "pendingmail.tpl" );
 
+
+        $mail = new eZMail();
+
+        $author = $this->contentsWriter();
+        $authorEmail = $author->email();
+        $name = $author->name();
+
+        print_r( $author );
+        $mailTemplate->set_var( "author", $name . " " . $authorEmail );
         $mailBody = $mailTemplate->parse( "dummy", "pending_mail_tpl" );
+        $mail->setBody( $mailBody );
 
-        $authorEmail = $this->authorEmail();
-        $authorText = $this->authorText();
-        if ( $authorEmail )
-        {
-            $mail = new eZMail();
-            $mail->setFrom( $authorEmail );
-            $mail->setBody( $mailBody );
-        }
-
+        $mail->setFrom( $authorEmail );
+        
         $users = $editorGroup->users();
-        foreach ( $users as $user )
+        foreach ( $users as $userItem )
         {
-            $mail->setTo( $user->email() );
+            $mail->setTo( $userItem->email() );
             $mail->send();
         }
+        exit();
     }
 
     /*!

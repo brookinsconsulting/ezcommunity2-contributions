@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.75 2001/08/16 14:38:05 ce Exp $
+// $Id: datasupplier.php,v 1.76 2001/08/17 14:14:07 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -106,10 +106,10 @@ switch ( $url_array[2] )
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
-            {
-                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-                $first = false;
-            }
+                {
+                    $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                    $first = false;
+                }
         }
         else
             $user = 0;
@@ -130,8 +130,8 @@ switch ( $url_array[2] )
                 include( $cachedFile );
             }
             else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
-                     eZArticleCategory::isOwner( $user, $CategoryID) )
-                             // check if user really has permissions to browse this category
+            eZArticleCategory::isOwner( $user, $CategoryID) )
+                // check if user really has permissions to browse this category
             {
                 $GenerateStaticPage = "true";
                 
@@ -139,7 +139,7 @@ switch ( $url_array[2] )
             }
         }
         else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
-                 eZArticleCategory::isOwner( $user, $CategoryID) )
+        eZArticleCategory::isOwner( $user, $CategoryID) )
         {
             include( "ezarticle/user/articlelist.php" );
         }
@@ -169,10 +169,10 @@ switch ( $url_array[2] )
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
-            {
-                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-                $first = false;
-            }
+                {
+                    $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                    $first = false;
+                }
         }
         include_once( "classes/ezcachefile.php" );
         $file = new eZCacheFile( "ezarticle/cache/", array( "articleindex", $groupstr ),
@@ -241,10 +241,10 @@ switch ( $url_array[2] )
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
-            {
-                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-                $first = false;
-            }
+                {
+                    $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                    $first = false;
+                }
         }
         else
             $user = 0;
@@ -269,7 +269,7 @@ switch ( $url_array[2] )
             }
         }
         else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
-        || eZArticle::isAuthor( $user, $ArticleID ) )
+                  || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
         }
@@ -332,10 +332,10 @@ switch ( $url_array[2] )
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
-            {
-                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-                $first = false;
-            }
+                {
+                    $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                    $first = false;
+                }
         }
         else
             $user = 0;
@@ -395,10 +395,10 @@ switch ( $url_array[2] )
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
-            {
-                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-                $first = false;
-            }
+                {
+                    $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                    $first = false;
+                }
         }
         else
             $user = 0;
@@ -457,6 +457,13 @@ switch ( $url_array[2] )
                     include( "ezarticle/user/articleedit.php" );
                     break;
                 }
+                case "edit":
+                {
+                    $Action = "Edit";
+                    include( "ezarticle/user/articleedit.php" );
+                    break;
+                }
+
                 case "insert":
                 {
                     $Action = "Insert";
@@ -464,6 +471,14 @@ switch ( $url_array[2] )
                     include( "ezarticle/user/articleedit.php" );
                     break;
                 }
+                case "update":
+                {
+                    $Action = "Update";
+                    $ArticleID = $url_array[4];
+                    include( "ezarticle/user/articleedit.php" );
+                    break;
+                }
+
                 case "cancel":
                 {
                     $Action = "Cancel";
@@ -471,6 +486,62 @@ switch ( $url_array[2] )
                     include( "ezarticle/user/articleedit.php" );
                     break;
                 }
+                case "imagelist" :
+                {
+                    $ArticleID = $url_array[4];
+                    if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                        || eZArticle::isAuthor( $user, $ArticleID ) )
+                        include( "ezarticle/user/imagelist.php" );
+                    break;
+                }
+
+                case "imageedit" :
+                {
+                    switch ( $url_array[4] )
+                    {
+                        case "new" :
+                        {
+                            $Action = "New";
+                            $ArticleID = $url_array[5];
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/imageedit.php" );
+                        }
+                        break;
+
+                        case "edit" :
+                        {
+                            $Action = "Edit";
+                            $ArticleID = $url_array[6];
+                            $ImageID = $url_array[5];
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/imageedit.php" );
+                        }
+                        break;
+
+                        case "storedef" :
+                        {
+                            $Action = "StoreDef";
+                            if ( isset( $DeleteSelected ) )
+                                $Action = "Delete";
+                            $ArticleID = $url_array[5];
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/imageedit.php" );
+                        }
+                        break;
+
+                        default :
+                        {
+                            if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                                || eZArticle::isAuthor( $user, $ArticleID ) )
+                                include( "ezarticle/user/imageedit.php" );
+                        }
+                    }
+                }
+                break;
+
             }
         }
         else
@@ -481,6 +552,8 @@ switch ( $url_array[2] )
         }
     }
     break;
+
+
 
     
     // XML rpc interface

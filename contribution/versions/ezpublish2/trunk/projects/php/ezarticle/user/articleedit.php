@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.21 2001/08/17 13:35:58 jhe Exp $
+// $Id: articleedit.php,v 1.22 2001/08/17 14:14:07 ce Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -42,13 +42,14 @@ $ini =& INIFile::globalINI();
 $PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
 $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
 
+$session =& eZSession::globalSession();
 
 // insert a new article in the database
-if ( $Action == "Insert" )
+if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
 {
     $user =& eZUser::currentUser();
         
-    $article = new eZArticle();
+    $article = new eZArticle( $ArticleID );
     $article->setName( $Name );
     
     $article->setAuthor( $user );
@@ -102,9 +103,25 @@ if ( $Action == "Insert" )
         
         $article->store();
     
+        // Go to insert item..
+        if ( isset( $AddItem ) )
+        {
+            switch( $ItemToAdd )
+            {
+                case "Image":
+                {
+                    
+                    $session->setVariable( "ArticleEditID", $article->id() );
+                    $articleID = $article->id();
+                    // add images
+                    eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
+                    exit();
+                }
+                break;
+            }
+        }
 
-
-
+        $session->setVariable( "ArticleEditID", "" );
         eZHTTPTool::header( "Location: /article/archive/$CategoryIDSelect/" );
         exit();
     }
@@ -169,6 +186,37 @@ if ( $Action == "New" )
 {
     $user =& eZUser::currentUser();
     $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());    
+}
+
+$articleID = $session->variable( "ArticleEditID" );
+if ( $Action == "Edit" )
+{
+    $article = new eZArticle( $articleID );
+
+    $generator = new eZArticleGenerator();
+    
+    $contentsArray = $generator->decodeXML( $article->contents() );
+
+    $user =& eZUser::currentUser();
+    $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());    
+
+    $t->set_var( "article_name", $article->name() );
+
+    $i=0;
+    foreach ( $contentsArray as $content )
+    {
+        if ( !isset( $Contents[$i] ) )
+        {
+            $t->set_var( "article_contents_$i", htmlspecialchars( $content ) );
+        }
+        $i++;
+    }
+    $t->set_var( "article_keywords", $article->manualKeywords() );
+
+    $t->set_var( "link_text", $article->linkText() );
+
+    $t->set_var( "action_value", "update" );
+    $t->set_var( "article_id", $articleID );
 }
 
 
