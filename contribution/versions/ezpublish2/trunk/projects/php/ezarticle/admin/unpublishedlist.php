@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unpublishedlist.php,v 1.3 2001/03/01 14:06:25 jb Exp $
+// $Id: unpublishedlist.php,v 1.4 2001/03/09 23:55:17 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -52,6 +53,7 @@ $t->set_block( "unpublished_list_page_tpl", "path_item_tpl", "path_item" );
 // category
 $t->set_block( "unpublished_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
+$t->set_block( "category_item_tpl", "category_edit_tpl", "category_edit" );
 
 // article
 $t->set_block( "unpublished_list_page_tpl", "article_list_tpl", "article_list" );
@@ -59,6 +61,7 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $t->set_block( "article_item_tpl", "article_is_published_tpl", "article_is_published" );
 $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_published" );
+$t->set_block( "article_item_tpl", "article_edit_tpl", "article_edit" );
 
 // move up / down
 $t->set_block( "article_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
@@ -117,25 +120,35 @@ $i=0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "category_id", $categoryItem->id() );
-
-    $t->set_var( "category_name", $categoryItem->name() );
-
-    $parent = $categoryItem->parent();
-
-    if ( ( $i % 2 ) == 0 )
+    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) ||
+        eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
     {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
+        $t->set_var( "category_id", $categoryItem->id() );
+
+        $t->set_var( "category_name", $categoryItem->name() );
+
+        $parent = $categoryItem->parent();
+
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
     
-    $t->set_var( "category_description", $categoryItem->description() );
+        $t->set_var( "category_description", $categoryItem->description() );
 
-    $t->parse( "category_item", "category_item_tpl", true );
-    $i++;
+        if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w' )  ||
+            eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) ) 
+            $t->parse( "category_edit", "category_edit_tpl", false );
+        else
+            $t->set_var( "category_edit", "" );
+        
+        $t->parse( "category_item", "category_item_tpl", true );
+        $i++;
+    }
 }
 
 if ( count( $categoryList ) > 0 )    
@@ -169,45 +182,56 @@ else
 
 foreach ( $articleList as $article )
 {
-    if ( $article->name() == "" )
-        $t->set_var( "article_name", "&nbsp;" );
-    else
-        $t->set_var( "article_name", $article->name() );
+    if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r') ||
+        eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
+    {
+        if ( $article->name() == "" )
+            $t->set_var( "article_name", "&nbsp;" );
+        else
+            $t->set_var( "article_name", $article->name() );
 
-    $t->set_var( "article_id", $article->id() );
+        $t->set_var( "article_id", $article->id() );
 
-    if ( $article->isPublished() == true )
-    {
-        $t->parse( "article_is_published", "article_is_published_tpl" );
-        $t->set_var( "article_not_published", "" );        
-    }
-    else
-    {
-        $t->set_var( "article_is_published", "" );
-        $t->parse( "article_not_published", "article_not_published_tpl" );
-    }
+        if ( $article->isPublished() == true )
+        {
+            $t->parse( "article_is_published", "article_is_published_tpl" );
+            $t->set_var( "article_not_published", "" );        
+        }
+        else
+        {
+            $t->set_var( "article_is_published", "" );
+            $t->parse( "article_not_published", "article_not_published_tpl" );
+        }
 
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
-    if ( $category->sortMode() == "absolute_placement" )
-    {
-        $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
-    }
-    else
-    {
-        $t->set_var( "absolute_placement_item", "" );
-    }
-    
+        if ( $category->sortMode() == "absolute_placement" )
+        {
+            $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "absolute_placement_item", "" );
+        }
+        if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'w') ||
+            eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
+        {
+            $t->parse( "article_edit", "article_edit_tpl", false );
+        }
+        else
+            $t->set_var( "article_edit", "" );
 
-    $t->parse( "article_item", "article_item_tpl", true );
-    $i++;
+
+        $t->parse( "article_item", "article_item_tpl", true );
+        $i++;
+    }
 }
 
 $prevOffs = $Offset - $Limit;

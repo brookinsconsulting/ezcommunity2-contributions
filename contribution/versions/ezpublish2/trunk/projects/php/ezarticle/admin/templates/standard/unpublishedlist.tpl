@@ -50,12 +50,14 @@
 	<td class="{td_class}">
 	{category_description}&nbsp;
 	</td>
+<!-- BEGIN category_edit_tpl -->
 	<td width="1%" class="{td_class}">
 	<a href="/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
 	</td>
+<!-- END category_edit_tpl -->
 </tr>
 <!-- END category_item_tpl -->
 </table>
@@ -107,12 +109,14 @@
 	<a href="/article/unpublished/{category_id}/?MoveUp={article_id}"><img src="/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
 	</td>
 	<!-- END absolute_placement_item_tpl -->
+	<!-- BEGIN article_edit_tpl -->
 	<td width="1%" class="{td_class}">
 	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">
 	</td>
+	<!-- END article_edit_tpl -->
 </tr>
 <!-- END article_item_tpl -->
 </table>
