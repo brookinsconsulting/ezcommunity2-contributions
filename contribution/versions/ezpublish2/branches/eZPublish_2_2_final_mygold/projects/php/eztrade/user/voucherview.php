@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherview.php,v 1.1 2001/09/24 10:19:16 ce Exp $
+// $Id: voucherview.php,v 1.1.4.1 2001/10/25 08:19:00 ce Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -102,7 +102,7 @@ if ( isSet ( $Key ) )
         
         if ( $voucherInfo->mailMethod() == 1 )
         {
-            $mail =& $voucherInfo->online();
+            $mail =& $voucherInfo->toOnline();
             $t->set_var( "sent_email", $mail->url() );
             $t->set_var( "sent_description", $voucherInfo->description() );
         }
