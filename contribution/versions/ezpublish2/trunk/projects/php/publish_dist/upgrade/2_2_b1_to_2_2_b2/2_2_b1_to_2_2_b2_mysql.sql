@@ -1,5 +1,3 @@
-alter table eZTrade_Voucher add MailMethod int default 1;
-alter table eZTrade_VoucherEMail change Email OnlineID int default 0; 
 create table eZBulkMail_UserCategoryLink ( UserID int default 0, CategoryID int default 0 ); 
 
 create table eZBulkMail_UserSubscriptionCategorySettings( CategoryID int default 0, UserID int default 0, Delay int default 0 );
@@ -44,14 +42,25 @@ alter table eZImageCatalogue_Category add SectionID int default '1';
 
 alter table eZLink_Category add SectionID int default '1';
 
+CREATE TABLE eZTrade_VoucherInformation (
+  ID int(11) NOT NULL default '0',
+  VoucherID int(11) default '0',
+  OnlineID int(11) default '0',
+  AddressID int(11) default '0',
+  Description text,
+  PreOrderID int(11) default '0',
+  Price int(11) default '0',
+  MailMethod int(11) default '1'
+) TYPE=MyISAM;
 
+alter table eZTrade_Voucher add VoucherInformationID int default 0;  
+alter table eZTrade_VoucherUsed add UserID int default 0;
 
 CREATE TABLE eZForum_MessageWordLink (
   MessageID int(11) NOT NULL default '0',
   Frequency float default 0.2,
   WordID int(11) NOT NULL default '0'
 );
-
 
 CREATE TABLE eZForum_Word (
   ID int(11) NOT NULL default '0',

@@ -105,9 +105,10 @@ else
 
 	<td width="1%" bgcolor="#f6f6fa">
 
+
    	<!-- Right menu start -->
     <?
-	include( "ezuser/user/userbox.php" ); 
+	include( "ezuser/user/userbox.php" );
 	?>
 	
 	<?
@@ -123,7 +124,7 @@ else
     <?
     // change design on the fly
     include_once( "classes/ezhttptool.php" );
-    
+
 $session = new eZSession();
 
 if ( $session->fetch() == false )

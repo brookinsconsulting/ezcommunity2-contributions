@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbenchmark.php,v 1.5 2001/07/19 11:33:56 jakobn Exp $
+// $Id: ezbenchmark.php,v 1.6 2001/09/26 07:11:12 ce Exp $
 //
 // Definition of eZTextTool class
 //
@@ -78,7 +78,7 @@ class eZBenchmark
 
         ereg( "0\.([0-9]+)", "" . $time_1[0], $t1 );
         ereg( "0\.([0-9]+)", "" . $time_2[0], $t2 );
-        
+
         $Start = $time_1[1] . "." . $t1[1];
         $Stop = $time_2[1] . "." . $t2[1];    
         
