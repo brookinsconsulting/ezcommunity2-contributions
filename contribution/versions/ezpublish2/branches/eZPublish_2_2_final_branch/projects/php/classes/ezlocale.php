@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.42.2.1 2002/02/06 12:27:56 jhe Exp $
+// $Id: ezlocale.php,v 1.42.2.2 2002/02/06 13:40:13 jhe Exp $
 //
 // Definition of eZLocale class
 //
@@ -480,11 +480,13 @@ class eZLocale
 
     function formatNumber( $value )
     {
-        if ( $value == float( $value ) )
-            $value =& number_format( $value, 0, $this->DecimalSymbol, $this->ThousandsSymbol );
-        else
-            $value =& number_format( $value, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSymbol );
-
+        if ( is_numeric( $value ) )
+        {
+            if ( $value == float( $value ) )
+                $value =& number_format( $value, 0, $this->DecimalSymbol, $this->ThousandsSymbol );
+            else
+                $value =& number_format( $value, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSymbol );
+        }
         return $value;
     }
 
