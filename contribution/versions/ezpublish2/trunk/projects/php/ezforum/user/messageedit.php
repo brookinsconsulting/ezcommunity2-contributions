@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.57 2001/09/24 11:53:43 jhe Exp $
+// $Id: messageedit.php,v 1.58 2001/10/12 12:22:04 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -299,9 +299,9 @@ switch ( $Action )
 
                         $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
 
-                        $mailTemplate->set_var( "topic", $msg->topic() );
+                        $mailTemplate->set_var( "topic", $msg->topic( false ) );
                         $mailTemplate->set_var( "body", $msg->body( false ) );
-
+                        
                         $mailTemplate->set_var( "forum_name", $forum->name() );
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
                         $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message" . $msg->id() );
