@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.4 2001/09/05 08:16:01 ce Exp $
+// $Id: ezvoucher.php,v 1.5 2001/09/05 09:28:48 ce Exp $
 //
 // eZVoucher class
 //
@@ -359,13 +359,27 @@ class eZVoucher
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT * FROM eZTrade_VoucherEMail WHERE VoucherID='$this->ID'" );
 
+        $ini =& INIFile::globalINI();
+        $fromUser = $this->user();
+        
+        $Language = $ini->read_var( "eZTradeMain", "Language" );
+        
+        $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                             "eztrade/user/intl/", $Language, "voucheremail.php" );
+
+        $t->setAllStrings();
+        
+        $t->set_file( "voucheremail", "voucheremail.tpl" );
+
         $mail = new eZMail();
 
+        $t->set_var( "description", $res[$db->fieldName( "Description" )] );
+        $t->set_var( "from_name", $fromUser->firstName() . " " . $fromUser->lastName() );
+        
         $mailAddress = new eZOnline( $res[$db->fieldName( "OnlineID" )] );
-        $mail->setTo( $mailAddress->url() );
-        $mail->setBody( $res[$db->fieldName( "Description" )] );
 
-        $fromUser = $this->user();
+        $mail->setTo( $mailAddress->url() );
+        $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
         $mail->setFrom( $fromUser->email() );
         $mail->send();
     }
