@@ -40,7 +40,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td colspan="2">
+    <td>
     <p class="boxtext">{intl-folder_name}:</p>
     <input type="text" class="box" size="40" name="Name" value="{name_value}"/>
 
@@ -57,8 +57,24 @@
 	<br />
 	<br />
     </td>
-</tr>
+    </tr>
+    <tr>    
+    <td width="99%" colspan="2">
+    <p class="boxtext">{intl-section_select}:</p>
+    <select name="SectionID">
+    <!-- BEGIN section_item_tpl -->
+    <option value="{section_id}" {section_is_selected}>{section_name}</option>
+    <!-- END section_item_tpl -->
+    </select>
+    </td>
 
+</tr>
+</table>
+
+<br />
+<br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
     <p class="boxtext">{intl-read_permissions}</p>
@@ -78,6 +94,16 @@
     <!-- END write_group_item_tpl -->
     </select>
     </td>
+    <td>
+    <p class="boxtext">{intl-upload_permissions}</p>
+    <select multiple size="5" name="UploadGroupArrayID[]">
+    <option value="0" {upload_everybody}>{intl-everybody}</option>
+    <!-- BEGIN upload_group_item_tpl -->
+    <option value="{group_id}" {is_upload_selected1}>{group_name}</option>
+    <!-- END upload_group_item_tpl -->
+    </select>
+    </td>
+
 </tr>
 </table>
 <br />
