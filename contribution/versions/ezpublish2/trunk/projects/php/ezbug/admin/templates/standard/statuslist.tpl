@@ -8,7 +8,7 @@
 <!-- BEGIN status_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	  <input type="text" name="StatusID[]" value="{status_id}" />
+	  <input type="hidden" name="StatusID[]" value="{status_id}" />
 	  <input type="text" name="StatusName[]" value="{status_name}" />
 	</td>
 	<td width="1%" class="{td_class}">
