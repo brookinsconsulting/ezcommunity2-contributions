@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.6 2001/07/25 10:38:32 jb Exp $
+// $Id: datasupplier.php,v 1.7 2001/08/09 11:43:08 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,6 +35,7 @@ switch ( $RequestType )
         switch( $Command )
         {
             case "list":
+            case "tree":
             case "search":
             {
                 include( "ezimagecatalogue/xmlrpc/categorylist.php" );

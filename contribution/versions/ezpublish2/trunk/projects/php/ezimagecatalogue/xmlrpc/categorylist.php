@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.3 2001/07/25 10:38:40 jb Exp $
+// $Id: categorylist.php,v 1.4 2001/08/09 11:43:08 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -144,6 +144,12 @@ if ( $Command == "list" )
                                              "Path" => $par,
                                              "Part" => $part ) ); // array starting with top level catalogue, ending with parent.
 }
+else if ( $Command == "tree" )
+{
+    $cat = new eZImageCategory();
+    $tree =& categoryTree( $cat );
+    $ReturnData = createTreeStruct( $tree, "ezimagecatalogue", "category" );
+}
 else if ( $Command == "search" )
 {
     $keywords = $Data["Keywords"]->value();
@@ -169,5 +175,19 @@ else if ( $Command == "search" )
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
     handleSearchData( $ret );
     $ReturnData = new eZXMLRPCStruct( $ret );
+}
+
+function &categoryTree( $cat )
+{
+    $children =& eZImageCategory::getByParent( $cat );
+    $child_array = array();
+    foreach( $children as $child )
+    {
+        $child_array[] = categoryTree( $child );
+    }
+    $item = array( "ID" => $cat->id(),
+                   "Name" => $cat->name(),
+                   "Children" => $child_array );
+    return $item;
 }
 ?>

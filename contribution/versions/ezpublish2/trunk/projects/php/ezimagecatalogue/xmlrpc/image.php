@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.9 2001/07/29 23:31:07 kaid Exp $
+// $Id: image.php,v 1.10 2001/08/09 11:43:08 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -80,6 +80,7 @@ if( $Command == "data" ) // Dump image info!
                     "PhotographerID" => new eZXMLRPCInt( $image->photographer( false ) ),
                     "ReadGroups" => new eZXMLRPCArray( $rgp ),
                     "WriteGroups" => new eZXMLRPCArray( $wgp ),
+                    "Categories" => new eZXMLRPCArray( $image->categories(), "integer" ),
                     "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
                     "Size" => createSizeStruct( $variation->width(), $variation->height() )
                     );
@@ -107,6 +108,9 @@ else if ( $Command == "storedata" )
         $caption = $Data["Caption"]->value();
         $description = $Data["Description"]->value();
         $photographer = $Data["PhotographerID"]->value();
+        $readgroups = $Data["ReadGroups"]->value();
+        $writegroups = $Data["WriteGroups"]->value();
+        $categories = $Data["Categories"]->value();
         $image = new eZImage();
         if ( $ID != 0 )
         {
@@ -134,6 +138,36 @@ else if ( $Command == "storedata" )
             if ( !$Error )
             {
                 $image->store();
+
+                // categories...
+                $old_categories =& $image->categories();
+                if ( is_bool( $old_categories ) )
+                    $old_categories = array();
+                $new_categories = array();
+                foreach( $categories as $cat )
+                {
+                    $new_categories[] = $cat->value();
+                }
+                $remove_categories = array_diff( $old_categories, $new_categories );
+                $add_categories = array_diff( $new_categories, $old_categories );
+
+                foreach ( $remove_categories as $categoryItem )
+                {
+                    eZImageCategory::removeImage( $image, $categoryItem );
+                }
+                foreach ( $add_categories as $categoryItem )
+                {
+                    eZImageCategory::addImage( $image, $categoryItem );
+                }
+
+                // permissions...
+                eZObjectPermission::removePermissions( $ID, "imagecatalogue_image", 'r' );
+                foreach( $readgroups as $readgroup )
+                    eZObjectPermission::setPermission( $readgroup->value(), $ID, "imagecatalogue_image", 'r' );
+
+                eZObjectPermission::removePermissions( $ID, "imagecatalogue_image", 'w' );
+                foreach( $writegroups as $writegroup )
+                    eZObjectPermission::setPermission( $writegroup->value(), $ID, "imagecatalogue_image", 'w' );
 
                 $ID = $image->id();
 
