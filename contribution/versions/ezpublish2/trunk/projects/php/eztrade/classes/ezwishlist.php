@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlist.php,v 1.11 2001/10/16 10:08:45 ce Exp $
+// $Id: ezwishlist.php,v 1.12 2001/10/23 10:05:13 ce Exp $
 //
 // Definition of eZWishList class
 //
@@ -339,6 +339,79 @@ class eZWishList
        return $ret;       
 
     }
+
+    /*
+        This function calculates the totals of the cart contents.
+     */
+    function wishListTotals( &$tax, &$total, $voucher=false )
+    {
+        $tax = "";
+        $total = "";
+
+        $products = false;
+        
+        if ( !$voucher )
+        {
+            $items = $this->items( );
+            foreach( $items as $item )
+            {
+                $product =& $item->product();
+                $vatPercentage = $product->vatPercentage();
+                
+                $exTax = $item->correctPrice( true, true, false );
+                $incTax = $item->correctPrice( true, true, true );
+
+                if ( $product->productType() != 2 )
+                {
+                    $products = true;
+                }
+                else
+                {
+                    $info =& $item->voucherInformation();
+
+                    if ( $info->mailMethod() == 2 )
+                        $products = true;
+                }
+                
+                $totalExTax += $exTax;
+                $totalIncTax += $incTax;
+                
+                $tax["$vatPercentage"]["basis"] += $exTax;
+                $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
+                $tax["$vatPercentage"]["percentage"] = $vatPercentage;
+            }
+        }
+        else if ( get_class ( $voucher ) == "ezvoucher" )
+        {
+            $product =& $voucher->product();
+            $vatPercentage = $product->vatPercentage();
+
+            $exTax = $voucher->correctPrice( false );
+            $incTax = $voucher->correctPrice( true );
+
+           
+            $totalExTax += $exTax;
+            $totalIncTax += $incTax;
+            
+            $tax["$vatPercentage"]["basis"] += $exTax;
+            $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
+            $tax["$vatPercentage"]["percentage"] = $vatPercentage;
+        }
+
+       
+        $total["subinctax"] = $totalIncTax;
+        $total["subextax"] = $totalExTax;
+        $total["subtax"] = $totalIncTax - $totalExTax;
+
+
+        $user =& eZUser::currentUser();
+        $useVAT = true;
+        
+        $total["inctax"] = $total["subinctax"] + $total["shipinctax"];
+        $total["extax"] = $total["subextax"] + $total["shipextax"];
+        $total["tax"] = $total["subtax"] + $total["shiptax"];
+    }
+
     
     var $ID;
     var $UserID;

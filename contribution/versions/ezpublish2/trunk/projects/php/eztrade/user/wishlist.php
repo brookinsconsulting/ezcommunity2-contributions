@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20 2001/09/26 07:09:33 ce Exp $
+// $Id: wishlist.php,v 1.21 2001/10/23 10:05:13 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -37,6 +37,12 @@ $ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
 $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
+$ShowExTaxColumn = $ini->read_var( "eZTradeMain", "ShowExTaxColumn" ) == "enabled" ? true : false;
+$ShowIncTaxColumn = $ini->read_var( "eZTradeMain", "ShowIncTaxColumn" ) == "enabled" ? true : false;
+$ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled" ? true : false;
+$ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "WishListColSpanSizeTotals" );
+
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -49,8 +55,14 @@ include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 
+$GLOBALS["DEBUG"] = true;
+
 $wishlist = new eZWishlist();
 $session = new eZSession();
+
+// Set some variables to defaults.
+$ShowWishlist = false;
+$ShowSavingsColumn = false;
 
 // if no session exist create one.
 if ( !$session->fetch() )
@@ -273,18 +285,44 @@ $t->set_file( array(
     "wishlist_page_tpl" => "wishlist.tpl"
     ) );
 
+$t->set_block( "wishlist_page_tpl", "full_wishlist_tpl", "full_wishlist" );
 
-$t->set_block( "wishlist_page_tpl", "public_wishlist_tpl", "public_wishlist" );
-$t->set_block( "wishlist_page_tpl", "non_public_wishlist_tpl", "non_public_wishlist" );
+$t->set_block( "full_wishlist_tpl", "public_wishlist_tpl", "public_wishlist" );
+$t->set_block( "full_wishlist_tpl", "non_public_wishlist_tpl", "non_public_wishlist" );
 
-$t->set_block( "wishlist_page_tpl", "empty_wishlist_tpl", "empty_wishlist" );
+$t->set_block( "full_wishlist_tpl", "empty_wishlist_tpl", "empty_wishlist" );
 
-$t->set_block( "wishlist_page_tpl", "wishlist_image_tpl", "wishlist_image" );
+$t->set_block( "full_wishlist_tpl", "wishlist_image_tpl", "wishlist_image" );
 
+$t->set_block( "full_wishlist_tpl", "wishlist_item_list_tpl", "wishlist_item_list" );
 
-$t->set_block( "wishlist_page_tpl", "wishlist_item_list_tpl", "wishlist_item_list" );
-$t->set_block( "wishlist_item_list_tpl", "product_available_header_tpl", "product_available_header" );
+$t->set_block( "wishlist_item_list_tpl", "header_savings_item_tpl", "header_savings_item" );
+$t->set_block( "wishlist_item_list_tpl", "header_inc_tax_item_tpl", "header_inc_tax_item" );
+$t->set_block( "wishlist_item_list_tpl", "header_ex_tax_item_tpl", "header_ex_tax_item" );
+
+$t->set_block( "full_wishlist_tpl", "total_ex_tax_item_tpl", "total_ex_tax_item" );
+$t->set_block( "full_wishlist_tpl", "total_inc_tax_item_tpl", "total_inc_tax_item" );
+$t->set_block( "full_wishlist_tpl", "subtotal_ex_tax_item_tpl", "subtotal_ex_tax_item" );
+$t->set_block( "full_wishlist_tpl", "subtotal_inc_tax_item_tpl", "subtotal_inc_tax_item" );
+$t->set_block( "full_wishlist_tpl", "shipping_ex_tax_item_tpl", "shipping_ex_tax_item" );
+$t->set_block( "full_wishlist_tpl", "shipping_inc_tax_item_tpl", "shipping_inc_tax_item" );
+
 $t->set_block( "wishlist_item_list_tpl", "wishlist_item_tpl", "wishlist_item" );
+
+$t->set_block( "wishlist_item_tpl", "wishlist_savings_item_tpl", "wishlist_savings_item" );
+$t->set_block( "wishlist_item_tpl", "wishlist_inc_tax_item_tpl", "wishlist_inc_tax_item" );
+$t->set_block( "wishlist_item_tpl", "wishlist_ex_tax_item_tpl", "wishlist_ex_tax_item" );
+
+$t->set_block( "wishlist_item_tpl", "wishlist_item_basis_tpl", "wishlist_item_basis" );
+$t->set_block( "wishlist_item_basis_tpl", "basis_savings_item_tpl", "basis_savings_item" );
+$t->set_block( "wishlist_item_basis_tpl", "basis_inc_tax_item_tpl", "basis_inc_tax_item" );
+$t->set_block( "wishlist_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_item" );
+
+$t->set_block( "full_wishlist_tpl", "tax_specification_tpl", "tax_specification" );
+$t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
+
+$t->set_block( "wishlist_item_list_tpl", "product_available_header_tpl", "product_available_header" );
+
 $t->set_block( "wishlist_item_tpl", "product_available_item_tpl", "product_available_item" );
 $t->set_block( "wishlist_item_tpl", "move_to_cart_item_tpl", "move_to_cart_item" );
 $t->set_block( "wishlist_item_tpl", "no_move_to_cart_item_tpl", "no_move_to_cart_item" );
@@ -294,7 +332,38 @@ $t->set_block( "wishlist_item_option_tpl", "wishlist_item_option_availability_tp
 $t->set_block( "wishlist_item_tpl", "is_bought_tpl", "is_bought" );
 $t->set_block( "wishlist_item_tpl", "is_not_bought_tpl", "is_not_bought" );
 
-$t->set_block( "wishlist_page_tpl", "wishlist_checkout_tpl", "wishlist_checkout" ); //SF
+$t->set_block( "wishlist_page_tpl", "wishlist_checkout_tpl", "wishlist_checkout" );
+
+function turnColumnsOnOff( $rowName )
+{
+    global $t, $ShowSavingsColumn, $ShowExTaxColumn, $ShowIncTaxColumn;
+    if ( $ShowSavingsColumn == true )
+    {
+        $t->parse( $rowName . "_savings_item", $rowName . "_savings_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( $rowName . "_savings_item", "" );
+    }
+
+    if ( $ShowExTaxColumn == true )
+    {
+        $t->parse( $rowName . "_ex_tax_item", $rowName . "_ex_tax_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( $rowName . "_ex_tax_item", "" );
+    }
+
+    if ( $ShowIncTaxColumn == true )
+    {
+        $t->parse( $rowName . "_inc_tax_item", $rowName . "_inc_tax_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( $rowName . "_inc_tax_item", "" );
+    }
+}
 
 $t->set_var( "public_wishlist", "" );
 $t->set_var( "non_public_wishlist", "" );
@@ -365,6 +434,9 @@ foreach ( $items as $item )
     
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
+    $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );
+
 
     $optionValues =& $item->optionValues();
 
@@ -392,10 +464,14 @@ foreach ( $items as $item )
     }
     $t->set_var( "wishlist_item_count", $item->count() );
     
-    $t->set_var( "product_price", $locale->format( $currency ) );
+    $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT ) );
 
     $t->set_var( "wishlist_item_option", "" );
     $min_quantity = $Quantity;
+
+    $numberOfItems++;
+    $numberOfOptions = 0;
+    
     foreach ( $optionValues as $optionValue )
     {
         $option =& $optionValue->option();
@@ -422,11 +498,34 @@ foreach ( $items as $item )
                 $t->set_var( "option_availability", $named_quantity );
                 $t->parse( "wishlist_item_option_availability", "wishlist_item_option_availability_tpl" );
             }
+            $numberOfOptions++;
         }
 
         $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
     }
 
+    turnColumnsOnOff( "wishlist" );
+    turnColumnsOnOff( "basis" );
+
+    if ( $numberOfOptions ==  0 )
+    {
+        $t->set_var( "wishlist_item_option", "" );
+        $t->set_var( "wishlist_item_basis", "" );
+    }
+    else
+    {
+        if( $product->price() > 0 )
+        {
+            $t->set_var( "basis_price", $item->localePrice( false, false, $PricesIncludeVAT ) );
+            $t->parse( "wishlist_item_basis", "wishlist_item_basis_tpl", true );
+        }
+        else
+        {
+            $t->set_var( "wishlist_item_basis", "" );
+        }
+    }
+    
+    
     $t->set_var( "move_to_cart_item", "" );
     $t->set_var( "no_move_to_cart_item", "" );
     if ( (is_bool( $min_quantity ) and !$min_quantity) or
@@ -444,29 +543,119 @@ foreach ( $items as $item )
     $i++;
 }
 
-
-$currency->setValue( $sum );
-$t->set_var( "wishlist_sum", $locale->format( $currency ) );
-
-
-if ( count( $items ) > 0 )
+if ( $numberOfItems > 0 )
 {
-    $t->parse( "wishlist_item_list", "wishlist_item_list_tpl" );
+    $ShowWishlist = true;
+}
+
+
+$t->setAllStrings();
+
+turnColumnsOnOff( "header" );
+
+if ( $ShowWishlist == true )
+{
+    $wishlist->wishListTotals( $tax, $total );
+
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
+    
     $t->set_var( "empty_wishlist", "" );
-}
-else
-{
-    $t->parse( "empty_wishlist", "empty_wishlist_tpl" );
-    $t->set_var( "wishlist_item_list", "" );
-}
 
-if ( count( $items ) > 0 )
-{
-    $t->parse( "wishlist_checkout", "wishlist_checkout_tpl" );
+    $currency->setValue( $total["subinctax"] );
+    $t->set_var( "subtotal_inc_tax", $locale->format( $currency ) );
+
+    $currency->setValue( $total["subextax"] );
+    $t->set_var( "subtotal_ex_tax", $locale->format( $currency ) );
+    
+    $currency->setValue( $total["inctax"] );
+    $t->set_var( "total_inc_tax", $locale->format( $currency ) );
+
+    $currency->setValue( $total["extax"] );
+    $t->set_var( "total_ex_tax", $locale->format( $currency ) );
+    
+    $currency->setValue( $total["shipinctax"] );
+    $t->set_var( "shipping_inc_tax", $locale->format( $currency ) );
+
+    $currency->setValue( $total["shipextax"] );
+    $t->set_var( "shipping_ex_tax", $locale->format( $currency ) );
+    
+    if ( $ShowSavingsColumn == false )
+    {
+        $ColSpanSizeTotals--;
+    }
+    
+    $SubTotalsColumns = $ColSpanSizeTotals;
+    
+    if ( $ShowExTaxColumn == true )
+    {
+        if ( $ShowExTaxTotal == true or $ShowIncTaxColumn == false )
+        {
+            $t->parse( "total_ex_tax_item", "total_ex_tax_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "total_ex_tax_item", "" );
+        }
+    }
+    else
+    {
+        $ColSpanSizeTotals--;
+        $t->set_var( "total_ex_tax_item", "" );
+    }
+
+    if ( $ShowIncTaxColumn == true )
+    {
+        $t->parse( "total_inc_tax_item", "total_inc_tax_item_tpl" );
+    }
+    else
+    {
+        $ColSpanSizeTotals--;
+        $t->set_var( "total_inc_tax_item", "" );
+    }
+    
+    if ( $ShowIncTaxColumn and $ShowExTaxColumn and $ShowExTaxTotal )
+    {
+        $t->set_var( "subtotals_span_size", $SubTotalsColumns - 1 );
+    }
+    else
+    {
+        $t->set_var( "subtotals_span_size", $ColSpanSizeTotals  );        
+    }
+    
+    $t->set_var( "totals_span_size", $ColSpanSizeTotals );
+    $t->parse( "wishlist_item_list", "wishlist_item_list_tpl" );
+    $t->parse( "full_wishlist", "full_wishlist_tpl" );
+
+    $currency->setValue( $total["tax"] );
+    $t->set_var( "tax", $locale->format( $currency ) );
+
+    $j = 0;
+
+    foreach( $tax as $taxGroup )
+    {
+        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        $j++;  
+        $currency->setValue( $taxGroup["basis"] );    
+        $t->set_var( "sub_tax_basis", $locale->format( $currency ) );
+
+        $currency->setValue( $taxGroup["tax"] );    
+        $t->set_var( "sub_tax", $locale->format( $currency ) );
+
+        $t->set_var( "sub_tax_percentage", $taxGroup["percentage"] );
+        $t->parse( "tax_item", "tax_item_tpl", true );
+    }
+
+    $t->parse( "tax_specification", "tax_specification_tpl" );
+    $t->parse( "wishlist_checkout", "wishlist_checkout_tpl" );    
 }
 else
 {
-    $t->set_var( "wishlist_checkout", "" );
+    $t->parse( "empty_wishlist", "empty_wishlist_tpl" );    
+    $t->parse( "wishlist_checkout", "wishlist_checkout_tpl" );    
+    $t->set_var( "full_cart", "" );
+    $t->set_var( "tax_specification", "" );
+    $t->set_var( "tax_item", "" );
 }
 
 
