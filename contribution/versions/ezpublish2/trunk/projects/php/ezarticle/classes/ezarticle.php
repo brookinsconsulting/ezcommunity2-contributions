@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.52 2001/03/06 09:48:41 fh Exp $
+// $Id: ezarticle.php,v 1.53 2001/03/06 10:34:40 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1109,7 +1109,7 @@ class eZArticle
             $limit_text = "LIMIT $offset, $limit";
         }
         $db =& eZDB::globalDatabase();
-        $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, AuthorID
+        $db->array_query( $qry_array, "SELECT count( DISTINCT eZArticle_Article.ID ) AS Count, AuthorID
                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink
                                        WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
                                        GROUP BY AuthorID $sort_text $limit_text" );
@@ -1227,7 +1227,7 @@ class eZArticle
        
 
         
-       $query = "SELECT count(A.ID ) AS Count 
+       $query = "SELECT count( DISTINCT A.ID ) AS Count 
                      FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
                      eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
                      WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
