@@ -748,6 +748,7 @@ selectAll();
     }
     */
         // start recurring event checks
+if (frm.IsRecurring.checked) {
     // integer regexp 
     var intReg = new RegExp("^[0-9]+$");
     // validate RecurFreq - must be positive int
@@ -814,6 +815,7 @@ selectAll();
      alert ("You must specify the date you would like this event to expire.");  
      return false;
     }
+}
     // if we made it this far, the date must be good
     return true;
 
