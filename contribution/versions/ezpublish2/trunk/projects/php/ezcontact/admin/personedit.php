@@ -240,11 +240,11 @@ else
 
 if( $Action == "insert" && $error == false && $Add_User == true )
 {
-    $user = new eZUser();
-    $user->setFirstName( $FirstName );
-    $user->setLastName( $LastName );
-    $user->setLogin( $LoginName );
-    $user->setEmail( $Online[0] );
+//      $user = new eZUser();
+//      $user->setFirstName( $FirstName );
+//      $user->setLastName( $LastName );
+//      $user->setLogin( $LoginName );
+//      $user->setEmail( $Online[0] );
 //      if( $Password == $PasswordRepeat && !empty( $Password ) )
 //      {
 //          $user->setPassword( $Password );
@@ -263,16 +263,16 @@ if( $Action == "insert" && $error == false && $Add_User == true )
 
 if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_User == false )
 {
-    $user = new eZUser( $UserID, true );
-    $user->setFirstName( $FirstName );
-    $user->setLastName( $LastName );
-    $user->setEmail( $Online[0] );
-    $user->store();
+//      $user = new eZUser( $UserID, true );
+//      $user->setFirstName( $FirstName );
+//      $user->setLastName( $LastName );
+//      $user->setEmail( $Online[0] );
+//      $user->store();
     
     $person = new eZPerson( $PersonID, true );
     $person->setFirstName( $FirstName );
     $person->setLastName( $LastName );
-    
+
     $BirthDate = $BirthYear . $BirthMonth . $BirthDay;
     
     $person->setBirthDay( $BirthDate );
