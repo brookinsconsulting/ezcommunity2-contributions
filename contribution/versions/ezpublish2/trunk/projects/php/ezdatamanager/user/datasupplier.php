@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: datasupplier.php,v 1.2 2001/11/23 18:13:45 bf Exp $
 //
 // Created on: <20-Nov-2001 20:57:28 bf>
 //
@@ -25,6 +25,12 @@
 
 switch ( $url_array[2] )
 {
+    case "advancedsearch":
+    {
+        include( "ezdatamanager/user/advancedsearch.php" );
+    }
+    break;
+
     case "search":
     {
         include( "ezdatamanager/user/search.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdataitem.php,v 1.2 2001/11/21 17:06:41 ce Exp $
+// $Id: ezdataitem.php,v 1.3 2001/11/23 18:13:45 bf Exp $
 //
 // Definition of eZDataItem class
 //
@@ -256,51 +256,73 @@ class eZDataItem
       \static
       Returns all data items which matches the search.
     */
-    function &search( $searchText, $limit=10, $offset=0 )
+    function &search( $searchText )
     {
         $db =& eZDB::globalDatabase();
+        
+        if ( is_array( $searchText ) )
+            $nameText = trim( $db->escapeString( $searchText["ItemName"] ) );
+        else
+            $nameText = trim( $db->escapeString( $searchText ) );
+        
+        $nameSQL = "";
+        
+        if ( $nameText != "" )
+        {
+            $nameSQL = "( Value.Value LIKE '%$nameText%'
+               OR Item.Name LIKE '%$nameText%'
+                                         )  ";
+        }
 
-        $searchText = trim( $db->escapeString( $searchText ) );
+        $itemTypeSQL = "";
+        if ( is_array( $searchText ) )
+        {            
+            $itemTypeArray = $searchText["ItemTypeArray"];
+
+            $itemTypeSQL = "";
+            $i=0;
+            if ( is_array( $itemTypeArray ) )
+            {              
+                reset( $itemTypeArray );
+                while (list ($key, $val) = each ( $itemTypeArray ) )
+                {
+                    if ( trim( $val ) != "" )
+                    {
+                        $val = trim( $val );
+                        if ( $i == 0 )
+                            $itemTypeSQL .= "( Value.DataTypeItemID='$key' AND Value.Value LIKE '%$val%' )";
+                        else
+                            $itemTypeSQL .= " OR ( Value.DataTypeItemID='$key' AND Value.Value LIKE '%$val%' )";
+                        
+                        $i++;
+                    }
+                }
+                if (  $i > 0 )
+                {
+                    if ( $nameSQL == "" )
+                        $itemTypeSQL = " ( $itemTypeSQL ) ";
+                    else
+                        $itemTypeSQL = " OR ( $itemTypeSQL ) ";
+                }
+
+            }
+                                
+        }
         
         $return_array = array();
         $item_array = array();
         
         $db->array_query( $item_array, "SELECT Item.ID FROM eZDataManager_Item AS Item, eZDataManager_ItemValue AS Value
                                         WHERE Item.ID=Value.ItemID
-                                        AND (
-                                             Value.Value LIKE '%$searchText%'
-                                             OR Item.Name LIKE '%$searchText%'
-                                         ) 
+                                        AND ( $nameSQL $itemTypeSQL )
                                         GROUP BY Item.ID 
-                                        ORDER BY Name", array( "Limit" => $limit,
-                                                               "Offset" => $offset) );
-        
+                                        ORDER BY Name" );
         for ( $i = 0; $i < count( $item_array ); $i++ )
         { 
             $return_array[$i] = new eZDataItem( $item_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
-    }
-
-    /*!
-      \static
-      Returns the search count.
-    */
-    function &searchCount( $searchText )
-    {
-        $db =& eZDB::globalDatabase();
-
-        $searchText = trim( $db->escapeString( $searchText ) );
-        
-        $db->query_single( $return, "SELECT COUNT(DISTINCT Item.ID) AS Count FROM eZDataManager_Item AS Item, eZDataManager_ItemValue AS Value
-                                        WHERE Item.ID=Value.ItemID
-                                        AND (
-                                             Value.Value LIKE '%$searchText%'
-                                             OR Item.Name LIKE '%$searchText%'
-                                         ) 
-                                        " );
-        return $return["Count"];
     }
 
 	/// the ID for the data item

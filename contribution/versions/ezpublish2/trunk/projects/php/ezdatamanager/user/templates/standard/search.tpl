@@ -13,6 +13,10 @@
 	</form>
 	</td>
 </tr>
+<tr>
+<td></td>
+<td><a href="/datamanager/advancedsearch/">{intl-advanced_search}</a></td>
+</tr>
 </table>
 
 
