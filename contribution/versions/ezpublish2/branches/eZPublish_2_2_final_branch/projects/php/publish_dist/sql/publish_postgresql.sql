@@ -1527,6 +1527,10 @@ INSERT INTO eZMediaCatalogue_Attribute VALUES (13,3,'type',996137896,12,'','appl
 INSERT INTO eZMediaCatalogue_Attribute VALUES (14,3,'width',996137906,13,'','');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (15,3,'height',996137917,14,'','');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (16,2,'type',996139826,15,'','application/x-mplayer2');
+INSERT INTO eZMediaCatalogue_Attribute VALUES (17,4,'width',1004640070,16,'','');
+INSERT INTO eZMediaCatalogue_Attribute VALUES (18,4,'height',1004640076,17,'','');
+INSERT INTO eZMediaCatalogue_Attribute VALUES (19,4,'controls',1004640087,18,'','ImageWindow');
+INSERT INTO eZMediaCatalogue_Attribute VALUES (20,4,'autostart',1004640100,19,'','true');
 
 CREATE TABLE eZMediaCatalogue_Category (
   ID int NOT NULL,
@@ -1602,6 +1606,7 @@ CREATE TABLE eZMediaCatalogue_TypeLink (
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
 INSERT INTO eZMediaCatalogue_Type VALUES (3,'ShockWave Flash');
+INSERT INTO eZMediaCatalogue_Type VALUES (4,'Real Player');
 
 CREATE TABLE eZMediaCatalogue_AttributeValue (
   ID int NOT NULL,
