@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.29 2000/12/08 09:41:52 bf-cvs Exp $
+// $Id: ezuser.php,v 1.30 2000/12/08 09:49:28 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -492,6 +492,8 @@ class eZUser
       \static
       Returns the current logged on user as a eZUser object. If the user's session timeout
       has timedout the user is logged out.
+
+      If the session timeout is set to 0 it is disabled.
 
       False is returned if unseccessful.
     */
