@@ -1,4 +1,4 @@
-This is version: $Id: FAQ,v 1.5 2001/05/06 13:16:05 bf Exp $ of this faq.
+This is version: $Id: FAQ,v 1.6 2001/07/25 05:49:45 bf Exp $ of this faq.
 
 
 
@@ -20,6 +20,9 @@ Table of Contents
 4.      Problems Logging In
 4.1     How Do I Log In as Administrator?
 4.2     Forgot Password Doesn't Work For Admin
+5.	Misc
+5.1     Can't upload big files
+5.2	' and " appear as \" and \', why?
 
 
 
@@ -196,9 +199,16 @@ the password of the administrator user through the mysql client:
 
     INSERT INTO eZUser_User SET Password=PASSWORD('publish') WHERE Login='admin';
 
-5. Can't upload big files
+5. Misc questions
+
+5.1 Can't upload big files
 
 You must configure php to handle files bigger than 2MB.
 
+
+5.2 ' and " appear as \" and \', why?
+
+eZ publish 2.1 and newer must have magick quotes disabled to work propperly. eZ publish 
+handles the escaping of characters by itself.
 
 
