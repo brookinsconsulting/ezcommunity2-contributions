@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.8.2.2 2001/11/15 19:36:44 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.8.2.3 2001/11/16 16:21:00 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -33,6 +33,7 @@
 */
 
 include_once( "ezxmlrpc/classes/ezxmlrpcdatatypedecoder.php" );
+include_once( "ezxml/classes/ezxml.php" );
 
 class eZXMLRPCCall
 {
@@ -184,9 +185,7 @@ class eZXMLRPCCall
              $parameters .
              "</methodCall>\n";
 
-        return $payload;
-
-        
+        return $payload;        
     }
 
     /*!
@@ -197,21 +196,15 @@ class eZXMLRPCCall
         // create a new decoder object
         $decoder = new eZXMLRPCDataTypeDecoder( );
 
-        $domTree =& qdom_tree( $rawResponse );
+//        $rawResponse = eZXMLRPCResponse::stripHTTPHeader( $rawResponse );
 
-        // coose XML parser
-        if ( function_exists( "xmltree" ) )
-        {
-            $domTree =& xmltree( $rawResponse );
-        }
-        else if ( function_exists( "qdom_tree" ) )
-        {
-            $domTree =& qdom_tree( $rawResponse );
-        }
-        else
-        {
-            $domTree->children = array();
-        }
+        eZLog::writeNotice( "empty?: " . $rawResponse . "<-" );
+//        $domTree =& qdom_tree( $rawResponse );
+//        $domTree =& xmltree( $rawResponse );
+ 
+        $domTree =& eZXML::domTree( $rawResponse );
+
+//        print_r( $domTree ); 
         
         foreach ( $domTree->children as $call )
         {
@@ -227,6 +220,7 @@ class eZXMLRPCCall
                             if ( $value->name == "#text" || $value->name == "text" )
                             {
                                 $this->MethodName = $value->content;
+                                print( "name: >$value->content< \n" );
                             }
                         }
                     }

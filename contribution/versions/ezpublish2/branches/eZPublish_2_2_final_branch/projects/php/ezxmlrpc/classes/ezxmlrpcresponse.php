@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxmlrpcresponse.php,v 1.15.2.1 2001/11/15 19:05:25 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.15.2.2 2001/11/16 16:21:00 bf Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -42,6 +42,8 @@ include_once( "ezxmlrpc/classes/ezxmlrpcdatetime.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
 
+include_once( "ezxml/classes/ezxml.php" );
+
 
 class eZXMLRPCResponse
 {
@@ -67,6 +69,7 @@ class eZXMLRPCResponse
 
         $stream = $this->stripHTTPHeader( $stream );
 
+        /*
         // coose XML parser
         if ( function_exists( "xmltree" ) )
         {
@@ -83,7 +86,10 @@ class eZXMLRPCResponse
                              "DOM XML parser not found. Server not properly configured.\n" .
                              "Please install either libxml or QDom.\n");
         }
+        */
 
+        $domTree =& eZXML::domTree( $stream );
+        
         foreach ( $domTree->children as $response )
         {
             if ( $response->name == "methodResponse" )
@@ -207,6 +213,7 @@ class eZXMLRPCResponse
     }
 
     /*!
+      \static
       \private
       Strips the header information from the HTTP raw response.
     */
