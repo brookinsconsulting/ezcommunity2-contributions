@@ -155,3 +155,11 @@ CREATE TABLE `eZGroupEventCalendar_EventFileLink` (
 
 #INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'Read' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';
 #INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'WriteToRoot' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';
+
+
+# 
+# Dumping data for table `eZForum_Category`
+# 
+
+INSERT INTO eZForum_Category VALUES (1000,'Community Calendar','Calendar Event Forum',0,1);
+
