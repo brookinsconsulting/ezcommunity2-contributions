@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcheckoutsupplier.php,v 1.1.2.1 2001/11/22 09:52:40 ce Exp $
+// $Id: ezcheckoutsupplier.php,v 1.1.2.2 2001/11/22 09:58:30 ce Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -80,8 +80,8 @@ class eZCheckoutSupplier
     */
     function &paymentName( $id )
     {
-        $tmp = ereg_replace( "voucher_done", "6", $id );
-        $tmp = explode( ",", $tmp );
+        $id = ereg_replace( "voucher_done", "6", $id );
+        $tmp = explode( ",", $id );
 
         $ret = "unknown";
         foreach ( $this->PaymentMethods as $paymentMethod )
