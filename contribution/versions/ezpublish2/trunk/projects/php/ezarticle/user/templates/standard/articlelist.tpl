@@ -46,6 +46,7 @@
 </tr>
 <!-- END category_item_tpl -->
 </table>
+<br />
 <!-- END category_list_tpl -->
 
 
