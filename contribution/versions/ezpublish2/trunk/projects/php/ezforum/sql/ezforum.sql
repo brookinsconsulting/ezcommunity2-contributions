@@ -26,7 +26,8 @@ CREATE TABLE eZForum_Forum (
   Private enum('Y','N') DEFAULT 'N',
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ModeratorID int(11) DEFAULT '0' NOT NULL,
-  IsModerated int(11) DEFAULT '0' NOT NULL,
+  IsModerated int(1) DEFAULT '0' NOT NULL,
+  IsAnonymous int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -74,7 +75,7 @@ CREATE TABLE eZForum_Message (
   ThreadID int(11),
   Depth int(11),
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  IsApproved int(11) DEFAULT '1' NOT NULL,
+  IsApproved int(1) DEFAULT '1' NOT NULL,
   IsTemporary int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
