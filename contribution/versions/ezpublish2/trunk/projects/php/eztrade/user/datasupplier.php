@@ -1,4 +1,5 @@
 <?
+
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
 include_once( "ezuser/classes/ezuser.php" );
