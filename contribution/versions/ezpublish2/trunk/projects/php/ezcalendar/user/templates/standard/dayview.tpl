@@ -38,12 +38,24 @@
 
 	<!-- BEGIN appointment_tpl -->
 	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
-	<a href="/calendar/appointmentview/{appointment_id}/">{appointment_name}</a>
-	<a href="/calendar/appointmentedit/edit/{appointment_id}/">{edit_button}</a>
-        <!-- BEGIN delete_check_tpl -->
-        <input type="checkbox" name="AppointmentArrayID[]" value={appointment_id}>{intl-delete}<br />
-        <!-- END delete_check_tpl -->
-	{appointment_description}<br />
+	<table width="100%" cellspacing="0" cellpadding="0" border="0" >
+	<tr>
+		<td valign="top">
+		<h2>
+			<a href="/calendar/appointmentview/{appointment_id}/">{appointment_name}</a>
+		</h2>
+		{appointment_description}<br />
+
+		</td>				
+		<td valign="top" align="right">			
+			<a href="/calendar/appointmentedit/edit/{appointment_id}/">{edit_button}</a>
+			<!-- BEGIN delete_check_tpl -->
+			<input type="checkbox" name="AppointmentArrayID[]" value={appointment_id}>{intl-delete}<br />
+			<!-- END delete_check_tpl -->
+		</td>
+	</tr>
+	</table>			
+
 	</td>
 
 	<!-- END appointment_tpl -->
