@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.12 2001/03/29 12:27:16 fh Exp $
+// $Id: ezmailfolder.php,v 1.13 2001/03/29 13:03:25 fh Exp $
 //
 // eZMailFolder class
 //
@@ -176,7 +176,8 @@ class eZMailFolder
         return $this->ID;
     }
 
-/*!
+   /*!
+     Returns the ID of the owner user
     */
     function userID()
     {
@@ -187,6 +188,7 @@ class eZMailFolder
     }
 
     /*!
+      Sets the user that owns this object
     */
     function setUser( $value )
     {
@@ -200,7 +202,8 @@ class eZMailFolder
     }
 
   /*!
-    */
+    Returns the name of the folder
+  */
     function name()
     {
         if ( $this->State_ == "Dirty" )
@@ -210,6 +213,7 @@ class eZMailFolder
     }
 
     /*!
+      Sets the name of the folder.
     */
     function setName( $value )
     {
@@ -220,6 +224,7 @@ class eZMailFolder
     }
 
     /*!
+      Returns the ID of the parent folder.
     */
     function parentID()
     {
@@ -230,6 +235,7 @@ class eZMailFolder
     }
 
     /*!
+      Sets the parent folder.
     */
     function setParent( $value )
     {

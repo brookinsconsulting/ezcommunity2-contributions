@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.16 2001/03/29 10:15:22 fh Exp $
+// $Id: ezmailaccount.php,v 1.17 2001/03/29 13:03:24 fh Exp $
 //
 // eZMailAccount class
 //
@@ -201,6 +201,7 @@ class eZMailAccount
     }
     
   /*!
+    Returns the ID of the account owner
     */
     function userID()
     {
@@ -211,6 +212,7 @@ class eZMailAccount
     }
 
     /*!
+      Sets the account owner
     */
     function setUserID( $value )
     {
@@ -220,6 +222,9 @@ class eZMailAccount
         $this->UserID = $value;
     }
 
+    /*!
+      Sets the account owner with a user.
+     */
     function setUser( $user )
     {
         if ( $this->State_ == "Dirty" )
@@ -230,6 +235,7 @@ class eZMailAccount
     }
     
   /*!
+    Returns the name of the account.
     */
     function name()
     {
@@ -240,6 +246,7 @@ class eZMailAccount
     }
 
     /*!
+      Sets the name of the account.
     */
     function setName( $value )
     {
@@ -250,6 +257,7 @@ class eZMailAccount
     }
 
   /*!
+    Returns the login name for the account.
     */
     function loginName()
     {
@@ -260,6 +268,7 @@ class eZMailAccount
     }
 
     /*!
+      Sets the login name for the account.
     */
     function setLoginName( $value )
     {
@@ -271,7 +280,8 @@ class eZMailAccount
 
 
   /*!
-    */
+    Returns the password for the account.
+   */
     function password()
     {
         if ( $this->State_ == "Dirty" )
@@ -281,6 +291,8 @@ class eZMailAccount
     }
 
     /*!
+    Sets the password for the account.
+    TODO: encrypt it.
     */
     function setPassword( $value )
     {
@@ -291,6 +303,7 @@ class eZMailAccount
     }    
 
   /*!
+    Returns the server for the account. 
     */
     function server()
     {
@@ -301,6 +314,7 @@ class eZMailAccount
     }
 
     /*!
+      Sets the server for this account.
     */
     function setServer( $value )
     {
@@ -311,6 +325,7 @@ class eZMailAccount
     }
 
     /*!
+      Returns the server port for this account.
      */
     function serverPort()
     {
@@ -321,6 +336,7 @@ class eZMailAccount
     }
 
     /*!
+      Sets the server port for this account.
      */
     function setServerPort( $value )
     {
@@ -331,6 +347,7 @@ class eZMailAccount
     }
     
   /*!
+    Returns 1 if mail gets deleted from server after download. 0 If not.
     */
     function deleteFromServer()
     {
@@ -341,6 +358,8 @@ class eZMailAccount
     }
 
   /*!
+    1- Mail gets deleted from server after download
+    0-Leaves the mail alone.
     */
     function setDeleteFromServer( $value )
     {
@@ -351,6 +370,7 @@ class eZMailAccount
     }
 
   /*!
+    Returns 1 if the account is active. Inactive accounts should not be checked.
     */
     function isActive()
     {
@@ -361,7 +381,8 @@ class eZMailAccount
     }
 
   /*!
-    */
+    Sets the account active. Inactive accounts will not be checked.
+   */
     function setIsActive( $value )
     {
         if ( $this->State_ == "Dirty" )
@@ -371,6 +392,7 @@ class eZMailAccount
     }
 
     /*!
+      Returns the server type..Not used at the moment.
     */
     function serverType()
     {
@@ -381,6 +403,7 @@ class eZMailAccount
     }
 
   /*!
+    Sets the server type. Not used at the moment.
     */
     function setServerType( $value )
     {

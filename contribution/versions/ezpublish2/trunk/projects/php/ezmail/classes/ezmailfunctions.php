@@ -7,6 +7,11 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
  They are put here because they are generall and to keep the classes from beeing
 crouded.*/
 
+
+
+/*!
+  Gets all the headers from a mail, and puts them into an eZMail object.
+ */
 function getHeaders( &$mail, $imap_stream, $msgno )
 {
     $headers = imap_headerinfo( $imap_stream, $msgno );
@@ -28,7 +33,7 @@ function getHeaders( &$mail, $imap_stream, $msgno )
 }
 
 /*
-  
+  Decodes a header and returns it. (Support for non ASCII characters in mail header)
  */
 function getDecodedHeader( $headervalue )
 {
@@ -206,11 +211,6 @@ function &decode( $enctype, &$value )
     return $ret;
 }
 
-function fetch_part( $partnum, $mbox, $msgnum )
-{
-    $part = imap_fetchbody( $mbox, $msgnum, $partnum );
-    return $part;
-}
 
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.17 2001/03/29 10:15:22 fh Exp $
+// $Id: ezmail.php,v 1.18 2001/03/29 13:03:24 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -300,6 +300,9 @@ class eZMail
         $this->From = $newFrom;
     }
 
+    /*!
+      Returns a string containing all cc adresses.
+     */
     function cc()
     {
         if ( $this->State_ == "Dirty" )
@@ -308,6 +311,9 @@ class eZMail
         return $this->Cc;
     }
 
+    /*!
+      Sets the cc addresses. Use , separating (; and : and " " should also work )
+     */
     function setCc( $newCc )
     {
         if ( $this->State_ == "Dirty" )
@@ -316,6 +322,9 @@ class eZMail
         $this->Cc = $newCc;
     }
 
+    /*!
+      Returns a string containing all bcc adresses.
+     */
     function bcc()
     {
         if ( $this->State_ == "Dirty" )
@@ -324,6 +333,9 @@ class eZMail
         return $this->Bcc;
     }
 
+    /*!
+      Sets the bcc addresses. Use , separating (; and : and " " should also work )
+     */
     function setBcc( $newBcc )
     {
         if ( $this->State_ == "Dirty" )
@@ -331,7 +343,11 @@ class eZMail
 
         $this->Bcc = $newBcc;
     }
-    
+
+    /*!
+      Returns the message ID format : <number@serverID>
+      Read in the RFC's if you want to know more about it..
+     */
     function messageID()
     {
         if ( $this->State_ == "Dirty" )
@@ -340,6 +356,9 @@ class eZMail
         return $this->MessageID;
     }
 
+    /*!
+      Sets the message ID. This is a server setting only so BE CAREFULL WITH THIS.
+     */
     function setMessageID( $newMessageID )
     {
         if ( $this->State_ == "Dirty" )
@@ -348,6 +367,9 @@ class eZMail
         $this->MessageID = $newMessageID;
     }
 
+    /*!
+      Returns the messageID that this message is a reply to.
+     */
     function references()
     {
         if ( $this->State_ == "Dirty" )
@@ -356,6 +378,9 @@ class eZMail
         return $this->References;
     }
 
+    /*!
+      Sets the messageID that this message is a reply to.
+     */
     function setReferences( $newReference )
     {
         if ( $this->State_ == "Dirty" )
@@ -487,6 +512,13 @@ class eZMail
         return $this->Size;
     }
 
+    /*!
+      Returns the size of this object in a human readable fasion.
+      An array is returned with entries:
+      "size" - original size
+      "size-string" short size
+      "unit" GB, MB, KB or B
+     */
     function siSize()
     {
         if ( $this->State_ == "Dirty" )
