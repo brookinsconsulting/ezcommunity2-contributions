@@ -49,6 +49,7 @@ if( $Command == "data" ) // return all the data in the category
                       "Discuss" => new eZXMLRPCBool( $article->discuss() ),
                       "IsPublished" => new eZXMLRPCBool( $article->isPublished() ),
                       "PageCount" => new eZXMLRPCInt( $article->pageCount() ),
+                      "Thumbnail" => new eZXMLRPCInt( $article->thumbnailImage( false ) ),
                       "Images" => new eZXMLRPCArray( $article->images( false ), "integer" ),
                       "Files" => new eZXMLRPCArray( $article->files( false ), "integer" ),
                       "ReadGroups" => new eZXMLRPCArray( $readGroups, "integer" ),
