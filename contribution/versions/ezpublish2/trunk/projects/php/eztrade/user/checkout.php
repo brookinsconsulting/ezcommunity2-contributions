@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.38 2001/02/23 14:49:54 bf Exp $
+// $Id: checkout.php,v 1.39 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -30,7 +30,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );

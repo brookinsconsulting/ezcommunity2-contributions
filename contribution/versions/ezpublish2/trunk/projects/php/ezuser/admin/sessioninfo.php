@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.9 2001/01/23 13:16:58 jb Exp $
+// $Id: sessioninfo.php,v 1.10 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
@@ -44,8 +44,7 @@ if ( $Action == "Delete" )
     eZHTTPTool::header( "Location: /user/sessioninfo/" );
 }
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 
 

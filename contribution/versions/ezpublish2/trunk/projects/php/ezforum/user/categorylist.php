@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.6 2001/01/22 14:43:00 jb Exp $
+// $Id: categorylist.php,v 1.7 2001/03/01 14:06:25 jb Exp $
 //
 // Christoffer A. Elo
 // Created on: <17-Oct-2000 13:50:26 ce>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

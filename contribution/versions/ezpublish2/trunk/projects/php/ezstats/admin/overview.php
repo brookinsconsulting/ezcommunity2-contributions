@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: overview.php,v 1.8 2001/02/12 16:12:18 jb Exp $
+// $Id: overview.php,v 1.9 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jan-2001 11:23:51 bf>
@@ -26,7 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezmenubox.php" );
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.10 2001/01/25 16:53:39 jb Exp $
+// $Id: ezmenubox.php,v 1.11 2001/03/01 14:06:24 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -64,7 +64,7 @@ class eZMenuBox
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
         
-        $ini =& $GLOBALS["GlobalSiteIni"];
+        $ini =& INIFile::globalINI();
 
         $Language = $ini->read_var( $ModuleName . "Main", "Language" );
 

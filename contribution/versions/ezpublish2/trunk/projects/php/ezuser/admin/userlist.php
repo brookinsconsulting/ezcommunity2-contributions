@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.21 2001/02/06 15:46:30 jb Exp $
+// $Id: userlist.php,v 1.22 2001/03/01 14:06:26 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -27,8 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlist.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $errorIni = new INIFIle( "ezuser/admin/intl/" . $Language . "/userlist.php.ini", false );
 

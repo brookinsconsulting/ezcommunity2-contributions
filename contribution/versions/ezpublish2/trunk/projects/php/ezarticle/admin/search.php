@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.5 2001/01/22 14:42:59 jb Exp $
+// $Id: search.php,v 1.6 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -30,8 +30,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),

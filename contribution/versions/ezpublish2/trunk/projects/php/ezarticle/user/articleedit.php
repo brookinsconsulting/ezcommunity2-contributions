@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.11 2001/03/01 11:32:01 fh Exp $
+// $Id: articleedit.php,v 1.12 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -38,7 +38,7 @@ include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
 $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.14 2001/03/01 10:58:02 pkej Exp $
+// $Id: messagelist.php,v 1.15 2001/03/01 14:06:25 jb Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.55 2001/02/26 06:33:48 bf Exp $
+// $Id: eztechrenderer.php,v 1.56 2001/03/01 14:06:25 jb Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -538,7 +538,7 @@ class eZTechRenderer
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )
             {
-                $ini =& $GLOBALS["GlobalSiteIni"];
+                $ini =& INIFile::globalINI();
                             
                 switch ( $imageSize )
                 {

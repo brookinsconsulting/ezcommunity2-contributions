@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.11 2001/02/21 12:38:09 gl Exp $
+// $Id: imagelist.php,v 1.12 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -28,8 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );

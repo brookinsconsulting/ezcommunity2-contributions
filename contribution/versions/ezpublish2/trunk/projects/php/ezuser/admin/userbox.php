@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.8 2001/01/23 13:16:58 jb Exp $
+// $Id: userbox.php,v 1.9 2001/03/01 14:06:26 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -27,8 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.1 2001/01/17 10:23:29 bf Exp $
+// $Id: viewwishlist.php,v 1.2 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -30,8 +30,7 @@ include_once( "classes/ezcurrency.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezproduct.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: success.php,v 1.4 2001/01/23 13:16:58 jb Exp $
+// $Id: success.php,v 1.5 2001/03/01 14:06:26 jb Exp $
 //
 // Definition of eZUser class
 //
@@ -17,8 +17,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 

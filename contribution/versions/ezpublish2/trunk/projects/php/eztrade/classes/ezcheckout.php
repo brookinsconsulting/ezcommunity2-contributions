@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcheckout.php,v 1.1 2001/02/02 20:49:51 bf Exp $
+// $Id: ezcheckout.php,v 1.2 2001/03/01 14:06:26 jb Exp $
 //
 // Definition of eZCheckout class
 //
@@ -37,7 +37,7 @@ class eZCheckout
     */
     function eZCheckout()
     {
-        $ini =& $GLOBALS["GlobalSiteIni"];
+        $ini =& INIFile::globalINI();
 
         $Checkout = $ini->read_var( "eZTradeMain", "Checkout" );
 

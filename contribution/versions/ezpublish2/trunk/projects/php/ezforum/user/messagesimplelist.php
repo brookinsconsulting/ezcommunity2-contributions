@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimplelist.php,v 1.10 2001/02/26 16:27:58 pkej Exp $
+// $Id: messagesimplelist.php,v 1.11 2001/03/01 14:06:25 jb Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -35,7 +35,7 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

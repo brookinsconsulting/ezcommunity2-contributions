@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlog.php,v 1.3 2001/01/22 14:42:59 jb Exp $
+// $Id: ezlog.php,v 1.4 2001/03/01 14:06:24 jb Exp $
 //
 // Definition of eZLog class
 //
@@ -87,7 +87,7 @@ class eZLog
         else
         {
             include_once( "classes/INIFile.php" );
-            $ini = new INIFile( "site.ini" );            
+            $ini =& INIFile::globalINI();
             $fileName =& $ini->read_var( "site", "LogFile" );
             
             $this->LogFile = fopen( $fileName, "a" );

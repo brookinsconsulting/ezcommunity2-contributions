@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorview.php,v 1.4 2001/02/20 13:38:52 jb Exp $
+// $Id: authorview.php,v 1.5 2001/03/01 14:06:25 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 15:36:13 amos>
@@ -31,7 +31,7 @@ include_once( "classes/ezlist.php" );
 
 include_once( "ezarticle/classes/ezarticle.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Limit = $ini->read_var( "eZArticleMain", "AuthorArticleLimit" );

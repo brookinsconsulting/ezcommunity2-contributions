@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.28 2001/02/28 13:03:38 jb Exp $
+// $Id: productview.php,v 1.29 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -29,7 +29,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/eztexttool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";

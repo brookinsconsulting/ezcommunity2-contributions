@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.5 2001/03/01 11:15:15 pkej Exp $
+// $Id: search.php,v 1.6 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -30,7 +30,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

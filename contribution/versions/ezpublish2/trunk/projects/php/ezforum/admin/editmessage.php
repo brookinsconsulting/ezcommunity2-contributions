@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: editmessage.php,v 1.13 2000/12/19 13:52:04 ce Exp $
+    $Id: editmessage.php,v 1.14 2001/03/01 14:06:25 jb Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,7 +10,7 @@
 */
 
 include_once( "classes/INIFile.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 

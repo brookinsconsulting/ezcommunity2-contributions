@@ -2,7 +2,7 @@
 
 include_once( "ezaddress/classes/ezcountry.php" );
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 $Max = $ini->read_var( "eZAddressMain", "MaxCountryList" );
 
 include( "ezaddress/admin/typelist_pre.php" );

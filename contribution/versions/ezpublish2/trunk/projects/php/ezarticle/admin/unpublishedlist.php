@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unpublishedlist.php,v 1.2 2001/02/14 15:45:03 gl Exp $
+// $Id: unpublishedlist.php,v 1.3 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -30,7 +30,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Locale = new eZLocale( $Language );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: dayreport.php,v 1.3 2001/02/28 16:52:42 jb Exp $
+// $Id: dayreport.php,v 1.4 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 

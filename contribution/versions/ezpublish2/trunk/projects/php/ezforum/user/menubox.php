@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.7 2001/01/22 14:43:00 jb Exp $
+// $Id: menubox.php,v 1.8 2001/03/01 14:06:25 jb Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
@@ -84,7 +84,14 @@ function createPage()
 
     if ( !$categories )
     {
-        $ini = new INIFile( "site.ini" );
+        if ( isset( $GLOBALS["SiteIni"] ) )
+        {
+            $ini =& $GLOBALS["SiteIni"];
+        }
+        else
+        {
+            $ini = new INIFile( "site.ini" );
+        }
         $Language = $ini->read_var( "eZForumMain", "Language" );
         $nofound = new INIFile( "ezforum/user/intl/" . $Language . "/categorylist.php.ini", false );
         $noitem =  $nofound->read_var( "strings", "noitem" );

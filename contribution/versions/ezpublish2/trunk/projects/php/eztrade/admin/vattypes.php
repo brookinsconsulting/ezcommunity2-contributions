@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vattypes.php,v 1.1 2001/02/20 16:13:25 bf Exp $
+// $Id: vattypes.php,v 1.2 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Feb-2001 13:34:10 bf>
@@ -28,7 +28,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 

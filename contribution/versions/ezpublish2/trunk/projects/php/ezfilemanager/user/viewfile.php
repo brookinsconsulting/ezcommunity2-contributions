@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: viewfile.php,v 1.4 2001/02/14 13:37:14 th Exp $
+// $Id: viewfile.php,v 1.5 2001/03/01 14:06:25 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -30,8 +30,7 @@ include_once( "classes/ezlog.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.16 2001/02/28 15:24:58 ce Exp $
+// $Id: folderedit.php,v 1.17 2001/03/01 14:06:25 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -60,7 +60,7 @@ if ( isSet ( $Cancel ) )
 
 }
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 

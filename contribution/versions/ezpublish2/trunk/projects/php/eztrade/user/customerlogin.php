@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.9 2001/01/18 13:43:34 ce Exp $
+// $Id: customerlogin.php,v 1.10 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -28,8 +28,7 @@ include_once( "classes/eztemplate.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "ezuser/classes/ezuser.php" );

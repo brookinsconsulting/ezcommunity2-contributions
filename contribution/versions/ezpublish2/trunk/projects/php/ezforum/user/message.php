@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.17 2001/02/23 16:05:02 pkej Exp $
+// $Id: message.php,v 1.18 2001/03/01 14:06:25 jb Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/ezlocale.php" );

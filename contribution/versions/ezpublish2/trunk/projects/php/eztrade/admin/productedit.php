@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.40 2001/02/28 09:55:05 jb Exp $
+// $Id: productedit.php,v 1.41 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -65,7 +65,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     }
 }
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";

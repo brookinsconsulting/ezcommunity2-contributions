@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: welcome.php,v 1.5 2001/01/22 14:43:02 jb Exp $
+// $Id: welcome.php,v 1.6 2001/03/01 14:06:26 jb Exp $
 //
 // Christoffer A. Elo <bf@ez.no>
 // Created on: <13-Nov-2000 10:57:15 bf>
@@ -14,8 +14,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 
 include_once( "ezuser/classes/ezuser.php" );

@@ -50,7 +50,7 @@ function &newOrders( $args )
 {
     if ( $args[0]->value() == "bf" && $args[1]->value() == "mofser" )
     {
-        $ini = new INIFile( "site.ini" );
+        $ini =& INIFile::globalINI();
 
         $Language = $ini->read_var( "eZTradeMain", "Language" );
         $locale = new eZLocale( $Language );

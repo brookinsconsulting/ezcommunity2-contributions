@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.15 2001/01/23 13:16:58 jb Exp $
+// $Id: login.php,v 1.16 2001/03/01 14:06:26 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -28,8 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 
 include_once( "ezuser/classes/ezuser.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.17 2001/02/06 16:37:00 th Exp $
+// $Id: ezezrenderer.php,v 1.18 2001/03/01 14:06:25 jb Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -383,8 +383,8 @@ class eZEzRenderer
                         // add image if a valid image was found, else report an error in the log.
                         if ( get_class( $image ) == "ezimage" )
                         {
-                            $ini = new INIFile( "site.ini" );
-                            
+                            $ini =& INIFile::globalINI();
+
                             switch ( $imageSize )
                             {
                                 case "small" :

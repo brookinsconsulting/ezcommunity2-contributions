@@ -1,5 +1,5 @@
 <?
-// $Id: categorylist.php,v 1.17 2001/01/25 14:15:02 th Exp $
+// $Id: categorylist.php,v 1.18 2001/03/01 14:06:25 jb Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -25,7 +25,7 @@
 //include( "ezforum/dbsettings.php" );
 
 include_once( "classes/INIFile.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

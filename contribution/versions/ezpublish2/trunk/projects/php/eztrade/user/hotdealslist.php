@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.13 2001/02/26 12:30:08 jb Exp $
+// $Id: hotdealslist.php,v 1.14 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $hotDealColumns  = $ini->read_var( "eZTradeMain", "HotDealColumns" );

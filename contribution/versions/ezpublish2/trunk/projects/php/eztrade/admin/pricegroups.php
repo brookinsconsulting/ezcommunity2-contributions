@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pricegroups.php,v 1.1 2001/02/26 09:23:48 jb Exp $
+// $Id: pricegroups.php,v 1.2 2001/03/01 14:06:26 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <23-Feb-2001 12:09:51 amos>
@@ -70,7 +70,6 @@ eZList::drawList( array( "language_file" => $language_file,
                          "module_main" => "eZTradeMain",
                          "header_names" => array( "{intl-name}", "{intl-description}" ),
                          "custom_func_call" => array( "description" ),
-                         "form_command" => "$page_path/list",
-                         "ini" => $GlobalSiteIni ) );
+                         "form_command" => "$page_path/list" ) );
 
 ?>

@@ -9,7 +9,7 @@ $item_type = new eZOnlineType();
 $item_type_array = $item_type->getAll();
 $move_item = true;
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZAddressMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZAddressMain", "DocumentRoot" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.14 2001/02/28 13:03:23 ce Exp $
+// $Id: imagelist.php,v 1.15 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -34,7 +34,7 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 

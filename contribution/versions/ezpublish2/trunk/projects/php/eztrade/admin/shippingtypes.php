@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: shippingtypes.php,v 1.3 2001/02/28 13:12:49 pkej Exp $
+// $Id: shippingtypes.php,v 1.4 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Feb-2001 11:38:37 bf>
@@ -28,7 +28,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 

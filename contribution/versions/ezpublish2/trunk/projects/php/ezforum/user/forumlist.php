@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forumlist.php,v 1.7 2001/02/12 14:59:45 ce Exp $
+// $Id: forumlist.php,v 1.8 2001/03/01 14:06:25 jb Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 include_once( "classes/eztemplate.php" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: addressedit.php,v 1.6 2001/01/25 19:16:13 jb Exp $
+// $Id: addressedit.php,v 1.7 2001/03/01 14:06:26 jb Exp $
 //
 // 
 //
@@ -29,8 +29,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $SelectCountry = $ini->read_var( "eZUserMain", "SelectCountry" );
 $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );

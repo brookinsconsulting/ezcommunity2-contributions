@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.22 2001/02/28 15:24:58 ce Exp $
+// $Id: filelist.php,v 1.23 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -34,7 +34,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 

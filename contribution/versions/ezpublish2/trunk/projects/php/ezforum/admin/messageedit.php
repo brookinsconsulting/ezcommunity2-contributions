@@ -1,5 +1,5 @@
 <?
-// $Id: messageedit.php,v 1.11 2001/01/25 10:43:15 ce Exp $
+// $Id: messageedit.php,v 1.12 2001/03/01 14:06:25 jb Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -24,7 +24,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/messageedit.php.ini", false );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.43 2001/02/26 09:52:31 bf Exp $
+// $Id: userwithaddress.php,v 1.44 2001/03/01 14:06:26 jb Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -29,8 +29,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $SelectCountry = $ini->read_var( "eZUserMain", "SelectCountry" );
 $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.8 2001/02/23 18:48:45 jb Exp $
+// $Id: ezlist.php,v 1.9 2001/03/01 14:06:24 jb Exp $
 //
 // Definition of eZList class
 //
@@ -78,7 +78,7 @@ class eZList
         if ( isset( $params["ini"] ) )
             $ini =& $params["ini"];
         if ( get_class( $ini ) != "inifile" )
-            $ini =& $GlobalSiteIni;
+            $ini =& INIFile::globalINI();
 
         $module = $params["module"];
         $module_main = $params["module_main"];

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.7 2001/03/01 13:28:07 fh Exp $
+// $Id: categoryedit.php,v 1.8 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -41,7 +41,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 

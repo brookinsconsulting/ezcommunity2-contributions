@@ -1,5 +1,5 @@
 <?
-// $Id: norights.php,v 1.4 2001/01/22 14:43:00 jb Exp $
+// $Id: norights.php,v 1.5 2001/03/01 14:06:25 jb Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -24,7 +24,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );

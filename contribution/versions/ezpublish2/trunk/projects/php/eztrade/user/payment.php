@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.12 2001/02/26 18:41:09 bf Exp $
+// $Id: payment.php,v 1.13 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -49,7 +49,7 @@ include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezmail.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );

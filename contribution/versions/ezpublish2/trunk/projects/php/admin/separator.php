@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: separator.php,v 1.9 2001/01/23 15:26:29 bf Exp $
+// $Id: separator.php,v 1.10 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZ" . ucfirst( $moduleName ) . "Main", "Language" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pricegroupedit.php,v 1.2 2001/02/27 10:47:07 jb Exp $
+// $Id: pricegroupedit.php,v 1.3 2001/03/01 14:06:26 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <23-Feb-2001 15:32:27 amos>
@@ -29,7 +29,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 

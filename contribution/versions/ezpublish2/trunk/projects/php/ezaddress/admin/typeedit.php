@@ -14,7 +14,7 @@
   reading and writing extra information not available from the standard template.
 */
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZAddressMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZAddressMain", "DocumentRoot" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: loginfooter.php,v 1.1 2001/01/28 10:34:51 bf Exp $
+// $Id: loginfooter.php,v 1.2 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: refererlist.php,v 1.5 2001/02/09 17:09:40 jb Exp $
+// $Id: refererlist.php,v 1.6 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:13:21 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 

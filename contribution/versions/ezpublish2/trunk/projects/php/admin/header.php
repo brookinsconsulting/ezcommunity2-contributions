@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.26 2001/02/08 13:35:54 gl Exp $
+// $Id: header.php,v 1.27 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -26,7 +26,7 @@
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
 $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();

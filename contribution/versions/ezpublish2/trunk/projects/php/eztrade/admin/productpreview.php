@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.13 2001/02/20 16:12:48 bf Exp $
+// $Id: productpreview.php,v 1.14 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 

@@ -17,7 +17,7 @@
   list with extra information.
 */
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZAddressMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZAddressMain", "DocumentRoot" );
 

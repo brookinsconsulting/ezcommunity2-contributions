@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adstatistics.php,v 1.7 2001/02/16 16:07:14 jb Exp $
+// $Id: adstatistics.php,v 1.8 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 11:47:03 bf>
@@ -35,8 +35,7 @@ include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
 
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZAdMain", "Language" );
 $ImageDir = $ini->read_var( "eZAdMain", "ImageDir" );
 

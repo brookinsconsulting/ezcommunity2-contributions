@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: usercheck.php,v 1.6 2001/01/23 13:43:54 bf Exp $
+// $Id: usercheck.php,v 1.7 2001/03/01 14:06:26 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
@@ -28,8 +28,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 if ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" )
 {
     $user =& eZUser::currentUser();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.18 2001/02/28 10:09:20 jb Exp $
+// $Id: categorylist.php,v 1.19 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -56,7 +56,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray )
     }
 }
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );

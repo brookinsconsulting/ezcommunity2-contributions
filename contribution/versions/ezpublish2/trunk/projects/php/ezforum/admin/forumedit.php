@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.19 2001/03/01 10:58:02 pkej Exp $
+// $Id: forumedit.php,v 1.20 2001/03/01 14:06:25 jb Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -25,7 +25,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", false );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.11 2001/02/28 15:24:58 ce Exp $
+// $Id: fileview.php,v 1.12 2001/03/01 14:06:25 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -33,7 +33,7 @@ include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.11 2001/02/13 14:00:56 jb Exp $
+// $Id: adlist.php,v 1.12 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -30,8 +30,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZAdMain", "Language" );
 
 $t = new eZTemplate( "ezad/admin/" . $ini->read_var( "eZAdMain", "AdminTemplateDir" ),

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.14 2001/02/28 13:03:23 ce Exp $
+// $Id: imageedit.php,v 1.15 2001/03/01 14:06:25 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -71,8 +71,7 @@ include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
 $t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),

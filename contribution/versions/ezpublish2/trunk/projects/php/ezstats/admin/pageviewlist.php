@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pageviewlist.php,v 1.4 2001/02/09 17:09:39 jb Exp $
+// $Id: pageviewlist.php,v 1.5 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Jan-2001 17:11:01 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 

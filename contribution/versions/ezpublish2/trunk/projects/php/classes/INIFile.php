@@ -81,7 +81,7 @@ class INIFile
             $this->load_override_data( "override/" . $inifilename );
     }
 
-    function load_override_data( $inifilename="" )
+    function load_override_data( $inifilename="")
     {
         $appendfilename = $inifilename . ".append";
         if ( !empty($inifilename) and file_exists($inifilename) )
@@ -314,6 +314,23 @@ class INIFile
         $this->ERROR = $errmsg; 
         echo  "Error:".$this->ERROR. "<br>\n"; 
         return; 
+    }
+
+    /*!
+      \static
+      Returns the global ini file for a given type. Normally the type is the site.ini INI object,
+      loaded from the site.ini file. This can be overidden by supplying $type and $file.
+      If the ini-file object does not exist it is created before returning.
+    */
+    function &globalINI( $type = "SiteIni", $file = "site.ini" )
+    {
+        $ini =& $GLOBALS["INI_$type"];
+
+        if ( get_class( $ini ) != "inifile" )
+        {
+            $ini = new INIFile( $file );
+        }
+        return $ini;
     }
 
     var $INI_FILE_NAME =  ""; 

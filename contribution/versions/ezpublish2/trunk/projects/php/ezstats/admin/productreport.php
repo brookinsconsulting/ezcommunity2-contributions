@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productreport.php,v 1.5 2001/02/12 16:12:36 jb Exp $
+// $Id: productreport.php,v 1.6 2001/03/01 14:06:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Jan-2001 14:47:56 bf>
@@ -24,8 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 
 include_once( "classes/eztemplate.php" );

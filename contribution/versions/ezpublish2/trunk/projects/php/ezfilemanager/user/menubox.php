@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/02/26 16:43:48 ce Exp $
+// $Id: menubox.php,v 1.4 2001/03/01 14:06:25 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 

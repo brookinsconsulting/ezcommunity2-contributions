@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.10 2001/02/28 09:55:05 jb Exp $
+// $Id: optionedit.php,v 1.11 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -30,8 +30,7 @@ include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezproductcategory.php" );

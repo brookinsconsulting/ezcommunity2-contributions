@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productsearch.php,v 1.2 2001/02/21 15:20:56 jb Exp $
+// $Id: productsearch.php,v 1.3 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -31,7 +31,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezlist.php" );
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $Limit = $ini->read_var( "eZTradeMain", "ProductSearchLimit" );

@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovededit.php,v 1.3 2001/03/01 10:58:02 pkej Exp $
+// $Id: unapprovededit.php,v 1.4 2001/03/01 14:06:25 jb Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -24,7 +24,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

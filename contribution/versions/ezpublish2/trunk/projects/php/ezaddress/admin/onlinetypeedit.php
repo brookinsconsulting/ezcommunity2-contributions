@@ -15,7 +15,7 @@ if ( isset( $ItemArrayID ) and is_array( $ItemArrayID ) )
 
 $page_path = "/address/onlinetype";
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZAddressMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZAddressMain", "DocumentRoot" );
 

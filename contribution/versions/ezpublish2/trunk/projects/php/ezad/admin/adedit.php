@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.15 2001/02/17 13:09:00 bf Exp $
+// $Id: adedit.php,v 1.16 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -220,8 +220,7 @@ if ( $Action == "DeleteAds" )
 }
 
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZAdMain", "Language" );
 $ImageDir = $ini->read_var( "eZAdMain", "ImageDir" );
 

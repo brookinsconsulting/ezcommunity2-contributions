@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.48 2001/02/28 16:39:08 fh Exp $
+// $Id: articleedit.php,v 1.49 2001/03/01 14:06:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -41,7 +41,7 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 function notificationMessage( &$article )
 {
     include_once( "classes/eztexttool.php" );
-    $ini =& $GLOBALS["GlobalSiteIni"];
+    $ini =& INIFile::globalINI();
 
     $PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
     $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
@@ -124,7 +124,7 @@ if ( isset ( $DeleteArticles ) )
     $Action = "DeleteArticles";
 }
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 // insert a new article in the database
 

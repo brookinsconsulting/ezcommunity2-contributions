@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.10 2001/03/01 10:52:37 fh Exp $
+// $Id: menubox.php,v 1.11 2001/03/01 14:06:25 jb Exp $
 //
 // 
 //
@@ -26,9 +26,9 @@
 //
 
 include_once( "classes/INIFile.php" );
-include_once( "ezuser/classes/ezobjectpermission.php" );
+$ini =& INIFile::globalINI();
 
-$ini = new INIFile( "site.ini" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 

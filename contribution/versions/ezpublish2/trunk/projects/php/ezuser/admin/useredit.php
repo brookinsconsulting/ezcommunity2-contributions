@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.19 2001/01/25 13:21:29 ce Exp $
+// $Id: useredit.php,v 1.20 2001/03/01 14:06:26 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -27,8 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.13 2001/02/26 12:30:08 jb Exp $
+// $Id: categoryedit.php,v 1.14 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -38,8 +38,7 @@ if ( isset ( $DeleteCategories ) )
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFIle( "site.ini" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezproductcategory.php" );

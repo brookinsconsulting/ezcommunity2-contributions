@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: currency.php,v 1.4 2001/02/28 09:55:05 jb Exp $
+// $Id: currency.php,v 1.5 2001/03/01 14:06:26 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Feb-2001 16:27:56 bf>
@@ -31,7 +31,7 @@ include_once( "classes/ezcachefile.php" );
 
 include_once( "eztrade/classes/ezproductcurrency.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
