@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.23 2001/06/29 07:08:37 bf Exp $
+// $Id: categoryedit.php,v 1.24 2001/07/02 09:46:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -179,7 +179,7 @@ if ( $Action == "insert" && !$error )
 
     if ( isSet ( $Browse ) )
     {
-        $session = new eZSession();
+        $session = eZSession::globalSession();
         $session->setVariable( "SelectImages", "single" );
         $session->setVariable( "ImageListReturnTo", "/article/categoryedit/edit/$categoryID/" );
         $session->setVariable( "NameInBrowse", $category->name() );
@@ -308,7 +308,7 @@ if ( $Action == "update" && !$error )
 
     if ( isSet ( $Browse ) )
     {
-        $session = new eZSession();
+        $session = eZSession::globalSession();
         $session->setVariable( "SelectImages", "single" );
         $session->setVariable( "ImageListReturnTo", "/article/categoryedit/edit/$categoryID/" );
         eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
