@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.13 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: ezezrenderer.php,v 1.14 2000/11/02 11:24:59 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -178,6 +178,7 @@ class eZEzRenderer
                     if ( $paragraph->name == "header" )
                     {
                         $tmpText = "
+                        <br clear=\"all\" />   
                         <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">
                              <tr>
                              <td bgcolor=\"#c0c0c0\" width=\"100%\">
