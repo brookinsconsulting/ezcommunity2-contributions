@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.23 2001/09/04 15:18:14 ce Exp $
+// $Id: datasupplier.php,v 1.24 2001/09/19 16:01:59 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -50,6 +50,15 @@ function writeAtAll()
 $user =& eZUser::currentUser();
 switch ( $url_array[2] )
 {
+    case "customimage" :
+    {
+        $ImageID = $url_array[3];
+        $ImageWidth = $url_array[4];
+        $ImageHeight = $url_array[5];
+        include( "ezimagecatalogue/user/customimage.php" );
+    }
+    break;
+
     case "imageview" :
     {
         $ImageID = $url_array[3];
