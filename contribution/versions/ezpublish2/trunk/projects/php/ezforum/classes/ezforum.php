@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.51 2001/09/27 12:06:00 jhe Exp $
+// $Id: ezforum.php,v 1.52 2001/09/28 12:39:14 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -221,7 +221,7 @@ class eZForum
     function &search( $queryText, $offset, $limit, &$SearchTotalCount, $params = array() )
     {
         $db =& eZDB::globalDatabase();
-
+        
         $queryText = $db->escapeString( $queryText );
         
         $query = new eZQuery( "eZForum_Word.Word", $queryText );
@@ -267,15 +267,11 @@ class eZForum
 
             $queryString = "SELECT MessageID, Count(*) AS Count FROM eZForum_SearchTemp GROUP BY MessageID HAVING Count='$count'";
 
-            
             $db->array_query( $message_array, $queryString );
-            
-//            $db->array_query( $message_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+            $SearchTotalCount = count( $message_array );
+            $message_array =& array_slice( $message_array, $offset, $limit );
 
             $db->query( "DROP TABLE eZForum_SearchTemp" );
-
-            $SearchTotalCount = count( $message_array );
-            $message_array =& array_slice( $message_array, $offset, $limit );            
         }
         else
         {
@@ -291,10 +287,8 @@ class eZForum
                        )
                         ORDER BY eZForum_MessageWordLink.Frequency";
 
-            $db->array_query( $message_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
-
-            $db->array_query( $message_array, $queryString );
             
+            $db->array_query( $message_array, $queryString );
             $SearchTotalCount = count( $message_array );
             $message_array =& array_slice( $message_array, $offset, $limit );
         }
@@ -305,8 +299,6 @@ class eZForum
         }
        
         return $return_array;        
-        
-        return $ret;
     }
 
 

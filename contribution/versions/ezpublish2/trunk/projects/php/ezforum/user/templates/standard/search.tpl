@@ -5,9 +5,9 @@
         <h1>{intl-search} - ({forum_start}-{forum_end}/{forum_total})</h1>
      </td>
      <td align="right">
-	 <form action="{www_dir}{index}/forum/search/" method="post">
+	 <form action="{www_dir}{index}/forum/search/" method="get">
 	       <input class="searchbox" type="text" name="QueryString" size="10" />
-	       <input type="submit" name="search" value="{intl-search}" />
+	       <input class="stdbutton" type="submit" value="{intl-search}" />
          </form>
      </td>
 </tr>
