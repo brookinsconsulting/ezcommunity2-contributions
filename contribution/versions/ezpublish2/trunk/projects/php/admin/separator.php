@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: separator.php,v 1.15 2001/04/20 13:00:00 bf Exp $
+// $Id: separator.php,v 1.16 2001/04/20 13:03:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -60,7 +60,7 @@ $t->set_var( "help", "" );
 
 if ( file_exists( $helpFile ) )
 {
-    $t->set_var( "help_url", "/help/" . $url_array[1] . "/" . $url_array[2]. "/" );
+    $t->set_var( "help_url", "/help/" . $moduleName . "/" . $url_array[1] . "/" . $url_array[2]. "/" );
     $t->parse( "help", "help_tpl" );
 }
 

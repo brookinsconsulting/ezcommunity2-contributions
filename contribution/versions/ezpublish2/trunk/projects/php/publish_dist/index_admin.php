@@ -46,24 +46,40 @@ $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
 $GLOBALS["DEBUG"] = true;
 
+// Remove url parameters
+ereg( "([^?]+)", $REQUEST_URI, $regs ) ;
+
+$REQUEST_URI = $regs[1];
+
+$url_array =& explode( "/", $REQUEST_URI );
+
 
 $user =& eZUser::currentUser();
 if ( $user )
 {
-    // html header
-    if ( $PrintableVersion == "enabled" )
-    {        
-        include( "admin/print_header.php" );
+    if ( $url_array[1] == "help" )
+    {
+        $HelpMode  = "enabled";
+        
+        include( "admin/help_header.php" );
     }
     else
     {
-        include( "admin/header.php" );
+        // html header
+        if ( $PrintableVersion == "enabled" )
+        {        
+            include( "admin/print_header.php" );
+        }
+        else
+        {
+            include( "admin/header.php" );
+        }
     }
               
     
     require( "ezuser/admin/admincheck.php" );
     
-    if ( ! ( $HelpMode == "enabled" ) )
+    if ( !( $HelpMode == "enabled" ) )
     {
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
@@ -126,12 +142,6 @@ if ( $user )
         // parse the URI
         $page = "";
     
-        // Remove url parameters
-        ereg( "([^?]+)", $REQUEST_URI, $regs) ;
-
-        $REQUEST_URI = $regs[1];
-    
-        $url_array = explode( "/", $REQUEST_URI );
     
         // send the URI to the right decoder
         $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
@@ -159,23 +169,38 @@ if ( $user )
         }
     }
     else
-    { // show the help page
-        include( "admin/separator.php" );
-        
-        include( "admin/help/datasupplier.php" );
+    {
+        // show the help page
+
+        $helpFile = "ez" . $url_array[2] . "/admin/help/". $Language . "/" . $url_array[3] . "_" . $url_array[4] . ".hlp";
+
+        if ( file_exists( $helpFile ) )
+        {
+            include( $helpFile );
+        }
+        else
+        {
+            print( "help file not found" );
+
+        }
     }
 
-    // html footer
-    if ( $PrintableVersion == "enabled" )
+    if ( $HelpMode == "enabled" )
     {
-        include( "admin/print_footer.php" );
+        include( "admin/help_footer.php" );
     }
     else
     {
-        include( "admin/footer.php" );
-    }
-    
-    
+        // html footer
+        if ( $PrintableVersion == "enabled" )
+        {
+            include( "admin/print_footer.php" );
+        }
+        else
+        {
+            include( "admin/footer.php" );
+        }
+    }    
 }
 else
 {
@@ -190,13 +215,6 @@ else
     
     // parse the URI
     $page = "";
-
-    // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs );
-
-    $REQUEST_URI = $regs[1];
-
-    $url_array = explode( "/", $REQUEST_URI );
 
     // send the URI to the right decoder
     $page = "ezuser/admin/datasupplier.php";
