@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.23 2001/01/24 14:23:48 jb Exp $
+// $Id: eztemplate.php,v 1.24 2001/01/24 20:10:08 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -277,6 +277,28 @@ class eZTemplate
             print $str;
         }
         return $str;
+    }
+
+    /*!
+      Clears the cache file if it exists.
+    */
+    function clearCache()
+    {
+        if ( empty( $this->CacheSuffix ) )
+            return false;
+        $CacheFile =& $this->cacheFile();
+        if ( !file_exists( $this->CacheDir ) )
+        {
+            print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot delete cache file</b><br />" );
+        }
+        else
+        {
+            if ( file_exists( $this->CacheFile ) )
+                return unlink( $CacheFile );
+            else
+                return true;
+        }
+        return false;
     }
 
     /*!
