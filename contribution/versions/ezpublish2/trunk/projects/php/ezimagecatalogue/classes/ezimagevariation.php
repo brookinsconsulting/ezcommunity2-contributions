@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.12 2001/03/05 15:41:00 jb Exp $
+// $Id: ezimagevariation.php,v 1.13 2001/03/06 16:04:35 fh Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -176,7 +176,7 @@ class eZImageVariation
     }
     
     /*!
-      Returns true if the variation exists, if it does not exist it is created.
+      Returns the variation if the variation exists, if it does not exist it is created.
 
       False is returned if the variation could not be created.
     */
@@ -241,16 +241,17 @@ class eZImageVariation
                     }
                     else
                     {
+                        return eZImageVariation::createErrorImage();
                         print( "<br><b>Timeout when retrieveing variation</b><br>" );
                     }
                 }
                 else if ( $result )
                 {
                     if ( !file_exists( $dest ) )
-                        return false;
+                        return eZImageVariation::createErrorImage();
                     $size = GetImageSize( $dest );
                     if ( !$size )
-                        return false;
+                        return eZImageVariation::createErrorImage();
 
                     $variation->setWidth( $size[0] );
                     $variation->setHeight( $size[1] );
@@ -262,6 +263,8 @@ class eZImageVariation
 
                     $ret =& $variation;
                 }
+                else
+                    return eZImageVariation::createErrorImage();
             }
         }
         
@@ -392,6 +395,16 @@ class eZImageVariation
         }
     }    
 
+    function createErrorImage()
+    {
+        $imageVar = new eZImageVariation();
+        $imageVar->setImagePath( "/ezimagecatalogue/admin/images/failedimage.gif" );
+        $imageVar->ImageID = -1;
+        $imageVar->setWidth( 120 );
+        $imageVar->setHeight( 40 );
+        return $imageVar;
+    }
+    
     var $ID;
     var $ImageID;
     var $VariationGroupID;

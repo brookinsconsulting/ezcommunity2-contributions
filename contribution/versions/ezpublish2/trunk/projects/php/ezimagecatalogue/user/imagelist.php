@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.17 2001/03/05 10:08:32 ce Exp $
+// $Id: imagelist.php,v 1.18 2001/03/06 16:04:35 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -33,6 +33,7 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -257,6 +258,7 @@ foreach ( $imageList as $image )
     $t->set_var( "write", "" );
 
     // Check if user have read permission
+    $t->set_var( "detail_read", "" );
     if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) )
     {
         if ( isSet ( $DetailView ) )
