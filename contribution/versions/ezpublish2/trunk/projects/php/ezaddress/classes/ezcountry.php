@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.1 2001/01/25 17:05:23 jb Exp $
+// $Id: ezcountry.php,v 1.2 2001/02/03 18:39:10 jb Exp $
 //
 // Definition of eZCountry class
 //
@@ -61,7 +61,7 @@ class eZCountry
     */  
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         
@@ -95,7 +95,7 @@ class eZCountry
     */  
     function get( $id="" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
             $db->array_query( $country_array, "SELECT * FROM eZAddress_Country WHERE ID='$id'" );
@@ -125,7 +125,7 @@ class eZCountry
     */
     function &getAllCount( $search = "" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( !empty( $search ) )
         {
@@ -145,7 +145,7 @@ class eZCountry
     */
     function &getAll( $as_object = true, $search = "", $offset = 0, $max = -1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $country_array = 0;
         $return_array = array();
@@ -211,7 +211,7 @@ class eZCountry
     {
         if ( !$id )
             $id = $this->ID;
-        $db = eZDB::globalDatabase();    
+        $db =& eZDB::globalDatabase();    
         $db->query( "DELETE FROM eZAddress_Country WHERE ID='$id'" );
     }    
     

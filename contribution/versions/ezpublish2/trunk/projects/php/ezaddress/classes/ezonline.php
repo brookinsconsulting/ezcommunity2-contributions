@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.1 2001/01/25 17:05:23 jb Exp $
+// $Id: ezonline.php,v 1.2 2001/02/03 18:39:10 jb Exp $
 //
 // Definition of eZOnline class
 //
@@ -64,7 +64,7 @@ class eZOnline
     */  
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         
@@ -99,7 +99,7 @@ class eZOnline
     {
         if ( !$id )
             $id = $this->ID;
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->query( "DELETE FROM eZAddress_Online WHERE ID='$id'" );
     }    
@@ -110,7 +110,7 @@ class eZOnline
     */  
     function get( $id=-1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
             $db->array_query( $online_array, "SELECT * FROM eZAddress_Online WHERE ID='$id'" );
@@ -132,7 +132,7 @@ class eZOnline
     */
     function getAll( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $online_array = 0;
 
         $online_array = array();
@@ -227,7 +227,7 @@ class eZOnline
 //       */
 //      function workStatusTypes()
 //      {
-//          $db = eZDB::globalDatabase();
+//          $db =& eZDB::globalDatabase();
 //          $db->array_query( $itemArray, $query="SHOW COLUMNS FROM eZAddress_Online LIKE 'URLType'" );
 //          $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
         

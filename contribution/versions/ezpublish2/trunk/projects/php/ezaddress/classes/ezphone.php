@@ -32,7 +32,7 @@ class eZPhone
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $ret = false;
         if ( !isset( $this->ID ) )
@@ -59,7 +59,7 @@ class eZPhone
     {
         if ( !$id )
             $id = $this->ID;
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query( "DELETE FROM eZAddress_Phone WHERE ID='$id' " );
     }
     
@@ -68,7 +68,7 @@ class eZPhone
     */  
     function get( $id )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
             $db->array_query( $phone_array, "SELECT * FROM eZAddress_Phone WHERE ID='$id'" );
