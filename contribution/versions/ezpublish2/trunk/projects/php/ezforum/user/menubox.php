@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.15 2001/11/01 09:03:54 bf Exp $
+// $Id: menubox.php,v 1.16 2001/11/01 11:23:57 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -26,7 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezcachefile.php" );
 
-$ini =& $GlobalSiteIni;
+$ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

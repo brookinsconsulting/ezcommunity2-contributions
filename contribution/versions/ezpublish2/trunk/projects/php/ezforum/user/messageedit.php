@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.61 2001/10/31 10:56:17 jhe Exp $
+// $Id: messageedit.php,v 1.62 2001/11/01 11:23:57 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -280,7 +280,7 @@ switch ( $Action )
 
                         $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
                         $mailTemplate->setAllStrings();
-
+                        $mailTemplate->set_block( "mailreply", "link_tpl", "link" );
                         $headersInfo = getallheaders();
 
                         $author = $msg->user();
@@ -307,9 +307,15 @@ switch ( $Action )
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
 
                         if ( $forum->isModerated() )
+                        {
                             $mailTemplate->set_var( "link_1", "" );
+                            $mailTemplate->set_var( "link", "" );
+                        }
                         else
+                        {
                             $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                            $mailTemplate->parse( "link", "link_tpl" );
+                        }
                         $mailTemplate->set_var( "link_2", "http://" . $ini->read_var( "site", "AdminSiteURL" ) . "/forum/messageedit/edit/" . $msg->id() );
                         $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
                         $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
