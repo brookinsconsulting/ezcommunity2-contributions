@@ -11,7 +11,7 @@
                         <a class="small" href="index.php?page=useredit.php&Action=New">Ny bruker</a><br>
                         <a class="small" href="index.php?page=grouplist.php">Gruppeoversikt</a><br>
                         <a class="small" href="index.php?page=groupedit.php&Action=New">Ny gruppe</a><br>
-						<a class="small" href="index.php?page=logout.php">Logg ut</a><br>
+						<a class="small" href="/user/logout/">Logg ut</a><br>
                       </td>
                     </tr>
                   </table>

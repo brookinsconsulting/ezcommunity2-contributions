@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.2 2000/09/19 15:50:46 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.3 2000/09/20 12:58:04 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -294,7 +294,41 @@ class eZProduct
             $this->get( $this->ID );
 
        return $this->Description;
-    }    
+    }
+
+    /*!
+      Returns the ShowPrice value. The Price should not be shown if this value
+      is false.
+    */
+    function showPrice()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ShowPrice;
+    }
+
+    /*!
+      Returns true if the product should be shown. False if not.
+    */
+    function showProduct()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ShowProduct;
+    }
+    
+    /*!
+      Returns true if the product should inherit options from the product group.
+    */
+    function inheritOptions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->InheritOptions;
+    }
     
     /*!
       Sets the product name.

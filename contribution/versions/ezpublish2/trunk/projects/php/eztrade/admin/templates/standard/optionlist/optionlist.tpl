@@ -25,4 +25,9 @@
 <input type="submit" value="ny opsjon" />
 
 </form>
+<form action="/trade/productedit/edit/{product_id}/" method="post">
+
+<input type="submit" value="tilbake" />
+
+</form>
 

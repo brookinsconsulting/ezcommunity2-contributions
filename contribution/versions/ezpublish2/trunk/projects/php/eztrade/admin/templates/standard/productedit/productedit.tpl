@@ -74,7 +74,7 @@
 </tr>
 <tr>
 	<td width="20%">
-	<input type="checkbox" name="ShowPrice" />
+	<input type="checkbox" name="ShowPrice" {showprice_checked} />
 	</td>
 	<td>
 	<input type="text" size="10" name="Price" value="{price_value}" />
@@ -90,10 +90,10 @@
 </tr>
 <tr>
 	<td width="20%">
-	<input type="checkbox" name="Active" />
+	<input type="checkbox" name="Active" {active_checked} />
 	</td>
 	<td>
-	<input type="checkbox" name="InheritOptions" />
+	<input type="checkbox" name="InheritOptions" {inherit_options_checked} />
 	</td>
 </tr>
 <tr>

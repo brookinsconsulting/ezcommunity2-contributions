@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productedit.php,v 1.1 2000/09/20 08:31:24 bf-cvs Exp $
+// $Id: productedit.php,v 1.2 2000/09/20 12:58:04 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -47,6 +47,24 @@ if ( $Action == "Insert" )
         $product->setShowPrice( false );
     }
 
+    if ( $Active == "on" )
+    {
+        $product->setShowProduct( true );
+    }
+    else
+    {
+        $product->setShowProduct( false );
+    }
+
+    if ( $InheritOptions == "on" )
+    {
+        $product->setInheritOptions( true );
+    }
+    else
+    {
+        $product->setInheritOptions( false );
+    }
+    
     $product->setPrice( $Price );
     
     $product->store();
@@ -87,6 +105,24 @@ if ( $Action == "Update" )
         $product->setShowPrice( false );
     }
 
+    if ( $Active == "on" )
+    {
+        $product->setShowProduct( true );
+    }
+    else
+    {
+        $product->setShowProduct( false );
+    }
+
+    if ( $InheritOptions == "on" )
+    {
+        $product->setInheritOptions( true );
+    }
+    else
+    {
+        $product->setInheritOptions( false );
+    }
+    
     $product->setPrice( $Price );
     
     $product->store();
@@ -126,6 +162,11 @@ $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
 $t->set_var( "keywords_value", "" );
 $t->set_var( "product_nr_value", "" );
+
+$t->set_var( "showprice_checked", "" );
+$t->set_var( "active_checked", "" );
+$t->set_var( "inherit_options_checked", "" );
+
 $t->set_var( "action_value", "insert" );
 
 // edit
@@ -142,6 +183,15 @@ if ( $Action == "Edit" )
     $t->set_var( "description_value", $product->description() );
     $t->set_var( "action_value", "update" );
     $t->set_var( "product_id", $product->id() );
+
+    if ( $product->showPrice() == true )
+        $t->set_var( "showprice_checked", "checked" );
+
+    if ( $product->showProduct() == true )
+        $t->set_var( "active_checked", "checked" );
+
+    if ( $product->inheritOptions() == true )
+        $t->set_var( "inherit_options_checked", "checked" );
 }
 
 $category = new eZProductCategory();

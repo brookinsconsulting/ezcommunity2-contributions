@@ -70,8 +70,6 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     
     $url_array = explode( "/", $REQUEST_URI );
 
-
-    
     
     // send the URI to the right decoder
     $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
@@ -79,7 +77,14 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     // handle users
     if ( $url_array[1] == "user" )
     {
-        $page = "userlist.php";
+        if ( $url_array[2] == "logout" )
+        {
+            $page = "logout.php";
+        }
+        else
+        {
+            $page = "userlist.php";
+        }
     }
 
     if ( file_exists( $page ) )
