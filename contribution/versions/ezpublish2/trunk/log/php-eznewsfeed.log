@@ -327,3 +327,11 @@ Maintainer(s) : vl@ez.no
       admin/templates/standard/unpublished.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-12-10  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezrssimporter.php: Added updates to the rssimporter.
+

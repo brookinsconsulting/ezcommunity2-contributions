@@ -857,3 +857,13 @@ Maintainer(s) : bf@ez.no
       admin/templates/standard/userlist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-10  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/useredit.tpl
+      admin/useredit.php
+      user/userwithaddress.php: Added additional fields to the admin interface
+

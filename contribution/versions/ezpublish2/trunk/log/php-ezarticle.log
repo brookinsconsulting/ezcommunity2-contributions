@@ -2499,3 +2499,16 @@ Maintainer(s) : bf@ez.no
       admin/templates/standard/typelist.tpl
       admin/templates/standard/unpublishedlist.tpl: fixed missing {www_dir}
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-10  Bjoern Reiten  <br@ez.no>
+
+    * user/frontpage.php:
+    unset artice, ad, and productList vaiables, since this bugged when som
+    of this variabels was set before.
+
+    * user/frontpage.php:
+    Fixed bug when the variable $articleList was used before.
+

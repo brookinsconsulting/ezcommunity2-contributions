@@ -526,3 +526,15 @@ Maintainer(s) : bf@ez.no
       admin/intl/hr_HR/linkselect.php.ini
       locale/hr_HR.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-12-10  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: Changes.
+
+2001-12-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * ezdb.php: small improvement in eZDB::finish
+

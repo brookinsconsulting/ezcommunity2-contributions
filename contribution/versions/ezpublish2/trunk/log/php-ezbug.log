@@ -608,3 +608,11 @@ Maintainer(s) : vl@ez.no
       admin/templates/standard/unhandledbugs.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-12-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php: fix in ini file handling
+

@@ -894,3 +894,12 @@ Maintainer(s) : jhe@ez.no
       admin/templates/standard/search.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-12-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messageedit.php
+      user/messagereply.php: fixed problems with escaping text in e-mail
+

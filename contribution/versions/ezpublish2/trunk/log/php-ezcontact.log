@@ -689,3 +689,19 @@ Maintainer(s) : jhe@ez.no
       admin/templates/standard/typelist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-12-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezcontact.sql
+      sql/postgresql/ezcontact.sql
+      admin/personedit.php
+      admin/personlist.php
+      admin/personview.php
+      admin/templates/standard/personedit.tpl
+      admin/templates/standard/personlist.tpl
+      admin/templates/standard/personview.tpl
+      classes/ezperson.php: added image for persons
+
