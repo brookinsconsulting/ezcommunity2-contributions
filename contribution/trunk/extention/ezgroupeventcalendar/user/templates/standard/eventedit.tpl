@@ -45,13 +45,13 @@
 	<td valign="top">
 
 <p class="boxtext">{intl-event_title}:</p>
-<input type="text" size="40" name="Name" value="{name_value}"/>
+<input type="text" size="50" name="Name" value="{name_value}"/>
 
 <p class="boxtext">{intl-event_location}:</p>
-<input type="text" size="40" name="Location" value="{location_value}"/>
+<input type="text" size="50" name="Location" value="{location_value}"/>
 
 <p class="boxtext">{intl-event_url}:</p>
-<input type="text" size="40" name="Url" value="{url_value}"/>
+<input type="text" size="54" name="Url" value="{url_value}"/>
 
 <p class="boxtext">{intl-event_description}:</p>
 <textarea name="Description" cols="55" rows="7" wrap="soft">{description_value}</textarea>
@@ -72,6 +72,9 @@
 </select>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_private} type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_event_alarm_notice} type="checkbox" name="IsEventAlarmNotice" />&nbsp;<span class="check">{intl-event_notification}</span>
+
 <!-- END group_name_new_tpl -->
 
 	</td>
