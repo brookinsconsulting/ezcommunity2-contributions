@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.29 2001/09/06 09:26:29 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.30 2001/09/08 13:58:21 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -234,6 +234,7 @@ class eZQDomGenerator
         // convert <link ez.no ez systems> to valid xml
         // $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
         $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
+        $tmpPage = preg_replace( "#(<popuplink\s+?([^ ]+)\s+?([^>]+)>)#", "<popuplink href=\"\\2\" text=\"\\3\" />", $tmpPage );
 
         $tmpPage = preg_replace( "#(<iconlink\s+?([^ ]+)\s+?([^>]+)>)#", "<iconlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
         

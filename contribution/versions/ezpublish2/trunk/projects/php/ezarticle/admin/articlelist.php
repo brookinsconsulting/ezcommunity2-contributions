@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.46 2001/09/03 16:05:31 bf Exp $
+// $Id: articlelist.php,v 1.47 2001/09/08 13:58:21 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -296,35 +296,31 @@ $i=0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) ||
-        eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
+    $t->set_var( "category_id", $categoryItem->id() );
+
+    $t->set_var( "category_name", $categoryItem->name() );
+
+    $parent = $categoryItem->parent();
+
+    if ( ( $i % 2 ) == 0 )
     {
-        $t->set_var( "category_id", $categoryItem->id() );
-
-        $t->set_var( "category_name", $categoryItem->name() );
-
-        $parent = $categoryItem->parent();
-
-        if ( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "td_class", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "td_class", "bgdark" );
-        }
-    
-        $t->set_var( "category_description", $categoryItem->description() );
-
-        if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w')  ||
-            eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
-            $t->parse( "category_edit", "category_edit_tpl", false );
-        else
-            $t->set_var( "category_edit", "" );
-        
-        $t->parse( "category_item", "category_item_tpl", true );
-        $i++;
+        $t->set_var( "td_class", "bglight" );
     }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+    
+    $t->set_var( "category_description", $categoryItem->description() );
+
+    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w')  ||
+        eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
+        $t->parse( "category_edit", "category_edit_tpl", false );
+    else
+        $t->set_var( "category_edit", "" );
+        
+    $t->parse( "category_item", "category_item_tpl", true );
+    $i++;
 }
 
 $t->set_var( "archive_id", $CategoryID );

@@ -71,6 +71,10 @@
 <a href="{www_dir}{index}{href}">{link_text}</a>
 <!-- END link_tpl -->
 
+<!-- BEGIN popuplink_tpl -->
+<a href="{href}" target="_new" >{link_text}</a>
+<!-- END popuplink_tpl -->
+
 
 <!-- BEGIN bold_tpl -->
 <b>{contents}</b>

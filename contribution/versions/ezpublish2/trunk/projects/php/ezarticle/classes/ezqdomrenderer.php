@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.42 2001/09/06 09:27:47 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.43 2001/09/08 13:58:21 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -185,6 +185,7 @@ class eZQDomrenderer
         $this->Template->set_block( "image_float_tpl", "no_link_float_tpl", "no_link_float"  );
 
         $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
+        $this->Template->set_block( "articletags_tpl", "popuplink_tpl", "popuplink"  );
         
         $this->Template->set_block( "articletags_tpl", "hr_tpl", "hr"  );
 	
@@ -987,6 +988,35 @@ class eZQDomrenderer
             $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
         }    
 
+        if ( $paragraph->name == "popuplink" )
+        {
+            if ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {                
+                switch ( $attr->name )
+                {
+                    case "href" :
+                    {
+                       $href = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                       $text = $attr->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
+                $href = "http://" . $href;
+            
+            $this->Template->set_var( "href", $href );
+            $this->Template->set_var( "link_text", $text );
+            $pageContent =& trim( $this->Template->parse( "popuplink", "popuplink_tpl" ) );
+        }    
+        
 
         // ez anchor
         if ( $paragraph->name == "ezanchor" )
