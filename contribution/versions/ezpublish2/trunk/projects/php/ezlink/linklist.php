@@ -17,6 +17,7 @@ $t = new Template( "." );
 $t->set_file( array(
     "linkgroup_list" => $DOCUMENTROOT . "templates/linkgrouplistuser.tpl",
     "linkgroup_item" => $DOCUMENTROOT . "templates/linkgroupitemuser.tpl",
+    "linkgroup_item2" => $DOCUMENTROOT . "templates/linkgroupitemuser2.tpl",
     "link_item" => $DOCUMENTROOT . "templates/linkitemuser.tpl"
     ) );
 
@@ -51,8 +52,15 @@ else
         $t->set_var( "new_links", $new_sub_links );
         
         $t->set_var( "document_root", $DOCUMENTROOT );
-    
-        $t->parse( "group_list", "linkgroup_item", true );
+        
+        if ( $i %2 == 0 )
+        {
+            $t->parse( "group_list", "linkgroup_item", true );
+        }
+        else
+        {
+            $t->parse( "group_list", "linkgroup_item2", true );
+        }
 
     }
 }
