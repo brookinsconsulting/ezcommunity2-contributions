@@ -832,7 +832,6 @@ ALTER TABLE eZArticle_ArticleImageLink ADD Placement int not null default 0;
 
 ALTER TABLE eZTrade_Product ADD ExpiryTime int not null default 0;
 
-ALTER TABLE eZArticle_ArticleImageLink ADD Placement int not null default 0;
 
 # ez ad
 
