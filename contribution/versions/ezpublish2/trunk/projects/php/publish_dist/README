@@ -55,6 +55,19 @@ RewriteRule     !\.(gif|css|jpg|png)$ /home/ce/ez/projects/php/ezdeveloper/index
 
 create table eZSession_Preferences( ID int primary key auto_increment, UserID int not null, Name char(50), Value char(50) );
 
+
+#
+# Table structure for table 'eZContact_AddressDefinition'
+#
+DROP TABLE IF EXISTS eZContact_AddressDefinition;
+CREATE TABLE eZContact_AddressDefinition (
+  AddressID int(11),
+  UserID int(11),
+  PRIMARY KEY (UserID)
+);
+
+create table eZSession_Preferences( ID int primary key auto_increment, UserID int not null, Name char(50), Value char(50) );
+
 #
 # Updates in eZ forum
 #
@@ -65,4 +78,4 @@ alter table eZForum_Forum add IsModerated int not null default 0;
 alter table eZForum_Message add IsApproved int not null default 1;     
 
 # User defined sorting of articles pr category
-alter table eZArticle_Category add SortMode int not null default 1;   
+alter table eZArticle_Category add SortMode int not null default 1;   >>>>>>> 1.12

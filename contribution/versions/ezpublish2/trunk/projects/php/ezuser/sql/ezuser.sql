@@ -123,6 +123,7 @@ INSERT INTO eZUser_Permission VALUES (3,3,'UserModify');
 INSERT INTO eZUser_Permission VALUES (4,3,'GroupDelete');
 INSERT INTO eZUser_Permission VALUES (5,3,'GroupAdd');
 INSERT INTO eZUser_Permission VALUES (6,3,'GroupModify');
+INSERT INTO eZUser_Permission VALUES (36,3,'UserLogin');
 INSERT INTO eZUser_Permission VALUES (11,8,'LinkGroupModify');
 INSERT INTO eZUser_Permission VALUES (8,3,'AdminLogin');
 INSERT INTO eZUser_Permission VALUES (10,8,'LinkGroupAdd');

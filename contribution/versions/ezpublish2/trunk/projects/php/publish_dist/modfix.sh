@@ -39,7 +39,6 @@ ezarticle
 ezad
 classes
 ezclassified
-eznews
 ezimagecatalogue
 ezfilemanager
 ezpoll

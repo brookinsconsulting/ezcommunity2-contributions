@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.64 2001/01/22 14:43:00 jb Exp $
+// $Id: ezforummessage.php,v 1.65 2001/01/22 14:56:46 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -613,6 +613,29 @@ class eZForumMessage
         }
         
         return $ret;
+    }
+
+    /*!
+      Get all the messages thats not approved
+    */
+    function getAllNotApproved( )
+    {
+        $this->dbInit();
+
+        $ret = array();
+
+        $this->dbInit();
+
+        $this->Database->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0'" );
+        $ret = array();
+
+        foreach ( $message_array as $message )
+        {
+            $ret[] =& new eZForumMessage( $message["ID"] );
+        }
+        
+        return $ret;
+
     }
 
     /*!

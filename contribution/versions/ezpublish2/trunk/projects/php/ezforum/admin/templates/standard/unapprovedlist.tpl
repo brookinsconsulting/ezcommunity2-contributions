@@ -36,37 +36,44 @@
 
 <hr noshade="noshade" size="4" />
 
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-     <th>{intl-subject}:</th> 
-     <th>{intl-author}:</th>
-     <th>{intl-time}:</th>
-     <th colspan="2">&nbsp;</th>
-</tr>
+<form method="post" action="/forum/unapprovededit/">
 
+<table cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN message_item_tpl -->
-
 <tr>
-     <td class="{td_class}">
-     <a href="/forum/messageview/{message_id}">{message_topic}</a>
-     </td>
-     <td class="{td_class}">
-     {message_user}
-     </td>
-     <td class="{td_class}">
-     <span class="small">{message_postingtime}</span>
-     </td>
-
-     <td class="{td_class}">
-     <input type="checkbox" name="ForumApproveIDArray[]" value="{forum_id}" />
-     </td>
-
-     <td class="{td_class}">
-     <input type="checkbox" name="ForumDeleteIDArray[]" value="{forum_id}" />
+     <th>{intl-approve}: <input value="Approve" type="radio" name="ActionValueArray[{i}]"></th>
+     <th>{intl-discard}: <input value="Discard" type="radio" name="ActionValueArray[{i}]"></th>
+     <th>{intl-reject}: <input value="Reject" type="radio" name="ActionValueArray[{i}]"></th>
+</tr>
+<tr>
+     <th>{intl-subject}: {message_topic}</th>
+     <th>{intl-subject}: {message_topic}</th>
+     <th>{intl-postingtime}: {message_postingtime}</th>
+</tr>
+<tr>
+     <td>
+     <b>{intl-reject_header}</b>
+     <input type="hidden" name="MessageID[]" value="{message_id}">
+     <textarea wrap="soft" rows="3" cols="40" name="RejectReason[]">{reject_reason}</textarea>
+     {message_body}
      </td>
 </tr>
-
+<tr>
+     <td>&nbsp;</td>
+</tr>
 <!-- END message_item_tpl -->
-
 </table>
+
+<br />
+<hr noshade="noshade" size="4" />
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+     <td>
+     <input type="submit" value="{intl-update}">
+     </td>
+<tr>
+</table>
+
+</form>
 

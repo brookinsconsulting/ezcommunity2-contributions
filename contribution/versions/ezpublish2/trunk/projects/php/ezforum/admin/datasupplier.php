@@ -15,6 +15,12 @@ switch ( $url_array[2] )
         include( "ezforum/admin/unapprovedlist.php" );
     }
     break;
+    case "unapprovededit":
+    {
+        include( "ezforum/admin/unapprovededit.php" );
+    }
+    break;
+
     
     case "messagelist":
     {

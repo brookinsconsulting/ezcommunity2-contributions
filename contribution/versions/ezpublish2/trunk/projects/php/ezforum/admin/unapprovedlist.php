@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovedlist.php,v 1.2 2001/01/22 14:43:00 jb Exp $
+// $Id: unapprovedlist.php,v 1.3 2001/01/22 14:56:46 ce Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -44,28 +44,14 @@ $t->set_file( Array( "message_page" => "unapprovedlist.tpl" ) );
 
 $t->set_block( "message_page", "message_item_tpl", "message_item" );
 
-$forum = new eZForum( $ForumID );
-$t->set_var( "forum_name", $forum->name() );
-
-$categories = $forum->categories();
-if ( count( $categories ) > 0 )
-{
-    $category = new eZForumCategory( $categories[0]->id() );
-
-    $t->set_var( "category_name", $category->name() );
-}
 
 $locale = new eZLocale( $Language );
 
-if ( !isset( $Offset ) )
-    $Offset = 0;
+$message = new eZForumMessage();
 
-if ( !isset( $Limit ) )
-    $Limit = 30;
+$messages = $message->getAllNotApproved( );
 
-$messages = $forum->messageTree( $Offset, $Limit );
-
-$languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messagelist.php.ini", false );
+$languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/unapprovedlist.php.ini", false );
 $true =  $languageIni->read_var( "strings", "true" );
 $false =  $languageIni->read_var( "strings", "false" );
 
@@ -76,54 +62,34 @@ if ( !$messages )
 }
 else
 {
-
-    $level = 0;
     $i = 0;
     foreach ( $messages as $message )
-        {
-            if ( ( $i % 2 ) == 0 )
-                $t->set_var( "td_class", "bglight" );
-            else
-                $t->set_var( "td_class", "bgdark" );
+    {
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
     
-            $level = $message->depth();
     
-            if ( $level > 0 )
-                $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
-            else
-                $t->set_var( "spacer", "" );
+        $t->set_var( "message_topic", $message->topic() );
+        $t->set_var( "message_body", $message->body() );
+
+        $t->set_var( "reject_reason", $languageIni->read_var( "strings", "reject_reason" ) );
+        
+        $t->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
+
+        $t->set_var( "message_id", $message->id() );
+
+        $user = $message->user();
     
-            $t->set_var( "message_topic", $message->topic() );
+        $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
 
-            $t->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
-
-            $t->set_var( "message_id", $message->id() );
-
-            $user = $message->user();
-    
-            $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
-
-            if( $message->emailNotice() == "Y" )
-                $t->set_var( "emailnotice", $true );
-            else
-                $t->set_var( "emailnotice", $false );
-
-
-            $t->set_var( "limit", $Limit );
-            $t->set_var( "prev_offset", $Offset - $Limit );
-            $t->set_var( "next_offset", $Offset + $Limit );    
-    
-            $t->parse( "message_item", "message_item_tpl", true );
-            $i++;
-        }
+        $t->set_var( "i", $i );
+        
+        $t->parse( "message_item", "message_item_tpl", true );
+        $i++;
+    }
 } 
-
-$t->set_var( "link1-url", "");
-$t->set_var( "link2-url", "search.php");
-
-$t->set_var( "back-url", "admin/forum.php" );
-$t->set_var( "category_id", $CategoryID );
-$t->set_var( "forum_id", $ForumID );
 
 $t->pparse( "output", "message_page" );
 ?>

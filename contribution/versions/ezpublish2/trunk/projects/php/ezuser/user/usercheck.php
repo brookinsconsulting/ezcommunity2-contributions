@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: usercheck.php,v 1.3 2001/01/22 14:43:02 jb Exp $
+// $Id: usercheck.php,v 1.4 2001/01/22 14:56:46 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
@@ -37,8 +37,8 @@ if ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" )
         Header( "Location: /" );
         exit();
     }
-    
-    if ( !eZPermission::checkPermission( $user, "eZUser", "UserLogin" ) )
+
+    if ( eZPermission::checkPermission( $user, "eZUser", "UserLogin" ) == false )
     {
         eZUser::logout( $user );
         Header( "Location: /" );
