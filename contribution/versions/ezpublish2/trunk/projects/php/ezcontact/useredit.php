@@ -3,7 +3,7 @@ include  "template.inc";
 require "ezphputils.php";
 require "ezcontact/dbsettings.php";
 require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
+ require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezusergroup.php";
 
 
@@ -82,7 +82,7 @@ for ( $i=0; $i<count( $group_array ); $i++ )
 }
 
 $t->set_var( "user_login", $Login );
-//$t->set_var( "user_group", $Group );
+$t->set_var( "document_root", $DOCUMENTROOT );
 
 
 $t->pparse( "output", "user_edit_page" );

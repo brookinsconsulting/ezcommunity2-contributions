@@ -4,18 +4,13 @@ class eZUser
     /*!
       Constructor.
     */    
-    function eZUser( $usr, $pwd )      
+    function eZUser(  )      
     {      
-        $this->User = $usr;
-        $this->Password = $pwd;
     }
 
     /*!
       Constructor.
     */    
-    function eZUser(  )      
-    {      
-    }
     
 
     /*!

@@ -10,7 +10,9 @@ $message = "<h1>Tast inn et gyldig brukernavn og passord</h1>";
 
 if ( $TryLogin == "true" )
 {
-    $usr = new eZUser( $Login, $Pwd );
+    $usr = new eZUser(  );
+    $usr->setLogin( $Login );
+    $usr->setPassword( $Pwd );
     if ( $usr->validate() == 1 )
     {
         $session = new eZSession();
