@@ -17,17 +17,12 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="/article/archive/0/">{intl-top_level}</a>
-
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
+
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN article_header_tpl -->
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
