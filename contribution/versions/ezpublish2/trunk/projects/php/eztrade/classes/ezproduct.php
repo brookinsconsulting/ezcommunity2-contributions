@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.115 2001/10/10 11:42:01 br Exp $
+// $Id: ezproduct.php,v 1.116 2001/10/11 09:46:20 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1905,7 +1905,10 @@ class eZProduct
                else
                    $useVAT = true;
            }
+
        }
+
+
 
        if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
        {

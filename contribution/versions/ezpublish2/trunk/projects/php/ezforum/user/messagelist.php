@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.52 2001/10/11 08:20:46 ce Exp $
+// $Id: messagelist.php,v 1.53 2001/10/11 09:46:20 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -295,7 +295,7 @@ else
     }
 }
 
-eZList::drawNavigator( $t, $messageCount, $UserLimit, $Offset, "messagelist" );
+eZList::drawNavigator( $t, $messageCount, $UserLimit, $Offset, "read_access_tpl" );
 
 $t->set_var( "forum_start", $Offset + 1 );
 $t->set_var( "forum_end", min( $Offset + $UserLimit, $messageCount ) );
