@@ -1,12 +1,13 @@
+
 </head>
+
 
 <body bgcolor="#ffffff">
 
 <h1>eZ publish v1.0.2</h1>
-<table width="100%" border="1" cellspacing="0" cellpadding="4">
+<table width="100%" border="2" cellspacing="0" cellpadding="4">
  <tr valign="top">
     <td width="1%" bgcolor="#ffffff">
-
 	<!-- Meny start! -->
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">
 	<tr>
@@ -49,4 +50,5 @@ include( "ezlink/user/menubox.php" );
 	<!-- Meny end! -->
 
 	</td>
+    <td width="94%" bgcolor="#ffffff">
 

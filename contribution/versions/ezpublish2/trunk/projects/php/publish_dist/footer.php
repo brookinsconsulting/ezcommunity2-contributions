@@ -1,11 +1,12 @@
 
     </td>
     <td width="1%" bgcolor="#ffffff">
+
     <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	
 	<!-- Oppslagstavle kommer her! -->
     
-<?
+    <?
           include( "ezuser/user/userbox.php" );
 ?>
 
