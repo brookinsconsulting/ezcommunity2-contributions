@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.19 2001/09/29 12:35:14 kaid Exp $
+// $Id: index_admin.php,v 1.20 2001/11/14 10:05:39 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -23,10 +23,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
-header("Cache-Control: no-cache, must-revalidate"); 
-header("Pragma: no-cache");
+header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
+header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
+header( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" ); 
+header( "Pragma: no-cache" );
 
 // Tell PHP where it can find our files.
 if ( file_exists( "sitedir.ini" ) )
@@ -315,5 +315,7 @@ $db->close();
 
 // flush the buffer cache
 ob_end_flush();
+print( $GLOBALS["DDD"] );
+
 ?>
 

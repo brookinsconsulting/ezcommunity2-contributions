@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.123 2001/11/10 13:17:37 bf Exp $
+// $Id: index.php,v 1.124 2001/11/14 10:05:39 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -25,7 +25,7 @@
 
 header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-header( "Cache-Control: no-cache, must-revalidate" ); 
+header( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" ); 
 header( "Pragma: no-cache" );
 
 // Tell PHP where it can find our files.
