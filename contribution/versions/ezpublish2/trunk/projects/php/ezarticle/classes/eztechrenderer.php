@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.20 2000/10/28 20:58:55 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.21 2000/10/30 12:57:33 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -24,6 +24,7 @@
   Header text
   </header>
   <link ez.no text to the link> - anchor
+  <mail adresse@domain.tld?subject="subject line" link text> - anchor to email address with subject
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right), size (small|medium|large)
   <cpp>
   cpp code
@@ -92,6 +93,7 @@
 */
 
 
+
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezlog.php" );
 
@@ -118,19 +120,53 @@ class eZTechRenderer
         }
         else
         {
-            $into = "";
+            $intro = "";
             $body = "";
-            
+
+
             $i=0;
             foreach ( $xml->root->children as $child )
             {
                 if ( $child->name == "intro" )
                 {
-                    $intro = $child->children[0]->content;
-                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );                    
+
+                    foreach ( $child->children as $paragraph )
+                    {
+                        // ordinary text
+                        if ( $paragraph->name == "text" )
+                        {
+                            $intro .= eZTextTool::nl2br( $paragraph->content );
+                        }
+                        
+                        // bold text
+                        if ( $paragraph->name == "bold" )
+                        {
+                            $intro .= "<b>" . $paragraph->children[0]->content . "</b>";
+                        }
+
+                        // italic text
+                        if ( $paragraph->name == "italic" )
+                        {
+                            $intro .= "<i>" . $paragraph->children[0]->content . "</i>";
+                        }
+
+                        // underline text
+                        if ( $paragraph->name == "underline" )
+                        {
+                            $intro .= "<u>" . $paragraph->children[0]->content . "</u>";
+                        }
+
+                        // strike text
+                        if ( $paragraph->name == "strike" )
+                        {
+                            $intro .= "<s>" . $paragraph->children[0]->content . "</s>";
+                        }
+                    }
                 }
             }
 
+            $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
+            
             $newArticle = eZTextTool::nl2br( $intro );
         }
         
@@ -150,16 +186,47 @@ class eZTechRenderer
         }
         else
         {
-            $into = "";
+            $intro = "";
             $body = "";
 
             
             foreach ( $xml->root->children as $child )
             {
                 if ( $child->name == "intro" )
-                {
-                    $intro = $child->children[0]->content;
-                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
+                {                    
+                    foreach ( $child->children as $paragraph )
+                    {
+                        // ordinary text
+                        if ( $paragraph->name == "text" )
+                        {
+                            $intro .= eZTextTool::nl2br( $paragraph->content );
+                        }
+                        
+                        // bold text
+                        if ( $paragraph->name == "bold" )
+                        {
+                            $intro .= "<b>" . $paragraph->children[0]->content . "</b>";
+                        }
+
+                        // italic text
+                        if ( $paragraph->name == "italic" )
+                        {
+                            $intro .= "<i>" . $paragraph->children[0]->content . "</i>";
+                        }
+
+                        // underline text
+                        if ( $paragraph->name == "underline" )
+                        {
+                            $intro .= "<u>" . $paragraph->children[0]->content . "</u>";
+                        }
+
+                        // strike text
+                        if ( $paragraph->name == "strike" )
+                        {
+                            $intro .= "<s>" . $paragraph->children[0]->content . "</s>";
+                        }
+                    }
+
                 }
                 
                 if ( $child->name == "body" )
@@ -168,6 +235,8 @@ class eZTechRenderer
                 }
             }
 
+            $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
+            
             $articleImages = $this->Article->images();
             $articleID = $this->Article->id();
             $pageArray = array();
@@ -181,7 +250,7 @@ class eZTechRenderer
                     // ordinary text
                     if ( $paragraph->name == "text" )
                     {
-                        $pageContent .= eZTextTool::nl2br( trim( $paragraph->content ) );
+                        $pageContent .= eZTextTool::nl2br( $paragraph->content );
                     }
 
                     // php code 
@@ -417,38 +486,6 @@ class eZTechRenderer
         return $newArticle;
     }
 
-
-    /*!
-      Returns the XHTML contents of the introduction of the article.
-    */
-    function &renderIntro()
-    {
-        $xml = xmltree( $this->Article->contents() );
-
-        if ( !$xml )
-        {
-            print( "<br /><b>Error: eZTechRenderer::docodeXML() could not decode XML</b><br />" );
-        }
-        else
-        {
-            $into = "";
-            $body = "";
-            
-            $i=0;
-            foreach ( $xml->root->children as $child )
-            {
-                if ( $child->name == "intro" )
-                {
-                    $intro = $child->children[0]->content;
-                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );                    
-                }
-            }
-
-            $newArticle = eZTextTool::nl2br( $intro );
-        }
-        
-        return $newArticle;
-    }
 
     
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.17 2000/10/29 19:21:19 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.18 2000/10/30 12:57:33 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -48,7 +48,7 @@ class eZTechGenerator
         $newContents .= "<article><generator>tech</generator>\n";
 
         //add the contents
-        $newContents .= "<intro>" . strip_tags( $this->Contents[0] ) . "</intro>";
+        $newContents .= "<intro>" . strip_tags( $this->Contents[0], "<bold>,<italic>,<strike>,<underline>" ) . "</intro>";
 
         // get every page in an array
         $pages = split( "<page>" , $this->Contents[1] );
@@ -203,7 +203,38 @@ class eZTechGenerator
             {
                 if ( $child->name == "intro" )
                 {
-                    $intro = $child->children[0]->content;
+                    foreach ( $child->children as $paragraph )
+                    {                        
+                        // ordinary text
+                        if ( $paragraph->name == "text" )
+                        {
+                            $intro .= $paragraph->content;
+                        }
+                        
+                        // bold text
+                        if ( $paragraph->name == "bold" )
+                        {
+                            $intro .= "<bold>" . $paragraph->children[0]->content . "</bold>";
+                        }
+
+                        // italic text
+                        if ( $paragraph->name == "italic" )
+                        {
+                            $intro .= "<italic>" . $paragraph->children[0]->content . "</italic>";
+                        }
+
+                        // underline text
+                        if ( $paragraph->name == "underline" )
+                        {
+                            $intro .= "<underline>" . $paragraph->children[0]->content . "</underline>";
+                        }
+
+                        // strike text
+                        if ( $paragraph->name == "strike" )
+                        {
+                            $intro .= "<strike>" . $paragraph->children[0]->content . "</strike>";
+                        }
+                    }
                 }
                 
 
