@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.2 2001/11/01 18:24:57 master Exp $
+// $Id: datasupplier.php,v 1.95.2.3 2002/01/04 14:51:11 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -334,8 +334,10 @@ switch ( $url_array[2] )
         $definition = $article->categoryDefinition( true );
         $definition = $definition->id();
 
+
         if ( $PageCaching == "enabled" )
         {
+                
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $PrintableVersion . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
@@ -495,10 +497,10 @@ switch ( $url_array[2] )
         $article = new eZArticle( $ArticleID );
         $definition = $article->categoryDefinition( true );
         $definition = $definition->id();
-        
+
         if ( $PageCaching == "enabled" )
         {
-	    $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
@@ -514,6 +516,7 @@ switch ( $url_array[2] )
         else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
                   || eZArticle::isAuthor( $user, $ArticleID ) )
         {
+
             include( "ezarticle/user/articleview.php" );
         }
     }

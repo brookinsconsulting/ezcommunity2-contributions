@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.2 2001/11/19 12:21:37 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.3 2002/01/04 14:51:11 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -250,7 +250,7 @@ class eZQDomGenerator
         $tmpPage = preg_replace( "#(<popuplink\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" target=\"_blank\" />", $tmpPage );
 
         $tmpPage = preg_replace( "#(<iconlink\s+?([^ ]+)\s+?([^>]+)>)#", "<iconlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
-        
+
         // convert <ezanchor anchor> to <ezanchor href="anchor" />
         $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<ezanchor href=\"\\1\" />", $tmpPage );
         

@@ -177,3 +177,23 @@
 <!-- BEGIN logo_tpl -->
 <a href="developer.ez.no">eZ publish</a>{contents}
 <!-- END logo_tpl -->
+
+
+<!-- BEGIN cleft_tpl -->
+<table width="100%"> 
+<tr>
+<td valign="top">
+{contents}
+<!-- END cleft_tpl -->
+
+<!-- BEGIN cbreak_tpl -->
+</td>
+<td valign="top">
+<!-- END cbreak_tpl -->
+
+<!-- BEGIN cright_tpl -->
+{contents}
+</td>
+</tr>
+</table>
+<!-- END cright_tpl -->
