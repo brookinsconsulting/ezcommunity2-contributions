@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcresponse.php,v 1.8 2001/02/25 12:20:30 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.9 2001/02/25 13:59:48 bf Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -50,8 +50,8 @@ class eZXMLRPCResponse
     function eZXMLRPCResponse( )
     {
         $this->Result = 0;
-        $Error = "";
-        $IsFault = false;        
+        $this->Error = 0;
+        $this->IsFault = false;        
     }
 
     /*!
@@ -64,7 +64,7 @@ class eZXMLRPCResponse
         // create a new decoder object
         $decoder = new eZXMLRPCDataTypeDecoder( );
         
-        //print( nl2br( htmlspecialchars( $stream ) ) );
+//        print( nl2br( htmlspecialchars( $stream ) ) );
 
         $stream = $this->stripHTTPHeader( $stream );
 
@@ -102,13 +102,19 @@ class eZXMLRPCResponse
                             if ( $param->name == "value" )
                             {
                                 $this->IsFault = true;
-                                $this->Result =& $decoder->decodeDataTypes( $param );
+                                $this->Error =& $decoder->decodeDataTypes( $param );
                             }
                         }
                     }
                 }
             }
         }
+
+        // could not decode the stream
+        if ( $this->Result == 0 and $this->Error == 0 )
+        {
+            $this->setError( 3, "Could not decode stream. Server error." );
+        }        
     }
 
     /*!
@@ -127,6 +133,7 @@ class eZXMLRPCResponse
     */
     function setError( $faultCode, $faultString )
     {
+        $this->IsFault = true;
         $this->Error = new eZXMLRPCStruct( array( "faultCode" => new eZXMLRPCInt( $faultCode ),
                                                   "faultString" => new eZXMLRPCString( $faultString ),
                                                   )
@@ -197,9 +204,12 @@ class eZXMLRPCResponse
     {
         $ret = false;
 
-        if ( $this->IsFault )
+        if ( $this->IsFault and ( get_class( $this->Error ) == "ezxmlrpcstruct" ) )
         {
-            $error = $this->Result->value();
+            
+//            $error = $this->Result->value();
+            $error = $this->Error->value();
+
             
             $ret = $error["faultCode"]->value();
         }
@@ -214,9 +224,10 @@ class eZXMLRPCResponse
     {
         $ret = false;
 
-        if ( $this->IsFault )
+        if ( $this->IsFault and ( get_class( $this->Error ) == "ezxmlrpcstruct" )  )
         {
-            $error = $this->Result->value();
+//            $error = $this->Result->value();
+            $error = $this->Error->value();
             
             $ret = $error["faultString"]->value();
         }

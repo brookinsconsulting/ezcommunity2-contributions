@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcdatatypedecoder.php,v 1.2 2001/01/25 14:03:39 bf Exp $
+// $Id: ezxmlrpcdatatypedecoder.php,v 1.3 2001/02/25 13:59:48 bf Exp $
 //
 // Definition of eZXMLRPCDataTypeDecoder class
 //
@@ -54,12 +54,15 @@ class eZXMLRPCDataTypeDecoder
         {
             switch ( $type->name )
             {
+                // if no type is specified make it a string
+                case "#text" :
                 case "string" :
                 {                                    
                     $result =& $this->decodeString( $type );
                 }
                 break;
 
+                case "i4" :
                 case "int" :
                 {
                     $result =& $this->decodeInt( $type );
@@ -103,6 +106,7 @@ class eZXMLRPCDataTypeDecoder
                 break;
             }
         }
+
         
         return $result;
     }
@@ -125,7 +129,7 @@ class eZXMLRPCDataTypeDecoder
         }
         else
         {
-            $result = new eZXMLRPCString( "" );
+            $result = new eZXMLRPCString( $type->content );
         }
 
         return $result;
