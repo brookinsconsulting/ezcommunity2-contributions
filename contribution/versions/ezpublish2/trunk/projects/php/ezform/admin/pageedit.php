@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.2 2001/12/14 14:06:08 jhe Exp $
+// $Id: pageedit.php,v 1.3 2001/12/17 09:42:45 br Exp $
 //
 // Definition of ||| class
 //
@@ -50,9 +50,21 @@ $ini =& INIFile::globalINI();
 
 if ( isSet( $Cancel ) )
 {
-    eZHTTPTool::header( "Location: /form/form/list/" );
+    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
     exit();
 }
+
+        if ( isSet( $OK ) && count( $errorMessages ) == 0 )
+        {
+            eZHTTPTool::header( "Location: /form/form/list/" );
+            exit();
+        }
+
+        if ( isSet( $Preview ) && count( $errorMessages ) == 0 )
+        {
+            eZHTTPTool::header( "Location: /form/form/preview/$FormID/" );
+            exit();
+        }
 
 $Language = $ini->read_var( "eZFormMain", "Language" );
 
@@ -62,7 +74,6 @@ $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTempl
 
 $t->set_file( "pageedit_tpl", "pageedit.tpl" );
 $t->setAllStrings();
-
 
 // Make sub template for elements.
 $elementTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
@@ -100,6 +111,64 @@ $elementTemplate->set_var( "form_id", $FormID );
 $elementTemplate->set_var( "page_id", $PageID );
 
 $form = new eZForm( $FormID );
+
+if ( $Action == "up" )
+{
+    $element = new eZFormElement( $ElementID );
+    $form->moveUp( $element );
+    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+    exit();
+}
+
+if ( $Action == "down" )
+{
+    $element = new eZFormElement( $ElementID );
+    $form->moveDown( $element );
+    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+    exit();
+}
+
+
+if ( isSet( $DeleteSelected ) )
+{
+    foreach ( $elementDelete as $deleteMe )
+    {
+        $element = new eZFormElement( $deleteMe );
+        $element->delete();
+    }
+}
+
+
+if ( $form->numberOfElements() == 0 )
+{
+    if ( $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) == "enabled" )
+    {
+        $form->store();
+        $FormID = $form->id();
+        $elementTypeA = new eZFormElementType( 1 );
+        $elementTypeB = new eZFormElementType( 2 );
+        $elementA = new eZFormElement();
+        $elementB = new eZFormElement();
+        $name = $t->Ini->read_var( "strings", "subject_label" );
+        $name = $t->Ini->read_var( "strings", "content_label" );
+        $elementA->setName( $name );
+        $elementB->setName( $name );
+        $elementA->setElementType( $elementTypeA );
+        $elementB->setElementType( $elementTypeB );
+        $elementA->setRequired( true );
+        $elementB->setRequired( true );
+        $elementA->store();
+        $elementB->store();
+        $form->addElement( $elementA );
+        $form->addElement( $elementB );
+    }
+    else
+    {
+        if ( $Action != "new" && !isSet( $NewElement ) && !isSet( $DeleteSelected ) )
+            $elementTemplate->parse( "no_elements_item", "no_elements_item_tpl" );
+    }
+}
+
 
 // ****************** BEGIN Elements ******************
 
@@ -258,6 +327,11 @@ $elementTemplate->setAllStrings();
 $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );
 
 // print( $elementListBody );
+
+$page = new eZFormPage( $PageID );
+
+$t->set_var( "page_name", $page->name() );
+
 $t->set_var( "element_list", $elementListBody );
 
 

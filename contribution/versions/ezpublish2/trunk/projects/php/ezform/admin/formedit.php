@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.17 2001/12/14 13:10:44 br Exp $
+// $Id: formedit.php,v 1.18 2001/12/17 09:42:45 br Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -42,35 +42,69 @@ if ( isSet( $Cancel ) )
     exit();
 }
 
-$ActionValue = "edit";
+if ( is_Numeric( $FormID ) )
+{
+    $ActionValue = "edit";
+}
+else
+{
+    $ActionValue = "new";
+}
 
 $form = new eZForm( $FormID );
 
-if ( $Action == "up" )
+
+if ( is_Numeric( $MovePageUp ) )
 {
-    $element = new eZFormElement( $ElementID );
-    $form->moveUp( $element );
+    eZFormPage::moveUp( $MovePageUp );
+
     eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
     exit();
 }
 
-if ( $Action == "down" )
+if ( is_Numeric( $MovePageDown ) )
 {
-    $element = new eZFormElement( $ElementID );
-    $form->moveDown( $element );
+    eZFormPage::moveDown( $MovePageDown );
+
     eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
     exit();
 }
 
-
-if ( isSet( $DeleteSelected ) )
+if ( count( $DeletePageArrayID ) > 0 )
 {
-    foreach ( $elementDelete as $deleteMe )
+    foreach( $DeletePageArrayID as $pageID )
     {
-        $element = new eZFormElement( $deleteMe );
-        $element->delete();
+        if ( is_Numeric( $pageID ) )
+        {
+            $page = new eZFormPage( $pageID );
+            $page->delete();
+        }
     }
 }
+
+if ( isSet( $NewPage ) )
+{
+    if ( !$FormID )
+    {
+        $form = new eZForm();
+        $form->store();
+        $FormID = $form->id();
+
+        $page = new eZFormPage();
+        $page->setFormID( $FormID );
+        $page->store();
+        eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+        exit();
+    }
+    else
+    {
+        $page = new eZFormPage();
+        $page->setFormID( $FormID );
+        $page->store();
+    }
+}
+
+
 
 $errorMessages = array();
 
@@ -265,6 +299,7 @@ $pageTemplate->set_block( "pagelist_tpl", "page_list_tpl", "page_list" );
 $pageTemplate->set_block( "page_list_tpl", "page_item_tpl", "page_item" );
 
 $pageTemplate->set_var( "no_page_items", "" );
+$pageTemplate->set_var( "page_item", "" );
 
 
 
@@ -303,35 +338,6 @@ if ( $action != "new" && $form->numberOfTypes() == 0 && !isSet( $NewElement ) &&
     $t->parse( "no_types_item", "no_types_item_tpl" );
 }
 
-if ( $form->numberOfElements() == 0 )
-{
-    if ( $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) == "enabled" )
-    {
-        $form->store();
-        $FormID = $form->id();
-        $elementTypeA = new eZFormElementType( 1 );
-        $elementTypeB = new eZFormElementType( 2 );
-        $elementA = new eZFormElement();
-        $elementB = new eZFormElement();
-        $name = $t->Ini->read_var( "strings", "subject_label" );
-        $name = $t->Ini->read_var( "strings", "content_label" );
-        $elementA->setName( $name );
-        $elementB->setName( $name );
-        $elementA->setElementType( $elementTypeA );
-        $elementB->setElementType( $elementTypeB );
-        $elementA->setRequired( true );
-        $elementB->setRequired( true );
-        $elementA->store();
-        $elementB->store();
-        $form->addElement( $elementA );
-        $form->addElement( $elementB );
-    }
-    else
-    {
-//        if ( $Action != "new" && !isSet( $NewElement ) && !isSet( $DeleteSelected ) )
-//            $elementTemplate->parse( "no_elements_item", "no_elements_item_tpl" );
-    }
-}
 
 $t->set_var( "form_id", $FormID );
 $t->set_var( "form_name", $form->name() );
@@ -350,8 +356,6 @@ else
     $t->set_var( "form_send_as_user", "0" );
     $t->set_var( "checked", "" );
 }
-
-$FormID = 1;
 
 if ( $FormID )
 {
@@ -372,8 +376,8 @@ if ( $FormID )
             }
             
             $pageTemplate->set_var( "page_id", $page->id() );
-//            $pageTemplate->set_var( "form_id", $form->id() );
-            $pageTemplate->set_var( "form_id", 1 );
+            $pageTemplate->set_var( "action_value", $ActionValue );
+            $pageTemplate->set_var( "form_id", $form->id() );
             $pageTemplate->set_var( "page_name", $page->name() );
             
             $pageTemplate->parse( "page_item", "page_item_tpl", true );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.1 2001/12/14 13:10:44 br Exp $
+// $Id: ezformpage.php,v 1.2 2001/12/17 09:42:45 br Exp $
 //
 // Definition of ||| class
 //
@@ -62,6 +62,14 @@ class eZFormPage
         if ( empty( $this->ID ) )
         {
             $db->lock( "eZForm_FormPage" );
+            $db->query_single( $qry, "SELECT MAX( Placement ) as Placement FROM eZForm_FormPage
+                                      WHERE FormID='$this->FormID'" );
+            $placement = $qry[$db->fieldName( "Placement" )] + 1;
+            
+            $db->query_single( $qry, "SELECT MAX( PageNumber ) as PageNumber FROM eZForm_FormPage
+                                      WHERE FormID='$this->FormID'" );
+            $pageNumber = $qry[$db->fieldName( "PageNumber" )] + 1;
+            
             $nextID = $db->nextID( "eZForm_FormPage", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormPage
                           ( ID,
@@ -72,9 +80,9 @@ class eZFormPage
                           VALUES
                           ( '$nextID',
                             '$name',
-                            '$this->PageNumber',
+                            '$pageNumber',
                             '$this->FormID',
-                            '$this->Placement' )" );
+                            '$placement' )" );
 
 			$this->ID = $nextID;
         }
@@ -161,8 +169,8 @@ class eZFormPage
      */
     function delete( $pageID=-1 )
     {
-        if ( $formID == -1 )
-            $formID = $this->ID;
+        if ( $pageID == -1 )
+            $pageID = $this->ID;
 
         $db =& eZDB::globalDatabase();
         $db->begin();
@@ -178,17 +186,124 @@ class eZFormPage
       
       Fills in information to the object taken from the array.
     */
-    function fill( &$formArray )
+    function fill( &$pageArray )
     {
         $db =& eZDB::globalDatabase();
         
-        $this->ID =& $formArray[$db->fieldName( "ID" )];
-        $this->Name =& $formArray[$db->fieldName( "Name" )];
-        $this->PageNumber =& $formArray[$db->fieldName( "PageNumber" )];
-        $this->FormID =& $formArray[$db->fieldName( "FormID" )];
-        $this->Placement =& $formArray[$db->fieldName( "Placement" )];
+        $this->ID =& $pageArray[$db->fieldName( "ID" )];
+        $this->Name =& $pageArray[$db->fieldName( "Name" )];
+        $this->PageNumber =& $pageArray[$db->fieldName( "PageNumber" )];
+        $this->FormID =& $pageArray[$db->fieldName( "FormID" )];
+        $this->Placement =& $pageArray[$db->fieldName( "Placement" )];
     }
 
+    /*!
+      move the page one placement up
+     */
+    function moveUp( $id="" )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query_single( $qry, "SELECT Placement FROM eZForm_FormPage WHERE ID='$id'" );
+        $originalPlacement = $qry[$db->fieldName( "Placement" )];
+        
+        if ( $id != "" )
+        {
+            $db->array_query( $pageArray, "SELECT Placement, ID FROM eZForm_FormPage
+                                           WHERE Placement < " . $originalPlacement .
+                                          " ORDER BY Placement DESC",
+                                           array( "Limit" => 1, "Offset" => 0 ) );
+            // if the page allready is at the top, move it to the bottom
+            if ( count( $pageArray ) == 0 )
+            {
+                $pageArray = array();
+                $db->array_query( $pageArray, "SELECT Placement, ID FROM eZForm_FormPage" .
+                                  " WHERE Placement > " . $originalPlacement .
+                                  " ORDER BY Placement DESC",
+                                    array( "Limit" => 1, "Offset" => 0 ) );
+            }
+
+            $newPlacement = $pageArray[0][$db->fieldName( "Placement" )];
+            $newID = $pageArray[0][$db->fieldName( "ID" )];
+            
+            if ( count( $pageArray ) > 0 )
+            {
+                $res[] = $db->query( "UPDATE eZForm_FormPage SET
+                                      Placement='$newPlacement' WHERE ID='$id'" );
+
+                $res[] = $db->query( "UPDATE eZForm_FormPage SET
+                                      Placement='$originalPlacement' WHERE ID='$newID'" );
+                eZDB::finish( $res, $db );
+            }
+        }
+    }
+
+    /*!
+      move the page one placement down
+    */
+    function moveDown( $id="" )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query_single( $qry, "SELECT Placement FROM eZForm_FormPage WHERE ID='$id'" );
+        $originalPlacement = $qry[$db->fieldName( "Placement" )];
+        
+        if ( $id != "" )
+        {
+            $db->array_query( $pageArray, "SELECT Placement, ID FROM eZForm_FormPage
+                                           WHERE Placement > " . $originalPlacement .
+                                          " ORDER BY Placement ASC",
+                                           array( "Limit" => 1, "Offset" => 0 ) );
+            // if the page allready is at the bottom, move it to the top
+            if ( count( $pageArray ) == 0 )
+            {
+                $pageArray = array();
+                $db->array_query( $pageArray, "SELECT Placement, ID FROM eZForm_FormPage" .
+                                  " WHERE Placement < " . $originalPlacement .
+                                  " ORDER BY Placement ASC",
+                                    array( "Limit" => 1, "Offset" => 0 ) );
+            }
+
+            $newPlacement = $pageArray[0][$db->fieldName( "Placement" )];
+            $newID = $pageArray[0][$db->fieldName( "ID" )];
+            
+            if ( count( $pageArray ) > 0 )
+            {
+                $res[] = $db->query( "UPDATE eZForm_FormPage SET
+                                      Placement='$newPlacement' WHERE ID='$id'" );
+
+                $res[] = $db->query( "UPDATE eZForm_FormPage SET
+                                      Placement='$originalPlacement' WHERE ID='$newID'" );
+                eZDB::finish( $res, $db );
+            }
+        }
+    }
+
+    /*!
+      Set the name for the page.
+    */
+    function setName( $value )
+    {
+        $this->Name = $value;
+    }
+
+    
+    /*!
+      Set the form id the page.
+    */
+    function setFormID( $value )
+    {
+        $this->FormID = $value;
+    }
+
+    /*!
+      Return the form id for the page.
+    */
+    function formID()
+    {
+        return $this->FormID;
+    }
+    
     /*!
       Return the id for the formpage.
     */
@@ -197,10 +312,11 @@ class eZFormPage
         return $this->ID;
     }
 
+
     /*!
       Return the name for the formpage.
     */
-    function name()
+    function &name()
     {
         return $this->Name;
     }
