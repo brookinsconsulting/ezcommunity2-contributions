@@ -1,8 +1,8 @@
 <h1>{intl-hw_info}</h1>
 
 <hr noshade="noshade" size="4" />
-
-<table width="100%">
+<br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
 	{intl-cpu_num}:
@@ -68,3 +68,4 @@
 	</td>
 </tr>
 </table>
+<br />

@@ -1,29 +1,29 @@
 <h1>{intl-file_info}</h1>
 
 <hr noshade="noshade" size="4" />
-
-<table widht="100%">
+<br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 </tr>
 	<th>
-	{intl-mount_point}
+	{intl-mount_point}:
 	</th>
 	<th>
-	{intl-fs_type}
+	{intl-fs_type}:
 	</th>
 	<th>
-	{intl-device}
+	{intl-device}:
 	</th>
 	<th width="200">
-	{intl-capacity}	
+	{intl-capacity}:
 	</th>
 	<th>
-	{intl-free}
+	{intl-free}:
 	</th>
 	<th>
-	{intl-used}
+	{intl-used}:
 	</th>
 	<th>
-	{intl-total}
+	{intl-total}:
 	</th>
 </tr>
 
@@ -95,3 +95,4 @@
 	</td>
 </tr>
 </table>
+<br />

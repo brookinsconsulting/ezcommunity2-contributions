@@ -1,5 +1,7 @@
 <h1>{intl-subscription_list}</h1>
-<hr noshade="noshade" size="4">
+
+<hr noshade="noshade" size="4" />
+
 <form action="/bulkmail/subscriptionlist" method="post">
 
 <p class="boxtext">{intl-email}:</p>
@@ -28,7 +30,7 @@
 </table>
 <!-- END category_tpl -->
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>

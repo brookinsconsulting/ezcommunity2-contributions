@@ -10,7 +10,7 @@
 
 <p class="boxtext">{intl-description}:</p>
 <textarea name="Description" cols="40" rows="5" wrap="soft">{description}</textarea>
-
+<br />
 
 <p class="boxtext">{intl-header}:</p>
 <textarea name="Header" cols="40" rows="6" wrap="soft">{template_header}</textarea>

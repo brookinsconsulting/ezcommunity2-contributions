@@ -1,20 +1,20 @@
 <h1>{intl-network_info}</h1>
 
 <hr noshade="noshade" size="4" />
-
-<table width="100%">
+<br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	{intl-device}
+	{intl-device}:
 	</th>
 	<th>
-	{intl-received}
+	{intl-received}:
 	</th>
 	<th>
-	{intl-sent}
+	{intl-sent}:
 	</th>
 	<th>
-	{intl-error}
+	{intl-error}:
 	</th>
 </tr>
 <!-- BEGIN net_interface_tpl -->
@@ -34,3 +34,4 @@
 </tr>
 <!-- END net_interface_tpl -->
 </table>
+<br />
