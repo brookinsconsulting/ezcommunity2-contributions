@@ -496,10 +496,10 @@ INSERT INTO eZPoll_Vote VALUES (1,1,1,'10.0.2.3',0);
 
 
 INSERT INTO eZForum_Category VALUES ('Discussion','',0,1);
-INSERT INTO eZForum_Forum VALUES ('Public forum','Public forum',0,2,0,0,0,1);
+INSERT INTO eZForum_Forum VALUES ('Public forum','Public forum',0,1,0,0,0,1);
 INSERT INTO eZForum_ForumCategoryLink VALUES ( 1,1,1);
 
-INSERT INTO eZForum_Message VALUES (2,'First post!','Yes ! I was the first to post here..\r\n\r\n--foo', '',0,0,0,998928123,0,0,0,1,1,0);
+INSERT INTO eZForum_Message VALUES (1,'First post!','Yes ! I was the first to post here..\r\n\r\n--foo', '',0,0,0,998928123,0,0,0,1,1,0);
 
 
 INSERT INTO eZLink_Attribute VALUES (1,1,'Price',998928426,0,'');
