@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.13 2001/02/07 13:49:11 ce Exp $
+// $Id: bugedit.php,v 1.14 2001/02/14 10:38:14 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -239,8 +239,8 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "isclosed", "" );
     }
-    
-    if( count( $loglist == 0 ) )
+
+    if( count( $logList ) == 0 )
     {
         $t->set_var( "log_item", "" );
     }
