@@ -8,7 +8,7 @@
   </tr>
   <tr> 
 	<td align="center" valign="bottom">
-	<a href="trade.ez.no"><img src="/images/poweredbyeztrade.gif" width="62" height="75" border="0"></a><br />
+	<a href="http://trade.ez.no"><img src="/images/poweredbyeztrade.gif" width="62" height="75" border="0"></a><br />
 	<img src="/images/1x1.gif" width="80" height="10" border="0"><br />
 	</td>
 	</tr>
