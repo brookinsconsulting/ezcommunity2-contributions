@@ -8,6 +8,14 @@ switch ( $url_array[2] )
     {
         switch ( $url_array[3] )
         {
+            case "list":
+            {
+                $TypeID = $url_array[4];
+                $Action = "list";
+                include( "ezcontact/admin/companytypelist.php" );
+                break;
+            }
+
             case "new":
             {
                 $Action = "new";
