@@ -1,5 +1,5 @@
 <?
-// $Id: todomenulist.php,v 1.3 2001/01/16 09:47:41 ce Exp $
+// $Id: todomenulist.php,v 1.4 2001/01/17 09:09:10 ce Exp $
 //
 // Definition of todo list.
 //
@@ -40,7 +40,10 @@ $t->set_block( "todo_list_page", "no_item_tpl", "no_item" );
 
 $todo = new eZTodo();
 
-$todo_array =& $todo->getByLimit( $user->id(), 5, 0 );
+if ( $user )
+{
+    $todo_array =& $todo->getByLimit( $user->id(), 5, 0 );
+}
 
 $i=0;
 foreach( $todo_array as $todoItem )

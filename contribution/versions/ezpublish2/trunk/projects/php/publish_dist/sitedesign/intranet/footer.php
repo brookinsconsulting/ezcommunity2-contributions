@@ -15,7 +15,7 @@
           include( "ezpoll/user/votebox.php" );
     ?>
       <?
-//            include( "eztodo/user/todomenulist.php" );
+          include( "eztodo/user/todomenulist.php" );
       ?>
         
 	<hr noshade="noshade" size="4" />
