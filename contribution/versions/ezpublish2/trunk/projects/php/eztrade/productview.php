@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.5 2000/10/14 15:33:10 bf-cvs Exp $
+// $Id: productview.php,v 1.6 2000/10/21 12:10:44 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -146,6 +146,12 @@ foreach ( $options as $option )
 }
 
 $t->set_var( "product_id", $product->id() );
+
+$locale = new eZLocale( $Language );
+$price = new eZCurrency( $product->price() );
+
+$t->set_var( "product_number", $product->productNumber() );
+$t->set_var( "product_price", $locale->format( $price ) );
 
 if ( $GenerateStaticPage == "true" )
 {

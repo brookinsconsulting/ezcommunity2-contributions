@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.9 2000/10/13 10:14:42 bf-cvs Exp $
+// $Id: productlist.php,v 1.10 2000/10/21 12:10:44 bf-cvs Exp $
 //
 // 
 //
@@ -34,7 +34,9 @@ $t->set_file( "product_list_tpl", "productlist.tpl" );
 $t->set_block( "product_list_tpl", "path_tpl", "path" );
 $t->set_block( "product_list_tpl", "product_tpl", "product" );
 $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
-$t->set_block( "product_list_tpl", "category_tpl", "category" );
+
+$t->set_block( "product_list_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "category_list_tpl", "category_tpl", "category" );
 
 
 $t->setAllStrings();
@@ -92,6 +94,14 @@ foreach ( $categoryList as $categoryItem )
     
     $t->parse( "category", "category_tpl", true );
     $i++;
+}
+if ( count( $categoryList ) == 0 )
+{
+    $t->set_var( "category_list", "" );
+}
+else
+{
+    $t->parse( "category_list", "category_list_tpl" );
 }
 
 // products

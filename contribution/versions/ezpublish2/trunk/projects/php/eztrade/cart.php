@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.11 2000/10/12 09:46:58 bf-cvs Exp $
+// $Id: cart.php,v 1.12 2000/10/21 12:10:44 bf-cvs Exp $
 //
 // 
 //
@@ -17,6 +17,8 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
 
 $ini = new INIFIle( "site.ini" );
 

@@ -2,15 +2,16 @@
 
 <hr noshade="noshade" size="4"/>
 
-<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/trade/productlist/0/">Hovedkategori</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="/trade/productlist/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
 <hr noshade="noshade" size="4" />
+<!-- BEGIN category_list_tpl -->
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -32,6 +33,8 @@
 </table>
 
 <hr noshade size="4"/>
+
+<!-- END category_list_tpl -->
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
