@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
     <td class="toppath" width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
-	<td class="toppath" align="left" class="path" width="100%">&nbsp;</td>
+	<td class="toppath" align="left" width="100%">&nbsp;</td>
 </tr>
 <tr>
 	<td class="toppathbottom" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
