@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.46 2001/09/29 12:35:14 kaid Exp $
+// $Id: INIFile.php,v 1.47 2001/10/12 07:09:23 jakobn Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -205,7 +205,7 @@ class INIFile
             $data = $m[1];
         }
 
-        if( ereg( "\[([[:alnum:]]+)\]", $data, $out ) )
+        if( ereg( "^\[([[:alnum:]]+)\]", $data, $out ) )
         {
             $this->CURRENT_GROUP = strtolower( $out[1] ); 
         } 
