@@ -19,18 +19,37 @@
 <!-- BEGIN address_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="100%">{intl-subscriber_address}:</th>
+	<th width="100%">{intl-subscriber_normal}:</th>
 </tr>
 <!-- BEGIN address_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{subscriber_address}
+	<a href="mailto:{subscriber_address}">{subscriber_address}</a>
 	</td>
 </tr>
 <!-- END address_item_tpl -->
 </table>
 <hr noshade="noshade" size="4">
 <!-- END address_tpl -->
+
+<!-- BEGIN address_group_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th width="100%">{intl-subscriber_group}:</th>
+</tr>
+<!-- BEGIN address_item_group_tpl -->
+<tr>
+	<td class="{td_class}">
+	<a href="mailto:{subscriber_address_group}">{subscriber_address_group}</a>
+	</td>
+</tr>
+<!-- END address_item_group_tpl -->
+</table>
+<hr noshade="noshade" size="4">
+<!-- END address_group_tpl -->
+
+
+
 
 <!-- BEGIN no_subscribers_tpl -->
 <br>

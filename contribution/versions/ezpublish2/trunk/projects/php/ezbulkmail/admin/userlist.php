@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userlist.php,v 1.1 2001/08/29 19:12:43 fh Exp $
+// $Id: userlist.php,v 1.2 2001/08/29 19:53:17 fh Exp $
 //
 // Created on: <28-Aug-2001 15:02:02 fh>
 //
@@ -49,6 +49,10 @@ $t->set_block( "user_list_page_tpl", "address_tpl", "address" );
 $t->set_block( "address_tpl", "address_item_tpl", "address_item" );
 $t->set_var( "address", "" );
 
+$t->set_block( "user_list_page_tpl", "address_group_tpl", "address_group" );
+$t->set_block( "address_group_tpl", "address_item_group_tpl", "address_item_group" );
+$t->set_var( "address_group", "" );
+
 $t->set_block( "user_list_page_tpl", "no_subscribers_tpl", "no_subscribers" );
 $t->set_var( "no_subscribers", "" );
 
@@ -74,20 +78,46 @@ if( $CategoryID != 0 )
     // list normal subscribers..
     $i = 0;
     $addresses = eZBulkMailCategory::subscribers( true, $CategoryID );
-    foreach( $addresses as $address )
+    $normal = 0;
+    if( count( $addresses ) > 0 )
     {
-        $t->set_var( "subscriber_address", $address->eMail() );
-        ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
-        $t->parse( "address_item", "address_item_tpl", true );
-        $i++;
+        foreach( $addresses as $address )
+        {
+            $t->set_var( "subscriber_address", $address->eMail() );
+            ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+            $t->parse( "address_item", "address_item_tpl", true );
+            $i++; $normal++;
+        }
     }
 
     // list users forced by group addition
+    $groups = eZBulkMailCategory::groupSubscriptions( true, $CategoryID );
+    foreach( $groups as $group )
+        $subscribers = array_merge( $subscribers, $group->users() );
+
+    $group = 0;
+    if( count( $subscribers ) > 0 )
+    {
+        foreach( $subscribers as $subscriber )
+        {
+            $t->set_var( "subscriber_address_group", $subscriber->eMail() );
+            ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+            $t->parse( "address_item_group", "address_item_group_tpl", true );
+            $i++; $group++;
+        }
+    }
 
     if( $i > 0 )
-        $t->parse( "address", "address_tpl", false );
+    {
+        if( $normal > 0 )
+            $t->parse( "address", "address_tpl", false );
+        if( $group > 0 )
+            $t->parse( "address_group", "address_group_tpl", false );
+    }
     else
+    {
         $t->parse( "no_subscribers", "no_subscribers_tpl", false );
+    }
 }
 
 $t->pparse( "output", "user_list_page_tpl" );

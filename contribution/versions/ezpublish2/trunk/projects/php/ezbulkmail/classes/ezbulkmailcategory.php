@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.19 2001/08/29 19:12:44 fh Exp $
+// $Id: ezbulkmailcategory.php,v 1.20 2001/08/29 19:53:17 fh Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -305,11 +305,14 @@ class eZBulkMailCategory
       Returns all the groups that are subscribed to this category.
       \sa subscriptions
      */
-    function groupSubscriptions( $asObjects = true )
+    function groupSubscriptions( $asObjects = true, $CategoryID = 0 )
     {
         $db =& eZDB::globalDatabase();
+
+        if( $CategoryID == 0 )
+            $CategoryID = $this->ID;
         $final_result = array();
-        $db->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
+        $db->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$CategoryID'" );
         if( count( $result_array ) > 0 )
         {
             foreach( $result_array as $result )
