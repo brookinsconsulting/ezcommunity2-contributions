@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.10 2001/09/25 11:50:50 bf Exp $
+// $Id: frontpage.php,v 1.11 2001/09/25 12:14:05 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -119,6 +119,12 @@ if ( $FrontPageCategory == 0 )
 }
 else
 {
+    $GlobalSectionID = eZArticleCategory::sectionIDStatic( $FrontPageCategory );
+
+    // init the section
+    $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+    $sectionObject->setOverrideVariables();
+    
     $articleList =& $category->articles( $category->sortMode(), false, true, 0, $articleCount );
     $articleCount = $articleCount;
 }
