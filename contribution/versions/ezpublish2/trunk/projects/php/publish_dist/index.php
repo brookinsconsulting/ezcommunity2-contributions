@@ -109,6 +109,37 @@ if ( ( $requireUserLogin == "disabled" ) ||
     if ( $REQUEST_URI == "/" )
         $REQUEST_URI = "/article/archive/0/";
 
+    // Load the main contents and store in a variable
+    $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
+
+    $buffer =& ob_get_contents();
+    ob_end_clean();
+    ob_start();
+
+    // fetch the module printout
+    if ( file_exists( $content_page ) )
+    {
+        // the page with the real contents
+        include( $content_page );
+    }
+    else
+    {
+        // the default page to load
+        if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
+        {
+            include( $ini->read_var( "site", "DefaultPage" ) );
+        }
+    }
+    
+    $MainContents =& ob_get_contents();
+    ob_end_clean();
+    
+    // fill the buffer with the old values
+    ob_start();
+    print( $buffer );
+    
+
+
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
     // include some html
@@ -153,22 +184,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
 
     // Main contents
-    // send the URI to the right decoder
-    $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
-    
-    if ( file_exists( $content_page ) )
-    {
-        // the page with the real contents
-        include( $content_page );
-    }
-    else
-    {
-        // the default page to load
-        if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
-        {
-            include( $ini->read_var( "site", "DefaultPage" ) );
-        }
-    }
+    print( $MainContents );
     
 
     
