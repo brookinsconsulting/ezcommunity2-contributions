@@ -397,3 +397,7 @@ alter table eZLink_Link add ImageID int not null default 0;
 
 # Add more info to eZForum_Message.
 ALTER TABLE eZForum_Message ADD IsTemporary int(1) DEFAULT '0' NOT NULL;
+
+#
+# permissions in eZArticle..
+ALTER TABLE eZArticle_Category ADD OwnerGroupID int(11) DEFAULT NULL;
