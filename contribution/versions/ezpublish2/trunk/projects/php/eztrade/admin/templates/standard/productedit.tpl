@@ -98,6 +98,9 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<td valign="top">
 	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />{intl-is_hot_deal}</div>
 	</td>
+	<td valign="top">
+	<div class="check"><input type="checkbox" name="Discontinued" {discontinued_checked} />{intl-discontinued}</div>
+	</td>
 
 </tr>
 </table>

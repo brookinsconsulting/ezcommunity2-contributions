@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.47 2001/03/21 13:39:22 jb Exp $
+// $Id: productedit.php,v 1.48 2001/03/26 18:35:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -139,7 +139,7 @@ if ( $Action == "Insert" )
     {
         $product->setShowProduct( false );
     }
-
+    $product->setDiscontinued( $Discontinued == "on" );
 
     if ( $IsHotDeal == "on" )
     {
@@ -266,14 +266,8 @@ if ( $Action == "Update" )
         $product->setShowPrice( false );
     }
 
-    if ( $Active == "on" )
-    {
-        $product->setShowProduct( true );
-    }
-    else
-    {
-        $product->setShowProduct( false );
-    }
+    $product->setShowProduct( $Active == "on" );
+    $product->setDiscontinued( $Discontinued == "on" );
 
     if ( $IsHotDeal == "on" )
     {
@@ -491,6 +485,7 @@ $t->set_var( "price_value", "" );
 
 $t->set_var( "showprice_checked", "" );
 $t->set_var( "showproduct_checked", "" );
+$t->set_var( "discontinued_checked", "" );
 $t->set_var( "is_hot_deal_checked", "" );
 
 $t->set_var( "external_link", "" );
@@ -522,6 +517,9 @@ if ( $Action == "Edit" )
 
     if ( $product->showProduct() == true )
         $t->set_var( "showproduct_checked", "checked" );
+
+    if ( $product->discontinued() == true )
+        $t->set_var( "discontinued_checked", "checked" );
 
     if ( $product->isHotDeal() == true )
         $t->set_var( "is_hot_deal_checked", "checked" );

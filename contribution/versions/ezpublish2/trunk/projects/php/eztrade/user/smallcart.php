@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.15 2001/03/21 15:21:28 bf Exp $
+// $Id: smallcart.php,v 1.16 2001/03/26 18:35:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -140,12 +140,14 @@ foreach ( $items as $item )
                         $min_quantity = $value_quantity;
                     else
                         $min_quantity = min( $min_quantity , $value_quantity );
-                }                
+                }
             }
         }
-        
         if ( !(is_bool( $min_quantity ) and !$min_quantity) and
              $RequireQuantity and $min_quantity == 0 )
+            $can_checkout = false;
+
+        if ( $product->discontinued() )
             $can_checkout = false;
 
         $t->parse( "cart_item", "cart_item_tpl", true );

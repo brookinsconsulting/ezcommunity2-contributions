@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.42 2001/03/23 13:36:12 pkej Exp $
+// $Id: productview.php,v 1.43 2001/03/26 18:35:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -550,7 +550,8 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
     $t->parse( "price", "price_tpl" );
 }
 
-if ( $can_checkout or !$RequireQuantity or ( $RequireQuantity and $Quantity > 0 ) )
+if ( !$product->discontinued() and
+   ( $can_checkout or !$RequireQuantity or ( $RequireQuantity and $Quantity > 0 ) ) )
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
 
 if ( $PrintableVersion == "enabled" )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.29 2001/03/21 12:58:53 bf Exp $
+// $Id: cart.php,v 1.30 2001/03/26 18:35:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -266,6 +266,8 @@ foreach ( $items as $item )
 
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();
+    if ( $product->discontinued() )
+        $can_checkout = false;
 
     // thumbnail
     $image = $product->thumbnailImage();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.34 2001/03/26 14:23:20 ce Exp $
+// $Id: ezproductcategory.php,v 1.35 2001/03/26 18:35:47 jb Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -565,7 +565,8 @@ class eZProductCategory
       Returns the total number of products in a category.
     */
     function &productCount( $sortMode="time",
-                        $fetchNonActive=false )
+                        $fetchNonActive=false,
+                        $fetchDiscontinued=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -605,6 +606,9 @@ class eZProductCategory
        }       
 
        $nonActiveCode = $fetchNonActive ? "" : " eZTrade_Product.ShowProduct='true' AND";
+       $discontinuedCode = "";
+       if ( !$fetchDiscontinued )
+           $discontinuedCode = " eZTrade_Product.Discontinued='false' AND";
 
        $this->Database->query_single( $products, "
                 SELECT count( eZTrade_Product.ID ) AS Count
@@ -613,6 +617,7 @@ class eZProductCategory
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
                 AND
                 $nonActiveCode
+                $discontinuedCode
                 eZTrade_ProductCategoryLink.CategoryID='$this->ID'" );
 
        return $products["Count"];
@@ -624,7 +629,8 @@ class eZProductCategory
     function &products( $sortMode="time",
                         $fetchNonActive=false,
                         $offset=0,
-                        $limit=50 )
+                        $limit=50,
+                        $fetchDiscontinued=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -674,8 +680,9 @@ class eZProductCategory
        {
            $nonActiveCode = " eZTrade_Product.ShowProduct='true' AND";
        }
-       
-
+       $discontinuedCode = "";
+       if ( !$fetchDiscontinued )
+           $discontinuedCode = " eZTrade_Product.Discontinued='false' AND";
        $this->Database->array_query( $product_array, "
                 SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name, eZTrade_Category.ID, eZTrade_Category.Name
                 FROM eZTrade_Product, eZTrade_Category, eZTrade_ProductCategoryLink
@@ -683,6 +690,7 @@ class eZProductCategory
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
                 AND
                 $nonActiveCode
+                $discontinuedCode
                 eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
                 AND
                 eZTrade_Category.ID='$this->ID'

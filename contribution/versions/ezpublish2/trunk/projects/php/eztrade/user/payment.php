@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.34 2001/03/26 17:59:36 bf Exp $
+// $Id: payment.php,v 1.35 2001/03/26 18:35:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -47,7 +47,6 @@ include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
 
-
 include_once( "eztrade/classes/ezcheckout.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
@@ -59,6 +58,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
+$DiscontinueQuantityless = $ini->read_var( "eZTradeMain", "DiscontinueQuantityless" ) == "true";
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
@@ -502,11 +502,16 @@ if ( $PaymentSuccess == "true" )
         $changed_quantity = false;
         if ( !(is_bool( $quantity ) and !$quantity) )
         {
-            $product->setTotalQuantity( max( $quantity - $count, 0 ) );
+            $max_value = max( $quantity - $count, 0 );
+            $product->setTotalQuantity( $max_value );
+            if ( $max_value == 0 and $DiscontinueQuantityless )
+                $product->setDiscontinued( true );
             $product->store();
             $changed_quantity = true;
         }
         $options =& $product->options();
+        $change_discontinuity = false;
+        $max_max_value = 0;
         foreach( $options as $option )
         {
             $option_values =& $option->values();
@@ -517,12 +522,19 @@ if ( $PaymentSuccess == "true" )
                     $value_quantity = $option_value->totalQuantity();
                     if ( !(is_bool( $value_quantity ) and !$value_quantity) )
                     {
-                        $option_value->setTotalQuantity( max( $value_quantity - $count, 0 ) );
+                        $max_value = max( $value_quantity - $count, 0 );
+                        $max_max_value = max( $max_max_value, $max_value );
+                        $option_value->setTotalQuantity( $max_value );
                         $option_value->store();
                         $changed_quantity = true;
                     }
                 }
             }
+        }
+        if ( $max_max_value == 0 and $DiscontinueQuantityless )
+        {
+            $product->setDiscontinued( true );
+            $product->store();
         }
         if ( $changed_quantity )
         {

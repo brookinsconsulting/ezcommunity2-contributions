@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.53 2001/03/26 17:59:36 bf Exp $
+// $Id: ezproduct.php,v 1.54 2001/03/26 18:35:47 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -57,6 +57,7 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezproducttype.php" );
 include_once( "eztrade/classes/ezvattype.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
 
 
 class eZProduct
@@ -555,6 +556,14 @@ class eZProduct
     }
 
     /*!
+      Returns true if the product is discontinued.
+    */
+    function discontinued()
+    {
+       return $this->Discontinued;
+    }
+
+    /*!
       Returns the external link to the product.
     */
     function externalLink()
@@ -696,8 +705,8 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->ShowProduct = $value;
-       setType( $this->ShowProduct, "integer" );
+       $this->Discontinued = $value;
+       setType( $this->Discontinued, "integer" );
     }
 
     /*!

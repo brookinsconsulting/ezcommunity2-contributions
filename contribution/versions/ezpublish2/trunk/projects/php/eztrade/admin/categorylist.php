@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.20 2001/03/23 12:05:43 pkej Exp $
+// $Id: categorylist.php,v 1.21 2001/03/26 18:35:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -164,7 +164,7 @@ if ( !isset( $Offset ) or !is_numeric( $Offset ) )
 
 // products
 $TotalTypes =& $category->productCount( $category->sortMode(), true );
-$productList =& $category->products( $category->sortMode(), true, $Offset, $Limit );
+$productList =& $category->products( $category->sortMode(), true, $Offset, $Limit, true );
 
 $locale = new eZLocale( $Language );
 $i=0;
