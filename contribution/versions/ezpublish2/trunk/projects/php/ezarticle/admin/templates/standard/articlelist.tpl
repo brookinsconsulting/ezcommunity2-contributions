@@ -172,7 +172,9 @@
 </table>
 <hr noshade="noshade" size="4" />
 
-<input type="submit" class="stdbutton" Name="DeleteArticles" value="{intl-deletearticles}">
+<input type="hidden" Name="CurrentCategoryID" value="{current_category_id}" />
+
+<input type="submit" class="stdbutton" Name="DeleteArticles" value="{intl-deletearticles}" />
 </form>
 
 <!-- END article_list_tpl -->

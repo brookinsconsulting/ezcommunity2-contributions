@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.48 2001/09/08 16:06:06 bf Exp $
+// $Id: articlelist.php,v 1.49 2001/09/08 16:24:21 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -128,6 +128,8 @@ if ( isset( $DeleteArticles ) )
                 $article->delete();
             }
         }
+        eZHTTPTool::header( "Location: /article/archive/$CurrentCategoryID" );
+        exit();        
     }
 }
 
