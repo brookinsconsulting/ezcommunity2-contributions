@@ -54,4 +54,9 @@ projects/php/eztrade/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) 
 projects/php/ezuser/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezuser-log
 projects/php/publish_dist/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-publish_dist-log
 projects/php/trade_dist/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-trade_dist-log
+projects/php/vidartest/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-vidartest-log
 projects/php/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-log
+
+
+
+
