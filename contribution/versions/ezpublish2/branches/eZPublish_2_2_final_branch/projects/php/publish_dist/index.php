@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.14 2002/01/08 08:11:12 kaid Exp $
+// $Id: index.php,v 1.119.2.15 2002/01/08 08:19:05 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -50,12 +50,12 @@ ini_set( "include_path", $includePath );
 if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
     $wwwDir = $regs[1];
 
-// Trick: Rewrite setup doesn't have index.php in $REQUEST_URI, so we don't want an $index
-if ( ! ereg( ".*index\.php.*", $REQUEST_URI ) ) 
+// Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
+if ( ! ereg( ".*index\.php.*", $PHP_SELF ) ) 
     $index = "";
 else 
 {
-    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
+    if ( ereg( "^$wwwDir$index(.+)", $PHP_SELF, $req ) )
         $REQUEST_URI = $req[1];
     else
         $REQUEST_URI = "/";
