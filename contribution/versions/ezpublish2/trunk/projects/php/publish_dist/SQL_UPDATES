@@ -587,3 +587,6 @@ alter table  eZTrade_ShippingType add VATTypeID int not null;
 alter table eZTrade_Order add ShippingVAT float not null;
 
 alter table eZTrade_Order add ShippingTypeID int not null;
+
+insert into eZUser_Permission set ModuleID='4', Name='AddOthers';
+insert into eZUser_Permission set ModuleID='4', Name='ViewOtherUsers';

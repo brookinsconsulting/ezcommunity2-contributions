@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.16 2001/03/05 15:38:54 th Exp $
+// $Id: todoedit.php,v 1.17 2001/03/14 09:50:10 ce Exp $
 //
 // Definition of todo list.
 //
@@ -65,7 +65,7 @@ $user = eZUser::currentUser();
 
 if ( !$user )
 {
-    eZHTTPTool::header( "Location: /" );
+    eZHTTPTool::header( "Location: /error/403/" );
     exit();
 }
 
@@ -196,8 +196,8 @@ if ( $Action == "insert" && $error == false )
         $user = new eZUser( $UserID );
 
         $iniName = $iniLanguage->read_var( "strings", "mail_name" );
-        $iniCategory = $iniLanguage->read_var( "strings", "mail_priority" );
-        $iniPriority = $iniLanguage->read_var( "strings", "mail_category" );
+        $iniCategory = $iniLanguage->read_var( "strings", "mail_category" );
+        $iniPriority = $iniLanguage->read_var( "strings", "mail_priority" );
         $iniIsPublic = $iniLanguage->read_var( "strings", "mail_is_public" );
         $iniOwner = $iniLanguage->read_var( "strings", "mail_owner" );
 
