@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: export.php,v 1.2 2001/09/25 13:48:55 bf Exp $
+// $Id: export.php,v 1.3 2001/11/06 11:57:54 bf Exp $
 //
 // Created on: <23-Sep-2001 16:55:39 bf>
 //
@@ -44,7 +44,7 @@ $t->set_file( "article_view_tex_tpl", "tex.tpl"  );
 
 $t->setAllStrings();
 
-$ArticleID = 590;
+$ArticleID = 3;
 
 $article = new eZArticle( );
 
