@@ -106,7 +106,7 @@ if ( $Action == "update" )
 
     $position->store();
 
-    $position->removeCategoryies();
+    $position->removeCategories();
     
     // Add classifed to categories
     if ( ( $CategoryArray ) != "" )
