@@ -28,6 +28,14 @@ foreach( $articleList as $artItem )
                                  );
 }
 
+$path =& $category->path();
+$par = array();
+foreach( $path as $item )
+{
+    $par[] = createURLStruct( "ezarticle", "category", $item[0] );
+}
+
 $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
-                                         "Elements" => $art ) );
+                                         "Elements" => $art,
+                                         "Parents" => $par ) );
 ?>
