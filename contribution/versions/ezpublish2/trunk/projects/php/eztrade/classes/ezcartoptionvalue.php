@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.12 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezcartoptionvalue.php,v 1.13 2001/08/31 10:26:50 ce Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -72,12 +72,10 @@ class eZCartOptionValue
             $db->lock( "eZTrade_CartOptionValue" );
             $nextID = $db->nextID( "eZTrade_CartOptionValue", "ID" );            
 
-            $res = $db->query( "INSERT INTO eZTrade_CartOptionValue SET
-		                         CartItemID='$this->CartItemID',
-		                         OptionID='$this->OptionID',
-		                         RemoteID='$this->RemoteID',
-		                         OptionValueID='$this->OptionValueID'
-                                 " );
+            $res = $db->query( "INSERT INTO eZTrade_CartOptionValue
+                             ( ID, CartItemID, OptionID, RemoteID, OptionValueID )
+                             VALUES ( '$nextID','$this->CartItemID','$this->OptionID','$this->RemoteID','$this->OptionValueID' )
+                             " );
             $db->unlock();
 
 			$this->ID = $nextID;
