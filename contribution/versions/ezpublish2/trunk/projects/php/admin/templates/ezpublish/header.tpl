@@ -63,13 +63,13 @@
 	<img src="/images/1x1.gif" width="20" height="10" border="0" alt="" />
 	</td>
 	<td width="1%">
-	<span class="top">Nettsted:</span><br />
-	<span class="topusername"><nobr>Developer.ez.no</nobr></span>
+	<span class="top">{intl-site_url}:</span><br />
+	<span class="topusername"><nobr>{site_url}</nobr></span>
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
-	<span class="top">Brukernavn:</span><br />
-	<span class="topusername"><nobr>Thomas Hellstrøm</nobr></span>
+	<span class="top">{intl-user_name}:</span><br />
+	<span class="topusername"><nobr>{first_name} {last_name}</nobr></span>
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">

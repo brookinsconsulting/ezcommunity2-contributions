@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.22 2001/01/23 19:43:24 bf Exp $
+// $Id: header.php,v 1.23 2001/01/24 16:27:12 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -23,11 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
-
 include_once( "classes/eztemplate.php" );
-
 
 $ini =& $GlobalSiteIni;
 $Language =& $ini->read_var( "eZUserMain", "Language" );
@@ -40,6 +36,19 @@ $t = new eZTemplate( "templates/" . $SiteStyle,
 $t->set_file( array(
     "header_tpl" => "header.tpl"
     ) );
+
+$SiteURL =& $ini->read_var( "site", "SiteURL" );
+
+$user =& eZUser::currentUser();
+
+if ( $user )
+{
+    $t->set_var( "first_name", $user->firstName() );
+    $t->set_var( "last_name", $user->lastName() );
+}
+
+
+$t->set_var( "site_url", $SiteURL );
 
 $t->set_var( "site_style", $SiteStyle );
 
