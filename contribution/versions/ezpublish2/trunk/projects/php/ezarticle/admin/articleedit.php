@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.90 2001/06/08 13:42:25 ce Exp $
+// $Id: articleedit.php,v 1.91 2001/06/15 12:31:56 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -212,27 +212,44 @@ if ( $Action == "Insert" )
         // clear the cache files.
         eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
         
-        // add images
-        if ( isset( $Image ) )
+        if( isset( $AddItem ) )
         {
-            eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
-            exit();
-        }
+            switch( $ItemToAdd )
+            {
+                case "Image":
+                {   
+                    // add images
+                    eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
+                    exit();
+                }
+                break;
+                
+                case "File":
+                {
+                    // add files
+                    eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
+                    exit();
+                }
+                break;
+                
+                case "Attribute":
+                {
+                    // add attributes
+                    eZHTTPTool::header( "Location: /article/articleedit/attributelist/$articleID/" );
+                    exit();
+                }
+                break;
 
-        // add files
-        if ( isset( $File ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
-            exit();
+                case "Form":
+                {
+                    // add form
+                    eZHTTPTool::header( "Location: /article/articleedit/formlist/$articleID/" );
+                    exit();
+                }
+                break;
+
+            }
         }
-        
-        // add attributes
-        if ( isset( $Attribute ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/attributelist/$articleID/" );
-            exit();
-        }
-        
         
         // preview
         if ( isset( $Preview ) )
@@ -449,25 +466,43 @@ if ( $Action == "Update" )
             eZArticleCategory::addArticle( $article, $categoryItem );
         }
 
-        // add images
-        if ( isset( $Image ) )
+        if( isset( $AddItem ) )
         {
-            eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
-            exit();
-        }
+            switch( $ItemToAdd )
+            {
+                case "Image":
+                {   
+                    // add images
+                    eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
+                    exit();
+                }
+                break;
+                
+                case "File":
+                {
+                    // add files
+                    eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
+                    exit();
+                }
+                break;
+                
+                case "Attribute":
+                {
+                    // add attributes
+                    eZHTTPTool::header( "Location: /article/articleedit/attributelist/$articleID/" );
+                    exit();
+                }
+                break;
 
-        // add files
-        if ( isset( $File ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
-            exit();
-        }
+                case "Form":
+                {
+                    // add form
+                    eZHTTPTool::header( "Location: /article/articleedit/formlist/$articleID/" );
+                    exit();
+                }
+                break;
 
-        // add attributes
-        if ( isset( $Attribute ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/attributelist/$ArticleID/" );
-            exit();
+            }
         }
 
         

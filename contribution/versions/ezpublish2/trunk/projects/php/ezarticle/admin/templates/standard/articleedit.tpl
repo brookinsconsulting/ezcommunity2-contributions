@@ -110,6 +110,8 @@
 
 <p class="boxtext">{intl-log_message}:</p>
 <textarea class="box" name="LogMessage" cols="40" rows="2" wrap="soft"></textarea>
+<br />
+<input class="stdbutton" type="submit" name="Log" value="{intl-log_history}" />
 
 <p class="boxtext">{intl-link_text}:</p>
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
@@ -218,13 +220,25 @@
 <br />
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
-<input class="stdbutton" type="submit" name="File" value="{intl-files}" />
-<input class="stdbutton" type="submit" name="Attribute" value="{intl-attributes}" />
-<input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
-&nbsp;
-<input class="stdbutton" type="submit" name="Log" value="{intl-log_history}" />
-
+<table  cellspacing="0" cellpadding="0" border="0">
+<tr valign="middle">
+    <td>
+        <select name="ItemToAdd">
+        <option value="Image">{intl-pictures}</option>
+        <option value="File">{intl-files}</option>
+        <option value="Attribute">{intl-attributes}</option>
+        <option value="Form">{intl-forms}</option>
+        </select>
+    </td>
+    <td>
+        <input class="stdbutton" type="submit" name="AddItem" value="{intl-add_item}" />
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;</td>
+    <td>
+        <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
+    <td>
+<tr>
+</table>
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
