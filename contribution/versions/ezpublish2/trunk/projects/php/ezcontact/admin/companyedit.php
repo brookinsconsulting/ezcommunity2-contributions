@@ -6,7 +6,7 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
-
+print( "hei" );
 include_once( "classes/eztemplate.php" );
 //  include_once( "classes/ezsession.php" );
 //  include_once( "classes/ezusergroup.php" );
@@ -251,6 +251,9 @@ if( $Action == "insert" || $Action == "update" )
     if( $loginCheck )
     {
         $t->set_block( "errors_tpl", "error_loginname_item_tpl", "error_loginname_item" );
+        $t->set_block( "errors_tpl", "error_userexists_item_tpl", "error_userexists_item" );
+
+        $t->set_var( "error_userexists_item", "&nbsp;" );
         $t->set_var( "error_loginname_item", "&nbsp;" );
         
         if( empty( $LoginName ) && empty( $UserID ) )
@@ -258,6 +261,17 @@ if( $Action == "insert" || $Action == "update" )
             $t->parse( "error_loginname_item", "error_loginname_item_tpl" );
             $error = true;
         }
+        if ( $LoginName )
+        {
+            $user = new eZUser();
+            $user->setLogin( $Login );
+            if ( $user->exists( $user->login() ) )
+            {
+                $t->parse( "error_userexists_item", "error_userexists_item_tpl" );
+                $error = true;
+            }
+        }
+
     }
     
     if( $companyNoCheck )
@@ -338,7 +352,7 @@ if( $Action == "insert" && $error == false )
     // add the user
     if ( get_class( $user ) == "ezuser" )
     {
-        $company->addUser( $user );
+        //  $company->addUser( $user );
     }
 
     // adresss

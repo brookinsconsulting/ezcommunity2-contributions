@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.20 2000/12/11 15:56:43 ce Exp $
+// $Id: ezcompanytype.php,v 1.21 2000/12/15 09:30:16 ce Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -345,7 +345,7 @@ class eZCompanyType
        
        $ret = false;
 
-       if ( get_class( $company ) == "ezcompany" )
+       if ( get_class( $company ) )
        {
            $this->dbInit();
 
