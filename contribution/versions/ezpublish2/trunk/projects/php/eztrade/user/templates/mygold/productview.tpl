@@ -34,7 +34,7 @@
 		<tr>
 		    <td>
 			<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
-			    <img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
+			    <img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" alt=""/></a>
 		    </td>
 		</tr>
 		<tr>
