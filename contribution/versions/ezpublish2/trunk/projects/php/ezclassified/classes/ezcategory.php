@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcategory.php,v 1.4 2000/12/14 16:33:32 pkej Exp $
+// $Id: ezcategory.php,v 1.5 2000/12/20 18:56:31 jb Exp $
 //
 // Definition of eZCategory class
 //
@@ -26,7 +26,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZContact
+//!! eZClassified
 //! eZCategory handles the category.
 /*!
     This class handles the category types in the database. A category type can be used to
