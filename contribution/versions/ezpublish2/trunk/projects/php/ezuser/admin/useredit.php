@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.6 2000/10/16 12:42:56 ce-cvs Exp $
+// $Id: useredit.php,v 1.7 2000/10/17 15:19:58 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -106,21 +106,26 @@ if ( $Action == "update" )
         $FirstName != "" &&
         $LastName != "" )
         {
-            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
+            if (  ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) ) ||
+                  ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) == 0 ) ) )
             {
                 $user->setLogin( $Login );
-                if ( !$user->exists( $user->login() ) )
                 {
                     if ( eZMail::validate( $Email ) )
                     {
                         $user = new eZUser();
                         $user->get( $UserID );
-                        $user->setLogin( $Login );
+                        
+//                          $user->setLogin( $Login );
                         $user->setEmail( $Email );
                         $user->setFirstName( $FirstName );
                         $user->setLastName( $LastName );
-                        $user->setPassword( $Password );
-
+                        
+                        if ( strlen( $Password ) > 0 )
+                        {
+                            $user->setPassword( $Password );
+                        }
+                            
                         $user->store();
                         eZLog::writeNotice( "User updated: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
 
@@ -146,10 +151,6 @@ if ( $Action == "update" )
                     {
                         $error_msg = $error->read_var( "strings", "error_email" );
                     }
-                }
-                else
-                {
-                    $error_msg = $error->read_var( "strings", "error_user_exists" );
                 }
                 
             }
@@ -223,6 +224,7 @@ $groupList = $group->getAll();
 
 
 $user = 0;
+$t->set_var( "read_only", "" );
 if ( $Action == "edit" )
 {
     $user = new eZUser();
@@ -235,6 +237,8 @@ if ( $Action == "edit" )
 
     $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
+
+    $t->set_var( "read_only", "readonly=readonly" );
 
     $ActionValue = "update";
 }

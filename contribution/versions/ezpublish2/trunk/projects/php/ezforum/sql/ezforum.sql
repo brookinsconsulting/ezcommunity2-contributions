@@ -37,7 +37,11 @@ CREATE TABLE eZForum_Message (
   ThreadID int(11),
   Depth int(11),
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  PRIMARY KEY (ID)
+  PRIMARY KEY (ID),
+  INDEX (TreeID),
+  INDEX (ThreadID),
+  INDEX (Depth)
+
 );
 
 #

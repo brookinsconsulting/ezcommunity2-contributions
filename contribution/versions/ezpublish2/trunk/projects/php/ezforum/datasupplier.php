@@ -1,6 +1,9 @@
-<?
+<?php
+
 
 $PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
+
+unset( $GenerateStaticPage );
 
 switch ( $url_array[2] )
 {

@@ -24,7 +24,7 @@
 <input type="text" size="40" name="Email" value="{email_value}"/>
 
 <p class="boxtext">{intl-login}</p>
-<input type="text" size="20" name="Login" value="{login_value}"/>
+<input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
 
 <p class="boxtext">{intl-groups}</p>
 <select name="GroupArray[]" multiple size="5">
