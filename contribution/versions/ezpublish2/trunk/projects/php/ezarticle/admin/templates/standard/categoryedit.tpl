@@ -55,34 +55,32 @@
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
-<!-- {intl-owner_group -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<th class "boxtext" width="100%">{intl-write_groups}:</th>
-<!-- <th class "boxtext" width="50%">{intl-recursive}:</th> -->
 <tr>
-  <td>
-    <select name="WriteGroupArray[]" multiple size="7">
-    <option value="0" {all_write_selected}>{intl-all}</option>
-    <!-- BEGIN category_owner_tpl -->
-    <option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
-    <!-- END category_owner_tpl -->
-    </select>
-  </td>
-  <td>
-<!--    <input type="checkbox" name="Recursive" /> -->
-  </td>
+	<td>
+	<p class="boxtext">{intl-groups}:</p>
+	<select name="GroupArray[]" multiple size="7">
+	<option value="0" {all_selected}>{intl-all}</option>
+	<!-- BEGIN group_item_tpl -->
+	<option value="{group_id}" {selected}>{group_name}</option>
+	<!-- END group_item_tpl -->
+	</select>
+	</td>
+	<td>
+	<!-- {intl-owner_group -->
+	<p class="boxtext">{intl-write_groups}:</p>
+	<!-- <th class "boxtext" width="50%">{intl-recursive}:</th> -->
+	    <select name="WriteGroupArray[]" multiple size="7">
+	    <option value="0" {all_write_selected}>{intl-all}</option>
+	    <!-- BEGIN category_owner_tpl -->
+	    <option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
+	    <!-- END category_owner_tpl -->
+	    </select>
+	<!--    <input type="checkbox" name="Recursive" /> -->
+	</td>
 </tr>
 </table>
 <br />
-
-<p class="boxtext">{intl-groups}:</p>
-<select name="GroupArray[]" multiple size="7">
-<option value="0" {all_selected}>{intl-all}</option>
-<!-- BEGIN group_item_tpl -->
-<option value="{group_id}" {selected}>{group_name}</option>
-<!-- END group_item_tpl -->
-</select>
-<br /><br />
 
 
 

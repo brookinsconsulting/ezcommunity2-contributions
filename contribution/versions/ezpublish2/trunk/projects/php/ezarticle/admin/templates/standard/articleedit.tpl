@@ -40,8 +40,8 @@
 	<!-- END value_tpl -->
 	
 	</select>
-	
-	<br />
+	</td>	
+	<td valign="top">
 	<p class="boxtext">{intl-additional_category}:</p>
 	
 	<select multiple name="CategoryArray[]">
@@ -51,18 +51,11 @@
 	<!-- END multiple_value_tpl -->
 	
 	</select>
-
 	</td>
+</tr>
+<tr>
 	<td align="top">
-	
-	<p class="boxtext">{intl-groups_write}:</p>
-	<select name="WriteGroupArray" multiple>
-	<option value="0" {all_write_selected}>{intl-all}</option>
-	<!-- BEGIN category_owner_tpl -->
-	<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
-	<!-- END category_owner_tpl -->
-	</select>
-	
+	<br />
 	<p class="boxtext">{intl-groups}:</p>
 	<select name="GroupArray[]" multiple>
 	<option value="0" {all_selected}>{intl-all}</option>
@@ -70,7 +63,16 @@
 	<option value="{group_id}" {selected}>{group_name}</option>
 	<!-- END group_item_tpl -->
 	</select>
-	
+	</td>	
+	<td>
+	<br />
+	<p class="boxtext">{intl-groups_write}:</p>
+	<select name="WriteGroupArray" multiple>
+	<option value="0" {all_write_selected}>{intl-all}</option>
+	<!-- BEGIN category_owner_tpl -->
+	<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
+	<!-- END category_owner_tpl -->
+	</select>
 	</td>
 </tr>
 </table>

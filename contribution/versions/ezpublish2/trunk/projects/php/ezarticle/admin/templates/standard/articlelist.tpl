@@ -1,4 +1,4 @@
-<table width="100%" border="0" alt="" />
+<table width="100%" border="0" cellpadding="0" cellspacing="0" />
 <tr>
 	<td valign="bottom">
 	<h1>{intl-head_line} - {current_category_name}</h1>
@@ -6,7 +6,7 @@
 	<td rowspan="2" align="right">
 	<form action="/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
+	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
@@ -34,14 +34,15 @@
 <div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" alt="" />
+<form method="post" action="/article/categoryedit/edit/" enctype="multipart/form-data">
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" />
 <tr>
 	<th>{intl-category}:</td>
 	<th>{intl-description}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 	
-<form method="post" action="/article/categoryedit/edit/" enctype="multipart/form-data">
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -69,7 +70,9 @@
 
 
 <!-- BEGIN article_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" alt="" />
+<form method="post" action="/article/articleedit/edit/" enctype="multipart/form-data">
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" />
 <tr>
 	<th>{intl-article}:</th>
 	<th>{intl-published}:</th>
@@ -82,7 +85,6 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 
-<form method="post" action="/article/articleedit/edit/" enctype="multipart/form-data">
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="48%" class="{td_class}">
@@ -121,7 +123,6 @@
 </form>
 
 <!-- END article_list_tpl -->
-
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0" />
 <tr>

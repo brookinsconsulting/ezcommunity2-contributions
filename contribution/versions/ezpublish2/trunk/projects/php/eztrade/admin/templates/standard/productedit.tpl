@@ -9,26 +9,29 @@
 
 <p class="boxtext">{intl-product_number}:</p>
 <input type="text" size="40" name="ProductNumber" value="{product_nr_value}"/>
-	
-<p class="boxtext">{intl-category}:</p>
+<br /><br />
 
-<select name="CategoryID">
-<!-- BEGIN value_tpl -->
-<option value="{option_value}" {selected}>{option_level}{option_name}</option>
-<!-- END value_tpl -->
-</select>
-
-
-<p class="boxtext">{intl-additional_categories}:</p>
-
-<select multiple name="CategoryArray[]">
-
-<!-- BEGIN multiple_value_tpl -->
-<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
-<!-- END multiple_value_tpl -->
-
-</select>
-
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td valign="top">	
+	<p class="boxtext">{intl-category}:</p>
+	<select name="CategoryID">
+	<!-- BEGIN value_tpl -->
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<!-- END value_tpl -->
+	</select>
+	</td>
+	<td valign="top">
+	<p class="boxtext">{intl-additional_categories}:</p>
+	<select multiple name="CategoryArray[]">
+	<!-- BEGIN multiple_value_tpl -->
+	<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
+	<!-- END multiple_value_tpl -->
+	</select>
+	</td>
+</tr>
+</table>
+<br />
 
 <p class="boxtext">{intl-keywords}:</p>
 <input name="Keywords" size="40" value="{keywords_value}" />
@@ -91,7 +94,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 </table>
 
 <!-- BEGIN price_group_list_tpl -->
-<p class="boxtext">{intl-price_groups}:</p>
+<h2>{intl-price_groups}</h2>
 <table cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<!-- BEGIN price_group_header_item_tpl -->
@@ -109,6 +112,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<!-- END price_group_item_tpl -->
 </tr>
 </table>
+<br />
 <!-- END price_group_list_tpl -->
 
 <hr noshade="noshade" size="4" />
