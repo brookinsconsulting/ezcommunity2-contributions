@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.12 2001/08/31 09:44:36 br Exp $
+// $Id: ezpricegroup.php,v 1.13 2001/09/14 08:30:51 pkej Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -225,9 +225,28 @@ class eZPriceGroup
     function correctPrice( $productid, $priceid, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
+        
+        if ( is_array( $priceid ) )
+        {
+            $first = true;
+            foreach( $priceid as $group )
+            {
+                $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
+                $first = false;
+            }
+            if ( $group_text )
+                $group_text = " AND ( $group_text )";
+            else
+                $group_text = "AND PriceID='$priceid'";
+        }
+        else
+        {
+            $group_text = "AND PriceID='$priceid'";
+        }
+        
         $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
-                                   WHERE ProductID='$productid' AND PriceID='$priceid'
-                                     AND OptionID='$optionid' AND ValueID='$valueid'" );
+                                   WHERE ProductID='$productid' $group_text
+                                     AND OptionID='$optionid' AND ValueID='$valueid' ORDER BY Price" );
         if ( count( $array ) == 1 )
             return $array[0][$db->fieldName("Price")];
         return false;

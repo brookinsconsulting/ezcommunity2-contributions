@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.19 2001/09/07 11:13:39 ce Exp $
+// $Id: ezcartitem.php,v 1.20 2001/09/14 08:30:51 pkej Exp $
 //
 // Definition of eZCartItem class
 //
@@ -218,6 +218,80 @@ class eZCartItem
         return $this->Count;
     }
 
+    /*!
+      Returns the correct localized price of the product.
+    */
+    function localePrice( $calcCount=true, $withOptions=true, $inLanguage, &$inUser, $calcVAT )
+    {
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+        
+        $price = $this->correctPrice( $calcCount, $withOptions, $inUser, $calcVAT );
+        
+        $currency->setValue( $price );
+        return $locale->format( $currency );
+    }    
+    
+    /*!
+      Returns the correct price of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function correctPrice( $calcCount=true, $withOptions=true, &$inUser, $calcVAT )
+    {
+        if ( !$this->PriceRange )
+        {
+            $optionValues =& $this->optionValues();
+            $product =& $this->product();
+            
+            $vatPercentage = $product->vatPercentage();
+            $productHasVAT = $product->priceIncVAT();
+            
+            $optionPrice = 0.0;
+            if ( $withOptions )
+            {
+                foreach ( $optionValues as $optionValue )
+                {
+                    $option =& $optionValue->option();
+                    $value =& $optionValue->optionValue();            
+                    
+                    $price = $value->correctPrice( $inUser, $calcVAT,
+                        $productHasVAT, $vatPercentage, $product->id() );
+                        
+                    if ( $calcCount == true )
+                        $price = $price * $optionValue->count();
+                    
+                    $optionPrice+=$price;
+                }
+            }
+            
+            if ( $calcCount == true )
+            {
+                $price = ( $product->correctPrice( $inUser, $calcVAT ) * $this->count() ) + $optionPrice;
+            }
+            else
+            {
+                $price = ( $product->correctPrice( $inUser, $calcVAT ) + $optionPrice );
+            }
+        }
+        else
+        {
+            if ( $calcCount == true )
+            {
+                if ( $this->count() )
+                    $price = $this->PriceRange * $this->count();
+                else
+                    $price = $this->PriceRange;
+            }
+            else
+            {
+                $price = $this->PriceRange;
+            }
+        }
+
+
+        return $price;        
+    }
+    
     /*!
       Returns the price of the cart item.
 

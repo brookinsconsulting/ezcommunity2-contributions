@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.25 2001/09/08 20:21:56 br Exp $
+// $Id: ezcart.php,v 1.26 2001/09/14 08:30:51 pkej Exp $
 //
 // Definition of eZCart class
 //
@@ -57,6 +57,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezcartitem.php" );
+include_once( "eztrade/classes/ezshippingtype.php" );
 
 class eZCart
 {
@@ -295,6 +296,53 @@ class eZCart
            return array();
     }
 
+    /*
+        This function calculates the totals of the cart contents.
+     */
+    function cartTotals( &$tax, &$total, $user )
+    {
+        $items = $this->items( );
+        foreach( $items as $item )
+        {
+            $product =& $item->product();
+            $vatPercentage = $product->vatPercentage();
+            
+            $exTax = $item->correctPrice( true, true, $user, false );
+            $incTax = $item->correctPrice( true, true, $user, true );
+
+            $totalExTax += $exTax;
+            $totalIncTax += $incTax;
+            
+            $tax["$vatPercentage"]["basis"] += $exTax;
+            $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
+            $tax["$vatPercentage"]["percentage"] = $vatPercentage;
+        }
+        
+        $total["subinctax"] = $totalIncTax;
+        $total["subextax"] = $totalExTax;
+        $total["subtax"] = $totalIncTax - $totalExTax;
+        
+        $type = new eZShippingType( );
+        $shippingType =& $type->defaultType();
+        $shippingCost = $this->shippingCost( $shippingType );
+        $shippingVAT = $this->shippingVAT( $shippingType );
+        $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );
+
+        $tax["$shippingVATPercentage"]["basis"] += $shippingCost - $shippingVAT;
+        $tax["$shippingVATPercentage"]["tax"] += $shippingVAT;
+        $tax["$shippingVATPercentage"]["percentage"] = $shippingVATPercentage;
+
+        $total["shipinctax"] = $shippingCost;
+        $total["shipextax"] = $shippingCost - $shippingVAT;
+        $total["shiptax"] = $shippingVAT;
+
+        $total["inctax"] = $total["subinctax"] + $total["shipinctax"];
+        $total["extax"] = $total["subextax"] + $total["shipextax"];
+        $total["tax"] = $total["subtax"] + $total["shiptax"];
+    }
+
+
+
     /*!
       Calculates the shipping cost with the given
       shippint type.
@@ -380,6 +428,28 @@ class eZCart
             }
         }
         return $shippingVAT;
+    }
+
+    /*!
+      Returns the shipping VAT in percentage. 
+
+      The argument must be a eZShippingType object.
+    */
+    function &extractShippingVATPercentage( $shippingType )
+    {
+        $shippingVAT = 0;
+        if( get_class( $shippingType ) == "ezshippingtype" )
+        {
+            $vatType =& $shippingType->vatType();
+
+            $shippingCost = $this->shippingCost( $shippingType );
+            
+            if ( $vatType )
+            {
+                $VATPercentage =& $vatType->value();
+            }
+        }
+        return $VATPercentage;
     }
 
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.34 2001/09/05 12:21:54 ce Exp $
+// $Id: ezoptionvalue.php,v 1.35 2001/09/14 08:30:51 pkej Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -397,6 +397,63 @@ class eZOptionValue
     function price()
     {
         return $this->Price;
+    }
+
+    /*!
+      Returns the correct localized price of the product.
+    */
+    function &localePrice( $inLanguage, &$inUser, $calcVAT, $productHasVAT, $vatPercentage, $ProductID )
+    {
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+
+        $price = $this->correctPrice( $inUser, $calcVAT, $productHasVAT, $vatPercentage, $ProductID );
+
+        $currency->setValue( $price );
+        return $locale->format( $currency );
+    }    
+
+    /*!
+      Returns the correct price of the option value.
+    */
+    function correctPrice( &$inUser, $calcVAT, $productHasVAT, $vatPercentage, $ProductID )
+    {
+        if ( get_class( $inUser ) != "ezuser" )
+        {
+            $UserID = $inUser;
+            $inUser = new eZUser( $UserID );
+        }
+        
+        if ( get_class( $inUser ) == "ezuser" )
+        {
+            $groups = $inUser->groups( true );
+
+            $price = eZPriceGroup::correctPrice( $ProductID, $groups, $this->OptionID, $this->ID );
+        }
+        
+        if ( empty( $price ) )
+        {
+            $price = $this->Price;
+        }
+        
+        if ( $calcVAT == true )
+        {
+            if ( $productHasVAT == false )
+            {
+                $vat = ( $price / ( $vatPercentage + 100  ) ) * $vatPercentage;
+                $price = $price + $vat;
+            }
+        }
+        else
+        {
+            if ( $productHasVAT == true )
+            {
+                $vat = ( $price / ( $vatPercentage + 100  ) ) * $vatPercentage;
+                $price = $price - $vat;
+            }
+
+        }
+        return $price;
     }
 
     /*!

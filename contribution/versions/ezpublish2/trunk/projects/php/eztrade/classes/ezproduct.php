@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.87 2001/09/10 14:03:49 pkej Exp $
+// $Id: ezproduct.php,v 1.88 2001/09/14 08:30:51 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -52,6 +52,8 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezlocale.php" );
 
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -334,9 +336,66 @@ class eZProduct
     /*!
       Returns the price of the product.
     */
-    function &price( )
+    function &price()
     {
-       return $this->Price;
+        return $this->Price;
+    }    
+
+    /*!
+      Returns the correct price of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function &correctPrice( &$inUser, $calcVAT )
+    {
+        if ( get_class( $inUser ) != "ezuser" )
+        {
+            $UserID = $inUser;
+            $inUser = new eZUser( $UserID );
+        }
+        
+        if ( get_class( $inUser ) == "ezuser" )
+        {
+            $groups = $inUser->groups( true );
+
+            $price = eZPriceGroup::correctPrice( $this->ID, $groups );
+        }
+        
+        if ( empty( $price ) )
+        {
+            $price = $this->Price;
+        }
+        
+        if ( $calcVAT == true )
+        {
+            if ( $this->excludedVAT() )
+            {
+                $tmp = $this->priceIncVAT( $price );
+                $price = $tmp["Price"];
+            }
+        }
+        else
+        {
+            if ( $this->includesVAT() )
+            {
+                $price = $this->priceExVAT( $price );
+            }
+
+        }
+        return $price;
+    }    
+
+    /*!
+      Returns the correct localized price of the product.
+    */
+    function &localePrice( $inLanguage, &$inUser, $calcVAT )
+    {
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+
+        $price = $this->correctPrice( $this->id(), $inUser );
+
+        $currency->setValue( $price );
+        return $locale->format( $currency );
     }    
 
     /*!
@@ -416,6 +475,14 @@ class eZProduct
        return array( "Price" => $priceExVat, "VAT" => $vat );
     }
 
+    /*!
+        Returns the VAT percentage of this product
+     */ 
+    function vatPercentage()
+    {
+        $vatType =& $this->vatType();
+        return $vatType->value();
+    }
 
     /*!
      Obsolete. Use addVAT() or extractVAT() instead.
