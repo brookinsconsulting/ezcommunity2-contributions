@@ -1,3 +1,9 @@
+
+<form method="post" action="/link/suggestlink/?Action=GetSite">
+<input type="text" name="URL" />
+<input class="okbutton" type="submit" value="OK">
+</form>
+
 <form method="post" action="/link/suggestlink/insert">
 
 <h1>{intl-headline}</h1>
