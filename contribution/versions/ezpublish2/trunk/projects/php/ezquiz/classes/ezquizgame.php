@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.13 2001/05/31 11:33:24 pkej Exp $
+// $Id: ezquizgame.php,v 1.14 2001/05/31 14:44:50 pkej Exp $
 //
 // ezquizgame class
 //
@@ -414,6 +414,23 @@ class eZQuizGame
     }
  
     /*!
+      Returns the number of open games
+    */
+    function &numberOfOpenGames()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $quizArray = array();
+
+        $db->array_query( $quizArray, "SELECT count(ID) as Count FROM eZQuiz_Game
+                                       WHERE StartDate <= now() AND StopDate >= now()" );
+
+        $ret = $quizArray[0]["Count"];
+        
+        return $ret;
+    }
+ 
+    /*!
       Returns the games opening
     */
     function &opensNext( $offset = 0, $limit = 20 )
@@ -453,6 +470,22 @@ class eZQuizGame
         }
         
         return $returnArray;
+    }
+ 
+    /*!
+      Returns the number of closed games
+    */
+    function &numberOfClosedGames()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $quizArray = array();
+
+        $db->array_query( $quizArray, "SELECT count(ID) as Count FROM eZQuiz_Game
+                                       WHERE StopDate < now()" );
+        $ret = $quizArray[0]["Count"];
+        
+        return $ret;
     }
  
     /*!

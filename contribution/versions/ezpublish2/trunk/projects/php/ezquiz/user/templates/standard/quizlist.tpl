@@ -3,6 +3,13 @@
 <hr noshade="noshade" size="4" />
 <br />
 
+<!-- BEGIN error_item_tpl -->
+<h2 class="error">{intl-error}</h2>
+<hr noshade="noshade" size="4" />
+<p class="error">{error_message}</p>
+<!-- END error_item_tpl -->
+
+
 <!-- BEGIN game_list_item_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -28,10 +35,6 @@
 <!-- END game_item_tpl -->
 </table>
 <!-- END game_list_item_tpl -->
-
-<!-- BEGIN no_game_list_item_tpl -->
-
-<!-- END no_game_list_item_tpl -->
 
 <!-- BEGIN type_list_tpl -->
 <br />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.7 2001/05/31 12:00:59 pkej Exp $
+// $Id: datasupplier.php,v 1.8 2001/05/31 14:44:50 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -73,39 +73,7 @@ switch ( $url_array[2] )
                 }
             }
             break;
-            
-            case "open":
-            {
-                $Offset = $url_array[4];
-                
-                if ( !is_numeric( $Offset ) )
-                {
-                    $Offset = 0;
-                }
-                if( $PageCaching == "enabled" )
-                {
-                    include_once( "classes/ezcachefile.php" );
-                    $file = new eZCacheFile( "ezquiz/cache/", array( "quiz" . $Action, $Offset ),
-                                             "cache", "," );
-                    $cachedFile = $file->filename( true );
-
-                    if ( $file->exists() )
-                    {
-                        include( $cachedFile );
-                    }
-                    else
-                    {
-                        $GenerateStaticPage = "true";
-                        include( "ezquiz/user/quizopen.php" );
-                    }
-                }
-                else
-                {
-                    include( "ezquiz/user/quizopen.php" );
-                }
-            }
-            break;
-            
+                        
             case "score":
             case "scores":
             {
@@ -115,7 +83,13 @@ switch ( $url_array[2] )
                 {
                     $Offset = 0;
                 }
+                 
                 $GameID = $url_array[4];
+                
+                if( !is_numeric( $GameID ) )
+                {
+                    eZHTTPTool::header( "Location: /quiz/game/list" );
+                }
                 
                 if ( $PageCaching == "enabled" )
                 {
@@ -212,18 +186,52 @@ switch ( $url_array[2] )
         
         switch ( $Action )
         {
-            case "unfinished":
+            case "open":
+            case "closed":
             {
+                $Offset = $url_array[4];
+                
+                if  ( !is_numeric( $Offset ) )
+                {
+                    $Offset = 0;
+                }
+                
+                if ( $PageCaching == "enabled" )
+                {
+                    include_once( "classes/ezcachefile.php" );
+                    $file = new eZCacheFile( "ezquiz/cache/", array( "my" . $Action, $Offset ),
+                                             "cache", "," );
+                    $cachedFile = $file->filename( true );
+
+                    if ( $file->exists() )
+                    {
+                        include( $cachedFile );
+                    }
+                    else
+                    {
+                        $GenerateStaticPage = "true";
+                        include( "ezquiz/user/quizlist.php" );
+                    }
+
+                }
+                else
+                {
+                    include( "ezquiz/user/quizlist.php" );
+                }
             }
             break;
             
-            case "played":
-            {
-            }
-            break;
-            
+            case "score":
             case "scores":
             {
+                $Offset = $url_array[4];
+                
+                if ( !is_numeric( $Offset ) )
+                {
+                    $Offset = 0;
+                }
+
+                include( "ezquiz/user/quizmyscores.php" );
             }
             break;
         }

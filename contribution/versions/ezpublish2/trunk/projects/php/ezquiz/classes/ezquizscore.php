@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizscore.php,v 1.5 2001/05/31 11:33:24 pkej Exp $
+// $Id: ezquizscore.php,v 1.6 2001/05/31 14:44:50 pkej Exp $
 //
 // eZQuizScore class
 //
@@ -248,6 +248,14 @@ class eZQuizScore
     }
 
     /*!
+      Returns the game of the score.
+    */
+    function game()
+    {
+        return $this->Game;
+    }
+
+    /*!
       Sets the user
     */
     function setUser( &$user )
@@ -477,6 +485,66 @@ class eZQuizScore
         $db->array_query( $scoreArray, "SELECT count(ID) AS Count FROM eZQuiz_Score
                     WHERE UserID='$userID' AND FinishedGame=1" );
         
+        $ret = $scoreArray[0]["Count"];
+
+        return $ret;
+    }
+    /*!
+      Returns all the saved scores found in the database for one user.
+
+      The scores are returned as an array of eZQuizScore objects.
+    */
+    function getAllSavedByUser( &$user, $offset=0, $limit=20, $latestOnly = true )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $scoreArray = array();
+
+        if ( get_class ( $user ) == "ezuser" )
+            $userID = $user->id();
+        
+        if( $latestOnly = true )
+        {
+            $db->array_query( $scoreArray, "SELECT Score.ID FROM eZQuiz_Score AS Score, eZQuiz_Game AS Game
+                        WHERE Game.StartDate <= now() AND Game.StopDate >= now() AND Score.UserID='$userID' AND Score.FinishedGame=0" );
+        }
+        else
+        {
+            $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score
+                        WHERE UserID='$userID' AND FinishedGame=0 ORDER BY TotalScore
+                        DESC LIMIT $offset, $limit" );
+        }
+        for ( $i=0; $i < count($scoreArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizScore( $scoreArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+
+    /*!
+      Returns the count of saved games this user has.
+    */
+    function countAllSavedByUser( &$user, $latestOnly = true )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $scoreArray = array();
+
+        if ( get_class ( $user ) == "ezuser" )
+            $userID = $user->id();
+        
+        if( $latestOnly = true )
+        {
+            $db->array_query( $scoreArray, "SELECT count(Score.ID) AS Count FROM eZQuiz_Score AS Score, eZQuiz_Game AS Game
+                        WHERE Game.StartDate <= now() AND Game.StopDate >= now() AND Score.UserID='$userID' AND Score.FinishedGame=0" );
+        }
+        else
+        {
+            $db->array_query( $scoreArray, "SELECT count(ID) AS Count FROM eZQuiz_Score
+                        WHERE UserID='$userID' AND FinishedGame=0" );
+        }
         $ret = $scoreArray[0]["Count"];
         
         return $ret;
