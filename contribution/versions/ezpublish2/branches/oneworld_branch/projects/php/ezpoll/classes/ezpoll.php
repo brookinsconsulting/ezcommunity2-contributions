@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpoll.php,v 1.25.2.1 2001/12/12 15:26:03 br Exp $
+// $Id: ezpoll.php,v 1.25.2.1.2.1 2002/05/22 13:51:03 pkej Exp $
 //
 // Definition of eZPoll class
 //
@@ -403,6 +403,22 @@ class eZPoll
         }
     }
     
+
+    /*!
+      Returns the total count of objects in the database.
+     */
+    function count()
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+
+        $db->query_single( $result, "SELECT COUNT(ID) as Count
+                                     FROM eZPoll_Poll" );
+        $ret = $result[$db->fieldName( "Count" )];
+        return $ret;
+    }
+
+
 
     /*!
       Returns the forum for the poll.
