@@ -1040,3 +1040,11 @@ Maintainer(s) : bf@ez.no
     * classes/ezobjectpermission.php
       classes/ezuser.php: Fixed security problem.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-02-13  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezobjectpermission.php: fixed bug with some permission problems
+

@@ -3197,3 +3197,12 @@ Maintainer(s) : ce@ez.no
 
     * sql/mysql/eztrade.sql: Added indeces.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-13  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezpricegroup.php:
+    fixed bug when there is no groups. (will then return an empty array)
+

@@ -2815,3 +2815,11 @@ Maintainer(s) : bf@ez.no
 
     * sql/mysql/ezarticle.sql: UrlLink field
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-13  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php: Fixed removal of comments if permission denied.
+
