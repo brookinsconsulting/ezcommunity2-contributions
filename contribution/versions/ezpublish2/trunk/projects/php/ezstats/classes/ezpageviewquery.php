@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.8 2001/01/22 14:43:01 jb Exp $
+// $Id: ezpageviewquery.php,v 1.9 2001/02/09 14:36:35 jb Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -45,7 +45,6 @@ class eZPageViewQuery
     */
     function eZPageViewQuery()
     {
-        $this->IsConnected = false;
     }
 
     /*!
@@ -53,9 +52,9 @@ class eZPageViewQuery
     */
     function totalPageViews()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $pageview_array, "SELECT count(ID) AS Count FROM eZStats_PageView" );
+        $db->array_query( $pageview_array, "SELECT count(ID) AS Count FROM eZStats_PageView" );
 
         return $pageview_array[0]["Count"];        
     }
@@ -67,6 +66,7 @@ class eZPageViewQuery
     */
     function totalPageViewsDay( $dayObject )
     {
+        $db =& eZDB::globalDatabase();
         $ret = 0;
         
         if ( get_class( $dayObject ) == "ezdate" )
@@ -83,7 +83,7 @@ class eZPageViewQuery
 
             $dateStamp = $year . $month . $day;
             
-            $this->Database->array_query( $pageview_array,
+            $db->array_query( $pageview_array,
             "SELECT count(ID) AS Count
              FROM eZStats_PageView
              WHERE Date LIKE '$dateStamp%' ");
@@ -102,6 +102,7 @@ class eZPageViewQuery
     */
     function totalPageViewsMonth( $dayObject )
     {
+        $db =& eZDB::globalDatabase();
         $ret = 0;
         
         if ( get_class( $dayObject ) == "ezdate" )
@@ -114,7 +115,7 @@ class eZPageViewQuery
 
             $dateStamp = $year . $month;
             
-            $this->Database->array_query( $pageview_array,
+            $db->array_query( $pageview_array,
             "SELECT count(ID) AS Count
              FROM eZStats_PageView
              WHERE Date LIKE '$dateStamp%' ");
@@ -126,23 +127,23 @@ class eZPageViewQuery
 
 
     /*!
+      \static
       Returns the latest pageviews.
 
       The files are returned as an array of eZPageView objects.
     */
-    function &latest( $limit=20 )
+    function &latest( $limit = 20, $offset = 0 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
-        $pageview_array = array();
-        
-        $this->Database->array_query( $pageview_array,
+
+        $db->array_query( $pageview_array,
         "SELECT ID FROM eZStats_PageView
          ORDER BY Date DESC
-         LIMIT 0,$limit" );
+         LIMIT $offset,$limit" );
         
-        for ( $i=0; $i<count($pageview_array); $i++ )
+        for ( $i=0; $i < count($pageview_array); $i++ )
         {
             $return_array[$i] = new eZPageView( $pageview_array[$i]["ID"], 0 );
         }
@@ -151,26 +152,38 @@ class eZPageViewQuery
     }
 
     /*!
+      \static
+      Returns the latest pageview count.
+    */
+    function &latestCount()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $pageview_array,
+        "SELECT count( ID ) AS Count FROM eZStats_PageView" );
+        
+        return $pageview_array[0]["Count"];
+    }
+
+    /*!
       Returns the visitors which has viewed most pages.
 
       The files are returned as an assiciative array of
       array( ID => $id, IP => $ip, HostName => $hostName, Count => $count ).
     */
-    function &topVisitors( $limit=20 )
+    function &topVisitors( $limit = 20, $offset = 0 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
-        $visitor_array = array();
-        
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RemoteHost.ID, eZStats_RemoteHost.IP, eZStats_RemoteHost.HostName
          FROM eZStats_PageView, eZStats_RemoteHost
          WHERE eZStats_PageView.RemoteHostID=eZStats_RemoteHost.ID
          GROUP BY eZStats_RemoteHost.ID ORDER BY Count DESC
-         LIMIT 0,$limit" );
-        
-        for ( $i=0; $i<count($visitor_array); $i++ )
+         LIMIT $offset,$limit" );
+
+        for ( $i=0; $i < count($visitor_array); $i++ )
         {
             $id = $visitor_array[$i]["ID"];
             $ip = $visitor_array[$i]["IP"];
@@ -181,7 +194,7 @@ class eZPageViewQuery
             if ( $hostName = "NULL" )
             {
                 $hostName =& gethostbyaddr( $ip );
-                $this->Database->query( "UPDATE eZStats_RemoteHost SET HostName='$hostName'
+                $db->query( "UPDATE eZStats_RemoteHost SET HostName='$hostName'
                                          WHERE ID='$id'" );
             }            
             
@@ -190,32 +203,46 @@ class eZPageViewQuery
                                        "HostName" => $hostName,
                                        "Count" => $visitor_array[$i]["Count"] );
         }
-        
+
         return $return_array;
     }
 
     /*!
-      Returns the referers which is most frequent.
+      Returns the number of visitors which has viewed most pages.
+    */
+    function &topVisitorsCount()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $db->array_query( $visitor_array,
+                          "SELECT count( ID ) AS Count FROM eZStats_RemoteHost" );
+
+        return $visitor_array[0]["Count"];
+    }
+
+    /*!
+      Returns the referers which are most frequent.
 
       The files are returned as an assiciative array of
       array( ID => $id, Domain => $domain, URI => $uri, Count => $count ).
     */
-    function &topReferers( $limit=40, $excludeDomain="" )
+    function &topReferers( $limit = 40, $excludeDomain = "", $offset = 0 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $visitor_array = array();
         
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RefererURL.ID, eZStats_RefererURL.Domain, eZStats_RefererURL.URI
          FROM eZStats_PageView, eZStats_RefererURL
          WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID AND eZStats_RefererURL.Domain != '$excludeDomain'
          GROUP BY eZStats_RefererURL.ID
          ORDER BY Count DESC
-         LIMIT 0,$limit" );
+         LIMIT $offset,$limit" );
         
-        for ( $i=0; $i<count($visitor_array); $i++ )
+        for ( $i=0; $i < count($visitor_array); $i++ )
         {
             $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
                                        "Domain" => $visitor_array[$i]["Domain"],
@@ -227,34 +254,63 @@ class eZPageViewQuery
     }
 
     /*!
+      Returns the number of referers which are most frequent.
+    */
+    function &topReferersCount( $excludeDomain = "")
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count
+         FROM eZStats_PageView, eZStats_RefererURL
+         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID AND eZStats_RefererURL.Domain != '$excludeDomain'
+         GROUP BY eZStats_RefererURL.ID" );
+
+        return count( $visitor_array );
+    }
+
+    /*!
       Returns the requests which is most frequent.
 
       The files are returned as an assiciative array of
       array( ID => $id, URI => $uri, Count => $count ).
     */
-    function &topRequests( $limit=20 )
+    function &topRequests( $limit = 20, $offset = 0 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
-        $visitor_array = array();
-        
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
          FROM eZStats_PageView, eZStats_RequestPage
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
          GROUP BY eZStats_RequestPage.ID
          ORDER BY Count DESC
-         LIMIT 0,$limit" );
+         LIMIT $offset,$limit" );
         
-        for ( $i=0; $i<count($visitor_array); $i++ )
+        for ( $i=0; $i < count($visitor_array); $i++ )
         {
             $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
                                        "URI" => $visitor_array[$i]["URI"],
                                        "Count" => $visitor_array[$i]["Count"] );
         }
-        
         return $return_array;
+    }
+
+    /*!
+      Returns the number of requests which are most frequent.
+    */
+    function &topRequestsCount()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count
+         FROM eZStats_PageView, eZStats_RequestPage
+         WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
+         GROUP BY eZStats_RequestPage.ID" );
+        
+        return count( $visitor_array );
     }
 
     /*!
@@ -262,12 +318,12 @@ class eZPageViewQuery
     */
     function &topProductRequests( $limit=20 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $visitor_array = array();
         
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
          FROM eZStats_PageView, eZStats_RequestPage
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
@@ -291,12 +347,12 @@ class eZPageViewQuery
     */
     function &topProductAddToCart( $limit=20 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $visitor_array = array();
         
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
          FROM eZStats_PageView, eZStats_RequestPage
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
@@ -320,12 +376,12 @@ class eZPageViewQuery
     */
     function &topProductAddToWishlist( $limit=20 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $visitor_array = array();
         
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
          FROM eZStats_PageView, eZStats_RequestPage
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
@@ -352,7 +408,7 @@ class eZPageViewQuery
     */
     function &monthStats( $year, $month )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $visitor_array = array();
@@ -373,7 +429,7 @@ class eZPageViewQuery
                 $sday = $day;
         
             $stamp = $year . $month . $sday;
-            $this->Database->array_query( $visitor_array,
+            $db->array_query( $visitor_array,
             "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE Date LIKE '$stamp%'" );
 
             $TotalPages += $visitor_array[0]["Count"];
@@ -392,12 +448,12 @@ class eZPageViewQuery
     */
     function &topExitPage( )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $visitor_array = array();
         
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT Hit.ID, Page.URI, Page.ID AS PageID, Hit.RemoteHostID, Concat( Year(Hit.Date), DayOfYear(Hit.Date)) AS Date
          FROM eZStats_PageView AS Hit, eZStats_RequestPage AS Page
          WHERE Hit.RequestPageID=Page.ID
@@ -424,12 +480,12 @@ class eZPageViewQuery
     */
     function &topEntryPage( )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $visitor_array = array();
         
-        $this->Database->array_query( $visitor_array,
+        $db->array_query( $visitor_array,
         "SELECT Hit.ID, Page.URI, Page.ID AS PageID, Hit.RemoteHostID, Concat( Year(Hit.Date), DayOfYear(Hit.Date)) AS Date
          FROM eZStats_PageView AS Hit, eZStats_RequestPage AS Page
          WHERE Hit.RequestPageID=Page.ID
@@ -446,28 +502,6 @@ class eZPageViewQuery
         return $return_array;
         
     }
-    
-
-    
-    
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
