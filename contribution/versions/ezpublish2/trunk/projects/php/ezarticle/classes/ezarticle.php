@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.150 2001/08/17 14:14:06 ce Exp $
+// $Id: ezarticle.php,v 1.151 2001/08/21 10:30:06 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -2447,11 +2447,12 @@ class eZArticle
     /*!
       Adds a log message to the article.
     */
-    function addLog( $message )
+    function addLog( $message, $user = false )
     {
         $db =& eZDB::globalDatabase();
 
-        $user =& eZUser::currentUser();
+        if ( !$user )
+            $user =& eZUser::currentUser();
         $userID = $user->id();
 
         $db->begin( );
