@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.12 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: ezorder.php,v 1.13 2000/11/05 08:59:13 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -491,7 +491,7 @@ class eZOrder
 
 
     /*!
-      Returnerer den totale prisen på en ordre.
+      Returns the total price on an order. Without the shipping charge.
     */
     function totalPrice()
     {
@@ -514,7 +514,6 @@ class eZOrder
            $retPrice += $price;
        }
 
-       $retPrice += $this->ShippingCharge;
        return $retPrice;       
     }
 

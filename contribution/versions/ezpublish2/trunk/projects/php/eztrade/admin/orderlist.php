@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.8 2000/11/01 13:01:26 ce-cvs Exp $
+// $Id: orderlist.php,v 1.9 2000/11/05 08:59:13 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -142,7 +142,7 @@ foreach ( $orderArray as $order )
     
     $t->set_var( "order_status", $statusType->name() );
 
-    $currency->setValue( $order->totalPrice()  );
+    $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
     $t->set_var( "order_price", $locale->format( $currency ) );
     
     
