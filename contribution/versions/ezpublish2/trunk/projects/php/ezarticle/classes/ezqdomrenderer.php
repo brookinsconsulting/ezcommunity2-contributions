@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.7 2001/06/29 07:08:38 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.8 2001/07/03 13:24:49 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -524,6 +524,7 @@ class eZQDomrenderer
                     else
                     {
                         $content = $this->renderStandards( $child );
+                        $content .= $this->renderLink( $child );                        
                     }
 
                     $content = trim( $content );
@@ -549,6 +550,7 @@ class eZQDomrenderer
                     else
                     {
                         $tmpContent .= $this->renderStandards( $child );
+                        $tmpContent .= $this->renderLink( $child );
                     }
                 }
 
