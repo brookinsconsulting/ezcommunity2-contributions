@@ -1,6 +1,5 @@
 <?php
-// 
-// $Id: ezfile.php,v 1.20.2.2 2002/02/27 10:26:13 bf Exp $
+// $Id: ezfile.php,v 1.20.2.3 2002/03/04 12:55:56 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -41,7 +40,7 @@
         print( $file->name() . " not uploaded successfully" );
     }
   \endcode
-  
+
 */
 include_once( "classes/INIFile.php" );
 
@@ -79,7 +78,7 @@ class eZFile
         {
             $ret = false;
         }
-                
+
         return $ret;
     }
 
@@ -97,9 +96,9 @@ class eZFile
         fwrite( $fh, $data );
         fclose( $fh );
     }
-    
+
     /*!
-      
+
     */
     function getFile( $fileName )
     {
@@ -109,7 +108,7 @@ class eZFile
         $this->TmpFileName = $fileName;
 
         $ret = true;
-        
+
         if ( ( $this->FileSize == "0" ) || ( $this->FileSize == "" ) )
         {
             $ret = false;
@@ -128,7 +127,7 @@ class eZFile
     }
 
    /*!
-      Copies the uploaded file to the desired directory. 
+      Copies the uploaded file to the desired directory.
 
       Returns true if successful.
     */
@@ -139,16 +138,16 @@ class eZFile
 			global $GlobalSiteIni;
             $dest = $GlobalSiteIni->SiteDir . $dest;
         }
-    
+
         $ret = true;
-        
+
         if ( !copy( $this->TmpFileName, $dest ) )
         {
-            $ret = false;            
+            $ret = false;
         }
         else
             chmod( $dest, 0644 );
-        
+
         return $ret;
     }
 
@@ -159,7 +158,7 @@ class eZFile
     {
         return $this->FileName;
     }
-    
+
     /*!
       Returns the file type.
     */
@@ -175,7 +174,7 @@ class eZFile
     {
         return $this->FileSize;
     }
-    
+
     /*!
       \static
       Returns the size of the file in a shortened form useful for printing to the user,
@@ -269,7 +268,7 @@ class eZFile
             return false;
         }
     }
-    
+
     /*!
       Same as fopen(), but prepends $siteDir if $filename not empty.
     */
@@ -321,7 +320,7 @@ class eZFile
         }
         return chmod( $filename, $mode);
     }
-    
+
     /*!
       Same as dir(), but prepends $siteDir if $dir not empty.
     */
@@ -337,7 +336,7 @@ class eZFile
         }
         return dir( $dir );
     }
-    
+
     /*!
       Same as is_dir(), but prepends $siteDir if $dir not empty.
     */
@@ -350,7 +349,7 @@ class eZFile
         }
         return is_dir( $dir );
     }
-    
+
     /*!
       Same as realpath(), but prepends $siteDir if $filename not empty.
     */
@@ -363,7 +362,22 @@ class eZFile
         }
         return realpath( $filename );
     }
-    
+
+    /*!
+      Same as file(), but prepends $siteDir if $filename not empty.
+    */
+    function file( $filename )
+    {
+        if ( ( file_exists( "sitedir.ini" ) ) and
+             ( $filename != "" )
+             )
+        {
+            include( "sitedir.ini" );
+            $filename = $siteDir . $filename;
+        }
+        return file( $filename );
+    }
+
     var $FileName;
     var $TmpFileName;
     var $FileType;
