@@ -36,7 +36,6 @@
 <!-- END article_list_tpl -->
 
 
-
 <!-- BEGIN article_short_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN article_short_item_tpl -->
@@ -72,6 +71,5 @@
 </tr>
 <!-- END article_short_item_tpl -->
 </table>
+
 <!-- END article_short_list_tpl -->
-
-
