@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.2 2001/01/11 16:52:14 ce Exp $
+// $Id: todoedit.php,v 1.3 2001/01/11 18:00:23 ce Exp $
 //
 // Definition of todo list.
 //
@@ -187,7 +187,6 @@ if ( $Action == "update" && $error == false )
     $todo->setPriorityID( $PriorityID );
     $todo->setDue( "" );
     $todo->setUserID( $UserID );
-    $todo->setOwnerID( $OwnerID );
     if ( $Status == "on" )
     {
         $todo->setStatus( true );
