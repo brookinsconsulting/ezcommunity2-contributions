@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: replymessage.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: replymessage.php,v 1.2 2000/07/19 12:36:55 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -54,9 +54,9 @@ function categoryForumInfo($Id)
 $t->set_var("forum_id", $forum_id );
 $t->set_var("msg_id", $msg->id() );
 $t->set_var("info", categoryForumInfo($forum_id) );
-$t->set_var("topic", ("SV: " . $msg->topic()) );
+$t->set_var("topic", ("SV: " . stripslashes( $msg->topic() ) ) );
 $t->set_var("user", $usr->resolveUser( $msg->user() ) );
-$t->set_var("body", nl2br( $msg->body() ) );
+$t->set_var("body", nl2br( stripslashes( $msg->body() ) ) );
 $t->set_var("replier", $usr->resolveUser( $UserID ) );
 
 $t->pparse("output", "replymessage");

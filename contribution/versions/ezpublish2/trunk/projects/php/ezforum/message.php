@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: message.php,v 1.2 2000/07/19 12:36:55 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -26,10 +26,10 @@ $t->set_var( "category_id", $category_id);
 
 $msg->get( $message_id );
     
-$t->set_var( "topic", $msg->topic() );
+$t->set_var( "topic", stripslashes( $msg->topic() ) );
 $t->set_var( "user", $usr->resolveUser( $msg->user() ) );
 $t->set_var( "postingtime", $msg->postingTime() );
-$t->set_var( "body", nl2br( $msg->body() ) );
+$t->set_var( "body", nl2br( stripslashes( $msg->body() ) ) );
 $t->set_var( "reply_id", $message_id );
 $t->set_var( "forum_id", $forum_id );
 
@@ -52,7 +52,7 @@ else
         $t->set_var( "reply-id", $Id);
         $t->set_var( "reply-nr", $j);
         $t->set_var( "reply-user", $User);
-        $t->set_var( "reply-topic", $Topic);
+        $t->set_var( "reply-topic", stripslashes( $Topic ) );
         $t->set_var( "reply-postingtime", $PostingTime);
         
         $t->parse("replies", "elements", true);
