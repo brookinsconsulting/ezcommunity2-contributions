@@ -213,7 +213,7 @@ onmouseover="this.className='gcalSubmitOverFrm'">
 <tr>
 	<td>
 		<!-- BEGIN start_ampm_radio_tpl -->
-                <input type="radio" name="Start_AM_PM" value="am" {start_am}>&nbsp;&nbsp;am&nbsp;&nbsp;
+                <input type="radio" name="Start_AM_PM" onchange="alert(document.forms.EventEdit.Start_AM_PM.am);" value="am" {start_am}>&nbsp;&nbsp;am&nbsp;&nbsp;
                 <input type="radio" name="Start_AM_PM" value="pm" {start_pm}>&nbsp;&nbsp;pm
                 <!-- END start_ampm_radio_tpl -->
         </td>
@@ -291,7 +291,7 @@ onmouseover="this.className='gcalSubmitOverFrm'"
  <a onclick='removeFromList("ExceptSelect")' style="font-size: 9px;" class="gcalSubmitFrm">{intl-repeat_exception_remove}</a><br /><br />
  <input type="text" class="gcalCalTextFrm" size=12 name="RecurExceptions" id="RecurExceptions" readonly /><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " 
  onmouseout="this.className='gcalSubmitFrm'"
- onmouseover="this.className='gcalSubmitOverFrm'" 
+ onmouseover="this.className='gcalSubmitOverFrm'"
  onclick="return showCalendar('RecurExceptions', '%Y-%m-%d');" > <br /><br />
  <select name="ExceptSelect[]" size=4 style="border: 2px solid black; outline:none; margin: 5px; width: 100px;" id="ExceptSelect" multiple>
 <!-- BEGIN recur_exceptions_tpl -->
@@ -467,7 +467,18 @@ else { days=28; }
 }
 return (days);
 }
+function convertTo24(hour, minute, ampm)
+{
+var ret;
+if (hour.substring(0, 1) == 0)
+ret = hour.substring(1,2);
+else
+ret = hour;
+if (ampm[1].checked) ret = ret + 12
 
+ret += minute;
+return parseInt(ret);
+}
 function addToList(textField, selectField) {
    tex = document.forms.EventEdit.RecurExceptions;
    sel = document.forms.EventEdit.ExceptSelect;
@@ -515,7 +526,23 @@ for (i = 0; i < field.length; i++) {
 field.options[i].selected = true;
 }
 }
+function trim(s)   // from http://www.vermontsoftware.com/Javascript/trim.html
+{
+  // Remove leading spaces and carriage returns
+  
+  while ((s.substring(0,1) == ' ') || (s.substring(0,1) == '\n') || (s.substring(0,1) == '\r'))
+  {
+    s = s.substring(1,s.length);
+  }
 
+  // Remove trailing spaces and carriage returns
+
+  while ((s.substring(s.length-1,s.length) == ' ') || (s.substring(s.length-1,s.length) == '\n') || (s.substring(s.length-1,s.length) == '\r'))
+  {
+    s = s.substring(0,s.length-1);
+  }
+  return s;
+}
 // form validation function
 
 function formCheck(form) 
@@ -775,6 +802,35 @@ selectAll();
         return false;
     }
     */
+
+
+ var startHourF = document.forms.EventEdit.Start_Hour;
+ var startMinuteF = document.forms.EventEdit.Start_Minute;
+ var startAMPM = document.forms.EventEdit.Start_AM_PM;
+ var stopHourF = document.forms.EventEdit.Stop_Hour;
+ var stopMinuteF = document.forms.EventEdit.Stop_Minute;
+ var stopAMPM = document.forms.EventEdit.Stop_AM_PM;
+ if (frm.IsAllDay.checked == false)
+ {
+  if (startHourF.value == '' || startMinuteF.value == '' || stopHourF.value == '' || stopMinuteF.value == '')
+  {
+   alert("Start and Stop Times cannot be blank.")
+   return false;
+  }
+  var compStart = convertTo24(startHourF.value, startMinuteF.value, startAMPM);
+  var compStop = convertTo24(stopHourF.value, stopMinuteF.value, stopAMPM);
+  if (compStart >= compStop)
+  {
+   alert ("The start time must be earlier than the stop time.");
+   return false;
+  }
+ }
+ 
+ if (frm.Name.value == '')
+ {
+  alert("The title field cannot be blank.");
+  return false;
+ }
         // start recurring event checks
 if (frm.IsRecurring.checked) {
     // integer regexp 
