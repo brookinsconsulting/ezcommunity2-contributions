@@ -18,7 +18,7 @@
 <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/eztrade/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
