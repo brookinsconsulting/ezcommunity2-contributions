@@ -52,5 +52,14 @@
 </tr>
 <!-- END time_table_tpl -->
 </table>
-<input type="submit" name="DeleteAppointments" value="{intl-delete_appointment}">
+<input type="submit" name="DeleteAppointments" value="{intl-delete_appointments}">
 </form>
+
+<hr noshade size="4" />
+
+<form action=/calendar/appointmentedit/edit/">
+<input type="submit" name="Day" value="{intl-day}">
+<input type="submit" name="Month" value="{intl-month}">
+<input type="submit" name="Year" value="{intl-year}">
+</form>
+

@@ -50,3 +50,12 @@
 
 <!-- END month_tpl -->
 </table>
+
+<hr noshade size="4" />
+
+<form action=/calendar/appointmentedit/edit/">
+<input type="submit" name="Day" value="{intl-day}">
+<input type="submit" name="Month" value="{intl-month}">
+<input type="submit" name="Year" value="{intl-year}">
+</form>
+

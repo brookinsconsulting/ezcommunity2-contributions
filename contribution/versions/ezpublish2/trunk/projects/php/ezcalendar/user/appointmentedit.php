@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.7 2001/01/17 16:18:16 ce Exp $
+// $Id: appointmentedit.php,v 1.8 2001/01/18 10:07:13 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -26,6 +26,22 @@
 if ( isSet ( $DeleteAppointments ) )
 {
     $Action = "DeleteAppointment";
+}
+
+if ( isSet ( $Day ) )
+{
+    Header( "Location: /calendar/dayview" );
+    exit();
+}
+else if ( isSet ( $Month ) )
+{
+    Header( "Location: /calendar/monthview" );
+    exit();
+}
+else if ( isSet ( $Year ) )
+{
+    Header( "Location: /calendar/yearview" );
+    exit();
 }
 
 include_once( "classes/INIFile.php" );

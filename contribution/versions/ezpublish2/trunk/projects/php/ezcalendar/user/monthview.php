@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.7 2001/01/17 15:20:31 ce Exp $
+// $Id: monthview.php,v 1.8 2001/01/18 10:07:13 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -65,11 +65,9 @@ if ( $GetByUserID == false )
 
 if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
 {
-    print( "setter ny id<br>" );
     $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
 }
 
-print( "session id: " . $session->variable( "ShowOtherCalenderUsers" ) . "<br>");
 $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
 if ( $tmpUser->id() == $user->id() )
@@ -81,7 +79,6 @@ else
     $showPrivate == false;
 }
 
-print( "login:" . $tmpUser->login() );
 $datetime = new eZDateTime( );
 
 if ( $Year != "" && $Month != "" )
