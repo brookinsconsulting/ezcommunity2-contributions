@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.37 2001/02/09 11:05:49 ce Exp $
+// $Id: groupedit.php,v 1.38 2001/02/15 10:50:52 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -191,6 +191,7 @@ $headline = $languageIni->read_var( "strings", "headline_insert" );
 
 $t->set_block( "group_edit", "parent_category_tpl", "parent_category" );
 $t->set_block( "group_edit", "image_item_tpl", "image_item" );
+$t->set_block( "group_edit", "no_image_item_tpl", "no_image_item" );
 
 $groupselect = new eZLinkGroup();
 $groupLinkList = $groupselect->getTree( );
@@ -251,7 +252,7 @@ if ( $Action == "edit" )
         }
         else
         {
-            $t->parse( "no_image", "no_image_tpl" );
+            $t->parse( "no_image_item", "no_image_item_tpl" );
             $t->set_var( "image_item", "" );
         }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.44 2001/02/15 10:19:08 ce Exp $
+// $Id: ezlinkgroup.php,v 1.45 2001/02/15 10:50:52 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -52,7 +52,6 @@
 
 
 include_once( "classes/ezdb.php" );
-include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 class eZLinkGroup

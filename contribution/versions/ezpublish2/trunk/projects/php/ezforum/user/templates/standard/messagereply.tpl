@@ -1,5 +1,3 @@
-<form action="/forum/reply/insert/{msg_id}/" method="post">
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
     <td align="left" valign="bottom">
@@ -28,6 +26,8 @@
 <hr noshade="noshade" size="4" />
   
 <br />
+
+<form action="/forum/reply/insert/{msg_id}/" method="post">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -66,3 +66,4 @@
 	</td>
 </tr>
 </table>
+</form>
