@@ -176,8 +176,7 @@
 <br />
 
 <!-- BEGIN quantity_item_tpl -->
-<p class="boxtext">{intl-availability}:</p>
-{product_quantity}
+<p class="boxtext">{intl-availability}: {product_quantity}</p>
 <!-- END quantity_item_tpl -->
 
 <hr noshade="noshade" size="1"/>
@@ -191,11 +190,11 @@
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-<div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
+&nbsp;
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/{category_id}/">| {intl-print_page} |</a></div>
+&nbsp;
 <!-- END print_page_link_tpl -->
 
 </form>
