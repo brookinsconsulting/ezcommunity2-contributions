@@ -30,7 +30,6 @@ $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
 
-
 // set character set
 include_once( "classes/ezlocale.php" );
 $Language = $ini->read_var( "eZCalendarMain", "Language" );

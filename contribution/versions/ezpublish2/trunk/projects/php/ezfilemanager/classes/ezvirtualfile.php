@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.24 2001/04/07 13:53:23 bf Exp $
+// $Id: ezvirtualfile.php,v 1.25 2001/04/11 15:04:00 bf Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -85,7 +85,7 @@ class eZVirtualfile
             $this->Database->query( "INSERT INTO eZFileManager_File SET
                                  Name='$name',
                                  Description='$description',
-                                 FileName='$filname',
+                                 FileName='$filename',
                                  OriginalFileName='$originalfilename',
                                  UserID='$this->UserID'
                                  " );

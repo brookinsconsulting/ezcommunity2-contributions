@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.12 2001/04/09 08:50:31 bf Exp $
+// $Id: filedownload.php,v 1.13 2001/04/11 15:04:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -67,7 +67,9 @@ $originalFileName = str_replace( " ", "%20", $originalFileName );
 //exit();
 
 $host = $SERVER_NAME;
-Header( "Location: http://$host/filemanager/filedownload/$filePath/$originalFileName" );
+$location = "Location: http://$host/filemanager/filedownload/$filePath/$originalFileName";
 
+// print( $location );
+Header( $location );
 exit();
 ?>
