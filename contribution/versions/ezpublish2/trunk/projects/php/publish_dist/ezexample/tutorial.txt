@@ -58,15 +58,17 @@ ezexample
 
 Then you have to add the cache dir (again in 2.0 beta 2 you can just search for "cache section":
 
+<pre>
 dirs="
 ...
 ...
 ezexample/admin/cache
 "
+</pre>
 
 Finally you need to run the modfix.sh script.
 
-<header>Icon</header>
+<image 1 right medium><header>Icon</header>
 
 You need to create a icon for your module. This must be a 32x32 gif with the name module_icon.gif and it should be placed in the directory "ezexample/admin/images/".
 
@@ -82,7 +84,7 @@ Language=en_GB
 Preference=value
 </pre>
 
-We also need to tell eZ publish that we wish it to recognize that module, that is done by adding the module to the end of the "EnabledModules"-list at the start of the file, in the "[site]" section.
+<image 2 right large>We also need to tell eZ publish that we wish it to recognize that module, that is done by adding the module to the end of the "EnabledModules"-list at the start of the file, in the "[site]" section.
 
 <header>Menu Box</header>
 The next step is to create your menu items for your module. The menu box must be placed in the directory "ezexample/admin/menubox.php" and could look like this:
@@ -106,7 +108,7 @@ example_page=Example page
 
 As you can see the variable we called "intl-example_page" in the menu box is only called "example_page" here, that's because the "intl-" part is reserved as a signal to the template engine that we're dealing with a string which should be translated, as opposed to other variables which are replaced by actual content from a database, or other means.
 
-If you want a different language, you need to create another directory for that language in the "ezexample/admin/intl/" directory. For Norwegian Bokmål we would create the file: "ezexample/admin/intl/no_NO/menubox.php.ini".
+<image 3 right large>If you want a different language, you need to create another directory for that language in the "ezexample/admin/intl/" directory. For Norwegian Bokmål we would create the file: "ezexample/admin/intl/no_NO/menubox.php.ini".
 
 <header>Your Script</header>
 Now all we need to do is create the actual functionality of the module. First create a file  "ezexample/admin/page.php" with the following content:
