@@ -160,11 +160,13 @@ if ( ( $requireUserLogin == "disabled" ) ||
     print( $buffer );
 
     // set the sitedesign from the section
+    /*
     include_once( "ezsitemanager/classes/ezsection.php" );
     print( eZSection::siteDesign( $GlobalSectionID ) );
     
     $siteDesign = eZSection::siteDesign( $GlobalSectionID );
     $GlobalSiteDesign = $siteDesign;
+    */
     
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
@@ -185,7 +187,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
     
 
-// include more html
+    // include more html
     if ( $PrintableVersion == "enabled" )
     {
         include( "sitedesign/$siteDesign/simpleheader.php" );
