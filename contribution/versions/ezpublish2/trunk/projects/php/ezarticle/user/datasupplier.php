@@ -20,9 +20,12 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[3];
 
-            $cachedFile = "ezarticle/cache/articlelist," . $CategoryID . "," . $Offset . ".cache";
+            include_once( "classes/ezcachefile.php" );
+            $file = new eZCacheFile( "ezarticle/cache/", array( "articlelist", $CategoryID, $Offset ),
+                                     "cache", "," );
+            $cachedFile = $file->filename( true );
 
-            if ( file_exists( $cachedFile ) )
+            if ( $file->exists() )
             {
                 include( $cachedFile );
             }
