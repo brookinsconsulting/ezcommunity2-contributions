@@ -24,6 +24,7 @@ CREATE TABLE eZBulkMail_Category (
   Name varchar(200) default NULL,
   IsPublic int(1) default '0',
   Description text,
+  IsSingleCategory int(1) default '0',
   PRIMARY KEY (ID)
 );
 

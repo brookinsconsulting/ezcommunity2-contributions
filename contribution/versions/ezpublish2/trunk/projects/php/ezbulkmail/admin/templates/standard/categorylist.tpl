@@ -1,8 +1,17 @@
 <h1>{intl-category_list} - {current_category_name}</h1>
 
 <hr noshade="noshade" size="4" />
-
 <form action="/bulkmail/categorylist/{current_category_id}" method="post">
+
+<p class="boxtext">{intl-single_list_select}:</p>
+<select name="SingleListID">
+<option value="-1" {multi_list_selected}>{intl-multi_list_site}</option>
+<!-- BEGIN single_category_item_tpl -->
+<option value="{category_id}" {single_list_selected}>{category_name}</option>
+<!-- END single_category_item_tpl -->
+</select>
+<br /><br />
+
 <!-- BEGIN category_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -67,4 +76,7 @@
   <td><input type="submit" class="stdbutton" name="Delete" value="{intl-delete_selected}" /></td>
 </tr>
 </table>
+
+<hr noshade="noshade" size="4" />
+<input type="submit" class="okbutton" name="Ok" value="{intl-ok}" />
 </form>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.7 2001/04/27 20:13:32 fh Exp $
+// $Id: categorylist.php,v 1.8 2001/04/30 09:47:32 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -30,6 +30,15 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+
+if( isset( $Ok ) || isset( $New ) )
+{
+    eZBulkMailCategory::setSingleList( false );
+    if( isset( $SingleListID ) && $SingleListID != -1 )
+    {
+        eZBulkMailCategory::setSingleList( $SingleListID );
+    }
+}
 
 if( isset( $New ) )
 {
@@ -73,6 +82,8 @@ $t->set_block( "category_list_tpl", "category_tpl", "category" );
 $t->set_block( "category_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "category_list_tpl", "bulkmail_tpl", "bulkmail" );
 $t->set_block( "bulkmail_tpl", "bulkmail_item_tpl", "bulkmail_item" );
+$t->set_block( "category_list_tpl", "single_category_item_tpl", "single_category_item" );
+$t->set_var( "single_category_item", "" );
 $t->set_var( "category", "" );
 $t->set_var( "category_item", "" );
 $t->set_var( "bulkmail", "" );
@@ -81,6 +92,12 @@ $t->set_var( "current_category_name", "" );
 $t->set_var( "current_category_id", "" );
 
 /** List all the avaliable categories **/
+$singleListCategoryID = eZBulkMailCategory::singleList( false );
+if( $singleListCategoryID == false )
+    $t->set_var( "multi_list_selected", "selected" );
+else
+    $t->set_var( "multi_list_selected", "" );
+
 $categories = eZBulkMailCategory::getAll();
 $i = 0;
 foreach( $categories as $categoryitem )
@@ -99,6 +116,14 @@ foreach( $categories as $categoryitem )
     
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
+
+    // also parse of the upper category single list select
+    if( $singleListCategoryID == $categoryitem->id() )
+        $t->set_var( "single_list_selected", "selected" );
+    else
+        $t->set_var( "single_list_selected", "" );
+        
+    $t->parse( "single_category_item", "single_category_item_tpl", true );
 }
 if( $i > 0 )
     $t->parse( "category", "category_tpl" );

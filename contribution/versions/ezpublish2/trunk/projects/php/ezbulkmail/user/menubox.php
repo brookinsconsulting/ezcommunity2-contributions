@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/04/27 08:24:03 fh Exp $
+// $Id: menubox.php,v 1.4 2001/04/30 09:47:32 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <23-Mar-2001 10:57:04 fh>
@@ -24,10 +24,10 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZBulkMailMain", "Language" );
-$SingleListLogon = $ini->read_var( "eZBulkMailMain", "SingleListLogon" );
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
@@ -47,7 +47,8 @@ $t->set_block( "menu_box_tpl", "single_list_tpl", "single_list" );
 $t->set_var( "normal_list", "" );
 $t->set_var( "single_list", "" );
 
-if( $SingleListLogon == "disabled" )
+$category = eZBulkMailCategory::singleList( false );
+if( $category == false )
 {
     $t->parse( "normal_list", "normal_list_tpl" );
 }

@@ -368,6 +368,41 @@ class eZBulkMailCategory
     }
     
     /*!
+      \static
+      Sets the category with the ID given to be the current single list. If the argument given is false there will be no single list selected.
+     */
+    function setSingleList( $value )
+    {
+        $db = eZDB::globalDatabase();
+        $db->query( "UPDATE eZBulkMail_Category SET IsSingleCategory='0'" );
+
+        if( $value != false )
+        {
+            if( get_class( $value ) == "ezbulkmailcategory" )
+                $value = $value->id();
+
+            $db->query( "UPDATE eZBulkMail_Category SET IsSingleCategory='1' WHERE ID='$value'" );
+        }
+    }
+
+    /*!
+      \static
+      Returns the current selected single list. If none false is returned.
+     */
+    function singleList( $asObject = true )
+    {
+        $db = eZDB::globalDatabase();
+        $return_value = false;
+        $result_array = array();
+        $db->array_query( $result_array, "SELECT ID from eZBulkMail_Category WHERE IsSingleCategory='1'" );
+
+        if( count( $result_array ) > 0 )
+            $return_value = ( $asObject == true ) ? new eZBulkMailCategory( $result_array[0][ "ID" ] ) : $result_array[0]["ID"];
+
+        return $return_value;
+    }
+
+    /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
     */
