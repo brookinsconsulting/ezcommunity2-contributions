@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/01/23 17:45:43 jb Exp $
+// $Id: menubox.php,v 1.4 2001/01/25 00:15:51 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -29,23 +29,7 @@ $menuItems = array(
     array( "/contact/company/list/", "{intl-companytypelist}" ),
     array( "/contact/person/list/", "{intl-personlist}" ),
     array( "/contact/consultation/list/", "{intl-consultationlist}" ),
-    array( "/contact/company/new/", "{intl-companyadd}" ),
-    array( "/contact/person/new/", "{intl-personadd}" ),
-    array( "/contact/companycategory/new/", "{intl-companytypeadd}" ),
-    array( "/contact/consultation/new/", "{intl-newconsultation}" ),
-    "break",
-    array( "/contact/phonetype/list/", "{intl-phonetypelist}" ),
-    array( "/contact/addresstype/list/", "{intl-addresstypelist}" ),
-    array( "/contact/onlinetype/list/", "{intl-onlinetypelist}" ),
-    array( "/contact/consultationtype/list/", "{intl-consultationtypelist}" ),
-    array( "/contact/projecttype/list/", "{intl-projecttypelist}" ),
-    array( "/contact/country/list/", "{intl-countrylist}" ),
-    array( "/contact/phonetype/new/", "{intl-phonetypeadd}" ),
-    array( "/contact/addresstype/new/", "{intl-addresstypeadd}" ),
-    array( "/contact/onlinetype/new/", "{intl-onlinetypeadd}" ),
-    array( "/contact/consultationtype/new/", "{intl-newconsultationtype}" ),
-    array( "/contact/projecttype/new/", "{intl-newprojecttype}" ),
-    array( "/contact/country/new/", "{intl-newcountry}" )
+    array( "/contact/setup/", "{intl-setup}" ),
     );
 
 ?>
