@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.40 2001/01/22 08:12:33 bf Exp $
+// $Id: ezuser.php,v 1.41 2001/01/22 12:49:37 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -108,7 +108,8 @@ class eZUser
                                  Email='$this->Email',
                                  InfoSubscription='$this->InfoSubscription',
                                  FirstName='$this->FirstName',
-                                 LastName='$this->LastName'" );
+                                 LastName='$this->LastName',
+                                 Signature='$this->Signature'" );
             $this->ID = mysql_insert_id();
         }
         else
@@ -118,6 +119,7 @@ class eZUser
                                  Email='$this->Email',
                                  InfoSubscription='$this->InfoSubscription',
                                  FirstName='$this->FirstName',
+                                 Signature='$this->Signature',
                                  LastName='$this->LastName'
                                  WHERE ID='$this->ID'" );
 
@@ -187,6 +189,7 @@ class eZUser
         $this->InfoSubscription =& $user_array[ "InfoSubscription" ];
         $this->FirstName =& $user_array[ "FirstName" ];
         $this->LastName =& $user_array[ "LastName" ];
+        $this->Signature =& $user_array[ "Signature" ];
     }
 
 
@@ -331,6 +334,14 @@ class eZUser
     }
     
     /*!
+      Returns the signature.
+    */
+    function signature()
+    {
+        return $this->Signature;
+    }
+
+    /*!
       Returns the users login.
     */
     function login( )
@@ -394,6 +405,14 @@ class eZUser
         return $this->LastName;
     }
     
+    /*!
+      Sets the signature.
+    */
+    function setSignature( $value )
+    {
+       $this->Signature = $value;
+    }
+
     /*!
       Sets the login.
     */
@@ -684,7 +703,7 @@ class eZUser
 
        return $ret;
     }
-      
+
     var $ID;
     var $Login;
     var $Password;
@@ -692,6 +711,7 @@ class eZUser
     var $FirstName;
     var $LastName;
     var $InfoSubscription;
+    var $Signature;
 }
 
 ?>
