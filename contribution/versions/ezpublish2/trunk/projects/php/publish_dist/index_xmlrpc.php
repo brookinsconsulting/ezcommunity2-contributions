@@ -59,7 +59,6 @@ $server->processRequest();
 */
 function Call( $args )
 {
-//      eZLog::writeNotice( "XML-RPC call." );
     $call = $args[0]->value();
 
     $login = $call["User"]->value();
@@ -99,19 +98,35 @@ function Call( $args )
         else
             $ID = 0;
         $GLOBALS["ID"] =& $ID;
-        
+
         $Data = $call["Data"]->value();
         $GLOBALS["Data"] =& $Data;
         $Command = $call["Command"]->value();
         $GLOBALS["Command"] =& $Command;
 
+//          eZLog::writeNotice( "XML-RPC call. $Command, $Module:/$RequestType/$ID" );
+
         $ReturnData = array();
+        $GLOBALS["ReturnData"] =& $ReturnData;
 
         $Error = false;
         $GLOBALS["XMLRPC_Error"] =& $Error;
         $datasupplier = $Module . "/xmlrpc/datasupplier.php";
         // check for module implementation
-        if ( file_exists( $datasupplier )  || ( $Module == "ezpublish" && $RequestType == "modules" ) )
+        if ( $Command == "search" && $Module == "" && $RequestType == "" )
+        {
+            // We handle global search ourselves
+            $modules = array( "ezarticle", "ezimagecatalogue" );
+            foreach( $modules as $module )
+            {
+                $search_file = $module . "/xmlrpc/search.php";
+                if ( file_exists( $search_file ) )
+                {
+                    include( $search_file );
+                }
+            }
+        }
+        else if ( file_exists( $datasupplier )  || ( $Module == "ezpublish" && $RequestType == "modules" ) )
         {
             if ( $Module == "ezpublish" && $RequestType == "modules" )
             {
@@ -152,9 +167,12 @@ function Call( $args )
                 $RefID = new eZXMLRPCString( md5( microtime() ) );
             }
 
-            if ( $Error )
+            if ( $Error and !is_object( $Error ) )
             {
                 $ret =& createErrorMessage( EZERROR_INVALID_FUNCTION );
+            }
+            else if ( $Error and is_object( $Error ) )
+            {
             }
             else if ( isset( $ReturnData ) and is_object( $ReturnData ) )
             {
@@ -191,6 +209,30 @@ function Call( $args )
     {
         $ret =& createErrorMessage( EZERROR_BAD_LOGIN );
     }
+}
+
+function appendSearchURLS( $urls )
+{
+    global $ReturnData;
+    global $Data;
+    if ( is_object( $ReturnData ) )
+        $ret =& $ReturnData->value();
+    else
+        $ret = array( "Elements" => new eZXMLRPCArray( array() ) );
+    if ( isset( $ret["NextSearch"] ) )
+        $next =& $ret["NextSearch"]->value();
+    else
+        $next = array();
+    foreach( $urls as $url )
+    {
+        $next[] = $url;
+    }
+    if ( !isset( $ret["NextSearch"] ) )
+        $ret["NextSearch"] = new eZXMLRPCArray( $next );
+    if ( !isset( $ret["Keywords"] ) )
+        $ret["Keywords"] = $Data["Keywords"];
+    if ( !is_object( $ReturnData ) )
+        $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
 function xmlrpcErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
@@ -305,6 +347,7 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
         }
     }
     $ret->setError( $error_id, $error_text, $error_sub_id );
+    eZLog::writeError( "ID: $error_id, SubID: $error_sub_id, Text: $error_text" );
     return $ret;
 }
 
