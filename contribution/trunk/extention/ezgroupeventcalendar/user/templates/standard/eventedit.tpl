@@ -241,9 +241,13 @@
 <!-- END html_form_datetime_select_tpl -->
 
 <!-- BEGIN dhtml_form_datetime_select_tpl -->
+<p class="boxtext">{intl-select-date-time}:</p>
 
-<br />
-<a href="" onclick="return showCalendar('sel2', '%a, %b %e, %Y [%I:%M %p]', '12');">GUI Calendar</a>
+<input type="text" name="date2" id="sel1" size="22"><input type="reset" value=" ... " onclick="return showCalendar('sel1', '%Y-%m-%d [%I:%M %p]', '12');">
+
+<br /><br />
+<a href="" onclick="return showCalendar('sel1', '%Y-%m-%d [%I:%M %p]', '12');">JS GUI Calendar</a>
+
 <!-- END dhtml_form_datetime_select_tpl -->
 
 
