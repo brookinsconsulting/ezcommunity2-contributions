@@ -1,10 +1,11 @@
+
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td colspan="2" class="menuhead">{intl-title}</td>
 </tr>
 	<tr>
 		<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
-		<td width="99%"><a class="menu" href="{www_dir}{index}/article/frontpage">{intl-front_page}</a></td>
+		<td width="99%"><a class="menu" href="{www_dir}{index}/article/frontpage/1">{intl-front_page}</a></td>
 	</tr>
 	<tr>
 		<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
