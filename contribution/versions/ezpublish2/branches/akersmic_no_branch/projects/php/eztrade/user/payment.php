@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: payment.php,v 1.84.8.10 2002/04/11 07:55:14 ce Exp $
+// $Id: payment.php,v 1.84.8.11 2002/04/11 12:08:33 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -31,6 +31,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "eztrade/classes/ezcart.php" );
 include_once( "eztrade/classes/ezcheckout.php" );
+include_once( "eztrade/classes/ezorderconfirmation.php" );
 
 $ini =& INIFile::globalINI();
 $indexFile = $ini->Index;
@@ -100,13 +101,51 @@ else
     $PaymentSuccess = true;
 }
 
-
 if ( $PaymentSuccess == true )
 {
+    $orderConfirmation = $session->variable( "OrderConfirmation" );
     $orderID = $session->variable( "OrderID" );
-    // set the confirmation 
-    eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/confirmation/" );
-    exit();
+
+    if ( is_Numeric( $orderID ) && $orderConfirmation == $orderID )
+    {
+        $confirmation = new eZOrderConfirmation( $orderID );
+        $confirmation->setCCNumber( $CCNumber );
+        $confirmation->setCCYear( $ExpierYear );
+        $confirmation->setCCMonth( $ExpierMonth );
+        $result = $confirmation->confirmOrder( $session->id() );
+
+        // redirect to the confirmation site if the order is sent
+        $user =& eZUser::currentUser();
+        if ( $user && $result )
+        {
+            if ( $result == true )
+            {
+                $session->setVariable( "OrderConfirmation", "" );
+                eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$orderID/" );
+                exit();
+            }
+            else
+            {
+                eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/" );
+                exit();
+            }
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/" );
+            exit();
+        }
+    }
+    else if ( is_Numeric( $orderID ) )
+    {
+        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$orderID/" );
+        exit();
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/" );
+        exit();
+    }
 }
 
 ?>

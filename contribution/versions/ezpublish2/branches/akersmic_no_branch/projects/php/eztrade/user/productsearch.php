@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productsearch.php,v 1.20.8.17 2002/04/11 07:55:14 ce Exp $
+// $Id: productsearch.php,v 1.20.8.18 2002/04/11 12:08:33 ce Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -98,6 +98,7 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
 ( $SearchType == "AdvancedMultimedia" ) || ( $SearchType == "AdvancedHIFI" )
      )
 {
+    $MusicType = urldecode ( $MusicType );
     $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
                                                                       "SearchType" => $SearchType,
                                                                       "MusicType" => $MusicType,
@@ -228,6 +229,7 @@ switch ( $SearchType )
 {
     case "AdvancedMusic" :
     {
+        $MusicType = urlencode( $MusicType );
         $advQuery = "?MusicType=$MusicType&SearchType=$SearchType&AlbumTitle=$AlbumTitle&Artist=$Artist&Recording=$Recording";
     }
     break;
