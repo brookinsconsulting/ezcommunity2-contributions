@@ -5,7 +5,7 @@
 	</td>
 
 	<td bgcolor="{bg_color}">
-	{todo_category}
+	{todo_category_id}
 	</td>
 
 	<td bgcolor="{bg_color}">
@@ -17,7 +17,7 @@
 	</td>
 
 	<td bgcolor="{bg_color}">
-	{todo_priority}
+	{todo_priority_id}
 	</td>
 
 	<td bgcolor="{bg_color}">
@@ -25,7 +25,7 @@
 	</td>
 
 	<td bgcolor="{bg_color}">
-	{todo_status}
+	<a href="index.php?page={document_root}todoedit.php&Action=done&TodoID={todo_id}&Status={todo_status}">{todo_status}</a>
 	</td>
 
 	<td bgcolor="{bg_color}">

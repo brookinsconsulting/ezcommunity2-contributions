@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.1 2000/09/07 07:12:25 ce-cvs Exp $
+// $Id: todolist.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -12,7 +12,7 @@
 // your own programs or libraries.
 //
 
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
@@ -25,6 +25,8 @@ include_once( "classes/ezusergroup.php" );
 include_once( "common/ezphputils.php" );
 
 include_once( "eztodo/classes/eztodo.php" );
+include_once( "eztodo/classes/ezcategory.php" );
+include_once( "eztodo/classes/ezpriority.php" );
 
 $session = new eZSession();
 if( $session->get( $AuthenticatedSession ) == 1 )
@@ -32,38 +34,145 @@ if( $session->get( $AuthenticatedSession ) == 1 )
     print( "ER IKKE LOGGGT INN!!!!!!!!" );
 }
 
-    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "intl/", $Language, "todolist.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "intl/", $Language, "todolist.php" );
 $t->setAllStrings();
-
 $t->set_file( array(
     "todo_list" => "todolist.tpl",
-    "todo_item" => "todoitem.tpl"
+    "todo_item" => "todoitem.tpl",
+    "user_item" => "useritem.tpl"
     ) );
-
 
 $user = new eZUser();
 $user->get( $session->userID() );
+$UserID = $session->userID();
 
 $t->set_var( "user", $user->nickname() );
 
+
+// Check if the user want its own todos or the public todos.
 $todo = new eZTodo();
-$todo_array = $todo->getByUser( $user->id() );
-for ( $i=0; $i<count( $todo_array ); $i++ )
+
+if ( $GetByUserID == $session->userID() )
 {
-    $t->set_var( "todo_id", $todo_array[ $i ][ "ID" ] );
-    $t->set_var( "todo_title", $todo_array[ $i ][ "Title" ] );
-    $t->set_var( "todo_text", $todo_array[ $i ][ "Text" ] );
-    $t->set_var( "todo_category", $todo_array[ $i ][ "Category" ] );
-    $t->set_var( "todo_priority", $todo_array[ $i ][ "Priority" ] );
-    $t->set_var( "todo_due", $todo_array[ $i ][ "Due" ] );
-    $t->set_var( "todo_user", $todo_array[ $i ][ "User" ] );
-    $t->set_var( "todo_permission", $todo_array[ $i ][ "Permission" ] );
-    $t->set_var( "todo_date", $todo_array[ $i ][ "Date" ] );
-    $t->set_var( "todo_status", $todo_array[ $i ][ "Status" ] );
-
-    $t->parse( "todos", "todo_item", true );
+    $GetByUserID = $session->userID();
+    $todo_array = $todo->getByOwnerID( $GetByUserID );
 }
+else
+{
+    $todo_array = $todo->getByUserID( $GetByUserID );
+}
+// User selector.
+    $user = new eZUser();
+    $user_array = $user->getAll();
+    for( $i=0; $i<count( $user_array ); $i++ )
+    {
+        $t->set_var( "user_id", $user_array[ $i ][ "id" ] );
+        $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
+        $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
 
+        // User select
+        if ( $GetByUserID == $user_array[ $i ][ "id"] )
+        {
+            $t->set_var( "user_is_selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "user_is_selected", "" );
+        }
+
+        $t->parse( "user_select", "user_item", true );
+    }
+
+    // Todo list
+    if ( count( $todo_array < 0 ) )
+    {
+        $t->set_var( "todos", "Ingen todo'er funnet" );
+    }
+    for ( $i=0; $i<count( $todo_array ); $i++ )
+    {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "#f0f0f0" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "#dcdcdc" );
+        }  
+        $t->set_var( "todo_id", $todo_array[ $i ]->id() );
+        $t->set_var( "todo_title", $todo_array[ $i ]->title() );
+        $t->set_var( "todo_text", $todo_array[ $i ]->text() );
+        $cat = new eZCategory( $todo_array[ $i ]->categoryID() );
+        $t->set_var( "todo_category_id", $cat->title() );
+        $pri = new eZPriority( $todo_array[ $i ]->priorityID() );
+        $t->set_var( "todo_priority_id", $pri->title() );
+        $t->set_var( "todo_due", $todo_array[ $i ]->due() );
+        $t->set_var( "todo_userid", $todo_array[ $i ]->userID() );
+        $t->set_var( "todo_permission", $todo_array[ $i ]->permission() );
+        $t->set_var( "todo_date", $todo_array[ $i ]->date() );
+        $t->set_var( "todo_status", $todo_array[ $i ]->status() );
+
+        $t->parse( "todos", "todo_item", true );
+    }
+
+//  else
+//  {
+//      // User selector.
+//      $user = new eZUser();
+//      $user_array = $user->getAll();
+//      for( $i=0; $i<count( $user_array ); $i++ )
+//      {
+//          $t->set_var( "user_id", $user_array[ $i ][ "id" ] );
+//          $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
+//          $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
+
+//          // User select
+//          if ( $UserID == $user_array[ $i ][ "id"] )
+//          {
+//              $t->set_var( "user_is_selected", "selected" );
+//          }
+//          else
+//          {
+//              $t->set_var( "user_is_selected", "" );
+//          }
+
+//          $t->parse( "user_select", "user_item", true );
+//      }
+
+//  // Todo list
+//      $todo = new eZTodo();
+//      $todo_array = $todo->getByUserID( $user->id() );
+//      if ( count( $todo_array > 0 ) )
+//      {
+//          $t->set_var( "todos", "Ingen todo'er funnet" );
+//      }
+//      for ( $i=0; $i<count( $todo_array ); $i++ )
+//      {
+//          if ( ( $i % 2 ) == 0 )
+//          {
+//              $t->set_var( "bg_color", "#f0f0f0" );
+//          }
+//          else
+//          {
+//              $t->set_var( "bg_color", "#dcdcdc" );
+//          }
+
+//          $t->set_var( "todo_id", $todo_array[ $i ]->id() );
+//          $t->set_var( "todo_title", $todo_array[ $i ]->title() );
+//          $t->set_var( "todo_text", $todo_array[ $i ]->text() );
+//          $cat = new eZCategory( $todo_array[ $i ]->categoryID() );
+//          $t->set_var( "todo_category_id", $cat->title() );
+//          $pri = new eZPriority( $todo_array[ $i ]->priorityID() );
+//          $t->set_var( "todo_priority_id", $pri->title() );
+//          $t->set_var( "todo_due", $todo_array[ $i ]->due() );
+//          $t->set_var( "todo_userid", $todo_array[ $i ]->userID() );
+//          $t->set_var( "todo_permission", $todo_array[ $i ]->permission() );
+//          $t->set_var( "todo_date", $todo_array[ $i ]->date() );
+//          $t->set_var( "todo_status", $todo_array[ $i ]->status() );
+
+//          $t->parse( "todos", "todo_item", true );
+//      }
+
+//  }
 
 $t->set_var( "document_root", $DOC_ROOT );
 

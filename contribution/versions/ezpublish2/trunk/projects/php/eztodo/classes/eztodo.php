@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.1 2000/09/07 07:12:25 ce-cvs Exp $
+// $Id: eztodo.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
 //
 // Definition of eZTodo class
 //
@@ -17,6 +17,9 @@
 /*!
   Handles the todo informasjon stoered in the database.
 */
+
+// include_once( "eztodo/classes/ezpriority.php" );
+
 class eZTodo
 {
     //! eZTodo
@@ -55,8 +58,8 @@ class eZTodo
                 Category='$this->Category',
                 Priority='$this->Priority',
                 Due='$this->Due',
-                User='$this->User',
-                Owner='$this->Owner',
+                UserID='$this->UserID',
+                OwnerID='$this->OwnerID',
                 Status='$this->Status',
                 Permission='$this->Permission'" );
         return mysql_insert_id();
@@ -85,15 +88,14 @@ class eZTodo
                 Category='$this->Category',
                 Priority='$this->Priority',
                 Due='$this->Due',
-                User='$this->User',
-                Owner='$this->Owner',
+                UserID='$this->UserID',
+                OwnerID='$this->OwnerID',
                 Status='$this->Status',
                 Permission='$this->Permission'
                 WHERE ID='$this->ID' ");
                 
     }
 
-    //! get
     /*!
       Gets the todo object from the database, where ID == $id
     */
@@ -115,8 +117,8 @@ class eZTodo
                 $this->Category = $todo_array[0][ "Category" ];
                 $this->Priority = $todo_array[0][ "Priority" ];
                 $this->Due = $todo_array[0][ "Due" ];
-                $this->User = $todo_array[0][ "User" ];
-                $this->Owner = $todo_array[0][ "Owner" ];
+                $this->UserID = $todo_array[0][ "UserID" ];
+                $this->OwnerID = $todo_array[0][ "OwnerID" ];
                 $this->Status = $todo_array[0][ "Status" ];
                 $this->Permission = $todo_array[0][ "Permission" ];
             }
@@ -139,26 +141,58 @@ class eZTodo
         
         array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Title" );
         
-        for ( $i=0; $i<count($todo_array); $i )
+        for ( $i=0; $i<count($todo_array); $i++ )
         {
             $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
         }
         
-        return $todo_array;
+        return $return_array;
     }
 
-    //! getByUser
-    /*!
+    //! getByUserID
+    /*! 
       Gets all the todo infomasjon from a user, where ID == $id.
       Return the array in $todo_array ordered by title.
       
     */
-    function getByUser( $id )
+    function getByOwnerID( $id )
     {
         $this->dbInit();
         $todo_array = 0;
-        array_query( $todo_array, "SELECT * FROM eZTodo_Todo WHERE User='$id' ORDER BY Title");
-        return $todo_array;
+
+        $return_array = array();
+        $todo_array = array();
+
+        array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Title");
+       
+        for ( $i=0; $i<count($todo_array); $i++ )
+        {
+            $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
+        }
+        return $return_array;        
+    }
+
+    //! getByUserID
+    /*! 
+      Gets all the todo infomasjon from a user, where ID == $id.
+      Return the array in $todo_array ordered by title.
+      
+    */
+    function getByUserID( $id )
+    {
+        $this->dbInit();
+        $todo_array = 0;
+
+        $return_array = array();
+        $todo_array = array();
+
+        array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Permission='Public' ORDER BY Title");
+       
+        for ( $i=0; $i<count($todo_array); $i++ )
+        {
+            $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
+        }
+        return $return_array;        
     }
 
 
@@ -169,9 +203,9 @@ class eZTodo
     */
     function title()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get();
-        return $this->Title;
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       return $this->Title;
     }
 
     //! setTitle
@@ -182,7 +216,7 @@ class eZTodo
     function setTitle( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         $this->Title = $value;
     }
 
@@ -194,7 +228,7 @@ class eZTodo
     function text()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         return $this->Text;
     }
 
@@ -206,7 +240,7 @@ class eZTodo
     function setText( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         $this->Text = $value;
     }
 
@@ -215,10 +249,10 @@ class eZTodo
       Tilte of the category.
       Returns the category of the todo as a string.
     */
-    function category()
+    function categoryID()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         return $this->Category;
     }
 
@@ -227,34 +261,34 @@ class eZTodo
       Sets the category of the todo.
       The new category of the todo is passed as a paramenter ( $value ).
      */
-    function setCategory( $value )
+    function setCategoryID( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         $this->Category = $value;
     }
 
-    //! priority
     /*!
       Priority of the todo.
       Returns the priority of the todo as a string.
     */
-    function priority()
+    function priorityID()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         return $this->Priority;
     }
+
 
     //! setPriority
     /*!
       Sets the priority of the todo.
       The new priority of the todo is passed as a paramenter ( $value ).
      */
-    function setPriority( $value )
+    function setPriorityID( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         $this->Priority = $value;
     }
 
@@ -266,7 +300,7 @@ class eZTodo
     function due()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         return $this->Due;
     }
 
@@ -278,56 +312,82 @@ class eZTodo
     function setDue( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         $this->Due = $value;
     }
 
-    //! user
+    //! date
     /*!
-      User of the todo.
-      Returns the priority of the todo as a string.
+      Date of the todo.
+      Returns the due of the todo as a string.
     */
-    function user()
+    function date()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
-        return $this->User;
+            $this->get( $this->ID );
+        return $this->Date;
     }
 
-    //! setUser
+    //! setDate
+    /*!
+      Sets the date of the todo.
+      The new date of the todo is passed as a paramenter ( $value ).
+     */
+    function setDate( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $this->Date = $value;
+    }
+
+
+    
+    //! userID
+    /*!
+      UserID of the todo.
+      Returns the priority of the todo as a string.
+    */
+    function userID()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->UserID;
+    }
+
+    //! setUserID
     /*!
       Sets the user of the todo.
       The new user of the todo is passed as a paramenter ( $value ).
      */
-    function setUser( $value )
+    function setUserID( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
-        $this->User = $value;
+            $this->get( $this->ID );
+        $this->UserID = $value;
     }
 
-    //! owner
+    //! ownerID
     /*!
-      Owner of the todo.
+      OwnerID of the todo.
       Returns the priority of the todo as a string.
     */
-    function owner()
+    function ownerID()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
-        return $this->Owner;
+            $this->get( $this->ID );
+        return $this->OwnerID;
     }
 
-    //! setOwner
+    //! setOwnerID
     /*!
       Sets the owner of the todo.
       The new owner of the todo is passed as a paramenter ( $value ).
      */
-    function setOwner( $value )
+    function setOwnerID( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
-        $this->Owner = $value;
+            $this->get( $this->ID );
+        $this->OwnerID = $value;
     }
     
     //! status
@@ -338,7 +398,7 @@ class eZTodo
     function status()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         return $this->Status;
     }
 
@@ -350,7 +410,7 @@ class eZTodo
     function setStatus( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         $this->Status = $value;
     }
 
@@ -363,7 +423,7 @@ class eZTodo
     function permission()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         return $this->Permission;
     }
 
@@ -375,7 +435,7 @@ class eZTodo
     function setPermission( $value )
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         $this->Permission = $value;
     }
 
@@ -387,7 +447,7 @@ class eZTodo
     function id()
     {
         if ( $this->State_ == "Dirty" )
-            $this->get();
+            $this->get( $this->ID );
         return $this->ID;
     }
 
@@ -398,19 +458,20 @@ class eZTodo
     */
     function dbInit()
     {
-        include_once( "classes/class.INIFile.php" );
+        include_once( "classes/INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
+        $SERVER = $ini->read_var( "eZTodoMain", "Server" );
+        $DATABASE = $ini->read_var( "eZTodoMain", "Database" );
+        $USER = $ini->read_var( "eZTodoMain", "User" );
+        $PWD = $ini->read_var( "eZTodoMain", "Password" );
         
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
 
+    var $OwnerID;
     var $UserID;
     var $Permission;
     var $Text;

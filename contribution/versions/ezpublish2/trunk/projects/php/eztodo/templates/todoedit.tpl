@@ -8,12 +8,12 @@
 
 <p>
 {intl-desc}<br>
-<textarea rows="5" name="Text">{text}</textarea>
+<textarea cols="25" rows="5" name="Text">{text}</textarea>
 </p>
 
 <p>
 {intl-cat}<br>
-<select name="Category">
+<select name="CategoryID">
 {category_select}
 </select>
 </p>
@@ -21,7 +21,7 @@
 
 <p>
 {intl-pri}<br>
-<select name="Priority">
+<select name="PriorityID">
 {priority_select}
 </select>
 </p>
@@ -36,19 +36,21 @@ Dato:<input size="4" type="text" name="Mnd" value="{mnd}">
 
 <p>
 {intl-user}<br>
-<select name="User">
+<select name="UserID">
 {user_select}
 </select>
 </p>
 
 <p>
 {intl-owner}<br>
-<select name="Owner">
-{user_select}
+<select name="OwnerID">
+{owner_select}
 </select>
 </p>
 
-{intl-public}<input type="checkbox" name="Public"><br>
+
+{intl-public}<input type="checkbox" name="Permission" {permission}><br>
+{intl-status}<input type="checkbox" name="Status" {status}><br>
 
 
 

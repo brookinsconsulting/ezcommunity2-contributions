@@ -1,4 +1,16 @@
 <h1>TODO LISTE   bruker: {user}</h1>
+<form method="post" action="index.php?page={document_root}todolist.php">
+<p>
+{intl-user}<br>
+<select name="GetByUserID">
+{user_select}
+</select>
+
+<input type="hidden" name="Action" value="ShowTodosByUser">
+<input type="submit" value="Vis">
+</form>
+</p>
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<tr>
@@ -37,9 +49,6 @@
 	<td>
 	Slett
 	</td>
-
-
-
 </tr>
 {todos}
 </table>

@@ -1,5 +1,5 @@
 <?
-// $Id: ezpriority.php,v 1.1 2000/09/07 07:12:25 ce-cvs Exp $
+// $Id: ezpriority.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
 //
 // Definition of eZPriority class
 //
@@ -23,22 +23,24 @@ class eZPriority
     /*!
       eZPriority Constructor.
     */
-    function eZPriority( $id=-1, $fetch=1 )
+    function eZPriority( $id=-1, $fetch=true )
     {
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch != 1 )
+            if ( $fetch == true )
             {
-                $this->get();
-                $this->IsCoherent = 1;                
+                $this->get( $this->ID );
             }
             else
             {
-                $this->IsCoherent = 0;
+                $this->State_ = "Dirty";
             }
+        }
+        else
+        {
+            $this->State_ = "New";
         }        
-
     }
 
     //! store
@@ -84,6 +86,7 @@ class eZPriority
     */
     function get( $id )
     {
+        
         $this->dbInit();
         if ( $id != "" )
         {
@@ -97,6 +100,7 @@ class eZPriority
                 $this->ID = $priority_array[0][ "ID" ];
                 $this->Title = $priority_array[0][ "Title" ];
             }
+            $this->State_ = "Coherent";
         }
     }
 
@@ -107,35 +111,44 @@ class eZPriority
     */
     function getAll()
     {
+        
         $this->dbInit();
         $priority_array = 0;
 
-        array_query( $priority_array, "SELECT * FROM eZTodo_Priority ORDER BY Title" );
-        return $priority_array;
+        $return_array = array();
+        $priority_array = array();
+
+        array_query( $priority_array, "SELECT ID FROM eZTodo_Priority ORDER BY Title" );
+        
+        for ( $i=0; $i<count( $priority_array ); $i++ )
+        {
+            $return_array[$i] = new eZPriority( $priority_array[$i]["ID"], 0 );
+        }
+        return $return_array;
     }
 
 
-     //! title
+    //! title
     /*!
       Tilte of the priority.
       Returns the title of the priority as a string.
     */
     function title()
     {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
-        return $this->title();
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->Title;
     }
 
     //! setTitle
     /*!
       Sets the title of the priority.
       The new title of the priority is passed as a paramenter ( $value ).
-     */
+    */
     function setTitle( $value )
     {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
         $this->Title = $value;
     }
 
@@ -146,9 +159,9 @@ class eZPriority
     */
     function id()
     {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
-        return $this->id();
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->ID;
     }
 
     //! dbInit
@@ -158,14 +171,14 @@ class eZPriority
     */
     function dbInit()
     {
-        include_once( "classes/class.INIFile.php" );
+        include_once( "classes/INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
+        $SERVER = $ini->read_var( "eZTodoMain", "Server" );
+        $DATABASE = $ini->read_var( "eZTodoMain", "Database" );
+        $USER = $ini->read_var( "eZTodoMain", "User" );
+        $PWD = $ini->read_var( "eZTodoMain", "Password" );
         
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
@@ -174,6 +187,7 @@ class eZPriority
     var $ID;
     var $Title;
     var $Priority;
+    var $State_;
 }    
     
 

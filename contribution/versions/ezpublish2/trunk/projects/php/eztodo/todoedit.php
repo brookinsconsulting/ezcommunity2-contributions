@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.1 2000/09/07 07:12:25 ce-cvs Exp $
+// $Id: todoedit.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -40,10 +40,10 @@ if ( $Action == "insert" )
     $todo = new eZTodo();
     $todo->setTitle( $Title );
     $todo->setText( $Text );
-    $todo->setCategory( $Category );
-    $todo->setPriority( $Priority );
-    $todo->setUser( $User );
-    $todo->setOwner( $Owner );
+    $todo->setCategoryID( $CategoryID );
+    $todo->setPriorityID( $PriorityID );
+    $todo->setUserID( $UserID );
+    $todo->setOwnerID( $OwnerID );
     if ( $Public == "on" )
     {
         $todo->setPermission( "Public" );
@@ -52,6 +52,15 @@ if ( $Action == "insert" )
     {
         $todo->setPermission( "Private" );
     }
+    if ( $Status == "on" )
+    {
+        $todo->setStatus( $Status = "Y" );
+    }
+    else
+    {
+        $todo->setStatus( $Status = "N" );
+    }
+
     $todo->setDue( $Year . $Mnd . $Hour );
     $todo->store();
     Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
@@ -64,14 +73,31 @@ if ( $Action == "update" )
     $todo->get( $TodoID );
     $todo->setTitle( $Title );
     $todo->setText( $Text );
-    $todo->setCategory( $Category );
-    $todo->setPriority( $Priority );
+    $todo->setCategoryID( $CategoryID );
+    $todo->setPriorityID( $PriorityID );
     $todo->setDue( $Due );
-    $todo->setUser( $User );
-    $todo->setPermission( $Permission );
-    $todo->update();
+    $todo->setUserID( $UserID );
+    $todo->setOwnerID( $OwnerID );
+    if ( $Status == "on" )
+    {
+        $todo->setStatus( "Y" );
+    }
+    else
+    {
+        $todo->setStatus( "N" );
+    }
+    if ( $Permission == "on" )
+    {
+        $todo->setPermission( "Public" );
+    }
+    else
+    {
+        $todo->setPermission( "Private" );
+    }
 
-//    print( "tittel :" . $Title );
+
+    
+    $todo->update();
 
     Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
 }
@@ -86,6 +112,26 @@ if ( $Action == "delete" )
     Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
 }
 
+// Mark a todo as done or undone.
+if ( $Action == "done" )
+{
+    $todo = new eZTodo();
+    if ( $Status == "N" )
+    {
+        $todo->get( $TodoID );
+        $todo->setStatus( "Y" );
+        $todo->update();
+        Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
+    }
+    if ( $Status == "Y" )
+    {
+        $todo->get( $TodoID );
+        $todo->setStatus( "N" );
+        $todo->update();
+        Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
+    }
+}
+
 // Setup template.
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "todoedit.php" );
 $t->setAllStrings();
@@ -94,7 +140,8 @@ $t->set_file( array(
     "todoedit" => "todoedit.tpl",
     "category_selector" => "categoryselector.tpl",
     "priority_selector" => "priorityselector.tpl",
-    "user_selector" => "userselector.tpl"
+    "user_item" => "useritem.tpl",
+    "owner_item" => "owneritem.tpl"
     ) );
 
 // Template variables.
@@ -110,38 +157,50 @@ $day = "";
 $hour = "";
 $min = "";
 
+// default user
+$UserID = $session->userID();
+$OwnerID = $session->userID();
+
 // Edit a todo.
 if ( $Action == "edit" )
 {
     $todo = new eZTodo();
     $todo->get( $TodoID );
-    $todo->title( $Title );
-    $todo->text( $Text );
-    $todo->category( $Category );
-    $todo->priority( $Priority );
-    $todo->user( $User );
-    $todo->owner( $Owner );
-
-    if ( $Public == "on" )
+    if ( $todo->status() == "Y" )
     {
-        $todo->permission( "Public" );
+        $Status = "checked";
     }
     else
     {
-        $todo->permission( "Private" );
+        $Status = "";
+    }
+
+    if ( $todo->permission() == "Public" )
+    {
+        $Permission = "checked";
+    }
+    else
+    {
+        $Permission = "";
     }
     $todo->due(  $Year . $Mnd . $Hour );
-
     $title = $todo->title();
     $text = $todo->text();
-    $category = $todo->category();
-    $priority = $todo->priority();
+    $categoryID = $todo->categoryID();
+    $priorityID = $todo->priorityID();
+    $userid = $todo->userID();
+    $ownerid = $todo->ownerID();
     
     $headline = "Rediger todo";
     $submit_text = "Rediger";
 
     $t->set_var( "todo_id", $TodoID );
     $action_value = "update";
+
+    $PriorityID = $todo->priorityID();
+    $CategoryID = $todo->categoryID();
+    $UserID = $todo->userID();
+    $OwnerID = $todo->ownerID();         
 }
 
 // Category selector.
@@ -150,14 +209,12 @@ $category_array = $category->getAll();
 
 for( $i=0; $i<count( $category_array ); $i++ )
 {
-    $t->set_var( "category_id", $category_array[ $i ][ "ID" ] );
-    $t->set_var( "category_title", $category_array[ $i ][ "Title" ] );
+    $t->set_var( "category_id", $category_array[ $i ]->id() );
+    $t->set_var( "category_title", $category_array[ $i ]->title() );
 
-    print( "catek: " . $Category );
-    if ( $Category == $category_array[ $i ][ "ID"] )
+    if ( $CategoryID == $category_array[ $i ][ "ID"] )
     {
-            print( "antall: " . count( $category_array ) );
-        $t->set_var( "is_selected", "selected" );
+         $t->set_var( "is_selected", "selected" );
     }
     else
     {
@@ -173,10 +230,10 @@ $priority_array = $priority->getAll();
 
 for( $i=0; $i<count( $priority_array ); $i++ )
 {
-    $t->set_var( "priority_id", $priority_array[ $i ][ "ID" ] );
-    $t->set_var( "priority_title", $priority_array[ $i ][ "Title" ] );
+    $t->set_var( "priority_id", $priority_array[ $i ]->id() );
+    $t->set_var( "priority_title", $priority_array[ $i ]->title() );
     
-    if ( $Priority == $priority_array[ $i ][ "ID"] )
+    if ( $PriorityID == $priority_array[ $i ][ "ID"] )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -189,6 +246,7 @@ for( $i=0; $i<count( $priority_array ); $i++ )
 }
 
 // User selector.
+
 $user = new eZUser();
 $user_array = $user->getAll();
 
@@ -198,16 +256,36 @@ for( $i=0; $i<count( $user_array ); $i++ )
     $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
     $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
 
-    if ( $User == $user_array[ $i ][ "id"] )
+    // User select
+    if ( $UserID == $user_array[ $i ][ "id"] )
     {
-        $t->set_var( "is_selected", "selected" );
+        $t->set_var( "user_is_selected", "selected" );
     }
     else
     {
-        $t->set_var( "is_selected", "" );
+        $t->set_var( "user_is_selected", "" );
     }
 
-    $t->parse( "user_select", "user_selector", true );
+    $t->parse( "user_select", "user_item", true );
+}
+
+for( $i=0; $i<count( $user_array ); $i++ )
+{
+    $t->set_var( "user_id", $user_array[ $i ][ "id" ] );
+    $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
+    $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
+
+    // Owner select
+    if ( $OwnerID == $user_array[ $i ][ "id"] )
+    {
+        $t->set_var( "owner_is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "owner_is_selected", "" );
+    }    
+
+    $t->parse( "owner_select", "owner_item", true );
 }
 
 
@@ -222,6 +300,8 @@ $t->set_var( "mnd", $mnd );
 $t->set_var( "day", $day );
 $t->set_var( "hour", $hour );
 $t->set_var( "min", $min );
+$t->set_var( "status", $Status );
+$t->set_var( "permission", $Permission );
 
 $t->set_var( "action_value", $action_value );
 $t->set_var( "head_line", $headline );

@@ -1,5 +1,5 @@
 <?
-// $Id: ezcategory.php,v 1.1 2000/09/07 07:12:25 ce-cvs Exp $
+// $Id: ezcategory.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
 //
 // Definition of eZCategory class
 //
@@ -23,22 +23,24 @@ class eZCategory
     /*!
       eZCategory Constructor.
     */
-    function eZCategory( $id=-1, $fetch=1 )
+    function eZCategory( $id=-1, $fetch=true )
     {
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch != 1 )
+            if ( $fetch == true )
             {
-                $this->get();
-                $this->IsCoherent = 1;                
+                $this->get( $this->ID );
             }
             else
             {
-                $this->IsCoherent = 0;
+                $this->State_ = "Dirty";
             }
+        }
+        else
+        {
+            $this->State_ = "New";
         }        
-
     }
 
     //! store
@@ -80,13 +82,13 @@ class eZCategory
                 WHERE ID='$this->ID' ");
     }
 
-    //! get
     /*!
       Gets a category object from the database, where ID == $id
     */
     function get( $id )
     {
         $this->dbInit();
+        
         if ( $id != "" )
         {
             array_query( $category_array, "SELECT * FROM eZTodo_Category WHERE ID='$id'" );
@@ -94,16 +96,17 @@ class eZCategory
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $catgory_array ) == 1 )
+            else if( count( $category_array ) == 1 )
             {
                 $this->ID = $category_array[0][ "ID" ];
                 $this->Title = $category_array[0][ "Title" ];
                 $this->Description = $category_array[0][ "Description" ];
             }
+                 
+            $this->State_ = "Coherent";
         }
     }
 
-    //! getAll
     /*!
       Gets all the category informasjon from the database.
       Returns the array in $cateogry_array ordered by title.
@@ -111,10 +114,19 @@ class eZCategory
     function getAll()
     {
         $this->dbInit();
-        $cateogry_array = 0;
 
-        array_query( $cateogry_array, "SELECT * FROM eZTodo_Category ORDER BY Title" );
-        return $cateogry_array;
+        $category_array = 0;
+
+        $return_array = array();
+        $category_array = array();
+
+        array_query( $category_array, "SELECT ID FROM eZTodo_Category ORDER by Title" );
+
+        for ( $i=0; $i<count( $category_array ); $i++ )
+        {
+            $return_array[$i] = new eZCategory( $category_array[$i]["ID"], 0 );
+        }
+        return $return_array;
     }
 
 
@@ -125,9 +137,9 @@ class eZCategory
     */
     function title()
     {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
-        return $this->title();
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->Title;
     }
 
     //! setTitle
@@ -136,9 +148,9 @@ class eZCategory
       The new title of the category is passed as a paramenter ( $value ).
      */
     function setTitle( $value )
-    {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
+    {        
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
         $this->Title = $value;
     }
 
@@ -149,9 +161,9 @@ class eZCategory
     */
     function description()
     {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
-        return $this->description();
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->Description;
     }
 
     //! setDescription
@@ -161,8 +173,8 @@ class eZCategory
      */
     function setDescription( $value )
     {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
         $this->Description = $value;
     }
  
@@ -173,9 +185,9 @@ class eZCategory
     */
     function id()
     {
-        if ( $this->IsCoherent == 0 )
-            $this->get();
-        return $this->id();
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->ID;
     }
 
     //! dbInit
@@ -185,14 +197,14 @@ class eZCategory
     */
     function dbInit()
     {
-        include_once( "classes/class.INIFile.php" );
+        include_once( "classes/INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
+        $SERVER = $ini->read_var( "eZTodoMain", "Server" );
+        $DATABASE = $ini->read_var( "eZTodoMain", "Database" );
+        $USER = $ini->read_var( "eZTodoMain", "User" );
+        $PWD = $ini->read_var( "eZTodoMain", "Password" );
         
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
@@ -201,6 +213,7 @@ class eZCategory
     var $ID;
     var $Title;
     var $Description;
+    var $State_;
 }    
     
 
