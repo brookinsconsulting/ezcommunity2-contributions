@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.15 2000/12/21 16:08:49 ce Exp $
+// $Id: useredit.php,v 1.16 2001/01/22 12:48:04 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -67,6 +67,7 @@ if ( $Action == "insert" )
                         $user->setEmail( $Email );
                         $user->setFirstName( $FirstName );
                         $user->setLastName( $LastName );
+                        $user->setSignature( $Signature );
 
                         if ( $InfoSubscription == "on" )
                             $user->setInfoSubscription( true );
@@ -139,6 +140,7 @@ if ( $Action == "update" )
                         $user->get( $UserID );
                         
                         $user->setEmail( $Email );
+                        $user->setSignature( $Signature );
 
                         if ( $InfoSubscription == "on" )
                             $user->setInfoSubscription( true );
@@ -267,6 +269,7 @@ if ( $Action == "edit" )
     $LastName = $user->lastName();
     $Email = $user->email();
     $Login = $user->login();
+    $Signature = $user->signature();
 
     $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
@@ -313,6 +316,7 @@ $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
 $t->set_var( "email_value", $Email );
 $t->set_var( "login_value", $Login );
+$t->set_var( "signature", $Signature );
 $t->set_var( "password_value", "" );
 $t->set_var( "verify_password_value", "" );
 $t->set_var( "action_value", $ActionValue );
