@@ -8,7 +8,7 @@ class eZInformixDB
         putenv('INFORMIXDIR=/opt/informix');
         ifx_textasvarchar(1);
         
-        $this->Database = ifx_connect( "$db@$server", "$user", "$password" );
+        $this->Database = ifx_pconnect( "$db@$server", "$user", "$password" );
     }
     
     /*!

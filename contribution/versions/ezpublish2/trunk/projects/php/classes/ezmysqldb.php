@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.3 2001/06/20 12:12:45 bf Exp $
+// $Id: ezmysqldb.php,v 1.4 2001/06/21 10:03:50 bf Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -48,7 +48,7 @@ class eZMySQLDB
     */
     function isA()
     {
-        return "postgresql";
+        return "mysql";
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.1 2001/06/19 13:55:42 bf Exp $
+// $Id: ezpostgresqldb.php,v 1.2 2001/06/21 10:03:50 bf Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -35,7 +35,7 @@ class eZPostgreSQLDB
 {
     function eZPostgreSQLDB( $server, $db, $user, $password  )
     {
-        $this->Database = pg_connect( "host=$server dbname=$db user=$user password=$password" );
+        $this->Database = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
     }
 
     /*!

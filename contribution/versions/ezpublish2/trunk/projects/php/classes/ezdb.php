@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.39 2001/06/19 13:55:42 bf Exp $
+// $Id: ezdb.php,v 1.40 2001/06/21 10:03:50 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -142,11 +142,12 @@ class eZDB
       Returns a reference to the global database object, if it doesn't exists it is initialized.
       This is safe to call without an object since it does not access member variables.
     */
-    function &globalDatabase( $implementation="mysql" )
+    function &globalDatabase(  )
     {
         $impl =& $GLOBALS["eZDB"];
-                
-        if ( get_class( $eZDB ) != "ezdb" )
+
+        $class =& get_class( $impl );
+        if ( !preg_match( "/ez.*?db/", $class ) )
         {
             $ini =& INIFile::globalINI();
 
@@ -154,8 +155,9 @@ class eZDB
             $db =& $ini->read_var( "site", "Database" );
             $user =& $ini->read_var( "site", "User" );
             $password =& $ini->read_var( "site", "Password" );
-        
-            switch ( $implementation )
+            $databaseImplementation =& $ini->read_var( "site", "DatabaseImplementation" );
+            
+            switch ( $databaseImplementation )
             {
                 case "mysql" :
                 {
@@ -176,7 +178,6 @@ class eZDB
                 case "informix" :
                 {
                     include_once( "classes/ezinformixdb.php" );
-                
                     $impl = new eZInformixDB( $server, $db, $user, $password );
                 }
                 break;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.25 2001/06/19 13:55:42 bf Exp $
+// $Id: ezdatetime.php,v 1.26 2001/06/21 10:03:50 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -320,11 +320,17 @@ class eZDateTime
     }
 
     /*!
+      \static
       Returns the timestamp as a UNIX timestamp.
+
+      If returnNow is set to true a timestamp of the current time is returned.
     */
-    function timeStamp()
+    function timeStamp( $returnNow=false )
     {
-        return mktime( $this->hour(), $this->minute(), $this->second(),
+        if ( $returnNow == true )
+            return mktime();
+        else
+            return mktime( $this->hour(), $this->minute(), $this->second(),
         $this->month(), $this->day(), $this->year() );
     }
     

@@ -239,7 +239,9 @@ else
 
 
 // close the database connection.
-eZDB::close();
+$db =& eZDB::globalDatabase();
+$db->close();
+
 
 // flush the buffer cache
 ob_end_flush();

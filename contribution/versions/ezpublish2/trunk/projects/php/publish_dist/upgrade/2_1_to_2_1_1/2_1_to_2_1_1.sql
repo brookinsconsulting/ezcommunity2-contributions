@@ -309,3 +309,41 @@ CREATE TABLE eZImageCatalogue_ImageMap (
   EndPosY int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
+#
+# convert to new database types for database independence
+#
+
+# eZ session conversion
+alter table eZSession_Session drop SecondLastAccessed;
+
+alter table eZSession_Session add LastAccessedTmp int;
+update eZSession_Session set LastAccessedTmp= UNIX_TIMESTAMP( LastAccessed );
+alter table eZSession_Session drop LastAccessed; 
+alter table eZSession_Session change LastAccessedTmp LastAccessed int; 
+
+alter table eZSession_Session add CreatedTmp int;
+update eZSession_Session set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZSession_Session drop Created; 
+alter table eZSession_Session change CreatedTmp Created int;
+
+# eZ user conversion
+alter table eZUser_User add InfoSubscriptionTmp int default '0';
+update eZUser_User set InfoSubscriptionTmp='1' where InfoSubscription='true';
+alter table eZUser_User drop InfoSubscription;
+alter table eZUser_User change InfoSubscriptionTmp InfoSubscription int;
+
+alter table eZUser_Cookie add TimeTmp int;
+update eZUser_Cookie set TimeTmp= UNIX_TIMESTAMP( Time );
+alter table eZUser_Cookie drop Time; 
+alter table eZUser_Cookie change TimeTmp Time int; 
+
+alter table eZUser_Forgot add TimeTmp int;
+update eZUser_Forgot set TimeTmp= UNIX_TIMESTAMP( Time );
+alter table eZUser_Forgot drop Time; 
+alter table eZUser_Forgot change TimeTmp Time int; 
+
+alter table eZUser_GroupPermissionLink add IsEnabledTmp int default '0';
+update eZUser_GroupPermissionLink set IsEnabledTmp='1' where IsEnabled='true';
+alter table eZUser_GroupPermissionLink drop IsEnabled;
+alter table eZUser_GroupPermissionLink change IsEnabledTmp IsEnabled int;

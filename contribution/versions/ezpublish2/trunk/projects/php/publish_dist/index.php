@@ -11,7 +11,6 @@ $bench = new eZBenchmark();
 $bench->start();
   
 $GLOBALS["DEBUG"] = true;
-
 $UsePHPSessions = false;
 
 ob_start();
@@ -42,7 +41,7 @@ $GlobalSiteIni =& $ini;
 include_once( "classes/ezlocale.php" );
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $Locale = new eZLocale( $Language );
-$iso = $Locale->languageISO();
+$iso =& $Locale->languageISO();
 if ( $iso != false )
     header( "Content-type: text/html;charset=$iso" );
 
@@ -52,6 +51,43 @@ include_once( "ezuser/classes/ezuser.php" );
 
 
 $session =& eZSession::globalSession();
+
+
+/// test code
+
+$db =& eZDB::globalDatabase();
+
+print( "Using current database driver: ". $db->isA() . "<br>" );
+
+
+if ( !$session->fetch( ) )
+{
+    $session->store();
+}
+
+print( $session->id() );
+print( $session->idle() );
+
+$session->setVariable( "CartID", "42" );
+
+$cartID = $session->variable( "CartID" );
+
+// check if the variable exists and print out the contents
+if ( $cartID )
+{
+    print( "You have a shopping cart<br>" );
+    print( "And the ID is: " . $cartID );
+}
+
+$db->close();
+
+print( "<br>" );
+$bench->stop();
+$bench->printResults();
+
+die();
+
+// end test code
 
 //
 unset( $siteDesign );
@@ -83,8 +119,8 @@ if ( $StoreStats == "enabled" )
 
     // create a global page view object for statistics
     // and store the stats
-    $GlobalPageView = new eZPageView();
-    $GlobalPageView->store();
+//    $GlobalPageView = new eZPageView();
+//    $GlobalPageView->store();
 }
 
 // parse the URI

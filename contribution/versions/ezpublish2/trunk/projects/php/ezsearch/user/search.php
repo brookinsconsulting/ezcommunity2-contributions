@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.2 2001/06/08 11:54:28 bf Exp $
+// $Id: search.php,v 1.3 2001/06/21 10:03:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jun-2001 13:10:36 bf>
@@ -62,6 +62,7 @@ foreach ( $moduleArray as $module )
         $t->set_var( "search_item", "" );
         $t->set_var( "module_name", $ModuleName );
         $i = 0;
+        if ( count( $SearchResult ) > 0 )
         foreach ( $SearchResult as $res )
         {
             if ( ( $i % 2 ) == 0 )

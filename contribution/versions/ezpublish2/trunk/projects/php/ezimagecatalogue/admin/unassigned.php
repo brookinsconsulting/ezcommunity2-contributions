@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unassigned.php,v 1.2 2001/05/29 11:59:20 ce Exp $
+// $Id: unassigned.php,v 1.3 2001/06/21 10:03:50 bf Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -41,7 +41,7 @@ $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
 $ImageDir = $ini->read_var( "eZImageCatalogueMain", "ImageDir" );
 
-$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
+$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "AdminTemplateDir" ),
                      "ezimagecatalogue/admin/intl/", $Language, "unassigned.php" );
 
 $t->set_file( "image_list_page_tpl", "unassigned.tpl" );

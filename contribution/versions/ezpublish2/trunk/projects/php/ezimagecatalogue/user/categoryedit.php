@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.17 2001/04/23 10:53:53 fh Exp $
+// $Id: categoryedit.php,v 1.18 2001/06/21 10:03:50 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -111,7 +111,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $parentCategory = new eZImageCategory( $ParentID );
 
-            if ( eZObjectPermission::hasPermission( $parentCategory, "imagecatalogue_category", "w", $user ) )
+            if ( eZObjectPermission::hasPermission( $parentCategory, "imagecatalogue_category", "w", $user ) == false )
             {
                 $t->parse( "error_write", "error_write_permission" );
                 $error = true;
