@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.2 2000/07/14 13:47:12 lw-cvs Exp $
+    $Id: forum.php,v 1.3 2000/07/19 09:59:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -19,8 +19,11 @@ include( "$DOCROOT/classes/ezsession.php" );
 $msg = new eZforumMessage($forum_id);
 $t = new Template(".");
 
-$t->set_file( array("forum" => "$DOCROOT/templates/forum.tpl",
-                    "elements" => "$DOCROOT/templates/forum-elements.tpl") );
+$t->set_file( Array("forum" => "$DOCROOT/templates/forum.tpl",
+                    "elements" => "$DOCROOT/templates/forum-elements.tpl",
+                    "preview" => "$DOCROOT/templates/forum-preview.tpl"
+                   )
+            );
 
 $t->set_var( "docroot", $DOCROOT);
 $t->set_var( "category_id", $category_id);
@@ -36,7 +39,17 @@ else
     $UserID = 0;
 }
 
-if ($post)
+if ( $preview )
+{
+    $t->set_var( "topic", $Topic );
+    $t->set_var( "body", nl2br( $Body ) );
+    $t->set_var( "body-clean", $Body );
+    $t->set_var( "userid", $UserID );
+    $t->pparse( "output", "preview" );
+    die();
+}
+
+if ( $post )
 {
     $msg->newMessage();
     $msg->setTopic( $Topic );
@@ -45,7 +58,7 @@ if ($post)
     $msg->store();
 }
     
-if ($reply)
+if ( $reply )
 {
     $msg->newMessage();    
     $msg->setTopic( $Topic );
