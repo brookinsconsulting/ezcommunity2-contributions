@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementtype.php,v 1.6 2001/12/13 08:59:30 jhe Exp $
+// $Id: ezformelementtype.php,v 1.7 2001/12/13 09:48:17 jhe Exp $
 //
 // ezformelementtype class
 //
@@ -167,23 +167,20 @@ class eZFormElementType
 
         if ( $limit == false )
         {
-            $db->array_query( $formArray, "SELECT ID
-                                           FROM eZForm_FormElementType
-                                           ORDER BY Name DESC
-                                           " );
+            $db->array_query( $formArray, "SELECT * FROM eZForm_FormElementType
+                                           ORDER BY Name DESC" );
 
         }
         else
         {
-            $db->array_query( $formArray, "SELECT ID
-                                           FROM eZForm_FormElementType
+            $db->array_query( $formArray, "SELECT * FROM eZForm_FormElementType
                                            ORDER BY Name DESC",
                                            array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
-            $returnArray[$i] = new eZFormElementType( $formArray[$i][$db->fieldName( "ID" )] );
+            $returnArray[$i] = new eZFormElementType( $formArray[$i] );
         }
 
         return $returnArray;

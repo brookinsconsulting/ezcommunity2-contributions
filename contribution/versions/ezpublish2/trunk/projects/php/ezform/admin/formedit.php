@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.13 2001/12/13 08:59:29 jhe Exp $
+// $Id: formedit.php,v 1.14 2001/12/13 09:48:17 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -213,6 +213,15 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
             $element->setRequired( $required );
 
             $element->store();
+
+            if ( $elementType->name() == "table_item" )
+            {
+                $table = new eZFormTable( $element->ID() );
+                $table->setCols( $Size[$i] );
+                $table->setRows( $Rows[$i] );
+                $table->setElementID( $element->id() );
+                $table->store();
+            }
         }
 
         if ( isSet( $OK ) && count( $errorMessages ) == 0 )

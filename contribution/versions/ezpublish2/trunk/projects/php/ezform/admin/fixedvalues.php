@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fixedvalues.php,v 1.2 2001/10/09 09:04:27 ce Exp $
+// $Id: fixedvalues.php,v 1.3 2001/12/13 09:48:17 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -48,7 +48,7 @@ if( isset( $AddValue ) )
 }
 
 
-if( isset( $Store ) || isset ( $AddValue ) || isset ( $DeleteSelected ) || isset ( $OK ) )
+if ( isset( $Store ) || isset ( $AddValue ) || isset ( $DeleteSelected ) || isset ( $OK ) )
 {
     $i=0;
     if ( count ( $ValueID ) > 0 )
@@ -63,7 +63,7 @@ if( isset( $Store ) || isset ( $AddValue ) || isset ( $DeleteSelected ) || isset
     }
 }
 
-if( isset( $DeleteSelected ) )
+if ( isset( $DeleteSelected ) )
 {
     foreach( $ValueDeleteID as $ID )
     {
@@ -72,7 +72,7 @@ if( isset( $DeleteSelected ) )
     }
 }
 
-if( isset( $OK ) )
+if ( isset( $OK ) )
 {
     eZHTTPTool::header( "Location: /form/form/edit/$FormID" );
     exit();

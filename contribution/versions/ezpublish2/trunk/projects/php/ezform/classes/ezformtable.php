@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.2 2001/12/13 08:59:30 jhe Exp $
+// $Id: ezformtable.php,v 1.3 2001/12/13 09:48:17 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -72,14 +72,72 @@ class eZFormTable
     function fill( &$tableArray )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID =& $tableArray[$db->fieldName( "ElementID" )];
+        $this->ID =& $tableArray[$db->fieldName( "ID" )];
+        $this->ElementID =& $tableArray[$db->fieldName( "ElementID" )];
         $this->Cols =& $tableArray[$db->fieldName( "Cols" )];
         $this->Rows =& $tableArray[$db->fieldName( "Rows" )];
     }
 
+    function store()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        if ( $this->ID == 0 || !isSet( $this->ID ) )
+        {
+            $db->lock( "eZForm_FormTable" );
+            $this->ID = $db->nextID( "eZForm_FormTable", "ID" );
+            $res = $db->query( "INSERT INTO eZForm_FormTable
+                                       (ID,
+                                        ElementID,
+                                        Cols,
+                                        Rows)
+                                VALUES ('$this->ID',
+                                        '$this->ElementID',
+                                        '$this->Cols',
+                                        '$this->Rows')" );
+            $db->unlock();
+        }
+        else
+        {
+            $res = $db->query( "UPDATE eZForm_FormTable SET
+                                ElementID='$this->ElementID',
+                                Cols='$this->Cols',
+                                Rows='$this->Rows'
+                                WHERE ID='$this->ID'" );
+        }
+        eZDB::finish( $res, $db );
+        return true;
+    }
+
+    function delete( $table = -1 )
+    {
+        if ( $table == -1 )
+            $tableID = $table;
+        else
+            $tableID = $this->ID;
+
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZForm_FormTable WHERE ElementID='$tableID'" );
+        $res[] = $db->query( "DELETE FROM eZForm_FormElement WHERE Parent='$tableID'" );
+        eZDB::finish( $res, $db );
+    }
+    
     function id()
     {
         return $this->ID;
+    }
+
+    function elementID()
+    {
+        return $this->ElementID;
+    }
+
+    function setElementID( $value )
+    {
+        $this->ElementID = $value;
     }
     
     function cols()
@@ -103,6 +161,7 @@ class eZFormTable
     }
     
     var $ID;
+    var $ElementID;
     var $Cols;
     var $Rows;
 }
