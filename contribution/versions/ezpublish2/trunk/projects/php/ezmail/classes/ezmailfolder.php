@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.21 2001/05/05 11:29:47 bf Exp $
+// $Id: ezmailfolder.php,v 1.22 2001/05/05 12:20:15 bf Exp $
 //
 // eZMailFolder class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZMailFolder
+//!! eZMail
 //! eZMailFolder documentation.
 /*!
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.26 2001/05/05 11:29:46 bf Exp $
+// $Id: ezmail.php,v 1.27 2001/05/05 12:20:15 bf Exp $
 //
 // Definition of eZMail class
 //
@@ -26,7 +26,8 @@
 //
 
 
-//!! eZMail
+//!! eZCommon
+//! eZMail
 /*!
 
   Functions that are used when sending mail have ideas from:

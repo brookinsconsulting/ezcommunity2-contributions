@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.22 2001/04/26 13:07:03 bf Exp $
+// $Id: ezdate.php,v 1.23 2001/05/05 12:20:15 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -169,7 +169,7 @@ class eZDate
     */
     function dayOfWeek( $mondayFirst=true )
     {
-        $weekday = date ( "w", mktime ( 2, 0, 0, $this->Month, $this->Day, $this->Year ) );
+        $weekday = date ( "w", mktime ( 1, 0, 0, $this->Month, $this->Day, $this->Year ) );
 
         if ( $mondayFirst == true )
         {

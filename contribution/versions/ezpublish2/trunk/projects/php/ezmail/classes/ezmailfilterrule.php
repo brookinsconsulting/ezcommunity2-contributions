@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.10 2001/05/05 11:29:47 bf Exp $
+// $Id: ezmailfilterrule.php,v 1.11 2001/05/05 12:20:15 bf Exp $
 //
 // eZMailFilterRule class
 //
@@ -26,7 +26,7 @@
 //
 
 
-//!! eZMailFilterRule
+//!! eZMail
 //! eZMailFilterRule documentation.
 /*!
   To check mail use the eZMailFilter class.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.25 2001/05/05 11:29:47 bf Exp $
+// $Id: ezmailaccount.php,v 1.26 2001/05/05 12:20:15 bf Exp $
 //
 // eZMailAccount class
 //
@@ -24,7 +24,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-//!! eZMailAccount
+
+
+//!! eZMail
 //! eZMailAccount documentation.
 /*!
 
