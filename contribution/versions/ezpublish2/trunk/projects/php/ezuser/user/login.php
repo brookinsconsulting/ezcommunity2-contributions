@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.35 2001/08/13 06:58:07 jhe Exp $
+// $Id: login.php,v 1.36 2001/12/04 13:44:31 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -57,7 +57,7 @@ if ( isSet( $Register ) )
     exit();
 }
 
-unset ( $t );
+unset( $t );
 
 // Template
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
@@ -73,7 +73,7 @@ $t->set_var( "buttons", "" );
 if ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) != "enabled" )
     $t->parse( "buttons", "buttons_tpl" );
 else
-$t->set_var( "buttons", "" );
+    $t->set_var( "buttons", "" );
 
 
 if ( $Action == "login" )
@@ -99,43 +99,55 @@ if ( $Action == "login" )
             
             if ( ( $MaxLogins  == "0" ) || ( $logins < $MaxLogins ) )
             {
-                eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
-                eZUser::loginUser( $user );
-                
-                if ( $user->cookieLogin() == true )
+                $expiryDate = $user->expiryDate();
+                if ( ( $expiryDate->timeStamp() == 0 ) || ( eZDateTime::timeStamp( true ) < $expiryDate->timeStamp() ) )
                 {
-                    $user->setCookieValues();
-                }
-
-                $mainGroup = $user->groupDefinition( true );
-                if ( ( $mainGroup ) && $mainGroup->groupURL() )
-                {
-                    eZHTTPTool::header( "Location: " . $mainGroup->groupURL() );
-                    exit();
-                }
-                else if ( isSet( $RedirectURL ) )
-                {
-                    $stringTmp = split( "/", $RedirectURL );
+                    eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
+                    eZUser::loginUser( $user );
                     
-                    if ( $stringTmp[2] == "norights" )
+                    if ( $user->cookieLogin() == true )
                     {
-                        eZHTTPTool::header( "Location: /" );
+                        $user->setCookieValues();
+                    }
+                    
+                    $mainGroup = $user->groupDefinition( true );
+                    if ( ( $mainGroup ) && $mainGroup->groupURL() )
+                    {
+                        eZHTTPTool::header( "Location: " . $mainGroup->groupURL() );
                         exit();
+                    }
+                    else if ( isSet( $RedirectURL ) )
+                    {
+                        $stringTmp = split( "/", $RedirectURL );
+                        
+                        if ( $stringTmp[2] == "norights" )
+                        {
+                            eZHTTPTool::header( "Location: /" );
+                            exit();
+                        }
+                        else
+                        {
+                            if ( $RedirectURL == "" )
+                            {
+                                $RedirectURL = "/";
+                            }
+                            
+                            eZHTTPTool::header( "Location: $RedirectURL" );
+                            exit();
+                        }
                     }
                     else
                     {
-                        if ( $RedirectURL == "" )
-                        {
-                            $RedirectURL = "/";
-                        }
-
-                        eZHTTPTool::header( "Location: $RedirectURL" );
+                        eZHTTPTool::header( "Location: /" );
                         exit();
                     }
                 }
                 else
                 {
-                    eZHTTPTool::header( "Location: /" );
+                    $user->setIsActive( $false );
+                    $user->store();
+                    eZLog::writeWarning( "Account for $Username has expired" );
+                    eZHTTPTool::header( "Location: /user/norights/?Error=Account+has+expired&RedirectURL=$RedirectURL" );
                     exit();
                 }
             }

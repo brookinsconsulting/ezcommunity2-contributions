@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.27 2001/08/07 13:26:40 jhe Exp $
+// $Id: login.php,v 1.28 2001/12/04 13:44:31 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -61,7 +61,6 @@ if ( $Action == "login" )
         {
             $logins = $user->getLogins( $user->ID );
             $AllowSimultaneousLogins =  $ini->read_var( "eZUserMain", "SimultaneousLogins" );
-
             if ( $AllowSimultaneousLogins == "disabled" )
             {
                 $MaxLogins = "1";
@@ -70,23 +69,33 @@ if ( $Action == "login" )
             {
                 $MaxLogins = $user->simultaneousLogins();
             }
-
             if ( ( $logins < $MaxLogins ) || ( $MaxLogins == 0 ) )
             {
-                eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
-
-                eZUser::loginUser( $user );
-                if ( !isSet( $RefererURL ) )
-                    $RefererURL = "/";
-                
-                // Show password change dialog, if admin is using default login
-                if ( $Username == "admin" && $Password == "publish" )
+                $expiryDate = $user->expiryDate();
+                if ( ( $expiryDate->timeStamp() == 0 ) || ( eZDateTime::timeStamp( true ) < $expiryDate->timeStamp() ) )
                 {
-                    $RefererURL = "/user/passwordchange/";
-                }
+                    eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
 
-                eZHTTPTool::header( "Location: $RefererURL" );
-                exit();
+                    eZUser::loginUser( $user );
+                    if ( !isSet( $RefererURL ) )
+                        $RefererURL = "/";
+                
+                    // Show password change dialog, if admin is using default login
+                    if ( $Username == "admin" && $Password == "publish" )
+                    {
+                        $RefererURL = "/user/passwordchange/";
+                    }
+
+                    eZHTTPTool::header( "Location: $RefererURL" );
+                    exit();
+                }
+                else
+                {
+                    $user->setIsActive( $false );
+                    $user->store();
+                    eZLog::writeWarning( "Account for $Username has expired" );
+                    $error = true;
+                }
             }
             else
             {
@@ -97,7 +106,7 @@ if ( $Action == "login" )
         }
         else
         {
-            ezLog::writeError( "Couldn't receive admin information on : $Username from IP: $REMOTE_ADDR" );
+            eZLog::writeError( "Couldn't receive admin information on : $Username from IP: $REMOTE_ADDR" );
 
             $error = true;
         }

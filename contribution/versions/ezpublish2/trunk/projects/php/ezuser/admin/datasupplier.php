@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.29 2001/11/20 16:11:57 ce Exp $
+// $Id: datasupplier.php,v 1.30 2001/12/04 13:44:30 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -159,6 +159,13 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         }
         break;
 
+        case "expiredusers" :
+        {
+            $Action = $url_array[3];
+            include( "ezuser/admin/expireduserlist.php" );
+        }
+        break;
+        
         case "login" :
         {
             $Action = $url_array[3];
