@@ -1,7 +1,43 @@
 <?
+// 
+// $Id: ezinformixdb.php,v 1.8 2001/06/29 11:21:24 bf Exp $
+//
+// Definition of eZInformixDB class
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <29-Jun-2001 13:17:19 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+//!! eZCommon
+//! The eZInfomixDB class provides the informix database implementation.
+/*!
+  See the eZDB class for description on usage.
+
+  \sa eZDB
+*/
 
 class eZInformixDB
 {
+    /*!
+      Constructor
+    */
     function eZInformixDB( $server, $db, $user, $password  )
     {
         putenv('INFORMIXSERVER=kosh');
@@ -64,7 +100,10 @@ class eZInformixDB
         }
     }
 
-    
+
+    /*!
+      
+    */
     function array_query( &$ret_array, $query, $min=0, $max=-1 )
     {
         $ret_array = array();

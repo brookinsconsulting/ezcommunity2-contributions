@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.33 2001/06/29 11:10:46 ce Exp $
+// $Id: ezvirtualfile.php,v 1.34 2001/06/29 11:21:24 bf Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -183,7 +183,7 @@ class eZVirtualfile
         $return_array = array();
         $category_array = array();
         
-        $db->array_query( $category_array, "SELECT ID FROM eZFileManager_File ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID, FROM eZFileManager_File ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
@@ -205,7 +205,7 @@ class eZVirtualfile
 
         $query = new eZQuery( array( "Name", "Description", "OriginalFileName" ), $queryText );
 
-        $queryString = ( "SELECT ID FROM eZFileManager_File
+        $queryString = ( "SELECT ID,Name FROM eZFileManager_File
                         WHERE (" . $query->buildQuery() . ")
                         ORDER By Name" );
 

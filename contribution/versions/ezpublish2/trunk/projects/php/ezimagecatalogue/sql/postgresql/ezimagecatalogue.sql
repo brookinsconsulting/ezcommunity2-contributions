@@ -2,11 +2,11 @@
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
   Name varchar(100) default NULL,
-  Description lvarchar,
+  Description text,
   ParentID int default NULL,
   UserID int default NULL,
-  WritePermission int,
-  ReadPermission int,
+  WritePermission int default '1',
+  ReadPermission int default '1',
   PRIMARY KEY (ID)
 );
 
@@ -15,22 +15,21 @@ CREATE TABLE eZImageCatalogue_CategoryPermission (
   ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
-  ReadPermission int,
-  WritePermission int,
+  ReadPermission int default '0',
+  WritePermission int default '0',
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZImageCatalogue_Image (
   ID int NOT NULL,
   Name varchar(100) default NULL,
-  PhotographerID int not null,
-  Caption lvarchar,
-  Created int,
-  Description lvarchar,
+  Caption text,
+  Description text,
+  Photographer int,
   FileName varchar(100) default NULL,
   OriginalFileName varchar(100) default NULL,
-  ReadPermission int,
-  WritePermission int,
+  ReadPermission int default '1',
+  WritePermission int default '1',
   UserID int default NULL,
   PRIMARY KEY (ID)
 );
@@ -40,8 +39,8 @@ CREATE TABLE eZImageCatalogue_ImagePermission (
   ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
-  ReadPermission int,
-  WritePermission int,
+  ReadPermission int default '0',
+  WritePermission int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -57,10 +56,10 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
   ID int NOT NULL,
   ImageID int default NULL,
   VariationGroupID int default NULL,
-  ImagePath varchar(100) default NULL,
+  ImagePath char(100) default NULL,
   Width int default NULL,
   Height int default NULL,
-  Modification varchar(20) NOT NULL,
+  Modification char(20) NOT NULL default '',
   PRIMARY KEY (ID)
 );
 
@@ -75,7 +74,7 @@ CREATE TABLE eZImageCatalogue_ImageMap (
   ID int NOT NULL,
   ImageID int default NULL,
   Link varchar(50) NOT NULL,
-  AltLvarchar lvarchar,
+  AltText text,
   Shape int NOT NULL,
   StartPosX int NOT NULL,
   StartPosY int NOT NULL,

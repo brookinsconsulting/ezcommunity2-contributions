@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.21 2001/06/27 11:48:09 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.22 2001/06/29 11:21:24 bf Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -176,7 +176,7 @@ class eZVirtualFolder
         $return_array = array();
         $category_array = array();
         
-        $db->array_query( $category_array, "SELECT ID FROM eZFileManager_Folder ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID,Name FROM eZFileManager_Folder ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
@@ -468,7 +468,7 @@ class eZVirtualFolder
        $article_array = array();
 
        $db->array_query( $file_array, "
-                SELECT eZFileManager_File.ID AS FileID
+                SELECT eZFileManager_File.ID AS FileID, eZFileManager_File.OriginalFileName
                 FROM eZFileManager_File, eZFileManager_Folder, eZFileManager_FileFolderLink
                 WHERE 
                 eZFileManager_FileFolderLink.FileID = eZFileManager_File.ID
