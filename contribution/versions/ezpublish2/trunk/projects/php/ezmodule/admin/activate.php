@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: activate.php,v 1.3 2001/04/18 12:50:03 jb Exp $
+// $Id: activate.php,v 1.4 2001/04/19 07:31:49 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 15:07:58 amos>
@@ -29,8 +29,7 @@ include_once( "ezmodule/classes/ezmodulehandler.php" );
 
 $ini =& INIFile::globalINI();
 $preferences = new eZPreferences();
-$single_module = $preferences->variable( "SingleModule" );
-$single_module = is_bool( $single_module ) ? true : $single_module == "enabled";
+$single_module = eZModuleHandler::useSingleModule();
 
 if ( $single_module )
 {
@@ -67,9 +66,8 @@ else
 }
 eZModuleHandler::setActive( $modules );
 
-//      $uri =& $GLOBALS["REQUEST_URI"];
-//      $uri = eZHTTPTool::removeVariable( $uri, "ToggleMenu" );
-eZHTTPTool::header( "Location: /" );
+$uri =& $GLOBALS["RefURL"];
+eZHTTPTool::header( "Location: $uri" );
 exit();
 
 ?>
