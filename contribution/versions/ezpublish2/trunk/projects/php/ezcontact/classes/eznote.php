@@ -22,6 +22,27 @@ class eZNote
     }
 
     /*
+      Sletter adressetypen fra databasen.
+     */
+    function delete()
+    {
+        $this->dbInit();
+        query( "DELETE FROM Note WHERE ID='$this->ID'" );
+    }
+
+    
+    /*!
+      Oppdaterer tabellen.
+    */
+    function update()
+    {
+        $this->dbInit();
+        query( "UPDATE Note set Title='$this->Title' Body='$this->Body' WHERE ID='$this->ID'" );
+    }
+
+
+    
+    /*
       Henter ut Notat med ID == $id
     */  
     function get( $id )

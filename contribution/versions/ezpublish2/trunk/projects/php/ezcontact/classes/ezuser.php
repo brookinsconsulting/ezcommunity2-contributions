@@ -51,6 +51,14 @@ class eZUser
         query( "Update Usr set Login='$this->User', Pwd=PASSWORD('$this->Password'), Grp='$this->Group' WHERE ID='$this->ID'" );
     }
   
+    /*
+      Sletter bruker i databasen.
+    */  
+    function delete()
+    {
+        $this->dbInit();
+        query( "DELETE FROM Usr WHERE ID='$this->ID'" );
+    }
 
     /*!
       Henter ut en bruker med ID=$id fra databasen.    

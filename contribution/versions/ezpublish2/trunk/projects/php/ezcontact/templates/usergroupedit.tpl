@@ -1,4 +1,4 @@
-<form method="post" action="index.php4?page={document_root}usergroupedit.php4">
+<form method="post" action="index.php4?prePage={document_root}usergroupedit.php4">
 <h1>Legg til en ny brukergruppe</h1>
 
 Brukergruppe navn:<br>

@@ -20,6 +20,12 @@ if ( file_exists( $prePage ) )
                 }
 //-->
 </SCRIPT>  
+<SCRIPT LANGUAGE="JavaScript" SRC="{document_root}overlib.js">
+</SCRIPT>
+
+
+
+
 </head>
 <body>
 

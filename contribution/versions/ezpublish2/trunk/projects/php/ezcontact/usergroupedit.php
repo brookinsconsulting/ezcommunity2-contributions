@@ -7,18 +7,20 @@ require  $DOCUMENTROOT . "classes/ezuser.php";
 require  $DOCUMENTROOT . "classes/ezusergroup.php";
 
 
-// sjekke session
+
+
+// Slette
+if ( $Action == "delete" )
 {
-  include(  $DOCUMENTROOT . "checksession.php" );
+    $group =  new eZUserGroup();
+    $group->get( $UGID );
+    $group->delete( );
+    print ( $UGID );
+
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "usergrouplist.php" );
 }
 
-$t = new Template( "." );
-$t->set_file( "user_page",  $DOCUMENTROOT . "templates/usergroupedit.tpl" );               
-
-$t->set_var( "submit_text", "Legg til" );
-$t->set_var( "action_value", "insert" );
-$t->set_var( "user_group_id", "" );
-
+// Legge til
 if ( $Action == "insert" )
 {
   $group = new eZUserGroup();
@@ -56,6 +58,7 @@ if ( $Action == "insert" )
   }
   
   $group->store();
+  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "usergrouplist.php" );
 }
 
 if ( $Action == "update" )
@@ -121,6 +124,20 @@ if ( $Action == "update" )
   }
   
   $group->update();
+  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "usergrouplist.php" );
+}
+
+
+$t = new Template( "." );
+$t->set_file( "user_page",  $DOCUMENTROOT . "templates/usergroupedit.tpl" );           
+
+$t->set_var( "submit_text", "Legg til" );
+$t->set_var( "action_value", "insert" );
+$t->set_var( "user_group_id", "" );
+
+// sjekke session
+{
+  include(  $DOCUMENTROOT . "checksession.php" );
 }
 
 if ( $Action == "edit" )
@@ -165,6 +182,7 @@ if ( $Action == "edit" )
   $t->set_var( "action_value", "update" );
   $t->set_var( "user_group_id", $UGID  );  
 }
+
 
 $t->set_var( "user_group_name", $Name );
 $t->set_var( "user_group_description", $Description );

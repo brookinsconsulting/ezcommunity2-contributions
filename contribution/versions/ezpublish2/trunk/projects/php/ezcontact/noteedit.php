@@ -15,6 +15,7 @@ if ( !$session->get( $AuthenticatedSession ) )
 }        
 
 
+// Legg til
 if ( $Action == "insert" )
 {
     $usr = new eZUser();
@@ -31,6 +32,30 @@ if ( $Action == "insert" )
 
 }
 
+// Oppdatere
+if ( $Action == "update" )
+{
+    $note = new eZNote();
+    $note->get( $NID );
+    $note->setTitle( $Title );
+    $note->setBody( $Body );
+    $note->update( );
+
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "noteslist.php " );
+}
+
+
+// Slette
+if ( $Action == "delete" )
+{
+    $note = new eZNote();
+    $note->get( $NID );
+    $note->delete( );
+
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "noteslist.php " );
+}
+
+
 include( $DOCUMENTROOT . "checksession.php" );
 
 $t = new Template( "." );
@@ -45,8 +70,18 @@ $t->set_var( "submit_text", "legg til" );
 $t->set_var( "title", "" );
 $t->set_var( "body", "" );
 
+if ( $Action == "edit" )
+{
+    $note = new eZNote();
+    $note->get( $NID );
+    $note->title( $Title );
+    $note->Body( $Body );
 
-
+    $t->set_var( "submit_text", "Lagre endringer" );
+    $t->set_var( "action_value", "update" );
+    $t->set_var( "message", "Rediger notat" );
+}
+    
 $t->set_var( "document_root", $DOCUMENTROOT );
 
 $t->pparse( "output", "note_edit" );

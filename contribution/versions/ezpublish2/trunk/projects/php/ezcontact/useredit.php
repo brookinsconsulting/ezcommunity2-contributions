@@ -22,7 +22,17 @@ $t->set_var( "submit_text", "Legg til" );
 $t->set_var( "action_value", "insert" );
 $t->set_var( "user_id", "" );
 
+// Slett
+if ( $Action == "delete" )
+{
+    $user = new eZUser();
+    $user->get( $UID );
+    $user->delete();
 
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "userlist.php" );
+}
+
+// Legg til
 if ( $Action == "insert" )
 {
   if (( $Pwd != $PwdVer ) || $Pwd == "" )
@@ -37,6 +47,7 @@ if ( $Action == "insert" )
   }
 }
 
+// Oppdater
 if ( $Action == "update" )
 {
   $user = new eZUser();
@@ -46,8 +57,10 @@ if ( $Action == "update" )
   $user->setGroup( $UserGroup );
 
   $user->update();
-}
 
+   printRedirect( "../index.php?page=" . $DOCUMENTROOT . "userlist.php" );
+}
+// Editer
 if ( $Action == "edit" )
 {
   $user = new eZUser();

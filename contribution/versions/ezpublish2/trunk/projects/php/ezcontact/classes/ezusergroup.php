@@ -33,6 +33,17 @@ class eZUserGroup
     return mysql_insert_id();
   }
 
+    /*
+      Sletter brukergruppe fra databasen.
+     */
+    function delete()
+    {
+        $this->dbInit();
+        query( "DELETE FROM Grp WHERE ID='$this->ID'" );
+    }
+
+
+
   /*
     Oppdaterer en brukergrupperad i databasen. returnerer 0 dersom ra
   */  
