@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.20 2001/09/24 15:29:53 bf Exp $
+// $Id: eztexttool.php,v 1.21 2001/09/27 15:51:53 jakobn Exp $
 //
 // Definition of eZTextTool class
 //
@@ -26,7 +26,7 @@
 //
 
 //!! eZCommon
-//! The eZTextTool class provies text utility functions
+//! The eZTextTool class provides text utility functions
 /*!
   This class consists of static functions for formatting of text.
   Theese functions is made as an extention to PHP ie functions you would
