@@ -71,7 +71,45 @@
 http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/><br />
 <br />
 
+	
+
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td valign="top">
+	<!-- BEGIN quantity_item_tpl -->
+	<p class="boxtext">{intl-availability}:</p>
+	<input type="text" size="10" name="Quantity" value="{quantity_value}" />
+	<!-- END quantity_item_tpl -->&nbsp;
+    </td>
+    <td valign="top">
+	<p class="boxtext">{intl-shipping_group}:</p>
+	<select name="ShippingGroupID">
+
+	<!-- BEGIN shipping_select_tpl -->
+	<option value="{shipping_group_id}" {selected}>{shipping_group_name}</option>
+	<!-- END shipping_select_tpl -->
+	</select>
+    </td>
+</tr>
+<tr>
+    <td valign="top" colspan="2">&nbsp;</td>
+</tr>
+<tr>
+    <td valign="top">
+	    <p class="boxtext">{intl-expiry_time}:</p>
+	    <input type="text" size="3" name="Expiry" value="{expiry_value}" />&nbsp;<span class="boxtext">{intl-days}</span><br />
+    </td>
+    <td valign="top">
+        <div class="check">
+        <input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />&nbsp;<span class="boxtext">{intl-is_hot_deal}</span>
+        <input type="checkbox" name="Discontinued" {discontinued_checked} /><span class="boxtext">{intl-discontinued}</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td valign="top" colspan="2">&nbsp;</td>
+</tr>
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-vat_type}:</p>
@@ -83,25 +121,10 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 	</select>
 	</td>
-
-	<td valign="top">
-	<p class="boxtext">{intl-mark_as_voucher}:</p>
-	<input type="checkbox" name="MarkAsVoucher" {mark_as_voucher}>
-	</td>
-
-	<td valign="top">
-	<p class="boxtext">{intl-shipping_group}:</p>
-	<select name="ShippingGroupID">
-
-	<!-- BEGIN shipping_select_tpl -->
-	<option value="{shipping_group_id}" {selected}>{shipping_group_name}</option>
-	<!-- END shipping_select_tpl -->
-
-	</select>
-	</td>
-</tr>
-<tr>
-       <td>&nbsp;</td>
+    <td>
+        <input type="radio" name="IncludesVAT" {include_vat} value="true" /> <span class="boxtext">{intl-includes_vat}</span>
+        <input type="radio" name="IncludesVAT" {exclude_vat} value="false" /> <span class="boxtext">{intl-excludes_vat}</span>
+    </td>
 </tr>
 <tr>
         <!-- BEGIN price_range_tpl -->
@@ -114,6 +137,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<br /><br />
 	</td>
         <!-- END price_range_tpl -->
+
         <!-- BEGIN normal_price_tpl -->
 	<td valign="top">
 	<p class="boxtext">{intl-price}:</p>
@@ -121,35 +145,14 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<br /><br />
 	</td>
         <!-- END normal_price_tpl -->
-
-	<!-- BEGIN quantity_item_tpl -->
-	<td valign="top">
-	<p class="boxtext">{intl-availability}:</p>
-	<input type="text" size="10" name="Quantity" value="{quantity_value}" />
-	</td>
-	<!-- END quantity_item_tpl -->
-
-	<td valign="top">
-	<p class="boxtext">{intl-expiry_time}:</p>
-	<input type="text" size="3" name="Expiry" value="{expiry_value}" />&nbsp;<span class="p">{intl-days}</span><br />
-	</td>
-
-</tr>
-<tr>
-	<td valign="top">
-	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;<span class="boxtext">{intl-has_price}</span></div>
-	</td>
-	<td valign="top">
-	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />&nbsp;<span class="boxtext">{intl-is_hot_deal}</span></div>
-	</td>
-	<td valign="top">
-	<div class="check"><input type="checkbox" name="Discontinued" {discontinued_checked} /><span class="boxtext">{intl-discontinued}</span></div>
-	</td>
-
+    <td>
+        <div class="check">
+        <input type="checkbox" name="Active" {showproduct_checked} />&nbsp;<span class="boxtext">{intl-active}</span>
+        <input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;<span class="boxtext">{intl-has_price}</span>
+        </div>
+    </td>
 </tr>
 </table>
-	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;<span class="boxtext">{intl-active}</span></div>
-
 
 <!-- BEGIN price_group_list_tpl -->
 <h2>{intl-price_groups}</h2>
@@ -193,6 +196,8 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<option value="ModuleLinker">{intl-links}</option>
 <!-- END module_linker_button_tpl -->
         </select>
+    </td>
+    <td>
 	    <input class="stdbutton" type="submit" name="AddItem" value="{intl-add_item}" />
     </td>
     <td>&nbsp;&nbsp;&nbsp;</td>
@@ -204,19 +209,19 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <hr noshade="noshade" size="4" />
 <table cellspacing="0" cellpadding="0" border="0">
-<tr>
+<tr valign="center">
 <td>
-<div class="divider">
-	<input class="okbutton" type="submit" value="{intl-ok}" />
-	<input type="hidden" name="ProductID" value="{product_id}" />
-</div>
+    <input class="okbutton" type="submit" value="{intl-ok}" />
+    <input type="hidden" name="ProductID" value="{product_id}" />
 	</form>
-</td><td>
-<div class="divider">
-	<form method="post" action="{www_dir}{index}/trade/productedit/cancel/">
-	<input type="hidden" name="ProductID" value="{product_id}" />
-	<input class="okbutton" type="submit" value="{intl-cancel}" />
-	</form>
-</div>
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+    <form method="post" action="{www_dir}{index}/trade/productedit/cancel/">
+        <input type="hidden" name="ProductID" value="{product_id}" />
+        <input class="okbutton" type="submit" value="{intl-cancel}" />
+    </form>
 </td></tr>
 </table>

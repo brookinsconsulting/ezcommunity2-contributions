@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.61 2001/09/07 09:54:44 ce Exp $
+// $Id: productedit.php,v 1.62 2001/09/10 14:40:19 pkej Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -192,6 +192,15 @@ if ( $Action == "Insert" )
         $range->setMax( $Max );
         $range->setProduct( $product );
         $range->store();
+    }
+
+    if ( $IncludesVAT == "true" )
+    {
+        $product->setIncludesVAT( true );
+    }
+    else
+    {
+        $product->setIncludesVAT( false );
     }
 
     if ( $ShowQuantity )
@@ -395,6 +404,17 @@ if ( $Action == "Update" )
     }
     
     $product->setPrice( $Price );
+
+    if ( $IncludesVAT == "true" )
+    {
+        $product->setIncludesVAT( true );
+    }
+    else
+    {
+        $product->setIncludesVAT( false );
+    }
+
+
     
     if ( $Expiry > 0 )
         $product->setExpiryTime( $Expiry );
@@ -679,17 +699,6 @@ $t->set_var( "external_link", "" );
 
 $t->set_var( "action_value", "insert" );
 
-if ( $UseVoucher )
-{
-    $t->set_var( "normal_price", "" );
-    $t->parse( "price_range", "price_range_tpl" );
-}
-else
-{
-    $t->set_var( "price_range", "" );
-    $t->parse( "normal_price", "normal_price_tpl" );
-}
-
 $writeGroupsID = array(); 
 $readGroupsID = array(); 
 
@@ -729,6 +738,12 @@ if ( $Action == "Edit" )
     if ( $product->productType() == 2 )
         $t->set_var( "mark_as_voucher", "checked" );
 
+    if ( $product->includesVAT() == true )
+        $t->set_var( "include_vat", "checked" );
+
+    if ( $product->excludedVAT() == true )
+        $t->set_var( "exclude_vat", "checked" );
+
     $VatType =& $product->vatType();
 
     $Quantity = $product->totalQuantity();
@@ -748,6 +763,17 @@ if ( $Action == "Edit" )
 
     $VatType =& $product->vatType();    
     $ShippingGroup =& $product->shippingGroup();    
+}
+
+if ( $UseVoucher )
+{
+    $t->set_var( "normal_price", "" );
+    $t->parse( "price_range", "price_range_tpl" );
+}
+else
+{
+    $t->set_var( "price_range", "" );
+    $t->parse( "normal_price", "normal_price_tpl" );
 }
 
 $category = new eZProductCategory();

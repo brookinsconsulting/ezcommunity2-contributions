@@ -73,6 +73,7 @@
 	<th colspan="2">{intl-product}:</th>
 	<th class="right">{intl-active}:</th>
 	<th class="right">{intl-price}:</th>
+	<th class="right">&nbsp;</th>
 	<th class="right">{intl-new_price}:</th>
 	<!-- BEGIN absolute_placement_header_tpl -->
 	<th>&nbsp;</th>
@@ -107,8 +108,16 @@
 	</td>
 	<!-- END product_inactive_item_tpl -->
 	<td class="{td_class}" align="right">
-	{product_price}
+	{product_price}&nbsp;
 	</td>
+    <td class="{td_class}" align="center">
+    <!-- BEGIN inc_vat_item_tpl -->
+    {intl-inc_vat}
+    <!-- END inc_vat_item_tpl -->
+    <!-- BEGIN ex_vat_item_tpl -->
+    {intl-ex_vat}
+    <!-- END ex_vat_item_tpl -->
+    </td>
 	<td class="{td_class}" align="right">
 	<input type="text" name="Price[]" size="8" value="" />
 	</td>

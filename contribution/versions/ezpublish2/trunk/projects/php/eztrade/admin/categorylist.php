@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.29 2001/09/03 15:53:29 ce Exp $
+// $Id: categorylist.php,v 1.30 2001/09/10 14:40:19 pkej Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -85,6 +85,9 @@ $t->set_block( "product_item_tpl", "product_inactive_item_tpl", "product_inactiv
 
 $t->set_block( "product_item_tpl", "voucher_icon_tpl", "voucher_icon" );
 $t->set_block( "product_item_tpl", "product_icon_tpl", "product_icon" );
+
+$t->set_block( "product_item_tpl", "inc_vat_item_tpl", "inc_vat_item" );
+$t->set_block( "product_item_tpl", "ex_vat_item_tpl", "ex_vat_item" );
 
 // move up / down
 $t->set_block( "product_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
@@ -226,6 +229,18 @@ foreach ( $productList as $product )
             }
         }
     }
+
+    if( $product->includesVAT() == true )
+    {
+        $t->set_var( "ex_vat_item", "" );
+        $t->parse( "inc_vat_item", "inc_vat_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "inc_vat_item", "" );
+        $t->parse( "ex_vat_item", "ex_vat_item_tpl" );
+    }
+
 
     
     $t->set_var( "product_active_item", "" );
