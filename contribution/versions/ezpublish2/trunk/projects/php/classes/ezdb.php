@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.18 2000/12/20 12:39:01 pkej Exp $
+// $Id: ezdb.php,v 1.19 2000/12/23 14:19:19 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -123,6 +123,19 @@ class eZDB
     var $User;
     /// the password to use
     var $Password;
+}
+
+/*!
+  Returns the global database object, if it doesn't exists it is initialized.
+*/
+
+function eZGlobalDatabase()
+{
+    if ( get_class( $eZDB ) != "ezdb" )
+    {
+        $eZDB = new eZDB( "site.ini", "site" );
+    }
+    return $eZDB;
 }
 
 ?>
