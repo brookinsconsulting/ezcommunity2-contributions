@@ -79,7 +79,7 @@
 <!-- BEGIN price_tpl -->
 <div class="spacer"><div class="pris">{product_price}</div></div>
 <!-- END price_tpl -->
-
+	<br />
 	</td>
 </tr>
 <!-- END product_tpl -->
