@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84.8.2 2002/01/29 13:37:57 bf Exp $
+// $Id: payment.php,v 1.84.8.3 2002/01/31 12:19:35 bf Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -357,7 +357,11 @@ if ( $PaymentSuccess == "true" )
         }
 
         $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
-        $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );
+        if ( trim( $billingAddress->street2() ) != "" )
+            $mailTemplate->set_var( "billing_street2", "\n". $billingAddress->street2() );
+        else
+            $mailTemplate->set_var( "billing_street2", "" );
+        
         $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );
         $mailTemplate->set_var( "billing_place", $billingAddress->place() );
 
@@ -409,7 +413,11 @@ if ( $PaymentSuccess == "true" )
         $shippingAddress = $order->shippingAddress();
 
         $mailTemplate->set_var( "shipping_street1", $shippingAddress->street1() );
-        $mailTemplate->set_var( "shipping_street2", $shippingAddress->street2() );
+        if ( trim( $shippingAddress->street2() ) != "" )        
+            $mailTemplate->set_var( "shipping_street2", "\n" . $shippingAddress->street2() );
+        else
+            $mailTemplate->set_var( "shipping_street2", "" );
+        
         $mailTemplate->set_var( "shipping_zip", $shippingAddress->zip() );
         $mailTemplate->set_var( "shipping_place", $shippingAddress->place() );
 
@@ -680,7 +688,7 @@ if ( $PaymentSuccess == "true" )
         $mailTemplate->set_var( "intl-goods_list", trim( $mailTemplateIni->read_var( "strings", "goods_list" ) ) );;
 
         $mailTemplate->set_var( "subtotal_inc_tax", str_pad( $subinctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
-        $mailTemplate->set_var( "total_inc_tax", str_pad( $inctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "total_inc_tax", str_pad( $inctax .$len_product_total_inc_tax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
         $mailTemplate->set_var( "shipping_inc_tax", str_pad( $shipinctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
 
         $mailTemplate->set_var( "subtotal_ex_tax", str_pad( $subextax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
@@ -758,7 +766,10 @@ if ( $PaymentSuccess == "true" )
 
     $mailTemplate->set_var( "payment_method", $paymentMethod );
 
-    $mailTemplate->set_var( "comment", $order->comment() );
+    if ( trim( $order->comment() ) != "" )
+        $mailTemplate->set_var( "comment", "\nKommentar:\n" . $order->comment(). "\n" );
+    else
+        $mailTemplate->set_var( "comment", "" );
 
     $shippingType = $order->shippingType();
     if ( $shippingType )
