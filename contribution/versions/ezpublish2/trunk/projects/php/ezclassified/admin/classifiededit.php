@@ -44,16 +44,15 @@ if ( $Action == "insert" )
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
-    $position->setContactPerson( $ContactPerson );
+//      $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->setValidUntil( $Year, $Month, $Day );
+    $position->setPositionType( $PositionType );
+    $position->setInitiateType( $InitiateType );
     $position->store();
 
     $company = new eZCompany( $CompanyID );
     $position->addCompany( $company );
-
-    $position->setPositionType( $PositionType );
-    $position->setInitiateType( $InitiateType );
 
     $category_show = false;
     // Add classifed to categories
@@ -91,7 +90,7 @@ if ( $Action == "update" )
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
-    $position->setContactPerson( $ContactPerson );
+//      $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->setValidUntil( $Year, $Month, $Day );
 
@@ -130,9 +129,23 @@ if ( $Action == "update" )
 if( $Action == "delete" )
 {
     $position = new eZPosition( $ClassifiedID );
+    $category_show = false;
+
+    $categories = $position->categories( $ClassifiedID );
+    foreach ( $categories as $category )
+        {
+            if ( !$category_show )
+                $category_show = $category->ID();
+        }
+
     $position->delete();
 
-    Header( "Location: /classified/list" );
+    if ( $category_show )
+        $category_show = "/" . $category_show;
+    else
+        $category_show = "";
+
+    Header( "Location: /classified/list$category_show" );
     exit();
 }
 
@@ -177,7 +190,7 @@ if ( $Action == "new" )
     $t->set_var( "classified_worktime", "" );
     $t->set_var( "classified_duration", "" );
     $t->set_var( "classified_workplace", "" );
-    $t->set_var( "classified_contact_person", "" );
+//      $t->set_var( "classified_contact_person", "" );
     $t->set_var( "classified_year", "" );
     $t->set_var( "classified_month", "" );
     $t->set_var( "classified_day", "" );
@@ -192,7 +205,7 @@ if ( $Action == "edit" )
     $t->set_var( "classified_title", $position->title() );
     $t->set_var( "classified_id", $position->id() );
     $t->set_var( "classified_description", $position->description() );
-    $t->set_var( "classified_contact_person", $position->contactPerson() );
+//      $t->set_var( "classified_contact_person", $position->contactPerson() );
     $t->set_var( "classified_pay", $position->pay() );
     $t->set_var( "classified_pay_edit_def", "" );
     $t->parse( "classified_pay_edit", "classified_pay_edit_tpl" );
