@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.74 2001/04/27 10:28:45 bf Exp $
+// $Id: articleedit.php,v 1.75 2001/04/27 12:12:39 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -36,6 +36,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 
 include_once( "ezbulkmail/classes/ezbulkmail.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
@@ -106,53 +107,41 @@ function notificationMessage( &$article )
 }
 
 
-function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
-{
-    $user = eZUser::currentUser();
-/*    $groupstr = "";
-    if( get_class( $user ) == "ezuser" )
-    {
-        $groupIDArray = $user->groups( true );
-        sort( $groupIDArray );
-        $first = true;
-        foreach( $groupIDArray as $groupID )
-        {
-            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-            $first = false;
-        }
-        }*/
+//  function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
+//  {
+//      $user = eZUser::currentUser();
 
-    $files =& eZCacheFile::files( "ezarticle/cache/",
-                                 array( array( "articleprint", "articleview", "articlestatic", "static", "view", "print"  ),
-                                        $ArticleID, NULL, NULL ), "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
+//      $files =& eZCacheFile::files( "ezarticle/cache/",
+//                                   array( array( "articleprint", "articleview", "articlestatic", "static", "view", "print"  ),
+//                                          $ArticleID, NULL, NULL ), "cache", "," );
+//      foreach( $files as $file )
+//      {
+//          $file->delete();
+//      }
 
-    $files =& eZCacheFile::files( "ezarticle/cache/",
-                                 array( array( "articlelist", "list" ),
-                                        array_merge( 0, $CategoryID, $CategoryArray ),
-                                        NULL, array( "", NULL ) ),
-                                 "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
+//      $files =& eZCacheFile::files( "ezarticle/cache/",
+//                                   array( array( "articlelist", "list" ),
+//                                          array_merge( 0, $CategoryID, $CategoryArray ),
+//                                          NULL, array( "", NULL ) ),
+//                                   "cache", "," );
+//      foreach( $files as $file )
+//      {
+//          $file->delete();
+//      }
 
 
-    $files =& eZCacheFile::files( "ezarticle/cache/",
-                                 array( "articlelinklist",
-                                        array_merge( 0, $CategoryID, $CategoryArray ),
-                                        $ArticleID,
-                                        NULL ),
-                                  "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
+//      $files =& eZCacheFile::files( "ezarticle/cache/",
+//                                   array( "articlelinklist",
+//                                          array_merge( 0, $CategoryID, $CategoryArray ),
+//                                          $ArticleID,
+//                                          NULL ),
+//                                    "cache", "," );
+//      foreach( $files as $file )
+//      {
+//          $file->delete();
+//      }
 
-}
+//  }
 
 /* Can possibly be deleted!
 if ( isset ( $DeleteArticles ) )
@@ -295,7 +284,7 @@ if ( $Action == "Insert" )
 
 
         // clear the cache files.
-        deleteCache( $ArticleID, $CategoryID, $CategoryArray );
+        eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
         
         // add images
         if ( isset( $Image ) )
@@ -476,7 +465,7 @@ if ( $Action == "Update" )
         }
 
         // clear the cache files.
-        deleteCache( $ArticleID, $CategoryID, $old_categories );
+        eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
 
         foreach ( $remove_categories as $categoryItem )
         {
@@ -552,7 +541,7 @@ if ( $Action == "DeleteArticles" )
             $categoryID = $categoryID->id();
 
             // clear the cache files.
-            deleteCache( $ArticleID, $categoryID, $categoryIDArray );
+            eZArticleTool::deleteCache( $ArticleID, $categoryID, $categoryIDArray );
             $article->delete();
         }
         eZHTTPTool::header( "Location: /article/archive/$categoryID/" );

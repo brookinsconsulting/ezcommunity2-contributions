@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.32 2001/04/27 11:23:04 ce Exp $
+// $Id: articlelist.php,v 1.33 2001/04/27 12:12:39 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezlist.php" );
@@ -66,7 +67,7 @@ if( isset( $DeleteArticles ) )
                 $categoryID = $categoryID->id();
 
                 // clear the cache files.
-                deleteCache( $TArticleID, $categoryID, $categoryIDArray );
+                eZArticleTool::deleteCache( $TArticleID, $categoryID, $categoryIDArray );
                 $article->delete();
             }
         }
@@ -367,43 +368,43 @@ else
 
 $t->pparse( "output", "article_list_page_tpl" );
 
-/*!
-  Delete cache.
-*/
-function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
-{
-    $user = eZUser::currentUser();
-    $groupstr = "";
-    if( get_class( $user ) == "ezuser" )
-    {
-        $groupIDArray = $user->groups( true );
-        sort( $groupIDArray );
-        $first = true;
-        foreach( $groupIDArray as $groupID )
-        {
-            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-            $first = false;
-        }
-    }
+//  /*!
+//    Delete cache.
+//  */
+//  function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
+//  {
+//      $user = eZUser::currentUser();
+//      $groupstr = "";
+//      if( get_class( $user ) == "ezuser" )
+//      {
+//          $groupIDArray = $user->groups( true );
+//          sort( $groupIDArray );
+//          $first = true;
+//          foreach( $groupIDArray as $groupID )
+//          {
+//              $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+//              $first = false;
+//          }
+//      }
 
-    $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( array( "articleprint", "articleview", "articlestatic" ),
-                                        $ArticleID, NULL, $groupstr ), "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
+//      $files = eZCacheFile::files( "ezarticle/cache/",
+//                                   array( array( "articleprint", "articleview", "articlestatic" ),
+//                                          $ArticleID, NULL, $groupstr ), "cache", "," );
+//      foreach( $files as $file )
+//      {
+//          $file->delete();
+//      }
 
-    $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( "articlelist",
-                                        array_merge( 0, $CategoryID, $CategoryArray ),
-                                        NULL, array( "", $groupstr ) ),
-                                 "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
-}
+//      $files = eZCacheFile::files( "ezarticle/cache/",
+//                                   array( "articlelist",
+//                                          array_merge( 0, $CategoryID, $CategoryArray ),
+//                                          NULL, array( "", $groupstr ) ),
+//                                   "cache", "," );
+//      foreach( $files as $file )
+//      {
+//          $file->delete();
+//      }
+//  }
 
 
 ?>
