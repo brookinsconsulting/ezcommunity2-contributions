@@ -3,7 +3,7 @@
 
 <h1>{intl-edit_headline}</h1>
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4" />
 
 <br />
 
@@ -53,9 +53,10 @@
 
 </ul>
 <!-- END errors_tpl -->
-
+ 
 <!-- BEGIN person_item_tpl -->
-<h3>{intl-personal_headline}</h3>
+<h2>{intl-personal_headline}</h2>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
 	    <td width="50%">
@@ -68,6 +69,7 @@
 	    </td>
     </tr>
 </table>
+
 <p class="boxtext">{intl-birthday_headline}:</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -75,16 +77,18 @@
         <table cellpadding="0" cellspacing="0" border="0">
         <tr valign="bottom">
             <td>
-                <p class="boxtext">{intl-year}</p>
+                <p class="boxtext">{intl-year}:</p>
                 <input type="text" size="4" name="BirthYear" value="{birthyear}"/>
             </td>
+			<td>&nbsp;</td>
             <td>
-                <p class="boxtext">{intl-month}</p>
-                <input type="text" size="2" name="BirthMonth" value="{birthmonth}"/>
+                <p class="boxtext">{intl-month}: </p>
+                <input type="text" size="4" name="BirthMonth" value="{birthmonth}"/>
             </td>
+			<td>&nbsp;</td>
             <td>
-                <p class="boxtext">{intl-day}</p>
-                <input type="text" size="2" name="BirthDay" value="{birthday}"/>
+                <p class="boxtext">{intl-day}: </p>
+                <input type="text" size="4" name="BirthDay" value="{birthday}"/>
             </td>
         </tr>
         </table>
@@ -95,6 +99,7 @@
     </td>
 </tr>
 </table>
+
 <p class="boxtext">{intl-comment_headline}:</p>
 <textarea name="Comment" rows="4" columns="80" wrap="soft">{comment}</textarea>
 <input type="hidden" name="ContactTypeID" value="{cv_contact_type_id}" />
@@ -103,7 +108,7 @@
 
 
 <!-- BEGIN password_item_tpl -->
-<h3>{intl-password_headline}</h3>
+<h2>{intl-password_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="50%">
@@ -128,10 +133,12 @@
 <!-- END password_item_tpl -->
 
 <!-- BEGIN address_item_tpl -->
-<h3>{intl-address_headline}</h3>
+<h2>{intl-address_headline}</h2>
 <p class="boxtext">{intl-address}:</p>
 <input type="text" size="20" name="Street1" value="{street1}"/><br>
 <input type="text" size="20" name="Street2" value="{street2}"/>
+
+<br /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -149,7 +156,7 @@
 <input type="hidden" name="AddressID" value="{cv_address_id}" />
 <!-- END address_item_tpl -->
 
-<h3>{intl-online_headline}</h3>
+<h2>{intl-telephone_headline}</h2><br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
@@ -171,7 +178,7 @@
 </tr>
 </table>
 
-<h3>{intl-electronic_headline}</h3>
+<h2>{intl-online_headline}</h2><br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
@@ -194,18 +201,27 @@
     </td>
 </tr>
 </table>
+<br />
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4" />
 
-<input class="okbutton" name="addcv" type="submit" value="{intl-add_cv}" />
-<input class="okbutton" name="addimage" type="submit" value="{intl-add_image}" />
+<input class="stdbutton" name="addcv" type="submit" value="{intl-add_cv}" />
+<input class="stdbutton" name="addimage" type="submit" value="{intl-add_image}" />
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" value="{intl-ok}" />
-</form>
-
-<form method="post" action="/contact/person/list/">
-<input class="okbutton" type="submit" name="Back" value="{intl-back}">
-</form>
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td>
+	<input class="okbutton" type="submit" value="{intl-ok}" />
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form method="post" action="/contact/person/list/">
+	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
+	</form>
+	</td>
+</tr>
+</table>
 
