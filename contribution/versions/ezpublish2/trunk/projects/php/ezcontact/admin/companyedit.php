@@ -27,7 +27,6 @@ include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-
 if ( $Action == "insert" )
 {
     $company = new eZCompany();
@@ -74,7 +73,6 @@ if ( $Action == "insert" )
         $logo = new eZImage();
         $logo->setName( "Logo" );
         $logo->setImage( $file );
-
         $logo->store();
 
         $company->setLogoImage( $logo );
@@ -302,7 +300,6 @@ if ( $Action == "edit" )
         
         $t->set_var( "logo_add", "" );
         $t->parse( "logo_edit", "logo_edit_tpl" );
-        print( "5555" );
     }
 
     $companyImage = $company->companyImage();
@@ -311,12 +308,11 @@ if ( $Action == "edit" )
     {
         $variation = $companyImage->requestImageVariation( 150, 150 );
         
-        $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
-        $t->set_var( "logo_name", $companyImage->name() );
+        $t->set_var( "image_src", "/" . $variation->imagePath() );
+        $t->set_var( "image_name", $companyImage->name() );
         
-        $t->set_var( "logo_add", "" );
-        $t->parse( "logo_edit", "logo_edit_tpl" );
-        print( "5555" );
+        $t->set_var( "image_add", "" );
+        $t->parse( "image_edit", "image_edit_tpl" );
     }
 
 
@@ -429,13 +425,14 @@ if ( $Action == "edit" )
 //              }
                  
 //          }
+        // Template variabler.
+    $Action_value = "Update";
+
     }
     
 
-    // Template variabler.
-    $Action_value = "Update";
 
-}
+
 
 // Company type selector
 $companyType = new eZCompanyType();

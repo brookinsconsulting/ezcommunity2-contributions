@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.27 2000/11/16 10:40:06 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.28 2000/11/16 12:16:55 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -44,6 +44,9 @@
 
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezphone.php" );
+include_once( "classes/ezimagefile.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
+
 // include_once( "ezcontact/classes/ezonline.php" );
 
 class eZCompany
@@ -442,6 +445,34 @@ class eZCompany
        return $return_array;
     }
 
+
+    /*!
+      Returns the logo image of the company as a eZImage object.
+    */
+    function logoImage( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $this->dbInit();
+       
+       $this->Database->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+                                     WHERE
+                                     CompanyID='$this->ID'
+                                   " );
+       
+       if ( count( $res_array ) == 1 )
+       {
+           if ( $res_array[0]["LogoImageID"] != "NULL" )
+           {
+               $ret = new eZImage( $res_array[0]["LogoImageID"], false );
+           }               
+       }
+       
+       return $ret;
+    }
+
     /*!
       Sets the logo image for the company.
 
@@ -478,34 +509,6 @@ class eZCompany
                                      LogoImageID='$imageID'" );
             }
         }
-    }
-
-
-    /*!
-      Returns the logo image of the company as a eZImage object.
-    */
-    function logoImage( )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $ret = false;
-       $this->dbInit();
-       
-       $this->Database->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
-                                     WHERE
-                                     CompanyID='$this->ID'
-                                   " );
-       
-       if ( count( $res_array ) == 1 )
-       {
-           if ( $res_array[0]["LogoImageID"] != "NULL" )
-           {
-               $ret = new eZImage( $res_array[0]["LogoImageID"], false );
-           }               
-       }
-       
-       return $ret;
     }
 
 
@@ -551,7 +554,7 @@ class eZCompany
     /*!
       Returns the logo image of the company as a eZImage object.
     */
-    function imageImage( )
+    function companyImage( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
