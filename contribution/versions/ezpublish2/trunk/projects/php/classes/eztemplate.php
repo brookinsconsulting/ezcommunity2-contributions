@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.45 2001/09/29 12:35:14 kaid Exp $
+// $Id: eztemplate.php,v 1.46 2001/10/17 12:50:22 bf Exp $
 //
 // Definition of eZTemplate class
 //
@@ -809,7 +809,7 @@ class eZTemplate
         if (substr($filename, 0, 1) != "/") {
             $filename = $root."/".$filename;
         }
-    
+
         if (!file_exists($filename))
             $this->halt("filename: file $filename does not exist.");
 

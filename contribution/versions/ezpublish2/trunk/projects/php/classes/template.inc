@@ -5,7 +5,7 @@
  * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.8 2001/07/29 23:30:57 kaid Exp $
+ * $Id: template.inc,v 1.9 2001/10/17 12:50:22 bf Exp $
  *
  */ 
 
@@ -318,7 +318,6 @@ class Template {
     }
     
     if (!eZFile::file_exists($filename))
-	error_log("HALLO: $filename");
       $this->halt("filename: file $filename does not exist.");
 
     return $filename;
