@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.57 2001/03/08 15:15:13 fh Exp $
+// $Id: articleedit.php,v 1.58 2001/03/10 16:19:30 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -636,7 +636,8 @@ $user = eZUser::currentUser();
 
 foreach ( $treeArray as $catItem )
 {
-    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true  )
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true  ||
+         eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {    
         if ( $Action == "Edit" )
         {

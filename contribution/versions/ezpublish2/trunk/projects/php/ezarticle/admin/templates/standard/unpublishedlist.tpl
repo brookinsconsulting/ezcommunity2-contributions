@@ -41,7 +41,7 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 	
-<form method="post" action="/article/categoryedit/edit/" enctype="multipart/form-data">
+<form method="post" action="/article/unpublished/{current_category_id}/" enctype="multipart/form-data">
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -84,7 +84,7 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 
-<form method="post" action="/article/articleedit/edit/" enctype="multipart/form-data">
+<form method="post" action="/article/unpublished/{current_category_id}/" enctype="multipart/form-data">
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="48%" class="{td_class}">

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unpublishedlist.php,v 1.4 2001/03/09 23:55:17 fh Exp $
+// $Id: unpublishedlist.php,v 1.5 2001/03/10 16:19:30 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -30,6 +30,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "classes/ezcachefile.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -37,6 +38,67 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Locale = new eZLocale( $Language );
 $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
 $languageIni = new INIFIle( "ezarticle/admin/intl/" . $Language . "/unpublishedlist.php.ini", false );
+
+
+if( isset( $DeleteCategories ) )
+{
+    if ( count ( $CategoryArrayID ) != 0 )
+    {
+        if ( file_exists( "ezarticle/cache/menubox.cache" ) )
+            unlink( "ezarticle/cache/menubox.cache" );
+
+        $categories = array();
+        foreach( $CategoryArrayID as $ID )
+        {
+            $categories[] = $ID;
+            $category = new eZArticleCategory( $ID );
+            $categories[] = $category->parent( false );
+            if( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) ||
+                eZArticleCategory::isOwner( eZUser::currentUser(), $ID ) )
+                $category->delete();
+        }
+        $categories = array_unique( $categories );
+        $files =& eZCacheFile::files( "ezarticle/cache/",
+                                      array( "articlelist",
+                                             $categories, NULL ),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
+    }
+}
+
+if( isset( $DeleteArticles ) )
+{
+    if ( count ( $ArticleArrayID ) != 0 )
+    {
+        foreach( $ArticleArrayID as $TArticleID )
+        {
+            if( eZObjectPermission::hasPermission( $TArticleID, "article_article", 'w' )
+                || eZArticle::isAuthor( eZUser::currentUser(), $TArticleID ) )
+            {
+                $article = new eZArticle( $TArticleID );
+
+                // get the category to redirect to
+                $articleID = $article->id();
+
+                $categoryArray = $article->categories();
+                $categoryIDArray = array();
+                foreach ( $categoryArray as $cat )
+                {
+                    $categoryIDArray[] = $cat->id();
+                }
+                $categoryID = $article->categoryDefinition();
+                $categoryID = $categoryID->id();
+
+                // clear the cache files.
+                deleteCache( $TArticleID, $categoryID, $categoryIDArray );
+                $article->delete();
+            }
+        }
+    }
+}
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "unpublishedlist.php" );
@@ -75,7 +137,6 @@ $t->set_block( "unpublished_list_page_tpl", "next_tpl", "next" );
 $t->set_var( "site_style", $SiteStyle );
 
 $category = new eZArticleCategory( $CategoryID );
-
 
 // move articles up / down
 
@@ -266,8 +327,40 @@ else
 $t->pparse( "output", "unpublished_list_page_tpl" );
 
 
+/************ FUNCTIONS **********************/
+function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
+{
+    $user = eZUser::currentUser();
+    $groupstr = "";
+    if( get_class( $user ) == "ezuser" )
+    {
+        $groupIDArray = $user->groups( true );
+        sort( $groupIDArray );
+        $first = true;
+        foreach( $groupIDArray as $groupID )
+        {
+            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+            $first = false;
+        }
+    }
 
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( array( "articleprint", "articleview", "articlestatic" ),
+                                        $ArticleID, NULL, $groupstr ), "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
-
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "articlelist",
+                                        array_merge( 0, $CategoryID, $CategoryArray ),
+                                        NULL, array( "", $groupstr ) ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+}
 
 ?>
