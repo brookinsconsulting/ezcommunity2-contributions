@@ -27,15 +27,6 @@ CREATE TABLE eZAd_Ad (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZAd_Ad'
-#
-
-INSERT INTO eZAd_Ad VALUES (1,'',8,00000000000000,00000000000000,'','http://ez.no','eZ systems','true',1.00,1.00,'',0);
-INSERT INTO eZAd_Ad VALUES (2,'eZ publish',9,00000000000000,00000000000000,'','http://developer.ez.no','eZ publish banner','true',1.00,1.00,'',0);
-INSERT INTO eZAd_Ad VALUES (3,'eZ publish anim',10,00000000000000,00000000000000,'','http://developer.ez.no','eZ publish animated banner','true',1.00,1.00,'',0);
-INSERT INTO eZAd_Ad VALUES (4,'sdfs',11,00000000000000,00000000000000,'','sdf','dsfdsdf','false',0.00,0.00,'',0);
-
-#
 # Table structure for table 'eZAd_AdCategoryLink'
 #
 
@@ -46,15 +37,6 @@ CREATE TABLE eZAd_AdCategoryLink (
   AdID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZAd_AdCategoryLink'
-#
-
-INSERT INTO eZAd_AdCategoryLink VALUES (1,1,1);
-INSERT INTO eZAd_AdCategoryLink VALUES (2,1,2);
-INSERT INTO eZAd_AdCategoryLink VALUES (3,1,3);
-INSERT INTO eZAd_AdCategoryLink VALUES (4,1,4);
 
 #
 # Table structure for table 'eZAd_Category'
@@ -71,12 +53,6 @@ CREATE TABLE eZAd_Category (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZAd_Category'
-#
-
-INSERT INTO eZAd_Category VALUES (1,'ez ads','Banner ads for eZ systems',0,'false');
-
-#
 # Table structure for table 'eZAd_Click'
 #
 
@@ -88,10 +64,6 @@ CREATE TABLE eZAd_Click (
   ClickPrice float(10,2) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZAd_Click'
-#
 
 
 #
@@ -107,17 +79,6 @@ CREATE TABLE eZAd_View (
   ViewPrice int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZAd_View'
-#
-
-INSERT INTO eZAd_View VALUES (1,1,'2001-02-13',83,83);
-INSERT INTO eZAd_View VALUES (2,2,'2001-02-13',83,83);
-INSERT INTO eZAd_View VALUES (3,3,'2001-02-13',83,83);
-INSERT INTO eZAd_View VALUES (4,1,'2001-03-05',2,2);
-INSERT INTO eZAd_View VALUES (5,2,'2001-03-05',2,2);
-INSERT INTO eZAd_View VALUES (6,3,'2001-03-05',2,2);
 
 #
 # Table structure for table 'eZAddress_Address'
@@ -136,12 +97,6 @@ CREATE TABLE eZAddress_Address (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZAddress_Address'
-#
-
-INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0);
-
-#
 # Table structure for table 'eZAddress_AddressDefinition'
 #
 
@@ -151,11 +106,6 @@ CREATE TABLE eZAddress_AddressDefinition (
   AddressID int(11) NOT NULL default '0',
   PRIMARY KEY (UserID,AddressID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZAddress_AddressDefinition'
-#
-
 
 #
 # Table structure for table 'eZAddress_AddressType'
@@ -169,12 +119,6 @@ CREATE TABLE eZAddress_AddressType (
   Removed int(1) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZAddress_AddressType'
-#
-
-INSERT INTO eZAddress_AddressType VALUES (1,'Post address',1,0);
 
 #
 # Table structure for table 'eZAddress_Country'
@@ -446,11 +390,6 @@ CREATE TABLE eZAddress_Online (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZAddress_Online'
-#
-
-
-#
 # Table structure for table 'eZAddress_OnlineType'
 #
 
@@ -467,12 +406,6 @@ CREATE TABLE eZAddress_OnlineType (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZAddress_OnlineType'
-#
-
-INSERT INTO eZAddress_OnlineType VALUES (1,'Email',1,'mailto:',1,0,0);
-
-#
 # Table structure for table 'eZAddress_Phone'
 #
 
@@ -483,11 +416,6 @@ CREATE TABLE eZAddress_Phone (
   PhoneTypeID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZAddress_Phone'
-#
-
 
 #
 # Table structure for table 'eZAddress_PhoneType'
@@ -501,12 +429,6 @@ CREATE TABLE eZAddress_PhoneType (
   Removed int(1) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZAddress_PhoneType'
-#
-
-INSERT INTO eZAddress_PhoneType VALUES (1,'Phone',1,0);
 
 #
 # Table structure for table 'eZArticle_Article'
@@ -530,18 +452,6 @@ CREATE TABLE eZArticle_Article (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_Article'
-#
-
-INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This article will show the tags you can use in eZ publish.</intro><body><page><header>Standard tags</header>\r\n\r\nThis is <bold>bold</bold> text.\r\nThis is <strike>strike</strike> text.\r\nThis is <underline>underline</underline> text.\r\n\r\n<pre>\r\nPre defined text\r\n  indented\r\n    as \r\n      written.\r\n</pre>\r\n<bullet>\r\nItem one\r\nItem two\r\nItem three\r\n</bullet>\r\n\r\n<header>Image tags</header>\r\n\r\n<image id=\"1\" align=\"left\" size=\"medium\" /> Fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text.\r\n\r\n<image id=\"2\" align=\"center\" size=\"medium\" />\r\n\r\nImages on a row\r\n\r\n<image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /> <image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /></page></body></article>','admin user','See demo',27,20010226214703,20010126100350,1,'true',20010126100350,'tech\nThis article will show the tags you can use in eZ publish.Standard tags\r\n\r\nThis is bold text.\r\nThis strike underline text.\r\n\r\n\r\nPre defined text\r\n  indented\r\n as \r\n written.\r\n\r\n\r\nItem one\r\nItem two\r\nItem three\r\n\r\n\r\nImage tags\r\n\r\n Fill text fill text.\r\n\r\n\r\n\r\nImages on a row\r\n\r\n ');
-INSERT INTO eZArticle_Article VALUES (5,'What is New in 2.0?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a major new release of eZ publish, we\'ve added lots of new information.</intro><body><page><bullet>Merged eZ trade with eZ publish\r\nAdded about module\r\nAdded ad module\r\nAdded address module\r\nAdded bug tracking module\r\nAdded calendar module\r\nAdded contact module\r\nAdded newsfeed module\r\nAdded statistics module\r\nAdded todo module\r\nAdded cookie-less sessions \r\nAdded absolute positioning of products and articles\r\nAdded choosable sort mode on article categories\r\nAdded choosable sort mode on product categories\r\nAdded previous/next paging of article lists (admin &amp; user )\r\nAdded previous/next paging of product lists (admin &amp; user )\r\nAdded RSS headlines\r\nAdded forum moderation with assignment of moderator\r\nAdded notification when articles are published\r\nAdded file uploads on articles.\r\nAdded dynamically updating of menues with static pages.\r\nAdded file upload to eZ article\r\nAdded word wrap of message replies in eZ forum. Nicer looking replies.\r\nAdded new tags in articles (bullet lists/includes of php files)\r\nAdded preferred layout for users\r\nMade the menus in the admin module expandable/collapsable as well as moveable. This is remembered by the preferences for each user. We\'ve also changed the design to a more sleek version.\r\nLanguage updates\r\nRemoved java script which were a problem for lynx users.\r\nRemoved strip tags from messages in eZ forum\r\nSpeeded up many features among them database connections, localisation, rendering of articles, templates and HTML.\r\nFixed bugs</bullet>\r\n\r\n\r\nRead on to learn how to use some of the new features.\r\n</page><page>\r\n<header>RSS Headlines</header>\r\nYou can access the RSS Headlines of eZ publish from the URL \"/article/rssheadlines\".\r\n\r\nIn \"site.ini\" you can configure some of its options; read more in the \"eZ article Admin\'s Guide\" and \"eZ publish Customisation Guide\".\r\n\r\n<header>About</header>\r\nIf you write in the URL \"/about\" you\'ll be presented with an about box for eZ publish.\r\n\r\n<header>User Preferences</header>\r\nWe\'ve added preference functionality. If you take a look into the left hand column of this site you\'ll find some links which are called \"intranet\", \"portal site\" and \"E-commerce\". Those links take you to different designs for eZ publish (only two links will be shown at any time).\r\n\r\nAn example of its usage might be to give users the option of reading your site with different amounts of graphics, or different text sizes.\r\n\r\n<header>Cookie-less Sessions</header>\r\nWe\'ve added cookie-less sessions.\r\n\r\n<header>Moderated Forums</header>\r\nWe\'ve added the much requested moderation functionality to forums. Now you can assign a moderator to each and every forum.\r\n\r\nUsage for this function might, in addition to plain old moderation, is to protect forums so that you can use them as an FAQ.</page></body></article>','admin user','Read the changelog...',27,20010226214703,20010126102640,2,'true',20010126102640,'tech\nThis is a major new release of eZ publish, we\'ve added lots information.Merged trade with publish\r\nAdded about module\r\nAdded ad address bug tracking calendar contact newsfeed statistics todo cookie-less sessions \r\nAdded absolute positioning products and articles\r\nAdded choosable sort mode on article categories\r\nAdded product previous/next paging lists (admin &amp; user )\r\nAdded RSS headlines\r\nAdded forum moderation assignment moderator\r\nAdded notification when articles are published\r\nAdded file uploads articles.\r\nAdded dynamically updating menues static pages.\r\nAdded upload to article\r\nAdded word wrap message replies in forum. Nicer looking replies.\r\nAdded tags (bullet lists/includes php files)\r\nAdded preferred layout for users\r\nMade the menus admin module expandable/collapsable as well moveable. This remembered by preferences each user. We\'ve also changed design more sleek version.\r\nLanguage updates\r\nRemoved java script which were problem lynx users.\r\nRemoved strip from messages forum\r\nSpeeded up many features among them database connections, localisation, rendering articles, templates HTML.\r\nFixed bugs\r\n\r\n\r\nRead learn how use some features.\r\n\r\nRSS Headlines\r\nYou can access Headlines publish URL \"/article/rssheadlines\".\r\n\r\nIn \"site.ini\" you configure its options; read \"eZ Admin\'s Guide\" Customisation Guide\".\r\n\r\nAbout\r\nIf write \"/about\" you\'ll be presented an box publish.\r\n\r\nUser Preferences\r\nWe\'ve preference functionality. If take look into left hand column this site find links called \"intranet\", \"portal site\" \"E-commerce\". Those different designs (only two will shown at any time).\r\n\r\nAn example usage might give users option reading your amounts graphics, or text sizes.\r\n\r\nCookie-less Sessions\r\nWe\'ve sessions.\r\n\r\nModerated Forums\r\nWe\'ve much requested functionality forums. Now assign moderator every forum.\r\n\r\nUsage function might, addition plain old moderation, protect forums so that FAQ. ');
-INSERT INTO eZArticle_Article VALUES (4,'How does static pages work?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>Static pages are articles entered into the normal article system, but which belong to a category which has specific settings.</intro><body><page>All categories can have that special setting, which is called \"Exclude from search\". Not only does this disallow normal search functions, but those articles will not be shown in normal archive listings, nor latest article listings or the rss headlines.\r\n\r\nYou will neither see the name of the author of a static page; it is anonymous to the reader.\r\n\r\n<header>Intended Usage</header>\r\n\r\nThe usage of such pages is intended to create copyright notices, address info and other static information; thus the name.\r\n\r\nThat doesn\'t exclude any or all other methods you would like to use, but this is how we use it.\r\n\r\n<header>Tricks of the Trade</header>\r\n\r\nA category listing for static pages might be used on the front page; when you add a new page it will be added to the menu.\r\n\r\nBy changing the category sort method to \"Absolute positioning\" you can order the rendering of the menu to suit your desires.\r\n\r\nYou could also create several static page groups, and use those to good effect to distinguish information.\r\n\r\nFor all other intents and purposes articles written as static pages are the same as normal articles.</page></body></article>','admin user','',27,20010226214703,20010126101612,1,'true',20010126101612,'tech\nStatic pages are articles entered into the normal article system, but which belong to a category has specific settings.All categories can have that special setting, is called \"Exclude from search\". Not only does this disallow search functions, those will not be shown in archive listings, nor latest listings or rss headlines.\r\n\r\nYou neither see name of author static page; it anonymous reader.\r\n\r\nIntended Usage\r\n\r\nThe usage such intended create copyright notices, address info and other information; thus name.\r\n\r\nThat doesn\'t exclude any all methods you would like use, how we use it.\r\n\r\nTricks Trade\r\n\r\nA listing for might used on front when add new page added menu.\r\n\r\nBy changing sort method \"Absolute positioning\" order rendering menu suit your desires.\r\n\r\nYou could also several groups, good effect distinguish information.\r\n\r\nFor intents purposes written as same articles. ');
-INSERT INTO eZArticle_Article VALUES (8,'eZ Trade','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ Trade has had a couple of face lifts as well.</intro><body><page><header>Category Sorting</header>\r\nYou can set the sorting methods of both article and trade categories.\r\n\r\nAmong other sorting methods we\'ve added absolute positioning. This feature might be good for presenting a front page of your site where certain items appear at specific places.\r\n\r\nBy \"cross posting\" news and products to both their main category and the category with absolute positioning you can have items appear on the front page at a certain position within the time limit you want.\r\n\r\n<header>Types</header>\r\nYou can define a product type, where you set what kind of information that type requires. Then when creating a product you can set the type of the product and enter the required data.\r\n\r\nLooks great and can be used for comparision of features.\r\n\r\nCombine this with options for your products to create really compelling product pages.\r\n</page></body></article>','admin user','',27,20010226214703,20010126112654,1,'true',20010126112654,'tech\neZ Trade has had a couple of face lifts as well.Category Sorting\r\nYou can set the sorting methods both article and trade categories.\r\n\r\nAmong other we\'ve added absolute positioning. This feature might be good for presenting front page your site where certain items appear at specific places.\r\n\r\nBy \"cross posting\" news products to their main category with positioning you have on position within time limit want.\r\n\r\nTypes\r\nYou define product type, what kind information that type requires. Then when creating enter required data.\r\n\r\nLooks great used comparision features.\r\n\r\nCombine this options create really compelling pages.\r\n ');
-INSERT INTO eZArticle_Article VALUES (6,'eZ Newsfeed','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ newsfeed is a new module from 2.0. It fetches RSS headlines from other sites.</intro><body><page>The news feed is a module which fetches headlines from RSS enabled sites, pluss a couple of speciality sites.\r\n\r\nFetching RSS headlines is easy, just point eZ publish to the URL you want, and it will fetch the info into a queue. You can then select which items you want to publish from that queue.\r\n\r\nIt is possible to create your own fetch methods which fetches headlines from other sites. PHP programming required.</page></body></article>','admin user','',27,20010226214703,20010126111844,1,'true',20010126111844,'tech\neZ newsfeed is a new module from 2.0. It fetches RSS headlines other sites.The news feed which enabled sites, pluss couple of speciality sites.\r\n\r\nFetching easy, just point eZ publish to the URL you want, and it will fetch info into queue. You can then select items want that queue.\r\n\r\nIt possible create your own methods sites. PHP programming required. ');
-INSERT INTO eZArticle_Article VALUES (7,'eZ Article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>Some additions were made to eZ article, the main points are presented here.</intro><body><page><header>Article Comments</header>\r\nWhen readers comment on an article eZ publish will now send an e-mail to the user who published the article.\r\n\r\n<header>File Attachments</header>\r\nAs you can see from this article it is now possible to add files to an article; thus you can use the article for distributing files.\r\n\r\n<header>Category Sorting</header>\r\nYou can set the sorting methods of article categories.\r\n\r\nAmong other sorting methods we\'ve added absolute positioning. This feature might be good for presenting a front page of your site where certain items appear at specific places\r\n\r\n<header>Include Generated Content</header>\r\neZ Article now accepts a tag called module it takes a second argument, a file name, sans extension. The extension is assumed to be .php.\r\n\r\nThe article will parse and include that file from \"ezarticle/modules\". Thus you can create much fancier lay outs than what you\'d normally get from the standard renderer.</page></body></article>','admin user','',27,20010226214703,20010126112242,1,'true',20010126112242,'tech\nSome additions were made to eZ article, the main points are presented here.Article Comments\r\nWhen readers comment on an article publish will now send e-mail user who published article.\r\n\r\nFile Attachments\r\nAs you can see from this it is possible add files article; thus use for distributing files.\r\n\r\nCategory Sorting\r\nYou set sorting methods of categories.\r\n\r\nAmong other we\'ve added absolute positioning. This feature might be good presenting a front page your site where certain items appear at specific places\r\n\r\nInclude Generated Content\r\neZ Article accepts tag called module takes second argument, file name, sans extension. The extension assumed .php.\r\n\r\nThe parse and include that \"ezarticle/modules\". Thus create much fancier lay outs than what you\'d normally get standard renderer. ');
-INSERT INTO eZArticle_Article VALUES (9,'What can eZ publish Do?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ publish is a web based application suite. It delivers functionality ranging from publishing of news, web logs and diaries, through web shop functionality like shopping carts and wishlists and forums to intranet functions like contact handling and bug reporting.\r\n\r\nThe software uses caching and other optimization techniques to speed up page serving. It handles users, user preferences and user tracking through a user database and both cookie-based and non-cookie sessions.\r\n\r\nIt supports statistics for page views, links followed and banner ads, both images and HTML with presentation logic.\r\n\r\nThe package lends itself easily to customization, from changing the look and feel by changing templates, localizing the languages and other internationalization issues to adding new functionality.\r\n\r\nThe target audience for eZ publish are e-commerce, ASP (Application Service Providers), BSP (Business Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, polls, todo lists, appointments as well as personal web sites.\r\n</intro><body><page><image id=\"1\" align=\"right\" size=\"medium\" />eZ publish is a web based application suite which delivers the following functionality:\r\n\r\n<bullet>Advertising with statistics\r\nArticle publication and management\r\nBug handling and reporting\r\nCalendar functionality for creating appointments and events\r\nContact handling for keeping track of people and businesses\r\nFile manager for keeping track of uploaded files\r\nModerated forums for discussions\r\nImage manager for keeping track of uploaded images\r\nLink manager which is used to categorize links\r\nNews feed importing, fetch news and headlines from other sites and incorporate them in your own(1)\r\nPoll module for creating user polls.\r\nSession module for keeping track of users and their preferences\r\nStatistics module for information about page views and visitors\r\nTo-do module for assigning tasks to people\r\nTrade module which is an online shop, with shopping cart and wishlist\r\nUser management for registering users, giving access to different groups to different parts of the site</bullet>\r\n\r\nThe software does not believe in limits(2):\r\n\r\n<bullet>No limits on categories and items in categories\r\nArticles, products and links might belong to several different categories\r\nNo limits on people associated with a company, or the number of people and companies registered totally\r\nNo limits of addresses, phone numbers and other contact points for people and businesses\r\nNo limits on users, the groups they might belong to and number of user groups</bullet>\r\n      \r\nBased on PHP, the leading programming language module for the Apache web server software, eZ publish draws on the speed from this renown software. The backend database is MySQL which is fast and reliable, proven on thousands of Internet sites.\r\n\r\nFurther speed enhancements are made in the eZ publish by using caching of data and reduced connections to the database.\r\n\r\nAll the default templates delivered with eZ publish are tested on a diverse mix of browsers, Opera, Internet Explorer, Netscape, Konqueror and Lynx, thus enabling all users to gain access to your site.\r\n\r\nSo called cookie-less sessions are supported, a method used to enable user recognition even for those who objects to use cookies, no-one will feel left out or overseen.\r\n\r\neZ publish keeps track of the statistics of your site. How many visitors, from where, what do they buy and what are they looking at.\r\n\r\nThe package has been translated to several languages, you can even translate it yourself through the eZ Babel software we\'ve developed for this purpose specifically.\r\n\r\nChanging the design of your site is easy because of separation of content and design. You don\'t have to know anything about PHP or coding, just something about HTML.\r\n\r\nFor those proficient in programming PHP the source code is available, it can be used as a basis for adding new modules and functionality tailored to your specific needs.\r\n\r\nThe target audience for eZ publish are e-commerce, ASP (Application Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, appointments.\r\n\r\n     \r\n(1) We do not encourage copyright infringements with this feature. Our default templates will not pass these news items as the site\'s own. \r\n\r\nAsk permission from copyright holder before publishing other site\'s news on your site.\r\n\r\n(2) There are limits, of course, since the system is based on other software, and because it will run on systems with different sizes of hard disks and ram, as well as processor speed.\r\n</page></body></article>','admin user','',27,20010305175915,20010126115247,1,'true',20010126115247,'tech\neZ publish is a web based application suite. It delivers functionality ranging from publishing of news, logs and diaries, through shop like shopping carts wishlists forums to intranet functions contact handling bug reporting.\r\n\r\nThe software uses caching other optimization techniques speed up page serving. handles users, user preferences tracking database both cookie-based non-cookie sessions.\r\n\r\nIt supports statistics for views, links followed banner ads, images HTML with presentation logic.\r\n\r\nThe package lends itself easily customization, changing the look feel by templates, localizing languages internationalization issues adding new functionality.\r\n\r\nThe target audience eZ are e-commerce, ASP (Application Service Providers), BSP (Business news publishing, intranets, reporting, content management, discussion boards, FAQ knowledge handling, file image group ware, calendaring, polls, todo lists, appointments as well personal sites.\r\neZ suite which following functionality:\r\n\r\nAdvertising statistics\r\nArticle publication management\r\nBug reporting\r\nCalendar creating events\r\nContact keeping track people businesses\r\nFile manager uploaded files\r\nModerated discussions\r\nImage images\r\nLink used categorize links\r\nNews feed importing, fetch headlines sites incorporate them in your own(1)\r\nPoll module polls.\r\nSession users their preferences\r\nStatistics information about views visitors\r\nTo-do assigning tasks people\r\nTrade an online shop, cart wishlist\r\nUser management registering giving access different groups parts site\r\n\r\nThe does not believe limits(2):\r\n\r\nNo limits on categories items categories\r\nArticles, products might belong several categories\r\nNo associated company, or number companies registered totally\r\nNo addresses, phone numbers points businesses\r\nNo they groups\r\n  \r\nBased PHP, leading programming language Apache server software, draws this renown software. The backend MySQL fast reliable, proven thousands Internet sites.\r\n\r\nFurther enhancements made using data reduced connections database.\r\n\r\nAll default templates delivered tested diverse mix browsers, Opera, Explorer, Netscape, Konqueror Lynx, thus enabling all gain site.\r\n\r\nSo called cookie-less sessions supported, method enable recognition even those who objects use cookies, no-one will left out overseen.\r\n\r\neZ keeps site. How many visitors, where, what do buy looking at.\r\n\r\nThe has been translated languages, you can translate it yourself Babel we\'ve developed purpose specifically.\r\n\r\nChanging design site easy because separation design. You don\'t have know anything PHP coding, just something HTML.\r\n\r\nFor proficient source code available, be basis modules tailored specific needs.\r\n\r\nThe appointments.\r\n\r\n \r\n(1) We encourage copyright infringements feature. Our pass these site\'s own. \r\n\r\nAsk permission holder before site.\r\n\r\n(2) There limits, course, since system run systems sizes hard disks ram, processor speed.\r\n ');
-
-#
 # Table structure for table 'eZArticle_ArticleCategoryDefinition'
 #
 
@@ -552,18 +462,6 @@ CREATE TABLE eZArticle_ArticleCategoryDefinition (
   CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZArticle_ArticleCategoryDefinition'
-#
-
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (18,1,1);
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (12,5,1);
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (10,6,1);
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (4,4,2);
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (17,7,1);
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (15,8,1);
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (21,9,1);
 
 #
 # Table structure for table 'eZArticle_ArticleCategoryLink'
@@ -579,21 +477,6 @@ CREATE TABLE eZArticle_ArticleCategoryLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_ArticleCategoryLink'
-#
-
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (22,1,3,23);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (14,5,1,10);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (21,1,4,22);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (4,4,2,4);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (20,1,1,21);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (12,6,1,18);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (19,7,1,20);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (18,9,1,13);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (17,8,1,19);
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (23,1,2,24);
-
-#
 # Table structure for table 'eZArticle_ArticleFileLink'
 #
 
@@ -605,12 +488,6 @@ CREATE TABLE eZArticle_ArticleFileLink (
   Created timestamp(14) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZArticle_ArticleFileLink'
-#
-
-INSERT INTO eZArticle_ArticleFileLink VALUES (1,5,1,20010126103230);
 
 #
 # Table structure for table 'eZArticle_ArticleForumLink'
@@ -625,17 +502,6 @@ CREATE TABLE eZArticle_ArticleForumLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_ArticleForumLink'
-#
-
-INSERT INTO eZArticle_ArticleForumLink VALUES (1,1,2);
-INSERT INTO eZArticle_ArticleForumLink VALUES (2,5,3);
-INSERT INTO eZArticle_ArticleForumLink VALUES (3,9,4);
-INSERT INTO eZArticle_ArticleForumLink VALUES (4,6,5);
-INSERT INTO eZArticle_ArticleForumLink VALUES (5,7,6);
-INSERT INTO eZArticle_ArticleForumLink VALUES (6,8,7);
-
-#
 # Table structure for table 'eZArticle_ArticleImageDefinition'
 #
 
@@ -646,14 +512,6 @@ CREATE TABLE eZArticle_ArticleImageDefinition (
   PRIMARY KEY (ArticleID),
   UNIQUE KEY ArticleID(ArticleID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZArticle_ArticleImageDefinition'
-#
-
-INSERT INTO eZArticle_ArticleImageDefinition VALUES (4,20);
-INSERT INTO eZArticle_ArticleImageDefinition VALUES (1,1);
-INSERT INTO eZArticle_ArticleImageDefinition VALUES (9,12);
 
 #
 # Table structure for table 'eZArticle_ArticleImageLink'
@@ -669,14 +527,6 @@ CREATE TABLE eZArticle_ArticleImageLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_ArticleImageLink'
-#
-
-INSERT INTO eZArticle_ArticleImageLink VALUES (1,1,1,20010126100427);
-INSERT INTO eZArticle_ArticleImageLink VALUES (2,1,2,20010126100445);
-INSERT INTO eZArticle_ArticleImageLink VALUES (3,9,12,20010305175808);
-
-#
 # Table structure for table 'eZArticle_ArticlePermission'
 #
 
@@ -689,18 +539,6 @@ CREATE TABLE eZArticle_ArticlePermission (
   WritePermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZArticle_ArticlePermission'
-#
-
-INSERT INTO eZArticle_ArticlePermission VALUES (1,1,-1,1,1);
-INSERT INTO eZArticle_ArticlePermission VALUES (2,4,-1,1,1);
-INSERT INTO eZArticle_ArticlePermission VALUES (3,5,-1,1,1);
-INSERT INTO eZArticle_ArticlePermission VALUES (4,6,-1,1,1);
-INSERT INTO eZArticle_ArticlePermission VALUES (5,7,-1,1,1);
-INSERT INTO eZArticle_ArticlePermission VALUES (6,8,-1,1,1);
-INSERT INTO eZArticle_ArticlePermission VALUES (7,9,-1,1,1);
 
 #
 # Table structure for table 'eZArticle_Category'
@@ -719,15 +557,6 @@ CREATE TABLE eZArticle_Category (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_Category'
-#
-
-INSERT INTO eZArticle_Category VALUES (1,'News','',0,'false',4,27);
-INSERT INTO eZArticle_Category VALUES (2,'Static pages','',0,'true',4,27);
-INSERT INTO eZArticle_Category VALUES (3,'Category three','',0,'false',3,27);
-INSERT INTO eZArticle_Category VALUES (4,'Category four','',0,'false',3,27);
-
-#
 # Table structure for table 'eZArticle_CategoryPermission'
 #
 
@@ -742,15 +571,6 @@ CREATE TABLE eZArticle_CategoryPermission (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_CategoryPermission'
-#
-
-INSERT INTO eZArticle_CategoryPermission VALUES (1,1,-1,1,1);
-INSERT INTO eZArticle_CategoryPermission VALUES (2,2,-1,1,1);
-INSERT INTO eZArticle_CategoryPermission VALUES (3,3,-1,1,1);
-INSERT INTO eZArticle_CategoryPermission VALUES (4,4,-1,1,1);
-
-#
 # Table structure for table 'eZArticle_CategoryReaderLink'
 #
 
@@ -762,10 +582,6 @@ CREATE TABLE eZArticle_CategoryReaderLink (
   Created timestamp(14) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZArticle_CategoryReaderLink'
-#
 
 
 #
@@ -790,12 +606,6 @@ CREATE TABLE eZBug_Bug (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZBug_Bug'
-#
-
-INSERT INTO eZBug_Bug VALUES (1,'Help!','It dosent work!',33,20010125202931,'false',0,0,'','',NULL,'false');
-
-#
 # Table structure for table 'eZBug_BugCategoryLink'
 #
 
@@ -806,12 +616,6 @@ CREATE TABLE eZBug_BugCategoryLink (
   BugID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZBug_BugCategoryLink'
-#
-
-INSERT INTO eZBug_BugCategoryLink VALUES (1,2,1);
 
 #
 # Table structure for table 'eZBug_BugFileLink'
@@ -825,10 +629,6 @@ CREATE TABLE eZBug_BugFileLink (
   Created timestamp(14) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZBug_BugFileLink'
-#
 
 
 #
@@ -844,10 +644,6 @@ CREATE TABLE eZBug_BugImageLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZBug_BugImageLink'
-#
-
 
 #
 # Table structure for table 'eZBug_BugModuleLink'
@@ -862,12 +658,6 @@ CREATE TABLE eZBug_BugModuleLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZBug_BugModuleLink'
-#
-
-INSERT INTO eZBug_BugModuleLink VALUES (1,1,1);
-
-#
 # Table structure for table 'eZBug_Category'
 #
 
@@ -878,13 +668,6 @@ CREATE TABLE eZBug_Category (
   Description text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZBug_Category'
-#
-
-INSERT INTO eZBug_Category VALUES (1,'GUI','');
-INSERT INTO eZBug_Category VALUES (2,'Feature request','');
 
 #
 # Table structure for table 'eZBug_Log'
@@ -901,11 +684,6 @@ CREATE TABLE eZBug_Log (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZBug_Log'
-#
-
-
-#
 # Table structure for table 'eZBug_Module'
 #
 
@@ -918,12 +696,6 @@ CREATE TABLE eZBug_Module (
   OwnerGroupID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZBug_Module'
-#
-
-INSERT INTO eZBug_Module VALUES (1,0,'My program','',0);
 
 #
 # Table structure for table 'eZBug_ModulePermission'
@@ -940,11 +712,6 @@ CREATE TABLE eZBug_ModulePermission (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZBug_ModulePermission'
-#
-
-
-#
 # Table structure for table 'eZBug_Priority'
 #
 
@@ -957,14 +724,6 @@ CREATE TABLE eZBug_Priority (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZBug_Priority'
-#
-
-INSERT INTO eZBug_Priority VALUES (1,'High',NULL);
-INSERT INTO eZBug_Priority VALUES (2,'Middels',NULL);
-INSERT INTO eZBug_Priority VALUES (3,'Low',NULL);
-
-#
 # Table structure for table 'eZBug_Status'
 #
 
@@ -974,12 +733,6 @@ CREATE TABLE eZBug_Status (
   Name char(150) NOT NULL default '',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZBug_Status'
-#
-
-INSERT INTO eZBug_Status VALUES (1,'Fixed');
 
 #
 # Table structure for table 'eZCalendar_Appointment'
@@ -1001,11 +754,6 @@ CREATE TABLE eZCalendar_Appointment (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZCalendar_Appointment'
-#
-
-
-#
 # Table structure for table 'eZCalendar_AppointmentType'
 #
 
@@ -1017,11 +765,6 @@ CREATE TABLE eZCalendar_AppointmentType (
   Name varchar(200) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZCalendar_AppointmentType'
-#
-
 
 #
 # Table structure for table 'eZContact_Company'
@@ -1040,11 +783,6 @@ CREATE TABLE eZContact_Company (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_Company'
-#
-
-
-#
 # Table structure for table 'eZContact_CompanyAddressDict'
 #
 
@@ -1054,11 +792,6 @@ CREATE TABLE eZContact_CompanyAddressDict (
   AddressID int(11) NOT NULL default '0',
   PRIMARY KEY (CompanyID,AddressID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_CompanyAddressDict'
-#
-
 
 #
 # Table structure for table 'eZContact_CompanyImageDefinition'
@@ -1073,11 +806,6 @@ CREATE TABLE eZContact_CompanyImageDefinition (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_CompanyImageDefinition'
-#
-
-
-#
 # Table structure for table 'eZContact_CompanyOnlineDict'
 #
 
@@ -1087,11 +815,6 @@ CREATE TABLE eZContact_CompanyOnlineDict (
   OnlineID int(11) NOT NULL default '0',
   PRIMARY KEY (CompanyID,OnlineID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_CompanyOnlineDict'
-#
-
 
 #
 # Table structure for table 'eZContact_CompanyPersonDict'
@@ -1105,11 +828,6 @@ CREATE TABLE eZContact_CompanyPersonDict (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_CompanyPersonDict'
-#
-
-
-#
 # Table structure for table 'eZContact_CompanyPhoneDict'
 #
 
@@ -1121,11 +839,6 @@ CREATE TABLE eZContact_CompanyPhoneDict (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_CompanyPhoneDict'
-#
-
-
-#
 # Table structure for table 'eZContact_CompanyProjectDict'
 #
 
@@ -1135,11 +848,6 @@ CREATE TABLE eZContact_CompanyProjectDict (
   ProjectID int(11) NOT NULL default '0',
   PRIMARY KEY (CompanyID,ProjectID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_CompanyProjectDict'
-#
-
 
 #
 # Table structure for table 'eZContact_CompanyType'
@@ -1158,11 +866,6 @@ CREATE TABLE eZContact_CompanyType (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_CompanyType'
-#
-
-
-#
 # Table structure for table 'eZContact_CompanyTypeDict'
 #
 
@@ -1174,11 +877,6 @@ CREATE TABLE eZContact_CompanyTypeDict (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_CompanyTypeDict'
-#
-
-
-#
 # Table structure for table 'eZContact_ConsulationCompanyDict'
 #
 
@@ -1188,11 +886,6 @@ CREATE TABLE eZContact_ConsulationCompanyDict (
   CompanyID int(11) NOT NULL default '0',
   PRIMARY KEY (ConsultationID,CompanyID)
 ) TYPE=ISAM PACK_KEYS=1;
-
-#
-# Dumping data for table 'eZContact_ConsulationCompanyDict'
-#
-
 
 #
 # Table structure for table 'eZContact_Consultation'
@@ -1210,11 +903,6 @@ CREATE TABLE eZContact_Consultation (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_Consultation'
-#
-
-
-#
 # Table structure for table 'eZContact_ConsultationCompanyUserDict'
 #
 
@@ -1225,10 +913,6 @@ CREATE TABLE eZContact_ConsultationCompanyUserDict (
   UserID int(11) NOT NULL default '0',
   PRIMARY KEY (ConsultationID,CompanyID,UserID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_ConsultationCompanyUserDict'
-#
 
 
 #
@@ -1243,11 +927,6 @@ CREATE TABLE eZContact_ConsultationGroupsDict (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_ConsultationGroupsDict'
-#
-
-
-#
 # Table structure for table 'eZContact_ConsultationPersonUserDict'
 #
 
@@ -1258,11 +937,6 @@ CREATE TABLE eZContact_ConsultationPersonUserDict (
   UserID int(11) NOT NULL default '0',
   PRIMARY KEY (ConsultationID,PersonID,UserID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_ConsultationPersonUserDict'
-#
-
 
 #
 # Table structure for table 'eZContact_ConsultationType'
@@ -1277,11 +951,6 @@ CREATE TABLE eZContact_ConsultationType (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_ConsultationType'
-#
-
-
-#
 # Table structure for table 'eZContact_ContactType'
 #
 
@@ -1292,10 +961,6 @@ CREATE TABLE eZContact_ContactType (
   Description text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_ContactType'
-#
 
 
 #
@@ -1308,11 +973,6 @@ CREATE TABLE eZContact_ImageType (
   Name char(50) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_ImageType'
-#
-
 
 #
 # Table structure for table 'eZContact_Person'
@@ -1330,11 +990,6 @@ CREATE TABLE eZContact_Person (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_Person'
-#
-
-
-#
 # Table structure for table 'eZContact_PersonAddressDict'
 #
 
@@ -1345,10 +1000,7 @@ CREATE TABLE eZContact_PersonAddressDict (
   PRIMARY KEY (PersonID,AddressID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZContact_PersonAddressDict'
-#
-
+INSERT INTO eZContact_PersonAddressDict VALUES (1,6);
 
 #
 # Table structure for table 'eZContact_PersonOnlineDict'
@@ -1362,11 +1014,6 @@ CREATE TABLE eZContact_PersonOnlineDict (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_PersonOnlineDict'
-#
-
-
-#
 # Table structure for table 'eZContact_PersonPhoneDict'
 #
 
@@ -1376,10 +1023,6 @@ CREATE TABLE eZContact_PersonPhoneDict (
   PhoneID int(11) NOT NULL default '0',
   PRIMARY KEY (PersonID,PhoneID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_PersonPhoneDict'
-#
 
 
 #
@@ -1392,10 +1035,6 @@ CREATE TABLE eZContact_PersonProjectDict (
   ProjectID int(11) NOT NULL default '0',
   PRIMARY KEY (PersonID,ProjectID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_PersonProjectDict'
-#
 
 
 #
@@ -1411,11 +1050,6 @@ CREATE TABLE eZContact_ProjectType (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_ProjectType'
-#
-
-
-#
 # Table structure for table 'eZContact_UserCompanyDict'
 #
 
@@ -1429,11 +1063,6 @@ CREATE TABLE eZContact_UserCompanyDict (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZContact_UserCompanyDict'
-#
-
-
-#
 # Table structure for table 'eZContact_UserPersonDict'
 #
 
@@ -1445,11 +1074,6 @@ CREATE TABLE eZContact_UserPersonDict (
   UNIQUE KEY PersonID(PersonID),
   UNIQUE KEY UserID(UserID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZContact_UserPersonDict'
-#
-
 
 #
 # Table structure for table 'eZFileManager_File'
@@ -1469,12 +1093,6 @@ CREATE TABLE eZFileManager_File (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZFileManager_File'
-#
-
-INSERT INTO eZFileManager_File VALUES (1,'CHANGELOG','The complete change log.','phpUuO7Ms','CHANGELOG',0,0,0);
-
-#
 # Table structure for table 'eZFileManager_FileFolderLink'
 #
 
@@ -1487,11 +1105,6 @@ CREATE TABLE eZFileManager_FileFolderLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZFileManager_FileFolderLink'
-#
-
-
-#
 # Table structure for table 'eZFileManager_FilePageViewLink'
 #
 
@@ -1502,18 +1115,6 @@ CREATE TABLE eZFileManager_FilePageViewLink (
   FileID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZFileManager_FilePageViewLink'
-#
-
-INSERT INTO eZFileManager_FilePageViewLink VALUES (1,121,1);
-INSERT INTO eZFileManager_FilePageViewLink VALUES (2,123,1);
-INSERT INTO eZFileManager_FilePageViewLink VALUES (3,216,1);
-INSERT INTO eZFileManager_FilePageViewLink VALUES (4,217,1);
-INSERT INTO eZFileManager_FilePageViewLink VALUES (5,219,1);
-INSERT INTO eZFileManager_FilePageViewLink VALUES (6,221,1);
-INSERT INTO eZFileManager_FilePageViewLink VALUES (7,223,1);
 
 #
 # Table structure for table 'eZFileManager_FilePermission'
@@ -1530,11 +1131,6 @@ CREATE TABLE eZFileManager_FilePermission (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZFileManager_FilePermission'
-#
-
-
-#
 # Table structure for table 'eZFileManager_FileReadGroupLink'
 #
 
@@ -1547,11 +1143,6 @@ CREATE TABLE eZFileManager_FileReadGroupLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZFileManager_FileReadGroupLink'
-#
-
-
-#
 # Table structure for table 'eZFileManager_FileWriteGroupLink'
 #
 
@@ -1562,11 +1153,6 @@ CREATE TABLE eZFileManager_FileWriteGroupLink (
   FileID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZFileManager_FileWriteGroupLink'
-#
-
 
 #
 # Table structure for table 'eZFileManager_Folder'
@@ -1585,11 +1171,6 @@ CREATE TABLE eZFileManager_Folder (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZFileManager_Folder'
-#
-
-
-#
 # Table structure for table 'eZFileManager_FolderPermission'
 #
 
@@ -1604,11 +1185,6 @@ CREATE TABLE eZFileManager_FolderPermission (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZFileManager_FolderPermission'
-#
-
-
-#
 # Table structure for table 'eZFileManager_FolderReadGroupLink'
 #
 
@@ -1619,11 +1195,6 @@ CREATE TABLE eZFileManager_FolderReadGroupLink (
   FolderID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZFileManager_FolderReadGroupLink'
-#
-
 
 #
 # Table structure for table 'eZFileManager_FolderWriteGroupLink'
@@ -1638,11 +1209,6 @@ CREATE TABLE eZFileManager_FolderWriteGroupLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZFileManager_FolderWriteGroupLink'
-#
-
-
-#
 # Table structure for table 'eZForum_Category'
 #
 
@@ -1654,12 +1220,6 @@ CREATE TABLE eZForum_Category (
   ID int(11) NOT NULL auto_increment,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZForum_Category'
-#
-
-INSERT INTO eZForum_Category VALUES ('Talk center','General talk',1,1);
 
 #
 # Table structure for table 'eZForum_Forum'
@@ -1679,18 +1239,6 @@ CREATE TABLE eZForum_Forum (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZForum_Forum'
-#
-
-INSERT INTO eZForum_Forum VALUES ('Discussion','Discuss everything here',1,1,27,0,0,0);
-INSERT INTO eZForum_Forum VALUES ('Demo article','',1,2,0,0,0,0);
-INSERT INTO eZForum_Forum VALUES ('What is New?','',1,3,0,0,0,0);
-INSERT INTO eZForum_Forum VALUES ('What can eZ publish','',1,4,0,0,0,0);
-INSERT INTO eZForum_Forum VALUES ('eZ Newsfeed','',1,5,0,0,0,0);
-INSERT INTO eZForum_Forum VALUES ('eZ Article','',1,6,0,0,0,0);
-INSERT INTO eZForum_Forum VALUES ('eZ Trade','',1,7,0,0,0,0);
-
-#
 # Table structure for table 'eZForum_ForumCategoryLink'
 #
 
@@ -1701,12 +1249,6 @@ CREATE TABLE eZForum_ForumCategoryLink (
   CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZForum_ForumCategoryLink'
-#
-
-INSERT INTO eZForum_ForumCategoryLink VALUES (3,1,1);
 
 #
 # Table structure for table 'eZForum_Message'
@@ -1731,13 +1273,6 @@ CREATE TABLE eZForum_Message (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZForum_Message'
-#
-
-INSERT INTO eZForum_Message VALUES (1,'First post!','This is the first post!',27,0,0,20010226214659,1,0,0,1,1,0);
-INSERT INTO eZForum_Message VALUES (1,'SV: First post!','> This is the first post!\r\nThis is the reply!',27,1,0,20010226214659,0,0,1,2,1,0);
-
-#
 # Table structure for table 'eZImageCatalogue_Category'
 #
 
@@ -1754,12 +1289,6 @@ CREATE TABLE eZImageCatalogue_Category (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZImageCatalogue_Category'
-#
-
-INSERT INTO eZImageCatalogue_Category VALUES (1,'Images',' ',0,27,2,3);
-
-#
 # Table structure for table 'eZImageCatalogue_CategoryPermission'
 #
 
@@ -1772,11 +1301,6 @@ CREATE TABLE eZImageCatalogue_CategoryPermission (
   WritePermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZImageCatalogue_CategoryPermission'
-#
-
 
 #
 # Table structure for table 'eZImageCatalogue_Image'
@@ -1797,23 +1321,6 @@ CREATE TABLE eZImageCatalogue_Image (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZImageCatalogue_Image'
-#
-
-INSERT INTO eZImageCatalogue_Image VALUES (1,'','','','phpRtGOCL.jpg','DSCN1728.JPG',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (2,'','','','phpM0uJe4.jpg','DSCN1722.JPG',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (3,'','','','phpZzyrod.jpg','DSCN1760.JPG',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (4,'','','','php6o0PjV.jpg','DSCN1884.JPG',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (5,'A picture','A picture','A picture','phpXlv43s.jpg','DSCN1354.JPG',3,2,27);
-INSERT INTO eZImageCatalogue_Image VALUES (6,'A picture','A picture','A picture','php7DBg1K.jpg','DSCN1728.JPG',3,2,27);
-INSERT INTO eZImageCatalogue_Image VALUES (7,'Flower','Flower','A flower','phptpTEuZ.jpg','DSCN1722.JPG',3,1,27);
-INSERT INTO eZImageCatalogue_Image VALUES (8,'','','','php7CTbzs.gif','ezsystems-banner.gif',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (9,'','','','phpA9uCUK.gif','ezpublish-banner.gif',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (10,'','','','phpUCtzjC.gif','ezpublish-anim-banner.gif',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (11,'','','','phpd7Wkys.jpg','DSCN1722.JPG',0,0,0);
-INSERT INTO eZImageCatalogue_Image VALUES (12,'','','','phpQcEEE7.jpg','pus.jpg',0,0,0);
-
-#
 # Table structure for table 'eZImageCatalogue_ImageCategoryLink'
 #
 
@@ -1824,14 +1331,6 @@ CREATE TABLE eZImageCatalogue_ImageCategoryLink (
   ImageID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZImageCatalogue_ImageCategoryLink'
-#
-
-INSERT INTO eZImageCatalogue_ImageCategoryLink VALUES (1,2,5);
-INSERT INTO eZImageCatalogue_ImageCategoryLink VALUES (2,2,6);
-INSERT INTO eZImageCatalogue_ImageCategoryLink VALUES (3,2,7);
 
 #
 # Table structure for table 'eZImageCatalogue_ImagePermission'
@@ -1846,11 +1345,6 @@ CREATE TABLE eZImageCatalogue_ImagePermission (
   WritePermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZImageCatalogue_ImagePermission'
-#
-
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariation'
@@ -1868,34 +1362,6 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZImageCatalogue_ImageVariation'
-#
-
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (1,1,1,'ezimagecatalogue/catalogue/variations/1-150x150.jpg',150,113);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (2,2,1,'ezimagecatalogue/catalogue/variations/2-150x150.jpg',150,113);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,1,2,'ezimagecatalogue/catalogue/variations/1-200x200.jpg',200,150);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (4,2,2,'ezimagecatalogue/catalogue/variations/2-200x200.jpg',200,150);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (5,1,3,'ezimagecatalogue/catalogue/variations/1-100x100.jpg',100,75);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (6,2,3,'ezimagecatalogue/catalogue/variations/2-100x100.jpg',100,75);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (7,3,1,'ezimagecatalogue/catalogue/variations/3-150x150.jpg',150,113);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (8,3,3,'ezimagecatalogue/catalogue/variations/3-100x100.jpg',100,75);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (9,3,4,'ezimagecatalogue/catalogue/variations/3-300x300.jpg',300,225);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (10,3,5,'ezimagecatalogue/catalogue/variations/3-35x35.jpg',35,26);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (11,3,6,'ezimagecatalogue/catalogue/variations/3-400x500.jpg',400,300);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (12,3,7,'ezimagecatalogue/catalogue/variations/3-240x200.jpg',240,180);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (13,3,8,'ezimagecatalogue/catalogue/variations/3-250x250.jpg',250,188);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (14,4,1,'ezimagecatalogue/catalogue/variations/4-150x150.jpg',150,113);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (15,4,3,'ezimagecatalogue/catalogue/variations/4-100x100.jpg',100,75);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (16,4,4,'ezimagecatalogue/catalogue/variations/4-300x300.jpg',300,225);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (17,4,6,'ezimagecatalogue/catalogue/variations/4-400x500.jpg',400,300);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (18,1,6,'ezimagecatalogue/catalogue/variations/1-400x500.jpg',400,300);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (19,2,6,'ezimagecatalogue/catalogue/variations/2-400x500.jpg',400,300);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (20,3,9,'ezimagecatalogue/catalogue/variations/3-109x109.jpg',109,81);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (21,4,9,'ezimagecatalogue/catalogue/variations/4-109x109.jpg',109,81);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (22,12,1,'ezimagecatalogue/catalogue/variations/12-150x150.jpg',150,112);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (23,12,2,'ezimagecatalogue/catalogue/variations/12-200x200.jpg',200,150);
-
-#
 # Table structure for table 'eZImageCatalogue_ImageVariationGroup'
 #
 
@@ -1906,20 +1372,6 @@ CREATE TABLE eZImageCatalogue_ImageVariationGroup (
   Height int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZImageCatalogue_ImageVariationGroup'
-#
-
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (1,150,150);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (2,200,200);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (3,100,100);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (4,300,300);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (5,35,35);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (6,400,500);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (7,240,200);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (8,250,250);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (9,109,109);
 
 #
 # Table structure for table 'eZLink_Category'
@@ -1934,13 +1386,6 @@ CREATE TABLE eZLink_Category (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZLink_Category'
-#
-
-INSERT INTO eZLink_Category VALUES (1,0,'Cool links');
-INSERT INTO eZLink_Category VALUES (2,0,'Not so cool links');
-
-#
 # Table structure for table 'eZLink_Hit'
 #
 
@@ -1952,11 +1397,6 @@ CREATE TABLE eZLink_Hit (
   RemoteIP char(15) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZLink_Hit'
-#
-
 
 #
 # Table structure for table 'eZLink_Link'
@@ -1978,12 +1418,6 @@ CREATE TABLE eZLink_Link (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZLink_Link'
-#
-
-INSERT INTO eZLink_Link VALUES (1,'eZ systems as','Test!',1,'Test!',20010125160958,'Y','2001-01-25 16:09:58','ez.no',0);
-
-#
 # Table structure for table 'eZLink_LinkCategoryDefinition'
 #
 
@@ -1994,12 +1428,6 @@ CREATE TABLE eZLink_LinkCategoryDefinition (
   CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZLink_LinkCategoryDefinition'
-#
-
-INSERT INTO eZLink_LinkCategoryDefinition VALUES (1,1,1);
 
 #
 # Table structure for table 'eZLink_LinkCategoryLink'
@@ -2013,11 +1441,6 @@ CREATE TABLE eZLink_LinkCategoryLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZLink_LinkCategoryLink'
-#
-
-INSERT INTO eZLink_LinkCategoryLink VALUES (1,1,1);
 
 #
 # Table structure for table 'eZLink_LinkGroup'
@@ -2034,12 +1457,6 @@ CREATE TABLE eZLink_LinkGroup (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZLink_LinkGroup'
-#
-
-INSERT INTO eZLink_LinkGroup VALUES (1,0,'Cool links',NULL,NULL);
-
-#
 # Table structure for table 'eZNewsFeed_Category'
 #
 
@@ -2051,12 +1468,6 @@ CREATE TABLE eZNewsFeed_Category (
   ParentID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZNewsFeed_Category'
-#
-
-INSERT INTO eZNewsFeed_Category VALUES (1,'News from freshmeat','',0);
 
 #
 # Table structure for table 'eZNewsFeed_News'
@@ -2077,11 +1488,6 @@ CREATE TABLE eZNewsFeed_News (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZNewsFeed_News'
-#
-
-
-#
 # Table structure for table 'eZNewsFeed_NewsCategoryLink'
 #
 
@@ -2092,11 +1498,6 @@ CREATE TABLE eZNewsFeed_NewsCategoryLink (
   CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZNewsFeed_NewsCategoryLink'
-#
-
 
 #
 # Table structure for table 'eZNewsFeed_SourceSite'
@@ -2117,12 +1518,6 @@ CREATE TABLE eZNewsFeed_SourceSite (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZNewsFeed_SourceSite'
-#
-
-INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','','false',0);
-
-#
 # Table structure for table 'eZPoll_MainPoll'
 #
 
@@ -2132,12 +1527,6 @@ CREATE TABLE eZPoll_MainPoll (
   PollID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZPoll_MainPoll'
-#
-
-INSERT INTO eZPoll_MainPoll VALUES (1,1);
 
 #
 # Table structure for table 'eZPoll_Poll'
@@ -2158,12 +1547,6 @@ CREATE TABLE eZPoll_Poll (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZPoll_Poll'
-#
-
-INSERT INTO eZPoll_Poll VALUES (1,'First poll','this is a demo poll',NULL,NULL,'true','true','false','true');
-
-#
 # Table structure for table 'eZPoll_PollChoice'
 #
 
@@ -2175,13 +1558,6 @@ CREATE TABLE eZPoll_PollChoice (
   Offset int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZPoll_PollChoice'
-#
-
-INSERT INTO eZPoll_PollChoice VALUES (2,1,'Bar',0);
-INSERT INTO eZPoll_PollChoice VALUES (1,1,'FOo',0);
 
 #
 # Table structure for table 'eZPoll_Vote'
@@ -2198,11 +1574,6 @@ CREATE TABLE eZPoll_Vote (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZPoll_Vote'
-#
-
-
-#
 # Table structure for table 'eZSession_Preferences'
 #
 
@@ -2214,12 +1585,6 @@ CREATE TABLE eZSession_Preferences (
   Value char(255) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZSession_Preferences'
-#
-
-INSERT INTO eZSession_Preferences VALUES (1,27,'EnabledModules','eZArticle;eZContact;eZTrade;eZForum;eZLink;eZPoll;eZAd;eZUser;eZStats;eZAddress;eZNewsfeed;eZBug;eZTodo;eZExample;eZCalendar;eZFileManager;eZImageCatalogue');
 
 #
 # Table structure for table 'eZSession_Session'
@@ -2235,247 +1600,6 @@ CREATE TABLE eZSession_Session (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZSession_Session'
-#
-
-INSERT INTO eZSession_Session VALUES (1,'ed2cf21b9d66ce61c0ad6f9ed82c0cec',20010213165754,20010213170035,20010213170033);
-INSERT INTO eZSession_Session VALUES (2,'6cebc659ac9782a67acc3163fa5c3a24',20010213165836,20010213165836,20010213165836);
-INSERT INTO eZSession_Session VALUES (3,'466dd0324b6c92baca0e53681b7aadf2',20010213165836,20010213165836,20010213165836);
-INSERT INTO eZSession_Session VALUES (4,'a579c5e8d25909cd6f97ba1cc5ccd919',20010213165836,20010213165836,20010213165836);
-INSERT INTO eZSession_Session VALUES (5,'025b248fbc1e4afd14e020e8d2d27a49',20010213165837,20010213165837,20010213165837);
-INSERT INTO eZSession_Session VALUES (6,'290fa671e5e45fc2056c461986a604d7',20010213165837,20010213165837,20010213165837);
-INSERT INTO eZSession_Session VALUES (7,'067fc79851de27d9b4fa0de6f706a3a2',20010213165837,20010213165837,20010213165837);
-INSERT INTO eZSession_Session VALUES (8,'53d157609a8888f4207f5745776b240c',20010213165843,20010213165843,20010213165843);
-INSERT INTO eZSession_Session VALUES (9,'663dd26525277436cb14fcf42344ac49',20010213165843,20010213165843,20010213165843);
-INSERT INTO eZSession_Session VALUES (10,'1a2a210f09a0877903e20591fb40e95c',20010213165844,20010213165844,20010213165844);
-INSERT INTO eZSession_Session VALUES (11,'5196a4613a237e5aa044e5c8dc06a900',20010213165844,20010213165844,20010213165844);
-INSERT INTO eZSession_Session VALUES (12,'86b808339b02b61eafcdd8637747094f',20010213165844,20010213165844,20010213165844);
-INSERT INTO eZSession_Session VALUES (13,'59213ef379c241c700c61434eca27a2b',20010213165845,20010213165845,20010213165845);
-INSERT INTO eZSession_Session VALUES (14,'a0b0a9c9fa529f794e101c9298deda31',20010213165845,20010213165845,20010213165845);
-INSERT INTO eZSession_Session VALUES (15,'c2264fe2c9e2d1db976d84929c89c39c',20010213165845,20010213165845,20010213165845);
-INSERT INTO eZSession_Session VALUES (16,'81d864f11337a82a2e9d354ca0c01658',20010213165846,20010213165846,20010213165846);
-INSERT INTO eZSession_Session VALUES (17,'30b2a595dfc868e791aa9ff876c90fc4',20010213165846,20010213165846,20010213165846);
-INSERT INTO eZSession_Session VALUES (18,'2d18a4be23430d9511800589b28195e6',20010213165846,20010213165846,20010213165846);
-INSERT INTO eZSession_Session VALUES (19,'79182528476315bbedadca14b504d8e7',20010213165854,20010213165854,20010213165854);
-INSERT INTO eZSession_Session VALUES (20,'34b24feb99a92eed9abced03c4fc1d95',20010213165855,20010213165855,20010213165855);
-INSERT INTO eZSession_Session VALUES (21,'d8c95674d224e396286d7a1541376e21',20010213165855,20010213165855,20010213165855);
-INSERT INTO eZSession_Session VALUES (22,'4fa798864c11d094d03dc706d05c69d6',20010213165855,20010213165855,20010213165855);
-INSERT INTO eZSession_Session VALUES (23,'5b2277ad219ca90250efe607224096ba',20010213165856,20010213165856,20010213165856);
-INSERT INTO eZSession_Session VALUES (24,'f25a77067de8f9443d162da8e1c3dfa1',20010213165856,20010213165856,20010213165856);
-INSERT INTO eZSession_Session VALUES (25,'c08ebf7457d7ad0617df6b287afaaa77',20010213165856,20010213165856,20010213165856);
-INSERT INTO eZSession_Session VALUES (26,'87b535dfa7cac169f78c0bf4ee148d9d',20010213165856,20010213165856,20010213165856);
-INSERT INTO eZSession_Session VALUES (27,'ce74d3691b7c708281d4fe67ea03ea01',20010213165857,20010213165857,20010213165857);
-INSERT INTO eZSession_Session VALUES (28,'7d6cc33294254ee88ca833f8c5939a07',20010213165857,20010213165857,20010213165857);
-INSERT INTO eZSession_Session VALUES (29,'7143c245fdf18352f04e9a6bd6ea49b1',20010213165857,20010213165857,20010213165857);
-INSERT INTO eZSession_Session VALUES (30,'5efd4a2296b9957ceaf51cadec610017',20010213165858,20010213165858,20010213165858);
-INSERT INTO eZSession_Session VALUES (31,'932b619e81a7e48ebc706d8af2cfee1a',20010213165858,20010213165858,20010213165858);
-INSERT INTO eZSession_Session VALUES (32,'bfe67dc8c4657ea8a4d96a745a89fb11',20010213165858,20010213165858,20010213165858);
-INSERT INTO eZSession_Session VALUES (33,'5d814efd8871850330e3a68801083ef1',20010213165859,20010213165859,20010213165859);
-INSERT INTO eZSession_Session VALUES (34,'3a4bfe0bcb67581c145406ec19b7f8c1',20010213165859,20010213165859,20010213165859);
-INSERT INTO eZSession_Session VALUES (35,'bd30fe2209ecb5b20215fc34ce8b87ec',20010213165859,20010213165859,20010213165859);
-INSERT INTO eZSession_Session VALUES (36,'4a7355e0b37390b2ffdb324f16c658f5',20010213165900,20010213165900,20010213165900);
-INSERT INTO eZSession_Session VALUES (37,'c0c34dd7d31f2152676a88c94673565b',20010213165900,20010213165900,20010213165900);
-INSERT INTO eZSession_Session VALUES (38,'d931bfcc4bdfed582fcf098ae6e86dc9',20010213165900,20010213165900,20010213165900);
-INSERT INTO eZSession_Session VALUES (39,'19cd901d5cfc5f346edbbd79bc38d47a',20010213165900,20010213165900,20010213165900);
-INSERT INTO eZSession_Session VALUES (40,'4e01b82f40d0d332b00af27e25061618',20010213165901,20010213165901,20010213165901);
-INSERT INTO eZSession_Session VALUES (41,'11fa86911c77e5ae1161bb2fc7717d48',20010213165901,20010213165901,20010213165901);
-INSERT INTO eZSession_Session VALUES (42,'8336ebc3bd2225a59e6893975e716e64',20010213165901,20010213165901,20010213165901);
-INSERT INTO eZSession_Session VALUES (43,'2b2d6301e336df2e24c23f65afff28c0',20010213165902,20010213165902,20010213165902);
-INSERT INTO eZSession_Session VALUES (44,'80313ce9202fffd70872db4480354f11',20010213165902,20010213165902,20010213165902);
-INSERT INTO eZSession_Session VALUES (45,'61c1521796a48253ca96d3d0b9bc64bd',20010213165902,20010213165902,20010213165902);
-INSERT INTO eZSession_Session VALUES (46,'b7071944ab65e7600576788bff5a34c3',20010213165903,20010213165903,20010213165903);
-INSERT INTO eZSession_Session VALUES (47,'b70b6729436abfe7a0fa8881b1f2f1f2',20010213165903,20010213165903,20010213165903);
-INSERT INTO eZSession_Session VALUES (48,'2bc0814aebb6fa247633e6e8f47a635e',20010213165903,20010213165903,20010213165903);
-INSERT INTO eZSession_Session VALUES (49,'3c7e7c6cc59b9111c2c61a03d528c1fc',20010213165903,20010213165903,20010213165903);
-INSERT INTO eZSession_Session VALUES (50,'d24408dc67b52502d44db3f7ec94f39f',20010213165904,20010213165904,20010213165904);
-INSERT INTO eZSession_Session VALUES (51,'51cf37354f25b3f334e18e6db367291a',20010213165904,20010213165904,20010213165904);
-INSERT INTO eZSession_Session VALUES (52,'fd634762f29f1d8f609f37246a130ec7',20010213165904,20010213165904,20010213165904);
-INSERT INTO eZSession_Session VALUES (53,'bb438b28a3e19cbc0d6fda13197e43bf',20010213165905,20010213165905,20010213165905);
-INSERT INTO eZSession_Session VALUES (54,'71fcd5a113b183eea10fc348aea2de39',20010213165905,20010213165905,20010213165905);
-INSERT INTO eZSession_Session VALUES (55,'be76c64abb449fdb5012bfcaac121f03',20010213165905,20010213165905,20010213165905);
-INSERT INTO eZSession_Session VALUES (56,'823efbe2179f0dd37430603f1767ad06',20010213165906,20010213165906,20010213165906);
-INSERT INTO eZSession_Session VALUES (57,'1563692b8c63af4536178deaedc03760',20010213165906,20010213165906,20010213165906);
-INSERT INTO eZSession_Session VALUES (58,'781b0c4ec901e23b760f698ec19e62b2',20010213165906,20010213165906,20010213165906);
-INSERT INTO eZSession_Session VALUES (59,'07212f9ce65640cb700af5989783e4a8',20010213165906,20010213165906,20010213165906);
-INSERT INTO eZSession_Session VALUES (60,'039877061d5bfc1dc8df52120d552d6e',20010213165907,20010213165907,20010213165907);
-INSERT INTO eZSession_Session VALUES (61,'17fb8bae80c3bc67f5b4b98ccd5c47d4',20010213165907,20010213165907,20010213165907);
-INSERT INTO eZSession_Session VALUES (62,'4ccef7b0c70a81adffaf3e47b653bb70',20010213165907,20010213165907,20010213165907);
-INSERT INTO eZSession_Session VALUES (63,'eb67fd83f767ddfe06c604518313cf09',20010213165908,20010213165908,20010213165908);
-INSERT INTO eZSession_Session VALUES (64,'2f23050debe7e5b3bda64d51764db8c3',20010213165908,20010213165908,20010213165908);
-INSERT INTO eZSession_Session VALUES (65,'16a90e12ea548624763d82bf5a592128',20010213165908,20010213165908,20010213165908);
-INSERT INTO eZSession_Session VALUES (66,'9d84d03c0f1686ea11e44378da6a2be2',20010213165909,20010213165909,20010213165909);
-INSERT INTO eZSession_Session VALUES (67,'1e0a0d9bdaf616fa179d2a979e2652f1',20010213165909,20010213165909,20010213165909);
-INSERT INTO eZSession_Session VALUES (68,'1f9dc35e5140d8bca36f6656cedeeb1d',20010213165909,20010213165909,20010213165909);
-INSERT INTO eZSession_Session VALUES (69,'0a8ab52eec0cde420655c4692669f92e',20010213165910,20010213165910,20010213165910);
-INSERT INTO eZSession_Session VALUES (70,'1bff82b94d21d4329a02f6a1d6205663',20010213165910,20010213165910,20010213165910);
-INSERT INTO eZSession_Session VALUES (71,'29477caa5f93a6eace97048c274ddfb1',20010213165910,20010213165910,20010213165910);
-INSERT INTO eZSession_Session VALUES (72,'4b3cef802698951e0e7b86241366f8d4',20010213165910,20010213165910,20010213165910);
-INSERT INTO eZSession_Session VALUES (73,'3c0da17ca0b7d8ed0e4a3229d85ca1c4',20010213165910,20010213165910,20010213165910);
-INSERT INTO eZSession_Session VALUES (74,'5b8188d4a9e7b124ed8654665350caf8',20010213165910,20010213165910,20010213165910);
-INSERT INTO eZSession_Session VALUES (75,'b2067ddaf440534eac3215c066987169',20010213165911,20010213165911,20010213165911);
-INSERT INTO eZSession_Session VALUES (76,'ba610bdf58181297b22490e1915b2149',20010213165911,20010213165911,20010213165911);
-INSERT INTO eZSession_Session VALUES (77,'95c6309c9638221a2f268b38a3a45ab2',20010213165911,20010213165911,20010213165911);
-INSERT INTO eZSession_Session VALUES (78,'97a7f30c365dad59d5874648b373daf1',20010213165911,20010213165911,20010213165911);
-INSERT INTO eZSession_Session VALUES (79,'330484769a0d878cd745b4a63bd9421a',20010213165911,20010213165911,20010213165911);
-INSERT INTO eZSession_Session VALUES (80,'a1d883f3a066c686b1b8edd7876d9e1d',20010213165911,20010213165911,20010213165911);
-INSERT INTO eZSession_Session VALUES (81,'640f4f013be1088593b92c5e94a6f63a',20010213165912,20010213165912,20010213165912);
-INSERT INTO eZSession_Session VALUES (82,'647cf3b8545e0e6573b5cb0a28b47708',20010213165912,20010213165912,20010213165912);
-INSERT INTO eZSession_Session VALUES (83,'b9cb53a45bc1269c06faf9bf2e829be7',20010213165912,20010213165912,20010213165912);
-INSERT INTO eZSession_Session VALUES (84,'56e325ec59adec057b50225ff1bfd00d',20010213165912,20010213165912,20010213165912);
-INSERT INTO eZSession_Session VALUES (85,'e7f1ebd837cd62d3a6444fe740d3daca',20010213165913,20010213165913,20010213165913);
-INSERT INTO eZSession_Session VALUES (86,'3781f36d309b312471ffbea7a2cc4928',20010213165913,20010213165913,20010213165913);
-INSERT INTO eZSession_Session VALUES (87,'4fd5bdeabec94f5d4849e9b13e63b8c8',20010213165913,20010213165913,20010213165913);
-INSERT INTO eZSession_Session VALUES (88,'accb5d36e946388430c80fd478c3b47b',20010213165914,20010213165914,20010213165914);
-INSERT INTO eZSession_Session VALUES (89,'c7f2dca496a8fd447aaa2f6a8440b07e',20010213165914,20010213165914,20010213165914);
-INSERT INTO eZSession_Session VALUES (90,'5a405a61dd1ab93a2791a8ce7690c46e',20010213165914,20010213165914,20010213165914);
-INSERT INTO eZSession_Session VALUES (91,'6a491207d2fa36ac739ce668d09f7487',20010213165915,20010213165915,20010213165915);
-INSERT INTO eZSession_Session VALUES (92,'706f8b0dbfe105990546c42ac8a23796',20010213165915,20010213165915,20010213165915);
-INSERT INTO eZSession_Session VALUES (93,'6af151efd345320c754c85c83fb111f6',20010213165915,20010213165915,20010213165915);
-INSERT INTO eZSession_Session VALUES (94,'39ffc8d66bb01b3a181ecadef345b241',20010213165916,20010213165916,20010213165916);
-INSERT INTO eZSession_Session VALUES (95,'cbeb10842c73cb42ae85364b4a8297bb',20010213165916,20010213165916,20010213165916);
-INSERT INTO eZSession_Session VALUES (96,'63fa2ae7484f738209dd6c4668b8ce06',20010213165916,20010213165916,20010213165916);
-INSERT INTO eZSession_Session VALUES (97,'28d27bb7b689028c5f2cade64e92a417',20010213165916,20010213165916,20010213165916);
-INSERT INTO eZSession_Session VALUES (98,'de3cfce91ae0eb30d5c0cd09294ce570',20010213165917,20010213165917,20010213165917);
-INSERT INTO eZSession_Session VALUES (99,'3b4e492a4ba305e951503b761aa50743',20010213165917,20010213165917,20010213165917);
-INSERT INTO eZSession_Session VALUES (100,'350dcbc47fe3b6be6ee071a882eeade9',20010213165917,20010213165917,20010213165917);
-INSERT INTO eZSession_Session VALUES (101,'ebbb130ce4e2f9508f23dc2d286a137d',20010213165918,20010213165918,20010213165918);
-INSERT INTO eZSession_Session VALUES (102,'754f5a359f45725d0b05b341b6075ef4',20010213165918,20010213165918,20010213165918);
-INSERT INTO eZSession_Session VALUES (103,'336b92ab860f75221af6944bb64b2851',20010213165918,20010213165918,20010213165918);
-INSERT INTO eZSession_Session VALUES (104,'59d66d31691b6a0a92c2b5ef22fe849d',20010213165919,20010213165919,20010213165919);
-INSERT INTO eZSession_Session VALUES (105,'3801c31a11c582d9f7e520d5f8237824',20010213165919,20010213165919,20010213165919);
-INSERT INTO eZSession_Session VALUES (106,'60cdd4d2d642b0c2d67477ff9ce123bd',20010213165919,20010213165919,20010213165919);
-INSERT INTO eZSession_Session VALUES (107,'d044621afc3da1402a048e12f8b9069d',20010213165919,20010213165919,20010213165919);
-INSERT INTO eZSession_Session VALUES (108,'a69a85659cf1b48cec12afb275316602',20010213165920,20010213165920,20010213165920);
-INSERT INTO eZSession_Session VALUES (109,'7c6400da15f30d064eaa605f6ed025b4',20010213165920,20010213165920,20010213165920);
-INSERT INTO eZSession_Session VALUES (110,'436b8432306f16f97fa2cfb5a37d6d87',20010213165920,20010213165920,20010213165920);
-INSERT INTO eZSession_Session VALUES (111,'3df49babc49e439877b3190b0a85f369',20010213165921,20010213165921,20010213165921);
-INSERT INTO eZSession_Session VALUES (112,'6ff13c50b2bf253e0150c2b4eef5625e',20010213165921,20010213165921,20010213165921);
-INSERT INTO eZSession_Session VALUES (113,'31901426c50c489dc79cafba48b3156e',20010213165921,20010213165921,20010213165921);
-INSERT INTO eZSession_Session VALUES (114,'22110d2e97fe302fba99636ff9cb7c65',20010213165922,20010213165922,20010213165922);
-INSERT INTO eZSession_Session VALUES (115,'5b04d940c635ae3a9cfd172bdb4ca6c0',20010213165922,20010213165922,20010213165922);
-INSERT INTO eZSession_Session VALUES (116,'fdf173114038dd7d796b4ee0d2e6a0de',20010213165922,20010213165922,20010213165922);
-INSERT INTO eZSession_Session VALUES (117,'6b4f79fa28d0b708ed3640d2a5fca1c7',20010213165922,20010213165922,20010213165922);
-INSERT INTO eZSession_Session VALUES (118,'c6dde5dc80746d57dc4712c2ec811831',20010213165923,20010213165923,20010213165923);
-INSERT INTO eZSession_Session VALUES (119,'61aeea4c455da322a20a9e74733676a8',20010213165923,20010213165923,20010213165923);
-INSERT INTO eZSession_Session VALUES (120,'8a9a4635ea0795ccae1de9cce8acc997',20010213165923,20010213165923,20010213165923);
-INSERT INTO eZSession_Session VALUES (121,'56d32005027135758133e47965657885',20010213165924,20010213165924,20010213165924);
-INSERT INTO eZSession_Session VALUES (122,'34847eb68eccf97994de889d55332bbe',20010213165924,20010213165924,20010213165924);
-INSERT INTO eZSession_Session VALUES (123,'3051965afab4ca02538a989aad64666e',20010213165924,20010213165924,20010213165924);
-INSERT INTO eZSession_Session VALUES (124,'2622b142d82beac1dd30d4a03d1d2b17',20010213165925,20010213165925,20010213165925);
-INSERT INTO eZSession_Session VALUES (125,'8bc17569822196745792d99cfbf2bc86',20010213165925,20010213165925,20010213165925);
-INSERT INTO eZSession_Session VALUES (126,'a1753fae487e7aaec02437408fabe9be',20010213165930,20010213165930,20010213165930);
-INSERT INTO eZSession_Session VALUES (127,'1099ffebbcaef9dc20afd579a41ee5a3',20010213165930,20010213165930,20010213165930);
-INSERT INTO eZSession_Session VALUES (128,'5e727a6265a38f50c10b9a70490e3629',20010213165931,20010213165931,20010213165931);
-INSERT INTO eZSession_Session VALUES (129,'61cb7a29d06607d1f82f9621f6a3cdd4',20010213165931,20010213165931,20010213165931);
-INSERT INTO eZSession_Session VALUES (130,'6b40f9561b39a0e0658f731389e89b9b',20010213165931,20010213165931,20010213165931);
-INSERT INTO eZSession_Session VALUES (131,'9a4c8cb329b744b869c67f1294f0b0e3',20010213165932,20010213165932,20010213165932);
-INSERT INTO eZSession_Session VALUES (132,'d87cfb8fdf3a06bb94bc2bdf30c04331',20010213165932,20010213165932,20010213165932);
-INSERT INTO eZSession_Session VALUES (133,'dbc6638706a77f41b1351258673fd375',20010213165932,20010213165932,20010213165932);
-INSERT INTO eZSession_Session VALUES (134,'4ebbdd75132112969765c455bfd47200',20010213165932,20010213165932,20010213165932);
-INSERT INTO eZSession_Session VALUES (135,'a49719d48983e026913593f0fa95d4f9',20010213165932,20010213165932,20010213165932);
-INSERT INTO eZSession_Session VALUES (136,'9c0735f7dfc891cd823b29ed271455b8',20010213165933,20010213165933,20010213165933);
-INSERT INTO eZSession_Session VALUES (137,'e64aa9a00bba512ce5474f3e293d3425',20010213165933,20010213165933,20010213165933);
-INSERT INTO eZSession_Session VALUES (138,'cb1cb60792d0d2bf8b40df133ce253d4',20010213165933,20010213165933,20010213165933);
-INSERT INTO eZSession_Session VALUES (139,'893e6e46c328cf431e4ee2442c7c421d',20010213165933,20010213165933,20010213165933);
-INSERT INTO eZSession_Session VALUES (140,'0d240ed2690654608d6a8803983bec94',20010213165933,20010213165933,20010213165933);
-INSERT INTO eZSession_Session VALUES (141,'7d9e8eadb4c9fc8c3256c00cfd294eaa',20010213165934,20010213165934,20010213165934);
-INSERT INTO eZSession_Session VALUES (142,'ed0670a43aa1846ed96006af8c2125a2',20010213165934,20010213165934,20010213165934);
-INSERT INTO eZSession_Session VALUES (143,'46aa5d63c9c25520360299a298f1925f',20010213165934,20010213165934,20010213165934);
-INSERT INTO eZSession_Session VALUES (144,'51d5e43690410e7c5a6dc0fecc5a8ecf',20010213165934,20010213165934,20010213165934);
-INSERT INTO eZSession_Session VALUES (145,'e43c0a554364ac2f3d48f01fc3016df8',20010213165934,20010213165934,20010213165934);
-INSERT INTO eZSession_Session VALUES (146,'0edb9812bcb95c4737b0c9bb4196ece3',20010213165934,20010213165934,20010213165934);
-INSERT INTO eZSession_Session VALUES (147,'82c8f63e51613611a1b4cbe388e9d19c',20010213165935,20010213165935,20010213165935);
-INSERT INTO eZSession_Session VALUES (148,'de0b0e1df8ea274b4960b5df26dd073e',20010213165935,20010213165935,20010213165935);
-INSERT INTO eZSession_Session VALUES (149,'dcb0d9505baca0a9639cd6fce40774f5',20010213165935,20010213165935,20010213165935);
-INSERT INTO eZSession_Session VALUES (150,'152fe486b1c67524c40d36e579eb10b3',20010213165935,20010213165935,20010213165935);
-INSERT INTO eZSession_Session VALUES (151,'1bad6cedb7cbb97335199b397297da15',20010213165935,20010213165935,20010213165935);
-INSERT INTO eZSession_Session VALUES (152,'db294960cbb97db1bccc157869ca61e4',20010213165935,20010213165935,20010213165935);
-INSERT INTO eZSession_Session VALUES (153,'0e455960b88946af99ddc6af1919d515',20010213165936,20010213165936,20010213165936);
-INSERT INTO eZSession_Session VALUES (154,'a9149d3d004f79a221e1ea11c3295c77',20010213165936,20010213165936,20010213165936);
-INSERT INTO eZSession_Session VALUES (155,'1db18f5bc84e8ea0ae2f826adfc83553',20010213165936,20010213165936,20010213165936);
-INSERT INTO eZSession_Session VALUES (156,'b5078daa71c9306a2d9f6a8db1bb5347',20010213165936,20010213165936,20010213165936);
-INSERT INTO eZSession_Session VALUES (157,'385301b7383e38194486655eade0e2eb',20010213165936,20010213165936,20010213165936);
-INSERT INTO eZSession_Session VALUES (158,'faece4c7cad53b6443d97f874ea75589',20010213165936,20010213165936,20010213165936);
-INSERT INTO eZSession_Session VALUES (159,'ce9ff532ff60f6b08d0601c44fdb36b5',20010213165937,20010213165937,20010213165937);
-INSERT INTO eZSession_Session VALUES (160,'7b693afe42ff2d83a188a6e86efdc11f',20010213165937,20010213165937,20010213165937);
-INSERT INTO eZSession_Session VALUES (161,'3aa7e38ed7a685276dc424ac515420de',20010213165937,20010213165937,20010213165937);
-INSERT INTO eZSession_Session VALUES (162,'f43394f25a30ea06228a863c1ce37c16',20010213165937,20010213165937,20010213165937);
-INSERT INTO eZSession_Session VALUES (163,'5c965f382340070cb8f4fb0d6c64b0a6',20010213165937,20010213165937,20010213165937);
-INSERT INTO eZSession_Session VALUES (164,'b82a9b0cbdf28aef7f61c976ce45230e',20010213165937,20010213165937,20010213165937);
-INSERT INTO eZSession_Session VALUES (165,'f9b04979a1ec33c055ae3c1aa7b2b103',20010213165938,20010213165938,20010213165938);
-INSERT INTO eZSession_Session VALUES (166,'da8abaa047be12af0ede665ae47d2aac',20010213165938,20010213165938,20010213165938);
-INSERT INTO eZSession_Session VALUES (167,'580959edfea70cf802c89fdd58b22e01',20010213165938,20010213165938,20010213165938);
-INSERT INTO eZSession_Session VALUES (168,'efd1789b1d880644a16e374985ac0a0f',20010213165938,20010213165938,20010213165938);
-INSERT INTO eZSession_Session VALUES (169,'2f4fdb1e3abda21547741c82f12d9deb',20010213165938,20010213165938,20010213165938);
-INSERT INTO eZSession_Session VALUES (170,'23f08312a1b6344f59b999c016b652ae',20010213165939,20010213165939,20010213165939);
-INSERT INTO eZSession_Session VALUES (171,'f992a905befe56b906e5b116eeff3195',20010213165939,20010213165939,20010213165939);
-INSERT INTO eZSession_Session VALUES (172,'b7be23c25e17f72b0026ce27a2abcfeb',20010213165939,20010213165939,20010213165939);
-INSERT INTO eZSession_Session VALUES (173,'74e4b492ce56f768e6092f4c0318b6fc',20010213165939,20010213165939,20010213165939);
-INSERT INTO eZSession_Session VALUES (174,'8d5a13b43de1fab549ad209ac27994aa',20010213165939,20010213165939,20010213165939);
-INSERT INTO eZSession_Session VALUES (175,'1dcc882b825e38d7debc60645491df5f',20010213165939,20010213165939,20010213165939);
-INSERT INTO eZSession_Session VALUES (176,'477721c0f3d61a11c8abd8b5e6071b69',20010213165940,20010213165940,20010213165940);
-INSERT INTO eZSession_Session VALUES (177,'08f461aeaf6765b1ec675860482037c4',20010213165940,20010213165940,20010213165940);
-INSERT INTO eZSession_Session VALUES (178,'917ab744d9cf3edc897ac91f6189863f',20010213165940,20010213165940,20010213165940);
-INSERT INTO eZSession_Session VALUES (179,'85d13f703b7293e14cc37f3969f6d4cd',20010213165940,20010213165940,20010213165940);
-INSERT INTO eZSession_Session VALUES (180,'6bca64423328bcea0d45e36343713a8e',20010213165940,20010213165940,20010213165940);
-INSERT INTO eZSession_Session VALUES (181,'555178368af8ab1e45067ed25edcc547',20010213165940,20010213165940,20010213165940);
-INSERT INTO eZSession_Session VALUES (182,'3f3e7d44060668067fdbf4da6bd30e5e',20010213165940,20010213165940,20010213165940);
-INSERT INTO eZSession_Session VALUES (183,'3e78542a7985b552a40cbb4818d9ff19',20010213165941,20010213165941,20010213165941);
-INSERT INTO eZSession_Session VALUES (184,'b55cd933495175520c3d321205838d0c',20010213165941,20010213165941,20010213165941);
-INSERT INTO eZSession_Session VALUES (185,'478040bfe4b2ca0f231448102fe04b59',20010213165941,20010213165941,20010213165941);
-INSERT INTO eZSession_Session VALUES (186,'516c8dee7194189299984eca77938ffc',20010213165941,20010213165941,20010213165941);
-INSERT INTO eZSession_Session VALUES (187,'fcd8b03810731710c2b5cfa2d4e8e140',20010213165941,20010213165941,20010213165941);
-INSERT INTO eZSession_Session VALUES (188,'1b3e5a6004b5e8490643a850d5ef29e0',20010213165942,20010213165942,20010213165942);
-INSERT INTO eZSession_Session VALUES (189,'a2ae0e1f676b06e06f134a57cb75aa4c',20010213165942,20010213165942,20010213165942);
-INSERT INTO eZSession_Session VALUES (190,'100037f6e94144821e48aac3d8ff56ef',20010213165942,20010213165942,20010213165942);
-INSERT INTO eZSession_Session VALUES (191,'d5a2d7e82929e61522fe606dff57cb9d',20010213165942,20010213165942,20010213165942);
-INSERT INTO eZSession_Session VALUES (192,'00d506d382d5af240e04c1d44912d21f',20010213165942,20010213165942,20010213165942);
-INSERT INTO eZSession_Session VALUES (193,'00c7427cf1c084b48437bdcf97c5c4d0',20010213165942,20010213165942,20010213165942);
-INSERT INTO eZSession_Session VALUES (194,'f5738326750408d903a926d046cfe2f6',20010213165943,20010213165943,20010213165943);
-INSERT INTO eZSession_Session VALUES (195,'1c2cfef266cf11916c31f540775375dd',20010213165943,20010213165943,20010213165943);
-INSERT INTO eZSession_Session VALUES (196,'c6d99fef4f03246b542df6694647996e',20010213165943,20010213165943,20010213165943);
-INSERT INTO eZSession_Session VALUES (197,'32be22f9861e69429832ceded9ff4f98',20010213165943,20010213165943,20010213165943);
-INSERT INTO eZSession_Session VALUES (198,'b83b99424177f8015b8486a090f0e0be',20010213165943,20010213165943,20010213165943);
-INSERT INTO eZSession_Session VALUES (199,'6ce11c17fc7fa2971f9034bc17184394',20010213165943,20010213165943,20010213165943);
-INSERT INTO eZSession_Session VALUES (200,'0c8a59f84db7e8f95a32c3388902ade1',20010213165944,20010213165944,20010213165944);
-INSERT INTO eZSession_Session VALUES (201,'ae1645f995745ef90c7626ebf7db2bea',20010213165944,20010213165944,20010213165944);
-INSERT INTO eZSession_Session VALUES (202,'37348b46dab016c5d8e912dc0161a44d',20010213165944,20010213165944,20010213165944);
-INSERT INTO eZSession_Session VALUES (203,'e75181a882bae92798a4381dfe4dbab9',20010213165944,20010213165944,20010213165944);
-INSERT INTO eZSession_Session VALUES (204,'6726bf21887e98c6cd605abc44cdec57',20010213165944,20010213165944,20010213165944);
-INSERT INTO eZSession_Session VALUES (205,'2576086e57d298ba28eb64978954577a',20010213165944,20010213165944,20010213165944);
-INSERT INTO eZSession_Session VALUES (206,'c4bf5d7becf7a0e95d79cc71b337e865',20010213165945,20010213165945,20010213165945);
-INSERT INTO eZSession_Session VALUES (207,'6f94325a8627c7e7fece23cf16120454',20010213165945,20010213165945,20010213165945);
-INSERT INTO eZSession_Session VALUES (208,'e0a82d7514689988a84475be6ad6ab6b',20010213165945,20010213165945,20010213165945);
-INSERT INTO eZSession_Session VALUES (209,'d6abae0f2379b15ff909f3ab0fb57f35',20010213165945,20010213165945,20010213165945);
-INSERT INTO eZSession_Session VALUES (210,'596983e19ef2b670c3572ad4c7632443',20010213165945,20010213165945,20010213165945);
-INSERT INTO eZSession_Session VALUES (211,'178140e82d8a29b188df681c95e5f128',20010213165946,20010213165946,20010213165946);
-INSERT INTO eZSession_Session VALUES (212,'366e305e2969da21f0b3acfb93f427e1',20010213165946,20010213165946,20010213165946);
-INSERT INTO eZSession_Session VALUES (213,'c37bc7c0d35ceef4f598ac3c0e28bca9',20010213165946,20010213165946,20010213165946);
-INSERT INTO eZSession_Session VALUES (214,'23794df694fe56128454ae53c80d4a0a',20010213165946,20010213165946,20010213165946);
-INSERT INTO eZSession_Session VALUES (215,'dc70be06fd00056e007a683625a8e0b5',20010213165946,20010213165946,20010213165946);
-INSERT INTO eZSession_Session VALUES (216,'fe5ea1a3dbde3c00078f40ab96d66631',20010213165946,20010213165946,20010213165946);
-INSERT INTO eZSession_Session VALUES (217,'cb36745d81eaf40d2cc689ad7ce3a8e1',20010213165947,20010213165947,20010213165947);
-INSERT INTO eZSession_Session VALUES (218,'484f8b57566368ac155e5f1c27bc3dda',20010213165947,20010213165947,20010213165947);
-INSERT INTO eZSession_Session VALUES (219,'a38ca41bd17a0f7d00240458c6cea1d4',20010213165947,20010213165947,20010213165947);
-INSERT INTO eZSession_Session VALUES (220,'d4d8229ab0f964b4eb5e2af99abc58f7',20010213165947,20010213165947,20010213165947);
-INSERT INTO eZSession_Session VALUES (221,'871f4f0cb891944a4debddb227f2da9b',20010213165947,20010213165947,20010213165947);
-INSERT INTO eZSession_Session VALUES (222,'7b1ab997bab1337b210ab1fb373ce7fa',20010213165948,20010213165948,20010213165948);
-INSERT INTO eZSession_Session VALUES (223,'15a56d962e9b883a20c6d61cd314b3e8',20010213165948,20010213165948,20010213165948);
-INSERT INTO eZSession_Session VALUES (224,'476ba993bb6ca10f0df533545afa204b',20010213165948,20010213165948,20010213165948);
-INSERT INTO eZSession_Session VALUES (225,'90d4db0eed983b09fa5e751bcef4da67',20010213165948,20010213165948,20010213165948);
-INSERT INTO eZSession_Session VALUES (226,'2c3493f1c8c1f97187d8de139bdd6772',20010213165949,20010213165949,20010213165949);
-INSERT INTO eZSession_Session VALUES (227,'f1bbfe73426bfc633be828b8c9845115',20010213165949,20010213165949,20010213165949);
-INSERT INTO eZSession_Session VALUES (228,'6455afa56ca3f60b11ae18533aefe97e',20010213170046,20010213170046,20010213170046);
-INSERT INTO eZSession_Session VALUES (229,'c6220bdbabd637186f25b711077356cd',20010213170046,20010213170046,20010213170046);
-INSERT INTO eZSession_Session VALUES (230,'31fcfa3a2a151200fc7262124586123c',20010213170047,20010213170047,20010213170047);
-INSERT INTO eZSession_Session VALUES (231,'df1f8e194c6cf0a551b606da0ab594ee',20010213170047,20010213170047,20010213170047);
-INSERT INTO eZSession_Session VALUES (232,'afc7c8776d33a523cf53505ab0f9cb1d',20010213170047,20010213170047,20010213170047);
-INSERT INTO eZSession_Session VALUES (233,'9d56b1e4eeebe0aa9c215043a5921b8a',20010213170048,20010213170048,20010213170048);
-INSERT INTO eZSession_Session VALUES (234,'ace4e394c316ba4038a6be69fb2d0054',20010226214725,20010226214834,20010226214834);
-INSERT INTO eZSession_Session VALUES (235,'c63fdfb5e04e04150617a43a2467dbed',20010226214745,20010226214816,20010226214816);
-INSERT INTO eZSession_Session VALUES (236,'f3ee2dd3db23bfe29bf0e70ec5a1df80',20010305175717,20010305175915,20010305175915);
-INSERT INTO eZSession_Session VALUES (237,'06aff8d18c93bbafd59a000cae552574',20010305175841,20010305180949,20010305180945);
 
 #
 # Table structure for table 'eZSession_SessionVariable'
@@ -2491,252 +1615,6 @@ CREATE TABLE eZSession_SessionVariable (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZSession_SessionVariable'
-#
-
-INSERT INTO eZSession_SessionVariable VALUES (1,1,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (2,1,'SiteDesign','standard');
-INSERT INTO eZSession_SessionVariable VALUES (3,2,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (4,3,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (5,4,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (6,5,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (7,6,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (8,7,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (9,8,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (10,9,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (11,10,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (12,11,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (13,12,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (14,13,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (15,14,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (16,15,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (17,16,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (18,17,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (19,18,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (20,19,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (21,20,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (22,21,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (23,22,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (24,23,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (25,24,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (26,25,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (27,26,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (28,27,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (29,28,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (30,29,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (31,30,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (32,31,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (33,32,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (34,33,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (35,34,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (36,35,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (37,36,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (38,37,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (39,38,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (40,39,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (41,40,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (42,41,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (43,42,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (44,43,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (45,44,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (46,45,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (47,46,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (48,47,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (49,48,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (50,49,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (51,50,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (52,51,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (53,52,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (54,53,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (55,54,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (56,55,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (57,56,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (58,57,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (59,58,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (60,59,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (61,60,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (62,61,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (63,62,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (64,63,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (65,64,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (66,65,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (67,66,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (68,67,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (69,68,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (70,69,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (71,70,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (72,71,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (73,72,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (74,73,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (75,74,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (76,75,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (77,76,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (78,77,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (79,78,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (80,79,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (81,80,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (82,81,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (83,82,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (84,83,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (85,84,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (86,85,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (87,86,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (88,87,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (89,88,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (90,89,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (91,90,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (92,91,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (93,92,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (94,93,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (95,94,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (96,95,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (97,96,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (98,97,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (99,98,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (100,99,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (101,100,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (102,101,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (103,102,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (104,103,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (105,104,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (106,105,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (107,106,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (108,107,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (109,108,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (110,109,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (111,110,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (112,111,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (113,112,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (114,113,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (115,114,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (116,115,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (117,116,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (118,117,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (119,118,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (120,119,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (121,120,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (122,121,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (123,122,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (124,123,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (125,124,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (126,125,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (127,126,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (128,127,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (129,128,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (130,129,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (131,130,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (132,131,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (133,132,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (134,133,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (135,134,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (136,135,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (137,136,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (138,137,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (139,138,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (140,139,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (141,140,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (142,141,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (143,142,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (144,143,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (145,144,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (146,145,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (147,146,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (148,147,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (149,148,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (150,149,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (151,150,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (152,151,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (153,152,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (154,153,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (155,154,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (156,155,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (157,156,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (158,157,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (159,158,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (160,159,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (161,160,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (162,161,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (163,162,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (164,163,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (165,164,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (166,165,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (167,166,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (168,167,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (169,168,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (170,169,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (171,170,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (172,171,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (173,172,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (174,173,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (175,174,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (176,175,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (177,176,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (178,177,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (179,178,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (180,179,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (181,180,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (182,181,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (183,182,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (184,183,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (185,184,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (186,185,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (187,186,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (188,187,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (189,188,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (190,189,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (191,190,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (192,191,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (193,192,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (194,193,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (195,194,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (196,195,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (197,196,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (198,197,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (199,198,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (200,199,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (201,200,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (202,201,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (203,202,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (204,203,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (205,204,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (206,205,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (207,206,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (208,207,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (209,208,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (210,209,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (211,210,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (212,211,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (213,212,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (214,213,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (215,214,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (216,215,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (217,216,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (218,217,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (219,218,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (220,219,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (221,220,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (222,221,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (223,222,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (224,223,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (225,224,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (226,225,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (227,226,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (228,227,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (229,228,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (230,229,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (231,230,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (232,231,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (233,232,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (234,233,'SessionIP','10.0.2.200');
-INSERT INTO eZSession_SessionVariable VALUES (235,234,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (236,234,'SiteDesign','standard');
-INSERT INTO eZSession_SessionVariable VALUES (237,235,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (238,235,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (239,236,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (240,236,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (241,237,'SessionIP','10.0.2.3');
-
-#
 # Table structure for table 'eZStats_BrowserType'
 #
 
@@ -2746,12 +1624,6 @@ CREATE TABLE eZStats_BrowserType (
   BrowserType char(250) NOT NULL default '',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZStats_BrowserType'
-#
-
-INSERT INTO eZStats_BrowserType VALUES (1,'Mozilla/5.0 (compatible; Konqueror/2.1; X11)');
 
 #
 # Table structure for table 'eZStats_PageView'
@@ -2775,14 +1647,6 @@ CREATE TABLE eZStats_PageView (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZStats_PageView'
-#
-
-INSERT INTO eZStats_PageView VALUES (1,0,1,1,1,20010305180734,1,'2001-03-05','18:07:34');
-INSERT INTO eZStats_PageView VALUES (2,0,1,1,2,20010305180945,1,'2001-03-05','18:09:45');
-INSERT INTO eZStats_PageView VALUES (3,0,1,1,2,20010305180949,1,'2001-03-05','18:09:49');
-
-#
 # Table structure for table 'eZStats_RefererURL'
 #
 
@@ -2794,12 +1658,6 @@ CREATE TABLE eZStats_RefererURL (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZStats_RefererURL'
-#
-
-INSERT INTO eZStats_RefererURL VALUES (1,'publish.php.ez.no','/article/articleview/9/');
-INSERT INTO eZStats_RefererURL VALUES (2,'','');
 
 #
 # Table structure for table 'eZStats_RemoteHost'
@@ -2813,11 +1671,6 @@ CREATE TABLE eZStats_RemoteHost (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZStats_RemoteHost'
-#
-
-INSERT INTO eZStats_RemoteHost VALUES (1,'10.0.2.3',NULL);
 
 #
 # Table structure for table 'eZStats_RequestPage'
@@ -2830,11 +1683,6 @@ CREATE TABLE eZStats_RequestPage (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZStats_RequestPage'
-#
-
-INSERT INTO eZStats_RequestPage VALUES (1,'/article/archive/0/');
 
 #
 # Table structure for table 'eZTodo_Category'
@@ -2849,13 +1697,6 @@ CREATE TABLE eZTodo_Category (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTodo_Category'
-#
-
-INSERT INTO eZTodo_Category VALUES (NULL,1,'Bugfix');
-INSERT INTO eZTodo_Category VALUES (NULL,2,'Programming');
-
-#
 # Table structure for table 'eZTodo_Priority'
 #
 
@@ -2865,14 +1706,6 @@ CREATE TABLE eZTodo_Priority (
   Name varchar(30) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTodo_Priority'
-#
-
-INSERT INTO eZTodo_Priority VALUES (1,'Low');
-INSERT INTO eZTodo_Priority VALUES (2,'Medium');
-INSERT INTO eZTodo_Priority VALUES (3,'High');
 
 #
 # Table structure for table 'eZTodo_Todo'
@@ -2894,11 +1727,6 @@ CREATE TABLE eZTodo_Todo (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZTodo_Todo'
-#
-
-INSERT INTO eZTodo_Todo VALUES (2,1,'Private',1,27,27,'This is a test Todo',20010116142211,00000000000000,'Please add this feature.',1);
 
 #
 # Table structure for table 'eZTrade_AlternativeCurrency'
@@ -2915,10 +1743,6 @@ CREATE TABLE eZTrade_AlternativeCurrency (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZTrade_AlternativeCurrency'
-#
-
 
 #
 # Table structure for table 'eZTrade_Attribute'
@@ -2934,15 +1758,6 @@ CREATE TABLE eZTrade_Attribute (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_Attribute'
-#
-
-INSERT INTO eZTrade_Attribute VALUES (1,1,'Size',20010126130441);
-INSERT INTO eZTrade_Attribute VALUES (2,1,'Color',20010126130449);
-INSERT INTO eZTrade_Attribute VALUES (3,1,'Age',20010126130455);
-INSERT INTO eZTrade_Attribute VALUES (4,1,'Gender',20010126130459);
-
-#
 # Table structure for table 'eZTrade_AttributeValue'
 #
 
@@ -2956,15 +1771,6 @@ CREATE TABLE eZTrade_AttributeValue (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_AttributeValue'
-#
-
-INSERT INTO eZTrade_AttributeValue VALUES (1,2,1,'Big');
-INSERT INTO eZTrade_AttributeValue VALUES (2,2,2,'Red');
-INSERT INTO eZTrade_AttributeValue VALUES (3,2,3,'12 yrs');
-INSERT INTO eZTrade_AttributeValue VALUES (4,2,4,'Female');
-
-#
 # Table structure for table 'eZTrade_Cart'
 #
 
@@ -2974,17 +1780,6 @@ CREATE TABLE eZTrade_Cart (
   SessionID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_Cart'
-#
-
-INSERT INTO eZTrade_Cart VALUES (3,4);
-INSERT INTO eZTrade_Cart VALUES (2,1);
-INSERT INTO eZTrade_Cart VALUES (4,5);
-INSERT INTO eZTrade_Cart VALUES (5,11);
-INSERT INTO eZTrade_Cart VALUES (6,10);
-INSERT INTO eZTrade_Cart VALUES (7,3);
 
 #
 # Table structure for table 'eZTrade_CartItem'
@@ -3000,10 +1795,6 @@ CREATE TABLE eZTrade_CartItem (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZTrade_CartItem'
-#
-
 
 #
 # Table structure for table 'eZTrade_CartOptionValue'
@@ -3017,10 +1808,6 @@ CREATE TABLE eZTrade_CartOptionValue (
   OptionValueID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_CartOptionValue'
-#
 
 
 #
@@ -3040,12 +1827,6 @@ CREATE TABLE eZTrade_Category (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_Category'
-#
-
-INSERT INTO eZTrade_Category VALUES (1,0,'','Products',NULL,1,NULL);
-
-#
 # Table structure for table 'eZTrade_CategoryOptionLink'
 #
 
@@ -3057,10 +1838,17 @@ CREATE TABLE eZTrade_CategoryOptionLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+
 #
-# Dumping data for table 'eZTrade_CategoryOptionLink'
+# Table structure for table 'eZTrade_GroupPriceLink'
 #
 
+DROP TABLE IF EXISTS eZTrade_GroupPriceLink;
+CREATE TABLE eZTrade_GroupPriceLink (
+  GroupID int(11) NOT NULL default '0',
+  PriceID int(11) NOT NULL default '0',
+  PRIMARY KEY (GroupID,PriceID)
+) TYPE=MyISAM;
 
 #
 # Table structure for table 'eZTrade_Option'
@@ -3075,11 +1863,6 @@ CREATE TABLE eZTrade_Option (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_Option'
-#
-
-
-#
 # Table structure for table 'eZTrade_OptionValue'
 #
 
@@ -3088,13 +1871,10 @@ CREATE TABLE eZTrade_OptionValue (
   ID int(11) NOT NULL auto_increment,
   OptionID int(11) default NULL,
   Placement int(11) NOT NULL default '1',
+  Price float(10,2) NOT NULL default '0.00',
+  RemoteID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_OptionValue'
-#
-
 
 #
 # Table structure for table 'eZTrade_OptionValueContent'
@@ -3110,11 +1890,6 @@ CREATE TABLE eZTrade_OptionValueContent (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_OptionValueContent'
-#
-
-
-#
 # Table structure for table 'eZTrade_OptionValueHeader'
 #
 
@@ -3126,11 +1901,6 @@ CREATE TABLE eZTrade_OptionValueHeader (
   Placement int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_OptionValueHeader'
-#
-
 
 #
 # Table structure for table 'eZTrade_Order'
@@ -3151,12 +1921,6 @@ CREATE TABLE eZTrade_Order (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_Order'
-#
-
-INSERT INTO eZTrade_Order VALUES (1,27,50.00,'1',1,1,0,NULL,0);
-
-#
 # Table structure for table 'eZTrade_OrderItem'
 #
 
@@ -3171,12 +1935,6 @@ CREATE TABLE eZTrade_OrderItem (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_OrderItem'
-#
-
-INSERT INTO eZTrade_OrderItem VALUES (1,1,1,142.00,1);
-
-#
 # Table structure for table 'eZTrade_OrderOptionValue'
 #
 
@@ -3188,11 +1946,6 @@ CREATE TABLE eZTrade_OrderOptionValue (
   ValueName char(25) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_OrderOptionValue'
-#
-
 
 #
 # Table structure for table 'eZTrade_OrderStatus'
@@ -3210,12 +1963,6 @@ CREATE TABLE eZTrade_OrderStatus (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_OrderStatus'
-#
-
-INSERT INTO eZTrade_OrderStatus VALUES (1,1,20010126102943,0,1,'');
-
-#
 # Table structure for table 'eZTrade_OrderStatusType'
 #
 
@@ -3226,15 +1973,6 @@ CREATE TABLE eZTrade_OrderStatusType (
   PRIMARY KEY (ID),
   UNIQUE KEY Name(Name)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_OrderStatusType'
-#
-
-INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
-INSERT INTO eZTrade_OrderStatusType VALUES (2,'intl-sendt');
-INSERT INTO eZTrade_OrderStatusType VALUES (3,'intl-payed');
-INSERT INTO eZTrade_OrderStatusType VALUES (4,'intl-undefined');
 
 #
 # Table structure for table 'eZTrade_PriceGroup'
@@ -3248,11 +1986,6 @@ CREATE TABLE eZTrade_PriceGroup (
   Placement int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_PriceGroup'
-#
-
 
 #
 # Table structure for table 'eZTrade_Product'
@@ -3281,12 +2014,6 @@ CREATE TABLE eZTrade_Product (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZTrade_Product'
-#
-
-INSERT INTO eZTrade_Product VALUES (1,'Cat','Test product','Please buy this product','',142.00,'true','true','false',NULL,'','','true',20010126102820,00000000000000,NULL,0,0);
-INSERT INTO eZTrade_Product VALUES (2,'Flower','This is a flower','Description','',42.00,'true','true','false',NULL,'','www.ez.no','true',20010126130741,00000000000000,NULL,0,0);
 
 #
 # Table structure for table 'eZTrade_ProductCategoryDefinition'
@@ -3299,13 +2026,6 @@ CREATE TABLE eZTrade_ProductCategoryDefinition (
   CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_ProductCategoryDefinition'
-#
-
-INSERT INTO eZTrade_ProductCategoryDefinition VALUES (1,1,1);
-INSERT INTO eZTrade_ProductCategoryDefinition VALUES (2,2,1);
 
 #
 # Table structure for table 'eZTrade_ProductCategoryLink'
@@ -3321,13 +2041,6 @@ CREATE TABLE eZTrade_ProductCategoryLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_ProductCategoryLink'
-#
-
-INSERT INTO eZTrade_ProductCategoryLink VALUES (1,1,1,0);
-INSERT INTO eZTrade_ProductCategoryLink VALUES (2,1,2,0);
-
-#
 # Table structure for table 'eZTrade_ProductImageDefinition'
 #
 
@@ -3338,13 +2051,6 @@ CREATE TABLE eZTrade_ProductImageDefinition (
   MainImageID int(11) default NULL,
   PRIMARY KEY (ProductID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_ProductImageDefinition'
-#
-
-INSERT INTO eZTrade_ProductImageDefinition VALUES (1,3,3);
-INSERT INTO eZTrade_ProductImageDefinition VALUES (2,4,4);
 
 #
 # Table structure for table 'eZTrade_ProductImageLink'
@@ -3360,13 +2066,6 @@ CREATE TABLE eZTrade_ProductImageLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_ProductImageLink'
-#
-
-INSERT INTO eZTrade_ProductImageLink VALUES (1,1,3,20010126102759);
-INSERT INTO eZTrade_ProductImageLink VALUES (2,2,4,20010126130705);
-
-#
 # Table structure for table 'eZTrade_ProductOptionLink'
 #
 
@@ -3377,11 +2076,6 @@ CREATE TABLE eZTrade_ProductOptionLink (
   OptionID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_ProductOptionLink'
-#
-
 
 #
 # Table structure for table 'eZTrade_ProductPriceLink'
@@ -3397,10 +2091,6 @@ CREATE TABLE eZTrade_ProductPriceLink (
   PRIMARY KEY (ProductID,PriceID,OptionID,ValueID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZTrade_ProductPriceLink'
-#
-
 
 #
 # Table structure for table 'eZTrade_ProductTypeLink'
@@ -3415,12 +2105,6 @@ CREATE TABLE eZTrade_ProductTypeLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_ProductTypeLink'
-#
-
-INSERT INTO eZTrade_ProductTypeLink VALUES (1,2,1);
-
-#
 # Table structure for table 'eZTrade_ShippingGroup'
 #
 
@@ -3431,11 +2115,6 @@ CREATE TABLE eZTrade_ShippingGroup (
   Created timestamp(14) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_ShippingGroup'
-#
-
 
 #
 # Table structure for table 'eZTrade_ShippingType'
@@ -3451,11 +2130,6 @@ CREATE TABLE eZTrade_ShippingType (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_ShippingType'
-#
-
-
-#
 # Table structure for table 'eZTrade_ShippingValue'
 #
 
@@ -3468,10 +2142,6 @@ CREATE TABLE eZTrade_ShippingValue (
   AddValue float NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZTrade_ShippingValue'
-#
 
 
 #
@@ -3487,12 +2157,6 @@ CREATE TABLE eZTrade_Type (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_Type'
-#
-
-INSERT INTO eZTrade_Type VALUES (1,'Flower','');
-
-#
 # Table structure for table 'eZTrade_VATType'
 #
 
@@ -3506,11 +2170,6 @@ CREATE TABLE eZTrade_VATType (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_VATType'
-#
-
-
-#
 # Table structure for table 'eZTrade_WishList'
 #
 
@@ -3522,11 +2181,6 @@ CREATE TABLE eZTrade_WishList (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZTrade_WishList'
-#
-
-INSERT INTO eZTrade_WishList VALUES (1,27,0);
 
 #
 # Table structure for table 'eZTrade_WishListItem'
@@ -3543,12 +2197,6 @@ CREATE TABLE eZTrade_WishListItem (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_WishListItem'
-#
-
-INSERT INTO eZTrade_WishListItem VALUES (1,1,1,1,0);
-
-#
 # Table structure for table 'eZTrade_WishListOptionValue'
 #
 
@@ -3562,11 +2210,6 @@ CREATE TABLE eZTrade_WishListOptionValue (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZTrade_WishListOptionValue'
-#
-
-
-#
 # Table structure for table 'eZUser_Forgot'
 #
 
@@ -3578,11 +2221,6 @@ CREATE TABLE eZUser_Forgot (
   Time timestamp(14) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZUser_Forgot'
-#
-
 
 #
 # Table structure for table 'eZUser_Group'
@@ -3601,7 +2239,6 @@ CREATE TABLE eZUser_Group (
 # Dumping data for table 'eZUser_Group'
 #
 
-INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.',60);
 INSERT INTO eZUser_Group VALUES (1,'Administrators','All rights',7200);
 
 #
@@ -3618,57 +2255,6 @@ CREATE TABLE eZUser_GroupPermissionLink (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZUser_GroupPermissionLink'
-#
-
-INSERT INTO eZUser_GroupPermissionLink VALUES (1,1,1,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (2,1,2,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (3,1,3,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (4,1,4,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (5,1,5,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (6,1,6,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (7,1,8,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (8,2,1,'false');
-INSERT INTO eZUser_GroupPermissionLink VALUES (9,2,2,'false');
-INSERT INTO eZUser_GroupPermissionLink VALUES (10,2,3,'false');
-INSERT INTO eZUser_GroupPermissionLink VALUES (11,2,4,'false');
-INSERT INTO eZUser_GroupPermissionLink VALUES (12,2,5,'false');
-INSERT INTO eZUser_GroupPermissionLink VALUES (13,2,6,'false');
-INSERT INTO eZUser_GroupPermissionLink VALUES (14,2,8,'false');
-INSERT INTO eZUser_GroupPermissionLink VALUES (21,1,15,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (20,1,14,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (19,1,13,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (18,1,12,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (17,1,11,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (16,1,10,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (15,1,9,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (22,1,16,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (23,1,17,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (24,1,18,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (25,1,19,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (26,1,20,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (27,1,21,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (28,1,22,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (29,1,23,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (30,1,24,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (31,1,25,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (32,1,26,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (33,1,27,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (34,1,28,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (35,1,29,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (36,1,30,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (37,1,31,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (38,1,32,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (39,1,33,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (40,1,34,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (74,1,35,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (75,1,36,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (76,1,37,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (77,1,38,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (78,1,39,'true');
-INSERT INTO eZUser_GroupPermissionLink VALUES (79,1,40,'true');
-
-#
 # Table structure for table 'eZUser_Module'
 #
 
@@ -3679,22 +2265,6 @@ CREATE TABLE eZUser_Module (
   PRIMARY KEY (ID),
   UNIQUE KEY Name(Name)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table 'eZUser_Module'
-#
-
-INSERT INTO eZUser_Module VALUES (1,'eZTrade');
-INSERT INTO eZUser_Module VALUES (2,'eZPoll');
-INSERT INTO eZUser_Module VALUES (3,'eZUser');
-INSERT INTO eZUser_Module VALUES (4,'eZTodo');
-INSERT INTO eZUser_Module VALUES (5,'eZNews');
-INSERT INTO eZUser_Module VALUES (6,'eZContact');
-INSERT INTO eZUser_Module VALUES (7,'eZForum');
-INSERT INTO eZUser_Module VALUES (8,'eZLink');
-INSERT INTO eZUser_Module VALUES (9,'eZFileManager');
-INSERT INTO eZUser_Module VALUES (10,'eZImageCatalogue');
-INSERT INTO eZUser_Module VALUES (11,'eZBug');
 
 #
 # Table structure for table 'eZUser_Permission'
@@ -3778,7 +2348,7 @@ CREATE TABLE eZUser_User (
 # Dumping data for table 'eZUser_User'
 #
 
-INSERT INTO eZUser_User VALUES (27,'admin','0c947f956f7aa781','bf@ez.no','admin','user','false','');
+INSERT INTO eZUser_User VALUES (1,'admin','0c947f956f7aa781','postmaster@yourdomain','admin','user','false','');
 
 #
 # Table structure for table 'eZUser_UserAddressLink'
@@ -3792,11 +2362,6 @@ CREATE TABLE eZUser_UserAddressLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZUser_UserAddressLink'
-#
-
-INSERT INTO eZUser_UserAddressLink VALUES (1,27,1);
 
 #
 # Table structure for table 'eZUser_UserGroupLink'
@@ -3814,5 +2379,5 @@ CREATE TABLE eZUser_UserGroupLink (
 # Dumping data for table 'eZUser_UserGroupLink'
 #
 
-INSERT INTO eZUser_UserGroupLink VALUES (52,27,1);
+INSERT INTO eZUser_UserGroupLink VALUES (1,1,1);
 
