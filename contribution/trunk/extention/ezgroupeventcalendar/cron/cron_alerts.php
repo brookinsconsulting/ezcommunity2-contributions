@@ -68,6 +68,20 @@ ini_set( "include_path", $includePath );
  include_once( "ezgroupeventcalendar/classes/ezgroupevent.php" );
  include_once( "ezgroupeventcalendar/classes/ezgroupeventcategory.php" );
 
+
+//Adds a "0" in front of the value if it's below 10.
+function laddZero( $value )
+{
+  settype( $value, "integer" );
+  $ret = $value;
+  if ( $ret < 10 )
+    {
+      $ret = "0". $ret;
+    }
+  return $ret;
+}
+
+
  $events = new eZGroupEvent();
 
  $current_date = new eZDate();
