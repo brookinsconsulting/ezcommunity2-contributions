@@ -79,9 +79,16 @@
 <textarea name="Description" class="box" cols="40" rows="5" wrap="soft">{image_description}</textarea>
 
 <br /><br />
+<!-- BEGIN image_info_tpl -->
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+    <td class="{td_class}" valign="top">
+    <p class="boxtext">{intl-variations}:</p>
+    <!-- BEGIN image_variation_tpl -->
+    <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/{variation_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/">{variation_width}x{variation_height}</a>
+    <!-- END image_variation_tpl -->
+    </td>
     <td valign="top">
     <p class="boxtext">{intl-read_permissions}:</p>
     <select multiple size="5" name="ReadGroupArrayID[]">
@@ -104,7 +111,7 @@
     </td>
 </tr>
 </table>
-
+<!-- END image_info_tpl -->
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
