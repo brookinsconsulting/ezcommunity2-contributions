@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.26.2.5 2002/02/20 10:37:52 jhe Exp $
+// $Id: ezbulkmail.php,v 1.26.2.6 2002/02/20 13:18:49 jhe Exp $
 //
 // eZBulkMail class
 //
@@ -458,11 +458,6 @@ class eZBulkMail
         $categories = $this->categories();
         if ( count( $categories ) > 0 ) // category does exist...
         {
-            $mail = new eZMail();
-            $mail->setBodyText( $this->BodyText );
-            $mail->setSubject( $this->Subject );
-            $mail->setSender( $this->From );
-            $mail->setFromName( $this->FromName );
             // get subscribers from groups
             $subscribers = array();
 
@@ -476,17 +471,31 @@ class eZBulkMail
                 foreach ( $groups as $group )
                     $subscribers = array_merge( $subscribers, $group->users() );
             }
-
             for ( $i = 0; $i < count( $subscribers ); $i++ )
             {
+                $mail = new eZMail();
+                $mail->setBodyText( $this->BodyText );
+                $mail->setSubject( $this->Subject );
+                $mail->setSender( $this->From );
+                $mail->setFromName( $this->FromName );
+
                 $subscriber = $subscribers[$i];
                 set_time_limit( 5 );
                 $canSend = false;
 
-                if ( $article &&
-                     ( eZObjectPermission::hasPermissionWithDefinition( $article->id(), "article_article", 'r', false,
-                                                                        $article->categoryDefinition( false ) ) ||
-                       eZArticle::isAuthor( $user, $article->id() ) ) )
+                $permission = false;
+                if ( $article && get_class( $subscriber ) == "ezuser" )
+                {
+                    if ( eZObjectPermission::hasPermissionWithDefinition( $article->id(), "article_article", 'r', $subscriber,
+                                                                          $article->categoryDefinition( false ) ) ||
+                         eZArticle::isAuthor( $subscriber, $article->id() ) )
+                        $permission = true;
+                }
+                else
+                {
+                    $permission = true;
+                }
+                if ( $permission )
                 {
                     if ( get_class( $subscriber ) == "ezuser" )
                     {
@@ -552,7 +561,6 @@ class eZBulkMail
                 }
             }
             $this->store();
-
             // The mail was sent.. now lets set the timestamp
             $db =& eZDB::globalDatabase();
             $db->begin();
@@ -562,8 +570,6 @@ class eZBulkMail
                 $db->rollback( );
             else
                 $db->commit();
-
-            $i++;
         }
     }
 
