@@ -38,3 +38,6 @@ browse=Change type
 mod: ezuser/admin, sessioninfo.php.ini
 changed: added
 idle=Idle
+
+mod: ezbug/user, search.php.ini
+change: added previous, next
