@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.16 2001/03/12 15:20:39 bf Exp $
+// $Id: hotdealslist.php,v 1.17 2001/03/26 15:34:46 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -129,7 +129,8 @@ foreach ( $productList as $product )
 
     if  ( $image )
     {
-        $thumbnail =& $image->requestImageVariation( 109, 109 );
+        $thumbnail =& $image->requestImageVariation( $hotDealImageWidth, $hotDealImageHeight );
+//        $thumbnail =& $image->requestImageVariation( 109, 109 );
         
         if ( $thumbnail )
         {
