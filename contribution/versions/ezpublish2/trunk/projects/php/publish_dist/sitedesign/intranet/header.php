@@ -98,3 +98,16 @@
 
 	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
     <td width="96%" bgcolor="#ffffff">
+	
+    <!-- Banner -->
+
+    <div align="center">
+        <?
+        
+        $CategoryID = $ini->read_var( "eZAdMain", "DefaultCategory" );
+        $Limit = 1; 
+        include( "ezad/user/adlist.php" );
+
+        ?>
+    </div><br />
+
