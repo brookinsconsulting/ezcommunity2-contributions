@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.3 2001/05/28 14:56:15 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.4 2001/06/08 09:00:37 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -148,20 +148,18 @@ class eZQDomGenerator
         return $tmpPage;
     }
     
-
     /*!
       \private
       
     */
     function &generateHeader( $tmpPage )
     {
-        $tmpPage = preg_replace( "/(<header\s+?([^ ]+)\s*>)/", "<header level=\"\\2\">", $tmpPage );
+        $tmpPage = preg_replace( "/(<header\s+?([^ ]+?)\s*?>)/", "<header level=\"\\2\">", $tmpPage );
 
         $tmpPage = preg_replace( "/(<header\s*?>)/", "<header level=\"1\">", $tmpPage );
         
         return $tmpPage;
     }
-    
 
     /*!
       Decodes the xml chunk and returns the original array to the article.
@@ -412,10 +410,11 @@ class eZQDomGenerator
     function pageCount( )
     {
         return $this->PageCount;
-    }    
+    }
 
     var $Contents;
     var $PageCount;
 }
+
 
 ?>

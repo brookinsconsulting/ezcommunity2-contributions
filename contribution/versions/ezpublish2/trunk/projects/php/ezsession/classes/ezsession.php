@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.42 2001/05/10 16:46:36 bf Exp $
+// $Id: ezsession.php,v 1.43 2001/06/08 09:00:37 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -403,6 +403,30 @@ class eZSession
         }
 
         return $ret;
+    }
+
+    /*!
+      Cleanup function. Will remove old sessions from the database.
+
+      The default value is to remove sessions which are older than 48 hours.
+
+      This function should be run in a cron job.      
+    */
+    function cleanup( $maxIdle=48 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $value_array = array();
+        $db->array_query( $value_array, "SELECT ID, ( ( UNIX_TIMESTAMP( now() + 0 ) - UNIX_TIMESTAMP( LastAccessed ) )  ) AS Idle
+                          FROM eZSession_Session
+                          HAVING Idle>(60*60*$maxIdle)" );
+
+        foreach ( $value_array as $session )
+        {
+            $sid = $session["ID"];
+            $db->query( "DELETE FROM eZSession_SessionVariable WHERE SessionID='$sid'" );
+            $db->query( "DELETE FROM eZSession_Session WHERE ID='$sid'" );            
+        }        
     }
     
     /*!

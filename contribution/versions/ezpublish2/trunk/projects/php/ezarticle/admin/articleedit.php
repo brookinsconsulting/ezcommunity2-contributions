@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.87 2001/06/06 11:30:08 pkej Exp $
+// $Id: articleedit.php,v 1.88 2001/06/08 09:00:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -463,6 +463,8 @@ if ( $Action == "Update" )
     }
     else
     {
+        print( htmlspecialchars( $contents ) );
+
         $Action = "Edit";
         $ErrorParsing = true;        
     }

@@ -1,8 +1,6 @@
 
 <!-- BEGIN header_1_tpl -->
-<br clear="all" />
 <h1>{contents}</h1>
-<hr />
 <!-- END header_1_tpl -->
 
 <!-- BEGIN header_2_tpl -->
