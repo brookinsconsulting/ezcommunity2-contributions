@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.11 2001/02/26 09:52:31 bf Exp $
+// $Id: payment.php,v 1.12 2001/02/26 18:41:09 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -217,12 +217,9 @@ if ( $PaymentSuccess == "true" )
         
         foreach ( $optionValues as $optionValue )
         {
-            $option =& $optionValue->option();
-            $value =& $optionValue->optionValue();
-
-            $optionString = substr( $option->name(), 0, 35 );
+            $optionString = substr( $optionValue->optionName(), 0, 35 );
             $optionString = str_pad( $optionString, 36, " ", STR_PAD_LEFT );
-            $valueString = substr( $value->name(), 0, 38 );
+            $valueString = substr( $optionValue->valueName(), 0, 38 );
             $valueString = str_pad( $valueString, 39, " " );
     
             $mailTemplate->set_var( "name", $optionString );
