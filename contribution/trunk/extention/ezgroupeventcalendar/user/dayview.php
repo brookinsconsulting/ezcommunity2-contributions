@@ -23,6 +23,29 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 // debug stuff
+// Initialise the HTML4 Table rendering (see Var_Dump/Renderer/HTML4_Table.php)
+include("Var_Dump.php");
+Var_Dump::displayInit(
+    array(
+        'display_mode' => 'HTML4_Table'
+    ),
+    array(
+        'show_caption'   => FALSE,
+        'bordercolor'    => '#DDDDDD',
+        'bordersize'     => '2',
+        'captioncolor'   => 'white',
+        'cellpadding'    => '4',
+        'cellspacing'    => '0',
+        'color1'         => '#FFFFFF',
+        'color2'         => '#F4F4F4',
+        'before_num_key' => '<font color="#CC5450"><b>',
+        'after_num_key'  => '</b></font>',
+        'before_str_key' => '<font color="#5450CC">',
+        'after_str_key'  => '</font>',
+        'before_value'   => '<i>',
+        'after_value'    => '</i>'
+    )
+);
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -199,7 +222,7 @@ if( $user )
     $t->set_block( "time_display_tpl", "no_new_event_link_tpl", "no_new_event_link" );
     $t->set_block( "public_event_tpl", "delete_check_tpl", "delete_check" );
     $t->set_block( "public_event_tpl", "no_delete_check_tpl", "no_delete_check" );
-    $t->set_block( "day_view_page_tpl", "all_day_event_tpl", "all_day_event");  
+    $t->set_block( "day_view_page_tpl", "all_day_event_tpl", "all_day_event");
     $t->set_block( "all_day_event_tpl", "all_day_delete_check_tpl", "all_day_delete_check");
     $t->set_block( "day_view_page_tpl", "week_tpl", "week" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
@@ -262,6 +285,7 @@ if( $user )
 	// Fetch all appointments by Group
 	else
 		$events =& $tmpGroupEvent->getByDate( $tmpDate, $tmpGroup, true );
+
     // set start/stop and interval times
     $startTime = new eZTime();
     $stopTime = new eZTime();
@@ -321,7 +345,7 @@ if( $user )
     $t->set_var("the_month", $date->month());
     $t->set_var("the_day", $date->day());
     $t->set_var("the_year", $date->year());
-   //  Var_Dump::display($intervalArray);
+
     // increase schedule span to fit early/late events
     $midNight = new eZTime();
     $midNight->setSecondsElapsed( 0 );
@@ -358,6 +382,7 @@ if( $user )
             $stopTime = $stopTime->add( $interval );
         }
     }
+
 if (isset($allDayEvents))
 {
  foreach ($allDayEvents as $adEvent)
@@ -547,7 +572,7 @@ if (isset($allDayEvents))
     $row = 0;
     $tmpTime = new eZTime();
     $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
-    while ( $tmpTime->isGreater( $stopTime, true ) == true )
+    while ( $tmpTime->isGreater( $stopTime, false ) == true )
     {
     // this if block is a way to get the 23rd hour displayed
    //     if ($tmpTime->hour() == 22 && $toggle23) $tmpTime = $tmpTime->add( $interval );
@@ -709,9 +734,9 @@ if (isset($allDayEvents))
 			$t->set_var( "td_class", "bglight" );
 		else
 			$t->set_var( "td_class", "bgdark" );
-
 		$i++;
-//	if ($i > 30) die();
+	if ($i > 600) die('Error: The application has halted to prevent a server crash due to the complexity of the events on this day. 
+    Contact the site administrator for more details.');
         $t->parse( "time_table", "time_table_tpl", true );
     }
 
