@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.17 2001/10/16 14:01:06 jb Exp $
+// $Id: image.php,v 1.17.2.1 2002/01/16 16:29:40 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -99,7 +99,7 @@ else if( $Command == "data" ) // Dump image info!
                     "WriteGroups" => new eZXMLRPCArray( $wgp ),
                     "Categories" => new eZXMLRPCArray( $cats, "integer" ),
                     "Category" => new eZXMLRPCInt( $cat_def_id ),
-                    "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
+                    "WebURL" => new eZXMLRPCString( $wwwDir . "/" . $variation->imagePath() ),
                     "Size" => createSizeStruct( $variation->width(), $variation->height() ),
                     "RequestSize" => createSizeStruct( $width, $height )
                     );
@@ -259,8 +259,8 @@ else if ( $Command == "search" )
                                                  "Location" => createURLStruct( "ezimagecatalogue", "image", $item->id() ),
                                                  "CategoryLocation" => createURLStruct( "ezimagecatalogue", "category", $cat->id() ),
                                                  "HasPreview" => new eZXMLRPCBool( true ),
-                                                 "WebURL" => new eZXMLRPCString( "/imagecatalogue/imageview/$itemid/" ),
-                                                 "CategoryWebURL" => new eZXMLRPCString( "/imagecatalogue/image/list/$catid/" )
+                                                 "WebURL" => new eZXMLRPCString( $wwwDir . "/imagecatalogue/imageview/$itemid/" ),
+                                                 "CategoryWebURL" => new eZXMLRPCString( $wwwDir . "/imagecatalogue/image/list/$catid/" )
                                                  ) );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
