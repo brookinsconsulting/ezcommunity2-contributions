@@ -78,6 +78,23 @@
 </tr>
 </table>
 
+<!-- BEGIN attribute_list_tpl -->
+<table cellspacing="0" cellpadding="2" border="0">
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<th>
+	{attribute_name}: 
+	</th>
+	<td align="right">
+	{attribute_value}
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<br />
+<!-- END attribute_list_tpl -->
+
 <form action="/{module}/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
@@ -87,7 +104,7 @@
 <tr>
 	<th colspan="2">
 	<br />
-	{option_name}
+	{option_name}:
 	</th>
 </tr>
 <tr>
@@ -113,6 +130,9 @@
 	</td>
 </tr>
 </table>
+<br />
+
+{extra_product_info}
 
 <table width="100%" border="0">
 <tr>
@@ -122,9 +142,7 @@
 	{product_price}
 
 	<!-- BEGIN alternative_currency_list_tpl -->
-	<p>
-	<b>{intl-alternative_currency}:</b>
-	</p>
+	<p class="boxtext">{intl-alternative_currency}:</p>
 	<!-- BEGIN alternative_currency_tpl -->
 	{alt_price}<br />
 	<!-- END alternative_currency_tpl -->
@@ -141,33 +159,7 @@
 	</td>
 </tr>
 </table>
-<br /><br />
-
-<!-- BEGIN attribute_list_tpl -->
-<table width="50%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<th>
-	{intl-attribute_name}
-	</th>
-	<th>
-	{intl-attribute_value}
-	</th>
-</tr>
-<!-- BEGIN attribute_tpl -->
-<tr>
-	<td>
-	{attribute_name} : 
-	</td>
-	<td>
-	{attribute_value}
-	</td>
-</tr>
-
-<!-- END attribute_tpl -->
-</table>
-<!-- END attribute_list_tpl -->
-
-{extra_product_info}
+<br />
 
 <hr noshade="noshade" size="4" />
 
