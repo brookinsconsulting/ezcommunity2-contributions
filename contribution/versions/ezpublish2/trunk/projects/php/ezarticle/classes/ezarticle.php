@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.32 2001/02/16 14:21:40 fh Exp $
+// $Id: ezarticle.php,v 1.33 2001/02/16 16:06:51 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -840,8 +840,8 @@ class eZArticle
                     GROUP BY eZArticle_Article.ID ORDER BY $OrderBy
                     LIMIT $offset,$limit" );
        }
- 
-       for ( $i=0; $i<count($article_array); $i++ )
+
+       for ( $i=0; $i < count($article_array); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
        }
@@ -949,8 +949,96 @@ class eZArticle
        return $forum;
     }
 
+    /*!
+      Returns a list of authors and their article count.
+    */
+    function authorList( $offset = 0, $limit = -1, $sort = false )
+    {
+        if ( is_string( $sort ) )
+        {
+            switch( $sort )
+            {
+                case "name":
+                {
+                    $sort_text = "ORDER BY AuthorText";
+                    break;
+                }
+                case "count":
+                {
+                    $sort_text = "ORDER BY Count";
+                    break;
+                }
+            }
+        }
+        if ( is_numeric( $limit ) and $limit > 0 )
+        {
+            $limit_text = "LIMIT $offset, $limit";
+        }
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array, "SELECT count( ID ) AS Count, AuthorID
+                                       FROM eZArticle_Article
+                                       WHERE IsPublished='true'
+                                       GROUP BY AuthorID $sort_text $limit_text" );
+        return $qry_array;
+    }
+
+    /*!
+      Returns a list of authors and their article count.
+    */
+    function authorArticleList( $authorid, $offset = 0, $limit = -1, $sort = false )
+    {
+        if ( is_string( $sort ) )
+        {
+            switch( $sort )
+            {
+                case "author":
+                {
+                    $sort_text = "ORDER BY A.AuthorText";
+                    break;
+                }
+                case "name":
+                {
+                    $sort_text = "ORDER BY A.Name";
+                    break;
+                }
+                case "category":
+                {
+                    $sort_text = "ORDER BY C.Name";
+                    break;
+                }
+                case "published":
+                {
+                    $sort_text = "ORDER BY A.Published";
+                    break;
+                }
+            }
+        }
+        if ( is_numeric( $limit ) and $limit > 0 )
+        {
+            $limit_text = "LIMIT $offset, $limit";
+        }
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array, "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
+                                              C.ID AS CategoryID, C.Name AS CategoryName
+                                       FROM eZArticle_Article AS A, eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
+                                       WHERE IsPublished='true' AND AuthorID='$authorid' AND
+                                             A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
+                                       GROUP BY A.ID $sort_text $limit_text" );
+        return $qry_array;
+    }
     
-    
+    /*!
+      Returns a list of authors and their article count.
+    */
+    function authorArticleCount( $authorid )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $qry_array, "SELECT count( ID) AS Count
+                                        FROM eZArticle_Article
+                                        WHERE IsPublished='true' AND AuthorID='$authorid'" );
+        return $qry_array["Count"];
+    }
+
     /*!
       \private
       
