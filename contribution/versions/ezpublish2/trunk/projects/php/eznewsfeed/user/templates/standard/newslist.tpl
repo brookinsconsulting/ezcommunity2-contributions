@@ -1,14 +1,33 @@
-<!-- <h1>{intl-latest_news}</h1>
+
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td>
+	<h1>Seanex.no er ute på nettet!</h1>
+	<hr noshade="noshade" size="4" />
+	<p>
+	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
+	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
+	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
+	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
+	</p>
+	</td>
+</tr>
+</table>
+<br />
+
+<!-- {intl-latest_news} -->
+<h1>Siste nytt om fiskerinæringen</h1>
 
 <hr noshade="noshade" size="4" />
--->
+
 
 <!-- BEGIN news_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
 	<a href="{first_news_url}">
-	<div class="h1">{first_news_name}</div>
+	<div class="h2">{first_news_name}</div>
 	</a>
 	<span class="small">( {first_news_origin} - {first_news_date} )</span>
 	<p class="newslist">{first_news_intro}</p>
@@ -48,6 +67,7 @@
 </table>
 <br />
 
+<!--
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 
 <!-- BEGIN short_news_item_tpl -->
@@ -58,32 +78,12 @@
 	( {news_origin} - {news_date} )
 	</span>
 	</td>
-<!--
-	<td valign="top" align="right">
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}">{intl-read_more}</a>
-	</td>
--->
 <tr>
 <!-- END short_news_item_tpl -->
 
 </table>
 <!-- END news_list_tpl -->
-
-<br />
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td align="center">
-
-	<!-- Reklamebanner herfra! -->
-
-	<img src="/images/reklame.gif" width="468" height="60" align="center" border="0" alt="" /><br />
-
-	<!-- Reklamebanner fram til hit! -->
-
-	</td>
-</tr>
-</table>
+-->
 
 <br />
 
