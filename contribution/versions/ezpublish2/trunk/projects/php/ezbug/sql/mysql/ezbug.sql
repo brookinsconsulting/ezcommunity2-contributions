@@ -90,7 +90,7 @@ CREATE TABLE eZBug_Priority (
 );
 
 INSERT INTO eZBug_Priority VALUES (1,'High',NULL);
-INSERT INTO eZBug_Priority VALUES (2,'Middels',NULL);
+INSERT INTO eZBug_Priority VALUES (2,'Medium',NULL);
 INSERT INTO eZBug_Priority VALUES (3,'Low',NULL);
 
 CREATE TABLE eZBug_Status (
