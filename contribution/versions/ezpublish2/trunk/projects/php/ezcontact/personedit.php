@@ -57,20 +57,17 @@ if ( $Action == "insert" )
   }
   $newPerson->setOwner( $usr->id() );
   $pid = $newPerson->store();
+    
+  $newAddress = new eZAddress();
+  $newAddress->setStreet1( $Street1 );
+  $newAddress->setStreet2( $Street2 );
+  $newAddress->setZip( $Zip );
+  $aid = $newAddress->store();
 
-    $PID = $pid;
-    $Action = "edit";
-  
-//    $newAddress = new eZAddress();
-//    $newAddress->setStreet1( $Street1 );
-//    $newAddress->setStreet2( $Street2 );
-//    $newAddress->setZip( $Zip );
-//    $aid = $newAddress->store();
-
-//    $link = new eZPersonAddressDict();
-//    $link->setPersonID( $pid );
-//    $link->setAddressID( $aid );
-//    $link->store();
+  $link = new eZPersonAddressDict();
+  $link->setPersonID( $pid );
+  $link->setAddressID( $aid );
+  $link->store();
 }
 
 // Legge til telefon
@@ -163,7 +160,8 @@ if ( $AddressAction == "DeleteAddress" )
 }
 
 $t = new Template( "." );
-$t->set_file( array("person_edit" => $DOCUMENTROOT . "templates/personedit.tpl",
+$t->set_file( array(                    
+                    "person_edit" => $DOCUMENTROOT . "templates/personedit.tpl",
                     "person_type_select" => $DOCUMENTROOT . "templates/persontypeselect.tpl",
                     "company_select" => $DOCUMENTROOT . "templates/companyselect.tpl",
                     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
@@ -190,6 +188,7 @@ $phone_type_array = $phoneType->getAll( );
 
 $t->set_var( "phone_action_type", "hidden" );
 
+
 // address type selector
 for ( $i=0; $i<count( $address_type_array ); $i++ )
 {
@@ -210,7 +209,7 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
   $t->parse( "address_type", "address_type_select", true );
 }
 
-$phone_select_dict = array();
+$phone_select_dict = "";
 // telefon type selector
 for ( $i=0; $i<count( $phone_type_array ); $i++ )
 {
@@ -253,9 +252,6 @@ if ( $Action == "edit" )
     $phone_dict = new eZPersonPhoneDict();
     $phone_dict_array = $phone_dict->getByPerson( $PID );
 
-    if ( count( $phone_dict_array ) == 0 )
-        $t->set_var( "phone_list", "" );                
-    
     // telefonliste
     for ( $i=0; $i<count( $phone_dict_array ); $i++ )
     {
@@ -273,14 +269,13 @@ if ( $Action == "edit" )
         $t->parse( "phone_list", "phone_item", true );
     }
 
+
     $address = new eZAddress();
     $address_dict = new eZPersonAddressDict();
     $address_dict_array = $address_dict->getByPerson( $PID );
     
 
-    if ( count( $address_dict_array ) == 0 )
-        $t->set_var( "address_list", "", true );
-
+    print( "antall:" . count( $address_dict_array ) );
     // adresseliste
     for ( $i=0; $i<count( $address_dict_array ); $i++ )
     {
