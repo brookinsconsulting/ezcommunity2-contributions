@@ -182,6 +182,59 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "status" :
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                $ParentID = $url_array[4];
+                include( "ezbug/admin/statuslist.php" );
+            }
+            break;
+
+            case "new":
+            {
+                $Action = "new";
+                include( "ezbug/admin/statusedit.php" );
+            }
+            break;
+
+            case "insert":
+            {
+                $Action = "insert";
+                include( "ezbug/admin/statusedit.php" );
+            }
+            break;
+
+            case "edit":
+            {
+                $Action = "edit";
+                $StatusID = $url_array[4];
+                include( "ezbug/admin/statusedit.php" );
+            }
+            break;
+
+            case "update":
+            {
+                $Action = "update";
+                $StatusID = $url_array[4];
+                include( "ezbug/admin/statusedit.php" );
+            }
+            break;
+
+            case "delete":
+            {
+                $Action = "delete";
+                $StatusID = $url_array[4];
+                include( "ezbug/admin/statusedit.php" );
+            }
+            break;
+
+        }
+    }
+    break;
+
     
     case "edit" :
     {

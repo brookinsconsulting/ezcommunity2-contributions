@@ -11,6 +11,7 @@
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/priority/list/">{intl-priority_overview}</a><br>
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/category/list/">{intl-category_overview}</a><br>
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/module/list/0/">{intl-module_overview}</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/status/list/">{intl-status_overview}</a><br>
     </td>
 </tr>
 <tr>
