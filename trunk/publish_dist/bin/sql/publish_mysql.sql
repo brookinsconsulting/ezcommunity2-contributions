@@ -1200,8 +1200,8 @@ CREATE TABLE eZForum_Category (
 
 CREATE TABLE eZForum_Forum (
   ID int NOT NULL,
-  Name varchar(20) NOT NULL DEFAULT '',
-  Description varchar(40) DEFAULT NULL,
+  Name varchar(255) NOT NULL DEFAULT '',
+  Description varchar(255) DEFAULT NULL,
   IsPrivate int DEFAULT NULL,
   ModeratorID int NOT NULL DEFAULT '0',
   IsModerated int NOT NULL DEFAULT '0',
