@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.6 2000/10/02 11:57:24 bf-cvs Exp $
+// $Id: productlist.php,v 1.7 2000/10/03 10:51:46 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -105,7 +105,7 @@ foreach ( $productList as $product )
     $thumbnailImage = $product->thumbnailImage();
     if ( $thumbnailImage )
     {
-        $variation =& $thumbnailImage->requestImageVariation( 250, 250 );
+        $variation =& $thumbnailImage->requestImageVariation( 150, 150 );
     
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );

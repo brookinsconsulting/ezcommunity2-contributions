@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.5 2000/10/02 11:57:24 bf-cvs Exp $
+// $Id: cart.php,v 1.6 2000/10/03 10:51:46 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -112,6 +112,10 @@ $t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
 
 $t->set_block( "cart_page", "wishlist_header_tpl", "wishlist_header" );
 
+$t->set_block( "cart_page", "cart_checkout_tpl", "cart_checkout" );
+
+$t->set_block( "cart_page", "empty_cart_tpl", "empty_cart" );
+
 
 $t->set_block( "cart_page", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
@@ -187,8 +191,28 @@ $t->set_var( "shipping_cost", $locale->format( $currency ) );
 $sum += $shippingCost;
 $currency->setValue( $sum );
 $t->set_var( "cart_sum", $locale->format( $currency ) );
-        
-$t->parse( "cart_item_list", "cart_item_list_tpl" );
+
+
+if ( ( $CartType == "Cart" ) && (count( $items ) > 0) )
+{
+    $t->parse( "cart_checkout", "cart_checkout_tpl" );
+}
+else
+{
+    $t->set_var( "cart_checkout", "" );
+}
+
+if ( count( $items ) > 0 )
+{
+    $t->parse( "cart_item_list", "cart_item_list_tpl" );
+    $t->set_var( "empty_cart", "" );    
+}
+else
+{
+    $t->parse( "empty_cart", "empty_cart_tpl" );    
+    $t->set_var( "cart_item_list", "" );
+}
+
 
 //  $cart->delete();
 
