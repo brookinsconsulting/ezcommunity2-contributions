@@ -46,6 +46,7 @@
 
 <br /><br />
 
+<p class="checkhead">{intl-settings}</p>
 <div class="check"><input type="checkbox" name="IsEnabled" {is_enabled}>&nbsp;Aktiv</div>
 <div class="check"><input type="checkbox" name="IsClosed" {is_closed}>&nbsp;Avsluttet</div>
 <div class="check"><input type="checkbox" name="ShowResult" {show_result}>&nbsp;Vis resultat</div>
