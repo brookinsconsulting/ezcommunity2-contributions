@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.7 2001/02/12 16:11:54 jb Exp $
+// $Id: menubox.php,v 1.8 2001/05/25 09:06:56 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jan-2001 11:18:10 bf>
@@ -36,5 +36,4 @@ $menuItems = array(
     array( "/stats/monthreport/", "{intl-month_report}" ),
     array( "/stats/dayreport/", "{intl-day_report}" )
     );
-
 ?>
