@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57.2.3 2002/01/07 07:57:24 jhe Exp $
+// $Id: personedit.php,v 1.57.2.4 2002/02/05 17:18:43 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -164,6 +164,12 @@ if ( isSet( $Back ) )
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
     exit;
+}
+
+if ( $Action == "delete" )
+{
+    if ( !isSet( $ContactArrayID ) )
+        $ContactArrayID = array( $url_array[4] );
 }
 
 if ( isSet( $Delete ) )
