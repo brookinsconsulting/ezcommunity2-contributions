@@ -8,7 +8,6 @@ CREATE TABLE eZTrade_AlternativeCurrency (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_Attribute (
   ID int NOT NULL,
   TypeID int(11) default NULL,
@@ -20,7 +19,6 @@ CREATE TABLE eZTrade_Attribute (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_AttributeValue (
   ID int NOT NULL,
   ProductID int(11) default NULL,
@@ -29,7 +27,6 @@ CREATE TABLE eZTrade_AttributeValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_Cart (
   ID int NOT NULL,
   SessionID int(11) default NULL,
@@ -37,7 +34,6 @@ CREATE TABLE eZTrade_Cart (
   PersonID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_CartItem (
   ID int NOT NULL,
@@ -49,7 +45,6 @@ CREATE TABLE eZTrade_CartItem (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_CartOptionValue (
   ID int NOT NULL,
   CartItemID int(11) default NULL,
@@ -59,7 +54,6 @@ CREATE TABLE eZTrade_CartOptionValue (
   Count int(11) default NULL,	
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_Category (
   ID int NOT NULL,
@@ -73,14 +67,12 @@ CREATE TABLE eZTrade_Category (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_CategoryOptionLink (
   ID int NOT NULL,
   CategoryID int(11) default NULL,
   OptionID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_CategoryPermission (
   ID int NOT NULL,
@@ -91,7 +83,6 @@ CREATE TABLE eZTrade_CategoryPermission (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ProductFormDict (
   ID int NOT NULL,
   ProductID int default NULL,
@@ -99,13 +90,11 @@ CREATE TABLE eZTrade_ProductFormDict (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_GroupPriceLink (
   GroupID int(11) NOT NULL default '0',
   PriceID int(11) NOT NULL default '0',
   PRIMARY KEY (GroupID,PriceID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_Link (
   ID int NOT NULL,
@@ -116,7 +105,6 @@ CREATE TABLE eZTrade_Link (
   ModuleType int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_LinkSection (
   ID int NOT NULL,
@@ -133,7 +121,6 @@ CREATE TABLE eZTrade_Option (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_OptionValue (
   ID int NOT NULL,
   OptionID int(11) default NULL,
@@ -143,7 +130,6 @@ CREATE TABLE eZTrade_OptionValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_OptionValueContent (
   ID int NOT NULL,
   Value varchar(30) default NULL,
@@ -152,7 +138,6 @@ CREATE TABLE eZTrade_OptionValueContent (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_OptionValueHeader (
   ID int NOT NULL,
   Name varchar(30) default NULL,
@@ -160,7 +145,6 @@ CREATE TABLE eZTrade_OptionValueHeader (
   Placement int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_Order (
   ID int NOT NULL,
@@ -180,7 +164,6 @@ CREATE TABLE eZTrade_Order (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_OrderItem (
   ID int NOT NULL,
   OrderID int(11) NOT NULL default '0',
@@ -192,7 +175,6 @@ CREATE TABLE eZTrade_OrderItem (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_OrderOptionValue (
   ID int NOT NULL,
   OrderItemID int(11) default NULL,
@@ -201,7 +183,6 @@ CREATE TABLE eZTrade_OrderOptionValue (
   RemoteID varchar(100) default '',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_OrderStatus (
   ID int NOT NULL,
@@ -212,7 +193,6 @@ CREATE TABLE eZTrade_OrderStatus (
   Comment text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_OrderStatusType (
   ID int NOT NULL,
@@ -233,7 +213,6 @@ CREATE TABLE eZTrade_PreOrder (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_PriceGroup (
   ID int NOT NULL,
   Name varchar(50) default NULL,
@@ -249,7 +228,6 @@ CREATE TABLE eZTrade_ProductPriceRange (
   ProductID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
@@ -275,14 +253,12 @@ CREATE TABLE eZTrade_Product (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ProductCategoryDefinition (
   ID int NOT NULL,
   ProductID int(11) NOT NULL default '0',
   CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_ProductCategoryLink (
   ID int NOT NULL,
@@ -292,14 +268,12 @@ CREATE TABLE eZTrade_ProductCategoryLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ProductImageDefinition (
   ProductID int(11) NOT NULL default '0',
   ThumbnailImageID int(11) default NULL,
   MainImageID int(11) default NULL,
   PRIMARY KEY (ProductID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_ProductImageLink (
   ID int NOT NULL,
@@ -310,14 +284,12 @@ CREATE TABLE eZTrade_ProductImageLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ProductOptionLink (
   ID int NOT NULL,
   ProductID int(11) default NULL,
   OptionID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_ProductPermission (
   ID int NOT NULL,
@@ -332,14 +304,12 @@ CREATE TABLE eZTrade_ProductPermission (
   KEY ProductPermissionReadPermission(ReadPermission)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ProductPermissionLink (
   ID int(11) NOT NULL default '0',
   ProductID int(11) NOT NULL default '0',
   GroupID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_ProductPriceLink (
   ProductID int(11) NOT NULL default '0',
@@ -350,13 +320,11 @@ CREATE TABLE eZTrade_ProductPriceLink (
   PRIMARY KEY (ProductID,PriceID,OptionID,ValueID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ProductQuantityDict (
   ProductID int(11) NOT NULL default '0',
   QuantityID int(11) NOT NULL default '0',
   PRIMARY KEY (ProductID,QuantityID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_ProductSectionDict (
   ProductID int(11) NOT NULL default '0',
@@ -365,7 +333,6 @@ CREATE TABLE eZTrade_ProductSectionDict (
   PRIMARY KEY (ProductID,SectionID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ProductTypeLink (
   ID int NOT NULL,
   ProductID int(11) default NULL,
@@ -373,13 +340,11 @@ CREATE TABLE eZTrade_ProductTypeLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_Quantity (
   ID int NOT NULL,
   Quantity int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_QuantityRange (
   ID int NOT NULL,
@@ -388,14 +353,12 @@ CREATE TABLE eZTrade_QuantityRange (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ShippingGroup (
   ID int NOT NULL,
   Name varchar(100) default NULL,
   Created int(11) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_ShippingType (
   ID int NOT NULL,
@@ -406,7 +369,6 @@ CREATE TABLE eZTrade_ShippingType (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ShippingValue (
   ID int NOT NULL,
   ShippingGroupID int(11) NOT NULL default '0',
@@ -416,14 +378,12 @@ CREATE TABLE eZTrade_ShippingValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_Type (
   ID int NOT NULL,
   Name varchar(150) default NULL,
   Description text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_VATType (
   ID int NOT NULL,
@@ -433,13 +393,11 @@ CREATE TABLE eZTrade_VATType (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_ValueQuantityDict (
   ValueID int(11) NOT NULL default '0',
   QuantityID int(11) NOT NULL default '0',
   PRIMARY KEY (ValueID,QuantityID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_Voucher (
   ID int(11) default '0' NOT NULL,
@@ -486,7 +444,6 @@ CREATE TABLE eZTrade_WishList (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZTrade_WishListItem (
   ID int NOT NULL,
   ProductID int(11) default NULL,
@@ -495,7 +452,6 @@ CREATE TABLE eZTrade_WishListItem (
   IsBought int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_WishListOptionValue (
   ID int NOT NULL,
@@ -508,20 +464,13 @@ CREATE TABLE eZTrade_WishListOptionValue (
 
 CREATE INDEX Category_Name ON eZTrade_Category (Name);
 CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
-
 CREATE INDEX Product_Name ON eZTrade_Product (Name);
 CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
 CREATE INDEX Product_Price ON eZTrade_Product (Price);
-
 CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
 CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
-
 CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
 CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
-
 CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
-
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
-
-
 CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);

@@ -10,14 +10,14 @@ CREATE TABLE eZAd_Ad(
   HTMLBanner text default null,
   UseHTML int NOT NULL,
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZAd_AdCategoryLink (
   ID int NOT NULL,
   CategoryID int default NULL,
   AdID int default NULL,
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZAd_Category (
   ID int NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE eZAd_Category (
   ParentID int not NULL,
   ExcludeFromSearch int default '0',
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZAd_Click (
   ID int(11) NOT NULL,

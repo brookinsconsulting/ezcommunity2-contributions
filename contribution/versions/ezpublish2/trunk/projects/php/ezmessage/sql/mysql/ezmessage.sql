@@ -1,4 +1,3 @@
-
 CREATE TABLE eZMessage (
   ID int(11) NOT NULL auto_increment,
   UserID int(11) NOT NULL default '0',
@@ -6,8 +5,6 @@ CREATE TABLE eZMessage (
   Description text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-
 
 CREATE TABLE eZMessage_Message (
   ID int(11) NOT NULL auto_increment,

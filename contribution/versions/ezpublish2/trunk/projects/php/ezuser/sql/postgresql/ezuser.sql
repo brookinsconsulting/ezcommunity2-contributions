@@ -33,7 +33,6 @@ CREATE TABLE eZUser_Author (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZUser_Cookie (
   ID int NOT NULL,
   UserID int default '0',
@@ -41,7 +40,6 @@ CREATE TABLE eZUser_Cookie (
   Time int NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZUser_Forgot (
   ID int NOT NULL,
@@ -60,7 +58,6 @@ CREATE TABLE eZUser_Group (
   GroupURL varchar(200) default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZUser_GroupPermissionLink (
   ID int NOT NULL,
@@ -83,23 +80,29 @@ CREATE TABLE eZUser_Permission (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZUser_Trustees (
+  ID int NOT NULL,
+  OwnerID int(11) NOT NULL,
+  UserID int(11) NOT NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
-INSERT INTO eZUser_Module (ID, Name ) VALUES (1,'eZTrade');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (2,'eZPoll');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (3,'eZUser');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (4,'eZTodo');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (5,'eZNews');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (6,'eZContact');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (7,'eZForum');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (8,'eZLink');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (9,'eZFileManager');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (10,'eZImageCatalogue');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (11,'eZBug');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (12,'eZArticle');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (13,'eZBulkMail');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (14,'eZStats');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (15,'eZSysInfo');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (16,'eZSiteManager');
+INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');
+INSERT INTO eZUser_Module (ID, Name) VALUES (2,'eZPoll');
+INSERT INTO eZUser_Module (ID, Name) VALUES (3,'eZUser');
+INSERT INTO eZUser_Module (ID, Name) VALUES (4,'eZTodo');
+INSERT INTO eZUser_Module (ID, Name) VALUES (5,'eZNews');
+INSERT INTO eZUser_Module (ID, Name) VALUES (6,'eZContact');
+INSERT INTO eZUser_Module (ID, Name) VALUES (7,'eZForum');
+INSERT INTO eZUser_Module (ID, Name) VALUES (8,'eZLink');
+INSERT INTO eZUser_Module (ID, Name) VALUES (9,'eZFileManager');
+INSERT INTO eZUser_Module (ID, Name) VALUES (10,'eZImageCatalogue');
+INSERT INTO eZUser_Module (ID, Name) VALUES (11,'eZBug');
+INSERT INTO eZUser_Module (ID, Name) VALUES (12,'eZArticle');
+INSERT INTO eZUser_Module (ID, Name) VALUES (13,'eZBulkMail');
+INSERT INTO eZUser_Module (ID, Name) VALUES (14,'eZStats');
+INSERT INTO eZUser_Module (ID, Name) VALUES (15,'eZSysInfo');
+INSERT INTO eZUser_Module (ID, Name) VALUES (16,'eZSiteManager');
 
 
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (1,3,'UserAdd');
@@ -174,10 +177,9 @@ CREATE TABLE eZUser_UserGroupDefinition (
 INSERT INTO eZUser_User ( ID,  Login,  Password,  Email,  FirstName,  LastName,  InfoSubscription,  Signature,  SimultaneousLogins,  CookieLogin )  
 VALUES (1,'admin','9b6d0bb3102b87fae57bc4a39149518e','postmaster@yourdomain','admin','user','0','',0,0);
 
-INSERT INTO eZUser_Group ( ID,  Name,  Description,  SessionTimeout,  IsRoot ) VALUES (1,'Administrators','All rights',7200,1);
-INSERT INTO eZUser_Group ( ID,  Name,  Description,  SessionTimeout,  IsRoot ) VALUES (2,'Anonymous','Anonymous users',7200,0);
-
-INSERT INTO eZUser_UserGroupLink ( ID,  UserID,  GroupID ) VALUES (1,1,1);
+INSERT INTO eZUser_Group (ID, Name, Description, SessionTimeout, IsRoot) VALUES (1,'Administrators','All rights',7200,1);
+INSERT INTO eZUser_Group (ID, Name, Description, SessionTimeout, IsRoot) VALUES (2,'Anonymous','Anonymous users',7200,0);
+INSERT INTO eZUser_UserGroupLink (ID, UserID, GroupID) VALUES (1,1,1);
 
 CREATE TABLE eZUser_Photographer (
   ID int NOT NULL,
@@ -185,4 +187,10 @@ CREATE TABLE eZUser_Photographer (
   EMail char(50) default NULL,
   PRIMARY KEY (ID)
 );
+
+CREATE INDEX UserGroupLink_UserID ON eZUser_UserGroupLink (UserID);
+CREATE INDEX UserGroupLink_GroupID ON eZUser_UserGroupLink (GroupID);
+
+
+
 

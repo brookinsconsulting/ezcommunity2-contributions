@@ -184,13 +184,11 @@ CREATE TABLE eZArticle_ArticleMediaLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
 CREATE TABLE eZArticle_ArticleWordLink (
   ArticleID int(11) NOT NULL default '0',
   Frequency float default 0.2,
   WordID int(11) NOT NULL default '0'
 );
-
 
 CREATE TABLE eZArticle_Word (
   ID int(11) NOT NULL default '0',
@@ -223,5 +221,3 @@ CREATE INDEX ArticlePermission_GroupID ON eZArticle_ArticlePermission (GroupID);
 
 CREATE INDEX Def_ArticleID ON eZArticle_ArticleCategoryDefinition (ArticleID);
 CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
-
-

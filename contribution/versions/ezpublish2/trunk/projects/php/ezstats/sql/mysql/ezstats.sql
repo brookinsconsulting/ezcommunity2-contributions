@@ -56,6 +56,7 @@ CREATE TABLE eZStats_Archive_UniqueVisits (
   ID int NOT NULL,
   Day int NOT NULL,
   Count int NOT NULL DEFAULT '0',
+  Language varchar(5) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -71,7 +72,8 @@ CREATE TABLE eZStats_Archive_RefererURL (
   Month int NOT NULL,
   Domain varchar(100) default NULL,
   URI varchar(200) default NULL,
-  Count int  NOT NULL DEFAULT '0',
+  Count int NOT NULL DEFAULT '0',
+  Language varchar(5) default NULL,
   PRIMARY KEY (ID)
 );
 

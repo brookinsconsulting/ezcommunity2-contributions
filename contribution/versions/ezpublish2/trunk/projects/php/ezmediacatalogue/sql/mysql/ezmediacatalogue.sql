@@ -53,7 +53,7 @@ CREATE TABLE eZMediaCatalogue_Media (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZMediaCatalogue_CategoryPermission (
-  ID int(11) NOT NULL,		    
+  ID int(11) NOT NULL,
   ObjectID int(11) default NULL,
   GroupID int(11) default NULL,
   ReadPermission int(11) default '0',
@@ -62,7 +62,7 @@ CREATE TABLE eZMediaCatalogue_CategoryPermission (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZMediaCatalogue_MediaCategoryDefinition (
-  ID int(11) NOT NULL,		    
+  ID int(11) NOT NULL,
   MediaID int(11) default NULL,
   CategoryID int(11) default NULL,
   PRIMARY KEY (ID)

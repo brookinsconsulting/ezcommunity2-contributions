@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forumlist.php,v 1.17 2001/09/24 11:53:43 jhe Exp $
+// $Id: forumlist.php,v 1.18 2001/10/11 11:06:19 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -97,7 +97,7 @@ foreach ( $forumList as $forum )
     if ( get_class( $group ) == "ezusergroup" )
     {
         $user =& eZUser::currentUser();
-        if ( get_class ( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
         {
             $groupList =& $user->groups();
 

@@ -1,8 +1,8 @@
 CREATE TABLE eZQuiz_Alternative (
-  ID int(11) NOT NULL,
-  QuestionID int(11) default '0',
+  ID int NOT NULL,
+  QuestionID int default '0',
   Name char(100) default NULL,
-  IsCorrect int(11) default '0',
+  IsCorrect int default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -11,14 +11,14 @@ INSERT INTO eZQuiz_Alternative VALUES (2,2,'test 1',1);
 INSERT INTO eZQuiz_Alternative VALUES (3,2,'test 2',0);
 
 CREATE TABLE eZQuiz_Answer (
-  ID int(11) NOT NULL auto_increment,
-  UserID int(11) default '0',
-  AlternativeID int(11) default '0',
+  ID int NOT NULL,
+  UserID int default '0',
+  AlternativeID int default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZQuiz_Game (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL auto_increment,
   Name varchar(30) default NULL,
   Description text,
   StartDate date default NULL,
@@ -29,11 +29,11 @@ CREATE TABLE eZQuiz_Game (
 INSERT INTO eZQuiz_Game VALUES (1,'test','wegwegweg','2001-12-12','0000-00-00');
 
 CREATE TABLE eZQuiz_Question (
-  ID int(11) NOT NULL auto_increment,
+  ID int NOT NULL auto_increment,
   Name char(100) default NULL,
-  GameID int(11) default '0',
-  Placement int(11) default '0',
-  Score int(11) default '0',
+  GameID int default '0',
+  Placement int default '0',
+  Score int default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -41,20 +41,19 @@ INSERT INTO eZQuiz_Question VALUES (1,'hei å hå',1,0,0);
 INSERT INTO eZQuiz_Question VALUES (2,'',1,1,0);
 
 CREATE TABLE eZQuiz_Score (
-  ID int(11) NOT NULL auto_increment,
-  GameID int(11) default '0',
-  UserID int(11) default '0',
-  TotalScore int(11) default '0',
-  LastQuestion int(11) default '0',
-  FinishedGame int(1) default '1',
+  ID int NOT NULL auto_increment,
+  GameID int default '0',
+  UserID int default '0',
+  TotalScore int default '0',
+  LastQuestion int default '0',
+  FinishedGame int default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZQuiz_AllTimeScore (
-  ID int(11) NOT NULL auto_increment,
-  UserID int(11) default '0',
-  TotalScore int(11) default '0',
-  GamesPlayed int(11) default '0',
+  ID int NOT NULL auto_increment,
+  UserID int default '0',
+  TotalScore int default '0',
+  GamesPlayed int default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-

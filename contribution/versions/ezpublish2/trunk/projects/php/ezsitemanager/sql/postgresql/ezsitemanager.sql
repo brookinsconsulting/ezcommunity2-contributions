@@ -1,4 +1,3 @@
-
 CREATE TABLE eZSiteManager_Section (
   ID int NOT NULL,
   Name varchar(200) default NULL,
@@ -6,6 +5,7 @@ CREATE TABLE eZSiteManager_Section (
   Description varchar(255),
   SiteDesign varchar(30) default NULL,
   TemplateStyle varchar(30) default NULL,
+  Language varchar(5) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -37,4 +37,4 @@ INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (4,'1columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (5,'2columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (6,'ad');
 
-INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign, TemplateStyle ) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL );
+INSERT INTO eZSiteManager_Section ( ID,  Name, Created, Description, SiteDesign, TemplateStyle ) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL );

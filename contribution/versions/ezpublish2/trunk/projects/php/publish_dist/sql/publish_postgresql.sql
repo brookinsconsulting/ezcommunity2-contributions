@@ -58,7 +58,6 @@ CREATE TABLE eZAddress_Address (
   PRIMARY KEY (ID)
 );
 
-
 INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0);
 
 CREATE TABLE eZAddress_AddressDefinition (
@@ -85,7 +84,6 @@ CREATE TABLE eZAddress_Country (
   Removed int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 INSERT INTO eZAddress_Country VALUES (2,'AF','Afghanistan',0);
 INSERT INTO eZAddress_Country VALUES (3,'AL','Albania',0);
@@ -345,7 +343,6 @@ CREATE TABLE eZAddress_OnlineType (
   PRIMARY KEY (ID)
 );
 
-
 INSERT INTO eZAddress_OnlineType VALUES (1,'Email',1,'mailto:',1,0,0);
 
 CREATE TABLE eZAddress_Phone (
@@ -499,6 +496,7 @@ CREATE TABLE eZArticle_Category (
   SectionID int NOT NULL default '0',
   ImageID int default NULL,
   EditorGroupID int default '0',
+  ListLimit int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -552,27 +550,40 @@ CREATE TABLE eZArticle_ArticleMediaLink (
 
 CREATE TABLE eZArticle_ArticleWordLink (
   ArticleID int NOT NULL default '0',
+  Frequency float default 0.2,
   WordID int NOT NULL default '0'
 );
 
-
 CREATE TABLE eZArticle_Word (
   ID int NOT NULL default '0',
+  Frequency float default 0.2,
   Word varchar(50) NOT NULL default ''
 );
 
+CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
+  ID int NOT NULL default '0',
+  Letter char(1) NOT NULL default ''
+);
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
-CREATE INDEX Article_Keywords ON eZArticle_Article (Keywords);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
+# CREATE FULLTEXT INDEX Article_Fulltext ON eZArticle_Article (Contents);
+# CREATE FULLTEXT INDEX Article_FulltextName ON eZArticle_Article (Name);
 
 CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
 CREATE INDEX Link_CategoryID ON eZArticle_ArticleCategoryLink (CategoryID);
 CREATE INDEX Link_Placement ON eZArticle_ArticleCategoryLink (Placement);
 
+CREATE INDEX WordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
+CREATE INDEX WordLink_WordID ON eZArticle_ArticleWordLink (WordID);
+CREATE INDEX Word_Word ON eZArticle_Word (Word);
+CREATE UNIQUE INDEX Word_ID ON eZArticle_Word (ID);
+
+CREATE INDEX ArticlePermission_ObjectID ON eZArticle_ArticlePermission (ObjectID);
+CREATE INDEX ArticlePermission_GroupID ON eZArticle_ArticlePermission (GroupID);
+
 CREATE INDEX Def_ArticleID ON eZArticle_ArticleCategoryDefinition (ArticleID);
 CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
-
 CREATE TABLE eZBug_Bug (
   ID int NOT NULL,
   Name varchar(150),
@@ -655,7 +666,7 @@ CREATE TABLE eZBug_Module (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZBug_Module VALUES (1,0,'My program','');
+INSERT INTO eZBug_Module VALUES (1,0,'My program',1);
 
 CREATE TABLE eZBug_Priority (
   ID int NOT NULL,
@@ -773,6 +784,7 @@ CREATE TABLE eZBulkMail_CategoryDelay (
 );
 
 CREATE TABLE eZBulkMail_Offset (
+  ID int NOT NULL,
   Hour int default NULL,
   Daily int default NULL,
   Weekly int default NULL,
@@ -798,6 +810,7 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 );
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
+  ID int NOT NULL,
   UserID int default '0',
   CategoryID int default '0',
   PRIMARY KEY (ID)
@@ -809,7 +822,11 @@ CREATE TABLE eZBulkMail_UserCategorySettings (
   Delay int default '0',
   ID int default NULL,
   PRIMARY KEY (ID)
-);CREATE TABLE eZCalendar_Appointment (
+);
+
+
+
+CREATE TABLE eZCalendar_Appointment (
   ID int NOT NULL,
   UserID int DEFAULT '0' NOT NULL,
   Date int,
@@ -853,6 +870,13 @@ CREATE TABLE eZContact_CompanyImageDefinition (
   CompanyImageID int DEFAULT '0' NOT NULL,
   LogoImageID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (CompanyID)
+);
+
+CREATE TABLE eZContact_CompanyIndex (
+  CompanyID int NOT NULL default '0',
+  Value varchar(255) NOT NULL default '',
+  Type int NOT NULL default '0',
+  PRIMARY KEY (CompanyID,Value)
 );
 
 CREATE TABLE eZContact_CompanyOnlineDict (
@@ -902,6 +926,12 @@ CREATE TABLE eZContact_Consultation (
   StateID int DEFAULT '0' NOT NULL,
   EmailNotifications varchar(255) DEFAULT '' NOT NULL,
   PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZContact_ConsultationCompanyDict (
+  ConsultationID int DEFAULT '0' NOT NULL,
+  CompanyID int DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ConsultationID,CompanyID)
 );
 
 CREATE TABLE eZContact_ConsultationCompanyUserDict (
@@ -954,6 +984,13 @@ CREATE TABLE eZContact_PersonAddressDict (
   PRIMARY KEY (PersonID,AddressID)
 );
 
+CREATE TABLE eZContact_PersonIndex (
+  PersonID int NOT NULL default '0',
+  Value varchar(255) NOT NULL default '',
+  Type int NOT NULL default '0',
+  PRIMARY KEY (PersonID,Value)
+);
+
 CREATE TABLE eZContact_PersonOnlineDict (
   PersonID int NOT NULL,
   OnlineID int NOT NULL,
@@ -978,7 +1015,6 @@ CREATE TABLE eZContact_ProjectType (
   ListOrder int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZContact_UserCompanyDict (
   UserID int NOT NULL,
@@ -1018,7 +1054,7 @@ CREATE TABLE eZExample_Test (
   Created int,
   PRIMARY KEY (ID)
 );CREATE TABLE eZFileManager_File (
-  ID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
   Name varchar(200),
   Description varchar(200),
   FileName varchar(200),
@@ -1030,21 +1066,21 @@ CREATE TABLE eZExample_Test (
 );
 
 CREATE TABLE eZFileManager_FileFolderLink (
-  ID int NOT NULL,
-  FolderID int NOT NULL,
-  FileID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
+  FolderID int DEFAULT '0' NOT NULL,
+  FileID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZFileManager_FilePageViewLink (
-  ID int NOT NULL,
-  PageViewID int NOT NULL,
-  FileID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
+  PageViewID int DEFAULT '0' NOT NULL,
+  FileID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZFileManager_Folder (
-  ID int NOT NULL,
+  ID int DEFAULT '0' NOT NULL,
   Name varchar(100),
   Description text,
   ParentID int NOT NULL DEFAULT '0',
@@ -1056,21 +1092,21 @@ CREATE TABLE eZFileManager_Folder (
 );
 
 CREATE TABLE eZFileManager_FolderPermission (
-  ID int NOT NULL,
-  ObjectID int default NULL,
-  GroupID int default NULL,
-  ReadPermission int default '0',
-  WritePermission int default '0',
-  UploadPermission int default '0',
+  ID int DEFAULT '0' NOT NULL,
+  ObjectID int DEFAULT NULL,
+  GroupID int DEFAULT NULL,
+  ReadPermission int DEFAULT '0',
+  WritePermission int DEFAULT '0',
+  UploadPermission int DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZFileManager_FilePermission (
-  ID int NOT NULL,
-  ObjectID int default NULL,
-  GroupID int default NULL,
-  ReadPermission int default '0',
-  WritePermission int default '0',
+  ID int DEFAULT '0' NOT NULL,
+  ObjectID int DEFAULT NULL,
+  GroupID int DEFAULT NULL,
+  ReadPermission int DEFAULT '0',
+  WritePermission int DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
@@ -1087,7 +1123,6 @@ CREATE TABLE eZForm_Form (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZForm_FormElement (
   ID int NOT NULL,
   Name varchar(255) default NULL,
@@ -1095,7 +1130,6 @@ CREATE TABLE eZForm_FormElement (
   ElementTypeID int default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZForm_FormElementDict (
   ID int NOT NULL,
@@ -1105,7 +1139,6 @@ CREATE TABLE eZForm_FormElementDict (
   Placement int default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZForm_FormElementType (
   ID int NOT NULL,
@@ -1129,52 +1162,79 @@ CREATE TABLE eZForm_FormElementFixedValueLink (
 
 INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
 INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');
+INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
+INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select');
+INSERT INTO eZForm_FormElementType VALUES (5,'checkbox_item','HTML CheckBox');
+INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
+
 CREATE TABLE eZForum_Category (
   ID int NOT NULL,
-  Name varchar(20) default NULL,
-  Description varchar(40) default NULL,
-  IsPrivate int default NULL,
-  SectionID int default 1,
+  Name varchar(20) DEFAULT NULL,
+  Description varchar(40) DEFAULT NULL,
+  IsPrivate int DEFAULT NULL,
+  SectionID int DEFAULT 1,
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZForum_Forum (
   ID int NOT NULL,
-  Name varchar(20) NOT NULL default '',
-  Description varchar(40) default NULL,
-  IsPrivate int default NULL,
-  ModeratorID int NOT NULL default '0',
-  IsModerated int NOT NULL default '0',
-  GroupID int default '0',
-  IsAnonymous int NOT NULL default '0',
+  Name varchar(20) NOT NULL DEFAULT '',
+  Description varchar(40) DEFAULT NULL,
+  IsPrivate int DEFAULT NULL,
+  ModeratorID int NOT NULL DEFAULT '0',
+  IsModerated int NOT NULL DEFAULT '0',
+  GroupID int DEFAULT '0',
+  IsAnonymous int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZForum_ForumCategoryLink (
   ID int NOT NULL,
-  ForumID int NOT NULL default '0',
-  CategoryID int NOT NULL default '0',
+  ForumID int NOT NULL DEFAULT '0',
+  CategoryID int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZForum_Message (
   ID int NOT NULL,
-  ForumID int NOT NULL default '0',
-  Topic varchar(60) default NULL,
+  ForumID int NOT NULL DEFAULT '0',
+  Topic varchar(60) DEFAULT NULL,
   Body text,
-  UserName varchar(60) default NULL,
-  UserID int default NULL,
-  Parent int default NULL,
-  EmailNotice int NOT NULL default '0',
+  UserName varchar(60) DEFAULT NULL,
+  UserID int DEFAULT NULL,
+  Parent int DEFAULT NULL,
+  EmailNotice int NOT NULL DEFAULT '0',
   PostingTime int NOT NULL,
-  TreeID int default NULL,
-  ThreadID int default NULL,
-  Depth int default NULL,
-  IsApproved int NOT NULL default '1',
-  IsTemporary int NOT NULL default '0',
+  TreeID int DEFAULT NULL,
+  ThreadID int DEFAULT NULL,
+  Depth int DEFAULT NULL,
+  IsApproved int NOT NULL DEFAULT '1',
+  IsTemporary int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE eZForum_MessageWordLink (
+  MessageID int NOT NULL DEFAULT '0',
+  Frequency float DEFAULT 0.2,
+  WordID int NOT NULL DEFAULT '0'
+);
+
+CREATE TABLE eZForum_Word (
+  ID int NOT NULL DEFAULT '0',
+  Frequency float DEFAULT 0.2,
+  Word varchar(50) NOT NULL DEFAULT ''
+);
+
+CREATE INDEX Forum_TreeID ON eZForum_Message (TreeID);
+CREATE INDEX Forum_PostingTime ON eZForum_Message (PostingTime);
+CREATE INDEX Forum_ThreadID ON eZForum_Message (ThreadID);
+CREATE INDEX Forum_Depth ON eZForum_Message (Depth);
+CREATE INDEX Forum_ForumID ON eZForum_Message (ForumID);
+
+CREATE INDEX ForumWordLink_MessageID ON eZForum_MessageWordLink (MessageID);
+CREATE INDEX ForumWordLink_WordID ON eZForum_MessageWordLink (WordID);
+CREATE INDEX ForumWord_Word ON eZForum_Word (Word);
+CREATE UNIQUE INDEX ForumWord_ID ON eZForum_Word (ID);
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
   Name varchar(100) default NULL,
@@ -1187,16 +1247,15 @@ CREATE TABLE eZImageCatalogue_Category (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZImageCatalogue_CategoryPermission (
   ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
   ReadPermission int default '0',
   WritePermission int default '0',
+  UploadPermission int default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZImageCatalogue_Image (
   ID int NOT NULL,
@@ -1241,14 +1300,12 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZImageCatalogue_ImageVariationGroup (
   ID int NOT NULL,
   Width int default NULL,
   Height int default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZImageCatalogue_ImageMap (
   ID int NOT NULL,
@@ -1263,8 +1320,6 @@ CREATE TABLE eZImageCatalogue_ImageMap (
   PRIMARY KEY (ID)
 );
 
-
-
 CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
   ID int NOT NULL,
   ImageID int default NULL,
@@ -1272,6 +1327,9 @@ CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
   PRIMARY KEY (ID)
 );
 
+CREATE INDEX ImageCatalogue_ImageVariationGroup_VariationGroupID ON  eZImageCatalogue_ImageVariation  (VariationGroupID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ImageID  ON  eZImageCatalogue_ImageVariation  (ImageID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ModificationID ON  eZImageCatalogue_ImageVariation  (Modification);
 CREATE TABLE eZLink_Hit (
   ID int NOT NULL,
   Link int default NULL,
@@ -1301,14 +1359,12 @@ CREATE TABLE eZLink_LinkCategoryDefinition (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZLink_LinkCategoryLink (
   ID int NOT NULL ,
   LinkID int NOT NULL,
   CategoryID int NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZLink_Category (
   ID int NOT NULL,
@@ -1319,7 +1375,6 @@ CREATE TABLE eZLink_Category (
   SectionID int default '1',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZLink_Attribute (
   ID int NOT NULL,
@@ -1405,13 +1460,11 @@ CREATE TABLE eZMail_Folder (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZMail_MailFolderLink (
   MailID int NOT NULL default '0',
   FolderID int NOT NULL default '0',
   PRIMARY KEY (MailID,FolderID)
 );
-
 
 CREATE TABLE eZMail_MailAttachmentLink (
   MailID int NOT NULL default '0',
@@ -1425,7 +1478,6 @@ CREATE TABLE eZMail_MailImageLink (
   PRIMARY KEY (MailID,ImageID)
 );
 
-
 CREATE TABLE eZMail_FilterRule (
   ID int NOT NULL,
   UserID int NOT NULL default '0',
@@ -1436,7 +1488,6 @@ CREATE TABLE eZMail_FilterRule (
   IsActive int default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZMail_FetchedMail (
   UserID int NOT NULL,
@@ -1506,7 +1557,7 @@ CREATE TABLE eZMediaCatalogue_Media (
 );
 
 CREATE TABLE eZMediaCatalogue_CategoryPermission (
-  ID int NOT NULL,		    
+  ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
   ReadPermission int default '0',
@@ -1515,7 +1566,7 @@ CREATE TABLE eZMediaCatalogue_CategoryPermission (
 );
 
 CREATE TABLE eZMediaCatalogue_MediaCategoryDefinition (
-  ID int NOT NULL,		    
+  ID int NOT NULL,
   MediaID int default NULL,
   CategoryID int default NULL,
   PRIMARY KEY (ID)
@@ -1549,7 +1600,6 @@ CREATE TABLE eZMediaCatalogue_TypeLink (
   MediaID int default 0,
   PRIMARY KEY (ID)
 );
-
 
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
@@ -1589,8 +1639,7 @@ INSERT INTO eZMediaCatalogue_AttributeValue VALUES (43,5,10,'true');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (42,5,9,'false');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (41,5,8,'false');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (40,5,7,'300');
-INSERT INTO eZMediaCatalogue_AttributeValue VALUES (39,5,6,'300');
-CREATE TABLE eZMessage (
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (39,5,6,'300');CREATE TABLE eZMessage (
   ID int NOT NULL,
   UserID int NOT NULL default '0',
   Subject varchar(255) NOT NULL default '',
@@ -1608,6 +1657,12 @@ CREATE TABLE eZMessage_Message (
   Description text,
   PRIMARY KEY (ID)
 );
+CREATE TABLE eZModule_LinkModuleType (
+  ID int NOT NULL,
+  Module varchar(40) NOT NULL default '',
+  Type varchar(40) NOT NULL default '',
+  PRIMARY KEY (ID,Module,Type)
+);
 CREATE TABLE eZPoll_MainPoll (
   ID int NOT NULL,
   PollID int default NULL,
@@ -1619,8 +1674,8 @@ CREATE TABLE eZPoll_Poll (
   Name varchar(100) default NULL,
   Description text,
   Anonymous int NOT NULL default '0',
-  IsEnabled int NOT NULL  default '0',
-  IsClosed int NOT NULL  default '0',
+  IsEnabled int NOT NULL default '0',
+  IsClosed int NOT NULL default '0',
   ShowResult int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
@@ -1642,14 +1697,71 @@ CREATE TABLE eZPoll_Vote (
   PRIMARY KEY (ID)
 );
 
-
-
 CREATE TABLE eZPoll_PollForumLink (
   ID int NOT NULL,
   PollID int NOT NULL default '0',
   ForumID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
+CREATE TABLE eZQuiz_Alternative (
+  ID int NOT NULL,
+  QuestionID int default '0',
+  Name char(100) default NULL,
+  IsCorrect int default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+INSERT INTO eZQuiz_Alternative VALUES (1,1,'',0);
+INSERT INTO eZQuiz_Alternative VALUES (2,2,'test 1',1);
+INSERT INTO eZQuiz_Alternative VALUES (3,2,'test 2',0);
+
+CREATE TABLE eZQuiz_Answer (
+  ID int NOT NULL,
+  UserID int default '0',
+  AlternativeID int default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZQuiz_Game (
+  ID int NOT NULL auto_increment,
+  Name varchar(30) default NULL,
+  Description text,
+  StartDate date default NULL,
+  StopDate date default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+INSERT INTO eZQuiz_Game VALUES (1,'test','wegwegweg','2001-12-12','0000-00-00');
+
+CREATE TABLE eZQuiz_Question (
+  ID int NOT NULL auto_increment,
+  Name char(100) default NULL,
+  GameID int default '0',
+  Placement int default '0',
+  Score int default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+INSERT INTO eZQuiz_Question VALUES (1,'hei å hå',1,0,0);
+INSERT INTO eZQuiz_Question VALUES (2,'',1,1,0);
+
+CREATE TABLE eZQuiz_Score (
+  ID int NOT NULL auto_increment,
+  GameID int default '0',
+  UserID int default '0',
+  TotalScore int default '0',
+  LastQuestion int default '0',
+  FinishedGame int default '1',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZQuiz_AllTimeScore (
+  ID int NOT NULL auto_increment,
+  UserID int default '0',
+  TotalScore int default '0',
+  GamesPlayed int default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 CREATE TABLE eZSession_Session(
   ID int NOT NULL,
   Hash varchar(33) default NULL,
@@ -1676,7 +1788,6 @@ CREATE TABLE eZSession_Preferences (
   GroupName varchar(50) default NULL,
   PRIMARY KEY (ID)
 );
-
 CREATE TABLE eZSiteManager_Section (
   ID int NOT NULL,
   Name varchar(200) default NULL,
@@ -1684,6 +1795,7 @@ CREATE TABLE eZSiteManager_Section (
   Description varchar(255),
   SiteDesign varchar(30) default NULL,
   TemplateStyle varchar(30) default NULL,
+  Language varchar(5) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -1715,7 +1827,7 @@ INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (4,'1columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (5,'2columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (6,'ad');
 
-INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign, TemplateStyle ) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL );
+INSERT INTO eZSiteManager_Section ( ID,  Name, Created, Description, SiteDesign, TemplateStyle ) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL );
 CREATE TABLE eZStats_BrowserType (
   ID int NOT NULL,
   BrowserType varchar(250) NOT NULL default '',
@@ -1774,6 +1886,7 @@ CREATE TABLE eZStats_Archive_UniqueVisits (
   ID int NOT NULL,
   Day int NOT NULL,
   Count int NOT NULL DEFAULT '0',
+  Language varchar(5) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -1790,6 +1903,7 @@ CREATE TABLE eZStats_Archive_RefererURL (
   Domain varchar(100) default NULL,
   URI varchar(200) default NULL,
   Count int  NOT NULL DEFAULT '0',
+  Language varchar(5) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -1809,8 +1923,8 @@ CREATE TABLE eZStats_Archive_RemoteHost (
   PRIMARY KEY (ID)
 );
 CREATE TABLE eZTodo_Category (
-  Description text,
   ID int NOT NULL,
+  Description text,
   Name varchar(30),
   PRIMARY KEY (ID)
 );
@@ -1821,12 +1935,11 @@ CREATE TABLE eZTodo_Priority (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTodo_Todo (
+  ID int NOT NULL,
   Category int,
   Priority int,
   Permission int default 0,
-  ID int NOT NULL,
   UserID int,
   OwnerID int,
   Name varchar(30),
@@ -1834,13 +1947,14 @@ CREATE TABLE eZTodo_Todo (
   Due int,
   Description text,
   Status int DEFAULT '0',
+  IsPublic int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZTodo_Status (
-  Description text,
   ID int NOT NULL,
   Name varchar(30),
+  Description text,
   PRIMARY KEY (ID)
 );
 
@@ -1858,12 +1972,12 @@ CREATE TABLE eZTodo_TodoLogLink (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,1,'Not done');
-INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,2,'Done');
+INSERT INTO eZTodo_Status (Description, ID, Name) VALUES (NULL,1,'Not done');
+INSERT INTO eZTodo_Status (Description, ID, Name) VALUES (NULL,2,'Done');
 
-INSERT INTO eZTodo_Priority (ID, Name ) VALUES (1,'Low');
-INSERT INTO eZTodo_Priority (ID, Name ) VALUES (2,'Medium');
-INSERT INTO eZTodo_Priority (ID, Name ) VALUES (3,'High');
+INSERT INTO eZTodo_Priority (ID, Name) VALUES (1,'Low');
+INSERT INTO eZTodo_Priority (ID, Name) VALUES (2,'Medium');
+INSERT INTO eZTodo_Priority (ID, Name) VALUES (3,'High');
 CREATE TABLE eZTrade_AlternativeCurrency (
   ID int NOT NULL,
   Name varchar(100) NOT NULL default '',
@@ -1873,7 +1987,6 @@ CREATE TABLE eZTrade_AlternativeCurrency (
   Created int NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_Attribute (
   ID int NOT NULL,
@@ -1886,7 +1999,6 @@ CREATE TABLE eZTrade_Attribute (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_AttributeValue (
   ID int NOT NULL,
   ProductID int default NULL,
@@ -1895,7 +2007,6 @@ CREATE TABLE eZTrade_AttributeValue (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_Cart (
   ID int NOT NULL,
   SessionID int default NULL,
@@ -1903,7 +2014,6 @@ CREATE TABLE eZTrade_Cart (
   PersonID int default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_CartItem (
   ID int NOT NULL,
@@ -1915,7 +2025,6 @@ CREATE TABLE eZTrade_CartItem (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_CartOptionValue (
   ID int NOT NULL,
   CartItemID int default NULL,
@@ -1925,7 +2034,6 @@ CREATE TABLE eZTrade_CartOptionValue (
   Count int default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_Category (
   ID int NOT NULL,
@@ -1938,7 +2046,6 @@ CREATE TABLE eZTrade_Category (
   SectionID int NOT NULL default '1',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_CategoryOptionLink (
   ID int NOT NULL,
@@ -1969,7 +2076,6 @@ CREATE TABLE eZTrade_GroupPriceLink (
   PRIMARY KEY (GroupID,PriceID)
 );
 
-
 CREATE TABLE eZTrade_Link (
   ID int NOT NULL,
   SectionID int NOT NULL default '0',
@@ -1980,13 +2086,11 @@ CREATE TABLE eZTrade_Link (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_LinkSection (
   ID int NOT NULL,
   Name varchar(30) default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_Option (
   ID int NOT NULL,
@@ -1995,7 +2099,6 @@ CREATE TABLE eZTrade_Option (
   RemoteID varchar(100) default NULL,	
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_OptionValue (
   ID int NOT NULL,
@@ -2006,7 +2109,6 @@ CREATE TABLE eZTrade_OptionValue (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OptionValueContent (
   ID int NOT NULL,
   Value varchar(30) default NULL,
@@ -2015,7 +2117,6 @@ CREATE TABLE eZTrade_OptionValueContent (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OptionValueHeader (
   ID int NOT NULL,
   Name varchar(30) default NULL,
@@ -2023,7 +2124,6 @@ CREATE TABLE eZTrade_OptionValueHeader (
   Placement int NOT NULL default '1',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_Order (
   ID int NOT NULL,
@@ -2043,7 +2143,6 @@ CREATE TABLE eZTrade_Order (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OrderItem (
   ID int NOT NULL,
   OrderID int NOT NULL default '0',
@@ -2055,7 +2154,6 @@ CREATE TABLE eZTrade_OrderItem (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OrderOptionValue (
   ID int NOT NULL,
   OrderItemID int default NULL,
@@ -2064,7 +2162,6 @@ CREATE TABLE eZTrade_OrderOptionValue (
   RemoteID varchar(100) default '',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_OrderStatus (
   ID int NOT NULL,
@@ -2076,11 +2173,11 @@ CREATE TABLE eZTrade_OrderStatus (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OrderStatusType (
   ID int NOT NULL,
   Name varchar(25) NOT NULL default '',
   PRIMARY KEY (ID)
+  UNIQUE KEY Name(Name)
 );
 
 INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
@@ -2094,7 +2191,6 @@ CREATE TABLE eZTrade_PreOrder (
   OrderID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_PriceGroup (
   ID int NOT NULL,
@@ -2115,7 +2211,7 @@ CREATE TABLE eZTrade_ProductPriceRange (
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
   Name varchar(100) default NULL,
-  Description text,
+  Contents text,
   Brief text,
   Description text,
   Keywords varchar(100) default NULL,
@@ -2136,14 +2232,12 @@ CREATE TABLE eZTrade_Product (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ProductCategoryDefinition (
   ID int NOT NULL,
   ProductID int NOT NULL default '0',
   CategoryID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_ProductCategoryLink (
   ID int NOT NULL,
@@ -2153,7 +2247,6 @@ CREATE TABLE eZTrade_ProductCategoryLink (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ProductImageDefinition (
   ProductID int NOT NULL default '0',
   ThumbnailImageID int default NULL,
@@ -2161,16 +2254,14 @@ CREATE TABLE eZTrade_ProductImageDefinition (
   PRIMARY KEY (ProductID)
 );
 
-
 CREATE TABLE eZTrade_ProductImageLink (
   ID int NOT NULL,
   ProductID int default NULL,
+  Placement int NOT NULL default '0',
   ImageID int default NULL,
   Created int NOT NULL,
-  Placement int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_ProductOptionLink (
   ID int NOT NULL,
@@ -2186,6 +2277,17 @@ CREATE TABLE eZTrade_ProductPermission (
   ReadPermission int default '0',
   WritePermission int default '0',
   PRIMARY KEY (ID)
+  KEY ProductPermissionObjectID(ObjectID),
+  KEY ProductPermissionGroupID(GroupID),
+  KEY ProductPermissionWritePermission(WritePermission),
+  KEY ProductPermissionReadPermission(ReadPermission)
+);
+
+CREATE TABLE eZTrade_ProductPermissionLink (
+  ID int NOT NULL default '0',
+  ProductID int NOT NULL default '0',
+  GroupID int NOT NULL default '0',
+  PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZTrade_ProductPriceLink (
@@ -2197,13 +2299,11 @@ CREATE TABLE eZTrade_ProductPriceLink (
   PRIMARY KEY (ProductID,PriceID,OptionID,ValueID)
 );
 
-
 CREATE TABLE eZTrade_ProductQuantityDict (
   ProductID int NOT NULL default '0',
   QuantityID int NOT NULL default '0',
   PRIMARY KEY (ProductID,QuantityID)
 );
-
 
 CREATE TABLE eZTrade_ProductSectionDict (
   ProductID int NOT NULL default '0',
@@ -2212,7 +2312,6 @@ CREATE TABLE eZTrade_ProductSectionDict (
   PRIMARY KEY (ProductID,SectionID)
 );
 
-
 CREATE TABLE eZTrade_ProductTypeLink (
   ID int NOT NULL,
   ProductID int default NULL,
@@ -2220,13 +2319,11 @@ CREATE TABLE eZTrade_ProductTypeLink (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_Quantity (
   ID int NOT NULL,
   Quantity int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_QuantityRange (
   ID int NOT NULL,
@@ -2235,14 +2332,12 @@ CREATE TABLE eZTrade_QuantityRange (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ShippingGroup (
   ID int NOT NULL,
   Name varchar(100) default NULL,
   Created int NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_ShippingType (
   ID int NOT NULL,
@@ -2253,7 +2348,6 @@ CREATE TABLE eZTrade_ShippingType (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ShippingValue (
   ID int NOT NULL,
   ShippingGroupID int NOT NULL default '0',
@@ -2263,14 +2357,12 @@ CREATE TABLE eZTrade_ShippingValue (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_Type (
   ID int NOT NULL,
   Name varchar(150) default NULL,
   Description text,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_VATType (
   ID int NOT NULL,
@@ -2280,20 +2372,18 @@ CREATE TABLE eZTrade_VATType (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ValueQuantityDict (
   ValueID int NOT NULL default '0',
   QuantityID int NOT NULL default '0',
   PRIMARY KEY (ValueID,QuantityID)
 );
 
-
 CREATE TABLE eZTrade_Voucher (
-  ID int default '0',
+  ID int default '0' NOT NULL,
   Created int default '0',
   Price decimal default '0',
   Available int default '0',
-  KeyNumber varchar default NULL,
+  KeyNumber varchar(50) default NULL,
   MailMethod int default '1',
   UserID int default '0',
   ProductID int default '0',
@@ -2333,7 +2423,6 @@ CREATE TABLE eZTrade_WishList (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_WishListItem (
   ID int NOT NULL,
   ProductID int default NULL,
@@ -2343,7 +2432,6 @@ CREATE TABLE eZTrade_WishListItem (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_WishListOptionValue (
   ID int NOT NULL,
   WishListItemID int default NULL,
@@ -2352,20 +2440,18 @@ CREATE TABLE eZTrade_WishListOptionValue (
   PRIMARY KEY (ID)
 );
 
-
-CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
-
-
+CREATE INDEX Category_Name ON eZTrade_Category (Name);
+CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
 CREATE INDEX Product_Name ON eZTrade_Product (Name);
 CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
 CREATE INDEX Product_Price ON eZTrade_Product (Price);
-
 CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
 CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
-
 CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
 CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
-
+CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
+CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
+CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
 CREATE TABLE eZURLTranslator_URL (
   ID int NOT NULL,
   Source varchar(200) default NULL,
@@ -2408,7 +2494,6 @@ CREATE TABLE eZUser_Author (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZUser_Cookie (
   ID int NOT NULL,
   UserID int default '0',
@@ -2416,7 +2501,6 @@ CREATE TABLE eZUser_Cookie (
   Time int NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZUser_Forgot (
   ID int NOT NULL,
@@ -2435,7 +2519,6 @@ CREATE TABLE eZUser_Group (
   GroupURL varchar(200) default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZUser_GroupPermissionLink (
   ID int NOT NULL,
@@ -2458,23 +2541,29 @@ CREATE TABLE eZUser_Permission (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZUser_Trustees (
+  ID int NOT NULL,
+  OwnerID int(11) NOT NULL,
+  UserID int(11) NOT NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
-INSERT INTO eZUser_Module (ID, Name ) VALUES (1,'eZTrade');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (2,'eZPoll');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (3,'eZUser');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (4,'eZTodo');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (5,'eZNews');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (6,'eZContact');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (7,'eZForum');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (8,'eZLink');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (9,'eZFileManager');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (10,'eZImageCatalogue');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (11,'eZBug');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (12,'eZArticle');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (13,'eZBulkMail');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (14,'eZStats');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (15,'eZSysInfo');
-INSERT INTO eZUser_Module (ID, Name ) VALUES (16,'eZSiteManager');
+INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');
+INSERT INTO eZUser_Module (ID, Name) VALUES (2,'eZPoll');
+INSERT INTO eZUser_Module (ID, Name) VALUES (3,'eZUser');
+INSERT INTO eZUser_Module (ID, Name) VALUES (4,'eZTodo');
+INSERT INTO eZUser_Module (ID, Name) VALUES (5,'eZNews');
+INSERT INTO eZUser_Module (ID, Name) VALUES (6,'eZContact');
+INSERT INTO eZUser_Module (ID, Name) VALUES (7,'eZForum');
+INSERT INTO eZUser_Module (ID, Name) VALUES (8,'eZLink');
+INSERT INTO eZUser_Module (ID, Name) VALUES (9,'eZFileManager');
+INSERT INTO eZUser_Module (ID, Name) VALUES (10,'eZImageCatalogue');
+INSERT INTO eZUser_Module (ID, Name) VALUES (11,'eZBug');
+INSERT INTO eZUser_Module (ID, Name) VALUES (12,'eZArticle');
+INSERT INTO eZUser_Module (ID, Name) VALUES (13,'eZBulkMail');
+INSERT INTO eZUser_Module (ID, Name) VALUES (14,'eZStats');
+INSERT INTO eZUser_Module (ID, Name) VALUES (15,'eZSysInfo');
+INSERT INTO eZUser_Module (ID, Name) VALUES (16,'eZSiteManager');
 
 
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (1,3,'UserAdd');
@@ -2549,10 +2638,9 @@ CREATE TABLE eZUser_UserGroupDefinition (
 INSERT INTO eZUser_User ( ID,  Login,  Password,  Email,  FirstName,  LastName,  InfoSubscription,  Signature,  SimultaneousLogins,  CookieLogin )  
 VALUES (1,'admin','9b6d0bb3102b87fae57bc4a39149518e','postmaster@yourdomain','admin','user','0','',0,0);
 
-INSERT INTO eZUser_Group ( ID,  Name,  Description,  SessionTimeout,  IsRoot ) VALUES (1,'Administrators','All rights',7200,1);
-INSERT INTO eZUser_Group ( ID,  Name,  Description,  SessionTimeout,  IsRoot ) VALUES (2,'Anonymous','Anonymous users',7200,0);
-
-INSERT INTO eZUser_UserGroupLink ( ID,  UserID,  GroupID ) VALUES (1,1,1);
+INSERT INTO eZUser_Group (ID, Name, Description, SessionTimeout, IsRoot) VALUES (1,'Administrators','All rights',7200,1);
+INSERT INTO eZUser_Group (ID, Name, Description, SessionTimeout, IsRoot) VALUES (2,'Anonymous','Anonymous users',7200,0);
+INSERT INTO eZUser_UserGroupLink (ID, UserID, GroupID) VALUES (1,1,1);
 
 CREATE TABLE eZUser_Photographer (
   ID int NOT NULL,
@@ -2560,4 +2648,10 @@ CREATE TABLE eZUser_Photographer (
   EMail char(50) default NULL,
   PRIMARY KEY (ID)
 );
+
+CREATE INDEX UserGroupLink_UserID ON eZUser_UserGroupLink (UserID);
+CREATE INDEX UserGroupLink_GroupID ON eZUser_UserGroupLink (GroupID);
+
+
+
 

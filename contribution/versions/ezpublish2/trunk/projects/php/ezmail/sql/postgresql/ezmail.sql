@@ -40,13 +40,11 @@ CREATE TABLE eZMail_Folder (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZMail_MailFolderLink (
   MailID int NOT NULL default '0',
   FolderID int NOT NULL default '0',
   PRIMARY KEY (MailID,FolderID)
 );
-
 
 CREATE TABLE eZMail_MailAttachmentLink (
   MailID int NOT NULL default '0',
@@ -60,7 +58,6 @@ CREATE TABLE eZMail_MailImageLink (
   PRIMARY KEY (MailID,ImageID)
 );
 
-
 CREATE TABLE eZMail_FilterRule (
   ID int NOT NULL,
   UserID int NOT NULL default '0',
@@ -71,7 +68,6 @@ CREATE TABLE eZMail_FilterRule (
   IsActive int default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZMail_FetchedMail (
   UserID int NOT NULL,

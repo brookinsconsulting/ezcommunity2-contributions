@@ -9,8 +9,8 @@ CREATE TABLE eZPoll_Poll (
   Name varchar(100) default NULL,
   Description text,
   Anonymous int NOT NULL default '0',
-  IsEnabled int NOT NULL  default '0',
-  IsClosed int NOT NULL  default '0',
+  IsEnabled int NOT NULL default '0',
+  IsClosed int NOT NULL default '0',
   ShowResult int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
@@ -31,8 +31,6 @@ CREATE TABLE eZPoll_Vote (
   UserID int default NULL,
   PRIMARY KEY (ID)
 );
-
-
 
 CREATE TABLE eZPoll_PollForumLink (
   ID int NOT NULL,

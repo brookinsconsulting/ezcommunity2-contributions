@@ -11,7 +11,7 @@ CREATE TABLE eZMail_Mail (
   ReplyTo varchar(100),
   Subject varchar(255),
   BodyText lvarchar,
-  Status int default 0,
+  Status int default 0 NOT NULL,
   Size int default 0,
   UDate int default 0,
   PRIMARY KEY (ID)
@@ -19,7 +19,7 @@ CREATE TABLE eZMail_Mail (
 
 CREATE TABLE eZMail_Account (
   ID int NOT NULL,
-  UserID int NOT NULL,
+  UserID int default '0',
   Name varchar(200) default NULL,
   LoginName varchar(100),
   Password varchar(50),
@@ -46,7 +46,6 @@ CREATE TABLE eZMail_MailFolderLink (
   PRIMARY KEY (MailID,FolderID)
 );
 
-
 CREATE TABLE eZMail_MailAttachmentLink (
   MailID int NOT NULL,
   FileID int NOT NULL,
@@ -70,9 +69,24 @@ CREATE TABLE eZMail_FilterRule (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZMail_FetchedMail (
   UserID int NOT NULL,
   MessageID varchar(100) NOT NULL,
   PRIMARY KEY (UserID, MessageID)
 );
+
+CREATE TABLE eZMail_MailContactLink (
+  ID int NOT NULL,
+  MailID int NOT NULL default '0',
+  PersonID int,
+  CompanyID int,
+  PRIMARY KEY (ID)
+);
+
+
+
+
+
+
+
+

@@ -8,7 +8,6 @@ CREATE TABLE eZTrade_AlternativeCurrency (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_Attribute (
   ID int NOT NULL,
   TypeID int default NULL,
@@ -20,7 +19,6 @@ CREATE TABLE eZTrade_Attribute (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_AttributeValue (
   ID int NOT NULL,
   ProductID int default NULL,
@@ -29,7 +27,6 @@ CREATE TABLE eZTrade_AttributeValue (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_Cart (
   ID int NOT NULL,
   SessionID int default NULL,
@@ -37,7 +34,6 @@ CREATE TABLE eZTrade_Cart (
   PersonID int default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_CartItem (
   ID int NOT NULL,
@@ -49,7 +45,6 @@ CREATE TABLE eZTrade_CartItem (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_CartOptionValue (
   ID int NOT NULL,
   CartItemID int default NULL,
@@ -59,7 +54,6 @@ CREATE TABLE eZTrade_CartOptionValue (
   Count int default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_Category (
   ID int NOT NULL,
@@ -72,7 +66,6 @@ CREATE TABLE eZTrade_Category (
   SectionID int NOT NULL default '1',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_CategoryOptionLink (
   ID int NOT NULL,
@@ -103,7 +96,6 @@ CREATE TABLE eZTrade_GroupPriceLink (
   PRIMARY KEY (GroupID,PriceID)
 );
 
-
 CREATE TABLE eZTrade_Link (
   ID int NOT NULL,
   SectionID int NOT NULL default '0',
@@ -114,13 +106,11 @@ CREATE TABLE eZTrade_Link (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_LinkSection (
   ID int NOT NULL,
   Name varchar(30) default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_Option (
   ID int NOT NULL,
@@ -129,7 +119,6 @@ CREATE TABLE eZTrade_Option (
   RemoteID varchar(100) default NULL,	
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_OptionValue (
   ID int NOT NULL,
@@ -140,7 +129,6 @@ CREATE TABLE eZTrade_OptionValue (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OptionValueContent (
   ID int NOT NULL,
   Value varchar(30) default NULL,
@@ -149,7 +137,6 @@ CREATE TABLE eZTrade_OptionValueContent (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OptionValueHeader (
   ID int NOT NULL,
   Name varchar(30) default NULL,
@@ -157,7 +144,6 @@ CREATE TABLE eZTrade_OptionValueHeader (
   Placement int NOT NULL default '1',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_Order (
   ID int NOT NULL,
@@ -177,7 +163,6 @@ CREATE TABLE eZTrade_Order (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OrderItem (
   ID int NOT NULL,
   OrderID int NOT NULL default '0',
@@ -189,7 +174,6 @@ CREATE TABLE eZTrade_OrderItem (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OrderOptionValue (
   ID int NOT NULL,
   OrderItemID int default NULL,
@@ -198,7 +182,6 @@ CREATE TABLE eZTrade_OrderOptionValue (
   RemoteID varchar(100) default '',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_OrderStatus (
   ID int NOT NULL,
@@ -210,11 +193,11 @@ CREATE TABLE eZTrade_OrderStatus (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_OrderStatusType (
   ID int NOT NULL,
   Name varchar(25) NOT NULL default '',
   PRIMARY KEY (ID)
+  UNIQUE KEY Name(Name)
 );
 
 INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
@@ -228,7 +211,6 @@ CREATE TABLE eZTrade_PreOrder (
   OrderID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_PriceGroup (
   ID int NOT NULL,
@@ -249,7 +231,7 @@ CREATE TABLE eZTrade_ProductPriceRange (
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
   Name varchar(100) default NULL,
-  Description text,
+  Contents text,
   Brief text,
   Description text,
   Keywords varchar(100) default NULL,
@@ -270,14 +252,12 @@ CREATE TABLE eZTrade_Product (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ProductCategoryDefinition (
   ID int NOT NULL,
   ProductID int NOT NULL default '0',
   CategoryID int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_ProductCategoryLink (
   ID int NOT NULL,
@@ -287,7 +267,6 @@ CREATE TABLE eZTrade_ProductCategoryLink (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ProductImageDefinition (
   ProductID int NOT NULL default '0',
   ThumbnailImageID int default NULL,
@@ -295,16 +274,14 @@ CREATE TABLE eZTrade_ProductImageDefinition (
   PRIMARY KEY (ProductID)
 );
 
-
 CREATE TABLE eZTrade_ProductImageLink (
   ID int NOT NULL,
   ProductID int default NULL,
+  Placement int NOT NULL default '0',
   ImageID int default NULL,
   Created int NOT NULL,
-  Placement int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_ProductOptionLink (
   ID int NOT NULL,
@@ -320,6 +297,17 @@ CREATE TABLE eZTrade_ProductPermission (
   ReadPermission int default '0',
   WritePermission int default '0',
   PRIMARY KEY (ID)
+  KEY ProductPermissionObjectID(ObjectID),
+  KEY ProductPermissionGroupID(GroupID),
+  KEY ProductPermissionWritePermission(WritePermission),
+  KEY ProductPermissionReadPermission(ReadPermission)
+);
+
+CREATE TABLE eZTrade_ProductPermissionLink (
+  ID int NOT NULL default '0',
+  ProductID int NOT NULL default '0',
+  GroupID int NOT NULL default '0',
+  PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZTrade_ProductPriceLink (
@@ -331,13 +319,11 @@ CREATE TABLE eZTrade_ProductPriceLink (
   PRIMARY KEY (ProductID,PriceID,OptionID,ValueID)
 );
 
-
 CREATE TABLE eZTrade_ProductQuantityDict (
   ProductID int NOT NULL default '0',
   QuantityID int NOT NULL default '0',
   PRIMARY KEY (ProductID,QuantityID)
 );
-
 
 CREATE TABLE eZTrade_ProductSectionDict (
   ProductID int NOT NULL default '0',
@@ -346,7 +332,6 @@ CREATE TABLE eZTrade_ProductSectionDict (
   PRIMARY KEY (ProductID,SectionID)
 );
 
-
 CREATE TABLE eZTrade_ProductTypeLink (
   ID int NOT NULL,
   ProductID int default NULL,
@@ -354,13 +339,11 @@ CREATE TABLE eZTrade_ProductTypeLink (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_Quantity (
   ID int NOT NULL,
   Quantity int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_QuantityRange (
   ID int NOT NULL,
@@ -369,14 +352,12 @@ CREATE TABLE eZTrade_QuantityRange (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ShippingGroup (
   ID int NOT NULL,
   Name varchar(100) default NULL,
   Created int NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_ShippingType (
   ID int NOT NULL,
@@ -387,7 +368,6 @@ CREATE TABLE eZTrade_ShippingType (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ShippingValue (
   ID int NOT NULL,
   ShippingGroupID int NOT NULL default '0',
@@ -397,14 +377,12 @@ CREATE TABLE eZTrade_ShippingValue (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_Type (
   ID int NOT NULL,
   Name varchar(150) default NULL,
   Description text,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZTrade_VATType (
   ID int NOT NULL,
@@ -414,20 +392,18 @@ CREATE TABLE eZTrade_VATType (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_ValueQuantityDict (
   ValueID int NOT NULL default '0',
   QuantityID int NOT NULL default '0',
   PRIMARY KEY (ValueID,QuantityID)
 );
 
-
 CREATE TABLE eZTrade_Voucher (
-  ID int default '0',
+  ID int default '0' NOT NULL,
   Created int default '0',
   Price decimal default '0',
   Available int default '0',
-  KeyNumber varchar default NULL,
+  KeyNumber varchar(50) default NULL,
   MailMethod int default '1',
   UserID int default '0',
   ProductID int default '0',
@@ -467,7 +443,6 @@ CREATE TABLE eZTrade_WishList (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_WishListItem (
   ID int NOT NULL,
   ProductID int default NULL,
@@ -477,7 +452,6 @@ CREATE TABLE eZTrade_WishListItem (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZTrade_WishListOptionValue (
   ID int NOT NULL,
   WishListItemID int default NULL,
@@ -486,17 +460,15 @@ CREATE TABLE eZTrade_WishListOptionValue (
   PRIMARY KEY (ID)
 );
 
-
-CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
-
-
+CREATE INDEX Category_Name ON eZTrade_Category (Name);
+CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
 CREATE INDEX Product_Name ON eZTrade_Product (Name);
 CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
 CREATE INDEX Product_Price ON eZTrade_Product (Price);
-
 CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
 CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
-
 CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
 CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
-
+CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
+CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
+CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);

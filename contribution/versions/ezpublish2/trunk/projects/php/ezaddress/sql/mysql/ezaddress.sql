@@ -10,6 +10,8 @@ CREATE TABLE eZAddress_Address (
   PRIMARY KEY (ID)
 );
 
+INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0);
+
 CREATE TABLE eZAddress_AddressDefinition (
   UserID int(11) DEFAULT '0' NOT NULL,
   AddressID int(11) DEFAULT '0' NOT NULL,
@@ -23,6 +25,8 @@ CREATE TABLE eZAddress_AddressType (
   Removed int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
+
+INSERT INTO eZAddress_AddressType VALUES (1,'Post adresse',1,0);
 
 CREATE TABLE eZAddress_Country (
   ID int(11) NOT NULL,
@@ -291,6 +295,8 @@ CREATE TABLE eZAddress_OnlineType (
   PRIMARY KEY (ID)
 );
 
+INSERT INTO eZAddress_OnlineType VALUES (1,'Email',1,'mailto:',1,0,0);
+
 CREATE TABLE eZAddress_Phone (
   ID int(11) NOT NULL,
   Number varchar(22),
@@ -305,3 +311,7 @@ CREATE TABLE eZAddress_PhoneType (
   Removed int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
+
+INSERT INTO eZAddress_PhoneType VALUES (1,'Telefon',1,0);
+
+

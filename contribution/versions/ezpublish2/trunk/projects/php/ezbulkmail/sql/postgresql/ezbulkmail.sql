@@ -87,6 +87,7 @@ CREATE TABLE eZBulkMail_CategoryDelay (
 );
 
 CREATE TABLE eZBulkMail_Offset (
+  ID int NOT NULL,
   Hour int default NULL,
   Daily int default NULL,
   Weekly int default NULL,
@@ -112,6 +113,7 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 );
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
+  ID int NOT NULL,
   UserID int default '0',
   CategoryID int default '0',
   PRIMARY KEY (ID)
@@ -124,3 +126,6 @@ CREATE TABLE eZBulkMail_UserCategorySettings (
   ID int default NULL,
   PRIMARY KEY (ID)
 );
+
+
+

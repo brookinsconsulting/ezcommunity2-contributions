@@ -35,7 +35,7 @@ CREATE TABLE eZBulkMail_MailTemplateLink (
 CREATE TABLE eZBulkMail_SentLog (
   ID int NOT NULL,
   MailID int NOT NULL,
-  AddressID int NOT NULL,
+  Mail varchar(255) NOT NULL,
   SentDate int NOT NULL,
   PRIMARY KEY (ID)
 );
@@ -74,5 +74,55 @@ CREATE TABLE eZBulkMail_Forgot (
   Password varchar(50) NOT NULL,
   Hash varchar(33),
   Time int,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBulkMail_CategoryDelay (
+  ID int NOT NULL default '0',
+  CategoryID int NOT NULL default '0',
+  AddressID int NOT NULL default '0',
+  Delay int default '0',
+  MailID int default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBulkMail_Offset (
+  ID int NOT NULL,
+  Hour int default NULL,
+  Daily int default NULL,
+  Weekly int default NULL,
+  Monthly int default NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBulkMail_SubscriptionCategorySettings (
+  ID int NOT NULL,
+  CategoryID int NOT NULL default '0',
+  AddressID int NOT NULL default '0',
+  Delay int default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBulkMail_UserCategoryDelay (
+  ID int NOT NULL,
+  CategoryID int default '0',
+  UserID int default '0',
+  Delay int default '0',
+  MailID int default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBulkMail_UserCategoryLink (
+  ID int NOT NULL,
+  UserID int default '0',
+  CategoryID int default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBulkMail_UserCategorySettings (
+  CategoryID int default '0',
+  UserID int default '0',
+  Delay int default '0',
+  ID int default NULL,
   PRIMARY KEY (ID)
 );

@@ -1,4 +1,3 @@
-
 CREATE TABLE eZLink_Hit (
   ID int NOT NULL,
   Link int default NULL,
@@ -9,7 +8,7 @@ CREATE TABLE eZLink_Hit (
 
 CREATE TABLE eZLink_Link (
   ID int NOT NULL ,
-  Title varchar(100) default NULL,
+  Name varchar(100) default NULL,
   Description lvarchar,
   LinkGroup int default NULL,
   KeyWords varchar(100) default NULL,
@@ -28,14 +27,12 @@ CREATE TABLE eZLink_LinkCategoryDefinition (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZLink_LinkCategoryLink (
   ID int NOT NULL ,
   LinkID int NOT NULL,
   CategoryID int NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZLink_Category (
   ID int NOT NULL,
@@ -47,12 +44,12 @@ CREATE TABLE eZLink_Category (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZLink_Attribute (
   ID int NOT NULL,
   TypeID int default NULL,
   Name varchar(150) default NULL,
   Created int default NULL,
   Placement int default 0,
+  Unit varchar(8) default NULL,
   PRIMARY KEY (ID)
 )

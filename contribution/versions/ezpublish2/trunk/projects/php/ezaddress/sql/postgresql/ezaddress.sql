@@ -10,7 +10,6 @@ CREATE TABLE eZAddress_Address (
   PRIMARY KEY (ID)
 );
 
-
 INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0);
 
 CREATE TABLE eZAddress_AddressDefinition (
@@ -37,7 +36,6 @@ CREATE TABLE eZAddress_Country (
   Removed int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 INSERT INTO eZAddress_Country VALUES (2,'AF','Afghanistan',0);
 INSERT INTO eZAddress_Country VALUES (3,'AL','Albania',0);
@@ -296,7 +294,6 @@ CREATE TABLE eZAddress_OnlineType (
   Removed int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
-
 
 INSERT INTO eZAddress_OnlineType VALUES (1,'Email',1,'mailto:',1,0,0);
 

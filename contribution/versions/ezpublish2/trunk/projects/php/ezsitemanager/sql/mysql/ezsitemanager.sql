@@ -1,7 +1,3 @@
-#
-# Table structure for table 'eZSiteManager_Section'
-#
- 
 CREATE TABLE eZSiteManager_Section (
   ID int(11) NOT NULL ,
   Name varchar(200) default NULL,
@@ -41,7 +37,7 @@ INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (4,'1columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (5,'2columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (6,'ad');
 
-INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign, TemplateStyle, Language) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL, NULL);
+INSERT INTO eZSiteManager_Section ( ID,  Name, Created, Description, SiteDesign, TemplateStyle, Language) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL, NULL);
 
 
 

@@ -1,4 +1,3 @@
-
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
   Name varchar(100) default NULL,
@@ -11,7 +10,6 @@ CREATE TABLE eZImageCatalogue_Category (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZImageCatalogue_CategoryPermission (
   ID int NOT NULL,
   ObjectID int default NULL,
@@ -21,7 +19,6 @@ CREATE TABLE eZImageCatalogue_CategoryPermission (
   UploadPermission int default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZImageCatalogue_Image (
   ID int NOT NULL,
@@ -66,14 +63,12 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZImageCatalogue_ImageVariationGroup (
   ID int NOT NULL,
   Width int default NULL,
   Height int default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZImageCatalogue_ImageMap (
   ID int NOT NULL,
@@ -87,8 +82,6 @@ CREATE TABLE eZImageCatalogue_ImageMap (
   EndPosY int NOT NULL,
   PRIMARY KEY (ID)
 );
-
-
 
 CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
   ID int NOT NULL,

@@ -1,7 +1,3 @@
-#
-# Table structure for table 'eZSession_Preferences'
-#
-DROP TABLE IF EXISTS eZSession_Preferences;
 CREATE TABLE eZSession_Preferences (
   ID int(11) NOT NULL,
   UserID int(11) DEFAULT '0' NOT NULL,
@@ -11,10 +7,6 @@ CREATE TABLE eZSession_Preferences (
   PRIMARY KEY (ID)
 );
 
-#
-# Table structure for table 'eZSession_Session'
-#
-DROP TABLE IF EXISTS eZSession_Session;
 CREATE TABLE eZSession_Session (
   ID int(11) NOT NULL,
   Hash char(33) NOT NULL,
@@ -23,10 +15,6 @@ CREATE TABLE eZSession_Session (
   PRIMARY KEY (ID)
 );
 
-#
-# Table structure for table 'eZSession_SessionVariable'
-#
-DROP TABLE IF EXISTS eZSession_SessionVariable;
 CREATE TABLE eZSession_SessionVariable (
   ID int(11) NOT NULL,
   SessionID int(11) not NULL,

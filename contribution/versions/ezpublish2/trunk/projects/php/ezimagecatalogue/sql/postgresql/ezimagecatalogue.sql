@@ -10,16 +10,15 @@ CREATE TABLE eZImageCatalogue_Category (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZImageCatalogue_CategoryPermission (
   ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
   ReadPermission int default '0',
   WritePermission int default '0',
+  UploadPermission int default '0',
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZImageCatalogue_Image (
   ID int NOT NULL,
@@ -64,14 +63,12 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZImageCatalogue_ImageVariationGroup (
   ID int NOT NULL,
   Width int default NULL,
   Height int default NULL,
   PRIMARY KEY (ID)
 );
-
 
 CREATE TABLE eZImageCatalogue_ImageMap (
   ID int NOT NULL,
@@ -86,11 +83,13 @@ CREATE TABLE eZImageCatalogue_ImageMap (
   PRIMARY KEY (ID)
 );
 
-
-
 CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
   ID int NOT NULL,
   ImageID int default NULL,
   CategoryID int default NULL,
   PRIMARY KEY (ID)
 );
+
+CREATE INDEX ImageCatalogue_ImageVariationGroup_VariationGroupID ON  eZImageCatalogue_ImageVariation  (VariationGroupID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ImageID  ON  eZImageCatalogue_ImageVariation  (ImageID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ModificationID ON  eZImageCatalogue_ImageVariation  (Modification);

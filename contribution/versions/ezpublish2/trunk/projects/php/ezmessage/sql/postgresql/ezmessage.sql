@@ -1,4 +1,3 @@
-
 CREATE TABLE eZMessage (
   ID int NOT NULL,
   UserID int NOT NULL default '0',

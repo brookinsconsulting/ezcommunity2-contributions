@@ -1,4 +1,3 @@
-
 CREATE TABLE eZNewsFeed_Category (
   ID int NOT NULL,
   Name varchar(150) NOT NULL default '',
@@ -7,6 +6,7 @@ CREATE TABLE eZNewsFeed_Category (
   PRIMARY KEY (ID)
 );
 
+INSERT INTO eZNewsFeed_Category VALUES (1,'News from freshmeat','',0);
 
 CREATE TABLE eZNewsFeed_News (
   ID int NOT NULL,
@@ -21,7 +21,6 @@ CREATE TABLE eZNewsFeed_News (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZNewsFeed_NewsCategoryLink (
   ID int NOT NULL,
   NewsID int NOT NULL default '0',
@@ -29,16 +28,17 @@ CREATE TABLE eZNewsFeed_NewsCategoryLink (
   PRIMARY KEY (ID)
 );
 
-
 CREATE TABLE eZNewsFeed_SourceSite (
-  ID int NOT NULL,
-  URL varchar(250) default NULL,
-  Login varchar(30) default NULL,
-  Password varchar(30) default NULL,
+  ID int DEFAULT '0' NOT NULL,
+  URL varchar(250),
+  Login varchar(30),
+  Password varchar(30),
   CategoryID int NOT NULL default '0',
-  Name varchar(100) default NULL,
-  Decoder varchar(50) default NULL,
-  IsActive int NOT NULL default '0',
+  Name varchar(100),
+  Decoder varchar(50),
+  IsActive int default '0',
   AutoPublish int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
+
+INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','',0,0);

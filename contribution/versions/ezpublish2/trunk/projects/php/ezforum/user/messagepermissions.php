@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagepermissions.php,v 1.7 2001/09/24 11:53:43 jhe Exp $
+// $Id: messagepermissions.php,v 1.8 2001/10/11 11:06:19 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -110,7 +110,7 @@ if ( $CheckForumRead )
 
     if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
     {
-        if ( get_class ( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
         {
             $groupList =& $user->groups();
 

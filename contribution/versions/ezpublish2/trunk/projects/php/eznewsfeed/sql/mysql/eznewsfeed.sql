@@ -29,7 +29,7 @@ CREATE TABLE eZNewsFeed_NewsCategoryLink (
 );
 
 CREATE TABLE eZNewsFeed_SourceSite (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ID int(11) DEFAULT '0' NOT NULL,
   URL varchar(250),
   Login varchar(30),
   Password varchar(30),

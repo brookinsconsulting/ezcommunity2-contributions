@@ -1,16 +1,7 @@
-drop table eZAd_Ad;
-drop table eZAd_AdCategoryLink;
-drop table eZAd_Category;
-drop table eZAd_Click;
-drop table eZAd_View;
-
 CREATE TABLE eZAd_Ad(
   ID int NOT NULL,
   Name varchar(150) default NULL,
   ImageID int default NULL,
-  ViewStartDate int default null,
-  ViewStopDate int default null,
-  ViewRule int,
   URL varchar(200) default NULL,
   Description lvarchar,
   IsActive int not null,
@@ -33,14 +24,14 @@ CREATE TABLE eZAd_Category (
   Name varchar(150) default NULL,
   Description lvarchar,
   ParentID int not NULL,
+  ExcludeFromSearch int default '0',
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZAd_Click (
   ID int NOT NULL,
   AdID int default NULL,
-  ClickCount int default NULL,
-  ClickOffsetCount int default NULL,
+  PageViewID int default NULL,
   ClickPrice float,
   PRIMARY KEY (ID)
 );
@@ -51,6 +42,7 @@ CREATE TABLE eZAd_View (
   ViewCount int NOT NULL,
   ViewOffsetCount int NOT NULL,
   ViewPrice float NOT NULL,
+  Date int default NULL,
   PRIMARY KEY (ID)
 );
 

@@ -53,7 +53,7 @@ CREATE TABLE eZMediaCatalogue_Media (
 );
 
 CREATE TABLE eZMediaCatalogue_CategoryPermission (
-  ID int NOT NULL,		    
+  ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
   ReadPermission int default '0',
@@ -62,7 +62,7 @@ CREATE TABLE eZMediaCatalogue_CategoryPermission (
 );
 
 CREATE TABLE eZMediaCatalogue_MediaCategoryDefinition (
-  ID int NOT NULL,		    
+  ID int NOT NULL,
   MediaID int default NULL,
   CategoryID int default NULL,
   PRIMARY KEY (ID)
@@ -96,7 +96,6 @@ CREATE TABLE eZMediaCatalogue_TypeLink (
   MediaID int default 0,
   PRIMARY KEY (ID)
 );
-
 
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
