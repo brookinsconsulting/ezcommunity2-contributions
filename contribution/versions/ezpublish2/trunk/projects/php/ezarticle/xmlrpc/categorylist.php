@@ -125,12 +125,24 @@ if ( $Command == "list" )
 else if ( $Command == "tree" )
 {
     $cat = new eZArticleCategory();
+    $cat->setName( "test" );
     $tree =& categoryTree( $cat );
-    $ReturnData = new eZXMLRPCStruct( array( "Tree" => createTreeStruct( $tree, "ezarticle", "category" ) ) );
+    $ReturnData = createTreeStruct( $tree, "ezarticle", "category" );
 }
 
-function categoryTree( $cat )
+function &categoryTree( $cat )
 {
+    $children =& eZArticleCategory::getByParent( $cat, true );
+    $child_array = array();
+    foreach( $children as $child )
+    {
+        $child_array[] = categoryTree( $child );
+//          break;
+    }
+    $item = array( "ID" => $cat->id(),
+                   "Name" => $cat->name(),
+                   "Children" => $child_array );
+    return $item;
 }
 
 ?>
