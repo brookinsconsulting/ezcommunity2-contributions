@@ -25,7 +25,7 @@ $company = new eZCompany();
 if( !$type->id() && $TypeID != 0 )
 {
     header( "HTTP/1.0 404 Not Found" );
-    header( "Location: /contact/companytype/list/" );
+    header( "Location: /contact/companycategory/list/" );
     exit();
 }
 else
@@ -58,10 +58,15 @@ else
 
     
     $t->set_var( "image_item", "" );
-    
+
+    if ( empty( $OrderBy ) )
+    {
+        $OrderBy = "Name";
+    }
+
     if( !empty( $LimitBy ) || !empty( $LimitStart ) )
     {
-        $type_array = $type->getByParentID( $TypeID, "Types", $OrderBy, $LimitBy, $LimitStart );
+        $type_array = $type->getByParentID( $TypeID, $OrderBy, $LimitBy, $LimitStart );
 
         if( empty( $LimitStart ) )
         {
