@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkcategorylist.php,v 1.1 2001/07/02 07:10:41 bf Exp $
+// $Id: linkcategorylist.php,v 1.2 2001/07/02 07:13:45 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -32,7 +32,7 @@ $Language = $ini->read_var( "eZLinkMain", "Language" );
 $UserLimit = $ini->read_var( "eZLinkMain", "UserLinkLimit" );
 $languageIni = new INIFile( "ezlink/user/intl/". $Language . "/linkcategorylist.php.ini", false );
 
-include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 

@@ -13,9 +13,9 @@
 <br /><br />
 
 <div class="boxtext">{intl-category}:</div>
-<select name="LinkGroupID[]">
+<select name="LinkCategoryID[]">
 <!-- BEGIN category_item_tpl -->
-<option {is_selected} value="{link_group_id}">{option_level}{link_group_title}</option>
+<option {is_selected} value="{link_category_id}">{option_level}{link_category_name}</option>
 <!-- END category_item_tpl -->
 </select>
 <br /><br />

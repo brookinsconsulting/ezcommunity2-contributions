@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.20 2001/05/16 08:52:51 ce Exp $
+// $Id: search.php,v 1.21 2001/07/02 07:13:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -36,7 +36,7 @@ $AdminLimit = $ini->read_var( "eZLinkMain", "AdminSearchLimit" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlist.php" );
 
-include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php"  );
 include_once( "ezlink/classes/ezhit.php" );
 
@@ -91,7 +91,7 @@ if ( $QueryString != "" )
             $t->set_var( "link_id", $linkItem->id() );
             $t->set_var( "link_title", $linkItem->title() );
             $t->set_var( "link_description", $linkItem->description() );
-            $t->set_var( "link_groupid", $linkItem->linkgroupid() );
+            $t->set_var( "link_categoryid", $linkItem->linkcategoryid() );
             $t->set_var( "link_keywords", $linkItem->keywords() );
             $t->set_var( "link_created", $linkItem->created() );
             $t->set_var( "link_modified", $linkItem->modified() );
@@ -130,7 +130,7 @@ $t->set_var( "link_total", $total_count );
 
 $t->set_var( "hit_count", $total_count );
 
-$t->set_var( "linkgroup_id", $LGID );
+$t->set_var( "linkcategory_id", $LGID );
 
 
 $t->pparse( "output", "search_list" );
