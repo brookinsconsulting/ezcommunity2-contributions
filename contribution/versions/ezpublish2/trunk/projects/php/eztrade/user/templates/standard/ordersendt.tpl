@@ -38,7 +38,7 @@
 </table>
 <br />
 
-<h2>{intl-goods_list}</h2>
+<h2>{intl-goods_list}:</h2>
 
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">

@@ -55,7 +55,7 @@
 <table width="100%" cellspacing="0" cellpadding="7" border="0">
 <!-- BEGIN image_tpl -->
 <tr>
-<td class="bglight" width="1%">
+<td width="1%" valign="top">
 
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
 	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
@@ -73,7 +73,7 @@
 </tr>
 <tr>
 	<td valign="top">
-	<p class="pictext">
+	<p>
 	{image_caption}
 	</p>
 	</td>
@@ -113,7 +113,7 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<th colspan="2">
+	<th colspan="3">
 	<br />
 	{option_name}:
 	</th>
@@ -159,8 +159,10 @@
 	<!-- END value_tpl -->
 	</select>
 	</td>
-
-	<td width="80%">
+	<td width="1%">
+	&nbsp;&nbsp;
+	</td>
+	<td width="79%">
 	{option_description}
 	</td>
 </tr>
