@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.3 2001/02/11 18:01:33 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.4 2001/02/15 18:31:46 ce Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -109,7 +109,14 @@ class eZXMLRPCCall
                $ret = true;
             }
             break;
-            
+
+            case "ezxmlrpcstruct" :
+            {
+               $this->ParameterList[] = $value;
+               $ret = true;
+            }
+            break;
+
             default :
             {
                 if ( $value != "Object" )
