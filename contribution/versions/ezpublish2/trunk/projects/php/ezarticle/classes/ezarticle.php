@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.94 2001/06/08 12:24:55 ce Exp $
+// $Id: ezarticle.php,v 1.95 2001/06/08 13:05:45 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1644,6 +1644,27 @@ class eZArticle
         return $category;
     }
 
+    /*!
+      \static
+      Returns the article definition id to the corresponding
+      article id.
+
+      false is returned if no article was found.
+    */
+    function categoryDefinitionStatic( $id )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res, "SELECT CategoryID FROM
+                                            eZArticle_ArticleCategoryDefinition
+                                            WHERE ArticleID='$id'" );
+
+        if ( count( $res ) == 1 )
+            return $res[0]["CategoryID"];
+        else
+            return false;
+    }
+    
     /*!
       Creates a discussion forum for the article.
     */

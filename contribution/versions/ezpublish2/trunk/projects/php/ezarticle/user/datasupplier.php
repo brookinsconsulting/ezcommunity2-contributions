@@ -214,6 +214,9 @@ switch ( $url_array[2] )
         else
             $user = 0;
 
+        if ( !isset( $CategoryID ) )
+            $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
+        
         $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
         
         if ( $PageCaching == "enabled" )
