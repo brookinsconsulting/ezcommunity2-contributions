@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.33 2001/02/26 15:50:07 gl Exp $
+// $Id: appointmentedit.php,v 1.34 2001/03/05 09:47:33 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -148,7 +148,7 @@ if( $app == false )
     $t->parse( "user_error", "user_error_tpl" );
     $t->pparse( "output", "appointment_edit_tpl" );
 
-    exit();
+    $UserError = true;
 }
 
 
@@ -162,7 +162,7 @@ if ( $Action == "Edit" && $app->userID() != $userID )
     $t->parse( "user_error", "user_error_tpl" );
     $t->pparse( "output", "appointment_edit_tpl" );
 
-    exit();
+    $UserError = true;
 }
 
 
@@ -191,7 +191,7 @@ if ( $Action == "DeleteAppointment" )
             $t->parse( "user_error", "user_error_tpl" );
             $t->pparse( "output", "appointment_edit_tpl" );
 
-            exit();
+            $UserError = true;
         }
         
         $year = addZero( $datetime->year() );
@@ -582,8 +582,11 @@ for ( $i=1; $i<13; $i++ )
 if ( $Action != "Edit" )
     $t->set_var( "year_value", $tmpdate->year() );
 
-$t->parse( "no_error", "no_error_tpl" );
-$t->pparse( "output", "appointment_edit_tpl" );
+if ( $UserError == false )
+{
+    $t->parse( "no_error", "no_error_tpl" );
+    $t->pparse( "output", "appointment_edit_tpl" );
+}
 
 
 // deletes the dayview cache file for a given day
