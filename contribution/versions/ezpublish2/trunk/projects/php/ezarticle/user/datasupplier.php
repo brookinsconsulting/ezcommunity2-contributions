@@ -265,28 +265,38 @@ switch ( $url_array[2] )
 
     case "articleedit":
     {
-        switch ( $url_array[3] )
+        if ( eZUser::currentUser() != false &&
+             $ini->read_var( "eZArticleMain", "UserSubmitArticles" ) == "enabled" )
         {
-            case "new":
+            switch ( $url_array[3] )
             {
-                $Action = "New";
-                include( "ezarticle/user/articleedit.php" );
-                break;
+                case "new":
+                {
+                    $Action = "New";
+                    include( "ezarticle/user/articleedit.php" );
+                    break;
+                }
+                case "insert":
+                {
+                    $Action = "Insert";
+                    $ArticleID = $url_array[4];
+                    include( "ezarticle/user/articleedit.php" );
+                    break;
+                }
+                case "cancel":
+                {
+                    $Action = "Cancel";
+                    $ArticleID = $url_array[4];
+                    include( "ezarticle/user/articleedit.php" );
+                    break;
+                }
             }
-            case "insert":
-            {
-                $Action = "Insert";
-                $ArticleID = $url_array[4];
-                include( "ezarticle/user/articleedit.php" );
-                break;
-            }
-            case "cancel":
-            {
-                $Action = "Cancel";
-                $ArticleID = $url_array[4];
-                include( "ezarticle/user/articleedit.php" );
-                break;
-            }
+        }
+        else
+        {
+            include_once( "classes/ezhttptool.php" );
+            eZHTTPTool::header( "Location: /article/archive/" );
+            exit();
         }
     }
     break;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.8 2001/02/23 14:13:08 gl Exp $
+// $Id: articleedit.php,v 1.9 2001/02/23 14:25:00 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -195,7 +195,6 @@ foreach ( $treeArray as $catItem )
     else
         $t->set_var( "option_level", "" );
 
-    
     $t->parse( "value", "value_tpl", true );    
 }
 
