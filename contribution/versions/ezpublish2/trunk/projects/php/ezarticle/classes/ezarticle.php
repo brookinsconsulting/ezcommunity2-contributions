@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.146 2001/08/15 15:04:59 ce Exp $
+// $Id: ezarticle.php,v 1.147 2001/08/16 11:32:43 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1895,9 +1895,9 @@ class eZArticle
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= "Permission.GroupID=$group OR";
+                    $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
                 else
-                    $groupSQL .= " Permission.GroupID=$group OR";
+                    $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
                
                 $i++;
             }
@@ -1907,12 +1907,12 @@ class eZArticle
             if ( $user->hasRootAccess() )
                 $usePermission = false;
         }
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) ";
 
         if ( $usePermission )
-           $permissionSQL = "( ( $loggedInSQL CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
-       else
-           $permissionSQL = "";
+            $permissionSQL = $loggedInSQL;
+        else
+            $permissionSQL = "";
 
        // fetch only published articles
        if ( $fetchNonPublished  == true )  
@@ -2002,9 +2002,9 @@ class eZArticle
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= "Permission.GroupID=$group OR";
+                    $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
                 else
-                    $groupSQL .= " Permission.GroupID=$group OR";
+                    $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
                
                 $i++;
             }
@@ -2014,10 +2014,10 @@ class eZArticle
             if ( $user->hasRootAccess() )
                 $usePermission = false;
         }
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) ";
 
         if ( $usePermission )
-           $permissionSQL = "( ( $loggedInSQL CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
+            $permissionSQL = $loggedInSQL;
        else
            $permissionSQL = "";
 
@@ -2068,6 +2068,7 @@ class eZArticle
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
                  GROUP BY Article.ID ORDER BY $OrderBy";
+
 
         $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset )  );
 
