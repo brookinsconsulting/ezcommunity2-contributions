@@ -3672,3 +3672,12 @@ Maintainer(s) : bf@ez.no
       user/templates/standard/mailtofriend.tpl:
     fixed security bug with mailtofriend
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-06-06  Vidar Langseid  <vl@ez.no>
+
+    * user/frontpage.php:
+    Fixed bug with eZAd view count in frame.php and frontpage
+
