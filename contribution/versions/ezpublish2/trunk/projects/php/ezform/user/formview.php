@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.6 2001/12/19 13:44:58 jhe Exp $
+// $Id: formview.php,v 1.7 2001/12/19 14:13:15 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -159,8 +159,6 @@ if ( isSet( $OK ) )
         {
             eZHTTPTool::header( "Location: " . $form->completedPage() );
         }
-
-        $renderer->sendForm();
     }
     else
     {
