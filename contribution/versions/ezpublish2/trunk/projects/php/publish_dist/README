@@ -53,7 +53,6 @@ RewriteRule     !\.(gif|css|jpg|png) /home/ce/ez/projects/php/ezdeveloper/index.
 To
 RewriteRule     !\.(gif|css|jpg|png)$ /home/ce/ez/projects/php/ezdeveloper/index.php
 
-create table eZSession_Preferences( ID int primary key auto_increment, UserID int not null, Name char(50), Value char(50) );
 
 
 #
@@ -96,7 +95,7 @@ alter table eZTrade_Product add Published timestamp;
 alter table eZTrade_Product add Altered timestamp;    
 
 
-Rigths to image and file:
+# Rigths to image and file:
 insert into eZUser_Module set Name='eZFileManager';
 insert into eZUser_Module set Name='eZImageCatalogue';
 insert into eZUser_Permission set ModuleID='9', Name='WritePermission';
