@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquery.php,v 1.13 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezquery.php,v 1.14 2001/09/04 13:55:48 bf Exp $
 //
 // Definition of eZQuery class
 //
@@ -68,6 +68,8 @@ class eZQuery
         $this->SingleString = $single_string;
         $this->Literal = false;
         $this->PartialCompare = false;
+        $this->StopWordColumn = "";
+        $this->StopPercent = "0.5";
     }
 
     /*!
@@ -181,7 +183,11 @@ class eZQuery
                     if ( $j > 0 )
                         $queryItem = $item_delim . " " . $queryItem . " ";
 
-                    $subquery .= $queryItem;
+                    if ( $this->StopWordColumn != "" )                        
+                        $subquery .= "(". $queryItem . " AND $this->StopWordColumn < '$this->StopPercent' )";
+                    else
+                        $subquery .= $queryItem;
+                        
                 }
                 $query .= "( $subquery )";
 
@@ -235,10 +241,23 @@ class eZQuery
     {
         $this->PartialCompare = $partial;
     }
+
+    /*!
+      Sets the Stop Word frequency colums; E.g:
+      eZArticle_Word.Frequency
+    */
+    function setStopWordColumn( $value )
+    {
+        $this->StopWordColumn = $value;
+    }
     
     var $Fields;
     var $QueryText;
     var $IsLiteral;
     var $PartialCompare;
+    
+    var $StopWordColumn;
+    var $StopPercent;
+    
 }
 ?>
