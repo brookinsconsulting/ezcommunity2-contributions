@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.18 2002/02/26 12:13:32 ce Exp $
+// $Id: productlist.php,v 1.41.8.19 2002/02/26 13:52:05 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -74,7 +74,7 @@ if ( eZFile::file_exists( "eztrade/user/$TemplateDir/productlist" . $sectionOver
 }
 else
 {
-    $t->set_file( "product_list_page_tpl", "productview.tpl" );
+    $t->set_file( "product_list_page_tpl", "productlist.tpl" );
 }
 
 $t->set_block( "product_list_page_tpl", "price_tpl", "price" );
