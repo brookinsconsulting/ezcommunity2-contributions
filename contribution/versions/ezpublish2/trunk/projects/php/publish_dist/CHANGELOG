@@ -8,6 +8,7 @@ Changes from version 2.0 beta 3 to pre-release 1
 * Added better e-mails to forum moderators (now you'll actually get a link to the new posting:)
 * Added printable version in admin.
 * Fixed calculation of alternative currencies with 4 decimal points.
+* Fixed eZImage variation creation to avoid race conditions.
 
 Changes from version 2.0 beta 2 to version 2.0 beta 3
 -----------------------------------------------------
