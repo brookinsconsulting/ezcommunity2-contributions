@@ -38,5 +38,18 @@ CREATE TABLE eZForm_FormElementType (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZForm_FormElementFixedValues (
+  ID int NOT NULL default '0',
+  Value varchar(80) default NULL,
+  PRIMARY KEY (ID)
+);
+ 
+CREATE TABLE eZForm_FormElementFixedValueLink (
+  ID int NOT NULL default '0',
+  ElementID int default '0',
+  FixedValueID int default '0',
+  PRIMARY KEY (ID)
+);
+
 INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
 INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');

@@ -1,7 +1,3 @@
-#
-# Table structure for table 'eZForm_Form'
-#
-
 CREATE TABLE eZForm_Form (
   ID int(11) NOT NULL,
   Name varchar(255) default NULL,
@@ -15,11 +11,6 @@ CREATE TABLE eZForm_Form (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
-#
-# Table structure for table 'eZForm_FormElement'
-#
-
 CREATE TABLE eZForm_FormElement (
   ID int(11) NOT NULL,
   Name varchar(255) default NULL,
@@ -28,10 +19,6 @@ CREATE TABLE eZForm_FormElement (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-
-#
-# Table structure for table 'eZForm_FormElementDict'
-#
 
 CREATE TABLE eZForm_FormElementDict (
   ID int(11) NOT NULL,
@@ -43,10 +30,6 @@ CREATE TABLE eZForm_FormElementDict (
 ) TYPE=MyISAM;
 
 
-#
-# Table structure for table 'eZForm_FormElementType'
-#
-
 CREATE TABLE eZForm_FormElementType (
   ID int(11) NOT NULL,
   Name varchar(255) default NULL,
@@ -54,9 +37,18 @@ CREATE TABLE eZForm_FormElementType (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZForm_FormElementType'
-#
+CREATE TABLE eZForm_FormElementFixedValues (
+  ID int(11) NOT NULL default '0',
+  Value varchar(80) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+ 
+CREATE TABLE eZForm_FormElementFixedValueLink (
+  ID int(11) NOT NULL default '0',
+  ElementID int(11) default '0',
+  FixedValueID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
 INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
 INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');

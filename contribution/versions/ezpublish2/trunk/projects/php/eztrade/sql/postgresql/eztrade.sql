@@ -193,8 +193,8 @@ CREATE TABLE eZTrade_OrderItem (
 CREATE TABLE eZTrade_OrderOptionValue (
   ID int NOT NULL,
   OrderItemID int default NULL,
-  OptionName varchar(25) default NULL,
-  ValueName varchar(25) default NULL,
+  OptionName text default NULL,
+  ValueName text default NULL,
   RemoteID varchar(100) default '',
   PRIMARY KEY (ID)
 );
@@ -438,7 +438,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   ID int NOT NULL default '0',
   VoucherID int default '0',
   OnlineID int default '0',
-  AddressID int default '0',
+  ToAddressID int default '0',
   Description text,
   PreOrderID int default '0',
   Price int default '0',
@@ -446,6 +446,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   ToName varchar(80) default NULL,
   FromName varchar(80) default NULL,
   FromOnlineID int default '0',
+  FromAddressID int default '0',
   PRIMARY KEY (ID)
 );
 
