@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.31 2001/09/17 13:08:15 pkej Exp $
+// $Id: datasupplier.php,v 1.32 2001/10/04 14:31:14 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -24,9 +24,15 @@
 //
 
 
-
 $ini =& INIFile::globalINI();
-$GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
+if ( isset( $GlobalSectionIDOverride ) )
+{
+    $GlobalSectionID = $GlobalSectionIDOverride;
+}
+else
+{
+    $GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
+}
 
 switch ( $url_array[2] )
 {
