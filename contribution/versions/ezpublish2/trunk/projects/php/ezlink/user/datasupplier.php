@@ -23,7 +23,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "parent" )
         {
-            $QueryString = urlencode( $url_array[4] );
+            $QueryString = urldecode( $url_array[4] );
             $Offset = $url_array[5];
         }
         include( "ezlink/user/search.php" );

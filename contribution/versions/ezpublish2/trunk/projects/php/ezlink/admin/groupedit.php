@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.44 2001/05/08 12:48:17 ce Exp $
+// $Id: groupedit.php,v 1.45 2001/05/16 08:52:51 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -281,7 +281,6 @@ if ( $Action == "edit" )
         $t->set_var( "category_name", $linkGroup->title() );
         $t->set_var( "category_description", $linkGroup->description() );
         $t->set_var( "category_id", $linkGroup->id() );
-
 
         $image =& $linkGroup->image();
         
