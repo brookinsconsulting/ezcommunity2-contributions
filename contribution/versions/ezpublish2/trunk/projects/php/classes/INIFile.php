@@ -27,6 +27,7 @@
 //
 //    Modified by Jo Henrik Endrerud <jhe@ez.no> for eZ systems
 //    Modified by Bård Farstad <bf@ez.no>
+//    Modified by Jan Borsodi <jb@ez.no>
 
 //!! eZCommon
 //! The INIFile class provides .ini file functions.
@@ -246,16 +247,12 @@ class INIFile
     function read_var( $group, $var_name )
     {
         $group = strtolower( $group );
-        $var_value =& $this->GROUPS[$group][$var_name]; 
-        if ( !empty($var_value) )
+        if ( !isset( $this->GROUPS[$group] ) or !isset( $this->GROUPS[$group][$var_name] ) )
         {
-            return $var_value;
+            $this->Error( "$var_name does not exist in $group");
+            return false;
         }
-        else 
-        { 
-            $this->Error( "$var_name does not exist in $group"); 
-            return false; 
-        } 
+        return $this->GROUPS[$group][$var_name];
     }
 
     /*!
@@ -266,18 +263,17 @@ class INIFile
     */
     function read_array( $group, $var_name )
     {
-        $group = strtolower( $group );
-        $var_value =& $this->GROUPS[$group][$var_name]; 
-        if ( !empty($var_value) )
+        $var =& $this->read_var( $group, $var_name );
+        if ( $var )
         {
             $var_array =& explode( ";", $var_value );
             return $var_array;
         }
-        else 
-        { 
-            $this->Error( "$var_name does not exist in $group"); 
+        else
+        {
+            $this->Error( "array $var_name does not exist in $group");
             return false; 
-        } 
+        }
     }
      
     /*!
