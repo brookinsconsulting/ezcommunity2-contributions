@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.25 2001/02/26 12:55:58 pkej Exp $
+// $Id: messageedit.php,v 1.26 2001/02/26 14:43:49 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -512,9 +512,19 @@ switch( $Action )
             }
             
             $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
+            $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
+
+            if( $AllowHTML == "enabled" )
+            {
+                $msg->setTopic( stripslashes( strip_tags( $NewMessageTopic ) ) );
+                $msg->setBody( stripslashes( strip_tags( $NewMessageBody, $AllowedTags ) ) );
+            }
+            else
+            {
+                $msg->setTopic( stripslashes( $NewMessageTopic ) );
+                $msg->setBody( stripslashes( $NewMessageBody ) );
+            }
             
-            $msg->setTopic( stripslashes( strip_tags( $NewMessageTopic ) ) );
-            $msg->setBody( stripslashes( strip_tags( $NewMessageBody, $AllowedTags ) ) );
             $msg->setIsTemporary( true );
 
             $msg->store();

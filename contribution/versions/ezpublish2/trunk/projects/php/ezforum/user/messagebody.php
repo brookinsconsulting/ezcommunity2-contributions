@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagebody.php,v 1.1 2001/02/23 16:05:02 pkej Exp $
+// $Id: messagebody.php,v 1.2 2001/02/26 14:43:49 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -25,11 +25,24 @@
 
 if( $ShowMessage == true )
 {
+    include_once( "classes/eztexttool.php" );
+    $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
+    $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
+    
     $t->set_file( "body", "messagebody.tpl"  );
     
     $msg = new eZForumMessage( $MessageID );
     $MessageTopic = $msg->topic();
-    $MessageBody = $msg->body( false );
+    
+    if( $AllowHTML == "enabled" )
+    {
+        $MessageBody = $msg->body( false );
+    }
+    else
+    {
+        echo "here I am";
+        $MessageBody = eZTextTool::nl2br( $msg->body( false ) );
+    }
     $author = new eZUser ( $msg->userId() );
     $MessageNotice = $msg->emailNotice();
 
