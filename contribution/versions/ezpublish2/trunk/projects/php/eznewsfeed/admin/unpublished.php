@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.9 2001/02/01 13:03:04 th Exp $
+// $Id: unpublished.php,v 1.10 2001/02/09 14:48:43 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -35,6 +35,9 @@ if ( isset( $Publish ) )
 
 if ( isset( $Delete ) )
     $Action = "Delete";
+
+if( isset( $DeleteCat ) )
+    $Action = "DeleteCat";
 
 if ( $Action == "Publish" )
 {
@@ -88,6 +91,18 @@ if ( $Action == "Delete" )
         {
             $news = new eZNews( $newsID );
             $news->delete();
+        }
+    }
+}
+
+if( $Action == "DeleteCat" )
+{
+    if( count( $CategoryArrayID ) > 0 )
+    {
+        foreach( $CategoryArrayID as $categoryID )
+        {
+            $category = new eZNewsCategory( $categoryID );
+            $category->delete();
         }
     }
 }
@@ -165,7 +180,8 @@ foreach ( $categoryList as $categoryItem )
     }
     
     $t->set_var( "category_description", $categoryItem->description() );
-
+    $t->set_var( "category_nr", $categoryItem->ID() );
+    
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
 }

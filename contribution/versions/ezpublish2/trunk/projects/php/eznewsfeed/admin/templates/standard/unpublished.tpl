@@ -51,13 +51,13 @@
 	<a href="/newsfeed/unpublished/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
-	{category_description}&nbsp;
+	  {category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	  <a href="/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/categoryedit/delete/{category_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	  <input type="checkbox" name="CategoryArrayID[]" value="{category_nr}">
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -132,11 +132,22 @@
 
 <hr noshade="noshade" size="4" />
 
-<input type="submit" class="okbutton" name="Publish" value="{intl-publish_marked}" />
-
-<input type="submit" class="okbutton" name="Delete" value="{intl-delete_marked}" />
-
-<input type="hidden" name="CategoryID" value="{current_category_id}" />
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+  <td>
+    <input type="submit" name="Publish" value="{intl-publish_marked}" />
+  </td>
+  <td>&nbsp;</td>
+  <td>
+    <input type="submit" name="Delete" value="{intl-delete_marked}" />
+  </td>
+  <td>&nbsp;</td>
+  <td>
+    <input type="submit" name="DeleteCat" value="{intl-delete_marked_categories}" />
+  </td>
+      <input type="hidden" name="CategoryID" value="{current_category_id}" />
+</tr>
+</table>
 
 </form>
 
