@@ -19,11 +19,6 @@
 <!-- BEGIN cart_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<!-- BEGIN cart_image_tpl -->
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
-	<!-- END cart_image_tpl -->&nbsp;
-	</td>
-	<td class="{td_class}">
 	<a href="/trade/productview/{product_id}/">{product_name}</a>
 	</td>
 	<td class="{td_class}">

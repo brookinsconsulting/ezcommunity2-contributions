@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.1 2000/12/12 16:10:05 bf Exp $
+// $Id: smallcart.php,v 1.2 2000/12/12 16:15:24 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -43,7 +43,6 @@ include_once( "eztrade/classes/ezcart.php" );
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezsession/classes/ezsession.php" );
-include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 $cart = new eZCart();
 $session = new eZSession();
@@ -84,7 +83,6 @@ $t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
-$t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
 
 // fetch the cart items
@@ -100,23 +98,6 @@ foreach ( $items as $item )
     $t->set_var( "cart_item_id", $item->id() );
     
     $product = $item->product();
-    
-    $image = $product->thumbnailImage();
-
-    if  ( $image )
-    {
-        $thumbnail =& $image->requestImageVariation( 35, 35 );        
-
-        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-        $t->set_var( "product_image_width", $thumbnail->width() );
-        $t->set_var( "product_image_height", $thumbnail->height() );
-        $t->set_var( "product_image_caption", $image->caption() );
-        $t->parse( "cart_image", "cart_image_tpl" );
-    }
-    else
-    {
-        $t->set_var( "cart_image", "" );
-    }
     
     $price = $product->price() * $item->count();
     
