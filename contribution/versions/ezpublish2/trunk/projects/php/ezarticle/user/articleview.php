@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.4 2000/10/21 11:08:58 bf-cvs Exp $
+// $Id: articleview.php,v 1.5 2000/10/21 12:33:22 bf-cvs Exp $
 //
 // 
 //
@@ -73,6 +73,11 @@ else
     $t->set_var( "page_link", "" );
     
 }
+
+$locale = new eZLocale();
+$created = $article->created();
+
+$t->set_var( "article_created", $locale->format( $created ) );
 
 
 if ( $PageNumber > 1 )

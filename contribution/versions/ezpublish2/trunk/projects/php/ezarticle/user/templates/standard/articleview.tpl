@@ -1,4 +1,6 @@
-<h2>{article_name}</h2><br />
+<h2>{article_name}</h2>
+{intl-article_date}: {article_created} <br />
+
 {intl-article_author}: {author_text} <br />
 
 <p>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.8 2000/10/21 11:08:58 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.9 2000/10/21 12:33:21 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -41,6 +41,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
@@ -252,6 +253,22 @@ class eZArticle
             $this->get( $this->ID );
 
        return $this->PageCount;
+    }
+
+    /*!
+      Returns the creation time of the article.
+
+      The time is returned as a eZDateTime object.
+    */
+    function &created()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $dateTime = new eZDateTime();
+       $dateTime->setMySQLTimeStamp( $this->Created );
+       
+       return $dateTime;
     }
     
     /*!
