@@ -2394,3 +2394,11 @@ Maintainer(s) : bf@ez.no
     * classes/ezarticlecategory.php
       classes/ezqdomrenderer.php: small fixes.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-05  fh  <fh@zev.ez.no>
+
+    * user/articleview.php: Don't allow empty topics..
+

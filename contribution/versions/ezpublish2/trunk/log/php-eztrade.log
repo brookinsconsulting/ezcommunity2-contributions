@@ -2427,3 +2427,12 @@ Maintainer(s) : ce@ez.no
 
     * user/productview.php: removed debuginfo.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-12-05  Bjoern Reiten  <br@ez.no>
+
+    * user/intl/en_GB/checkout.php.ini
+      user/intl/no_NO/checkout.php.ini: added translations.
+

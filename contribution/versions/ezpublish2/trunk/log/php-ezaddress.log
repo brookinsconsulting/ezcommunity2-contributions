@@ -209,3 +209,13 @@ Maintainer(s) : ce@ez.no
 
     * admin/intl/es_MX/menubox.php.ini: es_MX update for 2.2.2
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-12-05  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezaddress.php:
+    Set that this function return true or false, since some functions require
+    that.
+

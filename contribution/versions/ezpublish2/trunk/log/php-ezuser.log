@@ -801,3 +801,12 @@ Maintainer(s) : bf@ez.no
       admin/datasupplier.php
       admin/expireduserlist.php: added expiry date for users
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-05  Bjoern Reiten  <br@ez.no>
+
+    * user/userwithaddress.php:
+    Fixed bugs with users which have more than one address.
+
