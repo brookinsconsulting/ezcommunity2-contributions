@@ -73,7 +73,7 @@
 	</select>
 	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
-	<td align="right" colspan="3">
+	<td align="right" colspan="2">
 	<span class="boxtext">{intl-shipping_charges}:</span>
 	</td>
 
@@ -83,7 +83,7 @@
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td colspan="2" align="right"><span class="boxtext">{intl-vat}:</span></td>
+	<td colspan="1" align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
@@ -92,7 +92,7 @@
 <tr>
         <!-- BEGIN voucher_item_tpl -->
 	<td>&nbsp;</td>
-	<td colspan="2" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
+	<td colspan="1" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
 	<td align="right">
 	- {voucher_price}
 	</td>
@@ -104,11 +104,8 @@
 </tr>
 <!-- END vouchers_tpl --> 
 <tr>
-	<td>&nbsp;</td>
 	<td colspan="{cart_colspan}" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
-	<td align="right">
-	{cart_sum}
-	</td>
+	<td align="right">{cart_sum}</td>
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->

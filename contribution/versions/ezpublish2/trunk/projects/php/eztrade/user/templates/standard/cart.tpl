@@ -17,7 +17,6 @@
 	<th>{intl-product_availability}:</th>
 	<!-- END product_available_header_tpl -->
 	<th>{intl-product_qty}:</th>
-
 	<th class="right">{intl-product_price}:</th>
 	<th class="right">&nbsp;</th>
 </tr>
@@ -44,7 +43,7 @@
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
-	<td class="{td_class}" align="right">
+	<td class="{td_class}" align="right" width="1%">
 	<a href="{www_dir}{index}/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
@@ -55,28 +54,25 @@
 	<td colspan="4" class="{td_class}"><div class="small"><b>{intl-option_value}:</b></div></td>
 </tr>
 <tr>
-	<td class="{td_class}">
+	<td class="{td_class}">&nbsp;</td>
 
 	<td class="{td_class}"><div class="small">{option_name}</div></td> 
-        <td class="{td_class}"><div class="small">{option_value}
+    <td class="{td_class}">
+		<div class="small">{option_value}
         <!-- BEGIN cart_item_option_availability_tpl -->
         ({option_availability})
-        <!-- END cart_item_option_availability_tpl --></div></td>
-	<td class="{td_class}"><input size="3" type="text" name="ValueCountArray[]" value="{value_item_count}" /></td>
-	<td class="{td_class}"><input type="hidden" name="ValueIDArray[]" value="{value_item_id}" /></td>
-	<td class="{td_class}" >
-	<div class="small">{option_price}<div class="small">
+        <!-- END cart_item_option_availability_tpl -->
+		</div>
 	</td>
-	<td class="{td_class}" >
-	<a href="{www_dir}{index}/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a>
-	</td>
-	&nbsp;</td>
+	<td class="{td_class}"><input size="3" type="text" name="ValueCountArray[]" value="{value_item_count}" /><input type="hidden" name="ValueIDArray[]" value="{value_item_id}" /></td>
+	<td class="{td_class}"><div class="small">{option_price}<div class="small"></td>
+	<td class="{td_class}" align="right" width="1%"><a href="{www_dir}{index}/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade-op{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade-op{cart_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 
 </tr>
 <!-- END cart_item_option_tpl -->
 <!-- END cart_item_tpl -->
 <tr>
-        <td>&nbsp;</td>
+        <td colspan="6">&nbsp;</td>
 </tr>
 <tr>
 	<td colspan="3">&nbsp;</td>
