@@ -80,7 +80,7 @@
 	</td>
 
 	<td>
-	<form method="post" action="{item_abort_command}/">
+	<form method="post" action="{item_back_command}/">
 	    <input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>
