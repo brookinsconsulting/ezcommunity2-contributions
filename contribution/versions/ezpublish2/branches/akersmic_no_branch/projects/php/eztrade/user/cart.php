@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.8.5 2002/01/28 13:39:14 bf Exp $
+// $Id: cart.php,v 1.71.8.6 2002/01/30 16:25:00 bf Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -48,9 +48,17 @@ $ShowIncTaxColumn = $ini->read_var( "eZTradeMain", "ShowIncTaxColumn" ) == "enab
 $ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled" ? true : false;
 $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 
+
+if ( !isset( $RefererURL ) )
+     $RefererURL = $GLOBALS["HTTP_REFERER"];
+
 if ( isset( $ShopMore ) ) 
 {
-    eZHTTPTool::header( "Location: /" );
+    if ( $RefererURL != "" )
+        eZHTTPTool::header( "Location: $RefererURL" );
+    else
+        eZHTTPTool::header( "Location: /" );
+        
     exit();
 }
 
@@ -74,7 +82,7 @@ if ( isset( $DeleteSelected ) )
         $cartItem->delete();
     }
     
-    eZHTTPTool::header( "Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/?RefererURL=" . urlencode( $RefererURL ) ."" );
     exit();
 }
 
@@ -324,7 +332,7 @@ if ( $Action == "AddToBasket" )
             }
         }
     }
-    eZHTTPTool::header( "Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/?RefererURL=" . urlencode( $RefererURL ) ."" );
     exit();
 }
 
@@ -599,6 +607,8 @@ else
     $t->set_var( "tax_specification", "" );
     $t->set_var( "tax_item", "" );
 }
+
+$t->set_var( "referer_url", $RefererURL );
 
 $t->pparse( "output", "cart_page_tpl" );
 
