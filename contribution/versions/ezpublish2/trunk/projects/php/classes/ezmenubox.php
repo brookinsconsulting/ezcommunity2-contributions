@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.9 2001/01/25 00:12:57 jb Exp $
+// $Id: ezmenubox.php,v 1.10 2001/01/25 16:53:39 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -57,7 +57,9 @@ class eZMenuBox
       $print print the box if true else return the box as text.
     */
 
-    function createBox( $ModuleName, $module_dir, $place, $SiteStyle, &$menuItems, $print = true, $templatefile = false )
+    function createBox( $ModuleName, $module_dir, $place, $SiteStyle,
+                        &$menuItems, $print = true, $templatefile = false,
+                        $phpfile = false )
     {
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
@@ -80,9 +82,15 @@ class eZMenuBox
         $down_uri =& eZHTTPTool::addVariable( $down_uri, "MoveDown", $module_dir );
         $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
 
+        $modified = false;
+        if ( $phpfile )
+        {
+            $modified = filemtime( $phpfile );
+        }
+
         $t = new eZTemplate( "templates/" . $SiteStyle,
                              $module_dir . "/$place/intl", $Language, "menubox.php",
-                             $SiteStyle, $module_dir . "/$place", $menuStatus );
+                             $SiteStyle, $module_dir . "/$place", $menuStatus, $modified );
 
         if ( $menuStatus == "open" )
         {
