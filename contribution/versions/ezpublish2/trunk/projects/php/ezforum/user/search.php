@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.13 2001/09/10 06:37:15 jhe Exp $
+// $Id: search.php,v 1.14 2001/09/20 12:14:27 jhe Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -38,7 +38,6 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $Limit = $ini->read_var( "eZForumMain", "SearchUserLimit" );
 
-
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "search.php" );
 
@@ -47,7 +46,6 @@ $t->setAllStrings();
 $t->set_file( "search_tpl", "search.tpl" );
 
 $t->set_block( "search_tpl", "message_tpl", "message" );
-
 $t->set_block( "search_tpl", "empty_result_tpl", "empty_result" );
 $t->set_block( "search_tpl", "search_result_tpl", "search_result" );
 
@@ -60,16 +58,17 @@ if ( !isSet ( $Offset ) )
 $t->set_var( "url_text", "" );
 $t->set_var( "search_result", "" );
 
+$db =& eZDB::globalDatabase();
+
 if ( $QueryString != "" )
 {
     $t->set_var( "url_text", $QueryString );
-
+    
     $forum = new eZForum();
     
     // do a search in all forums
     $messages = $forum->search( $QueryString, $Offset, $Limit );
     $total_count = $forum->getQueryCount( $QueryString );
-
     $locale = new eZLocale( $Language );
 
     $level = 0;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.13 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messagesimplelist.php,v 1.14 2001/09/20 12:14:27 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -88,7 +88,7 @@ else
         else
             $t->set_var( "spacer", "" );        
             
-        $t->set_var( "topic", $message->topic() );
+        $t->set_var( "topic", htmlspecialchars( $message->topic() ) );
         $t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
         $time =& $message->postingTime();
         $t->set_var( "postingtime", $locale->format( $time ) );

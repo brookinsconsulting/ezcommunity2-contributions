@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.42 2001/09/17 13:13:32 jhe Exp $
+// $Id: messagelist.php,v 1.43 2001/09/20 12:14:27 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -215,7 +215,7 @@ else
         else
             $t->set_var( "td_class", "bgdark" );
         
-        $t->set_var( "topic", $message[$db->fieldName( "Topic" )] );
+        $t->set_var( "topic", htmlspecialchars( $message[$db->fieldName( "Topic" )] ) );
 
         $time->setTimeStamp( $message[$db->fieldName( "PostingTime" )] );
         $t->set_var( "postingtime", $locale->format( $time  ) );

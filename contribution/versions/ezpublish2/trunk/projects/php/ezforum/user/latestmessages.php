@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: latestmessages.php,v 1.7 2001/08/30 08:34:09 jhe Exp $
+// $Id: latestmessages.php,v 1.8 2001/09/20 12:14:27 jhe Exp $
 //
 // Created on: <02-Jul-2001 11:45:17 bf>
 //
@@ -61,7 +61,7 @@ foreach ( $messages as $message )
     $t->set_var( "forum_id", $message[$db->fieldName( "ForumID" )] );
 
     $t->set_var( "message_id", $message[$db->fieldName( "ID" )] );
-    $t->set_var( "message_topic", $message[$db->fieldName( "Topic" )] );
+    $t->set_var( "message_topic", htmlspecialchars( $message[$db->fieldName( "Topic" )] ) );
 
     $t->parse( "message", "message_tpl", true );
     $i++;

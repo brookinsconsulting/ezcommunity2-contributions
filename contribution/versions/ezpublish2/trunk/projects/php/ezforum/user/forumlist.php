@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forumlist.php,v 1.14 2001/08/17 13:35:59 jhe Exp $
+// $Id: forumlist.php,v 1.15 2001/09/20 12:14:27 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -66,15 +66,15 @@ if ( !$forumList )
 
 $i=0;
 $j=0; // The number of viewable forums for this session.
-foreach( $forumList as $forum )
+foreach ( $forumList as $forum )
 {
     $t->set_var( "forum_id", $forum->id() );
 
     $t->set_var( "name", $forum->name() );    
     $t->set_var( "description", $forum->description() );
 
-    $t->set_var( "threads", $forum->threadCount() );
-    $t->set_var( "messages", $forum->messageCount() );    
+    $t->set_var( "threads", $forum->messageCount( false, false ) );
+    $t->set_var( "messages", $forum->messageCount( false, true ) );    
     
 
     if ( ( $i %2 ) == 0 )
