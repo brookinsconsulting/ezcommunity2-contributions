@@ -5,7 +5,7 @@ CREATE TABLE eZMediaCatalogue_Attribute (
   Created int default NULL,
   Placement int default '0',
   Unit varchar(8) default NULL,
-  DefaultValue varchar(50) default NULL,
+  DefaultValue varchar(100) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -20,7 +20,7 @@ INSERT INTO eZMediaCatalogue_Attribute VALUES (8,2,'controller',996137641,7,'','
 INSERT INTO eZMediaCatalogue_Attribute VALUES (9,2,'loop',996137662,8,'','false');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (10,2,'autoplay',996137674,9,'','true');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (11,3,'quality',996137872,10,'','high');
-INSERT INTO eZMediaCatalogue_Attribute VALUES (12,3,'pluginspage',996137887,11,'','http://www.macromedia.com/shockwave/download/index');
+INSERT INTO eZMediaCatalogue_Attribute VALUES (12,3,'pluginspage',996137887,11,'','http://www.macromedia.com/shockwave/download/index.cgi?P1_=Prod_Version=3DShockwaveFlash"');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (13,3,'type',996137896,12,'','application/x-shockwave-flash');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (14,3,'width',996137906,13,'','');
 INSERT INTO eZMediaCatalogue_Attribute VALUES (15,3,'height',996137917,14,'','');
