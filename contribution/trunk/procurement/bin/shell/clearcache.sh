@@ -1,7 +1,9 @@
+
 #!/bin/sh
-echo "Clearing the cache."
+echo "Clearing the cache . . ."
 
 clear_dirs="
+ezcontact
 ezrfp
 ezaddress
 ezarticle
