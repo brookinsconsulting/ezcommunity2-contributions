@@ -1319,3 +1319,45 @@ Maintainer(s) : bf@ez.no
     * admin/Attic/extsearch.php
       admin/intl/en_GB/Attic/extsearch.php.ini: New file.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-05-08  Vidar Langseid  <vl@ez.no>
+
+    * user/addressedit.php
+      user/login.php
+      user/norights.php
+      user/userbox.php
+      user/useredit.php
+      user/userwithaddress.php:
+    Fixed cross site bugs caused by the ?RedirectURL feature
+
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-05-15  Baard Farstad  <bf@ez.no>
+
+    * admin/groupedit.php
+      classes/ezmodule.php:
+    Group edit now only shows permissions from enabled modules.
+
+2002-05-15  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/Attic/tac.php
+      user/intl/en_GB/Attic/tac.php.ini
+      user/intl/en_GB/Attic/tac_no_text.tpl
+      user/intl/en_GB/Attic/tac_text.tpl
+      user/templates/standard/Attic/tac.tpl:
+    Adding first (final?) verions of the terms of service click through.
+
+    * user/Attic/tac.php
+      user/intl/en_GB/Attic/tac.php.ini
+      user/intl/en_GB/Attic/tac_no_text.tpl
+      user/intl/en_GB/Attic/tac_text.tpl
+      user/templates/standard/Attic/tac.tpl: New file.
+
+    * user/datasupplier.php:
+    Adding first (final?) verions of the terms of service click through.
+

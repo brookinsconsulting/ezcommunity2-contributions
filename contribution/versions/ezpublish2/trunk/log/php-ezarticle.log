@@ -3324,3 +3324,22 @@ Maintainer(s) : bf@ez.no
 
     * admin/articleedit.php: removed debug.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-15  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * sql/postgresql/ezarticle.sql
+      admin/articleedit.php
+      admin/articlelist.php
+      admin/categoryedit.php
+      admin/intl/en_GB/articleedit.php.ini
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/templates/standard/articleedit.tpl
+      admin/templates/standard/categoryedit.tpl
+      classes/ezarticle.php
+      classes/ezarticlecategory.php:
+    Added ranking to categories, added extra category and categories to category
+    objects.
+
