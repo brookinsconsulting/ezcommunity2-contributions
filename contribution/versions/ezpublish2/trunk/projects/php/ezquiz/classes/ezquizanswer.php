@@ -1,13 +1,14 @@
 <?php
 // 
-// $Id: ezquizanswer.php,v 1.5 2001/07/17 06:09:38 jhe Exp $
+// $Id: ezquizanswer.php,v 1.6 2001/07/20 11:24:09 jakobn Exp $
 //
 // eZQuizAnswer class
 //
 // Created on: <29-May-2001 14:01:35 pkej>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

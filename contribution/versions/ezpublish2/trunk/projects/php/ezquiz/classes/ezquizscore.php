@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezquizscore.php,v 1.7 2001/06/29 18:23:55 bf Exp $
+// $Id: ezquizscore.php,v 1.8 2001/07/20 11:24:09 jakobn Exp $
 //
 // eZQuizScore class
 //
-// Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <29-May-2001 14:01:35 pkej>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
