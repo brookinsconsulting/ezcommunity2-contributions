@@ -5,7 +5,7 @@
 	<h1>{intl-head_line}</h1>
 	</td>
 	<td align="right">
-	<form action="{www_dir}{index}/article/search/" method="post">
+	<form action="{www_dir}{index}/article/search/" method="get">
 	<input class="searchbox" type="text" name="SearchText" value="{search_text}" size="10" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
