@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.69 2001/10/16 16:17:26 ce Exp $
+// $Id: productedit.php,v 1.69.2.1 2001/11/19 10:10:58 bf Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -31,6 +31,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "eztrade/classes/ezproductpermission.php" );
 include_once( "eztrade/classes/ezproductpricerange.php" );
+
+include_once( "ezxml/classes/ezxml.php" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
@@ -139,7 +141,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
     $generator = new eZArticleGenerator();
     $contents =& $generator->generateXML( $Contents );
 
-    if ( xmltree( $contents ) )
+    if ( eZXML::domTree( $contents ) )
     {
         $product->setContents( $contents );
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116 2001/09/15 13:20:26 bf Exp $
+// $Id: articleedit.php,v 1.116.2.1 2001/11/19 10:10:58 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -43,6 +43,8 @@ include_once( "ezbulkmail/classes/ezbulkmail.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 include_once( "ezarticle/classes/ezarticletool.php" );
+
+include_once( "ezxml/classes/ezxml.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -138,7 +140,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             $article->setDiscuss( false );
 
         // check if the contents is parseable
-        if ( xmltree( $contents ) )
+        if ( eZXML::domTree( $contents ) )
         {
         
             // to get ID
