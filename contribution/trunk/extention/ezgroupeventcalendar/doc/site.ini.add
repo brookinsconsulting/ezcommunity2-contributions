@@ -5,11 +5,12 @@ AdminTemplateDir=templates/standard/
 TemplateDir=templates/standard/
 ImageDir=/images/standard/
 Language=en_GB
-DayStartTime=08:00
-DayStopTime=20:00
-DayInterval=00:30
+DayStartTime=00:00
+DayStopTime=24:00
+DayInterval=60:00
 YearsPrint=19
 Priority=1
+Status=0
 SubGroupSelect=disabled
 TwelveHourSelect=enabled
 MinutesSelectInterval=15
@@ -23,7 +24,9 @@ TruncateTitle=enabled
 # YearsPrint:             The number of years in advance you would like displayed in the 
 #                         eventedit year select.
 #
-# Priority:               The default priorty selected when a new event is created( 0, 1, or 2).
+# Priority:               The default priority selected when a new event is created( 0, 1, 2, 3, or 4).
+#
+# Status:                 The default status selected when a new event is created( 0, 1, or 2).
 #
 # SubGroupSelect:         Leave this option disabled.  This function will not work with standard versions
 #                         of eZPublish.  This is a special function programed for the Mobius Consortium Office
