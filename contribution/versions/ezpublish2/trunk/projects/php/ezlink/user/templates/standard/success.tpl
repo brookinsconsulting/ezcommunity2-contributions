@@ -3,4 +3,4 @@
 {intl-text}
 </p>
 <a href=/link/suggestlink/>{intl-new}</a><br /><br />
-<a href=/link/>{intl-back}</a>
+<a href=/group/>{intl-back}</a>
