@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.52 2001/09/17 10:26:54 jhe Exp $
+// $Id: appointmentedit.php,v 1.53 2001/09/17 13:58:07 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -414,7 +414,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         $userID = $user->ID();
         $t->set_var( "name_value", $appointment->name() );
         $t->set_var( "description_value", $appointment->description() );
-        
+
         if ( $appointment->isPrivate() )
             $t->set_var( "is_private", "checked" );
         else
@@ -470,7 +470,6 @@ if ( $Action == "Edit" )
     $t->set_var( "start_value", $Start );
     $t->set_var( "stop_value", $Stop );
     $t->set_var( "all_day_selected", $AllDay == "on" ? "selected" : "" );
-
     $typeID = $TypeID;
 
     $t->set_var( "0_selected", "" );
@@ -617,11 +616,8 @@ if ( $Action == "New" )
     {
         $t->set_var( "name_value", $Name );
         $t->set_var( "description_value", $Description );
-        if ( $IsPrivate == "on" )
-            $t->set_var( "is_private", "checked" );
-        else
-            $t->set_var( "is_private", "" );
-        $t->set_var( "all_day_selected", $AllDay == "on" ? "selected" : "" );
+        $t->set_var( "is_private", $IsPrivate == "on" ? "checked" : "" );
+        $t->set_var( "all_day_selected", $AllDay == "on" ? "checked" : "" );
         $t->set_var( "start_value", $Start );
         $t->set_var( "stop_value", $Stop );
 
