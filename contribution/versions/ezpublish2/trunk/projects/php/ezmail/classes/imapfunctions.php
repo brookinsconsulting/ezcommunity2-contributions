@@ -16,13 +16,21 @@ include_once( "ezmail/classes/ezmailfunctions.php" );
    ->Level
   TODO:
   Don't know if this is working correctly yet as I can't create subfolders on the test account.
+  Returns false if the function did not succeed.
  */
+/*
 function imapGetFolderTree( $account )
 {
+    echo "Was here";
     if( get_class( $account ) != "ezmailaccount" )
         $account = new eZMailAccount( $account );
 
     $mbox = imapConnect( $account );
+    if( !$mbox ) // connection to server failed.
+    {
+        return false;
+    }
+        
     $server = $account->server();
     $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
 //    echo "<pre>"; print_r( $mailBoxes ); echo "</pre>";
@@ -47,6 +55,7 @@ function imapGetFolderTree( $account )
     imapDisconnect( $mbox );
     return $resultArray;
 }
+*/
 
 /*!
   Fetches all mail headers for an imap mailbox.
@@ -56,11 +65,16 @@ function imapGetFolderTree( $account )
   - fetch email address correctly. (not just name)
   - fetch email date.
   - offset, range
+  Returns false if the function did not succeed.
  */
 function imapGetMailList( $account )
 {
     $mbox = imapConnect( $account );
-
+    if( !$mbox )
+    {
+        return false;
+    }
+    
     $MC = imap_check($mbox); 
     $MN = $MC->Nmsgs; 
     $overview = imap_fetch_overview( $mbox, "1:$MN", 0 );
@@ -139,11 +153,13 @@ function imapFetchAttachment()
 
 function createServerString( $server, $port, $mailbox )
 {
-//    echo "{" . "$server:$port" . "}";
     return "{" . "$server:$port" . "}$mailbox";
 }
 
 // why on earth does this fail from time to time?!?
+/*!
+  Connects to an IMAP server. Returns false in case of an error.
+ */
 function imapConnect( $account, $mailbox = "INBOX" )
 {
     if( get_class( $account ) != "ezmailaccount" )
@@ -156,8 +172,14 @@ function imapConnect( $account, $mailbox = "INBOX" )
     $port = $account->serverPort();
 
     $serverString = createServerString( $server, $port, $mailbox );
-    $mbox = imap_open( $serverString, $userName, $password )
-         or die( "imap_open failed: " . imap_last_error() . "\n" );
+    $mbox = @imap_open( $serverString, $userName, $password );
+//    if( $mbox == false )
+//    {
+        
+        //
+        //$mbox
+        // or die( "imap_open failed: " . imap_last_error() . "\n" );
+//    }
 
     return $mbox;
 }

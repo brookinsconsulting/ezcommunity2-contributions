@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.13 2001/12/19 15:30:11 fh Exp $
+// $Id: menubox.php,v 1.14 2002/04/04 19:36:06 fh Exp $
 //
 // Created on: <23-Mar-2001 10:57:04 fh>
 //
@@ -113,25 +113,33 @@ if( $user )
         include_once( "ezmail/classes/ezimapmailfolder.php" );
         foreach( $imapAccounts as $imapAccount )
         {
-            $t->set_var( "account_name", $imapAccount->name() );
-
-            // fetch folders of imap account
-            $t->set_var( "imap_folder", "" ); // default to none.
-            $boxes = eZIMAPMailFolder::getImapTree( $imapAccount );
-            if( count( $boxes ) > 0 )
+            if( $imapAccount->isActive() ) // only display active accounts.
             {
-                foreach( $boxes as $mailBox ) // show each mailbox for this account
+                $t->set_var( "account_name", $imapAccount->name() );
+
+                // fetch folders of imap account
+                $t->set_var( "imap_folder", "" ); // default to none.
+                $boxes = eZIMAPMailFolder::getImapTree( $imapAccount );
+                if( $boxes == false )
                 {
-                    $t->set_var( "folder_name", $mailBox->Name );
-                    $t->set_var( "folder_id",
-                                 eZIMAPMailFolder::encodeFolderID( $imapAccount->id(), $mailBox->Name ) );
-
-                    $t->set_var( "indent", "" );
-                    $t->parse( "imap_folder", "imap_folder_tpl", true );
+                    // TODO: ERROR HANDLING REDIRECT!
+                    echo "There occured an error while trying to access your IMAP mail box. Please try again later.";
                 }
-            }
+                else if( count( $boxes ) > 0 )
+                {
+                    foreach( $boxes as $mailBox ) // show each mailbox for this account
+                    {
+                        $t->set_var( "folder_name", $mailBox->Name );
+                        $t->set_var( "folder_id",
+                                     eZIMAPMailFolder::encodeFolderID( $imapAccount->id(), $mailBox->Name ) );
 
-            $t->parse( "imap_account", "imap_account_tpl", true );
+                        $t->set_var( "indent", "" );
+                        $t->parse( "imap_folder", "imap_folder_tpl", true );
+                    }
+                }
+
+                $t->parse( "imap_account", "imap_account_tpl", true );
+            }
         }
     }
 

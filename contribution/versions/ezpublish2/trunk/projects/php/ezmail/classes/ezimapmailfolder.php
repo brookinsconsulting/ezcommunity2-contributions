@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.7 2002/02/07 17:13:13 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.8 2002/04/04 19:36:06 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -389,16 +389,21 @@ class eZIMAPMailFolder
     
     /*!
       Imap spesific. Returns all folders in this account.
-      TODO: caching.
+      Returns false if the function did not succeed.
      */
     function &getImapTree( $account )
     {
         $mbox = imapConnect( $account );
+        $resultArray = array();
+        if( !$mbox )
+        {
+            return false;
+        }
+            
         $server = $account->server();
         $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
 //    echo "<pre>"; print_r( $mailBoxes ); echo "</pre>";
         
-        $resultArray = array();
         if( $mailBoxes  )
         {
             $i = 0;
@@ -415,7 +420,8 @@ class eZIMAPMailFolder
         }
         else
         {
-            echo "imap_getmailboxes failed: ".imap_last_error()."\n";
+//            echo "imap_getmailboxes failed: ".imap_last_error()."\n";
+            return $resultArray = false;;
         }
 
         imapDisconnect( $mbox );
