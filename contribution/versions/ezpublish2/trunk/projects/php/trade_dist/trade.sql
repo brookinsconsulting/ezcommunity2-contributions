@@ -120,7 +120,6 @@ CREATE TABLE eZContact_Address (
 # Dumping data for table 'eZContact_Address'
 #
 
-INSERT INTO eZContact_Address VALUES (1,'Rødsåsen 39','',0,'Porsgrunn','3928',4);
 
 #
 # Table structure for table 'eZContact_AddressType'
