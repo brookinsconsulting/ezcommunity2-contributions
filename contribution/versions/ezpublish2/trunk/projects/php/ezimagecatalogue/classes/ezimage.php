@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.82 2001/09/13 12:46:57 ce Exp $
+// $Id: ezimage.php,v 1.83 2001/09/13 12:47:42 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -1382,7 +1382,7 @@ class eZImage
         $res = array();
 
         if ( is_numeric ( $categoryID ) )
-            $db->query_single( $res, "SELECT ImageID as ID, ((ImageID*0)+RAND()) AS Random FROM eZImageCatalogue_ImageCategoryLink ORDER BY Random LIMIT 1" );
+            $db->query_single( $res, "SELECT ImageID as ID, ((ImageID*0)+RAND()) AS Random FROM eZImageCatalogue_ImageCategoryLink WHERE CategoryID='$categoryID' ORDER BY Random LIMIT 1" );
         else
             $db->query_single( $res, "SELECT ID, ((ID*0)+RAND()) AS Random FROM eZImageCatalogue_Image ORDER BY Random LIMIT 1" );
             
