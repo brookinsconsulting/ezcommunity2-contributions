@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: appointmentview.php,v 1.5 2001/01/21 18:47:33 gl Exp $
+// $Id: appointmentview.php,v 1.6 2001/01/22 14:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

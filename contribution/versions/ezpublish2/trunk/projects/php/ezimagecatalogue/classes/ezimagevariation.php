@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.9 2001/01/10 21:32:37 ce Exp $
+// $Id: ezimagevariation.php,v 1.10 2001/01/22 14:43:01 jb Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -8,7 +8,7 @@
 // Created on: <21-Sep-2000 17:28:57 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

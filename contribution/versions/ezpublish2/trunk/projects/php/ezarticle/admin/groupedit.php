@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: groupedit.php,v 1.13 2001/01/21 16:45:14 bf Exp $
+// $Id: groupedit.php,v 1.14 2001/01/22 14:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

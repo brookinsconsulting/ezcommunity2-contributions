@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.27 2001/01/19 16:00:02 ce Exp $
+// $Id: ezaddress.php,v 1.28 2001/01/22 14:43:00 jb Exp $
 //
 // Definition of eZAddress class
 //
@@ -8,7 +8,7 @@
 // Created on: <07-Oct-2000 12:34:13 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

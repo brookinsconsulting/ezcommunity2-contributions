@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: imageedit.php,v 1.10 2000/11/01 09:30:57 ce-cvs Exp $
+// $Id: imageedit.php,v 1.11 2001/01/22 14:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.29 2001/01/06 16:21:00 bf Exp $
+// $Id: ezarticle.php,v 1.30 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -8,7 +8,7 @@
 // Created on: <18-Oct-2000 13:50:24 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

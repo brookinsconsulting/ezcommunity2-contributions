@@ -1,13 +1,13 @@
 <?
 // 
-// $Id: eztime.php,v 1.5 2001/01/12 14:25:36 gl Exp $
+// $Id: eztime.php,v 1.6 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZCompany class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Sep-2000 13:54:17 bf>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.

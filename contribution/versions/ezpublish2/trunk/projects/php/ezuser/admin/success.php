@@ -1,13 +1,13 @@
 <?
 // 
-// $Id: success.php,v 1.2 2000/12/19 13:52:05 ce Exp $
+// $Id: success.php,v 1.3 2001/01/22 14:43:02 jb Exp $
 //
 // Definition of eZUser class
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.

@@ -1,13 +1,13 @@
 <?
 // 
-// $Id: ezquery.php,v 1.6 2000/10/13 09:41:33 bf-cvs Exp $
+// $Id: ezquery.php,v 1.7 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZQuery class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.6 2001/01/18 09:42:42 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.7 2001/01/22 14:43:00 jb Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -8,7 +8,7 @@
 // Created on: <11-Dec-2000 15:24:35 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

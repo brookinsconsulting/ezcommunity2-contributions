@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.7 2001/01/18 18:52:43 bf Exp $
+// $Id: ezpageviewquery.php,v 1.8 2001/01/22 14:43:01 jb Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -8,7 +8,7 @@
 // Created on: <04-Jan-2001 18:00:08 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

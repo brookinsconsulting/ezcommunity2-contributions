@@ -1,11 +1,11 @@
 <?
-//  $Id: gotolink.php,v 1.8 2000/12/19 13:52:05 ce Exp $
+//  $Id: gotolink.php,v 1.9 2001/01/22 14:43:01 jb Exp $
 //
 //  Christoffer A. Elo <ce@ez.no>
 //  Created on: <26-Oct-2000 15:02:25 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

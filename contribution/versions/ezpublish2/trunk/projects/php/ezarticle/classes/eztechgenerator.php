@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.29 2001/01/19 20:27:44 bf Exp $
+// $Id: eztechgenerator.php,v 1.30 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -8,7 +8,7 @@
 // Created on: <18-Oct-2000 15:55:16 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

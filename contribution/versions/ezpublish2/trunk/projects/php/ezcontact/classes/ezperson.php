@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.39 2001/01/21 21:02:21 jb Exp $
+// $Id: ezperson.php,v 1.40 2001/01/22 14:43:00 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -8,7 +8,7 @@
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

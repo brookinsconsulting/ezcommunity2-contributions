@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.5 2001/01/06 16:21:01 bf Exp $
+// $Id: ezpermission.php,v 1.6 2001/01/22 14:43:02 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -8,7 +8,7 @@
 // Created on: <27-Sep-2000 08:05:56 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

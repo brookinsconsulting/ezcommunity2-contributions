@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadclick.php,v 1.1 2000/11/25 15:57:33 bf-cvs Exp $
+// $Id: ezadclick.php,v 1.2 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZAdClick class
 //
@@ -8,7 +8,7 @@
 // Created on: <25-Nov-2000 16:30:05 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

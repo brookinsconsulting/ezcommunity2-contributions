@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.7 2001/01/22 14:18:52 jb Exp $
+// $Id: sessioninfo.php,v 1.8 2001/01/22 14:43:02 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

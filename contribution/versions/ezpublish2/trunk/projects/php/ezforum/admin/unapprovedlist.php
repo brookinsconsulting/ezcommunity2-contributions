@@ -1,11 +1,11 @@
 <?
-// $Id: unapprovedlist.php,v 1.1 2001/01/21 14:13:25 bf Exp $
+// $Id: unapprovedlist.php,v 1.2 2001/01/22 14:43:00 jb Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

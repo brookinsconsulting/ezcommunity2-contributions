@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointmenttype.php,v 1.1 2001/01/09 17:00:07 bf Exp $
+// $Id: ezappointmenttype.php,v 1.2 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -8,7 +8,7 @@
 // Created on: <08-Jan-2001 09:47:13 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

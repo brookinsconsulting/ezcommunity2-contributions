@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2000/10/29 19:21:19 bf-cvs Exp $
+// $Id: menubox.php,v 1.5 2001/01/22 14:42:59 jb Exp $
 //
 // 
 //
@@ -8,7 +8,7 @@
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.25 2001/01/10 21:32:37 ce Exp $
+// $Id: ezimage.php,v 1.26 2001/01/22 14:43:00 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -8,7 +8,7 @@
 // Created on: <21-Sep-2000 11:22:21 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

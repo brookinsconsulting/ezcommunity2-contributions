@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: imageedit.php,v 1.4 2001/01/16 16:19:52 ce Exp $
+// $Id: imageedit.php,v 1.5 2001/01/22 14:43:01 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

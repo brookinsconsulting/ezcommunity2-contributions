@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.11 2001/01/20 23:29:27 jb Exp $
+// $Id: ezmail.php,v 1.12 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -8,7 +8,7 @@
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

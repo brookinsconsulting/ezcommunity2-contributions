@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.55 2001/01/22 14:15:12 jb Exp $
+// $Id: ezcompany.php,v 1.56 2001/01/22 14:43:00 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -8,7 +8,7 @@
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

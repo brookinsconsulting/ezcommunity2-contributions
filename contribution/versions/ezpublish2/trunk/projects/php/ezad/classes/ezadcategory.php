@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.7 2001/01/22 13:41:11 bf Exp $
+// $Id: ezadcategory.php,v 1.8 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -8,7 +8,7 @@
 // Created on: <22-Nov-2000 20:32:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

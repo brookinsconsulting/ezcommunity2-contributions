@@ -1,13 +1,13 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.5 2001/01/11 11:29:21 ce Exp $
+// $Id: ezimagefile.php,v 1.6 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZCompany class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 11:22:21 bf>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.23 2001/01/22 14:18:52 jb Exp $
+// $Id: ezsession.php,v 1.24 2001/01/22 14:43:01 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -8,7 +8,7 @@
 // Created on: <25-Sep-2000 15:21:18 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

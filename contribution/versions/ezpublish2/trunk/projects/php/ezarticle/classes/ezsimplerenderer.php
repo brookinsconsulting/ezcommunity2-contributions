@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsimplerenderer.php,v 1.2 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: ezsimplerenderer.php,v 1.3 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZSimpleRenderer class
 //
@@ -8,7 +8,7 @@
 // Created on: <18-Oct-2000 17:45:32 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

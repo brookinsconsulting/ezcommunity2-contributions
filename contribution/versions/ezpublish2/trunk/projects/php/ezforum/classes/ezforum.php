@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: ezforum.php,v 1.11 2001/01/21 14:12:28 bf Exp $
+// $Id: ezforum.php,v 1.12 2001/01/22 14:43:00 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

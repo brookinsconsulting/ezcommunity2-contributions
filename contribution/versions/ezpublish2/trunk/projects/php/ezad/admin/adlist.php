@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: adlist.php,v 1.4 2001/01/02 18:10:22 ce Exp $
+// $Id: adlist.php,v 1.5 2001/01/22 14:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

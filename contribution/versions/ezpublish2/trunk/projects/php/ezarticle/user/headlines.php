@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: headlines.php,v 1.2 2000/12/02 15:28:34 bf-cvs Exp $
+// $Id: headlines.php,v 1.3 2001/01/22 14:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.6 2001/01/15 10:39:41 ce Exp $
+// $Id: messagesimpleedit.php,v 1.7 2001/01/22 14:43:00 jb Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

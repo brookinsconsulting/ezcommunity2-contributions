@@ -1,13 +1,13 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.23 2001/01/19 15:49:37 ce Exp $
+// $Id: userwithaddress.php,v 1.24 2001/01/22 14:43:02 jb Exp $
 //
 // 
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

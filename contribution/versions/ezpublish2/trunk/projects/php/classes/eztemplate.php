@@ -1,13 +1,13 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.14 2001/01/12 16:07:23 bf Exp $
+// $Id: eztemplate.php,v 1.15 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZTemplate class
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.

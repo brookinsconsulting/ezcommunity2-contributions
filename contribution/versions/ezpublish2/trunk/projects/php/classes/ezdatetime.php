@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.19 2001/01/19 10:40:03 gl Exp $
+// $Id: ezdatetime.php,v 1.20 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -8,7 +8,7 @@
 // Created on: <07-Sep-2000 15:20:51 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

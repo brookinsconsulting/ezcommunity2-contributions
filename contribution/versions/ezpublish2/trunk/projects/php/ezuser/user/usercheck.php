@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: usercheck.php,v 1.2 2000/12/21 10:46:54 ce Exp $
+// $Id: usercheck.php,v 1.3 2001/01/22 14:43:02 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: productreport.php,v 1.3 2001/01/18 18:52:43 bf Exp $
+// $Id: productreport.php,v 1.4 2001/01/22 14:43:01 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Jan-2001 14:47:56 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

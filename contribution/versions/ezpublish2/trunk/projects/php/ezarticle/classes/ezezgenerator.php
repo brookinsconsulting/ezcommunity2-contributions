@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.8 2000/11/02 18:12:25 bf-cvs Exp $
+// $Id: ezezgenerator.php,v 1.9 2001/01/22 14:42:59 jb Exp $
 //
 // Definition of eZEzGenerator class
 //
@@ -8,7 +8,7 @@
 // Created on: <26-Oct-2000 13:45:54 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
 <?
-// $Id: todoedit.php,v 1.11 2001/01/16 16:09:53 ce Exp $
+// $Id: todoedit.php,v 1.12 2001/01/22 14:43:02 jb Exp $
 //
 // Definition of todo list.
 //
 // <real-name> <<mail-name>>
 // Created on: <04-Sep-2000 16:53:15 ce>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.

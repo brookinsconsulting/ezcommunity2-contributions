@@ -1,11 +1,11 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.5 2001/01/20 23:19:13 jb Exp $
+// $Id: ezconsultation.php,v 1.6 2001/01/22 14:43:00 jb Exp $
 //
 // Definition of eZConsultation class
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

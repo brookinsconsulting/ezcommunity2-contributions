@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.4 2001/01/21 18:13:11 jb Exp $
+// $Id: ezcountry.php,v 1.5 2001/01/22 14:43:00 jb Exp $
 //
 // Definition of eZCountry class
 //
@@ -8,7 +8,7 @@
 // Created on: <31-Oct-2000 11:49:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

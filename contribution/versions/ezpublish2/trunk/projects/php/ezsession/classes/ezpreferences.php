@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.2 2001/01/21 14:39:35 bf Exp $
+// $Id: ezpreferences.php,v 1.3 2001/01/22 14:43:01 jb Exp $
 //
 // Definition of eZPreferences class
 //
@@ -8,7 +8,7 @@
 // Created on: <18-Jan-2001 13:05:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

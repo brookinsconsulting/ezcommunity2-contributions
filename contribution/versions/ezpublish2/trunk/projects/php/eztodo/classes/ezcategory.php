@@ -1,12 +1,12 @@
 <?
-// $Id: ezcategory.php,v 1.6 2001/01/11 15:19:30 ce Exp $
+// $Id: ezcategory.php,v 1.7 2001/01/22 14:43:02 jb Exp $
 //
 // Definition of eZCategory class
 //
 // <real-name> <<mail-name>>
 // Created on: <04-Sep-2000 16:53:15 ce>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.

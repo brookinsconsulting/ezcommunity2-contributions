@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.3 2000/12/11 15:56:43 ce Exp $
+// $Id: categoryedit.php,v 1.4 2001/01/22 14:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezhit.php,v 1.20 2001/01/06 16:21:01 bf Exp $
+// $Id: ezhit.php,v 1.21 2001/01/22 14:43:01 jb Exp $
 //
 // Definition of eZHit class
 //
@@ -8,7 +8,7 @@
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

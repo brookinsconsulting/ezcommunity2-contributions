@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: imagelist.php,v 1.8 2001/01/20 19:32:02 bf Exp $
+// $Id: imagelist.php,v 1.9 2001/01/22 14:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

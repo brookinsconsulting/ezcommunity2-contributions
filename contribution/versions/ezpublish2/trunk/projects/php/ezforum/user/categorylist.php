@@ -1,12 +1,12 @@
 <?
 // 
-// $Id: categorylist.php,v 1.5 2000/12/19 13:52:04 ce Exp $
+// $Id: categorylist.php,v 1.6 2001/01/22 14:43:00 jb Exp $
 //
 // Christoffer A. Elo
 // Created on: <17-Oct-2000 13:50:26 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
