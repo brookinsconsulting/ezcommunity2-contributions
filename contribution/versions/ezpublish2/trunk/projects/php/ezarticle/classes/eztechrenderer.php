@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.76 2001/09/30 11:53:59 bf Exp $
+// $Id: eztechrenderer.php,v 1.77 2002/06/03 10:33:46 gl Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -41,6 +41,7 @@
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large|original)
 
   <ezanchor anchorname>
+  (This does not work in eZ publish desktop edition)
 
   <module modulename> - this will include a php file named "modulename.php" if it is found in the
   ezrticle/modules dir.

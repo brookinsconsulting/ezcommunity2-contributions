@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.21 2001/09/29 12:35:14 kaid Exp $
+// $Id: ezezrenderer.php,v 1.22 2002/06/03 10:33:46 gl Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -40,6 +40,7 @@
   <mail bf@ez.no subject text here, link text here>
 
   <ezanchor anchorname>
+  (This does not work in eZ publish desktop edition)
 
   <bold>
   bold text

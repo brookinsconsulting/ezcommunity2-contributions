@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.60 2001/11/23 16:50:28 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.61 2002/06/03 10:33:46 gl Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -42,6 +42,7 @@
   <image 42 align size link> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large|original), the link is optional
 
   <ezanchor anchorname>
+  (This does not work in eZ publish desktop edition)
 
   <module modulename> - this will include a php file named "modulename.php" if it is found in the
   ezrticle/modules dir.
