@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.1 2000/12/11 11:43:53 bf Exp $
+// $Id: fileupload.php,v 1.2 2000/12/12 11:00:02 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -28,6 +28,13 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
+
+//  $folder = new eZVirtualFolder();
+//  $folder->setName( "Documentation" );
+//  $folder->setDescription( "Documentation goes here" );
+//  $folder->store();
+
 
 if ( $Action == "Insert" )
 {
@@ -45,6 +52,11 @@ if ( $Action == "Insert" )
         $uploadedFile->setFile( $file );
         
         $uploadedFile->store();
+
+        $folder = new eZVirtualFolder( $FolderID );
+
+        $folder->addFile( $uploadedFile );
+        
         
 
         eZLog::writeNotice( "File added to file manager from IP: $REMOTE_ADDR" );
@@ -68,10 +80,25 @@ $t->set_file( "file_upload_tpl", "fileupload.tpl" );
 
 $t->setAllStrings();
 
+$t->set_block( "file_upload_tpl", "value_tpl", "value" );
+
 $t->set_var( "action_value", "Insert" );
 $t->set_var( "name_value", "" );
 $t->set_var( "description_value", "" );
 
+$folder = new eZVirtualFolder( $FolderID );
+
+$folderList =& $folder->getByParent( $folder );
+
+foreach ( $folderList as $folder )
+{
+    $t->set_var( "option_name", $folder->name() );
+    $t->set_var( "option_value", $folder->id() );
+
+    $t->set_var( "selected", "" );
+
+    $t->parse( "value", "value_tpl", true );
+}
 
 $t->pparse( "output", "file_upload_tpl" );
 

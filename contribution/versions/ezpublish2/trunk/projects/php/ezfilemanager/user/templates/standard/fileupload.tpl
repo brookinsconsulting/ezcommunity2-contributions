@@ -7,6 +7,15 @@
 
 <hr noshade="noshade" size="4" />
 
+<p class="boxtext">{intl-subfolder_of}:</p>
+
+<select name="FolderID">
+<!-- BEGIN value_tpl -->
+<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+<!-- END value_tpl -->
+
+</select>
+
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

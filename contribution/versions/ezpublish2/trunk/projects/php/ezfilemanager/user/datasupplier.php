@@ -17,6 +17,10 @@ switch ( $url_array[2] )
     
     case "list" :
     {
+        $FolderID = $url_array[3];
+        if  ( !isset( $FolderID ) || ( $FolderID == "" ) )
+            $FolderID = 0;
+        
         include( "ezfilemanager/user/filelist.php" );
     }
     break;
