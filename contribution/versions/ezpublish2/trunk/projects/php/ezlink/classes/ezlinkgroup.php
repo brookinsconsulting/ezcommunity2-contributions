@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.47 2001/02/23 13:07:15 ce Exp $
+// $Id: ezlinkgroup.php,v 1.48 2001/02/23 13:20:12 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -179,7 +179,7 @@ class eZLinkGroup
     /*!
       Fetch out parent.
     */
-    function &getByParent( &$value )
+    function &getByParent( $value )
     {
         if ( get_class ( $value ) )
             $id = $value->id();

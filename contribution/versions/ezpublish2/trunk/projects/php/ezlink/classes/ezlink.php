@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.40 2001/02/23 13:07:15 ce Exp $
+// $Id: ezlink.php,v 1.41 2001/02/23 13:20:11 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -36,9 +36,9 @@
   $link->setTitle( "ZEZ website" );
   $link->Description( "zez.org is a page dedicated to all kinds of computer programming." );
   $link->KeyWords( "code programing c++ php sql python" );
-  $setModified( date() );
-  $setAccepted( "Y" );
-  $setUrl( "zez.org" );
+  $link->setModified( date() );
+  $link->setAccepted( "Y" );
+  $link->setUrl( "zez.org" );
 
   // Store the link to the datavase.
   $link->store();

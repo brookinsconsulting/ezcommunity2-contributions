@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.43 2001/02/21 13:00:21 bf Exp $
+// $Id: linkedit.php,v 1.44 2001/02/23 13:20:11 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -222,8 +222,6 @@ if ( $Action == "insert" )
         $Accepted != "" &&
         $Url != "" )
         {
-
-
             $link = new eZLink();
 
             $link->setTitle( $Title );
@@ -231,6 +229,8 @@ if ( $Action == "insert" )
             $link->setLinkGroupID( $LinkGroupID );
             $link->setKeyWords( $Keywords );
             $link->setAccepted( $Accepted );
+            print( $Accepted );
+            exit();
             $link->setUrl( $Url );
 
             $ttitle = $Title;
@@ -309,6 +309,9 @@ if ( $Action == "new" )
     }
 
     $action_value = "insert";
+
+    $t->set_var( "image_item", "" );
+    $t->set_var( "no_image_item", "" );
 }
 
 // setter akseptert link som default.
