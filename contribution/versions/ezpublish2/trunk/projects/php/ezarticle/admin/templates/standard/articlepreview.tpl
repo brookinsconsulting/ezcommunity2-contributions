@@ -10,11 +10,9 @@
 	<h1>{article_name}</h1> 
 	<div class="byline">{intl-article_author}: {author_text}</div>
 
-	{article_intro}
+	<p>{article_intro}</p>
 
-	<p>
-	{article_body}
-	</p>
+	<p>{article_body}</p>
 	</td>
 </tr>
 </table>

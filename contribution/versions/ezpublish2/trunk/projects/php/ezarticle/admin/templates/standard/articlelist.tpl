@@ -115,7 +115,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
-	<img src="/admin/images/file.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td width="74%" class="{td_class}">
 	<a href="/article/articlepreview/{article_id}/">{article_name}</a>

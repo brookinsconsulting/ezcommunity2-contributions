@@ -12,7 +12,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td rowspan="2" align="top">
 	<p class="boxtext">{intl-article_name}:</p>
 	<input type="text" name="Name" size="40" value="{article_name}" />
 	</td>
@@ -22,21 +22,28 @@
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
 	<td>
 	<input type="checkbox" name="Discuss" {discuss_article} />
 	<span class="boxtext">{intl-discuss_article}</span><br />
 	</td>
 </tr>
 </table>
+<br />
 
-<p class="boxtext">{intl-article_author}:</p>
-<input type="text" name="AuthorText" size="40" value="{author_text}" />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<p class="boxtext">{intl-article_author}:</p>
+	<input type="text" name="AuthorText" size="20" value="{author_text}" />
+	</td>
+	<td>
+	<p class="boxtext">{intl-article_author_email}:</p>
+	<input type="text" name="AuthorEmail" size="20" value="{author_email}" />
+	</td>
+</tr>
+</table>
 
-<p class="boxtext">{intl-article_author_email}:</p>
-<input type="text" name="AuthorEmail" size="40" value="{author_email}" />
-
-<br /><br />
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
