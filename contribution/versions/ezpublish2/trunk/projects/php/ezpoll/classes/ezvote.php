@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.5 2000/10/02 11:58:15 bf-cvs Exp $
+// $Id: ezvote.php,v 1.6 2000/10/03 10:52:42 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -220,6 +220,28 @@ class eZVote
             $this->get( $this->ID );
         
         $this->UserID = $value;
+    }
+
+    /*!
+      \static
+      Check if the user already have voted. If voted, return true.
+    */
+    function oneVoteCheck( $userID )
+    {
+        $ret = false;
+
+        $vote_array = array();
+
+        $this->dbInit();
+
+        $this->Database->array_query( $vote_array, "SELECT * FROM eZPoll_Vote
+                                                    WHERE UserID='$userID'" );
+        if ( count( $vote_array ) >= 1 )
+        {
+            $ret = true;
+        }
+
+        return $ret;
     }
 
     /*!

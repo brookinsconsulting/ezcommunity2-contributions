@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.1 2000/09/29 11:55:27 ce-cvs Exp $
+// $Id: vote.php,v 1.2 2000/10/03 10:52:41 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -24,21 +24,32 @@ $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 include_once( $DOC_ROOT . "/classes/ezpoll.php" );
 include_once( $DOC_ROOT . "/classes/ezvote.php" );
 include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
-include_once( "classes/ezsession.php" );
+include_once( "ezsession/classes/ezsession.php" );
 
-$session = new eZSession();
-if( $session->get( $AuthenticatedSession ) == 1 )
+$user = eZUser::currentUser();
+if ( !$user )
 {
-    print( "ER IKKE LOGGGT INN!!!!!!!!" );
+    Header( "Location: /user/login" );
+    exit();
 }
 
+$checkvote = new eZVote();
+
+if ( $checkvote->oneVoteCheck( $user->id() ))
+// if ( 1 == 1 )
+{
+    print( "Du har allerede stemt engang" );
+}
+else
+{
 
     $vote = new eZVote();
     $vote->setPollID( $PollID );
     $vote->setChoiceID( $ChoiceID );
     $vote->setVotingIP( $REMOTE_ADDR );
-    $vote->setUserID( $session->userID() );
+    $vote->setUserID( $user->id() );
     $vote->store();
+}
 
 Header( "Location: /poll/result/" . $PollID );
 exit();
