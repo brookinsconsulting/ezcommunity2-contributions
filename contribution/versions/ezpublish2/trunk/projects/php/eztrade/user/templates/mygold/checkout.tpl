@@ -48,13 +48,9 @@
 
 <tr>
 	<td colspan="2" rowspan="3" valign="bottom">
-	<div class="boxtext">{intl-shipping_method}:</div>
-	<select name="ShippingTypeID">
 	<!-- BEGIN shipping_type_tpl -->
-	<option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
+	&nbsp;
 	<!-- END shipping_type_tpl -->
-	</select>
-	<input class="okbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
 	<td align="right" colspan="2">
 	{intl-shipping_charges}:
