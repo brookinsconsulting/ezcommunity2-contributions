@@ -20,7 +20,7 @@
 <!-- BEGIN article_header_tpl -->
 <!-- END article_header_tpl -->
 <p>
-{article_body}
+sf{article_body}
 </p>
 
 <p>
