@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.26 2000/07/27 08:11:44 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.27 2000/07/28 09:51:58 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -98,8 +98,9 @@ class eZforumMessage
             
         $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM $PREFIX"."MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime DESC";
-            
+                 FROM $PREFIX"."MessageTable WHERE ForumId='$forum_id' AND " . $optstr . "
+                 ORDER BY PostingTime DESC";
+        
         $query_id = mysql_query( $query_string )
              or die("eZforumMessage::getHeaders() failed, dying...");
             
@@ -151,7 +152,8 @@ class eZforumMessage
             {
                 $this->EmailNotice = "N";
             }
-            $query_str = "INSERT INTO $PREFIX"."MessageTable(ForumId, " . $val . "Topic, Body, UserId, EmailNotice)
+            $query_str = "INSERT INTO $PREFIX"."MessageTable(ForumId, " . $val . "
+                          Topic, Body, UserId, EmailNotice)
                                          VALUES('$this->ForumId'," . $tmp . " '$this->Topic',
                                          '$this->Body', '$this->UserId', '$this->EmailNotice')";
             mysql_query($query_str)
@@ -216,7 +218,7 @@ class eZforumMessage
         return $this->Topic;
     }
         
-    function setTopic($newTopic)
+    function setTopic( $newTopic )
     {
         $this->Topic = $newTopic;
     }
@@ -226,7 +228,7 @@ class eZforumMessage
         return $this->Body;
     }
 
-    function setBody($newBody)
+    function setBody( $newBody )
     {
         $this->Body = $newBody;
     }
@@ -236,7 +238,7 @@ class eZforumMessage
         return $this->UserId;
     }
         
-    function setUserId($newUserId)
+    function setUserId( $newUserId )
     {
         $this->UserId = $newUserId;
     }
@@ -370,7 +372,7 @@ class eZforumMessage
       Den returnerer rader i en tabell, hva den printer ut er avhengig
       av templates.
       WARNING: denne funksjonen er rekursiv og kan bruke en del minne. Denne forutsetter
-      også at databasekolingen er oppe.
+      også at databasekoblingen er oppe.
     */
     function printHeaderTree( $forum_id, $parent_id, $level, $document_root )
     {

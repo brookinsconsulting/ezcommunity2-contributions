@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: replymessage.php,v 1.3 2000/07/26 17:03:13 lw-cvs Exp $
+    $Id: replymessage.php,v 1.4 2000/07/28 09:51:58 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -44,7 +44,7 @@ $t->set_var("forum_id", $forum_id );
 $t->set_var("msg_id", $msg->id() );
 $t->set_var("info",  $infoString);
 $t->set_var("topic", ("SV: " . stripslashes( $msg->topic() ) ) );
-$t->set_var("user", eZUser::resolveUser( $msg->user() ) );
+$t->set_var("user", eZUser::resolveUser( $msg->userId() ) );
 $t->set_var("body", nl2br( stripslashes( $msg->body() ) ) );
 $t->set_var("replier", eZUser::resolveUser( $UserID ) );
 
