@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fixedvalues.php,v 1.4 2001/12/18 09:34:45 br Exp $
+// $Id: fixedvalues.php,v 1.5 2001/12/20 10:20:46 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -40,20 +40,21 @@ $Language = $ini->read_var( "eZFormMain", "Language" );
 
 $element = new eZFormElement( $ElementID );
 
-if( isset( $AddValue ) )
+if ( isSet( $AddValue ) )
 {
     $value = new eZFormElementFixedValue();
     $value->store();
+    print_r( $value );
     $element->addValue( $value );
 }
 
 
-if ( isset( $Store ) || isset ( $AddValue ) || isset ( $DeleteSelected ) || isset ( $OK ) )
+if ( isSet( $Store ) || isSet ( $AddValue ) || isSet ( $DeleteSelected ) || isSet ( $OK ) )
 {
-    $i=0;
+    $i = 0;
     if ( count ( $ValueID ) > 0 )
     {
-        foreach( $ValueID as $ID )
+        foreach ( $ValueID as $ID )
         {
             $value = new eZFormElementFixedValue( $ID );
             $value->setValue( $Value[$i] );
@@ -65,7 +66,7 @@ if ( isset( $Store ) || isset ( $AddValue ) || isset ( $DeleteSelected ) || isse
 
 if ( isset( $DeleteSelected ) )
 {
-    foreach( $ValueDeleteID as $ID )
+    foreach ( $ValueDeleteID as $ID )
     {
         $value = new eZFormElementFixedValue( $ID );
         $value->delete();
@@ -102,14 +103,14 @@ $t->set_var( "page_id", $PageID );
 
 $values =& $element->fixedValues();
 
-if( count( $values ) == 0 )
+if ( count( $values ) == 0 )
 {
     $t->parse( "no_values_item", "no_values_item_tpl" );
 }
 else
 {
     $i = 0;
-    foreach( $values as $value )
+    foreach ( $values as $value )
     {
         if ( ( $i % 2 ) == 0 )
         {

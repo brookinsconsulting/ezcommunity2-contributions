@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.20 2001/12/20 09:10:05 jhe Exp $
+// $Id: ezformelement.php,v 1.21 2001/12/20 10:20:46 jhe Exp $
 //
 // ezformelement class
 //
@@ -536,6 +536,7 @@ class eZFormElement
         if ( get_class( $this->ElementType ) == "ezformelementtype" )
         {
             if ( $this->ElementType->name() == "multiple_select_item" ||
+                 $this->ElementType->name() == "dropdown_item" ||
                  $this->ElementType->name() == "checkbox_item" ||
                  $this->ElementType->name() == "radiobox_item" )
             {
