@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.28 2001/05/09 08:28:40 bf Exp $
+// $Id: messagelist.php,v 1.29 2001/05/09 12:53:54 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -31,6 +31,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlist.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
@@ -62,14 +63,29 @@ $forum = new eZForum( $ForumID );
 
 $categories =& $forum->categories();
 
-if ( isset ( $HideThreads ) )
-    $session->setVariable( "eZForum_Threads", "Hide" );
+$user = eZUser::currentUser();
 
-if ( isset ( $ShowThreads ) )
-    $session->setVariable( "eZForum_Threads", "Show" );
+if ( $user )
+{
+    $preferences = new eZPreferences();
+    if ( isset ( $HideThreads ) )
+        $preferences->setVariable( "eZForum_Threads", "Hide" );
+    
+    if ( isset ( $ShowThreads ) )
+        $preferences->setVariable( "eZForum_Threads", "Show" );
 
-$showThreads = $session->variable( "eZForum_Threads" );
-
+    $showThreads = $preferences->variable( "eZForum_Threads" );
+}
+else
+{
+    if ( isset ( $HideThreads ) )
+        $session->setVariable( "eZForum_Threads", "Hide" );
+    
+    if ( isset ( $ShowThreads ) )
+        $session->setVariable( "eZForum_Threads", "Show" );
+    
+    $showThreads = $session->variable( "eZForum_Threads" );
+}
 
 if ( $showThreads == "" )
     $showThreads = "Hide";
