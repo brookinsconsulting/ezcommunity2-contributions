@@ -119,6 +119,17 @@ else if ( isSet( $GoNew ) )
 }
 
 
+if ( isSet( $AddFile ) )
+{
+  //  $Action = "AddFile";
+  //  die("AddFile");
+
+  // add files
+  eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/filelist/$eventID/" );
+  exit();
+}
+
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
