@@ -1,10 +1,10 @@
+<p class="boxtext">{intl-topic}:</p>
+<span class="p">{message_topic}</span>
+<br /><br />
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>        
    	<td>
-	<p class="boxtext">{intl-topic}:</p>
-    {message_topic}
-	</td>
-    <td>
 	<p class="boxtext">{intl-author}:</p>
     {message_author}
 	</td>
