@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.11 2001/03/15 18:37:36 bf Exp $
+// $Id: smallcart.php,v 1.12 2001/03/19 10:00:40 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -34,6 +34,9 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
+$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
+$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -105,7 +108,7 @@ foreach ( $items as $item )
         $currency->setValue( $price );
 
         // product price
-        $price = $item->price();    
+        $price = $item->price();
         $currency->setValue( $price );
     
         $sum += $price;
@@ -120,6 +123,7 @@ foreach ( $items as $item )
 
         $optionValues =& $item->optionValues();
         $Quantity = $product->totalQuantity();
+        
         if ( !$product->hasPrice() )
         {
             $min_quantity = 0;
@@ -131,12 +135,13 @@ foreach ( $items as $item )
                 if ( !(is_bool( $value_quantity ) and !$value_quantity) )
                 {
                     if ( is_bool( $min_quantity ) )
-                        $min_quantity =  $value_quantity;
+                        $min_quantity = $value_quantity;
                     else
                         $min_quantity = min( $min_quantity , $value_quantity );
                 }
             }
         }
+        
         if ( !(is_bool( $min_quantity ) and !$min_quantity) and
              $RequireQuantity and $min_quantity == 0 )
             $can_checkout = false;
@@ -153,6 +158,8 @@ $currency->setValue( $sum );
 $t->set_var( "cart_sum", $locale->format( $currency ) );
 $currency->setValue( $totalVAT );
 $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
+
+
 
 if ( count( $items ) > 0 and $can_checkout )
 {

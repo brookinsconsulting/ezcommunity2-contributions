@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.26 2001/03/14 17:21:57 jb Exp $
+// $Id: cart.php,v 1.27 2001/03/19 10:00:40 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -286,6 +286,11 @@ foreach ( $items as $item )
 
 
     $Quantity = $product->totalQuantity();
+
+    // product options
+    $optionValues =& $item->optionValues();
+    
+    
     if ( !$product->hasPrice() )
     {
         $Quantity = 0;
@@ -298,6 +303,7 @@ foreach ( $items as $item )
                 $Quantity = $value_quantity;
         }
     }
+    
     $t->set_var( "product_available_item", "" );
     if ( $ShowQuantity )
     {
@@ -308,8 +314,6 @@ foreach ( $items as $item )
         $t->parse( "product_available_item", "product_available_item_tpl" );
     }
 
-    // product options
-    $optionValues =& $item->optionValues();
 
     $t->set_var( "cart_item_option", "" );
     $min_quantity = $Quantity;
