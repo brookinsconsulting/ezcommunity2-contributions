@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.14 2001/09/14 12:48:14 pkej Exp $
+// $Id: ezpricegroup.php,v 1.15 2001/09/14 13:14:32 pkej Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -322,8 +322,7 @@ class eZPriceGroup
         {
             $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
                                        WHERE OptionID='$optionid' ORDER BY Price DESC" );
-echo "SELECT Price FROM eZTrade_OptionValue
-                                       WHERE OptionID='$optionid' ORDER BY Price DESC";
+
             if ( count( $array ) > 0 )
                 return $array[0][$db->fieldName("Price")];
         }
