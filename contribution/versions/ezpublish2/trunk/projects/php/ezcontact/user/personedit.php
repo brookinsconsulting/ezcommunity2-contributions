@@ -143,11 +143,8 @@ if( $Action == "new" )
     {
         $person = new eZPerson();
         $person = $person->getByUserID( $User_ID ); // 1.1
-        $PersonID = $person->id();
-         
-        if( empty( $PersonID ) ) // 1.2
+        if( get_class( $person ) == "ezperson" ) // 1.2
         {
-            echo "logged in";
             header( "Redirect: contact/user/edit/$PersonID" );
             exit();
         }       
