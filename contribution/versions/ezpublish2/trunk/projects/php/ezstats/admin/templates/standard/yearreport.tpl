@@ -1,4 +1,4 @@
-<h1>{intl-month_report} - {this_year}</h1>
+<h1>{intl-year_report} - {this_year}</h1>
 
 <hr noshade="noshade" size="4" />
 
