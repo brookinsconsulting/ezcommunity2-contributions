@@ -31,10 +31,14 @@ include_once( "classes/ezfile.php" );
 
 if ( isset( $Store ) )
 {
-    if ( eZFile::file_exists( "bin/ini/site.ini" ) )
-        $fp = eZFile::fopen( "bin/ini/site.ini", "w+");
-    else
-        $fp = eZFile::fopen( "bin/ini/site.ini.php", "w+");
+    if ( eZFile::file_exists( "bin/ini/override/site.ini.php" ) )
+      	$fp = eZFile::fopen( "bin/ini/override/site.ini.php", "w+");
+    elseif ( eZFile::file_exists( "bin/ini/override/site.ini" ) )
+      	$fp = eZFile::fopen( "bin/ini/site.ini", "w+");
+    elseif ( eZFile::file_exists( "bin/ini/site.ini.php" ) )
+      	$fp = eZFile::fopen( "bin/ini/site.ini.php", "w+");
+    elseif ( eZFile::file_exists( "bin/ini/site.ini" ) )
+      	$fp = eZFile::fopen( "bin/ini/site.ini", "w+");
 
     $Contents =& str_replace ("\r", "", $Contents );
     fwrite ( $fp, $Contents );
@@ -51,10 +55,14 @@ $t->setAllStrings();
 
 $t->set_file( "site_config_tpl", "siteconfig.tpl" );
 
-if ( eZFile::file_exists( "bin/ini/site.ini" ) )
-    $lines = eZFile::file( "bin/ini/site.ini" );
-else
+if ( eZFile::file_exists( "bin/ini/override/site.ini.php" ) )
+    $lines = eZFile::file( "bin/ini/override/site.ini.php" );
+elseif ( eZFile::file_exists( "bin/ini/override/site.ini" ) )
+    $lines = eZFile::file( "bin/ini/override/site.ini" );
+elseif ( eZFile::file_exists( "bin/ini/site.ini.php" ) )
     $lines = eZFile::file( "bin/ini/site.ini.php" );
+elseif ( eZFile::file_exists( "bin/ini/site.ini" ) )
+    $lines = eZFile::file( "bin/ini/site.ini" );
 
 $contents = "";
 foreach ( $lines as $line )
