@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.6 2002/01/19 12:17:59 bf Exp $
+// $Id: productsearch.php,v 1.20.8.7 2002/01/22 13:45:44 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -94,7 +94,9 @@ if ( isset( $URLQueryString ) )
     $Query = $URLQueryString;
 }
 
-if ( $Query  || ( $SearchType == "AdvancedMusic" ) )
+if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "AdvancedDVD" ) ||
+( $SearchType == "AdvancedMultimedia" ) || ( $SearchType == "AdvancedHIFI" )
+     )
 {
     $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
                                                                       "SearchType" => $SearchType,
@@ -103,7 +105,8 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) )
                                                                       "Artist" => $Artist,
                                                                       "DVDTitle" => $DVDTitle,
                                                                       "DVDActor" => $DVDActor,
-                                                                      
+                                                                      "MultimediaType" => $MultimediaType,
+                                                                      "GameTitle" => $GameTitle                                                                      
                                                                       ), $total_count );
 } 
 
@@ -141,12 +144,12 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
         }
 
 
-        $t->set_var( "product_name", $product["Name"] );        
+        $t->set_var( "product_name", $product["Name"] );
         $t->set_var( "product_price", number_format( $product["Price"], 2, ",", " " ) );
         
 //        $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_intro_text", "" );
-        $t->set_var( "product_id", $product["ProductID"] );        
+        $t->set_var( "product_id", $product["ProductID"] );
         
         
         if ( $thumbnailImage )

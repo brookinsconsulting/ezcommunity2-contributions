@@ -522,3 +522,5 @@ CREATE UNIQUE INDEX TradeWord_ID ON eZTrade_Word (ID);
 # CREATE INDEX TradeProductTypeLink_TypeID ON eZTrade_ProductTypeLink (TypeID);
 
 CREATE UNIQUE INDEX TradeProductTypeLink_ProductTypeID ON eZTrade_ProductTypeLink (ProductID, TypeID);
+
+CREATE INDEX TradeProduct_Artist ON eZTrade_Product (Artist);
