@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.4 2001/01/17 10:41:59 ce Exp $
+// $Id: appointmentedit.php,v 1.5 2001/01/17 10:44:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -222,6 +222,8 @@ if ( $Action == "New" )
     $t->set_var( "name_value", "" );
     $t->set_var( "description_value", "" );
     $t->set_var( "private_checked", "" );
+    $t->set_var( "start_value", "" );
+    $t->set_var( "stop_value", "" );
 }
 
 // print the appointment types
