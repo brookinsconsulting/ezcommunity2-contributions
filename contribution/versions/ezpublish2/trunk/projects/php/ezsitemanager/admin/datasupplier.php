@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.6 2001/08/17 13:36:00 jhe Exp $
+// $Id: datasupplier.php,v 1.7 2001/09/24 12:55:15 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -38,6 +38,25 @@ $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
+    case "template":
+    {
+        switch ( $url_array[3] )
+        {
+            case "list" :
+            {
+                $filePath = $url_array[4];
+                include( "ezsitemanager/admin/templatelist.php" );
+            }break;
+
+            case "edit" :
+            {
+                $filePath = $url_array[4];
+                include( "ezsitemanager/admin/templateedit.php" );
+            }break;
+        }
+
+    }break;
+
     case "siteconfig":
     {
         include( "ezsitemanager/admin/siteconfig.php" );        

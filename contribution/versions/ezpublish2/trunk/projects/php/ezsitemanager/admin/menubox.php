@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.5 2001/07/20 11:26:45 jakobn Exp $
+// $Id: menubox.php,v 1.6 2001/09/24 12:55:15 bf Exp $
 //
 // Created on: <10-May-2001 14:51:43 ce>
 //
@@ -29,6 +29,7 @@ $menuItems = array(
     array( "/sitemanager/section/list/", "{intl-section_list}" ),
     array( "/sitemanager/cache/", "{intl-cache_admin}" ),
     array( "/sitemanager/file/list/", "{intl-file_list}" ),
+    array( "/sitemanager/template/list/", "{intl-template_list}" ),
     array( "/sitemanager/siteconfig/", "{intl-site_config}" )
 //    array( "/sitemanager/sqladmin/query/", "{intl-sql_admin}" )
     );
