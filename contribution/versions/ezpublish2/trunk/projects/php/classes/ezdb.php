@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezdb.php,v 1.5 2000/09/12 11:41:22 bf-cvs Exp $
+    $Id: ezdb.php,v 1.6 2000/09/12 12:15:37 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -39,7 +39,6 @@ class eZDB
         $this->DB = $ini->read_var( "eZTradeMain", "Database" );
         $this->User = $ini->read_var( "eZTradeMain", "User" );
         $this->Password = $ini->read_var( "eZTradeMain", "Password" );
-        
         
         mysql_pconnect( $this->Server, $this->User, $this->Password )
             or warn( "Error: could not connect to the database." );
