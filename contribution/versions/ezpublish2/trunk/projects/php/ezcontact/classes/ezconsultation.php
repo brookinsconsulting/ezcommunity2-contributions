@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.3 2001/01/17 10:50:06 jb Exp $
+// $Id: ezconsultation.php,v 1.4 2001/01/17 14:54:06 jb Exp $
 //
 // Definition of eZConsultation class
 //
@@ -404,6 +404,31 @@ class eZConsultation
 
     function findConsultationsByState( $state )
     {
+    }
+
+    /*!
+      \static
+      Returns true if the consultation given by $consultationid belongs to $user.
+    */
+
+    function belongsTo( $consultationid, $user )
+    {
+        $db = eZDB::globalDatabase();
+        // Check company
+        $db->array_query( $qry_array, "SELECT C.ID FROM eZContact_Consultation AS C,
+                                                      eZContact_ConsultationCompanyUserDict AS CCUD
+                                       WHERE CCUD.UserID='$user' AND C.ID=CCUD.ConsultationID
+                                       AND C.ID='$consultationid'", 0, 1 );
+        if ( count( $qry_array ) == 1 )
+            return true;
+        // Check person
+        $db->array_query( $qry_array, "SELECT C.ID FROM eZContact_Consultation AS C,
+                                                      eZContact_ConsultationPersonUserDict AS CPUD
+                                       WHERE CPUD.UserID='$user' AND C.ID=CPUD.ConsultationID
+                                       AND C.ID='$consultationid'", 0, 1 );
+        if ( count( $qry_array ) == 1 )
+            return true;
+        return false;
     }
 
     /*!
