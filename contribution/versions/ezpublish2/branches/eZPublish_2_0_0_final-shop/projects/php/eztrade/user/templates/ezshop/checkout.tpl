@@ -56,7 +56,7 @@
 	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
 	<td align="right" colspan="2">
-	<span class="boxtext">{intl-shipping_charges}:</span>
+	<span class="boxtext">{intl-shipping_charges}<sup>1</sup>:</span>
 	</td>
 
 	<td align="right">
@@ -65,7 +65,7 @@
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-vat}:</span></td>
+	<td align="right"><span class="boxtext">{intl-vat}<sup>2</sup>:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
@@ -121,5 +121,6 @@
 
 </form>
 
-
+<p>[1] {intl-shipping_info}</p>
+<p>[2] {intl-vat_info}</p>
 
