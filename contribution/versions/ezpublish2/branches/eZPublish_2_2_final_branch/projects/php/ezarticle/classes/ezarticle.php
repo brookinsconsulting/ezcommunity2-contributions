@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.1 2001/11/01 15:29:09 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.2 2001/11/01 18:57:34 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1218,6 +1218,7 @@ class eZArticle
     {
         if ( get_class( $user ) != "ezuser" )
             $user =& eZUser::currentUser();
+        
         $category = $this->categoryDefinition();
         if ( get_class( $category ) == "ezarticlecategory" )
             $editorID = $category->editorGroup( false );
@@ -1225,7 +1226,7 @@ class eZArticle
         if ( is_numeric ( $editorID ) && ( $editorID > 0 ) )
         {
             $group = new eZUserGroup( $editorID );
-            if ( $group->isMember( $user ) )
+            if ( $group->isMember( $user ) or ( $user->hasRootAccess() )  )
                 $this->IsPublished = "1";
             else
             {
