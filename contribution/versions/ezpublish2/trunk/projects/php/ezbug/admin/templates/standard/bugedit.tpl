@@ -95,7 +95,7 @@
 
 <p class="boxtext">{intl-log_message}:</p>
 <textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>
-
+<br>
 <input type="checkbox" name="MailReporter" checked />
 <span class="boxtext">{intl-mail_bug_reporter}</span><br />
 
@@ -116,10 +116,13 @@
 
 <hr noshade="noshade" size="4">
 
-<table cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="0" cellpadding="" border="0">
 <tr>
 	<td>
 	<input class="okbutton" type="submit" name="Update" value="{intl-ok}">
+	</td>
+	<td>&nbsp;</td>
+	<td>
 	<input class="okbutton" type="submit" value="{intl-cancel}">
 	</td>
 </tr>
