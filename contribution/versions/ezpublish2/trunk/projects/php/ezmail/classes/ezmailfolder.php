@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.7 2001/03/27 09:32:59 fh Exp $
+// $Id: ezmailfolder.php,v 1.8 2001/03/28 09:51:59 fh Exp $
 //
 // eZMailFolder class
 //
@@ -353,22 +353,25 @@ class eZMailFolder
       \static
       Returns all folders that belongs to this user as an array of eZMailFolders.
      */
-    function getByUser( $user = false, $withSpecialFolders=false )
+    function getByUser( $user = false, $withSpecialFolders=false, $parentFolder = -1 )
     {
         if( get_class( $user ) != "ezuser" )
             $user = eZUser::currentUser();
 
         $noSpecial = "";
-        if( $widthSpecialFolders == false )
+        if( $withSpecialFolders == false )
         {
             $noSpecial = "AND FolderType='0'";
         }
+        $parentFolderSQL = "";
+        if( $parentFolder != -1 )
+            $parentFolderSQL = "AND ParentID='$parentFolder'";
         
         $return_array = array();
         $res = array();
         $userid = $user->id();
         $database = eZDB::globalDatabase();
-        $query = "SELECT ID FROM eZMail_Folder WHERE UserID='$userid' $noSpecial";
+        $query = "SELECT ID FROM eZMail_Folder WHERE UserID='$userid' $noSpecial $parentFolderSQL";
         $database->array_query( $res, $query );
 
         for ( $i=0; $i < count($res); $i++ )
@@ -378,6 +381,29 @@ class eZMailFolder
 
         return $return_array;
     }
+
+    /*
+      Creates a tree of the folders for the current user.
+     */
+    function &getTree( $parentID=0, $level=0 )
+    {
+        $folderList = eZMailFolder::getByUser( false, false, $parentID );
+
+        $tree = array();
+        $level++;
+        foreach ( $folderList as $folder )
+        {
+//            array_push( $tree, array( new eZMailFolder( $folder->id() ), $level ) );
+            array_push( $tree, array( $folder->id(), $folder->name(),  $level ) );
+            
+            if ( $folder != 0 )
+            {
+                $tree = array_merge( $tree, eZMailFolder::getTree( $folder->id(), $level ) );
+            }
+        }
+        return $tree;
+    }
+
     
     /*
       Returns all the mail in the folder. $sortmode can be one of the following:
@@ -392,7 +418,7 @@ class eZMailFolder
         
         $query = "SELECT Mail.ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
                   WHERE Mail.ID=Link.MailID AND Link.FolderID='$this->ID'
-                  ORDER BY Mail.Subject ASC
+                  ORDER BY Mail.UDate ASC
                   LIMIT $offset,$limit";
 
         $mail_array = array();
@@ -458,6 +484,7 @@ class eZMailFolder
         
         return false;
     }
+
     
     /*!
       \private
