@@ -9,3 +9,4 @@ Changes from version 1.0
 * Fixed editing and deleting of forum messsages in the admin interface.
 * Added more logging.
 * Fixed displaying of wrong author name in forum message view.
+* Fixed some translation errors
