@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelinks.php,v 1.9 2001/04/11 14:18:40 th Exp $
+// $Id: articlelinks.php,v 1.10 2001/04/17 13:04:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
@@ -82,7 +82,7 @@ if ( $PureStatic != "true" )
     $t->set_var( "current_category_description", $category->description() );
 
 
-    $articleList = $category->articles( $category->sortMode(), false, true );
+    $articleList =& $category->articles( $category->sortMode(), false, true );
 
     $locale = new eZLocale( $Language );
     $i=0;
@@ -91,7 +91,9 @@ if ( $PureStatic != "true" )
     {
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
-
+        $catDef =& $article->categoryDefinition();
+        
+        $t->set_var( "article_category_id", $catDef->id() );
 
         if ( ( $i % 2 ) == 0 )
         {
@@ -101,15 +103,6 @@ if ( $PureStatic != "true" )
         {
             $t->set_var( "td_class", "bgdark" );
         }
-
-        $published = $article->published();
-
-        $t->set_var( "article_published", $locale->format( $published ) );
-
-
-        $renderer = new eZArticleRenderer( $article );
-
-        $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
         if ( $article->linkText() != "" )
         {

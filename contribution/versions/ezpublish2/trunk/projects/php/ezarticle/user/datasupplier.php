@@ -137,7 +137,7 @@ switch ( $url_array[2] )
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray = $user->groups( true );
+            $groupIDArray =& $user->groups( true );
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
@@ -151,7 +151,7 @@ switch ( $url_array[2] )
         
         if ( $PageCaching == "enabled" )
         {
-            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," .$groupstr  .".cache";
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
             if ( file_exists( $cachedFile ) )
             {
                 include( $cachedFile );

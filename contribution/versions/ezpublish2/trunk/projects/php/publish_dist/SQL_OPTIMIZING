@@ -1,3 +1,9 @@
+#
+#
+#
+# Test SQL statements
+#
+#
 
 SELECT Article.ID as ArticleID FROM eZArticle_Article AS Article, eZArticle_ArticleCategoryLink as Link, eZArticle_ArticlePermission AS Permission WHERE Link.CategoryID='1' AND Permission.ObjectID=Article.ID AND Link.ArticleID=Article.ID ORDER BY Article.Name LIMIT 0,10;
 
@@ -21,6 +27,13 @@ optimize table eZArticle_Article;
 optimize table eZArticle_ArticlePermission;
 optimize table eZArticle_ArticleCategoryLink;
 optimize table eZArticle_Category;
+
+
+# forum:
+alter table eZForum_Message add index ( Depth );  
+alter table eZForum_Message add index ( PostingTime ); 
+alter table eZForum_Message add index ( ForumID ); 
+alter table eZForum_Message add index ( ThreadID ); 
 
 #
 # Order by the field which you normally order articles by

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.31 2001/04/07 15:11:59 bf Exp $
+// $Id: articleview.php,v 1.32 2001/04/17 13:04:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -96,8 +96,10 @@ if ( $article->get( $ArticleID ) )
         exit();
     }
 
+    $categories =& $article->categories( false );
+
     // path
-    if ( !is_numeric( $CategoryID ) )
+    if ( !in_array( $CategoryID, $categories ) )
     {
         $category = $article->categoryDefinition();
     }
