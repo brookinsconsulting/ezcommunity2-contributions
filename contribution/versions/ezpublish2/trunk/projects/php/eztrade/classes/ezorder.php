@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.34 2001/06/21 09:08:37 ce Exp $
+// $Id: ezorder.php,v 1.35 2001/07/06 11:17:00 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -623,25 +623,23 @@ class eZOrder
     /*!
       Returns the total price on an order. Without the shipping charge.
     */
-    function totalPrice()
+    function totalPrice( $user = false )
     {
-       $retPrice = 0;
-       $this->dbInit();
-
-       $this->Database->array_query( $order_item_array, "SELECT Price, Count FROM
+        $retPrice = 0;
+        $this->dbInit();
+        
+        $this->Database->array_query( $order_item_array, "SELECT Price, Count FROM
                                                     eZTrade_OrderItem
                                                     WHERE OrderID='$this->ID'" );
-
-       foreach ( $order_item_array as $item )
-       {
-           $price = $item["Price"];
-
-           $price = $price * $item["Count"];
-
-           $retPrice += $price;
-       }
-
-       return $retPrice;       
+        
+        foreach ( $order_item_array as $item )
+        {
+            $price = $item["Price"];
+//            $price = $price * $item["Count"];
+            
+            $retPrice += $price;
+        }
+        return $retPrice;       
     }
 
     /*!
