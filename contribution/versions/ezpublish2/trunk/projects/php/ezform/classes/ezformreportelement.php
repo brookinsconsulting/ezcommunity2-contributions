@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.3 2002/01/21 12:18:07 jhe Exp $
+// $Id: ezformreportelement.php,v 1.4 2002/01/21 17:01:54 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -35,7 +35,7 @@ include_once( "ezform/classes/ezformelement.php" );
 
 class eZFormReportElement
 {
-    function eZFormReportElement( $id = -1 )
+    function eZFormReportElement( $id = -1, $reportID = -1 )
     {
         if ( is_array( $id ) )
         {
@@ -43,15 +43,15 @@ class eZFormReportElement
         }
         else if ( $id > -1 )
         {
-            $this->get( $id );
+            $this->get( $id, $reportID );
         }
     }
 
-    function get( $id )
+    function get( $id, $reportID )
     {
         $db =& eZDB::globalDatabase();
         $res = array();
-        $db->array_query( $res, "SELECT * FROM eZForm_FormReportElement WHERE ElementID='$id'" );
+        $db->array_query( $res, "SELECT * FROM eZForm_FormReportElement WHERE ElementID='$id' AND ReportID='$reportID'" );
         if ( count( $res ) > 0 )
             $this->fill( &$res[0] );
         else
@@ -75,6 +75,7 @@ class eZFormReportElement
         {
             $res[] = $db->query( "UPDATE eZForm_FormReportElement SET
                                   ElementID='$this->ElementID',
+                                  ReportID='$this->ReportID',
                                   StatisticsType='$this->StatisticsType'
                                   WHERE ID='$this->ID'" );
         }
@@ -83,9 +84,9 @@ class eZFormReportElement
             $db->lock( "eZForm_FormReportElement" );
             $this->ID = $db->nextID( "eZForm_FormReportElement", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormReportElement
-                                  (ID, ElementID, StatisticsType)
+                                  (ID, ElementID, ReportID, StatisticsType)
                                   VALUES
-                                  ('$this->ID','$this->ElementID','$this->StatisticsType')" );
+                                  ('$this->ID','$this->ElementID','$this->ReportID','$this->StatisticsType')" );
             $db->unlock();
         }
         eZDB::finish( $res, $db );
@@ -112,11 +113,27 @@ class eZFormReportElement
             $this->ElementID = $value;
     }
 
+    function report( $as_object = true )
+    {
+        if ( $as_object )
+            return new eZFormReport( $this->ReportID );
+        else
+            return $this->ReportID;
+    }
+
+    function setReport( $value )
+    {
+        if ( get_class( $value ) == "ezformreport" )
+            $this->ReportID = $value->id();
+        else if ( is_numeric( $value ) )
+            $this->ReportID = $value;
+    }
+    
     function statisticsType()
     {
         return $this->StatisticsType;
     }
-
+    
     function setStatisticsType( $value )
     {
         $this->StatisticsType = $value;
@@ -153,6 +170,18 @@ class eZFormReportElement
                 return $this->statAverage( &$template );
             }
             break;
+
+            case 5:
+            {
+                return $this->statMin( &$template );
+            }
+            break;
+
+            case 6:
+            {
+                return $this->statMax( &$template );
+            }
+            break;
         }
     }
 
@@ -161,15 +190,38 @@ class eZFormReportElement
         $template->set_var( "frequency_element", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
-        $db->array_query( $res, "SELECT Result, Count(Result) AS Count
-                                 FROM eZForm_FormElementResult WHERE ElementID='$this->ElementID'
-                                 GROUP BY Result ORDER BY Result" );
-        foreach ( $res as $result )
+        $element = $this->element();
+
+        if ( $element->ElementType->name() == "checkbox_item" )
         {
-            $template->set_var( "result", $result[$db->fieldName( "Result" )] );
-            $template->set_var( "count", $result[$db->fieldName( "Count" )] );
-            $template->parse( "frequency_element", "frequency_element_tpl", true );
+            $fixedElements = $element->fixedValues();
+            foreach ( $fixedElements as $fElement )
+            {
+                $db->array_query( $res, "SELECT eZForm_FormElementResult.ID, eZForm_FormElementResult.Result FROM
+                                         eZForm_FormElementResult, eZForm_FormElementFixedValues, eZForm_FormElementFixedValueLink
+                                         WHERE eZForm_FormElementResult.ElementID = eZForm_FormElementFixedValueLink.ElementID AND
+                                         eZForm_FormElementFixedValues.ID = eZForm_FormElementFixedValueLink.FixedValueID AND
+                                         eZForm_FormElementResult.ElementID=705 AND
+                                         eZForm_FormElementResult.Result LIKE '%" . $fElement->value() . "%'
+                                         GROUP BY eZForm_FormElementResult.ID " );
+                $template->set_var( "result", $fElement->value() );
+                $template->set_var( "count", count( $res ) );
+                $template->parse( "frequency_element", "frequency_element_tpl", true );
+            }
         }
+        else
+        {
+            $db->array_query( $res, "SELECT Result, Count(Result) AS Count
+                                     FROM eZForm_FormElementResult WHERE ElementID='$this->ElementID'
+                                     GROUP BY Result ORDER BY Result" );
+            foreach ( $res as $result )
+            {
+                $template->set_var( "result", $result[$db->fieldName( "Result" )] );
+                $template->set_var( "count", $result[$db->fieldName( "Count" )] );
+                $template->parse( "frequency_element", "frequency_element_tpl", true );
+            }
+        }
+        
         $output = $template->parse( $target, "frequency_tpl" );
         return $output;
     }
@@ -213,6 +265,32 @@ class eZFormReportElement
         $output = $template->parse( $target, "average_tpl" );
         return $output;
     }
+
+    function statMin( &$template )
+    {
+        $template->set_var( "min" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT MIN(eZForm_FormElementResult.Result) as Min
+                                  FROM eZForm_FormElementResult
+                                  WHERE ElementID='$this->ElementID'" );
+        $template->set_var( "min", $res[$db->fieldName( "Min" )] );
+        $output = $template->parse( $target, "min_tpl" );
+        return $output;
+    }
+    
+    function statMax( &$template )
+    {
+        $template->set_var( "max" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT MAX(eZForm_FormElementResult.Result) as Max
+                                  FROM eZForm_FormElementResult
+                                  WHERE ElementID='$this->ElementID'" );
+        $template->set_var( "max", $res[$db->fieldName( "Max" )] );
+        $output = $template->parse( $target, "max_tpl" );
+        return $output;
+    }
     
     function types()
     {
@@ -221,13 +299,16 @@ class eZFormReportElement
             array( "Name" => "frequency", "Description" => "intl-frequency" ),
             array( "Name" => "count", "Description" => "intl-count" ),
             array( "Name" => "sum", "Description" => "intl-sum" ),
-            array( "Name" => "average", "Description" => "intl-average" )
+            array( "Name" => "average", "Description" => "intl-average" ),
+            array( "Name" => "min", "Description" => "intl-min" ),
+            array( "Name" => "max", "Description" => "intl-max" )
             );
         return $ret;
     }
     
     var $ID;
     var $ElementID;
+    var $ReportID;
     var $StatisticsType;
 }
 

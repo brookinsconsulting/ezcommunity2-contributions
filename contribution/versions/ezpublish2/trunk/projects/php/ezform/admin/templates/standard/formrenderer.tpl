@@ -190,3 +190,11 @@
 <!-- BEGIN average_tpl -->
 {average}
 <!-- END average_tpl -->
+
+<!-- BEGIN min_tpl -->
+{min}
+<!-- END min_tpl -->
+
+<!-- BEGIN max_tpl -->
+{max}
+<!-- END max_tpl -->

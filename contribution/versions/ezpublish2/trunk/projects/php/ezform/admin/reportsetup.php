@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.2 2002/01/21 11:29:57 jhe Exp $
+// $Id: reportsetup.php,v 1.3 2002/01/21 17:01:54 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -50,7 +50,8 @@ if ( $Action == "store" )
     foreach ( $elements as $element )
     {
         $value = "StatisticsType" . $element->id();
-        $repElement = new eZFormReportElement( $element->id() );
+        $repElement = new eZFormReportElement( $element->id(), $ReportID );
+        $repElement->setReport( $ReportID );
         $repElement->setStatisticsType( $$value );
         $repElement->store();
     }
@@ -82,7 +83,7 @@ $statTypes = eZFormReportElement::types();
 
 foreach ( $elements as $element )
 {
-    $repElement = new eZFormReportElement( $element->id() );
+    $repElement = new eZFormReportElement( $element->id(), $ReportID );
     $t->set_var( "td_class", $i % 2 == 0 ? "bglight" : "bgdark" );
     $t->set_var( "element_id", $element->id() );
     $t->set_var( "element_name", $element->name() );
