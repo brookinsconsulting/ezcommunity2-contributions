@@ -52,8 +52,8 @@ http://<input type="text" name="Url" size="40" value="{url}">
 
 <p class="boxtext">{intl-accepted}</p>
 <select name="Accepted">
-	<option {no_selected} value="N">Nei</option>
-	<option	{yes_selected} value="Y">Ja</option>
+	<option {no_selected} value="N">{intl-no}</option>
+	<option	{yes_selected} value="Y">{intl-yes}</option>
 </select>
 
 <br /><br />
