@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.32 2001/03/01 10:24:28 gl Exp $
+// $Id: ezlocale.php,v 1.33 2001/03/01 10:52:49 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -50,20 +50,25 @@ M - month, textual, 3 letters; i.e. "Jan"
 m - month; i.e. "01" to "12" 
 n - month without leading zeros; i.e. "1" to "12" 
 s - seconds; i.e. "00" to "59" 
+t - number of days in the given month; i.e. "28" to "31" 
 Y - year, 4 digits; i.e. "1999" 
+y - year, 2 digits; i.e. "99" 
 </pre>
 
   The following are not yet implemented.
 <pre>
 I (capital i) - "1" if Daylight Savings Time, "0" otherwise. 
 L - boolean for whether it is a leap year; i.e. "0" or "1" 
-t - number of days in the given month; i.e. "28" to "31" 
 T - Timezone setting of this machine; i.e. "MDT" 
 U - seconds since the epoch 
+V - The ISO 8601:1988 week number of the current year as a decimal number, 
+    range 01 to 53, where week 1 is the first week that has at least 4 days 
+    in the current year, and with Monday as the first day of the week. 
 w - day of the week, numeric, i.e. "0" (Sunday) to "6" (Saturday) 
-y - year, 2 digits; i.e. "99" 
+W - week number of the current year as a decimal number, starting with the 
+    first Monday as the first day of the first week. 
 z - day of the year; i.e. "0" to "365" 
-Z - timezone offset in seconds (i.e. "-43200" to "43200")
+Z - timezone offset in seconds (i.e. "-43200" to "43200") 
 </pre>
 
 Example:
@@ -86,21 +91,21 @@ $time = new eZTime( 12, 2, 23 );
 $currency = new eZCurrency( 4333222111.998877 );
 
 print( "Norwegian<br>" );
-print( "Locallized date: " . $locale->format( $date ) . "<br>" );
-print( "Locallized date: " . $locale->format( $date, false ) . "<br>" );
-print( "Locallized date: " . $locale->format( $date2 ) . "<br>" );
-print( "Locallized time: " . $locale->format( $time ) . "<br>" );
-print( "Locallized currency: " . $locale->format( $currency ) . "<br>" );
+print( "Localized date: " . $locale->format( $date ) . "<br>" );
+print( "Localized date: " . $locale->format( $date, false ) . "<br>" );
+print( "Localized date: " . $locale->format( $date2 ) . "<br>" );
+print( "Localized time: " . $locale->format( $time ) . "<br>" );
+print( "Localized currency: " . $locale->format( $currency ) . "<br>" );
 
 $time->setMySQLTime( "13:37:12" );
 
 $locale = new eZLocale( );
 
 print( "UK English<br>" );
-print( "Locallized date: " . $locale->format( $date ) . "<br>" );
-print( "Locallized date: " . $locale->format( $date, false ) . "<br>" );
-print( "Locallized time: " . $locale->format( $time ) . "<br>" );
-print( "Locallized currency: " . $locale->format( $currency ) . "<br>" );
+print( "Localized date: " . $locale->format( $date ) . "<br>" );
+print( "Localized date: " . $locale->format( $date, false ) . "<br>" );
+print( "Localized time: " . $locale->format( $time ) . "<br>" );
+print( "Localized currency: " . $locale->format( $currency ) . "<br>" );
 
 \endcode
 
@@ -177,6 +182,7 @@ class eZLocale
                     $time = $this->TimeFormat;
                 }
 
+                // ezdate or ezdatetime
                 if ( $objClass != "eztime" )
                 {
                     // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
@@ -205,12 +211,19 @@ class eZLocale
                     // n - month without leading zeros; i.e. "1" to "12"
                     $date =& str_replace( "%n", "" . $obj->month(), $date );
 
+                    // t - number of days in the given month; i.e. "28" to "31" 
+                    $date =& str_replace( "%t", "" . $obj->daysInMonth(), $date );
+
                     // Y - year, 4 digits; i.e. "1999"
                     $date =& str_replace( "%Y", "" . $obj->year(), $date );
+
+                    // y - year, 2 digits; i.e. "99" 
+                    $date =& str_replace( "%y", "" . substr( $obj->year(), 2 ), $date );
 
                     $returnString =& $date;
                 }
 
+                // eztime or ezdatetime
                 if ( $objClass != "ezdate" )
                 {
                     // a - "am" or "pm"
