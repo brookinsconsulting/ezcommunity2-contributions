@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.29 2001/09/14 13:21:20 pkej Exp $
+// $Id: smallcart.php,v 1.30 2001/09/14 19:10:08 br Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -174,7 +174,7 @@ foreach ( $items as $item )
 // shipping cost and VAT
 $cart->cartTotals( $tax, $total, $user );
 
-$locale = new eZLocale( $inLanguage );
+$locale = new eZLocale( $Language );
 $currency = new eZCurrency();
 
 $currency->setValue( $total["shipinctax"] );
