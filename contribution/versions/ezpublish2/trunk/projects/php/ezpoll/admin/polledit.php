@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.17 2000/12/08 13:21:26 bf-cvs Exp $
+// $Id: polledit.php,v 1.18 2000/12/18 14:37:12 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -27,7 +27,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFIle( "site.ini" );
+// $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
 $errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/polledit.php.ini", false );
@@ -88,8 +88,8 @@ if ( $Action == "Insert" )
         
         if ( !$Description )
         {
-            $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
-            $Description =  $ini->read_var( "strings", "description_default" );
+            $languageIni = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
+            $Description =  $languageIni->read_var( "strings", "description_default" );
         }
         
         $poll->setName( $Name );
@@ -239,8 +239,8 @@ if ( $Action == "Edit" )
     }
 
     $Action_value = "update";
-    $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
-    $headline =  $ini->read_var( "strings", "head_line_edit" );
+    $languageIni = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
+    $headline =  $languageIni->read_var( "strings", "head_line_edit" );
 }
 
 // Poll choice list
@@ -250,8 +250,8 @@ $pollChoiceList = $pollChoice->getAll( $PollID );
 
 if ( !$pollChoiceList )
 {
-    $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
-    $nopolls =  $ini->read_var( "strings", "nopolls" );
+    $languageIni = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
+    $nopolls =  $languageIni->read_var( "strings", "nopolls" );
     $t->set_var( "poll_choice", "" );
     
 }
@@ -287,8 +287,8 @@ $t->set_var( "nopolls", $nopolls );
 
 if ( !isset ( $headline ) )
 {
-    $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
-    $headline =  $ini->read_var( "strings", "head_line_insert" );
+    $languageIni = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
+    $headline =  $languageIni->read_var( "strings", "head_line_insert" );
 }
 $t->set_var( "head_line", $headline );
 $t->set_var( "error_msg", $errorMsg );

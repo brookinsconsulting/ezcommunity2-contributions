@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.14 2000/12/08 13:21:26 bf-cvs Exp $
+// $Id: pollist.php,v 1.15 2000/12/18 14:37:12 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -26,7 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFIle( "site.ini" );
+// $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZPollMain", "Language" );
 $errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/pollist.php.ini", false );
 
@@ -81,8 +81,8 @@ $pollList = $poll->getAll( );
 
 if ( !$pollList )
 {
-    $ini = new INIFile( "ezpoll/" . "/admin/" . "intl/" . $Language . "/pollist.php.ini", false );
-    $nopolls =  $ini->read_var( "strings", "nopolls" );
+    $languageIni = new INIFile( "ezpoll/" . "/admin/" . "intl/" . $Language . "/pollist.php.ini", false );
+    $nopolls =  $languageIni->read_var( "strings", "nopolls" );
     $t->set_var( "poll_item", "" );
 }
 

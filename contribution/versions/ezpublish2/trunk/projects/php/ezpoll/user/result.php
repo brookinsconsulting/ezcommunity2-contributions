@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.3 2000/11/13 12:08:18 bf-cvs Exp $
+// $Id: result.php,v 1.4 2000/12/18 14:37:12 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -26,7 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFIle( "site.ini" );
+// $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
 
@@ -114,8 +114,8 @@ foreach ( $pollArray as $poll )
     }
     else
     {
-        $ini = new INIFile( "ezpoll/user/intl/" . $Language . "/result.php.ini", false );
-        $result =  $ini->read_var( "strings", "no_result" );
+        $languageIni = new INIFile( "ezpoll/user/intl/" . $Language . "/result.php.ini", false );
+        $languageIni =  $ini->read_var( "strings", "no_result" );
 
         $t->set_var( "result_list", $result );
     }
