@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.24 2000/11/06 13:57:58 ce-cvs Exp $
+// $Id: message.php,v 1.25 2000/11/28 10:33:17 ce-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -49,10 +49,9 @@ $t->set_block( "message_tpl", "message_item_tpl", "message_item" );
 $message = new eZForumMessage( $MessageID );
 $forum = new eZForum( $message->forumID() );
 
-$CategoryID = $forum->categoryID();
+$categories = $forum->categories();
 
-$category = new eZForumCategory( );
-$category->get( $forum->CategoryID );
+$category = new eZForumCategory( $categories[0]->id() );
 
 $t->set_var( "category_id", $category->id( ) );
 $t->set_var( "category_name", $category->name( ) );
