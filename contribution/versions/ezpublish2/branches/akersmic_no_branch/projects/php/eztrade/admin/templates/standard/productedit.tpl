@@ -15,6 +15,7 @@
 <tr>
 	<td valign="top">	
 	<p class="boxtext">{intl-category}:</p>
+        <!-- 
 	<select name="CategoryID">
 	<!-- BEGIN value_tpl -->
 	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
@@ -28,6 +29,9 @@
 	<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
 	<!-- END multiple_value_tpl -->
 	</select>
+        -->
+        {category_name}
+        <input type="hidden" name="CategoryID" value="{category_id}" />
 	</td>
 </tr>
 <tr>

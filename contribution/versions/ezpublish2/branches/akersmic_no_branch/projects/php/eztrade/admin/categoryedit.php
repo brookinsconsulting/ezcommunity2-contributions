@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: categoryedit.php,v 1.23 2001/09/21 09:48:35 bf Exp $
+//
+// $Id: categoryedit.php,v 1.23.8.1 2002/01/03 08:54:39 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
@@ -60,7 +61,7 @@ if ( $Action == "Insert" )
 {
     $parentCategory = new eZProductCategory();
     $parentCategory->get( $ParentID );
-    
+
     $category = new eZProductCategory();
     $category->setName( $Name );
     $category->setParent( $parentCategory );
@@ -74,7 +75,7 @@ if ( $Action == "Insert" )
         $image = new eZImage( );
         $image->setName( "Image" );
         $image->setImage( $file );
-        
+
         $image->store();
         $category->setImage( $image );
     }
@@ -82,7 +83,7 @@ if ( $Action == "Insert" )
     $category->store();
 
     $categoryID = $category->id();
-    
+
     /* write access select */
     if( isset( $WriteGroupArray ) )
     {
@@ -92,7 +93,7 @@ if ( $Action == "Insert" )
         }
         else
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' );
             foreach( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'w' );
@@ -113,7 +114,7 @@ if ( $Action == "Insert" )
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' );
             foreach ( $ReadGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'r' );
@@ -162,14 +163,14 @@ if ( $Action == "Update" )
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
     $category->setSortMode( $SortMode );
-    
+
     $file = new eZImageFile();
     if ( $file->getUploadedFile( "ImageFile" ) )
     {
         $image = new eZImage( );
         $image->setName( "Image" );
         $image->setImage( $file );
-        
+
         $image->store();
         $category->setImage( $image );
     }
@@ -180,7 +181,7 @@ if ( $Action == "Update" )
     $category->store();
 
     $categoryID = $category->id();
-    
+
     /* write access select */
     if( isset( $WriteGroupArray ) )
     {
@@ -190,7 +191,7 @@ if ( $Action == "Update" )
         }
         else
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' );
             foreach( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'w' );
@@ -211,7 +212,7 @@ if ( $Action == "Update" )
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' );
             foreach ( $ReadGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'r' );
@@ -272,7 +273,7 @@ if ( $Action == "Delete" )
     }
 
     $category->delete();
-    
+
     eZHTTPTool::header( "Location: /trade/categorylist/" );
     exit();
 }
@@ -340,9 +341,9 @@ $t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
 $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
 
-$category = new eZProductCategory();
+// $category = new eZProductCategory();
 
-$categoryArray = $category->getTree( );
+// $categoryArray = $category->getTree( );
 
 $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
@@ -354,8 +355,8 @@ $t->set_var( "3_selected", "" );
 $t->set_var( "4_selected", "" );
 $t->set_var( "image_item", "" );
 
-$writeGroupsID = array(); 
-$readGroupsID = array(); 
+$writeGroupsID = array();
+$readGroupsID = array();
 
 // edit
 if ( $Action == "Edit" )
@@ -403,14 +404,14 @@ if ( $Action == "Edit" )
     {
         $imageWidth =& $ini->read_var( "eZTradeMain", "CategoryImageWidth" );
         $imageHeight =& $ini->read_var( "eZTradeMain", "CategoryImageHeight" );
-        
+
         $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-        
+
         $imageURL = "/" . $variation->imagePath();
         $imageWidth = $variation->width();
         $imageHeight = $variation->height();
         $imageCaption = $image->caption();
-        
+
         $t->set_var( "image_width", $imageWidth );
         $t->set_var( "image_height", $imageHeight );
         $t->set_var( "image_url", $imageURL );
@@ -429,6 +430,18 @@ if ( $Action == "Edit" )
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
 
+if ( is_numeric ( eZHTTPTool::getVar( "CategoryID" ) ) )
+{
+    $category = new eZProductCategory( eZHTTPTool::getVar( "CategoryID" ) );
+    print( $CategoryID );
+    if ( is_object( $category ) )
+    {
+        $t->set_var( "category_name", $category->name() );
+        $t->set_var( "category_id", $category->id() );
+    }
+}
+
+/*
 foreach ( $categoryArray as $catItem )
 {
     if ( $CategoryID != $catItem[0]->id() )
@@ -440,19 +453,19 @@ foreach ( $categoryArray as $catItem )
         {
 		    if ( $parent )
 			{
-            	if ( $catItem[0]->id() == $parent->id() )
-            	{
-                	$t->set_var( "selected", "selected" );
-            	}
-            	else
-            	{            
-               		$t->set_var( "selected", "" );
-            	}
+	if ( $catItem[0]->id() == $parent->id() )
+	{
+	$t->set_var( "selected", "selected" );
+	}
+	else
+	{
+		$t->set_var( "selected", "" );
+	}
 			}
-            
+
         }
         else
-        {            
+        {
             $t->set_var( "selected", "" );
         }
 
@@ -464,6 +477,7 @@ foreach ( $categoryArray as $catItem )
         $t->parse( "value", "value_tpl", true );
     }
 }
+*/
 
 $sectionList =& eZSection::getAll();
 
@@ -473,12 +487,12 @@ if ( count( $sectionList ) > 0 )
     {
         $t->set_var( "section_id", $section->id() );
         $t->set_var( "section_name", $section->name() );
-        
+
         if ( $sectionID == $section->id() )
             $t->set_var( "section_is_selected", "selected" );
         else
             $t->set_var( "section_is_selected", "" );
-        
+
         $t->parse( "section_item", "section_item_tpl", true );
     }
 }
@@ -503,7 +517,7 @@ foreach( $groupList as $groupItem )
         $t->set_var( "selected", "" );
 
     $t->parse( "read_group_item", "read_group_item_tpl", true );
-        
+
     /* for the read access groups selector */
     $t->set_var( "write_id", $groupItem->id() );
     $t->set_var( "write_name", $groupItem->name() );

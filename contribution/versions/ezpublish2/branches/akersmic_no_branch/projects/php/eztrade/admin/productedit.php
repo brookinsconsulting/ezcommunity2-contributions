@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: productedit.php,v 1.69.2.1 2001/11/19 10:10:58 bf Exp $
+//
+// $Id: productedit.php,v 1.69.2.1.4.1 2002/01/03 08:54:40 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -76,7 +76,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     {
         $file->delete();
     }
-    
+
 }
 
 $ini =& INIFile::globalINI();
@@ -114,6 +114,11 @@ if ( isSet( $SubmitPrice ) )
     exit();
 }
 
+if ( isSet ( $NewProduct ) )
+{
+    $Action = "New";
+}
+
 if ( isSet( $DeleteProducts ) )
 {
     $Action = "DeleteProducts";
@@ -135,7 +140,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
         $was_hotdeal = $product->isHotDeal();
 
     }
-    
+
     $product->setName( $Name );
 
     $generator = new eZArticleGenerator();
@@ -144,7 +149,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
     if ( eZXML::domTree( $contents ) )
     {
         $product->setContents( $contents );
-    
+
         $product->setKeywords( $Keywords  );
         $product->setProductNumber( $ProductNumber );
         $product->setExternalLink( $ExternalLink );
@@ -154,7 +159,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
 
         $shippingGroup = new eZShippingGroup( $ShippingGroupID );
         $product->setShippingGroup( $shippingGroup );
-    
+
         if ( $ShowPrice == "on" )
         {
             $product->setShowPrice( true );
@@ -184,7 +189,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
         {
             $product->setIsHotDeal( false );
         }
-    
+
         $product->setPrice( $Price );
 
         if ( $IncludesVAT == "true" )
@@ -197,7 +202,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
         }
 
 
-    
+
         if ( $Expiry > 0 )
             $product->setExpiryTime( $Expiry );
 
@@ -223,7 +228,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
 
         if ( $ProductID )
             eZPriceGroup::removePrices( $ProductID, -1 );
-        
+
         $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
 
         for ( $i = 0; $i < $count; $i++ )
@@ -234,7 +239,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
             }
         }
 
-        
+
         eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
         if( isset( $WriteGroupArray ) )
         {
@@ -254,7 +259,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
         {
             eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
         }
-    
+
         /* read access thingy */
         eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
         if ( isset( $ReadGroupArray ) )
@@ -275,7 +280,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
         {
             eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
         }
-    
+
         // Calculate which categories are new and which are unused
 
         if ( $Action == "Update" )
@@ -285,10 +290,10 @@ if ( $Action == "Update"  or $Action == "Insert" )
             $old_categories = array_unique( $old_categories );
 
             $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-        
+
             $remove_categories = array_diff( $old_categories, $new_categories );
             $add_categories = array_diff( $new_categories, $old_categories );
-        
+
             foreach ( $remove_categories as $categoryItem )
             {
                 eZProductCategory::removeProduct( $product, $categoryItem );
@@ -298,8 +303,8 @@ if ( $Action == "Update"  or $Action == "Insert" )
         {
             $add_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
         }
-         
-       
+
+
         // add a product to the categories
         $category = new eZProductCategory( $CategoryID );
         $product->setCategoryDefinition( $category );
@@ -368,7 +373,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
         // get the category to redirect to
         $category = $product->categoryDefinition();
         $categoryID = $category->id();
-    
+
         eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
         exit();
     }
@@ -419,15 +424,15 @@ if ( $Action == "DeleteProducts" )
             foreach ( $categoryArray as $cat )
             {
                 $categoryIDArray[] = $cat->id();
-            }    
-    
+            }
+
 
             // clear the cache files.
             deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
 
             $category = $product->categoryDefinition( );
             $categoryID = $category->id();
-    
+
             $product->delete();
 
             eZPriceGroup::removePrices( $ProductID, -1 );
@@ -453,18 +458,18 @@ if ( $Action == "Delete" )
     foreach ( $categoryArray as $cat )
     {
         $categoryIDArray[] = $cat->id();
-    }    
+    }
 
     // clear the cache files.
     deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
 
     $category = $product->categoryDefinition( );
     $categoryID = $category->id();
-    
+
     $product->delete();
 
     eZPriceGroup::removePrices( $ProductID, -1 );
-    
+
     eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID/" );
     exit();
 }
@@ -518,8 +523,8 @@ $t->set_var( "external_link", "" );
 
 $t->set_var( "action_value", "insert" );
 
-$writeGroupsID = array(); 
-$readGroupsID = array(); 
+$writeGroupsID = array();
+$readGroupsID = array();
 
 $VatType = false;
 // edit
@@ -547,8 +552,8 @@ if ( $Action == "Edit" )
         $t->set_var( "brief_value", $contentsArray[0] );
         $t->set_var( "description_value", $contentsArray[1] );
     }
-        
-    
+
+
     $t->set_var( "action_value", "update" );
     $t->set_var( "product_id", $product->id() );
 
@@ -595,8 +600,8 @@ if ( $Action == "Edit" )
     $writeGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'r', false );
 
-    $VatType =& $product->vatType();    
-    $ShippingGroup =& $product->shippingGroup();    
+    $VatType =& $product->vatType();
+    $ShippingGroup =& $product->shippingGroup();
 }
 
 if ( $UseVoucher )
@@ -623,9 +628,25 @@ else
     $t->parse( "normal_price", "normal_price_tpl" );
 }
 
-$category = new eZProductCategory();
-$categoryArray = $category->getTree( );
+if ( isSet ( $CategoryID ) )
+{
+    $category = new eZProductCategory( $CategoryID );
+}
+else if ( is_object ( $product ) )
+{
+    $defCat = $product->categoryDefinition();
+    $category = new eZProductCategory( $defCat->id() );
+}
 
+if ( is_object( $category ) )
+{
+    $t->set_var( "category_name", $category->name() );
+    $t->set_var( "category_id", $category->id() );
+}
+
+/*
+
+$categoryArray = $category->getTree( );
 foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
@@ -654,8 +675,8 @@ foreach ( $categoryArray as $catItem )
     {
         $t->set_var( "selected", "" );
         $t->set_var( "multiple_selected", "" );
-    }    
-    
+    }
+
 //      if ( $Action == "Edit" )
 //      {
 //          if ( $product->existsInCategory( $catItem ) )
@@ -667,7 +688,7 @@ foreach ( $categoryArray as $catItem )
 //      {
 //              $t->set_var( "selected", "" );
 //      }
-    
+
     $t->set_var( "option_value", $catItem[0]->id() );
     $t->set_var( "option_name", $catItem[0]->name() );
 
@@ -677,8 +698,9 @@ foreach ( $categoryArray as $catItem )
         $t->set_var( "option_level", "" );
 
     $t->parse( "value", "value_tpl", true );
-    $t->parse( "multiple_value", "multiple_value_tpl", true );    
+    $t->parse( "multiple_value", "multiple_value_tpl", true );
 }
+*/
 
 // show the VAT values
 
@@ -695,7 +717,7 @@ foreach ( $vatTypes as $type )
     {
         $t->set_var( "vat_selected", "" );
     }
-        
+
     $t->set_var( "vat_id", $type->id() );
     $t->set_var( "vat_name", $type->name() . " (" . $type->value() . ")%" );
 
@@ -720,7 +742,7 @@ foreach ( $groups as $group )
     }
 
     $t->set_var( "shipping_group_id", $group->id() );
-    
+
     $t->set_var( "shipping_group_name", $group->name() );
 
     $t->parse( "shipping_select", "shipping_select_tpl", true );
@@ -789,9 +811,9 @@ if ( $ShowPriceGroups )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "shipping_group_id", $group->id() );
-    
+
     $t->set_var( "shipping_group_name", $group->name() );
 
 $t->set_var( "module_linker_button", "" );
@@ -808,14 +830,14 @@ foreach ( $groupList as $groupItem )
     // for the group owner selector
     $t->set_var( "read_id", $groupItem->id() );
     $t->set_var( "read_name", $groupItem->name() );
-    
+
     if ( in_array( $groupItem->id(), $writeGroupsID ) )
         $t->set_var( "is_selected", "selected" );
     else
         $t->set_var( "is_selected", "" );
-    
+
     $t->parse( "read_group_item", "read_group_item_tpl", true );
-    
+
     // for the read access groups selector
     $t->set_var( "write_name", $groupItem->name() );
     $t->set_var( "write_id", $groupItem->id() );

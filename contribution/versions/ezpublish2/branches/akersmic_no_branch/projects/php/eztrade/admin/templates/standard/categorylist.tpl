@@ -191,10 +191,16 @@
 <hr noshade="noshade" size="4" />
 <input type="hidden" name="CategoryID" value="{category_id}" />
 <input type="hidden" name="Offset" value="{offset}" />
-<input class="stdbutton" type="submit" Name="SubmitPrice" value="{intl-submit_price}" />
-<input class="stdbutton" type="submit" Name="DeleteProducts" value="{intl-deleteproducts}" />
+<input class="stdbutton" type="submit" Name="NewProduct" value="Nytt produkt" />&nbsp;
+<input class="stdbutton" type="submit" Name="SubmitPrice" value="{intl-submit_price}" />&nbsp;
+<input class="stdbutton" type="submit" Name="DeleteProducts" value="{intl-deleteproducts}" />&nbsp;
 </form>
 <!-- END product_list_tpl -->
+<br />
+<form method="post" action="{www_dir}{index}/trade/categoryedit/edit/" enctype="multipart/form-data">
+<input type="hidden" name="CategoryID" value="{category_id}" />
+<input class="stdbutton" type="submit" Name="NewCategory" value="Ny kategori" />&nbsp;
+</form>
 
 
 
