@@ -300,6 +300,11 @@ if( $Action == "new" )
         $t->parse( "hidden_person_contact_item", "hidden_person_contact_item_tpl" );
         $t->set_var( "hidden_company_contact_item", "" );
     }
+    else
+    {
+        $t->set_var( "hidden_company_contact_item", "" );
+        $t->set_var( "hidden_person_contact_item", "" );
+    }
 
     $Action_value = "insert";
     $t->set_var( "consultation_id", "0" );
