@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.105 2001/07/02 12:43:25 bf Exp $
+// $Id: ezarticle.php,v 1.106 2001/07/03 12:41:58 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1817,11 +1817,12 @@ class eZArticle
         }
 
         $db =& eZDB::globalDatabase();
-        $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, eZUser_Author.Name AS ContentsWriter, ContentsWriterID
+        
+        $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, eZUser_Author.Name AS ContentsWriter, eZUser_Author.ID AS ContentsWriterID
                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink, eZUser_Author
                                        WHERE IsPublished='1' AND eZArticle_Article.ID=ArticleID
                                        AND eZArticle_Article.ContentsWriterID=eZUser_Author.ID
-                                       GROUP BY ContentsWriterID $sort_text ",
+                                       GROUP BY eZUser_Author.ID, eZUser_Author.Name $sort_text ",
         array( "Limit" => $limit, "Offset" => $offset ) );
         
         return $qry_array;
@@ -1889,7 +1890,7 @@ class eZArticle
                      FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryLink as ACL, eZArticle_ArticlePermission AS P, eZUser_Author as Author
                      WHERE A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND A.ContentsWriterID=Author.ID AND
                      IsPublished='1' AND ContentsWriterID='$authorid' AND $loggedInSQL
-                     A.ID=P.ObjectID GROUP BY A.ContentsWriterID $sort_text ";
+                     A.ID=P.ObjectID  $sort_text ";
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
@@ -1926,7 +1927,7 @@ class eZArticle
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
        
 
-        $query = "SELECT A.ID AS Count 
+        $query = "SELECT count( A.ID ) AS Count 
                      FROM eZArticle_Article AS A,
                      eZArticle_ArticlePermission AS P,
                      eZUser_Author as Author
@@ -1935,7 +1936,8 @@ class eZArticle
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query );
-        return count( $qry_array );
+
+        return (int)$qry_array[0][$db->fieldName("Count")];
     }
 
     /*!

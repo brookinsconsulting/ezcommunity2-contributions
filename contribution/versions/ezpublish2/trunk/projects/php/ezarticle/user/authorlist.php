@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.4 2001/06/05 09:32:32 bf Exp $
+// $Id: authorlist.php,v 1.5 2001/07/03 12:41:58 bf Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 14:54:04 amos>
@@ -49,16 +49,19 @@ if ( !isset( $Limit ) or !is_numeric( $Limit ) )
 if ( !isset( $SortOrder ) )
     $SortOrder = "name";
 
-$authors = eZArticle::authorList( $Offset, $Limit, $SortOrder );
+$authors =& eZArticle::authorList( $Offset, $Limit, $SortOrder );
+
+$db = eZDB::globalDatabase();
 
 $t->set_var( "author_item", "" );
 $i = 0;
 foreach( $authors as $author )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-    $t->set_var( "author_id", $author["ContentsWriterID"] );
-    $t->set_var( "author_name", $author["ContentsWriter"] );
-    $t->set_var( "article_count", $author["Count"] );
+    $t->set_var( "author_id", $author[$db->fieldName("ContentsWriterID")] );
+    $t->set_var( "author_name", $author[$db->fieldName("ContentsWriter")] );
+    
+    $t->set_var( "article_count", (int)$author[$db->fieldName("Count")] );
     $t->parse( "author_item", "author_item_tpl", true );
     $i++;
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorview.php,v 1.7 2001/06/05 09:32:32 bf Exp $
+// $Id: authorview.php,v 1.8 2001/07/03 12:41:58 bf Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 15:36:13 amos>
@@ -54,13 +54,13 @@ if ( !isset( $Limit ) or !is_numeric( $Limit ) )
 if ( !isset( $SortOrder ) )
     $SortOrder = "published";
 
-$article_count = eZArticle::authorArticleCount( $AuthorID );
+$article_count =& eZArticle::authorArticleCount( $AuthorID );
 
 $t->set_var( "article_count", $article_count );
 $t->set_var( "article_start", $Offset + 1 );
 $t->set_var( "article_end", min( $Offset + $Limit, $article_count ) );
 
-$articles = eZArticle::authorArticleList( $AuthorID, $Offset, $Limit, $SortOrder );
+$articles =& eZArticle::authorArticleList( $AuthorID, $Offset, $Limit, $SortOrder );
 
 $t->set_var( "author_id", $AuthorID );
 $author = new eZAuthor( $AuthorID );
@@ -70,17 +70,19 @@ $t->set_var( "author_mail", $author->email() );
 $t->set_var( "sort", $SortOrder );
 
 $t->set_var( "article_item", "" );
+
+$db = eZDB::globalDatabase();
 $i = 0;
 $dateTime = new eZDateTime();
 foreach( $articles as $article )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-    $t->set_var( "article_id", $article["ID"] );
-    $t->set_var( "article_name", htmlspecialchars( $article["Name"] ) );
-    $t->set_var( "category_id", $article["CategoryID"] );
-    $t->set_var( "article_category", $article["CategoryName"] );
-    $t->set_var( "author_name", $article["AuthorName"] );
-    $dateTime->setMySQLTimeStamp( $article["Published"] );
+    $t->set_var( "article_id", $article[$db->fieldName("ID")] );
+    $t->set_var( "article_name", htmlspecialchars( $article[$db->fieldName("Name")] ) );
+    $t->set_var( "category_id", $article[$db->fieldName("CategoryID")] );
+    $t->set_var( "article_category", $article[$db->fieldName("CategoryName")] );
+    $t->set_var( "author_name", $article[$db->fieldName("AuthorName")] );
+    $dateTime->setTimeStamp( $article[$db->fieldName("Published")] );
     $t->set_var( "article_published", $locale->format( $dateTime ) );
     $t->parse( "article_item", "article_item_tpl", true );
     $i++;
