@@ -1,6 +1,6 @@
 %<?php
 // 
-// $Id: ezproduct.php,v 1.65 2001/07/24 13:56:25 br Exp $
+// $Id: ezproduct.php,v 1.66 2001/07/24 14:14:54 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -793,11 +793,11 @@ class eZProduct
 
             $db =& eZDB::globalDatabase();
             $db->begin();
-            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' AND ImageID='$imageID'" );
-            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND MainImageID='$imageID'" );
-            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND ThumbnailImageID='$imageID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' AND ImageID='$imageID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND MainImageID='$imageID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND ThumbnailImageID='$imageID'" );
             if ( in_array( false, $res ) )
-                $db->rollback( );
+                $db->rollback();
             else
                 $db->commit();            
         }
@@ -1221,7 +1221,7 @@ class eZProduct
     {
        if ( is_numeric( $limit ) and $limit >= 0 )
        {
-           $limit_text = "array( "Limit" => $limit, "Offset" => 0 )";
+           $limit_text = "array( \"Limit\" => $limit, \"Offset\" => 0 )";
        }
 
        $ret = array();
