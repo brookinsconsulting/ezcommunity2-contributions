@@ -1,9 +1,9 @@
 <?php
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
-header("Cache-Control: no-cache, must-revalidate"); 
-header("Pragma: no-cache");
+//  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+//  header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+//  header("Cache-Control: no-cache, must-revalidate"); 
+//  header("Pragma: no-cache");
 
 ob_start();
 
@@ -45,7 +45,7 @@ if ( $user )
     if ( ! ( $HelpMode == "enabled" ) )
     {
         if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )
-            include( "ezspecific/seanex/ezarticle/admin/menubox.php" );
+            include( "ezarticle/admin/menubox.php" );
 
         if ( $ini->read_var( "site", "eZNewsFeed" ) == "enabled" )
             include( "eznewsfeed/admin/menubox.php" );
