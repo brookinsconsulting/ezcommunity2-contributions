@@ -1,6 +1,12 @@
 eZ publish changelog:
 ---------------------
 
+Changes from 2.2.2 to 2.2.3
+---------------------------
+* Fixed missing discount column in cart and checkout.
+* Fixed wrong computation of VAT/Tax in options
+* Fixed wrong display of prices in product lists.
+
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------
 * Fixed cookie problem with some IE browsers
