@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.12 2002/01/30 11:08:59 bf Exp $
+// $Id: productsearch.php,v 1.20.8.13 2002/01/30 12:12:09 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -103,6 +103,7 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
                                                                       "MusicType" => $MusicType,
                                                                       "AlbumTitle" => $AlbumTitle,
                                                                       "Artist" => $Artist,
+                                                                      "Recording" => $Recording,
                                                                       "DVDTitle" => $DVDTitle,
                                                                       "DVDActor" => $DVDActor,
                                                                       "MultimediaType" => $MultimediaType,

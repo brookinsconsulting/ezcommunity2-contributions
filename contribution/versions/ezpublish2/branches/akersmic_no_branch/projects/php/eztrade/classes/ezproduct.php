@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.19 2002/01/30 11:08:59 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.20 2002/01/30 12:12:09 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1643,7 +1643,8 @@ class eZProduct
         $searchType = $params["SearchType"];
         $albumTitle = $params["AlbumTitle"];
         $artist = $params["Artist"];
-
+        $recording = $params["Recording"];
+             
         $dvdTitle = $params["DVDTitle"];
         $dvdActor = $params["DVDActor"];
 
@@ -1719,6 +1720,11 @@ class eZProduct
                         $artistSQL = " AND eZTrade_Product.Artist LIKE '%$artist%' ";
                     }
 
+                    if ( $recording != "" )
+                    {
+                        $recordingSQL = " AND eZTrade_Product.Innspilling LIKE '%$recording%' ";
+                    }
+
 
                     $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
                  FROM eZTrade_Product,
@@ -1732,6 +1738,7 @@ class eZProduct
                          $attributeSQL
                          $albumSQL
                          $artistSQL
+                         $recordingSQL
                        ORDER BY $OrderBy";
 
 
