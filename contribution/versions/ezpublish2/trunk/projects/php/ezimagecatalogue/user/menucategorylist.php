@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menucategorylist.php,v 1.1 2001/09/30 13:01:16 bf Exp $
+// $Id: menucategorylist.php,v 1.2 2001/10/05 12:37:22 bf Exp $
 //
 // Created on: <30-Sep-2001 15:53:38 bf>
 //
@@ -52,18 +52,20 @@ $t->set_block( "category_list_tpl", "category_tpl", "category" );
 
 $category = new eZImageCategory( $CategoryID );
 
-
+$user = eZUser::currentUser();
 // Print out all the categories
 $categoryList =& $category->getByParent( $category );
 
-$i=0;
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "category_name", $categoryItem->name() );
-    $t->set_var( "category_id", $categoryItem->id() );
-
-    $t->parse( "category", "category_tpl", true );
-    $i++;
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "r", $user ) ||
+         eZImageCategory::isOwner( $user, $categoryItem->id()) )
+    {
+        $t->set_var( "category_name", $categoryItem->name() );
+        $t->set_var( "category_id", $categoryItem->id() );
+        
+        $t->parse( "category", "category_tpl", true );
+    }
 }
 
 if ( count( $categoryList ) )
@@ -74,25 +76,6 @@ else
 {
     $t->set_var( "category_list", "" );
 }
-
-$limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
-
-// Print out all the images
-if ( isSet( $SearchText )  )
-{
-    $imageList =& eZImage::search( $SearchText );
-    $count =& eZImage::searchCount( $SearchText );
-}
-else
-{
-    $imageList =& $category->images( "time", $Offset, $limit );
-    $count =& $category->imageCount(  );
-}
-
-
-$i = 0;
-$j = 0;
-$counter = 0;
 
 
 $t->pparse( "output", "menu_category_list_tpl" );
