@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.43 2001/03/01 16:52:13 fh Exp $
+// $Id: ezarticlecategory.php,v 1.44 2001/03/01 19:39:48 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -656,6 +656,7 @@ class eZArticleCategory
            $currentUserID = $user->id();
            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
        }
+    
 
        /*
        $this->Database->array_query( $article_array, "
@@ -776,6 +777,7 @@ class eZArticleCategory
            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
 
        }
+    
 
 /*       $this->Database->array_query( $article_array, "
        select count( Article.ID ) AS Count

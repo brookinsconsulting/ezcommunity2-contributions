@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.47 2001/03/01 16:52:13 fh Exp $
+// $Id: ezarticle.php,v 1.48 2001/03/01 19:39:47 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1082,7 +1082,7 @@ class eZArticle
     }
 
     /*!
-      Returns a all articles an author has written.
+      Returns a all articles an author has written that currentuser is allowed to see.
     */
     function authorArticleList( $authorid, $offset = 0, $limit = -1, $sort = false )
     {
@@ -1117,26 +1117,93 @@ class eZArticle
         {
             $limit_text = "LIMIT $offset, $limit";
         }
-        $db =& eZDB::globalDatabase();
-        $db->array_query( $qry_array, "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
+
+        $user = eZUser::currentUser();
+        $currentUserSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+
+            $groupSQL = "";
+           
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= "P.GroupID=$group OR";
+                else
+                    $groupSQL .= " P.GroupID=$group OR";
+               
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $currentUserSQL = "A.AuthorID=$currentUserID OR";
+        }
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
+        
+       $query = "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
+                     C.ID AS CategoryID, C.Name AS CategoryName
+                     FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
+                     eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
+                     WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+                     A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
+                     GROUP BY A.ID $sort_text $limit_text";
+
+
+    $db =& eZDB::globalDatabase();
+/*        $db->array_query( $qry_array, "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
                                               C.ID AS CategoryID, C.Name AS CategoryName
                                        FROM eZArticle_Article AS A, eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
                                        WHERE IsPublished='true' AND AuthorID='$authorid' AND
                                              A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
-                                       GROUP BY A.ID $sort_text $limit_text" );
+                                             GROUP BY A.ID $sort_text $limit_text" ); */
+    $db->array_query( $qry_array, $query );
         return $qry_array;
     }
     
     /*!
-      Returns the number of articles this author has written.
+      Returns the number of articles this author has written that the user is allowed to see.
     */
     function authorArticleCount( $authorid )
     {
+        
+        $user = eZUser::currentUser();
+        $currentUserSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+
+            $groupSQL = "";
+           
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= "P.GroupID=$group OR";
+                else
+                    $groupSQL .= " P.GroupID=$group OR";
+               
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $currentUserSQL = "A.AuthorID=$currentUserID OR";
+        }
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
+       
+
+        
+       $query = "SELECT count(A.ID ) AS Count 
+                     FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
+                     eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
+                     WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+                     A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID";
+        
         $db =& eZDB::globalDatabase();
-        $db->query_single( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count
-                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink
-                                        WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
-                                        AND AuthorID='$authorid'" );
+//        $db->query_single( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count
+//                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink
+//                                        WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
+//                                        AND AuthorID='$authorid'" );
+        $db->query_single( $qry_array, $query );
         return $qry_array["Count"];
     }
 
