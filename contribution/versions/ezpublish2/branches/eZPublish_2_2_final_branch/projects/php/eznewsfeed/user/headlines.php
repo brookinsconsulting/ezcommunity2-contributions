@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.18.2.2 2002/06/03 17:13:59 fh Exp $
+// $Id: headlines.php,v 1.18.2.3 2002/06/03 17:15:29 fh Exp $
 //
 // Created on: <16-Nov-2000 10:51:34 bf>
 //
@@ -25,7 +25,7 @@
 
 // this page requires the variable $CategoryID to be set
 
-// this allows 
+// this allows several newslistings on the same page:
 if( !function_exists( printNewsHeaderList ) )
 {
     function printNewsHeaderList( $CategoryID, $GenerateStaticPage, $cachedFile )
