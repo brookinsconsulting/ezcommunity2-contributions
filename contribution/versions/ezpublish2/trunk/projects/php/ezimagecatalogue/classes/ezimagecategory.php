@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.14 2001/05/05 11:04:48 bf Exp $
+// $Id: ezimagecategory.php,v 1.15 2001/05/31 13:50:07 virt Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -35,6 +35,8 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/INIFile.php" );
+
 
 class eZImageCategory
 {
@@ -464,8 +466,13 @@ class eZImageCategory
     */
     function images( $sortMode="time",
                        $offset=0,
-                       $limit=50 )
+                       $limit=0 )
     {
+       if ( $limit == 0 )
+       {
+           $ini =& INIFile::globalINI();
+           $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
+       }
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
