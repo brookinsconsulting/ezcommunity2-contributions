@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.12 2001/05/14 12:52:19 bf Exp $
+// $Id: ezpageview.php,v 1.13 2001/06/11 14:04:29 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -97,7 +97,6 @@ class eZPageView
             }
 
             $db->query( "UNLOCK TABLES" );
-
 
             // check if the remote host is already stored in the database, if it it just
             // create a reference to it.
@@ -225,7 +224,7 @@ class eZPageView
 
             $db->query( "UNLOCK TABLES" );
             
-			$this->ID = $db->insertID();      
+			$this->ID = $db->insertID();    
         }
         else
         {
