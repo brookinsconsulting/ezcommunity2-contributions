@@ -22,13 +22,13 @@ CREATE TABLE eZGroupEventCalendar_Event (
    RecurFreq int default NULL,
    RecurType varchar(255) default NULL,
    RecurDay varchar(255) default NULL,
-   RecurMonthly varchar(255) default NULL,
    RecurMonthlyType varchar(32) default NULL,
    RecurMonthlyTypeInfo varchar(64) default NULL,
    RepeatForever int(11) DEFAULT '0' NOT NULL,
    RepeatTimes int(11) DEFAULT '0' NOT NULL,
    RepeatUntilDate timestamp(14),
    RecurExceptions text default NULL,
+   RecurFinishDate timestamp(14),
    PRIMARY KEY (ID)
 );
 DROP TABLE IF EXISTS eZGroupEventCalendar_EventCategory;
@@ -137,11 +137,11 @@ CREATE TABLE `eZGroupEventCalendar_EventFileLink` (
 # Dumping data for table 'eZUser_Module'
 #
 
-INSERT INTO eZUser_Module (Name) VALUES ('eZGroupEventCalendar');
+#INSERT INTO eZUser_Module (Name) VALUES ('eZGroupEventCalendar');
 
 #
 # Dumping data for table 'eZUser_Permission'
 #
 
-INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'Read' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';
-INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'WriteToRoot' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';
+#INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'Read' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';
+#INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'WriteToRoot' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';

@@ -265,44 +265,47 @@
 <div id="gcalRecurringFormWrap">
  {intl-repeat_int} <input type="text" size="4" name="RecurFreq" value="{recur_freq}" /> 
  <select name="RecurType" onChange="toggleRecurTypeLayer();">
-   <option value="rtDay" {rtselect_day}>{intl-event_day}</option>
-   <option value="rtWeek" {rtselect_week}>{intl-event_week}</option>
-   <option value="rtMonth" {rtselect_month}>{intl-event_month}</option>
-   <option value="rtYear" {rtselect_year}>{intl-event_year}</option>
+   <option value="day" {rtselect_day}>{intl-event_day}</option>
+   <option value="week" {rtselect_week}>{intl-event_week}</option>
+   <option value="month" {rtselect_month}>{intl-event_month}</option>
+   <option value="year" {rtselect_year}>{intl-event_year}</option>
  </select>
  
  <div id="gcalRecurringWeekly">
-  <span class="check">{intl-mon}</span>&nbsp;<input {recurring_daily_monday} type="checkbox" name="RecurringDailyMon" />
-  <span class="check">{intl-tue}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyTue" />
-  <span class="check">{intl-wed}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyWed" />
-  <span class="check">{intl-thu}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyThu" />
-  <span class="check">{intl-fri}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyFri" />
-  <span class="check">{intl-sat}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailySat" />
-  <span class="check">{intl-sun}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailySun" />
+  <span class="check">{intl-mon}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="mon" name="RecurWeekly[]" />
+  <span class="check">{intl-tue}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="tue" name="RecurWeekly[]" />
+  <span class="check">{intl-wed}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="wed" name="RecurWeekly[]" />
+  <span class="check">{intl-thu}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="thu" name="RecurWeekly[]" />
+  <span class="check">{intl-fri}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="fri" name="RecurWeekly[]" />
+  <span class="check">{intl-sat}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="sat" name="RecurWeekly[]" />
+  <span class="check">{intl-sun}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="sun" name="RecurWeekly[]" />
  </div>
  <div id="gcalRecurringMonthly">
    <input type="radio" name="RecurTypeMonth" value="daily" {start_daily} />&nbsp;&nbsp;
-   {intl-on_the} {today_date} {intl-of_the_month}.
-   <br />
-   <input type="radio" name="RecurTypeMonth" value="strdayname" {start_StrDayName} />&nbsp;&nbsp;
-   {week_number_str} {today_day_name} {intl-of_the_month}.
+   [current date] {intl-of_the_month}. <i>ex. 26th of the month.</i>
    <br />
    <input type="radio" name="RecurTypeMonth" value="numdayname" {start_NumDayName} />&nbsp;&nbsp;
-   {day_number_str} {today_day_name} {intl-of_the_month}.
+   [first|second|third|fourth] [day name] {intl-of_the_month}. <i>ex. Third Monday {intl-of_the_month}.</i>
+   <br />
+   <input type="radio" name="RecurTypeMonth" value="strdayname" {start_StrDayName} />&nbsp;&nbsp;
+   [last] [day name] {intl-of_the_month}. <i> ex. Last Thursday {intl-of_the_month}.</i>
  </div>
  <br /><br />
- <input type="radio" name="repeatOptions" value="forever" /> {intl-repeat_forever}
+ <input type="radio" name="RepeatOptions" value="forever" /> {intl-repeat_forever}
  <br />
- <input type="radio" name="repeatOptions" value="numTimes" /> {intl-repeat_number} <input type="text" size="10" name="numberOfTimes" />
+ <input type="radio" name="RepeatOptions" value="numTimes" /> {intl-repeat_number} <input type="text" size="10" name="NumberOfTimes" />
  <br />
- <input type="radio" name="repeatOptions" value="UntilDate" /> {intl-repeat_until} <input type="text" size="20" name="untilDate" />
+ <input type="radio" name="RepeatOptions" value="untilDate" /> {intl-repeat_until} <input type="text" size="20" name="UntilDate" />
  <br />
  <br />
 {intl-repeat_exceptions} <br />
- <a href="#" style="font-size: 9px;">{intl-repeat_exception_add}</a> <a href="#" style="font-size: 9px;">{intl-repeat_exception_remove}</a><br /><br />
- <input type="text" size=7 name="untilDate" /> <br /><br />
+ <a href="#" style="font-size: 9px;">{intl-repeat_exception_add}</a> 
+ <a href="#" style="font-size: 9px;">{intl-repeat_exception_remove}</a><br /><br />
+ <input type="text" size=7 name="RecurExceptions[]" /> <br /><br />
  <select name="select" multiple>
- <option>08/19/1983</option>
+<!-- START recur_exceptions_tpl --> 
+ <option></option>
+<!-- END recur_exceptions_tpl --> 
  </select>
 </div>
 <!-- End recurring event stuff -->
@@ -320,8 +323,8 @@ if ( frm.IsRecurring.checked == true ) {
  hideDiv('gcalRecurringWeekly', 'gcalRecurringMonthly');
  var field = document.EventEdit.RecurType
  var option = field.options[field.selectedIndex].value;
- if (option == "rtWeek") { showDiv('gcalRecurringWeekly') }
- else if (option == "rtMonth") { showDiv('gcalRecurringMonthly') }
+ if (option == "week") { showDiv('gcalRecurringWeekly'); }
+ else if (option == "month") { showDiv('gcalRecurringMonthly') }
  }
 }
 
@@ -460,14 +463,22 @@ function isDayValidForThisMonthAndYear(intDay,intMonth,intYear)
     return true;
 }
 
-
+function getDaysInMonth(month,year)  {
+var days;
+if (month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)  days=31;
+else if (month==4 || month==6 || month==9 || month==11) days=30;
+else if (month==2)  {
+if (isLeapYear(year)) { days=29; }
+else { days=28; }
+}
+return (days);
+}
 
 
 // form validation function
 
 function formCheck(form) 
 {
-
 ///////////////////////////////////////////////////////////////////////////////////////
 // broswer sniffer
 ///////////////////////////////////////////////////////////////////////////////////////

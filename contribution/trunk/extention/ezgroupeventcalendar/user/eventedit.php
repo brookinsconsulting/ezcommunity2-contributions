@@ -477,8 +477,9 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 
         $event->setPriority( $Priority );
         $event->setStatus( $Status );
+	
 
-        if ( $IsPrivate == "on" )
+	if ( $IsPrivate == "on" )
             $event->setIsPrivate( true );
         else
             $event->setIsPrivate( false );
@@ -611,9 +612,35 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         {
             $StopTimeError = true;
         }
+	
+	// setting recurrance variables to be used by the store() function
+	$event->setRecurFreq ($RecurFreq );
+	$event->setIsRecurring ( $IsRecurring );
+	$event->setRecurType ( $RecurType );
+	// we will now check the RecurType to see if it is a weekly recurrance
+	if ($event->RecurType == 'week') 
+	  // it is, so let's set the RecurDay property (checkbox group is named RecurWeekly)
+	  $event->setRecurDay( $RecurWeekly );
+	else 
+	// if not, we will set it as blank (which is the default of the setRecurDay method)
+	  $event->setRecurDay();
+	  $event->setRecurExceptions( $RecurExceptions );
+	// now we check to see if the RecurType is month
+	if ($event->RecurType == 'month')
+	  // it is, so let's set RecurMonthlyType
+	  $event->setRecurMonthlyType( $RecurTypeMonth, $datetime );
+	  // if not, we set it to blank
         else
-        {
-
+	  $event->setRecurMonthlyType();
+	// feed repeat options to setFinishTime
+	if ($RepeatOptions=='numTimes')
+	 $event->setFinishDateNot($NumberOfTimes, $RecurFreq, $RecurType, $datetime);
+	elseif ($RepeatOptions=='untilDate')
+	 $event->setFinishDateUntil($UntilDate);
+	else // must be forever
+	$event->SetFinishDateForever();
+	
+	
 	  /*
             $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
                                     $stopTime->minute() - $startTime->minute() );
@@ -638,7 +665,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 
 	    die();
 	    */
-
+	    // spectrum : check to see if this is a recurring event
        }
 
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
@@ -806,7 +833,6 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 			}
         }
     }
-}
 
 
 $t->set_var( "user_error", "" );
