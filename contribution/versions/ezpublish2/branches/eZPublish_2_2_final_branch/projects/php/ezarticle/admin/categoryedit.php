@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.29.2.3 2002/04/25 12:15:56 bf Exp $
+// $Id: categoryedit.php,v 1.29.2.4 2003/04/10 08:14:20 br Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -423,6 +423,7 @@ $t->set_var( "bulkmail_category_item", "" );
 $t->set_var( "no_bulkmail_selected", "selected" );
 
 $t->set_var( "image_item", "" );
+$t->set_var( "category_id", "" );
 
 $writeGroupsID = array(); 
 $readGroupsID = array(); 
