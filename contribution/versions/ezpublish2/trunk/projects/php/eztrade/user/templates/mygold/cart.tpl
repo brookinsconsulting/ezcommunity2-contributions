@@ -12,7 +12,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="1" border="0">
   <!-- BEGIN cart_item_list_tpl -->
   <tr align="left">
-    <th width="1%""><nobr>&nbsp;{intl-product_qty}:</nobr></th>
+    <th width="1%"><nobr>&nbsp;{intl-product_qty}:</nobr></th>
     <th width="1%"><nobr>&nbsp;&nbsp;{intl-product_number}:</nobr></th>    
     <th><nobr>&nbsp;&nbsp;{intl-product_name}:</nobr></th>
     <!-- BEGIN header_savings_item_tpl -->
@@ -25,6 +25,9 @@
     <th width="1%"><nobr>&nbsp;{intl-product_total_inc_tax}:</nobr></th>
     <!-- END header_inc_tax_item_tpl -->
     <th width="1%">&nbsp;</th>
+    <!-- BEGIN edit_voucher_info_header_tpl -->
+    <th width="1%">&nbsp;</th>
+    <!-- END edit_voucher_info_header_tpl -->
   </tr>
   <!-- BEGIN cart_item_tpl -->
   <tr valign="top">
@@ -54,6 +57,9 @@
     <td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
     <!-- END cart_inc_tax_item_tpl -->
     <td class="{td_class}" align="center"><input type="checkbox" class="{td_class}" name="CartSelectArray[]" value="{cart_item_id}" /></td>
+    <!-- BEGIN edit_voucher_info_tpl -->
+    <td class="{td_class}" align="center"><a href="{www_dir}{index}/trade/voucherinformation/{product_id}/{mail_method}/{voucher_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{voucher_id}-red,'','/images/redigerminimrk.gif',1)"><img name="eztrade{voucher_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <!-- END edit_voucher_info_tpl -->
   </tr>
   <!-- BEGIN cart_item_basis_tpl -->
     <!-- {intl-basis_price} {basis_price} -->

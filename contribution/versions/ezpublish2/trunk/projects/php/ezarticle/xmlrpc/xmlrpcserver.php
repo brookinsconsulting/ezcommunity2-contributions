@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: xmlrpcserver.php,v 1.3 2001/07/29 23:31:01 kaid Exp $
+// $Id: xmlrpcserver.php,v 1.4 2001/10/22 11:21:13 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -66,6 +66,9 @@ $server->registerFunction( "newArticle",
                                   new eZXMLRPCString(),
                                   new eZXMLRPCString() ) );
 
+$server->registerFunction( "version",
+                           array( ) );
+
 $server->registerFunction( "login",
                            array( new eZXMLRPCString(),
                                   new eZXMLRPCString() ) );
@@ -78,6 +81,14 @@ $server->registerFunction( "articleCategoryTree",
 
 // process the server requests
 $server->processRequest();
+
+
+// implemented functions
+function version( )
+{
+    $VersionNumber = $GLOBALS["VersionNumber"];
+    return new eZXMLRPCString( "This is eZ trade xml rpc version: $VersionNumber" );
+}
 
 //
 // Will add a new article to the archive.

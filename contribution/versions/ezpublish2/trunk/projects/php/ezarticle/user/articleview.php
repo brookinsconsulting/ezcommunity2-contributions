@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84 2001/10/16 12:03:13 ce Exp $
+// $Id: articleview.php,v 1.85 2001/10/22 11:21:13 ce Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -87,7 +87,10 @@ else
 {
     if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     {
-            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );        
+        if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articleprint" . $override  . ".tpl" ) )
+            $t->set_file( "article_view_page_tpl", "articleprint" . $override  . ".tpl"  );
+        else
+            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );
     }
     else
     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119 2001/10/16 09:21:04 ce Exp $
+// $Id: ezproduct.php,v 1.120 2001/10/22 11:21:13 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -224,7 +224,7 @@ class eZProduct
             $db->array_query( $category_array, "SELECT * FROM eZTrade_Product WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
-                die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Product's with the same ID was found in the database. This shouldent happen." );
             }
             else if ( count( $category_array ) == 1 )
             {

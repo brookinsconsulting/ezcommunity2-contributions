@@ -8,12 +8,6 @@
   <a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a> 
   <!-- END path_tpl -->
   <hr noshade="noshade" size="1"/>
-<!-- BEGIN price_to_high_tpl -->
-<p class="error">{intl-price_to_high}</p><br />
-<!-- END price_to_high_tpl -->
-<!-- BEGIN price_to_low_tpl -->
-<p class="error">{intl-price_to_low}</p><br />
-<!-- END price_to_low_tpl -->
 
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr> 
@@ -134,8 +128,6 @@
 	      <!-- END alternative_currency_list_tpl -->
 	      <!-- END price_tpl -->
               <!-- BEGIN price_range_tpl -->
-              <b>{intl-price_range}:</b><br />
-              <input type="text" name="PriceRange" size="8" /><br />
 	      <!-- BEGIN price_range_min_unlimited_tpl -->
 	      <table class="small">
 	      <tr>
