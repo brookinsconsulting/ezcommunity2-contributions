@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folder.php,v 1.1 2001/09/14 12:23:02 jhe Exp $
+// $Id: folder.php,v 1.2 2001/09/17 07:54:12 jhe Exp $
 //
 // Created on: <14-Sep-2001 14:39:54 jhe>
 //
@@ -69,6 +69,9 @@ if ( !$id )
     $newFolder->setName( $element->name() );
     $newFolder->setParent( new eZVirtualFolder( $parent ) );
     $newFolder->store();
+    eZObjectPermission::setPermission( -1, $newFolder, "filemanager_folder", "r" );
+    eZObjectPermission::setPermission( -1, $newFolder, "filemanager_folder", "w" );
+    eZObjectPermission::setPermission( -1, $newFolder, "filemanager_folder", "u" );
     $id = $newFolder->ID();
 }
 

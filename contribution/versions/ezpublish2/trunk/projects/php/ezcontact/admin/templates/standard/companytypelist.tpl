@@ -161,7 +161,6 @@
 	<!-- END company_stats_header_tpl -->
 	<th colspan="2">&nbsp;</th>
 </tr>
-
 <!-- BEGIN company_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -181,7 +180,6 @@
 	<!-- <p>{intl-no_image}</p> -->
 	<!-- END no_image_tpl -->	
 	</td>
-
 	<!-- BEGIN company_stats_item_tpl -->
 	<td class="{td_class}">
 	<a href="{www_dir}{index}/contact/company/stats/year/{company_id}/">{company_views}</a>

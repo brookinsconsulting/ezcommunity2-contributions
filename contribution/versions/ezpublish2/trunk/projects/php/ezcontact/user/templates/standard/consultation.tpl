@@ -8,22 +8,19 @@
 <!-- BEGIN consultation_item_tpl -->
 <tr>
     <td valign="top"><a class="menutext" href="{www_dir}{index}/contact/consultation/view/{consultation_id}">{consultation_desc}</a></td>
-    <td valign="top">
 	<!-- BEGIN consultation_person_item_tpl -->
-	<a class="menutext" href="{www_dir}{index}/contact/person/view/{person_id}">{contact_lastname}, {contact_firstname}</a>
+	    <td valign="top"><a class="menutext" href="{www_dir}{index}/contact/person/view/{person_id}">{contact_lastname}, {contact_firstname}</a></td>
 	<!-- END consultation_person_item_tpl -->
 	<!-- BEGIN consultation_no_person_item_tpl -->
-	{contact_lastname}, {contact_firstname}
+	    <td valign="top">{contact_lastname}, {contact_firstname}</td>
 	<!-- END consultation_no_person_item_tpl -->
 	<!-- BEGIN consultation_company_item_tpl -->
-	<a class="menutext" href="{www_dir}{index}/contact/company/view/{company_id}">{contact_name}</a>
+	    <td valign="top"><a class="menutext" href="{www_dir}{index}/contact/company/view/{company_id}">{contact_name}</a></td>
 	<!-- END consultation_company_item_tpl -->
 	<!-- BEGIN consultation_no_company_item_tpl -->
-	{contact_name}
+	    <td valign="top">{contact_name}</td>
 	<!-- END consultation_no_company_item_tpl -->
-    </td>
 </tr>
 <!-- END consultation_item_tpl -->
-
 </table>
 <!-- END last_consultations_item_tpl -->
