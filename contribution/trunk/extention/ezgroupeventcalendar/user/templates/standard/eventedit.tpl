@@ -1,4 +1,4 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
+\<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
   <tr>
    <!-- BEGIN header_item_tpl -->
     <td align="left"> 
@@ -128,7 +128,7 @@
   <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
   <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
 </select>
-[ in development | not tested ]
+
 	</td>
 </tr>
 </table>
