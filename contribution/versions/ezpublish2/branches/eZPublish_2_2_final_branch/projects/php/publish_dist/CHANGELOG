@@ -1,5 +1,10 @@
 eZ publish changelog:
 ---------------------
+
+Changes from 2.2.9 to 2.2.10
+---------------------------
+* Fixed bug. Now setting envelope information when sending mail with ezmail
+
 Changes from 2.2.8 to 2.2.9
 ---------------------------
 * Fixed security bug with variable check in eZ article.
