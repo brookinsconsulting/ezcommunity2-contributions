@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.39 2001/09/28 06:48:23 jhe Exp $
+// $Id: monthview.php,v 1.40 2001/10/08 14:39:10 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -9,7 +9,7 @@
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
+// modify it under the terms of the GNU General Public License2
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
 //
@@ -301,7 +301,6 @@ else
     }
     else
     {
-        $user = new eZUser();
         $user_array =& eZUser::getAll();
     }
     foreach ( $user_array as $userItem )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.17 2001/09/19 11:30:31 jhe Exp $
+// $Id: appointmentview.php,v 1.18 2001/10/08 14:39:10 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -117,8 +117,8 @@ else
     $userID = $appointment->userID();
     if ( $userID != false )
     {
-        $user = new eZUser( $userID );
-        $t->set_var( "appointment_owner", $user->name() );
+        $owner = new eZUser( $userID );
+        $t->set_var( "appointment_owner", $owner->name() );
     }
     else
         $t->set_var( "appointment_owner", "unknown user" );

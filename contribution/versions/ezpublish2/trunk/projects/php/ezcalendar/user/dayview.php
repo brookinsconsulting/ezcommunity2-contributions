@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.49 2001/09/27 11:07:24 jhe Exp $
+// $Id: dayview.php,v 1.50 2001/10/08 14:39:10 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -412,8 +412,7 @@ else
 
 
     // User list
-    $user = new eZUser();
-    $user_array =& $user->getAll();
+    $user_array =& eZUser::getAll();
 
     foreach ( $user_array as $userItem )
     {
