@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.5 2002/01/18 13:43:41 bf Exp $
+// $Id: productsearch.php,v 1.20.8.6 2002/01/19 12:17:59 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -140,6 +140,13 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
            }
         }
 
+
+        $t->set_var( "product_name", $product["Name"] );        
+        $t->set_var( "product_price", number_format( $product["Price"], 2, ",", " " ) );
+        
+//        $t->set_var( "product_intro_text", $product->brief() );
+        $t->set_var( "product_intro_text", "" );
+        $t->set_var( "product_id", $product["ProductID"] );        
         
         
         if ( $thumbnailImage )
@@ -158,15 +165,6 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
             $t->set_var( "image", "" );    
         }
 
-        $t->set_var( "product_name", $product["Name"] );        
-        $t->set_var( "product_price", number_format( $product["Price"], 2, ",", " " ) );
-        
-//        $t->set_var( "product_intro_text", $product->brief() );
-        $t->set_var( "product_intro_text", "" );
-        $t->set_var( "product_id", $product["ProductID"] );
-
-//        $defCat = $product->categoryDefinition();
-//        $t->set_var( "category_id", $defCat->id() );
 
         if ( ( $i % 2 ) == 0 )
         {
@@ -191,7 +189,10 @@ $t->set_var( "query_string", $Query );
 
 $t->set_var( "query", $Query );
 $t->set_var( "limit", $Limit );
-$t->set_var( "product_start", $Offset + 1 );
+if ( count( $productList ) == 0 )
+    $t->set_var( "product_start", 0 );
+else
+    $t->set_var( "product_start", $Offset + 1 );
 $t->set_var( "product_end", min( $Offset + $Limit, $total_count ) );
 $t->set_var( "product_total", $total_count );
 
