@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.64 2001/09/25 12:21:06 bf Exp $
+// $Id: productedit.php,v 1.65 2001/09/28 11:02:39 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -275,8 +275,12 @@ if ( $Action == "Update"  or $Action == "Insert" )
                 eZProductCategory::removeProduct( $product, $categoryItem );
             }
         }
-
-        
+        else
+        {
+            $add_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+        }
+         
+       
         // add a product to the categories
         $category = new eZProductCategory( $CategoryID );
         $product->setCategoryDefinition( $category );
@@ -570,8 +574,16 @@ if ( $Action == "Edit" )
 
 if ( $UseVoucher )
 {
-    $t->set_var( "price_max", $priceRange->max() );
-    $t->set_var( "price_min", $priceRange->min() );
+    if ( $priceRange )
+    {
+        $t->set_var( "price_max", $priceRange->max() );
+        $t->set_var( "price_min", $priceRange->min() );
+    }
+    else
+    {
+        $t->set_var( "price_max", "0" );
+        $t->set_var( "price_min", "0" );
+    }
 
     $t->set_var( "url_action", "voucher" );
     $t->set_var( "normal_price", "" );

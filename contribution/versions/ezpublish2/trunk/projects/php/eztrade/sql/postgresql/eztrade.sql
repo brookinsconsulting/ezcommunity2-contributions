@@ -231,6 +231,13 @@ CREATE TABLE eZTrade_PriceGroup (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTrade_ProductPriceRange (
+  ID int NOT NULL,
+  Min int default '0',
+  Max int default '0',
+  ProductID int default '0',
+  PRIMARY KEY (ID)
+);
 
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,

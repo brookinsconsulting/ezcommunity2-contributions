@@ -234,6 +234,14 @@ CREATE TABLE eZTrade_PriceGroup (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZTrade_ProductPriceRange (
+  ID int(11) NOT NULL,
+  Min int(11) default '0',
+  Max int(11) default '0',
+  ProductID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
