@@ -1,5 +1,5 @@
 <?
-//  $Id: gotolink.php,v 1.6 2000/11/01 15:56:24 ce-cvs Exp $
+//  $Id: gotolink.php,v 1.7 2000/11/01 18:44:55 bf-cvs Exp $
 //
 //  Christoffer A. Elo <ce@ez.no>
 //  Created on: <26-Oct-2000 15:02:25 ce>
@@ -39,6 +39,6 @@ if ( $Action == "addhit" )
 if ( !preg_match( "%^([a-z]+://)%", $Url ) )
     $Url = "http://" . $Url;
 
-Header( "Location: http://" . $Url );
+Header( "Location: " . $Url );
 
 ?>
