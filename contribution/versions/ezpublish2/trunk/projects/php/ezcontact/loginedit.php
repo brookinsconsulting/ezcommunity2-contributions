@@ -1,7 +1,7 @@
 <?
-include "template.inc";
-require "ezcontact/dbsettings.php";
-require "ezphputils.php";
+include_once( "template.inc" );
+include_once( "ezcontact/dbsettings.php" );
+include_once( "ezphputils.php" );
 
 if ( isset( $Login ) )
 {

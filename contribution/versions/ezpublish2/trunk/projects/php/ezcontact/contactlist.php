@@ -1,14 +1,14 @@
 <?
-include  "template.inc";
+include_once( "template.inc" );
 require "ezcontact/dbsettings.php";
 
-require  "ezphputils.php";
-require $DOCUMENTROOT . "classes/ezperson.php";
-require $DOCUMENTROOT . "classes/ezpersontype.php";
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
-require $DOCUMENTROOT . "classes/ezcompany.php";
+include_once( "ezphputils.php" );
+include_once( $DOCUMENTROOT . "classes/ezperson.php" );
+include_once( $DOCUMENTROOT . "classes/ezpersontype.php" );
+include_once( $DOCUMENTROOT . "classes/ezsession.php" );
+include_once( $DOCUMENTROOT . "classes/ezuser.php" );
+include_once( $DOCUMENTROOT . "classes/ezusergroup.php" );
+include_once( $DOCUMENTROOT . "classes/ezcompany.php" );
 
 include( $DOCUMENTROOT . "checksession.php" );
 
