@@ -51,7 +51,7 @@ break
 fi
 
 # Does the user want to add data
-echo -n "Do you want to add data [Y/n]"
+echo -n "Do you want to add data [y/N]"
 read ADDDATA
  
 echo -n 'Mysql root password: '
@@ -82,8 +82,6 @@ then
    mysql -u root -p'$PASS' -e"grant all on $DBNAME.* to $DBNAME@localhost identified by '$DBNAME' " 
 else
    echo "Blank Password"
-   echo "Dropping database"
-
    if  mysqladmin -u root drop $DBNAME
    then
       echo "Dropping database"
