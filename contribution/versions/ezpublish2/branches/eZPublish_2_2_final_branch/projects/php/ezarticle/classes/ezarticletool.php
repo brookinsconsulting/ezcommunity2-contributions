@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.12 2001/10/16 16:17:26 ce Exp $
+// $Id: ezarticletool.php,v 1.12.2.1 2002/02/04 15:51:40 bf Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -95,13 +95,25 @@ class eZArticleTool
                                       array( "menubox",
                                              NULL,
                                              NULL,
-                                             array_merge( 0, $CategoryID, $CategoryArray ) ),
+                                             NULL,
+                                             NULL,
+                                             NULL ),
                                       "cache", "," );
         foreach( $files as $file )
         {
             $file->delete();
         }
 
+        $files =& eZCacheFile::files( "ezarticle/cache/",
+                                      array( "menubox_headlines",
+                                             NULL,
+                                             NULL ),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
+        
         $files =& eZCacheFile::files( "ezarticle/cache/",
                                       array( "smallarticlelist",
                                              NULL ),

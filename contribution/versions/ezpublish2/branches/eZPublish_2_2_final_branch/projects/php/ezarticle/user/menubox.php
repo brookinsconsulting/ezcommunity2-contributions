@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.26.2.1 2001/12/11 11:38:27 th Exp $
+// $Id: menubox.php,v 1.26.2.2 2002/02/04 15:51:40 bf Exp $
 //
 // 
 //
@@ -38,11 +38,10 @@ $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 
 if ( !(function_exists('createArticleMenu') ) )
 { 
-    function createArticleMenu( $menuCachedFile=false )
+    function createArticleMenu( $menuCacheFile=false )
         {
             global $ini;
             global $Language;
-            global $menuCachedFile;
             global $GenerateStaticPage;
             global $GlobalSiteDesign;
             global $CategoryID;
@@ -119,9 +118,7 @@ if ( !(function_exists('createArticleMenu') ) )
                 $t->parse( "submit_article", "submit_article_tpl", true );
             }
 
-
-
-            if ( isset( $menuCacheFile ) and get_class( $menuCacheFile ) == "ezcachefile" )
+            if ( get_class( $menuCacheFile ) == "ezcachefile" )
             {
                 $output = $t->parse( $target, "menu_box_tpl" );
                 $menuCacheFile->store( $output );
