@@ -84,7 +84,7 @@ if ( $PhoneAction == "AddPhone" )
 
     $phone_dict = new eZPersonPhoneDict();
 
-    $phone_dict->setPhoneID( $PID );
+    $phone_dict->setPersonID( $PID );
     $phone_dict->setPhoneID( $pid );
     $phone_dict->store();
 }
@@ -189,8 +189,6 @@ if ( $Action == "edit" )
         $t->parse( "phone_list", "phone_item", true );
     }
 
-    
-    
     $t->set_var( "phone_action", "AddPhone" );
     $t->set_var( "phone_edit_id", "-1" );
     $t->set_var( "phone_action_value", "Legg til" );
