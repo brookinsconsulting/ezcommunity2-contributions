@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.7 2000/12/08 10:11:53 bf-cvs Exp $
+// $Id: messagelist.php,v 1.8 2000/12/08 16:46:16 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -54,7 +54,13 @@ $forum = new eZForum( $ForumID );
 
 $categories = $forum->categories();
 
-$category = new eZForumCategory( $categories[0]->id() );
+if ( count( $categories ) > 0 )
+{
+    $category = new eZForumCategory( $categories[0]->id() );
+    
+    $t->set_var( "category_id", $category->id( ) );
+    $t->set_var( "category_name", $category->name( ) );
+}
 
 $locale = new eZLocale( $Language );
 
@@ -141,8 +147,6 @@ else
 $t->set_var( "newmessage", $newmessage );
 
 
-$t->set_var( "category_id", $category->id( ) );
-$t->set_var( "category_name", $category->name( ) );
 
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );

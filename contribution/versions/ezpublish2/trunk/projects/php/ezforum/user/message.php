@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.11 2000/11/24 14:15:55 bf-cvs Exp $
+// $Id: message.php,v 1.12 2000/12/08 16:46:16 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -52,10 +52,14 @@ $forum = new eZForum( $message->forumID() );
 
 $categories = $forum->categories();
 
-$category = new eZForumCategory( $categories[0]->id() );
+if ( count( $categories ) > 0 )
+{
+    $category = new eZForumCategory( $categories[0]->id() );
+    
+    $t->set_var( "category_id", $category->id( ) );
+    $t->set_var( "category_name", $category->name( ) );
+}
 
-$t->set_var( "category_id", $category->id( ) );
-$t->set_var( "category_name", $category->name( ) );
 
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );

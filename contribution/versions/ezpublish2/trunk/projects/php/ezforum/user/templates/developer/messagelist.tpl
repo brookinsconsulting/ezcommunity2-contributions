@@ -49,13 +49,17 @@
 
 </table>
 
-<a href="/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">
-{previous}
+<!-- BEGIN previous_tpl -->
+<a href="/forum/messagelist/{forum_id}/?Offset={prev_offset}&Limit={limit}">
+{intl-previous}
 </a>
+<!-- END previous_tpl -->
 
-<a href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">
-{next}
+<!-- BEGIN next_tpl -->
+<a href="/forum/messagelist/{forum_id}/?Offset={next_offset}&Limit={limit}">
+{intl-next}
 </a>
+<!-- END next_tpl -->
 
 <form action="/forum/userlogin/new/{forum_id}">
 
