@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.4.1 2001/11/22 09:45:49 ce Exp $
+// $Id: ezorder.php,v 1.61.4.2 2001/11/22 14:24:39 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -294,7 +294,7 @@ class eZOrder
             }
             case "created":
             {
-                $OrderBy = "Date";
+                $OrderBy = "eZTrade_Order.Date";
                 break;
             }
             case "modified":
@@ -309,7 +309,7 @@ class eZOrder
             }
             default:
             {
-                $OrderBy = "Date";
+                $OrderBy = "eZTrade_Order.Date";
                 break;
             }
         }

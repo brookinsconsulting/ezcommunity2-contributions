@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.4 2001/11/22 14:23:14 ce Exp $
+// $Id: ezproduct.php,v 1.119.4.5 2001/11/22 14:24:39 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1570,7 +1570,7 @@ class eZProduct
             $db->query( "INSERT INTO $table(ProductID)
                          SELECT eZTrade_ProductCategoryLink.ProductID FROM eZTrade_ProductCategoryLink
                          WHERE  ( $catSQL )
-                         GROUP BY eZTrade_Product.ID" );
+                         GROUP BY eZTrade_Product.IDeZTrade_ProductCategoryLink.ProductID" );
         }
 
         reset( $tables );
