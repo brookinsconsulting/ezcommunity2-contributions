@@ -96,6 +96,11 @@ switch ( $url_array[2] )
         if( empty( $Offset ) )
         {
             $Offset = $url_array[4];
+            
+            if( empty( $url_array[4] ) )
+            {
+                $Offset=1;
+            }
         }
 
         if( empty( $Limit ) )
