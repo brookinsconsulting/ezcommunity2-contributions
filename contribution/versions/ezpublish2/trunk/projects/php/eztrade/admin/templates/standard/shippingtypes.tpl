@@ -19,6 +19,16 @@
 	 <input type="text" size="15" name="TypeName[]" value="{shipping_type_name}" />
 
 	 <input type="checkbox" name="DeleteType[]" value="{type_id}" />
+	 <br />
+	<p class="boxtext">{intl-vat_type}:</p>
+	<select name="VATTypeID[]">
+
+	<!-- BEGIN vat_item_tpl -->
+	<option value="{vat_id}" {vat_selected}>{vat_name}</option>
+	<!-- END vat_item_tpl -->
+
+	</select>
+
 
 	</td>
  	<!-- END type_item_tpl -->

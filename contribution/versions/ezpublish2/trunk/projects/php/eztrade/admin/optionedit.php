@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.14 2001/03/12 11:21:50 fh Exp $
+// $Id: optionedit.php,v 1.15 2001/03/12 12:17:27 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -119,10 +119,11 @@ if ( isset( $OK ) )
             $value = new eZOptionValue();
             $value->setPrice( $OptionMainPrice[$i] );
             $option->addValue( $value );
+            
             $value->removeDescriptions();
             $value->addDescription( $name );
             $option_price = $OptionPrice[$i];
-            
+
 //            eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
             
             reset( $option_price );

@@ -182,3 +182,7 @@ convert_error=You've failed to install the ImageMagick package properly, please 
 mod; ezcontact/admin companyview.php.ini
 changed: added
 no_company_defined=No company defined with ID
+
+mod; eztrade/admin shippingtypes.php.ini
+change: added
+vat_type=VAT type

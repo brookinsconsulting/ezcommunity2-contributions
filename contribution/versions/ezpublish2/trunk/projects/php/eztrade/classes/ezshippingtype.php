@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezshippingtype.php,v 1.2 2001/02/23 14:43:50 bf Exp $
+// $Id: ezshippingtype.php,v 1.3 2001/03/12 12:17:27 bf Exp $
 //
 // Definition of eZShippingType class
 //
@@ -36,6 +36,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "eztrade/classes/ezvattype.php" );
 
 class eZShippingType
 {
@@ -62,6 +63,7 @@ class eZShippingType
         {
             $db->query( "INSERT INTO eZTrade_ShippingType SET
 		                 Name='$this->Name',
+		                 VATTypeID='$this->VATTypeID',
 		                 IsDefault='$this->IsDefault',
 		                 Created=now()" );
         
@@ -71,6 +73,7 @@ class eZShippingType
         {
             $db->query( "UPDATE eZTrade_ShippingType SET
                         Name='$this->Name',
+  	                    VATTypeID='$this->VATTypeID',
   	                    IsDefault='$this->IsDefault',
   	                    Created=Created
                         WHERE ID='$this->ID'" );
@@ -98,6 +101,7 @@ class eZShippingType
             {
                 $this->ID =& $shipping_array[0][ "ID" ];
                 $this->Name =& $shipping_array[0][ "Name" ];
+                $this->VATTypeID =& $shipping_array[0][ "VATTypeID" ];
                 $this->IsDefault =& $shipping_array[0][ "IsDefault" ];
             }
         }
@@ -182,8 +186,37 @@ class eZShippingType
         $this->Name = $value;
     }
 
+    /*!
+      Sets the VAT type.
+    */
+    function setVATType( $type )
+    {
+        if ( get_class( $type ) == "ezvattype" )
+        {
+           $this->VATTypeID = $type->id();
+        }
+    }
+
+
+    /*!
+      Returns the VAT type.
+
+      False if no type is assigned.
+    */
+    function &vatType( )
+    {
+        $ret = false;
+        if ( is_numeric( $this->VATTypeID ) and ( $this->VATTypeID > 0 ) )
+        {
+            $ret = new eZVATType( $this->VATTypeID );
+        }
+        
+        return $ret;
+    }
+    
     var $ID;
     var $Name;
+    var $VATTypeID;
     var $IsDefault;
 }
 

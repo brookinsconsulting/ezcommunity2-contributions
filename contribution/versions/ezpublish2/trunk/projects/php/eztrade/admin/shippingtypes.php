@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: shippingtypes.php,v 1.5 2001/03/08 18:43:48 jb Exp $
+// $Id: shippingtypes.php,v 1.6 2001/03/12 12:17:27 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Feb-2001 11:38:37 bf>
@@ -35,6 +35,8 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 include_once( "eztrade/classes/ezshippingtype.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
 
+include_once( "eztrade/classes/ezvattype.php" );
+
 
 if ( $Action == "Store" )
 {
@@ -44,17 +46,22 @@ if ( $Action == "Store" )
         $type->setAsDefault();        
     }
 
+    
     if ( is_array( $TypeID ) )
     {
         $i = 0;
         foreach ( $TypeID as $id )
         {
+            $vatType = new eZVATType( $VATTypeID[$i]  );
+            
             $shippingType = new eZShippingType( $id );
             $shippingType->setName( $TypeName[$i]  );
+            $shippingType->setVATType( $vatType  );            
             $shippingType->store();
             $i++;
         }
     }
+    
 
     if ( is_array( $GroupID ) )
     {
@@ -122,6 +129,7 @@ $t->setAllStrings();
 $t->set_file( array( "shipping_types_tpl" => "shippingtypes.tpl" ) );
 
 $t->set_block( "shipping_types_tpl", "type_item_tpl", "type_item" );
+$t->set_block( "type_item_tpl", "vat_item_tpl", "vat_item" );
 $t->set_block( "shipping_types_tpl", "group_item_tpl", "group_item" );
 $t->set_block( "shipping_types_tpl", "header_item_tpl", "header_item" );
 $t->set_block( "group_item_tpl", "type_group_item_tpl", "type_group_item" );
@@ -146,6 +154,41 @@ foreach ( $types as $type )
         $t->set_var( "default_checked", "checked" );
     else
         $t->set_var( "default_checked", "" );
+
+    
+    $currentVATType =& $type->vatType();
+         
+    $vatType = new eZVATType();
+    
+    $types =& $vatType->getAll();
+    
+    $i=0;
+    $t->set_var( "vat_item", "" );
+    foreach ( $types as $item )
+    {
+        if ( get_class( $currentVATType ) == "ezvattype" )
+        {
+            if ( $currentVATType->id() == $item->id() )
+            {
+                $t->set_var( "vat_selected", "selected" );
+            }
+            else
+            {                
+                $t->set_var( "vat_selected", "" );
+            }
+        }
+        else
+        {
+            $t->set_var( "vat_selected", "" );
+        }
+        $t->set_var( "vat_id", $item->id() );
+        $t->set_var( "vat_name", $item->name() );
+        $t->set_var( "vat_value", $item->value() );
+        
+        $t->parse( "vat_item", "vat_item_tpl", true );
+        
+        $i++;
+    }    
         
     $t->parse( "type_item", "type_item_tpl", true );
     $t->parse( "header_item", "header_item_tpl", true );

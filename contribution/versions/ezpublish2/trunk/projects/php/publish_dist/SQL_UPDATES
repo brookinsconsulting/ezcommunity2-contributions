@@ -581,3 +581,5 @@ ALTER TABLE eZArticle_Category ADD OwnerID int(11) DEFAULT '0';
 # add remote ID to option values
 alter table eZTrade_OptionValue add RemoteID int default 0;
 ALTER TABLE eZTrade_OptionValue ADD Price float(10,2) NOT NULL;
+
+alter table  eZTrade_ShippingType add VATTypeID int not null;
