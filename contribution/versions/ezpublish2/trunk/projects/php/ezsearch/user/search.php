@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.5 2001/07/29 23:31:09 kaid Exp $
+// $Id: search.php,v 1.6 2001/10/05 18:38:17 br Exp $
 //
 // Created on: <08-Jun-2001 13:10:36 bf>
 //
@@ -48,6 +48,7 @@ $t->set_block( "search_type_tpl", "search_item_tpl", "search_item" );
 $t->setAllStrings();
 
 $Limit = 10;
+$Offset = 0;
 
 $t->set_var( "search_text", $SearchText );
 
@@ -63,20 +64,21 @@ foreach ( $moduleArray as $module )
         $t->set_var( "module_name", $ModuleName );
         $i = 0;
         if ( count( $SearchResult ) > 0 )
-        foreach ( $SearchResult as $res )
         {
-            if ( ( $i % 2 ) == 0 )
-                $t->set_var( "td_class", "bglight" );
-            else
-                $t->set_var( "td_class", "bgdark" );
-            
-            $t->set_var( "search_link", $DetailViewPath . $res->id() );
-            $t->set_var( "search_name", $res->name() );
-            $t->set_var( "icon_src", $IconPath );            
-            $t->parse( "search_item", "search_item_tpl", true );
-            $i++;
+            foreach ( $SearchResult as $res )
+            {
+                if ( ( $i % 2 ) == 0 )
+                    $t->set_var( "td_class", "bglight" );
+                else
+                    $t->set_var( "td_class", "bgdark" );
+                
+                $t->set_var( "search_link", $DetailViewPath . $res->id() );
+                $t->set_var( "search_name", $res->name() );
+                $t->set_var( "icon_src", $IconPath );            
+                $t->parse( "search_item", "search_item_tpl", true );
+                $i++;
+            }
         }
-
         $t->set_var( "search_more_link", $DetailedSearchPath ."?" . $DetailedSearchVariable . "=". urlencode( $SearchText ) );
 
         $t->set_var( "search_count", $SearchCount );
