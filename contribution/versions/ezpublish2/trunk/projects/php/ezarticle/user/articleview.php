@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.11 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: articleview.php,v 1.12 2000/11/01 13:18:20 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -70,8 +70,6 @@ $t->set_var( "author_text", $article->authorText() );
 $pageCount = $article->pageCount();
 if ( $PageNumber > $pageCount )
     $PageNumber = $pageCount;
-
-print( "Showing page: "  . $PageNumber . "<br>" );
 
 $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
