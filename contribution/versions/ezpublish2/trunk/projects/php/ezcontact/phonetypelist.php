@@ -1,21 +1,25 @@
 <?
 include  "template.inc";
+require "ezcontact/dbsettings.php";
 require "ezphputils.php";
-require "ezsession.php";
-require "ezuser.php";
-require "ezusergroup.php";
-require "ezphonetype.php";
+require  $DOCUMENTROOT . "classes/ezsession.php";
+require  $DOCUMENTROOT . "classes/ezuser.php";
+require  $DOCUMENTROOT . "classes/ezusergroup.php";
+require  $DOCUMENTROOT . "classes/ezphonetype.php";
 
 // sjekke session
 {
-  include( "checksession.php" );
+  include( $DOCUMENTROOT . "checksession.php" );
 }
 
 $t = new Template( "." );
 $t->set_file( array(
-                    "phone_type_page" => "templates/phonetypelist.tpl",
-                    "phone_type_item" => "templates/phonetypeitem.tpl"
+                    "phone_type_page" =>  $DOCUMENTROOT . "templates/phonetypelist.tpl",
+                    "phone_type_item" =>  $DOCUMENTROOT . "templates/phonetypeitem.tpl"
                     ) );
+
+
+
 
 $phone_type = new eZPhoneType();
 $phone_type_array = $phone_type->getAll();
@@ -31,6 +35,7 @@ for ( $i=0; $i<count( $phone_type_array ); $i++ )
     $t->set_var( "bg_color", "#dddddd" );
   }  
 
+  $t->set_var( "document_root", $DOCUMENTROOT );
   $t->set_var( "phone_type_id", $phone_type_array[$i][ "ID" ] );
   $t->set_var( "phone_type_name", $phone_type_array[$i][ "Name" ] );
 

@@ -6,6 +6,6 @@
 	{user_group}
 	</td>
 	<td bgcolor="{bg_color}">
-	<a href="index.php4?page=useredit.php4&Action=edit&UID={user_id}">Rediger</a>
+	<a href="index.php4?page={document_root}useredit.php4&Action=edit&UID={user_id}">Rediger</a>
 	</td>
 </tr>

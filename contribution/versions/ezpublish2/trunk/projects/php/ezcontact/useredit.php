@@ -1,20 +1,21 @@
 <?
 include  "template.inc";
 require "ezphputils.php";
-require "ezsession.php";
-require "ezuser.php";
-require "ezusergroup.php";
+require "ezcontact/dbsettings.php";
+require $DOCUMENTROOT . "classes/ezsession.php";
+require $DOCUMENTROOT . "classes/ezuser.php";
+require $DOCUMENTROOT . "classes/ezusergroup.php";
 
 
 // sjekke session
 {
-    include( "checksession.php" );
+    include( $DOCUMENTROOT . "checksession.php" );
 }
 
 $t = new Template( "." );
 $t->set_file( array(
-    "user_edit_page" => "templates/useredit.tpl",
-    "user_group_select" => "templates/usergroupselect.tpl"
+    "user_edit_page" => $DOCUMENTROOT . "templates/useredit.tpl",
+    "user_group_select" => $DOCUMENTROOT . "templates/usergroupselect.tpl"
     ) );    
 
 $t->set_var( "submit_text", "Legg til" );

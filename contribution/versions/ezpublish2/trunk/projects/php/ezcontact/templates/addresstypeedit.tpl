@@ -1,4 +1,4 @@
-<form method="post" action="index.php4?page=addresstypeedit.php4">
+<form method="post" action="index.php4?page={document_root}addresstypeedit.php4">
 <h1>{head_line}</h1>
 
 Navn:<br>

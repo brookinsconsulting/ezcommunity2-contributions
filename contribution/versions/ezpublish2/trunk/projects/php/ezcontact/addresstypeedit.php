@@ -1,19 +1,19 @@
 <?
 include "template.inc";
-require "ez
+require "ezcontact/dbsettings.php";
 require "ezphputils.php";
-require "ezsession.php";
-require "ezaddresstype.php";
-require "ezuser.php";
+require $DOCUMENTROOT . "classes/ezsession.php";
+require $DOCUMENTROOT . "classes/ezaddresstype.php";
+require $DOCUMENTROOT . "classes/ezuser.php";
 
 // sjekke session
 {
-    include( "checksession.php" );
+    include( $DOCUMENTROOT . "checksession.php" );
 } 
 
 $t = new Template( "." );
 $t->set_file( array(
-                    "address_type_edit_page" => "templates/addresstypeedit.tpl"
+                    "address_type_edit_page" =>  $DOCUMENTROOT . "templates/addresstypeedit.tpl"
                     ) );    
 
 
@@ -53,7 +53,7 @@ if ( $Action == "update" )
   $type->update(); 
 }
 
-
+$t->set_var( "document_root", $DOCUMENTROOT );
 $t->set_var( "address_type_name", $AddressTypeName );
 
 $t->pparse( "output", "address_type_edit_page" );

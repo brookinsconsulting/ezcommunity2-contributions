@@ -2,10 +2,10 @@
 include  "template.inc";
 require "ezcontact/dbsettings.php";
 require "ezphputils.php";
-require $DOCUMENTROOT . "ezsession.php";
-require $DOCUMENTROOT . "ezuser.php";
-require $DOCUMENTROOT . "ezusergroup.php";
-require $DOCUMENTROOT . "ezaddresstype.php";
+require $DOCUMENTROOT . "classes/ezsession.php";
+require $DOCUMENTROOT . "classes/ezuser.php";
+require $DOCUMENTROOT . "classes/ezusergroup.php";
+require $DOCUMENTROOT . "classes/ezaddresstype.php";
 
 // sjekke session
 {
@@ -38,5 +38,6 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
   $menuTemplate->parse( "address_type_list", "address_type_item", true );
 } 
 
+$menuTemplate->set_var( "document_root", $DOCUMENTROOT );
 $menuTemplate->pparse( "output", "address_type_page" );
 ?>

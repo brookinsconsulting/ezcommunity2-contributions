@@ -1,18 +1,19 @@
 <?
 include  "template.inc";
 require "ezphputils.php";
-require "ezsession.php";
-require "ezuser.php";
-require "ezusergroup.php";
+require "ezcontact/dbsettings.php";
+require  $DOCUMENTROOT . "classes/ezsession.php";
+require  $DOCUMENTROOT . "classes/ezuser.php";
+require  $DOCUMENTROOT . "classes/ezusergroup.php";
 
 
 // sjekke session
 {
-  include( "checksession.php" );
+  include(  $DOCUMENTROOT . "checksession.php" );
 }
 
 $t = new Template( "." );
-$t->set_file( "user_page", "templates/usergroupedit.tpl" );               
+$t->set_file( "user_page",  $DOCUMENTROOT . "templates/usergroupedit.tpl" );               
 
 $t->set_var( "submit_text", "Legg til" );
 $t->set_var( "action_value", "insert" );
@@ -176,5 +177,6 @@ $t->set_var( "company_type_checked", $CompanyTypeAdmin );
 $t->set_var( "phone_type_checked", $PhoneTypeAdmin );
 $t->set_var( "address_type_checked", $AddressTypeAdmin );
 
+$t->set_var( "document_root", $DOCUMENTROOT );
 $t->pparse( "output", "user_page" );
 ?>

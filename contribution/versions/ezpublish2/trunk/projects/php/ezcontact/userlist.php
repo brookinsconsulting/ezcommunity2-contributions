@@ -1,19 +1,20 @@
 <?
 include  "template.inc";
 require "ezphputils.php";
-require "ezsession.php";
-require "ezuser.php";
-require "ezusergroup.php";
+require "ezcontact/dbsettings.php";
+require $DOCUMENTROOT . "classes/ezsession.php";
+require $DOCUMENTROOT . "classes/ezuser.php";
+require $DOCUMENTROOT . "classes/ezusergroup.php";
 
 // sjekke session
 {
-  include( "checksession.php" );
+  include( $DOCUMENTROOT . "checksession.php" );
 }
 
 $menuTemplate = new Template( "." );
 $menuTemplate->set_file( array(
-                               "user_page" => "templates/userlist.tpl",
-                               "user_item" => "templates/useritem.tpl"
+                               "user_page" => $DOCUMENTROOT . "templates/userlist.tpl",
+                               "user_item" => $DOCUMENTROOT . "templates/useritem.tpl"
                                ) );    
 
 $user = new eZUser();
@@ -40,5 +41,6 @@ for ( $i=0; $i<count( $user_array ); $i++ )
   $menuTemplate->parse( "user_list", "user_item", true );
 } 
 
+$menuTemplate->set_var( "document_root", $DOCUMENTROOT );
 $menuTemplate->pparse( "output", "user_page" );
 ?>

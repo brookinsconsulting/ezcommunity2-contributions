@@ -1,18 +1,19 @@
 <?
 include  "template.inc";
+require "ezcontact/dbsettings.php";
 require "ezphputils.php";
-require "ezsession.php";
-require "ezuser.php";
-require "ezphonetype.php";
+require $DOCUMENTROOT . "classes/ezsession.php";
+require $DOCUMENTROOT . "classes/ezuser.php";
+require $DOCUMENTROOT . "classes/ezphonetype.php";
 
 // sjekke session
 {
-  include( "checksession.php" );
+  include( $DOCUMENTROOT . "checksession.php" );
 }
 
 $t = new Template( "." );
 $t->set_file( array(
-                    "phone_type_edit_page" => "templates/phonetypeedit.tpl"
+                    "phone_type_edit_page" => $DOCUMENTROOT . "templates/phonetypeedit.tpl"
                     ) );    
 
 
@@ -50,7 +51,7 @@ if ( $Action == "update" )
   $type->update(); 
 }
 
-
+$t->set_var( "document_root", $DOCUMENTROOT );
 $t->set_var( "phone_type_name", $PhoneTypeName );
 
 $t->pparse( "output", "phone_type_edit_page" );
