@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.57 2000/11/24 14:15:55 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.58 2000/11/28 09:45:51 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -455,7 +455,7 @@ class eZForumMessage
     /*!
       Returns the postimg time as a eZTimeDate object.
     */
-    function &postingTime()
+    function postingTime()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
