@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadcategory.php,v 1.23 2001/08/20 14:56:35 br Exp $
+// $Id: ezadcategory.php,v 1.24 2001/08/20 14:59:25 br Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -473,20 +473,6 @@ class eZAdCategory
            AND eZAd_AdCategoryLink.CategoryID='$this->ID'
             ORDER BY $orderBySQL",
        array( "Limit" => $limit, "Offset" => $offset ) );
-
-        $test =  "SELECT eZAd_Ad.ID, eZAd_View.ViewCount, eZAd_Ad.Name
-        FROM
-            eZAd_Ad,
-            eZAd_AdCategoryLink,
-            eZAd_View
-        WHERE
-           eZAd_AdCategoryLink.AdID = eZAd_Ad.ID
-           AND eZAd_View.AdID = eZAd_Ad.ID
-           $fetchActiveSQL
-           AND eZAd_AdCategoryLink.CategoryID='$this->ID'
-            ORDER BY $orderBySQL";
-
-       print($test);
 
        
        if ( count( $ad_array ) > 0 )
