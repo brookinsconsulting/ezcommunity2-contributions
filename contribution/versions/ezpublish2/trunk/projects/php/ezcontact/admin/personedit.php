@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.55 2001/10/11 08:05:58 jhe Exp $
+// $Id: personedit.php,v 1.56 2001/10/12 10:24:38 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -32,17 +32,15 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
-include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/eztexttool.php" );
 
+include_once( "ezaddress/classes/ezcountry.php" );
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
-
-include_once( "ezaddress/classes/ezcountry.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
-
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
@@ -153,6 +151,12 @@ if ( isSet( $NewConsultation ) )
 if ( isSet( $FileButton ) )
 {
     include( "ezcontact/admin/folder.php" );
+}
+
+if ( isSet( $MailButton ) )
+{
+    $ContactArrayID = array( $item_id );
+    include( "ezcontact/admin/sendmail.php" );
 }
 
 if ( isSet( $Back ) )
@@ -1310,7 +1314,8 @@ if ( !$confirm )
     else
         $t->set_var( "delete_item", "" );
 
-    $t->set_var( "action_value", $Action );
+    if ( !$error )
+        $t->set_var( "action_value", $Action );
 
     $t->parse( "edit_item", "edit_tpl" );
 }

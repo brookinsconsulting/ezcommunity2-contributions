@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.62 2001/10/10 13:19:26 jhe Exp $
+// $Id: ezperson.php,v 1.63 2001/10/12 10:24:38 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -87,7 +87,7 @@ class eZPerson
                                    '$birth',
                                    '$this->ContactType')" );
             $db->unlock();
-            $firstname = strlolower( $firstname );
+            $firstname = strtolower( $firstname );
             $lastname = strtolower( $lastname );
             $res[] = $db->query( "INSERT INTO eZContact_PersonIndex
                                   (PersonID, Value, Type)
@@ -107,7 +107,7 @@ class eZPerson
 	                                      BirthDate=$birth,
                                           ContactTypeID='$this->ContactType'
                                           WHERE ID='$this->ID'" );
-            $firstname = strlolower( $firstname );
+            $firstname = strtolower( $firstname );
             $lastname = strtolower( $lastname );
             $res[] = $db->query( "UPDATE eZContact_PersonIndex SET
                                           Value='$firstname'

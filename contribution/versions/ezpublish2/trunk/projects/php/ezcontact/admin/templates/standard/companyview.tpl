@@ -302,6 +302,9 @@
 <!-- BEGIN buy_button_tpl -->
 <input class="stdbutton" type="submit" name="BuyButton" value="{intl-buy}">
 <!-- END buy_button_tpl -->
+<!-- BEGIN mail_button_tpl -->
+<input class="stdbutton" type="submit" name="MailButton" value="{intl-mail}">
+<!-- END mail_button_tpl -->
 <!-- BEGIN company_edit_button_tpl -->
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">

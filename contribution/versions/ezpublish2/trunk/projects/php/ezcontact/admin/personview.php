@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.24 2001/09/19 09:47:47 jhe Exp $
+// $Id: personview.php,v 1.25 2001/10/12 10:24:38 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -331,7 +331,12 @@ if ( $Action == "view" )
     if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
-        $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max );
+        $showAll = $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled";
+        if ( $showAll )
+            $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, "Date", true, 0, $max );
+        else
+            $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max );
+
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
 

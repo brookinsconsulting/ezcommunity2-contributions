@@ -229,6 +229,9 @@
 <!-- BEGIN buy_button_tpl -->
 <input class="stdbutton" type="submit" name="BuyButton" value="{intl-buy}">
 <!-- END buy_button_tpl -->
+<!-- BEGIN mail_button_tpl -->
+<input class="stdbutton" type="submit" name="MailButton" value="{intl-mail}">
+<!-- END mail_button_tpl -->
 <!-- END consultation_buttons_tpl -->
 <hr noshade="noshade" size="4" />
 
