@@ -88,6 +88,67 @@
 <span class="boxtext">{intl-is_closed}</span><br />
 
 <br />
+<input type="checkbox" name="IsPrivate" {is_private} />
+<span class="boxtext">{intl-is_private}</span><br />
+
+<br />
+
+
+<!-- inserted files -->
+<p class="boxtext">{intl-avaliable_patches}:</p>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-file_id}:</th>
+	<th>{intl-file_name}:</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+</tr>
+
+<!-- BEGIN file_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{file_number}
+	</td>
+	<td width="97%" class="{td_class}">
+	{file_name}
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="/bug/edit/fileedit/edit/{file_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<input type="checkbox" name="FileArrayID[]" value="{file_id}" />
+	</td>
+</tr>
+<!-- END file_tpl -->
+</table>
+
+<!-- inserted Images -->
+<p class="boxtext">{intl-avaliable_screenshots}:</p>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-image_id}:</th>
+	<th>{intl-image_name}:</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+</tr>
+
+<!-- BEGIN image_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{image_number}
+	</td>
+	<td width="97%" class="{td_class}">
+	{image_name}
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="/bug/edit/imageedit/edit/{image_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<input type="checkbox" name="ImageArrayID[]" value="{image_id}" />
+	</td>
+</tr>
+<!-- END image_tpl -->
+</table>
 
 <p class="boxtext">{intl-log_message}:</p>
 <textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>
@@ -106,15 +167,26 @@
 	<!-- END log_item_tpl -->	
 
 <hr noshade="noshade" size="4">
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+  <td><input name="InsertImage" class="stdbutton" type="submit" value="{intl-add_screenshot}" /></td>
+  <td>&nbsp; </td>
+  <td><input name="InsertFile" class="stdbutton" type="submit" value="{intl-add_patch}" </td>
+  <td>&nbsp; </td>
+  <td><input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-del_selected}" /></td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4">
 
 <table cellspacing="0" cellpadding="" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" name="Update" value="{intl-ok}">
+	<input class="okbutton" type="submit" name="Update" value="{intl-ok}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<input class="okbutton" type="submit" value="{intl-cancel}">
+	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</td>
 </tr>
 

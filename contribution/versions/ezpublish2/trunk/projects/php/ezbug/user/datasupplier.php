@@ -5,22 +5,103 @@ include_once( "ezbug/classes/ezbugmodule.php" );
 include_once( "ezbug/classes/ezbug.php" );
 include_once( "classes/ezhttptool.php" );
 
+function hasPermission( $bugID )
+{
+    $user = eZUser::currentUser();
+    $bug = new eZBug( $bugID );
+    $module = $bug->module();
+    $ownerGroup = $module->ownerGroup();
+    if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 switch ( $url_array[2] )
 {
     case "edit" :
     {
-        if( $url_array[3] == "edit" )
+        if( $url_array[3] == "edit" && hasPermission( $url_array[4] ) )
         {
             $Action = "Edit";
             $BugID = $url_array[4];
+            include( "ezbug/admin/bugedit.php" );
         }
-
-        $user = eZUser::currentUser();
-        $bug = new eZBug( $BugID );
-        $module = $bug->module();
-        $ownerGroup = $module->ownerGroup();
-        if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
+        else if( $url_array[3] == "fileedit" && hasPermission( $BugID ) )
         {
+            switch( $url_array[4] )
+            {
+                case  "new" :
+                {
+                    $Action = "New";
+                    $BugID = $url_array[5];
+                    include( "ezbug/admin/fileedit.php" );
+                }
+                break;
+                case  "edit" :
+                {
+                    $Action = "Edit";
+                    $BugID = $url_array[6];
+                    $FileID = $url_array[5];
+                    include( "ezbug/admin/fileedit.php" );
+                }
+                break;
+                case "delete" :
+                {
+                    $Action = "Delete";
+                    $BugID = $url_array[6];
+                    $FileID = $url_array[5];
+                    include( "ezbug/admin/fileedit.php" );
+                }
+                break;
+                default :
+                {
+                    include( "ezbug/admin/fileedit.php" );
+                }
+                break;
+            }
+        }
+        else if( $url_array[3] == "imageedit" && hasPermission( $BugID ) )
+        {
+            switch( $url_array[4] )
+            {
+                case "new":
+                {
+                    $Action = "New";
+                    $BugID = $url_array[5];
+                    include( "ezbug/admin/imageedit.php" );
+                }
+                break;
+                case "edit" :
+                {
+                    $Action = "Edit";
+                    $BugID = $url_array[6];
+                    $ImageID = $url_array[5];
+                    include( "ezbug/admin/imageedit.php" );
+                }
+                break;
+                case "delete" :
+                {
+                    $Action = "Delete";
+                    $BugID = $url_array[6];
+                    $ImageID = $url_array[5];
+                    include( "ezbug/admin/imageedit.php" );
+                }
+                break;
+                default :
+                {
+                    include( "ezbug/admin/imageedit.php" );
+                }
+                break;
+            }
+        }
+        else if( hasPermission( $BugID ) )
+        {
+            $Action = "Update";
             include( "ezbug/admin/bugedit.php" );
         }
         else // someone is trying to push the envelope

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.17 2001/02/16 09:39:06 fh Exp $
+// $Id: bugedit.php,v 1.18 2001/02/20 17:57:36 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -44,6 +44,7 @@ include_once( "ezbug/classes/ezbuglog.php" );
 $t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/admin/intl", $Language, "bugedit.php" );
 $t->setAllStrings();
+$t->set_var( "site_style", $SiteStyle );
 
 $t->set_file( array(
     "bug_edit_tpl" => "bugedit.tpl"
@@ -56,6 +57,8 @@ $t->set_block( "bug_edit_tpl", "status_item_tpl", "status_item" );
 $t->set_block( "bug_edit_tpl", "owner_item_tpl", "owner_item" );
 
 $t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
+$t->set_block( "bug_edit_tpl", "file_tpl", "file" );
+$t->set_block( "bug_edit_tpl", "image_tpl", "image" );
 
 if ( $Action == "Insert" )
 {
@@ -75,7 +78,12 @@ if ( $Action == "Insert" )
             $bug->setIsClosed( true );
         else
             $bug->setIsClosed( false );
-            
+
+        if( $IsPrivate == 'on' )
+            $bug->setIsPrivate( true );
+        else
+            $bug->setIsPrivate( false );
+        
         $bug->store();
         Header( "Location: /bug/archive/" );
         exit();
@@ -118,6 +126,11 @@ if ( $Action == "Update" )
             {
                 $bug->setIsClosed( false );
             }
+
+            if( $IsPrivate == 'on' )
+                $bug->setIsPrivate( true );
+            else
+                $bug->setIsPrivate( false );
 
             $bug->setName( addSlashes( $bug->name() ) );
             $bug->setDescription( addSlashes( $bug->description() ) );
@@ -184,22 +197,63 @@ if ( $Action == "Update" )
             }
 
             $Action = "Edit";
-
-            Header( "Location: /bug/archive/" );
-            exit();
+            if( !isset( $InsertImage) && !isset( $InsertFile ) && !isset( $DeleteSelected ) )
+            {
+                Header( "Location: /bug/archive/" );
+                exit();
+            }
         }
         else
         {
-            Header( "Location: /bug/archive/" );
-            exit();
+            if( !isset( $InsertImage) && !isset( $InsertFile ) && !isset( $DeleteSelected ) )
+            {
+                Header( "Location: /bug/archive/" );
+                exit();
+            }
             
         }
     }
 }
 
-
 $t->set_var( "bug_date", "" );    
 $t->set_var( "action_value", "Insert" );
+
+if( isset( $InsertFile ) ) 
+{
+    $Action = "";
+    include( "ezbug/admin/fileedit.php" );
+    exit();
+}
+
+if( isset( $InsertImage ) )
+{
+    $Action = "";
+    include( "ezbug/admin/imageedit.php" );
+    exit();
+}
+
+if( isset( $DeleteSelected ) )
+{
+    $bug = new eZBug( $BugID );
+    if( count( $ImageArrayID ) > 0 )
+    {
+        foreach( $ImageArrayID as $imageID )
+        {
+            $image = new eZImage( $imageID );
+            $bug->deleteImage( $image );
+        }
+    }
+
+    if( count( $FileArrayID ) > 0 )
+    {
+        foreach( $FileArrayID as $fileID )
+        {
+            $file = new eZVirtualFile( $fileID );
+            $bug->deleteFile( $file );
+        }
+    }
+    $Action = "Edit";
+}
 
 if ( $Action == "Edit" )
 {
@@ -254,6 +308,73 @@ if ( $Action == "Edit" )
         $t->set_var( "isclosed", "" );
     }
 
+    if( $bug->isPrivate() == true )
+    {
+        $t->set_var( "is_private", "checked" );
+    }
+    else
+    {
+        $t->set_var( "isclosed", "" );
+    }
+
+
+// get the files
+    $files = $bug->files();
+    if( count( $files ) > 0 )
+    {
+        $i = 0;
+        foreach( $files as $file )
+        {
+            if ( ( $i % 2 ) == 0 )
+            {
+                $t->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "td_class", "bgdark" );
+            }
+
+            $t->set_var( "file_number", $i + 1 );
+            $t->set_var( "file_id", $file->id() );
+        
+            $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
+    
+            $t->parse( "file", "file_tpl", true );
+    
+            $i++;
+        }
+    }
+    else
+        $t->set_var( "file", "" );
+
+    // get the images
+    $images = $bug->images();
+    if( count( $images ) > 0  )
+    {
+        $i = 0;
+        foreach( $images as $image )
+        {
+            if ( ( $i % 2 ) == 0 )
+            {
+                $t->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "td_class", "bgdark" );
+            }
+            $t->set_var( "image_number", $i + 1 );
+            $t->set_var( "image_id", $image->id() );
+
+            $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . $image->caption() . "</a>" );
+            $t->parse( "image", "image_tpl", true );
+    
+            $i++;
+
+        }
+    }
+    else
+        $t->set_var( "image", "" );
+    
     if( count( $logList ) == 0 )
     {
         $t->set_var( "log_item", "" );

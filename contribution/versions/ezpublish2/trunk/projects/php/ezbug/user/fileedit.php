@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileedit.php,v 1.2 2001/02/19 16:42:24 fh Exp $
+// $Id: fileedit.php,v 1.3 2001/02/20 17:57:36 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:33:48 fh>
@@ -96,7 +96,7 @@ if ( $Action == "Update" )
 //      }
     
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /bug/report/edit/" . $BugID . "/" );
+    eZHTTPTool::header( "Location: /bug/edit/edit/" . $BugID . "/" );
     exit();
 }
 
