@@ -74,7 +74,6 @@ print( "</pre>" );
     
 print( $struct["errorCode"]->value() . "<br>" );
 print( $struct["errorMessage"]->value() . "<br>" );
-print( $struct["array"]->value() . "<br>" );
 
 
 
