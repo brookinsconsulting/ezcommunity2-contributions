@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.70 2001/09/11 11:20:06 bf Exp $
+// $Id: articlelist.php,v 1.71 2001/09/11 11:50:03 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -274,7 +274,7 @@ else
 if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
-if ( ( $category->listLimit() > 0 ) &&  $Offset == 0 )
+if ( ( $category->listLimit() > 0 ) && $Offset == 0 )
     $Limit = $category->listLimit();
 else
     $Limit = $UserListLimit;
@@ -370,12 +370,9 @@ foreach ( $articleList as $article )
         $t->parse( "article_date", "article_date_tpl" );
 	}
 	
-    
-
     $renderer = new eZArticleRenderer( $article );
 
     $t->set_var( "article_intro", $renderer->renderIntro(  ) );
-
         
     if ( $article->linkText() != "" )
     {
@@ -389,7 +386,7 @@ foreach ( $articleList as $article )
     // check if the article contains more than intro
     $contents =& $renderer->renderPage();
 
-    if ( trim( $contents[1] ) == "" || count( $article->attributes( false ) ) <= 0 )
+    if ( trim( $contents[1] ) == "" && count( $article->attributes( false ) ) <= 0 )
     {
         $t->set_var( "read_more", "" );
         $t->parse( "headline_without_link", "headline_without_link_tpl" );
@@ -407,7 +404,7 @@ foreach ( $articleList as $article )
     $i++;
 }
 
-eZList::drawNavigator( $t, $articleCount, $Limit, $Offset, "article_list_page_tpl" );
+eZList::drawNavigator( $t, $articleCount, $UserListLimit, $Offset, "article_list_page_tpl", $Limit );
 
 if ( count( $articleList ) > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
