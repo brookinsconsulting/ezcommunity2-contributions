@@ -35,3 +35,5 @@
 
 {option_list}
 
+<a href="/trade/cart/add/{product_id}/">BUY NOW</a><br>
+

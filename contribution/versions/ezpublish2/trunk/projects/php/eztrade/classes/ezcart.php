@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.1 2000/09/27 07:08:28 bf-cvs Exp $
+// $Id: ezcart.php,v 1.2 2000/09/27 12:17:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,10 +17,36 @@
 //! eZCart handles a shopping cart
 /*!
 
-  \sa eZProductCategory eZOption
+  Example:
+  \code
+
+  // Create a new cart
+  $cart = new eZCart();
+  $cart->setSession( $session );
+
+  // Store the cart to the database
+  $cart->store();
+  
+  // Fetch all cart items
+  $items = $cart->items();
+  
+  // print contents of the cart if it exists
+  if  ($items )
+  {
+      foreach ( $items as $item )
+      {
+          $product = $item->product();
+          print( $product->name() . "<br>");
+      }
+  }
+
+  \endcode
+  \sa eZCartItem eZProductCategory eZOption
 */
 
 include_once( "classes/ezdb.php" );
+
+include_once( "eztrade/classes/ezcartitem.php" );
 
 class eZCart
 {
@@ -104,7 +130,7 @@ class eZCart
             else if( count( $cart_array ) == 1 )
             {
                 $this->ID = $cart_array[0][ "ID" ];
-                $this->Name = $cart_array[0][ "SessionID" ];
+                $this->SessionID = $cart_array[0][ "SessionID" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -132,7 +158,6 @@ class eZCart
                                                     eZTrade_Cart
                                                     WHERE SessionID='$sid'" );
 
-            echo "bla<br>";
             if ( count( $cart_array ) == 1 )
             {
                 $ret = new eZCart( $cart_array[0]["ID"] );
@@ -181,6 +206,37 @@ class eZCart
         }
     }    
 
+    /*!
+      Returns all the cart items in the cart.
+
+      An array of eZCartItem objects are retunred if successful, false if not.
+    */
+    function items( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $cart_array, "SELECT * FROM
+                                                    eZTrade_CartItem
+                                                    WHERE CartID='$this->ID'" );
+
+       if ( count( $cart_array ) > 0 )
+       {
+           $return_array = array();
+           foreach ( $cart_array as $item )
+           {
+               $return_array[] = new eZCartItem( $item["ID"] );               
+           }
+           $ret = $return_array;
+       }
+
+       return $ret;       
+    }
+    
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

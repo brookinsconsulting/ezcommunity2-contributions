@@ -9,7 +9,6 @@
 
 <br>
 	{product_price}<br>
-	<a href="/trade/cart/add/{product_id}/">BUY</a><br>
 
 	</td>
 </tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.3 2000/09/27 07:08:28 bf-cvs Exp $
+// $Id: productlist.php,v 1.4 2000/09/27 12:17:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -88,8 +88,8 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-    
 
+    
     $t->parse( "category_list", "category_item", true );
     $i++;
 }
@@ -137,8 +137,6 @@ foreach ( $productList as $product )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-
-    
 
     $t->parse( "product_list", "product_item", true );
     $i++;

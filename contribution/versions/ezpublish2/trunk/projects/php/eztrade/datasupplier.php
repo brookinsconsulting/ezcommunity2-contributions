@@ -70,7 +70,12 @@ switch ( $url_array[2] )
         break;
         
     case "cart" :
-        include( "eztrade/cart.php" );
+        if ( $url_array[3] == "add" )
+        {
+            $Action = "AddToBasket";
+            $ProductID = $url_array[4];
+            include( "eztrade/cart.php" );
+        }
         break;
         
     case "search" :

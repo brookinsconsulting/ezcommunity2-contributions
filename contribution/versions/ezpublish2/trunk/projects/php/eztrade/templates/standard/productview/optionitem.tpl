@@ -6,7 +6,7 @@
 </tr>
 <tr>
 	<td width="20%">
-	<select>
+	<select name="Option_{option_id}">
 	{value_list}
 	</select>
 	</td>

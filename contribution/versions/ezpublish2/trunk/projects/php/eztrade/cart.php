@@ -1,11 +1,70 @@
-
-
-<h1>cart</h1>
-
 <?php
+// 
+// $Id: cart.php,v 1.2 2000/09/27 12:17:13 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <27-Sep-2000 11:57:49 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezcurrency.php" );
+
+$ini = new INIFIle( "site.ini" );
+
+$Language = $ini->read_var( "eZTradeMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
+
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezcart.php" );
+include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "ezsession/classes/ezsession.php" );
+
+
+if ( $Action == "AddToBasket" )
+{
+    print( "add" );
+
+    $product = new eZProduct( $ProductID );
+
+    $options = $product->options();
+
+    foreach ( $options as $option )
+    {
+        print( $option->id() . "<br>" );
+        
+        $optionID = $option->id();
+        $tmpVar = "Option_" . $optionID;
+        echo $$tmpVar . "<br>";
+    }
+    
+
+    
+//      foreach ( $OptionArray as $item )
+//      {
+//          print( $item );
+        
+//      }
+}
+
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/cart/",
+                     $DOC_ROOT . "/intl/", $Language, "cart.php" );
+
+$t->setAllStrings();
+
+$t->set_file( array(
+    "cart_page" => "cart.tpl",
+    "cart_item" => "cartitem.tpl"
+    ) );
 
 $cart = new eZCart();
 $session = new eZSession();
@@ -16,8 +75,7 @@ if ( !$session->fetch() )
     $session->store();
 }
 
-echo( "id: " . $session->id() );
-
+// get the cart or create it
 $cart = $cart->getBySession( $session );
 if ( !$cart )
 {
@@ -27,105 +85,22 @@ if ( !$cart )
 
     $cart->store();
 }
-else
+
+// fetch the cart items
+$items = $cart->items();
+if  ( $items )
 {
-    print( "Cart: " . $cart->id() );
-}
-
-include_once( "ezuser/classes/ezuser.php" );
-include_once( "ezuser/classes/ezusergroup.php" );
-include_once( "ezuser/classes/ezpermission.php" );
-include_once( "ezuser/classes/ezmodule.php" );
-
-print( "<h1>User test:</h1>" );
-
-$user = new eZUser();
-$user->setLogin( "bf" );
-$user->setPassword( "secret" );
-$user->setEmail( "bf@ez.no" );
-$user->setFirstName( "Bård" );
-$user->setLastName( "Farstad" );
-
-if ( !$user->exists( $user->login() ) )
-{
-    echo "Username is not used, creating user.<br>";
-    $user->store();        
-}
-
-$user = $user->validateUser( "bf", "secret" );
-
-if ( $user )
-{
-    print( "Password and username are ok!" );
-}
-
-$user = new eZUser();
-$user->get( 1 );
-
-$group = new eZUserGroup();
-//  $group->setName( "Administrator" );
-//  $group->setDescription( "Has root access" );
-
-//  $group->store();
-
-$group->get( 1 );
-
-if ( $group->adduser( $user ) )
-{
-    print( "User added to group" );    
-}
-else
-{
-    print( "Error: count not add user." );
+    foreach ( $items as $item )
+    {
+        $product = $item->product();
+        
+        $t->set_var( "product_name", $product->name() );
+        
+        $t->parse( "cart_item_list", "cart_item", true );        
+    }
 } 
 
-$module = new eZModule();
 
-$module->setName( "eZTrade" );
-
-if ( !$module->exists( $module->name() ) )
-{
-    print( "Creating module<br>" );
-    $module->store();
-}
-else
-{
-    print( "Error: count not create module, a module with that name already exists.<br>" );
-}
-
-$module->get( 1 );
-$permission = new eZPermission();
-
-if ( $permission->get( 1 ) )
-{
-    print( "Permission successfully fetched<br>" );
-}
-
-$permission->setEnabled( $group, true );
-
-if ( $permission->isEnabled( $group ) )
-{
-    print( "Access granted.<br>" );
-}
-else
-{
-    print( "Access denied.<br>" );
-}
-
-
-//  $permission->setName( "Add new products" );
-//  $permission->setModule( $module );
-
-//  if ( $permission->store() )
-//  {
-//      print( "Permission stored successfully<br>" );
-//  }
-//  else
-//  {
-//      print( "Error: could not store permission." );
-//  }
-
-
-
+$t->pparse( "output", "cart_page" );
 
 ?>

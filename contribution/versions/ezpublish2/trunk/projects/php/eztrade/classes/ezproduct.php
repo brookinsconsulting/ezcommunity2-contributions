@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.7 2000/09/24 11:51:37 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.8 2000/09/27 12:17:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -37,6 +37,7 @@
 
 include_once( "classes/ezdb.php" );
 
+include_once( "eztrade/classes/ezoption.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 class eZProduct
@@ -154,6 +155,7 @@ class eZProduct
     function get( $id="" )
     {
         $this->dbInit();
+        $ret = false;
         
         if ( $id != "" )
         {
@@ -193,12 +195,14 @@ class eZProduct
                     $this->InheritOptions = false;
 
                 $this->State_ = "Coherent";
+                $ret = true;
             }
         }
         else
         {
             $this->State_ = "Dirty";
         }
+        return $ret;
     }
 
     /*!
