@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.12 2001/01/19 10:55:34 gl Exp $
+// $Id: dayview.php,v 1.13 2001/01/19 14:45:56 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -28,8 +28,8 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
 
-include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdate.php" );
+include_once( "classes/eztime.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
 
@@ -45,6 +45,7 @@ $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
 $t->setAllStrings();
 
+$t->set_block( "day_view_page_tpl", "link_tpl", "link" );
 $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
 $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
 $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
@@ -70,19 +71,19 @@ else
     $showPrivate == false;
 }
 
-$datetime = new eZDateTime( );
+$date = new eZDate();
 
 if ( $Year != "" && $Month != "" && $Day != "" )
 {
-    $datetime->setYear( $Year );
-    $datetime->setMonth( $Month );
-    $datetime->setDay( $Day );
+    $date->setYear( $Year );
+    $date->setMonth( $Month );
+    $date->setDay( $Day );
 }
 else
 {
-    $Year = $datetime->year();
-    $Month = $datetime->month();
-    $Day = $datetime->day();
+    $Year = $date->year();
+    $Month = $date->month();
+    $Day = $date->day();
 }
 
 $session->setVariable( "Year", $Year );
@@ -92,17 +93,13 @@ $session->setVariable( "Day", $Day );
 $t->set_var( "month_number", $Month );
 $t->set_var( "year_number", $Year );
 $t->set_var( "day_number", $Day );
-$t->set_var( "long_date", $Locale->format( $datetime->date(), false ) );
+$t->set_var( "long_date", $Locale->format( $date, false ) );
 
 $today = new eZDate();
-$tmpDate = new eZDate();
+$tmpDate = new eZDate( $date->year(), $date->month(), $date->day() );
 $tmpAppointment = new eZAppointment();
 
 // fetch the appointments for the selected day
-$tmpDate->setYear( $datetime->year() );
-$tmpDate->setMonth( $datetime->month() );
-$tmpDate->setDay( $datetime->day() );
-
 $appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
 
 $appointmentColumns = array();
@@ -216,7 +213,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
     $startTime = $startTime->add( $interval );
 
     $t->set_var( "td_class", "" );
-    if ( $datetime->dateEquals( $today ) && $nowSet == false && $now->isGreater( $startTime ) )
+    if ( $date->equals( $today ) && $nowSet == false && $now->isGreater( $startTime ) )
     {
         $t->set_var( "td_class", "bgcurrent" );
         $nowSet = true;
@@ -318,34 +315,72 @@ function intersects( &$app, &$startTime, &$stopTime )
     return $ret;
 }
 
-// next previous values.
-$t->set_var( "curr_month_number", $Month );
-$t->set_var( "curr_day_number", $Day );
 
-$t->set_var( "prev_year_number", $Year - 1 );
-$t->set_var( "next_year_number", $Year + 1 );
-$t->set_var( "prev_myear_number", $Year );
-$t->set_var( "next_myear_number", $Year );
+$date->setYear( $Year );
+$date->setMonth( $Month );
+$date->setDay( $Day );
 
-if ( $Month == 12 )
+// previous year link
+$date->setYear( $Year - 1 );
+if ( $date->month() == 2 && $date->daysInMonth() < $date->day() )
+    $date->setDay( $date->daysInMonth() );
+
+$t->set_var( "1_year_number", $date->year() );
+$t->set_var( "1_month_number", $date->month() );
+$t->set_var( "1_day_number", $date->day() );
+
+$date->setYear( $Year );
+$date->setMonth( $Month );
+$date->setDay( $Day );
+
+// next year link
+$date->setYear( $Year + 1 );
+if ( $date->month() == 2 && $date->daysInMonth() < $date->day() )
+    $date->setDay( $date->daysInMonth() );
+
+$t->set_var( "2_year_number", $date->year() );
+$t->set_var( "2_month_number", $date->month() );
+$t->set_var( "2_day_number", $date->day() );
+
+$date->setYear( $Year );
+$date->setMonth( $Month );
+$date->setDay( $Day );
+
+// previous month link
+if ( $date->month() == 1 )
 {
-    $t->set_var( "next_month_number", 1 );
-    $t->set_var( "next_myear_number", $Year + 1 );
+    $date->setMonth( 12 );
+    $date->setYear( $Year - 1 );
 }
 else
-{
-    $t->set_var( "next_month_number", $Month + 1 );
-}
+    $date->setMonth( $date->month() - 1 );
 
-if ( $Month == 1 )
+if ( $date->daysInMonth() < $date->day() )
+    $date->setDay( $date->daysInMonth() );
+
+$t->set_var( "3_year_number", $date->year() );
+$t->set_var( "3_month_number", $date->month() );
+$t->set_var( "3_day_number", $date->day() );
+
+$date->setYear( $Year );
+$date->setMonth( $Month );
+$date->setDay( $Day );
+
+// next month link
+if ( $date->month() == 12 )
 {
-    $t->set_var( "prev_month_number", 12 );
-    $t->set_var( "prev_myear_number", $Year - 1 );    
+    $date->setMonth( 1 );
+    $date->setYear( $Year + 1 );
 }
 else
-{
-    $t->set_var( "prev_month_number", $Month - 1 );    
-}
+    $date->setMonth( $date->month() + 1 );
+
+if ( $date->daysInMonth() < $date->day() )
+    $date->setDay( $date->daysInMonth() );
+
+$t->set_var( "4_year_number", $date->year() );
+$t->set_var( "4_month_number", $date->month() );
+$t->set_var( "4_day_number", $date->day() );
 
 
 $t->pparse( "output", "day_view_page_tpl" );
