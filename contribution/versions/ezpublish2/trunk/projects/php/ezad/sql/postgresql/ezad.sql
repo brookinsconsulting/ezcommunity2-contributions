@@ -1,9 +1,3 @@
-drop table eZAd_Ad;
-drop table eZAd_AdCategoryLink;
-drop table eZAd_Category;
-drop table eZAd_Click;
-drop table eZAd_View;
-
 CREATE TABLE eZAd_Ad(
   ID int NOT NULL,
   Name varchar(150) default NULL,
@@ -53,13 +47,4 @@ CREATE TABLE eZAd_View (
   ViewPrice float NOT NULL,
   PRIMARY KEY (ID)
 );
-
-
-# fix 
-CREATE TABLE eZAd_Ad:
-  ViewStartDate timestamp(14) NOT NULL,
-  ViewStopDate timestamp(14) NOT NULL,
-  ViewRule enum('Period','Click') default 'Click', ( 1-2 default 1 )
-  IsActive enum('true','false') default NULL,
-
 
