@@ -1799,3 +1799,14 @@ Maintainer(s) : ce@ez.no
       sql/postgresql/eztrade.sql
       user/productview.php: Fixed a voucher bug
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-04  Baard Farstad  <bf@ez.no>
+
+    * user/ordersendt.php: Security fix.
+
+    * user/ordersendt.php:
+    Fixed security bug. $user variable was used wrong, added unset( $user ).
+
