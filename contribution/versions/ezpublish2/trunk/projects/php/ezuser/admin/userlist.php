@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.14 2000/11/14 12:04:00 ce-cvs Exp $
+// $Id: userlist.php,v 1.15 2000/11/23 11:28:12 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -29,6 +29,7 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
+$errorIni = new INIFIle( "ezuser/admin/intl/" . $Language . "/userlist.php.ini", false );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -62,33 +63,40 @@ else
 
 $t->set_var( "user_count", count( $userList ) );
 
-
-$i=0;
-foreach( $userList as $userItem )
+if ( count ( $userList ) == 0 )
 {
-    if ( ( $i %2 ) == 0 )
-        $t->set_var( "td_class", "bglight" );
-    else
-        $t->set_var( "td_class", "bgdark" );
-    
-    $t->set_var( "first_name", $userItem->firstName() );
-    $t->set_var( "last_name", $userItem->lastName() );
-    $t->set_var( "login_name", $userItem->login() );
-    $t->set_var( "email", $userItem->email() );
-    $t->set_var( "user_id", $userItem->id() );
-
+    $error = $errorIni->read_var( "strings", "no_users" );
+    $t->set_var( "user_item", $error );
+}
+else
+{
+    $i=0;
+    foreach( $userList as $userItem )
+    {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+        
+        $t->set_var( "first_name", $userItem->firstName() );
+        $t->set_var( "last_name", $userItem->lastName() );
+        $t->set_var( "login_name", $userItem->login() );
+        $t->set_var( "email", $userItem->email() );
+        $t->set_var( "user_id", $userItem->id() );
+        
 //      if ( $userItem->infoSubscription( ) == true )
 //      {
 //          print( $userItem->email() . "<br>" );
 //      }
-
-    $t->parse( "user_item", "user_item_tpl", true );
-    $i++;
+        
+        $t->parse( "user_item", "user_item_tpl", true );
+        $i++;
+    }
 }
 
 $group = new eZUserGroup();
 $groupList = $group->getAll();
-
+    
 
 foreach( $groupList as $groupItem )
 {
