@@ -25,7 +25,7 @@ if ( $TryLogin == "true" )
         // redirect..
         print "<html><head>";
 //        $url = "login.php";
-        $url = "../index.php?page=" . $DOCUMENTROOT . "successlogin.php";
+        $url = "/index.php?page=" . $DOCUMENTROOT . "successlogin.php";
         print "<meta HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=$url\">";
         print "<link rel=\"stylesheet\" href=\"ez.css\">";
         print "</head><body bgcolor=#000000></body></html>";   
@@ -34,7 +34,7 @@ if ( $TryLogin == "true" )
     {
         // redirect.. 
         print "<html><head>";
-        $url = "../index.php?page=" . $DOCUMENTROOT . "loginedit.php&Login=$Login";
+        $url = "/index.php?page=" . $DOCUMENTROOT . "loginedit.php&Login=$Login";
         print "<meta HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=$url\">";
         print "<link rel=\"stylesheet\" href=\"ez.css\">";
         print "</head><body bgcolor=#000000></body></html>";    
@@ -44,7 +44,7 @@ if ( $TryLogin == "true" )
 else
 {
     print "<html><head>";
-    $url = "../index.php?page=" . $DOCUMENTROOT . "loginedit.php&Login=$Login";
+    $url = "/index.php?page=" . $DOCUMENTROOT . "loginedit.php&Login=$Login";
     print "<meta HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=$url\">";
     print "<link rel=\"stylesheet\" href=\"ez.css\">";
     print "</head><body bgcolor=#000000></body></html>";      
