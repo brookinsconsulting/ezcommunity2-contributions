@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.13 2001/02/23 09:55:55 jb Exp $
+// $Id: eztexttool.php,v 1.14 2001/02/23 14:16:27 pkej Exp $
 //
 // Definition of eZTextTool class
 //
@@ -100,6 +100,27 @@ class eZTextTool
         $string = str_replace ( "  ", "&nbsp;&nbsp;", $string );
         
         return  $string;
+    }
+    
+    /*!
+      \static
+      This function will return the text "true" if the input value is true and
+      the text "false" if false.
+     */
+
+    function &boolText( $value )
+    {
+        if( $value == true )
+        {
+            $string = "true";
+        }
+        
+        if( $value == false )
+        {
+            $string = "false";
+        }
+        
+        return $string;
     }
 
     /*!
