@@ -3377,3 +3377,12 @@ Maintainer(s) : bf@ez.no
 
     * user/templates/standard/sendmailtofriend.tpl: Added non-virtualhost fix
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-06-25  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php:
+    Fixed redirect to 403 page when accessing a restricted article.
+
