@@ -41,12 +41,20 @@
 <p class="boxtext">{intl-telephone}:</p>
 {telephone}
 <!-- END phone_item_tpl -->
+<!-- BEGIN no_phone_item_tpl -->
+<p class="boxtext">{intl-telephone}:</p>
+{intl-no_telephone}
+<!-- END no_phone_item_tpl -->
 	</td>
 	<td>
 <!-- BEGIN fax_item_tpl -->
 <p class="boxtext">{intl-fax}:</p>
 {fax}
 <!-- END fax_item_tpl -->
+<!-- BEGIN no_fax_item_tpl -->
+<p class="boxtext">{intl-fax}:</p>
+{intl-no_fax}
+<!-- END no_fax_item_tpl -->
 	</td>
 </tr>
 </table>
@@ -59,12 +67,20 @@
 <p class="boxtext">{intl-web}:</p>
 <a href="http://{web}">{web}</a>
 <!-- END web_item_tpl -->
+<!-- BEGIN no_web_item_tpl -->
+<p class="boxtext">{intl-web}:</p>
+{intl-no_web}
+<!-- END no_web_item_tpl -->
 	</td>
 	<td>
 <!-- BEGIN email_item_tpl -->
 <p class="boxtext">{intl-email}:</p>
 <a href="mailto:{email}">{email}</a>
 <!-- END email_item_tpl -->
+<!-- BEGIN no_email_item_tpl -->
+<p class="boxtext">{intl-email}:</p>
+{intl-no_email}
+<!-- END no_email_item_tpl -->
 	</td>
 </tr>
 </table>
@@ -76,8 +92,14 @@
 
 <h2>Stillingsinformasjon</h2>
 
-<p class="boxtext">{intl-name}:</p>
-{classified_name}
+<p class="boxtext">{intl-title}:</p>
+{classified_title}
+
+<p class="boxtext">{intl-position_type}:</p>
+{classified_position_type}
+
+<p class="boxtext">{intl-initiate_type}:</p>
+{classified_initiate_type}
 
 <p class="boxtext">{intl-description}:</p>
 {classified_description}

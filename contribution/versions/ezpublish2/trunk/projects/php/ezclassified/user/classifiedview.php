@@ -31,9 +31,13 @@ $t->set_file( array(
 $t->set_block( "classified_edit", "company_view_tpl", "company_view" );
 $t->set_block( "company_view_tpl", "address_item_tpl", "address_item" );
 $t->set_block( "company_view_tpl", "phone_item_tpl", "phone_item" );
+$t->set_block( "company_view_tpl", "no_phone_item_tpl", "no_phone_item" );
 $t->set_block( "company_view_tpl", "fax_item_tpl", "fax_item" );
+$t->set_block( "company_view_tpl", "no_fax_item_tpl", "no_fax_item" );
 $t->set_block( "company_view_tpl", "web_item_tpl", "web_item" );
+$t->set_block( "company_view_tpl", "no_web_item_tpl", "no_web_item" );
 $t->set_block( "company_view_tpl", "email_item_tpl", "email_item" );
+$t->set_block( "company_view_tpl", "no_email_item_tpl", "no_email_item" );
 $t->set_block( "company_view_tpl", "image_view_tpl", "image_view" );
 $t->set_block( "company_view_tpl", "logo_view_tpl", "logo_view" );
 $t->set_block( "company_view_tpl", "no_image_tpl", "no_image" );
@@ -42,7 +46,9 @@ $t->set_block( "company_view_tpl", "no_logo_tpl", "no_logo" );
 
 $position = new eZPosition( $PositionID );
 
-$t->set_var( "classified_name", $position->name() );
+$t->set_var( "classified_title", $position->title() );
+$t->set_var( "classified_position_type", positionTypeName( $position->positionType() ) );
+$t->set_var( "classified_initiate_type", initiateTypeName( $position->initiateType() ) );
 $t->set_var( "classified_id", $position->id() );
 $t->set_var( "classified_description", $position->description() );
 $t->set_var( "classified_contact_person", $position->contactPerson() );
@@ -84,35 +90,46 @@ $phoneList = $company->phones( $company->id() );
 
 if ( count( $phoneList ) >= 2 )
 {
+    $has_phone = true;
+    $has_fax = true;
     for( $i=0; $i<count ( $phoneList ); $i++ )
     {
         if ( $phoneList[$i]->phoneTypeID() == 5 )
         {
             $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
             $t->set_var( "telephone", $phoneList[$i]->number() );
+            $t->set_var( "no_phone_item", "" );
         }
         else
         {
-            $t->set_var( "telephone", "Det finnes ingen telefonnummer" );
+            $t->set_var( "phone_item", "" );
+            $has_phone = false;
         }
         if ( $phoneList[$i]->phoneTypeID() == 8 )
         {
             $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
             $t->set_var( "fax", $phoneList[$i]->number() );
+            $t->set_var( "no_fax_item", "" );
         }
         else
         {
-            $t->set_var( "fax", "Det finnes ingen fax addresse" );
+            $t->set_var( "fax_item", "" );
+            $has_fax = false;
         }
 
-        $t->parse( "phone_item", "phone_item_tpl" );
+        if ( $has_phone )
+            $t->parse( "phone_item", "phone_item_tpl" );
+        else
+            $t->parse( "no_phone_item", "no_phone_item_tpl" );
         $t->parse( "fax_item", "fax_item_tpl" );
     }
 }
 else
 {
-    $t->set_var( "phone_item", "Det finnes ingen telefonnummer" );
-    $t->set_var( "telephone", "Det finnes ingen telefonnummer" );
+    $t->set_var( "phone_item", "" );
+    $t->set_var( "fax_item", "" );
+    $t->parse( "no_phone_item", "no_phone_item_tpl" );
+    $t->parse( "no_fax_item", "no_fax_item_tpl" );
 }
 
 // Address list
@@ -152,38 +169,48 @@ $onlineList = $company->onlines( $company->id() );
 
 if ( count ( $onlineList ) >= 1 )
 {
+    $has_web = true;
+    $has_email = true;
     for( $i=0; $i<count ( $onlineList ); $i++ )
     {
         if ( $onlineList[$i]->onlineTypeID() == 4 )
         {
             $t->set_var( "web_online_id", $onlineList[$i]->id() );
             $t->set_var( "web", $onlineList[$i]->URL() );
+            $t->set_var( "no_web_item", "" );
         }
         else
         {
-            $t->set_var( "web", "Det finnes ingen Web addresse." );
+            $t->set_var( "web_item", "" );
+            $has_web = false;
         }
         if ( $onlineList[$i]->onlineTypeID() == 5 )
         {
             $t->set_var( "email_online_id", $onlineList[$i]->id() );
             $t->set_var( "email", $onlineList[$i]->URL() );
+            $t->set_var( "no_email_item", "" );
         }
         else
         {
-            $t->set_var( "email", "Det finnes ingen E-post addresse" );
+            $t->set_var( "email_item", "" );
+            $has_email = false;
         }
-            
     }
-    $t->parse( "web_item", "web_item_tpl" );
-    $t->parse( "email_item", "email_item_tpl" );
-
+    if ( $has_web )
+        $t->parse( "web_item", "web_item_tpl" );
+    else
+        $t->parse( "no_web_item", "no_web_item_tpl" );
+    if ( $has_email )
+        $t->parse( "email_item", "email_item_tpl" );
+    else
+        $t->parse( "no_email_item", "no_email_item_tpl" );
 }
 else
 {
-  $t->set_var( "web", "Det finnes ingen Web addresse." );
-  $t->set_var( "email", "Det finnes ingen E-post addresse" );
-  $t->parse( "web_item", "web_item_tpl" );
-  $t->parse( "email_item", "email_item_tpl" );
+  $t->set_var( "web_item", "" );
+  $t->set_var( "email_item", "" );
+  $t->parse( "no_web_item", "no_web_item_tpl" );
+  $t->parse( "no_email_item", "no_email_item_tpl" );
 }
 $t->set_var( "company_id", $company->id() );
 $t->parse( "company_view", "company_view_tpl" );
