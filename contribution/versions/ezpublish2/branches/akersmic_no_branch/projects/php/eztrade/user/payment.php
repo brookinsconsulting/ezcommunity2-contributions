@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84.8.1 2002/01/22 16:54:43 br Exp $
+// $Id: payment.php,v 1.84.8.2 2002/01/29 13:37:57 bf Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -117,6 +117,8 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
         }
     }
 }
+
+unset( $session );
 
 $session =& eZSession::globalSession();
 
