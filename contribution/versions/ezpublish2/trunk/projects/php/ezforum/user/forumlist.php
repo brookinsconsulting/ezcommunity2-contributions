@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forumlist.php,v 1.11 2001/03/16 10:17:08 pkej Exp $
+// $Id: forumlist.php,v 1.12 2001/04/23 12:00:42 fh Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -73,7 +73,7 @@ foreach( $forumList as $forum )
     $t->set_var( "name", $forum->name() );    
     $t->set_var( "description", $forum->description() );
 
-    $t->set_var( "threads", $forum->threadCount() );    
+    $t->set_var( "threads", $forum->threadCount() );
     $t->set_var( "messages", $forum->messageCount() );    
     
 

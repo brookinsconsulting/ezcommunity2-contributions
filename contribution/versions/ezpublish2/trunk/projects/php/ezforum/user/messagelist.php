@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.19 2001/04/16 11:07:34 bf Exp $
+// $Id: messagelist.php,v 1.20 2001/04/23 12:00:42 fh Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -180,7 +180,7 @@ else
         
         if ( get_class( $viewer ) == "ezuser" )
         {
-            if ( $viewer->id() == $userID && eZForumMessage::countReplies( $message["ID"] ) == 0 )
+            if ( $viewer->id() == $userID && eZForumMessage::countReplies( $message["ID"] ) == 0 && !$forum->IsModerated() )
             {
                 $t->parse( "edit_message_item", "edit_message_item_tpl" );
             }

@@ -2,9 +2,9 @@
 
 <h1>{intl-messages_awaiting_approval}</h1>
 
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN message_item_tpl -->
+<hr noshade="noshade" size="4" />
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.23 2001/04/16 11:07:34 bf Exp $
+// $Id: ezforum.php,v 1.24 2001/04/23 12:00:41 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -587,16 +587,20 @@ class eZForum
     /*!
       Returns the number of threads in the forum.
     */
-    function threadCount()
+    function threadCount( $countUnapproved = false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        $db =& eZDB::globalDatabase();
 
-       $db->array_query( $message_array, "SELECT ID FROM
-                                                       eZForum_Message
-                                                       WHERE ForumID='$this->ID'  AND IsTemporary='0' GROUP BY ThreadID" );
+       $unapprovedSQL = "";
+       if( $countUnapproved == false )
+           $unapprovedSQL = "AND IsApproved='1'";
+       
+       $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
+                                          WHERE ForumID='$this->ID'
+                                          AND IsTemporary='0' $unapprovedSQL GROUP BY ThreadID" );
 
        $ret = count( $message_array );
 
@@ -606,16 +610,20 @@ class eZForum
     /*!
       Returns the number of messages in the forum.
     */
-    function messageCount()
+    function messageCount( $countUnapproved = false)
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        $db =& eZDB::globalDatabase();
 
-       $db->array_query( $message_array, "SELECT ID FROM
-                                                       eZForum_Message
-                                                       WHERE ForumID='$this->ID' AND IsTemporary='0'" );
+       $unapprovedSQL = "";
+       if( $countUnapproved == false )
+           $unapprovedSQL = "AND IsApproved='1'";
+
+       $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
+                                          WHERE ForumID='$this->ID'
+                                          AND IsTemporary='0' $unapprovedSQL" );
 
        $ret = count( $message_array );
 
