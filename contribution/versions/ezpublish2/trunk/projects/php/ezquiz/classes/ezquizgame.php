@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.8 2001/05/30 10:39:40 pkej Exp $
+// $Id: ezquizgame.php,v 1.9 2001/05/30 12:57:04 pkej Exp $
 //
 // ezquizgame class
 //
@@ -358,7 +358,7 @@ class eZQuizGame
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
-                                       WHERE StartDate <= now() AND StopDate <= now()
+                                       WHERE StartDate <= now() AND StopDate >= now()
                                        ORDER BY StartDate DESC LIMIT $offset, $limit" );
         $ret = $result["Count"];
 
@@ -369,7 +369,85 @@ class eZQuizGame
         
         return $returnArray;
     }
-    
+ 
+    /*!
+      Returns all the games started within a period.
+    */
+    function &startedInPeriod( &$inStartDate, &$inStopDate )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $quizArray = array();
+
+        $stopDate = $inStopDate->mySQLDate();
+        $startDate = $inStartDate->mySQLDate();
+
+        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+                                       WHERE StartDate >= '$startDate' AND StartDate <= '$stopDate'
+                                       ORDER BY StartDate" );
+        $ret = $result["Count"];
+
+        for ( $i=0; $i < count($quizArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+
+    /*!
+      Returns all the games ended within a period.
+    */
+    function &endedInPeriod( &$inStartDate, &$inStopDate )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $quizArray = array();
+
+        $startDate = $inStartDate->mySQLDate();
+        $stopDate = $inStopDate->mySQLDate();
+
+        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+                                       WHERE StopDate >= '$startDate' AND StopDate <= '$stopDate'
+                                       ORDER BY StartDate" );
+        $ret = $result["Count"];
+
+        for ( $i=0; $i < count($quizArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+
+     /*!
+      Returns all the games which embraces this period.
+    */
+    function &embracingPeriod( &$inStartDate, &$inStopDate )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $quizArray = array();
+
+        $startDate = $inStartDate->mySQLDate();
+        $stopDate = $inStopDate->mySQLDate();
+
+        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+                                       WHERE StartDate <= '$startDate' AND StopDate >= '$stopDate'
+                                       ORDER BY StartDate" );
+        $ret = $result["Count"];
+
+        for ( $i=0; $i < count($quizArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+   
     
     
 
