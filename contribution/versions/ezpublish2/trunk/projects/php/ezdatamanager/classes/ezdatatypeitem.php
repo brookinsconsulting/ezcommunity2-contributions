@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdatatypeitem.php,v 1.3 2002/02/09 14:34:36 br Exp $
+// $Id: ezdatatypeitem.php,v 1.4 2002/02/09 15:06:29 br Exp $
 //
 // Definition of eZDataTypeItem class
 //
@@ -138,6 +138,7 @@ class eZDataTypeItem
         $db->begin( );
         
         $res = $db->query( "DELETE FROM eZDataManager_DataTypeItem WHERE ID='$this->ID'" );
+        $res = $db->query( "DELETE FROM eZDataManager_RelationDefinition WHERE DataTypeItemID='$this->ID'" );
 
         if ( $res == false )
             $db->rollback( );
@@ -205,7 +206,7 @@ class eZDataTypeItem
         $db =& eZDB::globalDatabase();
         
         $db->array_query( $relation_array, "SELECT ID FROM eZDataManager_RelationDefinition
-                                            WHERE ID='$id' AND DataTypeItemID='" . $this->DataTypeID . "'" );
+                                            WHERE DataTypeItemID='$this->ID'" );
 
         if ( count( $relation_array ) == 0 )
         {
@@ -216,7 +217,7 @@ class eZDataTypeItem
             $res = $db->query( "INSERT INTO eZDataManager_RelationDefinition
                          ( ID, DataTypeItemID, DataTypeRelationID ) VALUES 
                          ( '$nextID',
-                           '$this->DataTypeID',
+                           '$this->ID',
                            '$relationID' )
                           " );
             $db->unlock();
@@ -224,7 +225,7 @@ class eZDataTypeItem
         else
         {
             $res = $db->query( "UPDATE eZDataManager_RelationDefinition SET
-		                 DataTypeItemID='$this->DataTypeID',
+		                 DataTypeItemID='$this->ID',
 		                 DataTypeRelationID='$relationID'
                          WHERE ID='" . $relation_array[0][$db->fieldName( "ID" )]  . "'" );
         }
@@ -234,6 +235,15 @@ class eZDataTypeItem
             $db->commit();
     }
 
+    function relationID()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $relation_array, "SELECT ID FROM eZDataManager_RelationDefinition
+                                            WHERE DataTypeItemID='" . $this->ID . "'" );
+
+        return $relation_array[0][$db->fieldName( "ID" )];
+    }
     
     
     /// the ID for the data type item

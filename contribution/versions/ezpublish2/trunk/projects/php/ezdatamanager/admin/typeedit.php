@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typeedit.php,v 1.3 2002/02/09 14:34:36 br Exp $
+// $Id: typeedit.php,v 1.4 2002/02/09 15:06:29 br Exp $
 //
 // Created on: <20-Nov-2001 15:04:53 bf>
 //
@@ -224,10 +224,9 @@ if ( $TypeID > 0 )
             $itemTypeID = $item->itemType();
             parseType( $t, $itemTypeID );
 
-            if ( $EditItemTypeIDArray[$i] == 2 )
+            if ( $itemTypeID == 2 )
             {
-                $relationIDString = "TypeRelationID_" . $ItemIDArray[$i];
-                $relationID = $$relationIDString;
+                $relationID = $item->relationID();
                 parseRelation( $t, $relationID );
             }
            
