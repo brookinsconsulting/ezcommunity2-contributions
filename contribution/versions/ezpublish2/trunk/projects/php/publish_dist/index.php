@@ -104,9 +104,21 @@ if ( ( $requireUserLogin == "disabled" ) ||
         $url_array = explode( "/", $REQUEST_URI );
     }
 
-    // if uri == / show article list
+    // if uri == / show default page or article list
     if ( $REQUEST_URI == "/" )
-        $REQUEST_URI = "/article/archive/0/";
+    {
+        if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
+        {
+
+        $REQUEST_URI = ( $ini->read_var( "site", "DefaultPage" ) );
+
+        }
+        else
+        {
+         $REQUEST_URI = "/article/archive/0/";
+        }
+     }
+
 
     // Load the main contents and store in a variable
     $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
