@@ -80,8 +80,26 @@
 <p class="boxtext">{intl-description}:</p>
 <div class="p">{classified_description}</div>
 
-<p class="boxtext">{intl-contact_person}:</p>
-<!-- <div class="p">{classified_contact_person}</div> -->
+<p class="boxtext">{intl-contact_persons}:</p>
+<!-- BEGIN person_item_tpl -->
+<p>
+Name: {person_name}<br />
+Title: {person_title}<br />
+<!-- BEGIN person_mail_item_tpl -->
+Mail: <a href="mailto:{person_mail}">{person_mail}</a><br />
+<!-- END person_mail_item_tpl -->
+<!-- BEGIN person_phone_item_tpl -->
+Phone: {person_phone}<br />
+<!-- END person_phone_item_tpl -->
+<!-- BEGIN person_fax_item_tpl -->
+Fax: {person_fax}<br />
+<!-- END person_fax_item_tpl -->
+</p>
+<!-- END person_item_tpl -->
+<!-- BEGIN no_person_item_tpl -->
+{intl-no_persons}
+<!-- END no_person_item_tpl -->
+
 <br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
