@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.49.2.2 2001/12/10 10:06:13 jhe Exp $
+// $Id: filelist.php,v 1.49.2.3 2002/02/06 08:12:43 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -155,6 +155,7 @@ $folderList =& $folder->getByParent( $folder );
 
 $i = ( $folder->id() && $ShowUpFolder ) ? 1 : 0;
 $deleteFolders = false;
+
 foreach ( $folderList as $folderItem )
 {
     $t->set_var( "folder_name", $folderItem->name() );
@@ -164,12 +165,6 @@ foreach ( $folderList as $folderItem )
     $t->set_var( "folder_write", "" );
 
     $t->set_var( "td_class", ( $i % 2 ) ? "bgdark" : "bglight" );
-    if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "r", $user ) ||
-         eZVirtualFolder::isOwner( $user, $folderItem->id() ) )
-    {
-        $t->parse( "folder_read", "folder_read_tpl" );
-        $i++;
-    }
 
     if ( ( $user ) &&
          ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) &&
@@ -180,7 +175,13 @@ foreach ( $folderList as $folderItem )
         $deleteFolders = true;
     }
 
-    $t->parse( "folder", "folder_tpl", true );
+    if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "r", $user ) ||
+         eZVirtualFolder::isOwner( $user, $folderItem->id() ) )
+    {
+        $t->parse( "folder_read", "folder_read_tpl" );
+        $t->parse( "folder", "folder_tpl", true );
+        $i++;
+    }
 }
 
 
