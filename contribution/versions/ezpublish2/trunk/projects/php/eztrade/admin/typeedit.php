@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.4 2001/03/09 09:02:00 bf Exp $
+// $Id: typeedit.php,v 1.5 2001/03/13 15:18:06 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -41,6 +41,8 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 include_once( "eztrade/classes/ezproducttype.php" );
 include_once( "eztrade/classes/ezproductattribute.php" );
 
+
+
 if ( $Action == "Insert" )
 {
     $type = new eZProductType();
@@ -49,13 +51,13 @@ if ( $Action == "Insert" )
 
     $type->store();
 
-    eZHTTPTool::header( "Location: /trade/typelist/" );
-    exit();
+    $TypeID = $type->id();
+    $Action = "Edit";
 }
+
 
 if ( $Action == "Update" )
 {
-
     $type = new eZProductType( $TypeID );
     $type->setName( $Name );
     $type->setDescription( $Description );
@@ -75,30 +77,24 @@ if ( $Action == "Update" )
             $i++;
         }
     }
-
-
-    if ( isset( $NewAttribute ) )
-    {
-        $attribute = new eZProductAttribute();
-        $attribute->setType( $type );
-        $attribute->setName( "New attribute" );
-        $attribute->store();
-        
-        $Action = "Edit";        
-    }
-    else
-    {
-        if ( isset( $UpdateValues ) )
-        {
-            $Action = "Edit";
-        }
-        else
-        {
-            eZHTTPTool::header( "Location: /trade/typelist/" );
-            exit();
-        }
-    }
+    $Action="Edit";
 }
+
+if( isset( $Ok ) )
+{
+    eZHTTPTool::header( "Location: /trade/typelist/" );
+    exit();
+}
+
+
+if ( isset( $NewAttribute ) )
+{
+    $attribute = new eZProductAttribute();
+    $attribute->setType( $type );
+    $attribute->setName( "New attribute" );
+    $attribute->store();
+}
+
 
 if ( $Action == "Delete" )
 {

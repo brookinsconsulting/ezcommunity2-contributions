@@ -35,8 +35,6 @@
 <br />
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="UpdateValues" value="{intl-update}" />
-
 <input class="stdbutton" type="submit" name="NewAttribute" value="{intl-new_attribute}" />
 
 <hr noshade="noshade" size="4" />
@@ -47,7 +45,7 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="{intl-ok}" />
+	<input class="okbutton" name="Ok" type="submit" value="{intl-ok}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>
