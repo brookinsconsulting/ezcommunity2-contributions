@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.13 2001/08/31 14:01:59 jhe Exp $
+// $Id: messageform.php,v 1.14 2001/09/04 12:06:43 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -169,7 +169,7 @@ if ( $ShowMessageForm )
             $MessagePostedAt = $locale->format( $msg->postingTime() );
         }
     }
-    if ( $author->id() > 0 )
+    if ( is_object( $author ) && $author->id() > 0 )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
     }
@@ -236,7 +236,7 @@ if ( $ShowMessageForm )
 
     if ( $ShowVisibleMessageForm )
     {
-        if ( $author->id() > 0 )
+        if ( is_object( $author ) && $author->id() > 0 )
         {
             $t->parse( "author_field", "author_logged_in_tpl" );
         }
