@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2000/10/24 15:03:29 bf-cvs Exp $
+// $Id: menubox.php,v 1.3 2000/10/26 11:01:55 bf-cvs Exp $
 //
 // 
 //
@@ -60,7 +60,6 @@ function createArticleMenu()
     global $menuCachedFile;
     
     include_once( "classes/eztemplate.php" );
-    include_once( "common/ezphputils.php" );
 
     include_once( "ezarticle/classes/ezarticlecategory.php" );
     include_once( "ezarticle/classes/ezarticle.php" );
