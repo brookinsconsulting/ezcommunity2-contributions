@@ -1,24 +1,23 @@
 <h1>{intl-view_headline}</h1>
 
-<hr noshade size="4"/>
-
-<br />
+<hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-name_headline}:</p>
-<p>
-{firstname} {lastname}<br />
-</p>
+<span class="p">{firstname} {lastname}</span>
+
 <!-- BEGIN address_item_tpl -->
 <p class="boxtext">{intl-addresses_headline}:</p>
 <table>
 <!-- BEGIN address_line_tpl -->
 <tr>
-<td>{address_id}</td>
-<td>{address_type_id} {address_type_name}</td>
-<td>{street1}</td>
-<td>{street2}</td>
-<td>{zip}</td>
-<td>{place}</td>
+	<th>{address_type_name}</th>
+	<td>{street1}</td>
+</tr>
+<tr>
+	<td>{street2}</td>
+</tr>
+<tr>
+	<td>{zip} {place}</td>
 </tr>
 <!-- END address_line_tpl -->
 </table>

@@ -1,4 +1,3 @@
-bla
 <form method="post" action="/user/login/login/">
 
 <h1>{intl-head_line}</h1>
@@ -10,13 +9,13 @@ bla
 <tr>
 	<td class="boxtext">
 	<p class="boxtext">{intl-username}:</p>
-	<input type="text" size="6" name="Username"/>
+	<input type="text" size="12" name="Username"/>
 	</td>
 </tr>
 <tr>
 	<td class="boxtext">
 	<p class="boxtext">{intl-password}:</p>
-	<input type="password" size="6" name="Password" />
+	<input type="password" size="12" name="Password" />
 	</td>
 </tr>
 </table>
@@ -35,7 +34,6 @@ bla
 </tr>
 </table>
 
-<br />
 <hr noshade="noshade" size="4">
 
 <table cellspacing="0" cellpadding="0" border="0">

@@ -114,32 +114,6 @@
 <input type="hidden" name="UserID" value="{user_id}" />
 <!-- END person_item_tpl -->
 
-
-<!-- BEGIN password_item_tpl -->
-<h2>{intl-password_headline}</h2>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-    <td width="50%">
-        <p class="boxtext">{intl-user_name}:</p>
-        <input type="text" size="20" name="LoginName" value="{user_name}"/>
-    </td>
-    <td width="50%">
-        &nbsp;
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="boxtext">{intl-password}:</p>
-        <input type="password" size="20" name="Password" value="{old_password}"/>
-    </td>
-    <td>
-        <p class="boxtext">{intl-repeat_password}:</p>
-        <input type="password" size="20" name="PasswordRepeat" value=""/>
-    </td>
-</tr>
-</table>
-<!-- END password_item_tpl -->
-
 <!-- BEGIN address_item_tpl -->
 <h2>{intl-address_headline}</h2>
 <p class="boxtext">{intl-address}:</p>
@@ -217,6 +191,32 @@
     </td>
 </tr>
 </table>
+
+<!-- BEGIN password_item_tpl -->
+<h2>{intl-password_headline}</h2>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td width="50%">
+        <p class="boxtext">{intl-user_name}:</p>
+        <input type="text" size="20" name="LoginName" value="{user_name}"/>
+    </td>
+    <td width="50%">
+        &nbsp;
+    </td>
+</tr>
+<tr>
+    <td>
+        <p class="boxtext">{intl-password}:</p>
+        <input type="password" size="20" name="Password" value="{old_password}"/>
+    </td>
+    <td>
+        <p class="boxtext">{intl-repeat_password}:</p>
+        <input type="password" size="20" name="PasswordRepeat" value=""/>
+    </td>
+</tr>
+</table>
+<!-- END password_item_tpl -->
+
 <br />
 
 <hr noshade="noshade" size="4" />
