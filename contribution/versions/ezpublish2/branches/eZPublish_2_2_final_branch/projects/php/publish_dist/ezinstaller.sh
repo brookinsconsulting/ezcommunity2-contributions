@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.11 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.10 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://developer.ez.no) on a Linux 
