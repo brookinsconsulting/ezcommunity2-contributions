@@ -2135,7 +2135,7 @@ where secret is your password.
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# mysql -uroot -p publish < sql/publish.sql
+# mysql -uroot -p publish < sql/data.sql
 \layout Subsubsection
 
 Adding Pre-Defined Data

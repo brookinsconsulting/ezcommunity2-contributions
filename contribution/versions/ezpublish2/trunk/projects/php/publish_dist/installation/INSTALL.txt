@@ -796,7 +796,7 @@ where secret is your password. Then you need to add the default
 eZ publish data into your newly created database:
 
 
-    # mysql -uroot -p publish < sql/publish.sql
+    # mysql -uroot -p publish < sql/data.sql
 
 5.2.1.1 Adding Pre-Defined Data
 
