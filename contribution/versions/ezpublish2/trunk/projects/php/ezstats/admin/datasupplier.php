@@ -60,6 +60,14 @@ switch ( $url_array[2] )
     }
     break;
     
+    case "yearreport" :
+    {
+        $Year = $url_array[3];
+
+        include( "ezstats/admin/yearreport.php" );
+    }
+    break;
+
     case "monthreport" :
     {
         $Year = $url_array[3];
