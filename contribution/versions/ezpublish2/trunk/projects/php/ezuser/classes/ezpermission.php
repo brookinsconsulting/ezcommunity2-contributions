@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.19 2001/08/06 14:28:23 jhe Exp $
+// $Id: ezpermission.php,v 1.20 2001/08/31 14:02:48 jhe Exp $
 //
 // Definition of eZPermission class
 //
@@ -431,7 +431,7 @@ class eZPermission
         $module = new eZModule();
         $module = $module->exists( $moduleName );
 
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
             return false;
         
         if ( $user->hasRootAccess() )
@@ -452,14 +452,13 @@ class eZPermission
 
             if ( count( $value_array ) == 1 )
             {
-                $permission = new eZPermission( );
-                $permission->get( $value_array[0][$db->fieldName("ID")] ); 
+                $permission = new eZPermission();
+                $permission->get( $value_array[0][$db->fieldName( "ID" )] ); 
 
                 if ( get_class( $user ) == "ezuser" )
                 {
                     $group = new eZUserGroup();
                     $groupArray = $group->getByUser( $user );
-
                     foreach ( $groupArray as $group )
                     {
                         if ( $permission->isEnabled( $group ) )
