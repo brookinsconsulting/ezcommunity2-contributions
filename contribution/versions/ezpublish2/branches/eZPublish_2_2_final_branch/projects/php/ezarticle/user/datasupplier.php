@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.11 2002/06/25 09:29:50 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.12 2003/03/24 11:31:25 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -401,10 +401,19 @@ switch ( $url_array[2] )
         $PageNumber= $url_array[4];
         $CategoryID = $url_array[5];
 
-        if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
-            $PageNumber= 1;
+        $user =& eZUser::currentUser();
 
-        include( "ezarticle/user/articleview.php" );
+        $article = new eZArticle( $ArticleID );
+        $definition = $article->categoryDefinition( false );
+
+        if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+                  || eZArticle::isAuthor( $user, $ArticleID ) )
+        {
+            if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
+                $PageNumber= 1;
+
+            include( "ezarticle/user/articleview.php" );
+        }
     }
     break;
 
