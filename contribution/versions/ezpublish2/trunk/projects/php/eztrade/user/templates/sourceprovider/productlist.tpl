@@ -3,7 +3,6 @@
 <!-- END path_tpl -->
 
 <!-- BEGIN category_list_tpl -->
-
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>Kategori:</th>
@@ -22,7 +21,6 @@
 <!-- END category_tpl -->
 
 </table>
-
 <hr noshade size="4"/>
 
 <!-- END category_list_tpl -->
@@ -30,6 +28,16 @@
 
 <!-- BEGIN product_list_tpl -->
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+     <td align="right">
+	 <form action="/trade/search/" method="post">
+	       <input type="text" name="Query">
+	       <input type="submit" name="search" value="{intl-search_button}">
+         </form>
+     </td>
+</tr>
+</table>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <!-- BEGIN product_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.3 2000/10/29 10:21:09 ce-cvs Exp $
+// $Id: productsearch.php,v 1.4 2000/10/30 08:01:12 ce-cvs Exp $
 //
 // 
 //
@@ -39,6 +39,9 @@ $t->set_file(  "product_search_tpl", "productsearch.tpl" );
 $t->set_block( "product_search_tpl", "product_tpl", "product" );
 $t->set_block( "product_tpl", "image_tpl", "image" );
 
+$t->set_block( "product_search_tpl", "previous_tpl", "previous" );
+$t->set_block( "product_search_tpl", "next_tpl", "next" );
+
 // products
 $product = new eZProduct();
 
@@ -50,8 +53,6 @@ if ( !isSet( $Offset ) )
 
 $productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
 
-
-
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "product", "" );
@@ -61,7 +62,6 @@ if ( isSet( $Query ) )
     {
         // preview image
         $thumbnailImage = $product->thumbnailImage();
-//          if ( $thumbnailImage )
         if ( 0 )
         {
             $variation =& $thumbnailImage->requestImageVariation( 150, 150 );
@@ -85,7 +85,6 @@ if ( isSet( $Query ) )
         $t->set_var( "product_price", $locale->format( $price ) );
         $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_id", $product->id() );
-        $t->set_var( "category_id", $category->id() );
 
         if ( ( $i % 2 ) == 0 )
         {
@@ -96,12 +95,35 @@ if ( isSet( $Query ) )
             $t->set_var( "td_class", "bgdark" );
         }
 
+        $prevOffs = $Offset - $Limit;
+        $nextOffs = $Offset + $Limit;
+        
+        if ( $prevOffs >= 0 )
+        {
+            $t->set_var( "prev_offset", $prevOffs  );
+            $t->parse( "previous", "previous_tpl" );
+        }
+        else
+        {
+        $t->set_var( "previous", "" );
+        }
+        
+        if ( $nextOffs <= $total_count )
+        {
+            $t->set_var( "next_offset", $nextOffs  );
+            $t->parse( "next", "next_tpl" );
+        }
+        else
+        {
+            $t->set_var( "next", "" );
+        }
+
         $t->parse( "product", "product_tpl", true );
         $i++;
     }
 }
 
-$t->set_var( "query_string", "1" );
+$t->set_var( "query_string", $Query );
 $t->set_var( "query", $Query );
 $t->set_var( "limit", $Limit );
 $prevOffs = $Offset - $Limit;

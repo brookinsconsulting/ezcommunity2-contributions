@@ -1,10 +1,23 @@
-<h1>search</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td align="left" valign="bottom">
+        <h1>{intl-head_line}</h1>
+     </td>
+     <td align="right">
+	 <form action="/trade/search/" method="post">
+	       <input type="text" name="Query">
+	       <input type="submit" name="search" value="{intl-search_button}">
+         </form>
+     </td>
+</tr>
+</table>
 
-<form action="/trade/search/" method="post">
-<input type="text" name="Query" size="10" />
-<input type="submit" value="{intl-search_button}" />
-</form>
+<hr noshade size="4" />
 
+<h2>Search for: "{query_string}"</h2>
+<br>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN product_tpl -->
 <tr>
 	<td>
@@ -34,5 +47,18 @@
 </tr>
 <!-- END product_tpl -->
 
-<a href="/trade/search/?Query={query}&Limit={limit}&Offset={prev_offset}"><-previous</a>
-<a href="/trade/search/?Query={query}&Limit={limit}&Offset={next_offset}">next-></a>
+<!-- BEGIN previous_tpl -->
+<a href="/forum/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
+{intl-prev}
+</a>
+<!-- END previous_tpl -->
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<!-- BEGIN next_tpl -->
+<a href="/forum/search/?Offset={next_offset}&URLQueryString={url_query_string}">
+{intl-next}
+</a>
+<!-- END next_tpl -->
+
+</table>

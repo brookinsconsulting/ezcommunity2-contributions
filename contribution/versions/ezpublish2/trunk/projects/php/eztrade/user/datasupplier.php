@@ -114,6 +114,7 @@ switch ( $url_array[2] )
         
         include( "eztrade/user/productsearch.php" );
         break;
+
     default :
         print( "<h1>Sorry, Your PRODUCT page could not be found. </h1>" );
         break;
