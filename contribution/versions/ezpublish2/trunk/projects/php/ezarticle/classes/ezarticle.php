@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.122 2001/07/12 11:08:34 pkej Exp $
+// $Id: ezarticle.php,v 1.123 2001/07/13 11:56:02 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1488,14 +1488,13 @@ class eZArticle
                  FROM eZArticle_Article AS Article,
                       eZArticle_ArticleCategoryLink AS Link,
                       eZArticle_ArticlePermission AS Permission
-                 WHERE (
-                       ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                 WHERE
+                       Permission.ObjectID=Article.ID
                        AND $search
-                       )
-                       $publishedCode
-                       $fetchText
-                       AND Permission.ObjectID=Article.ID
-                       AND Link.ArticleID=ArticleID
+                       AND Link.ArticleID=ArticleID AND
+                       ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                       $fetchText 
+
                        ORDER BY $OrderBy";
 
         $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );        
@@ -1561,7 +1560,6 @@ class eZArticle
                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
                        AND $search
                        )
-                       $publishedCode
                        $fetchText
                        AND Permission.ObjectID=Article.ID
                        AND Link.ArticleID=ArticleID
