@@ -272,22 +272,22 @@
  </select>
  
  <div id="gcalRecurringWeekly">
-  <span class="check">{intl-mon}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="mon" name="RecurWeekly[]" />
-  <span class="check">{intl-tue}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="tue" name="RecurWeekly[]" />
-  <span class="check">{intl-wed}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="wed" name="RecurWeekly[]" />
-  <span class="check">{intl-thu}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="thu" name="RecurWeekly[]" />
-  <span class="check">{intl-fri}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="fri" name="RecurWeekly[]" />
-  <span class="check">{intl-sat}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="sat" name="RecurWeekly[]" />
-  <span class="check">{intl-sun}</span>&nbsp;<input {recur_weekly_mon} type="checkbox" value="sun" name="RecurWeekly[]" />
+ <input {recur_weekly_mon} type="checkbox" value="mon" name="RecurWeekly[]" />&nbsp; <span class="check">{intl-mon}</span>
+  <input {recur_weekly_mon} type="checkbox" value="tue" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-tue}</span>
+ <input {recur_weekly_mon} type="checkbox" value="wed" name="RecurWeekly[]" />&nbsp; <span class="check">{intl-wed}</span>
+  <span class="check">{intl-thu}</span><input {recur_weekly_mon} type="checkbox" value="thu" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-thu}</span>
+ <input {recur_weekly_mon} type="checkbox" value="fri" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-fri}</span>
+  <span class="check">{intl-sat}</span><input {recur_weekly_mon} type="checkbox" value="sat" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-sat}</span>;
+  <input {recur_weekly_mon} type="checkbox" value="sun" name="RecurWeekly[]" />&nbsp;<span class="check">{intl-sun}</span>
  </div>
  <div id="gcalRecurringMonthly">
    <input type="radio" name="RecurTypeMonth" value="daily" {start_daily} />&nbsp;&nbsp;
    [current date] {intl-of_the_month}. <i>ex. 26th of the month.</i>
    <br />
-   <input type="radio" name="RecurTypeMonth" value="numdayname" {start_NumDayName} />&nbsp;&nbsp;
+   <input type="radio" name="RecurTypeMonth" value="numdayname" {start_numdayname} />&nbsp;&nbsp;
    [first|second|third|fourth] [day name] {intl-of_the_month}. <i>ex. Third Monday {intl-of_the_month}.</i>
    <br />
-   <input type="radio" name="RecurTypeMonth" value="strdayname" {start_StrDayName} />&nbsp;&nbsp;
+   <input type="radio" name="RecurTypeMonth" value="strdayname" {start_strdayname} />&nbsp;&nbsp;
    [last] [day name] {intl-of_the_month}. <i> ex. Last Thursday {intl-of_the_month}.</i>
  </div>
  <br /><br />

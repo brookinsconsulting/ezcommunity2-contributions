@@ -671,6 +671,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
         {
             $resultz = $event->store();
+            echo 'made it here';
             exec("secure_clearcache.sh");
             $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
@@ -1268,7 +1269,19 @@ if ( $Action == "New" && $groupError == false )
     $t->set_var( "name_value", "" );
     $t->set_var( "location_value", "" );
     $t->set_var( "url_value", "" );
-
+    $t->set_var( "event_id", "" ); 
+    
+    $t->set_var( "recur_freq", "1" ); 
+    $t->set_var( "is_recurring", "" ); 
+    $t->set_var( "recur_weekly_mon", "" ); 
+    $t->set_var( "rtselect_day", "" ); 
+    $t->set_var( "rtselect_week", "" ); 
+    $t->set_var( "rtselect_month", "" ); 
+    $t->set_var( "rtselect_year", "" ); 
+    $t->set_var( "start_daily", "" ); 
+    $t->set_var( "start_strdayname", "" ); 
+    $t->set_var( "start_numdayname", "" ); 
+    
     $t->set_var( "description_value", "" );
     $t->set_var( "is_private", "" );
     $t->set_var( "start_value", "" );
