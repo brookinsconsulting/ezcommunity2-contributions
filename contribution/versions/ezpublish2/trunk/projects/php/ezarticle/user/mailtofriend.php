@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: mailtofriend.php,v 1.2 2001/06/20 17:48:17 br Exp $
+// $Id: mailtofriend.php,v 1.3 2001/07/02 07:26:06 br Exp $
 //
 // Bjørn Reiten <br@ez.no>
 // Created on: <18-Jun-2001 16:37:47 br>
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
@@ -31,27 +32,78 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
 
 $ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZUserMain", "Language" );
-$tpl = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
+$Language = $ini->read_var( "eZArticleMain", "Language" );
+$Sender = $ini->read_var( "ezArticleMain", "MailToFriendSender" );
+$tpl = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                        "ezarticle/user/" . "intl", $Language, "mailtofriend.php" );
+$tpl->set_file( "mailtofriend_tpl" ,"mailtofriend.tpl" );
 $tpl->setAllStrings();
+
+$tpl->set_block( "mailtofriend_tpl", "first_page_tpl", "first_page" );
+
+// Error messages.
+
+$tpl->set_block( "first_page_tpl", "err_msg_tpl", "err_msg" );
+$tpl->set_block( "first_page_tpl", "err_real_name_tpl", "err_real_name" );
+$tpl->set_block( "first_page_tpl", "err_send_to_tpl", "err_send_to" );
+$tpl->set_block( "first_page_tpl", "err_from_tpl", "err_from" );
+
+// The success message.
+
+$tpl->set_block( "mailtofriend_tpl", "success_tpl", "success" );
+$tpl->set_block( "success_tpl", "user_comment_tpl", "user_comment" );
+
+// Own eZTemplate object for create the mail.message to send.
+
+$sendmail_tpl = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                       "ezarticle/user/" . "intl", $Language, "sendmailtofriend.php" );
+$sendmail_tpl->setAllStrings();
+$sendmail_tpl->set_file( "sendmailtofriend_tpl", "sendmailtofriend.tpl" );
+
+// Set subject
+
+$sendmail_tpl->set_block( "sendmailtofriend_tpl", "mail_subject_tpl", "mail_subject" );
+
+// Build up the mail.
+
+$sendmail_tpl->set_block( "sendmailtofriend_tpl", "mail_body_tpl", "mail_body" );
+$sendmail_tpl->set_block( "mail_body_tpl", "mail_comment_tpl", "mail_comment" );
+$sendmail_tpl->set_block( "mail_body_tpl", "article_url_tpl", "article_url");
+
+// Set all variables to "". Then we don't get any {err_msg} to output if the variable is emty.
+
+$tpl->set_var( "first_page", "" );
+$tpl->set_var( "err_msg", "" );
+$tpl->set_var( "err_real_name", "" );
+$tpl->set_var( "err_send_to", "" );
+$tpl->set_var( "err_from", "" );
+$tpl->set_var( "success", "" );
+$tpl->set_var( "user_comment", "" );
+
+$sendmail_tpl->set_var( "mail_subject", "" );
+$sendmail_tpl->set_var( "mail_body", "" );
+$sendmail_tpl->set_var( "article_url", "" );
+$sendmail_tpl->set_var( "mail_comment", "" );
+
+// check wich button is pressed and error check the input fields.
 
 if ( isset( $Submit ) || isset( $RealName ) ||  isset( $SendTo  ) || isset( $From ) )
 {
+
     $errorArr = array();
     if ( (  trim( $RealName ) == "" ) )
-        $errorArr["errormsg_real_name_tpl"] = "errormsg_real_name";
+        $errorArr["real_name"] = true;
     
     if (! ( eZMail::validate( $SendTo ) ) )
-        $errorArr["errormsg_send_to_tpl"] = "errormsg_send_to";
+        $errorArr["send_to"] = true;
 
     if (! ( eZMail::validate( $From ) ) )
-        $errorArr["errormsg_from_tpl"] = "errormsg_from";
+        $errorArr["from"] = true;
 
     if ( $errorArr )
         errorMsg( $ArticleID, $tpl, $RealName, $SendTo, $From, $Textarea, $errorArr );
     else
-        sendmail( $ArticleID, $tpl, $RealName, $SendTo, $From, $Textarea );
+        sendmail( $ArticleID, $tpl, $sendmail_tpl, $RealName, $SendTo, $From, $Textarea, $Sender );
 } else
 {
     printForm( $ArticleID, $tpl );
@@ -60,58 +112,63 @@ if ( isset( $Submit ) || isset( $RealName ) ||  isset( $SendTo  ) || isset( $Fro
 /*!
   build up the mail to send.
  */
-function sendmail ( $article_id, $tpl, $real_name, $to_name, $from_name, $text )
+function sendmail ( $article_id, $tpl, $sendmail_tpl, $real_name, $to_name, $from_name, $text, $Sender )
 {
     $article = getArticle( $article_id );
     $renderer = new eZArticleRenderer( $article );
     $name = $article->name( );
     $intro = strip_tags( $renderer->renderIntro( ) );
+    $text = trim( $text );
     
-    $SiteURL = $GLOBALS["HTTP_HOST"];
-    $ServerName = $GLOBALS["SERVER_NAME"];
+    $site_url = $GLOBALS["HTTP_HOST"];
+    $server_name = $GLOBALS["SERVER_NAME"];
     
-    $tpl->set_file( "mailtofriend_tpl" ,"mailtofriend.tpl" );
     
 // Build up the mail to send from the template.
     
-    $tpl->set_block( "mailtofriend_tpl", "mail_subject_tpl", "mail_subject" );
-    $tpl->set_var( "server_name", $ServerName );
-    $mail_subject = $tpl->parse( "mail_subject", "mail_subject_tpl" );
+    $sendmail_tpl->set_var( "server_name", $server_name );
+    $mail_subject = $sendmail_tpl->parse( "mail_subject", "mail_subject_tpl" );
     
-    $tpl->set_block( "mailtofriend_tpl", "mail_body_tpl", "mail_body" );
-    $tpl->set_var( "server_name", $ServerName );
-    $tpl->set_var( "comment", $text );
-    $tpl->set_var( "name", $name );
-    $tpl->set_var( "intro", $intro );
-    $mail_body = $tpl->parse( "mail_body", "mail_body_tpl" );
+    $sendmail_tpl->set_var( "server_name", $server_name );
+    $sendmail_tpl->set_var( "from_name", $from_name );
+    if ( $text != "" )
+    {
+        $sendmail_tpl->set_var( "comment", $text );
+        $sendmail_tpl->parse( "mail_comment", "mail_comment_tpl" );
+    }
+    $sendmail_tpl->set_var( "name", $name );
+    $sendmail_tpl->set_var( "intro", $intro );
+    $mail_body = $sendmail_tpl->parse( "mail_body", "mail_body_tpl" );
 
-    $tpl->set_block( "mailtofriend_tpl", "article_url_tpl", "article_url");
-    $tpl->set_var( "site_url", $SiteURL );
-    $tpl->set_var( "art_id", $article_id );
-    $mail_body .= $tpl->parse( "article_url", "article_url_tpl" );
+    $sendmail_tpl->set_var( "site_url", $site_url );
+    $sendmail_tpl->set_var( "art_id", $article_id );
+    $mail_body .= $sendmail_tpl->parse( "article_url", "article_url_tpl" );
 
 // Send the mail.
     
     $mail = new eZMail();
     $mail->setFromName( $real_name );
     $mail->setTo( $to_name );
-    $mail->setFrom( $from_name );
+    $mail->setFrom( $Sender );
     $mail->setSubject( $mail_subject );
     $mail->setBodyText( $mail_body );
     $mail->send();
     
 // print a successfull message to the webpage
-    
-    $tpl->set_block( "mailtofriend_tpl", "success_tpl", "success" );
     $tpl->set_var( "to_name", $to_name );
-    $tpl->set_var( "server_name", $ServerName );
-    $tpl->set_var( "user_comment", $text );
+    $tpl->set_var( "server_name", $server_name );
+    $tpl->set_var( "from_name", $from_name );
+    if ( $text != "" )
+    {
+        $tpl->set_var( "user_comment", $text );
+        $tpl->parse( "user_comment", "user_comment_tpl" );
+    }
     $tpl->set_var( "header_text", $name );
     $tpl->set_var( "intro_text", $intro );
-    $tpl->set_var( "site_url", $SiteURL );
+    $tpl->set_var( "site_url", $site_url );
     $tpl->set_var( "art_id", $article->id() );
     $tpl->parse( "success", "success_tpl" );
-    $tpl->pparse( "output", "success_tpl" );
+    $tpl->pparse( "output", "mailtofriend_tpl" );
 }
 
 
@@ -121,13 +178,19 @@ function sendmail ( $article_id, $tpl, $real_name, $to_name, $from_name, $text )
  */
 function errorMsg ( $article_id, $tpl, $real_name, $send_to, $from, $textarea, $error )
 {
-    $tpl->set_file( "mailtofriend_tpl" ,"mailtofriend.tpl" );
-    $tpl->set_block( "mailtofriend_tpl", "errormsg_tpl", "errormsg" );
-    $tpl->pparse( "output", "errormsg_tpl" );
-    while ( list ($target, $handle) = each ( $error ) )
+    $tpl->parse( "err_msg", "err_msg_tpl" );
+
+    if ( $error["real_name"] == true)
     {
-        $tpl->set_block( "mailtofriend_tpl", $target, $handle );
-        $tpl->pparse( "output" , $target );
+        $tpl->parse( "err_real_name", "err_real_name_tpl" );
+    }
+    if ( $error["send_to"] == true )
+    {
+        $tpl->parse( "err_send_to", "err_send_to_tpl" );
+    }
+    if ( $error["from"] == true )
+    {
+        $tpl->parse( "err_from", "err_from_tpl" );
     }
     printForm( $article_id, $tpl,  $real_name, $send_to, $from, $textarea );
 }
@@ -159,14 +222,13 @@ function printForm ( $ArticleID, $tpl, $real_name="", $send_to="", $from="", $te
     $name = $article->name( );
     $intro = strip_tags( $renderer->renderIntro( ) );
     
-    $tpl->set_file( "mailtofriend_tpl" ,"mailtofriend.tpl" );
-    $tpl->set_block( "mailtofriend_tpl", "first_page_tpl", "first_page" );
     $tpl->set_var( "Topic", $name );
     $tpl->set_var( "Intro", $intro );
     $tpl->set_var( "real_name", $real_name );
     $tpl->set_var( "send_to", $send_to );
     $tpl->set_var( "from", $from );
     $tpl->set_var( "textarea", $textarea );
-    $tpl->pparse( "output", "first_page_tpl" );
+    $tpl->parse( "first_page", "first_page_tpl" );
+    $tpl->pparse( "output", "mailtofriend_tpl" );
 }
 ?>
