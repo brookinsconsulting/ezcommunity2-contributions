@@ -10,6 +10,7 @@ require "classes/ezcompany.php";
 require "classes/ezcompanytype.php";
 require "classes/ezaddress.php";
 require "classes/ezzip.php";
+require "classes/ezcompanyaddressdict.php";
 
 $t = new Template( ".");
 $t->set_file( "company_info",  "templates/companyinfo.tpl" );
@@ -30,18 +31,22 @@ $t->set_var( "owner", $usr->login() );
 
 // adresser:
 {
-    $address = new eZAddress();
+    $dict = new eZCompanyAddressDict();
+    $dict_array = $dict->getByCompany( $company->id() );
 
-    $address_array = $address->getByOwner( $company->id() );
-
-    for ( $i=0; $i<count( $address_array ); $i++ )
+    for ( $i=0; $i<count( $dict_array ); $i++ )
     {
-        $t->set_var( "street1", $address_array[$i][ "Street1" ]  );
-        $t->set_var( "street2", $address_array[$i][ "Street2" ]  );
-        $t->set_var( "zip", $address_array[$i][ "Zip" ]  );
+        $address = new eZAddress();
+        $address->get( $dict_array[ $i ][ "AddressID" ] );
+
+        print( "hkk" . $dict_array[ $i ][ "AddressID" ] );
+        
+        $t->set_var( "street1", $address->street1()  );
+        $t->set_var( "street2", $address->street2() );
+        $t->set_var( "zip", $address->zip()  );
 
         $zip = new eZZip();
-        $zip->get( $address_array[$i][ "Zip" ] );
+        $zip->get( $address->zip() );
          
         $t->set_var( "place", $zip->place() );
     }

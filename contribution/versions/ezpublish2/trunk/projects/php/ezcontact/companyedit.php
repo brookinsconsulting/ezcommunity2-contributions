@@ -11,6 +11,7 @@ require $DOCUMENTROOT . "classes/ezaddresstype.php";
 require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezcompanytype.php";
+require $DOCUMENTROOT . "classes/ezcompanyaddressdict.php";
 
 if ( $Insert == "TRUE" )
 {
@@ -34,8 +35,12 @@ if ( $Insert == "TRUE" )
   $newAddress->setStreet1( $Street1 );
   $newAddress->setStreet2( $Street2 );
   $newAddress->setZip( $Zip );
-  $newAddress->setOwner( $cid );
-  $newAddress->store();
+  $aid = $newAddress->store();
+
+  $dict = new eZCompanyAddressDict( );
+  $dict->setCompanyID( $cid );
+  $dict->setAddressID( $aid );
+  $dict->store();  
 }
 
 // sjekke session

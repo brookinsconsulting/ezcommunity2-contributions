@@ -22,6 +22,8 @@ class eZCompany
 	Comment='$this->Comment',
 	ContactType='$this->ContactType',
 	Owner='$this->Owner'" );
+    return mysql_insert_id();
+    
   }
 
   /*!
