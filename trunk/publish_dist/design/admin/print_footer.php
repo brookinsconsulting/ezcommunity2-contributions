@@ -24,13 +24,14 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& INIFile::globalINI();
 
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
+//kracker: is this resource template.inc still required / used?
 include_once( "classes/template.inc" );
 
-$t = new Template( "admin/templates/" . $SiteStyle );
+$t = new Template( "design/admin/templates/" . $SiteStyle );
 
 $t->set_file( array(
     "print_footer_tpl" => "print_footer.tpl"

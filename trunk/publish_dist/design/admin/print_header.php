@@ -31,17 +31,14 @@ $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
 $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
+$SiteURL =& $ini->read_var( "site", "SiteURL" );
 
-
-$t = new eZTemplate( "admin/templates/" . $SiteStyle,
-                     "admin/intl/", $Language, "print_header.php" );
-
+$t = new eZTemplate( "design/admin/templates/" . $SiteStyle,
+                     "design/admin/intl/", $Language, "print_header.php" );
 
 $t->set_file( array(
     "print_header_tpl" => "print_header.tpl"
     ) );
-
-$SiteURL =& $ini->read_var( "site", "SiteURL" );
 
 $user =& eZUser::currentUser();
 
