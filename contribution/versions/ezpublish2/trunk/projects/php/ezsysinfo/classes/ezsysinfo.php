@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsysinfo.php,v 1.2 2001/04/22 15:36:19 bf Exp $
+// $Id: ezsysinfo.php,v 1.3 2001/05/09 07:50:15 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Apr-2001 12:11:59 bf>
@@ -238,7 +238,7 @@ class eZSysinfo
         $dev_rev = "";
         $dev_type = "";
 
-        if ( $fd = fopen("/proc/scsi/scsi", "r") )
+        if ( file_exists( "/proc/scsi/scsi" ) and $fd = fopen("/proc/scsi/scsi", "r") )
         {
             while ( $buf = fgets($fd, 4096))
             {
