@@ -1,0 +1,9 @@
+[strings]
+# For the product listing
+product_number=Prod. No.
+product_name=Product name
+product_price=Price
+product_savings=You save
+product_total_ex_tax=Total ex. VAT
+product_total_inc_tax=Total inc. VAT
+product_qty=Qty.
