@@ -102,7 +102,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td valign="top">
-      {intl-payment_methods_description}:<br />
+      <b>{intl-payment_methods_description}:</b><br />
       <select name="PaymentMethod">
         <!-- BEGIN payment_method_tpl -->
         <option value="{payment_method_id}">{payment_method_text}</option>
@@ -114,21 +114,24 @@
       <table width="1%">
         <tr>
 	  <td valign="top" width="1%">
-	    <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="/sitedesign/mygold/images/paybox_logo.gif" border="0" width="89" height="66" alt="" /></a>
+	    <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="/sitedesign/mygold/images/paybox_logo.gif" border="0" width="53" height=40"" alt="" /></a>
 	    <br />paybox - bezahlen Sie mit Ihrem Handy
           </td>
-	  <!--
+          <td width="1%">&nbsp;</td>
+          <td valign="top" width="1%">  
+            <a href="http://www.visa.de" target="new"><img src="/sitedesign/mygold/images/visa_logo.gif" alt="" width="63" height="40" border="0" /></a>
+            <br />Visa
+          </td>	  
           <td width="1%">&nbsp;</td>
           <td valign="top" width="1%">
-            <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="88" height="66" border="0" /></a>
+            <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="53" height="40" border="0" /></a>
             <br />Euro- Mastercard
           </td>
           <td width="1%">&nbsp;</td>
           <td valign="top" width="1%">  
-            <a href="http://www.visa.de" target="new"><img src="/sitedesign/mygold/images/visa_logo.gif" alt="" width="105" height="66" border="0" /></a>
-            <br />Visa
+            <img src="/sitedesign/mygold/images/elv_logo.gif" alt="" width="40" height="40" border="0" />
+            <br />ELV - Elektronisches Lastschriftverfahren
           </td>
-	  -->
         </tr>
       </table>
     </td>
