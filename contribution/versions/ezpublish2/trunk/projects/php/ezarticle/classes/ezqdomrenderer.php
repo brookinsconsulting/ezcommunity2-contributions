@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.59 2001/11/07 16:36:08 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.60 2001/11/23 16:50:28 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -224,7 +224,7 @@ class eZQDomrenderer
         // get custom <br> command, needed for other renderes than html
         $this->BrOverride = $this->Template->get_user_variable( "articletags_tpl",  "br" );
 
-        $this->Article = $article;
+        $this->Article =& $article;
     }
 
     /*!
