@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.14.2.2 2001/11/02 07:36:43 bf Exp $
+// $Id: cron.php,v 1.14.2.3 2001/11/02 08:13:29 br Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -96,6 +96,9 @@ include( "ezarticle/admin/cron.php" );
 // uncomment the next line to fetch news by cron
 
 // include( "eznewsfeed/admin/cron.php" );
+
+// Include statistic.
+include( "ezstats/admin/cron.php" );
 
 
 ?>
