@@ -83,7 +83,20 @@ else
 
 <body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
 
+
+<table width="100%">
+<tr>
+<td>
 <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
+</td>
+<td>
+<form action="/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+    <input type="hidden" name="SectionIDOverride" value="2" />
+    <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px;" />
+    <input type="submit" name="Search" value="search" style="font-size: 7px; margin: 0px; padding: 0px;" />
+</form>
+</td>
+</table>
 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
