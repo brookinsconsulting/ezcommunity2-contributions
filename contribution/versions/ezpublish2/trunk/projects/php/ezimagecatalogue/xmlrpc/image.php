@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.10 2001/08/09 11:43:08 jb Exp $
+// $Id: image.php,v 1.11 2001/09/03 11:07:08 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -199,6 +199,16 @@ else if ( $Command == "search" )
     foreach( $result as $item )
     {
         $cat =& $item->categoryDefinition();
+        if ( get_class( $cat ) != "ezimagecategory" )
+        {
+            $cats =& $item->categories();
+            if ( is_array( $cats ) and count( $cats ) > 0 )
+            {
+                $cat = new eZImageCategory( $cats[0] );
+            }
+            else
+                continue;
+        }
         $elements[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $item->name() ),
                                                  "CategoryName" => new eZXMLRPCString( $cat->name() ),
                                                  "Location" => createURLStruct( "ezimagecatalogue", "image", $item->id() ),
