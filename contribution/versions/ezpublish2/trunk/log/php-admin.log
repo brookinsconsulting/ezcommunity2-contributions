@@ -310,3 +310,11 @@ Maintainer(s) : bf@ez.no
       intl/no_NO/print_header.php.ini
       loginheader.php: Added translation for the <title> field
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-03-27  jhe  <jhe@zev.ez.no>
+
+    * intl/no_NO/header.php.ini: fixa engelsk orddeling
+

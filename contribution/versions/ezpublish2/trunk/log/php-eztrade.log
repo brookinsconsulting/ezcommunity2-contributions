@@ -3321,3 +3321,25 @@ Maintainer(s) : ce@ez.no
 
     * user/smallproductlist.php: Fixed a cache bug.. saving to wrong file.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-03-27  br  <br@zev.ez.no>
+
+    * user/checkout.php
+      user/payment.php
+      user/Attic/confirmation.php: fixed session bug with payment.
+
+    * user/Attic/confirmation.php: fixed some redirect urls.
+
+    * classes/Attic/ezorderconfirmation.php
+      user/Attic/confirmation.php: New file.
+
+    * classes/Attic/ezorderconfirmation.php
+      classes/ezorder.php
+      user/Attic/confirmation.php
+      user/checkout.php
+      user/datasupplier.php
+      user/payment.php: updated files for payment.
+

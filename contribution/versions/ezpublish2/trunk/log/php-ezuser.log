@@ -1093,3 +1093,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezuser.php: coding standard fixes
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-03-27  jhe  <jhe@zev.ez.no>
+
+    * user/intl/no_NO/userwithaddress.php.ini: fixa engelsk orddeling
+
