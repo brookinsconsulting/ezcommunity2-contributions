@@ -1,4 +1,4 @@
-<table width="100%" border="0" cellpadding="0" cellspacing="0" />
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td valign="bottom">
 	<h1>{intl-head_line} - {current_category_name}</h1>
@@ -36,9 +36,9 @@
 <!-- BEGIN category_list_tpl -->
 <form method="post" action="/article/categoryedit/edit/" enctype="multipart/form-data">
 
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" />
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-category}:</td>
+	<th>{intl-category}:</th>
 	<th>{intl-description}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
@@ -72,7 +72,7 @@
 <!-- BEGIN article_list_tpl -->
 <form method="post" action="/article/articleedit/edit/" enctype="multipart/form-data">
 
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0" />
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-article}:</th>
 	<th>{intl-published}:</th>
@@ -88,9 +88,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="48%" class="{td_class}">
-	<a href="/article/articlepreview/{article_id}/">
-	{article_name}
-	</a>
+	<a href="/article/articlepreview/{article_id}/">{article_name}</a>
 	</td>
 	<td width="48%" class="{td_class}">
 	<!-- BEGIN article_is_published_tpl -->
