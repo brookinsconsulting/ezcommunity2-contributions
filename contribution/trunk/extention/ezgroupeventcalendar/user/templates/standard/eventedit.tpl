@@ -99,6 +99,7 @@ onFocus="this.className='gcalTextFocusFrm'"
 onFocus="this.className='gcalTextFocusFrm'"
  onBlur="this.className='gcalTextFrm'" >{description_value}</textarea>
 </div> <!-- end gcalWrapFrm -->
+
 <div class="gcalWrapFrm">
 <div class="gcalGroupBoxFrm">
 <!-- BEGIN group_name_edit_tpl -->
@@ -108,7 +109,7 @@ onFocus="this.className='gcalTextFocusFrm'"
 
 <!-- BEGIN group_name_new_tpl -->
 
-<p class="boxtext">{intl-event_group}:</p>
+<span class="boxtext">{intl-event_group}:</span><br />
 <select name="StoreByGroupID">
 <option value="">Select</option>
 <!-- BEGIN group_item_tpl -->
@@ -128,49 +129,44 @@ onFocus="this.className='gcalTextFocusFrm'"
 
 </div>
 
-<div class="gcalGroupBoxFrm">
+<div class="gcalGroupBoxFrm" style="padding: 3px;">
 <span class="boxtext">{intl-type}:</span>
+  <select name="TypeID">
+  <option></option>
+  <!-- BEGIN value_tpl -->
+    <option value="{option_value}" {type_is_selected}>{option_level}{option_name}</option>
+  <!-- END value_tpl -->
+  </select>
+  <br />
 
-<select name="TypeID">
-<option></option>
-<!-- BEGIN value_tpl -->
-<option value="{option_value}" {type_is_selected}>{option_level}{option_name}</option>
-<!-- END value_tpl -->
+  <span class="boxtext">{intl-category}:</span>
+   <select name="CategoryID">
+   <option></option>
+   <!-- BEGIN category_value_tpl -->
+     <option value="{option_category_value}" {category_is_selected}>{option_category_level}{category_name}</option>
+   <!-- END category_value_tpl -->
+   </select>
 
-</select>
-<br />
+   <br />
+   <span class="boxtext">{intl-priority}:</span>
+   <select name="Priority">
+   <option value="0" {0_selected}>{intl-lowest_priority}</option>
+   <option value="1" {1_selected}>{intl-low_priority}</option>
+   <option value="2" {2_selected}>{intl-normal_priority}</option>
+   <option value="3" {3_selected}>{intl-medium_priority}</option>
+   <option value="4" {4_selected}>{intl-high_priority}</option>
+   <option value="5" {5_selected}>{intl-highest_priority}</option>
+   </select>
 
-<span class="boxtext">{intl-category}:</span>
-
-<select name="CategoryID">
-<option></option>
-<!-- BEGIN category_value_tpl -->
-<option value="{option_category_value}" {category_is_selected}>{option_category_level}{category_name}</option>
-<!-- END category_value_tpl -->
-</select>
-
-<br />
-<span class="boxtext">{intl-priority}:</span>
-<select name="Priority">
-<option value="0" {0_selected}>{intl-lowest_priority}</option>
-<option value="1" {1_selected}>{intl-low_priority}</option>
-<option value="2" {2_selected}>{intl-normal_priority}</option>
-<option value="3" {3_selected}>{intl-medium_priority}</option>
-<option value="4" {4_selected}>{intl-high_priority}</option>
-<option value="5" {5_selected}>{intl-highest_priority}</option>
-</select>
-<br />
-<span class="boxtext">{intl-status}:</span>
-
-<select name="Status">
-  <option value="0" {0_status_selected}>{intl-tentative_status}</option>
-  <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
-  <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
-</select>
+   <br />
+   <span class="boxtext">{intl-status}:</span>
+   <select name="Status">
+   <option value="0" {0_status_selected}>{intl-tentative_status}</option>
+   <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
+   <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
+   </select>
 </div>
 </div> <!-- end gcalWrapFrm -->
-<br />
-
 
 <div class="gcalWrapFrm">
 <!-- BEGIN dhtml_form_datetime_select_tpl -->
@@ -182,9 +178,8 @@ onmouseover="this.className='gcalSubmitOverFrm'">
 <!-- END dhtml_form_datetime_select_tpl -->
 
 <br />
-<div class="gcalGroupBoxFrm">
+<div class="gcalGroupBoxFrm" style="padding: 3px;">
 <input {is_all_day} type="checkbox" name="IsAllDay" onChange="resetTimeSelect();" />&nbsp;<span class="check">{intl-all_day_event}</span>
-
 
 <!-- BEGIN html_form_datetime_select_tpl -->
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
