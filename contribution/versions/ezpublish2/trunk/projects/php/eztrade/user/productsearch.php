@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.11 2001/02/03 22:11:35 jb Exp $
+// $Id: productsearch.php,v 1.12 2001/02/28 13:20:14 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -32,12 +32,17 @@ include_once( "classes/ezcurrency.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
+include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+
+$user = eZUser::currentUser();
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) ,
                      "eztrade/user/intl/", $Language, "productsearch.php" );
@@ -116,9 +121,23 @@ if ( isSet( $Query ) )
 
         $t->set_var( "product_name", $product->name() );
 
-        if ( $product->showPrice() == true  )
+        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+             $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
-            $price = new eZCurrency( $product->price() );
+            $found_price = false;
+            if ( $ShowPriceGroups and $PriceGroup > 0 )
+            {
+                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+                if ( $price )
+                {
+                    $found_price = true;
+                    $price = new eZCurrency( $price );
+                }
+            }
+            if ( !$found_price )
+            {
+                $price = new eZCurrency( $product->price() );
+            }
             $t->set_var( "product_price", $locale->format( $price ) );
             $t->parse( "price", "price_tpl" );
         }
