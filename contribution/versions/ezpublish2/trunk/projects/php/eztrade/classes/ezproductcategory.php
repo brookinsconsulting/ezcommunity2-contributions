@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.13 2000/09/25 07:31:47 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.14 2000/10/06 09:39:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -479,7 +479,7 @@ class eZProductCategory
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }

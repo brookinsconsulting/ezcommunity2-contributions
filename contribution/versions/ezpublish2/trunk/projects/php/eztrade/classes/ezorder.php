@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.5 2000/10/03 14:09:48 bf-cvs Exp $
+// $Id: ezorder.php,v 1.6 2000/10/06 09:39:42 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -384,7 +384,7 @@ class eZOrder
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.2 2000/10/02 11:57:25 bf-cvs Exp $
+// $Id: ezcartoptionvalue.php,v 1.3 2000/10/06 09:39:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -218,7 +218,7 @@ class eZCartOptionValue
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.10 2000/10/02 11:57:25 bf-cvs Exp $
+// $Id: ezoption.php,v 1.11 2000/10/06 09:39:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -275,7 +275,7 @@ class eZOption
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderoptionvalue.php,v 1.2 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: ezorderoptionvalue.php,v 1.3 2000/10/06 09:39:42 bf-cvs Exp $
 //
 // Definition of eZOrderOptionValue class
 //
@@ -200,7 +200,7 @@ class eZOrderOptionValue
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }
