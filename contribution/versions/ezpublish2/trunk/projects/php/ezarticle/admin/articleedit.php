@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.102 2001/07/11 07:32:31 bf Exp $
+// $Id: articleedit.php,v 1.103 2001/07/11 07:38:30 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -200,8 +200,6 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             
             $article->setStopDate( &$stopDate );
         }
-
-        die();
 
         // check if the contents is parseable
         if ( xmltree( $contents ) )

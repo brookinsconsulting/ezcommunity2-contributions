@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.119 2001/07/11 07:32:31 bf Exp $
+// $Id: ezarticle.php,v 1.120 2001/07/11 07:38:30 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -720,7 +720,7 @@ class eZArticle
     {
         if ( get_class( $date ) == "ezdatetime" )
         {
-            if ( $date->year() != "1970" and $date->month() != "1" and $date->day() != "1" )
+            if ( !( $date->year() == "1970" && $date->month() == "1" && $date->day() == "1" ) )
             {
                 $this->StartDate = $date;
 

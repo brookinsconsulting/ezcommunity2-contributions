@@ -46,12 +46,12 @@
 <!-- END image_tpl -->
 
 <!-- BEGIN image_float_tpl -->
-   <!-- BEGIN image_link_tpl -->
+   <!-- BEGIN image_link_float_tpl -->
    <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
-   <!-- END image_link_tpl -->
-   <!-- BEGIN ext_link_tpl -->
+   <!-- END image_link_float_tpl -->
+   <!-- BEGIN ext_link_float_tpl -->
    <a href="{image_href}">
-   <!-- END ext_link_tpl -->
+   <!-- END ext_link_float_tpl -->
 <img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
 <!-- END image_float_tpl -->
 
