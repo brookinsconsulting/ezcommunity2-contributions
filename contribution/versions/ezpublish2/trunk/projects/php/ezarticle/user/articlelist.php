@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.79 2001/10/16 14:17:16 bf Exp $
+// $Id: articlelist.php,v 1.80 2001/10/17 06:38:16 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -64,14 +64,12 @@ $override = "_override_$CategoryID";
 $sectionOverride = "_sectionoverride_$GlobalSectionID";
 
 
-
-if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlelist" . $override  . ".tpl" ) )
+if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlelist" . $override . ".tpl" ) )
 {
     $t->set_file( "article_list_page_tpl", "articlelist" . $override  . ".tpl"  );
 }
 else
 {
-    
     if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlelist" . $sectionOverride  . ".tpl" ) )
     {
         $t->set_file( "article_list_page_tpl", "articlelist" . $sectionOverride  . ".tpl"  );
@@ -238,11 +236,9 @@ $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_id", $categoryItem->id() );
-        
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
-
     $image =& $categoryItem->image();
 
     $t->set_var( "image_item", "" );
@@ -264,7 +260,7 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "image_url", $imageURL );
         $t->set_var( "image_caption", $imageCaption );
         $t->set_var( "no_image", "" );
-//        $t->parse( "image_item", "image_item_tpl" );
+        $t->parse( "image_item", "image_item_tpl" );
     }
     else
     {
