@@ -22,30 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
- // debug stuff
-require_once('Var_Dump.php');
-Var_Dump::displayInit(
-    array(
-        'display_mode' => 'HTML4_Table'
-    ),
-    array(
-        'show_caption'   => FALSE,
-        'bordercolor'    => '#DDDDDD',
-        'bordersize'     => '2',
-        'captioncolor'   => 'white',
-        'cellpadding'    => '4',
-        'cellspacing'    => '0',
-        'color1'         => '#FFFFFF',
-        'color2'         => '#F4F4F4',
-        'before_num_key' => '<font color="#CC5450"><b>',
-        'after_num_key'  => '</b></font>',
-        'before_str_key' => '<font color="#5450CC">',
-        'after_str_key'  => '</font>',
-        'before_value'   => '<i>',
-        'after_value'    => '</i>'
-    )
-);
-// end debug stuff
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -343,10 +319,12 @@ if( $user )
 			  $appointmentName = shortenText($appointmentName, 12);
 		        }
 		      }
-				$t->set_var ( "appointment_name", $appointmentName );
-				$t->set_var ( "appointment_full_name", $appointmentFullName );
+				$t->set_var ( "appointment_name", stripslashes($appointmentName) );
+				$t->set_var ( "appointment_full_name", stripslashes($appointmentFullName) );
 				$t->set_var ( "appointment_id" , $appointment->id() );
-                $t->set_var ( "event_description", $appointment->description() );
+                $t->set_var ( "event_description", stripslashes($appointment->description()) );
+                $t->set_var ( "overlib_full_name", htmlentities($appointmentFullName));
+                $t->set_var ( "overlib_description", htmlentities($appointment->description()) );
                 $eStartTime = $appointment->startTime();
                 $eStopTime = $appointment->stopTime();
                 $event_start_time = addZero($eStartTime->hour()) . ':'. addZero( $eStartTime->minute() );

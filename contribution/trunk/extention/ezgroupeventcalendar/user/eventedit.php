@@ -23,29 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include("Var_Dump.php");
-Var_Dump::displayInit(
-    array(
-        'display_mode' => 'HTML4_Table'
-    ),
-    array(
-        'show_caption'   => FALSE,
-        'bordercolor'    => '#DDDDDD',
-        'bordersize'     => '2',
-        'captioncolor'   => 'white',
-        'cellpadding'    => '4',
-        'cellspacing'    => '0',
-        'color1'         => '#FFFFFF',
-        'color2'         => '#F4F4F4',
-        'before_num_key' => '<font color="#CC5450"><b>',
-        'after_num_key'  => '</b></font>',
-        'before_str_key' => '<font color="#5450CC">',
-        'after_str_key'  => '</font>',
-        'before_value'   => '<i>',
-        'after_value'    => '</i>'
-    )
-);
-
 include_once( "classes/ezhttptool.php" );
 
 
@@ -819,8 +796,8 @@ $Day = $dateArr[2];
       }
       } // end of recurring events
     
-            $t->set_var( "name_value", $event->name() );
-            $t->set_var( "description_value", $event->description() );
+            $t->set_var( "name_value", stripslashes($event->name()) );
+            $t->set_var( "description_value", stripslashes($event->description()) );
 
             $t->set_var( "location_value", $event->location() );
             $t->set_var( "url_value", $event->url() );
@@ -986,8 +963,8 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == true )
 
 if ( $Action == "Update" && $groupError == false )
 {
-    $t->set_var( "name_value", $Name );
-    $t->set_var( "description_value", $Description );
+    $t->set_var( "name_value", stripslashes($Name) );
+    $t->set_var( "description_value", stripslashes($Description) );
     
     $t->set_var( "location_value", $Location );
     $t->set_var( "url_value", $Url );
@@ -1050,13 +1027,13 @@ if ( $Action == "Edit" && $groupError == false )
     $t->parse( "add_file_list", "add_file_list_tpl" );
 
     $event = new eZGroupEvent( $EventID );
-    $t->set_var( "name_value", $event->name() );
+    $t->set_var( "name_value", stripslashes($event->name()) );
     
     $t->set_var( "url_value", $event->url() );
     $t->set_var( "location_value", $event->location() );
 
     $t->set_var( "event_id", $event->id() );
-    $t->set_var( "description_value", $event->description() );
+    $t->set_var( "description_value", stripslashes($event->description()) );
 
     // : adding recurring event template vars
         $t->set_var( "is_recurring", '');
@@ -1174,7 +1151,7 @@ if ( $Action == "Edit" && $groupError == false )
 	
 	$t->set_var( "group_print_id", $group->id() );
 	$t->set_var( "group_print_name", $group->name() );
-	$t->set_var( "event_title", $event->name() );
+	$t->set_var( "event_title", stripslashes($event->name()) );
 
 	//set the history bar data
 	$t->parse( "edit_history", "edit_history_tpl", true );

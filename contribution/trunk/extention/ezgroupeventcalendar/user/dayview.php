@@ -24,28 +24,6 @@
 //
 // debug stuff
 // Initialise the HTML4 Table rendering (see Var_Dump/Renderer/HTML4_Table.php)
-include("Var_Dump.php");
-Var_Dump::displayInit(
-    array(
-        'display_mode' => 'HTML4_Table'
-    ),
-    array(
-        'show_caption'   => FALSE,
-        'bordercolor'    => '#DDDDDD',
-        'bordersize'     => '2',
-        'captioncolor'   => 'white',
-        'cellpadding'    => '4',
-        'cellspacing'    => '0',
-        'color1'         => '#FFFFFF',
-        'color2'         => '#F4F4F4',
-        'before_num_key' => '<font color="#CC5450"><b>',
-        'after_num_key'  => '</b></font>',
-        'before_str_key' => '<font color="#5450CC">',
-        'after_str_key'  => '</font>',
-        'before_value'   => '<i>',
-        'after_value'    => '</i>'
-    )
-);
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -387,7 +365,8 @@ if (isset($allDayEvents))
 {
  foreach ($allDayEvents as $adEvent)
  {
-  $t->set_var("all_day_name", $adEvent->name());
+  $t->set_var("all_day_name", stripslashes($adEvent->name()));
+  $t->set_var ( "all_day_overlib_name", htmlentities($adEvent->name()));
   $adStartTime = $adEvent->startTime();
   $adStart = addZero($adStartTime->hour()) .':'. addZero($adStartTime->minute());
   $adStopTime = $adEvent->stopTime();
@@ -396,7 +375,7 @@ if (isset($allDayEvents))
   $t->set_var("all_day_id", $adEvent->id());
   $t->set_var("all_day_start", $adStart);
   $t->set_var("all_day_stop", $adStop);
-  $t->set_var("all_day_desc", $adEvent->description());
+  $t->set_var("all_day_desc", htmlentities($adEvent->description()));
   $t->set_var("all_day_location", ($adEvent->location()) ? $adEvent->location() : "");
 
   $event_editor = false;
@@ -641,8 +620,10 @@ if (isset($allDayEvents))
                     $t->set_var( "td_class", "bgdark" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
                     $t->set_var( "event_id", $event->id() );
-                    $t->set_var( "event_name", $event->name() );
-                    $t->set_var( "event_description", $event->description(false) );
+                    $t->set_var( "event_name", stripslashes($event->name()) );
+                    $t->set_var( "overlib_event_name", htmlentities($event->name()) );
+                    $t->set_var( "event_description", stripslashes($event->description(false)) );
+                    $t->set_var( "overlib_event_description", htmlentities($event->description(false)) );
                     $t->set_var( "edit_button", "Edit" );
                     $eventDivHeight = getEventHeight( $event );
                     $t->set_var( "event_div_height", $eventDivHeight );

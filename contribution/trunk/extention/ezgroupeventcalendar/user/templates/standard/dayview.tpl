@@ -152,7 +152,7 @@ href="{www_dir}{index}/groupeventcalendar/dayview/{pd_year_number}/{pd_month_num
 onclick="location.href = '{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/'"
 style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
 <a class="gcalAllDay" href="{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/"
-onmouseover="return overlib('<div class=\'olWrapAllDay\'><div class=\'olListAllDay\'>Name</div>{all_day_name}<div class=\'olListAllDay\'>Time</div> {all_day_start} - {all_day_stop}<div class=\'olListAllDay\'>Description </div>{all_day_desc}</div>');"
+onmouseover="return overlib('<div class=\'olWrapAllDay\'><div class=\'olListAllDay\'>Name</div>{all_day_overlib_name}<div class=\'olListAllDay\'>Time</div> {all_day_start} - {all_day_stop}<div class=\'olListAllDay\'>Description </div>{all_day_desc}</div>');"
 onmouseout="return nd();">{all_day_name}</a></td>
 
 	<!-- BEGIN all_day_delete_check_tpl -->
@@ -199,7 +199,7 @@ onmouseout="return nd();">{all_day_name}</a></td>
 	<tr>
 		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="height:15px;">&nbsp;
 		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="
-return overlib('<div class=\'olList\'>Name</div>{event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{event_description}');"
+return overlib('<div class=\'olList\'>Name</div>{overlib_event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{overlib_event_description}');"
 onmouseout="return nd();">{event_name}&nbsp;&nbsp;</a>
 
 		</td>
@@ -229,7 +229,7 @@ onmouseout="return nd();">{event_name}&nbsp;&nbsp;</a>
 	<tr>
 		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="overflow: hidden; height: 15px;">
 		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="
-return overlib('<div class=\'olList\'>Name</div>{event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{event_description}');"
+return overlib('<div class=\'olList\'>Name</div>{overlib_event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{overlib_event_description}');"
 onmouseout="return nd();">&nbsp;{event_name}&nbsp;</a>
 
 		</td>

@@ -200,7 +200,7 @@ else
     $t->set_var( "the_year", $datetime->year());
     $t->set_var( "the_day", $datetime->day());
     $t->set_var( "event_id", $event->id() );
-    $t->set_var( "event_title", $event->name() );
+    $t->set_var( "event_title", stripslashes($event->name()) );
 
     $t->set_var( "event_url", $event->url() );
     $t->set_var( "event_location", $event->location() );
@@ -210,7 +210,7 @@ else
     $t->set_var( "event_date", $locale->format( $datetime->date() ) );
     $t->set_var( "event_starttime", $locale->format( $event->startTime(), true ) );
     $t->set_var( "event_stoptime", $locale->format( $event->stopTime(), true ) );
-    $t->set_var( "event_description", $event->description(false) );
+    $t->set_var( "event_description", stripslashes($event->description(false)) );
 
     // recurring stuff here
     /*

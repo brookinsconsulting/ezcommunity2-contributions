@@ -324,10 +324,12 @@ if( $user )
               {
 		      // kracker : trim apointment name to keep the calendar easy to read
 		      $appointmentName = $appointment->name();
-				$t->set_var ( "appointment_name", $appointmentName );
-				$t->set_var ( "appointment_full_name", $appointmentName );
+				$t->set_var ( "appointment_name", stripslashes($appointmentName) );
+				$t->set_var ( "appointment_full_name", stripslashes($appointmentName) );
+                $t->set_var ( "overlib_full_name", htmlentities($appointmentFullName));
+                $t->set_var ( "overlib_description", htmlentities($appointment->description()) );
 				$t->set_var ( "appointment_id" , $appointment->id() );
-                $t->set_var ( "event_description", $appointment->description() );
+                $t->set_var ( "event_description", stripslashes($appointment->description()) );
                 $eStartTime = $appointment->startTime();
                 $eStopTime = $appointment->stopTime();
                 $event_start_time = addZero($eStartTime->hour()) . ':'. addZero( $eStartTime->minute() );
