@@ -40,7 +40,6 @@ if( $Command == "data" ) // return all the data in the category
                                                          "Attributes" => new eZXMLRPCArray( $attr_arr ) ) );
             }
         }
-
         $ret = array( "Location" => createURLStruct( "ezarticle", "article", $article->id() ),
                       "AuthorID" => new eZXMLRPCInt( $article->author( false ) ),
                       "Name" => new eZXMLRPCString( $article->name( false ) ), // title
@@ -48,6 +47,7 @@ if( $Command == "data" ) // return all the data in the category
                       "ContentsWriterID" => new eZXMLRPCInt( $contentsWriter->id() ),
                       "LinkText" => new eZXMLRPCString( $article->linkText( false ) ),
                       "ManualKeyWords" => new eZXMLRPCString( $article->manualKeywords() ),
+                      "Category" => new eZXMLRPCInt( $article->categoryDefinition( false ) ),
                       "Discuss" => new eZXMLRPCBool( $article->discuss() ),
                       "IsPublished" => new eZXMLRPCBool( $article->isPublished() ),
                       "PageCount" => new eZXMLRPCInt( $article->pageCount() ),
@@ -104,6 +104,13 @@ else if( $Command == "storedata" )
 
     $article->store();
     $ID = $article->id();
+
+    if ( isset( $Data["Category"] ) )
+    {
+        $cat = new eZArticleCategory( $Data["Category"]->value() );
+        eZLog::writeNotice( "Article cat " . $cat->id() );
+        $article->setCategoryDefinition( $cat );
+    }
 
     // images
     $images = $Data["Images"]->value();
