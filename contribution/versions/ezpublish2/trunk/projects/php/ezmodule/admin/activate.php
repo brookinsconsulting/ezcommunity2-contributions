@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: activate.php,v 1.1 2001/04/11 14:32:28 jb Exp $
+// $Id: activate.php,v 1.2 2001/04/11 15:11:57 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 15:07:58 amos>
@@ -32,7 +32,15 @@ include_once( "ezsession/classes/ezpreferences.php" );
 $preferences = new eZPreferences();
 
 $modules =& $preferences->variableArray( "EnabledModules" );
-$single_module = $preferences->variable( "SingleModule" ) == "enabled";
+$single_module = $preferences->variable( "SingleModule" );
+if ( !is_bool( $single_module ) )
+{
+    $single_module =  $single_module == "enabled";
+}
+else
+{
+    $single_module = true;
+}
 
 if ( $single_module )
 {
