@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.26 2001/10/31 11:11:49 jhe Exp $
+// $Id: personview.php,v 1.27 2001/11/01 12:15:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["SiteIni"];
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $SiteURL = $ini->read_var( "Site", "SiteURL" );
 $AdminSiteURL = $ini->read_var( "Site", "AdminSiteURL" );

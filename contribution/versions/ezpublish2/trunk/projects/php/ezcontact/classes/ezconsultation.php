@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.28 2001/10/24 11:28:52 jhe Exp $
+// $Id: ezconsultation.php,v 1.29 2001/11/01 12:15:05 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -188,7 +188,8 @@ class eZConsultation
     }
 
     /*!
-      Adds a new group to the consultation, you can either use the group id or a eZUserGroup object.
+      Adds a new group to the consultation,
+      you can either use the group id or a eZUserGroup object.
     */
     function addGroup( $group )
     {
@@ -279,7 +280,8 @@ class eZConsultation
     }
 
     /*!
-      Returns the state of the consultation, this usually tells if the consultation is under negotiation, closing or similar.
+      Returns the state of the consultation,
+      this usually tells if the consultation is under negotiation, closing or similar.
     */
     function state()
     {
@@ -287,7 +289,8 @@ class eZConsultation
     }
 
     /*!
-      Returns an array with eZUserGroup objects, these groups are used for sending an email reply.
+      Returns an array with eZUserGroup objects,
+      these groups are used for sending an email reply.
     */
     function groupList()
     {
@@ -329,7 +332,8 @@ class eZConsultation
     }
 
     /*!
-      Returns the string with email notifications, this is an unparsed form, use emailList() to get them parsed.
+      Returns the string with email notifications,
+      this is an unparsed form, use emailList() to get them parsed.
     */
     function emails()
     {
@@ -337,7 +341,8 @@ class eZConsultation
     }
 
     /*!
-      Returns an array with eZNotification objects, this array is built from both the groupList() and the emailList().
+      Returns an array with eZNotification objects,
+      this array is built from both the groupList() and the emailList().
     */
     function notificators()
     {
@@ -466,8 +471,7 @@ class eZConsultation
                                        $userString
                                        CPUD.ConsultationID = C.ID AND
                                        C.Date>='" . $startTime->timeStamp() . "' AND
-                                       C.Date<'" . $endTime->timeStamp() . "'",
-                                       $limit );
+                                       C.Date<'" . $endTime->timeStamp() . "'" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
@@ -481,8 +485,7 @@ class eZConsultation
                                        $userString2
                                        CPCD.ConsultationID = C.ID AND
                                        C.Date>='" . $startTime->timeStamp() . "' AND
-                                       C.Date<'" . $endTime->timeStamp() . "'",
-                                       $limit );
+                                       C.Date<'" . $endTime->timeStamp() . "'" );
         foreach ( $qry_array as $qry )
         {
             $ret_array[] = new eZConsultation( $qry[$db->fieldName( "ConsultationID" )] );
@@ -546,9 +549,11 @@ class eZConsultation
             $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
                                            FROM
                                            eZContact_ConsultationPersonUserDict AS CPUD,
-                                           eZContact_Consultation AS C
+                                           eZContact_Consultation AS C,
+                                           eZContact_ConsultationType AS CT
                                            WHERE
                                            CPUD.PersonID='$contact' AND
+                                           (C.StateID = CT.ID OR C.StateID = 0) AND
                                            $userString
                                            CPUD.ConsultationID = C.ID
                                            $OrderBy", $limit );
@@ -558,14 +563,15 @@ class eZConsultation
             $db->array_query( $qry_array, "SELECT CPCD.ConsultationID
                                            FROM
                                            eZContact_ConsultationCompanyUserDict AS CPCD,
-                                           eZContact_Consultation AS C
+                                           eZContact_Consultation AS C,
+                                           eZContact_ConsultationType AS CT
                                            WHERE
                                            CPCD.CompanyID='$contact' AND
+                                           (C.StateID = CT.ID OR C.StateID = 0) AND
                                            $userString2
                                            CPCD.ConsultationID = C.ID
                                            $OrderBy", $limit );
         }
-        
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.32 2001/10/31 11:11:49 jhe Exp $
+// $Id: companyview.php,v 1.33 2001/11/01 12:15:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["SiteIni"];
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $CompanyViewLogin = $ini->read_var( "eZContactMain", "CompanyViewLogin" ) == "true";
 $CompanyEditLogin = $ini->read_var( "eZContactMain", "CompanyEditLogin" ) == "true";

@@ -89,13 +89,13 @@
 
 	<!-- BEGIN person_state_tpl -->
 	<td>
-        <a href="{www_dir}{index}/contact/project/person/list/{state_id}">{person_state}</a>
+        {person_state}
 	</td>
 	<!-- END person_state_tpl -->
 
 	<!-- BEGIN no_person_state_tpl -->
 	<td>
-        <a href="{www_dir}{index}/contact/project/person/list/">{intl-no_state}</a>
+        {intl-no_state}
 	</td>
 	<!-- END no_person_state_tpl -->
 
