@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71 2001/10/17 12:06:48 ce Exp $
+// $Id: cart.php,v 1.71.8.1 2002/01/22 16:46:34 bf Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -484,7 +484,6 @@ turnColumnsOnOff( "header" );
 
 if ( $ShowCart == true )
 {
-    
     $cart->cartTotals( $tax, $total );
 
     $locale = new eZLocale( $Language );

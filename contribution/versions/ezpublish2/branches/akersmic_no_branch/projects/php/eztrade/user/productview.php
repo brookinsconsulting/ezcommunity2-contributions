@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.4 2002/01/18 12:30:35 bf Exp $
+// $Id: productview.php,v 1.77.2.2.4.5 2002/01/22 16:46:34 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -252,7 +252,12 @@ if ( $mainImage )
 }
 else
 {
-    $t->set_var( "main_image", "" );
+    $t->set_var( "main_image_uri", "/sitedesign/am/img/a_95x95.gif" );
+    $t->set_var( "main_image_width", "95" );
+    $t->set_var( "main_image_height", "95" );
+    $t->set_var( "main_image_caption", "" );
+    
+    $t->parse( "main_image", "main_image_tpl" );
 }
 
 if ( $CapitalizeHeadlines == "enabled" )
