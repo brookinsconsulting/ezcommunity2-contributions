@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.2 2000/09/19 15:50:46 bf-cvs Exp $
+// $Id: categorylist.php,v 1.3 2000/09/21 12:42:23 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -43,6 +43,7 @@ $category->get( $ParentID );
 $categoryList = $category->getByParent( $category );
 
 // categories
+$i=0;
 foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_id", $categoryItem->id() );
@@ -60,17 +61,27 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "category_parent", "&nbsp;" );
     }
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
     
     $t->set_var( "category_description", $categoryItem->description() );
 
-    $t->parse( "category_list", "category_item", true );    
+    $t->parse( "category_list", "category_item", true );
+    $i++;
 }
 
 // products
 $productList = $category->products();
 
 $locale = new eZLocale( $Language );
-
+$i=0;
 foreach ( $productList as $product )
 {
     $t->set_var( "product_name", $product->name() );
@@ -80,7 +91,18 @@ foreach ( $productList as $product )
     $t->set_var( "product_price", $locale->format( $price ) );
     $t->set_var( "product_id", $product->id() );
 
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+    
+
     $t->parse( "product_list", "product_item", true );
+    $i++;
 }
 
 $t->set_var( "document_root", $DOC_ROOT );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.3 2000/09/20 12:58:04 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.4 2000/09/21 12:42:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -175,7 +175,7 @@ class eZProduct
                 else
                     $this->ShowPrice = false;                    
 
-                if ( $category_array[0][ "ShowProdcut" ] == "true" )
+                if ( $category_array[0][ "ShowProduct" ] == "true" )
                     $this->ShowProduct = true;
                 else
                     $this->ShowProduct = false;

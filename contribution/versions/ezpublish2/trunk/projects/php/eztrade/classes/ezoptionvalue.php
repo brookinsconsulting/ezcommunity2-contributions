@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.7 2000/09/20 12:14:30 bf-cvs Exp $
+// $Id: ezoptionvalue.php,v 1.8 2000/09/21 12:42:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -164,7 +164,18 @@ class eZOptionValue
         {
             return 0;
         }
-    }    
+    }
+    
+    /*!
+      Deletes a option from the database.
+    */
+    function delete()
+    {
+        $this->dbInit();
+        
+        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_OptionValue WHERE ID='$this->ID'" );
+    }
+    
 
     /*!
       Returns the id of the optionvalue.

@@ -1,2 +1,5 @@
-*fikse bugs
-*kode ferdig
+TODO
+-----
+Fix bug in product edit. Active does not "unset".
+Fix set correct item in select boxes
+Fix intl, add GB language

@@ -49,6 +49,40 @@ switch ( $url_array[2] )
     case "productedit" :
         switch ( $url_array[3] )
         {
+            // Images
+            case "imagelist" :
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/imagelist.php" );
+                break;
+
+            case "imageedit" :
+                if ( $url_array[4] == "edit" )
+                {
+                    $Action = "Edit";
+                    $ImageID = $url_array[5];
+                    $ProductID = $url_array[6];
+                    include( "eztrade/admin/imageedit.php" );
+                }
+                else if ( $url_array[4] == "delete" )
+                {
+                    $Action = "Delete";
+                    $ImageID = $url_array[5];
+                    $ProductID = $url_array[6];                    
+                    include( "eztrade/admin/imageedit.php" );
+                }
+                else if ( $url_array[4] == "new" )
+                {
+                    $ProductID = $url_array[5];
+                    include( "eztrade/admin/imageedit.php" );
+                }
+                else
+                {
+                    include( "eztrade/admin/imageedit.php" );                    
+                }                
+                
+                break;
+                
+            // Options
             case "optionlist" :
                 $ProductID = $url_array[4];
                 include( "eztrade/admin/optionlist.php" );

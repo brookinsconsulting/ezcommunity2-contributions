@@ -90,7 +90,7 @@
 </tr>
 <tr>
 	<td width="20%">
-	<input type="checkbox" name="Active" {active_checked} />
+	<input type="checkbox" name="Active" {showproduct_checked} />
 	</td>
 	<td>
 	<input type="checkbox" name="InheritOptions" {inherit_options_checked} />
@@ -98,7 +98,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	<input type="submit" name="" value="Bilder" />
+	<input type="submit" name="Image" value="Bilder" />
 	<input type="submit" name="Option" value="Opsjoner" />
 	<input type="submit" name="" value="Forhåndsvisning" />
 	</td>

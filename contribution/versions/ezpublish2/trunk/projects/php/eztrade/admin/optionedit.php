@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.3 2000/09/20 12:14:29 bf-cvs Exp $
+// $Id: optionedit.php,v 1.4 2000/09/21 12:42:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -86,7 +86,7 @@ if ( $Action == "Update" )
             if ( $ChoiceIDArray[$i] == "" )
             { // new item
                 $value->setName( $name );                
-                $option->addValue( $value );                
+                $option->addValue( $value );
             }
             else
             { // item exists update
@@ -96,6 +96,15 @@ if ( $Action == "Update" )
                 $value->store();                
             }
                  
+        }
+        else
+        {
+            if ( $ChoiceIDArray[$i] != "" )
+            { 
+                $value->get( $ChoiceIDArray[$i] );
+
+                $value->delete();       
+            }            
         }
         $i++;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productedit.php,v 1.2 2000/09/20 12:58:04 bf-cvs Exp $
+// $Id: productedit.php,v 1.3 2000/09/21 12:42:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -79,6 +79,13 @@ if ( $Action == "Insert" )
         exit();
     }
 
+    // add images
+    if ( isset( $Image ) )
+    {
+        Header( "Location: /trade/productedit/imagelist/$productID/" );
+        exit();
+    }
+    
     Header( "Location: /trade/categorylist/" );
     exit();
 }
@@ -134,6 +141,14 @@ if ( $Action == "Update" )
         Header( "Location: /trade/productedit/optionlist/$productID/" );
         exit();
     }
+
+    // add images
+    if ( isset( $Image ) )
+    {
+        Header( "Location: /trade/productedit/imagelist/$productID/" );
+        exit();
+    }
+    
     
     Header( "Location: /trade/categorylist/" );
     exit();
@@ -188,7 +203,7 @@ if ( $Action == "Edit" )
         $t->set_var( "showprice_checked", "checked" );
 
     if ( $product->showProduct() == true )
-        $t->set_var( "active_checked", "checked" );
+        $t->set_var( "showproduct_checked", "checked" );
 
     if ( $product->inheritOptions() == true )
         $t->set_var( "inherit_options_checked", "checked" );
