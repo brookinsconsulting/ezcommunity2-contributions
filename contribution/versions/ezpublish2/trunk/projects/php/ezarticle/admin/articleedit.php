@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.106 2001/07/19 12:19:20 jakobn Exp $
+// $Id: articleedit.php,v 1.107 2001/07/25 12:29:53 ce Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -271,6 +271,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             $article->store();
             $ArticleID = $article->id();
 
+            // Go to insert item..
             if ( isset( $AddItem ) )
             {
                 switch( $ItemToAdd )
@@ -279,6 +280,14 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
                     {   
                         // add images
                         eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
+                        exit();
+                    }
+                    break;
+
+                    case "Media":
+                    {   
+                        // add media
+                        eZHTTPTool::header( "Location: /article/articleedit/medialist/$ArticleID/" );
                         exit();
                     }
                     break;
@@ -309,7 +318,6 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
                 }
             }
-
 
             // preview
             if ( isset( $Preview ) )

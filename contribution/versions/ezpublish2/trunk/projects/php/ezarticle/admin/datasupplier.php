@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.47 2001/07/19 12:19:20 jakobn Exp $
+// $Id: datasupplier.php,v 1.48 2001/07/25 12:29:54 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -200,6 +200,15 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "medialist" :
+            {
+                $ArticleID = $url_array[4];
+                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                    include( "ezarticle/admin/medialist.php" );
+            }
+            break;
+
             case "filelist" :
             {
                 $ArticleID = $url_array[4];
@@ -317,9 +326,22 @@ switch ( $url_array[2] )
                             || eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/imageedit.php" );
                     }
-                    
                 }
-            
+            }
+            break;
+
+            case "mediaedit" :
+            {
+                if ( isSet ( $Browse ) )
+                {
+                    include ( "ezmediacatalogue/admin/browse.php" );
+                    break;
+                }
+                $ArticleID = $url_array[4];
+                $MediaID = $url_array[5];
+                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
+                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                    include( "ezarticle/admin/mediaedit.php" );
             }
             break;
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.131 2001/07/25 11:31:45 bf Exp $
+// $Id: ezarticle.php,v 1.132 2001/07/25 12:29:54 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1323,6 +1323,82 @@ class eZArticle
 
         return $ret;
     }
+
+    /*!
+      Adds an media to the article, unless the media is allready added for this article.
+    */
+    function addMedia( $value )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if( get_class( $value ) == "ezmedia" )
+            $value = $value->id();
+
+        $db->query_single( $res, "SELECT count( * ) as Count FROM eZArticle_ArticleMediaLink WHERE ArticleID='$this->ID' AND MediaID='$value'" );
+        if( $res[$db->fieldName("Count")] == 0 )
+        {
+            $db->begin( );
+    
+            $db->lock( "eZArticle_ArticleMediaLink" );
+
+            $nextID = $db->nextID( "eZArticle_ArticleMediaLink", "ID" );
+            $timeStamp = eZDateTime::timeStamp( true );
+            
+            $res = $db->query( "INSERT INTO eZArticle_ArticleMediaLink
+                         ( ID, ArticleID, MediaID, Created )
+                         VALUES
+                         ( '$nextID',  '$this->ID', '$value', '$timeStamp' )" );
+
+            $db->unlock();
+    
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
+    }
+
+    /*!
+      Deletes an media from the article.
+
+      NOTE: the media does not get deleted from the media catalogue.
+    */
+    function deleteMedia( $value )
+    {
+        if ( get_class( $value ) == "ezmedia" )
+        {
+            $mediaID = $value->id();
+        }
+        else
+            $mediaID = $value;
+
+        $db =& eZDB::globalDatabase();
+            
+        $db->query( "DELETE FROM eZArticle_ArticleMediaDefinition WHERE ArticleID='$this->ID' AND ThumbnailMediaID='$mediaID'" );
+
+        $db->query( "DELETE FROM eZArticle_ArticleMediaLink WHERE ArticleID='$this->ID' AND MediaID='$mediaID'" );
+    }
+    
+    /*!
+      Returns every media to a article as a array of eZMedia objects.
+    */
+    function media( $asObject = true )
+    {
+        $db =& eZDB::globalDatabase();
+       
+        $return_array = array();
+        $media_array = array();
+       
+        $db->array_query( $media_array, "SELECT MediaID, Created FROM eZArticle_ArticleMediaLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+       
+        for ( $i=0; $i < count($media_array); $i++ )
+        {
+            $return_array[$i] = $asObject ? new eZMedia( $media_array[$i][$db->fieldName("MediaID")] ) : $media_array[$i][$db->fieldName("MediaID")];
+        }
+       
+        return $return_array;
+    }
+
 
     /*!
       Adds an file to the article.

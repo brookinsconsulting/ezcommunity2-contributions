@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: datasupplier.php,v 1.2 2001/07/25 12:29:54 ce Exp $
 //
 // Created on: <24-Jul-2001 10:59:19 ce>
 //
@@ -49,6 +49,13 @@ function writeAtAll()
 $user = eZUser::currentUser();
 switch ( $url_array[2] )
 {
+    case "browse":
+    {
+        $CategoryID = $url_array[3];
+        include( "ezmediacatalogue/admin/browse.php" );
+    }
+    break;
+
     case "mediaview" :
     {
         $MediaID = $url_array[3];
