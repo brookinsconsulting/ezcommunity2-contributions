@@ -1,5 +1,5 @@
 <?
-// $Id: todomenulist.php,v 1.2 2001/01/15 14:57:27 ce Exp $
+// $Id: todomenulist.php,v 1.3 2001/01/16 09:47:41 ce Exp $
 //
 // Definition of todo list.
 //
@@ -36,7 +36,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
-$t->set_block( "todo_list_page", "no_found_tpl", "no_found" );
+$t->set_block( "todo_list_page", "no_item_tpl", "no_item" );
 
 $todo = new eZTodo();
 
@@ -53,10 +53,16 @@ foreach( $todo_array as $todoItem )
     $t->set_var( "todo_id", $todoItem->id() );
     $t->set_var( "todo_name", $todoItem->name() );
 
-    $t->set_var( "no_found", "" );
+    $t->set_var( "no_item", "" );
 
     $t->parse( "todo_item", "todo_item_tpl", true );
     $i++;
+}
+
+if ( count ( $todo_array ) == 0 ) 
+{
+    $t->set_var( "todo_item", "" );
+    $t->parse( "no_item", "no_item_tpl" );
 }
 
 $t->pparse( "output", "todo_list_page" );

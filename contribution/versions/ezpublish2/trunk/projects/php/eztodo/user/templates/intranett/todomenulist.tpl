@@ -11,4 +11,12 @@
 	</td>
 </tr>
 <!-- END todo_item_tpl -->
+<!-- BEGIN no_item_tpl -->
+<tr>
+	<td>
+	{intl-no_todo}
+	</td>
+</tr>
+<!-- END no_item_tpl -->
+
 </table>

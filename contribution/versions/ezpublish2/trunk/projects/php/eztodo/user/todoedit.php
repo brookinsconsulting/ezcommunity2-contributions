@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.7 2001/01/15 14:38:14 ce Exp $
+// $Id: todoedit.php,v 1.8 2001/01/16 09:47:41 ce Exp $
 //
 // Definition of todo list.
 //
@@ -27,7 +27,7 @@ if ( isSet ( $Edit ) )
 }
 if ( isSet ( $Done ) )
 {
-    $Action = "Edit";
+    $Action = "updateStatus";
     $Status = "on";
 }
 
@@ -206,6 +206,23 @@ if ( $Action == "insert" && $error == false )
         $mail->send();
     }
     
+    Header( "Location: /todo/todolist" );
+    exit();
+}
+
+if ( $Action == "updateStatus" )
+{
+    $todo = new eZTodo( $TodoID );
+    if ( $Status == "on" )
+    {
+        $todo->setStatus( true );
+    }
+    else
+    {
+        $todo->setStatus( false );
+    }
+    $todo->store();
+
     Header( "Location: /todo/todolist" );
     exit();
 }
