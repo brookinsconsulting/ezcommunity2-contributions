@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleheaderlist.php,v 1.11.2.2 2001/11/01 13:55:52 master Exp $
+// $Id: articleheaderlist.php,v 1.11.2.3 2003/03/24 08:52:52 br Exp $
 //
 // Created on: <26-Oct-2000 21:15:58 bf>
 //
@@ -36,6 +36,12 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
+
+if ( !is_numeric( $CategoryID ) )
+{
+    eZHTTPTool::header( "Location: /error/404" );
+    exit();
+}
 
 $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 
