@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.101 2001/09/26 07:09:32 ce Exp $
+// $Id: ezproduct.php,v 1.102 2001/09/26 10:51:12 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1071,7 +1071,7 @@ class eZProduct
        
        $db->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
 
-       if ( count( $option_array ) > 0 )
+       if ( count( $option_array ) > 1 )
        {
            $return_value = true;
        }
