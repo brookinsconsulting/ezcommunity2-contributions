@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.50 2001/07/09 11:39:16 bf Exp $
+// $Id: ezsession.php,v 1.51 2001/07/11 07:31:42 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -437,7 +437,9 @@ class eZSession
         $db =& eZDB::globalDatabase();
 
         $value_array = array();
-        $db->array_query( $value_array, "SELECT ID, ( ( UNIX_TIMESTAMP( now() + 0 ) - UNIX_TIMESTAMP( LastAccessed ) )  ) AS Idle
+        $timeStamp = eZDateTime::timeStamp( true );
+        
+        $db->array_query( $value_array, "SELECT ID, ( $timeStamp- LastAccessed  ) AS Idle
                           FROM eZSession_Session
                           HAVING Idle>(60*60*$maxIdle)" );
 
