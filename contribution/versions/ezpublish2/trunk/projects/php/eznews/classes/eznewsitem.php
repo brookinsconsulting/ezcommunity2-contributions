@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.7 2000/09/28 09:10:51 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.8 2000/09/28 09:14:09 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -49,6 +49,29 @@
 
     \sa eZNewsArticle, eZNewsCategory
  */
+
+    function printArray( &$array )
+    {
+        if( is_array( $array ) )
+        {
+            foreach( $array as $item )
+            {
+                if( is_array( $item )  )
+                {
+                    printArray( $item );
+                }
+                else
+                {
+                    echo htmlspecialchars( $item ) . "<br>";
+                }
+            }
+        }
+        else    
+        {
+            echo htmlspecialchars( $array ) . " a<br>";
+        }
+    }
+
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezsession.php" );       
@@ -424,6 +447,8 @@ class eZNewsItem
             
             $this->Database->array_query( $itemArray, $query );
             $rowsFound = count( $itemArray );
+            
+            printArray( $itemArray );
             
             switch ( $rowsFound )
             {
