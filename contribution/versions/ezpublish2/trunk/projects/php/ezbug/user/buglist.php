@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.2 2000/12/09 18:59:37 bf Exp $
+// $Id: buglist.php,v 1.3 2001/01/28 11:00:20 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:36:41 bf>
@@ -92,10 +92,10 @@ foreach ( $moduleList as $moduleItem )
 
     $parent = $moduleItem->parent();
 
-    $totalCount = $moduleItem->countBugs( false, false );
+    $totalCount = $moduleItem->countBugs( true, false );
     $t->set_var( "bug_count", $totalCount );
 
-    $openCount = $moduleItem->countBugs( false, true );
+    $openCount = $moduleItem->countBugs( true, true );
     $t->set_var( "open_bug_count", $openCount );
     
 
@@ -122,7 +122,7 @@ else
 
 
 // bugs
-$bugList = $module->bugs( "time", false );
+$bugList = $module->bugs( "time", true );
 
 $locale = new eZLocale( $Language );
 $i=0;
