@@ -931,6 +931,7 @@ if ( !$confirm )
         {
             $t->set_var( "none_selected", "selected" );
         }
+        $t->set_var( "project_item_select", "" );
         foreach( $project_types as $project_type )
         {
             $t->set_var( "type_id", $project_type->id() );

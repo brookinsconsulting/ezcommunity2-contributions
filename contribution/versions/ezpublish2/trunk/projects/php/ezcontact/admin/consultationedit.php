@@ -373,32 +373,35 @@ if ( !( isset( $CompanyID ) || isset( $PersonID ) ) )
 {
     $company = new eZCompany();
     $companies = $company->getAll();
+    if ( !is_array( $companies ) )
+        $companies = array();
     foreach( $companies as $company )
-        {
-            $t->set_var( "contact_id", $company->id() );
-            $t->set_var( "contact_name", $company->name() );
-            if ( $CompanyContact == $company->id() )
-                $t->set_var( "selected", "selected" );
-            else
-                $t->set_var( "selected", "" );
+    {
+        $t->set_var( "contact_id", $company->id() );
+        $t->set_var( "contact_name", $company->name() );
+        if ( $CompanyContact == $company->id() )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
 
-            $t->parse( "company_contact_select", "company_contact_select_tpl", true );
-        }
+        $t->parse( "company_contact_select", "company_contact_select_tpl", true );
+    }
 
     $person = new eZPerson();
     $persons = $person->getAll();
+    if ( !is_array( $persons ) )
+        $persons = array();
     foreach( $persons as $person )
-        {
-            $t->set_var( "contact_id", $person->id() );
-            $t->set_var( "contact_firstname", $person->firstName() );
-            $t->set_var( "contact_lastname", $person->lastName() );
-            if ( $PersonContact == $person->id() )
-                $t->set_var( "selected", "selected" );
-            else
-                $t->set_var( "selected", "" );
-
-            $t->parse( "person_contact_select", "person_contact_select_tpl", true );
-        }
+    {
+        $t->set_var( "contact_id", $person->id() );
+        $t->set_var( "contact_firstname", $person->firstName() );
+        $t->set_var( "contact_lastname", $person->lastName() );
+        if ( $PersonContact == $person->id() )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
+        $t->parse( "person_contact_select", "person_contact_select_tpl", true );
+    }
 
     $t->parse( "contact_item", "contact_item_tpl" );
     $t->set_var( "company_contact_item", "" );
