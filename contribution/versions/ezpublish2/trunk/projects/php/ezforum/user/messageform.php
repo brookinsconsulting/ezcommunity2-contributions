@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.6 2001/03/08 18:34:30 pkej Exp $
+// $Id: messageform.php,v 1.7 2001/03/13 13:37:52 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -22,6 +22,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+include_once( "classes/ezlocale.php" );
 
 if( $ShowMessageForm )
 {
@@ -124,7 +126,7 @@ if( $ShowMessageForm )
         }
         else
         {
-            $MessagePostedAt = $locale->format( $msg->postingTime() );
+            $MessagePostedAt = $Locale->format( $msg->postingTime() );
         }
         
         if( isset( $NewMessageNotice ) )
