@@ -36,7 +36,7 @@
 	<td>&nbsp;
 	</td>
 </tr>
-<!-- BEGIN company_list_tpl -->
+<!-- BEGIN object_list_tpl -->
 <tr>
 	<th>
 	{intl-item}:
@@ -48,20 +48,20 @@
 	{intl-select}:
 	</th>
 </tr>
-<!-- BEGIN company_item_tpl -->
+<!-- BEGIN object_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{company_name}
+	{object_name}
 	</td>
 	<td class="{td_class}">
-	<a href="{company_orig_url}" target="_blank">{company_orig_url}</a>
+	<a href="{object_orig_url}" target="_blank">{object_orig_url}</a>
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="ItemSelect[]" value="{item_id}">
 	</td>
 </tr>
-<!-- END company_item_tpl -->
-<!-- END company_list_tpl -->
+<!-- END object_item_tpl -->
+<!-- END object_list_tpl -->
 </table>
 
 <br />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcontactsupplier.php,v 1.2 2001/03/27 09:54:41 jb Exp $
+// $Id: ezcontactsupplier.php,v 1.3 2001/04/30 17:43:12 jb Exp $
 //
 // Definition of ezcontactsupplier class
 //
@@ -42,8 +42,9 @@ class eZContactSupplier
         return $this->UrlTypes;
     }
 
-    function &urlList( $type, $category = 0, $offset = 0, $limit = -1 )
+    function &urlList( $type, $category = 0, $offset = 0 )
     {
+        $ini =& INIFile::globalINI();
         $ret = false;
         switch( $type )
         {
@@ -51,6 +52,7 @@ class eZContactSupplier
             {
                 include_once( "ezcontact/classes/ezcompany.php" );
                 include_once( "ezcontact/classes/ezcompanytype.php" );
+                $limit = $ini->read_var( "eZContactMain", "MaxCompanyList" );
                 $categories = eZCompanyType::getByParentID( $category, "name" );
                 $companies = eZCompany::getByCategory( $category, $offset, $limit );
                 $num_companies = eZCompany::countByCategory( $category );
@@ -78,6 +80,7 @@ class eZContactSupplier
                 $ret["categories"] = $category_array;
                 $ret["items"] = $company_array;
                 $ret["item_total_count"] = $num_companies;
+                $ret["max_items_shown"] = $limit;
                 break;
             }
 
