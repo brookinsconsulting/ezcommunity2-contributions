@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.91 2001/09/14 12:57:15 pkej Exp $
+// $Id: ezproduct.php,v 1.92 2001/09/14 13:11:47 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -417,7 +417,7 @@ class eZProduct
         
         if ( empty( $lowPrice ) )
         {
-            $lowPrice = $$this->correctPrice( $inUser, $calcVAT  );
+            $lowPrice = $this->correctPrice( $inUser, $calcVAT  );
         }
         else
         {
