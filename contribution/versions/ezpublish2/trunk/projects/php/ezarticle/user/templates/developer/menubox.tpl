@@ -1,5 +1,5 @@
 <tr>
-	<td class="menuhead" bgcolor="#c0c0c0">Articles</td>
+	<td class="menuhead" bgcolor="#c0c0c0">News</td>
 </tr>
 
 <!-- BEGIN article_category_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.7 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: ezforum.php,v 1.8 2000/11/22 16:46:26 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -111,18 +111,29 @@ class eZForum
     {
         $this->dbInit();
 
-        $message = new eZForumMessage();
-        $message->get( $this->ID );
-        $message->delete();
+        // delete messages
+        $this->Database->query( "DELETE FROM eZForum_Message WHERE ForumID='$this->ID'" );
 
+        // delete category assignments
         $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE ForumID='$this->ID'" );
-        
+
+        // delete the forum
         $this->Database->query( "DELETE FROM eZForum_Forum WHERE ID='$this->ID'" );
         
         return true;
     }
-    
 
+    /*!
+      Removes all assignments from forum to categories.
+    */
+    function removeFromForums()
+    {
+        $this->dbInit();
+
+        // delete category assignments
+        $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE ForumID='$this->ID'" );
+    }
+    
     /*!
       Fetches the object information from the database.
     */

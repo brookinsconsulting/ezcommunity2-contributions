@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.8 2000/11/22 13:09:34 bf-cvs Exp $
+// $Id: forumedit.php,v 1.9 2000/11/22 16:46:26 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -86,6 +86,9 @@ if ( $Action == "update" )
 
             $forum->store();
 
+            // remove all category assigmnents.
+            $forum->removeFromForums();
+                 
             $category = new eZForumCategory( $CategorySelectID );
             $category->addForum( $forum );
             

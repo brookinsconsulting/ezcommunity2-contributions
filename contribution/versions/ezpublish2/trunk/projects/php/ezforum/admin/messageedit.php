@@ -1,5 +1,5 @@
 <?
-// $Id: messageedit.php,v 1.6 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: messageedit.php,v 1.7 2000/11/22 16:46:26 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -25,7 +25,6 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/messageedit.php.ini", false );
 
@@ -59,8 +58,9 @@ if ( $Action == "update" )
                 $msg->disableEmailNotice();
 
             $ForumID = $msg->forumID();
+
             $forum = new eZForum( $ForumID );
-            $CategoryID = $forum->categoryID();
+
             $msg->store();
 
             Header( "Location: /forum/messagelist/$ForumID/" );
@@ -90,7 +90,6 @@ if ( $Action == "delete" )
             
             $ForumID = $msg->forumID();
             $forum = new eZForum( $ForumID );
-            $CategoryID = $forum->categoryID();
             
             Header( "Location: /forum/messagelist/$ForumID" );
             exit();
@@ -138,7 +137,7 @@ if ( $Action == "new" )
 
 if ( $Action == "edit" )
 {
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
+    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
 
     if ( !eZPermission::checkPermission( $user, "eZForum", "MessageModify" ) )
@@ -165,4 +164,5 @@ $t->set_var( "error_msg", $error_msg );
 $t->set_var( "category_id", $CategoryID );
 $t->set_var( "headline", $headline );
 $t->pparse( "output", "message_page" );
+
 ?>

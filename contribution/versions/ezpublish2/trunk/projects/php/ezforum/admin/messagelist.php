@@ -1,5 +1,5 @@
 <?
-// $Id: messagelist.php,v 1.7 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: messagelist.php,v 1.8 2000/11/22 16:46:26 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -25,7 +25,6 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
@@ -37,7 +36,7 @@ include_once( "ezforum/classes/ezforumcategory.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
                      "ezforum/admin/" . "/intl", $Language, "messagelist.php" );
 $t->setAllStrings();
 
@@ -47,8 +46,10 @@ $t->set_block( "message_page", "message_item_tpl", "message_item" );
 
 $forum = new eZForum( $ForumID );
 $t->set_var( "forum_name", $forum->name() );
-$category = new eZForumCategory( $forum->categoryID()  );
-$CategoryID = $forum->categoryID();
+
+$categories = $forum->categories();
+$category = new eZForumCategory( $categories[0]->id() );
+
 $t->set_var( "category_name", $category->name() );
 
 $locale = new eZLocale( $Language );
@@ -61,7 +62,7 @@ if ( !isset( $Limit ) )
 
 $messages = $forum->messageTree( $Offset, $Limit );
 
-$ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/messagelist.php.ini", false );
+$ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messagelist.php.ini", false );
 $true =  $ini->read_var( "strings", "true" );
 $false =  $ini->read_var( "strings", "false" );
 
@@ -118,7 +119,6 @@ $t->set_var( "link1-url", "");
 $t->set_var( "link2-url", "search.php");
 
 $t->set_var( "back-url", "admin/forum.php" );
-$t->set_var( "docroot", $DOC_ROOT );
 $t->set_var( "category_id", $CategoryID );
 $t->set_var( "forum_id", $ForumID );
 
