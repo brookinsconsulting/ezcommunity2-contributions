@@ -1,5 +1,5 @@
 <?
-// $Id: messagelist.php,v 1.13 2001/03/01 14:06:25 jb Exp $
+// $Id: messagelist.php,v 1.14 2001/03/05 13:13:54 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -102,9 +102,14 @@ else
             $t->set_var( "message_id", $message->id() );
 
             $user = $message->user();
-    
-            $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
-
+            if( $user->id() != 0 )
+            {
+                $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
+            }
+            else
+            {
+                $t->set_var( "message_user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+            }
             if( $message->emailNotice() == "Y" )
                 $t->set_var( "emailnotice", $true );
             else
