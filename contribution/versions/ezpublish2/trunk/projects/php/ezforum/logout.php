@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: logout.php,v 1.2 2000/07/14 13:31:20 lw-cvs Exp $
+    $Id: logout.php,v 1.3 2000/07/14 13:33:54 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -14,5 +14,5 @@ include( "classes/ezsession.php" );
 
 $session = new eZSession();
 $session->delete( $AuthenticatedSession );
-printRedirect( "index.php?page=$DOCROOT/main.php" );
+printRedirect( "/index.php?page=$DOCROOT/main.php" );
 ?>
