@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.15 2001/02/26 12:30:08 jb Exp $
+// $Id: productlist.php,v 1.16 2001/02/28 10:18:50 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -174,7 +174,7 @@ foreach ( $productList as $product )
     
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
 
-    if ( $ShowPrice and $product->showPrice() == true )
+    if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
         $found_price = false;
         if ( $ShowPriceGroups and $PriceGroup > 0 )
