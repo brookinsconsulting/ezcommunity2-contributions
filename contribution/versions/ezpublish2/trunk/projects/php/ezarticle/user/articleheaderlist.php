@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleheaderlist.php,v 1.7 2001/03/17 12:39:22 bf Exp $
+// $Id: articleheaderlist.php,v 1.8 2001/04/04 12:14:02 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 21:15:58 bf>
@@ -135,7 +135,11 @@ foreach ( $articleList as $article )
     {
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
-    
+        $def = $article->categoryDefinition();
+        if( $def )
+            $t->set_var( "article_category_name", $def->name() );
+        else
+            $t->set_var( "article_category_name" ,"" );
 
         $published = $article->published();
 

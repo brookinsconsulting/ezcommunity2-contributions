@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.28 2001/04/04 11:07:04 fh Exp $
+// $Id: articlelist.php,v 1.29 2001/04/04 12:14:02 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -76,8 +76,14 @@ if( isset( $DeleteCategories ) )
 {
     if ( count ( $CategoryArrayID ) != 0 )
     {
-        if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-            unlink( "ezarticle/cache/menubox.cache" );
+        /** Delete menubox cache **/
+        $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "menubox", NULL ),
+                                 "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
 
         $categories = array();
         foreach( $CategoryArrayID as $ID )
@@ -143,19 +149,37 @@ $t->set_var( "site_style", $SiteStyle );
 $category = new eZArticleCategory( $CategoryID );
 
 /** move article categories up/down **/
-if( is_numeric( $MoveCategoryUp ) )
+if( is_numeric( $MoveCategoryUp ) || is_numeric( $MoveCategoryDown ) )
 {
-    $mvcategory = new eZArticleCategory( $MoveCategoryUp );
-    $mvcategory->moveCategoryUp();
+    if( is_numeric( $MoveCategoryUp ) )
+    {
+        $mvcategory = new eZArticleCategory( $MoveCategoryUp );
+        $mvcategory->moveCategoryUp();
+    }
+
+    if( is_numeric( $MoveCategoryDown ) )
+    {
+        $mvcategory = new eZArticleCategory( $MoveCategoryDown );
+        $mvcategory->moveCategoryDown();
+    }
+
+    /** Clear cache when moving stuff arround **/
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "menubox", NULL ),
+                                 "cache", "," );
+    
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "articlelist", $CategoryID, NULL, NULL ), "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+
 }
-
-if( is_numeric( $MoveCategoryDown ) )
-{
-    $mvcategory = new eZArticleCategory( $MoveCategoryDown );
-    $mvcategory->moveCategoryDown();
-}
-
-
 // move articles up / down
 if ( $category->sortMode() == "absolute_placement" )
 {

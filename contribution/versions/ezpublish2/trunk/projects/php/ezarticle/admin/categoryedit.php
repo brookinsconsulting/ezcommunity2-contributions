@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.12 2001/03/08 15:15:13 fh Exp $
+// $Id: categoryedit.php,v 1.13 2001/04/04 12:14:02 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -53,8 +53,13 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 if ( $Action == "insert" )
 {
     // clear the menu cache
-    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-        unlink( "ezarticle/cache/menubox.cache" );
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "menubox", NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
     $parentCategory = new eZArticleCategory();
     $parentCategory->get( $ParentID );
@@ -139,8 +144,13 @@ if ( $Action == "insert" )
 if ( $Action == "update" )
 {
     // clear the menu cache
-    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-        unlink( "ezarticle/cache/menubox.cache" );
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "menubox", NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
     
     $parentCategory = new eZArticleCategory();
     $parentCategory->get( $ParentID );
@@ -228,8 +238,13 @@ if ( $Action == "update" )
 if ( $Action == "delete" )
 {
     // clear the menu cache
-    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-        unlink( "ezarticle/cache/menubox.cache" );
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "menubox", NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
     $category = new eZArticleCategory();
     $category->get( $CategoryID );
@@ -248,39 +263,6 @@ if ( $Action == "delete" )
     eZHTTPTool::header( "Location: /article/archive/" );
     exit();
 }
-
-/* Can possibly be deleted! FJH
-if ( $Action == "DeleteCategories" )
-{
-    if ( count ( $CategoryArrayID ) != 0 )
-    {
-        if ( file_exists( "ezarticle/cache/menubox.cache" ) )
-            unlink( "ezarticle/cache/menubox.cache" );
-
-        $categories = array();
-        foreach( $CategoryArrayID as $ID )
-        {
-            $categories[] = $ID;
-            $category = new eZArticleCategory( $ID );
-            $categories[] = $category->parent( false );
-            if( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) )
-                $category->delete();
-        }
-        $categories = array_unique( $categories );
-        $files =& eZCacheFile::files( "ezarticle/cache/",
-                                      array( "articlelist",
-                                             $categories, NULL ),
-                                      "cache", "," );
-        foreach( $files as $file )
-        {
-            $file->delete();
-        }
-    }
-
-    eZHTTPTool::header( "Location: /article/archive/" );
-    exit();
-}
-*/
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "categoryedit.php" );

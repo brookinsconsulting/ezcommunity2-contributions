@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.12 2001/03/01 19:58:26 fh Exp $
+// $Id: menubox.php,v 1.13 2001/04/04 12:14:02 fh Exp $
 //
 // 
 //
@@ -52,7 +52,7 @@ if ( $PageCaching == "enabled" )
         }
     }
     
-    $menuCachedFile = "ezarticle/cache/menubox" . $groupstr .".cache";
+    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr .".cache";
                     
     if ( file_exists( $menuCachedFile ) )
     {
@@ -74,6 +74,7 @@ function createArticleMenu()
     global $ini;
     global $Language;
     global $menuCachedFile;
+    global $GenerateStaticPage;
     
     include_once( "classes/eztemplate.php" );
 

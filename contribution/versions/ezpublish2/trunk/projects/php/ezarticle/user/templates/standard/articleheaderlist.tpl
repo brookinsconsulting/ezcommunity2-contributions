@@ -36,6 +36,9 @@
 	{intl-article}:
 	</th>
 	<th>
+	{intl-category}:
+	</th>
+	<th>
 	<div align="right">{intl-publishing_date}:</div>
 	</th>
 </tr>
@@ -46,6 +49,7 @@
 	{article_name}
 	</a>
 	</td>
+	<td class="{td_class}">{article_category_name}</td>
 	<td align="right" class="{td_class}">
 	<span class="small">{article_published}</span>
 	</td>
