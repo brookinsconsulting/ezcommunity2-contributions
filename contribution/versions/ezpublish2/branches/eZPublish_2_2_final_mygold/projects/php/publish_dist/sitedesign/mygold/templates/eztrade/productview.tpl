@@ -102,8 +102,11 @@
 		<!-- BEGIN value_description_tpl -->
 		<option value="{value_id}">{value_name}
 		<!-- END value_description_tpl -->
+                  <!-- BEGIN value_price_seperator_tpl -->
+                  {value_price_seperator}
+                  <!-- END value_price_seperator_tpl -->		
 	          <!-- BEGIN value_price_item_tpl -->
-	           - {value_price} 
+	          {value_price} 
 		  <!-- END value_price_item_tpl -->
 		<!-- BEGIN value_availability_item_tpl -->
 		<!-- END value_availability_item_tpl -->

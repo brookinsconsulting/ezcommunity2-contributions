@@ -5,13 +5,14 @@
 <h2>{intl-thanks_for_shopping}</h2>
 
 <p>{intl-email_notice}</p>
+<br />
 
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
 	<!-- BEGIN billing_address_tpl -->
-	<p class="boxtext">{intl-billing_address}:</p>
+	<b>{intl-billing_address}:</b><br /> 
 	{customer_first_name} {customer_last_name} <br />
 	{billing_street1}<br />
 	{billing_street2}<br />
@@ -22,7 +23,7 @@
 	</td>
 	<td>
 	<!-- BEGIN shipping_address_tpl -->
-	<p class="boxtext">{intl-shipping_address}:</p>
+	<b>{intl-shipping_address}:</b><br />
 	{shipping_first_name} {shipping_last_name} <br />
 	{shipping_street1}<br />
 	{shipping_street2}<br />
@@ -34,51 +35,45 @@
 </tr>
 <tr>
 	<td>
-	<p class="boxtext">{intl-payment_method}:</p>
+	<b>{intl-payment_method}:</b>
 	<div class="p">{payment_method}</div>
 	</td>
 	<td>
-	<p class="boxtext">{intl-shipping_type}:</p>
+	<b>{intl-shipping_type}:</b>
 	<div class="p">{shipping_type}</div>
 	</td>
 </tr>
 </table>
-
-<p class="boxtext">{intl-comment}:</p>
+<br />
+<b>{intl-comment}:</b><br />
 {comment}
 
-
+<br />
 <br />
 
 <h2>{intl-goods_list}:</h2>
 
-<!-- BEGIN full_cart_tpl --><table class="list" width="100%" cellspacing="0" cellpadding="4" border="0"><!-- BEGIN cart_item_list_tpl -->
-<tr>
+<!-- BEGIN full_cart_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0"><!-- BEGIN cart_item_list_tpl -->
+  <tr>
     <th>&nbsp;</th>
-
-	<th>{intl-product_number}:</th>
-	<th>{intl-product_name}:</th>
-	<th class="right">{intl-product_price}:</th>
-
-	<!-- BEGIN header_savings_item_tpl -->
-	<th class="right">{intl-product_savings}:</th>
-	<!-- END header_savings_item_tpl -->
-
-	<th class="right">{intl-product_qty}:</th>
-
-	<!-- BEGIN header_ex_tax_item_tpl -->
-	<th class="right">{intl-product_total_ex_tax}:</th>
-	<!-- END header_ex_tax_item_tpl -->
-
-	<!-- BEGIN header_inc_tax_item_tpl -->
-	<th class="right">{intl-product_total_inc_tax}:</th>
-	<!-- END header_inc_tax_item_tpl -->
-
-	<th class="right">&nbsp;</th>
-</tr>
-
-<!-- BEGIN cart_item_tpl -->
-<tr>
+    <th>{intl-product_number}:</th>
+    <th>{intl-product_name}:</th>
+    <th align="right">{intl-product_price}:</th>
+    <!-- BEGIN header_savings_item_tpl -->
+    <th align="right">{intl-product_savings}:</th>
+    <!-- END header_savings_item_tpl -->
+    <th align="right">{intl-product_qty}:</th>
+    <!-- BEGIN header_ex_tax_item_tpl -->
+    <th align="right">{intl-product_total_ex_tax}:</th>
+    <!-- END header_ex_tax_item_tpl -->
+    <!-- BEGIN header_inc_tax_item_tpl -->
+    <th align="right">{intl-product_total_inc_tax}:</th>
+    <!-- END header_inc_tax_item_tpl -->
+    <th align="right">&nbsp;</th>
+  </tr>
+  <!-- BEGIN cart_item_tpl -->
+  <tr>
     <td class="{td_class}">&nbsp;</td>
     <td class="{td_class}">{product_number}</td>
     <td class="{td_class}"><a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a></td>
@@ -216,19 +211,19 @@
 	<th>{intl-voucher_number}:</th>
 
 	<!-- BEGIN voucher_used_header_ex_tax_item_tpl -->
-	<th class="right">{intl-voucher_used_ex_tax}:</th>
+	<th align="right">{intl-voucher_used_ex_tax}:</th>
 	<!-- END voucher_used_header_ex_tax_item_tpl -->
 
 	<!-- BEGIN voucher_used_header_inc_tax_item_tpl -->
-	<th class="right">{intl-voucher_used_inc_tax}:</th>
+	<th align="right">{intl-voucher_used_inc_tax}:</th>
 	<!-- END voucher_used_header_inc_tax_item_tpl -->
 
 	<!-- BEGIN voucher_left_header_ex_tax_item_tpl -->
-	<th class="right">{intl-voucher_left_ex_tax}:</th>
+	<th align="right">{intl-voucher_left_ex_tax}:</th>
 	<!-- END voucher_left_header_ex_tax_item_tpl -->
 
 	<!-- BEGIN voucher_left_header_inc_tax_item_tpl -->
-	<th class="right">{intl-voucher_left_inc_tax}:</th>
+	<th align="right">{intl-voucher_left_inc_tax}:</th>
 	<!-- END voucher_left_header_inc_tax_item_tpl -->
 
 </tr>

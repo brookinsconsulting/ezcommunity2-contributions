@@ -1,4 +1,4 @@
-<h1>{product_name}  {min_price} - {max_price}</h1>
+<h1>{product_name}</h1>
 <hr noshade="noshade" size="1" />
 
 <!-- BEGIN price_to_high_tpl -->
@@ -26,7 +26,7 @@
 
 
 <!-- BEGIN email_tpl -->
-<table>
+<table width="1%">
   <tr>
     <td>
       <b>{intl-to_name}:</b><br />
@@ -52,6 +52,9 @@
       <b>{intl-text}:</b><br />
       <textarea cols="60" name="Description" rows="8">{description}</textarea>
     </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="small">{intl-attention}</td>
   </tr>
 </table>
 <!-- END email_tpl -->

@@ -11,6 +11,8 @@
 
 <p>{article_body}</p>
 
+
+
 <!-- BEGIN attribute_list_tpl -->
 <!-- BEGIN type_item_tpl -->
 <h2>{type_name}</h2>

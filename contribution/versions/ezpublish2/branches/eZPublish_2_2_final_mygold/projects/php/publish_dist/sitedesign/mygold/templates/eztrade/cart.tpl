@@ -26,14 +26,18 @@
     <!-- END header_inc_tax_item_tpl -->
     <th width="1%">&nbsp;</th>
     <!-- BEGIN edit_voucher_info_header_tpl -->
-    <th width="1%">&nbsp;</th>
+    <!-- -->
     <!-- END edit_voucher_info_header_tpl -->
   </tr>
   <!-- BEGIN cart_item_tpl -->
   <tr valign="top">
     <td class="{td_class}" align="center">{product_count}</td>
     <td class="{td_class}"><nobr>&nbsp;&nbsp;{product_number}</nobr></td>
-    <td class="{td_class}">&nbsp;&nbsp;<a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a><br />
+    <td class="{td_class}">&nbsp;&nbsp;<a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a>
+    <!-- BEGIN edit_voucher_info_tpl -->
+     <a class="small" href="{www_dir}{index}/trade/voucherinformation/{product_id}/{mail_method}/{voucher_id}/">{intl-edit}</a></td>
+    <!-- END edit_voucher_info_tpl -->    
+    <br />
       <!-- BEGIN cart_item_option_tpl -->
       &nbsp;&nbsp;<span class="small">Gr&ouml;&szlig;e {option_value}</span>
       <!-- BEGIN option_savings_item_tpl -->
@@ -57,9 +61,7 @@
     <td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
     <!-- END cart_inc_tax_item_tpl -->
     <td class="{td_class}" align="center"><input type="checkbox" class="{td_class}" name="CartSelectArray[]" value="{cart_item_id}" /></td>
-    <!-- BEGIN edit_voucher_info_tpl -->
-    <td class="{td_class}" align="center"><a href="{www_dir}{index}/trade/voucherinformation/{product_id}/{mail_method}/{voucher_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{voucher_id}-red,'','/images/redigerminimrk.gif',1)"><img name="eztrade{voucher_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top"></a></td>
-    <!-- END edit_voucher_info_tpl -->
+
   </tr>
   <!-- BEGIN cart_item_basis_tpl -->
     <!-- {intl-basis_price} {basis_price} -->

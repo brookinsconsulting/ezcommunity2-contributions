@@ -27,7 +27,7 @@ MyGold.com
 			    
 =========================================================================
 			    
-So können Sie Ihren Geschenkgutschein im Internet einzulösen:
+So können Sie Ihren Geschenkgutschein im Internet einlösen:
 			    
 Besuchen Sie uns unter http://www.mygold.com und suchen Sie Sich ein 
 Geschenk Ihrer Wahl aus. Legen Sie die Artikel in Ihren Einkaufswagen und 

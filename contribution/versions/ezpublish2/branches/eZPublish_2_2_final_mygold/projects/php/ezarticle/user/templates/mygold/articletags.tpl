@@ -22,6 +22,10 @@
 <h6>{contents}</h6>
 <!-- END header_6_tpl -->
 
+<!-- BEGIN html_tpl -->
+{contents}
+<!-- END html_tpl -->
+
 <!-- BEGIN image_tpl -->
 <br clear="all"><table width="{image_width}" align="{image_alignment}" border="0" cellspacing="0" cellpadding="4">
 <tr>
