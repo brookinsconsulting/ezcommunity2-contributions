@@ -2169,3 +2169,19 @@ Maintainer(s) : bf@ez.no
       user/intl/fr_FR/sitemap.php.ini
       user/intl/fr_FR/topiclist.php.ini: updated fr_FR for 2.2 final
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-17  Baard Farstad  <bf@ez.no>
+
+    * user/articlelist.php
+      user/articleview.php
+      user/frontpage.php: Added separate date and time values.
+
+    * user/frontpage.php
+      classes/ezqdomrenderer.php
+      user/articlelist.php
+      user/articleview.php
+      classes/ezqdomgenerator.php: Added date and time values.
+
