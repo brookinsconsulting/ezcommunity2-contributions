@@ -97,6 +97,8 @@ INSERT INTO eZUser_GroupPermissionLink VALUES (75,1,36,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (76,1,37,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (77,1,38,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (78,1,39,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (84,1,40,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (85,1,41,'true');
 
 #
 # Table structure for table 'eZUser_Module'
@@ -177,6 +179,8 @@ INSERT INTO eZUser_Permission VALUES (36,9,'WriteToRoot');
 INSERT INTO eZUser_Permission VALUES (37,9,'WritePermission');
 INSERT INTO eZUser_Permission VALUES (38,10,'WritePermission');
 INSERT INTO eZUser_Permission VALUES (39,10,'WriteToRoot');
+INSERT INTO eZUser_Permission VALUES (40,4,'AddOthers');
+INSERT INTO eZUser_Permission VALUES (41,4,'ViewOtherUsers');
 
 #
 # Table structure for table 'eZUser_User'
