@@ -90,7 +90,7 @@ else
 <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
 </td>
 <td>
-<form action="/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+<form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
     <input type="hidden" name="SectionIDOverride" value="2" />
     <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px;" />
     <input type="submit" name="Search" value="search" style="font-size: 7px; margin: 0px; padding: 0px;" />
