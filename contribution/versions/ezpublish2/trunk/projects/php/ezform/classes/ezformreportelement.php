@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.24 2002/01/30 12:05:11 jhe Exp $
+// $Id: ezformreportelement.php,v 1.25 2002/02/01 18:11:49 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -652,12 +652,12 @@ class eZFormReportElement
             for ( $i = 0; $i < count( $res ) - 1; $i++ )
             {
                 if ( $res[$i]["ElementID"] != $res[$i + 1]["ElementID"] &&
-                     $res[$i]["ResultID"] == $res[$i]["ResultID"] )
+                     $res[$i]["ResultID"] == $res[$i + 1]["ResultID"] )
                 {
                     if ( $res[$i]["ElementID"] == $element->id() )
-                {
-                    $t->set_var( "element_value", $res[$i]["Result"] );
-                }
+                    {
+                        $t->set_var( "element_value", $res[$i]["Result"] );
+                    }
                     else
                     {
                         $t->set_var( "header_value", $res[$i]["Result"] );
