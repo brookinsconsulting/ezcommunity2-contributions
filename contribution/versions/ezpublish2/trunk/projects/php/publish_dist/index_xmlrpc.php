@@ -86,6 +86,7 @@ function Call( $args )
 
         $ReturnData = array();
 
+        $Error = false;
         $datasupplier = $Module . "/xmlrpc/datasupplier.php";
         // check for module implementation        
         if ( file_exists( $datasupplier )  || ( $Module == "ezpublish" && $RequestType == "modules" ) )
@@ -128,18 +129,27 @@ function Call( $args )
                 $RefID = new eZXMLRPCString( md5( microtime() ) );
             }
 
-            // create the return struct...
-            $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
-                              "URL" => createURLStruct( $Module, $RequestType, $ID ),
-                              "Command" => new eZXMLRPCString( $Command ),
-                              "RefID" => $RefID,
-                              "Data" => $ReturnData
-                              );
-            if ( is_object( $caller ) )
-                $ret_arr["Caller"] = $caller;
-            $ret = new eZXMLRPCStruct( $ret_arr );
-            
-            
+            if ( $Error )
+            {
+                $ret = new eZXMLRPCResponse( );
+                if ( $ID > 0 )
+                    $id_text = $ID;
+                $ret->setError( 2, "Server function \"$Command\" for URL \"$Module:/$RequestType/$id_text\" not found." );
+            }
+            else
+            {
+                // create the return struct...
+                $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
+                                  "URL" => createURLStruct( $Module, $RequestType, $ID ),
+                                  "Command" => new eZXMLRPCString( $Command ),
+                                  "RefID" => $RefID,
+                                  "Data" => $ReturnData
+                                  );
+                if ( is_object( $caller ) )
+                    $ret_arr["Caller"] = $caller;
+                $ret = new eZXMLRPCStruct( $ret_arr );
+            }
+
             if ( get_class( $Error ) == "ezxmlrpcresponse" )
             {                
                 $ret = $Error;
@@ -148,7 +158,9 @@ function Call( $args )
         else
         {
             $ret = new eZXMLRPCResponse( );
-            $ret->setError( 2, "Server function not found." );
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $ret->setError( 2, "Server function \"$Command\" for URL \"$Module:/$RequestType/$id_text\" not found." );
         }
 
         eZLog::writeNotice( "XML-RPC returning  data." );

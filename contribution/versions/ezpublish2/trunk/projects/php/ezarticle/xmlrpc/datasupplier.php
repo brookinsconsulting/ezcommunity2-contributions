@@ -9,39 +9,45 @@ else
     {
         case "category" :
         {
-            if( $Command == "list" )
+            switch( $Command )
             {
-                include( "ezarticle/xmlrpc/categorylist.php" );
-            }
-            else 
-            {
-                include( "ezarticle/xmlrpc/category.php" );
+                case "list":
+                {
+                    include( "ezarticle/xmlrpc/categorylist.php" );
+                    break;
+                }
+                case "data":
+                case "storedata":
+                case "delete":
+                {
+                    include( "ezarticle/xmlrpc/category.php" );
+                    break;
+                }
+                default:
+                    $Error = true;
             }
         } break;
-        
+
         case "article" :
         {
-            if( $Command == "retreive" )
+            switch( $Command )
             {
-                $Action = "article";
-                include( "ezarticle/xmlrpc/article.php" );
-            }
-            else if( $Command == "store" )
-            {
-                $Action = "article";
-                include( "ezarticle/xmlrpc/article.php" );
-            }
-            else
-            {
-                // error
+                case "retreive":
+                case "store":
+                {
+                    $Action = "article";
+                    include( "ezarticle/xmlrpc/article.php" );
+                    break;
+                }
+                default:
+                    $Error = true;
             }
         }
         break;
         
         default :
         {
-            $Error = new eZXMLRPCResponse( );
-            $Error->setError( 2, "Server function not found." );
+            $Error = true;
         } break;
     }
 }
