@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.59 2001/05/29 15:06:33 pkej Exp $
+// $Id: userwithaddress.php,v 1.60 2001/06/26 13:49:25 th Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -58,6 +58,7 @@ $t->set_block( "user_edit_tpl", "missing_address_error_tpl", "missing_address_er
 $t->set_block( "user_edit_tpl", "address_actions_tpl", "address_actions" );
 
 $t->set_block( "user_edit_tpl", "address_tpl", "address" );
+$t->set_block( "address_tpl", "main_address_tpl", "main_address" );
 $t->set_block( "address_tpl", "delete_address_tpl", "delete_address" );
 $t->set_block( "address_tpl", "country_tpl", "country" );
 $t->set_block( "country_tpl", "country_option_tpl", "country_option" );
@@ -526,7 +527,16 @@ if ( !isset( $DeleteAddressArrayID ) )
     $DeleteAddressArrayID = array();
 
 // Set the values to the user when editing
+if ( count( $AddressID ) == 1)
+{ 
+	$t->set_var( "delete_address", "" );
+	$t->set_var( "main_address", "" );
+}
+else
+{
+$t->parse( "main_address", "main_address_tpl" );
 $t->parse( "delete_address", "delete_address_tpl" );
+}
 
 $t->set_var( "login_value", $Login );
 $t->set_var( "disabled_login_item", "" );
