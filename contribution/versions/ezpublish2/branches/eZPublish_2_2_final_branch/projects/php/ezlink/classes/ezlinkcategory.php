@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.11.2.2 2002/01/02 11:16:16 br Exp $
+// $Id: ezlinkcategory.php,v 1.11.2.3 2002/01/11 09:31:56 kaid Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -259,7 +259,10 @@ class eZLinkCategory
     {
         if ( $categoryID == 0 )
         {
-            $categoryID = $this->ID;
+			if ( isset( $this->ID ) )
+	            $categoryID = $this->ID;
+			else
+				$categoryID = "";
         }
             
         $category = new eZLinkCategory( $categoryID );
@@ -448,7 +451,10 @@ class eZLinkCategory
     */
     function id()
     {
-        return $this->ID;
+		if ( isset( $this->ID ) )
+	        return $this->ID;
+		else
+			return "";
     }
 
     /*!
