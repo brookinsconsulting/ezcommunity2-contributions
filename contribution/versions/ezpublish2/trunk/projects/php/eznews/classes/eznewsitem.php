@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.3 2000/09/15 11:29:45 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.4 2000/09/15 14:03:46 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -17,19 +17,21 @@
 //! eZNewsItem handles eZNews items.
 /*!
     An eZNewsItem object can be of many types. It is stored in a hiearchy.
-  
-    Example 1: Creating an object:
 
+    Examples:
+  
     \code
+    // Example 1: Creating an object:
+
     $item=new eZNewsItem();
     $item->setName("New item");
     $item->setItemTypeID('1');
-    \endcode
     
-    Example 2: Storing an object:
+    // Example 2: Storing an object:
     
-    \code
-    if ( $item->store() == true )
+    $returnMessage = $item->store();
+    
+    if ( empty( $returnMessage ) )
     {
         echo "The object was stored. The object contains this data: <P>";
         echo $item->objectHeader();
@@ -44,11 +46,9 @@
             echo $something . "<br>";       
         }
     }
-    \endcode
     
-    Example 3: Listing all objects of this type:
+    // Example 3: Listing all objects of this type:
     
-    \code
     // Show all items
 
     $items = $item->getAll("name", "forward");
@@ -61,8 +61,6 @@
         print( $something->objectInfo() );
     }
     echo $item->objectFooter();
-
-
   \endcode
 
   \sa 
@@ -70,6 +68,8 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezsession.php" );       
+include_once( "eznews/classes/eznewschangetype.php" );       
+include_once( "eznews/classes/eznewsitemtype.php" );       
 
 class eZNewsItem
 {
@@ -82,7 +82,6 @@ class eZNewsItem
     function eZNewsItem( $id=-1, $fetch=true )
     {
         $this->IsConnected = false;
-        $this->noLog = false;        
 
         if ( $id != -1 )
         {
@@ -110,22 +109,25 @@ class eZNewsItem
 
       Returns the ID to the stored News item.
     */
-    function store( $update=false, $arguments=0 )
+    function store( $update='create' )
     {
-        $returnValue=false;
+        unset($errorMessage);
         
-        if( $this->checkInvariant() == true )
+        if( $this->checkInvariant() == true && isset( $this->InsertItemType["$update"] ) )
         {
-            $GLOBALS["AuthenticatedSession"];
-            $UserID = 0;
-            $reason="created";
-            $returnValue=true;
+            $reason=$this->InsertItemType["$update"];
+            if ( $this->OverrideCreator == false )
+            {
+                $GLOBALS["AuthenticatedSession"];
+                $this->CreatedBy = 0;
+                $returnValue=true;
 
-            $session = new eZSession();
+                $session = new eZSession();
 
-            if( $session->get( $AuthenticatedSession ) == 0 )
-            { 
-                $this->CreatedBy = $session->userID();
+                if( $session->get( $AuthenticatedSession ) == 0 )
+                { 
+                    $this->CreatedBy = $session->userID();
+                }
             }
 
             $this->dbInit();
@@ -136,36 +138,28 @@ class eZNewsItem
             $this->ID = mysql_insert_id();
             $this->get($this->ID);
 
-            if($this->noLog == false)
+            if($this->Log == true)
             {
-                $query="
-                    SELECT ID FROM eZNews_ChangeType
-                    WHERE Name='$reason'
-                ";
+                $query=sprintf($this->SQL["get_change_type"], $reason);
+                $result = $this->Database->query( $query );
+                $row = mysql_fetch_row( $result );
+                $this->ChangeTypeID = $row[0];
 
-                $this->ChangeTypeID = $this->Database->query( $query );
-
-                $query="
-                    INSERT INTO eZNews_ChangeTicket SET
-                    ChangeType='$this->ChangeTypeID',
-                    ChangeText='Class eZNewsItem $reason this item',
-                    ChangedBy='$this->ChangedBy'
-                ";
+                $query = sprintf($this->SQL["create_change_ticket"], $this->ChangeTypeID, $reason, $this->CreatedBy);
 
                 $this->Database->query( $query );
                 $this->ChangeTicketID = mysql_insert_id();
 
-                $query="
-                    INSERT INTO eZNews_ItemLog SET
-                    ItemID='$this->ID',
-                    ChangeTicketID='$this->ChangeTicketID'
-                ";
-
+                $query = sprintf($this->SQL["create_log_entry"], $this->ID, $this->ChangeTicketID );
                 $this->Database->query( $query );
             }
         }
+        else
+        {
+            $errorMessage = "Perhaps the invariant check failed, or perhaps you supplied a wrong argument ($reason)?";
+        }
         
-        return $returnValue;
+        return $errorMessage;
     }
 
 
@@ -243,7 +237,7 @@ class eZNewsItem
                     $this->ID = $newsitem_array[0][ "ID" ];
                     $this->Name = $newsitem_array[0][ "Name" ];
                     $this->ItemTypeID = $newsitem_array[0][ "ItemTypeID" ];
-                    $this->isVisible = $newsitem_array[0][ "isVisible" ];
+                    $this->IsVisible = $newsitem_array[0][ "isVisible" ];
                     $this->CreatedBy = $newsitem_array[0][ "CreatedBy" ];
                     $this->CreatedAt = $newsitem_array[0][ "CreatedAt" ];
                     $this->State_ = "Coherent";
@@ -269,7 +263,7 @@ class eZNewsItem
 
       The categories are returned as an array of eZNewsItem objects.
       
-      $orderBy can be:
+      $OrderBy can be:
       <ul>
       <li>name
       <li>visibility
@@ -290,7 +284,7 @@ class eZNewsItem
         $return_array = array();
         $newsitem_array = array();
         
-        $query=sprintf( "SELECT ID FROM eZNews_Item %s %s", $this->orderBy["$orderBy"], $this->orderBy["$direction"]);
+        $query=sprintf( "SELECT ID FROM eZNews_Item %s %s", $this->OrderBy["$orderBy"], $this->OrderBy["$direction"]);
         
         $this->Database->array_query( $newsitem_array, $query );
         
@@ -309,7 +303,7 @@ class eZNewsItem
 
       The news items are returned as an array of eZNewsItem objects.
 
-      $orderBy can be:
+      $OrderBy can be:
       <ul>
       <li>name
       <li>visibility
@@ -323,7 +317,7 @@ class eZNewsItem
       <li>reverse
       </ul>
     */
-    function getAllVisible( $orderBy = "name", $direction="forward" )
+    function getAllVisible( $OrderBy = "name", $direction="forward" )
     {
         $this->dbInit();
         
@@ -353,7 +347,7 @@ class eZNewsItem
 
       The news items are returned as an array of eZNewsItem objects.
 
-      $orderBy can be:
+      $OrderBy can be:
       <ul>
       <li>name
       <li>visibility
@@ -367,7 +361,7 @@ class eZNewsItem
       <li>reverse
       </ul>
     */
-    function getAllNonVisible( $orderBy = "name", $direction="forward" )
+    function getAllNonVisible( $OrderBy = "name", $direction="forward" )
     {
         $this->dbInit();
         
@@ -397,7 +391,7 @@ class eZNewsItem
 
       The news items are returned as an array of eZNewsItem objects.
       
-      $orderBy can be:
+      $OrderBy can be:
       <ul>
       <li>name
       <li>visibility
@@ -411,7 +405,7 @@ class eZNewsItem
       <li>reverse
       </ul>
     */
-    function getAllParents( $orderBy = "name", $direction="forward" )
+    function getAllParents( $OrderBy = "name", $direction="forward" )
     {
         $this->dbInit();
         
@@ -441,7 +435,7 @@ class eZNewsItem
 
       The news items are returned as an array of eZNewsItem objects.
       
-      $orderBy can be:
+      $OrderBy can be:
       <ul>
       <li>name
       <li>visibility
@@ -455,7 +449,7 @@ class eZNewsItem
       <li>reverse
       </ul>
     */
-    function getCanonicalParents( $orderBy = "name", $direction="forward" )
+    function getCanonicalParents( $OrderBy = "name", $direction="forward" )
     {
         $this->dbInit();
         
@@ -510,7 +504,50 @@ class eZNewsItem
         return $this->Name;
     }
 
+    /*!
+      Returns the name of the creator
+    */
+    function createdBy()
+    {
+        if ( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        return $this->CreatedBy;
+    }
 
+    /*!
+        Allow creator override.
+     */
+    function overrideCreator()
+    {
+        $this->OverrideCreator = true;
+    }
+
+    /*!
+        Disable creator override.
+     */
+    function NoOverrideCreator()
+    {
+        $this->OverrideCreator = false;
+    }
+
+    /*!
+        Start logging changes.
+     */
+    function startLog()
+    {
+        $this->Log = true;
+    }
+
+    /*!
+        Stop logging changes.
+     */
+    function stopsLog()
+    {
+        $this->Log = false;
+    }
 
     /*!
       Sets the name of the news item.
@@ -549,6 +586,31 @@ class eZNewsItem
         }
     }
 
+    /*!
+      Sets the user id of creator.
+    */
+    function setCreatedBy( $value )
+    {
+        $returnValue = false;
+        
+        if ( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        if ( $this->OverrideCreator == true )
+        {
+            $this->CreatedBy = $value;
+            $returnValue = true;
+        
+            if ( $this->State_ != "New" )
+            {
+                $this->State_ == "Altered";
+            }
+        }
+        
+        return $returnValue;
+    }
 
     function checkInvariant()
     {
@@ -565,7 +627,7 @@ class eZNewsItem
             $this->InvariantError[]="Object is missing: ItemTypeID";
         }
 
-        if( !isset( $this->CreatedBy ) && $this->overrideDefault == true)
+        if( !isset( $this->CreatedBy ) && $this->OverrideCreator == true)
         {
             $this->InvariantError[]="Object is missing: CreatedBy";
         }
@@ -589,9 +651,9 @@ class eZNewsItem
                     $this->ItemTypeID,
                     $this->CreatedBy,
                     $this->CreatedAt,
-                    $this->isVisible
+                    $this->IsVisible
                    );
-            if( $this->noLog == false )
+            if( $this->Log == true )
             {
                 // here comes a print statement for sub objects in the log.
             }
@@ -639,9 +701,9 @@ class eZNewsItem
     var $ID;
     var $ItemTypeID;
     var $Name;
-    var $isVisible = "N";
-    var $createdBy;
-    var $createdAt;
+    var $IsVisible = "N";
+    var $CreatedBy;
+    var $CreatedAt;
     
     /// Error variables
     
@@ -650,10 +712,25 @@ class eZNewsItem
     /// SQL Queries and such.
     
     var $SQL = array(
-        "insert_item" => "INSERT INTO eZNews_Item SET ItemTypeID=0, Name='%s', isVisible='N', CreatedBy='%s'"
+        "insert_item" => "INSERT INTO eZNews_Item SET ItemTypeID='0', Name='%s', isVisible='N', CreatedBy='%s'",
+        "get_change_type" => "SELECT ID FROM eZNews_ChangeType WHERE Name='%s'",
+        "create_change_ticket" => "INSERT INTO eZNews_ChangeTicket SET ChangeTypeID='%s', ChangeText='Class eZNewsItem %s this item', ChangedBy='%s'",
+        "create_log_entry" => "INSERT INTO eZNews_ItemLog SET ItemID='%s', ChangeTicketID='%s'"
         );
 
-    var $orderBy = array(
+    var $InsertItemType = array(
+        "other" => "other",
+        "create" => "created",
+        "update" => "updated",
+        "draft" => "drafted",
+        "refuse" => "refused",
+        "publish" => "published",
+        "translate" => "translated",
+        "retract" => "retracted",
+        "delete" => "deleted"        
+        );
+
+    var $OrderBy = array(
         "none" => "",
         "name" => "ORDER BY Name",
         "id" => "ORDER BY ID",
@@ -668,15 +745,15 @@ class eZNewsItem
     /// Preferences
     
     /// Turn on/off logging of changes to articles. Default is on.
-    var $noLog;
-    var $overrideDefault = false;
+    var $Log = true;
+    var $OverrideCreator = false;
 
     ///  Variable for keeping the database connection.
     var $Database;
 
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
+    /// Is true if the object has a database connection, false if not.
     var $IsConnected;
 }
 
