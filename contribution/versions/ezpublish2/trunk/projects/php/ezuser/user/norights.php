@@ -1,6 +1,6 @@
 <?
 //
-// $Id: norights.php,v 1.5 2001/03/16 11:42:14 sascha Exp $
+// $Id: norights.php,v 1.6 2001/03/16 11:52:10 sascha Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:56:23 ce>
@@ -52,7 +52,7 @@ switch ( $Error )
     break;
 }
 
-$t->set_var( "redirect_url", $Redirect_URL );
+$t->set_var( "redirect_url", $RedirectURL );
 $t->set_var( "error_msg", $errorMsg );
 $t->set_file( array( "norights" => "norights.tpl"
                      ) );
