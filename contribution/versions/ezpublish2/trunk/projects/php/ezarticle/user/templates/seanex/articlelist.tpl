@@ -16,7 +16,7 @@
 <h1>Pressemeldinger</h1>
 
 <hr noshade="noshade" size="4" />
-<br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN article_item_tpl -->
 <tr>
@@ -50,7 +50,6 @@
 	<a class="path" href="/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>
-	<br />
 	<br />
 	<br />
 	</td>
