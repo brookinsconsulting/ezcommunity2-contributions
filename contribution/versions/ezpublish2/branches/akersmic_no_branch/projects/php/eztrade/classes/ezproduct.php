@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.39 2002/04/22 08:29:44 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.40 2002/05/02 10:30:12 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1667,7 +1667,7 @@ class eZProduct
       if SearchExcludedArticles is set to "true" articles which is set non searchable will also be searched.
       $SearchTotalCount will return the total number of items found in the search
     */
-    function &search( &$queryText, $offset=0, $limit=10, $params = array(), &$SearchTotalCount, &$IngoredWords )
+    function &search( $queryText, $offset=0, $limit=10, $params = array(), &$SearchTotalCount, &$IngoredWords )
     {
         $db =& eZDB::globalDatabase();
 
@@ -1678,16 +1678,16 @@ class eZProduct
         $productTypeID = $params["ProductType"];
         $musicType = $params["MusicType"];
         $searchType = $params["SearchType"];
-        $albumTitle = $params["AlbumTitle"];
-        $artist = $params["Artist"];
-        $recording = $params["Recording"];
+        $albumTitle = $db->escapeString( $params["AlbumTitle"] );
+        $artist = $db->escapeString( $params["Artist"]);
+        $recording = $db->escapeString( $params["Recording"] );
 
-        $dvdTitle = $params["DVDTitle"];
-        $dvdActor = $params["DVDActor"];
-        $dvdDirector = $params["DVDDirector"];
+        $dvdTitle = $db->escapeString( $params["DVDTitle"] );
+        $dvdActor = $db->escapeString( $params["DVDActor"]);
+        $dvdDirector = $db->escapeString( $params["DVDDirector"]);
 
         $gameType = $params["MultimediaType"];
-        $gameTitle = $params["GameTitle"];
+        $gameTitle = $db->escapeString( $params["GameTitle"] );
 
         if ( !is_numeric( $productTypeID ) )
             $productTypeID = 0;
@@ -1907,7 +1907,6 @@ class eZProduct
 
                 default:
                 {
-
                     foreach ( $queryArray as $queryWord )
                     {
                         $queryWord = trim( $queryWord );
