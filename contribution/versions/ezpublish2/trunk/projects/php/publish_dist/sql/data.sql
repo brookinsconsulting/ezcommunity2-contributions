@@ -969,7 +969,6 @@ INSERT INTO eZTrade_VATType VALUES (2,'Normal',24,20010309094745);
 # Dumping data for table 'eZUser_Group'
 #
 
-INSERT INTO eZUser_Group VALUES (1,'Administrators','All rights',7200);
 
 #
 # Dumping data for table 'eZUser_GroupPermissionLink'
