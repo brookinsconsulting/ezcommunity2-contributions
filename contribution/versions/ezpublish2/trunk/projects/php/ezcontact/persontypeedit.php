@@ -84,7 +84,7 @@ else
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "persontype_id", "" );
-    $t->set_var( "head_line", "Legg til person type" );
+    $t->set_var( "head_line", "Legg til ny persontype" );
 
 // Editere
     if ( $Action == "edit" )
@@ -98,7 +98,7 @@ else
         $t->set_var( "submit_text", "Lagre endringer" );
         $t->set_var( "action_value", "update" );
         $t->set_var( "persontype_id", $PID );
-        $t->set_var( "head_line", "Rediger person type" );
+        $t->set_var( "head_line", "Rediger persontype" );
 
     }
 

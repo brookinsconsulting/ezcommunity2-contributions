@@ -85,7 +85,7 @@ else
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "address_type_id", "" );
-    $t->set_var( "head_line", "Legg til addressetype" );
+    $t->set_var( "head_line", "Legg til ny addressetype" );
 
 // Editere
     if ( $Action == "edit" )

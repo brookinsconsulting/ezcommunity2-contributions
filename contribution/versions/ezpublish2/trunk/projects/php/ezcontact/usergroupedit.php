@@ -24,7 +24,7 @@ if ( $Action == "insert" )
   $group = new eZUserGroup();
   $group->setName( $Name );
   $group->setDescription( $Description );
-  
+
   if ( $PersonDelete == "on" )    
   {
       $group->setPersonDelete( "Y" );    
@@ -194,7 +194,7 @@ else
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "user_group_id", "" );
-
+    $t->set_var( "head_line", "Legg til ny brukergruppe" );
 
     if ( $Action == "edit" )
     {
@@ -247,6 +247,7 @@ else
         $t->set_var( "submit_text", "Lagre endringer" );  
         $t->set_var( "action_value", "update" );
         $t->set_var( "user_group_id", $UGID  );  
+	$t->set_var( "head_line", "Rediger brukergruppe" );
     }
 
     $t->set_var( "user_group_name", $Name );

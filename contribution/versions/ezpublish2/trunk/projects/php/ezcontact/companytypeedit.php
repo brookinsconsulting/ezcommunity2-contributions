@@ -86,7 +86,7 @@ else
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "companytype_id", "" );
-    $t->set_var( "head_line", "Legg til firma type" );
+    $t->set_var( "head_line", "Legg til ny firmatype" );
 
 // Editere
     if ( $Action == "edit" )
@@ -100,7 +100,7 @@ else
         $t->set_var( "submit_text", "Lagre endringer" );
         $t->set_var( "action_value", "update" );
         $t->set_var( "companytype_id", $CID );
-        $t->set_var( "head_line", "Rediger firma type" );
+        $t->set_var( "head_line", "Rediger firmatype" );
 
     }
 

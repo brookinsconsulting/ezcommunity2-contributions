@@ -84,7 +84,7 @@ else
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "phone_type_id", "" );
-    $t->set_var( "head_line", "Legg til telefon type" );
+    $t->set_var( "head_line", "Legg til nytt kontaktmedium" );
 
 // Editere
     if ( $Action == "edit" )
@@ -96,7 +96,7 @@ else
         $t->set_var( "submit_text", "Lagre endringer" );
         $t->set_var( "action_value", "update" );
         $t->set_var( "phone_type_id", $PID  );
-        $t->set_var( "head_line", "Rediger telefon type" );
+        $t->set_var( "head_line", "Rediger kontaktmedium" );
 
         $PhoneTypeName = $type->name();
     }

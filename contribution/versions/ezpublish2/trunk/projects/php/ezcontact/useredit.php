@@ -98,7 +98,8 @@ else
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "user_id", "" );
-
+    $t->set_var( "head_line", "Legg til ny bruker" );
+    
 // Editer
     if ( $Action == "edit" )
     {
@@ -111,6 +112,7 @@ else
         $t->set_var( "submit_text", "Lagre endringer" );
         $t->set_var( "action_value", "update" );
         $t->set_var( "user_id", $UID  );  
+    	$t->set_var( "head_line", "Rediger bruker" );
     }
 
     $group = new eZUserGroup();
@@ -135,7 +137,6 @@ else
 
     $t->set_var( "user_login", $Login );
     $t->set_var( "document_root", $DOCUMENTROOT );
-
 
     $t->pparse( "output", "user_edit_page" );
 }
