@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.2 2000/07/24 10:56:41 lw Exp $
+    $Id: message.php,v 1.3 2000/07/25 11:43:54 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -23,7 +23,7 @@ $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
 
 
-$usr = new eZUser;
+//$usr = new eZUser;
 $message = new eZforumMessage;
 $headers = $message->getHeaders( $forum_id );
 
@@ -33,7 +33,7 @@ for ($i = 0; $i < count( $headers ); $i++)
     $t->set_var( "topic", $headers[$i]["Topic"] );
     $t->set_var( "parent", $headers[$i]["Parent"] );
     $t->set_var( "user_id", $headers[$i]["UserId"] );
-    $t->set_var( "user", $usr->resolveUser( $headers[$i]["UserId"] ) );
+    $t->set_var( "user", eZUser::resolveUser( (int)$headers[$i]["UserId"] ) );
     $t->set_var( "postingtime", $headers[$i]["PostingTime"] );
     if ( $headers[$i]["EmailNotice"] == "Y" )
         $t->set_var( "emailnotice", "checked" );

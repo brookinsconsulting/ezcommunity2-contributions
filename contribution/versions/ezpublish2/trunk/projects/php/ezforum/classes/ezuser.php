@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.10 2000/07/25 10:08:30 lw Exp $
+    $Id: ezuser.php,v 1.11 2000/07/25 11:43:57 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -521,26 +521,12 @@ class eZUser {
             return mysql_result( $query_id, 0, "Id");
         }    
     }
-/*    function resolveUser($Id)
-    {
-        $this->get($Id);
-        if ($this->nickName() == "")
-        {
-            $returnName = $this->firstName() . $this->lastName();
-        }
-        else
-        {
-            $returnName = $this->nickName();
-        }
-    
-        return $returnName;
-    }
-*/
+
     function resolveUser( $Id )
     {
        openDB();
 
-       if ( $Id )
+       if ( ( $Id ) && ( $Id != 0 ) )
 {
        $q = mysql_query( "SELECT nick_name, first_name, last_name FROM UserTable WHERE Id = $Id " )
             or die("Could not resolve user name, dying...");
