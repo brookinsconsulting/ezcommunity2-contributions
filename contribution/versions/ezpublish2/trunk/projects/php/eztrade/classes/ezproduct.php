@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.84 2001/09/05 12:21:54 ce Exp $
+// $Id: ezproduct.php,v 1.85 2001/09/07 09:54:44 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1708,6 +1708,23 @@ class eZProduct
        }
 
        return $ret;
+    }
+
+    function priceRange( $id=false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        if ( !$id )
+            $id = $this->ID;
+        
+        $db->query_single( $priceRange, "SELECT ID FROM eZTrade_ProductPriceRange WHERE ProductID='$id'" );
+
+        if ( is_numeric ( $priceRange["ID"] ) )
+            $ret = new eZProductPriceRange( $priceRange["ID"] );
+        else
+            $ret = false;
+
+        return $ret;
     }
     
     

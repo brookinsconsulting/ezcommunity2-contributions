@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.68 2001/09/05 08:16:01 ce Exp $
+// $Id: payment.php,v 1.69 2001/09/07 09:54:45 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -48,6 +48,9 @@ include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
 include_once( "eztrade/classes/ezcheckout.php" );
 include_once( "eztrade/classes/ezvoucher.php" );
+include_once( "eztrade/classes/ezvoucherused.php" );
+include_once( "eztrade/classes/ezvoucheremail.php" );
+include_once( "eztrade/classes/ezvouchersmail.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
@@ -753,7 +756,7 @@ if ( $PaymentSuccess == "true" )
         include( "checkout/user/postpayment.php" );
     }
     
-    $cart->clear();
+//    $cart->clear();
 
     $OrderID = $order->id();
 
@@ -777,6 +780,29 @@ if ( $PaymentSuccess == "true" )
         $session->setVariable( "VoucherInfo", "" );
         $session->setVariable( "VoucherID", "" );
         $session->setVariable( "VoucherMail", "" );
+    }
+
+    $payedWith = $session->arrayValue( "PayedWith" );
+
+    if ( is_array ( $payedWith ) )
+    {
+        while( list($voucherID,$price) = each( $payedWith ) )
+        {
+            $voucher = new eZVoucher( $voucherID );
+            $voucher->setPrice( $voucher->price() - $price );
+            if ( $voucher->price() <= 0 )
+                $voucher->setAvailable( false );
+
+            $voucher->store();
+            
+            $voucherUsed = new eZVoucherUsed();
+            $voucherUsed->setVoucher( $voucher );
+            $voucherUsed->setPrice( $price );
+            $voucherUsed->setOrder( $order );
+            $voucherUsed->store();
+            
+        }
+        $session->setVariable( "PayedWith", "" );
     }
 
     // call the payment script after the payment is successful.

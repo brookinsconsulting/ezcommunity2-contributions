@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvouchersmail.php,v 1.1 2001/08/24 14:01:49 ce Exp $
+// $Id: ezvouchersmail.php,v 1.2 2001/09/07 09:54:44 ce Exp $
 //
 // eZVoucherSMail class
 //
@@ -31,8 +31,17 @@
 
   Example code:
   \code
+  $voucherInfo = new eZVoucherSMail(); // Create a new object.
+  $address = new eZAddress( 7 ); // Get eZAddress object with id 7.
+  $address->store();
+  $voucherInfo->setAddress( $address ); // Add the eZAddress object.
+  $voucherInfo->setPreOrder( 10 ); // Add the pre order id.
+  $voucherInfo->setDescription( $Description ); // Add a description.
+  $voucherInfo->setVoucher( $voucher ); // Adds the eZVoucher objdect.
+  $voucherInfo->store(); // Stores the object to the database
   \endcode
-
+  
+  \sa eZVoucherUsed eZVoucher eZVoucherEMail
 */
 
 

@@ -104,11 +104,23 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
        <td>&nbsp;</td>
 </tr>
 <tr>
+        <!-- BEGIN price_range_tpl -->
+	<td valign="top">
+	{intl-0_is_unlimited}
+	<p class="boxtext">{intl-min_price}:</p>
+	<input type="text" size="10" name="MinPrice" value="{price_min}" />
+	<p class="boxtext">{intl-max_price}:</p>
+	<input type="text" size="10" name="MaxPrice" value="{price_max}" />
+	<br /><br />
+	</td>
+        <!-- END price_range_tpl -->
+        <!-- BEGIN normal_price_tpl -->
 	<td valign="top">
 	<p class="boxtext">{intl-price}:</p>
 	<input type="text" size="10" name="Price" value="{price_value}" />
 	<br /><br />
 	</td>
+        <!-- END normal_price_tpl -->
 
 	<!-- BEGIN quantity_item_tpl -->
 	<td valign="top">

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.38 2001/08/30 13:13:50 ce Exp $
+// $Id: datasupplier.php,v 1.39 2001/09/07 09:54:44 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -75,6 +75,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "voucherlist" :
+    {
+        include( "eztrade/admin/voucherlist.php" );
+    }
+    break;
+
     case "typeedit" :
     {
         if ( $url_array[3] == "edit" )
@@ -101,6 +107,22 @@ switch ( $url_array[2] )
         }
 
         include( "eztrade/admin/typeedit.php" );
+    }
+    break;
+
+    case "voucheredit" :
+    {
+        if ( $url_array[3] == "edit" )
+        {
+            $VoucherID = $url_array[4];
+            $Action = "Edit";
+        }
+        if ( $url_array[3] == "delete" )
+        {
+            $VoucherID = $url_array[4];
+            $Action = "Delete";
+        }
+        include( "eztrade/admin/voucheredit.php" );
     }
     break;
 
@@ -132,8 +154,11 @@ switch ( $url_array[2] )
             include( "eztrade/admin/categoryedit.php" );
         }        
         break;
-        
+
+    case "voucher" :
+        $UseVoucher = true;
     case "productedit" :
+    {
         switch ( $url_array[3] )
         {
             // preview
@@ -342,6 +367,7 @@ switch ( $url_array[2] )
                 include( "eztrade/admin/productedit.php" );
                 break;
         }
+    }
         break;
 
     case "vattypes" :

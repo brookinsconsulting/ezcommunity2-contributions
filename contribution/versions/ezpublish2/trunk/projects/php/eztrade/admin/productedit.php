@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.60 2001/08/31 10:15:26 ce Exp $
+// $Id: productedit.php,v 1.61 2001/09/07 09:54:44 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -30,6 +30,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "eztrade/classes/ezproductpermission.php" );
+include_once( "eztrade/classes/ezproductpricerange.php" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
@@ -176,13 +177,22 @@ if ( $Action == "Insert" )
     {
         $product->setIsHotDeal( false );
     }
-    
-    $product->setPrice( $Price );
-    
+
     if ( $Expiry > 0 )
         $product->setExpiryTime( $Expiry );
+
+    $product->setPrice( $Price );
     
     $product->store();
+    
+    if ( $product->productType() == 2 )
+    {
+        $range = new eZProductPriceRange();
+        $range->setMin( $Min );
+        $range->setMax( $Max );
+        $range->setProduct( $product );
+        $range->store();
+    }
 
     if ( $ShowQuantity )
     {
@@ -390,6 +400,14 @@ if ( $Action == "Update" )
         $product->setExpiryTime( $Expiry );
 
     $product->store();
+
+    if ( $product->productType() == 2 )
+    {
+        $range = $product->priceRange();
+        $range->setMin( $MinPrice );
+        $range->setMax( $MaxPrice );
+        $range->store();
+    }
 
     if ( $ShowQuantity )
     {
@@ -630,6 +648,9 @@ $t->set_block( "product_edit_tpl", "quantity_item_tpl", "quantity_item" );
 $t->set_block( "product_edit_tpl", "read_group_item_tpl", "read_group_item" );
 $t->set_block( "product_edit_tpl", "write_group_item_tpl", "write_group_item" );
 
+$t->set_block( "product_edit_tpl", "price_range_tpl", "price_range" );
+$t->set_block( "product_edit_tpl", "normal_price_tpl", "normal_price" );
+
 $t->set_block( "product_edit_tpl", "price_group_list_tpl", "price_group_list" );
 $t->set_block( "price_group_list_tpl", "price_groups_item_tpl", "price_groups_item" );
 $t->set_block( "price_groups_item_tpl", "price_group_header_item_tpl", "price_group_header_item" );
@@ -651,9 +672,23 @@ $t->set_var( "showproduct_checked", "" );
 $t->set_var( "discontinued_checked", "" );
 $t->set_var( "is_hot_deal_checked", "" );
 
+$t->set_var( "price_min", "0" );
+$t->set_var( "price_max", "0" );
+
 $t->set_var( "external_link", "" );
 
 $t->set_var( "action_value", "insert" );
+
+if ( $UseVoucher )
+{
+    $t->set_var( "normal_price", "" );
+    $t->parse( "price_range", "price_range_tpl" );
+}
+else
+{
+    $t->set_var( "price_range", "" );
+    $t->parse( "normal_price", "normal_price_tpl" );
+}
 
 $writeGroupsID = array(); 
 $readGroupsID = array(); 

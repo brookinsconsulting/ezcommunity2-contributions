@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.7 2001/09/05 12:09:25 ce Exp $
+// $Id: ezvoucher.php,v 1.8 2001/09/07 09:54:44 ce Exp $
 //
 // eZVoucher class
 //
@@ -31,11 +31,24 @@
 
   Example code:
   \code
+  $voucher = new eZVoucher(); // Create a new object.
+  $voucher->setPrice( 500 ); // Sets the price of the voucher.
+  $voucher->generateKey(); // Genereate a uniqe key for the voucher.
+
+  $voucher->setMailMethod( 1 ); // Set the mail method, 1 is email and 2 is smail.
+  $voucher->setAvailable( true ); // Set that this voucher is available.
+  $voucher->setUser( eZUser::currentUser() ); // Sets the user that bought this voucher.
+  $voucher->store(); // Stores the object to the database.
   \endcode
 
+  \sa eZVoucherUsed eZVoucherEMail eZVoucherSMail
 */
 
 include_once( "classes/ezdate.php" );
+
+include_once( "eztrade/classes/ezvoucheremail.php" );
+include_once( "eztrade/classes/ezvouchersmail.php" );
+include_once( "eztrade/classes/ezvoucherused.php" );
 	      
 class eZVoucher
 {
@@ -403,7 +416,70 @@ class eZVoucher
 
         return $ret;
     }
-  
+
+    /*!
+      Returns all the used vouchers.
+    */
+    function usedList( $id=false )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        if ( !$id )
+            $id = $this->ID;
+        
+        $db->array_query( $res, "SELECT ID FROM eZTrade_VoucherUsed WHERE VoucherID='$id'" );
+
+        foreach( $res as $used )
+        {
+            $ret[] = new eZVoucherUsed( $used["ID"] );
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Return the email.
+    */
+    function email( $id=false )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        if ( !$id )
+            $id = $this->ID;
+        
+        $db->query_single( $res, "SELECT ID FROM eZTrade_VoucherEMail WHERE VoucherID='$id'" );
+
+        if ( $res["ID"] )
+        {
+            $ret = new eZVoucherEMail( $res["ID"] );
+        }
+
+        return $ret;
+    }
+    
+    /*!
+      Return the smail.
+    */
+    function smail( $id=false )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        if ( !$id )
+            $id = $this->ID;
+        
+        $db->query_single( $res, "SELECT ID FROM eZTrade_VoucherSMail WHERE VoucherID='$id'" );
+
+        if ( $res["ID"] )
+        {
+            $ret = new eZVoucherSMail( $res["ID"] );
+        }
+
+        return $ret;
+    }
+
 
     var $ID;
     var $KeyNumber;
