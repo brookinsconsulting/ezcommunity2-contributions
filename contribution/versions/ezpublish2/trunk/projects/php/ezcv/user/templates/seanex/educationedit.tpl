@@ -1,6 +1,20 @@
-<h1>{intl-headline_edit}</h1>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="top"><img src="/images/box-tl.gif" width="4" height="4" border="0" alt="" /><br /></td>
+	<td width="98%" bgcolor="#465da1" class="tdminipath" rowspan="3" valign="middle"><div class="smallpath"><span class="smallbold">Jobbmarked</span> | {intl-headline_edit}</div></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="top"><img src="/images/box-tr.gif" width="4" height="4" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="bottom"><img src="/images/box-bl.gif" width="4" height="4" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="bottom"><img src="/images/box-br.gif" width="4" height="4" /><br /></td>
+</tr>
+</table>
+
 <form method="post" action="/cv/education/{action_value}/{education_id}">
-<hr noshade="noshade" size="4" />
 
 <input type="hidden" name="CVID" value="{cv_id}" />
 
@@ -22,8 +36,11 @@
 <tr valign="bottom">
     <td>
         <div class="small">{intl-year}:</div>
-        <input type="text" size="4" name="StartYear" value="{startyear}"/>&nbsp;&nbsp;
+        <input type="text" size="4" name="StartYear" value="{startyear}" />&nbsp;&nbsp;
+        <input type="hidden" size="2" name="StartMonth" value="08" />&nbsp;&nbsp;
+        <input type="hidden" size="2" name="StartDay" value="01" />&nbsp;&nbsp;
     </td>
+<!--
     <td>
         <div class="small">{intl-month}:</div>
         <input type="text" size="2" name="StartMonth" value="{startmonth}"/>&nbsp;&nbsp;
@@ -32,10 +49,11 @@
         <div class="small">{intl-day}:</div>
         <input type="text" size="2" name="StartDay" value="{startday}"/>&nbsp;&nbsp;
     </td>
+-->
 </tr>
 </table>
 </td>
-<td>&nbsp;&nbsp;</td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 <td>
 
 <p class="boxtext">{intl-th_education_end}:</p>
@@ -43,16 +61,20 @@
 <tr>
     <td>
         <div class="small">{intl-year}:</div>
-        <input type="text" size="4" name="EndYear" value="{endyear}"/>&nbsp;&nbsp;
+        <input type="text" size="4" name="EndYear" value="{endyear}" />&nbsp;&nbsp;
+        <input type="hidden" size="2" name="EndMonth" value="06" />&nbsp;&nbsp;
+        <input type="hidden" size="2" name="EndDay" value="01" />&nbsp;&nbsp;
     </td>
+<!--
     <td>
         <div class="small">{intl-month}:</div>
-        <input type="hidden" size="2" name="EndMonth" value="{endmonth}"/>&nbsp;&nbsp;
+        <input type="text" size="2" name="EndMonth" value="{endmonth}"/>&nbsp;&nbsp;
     </td>
     <td>
         <div class="small">{intl-day}:</div>
-        <input type="hidden" size="2" name="EndDay" value="{endday}"/>&nbsp;&nbsp;
+        <input type="text" size="2" name="EndDay" value="{endday}"/>&nbsp;&nbsp;
     </td>
+-->
 </tr>
 </table>
 </td>
