@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
+// $Id: cart.php,v 1.3 2000/10/22 13:38:56 bf-cvs Exp $
 //
 // 
 //
@@ -97,6 +97,19 @@ if ( $Action == "AddToBasket" )
     exit();
 }
 
+// TODO add check for user's cart.
+// So the user can't delete cart items from other users:)
+if ( $Action == "RemoveFromBasket" )
+{
+    $cartItem = new eZCartItem( $CartItemID );
+    $cartItem->delete();
+
+    
+    Header( "Location: /trade/cart/" );
+    
+    exit();
+}
+
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "cart.php" );
 
@@ -126,8 +139,10 @@ $i = 0;
 $sum = 0.0;
 foreach ( $items as $item )
 {
+    $t->set_var( "cart_item_id", $item->id() );
+    
     $product = $item->product();
-
+    
     $image = $product->thumbnailImage();
 
     $thumbnail =& $image->requestImageVariation( 35, 35 );        
@@ -140,6 +155,7 @@ foreach ( $items as $item )
     $currency->setValue( $product->price() );
 
     $sum += $product->price();
+
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
 

@@ -73,10 +73,13 @@ switch ( $url_array[2] )
             $Action = "AddToBasket";
             $ProductID = $url_array[4];
         }
-        else
-        {
-        }
 
+        if ( $url_array[3] == "remove" )
+        {
+            $Action = "RemoveFromBasket";
+            $CartItemID = $url_array[4];
+        }
+        
         if ( isset( $WishList ) )
         {
             print( "wishlist<br>" );

@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.1 2000/10/22 10:46:21 bf-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.2 2000/10/22 13:38:56 bf-cvs Exp $ -->
 
 <h1>{intl-cart}</h1>
 
@@ -18,6 +18,7 @@
 	<th>Varenavn:</th>
 	<th>Opsjoner:</th>
 	<td class="path" align="right">Pris:</td>
+	<td class="path" align="right">Fjern:</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -36,6 +37,9 @@
 	&nbsp;</td>
 	<td class="{td_class}" align="right">
 	{product_price}
+	</td>
+	<td class="{td_class}">
+	<a href="/trade/cart/remove/{cart_item_id}/">remove</a>
 	</td>
 </tr>
 <!-- END cart_item_tpl -->
