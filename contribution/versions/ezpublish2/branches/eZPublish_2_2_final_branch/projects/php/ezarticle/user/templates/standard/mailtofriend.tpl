@@ -3,7 +3,7 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN first_page_tpl -->
-<form method="post">
+<form method="post" action="{www_dir}{index}/article/mailtofriend/{art_id}/1/{category_id}/">
 <!-- BEGIN err_msg_tpl -->
 <h3 class="error">{intl-errors_occured}:</h3>
 <!-- END err_msg_tpl -->

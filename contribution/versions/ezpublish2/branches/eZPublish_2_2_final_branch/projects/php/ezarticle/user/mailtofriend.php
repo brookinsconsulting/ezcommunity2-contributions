@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mailtofriend.php,v 1.6.2.3 2001/11/01 13:00:03 master Exp $
+// $Id: mailtofriend.php,v 1.6.2.4 2003/06/05 09:57:30 br Exp $
 //
 // Created on: <18-Jun-2001 16:37:47 br>
 //
@@ -178,12 +178,12 @@ function sendmail ( $article_id, $CategoryID, $tpl, $sendmail_tpl, $real_name, $
     $mail->send();
     
 // print a successfull message to the webpage
-    $tpl->set_var( "to_name", $to_name );
+    $tpl->set_var( "to_name", htmlspecialchars( $to_name ) );
     $tpl->set_var( "server_name", $server_name );
-    $tpl->set_var( "from_name", $from_name );
+    $tpl->set_var( "from_name", htmlspecialchars( $from_name ) );
     if ( $text != "" )
     {
-        $tpl->set_var( "user_comment", $text );
+        $tpl->set_var( "user_comment", htmlspecialchars( $text ) );
         $tpl->parse( "user_comment", "user_comment_tpl" );
     }
     $tpl->set_var( "header_text", $name );
@@ -266,10 +266,10 @@ function printForm ( $ArticleID, $CategoryID, $tpl, $real_name="", $send_to="", 
     
     $tpl->set_var( "Topic", $name );
     $tpl->set_var( "Intro", $intro );
-    $tpl->set_var( "real_name", $real_name );
-    $tpl->set_var( "send_to", $send_to );
-    $tpl->set_var( "from", $from );
-    $tpl->set_var( "textarea", $textarea );
+    $tpl->set_var( "real_name", htmlspecialchars( $real_name ) );
+    $tpl->set_var( "send_to", htmlspecialchars( $send_to ) );
+    $tpl->set_var( "from", htmlspecialchars( $from ) );
+    $tpl->set_var( "textarea", htmlspecialchars( $textarea ) );
     $tpl->parse( "first_page", "first_page_tpl" );
     $tpl->pparse( "output", "mailtofriend_tpl" );
 }
