@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.15 2001/09/14 13:14:32 pkej Exp $
+// $Id: ezpricegroup.php,v 1.16 2001/10/05 12:37:50 br Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -227,7 +227,7 @@ class eZPriceGroup
         $db =& eZDB::globalDatabase();
         
         $ini =& INIFile::globalINI();
-        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
+        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
 
         if ( $ShowPriceGroups == true )
         {
@@ -283,7 +283,7 @@ class eZPriceGroup
         $db =& eZDB::globalDatabase();
         
         $ini =& INIFile::globalINI();
-        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
+        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
 
         if ( $ShowPriceGroups == true )
         {
@@ -337,7 +337,7 @@ class eZPriceGroup
         $db =& eZDB::globalDatabase();
         
         $ini =& INIFile::globalINI();
-        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
+        $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
 
         if ( $ShowPriceGroups == true )
         {

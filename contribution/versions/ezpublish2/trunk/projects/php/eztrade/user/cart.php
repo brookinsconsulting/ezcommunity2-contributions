@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.67 2001/10/02 07:59:01 ce Exp $
+// $Id: cart.php,v 1.68 2001/10/05 12:37:50 br Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -39,7 +39,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
 $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
-$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "enabled" ? true : false;
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
