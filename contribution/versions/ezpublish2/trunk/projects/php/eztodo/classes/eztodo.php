@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.19 2001/04/04 16:28:31 fh Exp $
+// $Id: eztodo.php,v 1.20 2001/04/05 16:04:06 fh Exp $
 //
 // Definition of eZTodo class
 //
@@ -217,7 +217,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Permission='Public' ORDER BY Priority");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE ( UserID='$id' or OwnerID='$id' ) AND Permission='Public' ORDER BY Priority");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
