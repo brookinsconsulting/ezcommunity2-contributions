@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: eztemplate.php,v 1.46.2.1 2001/11/08 11:58:06 bf Exp $
+//
+// $Id: eztemplate.php,v 1.46.2.1.4.1 2002/03/05 15:59:26 ce Exp $
 //
 // Definition of eZTemplate class
 //
@@ -98,9 +98,10 @@
   \endcode
 
 */
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezlog.php" );
+
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 class eZTemplate
 {
@@ -115,20 +116,20 @@ class eZTemplate
         // check for PHP version, if > 4.0.5 use new and improved str_replace
         // instead of preg_replace. Enables usage of $ in template variables.
         $versionArray = explode( ".", phpversion() );
-        
-        $major = $versionArray[0]; 
-        $minor = $versionArray[1]; 
+
+        $major = $versionArray[0];
+        $minor = $versionArray[1];
         $release = $versionArray[2];
 
         if ( $major >= 4 && $minor >= 0 && $release >= 5 )
-        {        
+        {
             $this->ReplaceFunc = "str_replace";
         }
         else
         {
             $this->ReplaceFunc = "preg_replace";
-        }            
-        
+        }
+
         // section override variables
         $languageOverride = $GLOBALS["eZLanguageOverride"];
         if ( $languageOverride != "" )
@@ -141,7 +142,7 @@ class eZTemplate
             // override template dir
             $templateDir = preg_replace( "#^(.*?)/(.*?)/(.*?)/(.*?)/$#", "\\1/\\2/\\3/$templateOverride/", $templateDir );
         }
-        
+
         $this->intlDir =& $intlDir;
         $this->language =& $language;
         $this->phpFile =& $phpFile;
@@ -198,7 +199,7 @@ class eZTemplate
         else
         {
             if ( $GLOBALS["DEBUG"] == true )
-            {                    
+            {
                 print( "<br><b>Error: $" . "intlDir and $" . "phpFile must either be arrays or strings.</b><br>" );
             }
         }
@@ -356,7 +357,7 @@ class eZTemplate
         if ( !eZFile::file_exists( $this->CacheDir ) )
         {
             if ( $GLOBALS["DEBUG"] == true )
-            {                    
+            {
                 print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot create cache file</b><br />" );
             }
         }
@@ -408,7 +409,7 @@ class eZTemplate
 
     /*!
      Sets the template directory.
-    */  
+    */
     function set_root($root)
     {
         if ( file_exists( "sitedir.ini" ) && $root != "" )
@@ -421,7 +422,7 @@ class eZTemplate
             $this->halt("set_root: $root is not a directory.");
             return false;
         }
-    
+
         $this->root = $root;
         return true;
     }
@@ -465,9 +466,19 @@ class eZTemplate
 
         // For non-virtualhost, non-rewrite setup
         global $GlobalSiteIni;
+        global $GlobalSectionID;
         $this->set_var( 'www_dir', $GlobalSiteIni->WWWDir );
         $this->set_var( 'index', $GlobalSiteIni->Index );
 
+        $section =& eZSection::globalSectionObject( $GlobalSectionID );
+        if ( $section->id() != 0 )
+        {
+            $this->set_var( "global_section_name", $section->name() );
+        }
+        else
+        {
+            $this->set_var( "global_section_name", "" );
+        }
     }
 
     /*!
@@ -563,7 +574,7 @@ class eZTemplate
                 $this->varvals[$varname] =& $value;
             }
             else
-            {                
+            {
               $var = "{".$varname."}";
               $this->varkeys[$varname] =& $var;
               $this->varvals[$varname] =& $value;
@@ -575,7 +586,7 @@ class eZTemplate
             while(list($k, $v) = each($varname))
             {
                 if ( $this->ReplaceFunc != "str_replace" )
-                {                
+                {
                     $this->varkeys[$k] =& preg_quote("/{".$k."}/");
                     $this->varvals[$k] =& $v;
                 }
@@ -606,17 +617,17 @@ class eZTemplate
 
         $rFunc = $this->ReplaceFunc;
         $str =& $rFunc( $this->varkeys, $this->varvals, $str);
-        
+
         return $str;
     }
-  
+
     /*!
       Same as subst() but prints it.
     */
     function psubst($handle)
     {
         print $this->subst($handle);
-    
+
         return false;
     }
 
@@ -679,7 +690,7 @@ class eZTemplate
         print $this->parse($target, $handle, $append);
         return false;
     }
-  
+
     /*!
       Returns an array of template variables.
     */
@@ -690,7 +701,7 @@ class eZTemplate
         {
             $result[$k] = $v;
         }
-    
+
         return $result;
 //          return $this->varkeys;
     }
@@ -740,13 +751,13 @@ class eZTemplate
     {
         $this->loadfile( $handle );
         preg_match( "#<!--\s+VAR\s+$var=(.*?)\s+-->#", $this->varvals[$handle], $matches );
-        
+
         if ( isset( $matches[1]  ) )
             return $matches[1];
         else
-            return false;                  
+            return false;
     }
-  
+
     /*!
      Returns an array of undefined template variables inside another template variable.
     */
@@ -769,7 +780,7 @@ class eZTemplate
           if (!isset($this->varkeys[$v]))
               $result[$v] = $v;
         }
-    
+
         if (count($result))
             return $result;
         else
@@ -824,7 +835,7 @@ class eZTemplate
     {
         return $this->finish($this->get_var($varname));
     }
-    
+
     /*!
       \private
       Returns a full filepath of the specified filename.
@@ -846,7 +857,7 @@ class eZTemplate
 
         return $filename;
     }
-  
+
     /*!
       Loads the template file and sets as a template variable.
     */
@@ -884,7 +895,7 @@ class eZTemplate
         }
 
         $this->set_var_internal($handle, $str);
-    
+
         return true;
     }
 
@@ -948,10 +959,10 @@ class eZTemplate
      * "nbsp"    => replace all undefined variables with &nbsp; (very nice in tables with bg color)
      */
     var $unknowns = "remove";
-  
+
     /* "yes" => halt, "report" => report error, continue, "no" => ignore error quietly */
     var $halt_on_error  = "report";
-  
+
     /* last error message is retained here */
     var $last_error     = "";
 

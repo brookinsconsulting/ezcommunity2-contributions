@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezgpg.php,v 1.10 2001/10/11 11:44:30 ce Exp $
+// $Id: ezgpg.php,v 1.10.8.1 2002/03/05 15:59:26 ce Exp $
 //
 // Definition of eZGPG class
 //
@@ -54,21 +54,15 @@ class eZGPG
       $this->pcmd.= " -o/var/www/" . $boundary;
 
       system( $this->pcmd );
-
-      print( $this->pcmd );
-      exit();
-//      $pp = popen( $this->pcmd, "w" );
+      //      $pp = popen( $this->pcmd, "w" );
       //     fwrite( $pp, $this->body );
       //  pclose( $pp );
-
 
       $fp = eZFile::fopen( "/var/www/" . $boundary, r );
       $this->body = fread( $fp, eZFile::filesize( "/var/www/" . $boundary ) );
       fclose( $fp );
 
       eZFile::unlink( "/var/www/" . $boundary );
-
-
    }
 
     var $body;
