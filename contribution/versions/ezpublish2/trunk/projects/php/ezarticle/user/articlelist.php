@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.66 2001/09/10 12:45:26 jhe Exp $
+// $Id: articlelist.php,v 1.67 2001/09/11 10:09:44 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -189,12 +189,16 @@ if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
     $imageHeight =& $variation->height();
     $imageCaption =& $image->caption();
     $imageDescription =& $image->description();
+
+    $photographer =& $image->photographer();
             
     $t->set_var( "current_image_width", $imageWidth );
     $t->set_var( "current_image_height", $imageHeight );
     $t->set_var( "current_image_url", $imageURL );
     $t->set_var( "current_image_caption", $imageCaption );
     $t->set_var( "current_image_description", $imageDescription );
+    $t->set_var( "current_image_photographer", $photographer->name() );
+    
     $t->parse( "current_image_item", "current_image_item_tpl" );
 }
 else
