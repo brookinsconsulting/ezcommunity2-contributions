@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.9 2002/01/17 08:19:33 jhe Exp $
+// $Id: datasupplier.php,v 1.10 2002/01/18 14:05:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -195,6 +195,28 @@ switch ( $eZFormOperation )
                 {
                     include( "ezform/user/formlist.php" );
                 }
+            }
+        }
+    }
+    break;
+
+    case "report":
+    {
+        if ( $url_array[3] > 0 )
+        {
+            $ReportID = $url_array[3];
+        }
+        else
+        {
+            if ( isSet( $selectedReportID ) )
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /form/report/$selectedReportID/" );
+                exit();
+            }
+            else
+            {
+                include( "ezform/user/reportlist.php" );
             }
         }
     }

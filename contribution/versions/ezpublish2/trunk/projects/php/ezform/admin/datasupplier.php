@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.13 2002/01/07 17:21:23 jhe Exp $
+// $Id: datasupplier.php,v 1.14 2002/01/18 14:05:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/ezhttptool.php" );
+include_once( "ezform/classes/ezformreport.php" );
 
 $Operation = $url_array[2];
 $Action = $url_array[3];
@@ -151,6 +152,59 @@ switch ( $Operation )
                 eZHTTPTool::header( "Location: /error/404" );
             }
             break;
+        }
+    }
+    break;
+
+    case "report":
+    {
+        $Action = $url_array[3];
+        $ReportID = $url_array[4];
+        if ( $Action == "edit" )
+        {
+            if ( isSet( $NewReport ) )
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /form/report/new" );
+                exit();
+            }
+            else if ( $DeleteSelected )
+            {
+                foreach ( $reportDelete as $rep )
+                {
+                    eZFormReport::delete( $rep );
+                }
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /form/report/" );
+                exit();
+            }
+            else if ( $url_array[4] > 0 )
+            {
+                include( "ezform/admin/reportedit.php" );
+            }
+        }
+        else if ( $Action == "new" )
+        {
+            include( "ezform/admin/reportedit.php" );
+        }
+        else if ( $Action == "store" )
+        {
+            include( "ezform/admin/reportedit.php" );
+        }
+        else if ( $Action == "setup" )
+        {
+            $TableID = $url_array[5];
+            if ( $ReportID == "store" )
+            {
+                $ReportID = $url_array[5];
+                $Action = "store";
+                $TableID = $url_array[6];
+            }
+            include( "ezform/admin/reportsetup.php" );
+        }
+        else
+        {
+            include( "ezform/admin/formreportlist.php" );
         }
     }
     break;

@@ -132,3 +132,27 @@ INSERT INTO eZForm_FormElementType VALUES (13,'numerical_integer_item','Integer 
 INSERT INTO eZForm_FormElementType VALUES (14,'text_block_item','Text');
 INSERT INTO eZForm_FormElementType VALUES (15,'user_email_item','E-mail field for sender');
 INSERT INTO eZForm_FormElementType VALUES (100,'empty_item','Nothing');
+
+create index PageElementDict_PageID ON eZForm_PageElementDict (PageID);
+create index PageElementDict_ElementID ON eZForm_PageElementDict (ElementID);
+create index FormPage_FormID ON eZForm_FormPage (FormID);
+create index FormTableElementDict_TableID ON eZForm_FormTableElementDict (TableID);
+create index FormTableElementDict_ElementID ON eZForm_FormTableElementDict (ElementID);
+create index FormTable_ElementID ON eZForm_FormTable (ElementID);
+create index FormElementResult_ElementID ON eZForm_FormElementResult (ElementID);
+create index FormElementResult_ResultID ON eZForm_FormElementResult (ResultID);
+
+CREATE TABLE eZForm_FormReport (
+  ID int(11) NOT NULL default '0',
+  FormID int(11),
+  Name varchar(255),
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+
+CREATE TABLE eZForm_FormReportElement (
+  ID int(11) NOT NULL default '0',
+  ElementID int(11),
+  StatisticsType int(11),
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;

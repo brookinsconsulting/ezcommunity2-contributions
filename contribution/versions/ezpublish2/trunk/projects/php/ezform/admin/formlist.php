@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formlist.php,v 1.3 2002/01/11 09:13:58 jhe Exp $
+// $Id: formlist.php,v 1.4 2002/01/18 14:05:57 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -39,7 +39,7 @@ $Limit = $ini->read_var( "eZFormMain", "AdminFormListLimit" );
 if ( !$Offset )
     $Offset = 0;
 
-if ( isset( $DeleteSelected ) )
+if ( isSet( $DeleteSelected ) )
 {
     foreach ( $formDelete as $deleteMe )
     {
@@ -54,9 +54,7 @@ $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTempl
                      "ezform/admin/intl/", $Language, "form.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "form_list_page_tpl" => "formlist.tpl"
-    ) );
+$t->set_file( "form_list_page_tpl", "formlist.tpl" );
 
 $t->set_block( "form_list_page_tpl", "no_forms_item_tpl", "no_forms_item" );
 $t->set_block( "form_list_page_tpl", "form_list_tpl", "form_list" );
@@ -70,14 +68,14 @@ $totalCount =& eZForm::count();
 $forms =& eZForm::getAll( $Offset, $Limit );
 
 
-if( count( $forms ) == 0 )
+if ( count( $forms ) == 0 )
 {
     $t->parse( "no_forms_item", "no_forms_item_tpl" );
 }
 else
 {
     $i = 0;
-    foreach( $forms as $form )
+    foreach ( $forms as $form )
     {
         if ( ( $i % 2 ) == 0 )
         {
