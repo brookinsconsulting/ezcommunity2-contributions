@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcserver.php,v 1.2 2001/01/25 14:03:39 bf Exp $
+// $Id: ezxmlrpcserver.php,v 1.3 2001/02/25 12:20:30 bf Exp $
 //
 // Definition of eZXMLRPCServer class
 //
@@ -102,7 +102,7 @@ class eZXMLRPCServer
         $call = new eZXMLRPCCall( );
         $call->decodeStream( $this->RawPostData );
 
-        $fuctionWasFound = false;
+        $functionWasFound = false;
         $equalParameterCount = true;
         foreach ( $this->FunctionList as $function )
         {
@@ -112,7 +112,7 @@ class eZXMLRPCServer
 
                 if ( function_exists( $func ) )
                 {
-                    $fuctionWasFound = true;
+                    $functionWasFound = true;
 
                     if ( count( $call->parameterList() ) ==  
                          count( $function->parameters() ) )
@@ -140,7 +140,7 @@ class eZXMLRPCServer
             // do the server response
             $response = new eZXMLRPCResponse( );
             
-            if ( $fuctionWasFound == false )
+            if ( $functionWasFound == false )
             {
                 $response->setError( 1, "Requested function not found." );
             }

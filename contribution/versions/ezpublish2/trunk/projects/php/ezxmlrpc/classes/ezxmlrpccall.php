@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.5 2001/02/21 09:32:51 ce Exp $
+// $Id: ezxmlrpccall.php,v 1.6 2001/02/25 12:20:30 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -89,6 +89,13 @@ class eZXMLRPCCall
             }
             break;
 
+            case "ezxmlrpcdouble" :
+            {
+                $this->ParameterList[] = $value;
+                $ret = true;
+            }
+            break;
+            
             case "ezxmlrpcarray" :
             {
                 $this->ParameterList[] = $value;
