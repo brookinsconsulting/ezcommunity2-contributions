@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.27 2001/02/26 10:08:02 pkej Exp $
+// $Id: messagereply.php,v 1.28 2001/03/05 10:34:24 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -43,18 +43,6 @@ if ( $StartAction == "reply" )
 
     $mail = new eZMail();
     
-    if( is_object( $moderator ) )
-    {
-
-        $mail->setSubject( $msg->topic() );
-        $mail->setBody( $msg->body( false ) );
-
-        $mail->setFrom( $moderator->email() );
-        $mail->setTo( $moderator->email() );
-
-        $mail->send();
-    }
-
     $messages = $forum->messageThreadTree( $msg->threadID() );
 
     $mail->setFrom( "noreply@ez.no" );
@@ -68,19 +56,47 @@ if ( $StartAction == "reply" )
     $mailTemplate->setAllStrings();
 
     $emailNoticeArray = array();
-    foreach ( $messages as $message )
+    
+    if( is_object( $moderator ) )
     {
-        if ( $message->id() != $msg->id() )
+        $headersInfo = ( getallheaders() );
+        $mailTemplate->set_var( "author", $moderator->firstName() . " " . $moderator->lastName() );
+        $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
+
+        $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
+
+        $mailTemplate->set_var( "topic", $msg->topic() );
+        $mailTemplate->set_var( "body", $msg->body( false ) );
+        $mailTemplate->set_var( "your_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
+        $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+        $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
+        $mailTemplate->set_var( "intl-info_message_4", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_4" ) );
+
+        $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
+
+        $mail->setSubject( $subject_line );
+        $mail->setBody( $bodyText );
+
+        $mail->setFrom( $moderator->email() );
+        $mail->setTo( $moderator->email() );
+
+        $mail->send();
+        $emailNoticeArray[] = $moderator->id();
+    }
+    
+    foreach( $messages as $message )
+    {
+        if( $message->id() != $msg->id() )
         {
             if ( ( $message->treeID() > $msg->treeID() ) && $message->emailNotice() )
             {
                 
                 $headersInfo = ( getallheaders() );
                 $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
-                $mailTemplate->set_var( "posted_at", $locale->format( $message->postingTime() ) );
+                $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
                 
                 $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
-                $subject_line = $subject_line . $msg->topic();
+                $subject_line = $subject_line . $message->topic();
                 $subject_line = $subject_line . $mailTemplate->Ini->read_var( "strings", "subject_append" );
                 
                 $mailTemplate->set_var( "topic", $msg->topic() );
@@ -106,5 +122,6 @@ if ( $StartAction == "reply" )
             }
         }
     }
+
 }
 ?>

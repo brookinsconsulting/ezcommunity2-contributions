@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.30 2001/03/05 09:43:53 pkej Exp $
+// $Id: messageedit.php,v 1.31 2001/03/05 10:34:24 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -261,8 +261,31 @@ switch( $Action )
                 include_once( "classes/ezmail.php" );
                 $mail = new eZMail();
 
-                $mail->setSubject( $msg->topic() );
-                $mail->setBody( $msg->body( false ) );
+                $locale = new eZLocale( $Language );
+
+                $mailTemplate = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                                                "ezforum/user/intl", $Language, "mailreply.php" );
+
+                $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
+                $mailTemplate->setAllStrings();
+                
+                $headersInfo = ( getallheaders() );
+                $mailTemplate->set_var( "author", $moderator->firstName() . " " . $moderator->lastName() );
+                $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
+
+                $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
+
+                $mailTemplate->set_var( "topic", $msg->topic() );
+                $mailTemplate->set_var( "body", $msg->body( false ) );
+                $mailTemplate->set_var( "your_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
+                $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
+                $mailTemplate->set_var( "intl-info_message_4", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_4" ) );
+
+                $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
+
+                $mail->setSubject( $subject_line );
+                $mail->setBody( $bodyText );
 
                 $mail->setFrom( $moderator->email() );
                 $mail->setTo( $moderator->email() );
