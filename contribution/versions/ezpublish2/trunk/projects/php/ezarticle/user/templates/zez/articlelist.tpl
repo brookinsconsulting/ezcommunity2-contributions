@@ -40,7 +40,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/">
+	<a class="noline" href="/article/articleview/{article_id}/">
 	<h2>{article_name}</h2>
 	</a>
 	
