@@ -112,11 +112,12 @@
 <!-- BEGIN public_appointment_tpl -->
  <tr valign="top">
    <td style="padding-bottom:5px;">
-   <div style="font-size: 10px;">{event_start_time} - {event_stop_time}</div>
    <a class="gcalMonthViewNames" href="{www_dir}{index}/groupeventcalendar/eventview/{appointment_id}/" onmouseover="
-   return overlib('<div class=\'olList\'>Name</div>{appointment_full_name}<div class=\'olList\'>Time</div> {event_start_time} - {event_stop_time}<div class=\'olList\'>Description </div>{event_description}');" 
+   return overlib('<div class=\'olList\'>Name</div>{appointment_full_name}<div class=\'olList\'>Time</div> {event_start_time} - {event_stop_time}<div class=\'olList\'>Description </div>{event_description}');"
    onmouseout="return nd();">
-   {appointment_name}</a></td>
+   {appointment_name}</a>
+   <div style="font-size: 10px;">{event_start_time} - {event_stop_time}</div>
+   </td>
  <tr>
 <!-- END public_appointment_tpl -->
 </table>
