@@ -1,5 +1,5 @@
 <?
-// $Id: categorylist.php,v 1.12 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: categorylist.php,v 1.13 2000/11/01 10:11:45 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -27,7 +27,6 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
@@ -45,7 +44,6 @@ $t->set_file(array( "category_page" => "categorylist.tpl",
                     ) );
 $t->set_block( "category_page", "category_item_tpl", "category_item" );
 
-$t->set_var( "docroot", $DOC_ROOT );
 
 $category = new eZForumCategory();
 $categoryList = $category->getAll();
