@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.9 2001/04/11 14:18:41 th Exp $
+// $Id: menubox.php,v 1.10 2001/05/08 12:40:35 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezcachefile.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -35,17 +36,18 @@ unset( $menuCachedFile );
 // do the caching
 if ( $PageCaching == "enabled" )
 {
-    $menuCachedFile = "ezforum/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
+    $menuCacheFile = new eZCacheFile( "ezforum/cache",
+                                      array( "menubox", $GlobalSiteDesign ),
+                                      "cache", "," );
 
-    if ( file_exists( $menuCachedFile ) )
+    if ( $menuCacheFile->exists() )
     {
-        include( $menuCachedFile );
+        print( $menuCacheFile->contents() );
     }
     else
     {
-        $GenerateStaticPage = true;
-        createPage();
-    }            
+        createPage( $menuCacheFile );
+    }
 }
 else
 {
@@ -53,10 +55,8 @@ else
     createPage();
 }
 
-function createPage()
+function createPage( $menuCacheFile = false )
 {
-    global $GenerateStaticPage;
-    global $menuCachedFile;
     global $ini;
     global $Language;
    	global $GlobalSiteDesign;
@@ -110,22 +110,17 @@ function createPage()
         }
     }
 
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
 
-    if ( $GenerateStaticPage == true )
+    if ( get_class( $menuCacheFile ) == "ezcachefile" )
     {
-        $fp = fopen ( $menuCachedFile, "w+");
-
         $output = $t->parse( $target, "menu_box_tpl" );
         // print the output the first time while printing the cache file.
-    
+        $menuCacheFile->store( $output );
         print( $output );
-        fwrite ( $fp, $output );
-        fclose( $fp );
     }
     else
     {
-        $t->set_var( "sitedesign", $GlobalSiteDesign );
-		
 		$t->pparse( "output", "menu_box_tpl" );
     }
     
