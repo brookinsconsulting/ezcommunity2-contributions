@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.34 2000/11/29 15:49:35 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.35 2000/11/29 21:13:15 pkej-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -229,15 +229,53 @@ class eZCompany
         
         $company_array = array();
         $return_array = array();
-    
-        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
+        if( is_numeric( $query ) )
+        {
+            $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
 
-        foreach( $company_array as $companyItem )
+            foreach( $company_array as $companyItem )
             {
                 $return_array[] = new eZCompany( $companyItem["CompanyID"] );
             }
+        }
+        
         return $return_array;
     }
+    
+    /*
+      Henter ut alle firma i databasen som inneholder søkestrengen.
+    */
+    function searchByCategory( $categoryID, $query )
+    {
+        $this->dbInit();
+        
+        $company_array = array();
+        $return_array = array();
+        if( !empty( $query ) )
+        {
+            $this->Database->array_query( $company_array, "
+                SELECT 
+                    Comp.ID 
+                FROM
+                    eZContact_CompanyTypeDict as Dict,
+                    eZContact_Company as Comp
+                WHERE
+                    Comp.Name LIKE '%$query%'
+                AND
+                    Dict.CompanyTypeID = '$categoryID'
+                AND
+                    Comp.ID = Dict.CompanyID
+                ORDER BY Name" );
+
+            foreach( $company_array as $companyItem )
+            {
+                $return_array[] = new eZCompany( $companyItem["ID"] );
+            }
+        }
+        
+        return $return_array;
+    }
+
 
     /*
       Returns all the company found in the database.
@@ -275,12 +313,12 @@ class eZCompany
         $company_array = array();
         $return_array = array();
     
-        $this->Datbase->query_array( $company_array, "SELECT ID FROM eZContact_Company WHERE Name LIKE '%$query%' ORDER BY Name" );
+        $this->Database->array_query( $company_array, "SELECT ID FROM eZContact_Company WHERE Name LIKE '%$query%' ORDER BY Name" );
 
         foreach( $company_array as $companyItem )
-            {
-                $return_array[] = new eZCompany( $companyItem["ID"] );
-            }
+        {
+            $return_array[] = new eZCompany( $companyItem["ID"] );
+        }
         return $return_array;
     }
 
