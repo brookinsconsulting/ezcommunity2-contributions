@@ -1,6 +1,6 @@
 <?
-// 
-// $Id: ezvoucher.php,v 1.13 2001/10/16 09:21:04 ce Exp $
+//
+// $Id: ezvoucher.php,v 1.13.2.1 2002/03/04 12:43:38 ce Exp $
 //
 // eZVoucher class
 //
@@ -48,7 +48,7 @@ include_once( "classes/ezdate.php" );
 
 include_once( "eztrade/classes/ezvoucherinformation.php" );
 include_once( "eztrade/classes/ezvoucherused.php" );
-	      
+
 class eZVoucher
 {
 
@@ -78,12 +78,12 @@ class eZVoucher
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
-       
+
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_Voucher" );
-            $nextID = $db->nextID( "eZTrade_Voucher", "ID" );            
+            $nextID = $db->nextID( "eZTrade_Voucher", "ID" );
             $timeStamp =& eZDateTime::timeStamp( true );
             $password = md5( $this->Password );
 
@@ -115,7 +115,7 @@ class eZVoucher
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -134,9 +134,9 @@ class eZVoucher
 
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res = $db->query( "DELETE FROM eZTrade_Voucher WHERE ID='$this->ID'" );
-    
+
         if ( $ret == false )
             $db->rollback( );
         else
@@ -160,7 +160,7 @@ class eZVoucher
 
             if( count( $voucherArray ) == 1 )
             {
-                $this->fill( &$voucherArray[0] );
+                $this->fill( $voucherArray[0] );
                 $ret = true;
             }
             elseif( count( $voucherArray ) == 1 )
@@ -195,7 +195,7 @@ class eZVoucher
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $voucherArray = array();
 
@@ -279,7 +279,7 @@ class eZVoucher
             $ret = new eZUser( $this->UserID );
         else
             $ret = $this->UserID;
-        
+
         return $ret;
     }
 
@@ -292,7 +292,7 @@ class eZVoucher
             $ret = new eZProduct( $this->ProductID );
         else
             $ret = $this->ProductID;
-        
+
         return $ret;
     }
 
@@ -381,23 +381,23 @@ class eZVoucher
     function &correctPrice( $calcVAT )
     {
         $product =& $this->product();
-        
+
         $price = $this->Price;
-        
+
        $vatType =& $product->vatType();
-       
+
         if ( $calcVAT == true )
         {
             if ( $product->excludedVAT() )
             {
                 $vatType =& $product->vatType();
                 $vat = 0;
-       
+
                 if ( $vatType )
                 {
                     $vat =& $vatType->value();
                 }
-                
+
                 $price = ( $price * $vat / 100 ) + $price;
             }
         }
@@ -407,18 +407,18 @@ class eZVoucher
             {
                 $vatType =& $product->vatType();
                 $vat = 0;
-                
+
                 if ( $vatType )
                 {
                     $vat =& $vatType->value();
                 }
-                
+
                 $price = $price - ( $price / ( 100 + $vat ) ) * $vat;
-                
+
             }
         }
         return $price;
-    }    
+    }
 
 
     /*!
@@ -474,7 +474,7 @@ class eZVoucher
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         $db->query_single( $res, "SELECT ID FROM eZTrade_VoucherInformation WHERE VoucherID='$this->ID'" );
 
         if ( $res[$db->fieldName( "ID" )] )
@@ -495,7 +495,7 @@ class eZVoucher
 
         if ( !$id )
             $id = $this->ID;
-        
+
         $db->array_query( $res, "SELECT ID FROM eZTrade_VoucherUsed WHERE VoucherID='$id'" );
 
         foreach( $res as $used )
