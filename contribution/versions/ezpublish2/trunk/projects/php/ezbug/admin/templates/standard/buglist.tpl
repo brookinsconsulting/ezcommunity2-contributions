@@ -2,7 +2,7 @@
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-bug_archive} - {current_module_name}</h1>
+	<h1>{intl-bug_archive}<!-- - {current_module_name}--></h1>
 	</td>
 	<td rowspan="2" align="right">
 	<form action="/bug/search/" method="post">
