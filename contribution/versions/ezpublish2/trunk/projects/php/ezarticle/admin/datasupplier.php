@@ -164,6 +164,11 @@ switch ( $url_array[2] )
             
             case "imageedit" :
             {
+                if ( isSet ( $Browse ) )
+                {
+                    include ( "ezimagecatalogue/admin/browse.php" );
+                    break;
+                }
                 switch ( $url_array[4] )
                 {
                     case "new" :

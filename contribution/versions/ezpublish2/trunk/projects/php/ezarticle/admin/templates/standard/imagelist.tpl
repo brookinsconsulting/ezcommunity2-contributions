@@ -62,6 +62,10 @@
 	<td>
 	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
 	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+	</td>
 </tr>
 </table>
 

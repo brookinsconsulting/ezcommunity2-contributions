@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.12 2001/03/01 14:06:25 jb Exp $
+// $Id: imagelist.php,v 1.13 2001/05/15 12:45:04 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -50,12 +50,27 @@ $t->set_block( "image_list_tpl", "image_tpl", "image" );
 
 $article = new eZArticle( $ArticleID );
 
+$session = new eZSession();
+$session->setVariable( "ImageListReturnTo", $REQUEST_URI );
 
 $thumbnail = $article->thumbnailImage();
 
 $t->set_var( "article_name", $article->name() );
 
 $t->set_var( "site_style", $SiteStyle );
+
+if ( isSet ( $AddImages ) )
+{
+    if ( count ( $ImageArrayID ) > 0 )
+    {
+        foreach( $ImageArrayID as $imageID )
+        {
+            $image = new eZImage( $imageID );
+            $article->addImage( $image );
+        }
+    }
+    
+}
 
 $images = $article->images();
 if ( count( $images ) == 0 )
