@@ -703,10 +703,18 @@ $Day = $dateArr[2];
               $month = addZero( $datetime->month() );
               $day = addZero( $datetime->day() );
 	    */
-
             deleteCache( "default", $Language, $Year, $Month, $Day, $groupID );
+
+	    // redirect switch
+             if ( $FileUploadFlag ){
+              eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/filelist/$event->ID/" );
+             } else {
+              eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/edit/$event->ID/" );
+             }
+	    /*
 	    //eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$Year/$Month/$Day/" );;
 	    eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/edit/$event->ID/" );
+	    */
         }
         else
         {

@@ -91,7 +91,7 @@ onFocus="this.className='gcalTextFocusFrm'"
 <div class="gcalWrapFrm">
 <div class="gcalGroupBoxFrm">
 <!-- BEGIN group_name_edit_tpl -->
-<p class="boxtext">{intl-event_group}:&nbsp;&nbsp;{group_name}</p><br />
+<span class="boxtext">{intl-event_group}:&nbsp;&nbsp;{group_name}</span><br />
 <input type="hidden" name="StoreByGroupID" value="{group_id}" />
 <!-- END group_name_edit_tpl -->
 
@@ -105,12 +105,22 @@ onFocus="this.className='gcalTextFocusFrm'"
 <!-- END group_item_tpl -->
 </select>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_private}  type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_event_alarm_notice} type="checkbox" name="IsEventAlarmNotice" />&nbsp;<span class="check">{intl-event_notification}</span>
-
 <!-- END group_name_new_tpl -->
 </div>
+
+<div class="gcalGroupBoxFrm">
+
+<div align="left" style="margin-right: 50%;">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_private}  type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_event_alarm_notice} type="checkbox" name="IsEventAlarmNotice" />&nbsp;<span class="check">{intl-event_notification}</span>
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="FileUploadFlag" />&nbsp;<span class="check">{intl-AddFileFlag}</span>
+</div>
+
+</div>
+
+
 <div class="gcalGroupBoxFrm">
 <span class="boxtext">{intl-type}:</span>
 
