@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.31 2001/03/23 16:57:59 bf Exp $
+// $Id: payment.php,v 1.32 2001/03/26 09:54:53 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -540,7 +540,12 @@ if ( $PaymentSuccess == "true" )
     $Action = "PostPayment";
     include( $instance->paymentFile( $paymentMethod ) );
 
-    eZHTTPTool::header( "Location: /trade/ordersendt/$OrderID/" );
+
+    // Turn of SSL and redirect to http://
+
+    $session->setVariable( "SSLMode", "" );
+
+    eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
 }
 
