@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: userwithaddress.php,v 1.75.2.1.4.1 2002/01/23 08:35:42 bf Exp $
+//
+// $Id: userwithaddress.php,v 1.75.2.1.4.2 2002/01/29 14:18:20 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -246,7 +246,7 @@ if ( isSet( $OK ) )
                 $t->parse( "error_email_not_valid", "error_email_not_valid_tpl" );
                 $error = true;
             }
-        }        
+        }
     }
 
     if ( $passwordCheck )
@@ -255,7 +255,7 @@ if ( isSet( $OK ) )
         {
             $t->parse( "error_password_match", "error_password_match_tpl" );
             $error = true;
-            
+
         }
         if ( strlen( $VerifyPassword ) < 2 )
         {
@@ -367,7 +367,7 @@ if ( isSet( $OK ) and $error == false )
         $user_insert->setInfoSubscription( true );
     else
         $user_insert->setInfoSubscription( false );
-    
+
     if ( $AutoCookieLogin == "on" )
         $user_insert->setCookieLogin( true );
     else
@@ -380,8 +380,13 @@ if ( isSet( $OK ) and $error == false )
     $group = new eZUserGroup( $AnonymousUserGroup );
     $group->addUser( $user_insert );
     $user_insert->setGroupDefinition( $group );
-    
-    $MainAddressID = eZAddress::mainAddress( $user );
+
+    if ( !is_numeric ( $MainAddressID ) )
+    {
+        $MainAddressID = eZAddress::mainAddress( $user );
+        if ( $MainAddressID )
+            $MainAddressID = $MainAddressID->id();
+    }
 
     if ( !$MainAddressID && count( $AddressID ) > 0 )
         $MainAddressID = $AddressID[0];
@@ -399,7 +404,7 @@ if ( isSet( $OK ) and $error == false )
         {
             $address = new eZAddress();
         }
-        
+
         $address->setStreet1( $Street1[$i] );
         $address->setStreet2( $Street2[$i] );
         $address->setZip( $Zip[$i] );
@@ -419,7 +424,7 @@ if ( isSet( $OK ) and $error == false )
         // set correct ID
         if ( !is_numeric( $realAddressID ) )
             $RealAddressID[$i] = $address->id();
-        
+
         if ( $MainAddressID == $AddressID[$i] )
             $main_id = $address->id();
 
@@ -507,7 +512,7 @@ if ( get_class( $user ) == "ezuser" )
     else
     {
     }
-    
+
     if ( !isSet( $AddressID ) )
     {
         if ( !isSet( $AddressID ) )
@@ -531,11 +536,11 @@ if ( get_class( $user ) == "ezuser" )
         foreach ( $addressArray as $address )
         {
             if ( ( get_class( $mainAddress ) == "ezaddress" ) and ( $address->id() == $mainAddress->id()  ) and !isSet( $MainAddressID ) )
-                $MainAddressID = $i + 1;            
+                $MainAddressID = $i + 1;
             if ( !isSet( $AddressID[$i] ) )
                 $AddressID[$i] = $i + 1;
             if ( !isSet( $RealAddressID[$i] ) )
-                $RealAddressID[$i] = $address->id();                
+                $RealAddressID[$i] = $address->id();
             if ( !isSet( $Street1[$i] ) )
                 $Street1[$i] = $address->street1();
             if ( !isSet( $Street2[$i] ) )
@@ -684,18 +689,18 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
             $t->set_var( "address_id", $AddressID[$i] );
 
             $t->set_var( "real_address_id", $RealAddressID[$i] );
-            
+
             $t->set_var( "street1_value", $Street1[$i] );
             $t->set_var( "street2_value", $Street2[$i] );
-            
+
             if ( is_numeric( $MainAddressID ) )
             {
                 $t->set_var( "is_checked", $AddressID[$i] == $MainAddressID ? "checked" : "" );
             }
-            
+
             $t->set_var( "zip_value", $Zip[$i] );
             $t->set_var( "place_value", $Place[$i] );
-            
+
             $t->set_var( "country", "" );
             if ( $SelectCountry == "enabled" )
             {
@@ -703,7 +708,7 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
                 foreach ( $countryList as $country )
                 {
                     $t->set_var( "is_selected", $country["ID"] == $CountryID[$i] ? "selected" : "" );
-                    
+
                     $t->set_var( "country_id", $country["ID"] );
                     $t->set_var( "country_name", $country["Name"] );
                     $t->parse( "country_option", "country_option_tpl", true );
@@ -711,7 +716,7 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
                 $t->parse( "country", "country_tpl" );
             }
             $t->set_var( "address_number", $i + 1 );
-            
+
             $t->parse( "address", "address_tpl", true );
         }
     }

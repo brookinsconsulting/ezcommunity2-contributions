@@ -1,6 +1,5 @@
 <?php
-// 
-// $Id: login.php,v 1.35.8.1 2002/01/24 12:50:15 bf Exp $
+// $Id: login.php,v 1.35.8.2 2002/01/29 14:18:20 ce Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -52,7 +51,7 @@ if ( isSet( $Register ) )
     }
     else
     {
-        eZHTTPTool::header( "Location: /user/user/new/" );        
+        eZHTTPTool::header( "Location: /user/user/new/" );
     }
     exit();
 }
@@ -79,7 +78,7 @@ $t->set_var( "buttons", "" );
 if ( $Action == "login" )
 {
     $user = new eZUser();
-    $user = $user->validateUser( $Username, $Password );    
+    $user = $user->validateUser( $Username, $Password );
 
     if ( $user )
     {
@@ -96,12 +95,12 @@ if ( $Action == "login" )
             {
                 $MaxLogins = $user->simultaneousLogins();
             }
-            
+
             if ( ( $MaxLogins  == "0" ) || ( $logins < $MaxLogins ) )
             {
                 eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
                 eZUser::loginUser( $user );
-                
+
                 if ( $user->cookieLogin() == true )
                 {
                     $user->setCookieValues();
@@ -116,7 +115,7 @@ if ( $Action == "login" )
                 else if ( isSet( $RedirectURL ) )
                 {
                     $stringTmp = split( "/", $RedirectURL );
-                    
+
                     if ( $stringTmp[2] == "norights" )
                     {
                         eZHTTPTool::header( "Location: /" );
@@ -129,6 +128,8 @@ if ( $Action == "login" )
                             $RedirectURL = "/trade/customerlogin/";
                         }
 
+                        print( $RedirectURL );
+                        exit();
                         eZHTTPTool::header( "Location: $RedirectURL" );
                         exit();
                     }
@@ -159,7 +160,7 @@ if ( $Action == "login" )
         eZHTTPTool::header( "Location: /user/norights/?Error=WrongPassword&RedirectURL=$RedirectURL" );
         exit();
     }
-    
+
 }
 else
 {

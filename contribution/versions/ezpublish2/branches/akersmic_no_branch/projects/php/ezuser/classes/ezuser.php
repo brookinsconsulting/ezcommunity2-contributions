@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezuser.php,v 1.100 2001/10/16 11:05:53 bf Exp $
+//
+// $Id: ezuser.php,v 1.100.8.1 2002/01/29 14:18:20 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -28,7 +28,7 @@
 //!! eZUser
 //! eZUser handles users.
 /*!
-  
+
   Example code:
   \code
   // create a new user and set some variables.
@@ -44,8 +44,8 @@
   if ( !$user->exists( $user->login() ) )
   {
       // Store the user to the database.
-      echo "Username is not used, creating user.<br>";      
-      $user->store();        
+      echo "Username is not used, creating user.<br>";
+      $user->store();
   }
 
   // validate a userlogin and password.
@@ -55,9 +55,9 @@
   {
       print( "Password and username are ok!<br>" );
       print( $user->firstName() );
-      print( $user->lastName() );      
+      print( $user->lastName() );
   }
-  
+
   \endcode
 
   \sa eZUserGroup eZPermission eZModule eZForgot
@@ -115,7 +115,7 @@ class eZUser
             $db->lock( "eZUser_User" );
 
             $nextID = $db->nextID( "eZUser_User", "ID" );
-            
+
             // backwards compatible passwords
             if ( $db->isA() == "mysql" )
             {
@@ -149,7 +149,7 @@ class eZUser
                   '$signature',
                   '$this->CookieLogin',
                   '$this->SimultaneousLogins')" );
-                
+
                 $this->ID = $nextID;
             }
 
@@ -185,11 +185,11 @@ class eZUser
                                  Password='$password'
                                  WHERE ID='$this->ID'" );
                 }
-            }            
+            }
         }
 
         $db->unlock();
-    
+
         if ( $dbError == true )
             $db->rollback( );
         else
@@ -214,10 +214,10 @@ class eZUser
 
             $db->query( "DELETE FROM eZUser_User WHERE ID='$this->ID'" );
         }
-        
+
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
 
@@ -296,7 +296,7 @@ class eZUser
                 $orderBy = "LastName, FirstName";
             }
             break;
-            
+
             case "lastname" :
             {
                 $orderBy = "LastName";
@@ -308,7 +308,7 @@ class eZUser
                 $orderBy = "FirstName";
             }
             break;
-            
+
             case "lastname" :
             {
                 $orderBy = "LastName";
@@ -320,12 +320,12 @@ class eZUser
                 $orderBy = "Email";
             }
             break;
-            
+
             default :
                 $orderBy = "Login";
             break;
         }
-                
+
         $return_array = array();
         $user_array = array();
 
@@ -352,7 +352,7 @@ class eZUser
                               array( "Limit" => $max,
                                      "Offset" => $index ) );
         }
-        
+
         if ( $as_object )
         {
             foreach ( $user_array as $user )
@@ -379,7 +379,7 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         $db->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'" );
         if ( count( $user_array ) == 1 )
@@ -401,7 +401,7 @@ class eZUser
 
         $login = $db->escapeString( $login );
         $password = $db->escapeString( $password );
-        
+
 
         if ( $db->isA() == "mysql" )
         {
@@ -415,9 +415,9 @@ class eZUser
 
             $db->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'
-                                                    AND Password='$password'" );            
+                                                    AND Password='$password'" );
         }
-        
+
         if ( count( $user_array ) == 1 )
         {
             $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
@@ -426,7 +426,7 @@ class eZUser
         }
         return $ret;
     }
-    
+
     /*!
       \static
       Returns the eZUser object if a user with that login exits.
@@ -446,7 +446,7 @@ class eZUser
             $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
         }
 
-        return $ret;        
+        return $ret;
     }
 
     /*!
@@ -457,7 +457,7 @@ class eZUser
         if ( isSet( $this->ID ) )
             return $this->ID;
     }
-    
+
     /*!
       Returns the signature.
     */
@@ -476,14 +476,14 @@ class eZUser
         return $this->Login;
     }
 
-    
+
     /*!
       Returns the users InfoSubscription.
     */
     function infoSubscription()
     {
        $ret = false;
-       
+
        if ( $this->InfoSubscription == 1 )
        {
            $ret = true;
@@ -547,7 +547,7 @@ class eZUser
         return $ret;
     }
 
-    
+
     /*!
       Returns the number og simultaneous logins allowed on this account.
     */
@@ -555,7 +555,7 @@ class eZUser
     {
         return htmlspecialchars( $this->SimultaneousLogins );
     }
-    
+
     /*!
       Sets the signature.
     */
@@ -572,7 +572,7 @@ class eZUser
        $this->Login = $value;
     }
 
-    
+
     /*!
       Sets the password.
     */
@@ -580,7 +580,7 @@ class eZUser
     {
        $this->Password = $value;
     }
-    
+
     /*!
       Sets the email address to the user.
     */
@@ -629,7 +629,7 @@ class eZUser
     function setSimultaneousLogins ( $value )
     {
         $this->SimultaneousLogins = $value;
-        
+
         setType( $this->SimultaneousLogins, "integer" );
     }
 
@@ -687,7 +687,7 @@ class eZUser
             $session->setVariable( "AuthenticatedUser", $user->id() );
 
             $GLOBALS["eZCurrentUserObject"] =& $user;
-            
+
             $ret = true;
         }
         return $ret;
@@ -700,7 +700,7 @@ class eZUser
     function autoCookieLogin( $hash )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $hash )
         {
             $db->array_query( $userArray, "SELECT UserID FROM eZUser_Cookie WHERE Hash='$hash'" );
@@ -724,7 +724,7 @@ class eZUser
 
         setCookie( "eZUser_AutoCookieLogin", "", 0, "/",  "", 0 );
         setCookie( "eZUser_AutoCookieLogin" );
-        
+
         if ( $user )
         {
             $userID = $user->id();
@@ -745,7 +745,7 @@ class eZUser
         }
     }
 
-    
+
 
     /*!
       \static
@@ -764,7 +764,7 @@ class eZUser
         {
             return $user;
         }
-        
+
 
         $session =& eZSession::globalSession();
 
@@ -773,7 +773,7 @@ class eZUser
         if ( $session->fetch( false ) )
         {
             $user = new eZUser( $session->variable("AuthenticatedUser" ) );
-            
+
 //            $val =& $session->variable( "AuthenticatedUser" );
 //            $user = new eZUser( $val );
 
@@ -781,20 +781,20 @@ class eZUser
 
             $idle = $session->idle();
             $idle = $idle / 60;
-       
+
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
                 $user->logout();
                 $user = false;
             }
-            else            
+            else
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
                 {
                     $session->refresh( );
                     $returnValue = $user;
                 }
-            }            
+            }
         }
 
         return $returnValue;
@@ -824,17 +824,17 @@ class eZUser
 
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0  ) )
             {
-                $session->delete( );                
+                $session->delete( );
             }
-            else            
+            else
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
-                {                    
+                {
                     $ret[] = array( $user, $session );
                 }
             }
         }
-        
+
         return $ret;
     }
 
@@ -861,7 +861,7 @@ class eZUser
     {
         $ret = array();
         $db =& eZDB::globalDatabase();
-        
+
         $db->array_query( $user_group_array, "SELECT * FROM eZUser_UserGroupLink
                                                     WHERE UserID='$this->ID'" );
 
@@ -904,14 +904,14 @@ class eZUser
         return false;
     }
 
-    
+
     /*!
       Removes the user from every user group.
     */
     function removeGroups()
     {
         $db =& eZDB::globalDatabase();
-       
+
         $db->query( "DELETE FROM eZUser_UserGroupLink
                                 WHERE UserID='$this->ID'" );
     }
@@ -936,7 +936,7 @@ class eZUser
                                 ( '$nextID', '$this->ID', '$addressID' )" );
 
             $db->unlock();
-            
+
             if ( $res == false )
                 $db->rollback();
             else
@@ -951,7 +951,7 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
         if ( get_class( $address ) == "ezaddress" )
-        {            
+        {
             $addressID = $address->id();
             $db->begin( );
 
@@ -963,7 +963,7 @@ class eZUser
                 $db->rollback();
             else
                 $db->commit();
-            
+
             eZAddress::delete( $addressID );
 //              $db->query( "DELETE FROM eZContact_Address
 //                                  WHERE ID='$addressID'" );
@@ -990,7 +990,7 @@ class eZUser
     }
 
     /*!
-      Returns the addresses a user has. It is returned as an array of eZAddress objects.      
+      Returns the addresses a user has. It is returned as an array of eZAddress objects.
       If the $id is supplied it is used for looking up addresses.
     */
     function addresses( $id = false, $as_object = true )
@@ -1023,7 +1023,7 @@ class eZUser
     }
 
     /*!
-      Returns the main address the user has. It is returned as an eZAddress objects.      
+      Returns the main address the user has. It is returned as an eZAddress objects.
       If the $id is supplied it is used for looking up addresses.
     */
     function mainAddress( $as_object = true )
@@ -1131,7 +1131,7 @@ class eZUser
                              $this->ID() . "' AND UserID='$user'" );
         eZDB::finish( $res, $db );
     }
-    
+
     function setCookieValues()
     {
         $user =& eZUser::currentUser();
@@ -1143,7 +1143,7 @@ class eZUser
 
             $db->lock( "eZUser_Cookie" );
             $nextID = $db->nextID( "eZUser_Cookie", "ID" );
-            
+
             $userID = $user->id();
             $hash = md5( microTime() );
 
@@ -1156,12 +1156,12 @@ class eZUser
             setCookie( "eZUser_AutoCookieLogin", $hash, time()+1209600, "/",  "", 0 );
 
             $db->unlock();
-            
+
             if ( $res == false )
                 $db->rollback( );
             else
                 $db->commit();
-            
+
         }
     }
 
@@ -1210,7 +1210,7 @@ class eZUser
             case "email" : $orderBy = "Email"; break;
             default : $orderBy = "Login"; break;
         }
-        
+
         $return_array = array();
         $user_array = array();
         $query = "SELECT * FROM eZUser_User WHERE
@@ -1225,7 +1225,7 @@ class eZUser
         }
         return $return_array;
     }
-    
+
     var $ID;
     var $Login;
     var $Password;
