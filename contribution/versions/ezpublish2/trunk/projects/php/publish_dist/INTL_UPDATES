@@ -1,8 +1,50 @@
-This file contains all changes in intl files since version 2.0 pre1
+REMEMBER: NEWEST ENTRY ON TOP
+This file contains all changes in intl files.
 Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+
+#### PRE2 - 2.0 Final ####################
+mod; ezcontact/admin companyview.php.ini
+changed: added
+no_company_defined=No company defined with ID
+
+mod; eztrade/admin shippingtypes.php.ini
+change: added
+vat_type=VAT type
+
+mod; eztodo/user todolist.php.ini
+change: added delete_selected
+
+mod: ezcontact/admin companyview.php.ini
+changed: added
+no_company_defined=No company defined with ID
+
+mod: eztrade/admin shippingtypes.php.ini
+change: added
+vat_type=VAT type
+
+mod: eztrade/user ordersendt.php.ini
+change: added
+shipping_type=Shipping type
+
+mod: eztrade/user mailorder.php.ini
+change: added
+other_instructions_on_web_site=For further instructions please visit:
+shipping_type=Shipping type
+payment_method=Payment method
+
+
+### PRE 1 - PRE 2 #########################
+
+mod: ezuser/admin welcome.php.ini
+change: added
+error_headline=Failed to run the following functions
+libxml_error=You've failed to install the libXml2 package properly, please visit get it from
+qtdom_error=You've failed to install the Qt package properly, please get it from
+convert_error=You've failed to install the ImageMagick package properly, please get it from
+
 mod: eztrade/admin, orderedit.php.ini
 change: added
 shipping_method=Shipping Method
@@ -173,31 +215,4 @@ show_not_done=Show not done
 show_done=Show done
 category_all=All categories
 
-
-#### PRE 1 - PRE 2 ##############
-mod: ezuser/admin welcome.php.ini
-change: added
-error_headline=Failed to run the following functions
-libxml_error=You've failed to install the libXml2 package properly, please visit get it from
-qtdom_error=You've failed to install the Qt package properly, please get it from
-convert_error=You've failed to install the ImageMagick package properly, please get it from
-
-#### PRE2 - ##########
-mod: ezcontact/admin companyview.php.ini
-changed: added
-no_company_defined=No company defined with ID
-
-mod: eztrade/admin shippingtypes.php.ini
-change: added
-vat_type=VAT type
-
-mod: eztrade/user ordersendt.php.ini
-change: added
-shipping_type=Shipping type
-
-mod: eztrade/user mailorder.php.ini
-change: added
-other_instructions_on_web_site=For further instructions please visit:
-shipping_type=Shipping type
-payment_method=Payment method
 
