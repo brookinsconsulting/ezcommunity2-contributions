@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.15 2000/10/25 13:36:59 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.16 2000/10/25 18:19:56 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -58,6 +58,9 @@ class eZArticle
     {
         $this->IsConnected = false;
 
+        // default value
+        $this->IsPublished = "false";
+        
         if ( $id != "" )
         {
 
@@ -95,6 +98,7 @@ class eZArticle
                                  AuthorID='$this->AuthorID',
                                  LinkText='$this->LinkText',
                                  PageCount='$this->PageCount',
+                                 IsPublished='$this->IsPublished',
                                  Modified=now(),
                                  Created=now()
                                  " );
@@ -112,6 +116,7 @@ class eZArticle
                                  LinkText='$this->LinkText',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
+                                 IsPublished='$this->IsPublished',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -148,6 +153,7 @@ class eZArticle
                 $this->Modified =& $article_array[0][ "Modified" ];
                 $this->Created =& $article_array[0][ "Created" ];
                 $this->PageCount =& $article_array[0][ "PageCount" ];
+                $this->IsPublished =& $article_array[0][ "IsPublished" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -271,6 +277,23 @@ class eZArticle
        
        return $dateTime;
     }
+
+    /*!
+      Returns true if the article is published false if not.
+    */
+    function isPublished()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->IsPublished == "true" )
+       {
+           $ret = true;
+       }
+       return $ret;
+    }
+      
     
     /*!
       Sets the article name.
@@ -339,6 +362,24 @@ class eZArticle
             $this->get( $this->ID );
 
        $this->PageCount = $value;
+    }
+
+    /*!
+     Sets the article to published or not. 
+    */
+    function setIsPublished( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->IsPublished = "true";
+       }
+       else
+       {
+           $this->IsPublished = "false";           
+       }
     }
     
 
@@ -538,7 +579,7 @@ class eZArticle
     /*!
       Returns every article in every category sorted by time.
     */
-    function articles( $sortMode=time )
+    function articles( $sortMode=time, $fetchNonPublished=true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -559,8 +600,17 @@ class eZArticle
        $return_array = array();
        $article_array = array();
 
-       $this->Database->array_query( $article_array, "SELECT ID FROM eZArticle_Article
+       if ( $fetchNonPublished == true )
+       {
+           $this->Database->array_query( $article_array, "SELECT ID FROM eZArticle_Article
                                                       ORDER BY $OrderBy" );
+       }
+       else
+       {
+           $this->Database->array_query( $article_array, "SELECT ID FROM eZArticle_Article
+                                                      WHERE IsPublished='true'
+                                                      ORDER BY $OrderBy" );
+       }
  
        for ( $i=0; $i<count($article_array); $i++ )
        {
@@ -592,6 +642,9 @@ class eZArticle
     var $LinkText;
     var $Modified;
     var $Created;
+
+    // telll eZ publish to show the article to the public
+    var $IsPublished;
 
     // variable for storing the number of pages in the article.
     var $PageCount;

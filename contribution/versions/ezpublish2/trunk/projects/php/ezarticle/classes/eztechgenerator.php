@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.13 2000/10/25 16:51:12 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.14 2000/10/25 18:19:56 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -72,12 +72,12 @@ class eZTechGenerator
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!) 
             // the expression must be fixed with eg just use the 3 last letters of the tag
 
-            $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim))>#", "&gt;", $tmpPage );
+            $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim|isp))>#", "&gt;", $tmpPage );
             // make better..
             $tmpPage = preg_replace( "#/&gt;#", "/>", $tmpPage );
             
@@ -239,6 +239,12 @@ class eZTechGenerator
                         $pageContent .= "<perl>" . $paragraph->children[0]->content . "</perl>";
                     }
 
+                    // lisp  code
+                    if ( $paragraph->name == "lisp" )
+                    {
+                        $pageContent .= "<lisp>" . $paragraph->children[0]->content . "</lisp>";
+                    }
+                    
                     // bold text
                     if ( $paragraph->name == "bold" )
                     {

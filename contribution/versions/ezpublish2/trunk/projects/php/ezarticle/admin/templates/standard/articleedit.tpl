@@ -10,6 +10,10 @@
 
 <hr noshade="noshade" size="4" />
 
+<input type="checkbox" name="IsPublished" {article_is_published} />
+<span class="boxtext">{intl-article_is_published}</span><br />
+
+
 <p class="boxtext">{intl-article_name}</p>
 <input type="text" name="Name" size="40" value="{article_name}" />
 

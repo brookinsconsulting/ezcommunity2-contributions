@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.5 2000/10/25 13:36:59 bf-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.6 2000/10/25 18:19:56 bf-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -331,7 +331,7 @@ class eZArticleCategory
     /*!
       Returns every article in a category as a array of eZArticle objects.
     */
-    function articles( $sortMode=time )
+    function articles( $sortMode=time, $fetchNonPublished=true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -352,10 +352,22 @@ class eZArticleCategory
        $return_array = array();
        $article_array = array();
 
-       $this->Database->array_query( $article_array, "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_ArticleCategoryLink.ArticleID 
+       if ( $fetchNonPublished  == true )
+       {
+           $this->Database->array_query( $article_array, "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_ArticleCategoryLink.ArticleID 
                                                       FROM eZArticle_Article, eZArticle_ArticleCategoryLink
                                                       WHERE CategoryID='$this->ID' AND eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
                                                       ORDER BY $OrderBy" );
+       }
+       else
+       {
+           $this->Database->array_query( $article_array, "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_ArticleCategoryLink.ArticleID 
+                                                      FROM eZArticle_Article, eZArticle_ArticleCategoryLink
+                                                      WHERE CategoryID='$this->ID' AND eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
+                                                      AND eZArticle_Article.IsPublished='true'
+                                                      ORDER BY $OrderBy" );
+           
+       }
  
        for ( $i=0; $i<count($article_array); $i++ )
        {

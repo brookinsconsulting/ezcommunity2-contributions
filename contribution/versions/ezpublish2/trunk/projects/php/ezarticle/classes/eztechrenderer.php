@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.14 2000/10/25 16:51:12 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.15 2000/10/25 18:19:56 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -45,6 +45,10 @@
   perl code
   </perl>
 
+  <lisp>
+  lisp code
+  </lisp>
+  
   <bold>
   bold text
   </bold>
@@ -60,6 +64,14 @@
   <strike>
   strike text
   </strike>
+
+  <pre>
+  predefined text
+  </pre>
+
+  <verbatim>
+  predefined text
+  </verbatim>
   
   \endcode
   \sa eZTechGenerator  
@@ -209,6 +221,12 @@ class eZTechRenderer
                         $pageContent .= $this->perlHighlight( $paragraph->children[0]->content );
                     }
 
+                    // lisp code 
+                    if ( $paragraph->name == "lisp" )
+                    {
+                        $pageContent .= $this->lispHighlight( $paragraph->children[0]->content );
+                    }
+                    
                     // bold text
                     if ( $paragraph->name == "bold" )
                     {
@@ -580,6 +598,37 @@ class eZTechRenderer
                                 );
 
         $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+
+        $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
+
+        $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
+
+        // indenting
+        $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
+        
+        $string = "<p>" . $string . "</p>";
+        
+        return eZTextTool::nl2br( $string );
+    }
+
+
+    /*!
+      Returns a lisp highlighted string.
+    */
+    function &lispHighlight( $string )
+    {
+        $string = ereg_replace ( "(<)", "&lt;", $string );        
+        $string = ereg_replace ( "(>)", "&gt;", $string );        
+        
+        // some special characters
+        $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+
+        // reserved words
+//          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+
+        // comments
+        $string = ereg_replace ( "(#[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
 
 
         $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.14 2000/10/25 13:46:06 bf-cvs Exp $
+// $Id: articleedit.php,v 1.15 2000/10/25 18:19:55 bf-cvs Exp $
 //
 // 
 //
@@ -43,6 +43,16 @@ if ( $Action == "Insert" )
     
     $article->setLinkText( $LinkText );
 
+    // add check for publishing rights here
+    if ( $IsPublished == "on" )
+    {
+        $article->setIsPublished( true );
+    }
+    else
+    {
+        $article->setIsPublished( false );
+    }
+    
     // check if the contents is parseable
     if ( xmltree( $contents ) )
     {
@@ -109,7 +119,7 @@ if ( $Action == "Update" )
     
     $article->setContents( $contents  );
 
-    print( $contents );
+//    print( $contents );
 
     $article->setPageCount( $generator->pageCount() );
     
@@ -117,6 +127,17 @@ if ( $Action == "Update" )
     
     $article->setLinkText( $LinkText );
 
+    print( "ispublished: " . $IsPublished . "<br>" );
+    // add check for publishing rights here
+    if ( $IsPublished == "on" )
+    {
+        $article->setIsPublished( true );
+    }
+    else
+    {
+        $article->setIsPublished( false );
+    }
+        
     // check if the contents is parseable
     if ( xmltree( $contents ) )
     {
@@ -198,6 +219,8 @@ else
     $t->set_var( "error_message", "" );
 }
 
+$t->set_var( "article_is_published", "" );
+
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
@@ -223,8 +246,16 @@ if ( $Action == "Edit" )
 {
     $t->set_var( "article_id", $ArticleID );
 
-
-    if ( !isset( $Name ) )
+    if (  $article->isPublished() )
+    {
+        $t->set_var( "article_is_published", "checked" );
+    }
+    else
+    {
+        $t->set_var( "article_is_published", "" );
+    }
+    
+    if ( !isset( $Name ) )        
          $t->set_var( "article_name", $article->name() );
 
     $generator = new eZArticleGenerator();
