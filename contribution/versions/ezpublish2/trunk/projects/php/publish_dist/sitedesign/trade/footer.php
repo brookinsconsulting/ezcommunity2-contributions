@@ -61,10 +61,27 @@ if ( $Design == 2 )
     exit();
 }
 
+if ( $Design == 3 )
+{
+    $session->setVariable( "SiteDesign", "news" );
+    include_once( "classes/ezhttptool.php" );
+
+    $redir = "/";
+    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
+    {
+        $redir = $REQUEST_URI;
+    }
+        
+    eZHTTPTool::header( "Location: $redir" );
+    exit();
+}
+
+
 
 ?>
-    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Portal site</a>
-    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">Intranet</a>
+    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Portal site</a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">Intranet</a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=3"); ?>">News site</a><br />
     
 	<img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	</td>

@@ -29,7 +29,7 @@ if ( $session->fetch() == false )
     $session->store();    
 }
 
-if ( $Design == 2 )
+if ( $Design == 1 )
 {
     $session->setVariable( "SiteDesign", "intranet" );
     include_once( "classes/ezhttptool.php" );
@@ -37,8 +37,42 @@ if ( $Design == 2 )
     exit();
 }
 
+if ( $Design == 2 )
+{
+    $session->setVariable( "SiteDesign", "trade" );
+    include_once( "classes/ezhttptool.php" );
+
+    $redir = "/";
+    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
+    {
+        $redir = $REQUEST_URI;
+    }
+        
+    eZHTTPTool::header( "Location: $redir" );
+    exit();
+}
+
+if ( $Design == 3 )
+{
+    $session->setVariable( "SiteDesign", "news" );
+    include_once( "classes/ezhttptool.php" );
+
+    $redir = "/";
+    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
+    {
+        $redir = $REQUEST_URI;
+    }
+        
+    eZHTTPTool::header( "Location: $redir" );
+    exit();
+}
+
+
     ?>
-    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">Portal site</a>
+    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Intranet site</a>
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">E-commerce</a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=3"); ?>">News site</a><br />
+    
 	 <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	 
 	</td>
