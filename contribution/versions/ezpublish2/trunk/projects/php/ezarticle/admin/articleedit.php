@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.37 2001/02/04 17:50:03 bf Exp $
+// $Id: articleedit.php,v 1.38 2001/02/07 11:25:33 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -156,24 +156,21 @@ if ( $Action == "Insert" )
                         unlink( "ezarticle/cache/" . $entry );
                     }
                 }
-
-                if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
+                else if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
                 {
                     if ( $regArray[1] == $articleID )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
                 }
-
-                if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
+                else if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
                 {
                     if ( $regArray[1] == $articleID )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
                 }
-
-                if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
+                else if ( ereg( "articlelist,([0-9]+),([0-9]+)\..*", $entry, $regArray  ) )
                 {
                     if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
                     {
@@ -327,24 +324,21 @@ if ( $Action == "Update" )
                         unlink( "ezarticle/cache/" . $entry );
                     }
                 }
-                
-                if ( ereg( "articleview,([^,]+),.*", $entry, $regArray ) )
+                else if ( ereg( "articleview,([^,]+),.*", $entry, $regArray ) )
                 {
                     if ( $regArray[1] == $ArticleID )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
                 }
-
-                if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
+                else if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
                 {
                     if ( $regArray[1] == $ArticleID )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
                 }
-
-                if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
+                else if ( ereg( "articlelist,([0-9]+),([0-9]+)\..*", $entry, $regArray  ) )
                 {
                     if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
                     {
@@ -443,24 +437,21 @@ if ( $Action == "DeleteArticles" )
                             unlink( "ezarticle/cache/" . $entry );
                         }
                     }
-            
-                    if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
+                    else if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
                     {
                         if ( $regArray[1] == $articleID )
                         {
                             unlink( "ezarticle/cache/" . $entry );
                         }
                     }
-
-                    if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
+                    else if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
                     {
                         if ( $regArray[1] == $articleID )
                         {
                             unlink( "ezarticle/cache/" . $entry );
                         }
                     }
-
-                    if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
+                    else if ( ereg( "articlelist,([0-9]+),([0-9]+)\..*", $entry, $regArray  ) )
                     {
                         if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
                         {
