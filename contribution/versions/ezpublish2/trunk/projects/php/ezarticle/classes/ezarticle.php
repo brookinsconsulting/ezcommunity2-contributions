@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.77 2001/05/04 16:37:23 descala Exp $
+// $Id: ezarticle.php,v 1.78 2001/05/05 10:45:56 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -66,7 +66,7 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 include_once( "ezforum/classes/ezforum.php" );
-
+include_once( "ezarticle/classes/ezarticlecategory.php" );
 
 class eZArticle
 {
