@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.14 2001/10/02 07:30:36 ce Exp $
+// $Id: frontpage.php,v 1.15 2001/10/02 09:19:49 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -155,7 +155,7 @@ if ( $FrontPageProductCategory == 0 )
     // do not set offset for the main page news
     // always sort by publishing date is the merged category
     $product = new eZProduct();
-    $productList =& $product->activeProducts( "time", 0, $productCount );
+    $productList =& $product->hotDealProducts( $productCount );
     $productCount = $productCount;
 }
 else
@@ -599,7 +599,6 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 	
     // preview image
     $thumbnailImage = $product1->thumbnailImage();
-
       
     if ( $thumbnailImage )
     {
@@ -621,6 +620,9 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     $t->set_var( "product_id", $product1->id() );
 
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product1->brief() ) );
+
+    $categoryDefinition = $product1->categoryDefinition();
+    $t->set_var( "category_id", $categoryDefinition->id() );
 
     if ( $ShowPrice and $product1->showPrice() == true and $product1->hasPrice() )
     {
@@ -666,7 +668,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
             }
         }
         else
-            $t->set_var( "right_price", "" );
+            $t->set_var( "left_price", "" );
     }
     
 
@@ -705,6 +707,9 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     $t->set_var( "product_name", $product2->name() );
     $t->set_var( "product_id", $product2->id() );
 
+    $categoryDefinition = $product2->categoryDefinition();
+    $t->set_var( "category_id", $categoryDefinition->id() );
+    
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product2->brief() ) );
 
     if ( $ShowPrice and $product2->showPrice() == true and $product2->hasPrice() )
