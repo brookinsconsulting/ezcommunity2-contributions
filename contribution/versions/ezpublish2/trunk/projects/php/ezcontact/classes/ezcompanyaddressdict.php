@@ -34,6 +34,38 @@ class eZCompanyAddressDict
         return $address_array;
     }
 
+    /*
+      Henter ut med ID == $id
+    */  
+    function getByAddress( $id )
+    {
+        $this->dbInit();    
+        if ( $id != "" )
+        {
+            array_query( $dict_array, "SELECT * FROM CompanyAddressDict WHERE AddressID='$id'" );
+            if ( count( $dict_array ) > 1 )
+            {
+                die( "Feil: Flere dicter med samme ID funnet i database, dette skal ikke være mulig. " );
+            }
+            else if ( count( $dict_array ) == 1 )
+            {
+                $this->ID = $dict_array[ 0 ][ "ID" ];
+                $this->CompanyID = $dict_array[ 0 ][ "CompanyID" ];
+                $this->AddressID = $dict_array[ 0 ][ "AddressID" ];
+            }
+        }
+    }
+    
+
+    /*
+      Sletter dicten med ID == $id;
+     */
+    function delete()
+    {
+        $this->dbInit();
+        
+        query( "DELETE FROM CompanyAddressDict WHERE ID='$this->ID'" );
+    }    
     
     /*
       Setter CompanyID variablen.

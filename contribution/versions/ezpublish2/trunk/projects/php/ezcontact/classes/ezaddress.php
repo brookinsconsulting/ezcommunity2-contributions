@@ -26,6 +26,7 @@ class eZAddress
     function update()
     {
         $this->dbInit();
+        query( "UPDATE Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType' WHERE ID='$this->ID'" );
     }
   
     /*
@@ -65,6 +66,17 @@ class eZAddress
     
         return $address_array;
     }
+
+    /*
+      Sletter adressen med ID == $id;
+     */
+    function delete()
+    {
+        $this->dbInit();
+        
+        query( "DELETE FROM Address WHERE ID='$this->ID'" );
+    }    
+    
 
     /*!
       Setter  street1.

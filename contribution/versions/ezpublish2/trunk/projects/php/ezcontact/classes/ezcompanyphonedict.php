@@ -43,8 +43,8 @@ class eZCompanyPhoneDict
             else if ( count( $dict_array ) == 1 )
             {
                 $this->ID = $dict_array[ 0 ][ "ID" ];
-                $this->FirstName = $dict_array[ 0 ][ "CompanyID" ];
-                $this->LastName = $dict_array[ 0 ][ "PhoneID" ];
+                $this->CompanyID = $dict_array[ 0 ][ "CompanyID" ];
+                $this->PhoneID = $dict_array[ 0 ][ "PhoneID" ];
             }
         }
     }
