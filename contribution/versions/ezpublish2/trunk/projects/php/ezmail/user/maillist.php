@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.4 2001/03/24 18:08:43 fh Exp $
+// $Id: maillist.php,v 1.5 2001/03/24 20:28:04 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
@@ -52,6 +53,11 @@ $account->setServer( "zap.ez.no" );
 $account->store();
 */
 
+if( isset( $NewFolder ) )
+{
+    eZHTTPTool::header( "Location: /mail/folderedit/" );
+    exit();
+}
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
@@ -66,6 +72,7 @@ $t->set_file( array(
 
 $t->set_block( "mail_list_page_tpl", "mail_item_tpl", "mail_item" );
 $t->set_block( "mail_list_page_tpl", "folder_item_tpl", "folder_item" );
+$t->set_var( "mail_item", "" );
 
 $folder = new eZMailFolder( $FolderID );
 $t->set_var( "current_folder_id", $FolderID );
@@ -86,6 +93,13 @@ foreach( $mail as $mailItem )
     $i++;
 }
 
+$folders = eZMailFolder::getByUser();
+foreach( $folders as $folderItem )
+{
+    $t->set_var( "folder_id", $folderItem->id() );
+    $t->set_var( "folder_name", $folderItem->name() );
+    $t->parse( "folder_item", "folder_item_tpl", true );
+}
 
 $t->pparse( "output", "mail_list_page_tpl" );
 ?>

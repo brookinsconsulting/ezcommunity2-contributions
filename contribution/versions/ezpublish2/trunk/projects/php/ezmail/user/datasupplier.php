@@ -19,6 +19,15 @@ switch( $url_array[2] )
         include( "ezmail/user/mailview.php" );
     }
     break;
+
+    case "folderedit" :
+        {
+            $FolderID = $url_array[3];
+            if( $FolderID == "" )
+                $FolderID = 0;
+            include( "ezmail/user/folderedit.php" );
+        }
+    break;
     
     default:
     {

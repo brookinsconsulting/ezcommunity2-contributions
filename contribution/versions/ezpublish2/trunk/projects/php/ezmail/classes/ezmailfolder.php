@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.3 2001/03/24 18:08:43 fh Exp $
+// $Id: ezmailfolder.php,v 1.4 2001/03/24 20:28:04 fh Exp $
 //
 // eZMailFolder class
 //
@@ -190,11 +190,14 @@ class eZMailFolder
 
     /*!
     */
-    function setUserID( $value )
+    function setUser( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+        if( get_class( $value ) == "ezuser" )
+            $value = $value->id();
+        
         $this->UserID = $value;
     }
 
@@ -345,7 +348,36 @@ class eZMailFolder
         }
     }                                
 
+    /*!
+      \static
+      Returns all folders that belongs to this user as an array of eZMailFolders.
+     */
+    function getByUser( $user = false, $withSpecialFolders=false )
+    {
+        if( get_class( $user ) != "ezuser" )
+            $user = eZUser::currentUser();
 
+        $noSpecial = "";
+        if( $widthSpecialFolders == false )
+        {
+            $noSpecial = "AND FolderType='0'";
+        }
+        
+        $return_array = array();
+        $res = array();
+        $userid = $user->id();
+        $database = eZDB::globalDatabase();
+        $query = "SELECT ID FROM eZMail_Folder WHERE UserID='$userid' $noSpecial";
+        $database->array_query( $res, $query );
+
+        for ( $i=0; $i < count($res); $i++ )
+        {
+            $return_array[$i] = new eZMailFolder( $res[$i]["ID"] );
+        }
+
+        return $return_array;
+    }
+    
     /*
       Returns all the mail in the folder. $sortmode can be one of the following:
       subject, sender, date, subjectdec, senderdesc, datedesc.
