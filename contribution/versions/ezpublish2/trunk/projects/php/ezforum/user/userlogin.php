@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.8 2001/01/23 13:16:57 jb Exp $
+// $Id: userlogin.php,v 1.9 2001/02/23 16:05:02 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -35,24 +35,39 @@ include_once( "ezuser/classes/ezuser.php" );
 
 if ( eZUser::currentUser() )
 {
-    if ( $Action == "NewSimple" )
+    if( isset( $RedirectURL ) )
     {
-        eZHTTPTool::header( "Location: /forum/messagesimpleedit/new/$ForumID/?RedirectURL=$RedirectURL" );
+        $AdditionalURLInfo="?RedirectURL=$RedirectURL";
     }
 
-    if ( $Action == "ReplySimple" )
+    if ( $Action == "newsimple" )
     {
-        eZHTTPTool::header( "Location: /forum/messagesimplereply/new/$ForumID/$MessageID/?RedirectURL=$RedirectURL" );
+        eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
+    }
+
+    if ( $Action == "replysimple" )
+    {
+        eZHTTPTool::header( "Location: /forum/messageedit/reply/$ReplyToID/$ForumID/$AdditionalURLInfo" );
     }
     
     if ( $Action == "new" )
     {
-        eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/" );
+        eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
+    }
+
+    if ( $Action == "edit" )
+    {
+        eZHTTPTool::header( "Location: /forum/messageedit/edit/$MessageID/$AdditionalURLInfo" );
+    }
+
+    if ( $Action == "delete" )
+    {
+        eZHTTPTool::header( "Location: /forum/messageedit/delete/$MessageID/$AdditionalURLInfo" );
     }
 
     if ( $Action == "reply" )
     {
-        eZHTTPTool::header( "Location: /forum/reply/reply/$MessageID/" );
+        eZHTTPTool::header( "Location: /forum/messageedit/reply/$ReplyToID/$AdditionalURLInfo" );
     }    
 }
 else
@@ -66,12 +81,12 @@ else
         "user_login_tpl" => "userlogin.tpl"
         ) );
 
-    if ( $Action == "NewSimple" )
+    if ( $Action == "newsimple" )
     {
         $t->set_var( "redirect_url", $RedirectURL );
     }
 
-    if ( $Action == "ReplySimple" )
+    if ( $Action == "replysimple" )
     {
         $t->set_var( "redirect_url", $RedirectURL );
     }
@@ -79,6 +94,16 @@ else
     if ( $Action == "new" )
     {
         $t->set_var( "redirect_url", "/forum/messageedit/new/$ForumID/" );
+    }
+
+    if ( $Action == "edit" )
+    {
+        $t->set_var( "redirect_url", "/forum/messageedit/edit/$MessageID/" );
+    }
+
+    if ( $Action == "delete" )
+    {
+        $t->set_var( "redirect_url", "/forum/messageedit/delete/$MessageID/" );
     }
 
     if ( $Action == "reply" )

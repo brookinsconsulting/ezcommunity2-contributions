@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.23 2001/02/23 16:05:02 pkej Exp $
+// $Id: messagereply2.php,v 1.1 2001/02/23 16:05:02 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -215,7 +215,7 @@ $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
 $text = eZTextTool::addPre( $msg->body() );
 
-$t->set_var( "body", $text );
+$t->set_var("body", $text );
 $t->set_var( "category_id", $CategoryID );
 $t->set_var( "message_id", $ReplyID );
 

@@ -57,14 +57,35 @@
 
 <br />
 
-<form method="post" action="/forum/userlogin/reply/{reply_id}/">
 
 <hr noshade="noshade" size="4" />
-
-<input class="stdbutton" type="submit" value="{intl-answer}" />
-<!-- <a href="/forum/reply/reply/{reply_id}/">[{intl-reply}]</a> -->
-</form>
-
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+    <form method="post" action="/forum/messageedit/reply/{reply_id}/">
+    <input class="stdbutton" type="submit" value="{intl-answer}" />
+    </form>
+</td>
+<!-- BEGIN edit_current_message_item_tpl -->
+<td>
+    &nbsp;
+</td>
+<td>
+    <form method="post" action="/forum/messageedit/edit/{message_id}/">
+    <input class="stdbutton" type="submit" value="{intl-edit}" />
+    </form>
+</td>
+<td>
+    &nbsp;
+</td>
+<td>
+    <form method="post" action="/forum/messageedit/delete/{message_id}/">
+    <input class="stdbutton" type="submit" value="{intl-delete}" />
+    </form>
+</td>
+<!-- END edit_current_message_item_tpl -->
+</tr>
+</table>
 <br />
 
 <h2>{intl-message_thread}</h2>
@@ -74,6 +95,7 @@
 	<th>{intl-reply-topic}:</th>
     <th>{intl-reply-author}:</th>
     <th>{intl-reply-time}:</th>
+    <th>&nbsp;</th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->
@@ -90,6 +112,13 @@
     	<td class="{td_class}">
 	<span class="small">{postingtime}</span>
 	</td>
+    <td class="{td_class}">
+        <!-- BEGIN edit_message_item_tpl -->
+        [ <a href="/forum/messageedit/edit/{message_id}/">e</a> | <a href="/forum/messageedit/delete/{message_id}/">d</a> ]
+        <!-- END edit_message_item_tpl -->
+        &nbsp;
+    </td>
+
 </tr>
     <!-- END message_item_tpl -->
 

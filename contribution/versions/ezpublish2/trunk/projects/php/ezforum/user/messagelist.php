@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.12 2001/02/12 14:59:45 ce Exp $
+// $Id: messagelist.php,v 1.13 2001/02/23 16:05:02 pkej Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -44,6 +44,7 @@ $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateD
 $t->set_file( "messagelist", "messagelist.tpl"  );
 
 $t->set_block( "messagelist", "message_item_tpl", "message_item" );
+$t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
 $t->set_block( "messagelist", "previous_tpl", "previous" ); 
 $t->set_block( "messagelist", "next_tpl", "next" ); 
 
@@ -54,13 +55,12 @@ $forum = new eZForum( $ForumID );
 $categories =& $forum->categories();
 
 $group =& $forum->group();
-
+$viewer = $user;
 if ( get_class( $group ) == "ezusergroup" )
 {
-    $user = eZUser::currentUser();
-    if ( get_class ( $user ) == "ezuser" )
+    if ( get_class ( $viewer ) == "ezuser" )
     {
-        $groupList =& $user->groups();
+        $groupList =& $viewer->groups();
         
         foreach ( $groupList as $userGroup )
         {
@@ -112,6 +112,8 @@ else
     $i = 0;
     foreach ( $messageList as $message )
     {
+        $t->set_var( "edit_message_item", "" );
+
         if ( ( $i % 2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
@@ -162,7 +164,13 @@ else
         
         
 //    $t->set_var( "next_offset", $Offset + $Limit );    
-        
+        if( get_class( $viewer ) == "ezuser" )
+        {
+            if( $viewer->id() == $message->userId() && eZForumMessage::countReplies( $message->id() ) == 0 )
+            {
+                $t->parse( "edit_message_item", "edit_message_item_tpl" );
+            }
+        }
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
     }

@@ -1,9 +1,20 @@
 <?php
 switch ( $url_array[2] )
 {
-
-    case "userlogin" :
+    case "userlogin":
     {
+        $Action = $url_array[3];
+        
+        switch( $Action )
+        {
+            case "edit":
+            case "delete":
+            {
+                $MessageID = $url_array[4];
+                include( "ezforum/user/userlogin.php" );
+            }
+            break;
+        }
         if ( $url_array[3] == "new" )
         {         
             $Action = $url_array[3];
@@ -15,24 +26,20 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "reply" )
         {         
             $Action = $url_array[3];
-            $ForumID = $url_array[4];
-            $MessageID = $url_array[4];
+            $ReplyToID = $url_array[4];
             include( "ezforum/user/userlogin.php" );
         }
         
         if ( $url_array[3] == "newsimple" )
         {
-            $Action = "NewSimple";
             $ForumID = $url_array[4];
-            $MessageID = $url_array[4];
             include( "ezforum/user/userlogin.php" );
         }
 
         if ( $url_array[3] == "replysimple" )
         {
-            $Action = "ReplySimple";
             $ForumID = $url_array[4];
-            $MessageID = $url_array[5];
+            $ReplyToID = $url_array[5];
             include( "ezforum/user/userlogin.php" );
         }
     }    
@@ -58,15 +65,52 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "messagesimpleedit":
+    case "messagesimplereply":
+    case "reply":
     case "messageedit":
+    case "newpost":
+    case "newsimple":
     {
         $Action = $url_array[3];
-        $MessageID = $url_array[4];
+        $ID = $url_array[4];
+
+        switch( $Action )
+        {
+            case "reply":
+            {
+                $ReplyToID = $ID;
+                $ForumID = $url_array[5];
+            }
+            break;
+
+            case "new":
+            {
+                $ForumID = $ID;
+            }
+            break;
+
+            case "edit":
+            case "completed":
+            case "insert":
+            case "update":
+            {
+                $MessageID = $ID;
+            }
+            break;
+
+            case "delete":
+            {
+                $MessageID = $ID;
+            }
+            break;
+        }
         include( "ezforum/user/messageedit.php" );
+
     }
     break;
 
-    case "messagesimpleedit":
+    case "2messagesimpleedit":
     {
         if ( $url_array[3] == "new" )
         {
@@ -85,7 +129,7 @@ switch ( $url_array[2] )
     break;
 
 
-    case "messagesimplereply";
+    case "2messagesimplereply";
     {
         if ( $url_array[3] == "new" )
         {
@@ -121,25 +165,9 @@ switch ( $url_array[2] )
     }
         break;
         
-    case "reply" :
-    {
-        if ( $url_array[3] == "reply" )
-        {
-            $ReplyID = $url_array[4];
-            include( "ezforum/user/messagereply.php" );
-        }
-        if ( $url_array[3] == "insert" )
-        {
-            $Action = "insert";
-
-            $ReplyID = $url_array[4];
-            include( "ezforum/user/messagereply.php" );
-        }
-    }    
-    break;
 
 
-    case "newpost" :
+    case "2newpost" :
     {
         $ForumID = $url_array[3];
         

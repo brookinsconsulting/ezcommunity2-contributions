@@ -27,27 +27,32 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-   	<th>{intl-topic}:</th>
+    <th>{intl-topic}:</th>
     <th>{intl-author}:</th>
     <th>{intl-time}:</th>
+    <th>&nbsp;</th>
 </tr>
 
-    <!-- BEGIN message_item_tpl -->
-    <tr>
-    	<td class="{td_class}">
-	   {spacer}{spacer}
-		<a href="/forum/message/{message_id}/">
-		{topic}
-		</a>
-	</td>
-    	<td class="{td_class}">
-	    {user}
-	    </td>
-    	<td class="{td_class}">
-	   <span class="small">{postingtime}</span>
-	   </td>
-    </tr>
-    <!-- END message_item_tpl -->
+<!-- BEGIN message_item_tpl -->
+<tr>
+    <td class="{td_class}">
+        {spacer}{spacer}<a href="/forum/message/{message_id}/">{topic}</a>
+    </td>
+    <td class="{td_class}">
+        {user}
+    </td>
+    <td class="{td_class}">
+        <span class="small">{postingtime}</span>
+    </td>
+    <td class="{td_class}">
+        <!-- BEGIN edit_message_item_tpl -->
+        [ <a href="/forum/messageedit/edit/{message_id}/">e</a> | <a href="/forum/messageedit/delete/{message_id}/">d</a> ]
+        <!-- END edit_message_item_tpl -->
+        &nbsp;
+    </td>
+</tr>
+<!-- END message_item_tpl -->
+
 </table>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

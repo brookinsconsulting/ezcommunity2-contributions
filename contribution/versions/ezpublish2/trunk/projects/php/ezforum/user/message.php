@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.16 2001/02/12 14:59:45 ce Exp $
+// $Id: message.php,v 1.17 2001/02/23 16:05:02 pkej Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -45,20 +45,22 @@ $t->setAllStrings();
 $t->set_file( "message_tpl", "message.tpl"  );
 
 $t->set_block( "message_tpl", "message_item_tpl", "message_item" );
+$t->set_block( "message_tpl", "edit_current_message_item_tpl", "edit_current_message_item" );
+$t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
 
+$t->set_var( "edit_current_message_item", "" );
 
 $message = new eZForumMessage( $MessageID );
 
 $forum = new eZForum( $message->forumID() );
 
 $group =& $forum->group();
-
+$viewer = $user;
 if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
 {
-    $user = eZUser::currentUser();
-    if ( get_class ( $user ) == "ezuser" )
+    if ( get_class ( $viewer ) == "ezuser" )
     {
-        $groupList =& $user->groups();
+        $groupList =& $viewer->groups();
         
         foreach ( $groupList as $userGroup )
         {
@@ -102,11 +104,20 @@ $t->set_var( "topic", $message->topic() );
 $time = $message->postingTime();
 $t->set_var( "main-postingtime", $locale->format( $time  ));
 
-$t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
+$t->set_var( "body", eZTextTool::nl2br( $message->body( false ) ) );
 
 $t->set_var( "reply_id", $message->id() );
 
 $t->set_var( "forum_id", $forum->id() );
+
+if( get_class( $viewer ) == "ezuser" )
+{
+    if( $viewer->id() == $message->userId() && eZForumMessage::countReplies( $message->id() ) == 0 )
+    {
+        $t->parse( "edit_current_message_item", "edit_current_message_item_tpl" );
+    }
+}
+
 
 $topMessage = $message->threadTop( $message );
 
@@ -121,6 +132,7 @@ $level = 0;
 $i=0;
 foreach ( $messages as $message )
 {
+    $t->set_var( "edit_message_item", "" );
     if ( ( $i % 2 ) == 0 )
         $t->set_var( "td_class", "bglight" );
     else
@@ -154,6 +166,13 @@ foreach ( $messages as $message )
     
     $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
+    if( get_class( $viewer ) == "ezuser" )
+    {
+        if( $viewer->id() == $message->userId() && eZForumMessage::countReplies( $message->id() ) == 0 )
+        {
+            $t->parse( "edit_message_item", "edit_message_item_tpl" );
+        }
+    }
     $t->parse( "message_item", "message_item_tpl", true );
     $i++;
 }
