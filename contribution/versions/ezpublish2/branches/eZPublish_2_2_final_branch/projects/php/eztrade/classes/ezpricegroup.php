@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.17.2.1 2001/11/22 14:27:02 pkej Exp $
+// $Id: ezpricegroup.php,v 1.17.2.2 2001/11/27 18:30:42 br Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -269,6 +269,7 @@ class eZPriceGroup
         $db =& eZDB::globalDatabase();
         
         $ini =& INIFile::globalINI();
+        $ret = false;
         $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
 
         if ( $ShowPriceGroups == true )
@@ -281,6 +282,7 @@ class eZPriceGroup
                     $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
                     $first = false;
                 }
+                
                 if ( $group_text )
                     $group_text = " AND ( $group_text )";
                 else
@@ -291,18 +293,30 @@ class eZPriceGroup
                 $group_text = "AND PriceID='$priceid'";
             }
 
-            $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
+            $db->array_query( $array, "SELECT Price, PriceID FROM eZTrade_ProductPriceLink
                                        WHERE ProductID='$productid' $group_text
                                          AND OptionID='$optionid' ORDER BY Price" );
+            
             if ( count( $array ) > 0 )
-                return $array[0][$db->fieldName("Price")];
-            else
+            {
+                for($i=0;$i < count( $array ); $i++ )
+                {
+                    $priceID = $array[$i][$db->fieldName("PriceID")];
+                    if ( in_array( $priceID , $priceid ) )
+                    {
+                        $ret = $array[$i][$db->fieldName("Price")];
+                        break;
+                    }
+                }
+            }
+
+            if ( $ret == false )
             {
                 $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
                                            WHERE OptionID='$optionid' ORDER BY Price" );
-
+                
                 if ( count( $array ) > 0 )
-                    return $array[0][$db->fieldName("Price")];
+                    $ret = $array[0][$db->fieldName("Price")];
             }
         }
         else
@@ -310,11 +324,10 @@ class eZPriceGroup
             $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
                                        WHERE OptionID='$optionid' ORDER BY Price" );
             if ( count( $array ) > 0 )
-                return $array[0][$db->fieldName("Price")];
+                $ret = $array[0][$db->fieldName("Price")];
         }
 
-
-        return false;
+        return $ret;
     }
 
     /*
@@ -325,6 +338,7 @@ class eZPriceGroup
         $db =& eZDB::globalDatabase();
         
         $ini =& INIFile::globalINI();
+        $ret = false;
         $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
 
         if ( $ShowPriceGroups == true )
@@ -347,17 +361,34 @@ class eZPriceGroup
                 $group_text = "AND PriceID='$priceid'";
             }
 
-            $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
+            $db->array_query( $array, "SELECT Price, PriceID FROM eZTrade_ProductPriceLink
                                        WHERE ProductID='$productid' $group_text
                                          AND OptionID='$optionid' ORDER BY Price DESC" );
+            
             if ( count( $array ) > 0 )
-                return $array[0][$db->fieldName("Price")];
-            else
+            {
+                for($i=0;$i < count( $array ); $i++ )
+                {
+                    $priceID = $array[$i][$db->fieldName("PriceID")];
+
+                    if ( in_array( $priceID , $priceid ) )
+                    {
+                        $ret = $array[$i][$db->fieldName("Price")];
+                        break;
+                    }
+                }
+            }
+            
+            if ( $ret == false )
             {
                 $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
                                            WHERE OptionID='$optionid' ORDER BY Price DESC" );
+
                 if ( count( $array ) > 0 )
-                    return $array[0][$db->fieldName("Price")];
+                {
+                    $ret = $array[0][$db->fieldName("Price")];
+                }
+
             }
         }
         else
@@ -366,9 +397,9 @@ class eZPriceGroup
                                        WHERE OptionID='$optionid' ORDER BY Price DESC" );
 
             if ( count( $array ) > 0 )
-                return $array[0][$db->fieldName("Price")];
+                $ret = $array[0][$db->fieldName("Price")];
         }
-        return false;
+        return $ret;
     }
 
     /*!

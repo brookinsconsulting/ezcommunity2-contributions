@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.6 2001/11/26 19:57:51 br Exp $
+// $Id: ezproduct.php,v 1.119.2.7 2001/11/27 18:30:42 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -373,12 +373,12 @@ class eZProduct
             }
         }
         
-        if ( empty( $price ) )
+        if ( empty( $price ) || $price == 0 )
         {
             $price = $this->Price;
         }
         
-       $vatType =& $this->vatType();
+        $vatType =& $this->vatType();
        
         if ( $calcVAT == true )
         {
@@ -598,8 +598,10 @@ class eZProduct
             $prices = $this->correctPriceRange( $calcVAT );
             $highCurrency->setValue( $prices["max"] );
             $lowCurrency->setValue( $prices["min"] );
-            
-            $returnString = $locale->format( $lowCurrency ) . " - " .$locale->format( $highCurrency );
+            if (  $prices["min"] !=  $prices["max"] )
+                $returnString = $locale->format( $lowCurrency ) . " - " .$locale->format( $highCurrency );
+            else
+                $returnString = $locale->format( $highCurrency );
         }
         else
         {
@@ -664,9 +666,6 @@ class eZProduct
     */
     function &priceIncVAT( $price="" )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $price == "" )
        {
            $calcPrice = $this->Price;
@@ -701,7 +700,7 @@ class eZProduct
                 $priceExVat = $calcPrice - ( $calcPrice / ( 100 + $value ) * $value);
             }
         }
-        
+        print( "-$priceExVat-" );
         $returnArray = array( "Price" => $priceExVat, "VAT" => $vat );
         return $returnArray;
     }
@@ -1215,7 +1214,7 @@ class eZProduct
        
        $db->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
 
-       if ( count( $option_array ) > 1 )
+       if ( count( $option_array ) > 0 )
        {
            $return_value = true;
        }

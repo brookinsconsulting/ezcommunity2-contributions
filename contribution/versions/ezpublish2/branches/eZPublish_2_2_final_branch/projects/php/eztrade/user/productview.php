@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.2.2 2001/11/02 07:39:52 ce Exp $
+// $Id: productview.php,v 1.77.2.3 2001/11/27 18:30:42 br Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -583,7 +583,11 @@ $t->set_var( "voucher_buttons", "" );
 
 if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
 {
-    $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
+    $currency = new eZCurrency();
+    $currency->setValue( $product->correctPrice( $PricesIncludeVAT ) );
+    $t->set_var( "product_price", $locale->format( $currency ) );
+    
+//    $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
 
     $price = new eZCurrency( $product->correctPrice( $PricesIncludeVAT ) );
     
