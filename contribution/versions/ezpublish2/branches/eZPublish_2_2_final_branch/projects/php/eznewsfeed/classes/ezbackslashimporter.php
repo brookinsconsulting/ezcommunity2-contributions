@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.9.2.1 2001/10/29 16:49:39 bf Exp $
+// $Id: ezbackslashimporter.php,v 1.9.2.2 2001/11/14 12:37:59 br Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -79,8 +79,7 @@ class eZBackslashImporter
                         
                         foreach ( $channel->children as $item )
                         {
-                            $content = $value->content;
-                            
+                            $content = $item->content;
                             switch ( $item->name )
                             {
                                 case "title" :
