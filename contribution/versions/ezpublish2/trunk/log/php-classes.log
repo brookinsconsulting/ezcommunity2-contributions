@@ -815,3 +815,11 @@ Maintainer(s) : bf@ez.no
     over-enthusiastic htmlspecialchars(). Used in eZArticle and
     eZImageCatalogue.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2003-02-20  Bjoern Reiten  <br@ez.no>
+
+    * eztime.php: fixed bug (redeclaration of the function addZero())
+
