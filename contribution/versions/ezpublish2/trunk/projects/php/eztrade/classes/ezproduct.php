@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.90 2001/09/14 12:48:14 pkej Exp $
+// $Id: ezproduct.php,v 1.91 2001/09/14 12:57:15 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -404,27 +404,20 @@ class eZProduct
 
             $lowPrice = "";
             $maxPrice = "";
-
+            
             foreach ( $options as $option )
             {
                 $tmpLowPrice = eZPriceGroup::lowestPrice( $this->ID, $groups, $option->id() );
                 $tmpMaxPrice = eZPriceGroup::highestPrice( $this->ID, $groups, $option->id() );
 
-                if ( $tmpLowPrice < $lowPrice or $lowPrice == "" )
-                {
-                    $lowPrice = $tmpLowPrice;
-                }
-                
-                if ( $tmpMaxPrice > $maxPrice or $maxPrice == "" )
-                {
-                    $maxPrice = $tmpMaxPrice;
-                }
+                $lowPrice += $tmpLowPrice;
+                $maxPrice += $tmpMaxPrice;
             }
         }
         
         if ( empty( $lowPrice ) )
         {
-            $lowPrice = $this->Price;
+            $lowPrice = $$this->correctPrice( $inUser, $calcVAT  );
         }
         else
         {
@@ -433,7 +426,7 @@ class eZProduct
         
         if ( empty( $maxPrice ) )
         {
-            $maxPrice = $this->Price;
+            $maxPrice = $this->correctPrice( $inUser, $calcVAT );
         }
         else
         {
