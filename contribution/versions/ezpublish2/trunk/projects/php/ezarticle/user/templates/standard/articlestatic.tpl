@@ -23,7 +23,6 @@
 
 <hr noshade="noshade" size="4" />
 
-STATIC !!
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="/article/archive/0/">{intl-top_level}</a>
 
