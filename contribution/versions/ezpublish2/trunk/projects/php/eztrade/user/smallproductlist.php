@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallproductlist.php,v 1.1 2001/10/04 10:04:54 ce Exp $
+// $Id: smallproductlist.php,v 1.2 2001/10/04 12:57:02 ce Exp $
 //
 // Created on: <04-Oct-2001 12:20:03 ce>
 //
@@ -82,6 +82,7 @@ if ( $PureStatic != "true" )
 
     $t->set_var( "sitedesign", $GlobalSiteDesign );
     $t->set_var( "category_id", $CategoryID );
+    $t->set_var( "category_name", $category->name() );
     $user =& eZUser::currentUser();
 
     // categories
