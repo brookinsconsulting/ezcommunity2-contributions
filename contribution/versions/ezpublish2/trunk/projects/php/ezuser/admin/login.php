@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.17 2001/03/08 13:54:50 jb Exp $
+// $Id: login.php,v 1.18 2001/03/12 15:03:29 pkej Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -75,6 +75,11 @@ if ( $Action == "login" )
 
 if ( !isset( $RefererURL ) )
     $RefererURL = $REQUEST_URI;
+    if ( preg_match( "#^/user/login.*#", $RefererURL  ) )
+    {
+        $RefererURL = "/";
+        
+    }
 
 $t->set_var( "referer_url", $RefererURL );
 
