@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.9 2001/11/22 14:52:13 bf Exp $
+// $Id: ezproduct.php,v 1.119.4.10 2001/12/12 10:32:39 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1474,8 +1474,14 @@ class eZProduct
                 ++$i;
             }
             $db->query( "INSERT INTO $table(ProductID)
-                         SELECT eZTrade_ProductCategoryLink.ProductID FROM eZTrade_ProductCategoryLink
+                         SELECT eZTrade_ProductCategoryLink.ProductID FROM
+                         eZTrade_ProductCategoryLink,
+                         eZTrade_Quantity,
+                         eZTrade_ProductQuantityDict
                          WHERE ( $catSQL )
+                         AND eZTrade_Quantity.ID=eZTrade_ProductQuantityDict.QuantityID
+                         AND eZTrade_ProductCategoryLink.ProductID=eZTrade_ProductQuantityDict.ProductID                           
+                         AND eZTrade_Quantity.Quantity <> '0'
                          GROUP BY eZTrade_ProductCategoryLink.ProductID" );
         }
         
@@ -1571,8 +1577,14 @@ class eZProduct
                 ++$i;
             }
             $db->query( "INSERT INTO $table(ProductID)
-                         SELECT eZTrade_ProductCategoryLink.ProductID FROM eZTrade_ProductCategoryLink
+                         SELECT eZTrade_ProductCategoryLink.ProductID FROM
+                         eZTrade_ProductCategoryLink,
+                         eZTrade_Quantity,
+                         eZTrade_ProductQuantityDict
                          WHERE ( $catSQL )
+                         AND eZTrade_Quantity.ID=eZTrade_ProductQuantityDict.QuantityID
+                         AND eZTrade_ProductCategoryLink.ProductID=eZTrade_ProductQuantityDict.ProductID                           
+                         AND eZTrade_Quantity.Quantity <> '0'
                          GROUP BY eZTrade_ProductCategoryLink.ProductID" );
         }
 
