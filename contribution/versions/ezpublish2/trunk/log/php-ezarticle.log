@@ -3386,3 +3386,11 @@ Maintainer(s) : bf@ez.no
     * user/datasupplier.php:
     Fixed redirect to 403 page when accessing a restricted article.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-07-05  Gunnstein Lye  <gl@ez.no>
+
+    * xmlrpc/category.php: delete parent cache on store()
+
