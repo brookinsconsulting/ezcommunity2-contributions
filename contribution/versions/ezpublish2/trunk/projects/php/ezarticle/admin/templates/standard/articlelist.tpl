@@ -153,10 +153,10 @@
 	</td>
 	<!-- BEGIN absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/archive/{category_id}/?MoveDown={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveDown={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/archive/{category_id}/?MoveUp={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveUp={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
 	</td>
 	<!-- END absolute_placement_item_tpl -->
         <!-- BEGIN article_edit_tpl -->
