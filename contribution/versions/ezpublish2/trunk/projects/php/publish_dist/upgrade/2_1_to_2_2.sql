@@ -751,8 +751,8 @@ CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
 
 # eZ mediacatalogue
 
-DROP TABLE IF EXISTS eZMediaCatalouge_Category;
-CREATE TABLE eZMediaCatalouge_Category (
+DROP TABLE IF EXISTS eZMediaCatalogue_Category;
+CREATE TABLE eZMediaCatalogue_Category (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
   Description text,
@@ -763,8 +763,8 @@ CREATE TABLE eZMediaCatalouge_Category (
   PRIMARY KEY (ID)
 );
 
-DROP TABLE IF EXISTS eZMediaCatalouge_CategoryPermission;
-CREATE TABLE eZMediaCatalouge_CategoryPermission (
+DROP TABLE IF EXISTS eZMediaCatalogue_CategoryPermission;
+CREATE TABLE eZMediaCatalogue_CategoryPermission (
   ID int(11) NOT NULL auto_increment,
   ObjectID int(11) default NULL,
   GroupID int(11) default NULL,
