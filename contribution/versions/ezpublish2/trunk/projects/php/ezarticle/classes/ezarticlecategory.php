@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.84 2001/08/21 10:29:11 jb Exp $
+// $Id: ezarticlecategory.php,v 1.85 2001/08/21 10:36:57 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1115,7 +1115,10 @@ class eZArticleCategory
        // fetch all articles
        if ( $fetchAll  == true )             
        {
-           $publishedSQL = " ";
+           if ( $permissionSQL == "" )
+               $publishedSQL = " ";
+           else
+               $publishedSQL = " AND ";
        }
       
        // fetch only published articles
