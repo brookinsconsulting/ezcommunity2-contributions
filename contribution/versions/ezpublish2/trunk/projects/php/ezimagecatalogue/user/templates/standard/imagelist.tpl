@@ -1,6 +1,6 @@
 <form method="post" action="/imagecatalogue/image/new/" enctype="multipart/form-data">
 
-<h1>Bilder</h1>
+<h1>{intl-images}</h1>
 
 <!-- BEGIN current_category_tpl -->
 
