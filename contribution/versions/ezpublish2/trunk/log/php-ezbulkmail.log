@@ -735,3 +735,12 @@ Maintainer(s) : fh@ez.no
       user/subscriptionlogin.php:
     Bugfix: Do not allow multiple entries of same address.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-09-03  fh  <fh@zev.ez.no>
+
+    * user/singlelist.php:
+    Fix for wrong from and fromname in singlelist subscription
+
