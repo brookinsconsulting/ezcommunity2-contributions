@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.23 2001/08/20 09:40:33 bf Exp $
+// $Id: ezmysqldb.php,v 1.24 2001/08/28 11:48:16 bf Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -41,6 +41,13 @@ class eZMySQLDB
         $this->User = $user;
         $this->Password = $password;
 
+        $socketPath =& $ini->read_var( "site", "MySQLSocket" );
+
+        if ( trim( $socketPath != "" ) && $socketPath != "disabled" )
+        {
+            ini_set( "mysql.default_socket", $socketPath );
+        }
+        
         $this->Database = mysql_pconnect( $server, $user, $password );
         if ( $this->Database == false )
         {
