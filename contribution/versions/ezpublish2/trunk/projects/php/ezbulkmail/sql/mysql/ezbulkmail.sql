@@ -87,6 +87,7 @@ CREATE TABLE eZBulkMail_CategoryDelay (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_Offset (
+  ID int(11) NOT NULL,
   Hour int(11) default NULL,
   Daily int(11) default NULL,
   Weekly int(11) default NULL,

@@ -29,11 +29,12 @@ CREATE TABLE eZAd_Category (
 );
 
 CREATE TABLE eZAd_Click (
-  ID int NOT NULL,
-  AdID int default NULL,
-  ClickPrice float,
+  ID int(11) NOT NULL,
+  AdID int(11) default NULL,
+  PageViewID int(11) default NULL,
+  ClickPrice float(10,2) default NULL,
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZAd_View (
   ID int NOT NULL,
@@ -672,7 +673,16 @@ CREATE TABLE eZBug_Status (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZBug_Status VALUES (1,'Fixed');CREATE TABLE eZBulkMail_Category (
+INSERT INTO eZBug_Status VALUES (1,'Fixed');
+
+CREATE TABLE eZBug_ModulePermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;CREATE TABLE eZBulkMail_Category (
   ID int(11) NOT NULL,
   Name varchar(200) default NULL,
   Description text,
@@ -709,8 +719,8 @@ CREATE TABLE eZBulkMail_MailTemplateLink (
 CREATE TABLE eZBulkMail_SentLog (
   ID int(11) NOT NULL,
   MailID int(11) NOT NULL default '0',
-  AddressID int(11) NOT NULL default '0',
-  SentDate int(14) NOT NULL,
+  Mail varchar(255) default NULL,
+  SentDate int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -748,6 +758,54 @@ CREATE TABLE eZBulkMail_Forgot (
   Password varchar(50) NOT NULL,
   Hash varchar(33),
   Time int,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZBulkMail_CategoryDelay (
+  ID int(11) NOT NULL,
+  CategoryID int(11) NOT NULL default '0',
+  AddressID int(11) NOT NULL default '0',
+  Delay int(11) default '0',
+  MailID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZBulkMail_Offset (
+  Hour int(11) default NULL,
+  Daily int(11) default NULL,
+  Weekly int(11) default NULL,
+  Monthly int(11) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZBulkMail_SubscriptionCategorySettings (
+  ID int(11) NOT NULL,
+  CategoryID int(11) NOT NULL default '0',
+  AddressID int(11) NOT NULL default '0',
+  Delay int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZBulkMail_UserCategoryDelay (
+  ID int(11) NOT NULL,
+  CategoryID int(11) default '0',
+  UserID int(11) default '0',
+  Delay int(11) default '0',
+  MailID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZBulkMail_UserCategoryLink (
+  UserID int(11) default '0',
+  CategoryID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZBulkMail_UserCategorySettings (
+  CategoryID int(11) default '0',
+  UserID int(11) default '0',
+  Delay int(11) default '0',
+  ID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;CREATE TABLE eZCalendar_Appointment (
   ID int NOT NULL,
@@ -1514,7 +1572,41 @@ INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
 INSERT INTO eZMediaCatalogue_Type VALUES (3,'ShockWave Flash');
 
+CREATE TABLE eZMediaCatalogue_AttributeValue (
+  ID int(11) NOT NULL auto_increment,
+  MediaID int(11) default NULL,
+  AttributeID int(11) default NULL,
+  Value varchar(200) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (33,1,16,'application/x-mplayer2');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (32,1,10,'true');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (31,1,9,'false');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (30,1,8,'false');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (29,1,7,'300');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (28,1,6,'300');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (7,3,11,'high');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (8,3,12,'http://www.macromedia.com/shockwave/download/index.cgi?P1_P rod_Version=ShockwaveFlash');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (9,3,13,'application/x-shockwave-flash');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (10,3,14,'500');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (11,3,15,'400');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (38,2,15,'400');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (37,2,14,'500');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (36,2,13,'application/x-shockwave-flash');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (35,2,12,'http://www.macromedia.com/shockwave/download/index.cgi?P1_P rod_Version=ShockwaveFlash');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (34,2,11,'high');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (17,4,1,'500');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (18,4,2,'400');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (19,4,3,'video/quicktime');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (20,4,4,'true');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (21,4,5,'true');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (44,5,16,'application/x-mplayer2');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (43,5,10,'true');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (42,5,9,'false');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (41,5,8,'false');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (40,5,7,'300');
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (39,5,6,'300');
 CREATE TABLE eZMessage (
   ID int(11) NOT NULL auto_increment,
   UserID int(11) NOT NULL default '0',
@@ -1932,12 +2024,27 @@ CREATE TABLE eZTodo_Status (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTodo_Log (
+  ID int(11) NOT NULL,
+  Log text,
+  Created int(11) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTodo_TodoLogLink (
+  ID int(11) NOT NULL auto_increment,
+  TodoID int(11) default NULL,
+  LogID int(11) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,1,'Not done');
 INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,2,'Done');
 
 INSERT INTO eZTodo_Priority (ID, Name ) VALUES (1,'Low');
 INSERT INTO eZTodo_Priority (ID, Name ) VALUES (2,'Medium');
 INSERT INTO eZTodo_Priority (ID, Name ) VALUES (3,'High');
+
 CREATE TABLE eZTrade_AlternativeCurrency (
   ID int NOT NULL,
   Name varchar(100) NOT NULL default '',
@@ -2633,4 +2740,12 @@ INSERT INTO eZUser_Group ( ID,  Name,  Description,  SessionTimeout,  IsRoot ) V
 INSERT INTO eZUser_Group ( ID,  Name,  Description,  SessionTimeout,  IsRoot ) VALUES (2,'Anonymous','Anonymous users',7200,0);
 
 INSERT INTO eZUser_UserGroupLink ( ID,  UserID,  GroupID ) VALUES (1,1,1);
+
+
+CREATE TABLE eZUser_Photographer (
+  ID int(11) NOT NULL,
+  Name char(255) default NULL,
+  EMail char(255) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
