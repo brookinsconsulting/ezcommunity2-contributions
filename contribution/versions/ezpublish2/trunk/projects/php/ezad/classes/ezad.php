@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.11 2001/01/23 13:43:54 bf Exp $
+// $Id: ezad.php,v 1.12 2001/01/24 16:18:05 gl Exp $
 //
 // Definition of eZAd class
 //
@@ -459,17 +459,32 @@ class eZAd
     /*!
       Adds a pageview to the banner.
     */
-    function addPageView( $pageView )
+    function addPageView( )
     {
-        if ( get_class( $pageView ) == "ezpageview" )
-        {
-            $this->dbInit();
+        $this->dbInit();
 
-            $pageViewID = $pageView->id();
             
+        $this->Database->array_query( $view_result, "SELECT * FROM
+                                                       eZAd_View
+                                                       WHERE AdID='$this->ID' AND Date=curdate()" );
+        
+        if ( count( $view_result )  == 0 )
+        {
             $this->Database->query( "INSERT INTO eZAd_View SET 
-                                     AdID='$this->ID', PageViewID='$pageViewID',
-                                     ViewPrice='$this->ViewPrice'" );            
+                                         AdID='$this->ID',
+                                         Date=curdate(),
+                                         ViewCount='1',
+                                         ViewPrice='$this->ViewPrice'" );
+
+        }
+        else
+        {
+            $query = "UPDATE eZAd_View SET 
+                                         ViewCount=ViewCount + 1,
+                                         ViewPrice=ViewPrice + $this->ViewPrice
+                                         WHERE AdID='$this->ID' AND Date=curdate()";
+
+            $this->Database->query( $query );
         }
     }
 

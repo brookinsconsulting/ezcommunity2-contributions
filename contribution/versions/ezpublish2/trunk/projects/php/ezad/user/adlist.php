@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.12 2001/01/23 13:43:54 bf Exp $
+// $Id: adlist.php,v 1.13 2001/01/24 16:18:05 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -44,6 +44,7 @@ if ( !isset( $Limit ) )
 // ads
 $adList =& $category->ads( "count", false, 0, $Limit );
 
+
 foreach ( $adList as $ad )
 {
     $adID = $ad->id();
@@ -58,7 +59,7 @@ foreach ( $adList as $ad )
         $imgHeight =& $image->height();
     }
 
-    $ad->addPageView( $GlobalPageView );
+    $ad->addPageView();
 
     if ( $ad->useHTML() )
     {
