@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.103 2001/06/29 07:08:37 bf Exp $
+// $Id: ezarticle.php,v 1.104 2001/06/29 13:47:48 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -655,9 +655,9 @@ class eZArticle
                          Automatic )
                          VALUES
                         ( '$nextID',
-                         ArticleID='$this->ID',
-                         Keyword='$keyword',
-                         Automatic='0' )" );
+                          '$this->ID',
+                          '$keyword',
+                         '0' )" );
 
             $db->unlock();
             
