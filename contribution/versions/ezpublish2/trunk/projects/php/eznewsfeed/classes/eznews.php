@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.8 2000/11/27 09:38:03 bf-cvs Exp $
+// $Id: eznews.php,v 1.9 2000/11/29 11:15:27 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -500,27 +500,17 @@ class eZNews
     /*!
       Does a search in the news archive.
     */
-    function search( $queryText, $sortMode=time, $fetchNonPublished=true )
+    function search( $queryText, $fetchNonPublished=false, $offset=0,$limit=10 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        $this->dbInit();
 
-       $OrderBy = "eZNewsFeed_News.Published DESC";
-       switch( $sortMode )
-       {
-           case "alpha" :
-           {
-               $OrderBy = "eZNewsFeed_News.Name DESC";
-           }
-           break;
-       }
 
        if ( $fetchNonPublished == true )
        {
-           $fetchText = "eZNewsFeed_News.IsPublished = 'true'
-                    AND";           
+           $fetchText = "eZNewsFeed_News.IsPublished = 'true' AND";
        }
        else
        {           
@@ -531,20 +521,14 @@ class eZNews
        $news_array = array();
 
        $this->Database->array_query( $news_array,
-                    "SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name, eZNewsFeed_Category.ID, eZNews_Category.Name
-                    FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink 
+                    "SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name
+                    FROM eZNewsFeed_News
                     WHERE 
                     ( 
                     eZNewsFeed_News.Name LIKE '%$queryText%' OR
-                    eZNewsFeed_News.Keywords LIKE '%$queryText%'
+                    eZNewsFeed_News.Intro LIKE '%$queryText%'
                     )
-                    AND
-                    eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
-                    AND
-                    eZNewsFeed_Category.ID = eZNewsFeed_NewsCategoryLink.CategoryID
-                    AND
-                    eZNewsFeed_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy" );
+                    ORDER BY PublishingDate LIMIT $offset,$limit" );
  
        for ( $i=0; $i<count($news_array); $i++ )
        {

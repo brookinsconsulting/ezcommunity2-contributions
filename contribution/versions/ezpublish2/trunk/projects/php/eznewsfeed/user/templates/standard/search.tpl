@@ -7,7 +7,7 @@
 <!-- BEGIN news_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN news_item_tpl -->
-{starttr}
+<tr>
 	<td valign="top">
 	<a href="{news_url}/">{news_name}</a><br />
 	<span class="small">( {news_origin} - {news_date} )</span>
@@ -15,7 +15,7 @@
 	<p>{news_intro}</p>
 	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}">{intl-read_more}</a>
 	</td>
-{endtr}
+</tr>
 <!-- END news_item_tpl -->
 
 </table>

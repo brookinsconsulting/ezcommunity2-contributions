@@ -1,9 +1,9 @@
 <?php
 // 
-// $Id: newslist.php,v 1.4 2000/11/29 11:04:01 bf-cvs Exp $
+// $Id: newslist.php,v 1.5 2000/11/29 11:15:28 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <27-Nov-2000 11:52:01 bf>
+// Created on: <29-Nov-2000 11:35:19 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -35,31 +35,46 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZNewsFeedMain", "Language" );
 
 $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
-                     "eznewsfeed/user/intl/", $Language, "search.php" );
+                     "eznewsfeed/user/intl/", $Language, "newslist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "news_search_page_tpl" => "search.tpl"
+    "news_archive_page_tpl" => "newslist.tpl"
     ) );
 
-
 // news
-$t->set_block( "news_search_page_tpl", "news_list_tpl", "news_list" );
+$t->set_block( "news_archive_page_tpl", "news_list_tpl", "news_list" );
 $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
 
-$news = new eZNews();
+$category = new eZNewsCategory( $CategoryID );
 
 
 // news
 
+// fetch the first new item
+$firstNewsList =& $category->newsList( "time", "no", 0, 1 );
+
 // fetch the n next news items
-$newsList = $news->search( $SearchText );
+$newsList =& $category->newsList( "time", "no", 1, 4 );
 
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "news_list", "" );
 
+
+// print out the first news
+if ( count( $firstNewsList ) > 0 )
+{
+    $t->set_var( "first_news_id", $firstNewsList[0]->id() );
+    $t->set_var( "first_news_name", $firstNewsList[0]->name() );
+    $t->set_var( "first_news_intro", $firstNewsList[0]->intro() );
+    $t->set_var( "first_news_url", $firstNewsList[0]->url() );
+    $t->set_var( "first_news_origin", $firstNewsList[0]->origin() );
+    
+    $published = $firstNewsList[0]->originalPublishingDate();
+    $t->set_var( "first_news_date", $locale->format( $published ) );
+}
 
 foreach ( $newsList as $news )
 {
@@ -97,6 +112,7 @@ if ( count( $newsList ) > 0 )
 else
     $t->set_var( "news_list", "" );
 
-$t->pparse( "output", "news_search_page_tpl" );
+$t->pparse( "output", "news_archive_page_tpl" );
 
 ?>
+
