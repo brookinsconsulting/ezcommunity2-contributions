@@ -109,6 +109,40 @@
 </tr>
 </table>
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td>
+      <p class="boxtext">{intl-variations}:</p>
+      <!-- BEGIN image_variation_tpl -->
+      <tr><td class="{td_class}" >
+      <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/{variation_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/">{variation_width}x{variation_height}</a>
+      </td></tr>
+      <!-- END image_variation_tpl -->
+</td>
+<td>
+      <p class="boxtext">{intl-articles}:</p>
+      <!-- BEGIN article_item_tpl -->
+      <tr><td class="{td_class}" >
+      <a href="{www_dir}{index}/article/articleview/{article_id}/">{article_name}</a>
+      </td></tr>
+      <!-- END article_item_tpl -->
+</td>
+<td>
+      <p class="boxtext">{intl-products}:</p>
+      <!-- BEGIN product_item_tpl -->
+      <tr><td class="{td_class}" >
+      <a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a>
+      </td></tr>
+      <!-- END product_item_tpl -->
+</td>
+
+</tr>
+</table>
+
+
+<table>
+</table>
+
 
 <hr noshade="noshade" size="4" />
 

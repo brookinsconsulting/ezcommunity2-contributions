@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.35 2001/09/03 10:22:42 bf Exp $
+// $Id: imagelist.php,v 1.36 2001/09/03 15:54:25 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -301,15 +301,8 @@ foreach ( $imageList as $image )
         }
         
         $t->set_var( "variation", "" );
-        foreach ( $variationList as $variation )
-        {
-            $t->set_var( "variation_id", $variation->id() );
-            $t->set_var( "variation_width", $variation->width() );
-            $t->set_var( "variation_height", $variation->height() );
 
-            $t->parse( "variation", "image_variation_tpl", true );
-        }
-
+        
         $can_read = true;
         if ( ( $j % $imagesPerRow ) == 0 )
         {
@@ -371,6 +364,7 @@ foreach ( $imageList as $image )
         if ( $can_read )
             $t->parse( "image", "image_tpl", true );
     }
+
 
     $counter++;
 }

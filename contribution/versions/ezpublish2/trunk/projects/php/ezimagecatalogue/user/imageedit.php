@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.39 2001/08/24 11:47:01 chrism Exp $
+// $Id: imageedit.php,v 1.40 2001/09/03 15:54:25 ce Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -93,6 +93,12 @@ $t->set_block( "image_edit_page", "read_group_item_tpl", "read_group_item" );
 
 $t->set_block( "image_edit_page", "photographer_item_tpl", "photographer_item" );
 
+$t->set_block( "image_edit_page", "image_variation_tpl", "variation" );
+
+$t->set_block( "image_edit_page", "article_item_tpl", "article_item" );
+
+$t->set_block( "image_edit_page", "product_item_tpl", "product_item" );
+
 $t->set_var( "errors", "&nbsp;" );
 
 $t->set_var( "name_value", "$Name" );
@@ -120,6 +126,7 @@ $t->set_var( "error_description", "&nbsp;" );
 
 $t->set_block( "errors_tpl", "error_read_everybody_permission_tpl", "error_read_everybody_permission" );
 $t->set_var( "error_read_everybody_permission", "&nbsp;" );
+
 
 $t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
 $t->set_var( "error_write_everybody_permission", "&nbsp;" );
@@ -445,6 +452,52 @@ if ( $Action == "Edit" )
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
     $t->parse( "image", "image_tpl" );
+
+    $variationList = $image->variations();
+    for ( $i = 0; $i < count( $variationList ); $i++ )
+    {
+        if ( $variationList[$i]->height() == $image->height() &&
+        $variationList[$i]->width() == $image->width() )
+        {
+            $value = array_slice( $variationList, $i, 1 );
+            $variationList = array_merge( $value, array_slice( $variationList, 0, $i - 1 ), array_slice( $variationList, $i + 1 ) );
+            break;
+        }
+    }
+
+    $t->set_var( "variation_item", "" );
+    foreach ( $variationList as $variation )
+    {
+        $t->set_var( "variation_id", $variation->id() );
+        $t->set_var( "variation_width", $variation->width() );
+        $t->set_var( "variation_height", $variation->height() );
+        
+        $t->parse( "variation", "image_variation_tpl", true );
+    }
+
+    $t->set_var( "article_item", "" );
+    $articles = $image->articles();
+    foreach( $articles as $article )
+    {
+        if ( ( $user ) &&
+             ( eZObjectPermission::hasPermission( $article->id(), "article_article", "r", $user ) ) )
+        {
+            $t->set_var( "article_id", $article->id() );
+            $t->set_var( "article_name", $article->name() );
+
+            $t->parse( "article_item", "article_item_tpl", true );
+        }
+    }
+
+    $t->set_var( "product_item", "" );
+    $products = $image->products();
+    foreach( $products as $product )
+    {
+        $t->set_var( "product_id", $product->id() );
+        $t->set_var( "product_name", $product->name() );
+        
+        $t->parse( "product_item", "product_item_tpl", true );
+    }
 
     $objectPermission = new eZObjectPermission();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.76 2001/09/03 10:22:42 bf Exp $
+// $Id: ezimage.php,v 1.77 2001/09/03 15:54:25 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -83,6 +83,9 @@ include_once( "classes/ezdatetime.php" );
 
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
 include_once( "ezimagecatalogue/classes/ezimagevariationgroup.php" );
+
+include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "eztrade/classes/ezproduct.php" );
 
 class eZImage
 {
@@ -1306,7 +1309,48 @@ class eZImage
         return $this->Keywords;
     }
 
-    
+    /*!
+      Returns the articles that this image is used in.
+    */
+    function articles()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $res = array();
+        $db->array_query( $res, "SELECT ArticleID FROM
+                                 eZArticle_ArticleImageLink
+                                 WHERE ImageID='$this->ID'" );
+        $articles = array();
+
+        for ( $i = 0; $i < count( $res ); $i++ )
+        {
+            $articles[] = new eZArticle( $res[$i][$db->fieldName("ArticleID")] );
+        }
+
+        return $articles;
+    }
+
+    /*!
+      Returns the products that this image is used in.
+    */
+    function products()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $res = array();
+        $db->array_query( $res, "SELECT ProductID FROM
+                                 eZTrade_ProductImageLink
+                                 WHERE ImageID='$this->ID'" );
+        $articles = array();
+
+        for ( $i = 0; $i < count( $res ); $i++ )
+        {
+            $articles[] = new eZProduct( $res[$i][$db->fieldName("ProductID")] );
+        }
+
+        return $articles;
+    }
+
     var $ID;
     var $Name;
     var $Caption;
