@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscommand.php,v 1.4 2000/09/28 10:44:20 pkej-cvs Exp $
+// $Id: eznewscommand.php,v 1.5 2000/09/28 10:46:10 pkej-cvs Exp $
 //
 // Definition of eZNewsCommand class
 //
@@ -35,11 +35,11 @@ class eZNewsCommand
         global $REQUEST_URI;
         $URLArray = explode( "/", $REQUEST_URI );
 
-        echo "0 " . $URLArray[0] . "<br>";
-        echo "1 " . $URLArray[1] . "<br>";
-        echo "2 " . $URLArray[2] . "<br>";
-        echo "3 " . $URLArray[3] . "<br>";
-        echo "4 " . $URLArray[4] . "</table></table></table>heheheheheh";
+        #echo "0 " . $URLArray[0] . "<br>";
+        #echo "1 " . $URLArray[1] . "<br>";
+        #echo "2 " . $URLArray[2] . "<br>";
+        #echo "3 " . $URLArray[3] . "<br>";
+        #echo "4 " . $URLArray[4] . "</table></table></table>heheheheheh";
 
         $this->decodeTopLevel( $URLArray );
         $title_string = ereg_replace('/$', '', $REQUEST_URI);
