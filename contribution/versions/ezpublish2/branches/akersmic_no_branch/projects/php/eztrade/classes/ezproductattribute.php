@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproductattribute.php,v 1.13.8.4 2002/04/10 11:58:55 ce Exp $
+// $Id: ezproductattribute.php,v 1.13.8.5 2002/04/11 07:55:14 ce Exp $
 //
 // Definition of eZProductAttribute class
 //

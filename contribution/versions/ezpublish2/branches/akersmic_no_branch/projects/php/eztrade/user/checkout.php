@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.2.4.11 2002/04/10 11:57:19 ce Exp $
+// $Id: checkout.php,v 1.96.2.2.4.12 2002/04/11 07:55:14 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.14 2002/04/10 11:57:20 ce Exp $
+// $Id: productview.php,v 1.77.2.2.4.15 2002/04/11 07:55:14 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //

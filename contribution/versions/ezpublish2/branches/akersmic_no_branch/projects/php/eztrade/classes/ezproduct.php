@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.36 2002/04/10 11:58:55 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.37 2002/04/11 07:55:13 ce Exp $
 //
 // Definition of eZProduct class
 //

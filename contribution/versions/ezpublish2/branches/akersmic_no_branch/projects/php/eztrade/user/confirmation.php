@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: confirmation.php,v 1.1.2.3 2002/03/27 18:25:17 br Exp $
+// $Id: confirmation.php,v 1.1.2.4 2002/04/11 07:55:14 ce Exp $
 //
 // <Bjørn Reiten> <br@ez.no>
 // Created on: <20-Mar-2002 14:11:34 br>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezorderconfirmation.php,v 1.1.2.1 2002/03/27 14:33:56 br Exp $
+// $Id: ezorderconfirmation.php,v 1.1.2.2 2002/04/11 07:55:13 ce Exp $
 //
 // Definition of eZConfirmation class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!!
 //! The class eZConfirmation does
 /*!
 
@@ -128,7 +128,7 @@ class eZOrderConfirmation
         $orderID = $this->OrderID;
 
         $order = new eZOrder( $orderID );
-	
+
 
         //
         // Send mail confirmation
@@ -203,10 +203,7 @@ class eZOrderConfirmation
                 $mailTemplate->set_var( "billing_country", "" );
             }
 
-            if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
-                $mailTemplate->parse( "billing_address", "billing_address_tpl" );
-            else
-                $mailTemplate->set_var( "billing_address", "" );
+            $mailTemplate->parse( "billing_address", "billing_address_tpl" );
 
             if ( $order->personID() == 0 && $order->companyID() == 0 )
             {
@@ -597,6 +594,15 @@ class eZOrderConfirmation
 
         $mailTemplate->set_var( "comment", $order->comment() );
 
+        if ( $order->rest() )
+        {
+            $mailTemplate->set_var( "rest_value", "Ja" );
+        }
+        else
+        {
+            $mailTemplate->set_var( "rest_value", "Nei" );
+        }
+
         $shippingType = $order->shippingType();
         if ( $shippingType )
         {
@@ -659,7 +665,113 @@ class eZOrderConfirmation
         $mail->setTo( $this->OrderReceiverEmail );
         $mail->setFrom( $orderUser->email() );
 
-        $mail->send();
+//        $mail->send();
+
+
+/// send special order mail
+$user =& $order->user();
+$shippingAddress =& $order->shippingAddress();
+
+// send mail
+$mailString = "ORDER_ID: " . $order->id() . "\r\n";
+$mailString .= "FIRSTNAME: " . $user->firstName() . "\r\n";
+$mailString .= "LASTNAME: " . $user->lastName() . "\r\n";
+$mailString .= "CONTACT: " . "\r\n";
+$mailString .= "ADDRESS1: " . $shippingAddress->street1() . "\r\n";
+$mailString .= "ADDRESS2: " . $shippingAddress->street2() . "\r\n";
+$mailString .= "ZIPCODE: " . $shippingAddress->zip() . "\r\n";
+$mailString .= "CITY: " . $shippingAddress->place() . "\r\n";
+$country =& $shippingAddress->country();
+$mailString .= "COUNTRY: " . $country->name() . "\r\n";
+$mailString .= "EMAIL: " . $user->email() . "\r\n";
+$mailString .= "CREDITCARD_NO: "  . "\r\n";
+$mailString .= "CREDITCARD_EXP: "  . "\r\n";
+$mailString .= "TELEPHONE: "  . "\r\n";
+$mailString .= "TELEFAX: "  . "\r\n";
+$mailString .= "MOBILE: "  . "\r\n";
+
+$mailString .= "\r\n";
+
+$checkout = new eZCheckout();
+$instance =& $checkout->instance();
+$paymentMethod = $instance->paymentName( $order->paymentMethod() );
+
+$mailString .= "BETALINGSMÅTE: " . $paymentMethod . "\r\n";
+$mailString .= "LEVERINGSMETODE: " . "\r\n";
+        if ( $order->rest() )
+        {
+            $mailString .= "RESTNOTERING: Jeg ønsker restnotering" . "\r\n";
+        }
+        else
+        {
+            $mailString .= "RESTNOTERING: Send kun det dere har på lager" . "\r\n";
+        }
+$mailString .= "KOMMENTAR: " . $order->comment(). "\r\n\r\n";
+
+$mailString .= "***VARER***" . "\r\n\r\n";
+
+$items =& $order->items();
+foreach ( $items as $item )
+{
+
+    $productLine = "";
+
+    $product =& $item->product();
+    $type =& $product->type();
+
+    $productLine .= $type->name();
+    $productLine .= "\t" . $item->count();
+
+    $productLine .= "\t" . $product->productNumber();
+    $productLine .= "\t" . number_format( $product->price(), 2, ".", "" );
+    $productLine .= "\t" . $product->name( false );
+
+    // get the Actor, Atrist or platform
+
+    $actor = "";
+
+    // print actors if the result is DVD
+    if ( $type->name() == "DVD" )
+    {
+        include_once( "eztrade/classes/ezproductattribute.php" );
+        $attr = new eZProductAttribute( 6 );
+        $actor = $attr->value( $product );
+    }
+
+    if ( $type->name() == "CD" )
+    {
+        include_once( "eztrade/classes/ezproductattribute.php" );
+        $attr = new eZProductAttribute( 1 );
+        $actor = $attr->value( $product );
+    }
+
+    if ( $type->name() == "Spill" )
+    {
+        include_once( "eztrade/classes/ezproductattribute.php" );
+        $attr = new eZProductAttribute( 18 );
+        $actor = $attr->value( $product );
+    }
+
+    $productLine .= "\t" . trim( $actor );
+
+    $mailString .= $productLine . "\r\n";
+}
+
+$mailString .= "\r\n\r\n***ORDRE SLUTT***" . "\r";
+
+// initialize GPG class
+$wwwUser = $ini->read_var( "eZTradeMain", "ApacheUser" );
+$mailKeyname = $ini->read_var( "eZTradeMain", "RecipientGPGKey" );
+
+// encrypt mailBody
+$mytext = new ezgpg( $mailString, $mailKeyname, $wwwUser );
+$mailString = ($mytext->body);
+
+mail( "ordre@akersmic.no", "Akersmic Bestilling", $mailString,
+     "From: " . $user->email() ." \r\n"
+    ."Reply-To: " . $user->email() ." \r\n"
+    ."X-Mailer: PHP/" . phpversion() );
+
 
         return true;
     }
@@ -671,7 +783,7 @@ class eZOrderConfirmation
         {
             $session = new eZSession( $sessionID );
             $preOrderID = $session->variable( "PreOrderID" );
- 
+
             if ( !$session )
             {
                 $ret = false;
@@ -802,7 +914,7 @@ class eZOrderConfirmation
                 include( "checkout/user/postpayment.php" );
             }
 
-        
+
             $preOrder = new eZPreOrder( $preOrderID );
             $preOrder->setOrderID( $OrderID );
             $preOrder->store();

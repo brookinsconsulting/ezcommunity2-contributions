@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezoption.php,v 1.26.8.1 2002/04/10 11:58:55 ce Exp $
+// $Id: ezoption.php,v 1.26.8.2 2002/04/11 07:55:13 ce Exp $
 //
 // Definition of eZOption class
 //

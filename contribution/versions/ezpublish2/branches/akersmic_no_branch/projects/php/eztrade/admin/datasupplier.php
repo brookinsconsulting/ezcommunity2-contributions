@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.42.8.4 2002/04/10 12:00:54 ce Exp $
+// $Id: datasupplier.php,v 1.42.8.5 2002/04/11 07:55:12 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //

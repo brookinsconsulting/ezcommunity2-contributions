@@ -1,5 +1,5 @@
 <?php
-// $Id: ezproductcategory.php,v 1.52.8.8 2002/04/10 11:58:55 ce Exp $
+// $Id: ezproductcategory.php,v 1.52.8.9 2002/04/11 07:55:14 ce Exp $
 //
 // Definition of eZProductCategory class
 //

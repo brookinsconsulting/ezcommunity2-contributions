@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productedit.php,v 1.69.2.1.4.8 2002/04/10 12:00:54 ce Exp $
+// $Id: productedit.php,v 1.69.2.1.4.9 2002/04/11 07:55:12 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -188,7 +188,7 @@ if ( $Action == "Update" or $Action == "Insert" or $Action == "RemoveCategories"
         }
         else
         {
-//            $product->setProductType( 1 );
+            $product->setProductType( 1 );
         }
 
         $product->setShowProduct( $Active == "on" );
