@@ -73,6 +73,5 @@ http://<input type="text" name="Url" size="40" value="{url}">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</td>
 </tr>
-</form>
 </table>
-
+</form>

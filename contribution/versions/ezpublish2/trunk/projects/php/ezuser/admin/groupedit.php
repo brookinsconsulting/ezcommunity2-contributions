@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.9 2000/11/19 14:42:35 bf-cvs Exp $
+// $Id: groupedit.php,v 1.10 2000/11/23 10:52:02 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -36,6 +36,13 @@ include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isSet( $Back ) )
+{
+    Header( "Location: /user/grouplist/" );
+    exit();
+}
+
 
 if ( $Action == "insert" )
 {

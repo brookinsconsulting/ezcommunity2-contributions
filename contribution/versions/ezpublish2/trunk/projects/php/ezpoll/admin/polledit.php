@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.15 2000/11/02 14:09:10 ce-cvs Exp $
+// $Id: polledit.php,v 1.16 2000/11/23 10:52:02 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -37,6 +37,12 @@ include_once( "ezpoll/classes/ezpollchoice.php" );
 include_once( "ezpoll/classes/ezvote.php" );
         
 require( "ezuser/admin/admincheck.php" );
+
+if ( isSet( $Back ) )
+{
+    Header( "Location: /poll/pollist/" );
+    exit();
+}
 
 // Insert
 if ( $Action == "Insert" )

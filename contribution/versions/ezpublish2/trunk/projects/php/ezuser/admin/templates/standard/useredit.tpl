@@ -60,9 +60,16 @@
 
 <hr noshade size="4"/>
 
-<input type="hidden" name="UserID" value="{user_id}" />
-<input class="okbutton" type="submit" value="OK" />
-<form method="post" action="/user/userlist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
-
+<table cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td>
+	<input type="hidden" name="UserID" value="{user_id}" />
+	<input class="okbutton" type="submit" value="OK" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
+	</td>
+</table>
 </form>
 

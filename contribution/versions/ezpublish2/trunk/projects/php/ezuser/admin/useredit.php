@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.12 2000/11/10 10:44:41 bf-cvs Exp $
+// $Id: useredit.php,v 1.13 2000/11/23 10:52:03 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -38,6 +38,12 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isSet( $Back ) )
+{
+    Header( "Location: /user/userlist/" );
+    exit();
+}
 
 if ( $Action == "insert" )
 {
