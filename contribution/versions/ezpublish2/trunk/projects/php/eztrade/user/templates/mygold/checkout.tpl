@@ -13,7 +13,7 @@
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}</td>
+	<th class="path" align="right">{intl-price}</th>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->

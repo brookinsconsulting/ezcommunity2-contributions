@@ -8,17 +8,17 @@
 <form action="/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
   <table width="100%" cellspacing="0" cellpadding="0" border="0">
-	<tr> 
-	  <th align="left">&nbsp;{intl-picture}:</th>
+	<tr>
+	  <th align="left">&nbsp;{intl-product_image}:</th>
 	  <th align="left">{intl-product_name}:</th>
-	  <th align="left">{intl-options}:</th>
-	  <th align="left">{intl-qty}:</th>
-	  <th align="center">{intl-price}</th>
+	  <th align="left">{intl-product_options}:</th>
+	  <th align="left">{intl-product_qty}:</th>
+	  <th align="center">{intl-product_price}</th>
 	  <th>&nbsp;</th>
 	</tr>
     <!-- BEGIN cart_item_tpl -->
-	<tr> 
-	  <td class="{td_class}"> 
+	<tr>
+	  <td class="{td_class}">
 		<!-- BEGIN cart_image_tpl -->
 		<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
 		<!-- END cart_image_tpl -->
