@@ -2,6 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>zez.org: about code</title>
+<title>eZ publish</title>
 <link rel="stylesheet" type="text/css" href="/zez.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
