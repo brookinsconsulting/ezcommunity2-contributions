@@ -6,6 +6,7 @@
 # cvs tag -F "tag_name" moves allready existant tags to the newest version
 
 
+eZPublish_2_2_pre                 Pre release of 2.2
 eZPublish_2_2_beta_2              2nd public beta of 2.2
 eZPublish_2_2_beta_1              First public beta of 2.2
 eZPublish_eZ_Intranett	          eZ intranet tag
