@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.74 2001/10/17 14:25:08 br Exp $
+// $Id: ezlink.php,v 1.74.8.1 2002/07/03 07:31:12 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -475,6 +475,7 @@ class eZLink
     {
         $db =& eZDB::globalDatabase();
 
+        $url = $db->escapeString( $url );
         $db->array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
 
         return count( $url_array );
