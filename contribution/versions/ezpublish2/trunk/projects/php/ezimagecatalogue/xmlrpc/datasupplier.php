@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.7 2001/08/09 11:43:08 jb Exp $
+// $Id: datasupplier.php,v 1.8 2001/09/20 12:36:36 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -48,6 +48,19 @@ switch ( $RequestType )
 //                      include( "ezarticle/xmlrpc/category.php" );
 //                      break;
 //                  }
+            default:
+                $Error = true;
+        }
+    } break;
+    case "unassigned" :
+    {
+        switch( $Command )
+        {
+            case "list":
+            {
+                include( "ezimagecatalogue/xmlrpc/unassignedlist.php" );
+                break;
+            }
             default:
                 $Error = true;
         }
