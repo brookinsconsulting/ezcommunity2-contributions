@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.2 2000/07/26 12:45:08 lw-cvs Exp $
+    $Id: categorylist.php,v 1.3 2000/07/26 13:20:35 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -33,11 +33,12 @@ for ($i = 0; $i < count( $categories ); $i++ )
     $t->set_var("name", $Name);
     $t->set_var("link",$link);
     $t->set_var("description",$Description);
-        
+ 
+   // setter ikke lenger bakgrunnsfarge.
     if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee" );
+        $t->set_var( "color", "" );
     else
-        $t->set_var( "color", "#bbbbbb" );
+        $t->set_var( "color", "" );
             
     $t->parse( "categories", "elements", true );
 }

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.6 2000/07/26 09:15:29 bf-cvs Exp $
+    $Id: message.php,v 1.7 2000/07/26 13:20:35 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,10 +9,10 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include( "template.inc" );
-include( "$DOCROOT/classes/ezdb.php" );
-include( "$DOCROOT/classes/ezuser.php" );
-include( "$DOCROOT/classes/ezforummessage.php" );
+include_once( "template.inc" );
+include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "$DOCROOT/classes/ezforummessage.php" );
 
 $msg = new eZforumMessage;
 $usr = new eZUser;
