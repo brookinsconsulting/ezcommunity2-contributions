@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.2.3 2001/11/22 12:44:58 pkej Exp $
+// $Id: checkout.php,v 1.96.2.4 2001/11/22 14:27:50 pkej Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -372,7 +372,16 @@ foreach ( $items as $item )
     if ( $ShowSavingsColumn == true )
     {
         turnColumnsOnOff( "savings" );
-        $t->set_var( "product_savings", $item->localeSavings( true, true, $PricesIncludeVAT ) );
+
+        if ( $item->correctSavings( true, true, $PricesIncludeVAT ) > 0 )
+        {
+            $t->set_var( "product_savings", $item->localeSavings( true, true, $PricesIncludeVAT ) );
+        }
+        else
+        {
+            $t->set_var( "product_savings", "&nbsp;" );
+        }
+        $t->parse( "cart_savings_item", "cart_savings_item_tpl" );
     }
 
     if ( $numberOfOptions ==  0 )
