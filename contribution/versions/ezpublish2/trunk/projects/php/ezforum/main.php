@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.6 2000/07/24 12:46:09 lw-cvs Exp $
+    $Id: main.php,v 1.7 2000/07/24 12:51:11 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -64,12 +64,18 @@ if ( $search )
 
     for ( $i = 0; $i < count ( $headers ); $i++)
     {
+        $t->set_var( "message_id", $headers[$i]["Id"] );
         $t->set_var( "nr", $i + 1 );
-        $t->set_var( "", $headers[$i]["Topic"] );
-        $t->set_var( "", $usr->resolveUser( $headers[$i]["UserId"] ) );
-        $t->set_var( "", $headers[$i]["PostingTime"] );
+        $t->set_var( "topic", $headers[$i]["Topic"] );
+        $t->set_var( "author", $usr->resolveUser( $headers[$i]["UserId"] ) );
+        $t->set_var( "time", $headers[$i]["PostingTime"] );
         //$t->set_var( "forum",  );
         $t->set_var( "forum", "&nbsp;" );
+
+        if ( ($i % 2) != 0)
+            $t->set_var( "color", "#eeeeee" );
+        else
+            $t->set_var( "color", "#bbbbbb" );
 
         $t->parse( "fields", "search-elements", true );
     }
