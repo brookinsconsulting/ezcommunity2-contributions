@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.53 2001/09/20 10:22:03 jhe Exp $
+// $Id: personedit.php,v 1.54 2001/10/08 14:02:05 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -79,50 +79,53 @@ if ( isSet( $BuyButton ) )
     include( "ezcontact/admin/buy.php" );
 }
 
-if ( isSet( $CompanyEdit ) )
+if ( isSet( $OK ) )
 {
-    $item_type = "company";
-    $item_id = $CompanyID;
-
-    if ( $Action == "edit" || $Action == "update" )
+    if ( isSet( $CompanyEdit ) )
     {
-        if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+        $item_type = "company";
+        $item_id = $CompanyID;
+        
+        if ( $Action == "edit" || $Action == "update" )
         {
-            include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /contact/nopermission/company/edit" );
-            exit();
+            if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/nopermission/company/edit" );
+                exit();
+            }
+        }
+        else if ( $Action == "new" || $Action == "insert" )
+        {
+            if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) )
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/nopermission/company/new" );
+                exit();
+            }
         }
     }
-    else if ( $Action == "new" || $Action == "insert" )
+    else
     {
-        if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) )
+        $item_type = "person";
+        $item_id = $PersonID;
+        if ( $Action == "edit" || $Action == "update" )
         {
-            include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /contact/nopermission/company/new" );
-            exit();
+            if ( !eZPermission::checkPermission( $user, "eZContact", "PersonModify" ) )
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/nopermission/person/edit" );
+                exit();
+            }
         }
-    }
-}
-else
-{
-    $item_type = "person";
-    $item_id = $PersonID;
-    if ( $Action == "edit" || $Action == "update" )
-    {
-        if ( !eZPermission::checkPermission( $user, "eZContact", "PersonModify" ) )
+        else if ( $Action == "new" || $Action == "insert" )
         {
-            include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /contact/nopermission/person/edit" );
-            exit();
-        }
-    }
-    else if ( $Action == "new" || $Action == "insert" )
-    {
-        if ( !eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
-        {
-            include_once( "classes/ezhttptool.php" );
-            eZHTTPTool::header( "Location: /contact/nopermission/person/new" );
-            exit();
+            if ( !eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/nopermission/person/new" );
+                exit();
+            }
         }
     }
 }
@@ -189,6 +192,7 @@ if ( $Action == "delete" )
     {
         $categories =& eZCompany::categories( $CompanyID, false, 1 );
         $id =& $categories[0];
+        $item_type = "company";
         foreach ( $ContactArrayID as $contactItem )
         {
             eZCompany::delete( $contactItem );
@@ -196,6 +200,7 @@ if ( $Action == "delete" )
     }
     else
     {
+        $item_type = "person";
         foreach ( $ContactArrayID as $contactItem )
         {
             eZPerson::delete( $contactItem );
@@ -345,7 +350,7 @@ if ( !$confirm )
     $t->set_var( "contact_item_select", "" );
 
 /* End of the pre-defined values */
-    if ( $Action == "insert" || $Action == "update" )
+    if ( ( $Action == "insert" || $Action == "update" ) )
     {
         if ( $Action == "update" )
         {
@@ -498,14 +503,14 @@ if ( !$confirm )
             }
         }
 
-        if ( $error == true )
+        if ( $error && isSet( $OK ) )
         {
+            $t->set_var( "action_value", $Action );
             $t->parse( "errors_item", "errors_tpl" );
         }
     }
 
-
-    if ( $error == false )
+    if ( $error == false || isSet( $RefreshUsers ) )
     {
         $t->set_var( "errors_item", "" );
     }
@@ -514,11 +519,14 @@ if ( !$confirm )
         $Action = "formdata";
     }
 
-    if ( ( $Action == "insert" || $Action == "update" ) && $error == false )
+    if ( ( $Action == "insert" || $Action == "update" ) && !$error && isSet( $OK ) )
     {
         if ( isSet( $CompanyEdit ) )
         {
-            $company = new eZCompany( $CompanyID, true );
+            if ( $Action == "insert" )
+                $company = new eZCompany();
+            else
+                $company = new eZCompany( $CompanyID );
             
             $company->setName( $Name );
 
@@ -571,7 +579,7 @@ if ( !$confirm )
             {
                 print( $file->name() . " not uploaded successfully" );
             }
-  
+
             // Upload images
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "image" ) )
@@ -669,7 +677,7 @@ if ( !$confirm )
 
         $item->removeOnlines();
         $count = max( count( $OnlineID ), count( $Online ) );
-        for ( $i=0; $i < $count; $i++ )
+        for ( $i = 0; $i < $count; $i++ )
         {
             if ( !in_array( $i + 1, $OnlineDelete ) && $Online[$i] != "" )
             {
@@ -793,12 +801,15 @@ if ( !$confirm )
     
     We present an empty form.
  */
-    if ( $Action == "new" || $Action == "formdata" || $Action == "edit" )
+    if ( ( $Action == "new" || $Action == "formdata" || $Action == "edit" || isSet( $RefreshUsers ) ) )
     {
-        if ( $Action == "edit" )
-            $Action_value = "edit";
-        else
-            $Action_value = "new";
+        if ( isSet( $OK ) )
+        {
+            if ( $Action == "edit" )
+                $Action = "update";
+            else if ( $Action == "new" )
+                $Action = "insert";
+        }
 
         if ( isSet( $CompanyEdit ) )
         {
@@ -821,7 +832,6 @@ if ( !$confirm )
 
             $t->set_var( "user_id", $user->id() );
             $t->set_var( "name", eZTextTool::htmlspecialchars( $Name ) );
-
             $t->set_var( "comment", eZTextTool::htmlspecialchars( $Comment ) );
             $t->set_var( "companyno", eZTextTool::htmlspecialchars( $CompanyNo ) );
 
@@ -976,12 +986,12 @@ if ( !$confirm )
         if ( isSet( $NewAddress ) )
         {
             $AddressTypeID[] = "";
-            $AddressID[] = count( $AddressID ) > 0 ? $AddressID[count($AddressID)-1] + 1 : 1;
+            $AddressID[] = count( $AddressID ) > 0 ? $AddressID[count( $AddressID ) - 1] + 1 : 1;
             $Street1[] = "";
             $Street2[] = "";
             $Zip[] = "";
             $Place[] = "";
-            $Country[] = count( $Country ) > 0 ? $Country[ count( $Country ) - 1 ] : "";
+            $Country[] = count( $Country ) > 0 ? $Country[count( $Country ) - 1] : "";
         }
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
@@ -1047,7 +1057,7 @@ if ( !$confirm )
         if ( isSet( $NewPhone ) )
         {
             $PhoneTypeID[] = "";
-            $PhoneID[] = count( $PhoneID ) > 0 ? $PhoneID[count($PhoneID)-1] + 1 : 1;
+            $PhoneID[] = count( $PhoneID ) > 0 ? $PhoneID[count( $PhoneID ) - 1] + 1 : 1;
             $Phone[] = "";
         }
         $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
@@ -1094,7 +1104,7 @@ if ( !$confirm )
         if ( isSet( $NewOnline ) )
         {
             $OnlineTypeID[] = "";
-            $OnlineID[] = count( $OnlineID ) > 0 ? $OnlineID[count($OnlineID)-1] + 1 : 1;
+            $OnlineID[] = count( $OnlineID ) > 0 ? $OnlineID[count( $OnlineID ) - 1] + 1 : 1;
             $Online[] = "";
         }
         $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
@@ -1161,18 +1171,17 @@ if ( !$confirm )
             }
             else if ( $ContactGroupID == -3 )
             {
-                $users =& eZPerson::getAll( $UserSearch, 0, -1, true );
+                $users =& eZPerson::getAll( $UserSearch, 0, -1 );
             }
             else if ( $ContactGroupID < 1 )
             {
-                $users = array();
                 if ( is_numeric( $ContactID ) and $ContactID > 0 )
                 {
                     if ( $ContactType == "ezperson" )
-                        $user = new eZPerson( $ContactID );
+                        $contact = new eZPerson( $ContactID );
                     else
-                        $user = new eZUser( $ContactID );
-                    $users[] = $user;
+                        $contact = new eZUser( $ContactID );
+                    $users[] = $contact;
                 }
             }
             else
@@ -1180,17 +1189,16 @@ if ( !$confirm )
                 $group = new eZUserGroup();
                 $users =& $group->users( $ContactGroupID, "name", $UserSearch );
             }
-
-            foreach ( $users as $user )
+            foreach ( $users as $contact )
             {
-                if ( get_class( $user ) == "ezuser" ||
-                     get_class( $user ) == "ezperson" )
+                if ( get_class( $contact ) == "ezuser" ||
+                     get_class( $contact ) == "ezperson" )
                 {
-                    $t->set_var( "type_id", $user->id() );
-                    $t->set_var( "type_firstname", eZTextTool::htmlspecialchars( $user->firstName() ) );
-                    $t->set_var( "type_lastname", eZTextTool::htmlspecialchars( $user->lastName() ) );
+                    $t->set_var( "type_id", $contact->id() );
+                    $t->set_var( "type_firstname", eZTextTool::htmlspecialchars( $contact->firstName() ) );
+                    $t->set_var( "type_lastname", eZTextTool::htmlspecialchars( $contact->lastName() ) );
                     $t->set_var( "selected", "" );
-                    if ( $ContactID == $user->id() )
+                    if ( $ContactID == $contact->id() )
                         $t->set_var( "selected", "selected" );
                 }
                 $t->parse( "contact_item_select", "contact_item_select_tpl", true );
@@ -1243,7 +1251,7 @@ if ( !$confirm )
             }
 
             $t->set_var( "logo_item", "&nbsp;" );
-            if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
+            if ( ( get_class( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
             {
                 $variation = $logoImage->requestImageVariation( 150, 150 );
                 if ( get_class( $variation ) == "ezimagevariation" )
@@ -1255,7 +1263,7 @@ if ( !$confirm )
                     $t->set_var( "logo_image_alt", eZTextTool::htmlspecialchars( $logoImage->caption() ) );
                     $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
                     $t->set_var( "logo_id", $logoImage->id() );
-        
+                    
                     $t->parse( "logo_item", "logo_item_tpl" );
                 }
             }
@@ -1298,12 +1306,11 @@ if ( !$confirm )
     else
         $t->set_var( "delete_item", "" );
 
-    $t->set_var( "action_value", $Action_value );
+    $t->set_var( "action_value", $Action );
 
     $t->parse( "edit_item", "edit_tpl" );
 }
 
 $t->pparse( "output", "person_edit"  );
-
 
 ?>

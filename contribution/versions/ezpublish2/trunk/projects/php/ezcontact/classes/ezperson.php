@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.59 2001/09/17 14:25:38 jhe Exp $
+// $Id: ezperson.php,v 1.60 2001/10/08 14:02:05 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -315,8 +315,10 @@ class eZPerson
             $limit_array = array( "Offset" => $limit_index, "Limit" => $limit );
         }
 
+        print "--" . $search_types . "--" . $cond . "--";
         if ( empty( $search_types ) )
         {
+            print "empty";
             switch ( $cond )
             {
                 case "standalone":
@@ -384,7 +386,8 @@ class eZPerson
                     ORDER BY A.LastName, A.FirstName";
             $db->array_query( $person_array, $qry, $limit_array );
         }
-
+        
+        $return_array = array();
         foreach ( $person_array as $personItem )
         {
             $return_array[] = new eZPerson( $personItem[$db->fieldName( "ID" )] );

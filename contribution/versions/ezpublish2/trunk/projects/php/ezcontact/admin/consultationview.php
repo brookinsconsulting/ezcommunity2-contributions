@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationview.php,v 1.13 2001/09/21 14:28:48 jhe Exp $
+// $Id: consultationview.php,v 1.14 2001/10/08 14:02:05 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -52,7 +52,6 @@ if ( !eZPermission::checkPermission( $user, "eZContact", "Consultation" ) &&
     eZHTTPTool::header( "Location: /contact/nopermission/consultation" );
     exit();
 }
-
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );

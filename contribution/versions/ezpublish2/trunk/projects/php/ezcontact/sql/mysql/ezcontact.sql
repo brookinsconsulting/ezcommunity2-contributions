@@ -71,6 +71,12 @@ CREATE TABLE eZContact_Consultation (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZContact_ConsultationCompanyDict (
+  ConsultationID int DEFAULT '0' NOT NULL,
+  CompanyID int DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ConsultationID,CompanyID)
+);
+
 CREATE TABLE eZContact_ConsultationCompanyUserDict (
   ConsultationID int NOT NULL,
   CompanyID int DEFAULT '0' NOT NULL,

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.78 2001/09/17 14:25:38 jhe Exp $
+// $Id: ezcompany.php,v 1.79 2001/10/08 14:02:05 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -69,7 +69,7 @@ class eZCompany
     /*!
       Stores a company to the database
     */
-    function store( )
+    function store()
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
@@ -135,7 +135,7 @@ class eZCompany
             $db->array_query( $address_array, "SELECT eZContact_CompanyAddressDict.AddressID AS DID
                                                FROM eZAddress_Address, eZContact_CompanyAddressDict
                                                WHERE eZAddress_Address.ID=eZContact_CompanyAddressDict.AddressID
-                                                     AND eZContact_CompanyAddressDict.CompanyID='$id' " );
+                                               AND eZContact_CompanyAddressDict.CompanyID='$id' " );
 
             foreach ( $address_array as $addressItem )
             {
@@ -150,7 +150,7 @@ class eZCompany
             $db->array_query( $phone_array, "SELECT eZContact_CompanyPhoneDict.PhoneID AS DID
                                      FROM eZAddress_Phone, eZContact_CompanyPhoneDict
                                      WHERE eZAddress_Phone.ID=eZContact_CompanyPhoneDict.PhoneID
-                                       AND eZContact_CompanyPhoneDict.CompanyID='$id' " );
+                                     AND eZContact_CompanyPhoneDict.CompanyID='$id' " );
 
             foreach ( $phone_array as $phoneItem )
             {
@@ -162,8 +162,8 @@ class eZCompany
             // Delete online address.
 
             $db->array_query( $online_array, "SELECT eZContact_CompanyOnlineDict.OnlineID AS DID
-                                     FROM eZAddress_Online, eZContact_CompanyOnlineDict
-                                     WHERE eZAddress_Online.ID=eZContact_CompanyOnlineDict.OnlineID
+                                       FROM eZAddress_Online, eZContact_CompanyOnlineDict
+                                       WHERE eZAddress_Online.ID=eZContact_CompanyOnlineDict.OnlineID
                                        AND eZContact_CompanyOnlineDict.CompanyID='$id' " );
 
             foreach ( $online_array as $onlineItem )
@@ -741,13 +741,10 @@ class eZCompany
             }
             else
             {
-                $db->lock( "eZContact_CompanyImageDefinition" );
-                $nextID = $db->nextID( "eZContact_CompanyImageDefinition", "ID" );
                 $res[] = $db->query( "INSERT INTO eZContact_CompanyImageDefinition
-                                      (ID, CompanyID, LogoImageID)
+                                      (CompanyID, LogoImageID)
                                       VALUES
-                                      ('$nextID', '$id', '$imageID')" );
-                $db->unlock();
+                                      ('$id', '$imageID')" );
             }
             eZDB::finish( $res, $db );
         }

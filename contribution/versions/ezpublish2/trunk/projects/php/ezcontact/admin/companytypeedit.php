@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypeedit.php,v 1.31 2001/09/20 11:34:23 jhe Exp $
+// $Id: companytypeedit.php,v 1.32 2001/10/08 14:02:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -221,7 +221,7 @@ if ( $Action == "edit" || $Action == "new" )
     $name = $type->name();
     $desc = $type->description();
     $parentid = $type->parentID();
-    if ( isset( $NewParentID ) )
+    if ( isSet( $NewParentID ) )
         $parentid = $NewParentID;
         
     $t->set_var( "current_id", $id );
@@ -296,13 +296,12 @@ if ( $Action == "edit" || $Action == "new" )
     }
     else
     {
-        $t->set_var( "root_selected", "" );
+        $t->set_var( "root_selected", "" );
     }
 
     $t->parse( "current_type", "current_type_tpl" );
 }
 
 $t->pparse( "output", "type_page" );
-
 
 ?>
