@@ -48,12 +48,14 @@
 <tr>
   <td><input class="stdbutton" type="submit" name="Move" value="{intl-move}" /></td>
   <td>&nbsp;</td>
+  <td>
     <select name="FolderSelectID">
         <option value="-1">{intl-choose_dest}</option>
     	<!-- BEGIN folder_item_tpl -->
 	<option value="{folder_id}">{folder_name}</option>
 	<!-- END folder_item_tpl -->
     </select>
+  </td>
   <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}" /></td>
   <td>&nbsp;</td>
