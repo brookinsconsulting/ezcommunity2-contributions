@@ -473,3 +473,7 @@ alter table eZTrade_ShippingType add IsDefault int not null default 0;
 
 # Add description to link groups
 alter table eZLink_LinkGroup add Description text;
+
+# Alternative cuyrrency
+create table eZTrade_AlternativeCurrency( ID int primary key auto_increment, Name char(100) not null, PrefixSign int not null default 0, Sign char(5) not null, Value float not null default 1 );
+alter table eZTrade_AlternativeCurrency add Created timestamp;

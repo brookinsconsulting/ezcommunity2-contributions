@@ -247,10 +247,25 @@ switch ( $url_array[2] )
         else
             $Search = $url_array[4];
         include( "eztrade/admin/productsearch.php" );
-//          print( "<h1>Product search</h1>" );
         break;
     }
 
+    case "currency" :
+    {
+        if ( isset( $AddCurrency ) )
+            $Action = "AddCurrency";
+
+        if ( isset( $Store ) )
+            $Action = "Store";
+
+        if ( isset( $Delete ) )
+            $Action = "DeleteSelected";
+        
+        
+        include( "eztrade/admin/currency.php" );
+        break;
+    }
+    
     default :
         print( "<h1>Sorry, Your PRODUCT page could not be found. </h1>" );
         break;
