@@ -2985,3 +2985,14 @@ Maintainer(s) : bf@ez.no
     * admin/articleedit.php:
     bulkmail is now sent after the article is published.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-02  bf  <bf@zev.ez.no>
+
+    * classes/ezarticle.php
+      user/articleedit.php
+      user/articlelist.php:
+    Fixed article count bug on article list from all categories.
+

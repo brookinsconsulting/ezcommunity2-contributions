@@ -523,3 +523,16 @@ Maintainer(s) : fh@ez.no
     * user/mailedit.php:
     Fixed bug with deleting attachmetns when sending mail.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-04-02  fh  <fh@zev.ez.no>
+
+    * classes/ezmail.php: Fixed small bug
+
+2002-04-02  chrism  <chrism@zev.ez.no>
+
+    * classes/ezmail.php:
+    Fixed but in ezmail that prevented replyto from working - CM.
+
