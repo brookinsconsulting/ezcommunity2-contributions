@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.18 2001/02/20 17:57:36 fh Exp $
+// $Id: bugedit.php,v 1.19 2001/02/20 18:44:39 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -29,6 +29,8 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezmail.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
