@@ -1,0 +1,6 @@
+
+NOTE: To upgrade the database from version 1.0.1 to 1.0.2 
+run the following SQL commands:
+
+create table eZArticle_ArticleCategoryDefinition( ID int primary key auto_increment, ArticleID int not null, CategoryID int not null ); 
+INSERT INTO eZArticle_ArticleCategoryDefinition ( ArticleID, CategoryID )  SELECT DISTINCT ArticleID, CategoryID from eZArticle_ArticleCategoryLink;  
