@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.26 2001/05/08 12:41:22 ce Exp $
+// $Id: forumedit.php,v 1.27 2001/05/16 09:14:46 wojciechp Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -58,8 +58,8 @@ if ( $Action == "insert" )
             $forum->setName( $Name );
             $forum->setDescription( $Description );
 
-            $user = new eZUser( $ModeratorID );
-            $forum->setModerator( $user );
+            $moderatorgroup = new eZUserGroup( $ModeratorID ); //variable name?
+            $forum->setModerator( $moderatorgroup );
 
             if ( $IsModerated == "on" )
             {
@@ -67,9 +67,9 @@ if ( $Action == "insert" )
             }
             else
             {
-                $forum->setIsModerated( false );            
+                $forum->setIsModerated( false );
             }
-            
+
             if ( $IsAnonymous == "on" )
             {
                 $forum->setIsAnonymous( true );
@@ -78,17 +78,17 @@ if ( $Action == "insert" )
             {
                 $forum->setIsAnonymous( false );
             }
-            
+
 
             $group = new eZUserGroup( $GroupID );
             $forum->setGroup( $group );
-            
+
             $forum->store();
 
             $category = new eZForumCategory( $CategorySelectID );
             $category->addForum( $forum );
-            
-            eZLog::writeNotice( "Forum created: $Name from IP: $REMOTE_ADDR" );                    
+
+            eZLog::writeNotice( "Forum created: $Name from IP: $REMOTE_ADDR" );
 
             eZHTTPTool::header( "Location: /forum/forumlist/$CategorySelectID" );
             exit();
@@ -96,7 +96,7 @@ if ( $Action == "insert" )
         else
         {
             eZLog::writeWarning( "Forum not created: missing data from IP: $REMOTE_ADDR" );
-                        
+
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
     }
@@ -118,8 +118,8 @@ if ( $Action == "update" )
             $forum = new eZForum();
             $forum->get( $ForumID );
 
-            $user = new eZUser( $ModeratorID );
-            $forum->setModerator( $user );
+            $moderatorgroup = new eZUserGroup( $ModeratorID ); //variable name?
+            $forum->setModerator( $moderatorgroup );
 
             if ( $IsModerated == "on" )
             {
@@ -129,7 +129,7 @@ if ( $Action == "update" )
             {
                 $forum->setIsModerated( false );
             }
-            
+
             if ( $IsAnonymous == "on" )
             {
                 $forum->setIsAnonymous( true );
@@ -138,7 +138,7 @@ if ( $Action == "update" )
             {
                 $forum->setIsAnonymous( false );
             }
-            
+
             $forum->setName( $Name );
             $forum->setDescription( $Description );
 
@@ -149,18 +149,18 @@ if ( $Action == "update" )
 
             // remove all category assigmnents.
             $forum->removeFromForums();
-                 
+
             $category = new eZForumCategory( $CategorySelectID );
             $category->addForum( $forum );
-            
+
             eZLog::writeNotice( "Forum updated: $Name from IP: $REMOTE_ADDR" );
-                        
+
             eZHTTPTool::header( "Location: /forum/forumlist/$CategorySelectID" );
             exit();
         }
         else
         {
-            eZLog::writeWarning( "Forum not updated: missing data from IP: $REMOTE_ADDR" ); 
+            eZLog::writeWarning( "Forum not updated: missing data from IP: $REMOTE_ADDR" );
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
     }
@@ -183,7 +183,7 @@ if ( $Action == "delete" )
 
             $forum->delete();
             eZLog::writeNotice( "Forum deleted: $forumName from IP: $REMOTE_ADDR" );
-            
+
             eZHTTPTool::header( "Location: /forum/forumlist/" );
             exit();
         }
@@ -211,11 +211,11 @@ if ( $Action == "DeleteForums" )
             $categories = $forum->categories();
 
             $categoryID = $categories[0]->id();
-            
+
             $forum->delete();
 
             eZLog::writeNotice( "Forum deleted: $forumName from IP: $REMOTE_ADDR" );
-            
+
         }
         eZHTTPTool::header( "Location: /forum/forumlist/$categoryID/" );
         exit();
@@ -243,7 +243,8 @@ $t->set_var( "forum_id", $ForumID );
 
 if ( $Action == "new" )
 {
-    if ( eZPermission::checkPermission( $user, "eZForum", "ForumModifyAdd" ) == false )
+
+    if ( !eZPermission::checkPermission( $user, "eZForum", "ForumModifyAdd" ) )
     {
         eZHTTPTool::header( "Location: /forum/norights" );
         exit();
@@ -257,7 +258,7 @@ if ( $Action == "edit" )
 {
     $forum = new eZForum( $ForumID );
     $categories = $forum->categories();
-    
+
     $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
     $headline =  $languageIni->read_var( "strings", "head_line_edit" );
 
@@ -292,10 +293,10 @@ if ( $Action == "edit" )
         {
             $t->set_var( "forum_is_anonymous", "" );
         }
-            
+
 
         $groupUser =& $forum->group();
-            
+
         $action_value = "update";
 
     }
@@ -325,8 +326,11 @@ foreach( $categoryList as $categoryItem )
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
-$user = new eZUser();
-$userList = $user->getAll();
+$user = new eZUser();          //remove?
+$userList = $user->getAll();   //remove?
+
+$group = new eZUserGroup();
+$groupList = $group->getAll();
 
 $t->set_var( "user_id", 0 );
 $t->set_var( "user_name", "testing" );
@@ -351,22 +355,23 @@ if( $moderator == 0 )
 
 $t->parse( "moderator_item", "moderator_item_tpl", true );
 
-foreach( $userList as $userItem )
+foreach( $groupList as $groupItem )
+//foreach( $userList as $userItem )
 {
-    $t->set_var( "user_id", $userItem->id() );
-    $t->set_var( "user_name", $userItem->firstName() . " " . $userItem->lastName() );
+    $t->set_var( "user_id", $groupItem->id() );
+    $t->set_var( "user_name", $groupItem->name() ); //change variable names?
 
     if( $Action == "edit" )
     {
         if( $moderator )
         {
-            if ( $moderator->id() == $userItem->id() )
+            if ( $moderator->id() == $groupItem->id() )
             {
                 $t->set_var( "is_selected", "selected" );
             }
             else
             {
-                $t->set_var( "is_selected", "" );            
+                $t->set_var( "is_selected", "" );
             }
         }
         else
@@ -396,7 +401,7 @@ foreach( $groupList as $group )
         if ( $groupUser->id() == $group->id() )
             $t->set_var( "is_selected", "selected" );
     }
-    
+
     $t->parse( "group_item", "group_item_tpl", true );
 }
 
