@@ -22,6 +22,7 @@
 <br />
 <hr noshade="noshade" size="1">
 
+<!-- BEGIN buttons_tpl -->
 <table width="60%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -33,6 +34,7 @@
 	</td>
 </tr>
 </table>
+<!-- END buttons_tpl -->
 
 <hr noshade="noshade" size="1">
 
