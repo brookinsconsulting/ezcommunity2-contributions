@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfile.php,v 1.10 2001/03/08 11:18:48 jb Exp $
+// $Id: ezfile.php,v 1.11 2001/03/26 17:33:12 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -82,6 +82,19 @@ class eZFile
         return $ret;
     }
 
+    /*!
+      Dumps the data to a temporary file. Sets the variables in this file.
+     */
+    function dumpDataToFile( $data, $fileName )
+    {
+        $this->FileName = $fileName;
+        $tmpfileName = tempnam( "/tmp", "att" );
+        $this->TmpFileName = $tmpfileName;
+        $fh = fopen( $tmpfileName, 'wb' );
+        fwrite( $fh, $data );
+        fclose( $fh );
+    }
+    
     /*!
       
     */
