@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.2 2001/07/20 11:24:44 jakobn Exp $
+// $Id: datasupplier.php,v 1.3 2001/10/17 10:56:54 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
+$GlobalSectionID = $ini->read_var( "eZSearchMain", "DefaultSection" );
 switch( $url_array[2] )
 {
     default  :

@@ -229,7 +229,7 @@ else
 <tr>
 	<td>
 <form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
-    <input type="hidden" name="SectionIDOverride" value="2" />
+    <input type="hidden" name="SectionIDOverride" value="1" />
     <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 130px; font-size: 9px; margin: 0px;" />
     <input type="submit" name="Search" value="search" style="font-size: 9px; margin: 0px; padding: 0px;" />
 </form>
