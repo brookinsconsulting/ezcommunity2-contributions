@@ -141,7 +141,7 @@ if( 0 || $Action == "insert" || $Action == "update" )
     }
 }
 
-if ( $Action == "insert" && $error == false )
+if ( $Action == "insert" )
 {
     $company = new eZCompany();
     $company->setName( $Name );  
@@ -227,7 +227,7 @@ if ( $Action == "insert" && $error == false )
 
     // Add to user object
     $company->addAddress( $address );
-    header( "Location: /contact/company/list/" );
+    header( "Location: /contact/companytype/list/" );
     exit();
 }
 

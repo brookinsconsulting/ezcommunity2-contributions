@@ -38,6 +38,7 @@ $companyType = new eZCompanyType( $CategoryID );
 // path
 $pathArray = $companyType->path();
 
+// print( count( $pathArray ) );
 $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
 {
@@ -45,7 +46,7 @@ foreach ( $pathArray as $path )
 
     $t->set_var( "category_name", $path[1] );
     
-    $t->parse( "path_item", "path_item_tpl", true );
+//    $t->parse( "path_item", "path_item_tpl", true );
 }
 
 // Categorylist
