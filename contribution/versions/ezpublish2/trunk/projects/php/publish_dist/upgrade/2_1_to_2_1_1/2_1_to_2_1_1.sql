@@ -633,3 +633,20 @@ ALTER TABLE eZLink_Link DROP LinkGroup;
 alter table eZLink_Link change Title Name varchar(100);
 ALTER TABLE eZLink_Category add ImageID int;
 ALTER TABLE eZLink_Category add Description varchar(200);
+
+# eZBulkMail
+# eZ forum
+alter table eZBulkMail_Mail add SentDateTmp int;
+update eZBulkMail_Mail set SentDateTmp= UNIX_TIMESTAMP( SentDate );
+alter table eZBulkMail_Mail drop SentDate; 
+alter table eZBulkMail_Mail change SentDateTmp SentDate int; 
+
+alter table eZBulkMail_SentLog add SentDateTmp int;
+update eZBulkMail_SentLog set SentDateTmp= UNIX_TIMESTAMP( SentDate );
+alter table eZBulkMail_SentLog drop SentDate; 
+alter table eZBulkMail_SentLog change SentDateTmp SentDate int; 
+
+alter table eZBulkMail_Forgot add TimeTmp int;
+update eZBulkMail_Forgot set TimeTmp= UNIX_TIMESTAMP( Time );
+alter table eZBulkMail_Forgot drop Time; 
+alter table eZBulkMail_Forgot change TimeTmp Time int; 
