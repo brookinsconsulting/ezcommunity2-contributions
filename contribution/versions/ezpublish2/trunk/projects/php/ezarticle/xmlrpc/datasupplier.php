@@ -1,4 +1,8 @@
 <?
+define( "EZARTICLE_NONEXISTING_ARTICLE", 1 );
+define( "EZARTICLE_NONEXISTING_CATEGORY", 2 );
+define( "EZARTICLE_NONEXISTING_PARENT", 3 );
+
 switch ( $RequestType )
 {
     case "type" :
@@ -41,6 +45,7 @@ switch ( $RequestType )
     {
         switch( $Command )
         {
+            case "search":
             case "list":
             case "tree":
             {
@@ -62,6 +67,7 @@ switch ( $RequestType )
     {
         switch( $Command )
         {
+            case "search":
             case "data":
             case "storedata":
             case "delete":
@@ -76,7 +82,16 @@ switch ( $RequestType )
         
     default :
     {
-        $Error = true;
+        switch( $Command )
+        {
+            case "search":
+            {
+                include( "ezarticle/xmlrpc/search.php" );
+                break;
+            }
+            default:
+                $Error = true;
+        }
     } break;
 }
 
