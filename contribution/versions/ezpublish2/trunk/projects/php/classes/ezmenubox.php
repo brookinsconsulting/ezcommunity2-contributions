@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.11 2001/03/01 14:06:24 jb Exp $
+// $Id: ezmenubox.php,v 1.12 2001/03/09 12:25:37 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -59,7 +59,7 @@ class eZMenuBox
 
     function createBox( $ModuleName, $module_dir, $place, $SiteStyle,
                         &$menuItems, $print = true, $templatefile = false,
-                        $phpfile = false )
+                        $phpfile = false, $ignore_status = false )
     {
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
@@ -74,6 +74,9 @@ class eZMenuBox
         {
             $menuStatus = "open";
         }
+
+        if ( $ignore_status )
+            $menuStatus = "open";
 
         $uri = $GLOBALS["REQUEST_URI"];
         $up_uri = $uri;

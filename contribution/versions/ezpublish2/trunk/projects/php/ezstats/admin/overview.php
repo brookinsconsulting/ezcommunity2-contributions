@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: overview.php,v 1.9 2001/03/01 14:06:25 jb Exp $
+// $Id: overview.php,v 1.10 2001/03/09 12:25:37 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jan-2001 11:23:51 bf>
@@ -66,7 +66,7 @@ $menuItems = array(
     );
 
 eZMenuBox::createBox( "eZStats", "ezstats", "admin",
-                      $SiteStyle, $menuItems, true, "menuitems.tpl", "ezstats/admin/overview.php" );
+                      $SiteStyle, $menuItems, true, "menuitems.tpl", "ezstats/admin/overview.php", true );
 
 
 ?>

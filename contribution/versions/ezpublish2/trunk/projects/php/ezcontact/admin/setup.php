@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: setup.php,v 1.2 2001/01/25 17:11:33 jb Exp $
+// $Id: setup.php,v 1.3 2001/03/09 12:25:37 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <25-Jan-2001 00:58:23 amos>
@@ -40,6 +40,7 @@ $menuItems = array(
     array( "/contact/projecttype/list/", "{intl-projecttypelist}" )
     );
 
-eZMenuBox::createBox( "eZContact", "ezcontact", "admin", $SiteStyle, $menuItems, true, "menuitems.tpl" );
+eZMenuBox::createBox( "eZContact", "ezcontact", "admin", $SiteStyle, $menuItems,
+                      true, "menuitems.tpl", false, true );
 
 ?>
