@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.11 2001/05/14 12:47:50 bf Exp $
+// $Id: ezpageview.php,v 1.12 2001/05/14 12:52:19 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -389,4 +389,3 @@ class eZPageView
 }
 
 ?>
- 
