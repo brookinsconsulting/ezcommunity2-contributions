@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.30 2000/11/29 11:25:12 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.31 2000/12/21 20:29:48 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -164,10 +164,10 @@ class eZPerson
 
     /*
       Henter ut person med ID == $id
-    */  
+    */
     function get( $id )
     {
-        $this->dbInit();    
+        $this->dbInit();
         if( $id != "" )
         {
             $this->Database->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
@@ -188,7 +188,7 @@ class eZPerson
             }
         }
     }
-    
+
     /*
         Fetches the person with the USER ID == $id
      */
@@ -379,6 +379,95 @@ class eZPerson
         }
 
         return $return_array;
+    }
+
+    /*!
+      Returns the email address of the person, returns false if none exists.
+    */
+    function emailAddress()
+    {
+        $onlines = $this->onlines();
+        if ( count( $onlines ) >= 1 )
+        {
+            $found_mail = false;
+            foreach ( $onlines as $online )
+                {
+                    if ( $online->urlType() == "mailto" )
+                    {
+                        return $online->url();
+                    }
+                }
+        }
+        return false;
+    }
+
+    /*!
+      Returns the work phone of the person, returns false if none exists.
+    */
+    function workPhone()
+    {
+        $phones = $this->phones( 0 );
+        if ( count( $phones ) >= 1 )
+        {
+            foreach ( $phones as $phone )
+                {
+                    if ( $phone->phoneTypeID() == 4 ) // 4 = Work phone
+                    {
+                        return $phone->number();
+                    }
+                }
+        }
+        return false;
+    }
+
+    /*!
+      Returns the fax phone of the person, returns false if none exists.
+    */
+    function faxPhone()
+    {
+        $phones = $this->phones( 0 );
+        if ( count( $phones ) >= 1 )
+        {
+            foreach ( $phones as $phone )
+                {
+                    if ( $phone->phoneTypeID() == 8 ) // 4 = Fax
+                    {
+                        return $phone->number();
+                    }
+                }
+        }
+        return false;
+    }
+
+    /*!
+      Returns the title of the user related to a given company ($companyID)
+    */
+    function title( $companyID )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+
+        $this->dbInit();
+        $checkQuery = "SELECT Title FROM eZContact_CompanyPersonDict
+                                    WHERE CompanyID='$companyID' and PersonID='$this->ID'";
+
+        $title_array = array();
+
+        $this->Database->array_query( $title_array, $checkQuery );
+
+        $title = false;
+
+        if ( count( $title_array ) == 1 )
+        {
+            $title = $title_array[0]["Title"];
+        }
+        else
+        {
+            die( "eZPerson::title(): Found " . count( $title_array ) . " titles, expected 1" );
+        }
+        return $title;
     }
 
     /*!
