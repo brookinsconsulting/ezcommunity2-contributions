@@ -102,20 +102,10 @@ else
 	include( "eznewsfeed/user/menubox.php" );
 	?>
 
-	<?
-	include( "ezforum/user/menubox.php" );
-	?>
-
     <?
     include( "ezbulkmail/user/menubox.php" );
     ?>
     
-	<?
-    // include the static pages for category 2
-    $CategoryID = 2;
-    include( "ezarticle/user/articlelinks.php" );
-	?>
-
 	<!-- Left menu end -->
 	
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
@@ -160,10 +150,6 @@ else
 	$CategoryID = 1;
 	include( "eznewsfeed/user/headlines.php" );
 	?>
-    
-    <?
-    include( "ezpoll/user/votebox.php" );
-    ?>
         
 	<!-- Right menu end -->
 	

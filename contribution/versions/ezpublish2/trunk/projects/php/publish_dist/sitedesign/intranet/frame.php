@@ -106,30 +106,10 @@ else
 	include( "ezcontact/user/menubox.php" );
 	?>
     
-	<?
-	include( "ezforum/user/menubox.php" );
-    include( "ezforum/user/latestmessages.php" );
-	?>
-
-	<?
-	include( "ezlink/user/menubox.php" );
-	?>
-
-	<?
-	include( "ezfilemanager/user/menubox.php" );
-	?>
-
-	<?
-	include( "ezimagecatalogue/user/menubox.php" );
-	?>
-
-	<?
-    // include the static pages for category 2
-    $CategoryID = 2;
-    include( "ezarticle/user/articlelinks.php" );
-	?>
-
-
+   <?
+   include( "ezforum/user/menubox.php" );
+   include( "ezforum/user/latestmessages.php" );
+   ?>
    	<!-- Left menu end -->
 		
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
@@ -185,10 +165,6 @@ else
     <?
     include( "ezcalendar/user/menubox.php" );
     ?>  
-
-    <?
-    include( "ezquiz/user/menubox.php" );
-    ?>
 
 	<?
 	include( "ezcontact/user/consultationlist.php" );

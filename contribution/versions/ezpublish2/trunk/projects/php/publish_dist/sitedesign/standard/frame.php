@@ -145,8 +145,7 @@ else
 
    <?
    include( "ezforum/user/menubox.php" );
-
-    include( "ezforum/user/latestmessages.php" );
+   include( "ezforum/user/latestmessages.php" );
    ?>
 
    <?
