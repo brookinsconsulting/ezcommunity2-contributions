@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.3 2001/01/25 14:15:02 th Exp $
+// $Id: filelist.php,v 1.4 2001/02/21 17:04:27 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Dec-2000 17:43:40 bf>
@@ -45,7 +45,9 @@ $t->set_file( array(
     "file_list_page_tpl" => "filelist.tpl"
     ) );
 
-$t->set_block( "file_list_page_tpl", "file_tpl", "file" );
+$t->set_block( "file_list_page_tpl", "no_files_tpl", "no_files" );
+$t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
+$t->set_block( "file_list_tpl", "file_tpl", "file" );
 
 $article = new eZArticle( $ArticleID );
 
@@ -55,28 +57,39 @@ $t->set_var( "article_name", $article->name() );
 $t->set_var( "site_style", $SiteStyle );
 
 $files = $article->files();
-
-$i=0;
-$t->set_var( "file", "" );
-foreach ( $files as $file )
+if ( count( $files ) == 0 )
 {
-    if ( ( $i % 2 ) == 0 )
+    $t->set_var( "file_list", "" );
+    $t->parse( "no_files", "no_files_tpl", true );
+}
+else
+{
+    $t->set_var( "no_files", "" );
+
+    $i=0;
+    $t->set_var( "file", "" );
+    foreach ( $files as $file )
     {
-        $t->set_var( "td_class", "bglight" );
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
+        $t->set_var( "file_number", $i + 1 );
+        $t->set_var( "file_id", $file->id() );
+        $t->set_var( "file_name", $file->name() );
+        $t->set_var( "file_description", $file->description() );
+
+        $t->parse( "file", "file_tpl", true );
+
+        $i++;
     }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
 
-
-    $t->set_var( "file_number", $i + 1 );
-
-    $t->set_var( "file_name", $file->name() );
-    
-    $t->parse( "file", "file_tpl", true );
-    
-    $i++;
+    $t->parse( "file_list", "file_list_tpl", true );
 }
 
 

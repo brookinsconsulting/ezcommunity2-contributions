@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileedit.php,v 1.3 2001/01/23 12:57:06 jb Exp $
+// $Id: fileedit.php,v 1.4 2001/02/21 17:04:27 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Dec-2000 18:01:48 bf>
@@ -32,11 +32,13 @@ include_once( "classes/ezfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 $ini = new INIFIle( "site.ini" );
-
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+
+if ( isset( $DeleteSelected ) )
+    $Action = "Delete";
 
 if ( $Action == "Insert" )
 {
@@ -70,33 +72,33 @@ if ( $Action == "Insert" )
 
 if ( $Action == "Update" )
 {
-//      $file = new eZFilerFile();
-    
-//      if ( $file->getUploadedFile( "userfile" ) )
-//      {
-//          $article = new eZArticle( $ArticleID );
+    $file = new eZFile();
 
-//          $oldFiler = new eZFiler( $FilerID );
-//          $article->deleteFiler( $oldFiler );
-        
-//          $filer = new eZFiler();
-//          $filer->setName( $Name );
-//          $filer->setCaption( $Caption );
+    if ( $file->getUploadedFile( "userfile" ) )
+    {
+        $article = new eZArticle( $ArticleID );
 
-//          $filer->setFiler( $file );
-        
-//          $filer->store();
-        
-//          $article->addFiler( $filer );
-//      }
-//      else
-//      {
-//          $filer = new eZFiler( $FilerID );
-//          $filer->setName( $Name );
-//          $filer->setCaption( $Caption );
-//          $filer->store();
-//      }
-    
+        $oldFile = new eZFile( $FileID );
+        $article->deleteFile( $oldFile );
+
+        $uploadedFile = new eZVirtualFile();
+        $uploadedFile->setName( $Name );
+        $uploadedFile->setDescription( $Description );
+
+        $uploadedFile->setFile( $file );
+
+        $uploadedFile->store();
+
+        $article->addFile( $uploadedFile );
+    }
+    else
+    {
+        $uploadedFile = new eZVirtualFile( $FileID );
+        $uploadedFile->setName( $Name );
+        $uploadedFile->setDescription( $Description );
+        $uploadedFile->store();
+    }
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
     exit();
@@ -106,10 +108,16 @@ if ( $Action == "Update" )
 if ( $Action == "Delete" )
 {
     $article = new eZArticle( $ArticleID );
-    $file = new eZVirtualFile( $FileID );
-        
-    $article->deleteFiler( $filer );
-    
+
+    if ( count ( $FileArrayID ) != 0 )
+    {
+        foreach( $FileArrayID as $FileID )
+        {
+            $file = new eZVirtualFile( $FileID );
+            $article->deleteFile( $file );
+        }
+    }
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
     exit();    

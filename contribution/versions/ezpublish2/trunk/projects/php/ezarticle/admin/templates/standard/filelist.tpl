@@ -4,10 +4,16 @@
 
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN no_files_tpl -->
+{intl-no_files}
+<!-- END no_files_tpl -->
+
+<!-- BEGIN file_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-file_id}:</th>
 	<th>{intl-file_name}:</th>
+	<th>{intl-file_description}:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -17,25 +23,39 @@
 	<td width="1%" class="{td_class}">
 	{file_number}
 	</td>
-	<td width="97%" class="{td_class}">
+	<td width="40%" class="{td_class}">
 	{file_name}
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/fileedit/edit/{file_number}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<td width="57%" class="{td_class}">
+	{file_description}
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/fileedit/delete/{file_number}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="eztp{file_number}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" border="0" alt="Delete" /></a>
+	<a href="/article/articleedit/fileedit/edit/{file_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	</td>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="FileArrayID[]" value="{file_id}">
 	</td>
 </tr>
 <!-- END file_tpl -->
 
 </table>
+<!-- END file_list_tpl -->
 
 <br/>
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewFile"value="{intl-file_upload}" />
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<input class="stdbutton" type="submit" name="NewFile" value="{intl-file_upload}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
+	</td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 
