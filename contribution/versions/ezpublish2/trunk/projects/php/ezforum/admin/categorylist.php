@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.6 2000/10/12 11:00:29 ce-cvs Exp $
+    $Id: categorylist.php,v 1.7 2000/10/13 10:02:30 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -17,10 +17,8 @@ $ini = new INIFile( "site.ini" );
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
-
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezdb.php" );
-include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
+include_once( "ezforum/classes/ezforumcategory.php" );
   
 $cat = new eZforumCategory();
 
@@ -34,7 +32,6 @@ $t->set_file(array( "category_page" => "categorylist.tpl",
 $t->set_block( "category_page", "category_item_tpl", "category_item" );
 
 $t->set_var( "docroot", $DOC_ROOT );
-$t->set_var( "box", "" );
 
 $category = new eZforumCategory();
 $categoryList = $category->getAll();
