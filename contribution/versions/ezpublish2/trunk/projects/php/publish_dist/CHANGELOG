@@ -11,6 +11,8 @@ Changes from 2.2 Alpha to 2.2 Beta 1
 * Added support for IP or Cookie based vote checking in eZ poll
 * Added support for custom defined article tags in site.ini
 * Added XML generator/renderer support in eZ trade
+* Added circular categories in eZ article
+* Added option for keeping case of manual keywords for eZ article
 * Added support for changing message limit in eZ forum
 
 Changes from 2.1 to 2.2 Alpha
