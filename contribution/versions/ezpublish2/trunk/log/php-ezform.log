@@ -889,3 +889,28 @@ Maintainer(s) : pkej@ez.no
 
     * user/formview.php: fixed bug when storing
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/exportform.php: fixed bug with new line
+
+    * admin/intl/no_NO/exportformlist.php.ini: added no_NO
+
+    * admin/datasupplier.php
+      admin/exportform.php
+      admin/exportformlist.php
+      admin/intl/en_GB/exportformlist.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/menubox.php
+      admin/templates/standard/exportformlist.tpl
+      classes/ezform.php
+      classes/ezformelement.php: fixed exporting to excel
+
+    * classes/ezformelement.php: fixed sorting
+
+    * sql/mysql/ezform.sql: fixed result type
+

@@ -705,3 +705,39 @@ Maintainer(s) : jhe@ez.no
       admin/templates/standard/personview.tpl
       classes/ezperson.php: added image for persons
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/companyedit.php.ini
+      admin/intl/pt_PT/companystats.php.ini
+      admin/intl/pt_PT/companytype.php.ini
+      admin/intl/pt_PT/companyview.php.ini
+      admin/intl/pt_PT/consultationdetaillist.php.ini
+      admin/intl/pt_PT/consultationedit.php.ini
+      admin/intl/pt_PT/consultationlist.php.ini
+      admin/intl/pt_PT/consultationmail.ini
+      admin/intl/pt_PT/consultationtype.php.ini
+      admin/intl/pt_PT/error.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/nopermission.php.ini
+      admin/intl/pt_PT/personedit.php.ini
+      admin/intl/pt_PT/personview.php.ini
+      admin/intl/pt_PT/projecttype.php.ini
+      user/intl/pt_PT/companysearch.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/personsearch.php.ini
+      user/intl/pt_PT/search.php.ini
+      user/intl/pt_PT/urlsupplier.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-01-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personedit.php:
+    fixed bug with category Id collecting company id when adding new company in an category
+

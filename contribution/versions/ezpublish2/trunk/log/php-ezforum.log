@@ -979,3 +979,11 @@ Maintainer(s) : jhe@ez.no
     * classes/ezforummessage.php
       user/messagelist.php: fixed bug when counting replies
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-01-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messageedit.php: fixed problem with cr in start/stop of a message
+

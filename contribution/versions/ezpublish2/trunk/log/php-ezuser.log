@@ -931,3 +931,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezobjectpermission.php: faster removePermissions
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-07  Baard Farstad  <bf@ez.no>
+
+    * classes/ezobjectpermission.php: Fixed object permission check error.
+
