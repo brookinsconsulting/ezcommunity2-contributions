@@ -3641,3 +3641,15 @@ Maintainer(s) : ce@ez.no
     different options, one option combination would be shown for all
     products in the mail.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-08-09  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/en_GB/voucherinformation.php.ini~
+      user/templates/standard/voucher.tpl~
+      user/templates/standard/voucherinformation.tpl~
+      classes/ezvoucheremail.php~
+      classes/ezvouchersmail.php~: removed emacs backup files
+
