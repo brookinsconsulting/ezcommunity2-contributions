@@ -19,6 +19,7 @@ Changes from 2.2.8 to 2.2.9
 * Added optimalisation on classes in eZ imagecatalogue.
 * Fixed bug for non virtualhost in articletool.php
 * Done optimalisation to eZ stats.
+* Fixed bug with read permissions on products in eZ trade.
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
