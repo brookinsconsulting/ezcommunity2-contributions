@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.9 2000/07/24 13:24:43 lw Exp $
+    $Id: main.php,v 1.10 2000/07/24 13:58:25 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -30,11 +30,14 @@ $t->set_file( array("main" => "$DOCROOT/templates/main.tpl",
                     "logout" => "$DOCROOT/templates/main-logout.tpl",
                     "search" => "$DOCROOT/templates/main-search.tpl",
                     "results" => "$DOCROOT/templates/main-search-results.tpl",
-                    "search-elements" => "$DOCROOT/templates/main-search-results-elements.tpl"
+                    "search-elements" =>"$DOCROOT/templates/main-search-results-elements.tpl",
+                    "navigation" => "$DOCROOT/templates/navigation.tpl"
                     ) );
 
 $t->set_var( "docroot", $DOCROOT);
 $categories = $cat->getAllCategories();
+
+$t->parse( "navigation-bar", "navigation", true);
 
 // category list
 for ($i = 0; $i < count($categories); $i++)
