@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.81 2001/08/15 14:54:53 ce Exp $
+// $Id: ezarticlecategory.php,v 1.82 2001/08/15 15:04:59 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -352,6 +352,7 @@ class eZArticleCategory
                             ParentID='$parentID'
                             AND Permission.ObjectID=Category.ID
                             $show_str
+                      GROUP BY Category.ID
                       ORDER BY $sortbySQL";
 
             $db->array_query( $category_array, $query, array( "Limit" => $max, "Offset" => $offset ) );
@@ -1016,7 +1017,7 @@ class eZArticleCategory
                $publishedSQL = " AND Article.IsPublished = '0' AND ";
        }
 
-       $query = "SELECT DISTINCT Definition.CategoryID, Article.ID as ArticleID, Article.Published, Article.Name, Link.Placement
+       $query = "SELECT Definition.CategoryID, Article.ID as ArticleID, Article.Published, Article.Name, Link.Placement
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article as Article,
                        eZArticle_ArticleCategoryLink as Link,
@@ -1030,6 +1031,7 @@ class eZArticleCategory
                         AND Link.ArticleID=Article.ID
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
+                 GROUP BY Article.ID
                  ORDER BY $OrderBy";
 
 
@@ -1148,7 +1150,8 @@ class eZArticleCategory
                         AND Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                         AND Definition.ArticleID=Article.ID
-                        AND CategoryPermission.ObjectID=Definition.CategoryID";
+                        AND CategoryPermission.ObjectID=Definition.CategoryID
+                        GROUP BY Article.ID ";
 
        $db->array_query( $article_array, $query );
 

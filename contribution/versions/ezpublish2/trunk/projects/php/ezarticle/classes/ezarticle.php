@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.145 2001/08/15 14:50:56 ce Exp $
+// $Id: ezarticle.php,v 1.146 2001/08/15 15:04:59 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2052,7 +2052,7 @@ class eZArticle
        else
            $excludeSQL = "";
 
-        $query = "SELECT DISTINCT Article.ID as ArticleID, Article.Published, Article.Name
+        $query = "SELECT Article.ID as ArticleID, Article.Published, Article.Name
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
@@ -2067,7 +2067,7 @@ class eZArticle
                         $excludeSQL
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
-                 ORDER BY $OrderBy";
+                 GROUP BY Article.ID ORDER BY $OrderBy";
 
         $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset )  );
 
