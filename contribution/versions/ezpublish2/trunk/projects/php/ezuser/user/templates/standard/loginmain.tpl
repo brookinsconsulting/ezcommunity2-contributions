@@ -1,45 +1,45 @@
-<form method="post" action="/user/login/login/">
-
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
+<form method="post" action="/user/login/login/">
 <tr>
-	<th>{intl-head_line}</th>
+	<td colspan="2" class="menuhead">{intl-head_line}</td>
 </tr>
 <tr>
-	<td>
-	<p>{intl-username}:</p>
+	<td colspan="2" class="menubold">
+	{intl-username}:
+	</td>
+</tr>
+<tr>
+	<td colspan="2" class="menu">
 	<input type="text" size="6" name="Username"/>
 	</td>
 </tr>
 <tr>
-	<td>
-	<p>{intl-password}:</p>
+	<td colspan="2" class="menubold">
+	{intl-password}:
+	</td>
+</tr>
+<tr>
+	<td colspan="2" class="menu">
 	<input type="password" size="6" name="Password" />
 	</td>
 </tr>
 <tr>
-	<td>
+	<td colspan="2">
 	<input type="submit" value="{intl-ok}">
 	</td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/user/forgot/">{intl-forgot}</a></td>
 </tr>
 <tr>
-	<td class="menutext">
-	<a class="menu" href="/user/forgot/">{intl-forgot}</a>
-	</td>
-</tr>
-<tr>
-	<td class="menutext">
-	<a class="menu" href="{user_edit_url}">{intl-register}
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="{user_edit_url}">{intl-register}</a></td>
 </tr>
 <tr>
 	<td class="menuspacer">&nbsp;</td>
 </tr>
-</table>
-
 <input type="hidden" name="RedirectURL" value="{redirect_url}">
-
 </form>
+</table>
 
