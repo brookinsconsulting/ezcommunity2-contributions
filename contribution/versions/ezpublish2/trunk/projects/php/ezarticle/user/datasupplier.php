@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.84 2001/09/10 12:45:26 jhe Exp $
+// $Id: datasupplier.php,v 1.85 2001/09/12 06:09:38 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -167,12 +167,20 @@ switch ( $url_array[2] )
 
     case "search":
     {
-        if ( $url_array[3] == "move" )
+        if( $url_array[3] == "advanced" )
         {
-            $SearchText = urldecode( $url_array[4] );
-            $Offset = urldecode ( $url_array[5] );
+            include( "ezarticle/user/searchform.php" );
         }
-        include( "ezarticle/user/search.php" );
+        else 
+        {
+            if ( $url_array[3] == "move" )
+            {
+                $SearchText = urldecode( $url_array[4] );
+                $Offset = urldecode ( $url_array[5] );
+            }
+            include( "ezarticle/user/search.php" );
+        }
+        
     }
     break;
 
