@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.27 2001/11/01 12:15:04 jhe Exp $
+// $Id: personview.php,v 1.28 2001/11/08 11:45:36 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -331,11 +331,20 @@ if ( $Action == "view" )
     if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
-        $showAll = $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled";
-        if ( $showAll )
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, "Date", true, 0, $max );
+        if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, "Date", true, 0, $max, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, "Date", true, 0, $max );
+        }
         else
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max );
+        }
 
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
@@ -427,8 +436,8 @@ if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "e
     }
 }
 
-if ( get_class( $user ) == "ezuser" and
-     eZPermission::checkPermission( $user, "eZContact", "buy" ) and
+if ( get_class( $user ) == "ezuser" &&
+     eZPermission::checkPermission( $user, "eZContact", "buy" ) &&
      count( $orders ) > 0 )
 {
     $t->parse( "order_table_item", "order_table_item_tpl", true );

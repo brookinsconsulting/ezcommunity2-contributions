@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationlist.php,v 1.16 2001/11/01 12:15:04 jhe Exp $
+// $Id: consultationlist.php,v 1.17 2001/11/08 11:45:36 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -126,9 +126,20 @@ if ( isSet( $ConsultationList ) )
     if ( isSet( $CompanyID ) )
     {
         if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
-            $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false );
+        }
         else
-            $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false );
+        }
+        
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
         $company = new eZCompany( $CompanyID );
@@ -137,9 +148,20 @@ if ( isSet( $ConsultationList ) )
     else if ( isSet( $PersonID ) )
     {
         if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, $OrderBy, true );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, $OrderBy, true, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, $OrderBy, true );
+        }
         else
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true );
+        }
+        
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
         $person = new eZPerson( $PersonID );

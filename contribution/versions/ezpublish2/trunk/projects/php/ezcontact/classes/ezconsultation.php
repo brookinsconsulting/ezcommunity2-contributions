@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.29 2001/11/01 12:15:05 jhe Exp $
+// $Id: ezconsultation.php,v 1.30 2001/11/08 11:45:36 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -497,7 +497,7 @@ class eZConsultation
       \static
       Finds all consultations on a specific contact person or company.
     */
-    function findConsultationsByContact( $contact, $user, $OrderBy = "ID", $is_person = true, $index = 0, $max = -1 )
+    function findConsultationsByContact( $contact, $user, $OrderBy = "ID", $is_person = true, $index = 0, $max = -1, $relations = false )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
@@ -541,7 +541,8 @@ class eZConsultation
                 $OrderBy = "ORDER BY C.Date DESC";
                 break;
         }
-        
+
+        $relationString = "";
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         if ( $is_person )
@@ -557,6 +558,26 @@ class eZConsultation
                                            $userString
                                            CPUD.ConsultationID = C.ID
                                            $OrderBy", $limit );
+            if ( $relations )
+            {
+                $companyArray = eZCompany::persons( $contact, false );
+                foreach ( $companyArray as $companyID )
+                {
+                    $relationString .= "CPCD.CompanyID='$companyID' AND ";
+                }
+                $db->array_query( $qry_array2, "SELECT CPCD.ConsultationID
+                                                FROM
+                                                eZContact_ConsultationCompanyUserDict AS CPCD,
+                                                eZContact_Consultation AS C,
+                                                eZContact_ConsultationType AS CT
+                                                WHERE
+                                                $relationString
+                                                (C.StateID = CT.ID OR C.StateID = 0) AND
+                                                $userString2
+                                                CPCD.ConsultationID = C.ID
+                                                $OrderBy", $limit );
+                $qry_array = array_merge( $qry_array, $qry_array2 );
+            }
         }
         else
         {
@@ -571,6 +592,26 @@ class eZConsultation
                                            $userString2
                                            CPCD.ConsultationID = C.ID
                                            $OrderBy", $limit );
+            if ( $relations )
+            {
+                $personArray = eZCompany::persons( $contact, false );
+                foreach ( $personArray as $personID )
+                {
+                    $relationString .= "CPUD.PersonID='$personID' AND ";
+                }
+                $db->array_query( $qry_array2, "SELECT CPUD.ConsultationID
+                                                FROM
+                                                eZContact_ConsultationPersonUserDict AS CPUD,
+                                                eZContact_Consultation AS C,
+                                                eZContact_ConsultationType AS CT
+                                                WHERE
+                                                $relationString
+                                                (C.StateID = CT.ID OR C.StateID = 0) AND
+                                                $userString
+                                                CPUD.ConsultationID = C.ID
+                                                $OrderBy", $limit );
+                $qry_array = array_merge( $qry_array, $qry_array2 );
+            }
         }
         $ret_array = array();
         foreach ( $qry_array as $qry )

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.33 2001/11/01 12:15:04 jhe Exp $
+// $Id: companyview.php,v 1.34 2001/11/08 11:45:36 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -367,12 +367,12 @@ else
     $user =& eZUser::currentUser();
     $t->set_var( "person_consultation_button", "" );
     $t->set_var( "buy_button", "" );
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
     }
     
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
+    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
     {
         $t->parse( "buy_button", "buy_button_tpl" );
     }
@@ -406,13 +406,28 @@ else
 
 // Consultation list
     $user =& eZUser::currentUser();
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         if ( !isSet( $OrderBy ) )
             $OrderBy = "Date";
         
         $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
-        $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false, 0, $max );
+        
+        if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false, 0, $max, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false, 0, $max );
+        }
+        else
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false, 0, $max, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false, 0, $max );
+        }
+                
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
 

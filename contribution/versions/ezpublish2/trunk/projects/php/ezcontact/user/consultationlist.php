@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: consultationlist.php,v 1.16 2001/11/01 12:15:05 jhe Exp $
+// $Id: consultationlist.php,v 1.17 2001/11/08 11:45:36 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,7 +30,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 $ini =& INIFile::globalINI();
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) == "ezuser" and
+if ( get_class( $user ) == "ezuser" &&
      eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
 {
     include_once( "ezcontact/classes/ezconsultation.php" );
@@ -72,9 +72,19 @@ if ( get_class( $user ) == "ezuser" and
     $t->set_var( "last_consultations_item", "" );
 
     if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
-        $consultations = eZConsultation::findLatestConsultations( -1, $max );
+    {
+        if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+            $consultations = eZConsultation::findLatestConsultations( -1, $max, "ID", true, 0, -1, true );
+        else
+            $consultations = eZConsultation::findLatestConsultations( -1, $max );
+    }            
     else
-        $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
+    {
+        if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+            $consultations = eZConsultation::findLatestConsultations( $user->id(), $max, "ID", true, 0, -1, true );
+        else
+            $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
+    }
 
     foreach ( $consultations as $consultation )
     {
