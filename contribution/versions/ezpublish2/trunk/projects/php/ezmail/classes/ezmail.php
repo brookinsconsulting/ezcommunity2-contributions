@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.46 2001/10/26 07:55:30 jhe Exp $
+// $Id: ezmail.php,v 1.47 2001/11/06 12:34:37 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -598,11 +598,27 @@ class eZMail
     */
     function validate( $address )
     {
-        $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
+        $pos = ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address );
         
         return $pos;
     }
 
+    /*!
+      \static
+      Static function for extracting an e-mail from text
+
+      Returns the first valid e-mail in address, returns false if no e-mail addresses found
+    */
+    function stripEmail( $address )
+    {
+        $res = ereg( '[/0-9A-Za-z\.\?\-\_]+' . '@' .
+                     '[/0-9A-Za-z\.\?\-\_]+', $address, $email );
+        if ( $res )
+            return $email[0];
+        else
+            return 0;
+    }
+    
     /*!
       \static
       
