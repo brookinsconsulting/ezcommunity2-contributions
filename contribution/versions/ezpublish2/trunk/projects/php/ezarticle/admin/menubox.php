@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.5 2000/11/01 11:16:56 bf-cvs Exp $
+// $Id: menubox.php,v 1.6 2000/11/23 07:34:25 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -41,12 +41,6 @@ $t->setAllStrings();
 $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
-
-// Lister alle kategorier
-    
-$articleCategory = new eZArticleCategory( 0 );
-
-$articleCategory_array = $articleCategory->getByParent( $articleCategory );
 
 $t->set_var( "site_style", $SiteStyle );
 

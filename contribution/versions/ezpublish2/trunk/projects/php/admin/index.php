@@ -65,15 +65,18 @@ if ( $user )
         if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
             include( "ezpoll/admin/menubox.php" );
 
-        if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
-            include( "ezuser/admin/menubox.php" );
-
+        if ( $ini->read_var( "site", "eZAd" ) == "enabled" )
+            include( "ezad/admin/menubox.php" );
+        
         if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
             include( "ezcontact/admin/menubox.php" );
 
         if ( $ini->read_var( "site", "eZSite" ) == "enabled" )
             include( "ezsite/admin/menubox.php" );
-    
+
+        if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
+            include( "ezuser/admin/menubox.php" );
+        
     // parse the URI
         $page = "";
     
