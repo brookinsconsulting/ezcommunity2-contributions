@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.36 2001/03/02 12:50:45 gl Exp $
+// $Id: dayview.php,v 1.37 2001/03/05 15:13:14 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -512,8 +512,8 @@ else
                 $date->setDay( $currentDay );
 
                 $t->set_var( "td_class", "bglight" );
-                if ( $date->equals( $today ) )
-                    $t->set_var( "td_class", "bgcurrent" );
+//                if ( $date->equals( $today ) )
+//                    $t->set_var( "td_class", "bgcurrent" );
 
                 $t->set_var( "day_number", $currentDay );
                 $t->parse( "day", "day_tpl", true );
