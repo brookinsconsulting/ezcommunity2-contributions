@@ -36,7 +36,7 @@
 	
 
 	<!-- BEGIN article_image_tpl -->
-	    <table align="right">
+	    <table align="right" width="{thumbnail_image_width}">
 	        <tr>
 			<td>
 			<a href="/article/articleview/{article_id}/">

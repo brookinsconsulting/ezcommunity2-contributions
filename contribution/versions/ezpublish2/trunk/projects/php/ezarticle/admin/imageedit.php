@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.6 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: imageedit.php,v 1.7 2000/10/25 12:35:30 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -134,11 +134,15 @@ $t->set_file( array(
     "image_edit_page" => "imageedit.tpl",
     ) );
 
+
+$t->set_block( "image_edit_page", "image_tpl", "image" );
+
 //default values
 $t->set_var( "name_value", "" );
 $t->set_var( "caption_value", "" );
 $t->set_var( "action_value", "Insert" );
 $t->set_var( "option_id", "" );
+$t->set_var( "image", "" );
 
 if ( $Action == "Edit" )
 {
@@ -158,7 +162,8 @@ if ( $Action == "Edit" )
     $t->set_var( "image_src", "/" .$variation->imagePath() );
     $t->set_var( "image_width", $variation->width() );
     $t->set_var( "image_height", $variation->height() );
-    $t->set_var( "image_file_name", $image->originalFileName() );    
+    $t->set_var( "image_file_name", $image->originalFileName() );
+    $t->parse( "image", "image_tpl" );
 }
 
 $article = new eZArticle( $ArticleID );
