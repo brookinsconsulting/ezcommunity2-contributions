@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: overview.php,v 1.11 2001/07/20 11:28:54 jakobn Exp $
+// $Id: overview.php,v 1.11.2.1 2003/06/05 08:54:02 br Exp $
 //
 // Created on: <05-Jan-2001 11:23:51 bf>
 //
@@ -61,8 +61,7 @@ $t->set_var( "total_pages_this_month", $pagesThisMonth );
 $t->pparse( "output", "overview_tpl" );
 
 $menuItems = array(
-    array( "/stats/productreport/", "{intl-product_report}" ),
-    array( "/stats/entryexitreport/", "{intl-entry_exit_report}" )
+    array( "/stats/productreport/", "{intl-product_report}" )
     );
 
 eZMenuBox::createBox( "eZStats", "ezstats", "admin",
