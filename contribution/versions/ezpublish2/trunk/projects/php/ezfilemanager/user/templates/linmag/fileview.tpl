@@ -1,7 +1,5 @@
 <h1>{intl-file_view}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <br />
 
 <!-- BEGIN view_tpl -->
@@ -27,8 +25,6 @@
 
 <form method="post" action="{www_dir}{index}/filemanager/edit/{file_id}" enctype="multipart/form-data">
 
-<hr noshade="noshade" size="4" />
-
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<!-- BEGIN delete_tpl -->
@@ -44,8 +40,6 @@
 	<!-- END edit_tpl -->
 </tr>
 </table>
-
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN download_tpl -->
 <input class="okbutton" type="submit" name="Download" value="{intl-download}">

@@ -1,6 +1,5 @@
 <h1>{intl-site_map}</h1>
 
-<hr noshade="noshade" size="4" />
 <br />
 
 <table width="100%" cellpadding="2" cellspacing="0" border="0">

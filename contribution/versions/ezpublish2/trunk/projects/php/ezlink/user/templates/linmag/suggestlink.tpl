@@ -12,8 +12,6 @@
 </tr>
 </table>
 
-<hr noshade size="4">
-
 <form method="post" action="{www_dir}{index}/link/suggestlink/{action_value}/{link_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
@@ -106,8 +104,6 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <!-- END attribute_tpl -->
 </table>
 <!-- END attribute_list_tpl -->
-
-<hr noshade size="4"/>
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>

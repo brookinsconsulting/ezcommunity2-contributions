@@ -6,8 +6,6 @@
 </tr>
 </table>
 
-<hr noshade size="4" />
-
 <!-- BEGIN product_search_form_tpl -->
 <form action="{www_dir}{index}/trade/extendedsearch/" method="post">
 <table width="50%" cellspacing="0" cellpadding="0" border="0">

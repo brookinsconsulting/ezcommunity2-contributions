@@ -1,23 +1,10 @@
 <h1>{intl-author_info}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <br />
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<p class="boxtext">{intl-author_name}:</p>
-	<a href="mailto:{author_mail}">{author_name}</a>
-	</td>
-</tr>
-</table>
-
-<p>{intl-article_info}</p>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td><h2>{intl-head_line} {author_name}</h2></td>
+	<td><p>{intl-head_line} <a href="mailto:{author_mail}">{author_name}</a></p></td>
 	<td width="10%" align="right"><nobr><b>({article_start}-{article_end}/{article_count})</b></nobr></td>
 </tr>
 </table>

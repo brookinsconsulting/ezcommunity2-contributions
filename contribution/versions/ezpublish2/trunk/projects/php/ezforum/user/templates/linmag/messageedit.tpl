@@ -24,7 +24,6 @@
 
 </ul>
 
-<hr noshade size="4" />
 
 <br />
 <!-- END errors_tpl -->

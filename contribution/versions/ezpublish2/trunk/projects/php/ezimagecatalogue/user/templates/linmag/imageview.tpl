@@ -1,6 +1,4 @@
-<h1>{intl-headline}: {image_name}</h1>
-
-<hr noshade="noshade" size="4" />
+<h1>{image_name}</h1>
 
 <br />
 

@@ -10,7 +10,7 @@
 
 <input class="stdbutton" type="submit" name="EditButton" value="{intl-edit}" />
 
-<hr noshade="noshade" size="4" />
+<br /><br />
 
 <input class="okbutton" type="submit" name="DeleteButton" value="{intl-delete}" />
 &nbsp;

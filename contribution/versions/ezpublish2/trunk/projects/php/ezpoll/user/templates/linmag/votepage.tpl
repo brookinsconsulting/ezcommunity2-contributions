@@ -1,8 +1,6 @@
 <form method="post" action="{www_dir}{index}/poll/userlogin/vote/{poll_id}/">
 <h1>{head_line}</h1>
 
-<hr noshade="noshade" size="4">
-
 <p>{description}</p>
 
 <table cellspacing="0" cellpadding="2" border="0">
@@ -22,7 +20,6 @@
 
 </table>
 <br />
-<hr noshade="noshade" size="4">
 
 <!-- BEGIN vote_buttons_tpl -->
 <table cellspacing="0" cellpadding="0" border="0">

@@ -14,8 +14,6 @@
 </table>
 
 
-<hr noshade size="4" />
-
 <h2>{intl-searchfor} "{url_text}"</h2>
 
 <br />

@@ -12,10 +12,7 @@
 </tr>
 </table>
 
-<hr noshade size="4" />
-
 <h2>Search for: "{query_string}"</h2>
-<br>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN product_tpl -->

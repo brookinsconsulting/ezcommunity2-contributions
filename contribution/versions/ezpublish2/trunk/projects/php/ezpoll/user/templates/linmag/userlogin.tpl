@@ -1,7 +1,5 @@
 <h1>{intl-new_user}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <h2>{intl-user_login}</h2>
 
 <p>{intl-reg_text}</p>
@@ -26,8 +24,6 @@
 <p>{intl-new_text}</p>
 
 <form method="post" action="{www_dir}{index}/user/user/new/?RedirectURL={redirect_url}">
-
-<hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" value="{intl-newuser}" />
 

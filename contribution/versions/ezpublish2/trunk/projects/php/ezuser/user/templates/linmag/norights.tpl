@@ -6,6 +6,4 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
 <p class="error">{error_msg}</p>

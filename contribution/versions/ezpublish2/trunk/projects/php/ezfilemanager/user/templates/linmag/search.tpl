@@ -14,8 +14,6 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
 <h2>{intl-search_for}: &quot;{search_text}&quot;</h2>
 
 <!-- BEGIN file_list_tpl -->

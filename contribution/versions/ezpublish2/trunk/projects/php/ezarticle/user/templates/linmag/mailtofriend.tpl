@@ -1,7 +1,5 @@
 <h1>{intl-header}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN first_page_tpl -->
 <form method="post">
 <!-- BEGIN err_msg_tpl -->
@@ -44,8 +42,6 @@
 <p class="boxtext">{intl-comment}:</p>
 <textarea name="Textarea" class="box" cols="40" rows="5">{textarea}</textarea>
 <br /><br />
-
-<hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" name="Submit" value="{intl-send}">
 <input class="okbutton" type="reset" name="Reset" value="{intl-reset}">

@@ -6,11 +6,7 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
 <p>{intl-explanation}</p>
-
-<hr noshade="noshade" size="4" />
 
 <h2>{intl-user_login}</h2>
 
@@ -37,8 +33,6 @@
 <p>{intl-new_text}</p>
 
 <form method="post" action="{www_dir}{index}/user/user/new/?RedirectURL={redirect_url}">
-
-<hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" value="{intl-newuser}" />
 

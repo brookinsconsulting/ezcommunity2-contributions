@@ -12,12 +12,8 @@
   </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
-
-<hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

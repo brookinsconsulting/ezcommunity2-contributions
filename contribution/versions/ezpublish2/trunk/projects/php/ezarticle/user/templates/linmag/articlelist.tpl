@@ -18,18 +18,11 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
 
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/0/">{intl-top_level}</a>
-
 <!-- BEGIN path_item_tpl -->
-<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
-<!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
+<!-- END path_item_tpl -->
 
 <div class="spacer">
 <!-- BEGIN current_image_item_tpl -->

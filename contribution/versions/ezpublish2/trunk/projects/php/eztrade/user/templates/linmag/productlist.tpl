@@ -12,8 +12,6 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4"/>
-
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/{module}/{module_list}/0/">{intl-top}</a>
 
@@ -22,7 +20,6 @@
 <a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
-<hr noshade="noshade" size="4" />
 <!-- BEGIN category_list_tpl -->
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">

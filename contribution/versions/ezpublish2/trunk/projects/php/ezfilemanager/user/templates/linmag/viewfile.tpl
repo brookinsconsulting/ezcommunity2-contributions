@@ -1,7 +1,5 @@
 <h1>{intl-file_upload}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <p class="boxtext">{intl-folder}:</p>
 
 <br />
@@ -19,5 +17,4 @@
 </table>
 <br />
 
-<hr noshade="noshade" size="4" />
 

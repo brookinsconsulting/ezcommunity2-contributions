@@ -1,7 +1,5 @@
 <h1>{intl-search_news_archive}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <p>Beskrivelse av hvordan man søker...</p>
 
 <center>

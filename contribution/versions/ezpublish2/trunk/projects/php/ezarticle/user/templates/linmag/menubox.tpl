@@ -10,7 +10,7 @@
 <!-- END article_category_tpl -->
 
 <tr>
-	<td colspan="2" class="menuspacer">&nbsp;</td>
+	<td class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 

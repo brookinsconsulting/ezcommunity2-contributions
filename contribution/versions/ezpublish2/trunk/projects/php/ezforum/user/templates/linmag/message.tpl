@@ -13,20 +13,12 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
     <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
-<!--
-	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />	
-    <a class="path" href="{www_dir}{index}/forum/message/{message_id}/">{message_topic}</a>
--->
-
-<hr noshade="noshade" size="4" />
 
 <br />
 
@@ -57,8 +49,6 @@
 
 <br />
 
-
-<hr noshade="noshade" size="4" />
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td>
@@ -137,8 +127,6 @@
 
 </table>
 </form>
-
-<hr noshade="noshade" size="4" />
 
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>

@@ -2,8 +2,6 @@
 
 <h1>{intl-head_line}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN error_message_tpl -->
 <h3 class="error">{intl-error_parsing_xml}</h3>
 <!-- END error_message_tpl -->
@@ -32,8 +30,6 @@
 <p class="boxtext">{intl-link_text}:</p>
 <input type="text" class="halfbox" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
-
-<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

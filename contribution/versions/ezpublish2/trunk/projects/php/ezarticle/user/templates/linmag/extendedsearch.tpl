@@ -1,7 +1,5 @@
 <h1>{intl-head_line}:</h1>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN search_item_tpl -->
 <form action="{www_dir}{index}/article/extendedsearch/" method="post">
 <table width="100%" border="0">

@@ -8,8 +8,6 @@
 
 <!-- END current_category_tpl -->
 
-<hr noshade="noshade" size="4" />
-
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="{www_dir}{index}/imagecatalogue/image/list/0/">{intl-image_root}</a>
 
@@ -17,8 +15,6 @@
 <img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="{www_dir}{index}/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
-
-<hr noshade="noshade" size="4" />
 
 <div class="spacer"><div class="p">{current_category_description}</div></div>
 
@@ -128,8 +124,6 @@
 
 <!-- BEGIN default_delete_tpl -->
 
-<hr noshade="noshade" size="4" />
-
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 
@@ -175,7 +169,6 @@
 
 <!-- BEGIN normal_view_button -->
 
-<hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="NormalView" value="{intl-normal_view}">
 
@@ -183,7 +176,6 @@
 
 <!-- BEGIN detail_view_button -->
 
-<hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="DetailView" value="{intl-detail_view}">
 

@@ -2,8 +2,6 @@
 
 <h1>{intl-head_line}</h1>
 
-<hr noshade="noshade" size="4">
-
 <br />
 
 <p class="boxtext">{intl-username}:</p>
@@ -12,9 +10,7 @@
 
 <p class="boxtext">{intl-password}:</p>
 <input tabindex="2" type="password" size="6" name="Password" />
-<br />
-<br />
-<hr noshade="noshade" size="4">
+<br /><br />
 
 <!-- BEGIN buttons_tpl -->
 <table cellspacing="0" cellpadding="0" border="0">
@@ -29,7 +25,6 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4">
 <!-- END buttons_tpl -->
 
 <table cellspacing="0" cellpadding="0" border="0">

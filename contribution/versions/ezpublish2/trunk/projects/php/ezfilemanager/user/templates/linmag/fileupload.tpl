@@ -3,8 +3,6 @@
 
 <h1>{intl-file_upload}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN errors_tpl -->
 <div class="error">{intl-error_headline}</div>
 <ul>
@@ -33,7 +31,7 @@
     <!-- END error_write_everybody_permission_tpl -->
 
 </ul>
-<hr noshade size="4"/>
+
 <!-- END errors_tpl -->
 
     <p class="boxtext">{intl-file_name}:</p>
@@ -82,7 +80,7 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
+<br />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -2,8 +2,6 @@
 
 <h1>{intl-confirm_order}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <h2>{intl-products_about_to_order}:</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
@@ -115,8 +113,6 @@
 </select>
 
 <br /><br />
-<hr noshade="noshade" size="4" />
-<br />
 
 {intl-payment_methods_description}:
 
@@ -127,9 +123,6 @@
 </select>
 
 <br /><br />
-
-<hr noshade="noshade" size="4" />
-
 
 <input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
 <input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />

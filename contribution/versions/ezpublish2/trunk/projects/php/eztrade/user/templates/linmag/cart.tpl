@@ -1,7 +1,5 @@
 <h1>{intl-cart}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN empty_cart_tpl -->
 <h2>{intl-empty_cart}</h2>
 <!-- END empty_cart_tpl -->
@@ -90,7 +88,6 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<hr noshade="noshade" size="4" />
 <!-- BEGIN cart_checkout_tpl -->
 
 <table cellpadding="0" cellspacing="0" border="0">

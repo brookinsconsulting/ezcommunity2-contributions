@@ -1,7 +1,5 @@
 <h1>{intl-head_line}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <br />
 
 <!-- BEGIN result_list_tpl -->
@@ -55,8 +53,6 @@
 
 <br />
 <form method="post" action="{www_dir}{index}/poll/polls">
-
-<hr noshade="noshade" size="4">
 
 <input class="stdbutton" type="submit" value="{intl-more}">
 </form>

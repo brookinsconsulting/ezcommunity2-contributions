@@ -1,8 +1,4 @@
-
-
 <h1>{intl-search_result}</h1>
-
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN news_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -19,8 +15,6 @@
 
 </table>
 <!-- END news_list_tpl -->
-
-<hr noshade="noshade" size="4" />
 
 <center>
 <form action="{www_dir}{index}/newsfeed/search/" method="post">

@@ -2,8 +2,6 @@
 
 <!-- BEGIN news_list_tpl -->
 
-<hr noshade="noshade" size="4" />
-
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td colspan="{num_cols}">

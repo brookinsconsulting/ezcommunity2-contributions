@@ -5,8 +5,6 @@
 <h1>{intl-folder_edit}</h1>
 
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN errors_tpl -->
 <h3 class="error">{intl-error_headline}</h3>
 <ul>
@@ -35,8 +33,6 @@
     <!-- END error_write_everybody_permission_tpl -->
 
 </ul>
-
-<hr noshade size="4"/>
 
 <!-- END errors_tpl -->
 
@@ -85,8 +81,6 @@
 </tr>
 </table>
 <br />
-
-<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

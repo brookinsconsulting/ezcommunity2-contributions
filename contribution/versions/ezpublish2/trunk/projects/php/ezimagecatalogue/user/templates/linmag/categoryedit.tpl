@@ -3,8 +3,6 @@
 
 <h1>{intl-category_edit}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN errors_tpl -->
 <div class="error">{intl-error_headline}</div>
 <ul>
@@ -32,9 +30,6 @@
     <li>{intl-error_write_check}
     <!-- END error_write_everybody_permission_tpl -->
 </ul>
-
-<hr noshade size="4"/>
-
 
 <!-- END errors_tpl -->
 
@@ -84,8 +79,6 @@
     </td>
 </tr>
 </table>
-
-<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -28,7 +28,6 @@
 </tr>
 </table>
 
-<hr noshade size="4" />
 
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
@@ -36,8 +35,6 @@
     <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
-
-<hr noshade size="4" />
 
 <form action="{www_dir}{index}/forum/userlogin/new/{forum_id}">
 
@@ -136,8 +133,7 @@
 </table>
 <!-- END type_list_tpl -->
 
-<hr noshade size="4" />
-
+<br />
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 </form>
 

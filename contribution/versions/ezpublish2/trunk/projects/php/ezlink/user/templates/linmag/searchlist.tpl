@@ -13,9 +13,6 @@
 </tr>
 </table>
 
-
-<hr noshade size="4" />
-
 <h2>Search for: "{query_string}"</h2>
 
 <!-- BEGIN empty_result_tpl -->

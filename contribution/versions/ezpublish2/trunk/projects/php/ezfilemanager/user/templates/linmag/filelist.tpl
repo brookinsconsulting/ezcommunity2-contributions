@@ -29,8 +29,6 @@
 -->
 <!-- END current_folder_tpl -->
 
-<hr noshade="noshade" size="4" />
-
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/filemanager/list/0/">{intl-file_root}</a>
 
@@ -38,8 +36,6 @@
 <img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/filemanager/list/{folder_id}/">{folder_name}</a>
 <!-- END path_item_tpl -->
-
-<hr noshade="noshade" size="4" />
 
 <div class="spacer"><div class="p">{current_folder_description}</div></div>
 
@@ -114,8 +110,7 @@
 
 
 <!-- BEGIN delete_menu_tpl -->
-<hr noshade="noshade" size="4" />
-
+<br />
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
@@ -130,7 +125,7 @@
 <!-- END delete_menu_tpl -->
 
 <!-- BEGIN write_menu_tpl -->
-<hr noshade="noshade" size="4" />
+<br />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
