@@ -16,8 +16,6 @@
 
 	<? include( "eztrade/user/categorylist.php" ); ?>
 
-	<? include( "eztrade/user/menubox.php" ); ?>
-
     <? include( "eztrade/user/hotdealslist.php" ); ?>     
 
 	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />

@@ -1,7 +1,7 @@
 <!-- BEGIN empty_cart_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead">{intl-cart}</td>
+	<td class="menusubhead">{intl-cart}:</td>
 </tr>
 <tr>
 	<td class="menutext">{intl-empty_cart}</td>
@@ -14,7 +14,7 @@
 <!-- BEGIN cart_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td colspan="4" class="menuhead">{intl-cart}</td>
+	<td colspan="4" class="menusubhead">{intl-cart}:</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->

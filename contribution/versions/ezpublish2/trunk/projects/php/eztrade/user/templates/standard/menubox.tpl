@@ -18,7 +18,4 @@
 		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
 		<td width="99%"><a class="menu" href="/trade/findwishlist/">{intl-find_wishlist}</a></td>
 	</tr>
-	<tr>
-		<td colspan="2" class="menuspacer">&nbsp;</td>
-	</tr>
 	</table>

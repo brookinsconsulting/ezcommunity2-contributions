@@ -7,8 +7,10 @@
    	<!-- Oppslagstavle kommer her! -->
 
     <? include( "ezuser/user/userbox.php" ); ?>
+	
+	<? include( "eztrade/user/menubox.php" ); ?>
 
-     <? include( "eztrade/user/smallcart.php" );    ?>
+    <? include( "eztrade/user/smallcart.php" );    ?>
     
 	<!-- Oppslagstavle fram til hit! -->
 

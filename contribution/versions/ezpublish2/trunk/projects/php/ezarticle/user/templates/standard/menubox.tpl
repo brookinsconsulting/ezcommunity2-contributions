@@ -22,8 +22,7 @@
 <!-- END submit_article_tpl -->
 
 	<tr>
-		<td width="1%" valign="top">&nbsp;</td>
-		<td class="menusubhead">{intl-categories}:</td>
+		<td colspan="2" class="menusubhead">{intl-categories}:</td>
 	</tr>
 
 <!-- BEGIN article_category_tpl -->
