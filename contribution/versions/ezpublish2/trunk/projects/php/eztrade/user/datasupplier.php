@@ -210,7 +210,13 @@ switch ( $url_array[2] )
         include( "eztrade/user/productsearch.php" );
     }
     break;
-        
+
+    case "extendedsearch" :
+    {
+        include( "eztrade/user/extendedsearch.php" );
+    }
+    break;
+    
     // XML rpc interface
     case "xmlrpc" :
     {
