@@ -12,6 +12,9 @@
 </tr>
 </table>
 
+
+<form method="post" action="/newsfeed/archive/{current_category_id}">
+
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN path_tpl -->
@@ -54,7 +57,7 @@
 	<a href="/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/categoryedit/delete/{category_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	   <input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -99,8 +102,7 @@
 	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}?', '/newsfeed/news/delete/{news_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezaa{news_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
-
+	   <input type="checkbox" name="NewsArrayID[]" value="{news_id}">
 	</td>
 </tr>
 <!-- END news_item_tpl -->
@@ -124,3 +126,17 @@
      </td>
 </tr>
 </table>
+
+<hr noshade size="4"/>
+<table>
+<tr>
+<!-- BEGIN delete_categories_tpl -->
+  <td><input class="stdbutton" type="submit" name="DeleteCategories" value="{intl-delete_selected_categories}" /></td>
+  <td>&nbsp;</td>
+<!-- END delete_categories_tpl -->
+<!-- BEGIN delete_news_tpl -->
+  <td><input class="stdbutton" type="submit" name="DeleteNews" value="{intl-delete_selected_news}" /></tr>
+<!-- END delete_news_tpl -->
+</tr>
+</table>
+</form>

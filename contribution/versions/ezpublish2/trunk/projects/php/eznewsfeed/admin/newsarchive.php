@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.13 2001/02/01 13:03:04 th Exp $
+// $Id: newsarchive.php,v 1.14 2001/03/05 13:46:03 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -34,6 +34,24 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
+if( isset( $DeleteCategories ) && count( $CategoryArrayID ) > 0 )
+{
+    foreach( $CategoryArrayID as $categoryID )
+    {
+        $category = new eZNewsCategory( $categoryID );
+        $category->delete();
+    }
+}
+
+if( isset( $DeleteNews ) && count( $NewsArrayID ) > 0)
+{
+    foreach( $NewsArrayID as $newsID )
+    {
+        $news = new eZNews( $newsID );
+        $news->delete();
+    }
+}
+
 $t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsfeedMain", "AdminTemplateDir" ),
                      "eznewsfeed/admin/intl/", $Language, "newsarchive.php" );
 
@@ -42,8 +60,6 @@ $t->setAllStrings();
 $t->set_file( array(
     "news_archive_page_tpl" => "newsarchive.tpl"
     ) );
-
-
 
 // path
 $t->set_block( "news_archive_page_tpl", "path_item_tpl", "path_item" );
@@ -60,6 +76,8 @@ $t->set_block( "news_item_tpl", "news_not_published_tpl", "news_not_published" )
 
 $t->set_block( "news_archive_page_tpl", "previous_tpl", "previous" );
 $t->set_block( "news_archive_page_tpl", "next_tpl", "next" );
+$t->set_block( "news_archive_page_tpl", "delete_categories_tpl", "delete_categories" );
+$t->set_block( "news_archive_page_tpl", "delete_news_tpl", "delete_news" );
 
 $category = new eZNewsCategory( $CategoryID );
 
@@ -112,10 +130,16 @@ foreach ( $categoryList as $categoryItem )
     $i++;
 }
 
-if ( count( $categoryList ) > 0 )    
+if ( count( $categoryList ) > 0 )
+{
     $t->parse( "category_list", "category_list_tpl" );
+    $t->parse( "delete_categories", "delete_categories_tpl" );
+}
 else
+{
     $t->set_var( "category_list", "" );
+    $t->set_var( "delete_categories", "" );
+}
 
 
 if ( !isSet( $Limit ) )
@@ -177,10 +201,17 @@ foreach ( $newsList as $news )
     $i++;
 }
 
-if ( count( $newsList ) > 0 )    
+
+if ( count( $newsList ) > 0 )
+{
     $t->parse( "news_list", "news_list_tpl" );
+    $t->parse( "delete_news", "delete_news_tpl" );
+}
 else
+{
     $t->set_var( "news_list", "" );
+    $t->set_var( "delete_news", "" );
+}
 
 
 $prevOffs = $Offset - $Limit;
