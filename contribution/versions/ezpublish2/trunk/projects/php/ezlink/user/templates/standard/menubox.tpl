@@ -3,12 +3,36 @@
 	<td colspan="2" class="menuhead">{intl-links}</td>
 </tr>
 
+<!-- BEGIN link_list_tpl -->
+<tr>
+	<td colspan="2" class="menu">{intl-links}</td>
+</tr>
+<!-- END link_list_tpl -->
+<!-- BEGIN link_list_item_tpl -->
+<tr>
+	<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="{www_dir}{index}/link/gotolink/addhit/{link_id}?Url={link_url}/" target="_blank">{link_name}</a></td>
+</tr>
+<!-- END link_list_item_tpl -->
+
+<!-- BEGIN category_list_tpl -->
+<tr>
+	<td colspan="2" class="menu">{intl-categories}</td>
+</tr>
+<!-- END category_list_tpl -->
 <!-- BEGIN link_category_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="{www_dir}{index}/link/category/{linkcategory_id}/">{linkcategory_name}</a></td>
 </tr>
 <!-- END link_category_tpl -->
+
+<!-- BEGIN no_link_category_tpl -->
+<tr>
+	<td colspan="2" class="menu">{intl-no_link_categories}</td>
+</tr>
+<!-- END no_link_category_tpl -->
+
 <!-- BEGIN no_link_category_tpl -->
 <tr>
 	<td colspan="2" class="menu">{intl-no_link_categories}</td>
@@ -23,4 +47,3 @@
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
-

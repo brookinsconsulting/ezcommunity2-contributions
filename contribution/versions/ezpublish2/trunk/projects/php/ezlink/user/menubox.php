@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.16 2001/09/27 12:49:47 th Exp $
+// $Id: menubox.php,v 1.17 2001/11/08 12:09:06 ce Exp $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
@@ -59,6 +59,7 @@ function createLinkMenu( $menuCacheFile=false )
     global $Language;
     global $menuCachedFile;
 	global $GlobalSiteDesign;
+    global $LinkGroupID;
     
     include_once( "classes/eztemplate.php" );
 
@@ -76,15 +77,26 @@ function createLinkMenu( $menuCacheFile=false )
         ) );
 
     $t->set_block( "menu_box_tpl", "link_category_tpl", "link_category" );
+    $t->set_block( "menu_box_tpl", "category_list_tpl", "category_list" );
     $t->set_block( "menu_box_tpl", "no_link_category_tpl", "no_link_category" );
+
+    $t->set_block( "menu_box_tpl", "link_list_tpl", "link_list" );
+
+    $t->set_block( "menu_box_tpl", "link_list_item_tpl", "link_list_item" );
 
     $t->set_var( "link_category", "" );
     $t->set_var( "no_link_category", "" );
 
-// List all categories
-    $linkCategory = new eZLinkCategory();
+    if ( !isset( $LinkCategoryID ) )
+    {
+        $LinkCategoryID = 0;
+    }
+    $LinkCategoryID = 1;
 
-    $linkCategory_array = $linkCategory->getByParent( 0 );
+// List all categories
+    $linkCategory = new eZLinkCategory( $LinkCategoryID );
+
+    $linkCategory_array = $linkCategory->getByParent( $LinkCategoryID );
 
     if ( count( $linkCategory_array ) == 0 )
     {
@@ -102,8 +114,27 @@ function createLinkMenu( $menuCacheFile=false )
             
             $t->parse( "link_category", "link_category_tpl", true );
         }
+        $t->parse( "category_list", "category_list_tpl" );
     }
-    $t->set_var( "linkcategory_id", $LGID );
+    $t->set_var( "linkcategory_id", $LinkCategoryID );
+
+    $links =& $linkCategory->links( 0, 5 );
+
+    if ( count ( $links ) > 0 )
+    {
+        foreach( $links as $link )
+        {
+            $t->set_var( "link_id", $link->id() );
+            $t->set_var( "link_name", $link->name() );
+            $t->set_var( "link_url", $link->url() );
+            $t->parse( "link_list_item", "link_list_item_tpl", true );
+        }
+        $t->parse( "link_list", "link_list_tpl" );
+    }
+    else
+    {
+        $t->set_var( "link_list", "" );
+    }
                        
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
