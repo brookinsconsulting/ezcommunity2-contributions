@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.21 2000/11/14 17:54:34 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.22 2000/11/14 18:06:04 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -35,7 +35,7 @@
 */
 
 include_once( "ezuser/classes/ezuser.php" );
-include_once( "ezuser/classes/ezdb.php" );
+include_once( "classes/ezdb.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 // include_once( "ezcontact/classes/ezonline.php" );
@@ -170,7 +170,7 @@ class eZPerson
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
+            $this->Database->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
             if ( count( $person_array ) > 1 )
             {
                 die( "Feil: Flere personer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -197,7 +197,7 @@ class eZPerson
         $this->dbInit();    
         $person_array = 0;
     
-        array_query( $person_array, "SELECT ID FROM eZContact_Person ORDER BY LastName" );
+        $this->Database->array_query( $person_array, "SELECT ID FROM eZContact_Person ORDER BY LastName" );
 
         foreach( $person_array as $personItem )
         {
@@ -214,7 +214,7 @@ class eZPerson
         $this->dbInit();    
         $person_array = 0;
     
-        array_query( $person_array, "SELECT * FROM eZContact_Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
+        $this->Database->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
     
         foreach( $person_array as $personItem )
         {
