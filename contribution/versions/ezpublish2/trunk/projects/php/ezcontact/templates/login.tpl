@@ -1,5 +1,6 @@
 <form method="post" action="{document_root}login.php4">
-{login_msg}
+<h1>eZ contact</h1>
+<h3>{login_msg}</h3>
 <p>Brukernavn:<br>
 <input type="text" name="Login" value="{login}"><br></p>
 <p>Passord:<br>

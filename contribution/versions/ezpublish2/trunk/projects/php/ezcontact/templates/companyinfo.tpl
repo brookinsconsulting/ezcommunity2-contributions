@@ -9,36 +9,77 @@
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <tr>
 <td bgcolor="#000000">
-<table width="100%" cellspacing="0" cellpadding="13" border="0">
-<tr>
-<td bgcolor="#808080">
-
-	<table width="100%" cellspacing="0" cellpadding="3" border="0">
-	<tr>
-	<td bgcolor="#000000">
-	<table width="100%" cellspacing="0" cellpadding="10" border="0">
+	<table width="100%" cellspacing="0" cellpadding="7" border="0">
 	<tr>
 	<td bgcolor="#ffffff">
 	
-<h1>{company_name}</h1>
-
-{address_info_list}
-<br>
-{phone_info_list}
-<br>
-Registrert av: {owner}<br>
-Kommentar: <br>
-{comment}<br>
-
-	</td>
-	</tr>
-	</table>
-	</td>
-	</tr>
-	</table>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+<td>
+<h2>{company_name}</h2>
 </td>
 </tr>
 </table>
+
+<table width="100%" cellspacing="2" cellpadding="0" border="0">
+<tr>
+	<td>
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td bgcolor="#3c3c3c">
+		<font color="#ffffff"><b>Adresser</b></font>		
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">
+	{address_info_list}
+	</td>
+</tr>
+</table>
+	</td>
+</tr>
+<tr>
+	<td>
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td bgcolor="#3c3c3c">
+		<font color="#ffffff"><b>Kontaktmedier</b></font>		
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">
+	{phone_info_list}
+	<br>
+	</td>
+</tr>
+</table>
+	</td>
+</tr>
+<tr>
+	<td>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td bgcolor="#3c3c3c">
+		<font color="#ffffff"><b>&nbsp;Kommentar</b></font>		
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">
+	{comment}
+	<br>
+	</td>
+</tr>
+</table>
+	</td>
+</tr>
+</table>
+<p>&nbsp;<b>Registrert av:</b> {owner}</p>
+
+	</td>
+	</tr>
+	</table>
 </td>
 </tr>
 </table>

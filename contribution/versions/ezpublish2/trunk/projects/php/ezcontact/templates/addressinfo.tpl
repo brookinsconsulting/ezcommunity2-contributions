@@ -1,5 +1,6 @@
-<b>{address_type}</b><br>
-{street1}<br>
-{street2}<br>
-{zip} {place}<br>
-<hr>
+<b>{address_type}:</b><br>
+&nbsp;&nbsp;{street1}<br>
+&nbsp;&nbsp;{street2}<br>
+&nbsp;&nbsp;{zip} {place}<br>
+<br>
+
