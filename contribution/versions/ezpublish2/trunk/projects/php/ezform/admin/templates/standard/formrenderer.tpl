@@ -6,6 +6,26 @@
 <textarea class="box" name="{field_name}" cols="40" rows="5" wrap="soft">{field_value}</textarea>
 <!-- END text_area_item_tpl -->
 
+<!-- BEGIN text_label_item_tpl -->
+<span class="boxtext">{field_value}</span>
+<!-- END text_label_item_tpl -->
+
+<!-- BEGIN text_header_1_item_tpl -->
+<h1>{field_value}</h1>
+<!-- END text_header_1_item_tpl -->
+
+<!-- BEGIN text_header_2_item_tpl -->
+<h2>{field_value}</h2>
+<!-- END text_header_2_item_tpl -->
+
+<!-- BEGIN hr_line_item_tpl -->
+<hr noshade="noshade" size="4" />
+<!-- END hr_line_item_tpl -->
+
+<!-- BEGIN empty_item_tpl -->
+
+<!-- END empty_item_tpl -->
+
 <!-- BEGIN multiple_select_item_tpl -->
 <select name="{field_name}[]" multiple="multiple" >
 <!-- BEGIN multiple_select_item_sub_item_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.24 2001/12/18 09:37:40 jhe Exp $
+// $Id: ezformrenderer.php,v 1.25 2001/12/18 09:59:32 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -69,6 +69,11 @@ class eZFormRenderer
         
         $this->Template->set_block( "form_renderer_page_tpl", "text_field_item_tpl", "text_field_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_area_item_tpl", "text_area_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "text_label_item_tpl", "text_label_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "text_header_1_item_tpl", "text_header_1_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "text_header_2_item_tpl", "text_header_2_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "hr_line_item_tpl", "hr_line_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "empty_item_tpl", "empty_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "multiple_select_item_tpl", "multiple_select_item" );
         $this->Template->set_block( "multiple_select_item_tpl", "multiple_select_item_sub_item_tpl", "multiple_select_item_sub_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
@@ -112,6 +117,11 @@ class eZFormRenderer
         $this->Template->set_var( "form_item", "" );
         $this->Template->set_var( "text_field_item", "" );
         $this->Template->set_var( "text_area_item", "" );
+        $this->Template->set_var( "text_label_item", "" );
+        $this->Template->set_var( "text_header_1_item", "" );
+        $this->Template->set_var( "text_header_2_item", "" );
+        $this->Template->set_var( "hr_line_item", "" );
+        $this->Template->set_var( "empty_item", "" );
         $this->Template->set_var( "table_item", "" );
         $this->Template->set_var( "table_item_sub_item", "" );
         $this->Template->set_var( "form_instructions", "" );

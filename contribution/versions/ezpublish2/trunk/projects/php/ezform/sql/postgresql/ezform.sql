@@ -56,4 +56,10 @@ INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
 INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select');
 INSERT INTO eZForm_FormElementType VALUES (5,'checkbox_item','HTML CheckBox');
 INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
+INSERT INTO eZForm_FormElementType VALUES (7,'table_item','Table of elements');
+INSERT INTO eZForm_FormElementType VALUES (8,'text_label_item','Text label');
+INSERT INTO eZForm_FormElementType VALUES (9,'text_header_1_item','Header Level 1');
+INSERT INTO eZForm_FormElementType VALUES (10,'text_header_2_item','Header Level 2');
+INSERT INTO eZForm_FormElementType VALUES (11,'hr_line_item','Horizontal rule');
+INSERT INTO eZForm_FormElementType VALUES (100,'empty_item','Nothing');
 
