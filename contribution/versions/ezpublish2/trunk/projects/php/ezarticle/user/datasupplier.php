@@ -1,4 +1,9 @@
 <?
+
+$PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
+
+print( $PageCaching );
+
 switch ( $url_array[2] )
 {
     case "archive":

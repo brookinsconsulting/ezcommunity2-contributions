@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.16 2000/10/28 14:35:21 bf-cvs Exp $
+// $Id: articleedit.php,v 1.17 2000/10/29 19:21:19 bf-cvs Exp $
 //
 // 
 //
@@ -174,6 +174,30 @@ if ( $Action == "Update" )
         
         $article->store();
 
+        // clear the cache files.
+        $dir = dir( "ezarticle/cache/" );
+        $files = array();
+        while( $entry = $dir->read() )
+        { 
+            if ( $entry != "." && $entry != ".." )
+            { 
+                $files[] = $entry; 
+                $numfiles++; 
+            } 
+        } 
+        $dir->close();
+
+        foreach( $files as $file )
+        {
+            if ( ereg( "articleview,([^,]+),.*", $file, $regArray  ) )
+            {
+                if ( $regArray[1] == $ArticleID )
+                {
+                    unlink( "ezarticle/cache/" . $file );
+                }
+            }
+        }
+        
     // remove all category references
         $article->removeFromCategories();
         $category->addArticle( $article );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2000/10/26 11:01:55 bf-cvs Exp $
+// $Id: menubox.php,v 1.4 2000/10/29 19:21:19 bf-cvs Exp $
 //
 // 
 //
@@ -30,17 +30,17 @@ $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
-
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching");
+
 
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
     $menuCachedFile = "ezarticle/cache/menubox.cache";
                     
-    if ( file_exists( $cachedFile ) )
+    if ( file_exists( $menuCachedFile ) )
     {
-        include( $cachedFile );
+        include( $menuCachedFile );
     }
     else
     {

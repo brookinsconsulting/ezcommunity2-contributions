@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.16 2000/10/29 10:41:22 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.17 2000/10/29 19:21:19 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -82,80 +82,83 @@ class eZTechGenerator
             $startPHPTag = "<php>";
             $endPHPTag = "</php>";
             
-            $numberBegin = substr_count( $tmpPage, $startHTMLTag );
-            $numEnd = substr_count( $tmpPage, $endHTMLTag );
+            $numberBeginHTML = substr_count( $tmpPage, $startHTMLTag );
+            $numEndHTML = substr_count( $tmpPage, $endHTMLTag );
 
             if ( $numberBegin != $numEnd )
             {
                 print( "Unmatched ezhtml tags, check that you have end tags for all begin tags" );
             }
             
-            $numberBegin = substr_count( $tmpPage, $startPHPTag );
-            $numEnd = substr_count( $tmpPage, $endPHPTag );
+            $numberBeginPHP = substr_count( $tmpPage, $startPHPTag );
+            $numEndPHP = substr_count( $tmpPage, $endPHPTag );
             
             if ( $numberBegin != $numEnd )
             {
                 print( "Unmatched PHP tags, check that you have end tags for all begin tags" );
             }
 
-            $checkString = $tmpPage;
+            if ( ( $numberBeginPHP > 0 ) || ( $numberBeginHTML > 0 ) )
+            {
+                $checkString = $tmpPage;
 
-            $resultPage = "";
-            $isInsideHTML = false;
-            $isInsidePHP = false;
-            for ( $i=0; $i<strlen( $checkString ); $i++ )
-            {    
-                if ( substr( $checkString, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
-                {
-                    $isInsideHTMLTag = true;
-                }
-
-                if ( substr( $checkString, $i, strlen( $endHTMLTag ) ) == $endHTMLTag )
-                {
-                    $isInsideHTMLTag = false;
-                }
-
-                if ( substr( $checkString, $i - strlen( $startPHPTag ), strlen( $startPHPTag ) ) == $startPHPTag )
-                {
-                    $isInsidePHPTag = true;
-                }
-
-                if ( substr( $checkString, $i, strlen( $endPHPTag ) ) == $endPHPTag )
-                {
-                    $isInsidePHPTag = false;
-                }
-                
-                if ( ( $isInsideHTMLTag == true ) ||  ( $isInsidePHPTag == true ) )
-                {
-                    switch ( $tmpPage[$i] )
+                $resultPage = "";
+                $isInsideHTML = false;
+                $isInsidePHP = false;
+                for ( $i=0; $i<strlen( $checkString ); $i++ )
+                {    
+                    if ( substr( $checkString, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
                     {
-                        case "<" :
-                        {
-                            $resultPage .= "&lt;";
-                        }
-                        break;
+                        $isInsideHTMLTag = true;
+                    }
 
-                        case ">" :
+                    if ( substr( $checkString, $i, strlen( $endHTMLTag ) ) == $endHTMLTag )
+                    {
+                        $isInsideHTMLTag = false;
+                    }
+
+                    if ( substr( $checkString, $i - strlen( $startPHPTag ), strlen( $startPHPTag ) ) == $startPHPTag )
+                    {
+                        $isInsidePHPTag = true;
+                    }
+
+                    if ( substr( $checkString, $i, strlen( $endPHPTag ) ) == $endPHPTag )
+                    {
+                        $isInsidePHPTag = false;
+                    }
+                
+                    if ( ( $isInsideHTMLTag == true ) ||  ( $isInsidePHPTag == true ) )
+                    {
+                        switch ( $tmpPage[$i] )
                         {
-                            $resultPage .= "&gt;";
-                        }
-                        break;
+                            case "<" :
+                            {
+                                $resultPage .= "&lt;";
+                            }
+                            break;
+
+                            case ">" :
+                            {
+                                $resultPage .= "&gt;";
+                            }
+                            break;
             
-                        default:
-                        {
-                            $resultPage .= $tmpPage[$i];
+                            default:
+                            {
+                                $resultPage .= $tmpPage[$i];
+                            }
                         }
                     }
+                    else
+                    {
+                        $resultPage .= $tmpPage[$i];
+                    }
                 }
-                else
-                {
-                    $resultPage .= $tmpPage[$i];
-                }
-            }
 
-            $tmpPage =& $resultPage;
+                $tmpPage =& $resultPage;
+            }
             
-            // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
+                 // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
             $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!) 
