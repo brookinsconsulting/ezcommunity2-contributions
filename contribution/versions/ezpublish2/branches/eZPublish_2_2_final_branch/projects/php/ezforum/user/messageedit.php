@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.8 2002/02/05 10:39:07 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.9 2002/04/24 07:26:42 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -375,7 +375,7 @@ switch ( $Action )
         $msg->setEmailNotice( $tmpmsg->emailNotice() );
 
         $msg->store();
-        if( $RedirectURL )
+        if ( $RedirectURL )
         {
             eZHTTPTool::header( "Location: $RedirectURL" );
         }
@@ -435,6 +435,8 @@ switch ( $Action )
 
         unset( $NewMessageAuthor );
         unset( $NewMessagePostedAt );
+
+        $NewMessagePostedAt = htmlspecialchars( $ini->read_var( "eZForumMain", "FutureDate" ) );
 
         $msg = new eZForumMessage( $MessageID );
 

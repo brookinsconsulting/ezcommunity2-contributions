@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.4 2002/04/16 15:48:20 jhe Exp $
+// $Id: messageform.php,v 1.16.2.5 2002/04/24 07:26:42 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -134,8 +134,8 @@ if ( $ShowMessageForm )
                 $author = new eZUser( $msg->userId() );
             }
         }
-        
-        if ( isSet( $NewMessagePostedAt ) )
+
+        if ( $msg->isTemporary() )
         {
             $MessagePostedAt = $NewMessagePostedAt;
         }
@@ -163,7 +163,7 @@ if ( $ShowMessageForm )
             }
         }
 
-        if ( isSet( $NewMessagePostedAt ) )
+        if ( $msg->isTemporary() )
         {
             $MessagePostedAt = $NewMessagePostedAt;
         }
