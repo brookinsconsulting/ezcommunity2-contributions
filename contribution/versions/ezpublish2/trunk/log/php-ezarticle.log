@@ -3641,3 +3641,12 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: fixed bug with mail in mail tag.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-05-15  Bjoern Reiten  <br@ez.no>
+
+    * user/articleview.php:
+    fixed security bug in articleview with check of $ArticleID
+
