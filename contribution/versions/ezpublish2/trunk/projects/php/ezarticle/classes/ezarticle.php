@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.177 2001/09/27 10:53:28 bf Exp $
+// $Id: ezarticle.php,v 1.178 2001/09/27 15:48:23 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -3108,11 +3108,13 @@ class eZArticle
         else
             $published = "  IsPublished='1' ";
 
+        $now =& eZDateTime::timeStamp( true );
+
         $db->array_query( $articleArray, "SELECT ID
                                           FROM eZArticle_Article
                                           WHERE $published
                                           AND ( StartDate !='0' OR StopDate !='0' )
-                                          AND ( StartDate <= now() AND StopDate >= now() )
+                                          AND ( StartDate <= $now AND StopDate >= $now )
                                           ORDER BY ID
                                           " );
 
@@ -3181,11 +3183,13 @@ class eZArticle
         else
             $published = "  IsPublished='1' ";
 
+        $now =& eZDateTime::timeStamp( true );
+        
         $db->array_query( $articleArray, "SELECT ID
                                           FROM eZArticle_Article
                                           WHERE $published
                                           AND ( StartDate !='0' OR StopDate !='0')
-                                          AND StopDate <= now()
+                                          AND StopDate <= $now
                                           ORDER BY ID
                                           " );
         
