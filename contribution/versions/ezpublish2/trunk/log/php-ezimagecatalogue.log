@@ -1025,3 +1025,19 @@ Maintainer(s) : br@ez.no
     Added support for fetching the permissions on images, articles and their
     categories using XMLRPC.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-04-26  jb  <jb@zev.ez.no>
+
+    * xmlrpc/category.php
+      xmlrpc/categorylist.php
+      xmlrpc/image.php
+      classes/ezimage.php
+      classes/ezimagecategory.php:
+    Added support for sending over the section information for articles, images,
+    article categories and image categories with XMLRPC.
+    Article listings now only displays categories and articles which you can read
+    and write in XMLRPC.
+

@@ -348,3 +348,12 @@ Maintainer(s) : bf@ez.no
     NB: The current section code is hardcoded to test against url parameter 2 to
     be archive, this should be changed someday.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-04-26  jb  <jb@zev.ez.no>
+
+    * header.php:
+    Added article edit and image category to section charset override.
+

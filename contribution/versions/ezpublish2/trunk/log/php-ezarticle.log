@@ -3235,3 +3235,18 @@ Maintainer(s) : bf@ez.no
 
     * classes/eztopic.php: Added permission check for topic list.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-26  jb  <jb@zev.ez.no>
+
+    * xmlrpc/article.php
+      xmlrpc/category.php
+      xmlrpc/categorylist.php
+      classes/ezarticlecategory.php:
+    Added support for sending over the section information for articles, images,
+    article categories and image categories with XMLRPC.
+    Article listings now only displays categories and articles which you can read
+    and write in XMLRPC.
+
