@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.9 2000/10/12 12:29:47 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.10 2000/10/12 13:08:01 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -368,7 +368,7 @@ class eZNewsItemViewer
     function doAdminEdit( &$itemNo )
     {
         #echo "eZNewsItemViewer::doAdminEdit()<br>\n";
-        $item = new eZNewsItemCreator( $this->inNewsConfigFileName, $$itemNo );
+        $item = new eZNewsItemCreator( $this->inNewsConfigFileName, $itemNo );
         $item->doAction( "edit", "this" );
     }
 
