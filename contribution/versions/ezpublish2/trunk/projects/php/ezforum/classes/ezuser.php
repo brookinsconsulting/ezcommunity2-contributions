@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.13 2000/07/26 15:21:25 lw-cvs Exp $
+    $Id: ezuser.php,v 1.14 2000/07/26 17:03:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -33,36 +33,6 @@ class eZUser {
     var $Password;
     var $AuthHash;
     
-    /*! 
-        initiateDBTable() : creates the eZUser table in the MySQL DB
-    */
-    function initiateDBTable()
-    {
-        openDB();
-        mysql_query("CREATE TABLE UserTable(
-                     id int not null auto_increment primary key,
-                     group_id int not null,
-                     first_name varchar(30),
-                     last_name varchar(35),
-                     nick_name varchar(15),
-                     email varchar(50),
-                     passwd varchar(16),
-                     auth_hash varchar(32),
-                     state ENUM('E','D') default 'E',
-                     company varchar(30),
-                     phone_number varchar(14),
-                     mobile_number varchar(14),
-                     fax_number varchar(14),
-                     Address_one varchar(60),
-                     Address_two varchar(60),
-                     zip_code varchar(6),
-                     city varchar(25),
-                     country varchar(20),
-                     region_info varchar(2) )
-                   ")
-        or die("eZUser::initiateDBTable() failed, dying...");
-    }
-
     /*!
         newUser() : defines a new user record.
     */
@@ -78,14 +48,15 @@ class eZUser {
     */
     function get( $id )
     {
+        global $PREFIX;
+
         $this->Id = $id;
-        
         openDB();
         $query_id = mysql_query("SELECT group_id,first_name, last_name, nick_name, email, state,
                                  phone_number, mobile_number, Address_one, Address_two,
                                  zip_code, city, country, region_info, company, fax_number,
                                  auth_hash,passwd
-                                 FROM UserTable WHERE id='$id'") 
+                                 FROM $PREFIX"."UserTable WHERE id='$id'") 
         or die("eZUser::get($id) failed, dying...");
 
         $this->groupID = mysql_result( $query_id, 0, "group_id" );
@@ -113,11 +84,13 @@ class eZUser {
     */
     function store()
     {
+        global $PREFIX;
+        
         openDB();
 
         if ($this->Id) // an allready existing user record
         {
-            mysql_query("UPDATE UserTable SET
+            mysql_query("UPDATE $PREFIX"."UserTable SET
                            group_id='$this->groupID',
                            first_name='$this->firstName',
                            last_name='$this->lastName',
@@ -141,7 +114,7 @@ class eZUser {
         }
         else // new record
        {
-            $queryStr = "INSERT INTO UserTable(group_id,first_name, last_name, nick_name, email,
+            $queryStr = "INSERT INTO $PREFIX"."UserTable(group_id,first_name, last_name, nick_name, email,
                                             state, phone_number, mobile_number,
                                             fax_number, Address_one, Address_two,
                                             zip_code, city, country, region_info,
@@ -166,10 +139,12 @@ class eZUser {
     */
     function delete($id)
     {
+        global $PREFIX;
+        
         $id = addslashes($id);
         
         openDB();
-        mysql_query("DELETE FROM UserTable WHERE id='$id'")
+        mysql_query("DELETE FROM $PREFIX"."UserTable WHERE id='$id'")
         or die("eZUser:delete($id) failed, dying...");
     }
     
@@ -262,9 +237,11 @@ class eZUser {
     }
     function searchNickName($queryNick)
     {
+        global $PREFIX;
+        
         openDB();
         $queryNick = addslashes( $queryNick );
-        $query_id = mysql_query("SELECT Id FROM UserTable WHERE nick_name='$queryNick' ")
+        $query_id = mysql_query("SELECT Id FROM $PREFIX"."UserTable WHERE nick_name='$queryNick' ")
         or die("eZUser::searchNickName($queryNick) failed, dying...");
 
         if ( mysql_num_rows( $query_id ) > 0 )
@@ -506,11 +483,13 @@ class eZUser {
     }
     function validateUser( $userId, $Passwd )
     {
+        global $PREFIX;
+        
         openDB();
         $userId = addslashes( $userId );
         $Passwd = addslashes( $Passwd );
         
-        $query_id = mysql_query( "SELECT Id FROM UserTable WHERE nick_name='$userId' AND passwd=PASSWORD('$Passwd')" )
+        $query_id = mysql_query( "SELECT Id FROM $PREFIX"."UserTable WHERE nick_name='$userId' AND passwd=PASSWORD('$Passwd')" )
              or die( );
         if ( mysql_num_rows( $query_id ) == 0)
         {
@@ -524,11 +503,13 @@ class eZUser {
 
     function resolveUser( $Id )
     {
+        global $PREFIX;
+        
         openDB();
 
         if ( ( $Id ) && ( $Id != 0 ) )
         {
-            $q = mysql_query( "SELECT nick_name, first_name, last_name FROM UserTable WHERE Id = $Id " )
+            $q = mysql_query( "SELECT nick_name, first_name, last_name FROM $PREFIX"."UserTable WHERE Id = $Id " )
                  or die("Could not resolve user name, dying...");
         }
         else
@@ -544,9 +525,11 @@ class eZUser {
 
     function getByAuthHash( $AuthHash )
     {
+        global $PREFIX;
+        
         openDB();
 
-        $query_id = mysql_query( "SELECT Id FROM UserTable WHERE auth_hash='$AuthHash'" )
+        $query_id = mysql_query( "SELECT Id FROM $PREFIX"."UserTable WHERE auth_hash='$AuthHash'" )
              or die("getByAuthHash() failed, dying...");
 
         if ( mysql_num_rows( $query_id ) == 1)
@@ -567,10 +550,12 @@ class eZUser {
     
     function getByEmail( $email )
     {
+        global $PREFIX;
+        
         openDB();
         
-        $query_id = mysql_query("SELECT Id FROM UserTable WHERE email='$email'")
-             or die("could not look up email in UserTable, dying...");
+        $query_id = mysql_query("SELECT Id FROM $PREFIX"."UserTable WHERE email='$email'")
+             or die("could not look up email in $PREFIX"."UserTable, dying...");
 
         if ( mysql_num_rows( $query_id ) == 1)
         {
@@ -597,6 +582,7 @@ class eZUser {
      */
     function passwordEmail( $email )
     {
+        global $PREFIX;
         global $SERVER_NAME;
 
         if ( $this->getByEmail( $email ) == 0) // OK

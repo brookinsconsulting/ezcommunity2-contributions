@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumforum.php,v 1.5 2000/07/26 12:52:02 lw-cvs Exp $
+    $Id: ezforumforum.php,v 1.6 2000/07/26 17:03:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -22,9 +22,11 @@ class eZforumForum
         
     function get( $Id )
     {
+        global $PREFIX;
+        
         openDB();
         
-        $query_id = mysql_query("SELECT CategoryId, Name, Description, Moderated, Private FROM ForumTable WHERE Id='$Id'")
+        $query_id = mysql_query("SELECT CategoryId, Name, Description, Moderated, Private FROM $PREFIX"."ForumTable WHERE Id='$Id'")
              or die("eZforumForum::get($Id) failed, dying...");    
             
         $this->Id = $Id;
@@ -42,16 +44,18 @@ class eZforumForum
         
     function getAllForums( $CategoryId = "" )
     {
+        global $PREFIX;
+        
         openDB();
         
         if ($CategoryId)
         {
-            $query_id = mysql_query( "SELECT * FROM ForumTable WHERE CategoryId='$CategoryId'" )
+            $query_id = mysql_query( "SELECT * FROM $PREFIX"."ForumTable WHERE CategoryId='$CategoryId'" )
                  or die( "getAllForums() near select all." );
         }
         else
         {
-            $query_id = mysql_query( "SELECT * FROM ForumTable" )
+            $query_id = mysql_query( "SELECT * FROM $PREFIX"."ForumTable" )
                  or die("getAllForums()");
         }
             
@@ -65,6 +69,8 @@ class eZforumForum
         
     function store()
     {
+        global $PREFIX;
+        
         openDB();
             
         $this->CategoryId = addslashes( $this->CategoryId );
@@ -76,7 +82,7 @@ class eZforumForum
         if ($this->Id)
         {
             //update
-            $query_id = mysql_query("UPDATE ForumTable SET CategoryId='$this->CategoryId',
+            $query_id = mysql_query("UPDATE $PREFIX"."ForumTable SET CategoryId='$this->CategoryId',
                                                                Name='$this->Name',
                                                                Description='$this->Description',
                                                                Moderated='$this->Moderated',
@@ -89,7 +95,7 @@ class eZforumForum
         else
         {
                 
-            $query_id = mysql_query("INSERT INTO ForumTable(CategoryId,
+            $query_id = mysql_query("INSERT INTO $PREFIX"."ForumTable(CategoryId,
                                                                 Name,
                                                                 Description,
                                                                 Moderated,
@@ -106,9 +112,11 @@ class eZforumForum
         
     function delete($Id)
     {
+        global $PREFIX;
+        
         openDB();
             
-        mysql_query("DELETE FROM ForumTable WHERE Id='$Id'")
+        mysql_query("DELETE FROM $PREFIX"."ForumTable WHERE Id='$Id'")
             or die("delete()");
     }
         

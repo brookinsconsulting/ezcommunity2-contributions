@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: newmessage.php,v 1.4 2000/07/25 10:15:06 lw Exp $
+    $Id: newmessage.php,v 1.5 2000/07/26 17:03:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,15 +9,14 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include( "ezphputils.php");
-include( "template.inc" );
-include( "$DOCROOT/classes/ezdb.php" );
-include( "$DOCROOT/classes/ezforummessage.php" );
-include( "$DOCROOT/classes/ezuser.php" );
-include( "$DOCROOT/classes/ezsession.php" );
+include_once( "ezphputils.php");
+include_once( "template.inc" );
+include_once( "$DOCROOT/classes/ezforumcategory.php" );
+include_once( "$DOCROOT/classes/ezforummessage.php" );
+include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "$DOCROOT/classes/ezsession.php" );
     
 $msg = new eZforumMessage;
-$usr = new eZUser;
 $t = new Template(".");
 $session = new eZSession();
 
@@ -36,22 +35,12 @@ else
     $UserId = 0;
 }
 
-function categoryForumInfo($Id)
-{
-    openDB();
+$info = eZforumCategory::categoryForumInfo($forum_id);
+$infoString = $info["CateogoryName"] . "::" . $info["ForumName"];
     
-    $query_id = mysql_query("SELECT ForumTable.Name AS ForumName,CategoryTable.Name AS CategoryName FROM ForumTable, CategoryTable
- WHERE CategoryTable.Id = ForumTable.CategoryId AND ForumTable.Id = '$Id'")
-         or die("categoryForumInfo()");
-        
-    $r = mysql_fetch_array($query_id);
-      
-    return ($r["CategoryName"] . "::" . $r["ForumName"]);
-}
-    
-$t->set_var("info", categoryForumInfo($forum_id) );
+$t->set_var("info", $infoString );
 $t->set_var("forum_id", $forum_id);
-$t->set_var("user", $usr->resolveUser( $UserId ) );
+$t->set_var("user", eZUser::resolveUser( $UserId ) );
 
 $t->set_var( "link1-url", "main.php" );
 $t->set_var( "link1-caption", "Gå til topp" );

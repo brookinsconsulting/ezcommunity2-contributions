@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumcategory.php,v 1.4 2000/07/26 12:52:02 lw-cvs Exp $
+    $Id: ezforumcategory.php,v 1.5 2000/07/26 17:03:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -25,11 +25,13 @@ class eZforumCategory
         
     function get($Id)
     {
+        global $PREFIX;
+        
         openDB();
             
         $Id = addslashes($Id);
             
-        $query_id = mysql_query("SELECT Name, Description, Private FROM CategoryTable WHERE Id='$Id'")
+        $query_id = mysql_query("SELECT Name, Description, Private FROM $PREFIX"."CategoryTable WHERE Id='$Id'")
              or die("eZforumCategory::get($id) failed, dying...");
             
         $this->id = $Id;
@@ -40,10 +42,11 @@ class eZforumCategory
         
     function getAllCategories()
     {
+        global $PREFIX;
+        
         openDB();
-            
-        $query_id = mysql_query( "SELECT * FROM CategoryTable" )
-             or die("getAllCategories");
+        $query_id = mysql_query( "SELECT * FROM $PREFIX" . "CategoryTable" )
+             or die("eZforumCategory::getAllCategories() failed, dying...");
             
         for ($i = 0;$i < mysql_num_rows( $query_id ); $i++ )
         {
@@ -54,6 +57,8 @@ class eZforumCategory
         
     function store()
     {
+        global $PREFIX;
+        
         openDB();
             
         $this->Name = addslashes($this->Name);
@@ -62,7 +67,7 @@ class eZforumCategory
         
         if ($this->Id)
         {
-            $query_id = mysql_query("UPDATE CategoryTable SET Name='$this->Name',
+            $query_id = mysql_query("UPDATE $PREFIX"."CategoryTable SET Name='$this->Name',
                                                              Description='$this->Description',
                                                              Private='$this->Private'
                                          WHERE Id='$this->Id'")
@@ -70,7 +75,7 @@ class eZforumCategory
         }
         else
         {
-            $query_id = mysql_query("INSERT INTO CategoryTable(Name, Description, Private)
+            $query_id = mysql_query("INSERT INTO $PREFIX"."CategoryTable(Name, Description, Private)
                                                      VALUES('$this->Name', '$this->Description', '$this->Private')")
                  or die("store() near INSERT...");
             return mysql_insert_id();
@@ -79,9 +84,11 @@ class eZforumCategory
         
     function delete($Id)
     {
+        global $PREFIX;
+        
         openDB();
         
-        mysql_query("DELETE FROM CategoryTable WHERE Id='$Id'")
+        mysql_query("DELETE FROM $PREFIX"."CategoryTable WHERE Id='$Id'")
             or die("delete($Id)");
     }
         
@@ -118,6 +125,22 @@ class eZforumCategory
     function private()
     {
         return $this->Private;
+    }
+
+    function categoryForumInfo($Id)
+    {
+        global $PREFIX;
+        
+        openDB();
+    
+        $query_id = mysql_query("SELECT $PREFIX"."ForumTable.Name AS ForumName,
+                                $PREFIX"."CategoryTable.Name AS CategoryName
+                                FROM $PREFIX"."ForumTable, $PREFIX"."CategoryTable
+                                WHERE $PREFIX"."CategoryTable.Id = $PREFIX"."ForumTable.CategoryId
+                                AND $PREFIX"."ForumTable.Id = '$Id'")
+             or die("categoryForumInfo()");
+        
+        return mysql_fetch_array($query_id);
     }
 }
 ?>

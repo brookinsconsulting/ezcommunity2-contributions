@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.4 2000/07/26 15:12:50 lw-cvs Exp $
+    $Id: ezsession.php,v 1.5 2000/07/26 17:03:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -29,13 +29,15 @@ class eZSession
     */    
     function store( )
     {
+        global $PREFIX;
+        
         $this->dbInit();
         $this->Hash = md5( time() );
 
         setcookie ( "AuthenticatedSession", $this->Hash, 0, "/",  "", 0 )
             or die( "Feil: kunne ikke sette cookie." );
 
-        mysql_query( "INSERT INTO session( sid, usr) VALUES( '$this->Hash', '$this->UserID')" )
+        mysql_query( "INSERT INTO $PREFIX"."SessionTable( sid, usr) VALUES( '$this->Hash', '$this->UserID')" )
             or die("could not insert session into db, dying...");
 
         
@@ -50,12 +52,15 @@ class eZSession
      */
     function get( $hash )
     {
-//        $hash = $AuthenticatedSession;
+
         $ret = 1;
+
+        global $PREFIX;
+        
         $this->dbInit();    
         if ( $hash != "" )
         {
-            array_query( $session_array, "SELECT * FROM session WHERE sid='$hash'" );
+            array_query( $session_array, "SELECT * FROM $PREFIX"."SessionTable WHERE sid='$hash'" );
             if ( count( $session_array ) > 1 )
             {
                 die( "Feil: Flere session med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -125,8 +130,10 @@ class eZSession
 
     function delete( $hash )
     {
+        global $PREFIX;
+        
         openDB();
-        mysql_query("DELETE FROM session WHERE sid='$hash'")
+        mysql_query("DELETE FROM $PREFIX"."SessionTable WHERE sid='$hash'")
             or die("delete session $hash failed, dying...");
     }
 }

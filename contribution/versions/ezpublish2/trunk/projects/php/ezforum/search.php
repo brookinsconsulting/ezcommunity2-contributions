@@ -1,20 +1,20 @@
 <?
 /*!
-    $Id: search.php,v 1.1 2000/07/24 13:58:25 lw Exp $
+    $Id: search.php,v 1.2 2000/07/26 17:03:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
-    Created on: <creation-tag>
+    Created on: Created on: <26-Jul-2000 17:22:47 lw>
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include( "ezphputils.php" );
-include( "template.inc" );
+include_once( "ezphputils.php" );
+include_once( "template.inc" );
 
-include( "$DOCROOT/classes/ezdb.php" );
-include( "$DOCROOT/classes/ezuser.php" );
-include( "$DOCROOT/classes/ezforummessage.php" );
+include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "$DOCROOT/classes/ezforummessage.php" );
 
 //preliminary setup
 $usr = new eZUser;

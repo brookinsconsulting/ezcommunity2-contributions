@@ -1,7 +1,8 @@
 <?
 $SERVER = "localhost";
-$USER = "ezforum";
-$PWD = "ez4u2";
-$DB = "ezforum";
+$USER = "zez";
+$PWD = "zez2zez";
+$DB = "zez";
 $DOCROOT = "ezforum";
+$PREFIX = "ezforum_";
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.24 2000/07/26 15:21:25 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.25 2000/07/26 17:03:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -42,7 +42,7 @@ class eZforumMessage
                                                           UserId,
                                                           PostingTime,
                                                           EmailNotice
-                         FROM MessageTable WHERE Id='$Id'")
+                         FROM $PREFIX"."MessageTable WHERE Id='$Id'")
              or die("eZforumMessage::get($Id) failed, dying...");
             
         $results = mysql_fetch_array( $query_id );
@@ -59,11 +59,13 @@ class eZforumMessage
         
     function getAllHeaders( $forum_id )
     {
-	openDB();
+	global $PREFIX;
+
+    openDB();
 
         $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
+                 FROM $PREFIX"."MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
             
         $query_id = mysql_query( $query_string )
              or die("eZforumMessage::getAllHeaders() failed, dying...");
@@ -79,6 +81,8 @@ class eZforumMessage
         global $eZUser;
         $usr = new eZUser;
         
+        global $PREFIX;
+
         openDB();
                 
         if ($Parent == "NULL")
@@ -92,7 +96,7 @@ class eZforumMessage
             
         $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
-                 FROM MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime DESC";
+                 FROM $PREFIX"."MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime DESC";
             
         $query_id = mysql_query( $query_string )
              or die("eZforumMessage::getHeaders() failed, dying...");
@@ -108,6 +112,8 @@ class eZforumMessage
 
     function store()
     {
+        global $PREFIX;
+
         openDB();
             
         $this->ForumId = addslashes( $this->ForumId );
@@ -119,7 +125,7 @@ class eZforumMessage
                     
         if ($this->Id)
         {
-            mysql_query("UPDATE MessageTable SET ForumId = '$this->ForumId',
+            mysql_query("UPDATE $PREFIX"."MessageTable SET ForumId = '$this->ForumId',
                                                      Parent = '$this->Parent',
                                                      Topic = '$this->Topic',
                                                      Body = '$this->Body',
@@ -143,7 +149,7 @@ class eZforumMessage
             {
                 $this->EmailNotice = "N";
             }
-            $query_str = "INSERT INTO MessageTable(ForumId, " . $val . "Topic, Body, UserId, EmailNotice)
+            $query_str = "INSERT INTO $PREFIX"."MessageTable(ForumId, " . $val . "Topic, Body, UserId, EmailNotice)
                                          VALUES('$this->ForumId'," . $tmp . " '$this->Topic',
                                          '$this->Body', '$this->UserId', '$this->EmailNotice')";
             mysql_query($query_str)
@@ -157,16 +163,20 @@ class eZforumMessage
         
     function delete($Id)
     {
+        global $PREFIX;
+
         openDB();
             
-        mysql_query("DELETE FROM MessageTable WHERE Id='$Id'")
+        mysql_query("DELETE FROM $PREFIX"."MessageTable WHERE Id='$Id'")
             or die("delete()");    
     }
         
     function search( $criteria )
     {
+        global $PREFIX;
+
         openDB();
-        $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM MessageTable
+        $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM $PREFIX"."MessageTable
                       WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$criteria%'" )
             or die("Could not execute search, dying...");
 
@@ -301,9 +311,12 @@ class eZforumMessage
 
     function countMessages( $Id )
     {
-            
+        global $PREFIX;
+
+        openDB();
+        
         $query_id = mysql_query("SELECT COUNT(Id) AS Messages
-                             FROM MessageTable
+                             FROM $PREFIX"."MessageTable
                              WHERE ForumId='$Id'
                              AND Parent IS NULL")
              or die("eZforumMessage::countMessages($Id) failed, dying...");
@@ -313,9 +326,11 @@ class eZforumMessage
     
     function countReplies( $Id )
     {
+        global $PREFIX;
+
         openDB();
          
-        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM MessageTable WHERE Parent='$Id'")
+        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM $PREFIX"."MessageTable WHERE Parent='$Id'")
              or die("could not count replies, dying");
          
         return mysql_result($query_id,0,"replies");
@@ -328,6 +343,9 @@ class eZforumMessage
     function getTopMessage( $id )
     {
         $ret_id = "";
+
+        global $PREFIX;
+
         openDB();
 
         $msg = new eZForumMessage( );
