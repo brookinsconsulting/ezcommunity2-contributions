@@ -115,7 +115,9 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             $REQUEST_URI = "/article/archive/0/";
         }
+        $url_array = explode( "/", $REQUEST_URI );
      }
+    
 
     // Load the main contents and store in a variable
     $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
