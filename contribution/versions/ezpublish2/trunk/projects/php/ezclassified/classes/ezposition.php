@@ -41,6 +41,8 @@ class eZPosition extends eZClassified
 	                                              Pay='$this->Pay',
                                                   ContactPerson='$this->ContactPerson',
                                                   WorkPlace='$this->WorkPlace',
+                                                  PositionType='$this->PositionType',
+                                                  InitiateType='$this->InitiateType',
                                                   ID='$this->ID'
                                                   ");
                     $this->State_ = "Coherent";
@@ -52,12 +54,14 @@ class eZPosition extends eZClassified
 	                                              WorkTime='$this->WorkTime',
 	                                              Pay='$this->Pay',
                                                   ContactPerson='$this->ContactPerson',
-                                                  WorkPlace='$this->WorkPlace'
+                                                  WorkPlace='$this->WorkPlace',
+                                                  PositionType='$this->PositionType',
+                                                  InitiateType='$this->InitiateType'
                                                	  WHERE ID='$this->ID'
                                                	  " );
             $this->State_ = "Coherent";
         }
-        
+
         return true;
     }
 
@@ -85,7 +89,9 @@ class eZPosition extends eZClassified
                 $this->WorkPlace = $position_array[0]["WorkPlace"];
                 $this->Pay = $position_array[0]["Pay"];
                 $this->ContactPerson = $position_array[0]["ContactPerson"];
-                
+                $this->PositionType = $position_array[0]["PositionType"];
+                $this->InitiateType = $position_array[0]["InitiateType"];
+
                 $ret = true;
             }
             $this->State_ = "Coherent";
@@ -150,8 +156,29 @@ class eZPosition extends eZClassified
         $this->ContactPerson = $value;
     }
 
+    /*!
+      Sets the position type
+    */
+    function setPositionType( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
 
-        /*!
+        $this->PositionType = $value;
+    }
+
+    /*!
+      Sets the initiate type
+    */
+    function setInitiateType( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->InitiateType = $value;
+    }
+
+    /*!
       Returnerer firmanavn.
     */
     function duration()
@@ -204,12 +231,118 @@ class eZPosition extends eZClassified
         return $this->ContactPerson;
     }
 
+    /*!
+      Returns position type.
+    */
+    function positionType()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->PositionType;
+    }
     
+    /*!
+      Returns initiate type.
+    */
+    function initiateType()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->InitiateType;
+    }
+
     var $Duration;
     var $WorkTime;
     var $WorkPlace;
     var $Pay;
     var $ContactPerson;
+    var $PositionType;
+    var $InitiateType;
+}
+
+/*!
+  Returns all position types
+*/
+function getPositionTypes()
+{
+    $database = new eZDB( "site.ini", "site" );
+    $res_array = array();
+    $qry_array = array();
+
+    $query= "SELECT ID FROM eZClassified_PositionType";
+    $database->array_query( $qry_array, $query );
+    foreach ( $qry_array as $qry_item )
+        {
+            $res_array[] = $qry_item["ID"];
+        }
+    return $res_array;
+}
+
+/*!
+  Returns all initiate types
+*/
+function getInitiateTypes()
+{
+    $database = new eZDB( "site.ini", "site" );
+    $res_array = array();
+    $qry_array = array();
+
+    $query= "SELECT ID FROM eZClassified_InitiateType";
+    $database->array_query( $qry_array, $query );
+    foreach ( $qry_array as $qry_item )
+        {
+            $res_array[] = $qry_item["ID"];
+        }
+    return $res_array;
+}
+
+/*!
+  Returnerer position type name.
+*/
+function positionTypeName( $position_type )
+{
+    $database = new eZDB( "site.ini", "site" );
+    $res_array = array();
+    $name = false;
+
+    $query= "SELECT Name FROM eZClassified_PositionType WHERE ID='$position_type'";
+    $database->array_query( $res_array, $query );
+    if ( count( $res_array ) < 0 )
+        die( "eZPosition::positionTypeName(): No position type found with id=$position_type" );
+    else if ( count( $res_array ) == 1 )
+    {
+        $name = $res_array[0]["Name"];
+    }
+    else
+        die( "eZPosition::positionTypeName(): Found more than one position type with id=$position_type" );
+
+    return $name;
+}
+
+/*!
+  Returnerer initiate type name.
+*/
+function initiateTypeName( $initiate_type )
+{
+    $database = new eZDB( "site.ini", "site" );
+
+    $res_array = array();
+    $name = false;
+
+    $query= "SELECT Name FROM eZClassified_InitiateType WHERE ID='$initiate_type'";
+    $database->array_query( $res_array, $query );
+    if ( count( $res_array ) < 0 )
+        die( "eZPosition::initiateTypeName(): No initiate type found with id='$initiate_type'" );
+    else if ( count( $res_array ) == 1 )
+    {
+        $name = $res_array[0]["Name"];
+    }
+    else
+        die( "eZPosition::initiateTypeName(): Found more than one initiate type with id='$initiate_type'" );
+
+    return $name;
 }
 
 ?>
