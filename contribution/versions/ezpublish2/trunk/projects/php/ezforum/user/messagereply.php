@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.18 2000/12/23 15:49:22 bf Exp $
+// $Id: messagereply.php,v 1.19 2001/01/20 19:30:42 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -63,9 +63,36 @@ if ( $Action == "insert" )
     else
         $reply->disableEmailNotice();
 
-    $reply->store();
-
     $forum_id = $original->forumID();
+    $forum = new eZForum( $forum_id );
+
+    if ( $forum->isModerated() )
+    {
+        $reply->setIsApproved( false );
+    }
+    else
+    {
+        $reply->setIsApproved( true );
+    }
+    
+    $reply->store();    
+
+
+    // send mail to forum moderator
+    $moderator = $forum->moderator();
+
+    if ( $moderator )
+    {
+        $mail = new eZMail();
+
+        $mail->setSubject( $reply->topic() );
+        $mail->setBody( $reply->body( false ) );
+
+        $mail->setFrom( $moderator->email() );
+        $mail->setTo( $moderator->email() );
+
+        $mail->send();
+    }
 
     // send out email notices
     $forum = new eZForum( $original->forumID() );
@@ -82,19 +109,21 @@ if ( $Action == "insert" )
     
     $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
     $mailTemplate->setAllStrings();
-    
+
+    $emailNoticeArray = array();
     foreach ( $messages as $message )
     {
         if ( $message->id() != $reply->id() )
         {
             if ( ( $message->treeID() > $reply->treeID() ) && $message->emailNotice() )
             {
+                
                 $headersInfo = ( getallheaders() );
                 $mailTemplate->set_var( "arthur", $user->firstName() . " " . $user->lastName() );
                 $mailTemplate->set_var( "postingtime", $locale->format( $message->postingTime() ) );
                 
                 $mailTemplate->set_var( "topic", $reply->topic() );
-                $mailTemplate->set_var( "body", $reply->body() );
+                $mailTemplate->set_var( "body", $reply->body( false ) );
                 $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "/forum/message/" . $reply->id() );
 
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
@@ -105,11 +134,16 @@ if ( $Action == "insert" )
 
                 $mail->setTo( $user->email() );
                 $mail->setBody( $bodyText );
-                
-                $mail->send();
+
+                // only send replies to a user once
+                if ( !in_array( $user->id(), $emailNoticeArray ) )
+                {
+                    $mail->send();                
+                    $emailNoticeArray[] = $user->id();                    
+                }                
             }
         }
-    }    
+    }
 
     Header( "Location: /forum/messagelist/$forum_id/" );
 }

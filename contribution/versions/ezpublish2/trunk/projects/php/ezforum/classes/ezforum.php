@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.9 2001/01/06 16:21:00 bf Exp $
+// $Id: ezforum.php,v 1.10 2001/01/20 19:30:42 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -80,7 +80,8 @@ class eZForum
             $this->Database->query( "INSERT INTO eZForum_Forum SET
 		                         Name='$this->Name',
 		                         Description='$this->Description',
-		                         Moderated='$this->Moderated',
+		                         IsModerated='$this->IsModerated',
+		                         ModeratorID='$this->ModeratorID',
 		                         Private='$this->Private'
                                  " );
 
@@ -93,7 +94,8 @@ class eZForum
             $this->Database->query( "UPDATE eZForum_Forum SET
 		                         Name='$this->Name',
 		                         Description='$this->Description',
-		                         Moderated='$this->Moderated',
+		                         IsModerated='$this->IsModerated',
+		                         ModeratorID='$this->ModeratorID',
 		                         Private='$this->Private'
                                  WHERE ID='$this->ID'
                                  " );
@@ -154,7 +156,8 @@ class eZForum
                 $this->ID = $forum_array[0][ "ID" ];
                 $this->Name = $forum_array[0][ "Name" ];
                 $this->Description = $forum_array[0][ "Description" ];
-                $this->Moderated = $forum_array[0][ "Moderated" ];
+                $this->IsModerated = $forum_array[0][ "IsModerated" ];
+                $this->ModeratorID = $forum_array[0][ "ModeratorID" ];
                 $this->Private = $forum_array[0][ "Private" ];
 
                 $this->State_ = "Coherent";
@@ -257,16 +260,22 @@ class eZForum
 
       Default limit is set to 30.
     */
-    function &messageTree( $offset=0, $limit=30 )
+    function &messageTree( $offset=0, $limit=30, $showUnApproved=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
        $this->dbInit();
 
+       $approvedCode = "";
+       if ( $showUnApproved == false )
+       {
+           $approvedCode = " AND IsApproved=1 ";
+       }
+
        $this->Database->array_query( $message_array, "SELECT ID FROM
                                                        eZForum_Message
-                                                       WHERE ForumID='$this->ID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+                                                       WHERE ForumID='$this->ID' $approvedCode ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
        $ret = array();
 
@@ -388,29 +397,66 @@ class eZForum
     }
         
     /*!
-      
+      Returns true if the forum is moderated, false if not.
     */
-    function moderated()
+    function isModerated()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->IsModerated == 1 )
+           $ret = true;
         
-        
-        return $this->Moderated;
+        return $ret;
+    }
+
+    /*!
+      Returns the forum moderator as a eZUser object.
+    */
+    function moderator()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $user = false;
+       
+       if ( $this->ModeratorID > 0 )
+       {
+           $user = new eZUser( $this->ModeratorID );           
+       }
+
+       return $user;
     }
         
     /*!
-      
+      Sets the forum to be moderated or not.
     */
-    function setModerated($newModerated)
+    function setIsModerated( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        
-        $this->Moderated = $newModerated;
+
+       if ( $value == true )
+           $this->IsModerated = 1;
+       else
+           $this->IsModerated = 0;
     }
-        
+
+    /*!
+      Sets the forum moderator.
+    */
+    function setModerator( $user )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $user  ) == "ezuser" )
+       {
+           $this->ModeratorID = $user->id();
+       }
+    }
+    
     /*!
       
     */
@@ -485,8 +531,10 @@ class eZForum
     var $ID;
     var $Name;
     var $Description;
-    var $Moderated;
+    var $IsModerated;
     var $Private;
+    var $ModeratorID;
+
 
     ///  Variable for keeping the database connection.
     var $Database;

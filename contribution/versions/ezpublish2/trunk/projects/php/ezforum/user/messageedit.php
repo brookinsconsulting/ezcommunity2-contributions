@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.13 2001/01/11 18:29:28 ce Exp $
+// $Id: messageedit.php,v 1.14 2001/01/20 19:30:42 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -32,6 +32,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
+include_once( "classes/ezmail.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -39,6 +40,8 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 
 if ( $Action == "insert" )
 {
+    $forum = new eZForum( $ForumID );
+
     $user = eZUser::currentUser();
     
     $message = new eZForumMessage();
@@ -56,7 +59,32 @@ if ( $Action == "insert" )
     else
         $message->disableEmailNotice();
 
+    if ( $forum->isModerated() )
+    {
+        $message->setIsApproved( false );
+    }
+    else
+    {
+        $message->setIsApproved( true );
+    }
+    
     $message->store();
+
+
+    $moderator = $forum->moderator();
+
+    if ( $moderator )
+    {
+        $mail = new eZMail();
+
+        $mail->setSubject( $message->topic() );
+        $mail->setBody( $message->body( false ) );
+
+        $mail->setFrom( $moderator->email() );
+        $mail->setTo( $moderator->email() );
+
+        $mail->send();
+    }    
 
     Header( "Location: /forum/messagelist/$ForumID/" );
 }

@@ -64,7 +64,22 @@
 	<!-- BEGIN category_item_tpl -->
 	<option {is_selected} value="{category_id}">{category_name}</option>
 	<!-- END category_item_tpl -->
-	</select>
+</select>
+
+
+<br />
+<p class="boxtext">{intl-forum_is_moderated}:</p>
+<input type="checkbox" name="IsModerated" {forum_is_moderated} />
+
+
+<br />
+<p class="boxtext">{intl-moderator}:</p>
+<select name="ModeratorID">
+
+	<!-- BEGIN moderator_item_tpl -->
+	<option {is_selected} value="{user_id}">{user_name}</option>
+	<!-- END moderator_item_tpl -->
+</select>
 
 <br /><br />
 	

@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.11 2000/12/19 13:52:04 ce Exp $
+// $Id: forumedit.php,v 1.12 2001/01/20 19:30:42 bf Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -47,6 +47,15 @@ if ( $Action == "insert" )
             $forum = new eZForum();
             $forum->setName( $Name );
             $forum->setDescription( $Description );
+
+            $user = new eZUser( $ModeratorID );
+            $forum->setModerator( $user );
+
+            if ( $IsModerated == "on" )
+                $forum->setIsModerated( true );
+            else
+                $forum->setIsModerated( false );            
+            
             
             $forum->store();
 
@@ -80,6 +89,14 @@ if ( $Action == "update" )
         {
             $forum = new eZForum();
             $forum->get( $ForumID );
+
+            $user = new eZUser( $ModeratorID );
+            $forum->setModerator( $user );
+
+            if ( $IsModerated == "on" )
+                $forum->setIsModerated( true );
+            else
+                $forum->setIsModerated( false );            
 
             
             $forum->setName( $Name );
@@ -144,6 +161,7 @@ $t->set_file( array( "forum_page" => "forumedit.tpl"
                    ) );
 
 $t->set_block( "forum_page", "category_item_tpl", "category_item" );
+$t->set_block( "forum_page", "moderator_item_tpl", "moderator_item" );
 
 $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
 $headline =  $languageIni->read_var( "strings", "head_line_insert" );
@@ -184,6 +202,12 @@ if ( $Action == "edit" )
         $t->set_var( "forum_name", $forum->name() );
         $t->set_var( "forum_description", $forum->description() );
         $t->set_var( "forum_id", $ForumID);
+
+        if ( $forum->isModerated() == true )
+            $t->set_var( "forum_is_moderated", "checked" );
+        else
+            $t->set_var( "forum_is_moderated", "" );
+            
         $action_value = "update";
 
     }
@@ -212,6 +236,43 @@ foreach( $categoryList as $categoryItem )
 
 
     $t->parse( "category_item", "category_item_tpl", true );
+}
+
+$user = new eZUser();
+$userList = $user->getAll();
+foreach( $userList as $userItem )
+{
+    $t->set_var( "user_id", $userItem->id() );
+    
+    $t->set_var( "user_name", $userItem->firstName() . " " . $userItem->lastName() );
+
+
+    if ( $Action == "edit" )
+    {
+        $user = $forum->moderator();
+        if ( $user )
+        {
+            if ( $user->id() == $userItem->id() )
+            {
+                $t->set_var( "is_selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_selected", "" );            
+            }
+        }
+        else
+        {
+            $t->set_var( "is_selected", "" );
+        }
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+
+
+    $t->parse( "moderator_item", "moderator_item_tpl", true );
 }
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.61 2001/01/06 16:21:01 bf Exp $
+// $Id: ezforummessage.php,v 1.62 2001/01/20 19:30:42 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -116,6 +116,7 @@ class eZForumMessage
 		                         ThreadID='$this->ThreadID',
 		                         Depth='$this->Depth',
 		                         EmailNotice='$this->EmailNotice',
+		                         IsApproved='$this->IsApproved',
                                  PostingTime=now()
        
                                  " );
@@ -155,6 +156,7 @@ class eZForumMessage
 		                         ThreadID='$this->ThreadID',
 		                         Depth='$this->Depth',
 		                         EmailNotice='$this->EmailNotice',
+		                         IsApproved='$this->IsApproved',
                                  PostingTime=now()
                                  " );
 
@@ -181,6 +183,7 @@ class eZForumMessage
 		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice',
+		                         IsApproved='$this->IsApproved',
                                  PostingTime=PostingTime
                                  WHERE ID='$this->ID'
                                  " );
@@ -230,6 +233,8 @@ class eZForumMessage
                 $this->PostingTime = $message_array[0][ "PostingTime" ];
                 $this->EmailNotice = $message_array[0][ "EmailNotice" ];
 
+                $this->IsApproved = $message_array[0][ "IsApproved" ];
+                
                 $this->ThreadID = $message_array[0][ "ThreadID" ];
                 $this->TreeID = $message_array[0][ "TreeID" ];                
                 $this->Depth = $message_array[0][ "Depth" ];
@@ -300,6 +305,36 @@ class eZForumMessage
         
         $this->ForumID = $newForumID;
     }
+
+    /*!
+      Sets the message to be approved or not.
+    */      
+    function setIsApproved( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+           $this->IsApproved = 1;
+       else
+           $this->IsApproved = 0;           
+    }
+
+
+    /*!
+      Returns true if the message is approved.
+    */
+    function isApproved()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $this->IsApproved == 1 )
+           return true;
+       else
+           return false;
+           
+    }
     
     /*!
       Returns the parent message.
@@ -355,14 +390,21 @@ class eZForumMessage
     }
         
     /*!
-      
+      Returns the body of the forum message.
     */      
-    function body()
+    function body( $htmlchars=true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->Body );
+       
+       if ( $htmlchars == true )
+       {           
+           return htmlspecialchars( $this->Body );
+       }
+       else
+       {
+           return $this->Body;
+       }
     }
 
     /*!
@@ -596,6 +638,7 @@ class eZForumMessage
     var $UserID;
     var $PostingTime;
     var $EmailNotice;
+    var $IsApproved;
 
     /// indicates the position in the tree.
     var $TreeID;

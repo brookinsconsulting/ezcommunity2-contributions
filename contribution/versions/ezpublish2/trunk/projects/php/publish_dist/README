@@ -54,3 +54,12 @@ To
 RewriteRule     !\.(gif|css|jpg|png)$ /home/ce/ez/projects/php/ezdeveloper/index.php
 
 create table eZSession_Preferences( ID int primary key auto_increment, UserID int not null, Name char(50), Value char(50) );
+
+#
+# Updates in eZ forum
+#
+alter table eZForum_Forum add ModeratorID int not null;
+alter table eZForum_Forum drop moderated;
+alter table eZForum_Forum add IsModerated int not null default 0;
+
+alter table eZForum_Message add IsApproved int not null default 1;     
