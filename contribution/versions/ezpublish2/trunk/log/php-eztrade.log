@@ -389,3 +389,19 @@ Maintainer(s) : ce@ez.no
 
     * user/productlist.php: Fixed a empty template bug.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-18  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezproduct.php: I think this fixes the VAT problem.
+
+    * classes/ezproduct.php:
+    Changed correct price to not trust older code .. :(
+
+2001-09-18  Bjoern Reiten  <br@ez.no>
+
+    * user/checkout.php:
+    set total_cost_value to be $total["inctax"] instead of $sum.
+
