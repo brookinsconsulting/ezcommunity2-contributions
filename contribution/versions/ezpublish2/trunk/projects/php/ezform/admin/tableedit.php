@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.7 2001/12/18 11:41:01 pkej Exp $
+// $Id: tableedit.php,v 1.8 2001/12/19 13:44:58 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -167,12 +167,12 @@ $t->set_var( "page_id", $PageID );
 $t->set_var( "table_id", $TableID );
 $t->set_var( "row_list", "" );
 
-for ( $col = 0; $col < $table->cols(); $col++ )
+for ( $row = 0; $row < $table->rows(); $row++ )
 {
-    $t->set_var( "col", $col + 1 );
-    for ( $row = 0; $row < $table->rows(); $row++ )
+    $t->set_var( "row", $row + 1 );
+    for ( $col = 0; $col < $table->cols(); $col++ )
     {
-        if ( ( $row % 2 ) == 0 )
+        if ( ( $col % 2 ) == 0 )
             $elementTemplate->set_var( "td_class", "bglight" );
         else
             $elementTemplate->set_var( "td_class", "bgdark" );
@@ -294,7 +294,7 @@ for ( $col = 0; $col < $table->cols(); $col++ )
 
         $elementTemplate->setAllStrings();
 
-        if ( $row == 0 )
+        if ( $col == 0 )
             $elementTemplate->parse( "element_item", "element_item_tpl" );
         else
             $elementTemplate->parse( "element_item", "element_item_tpl", true );

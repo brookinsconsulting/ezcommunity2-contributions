@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.16 2001/12/18 18:29:20 jhe Exp $
+// $Id: ezform.php,v 1.17 2001/12/19 13:44:58 jhe Exp $
 //
 // ezform class
 //
@@ -460,21 +460,22 @@ class eZForm
     /*!
       Returns every form element of this form.
       The form elements are returned as an array of eZFormElement objects.
+    */
     function &formElements()
     {
         $returnArray = array();
         $formArray = array();
         
         $db =& eZDB::globalDatabase();
-        $db->array_query( $formArray, "SELECT ElementID FROM eZForm_FormElementDict WHERE
-                                       FormID='$this->ID' ORDER BY Placement" );
-
+        
+        $db->array_query( $formArray, "SELECT ElementID FROM eZForm_PageElementDict, eZForm_FormPage WHERE eZForm_PageElementDict.PageID=eZForm_FormPage.ID AND eZForm_FormPage.FormID='$this->ID'" );
+        
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ElementID" )], true );
         }
         return $returnArray;
-        }*/
+    }
 
 
     function &formPage( $page = -1, $as_object = true )

@@ -5,7 +5,7 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN row_list_tpl -->
-{intl-col}: {col}
+{intl-row}: {row}
 
 {element_list}
 <!-- END row_list_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.24 2001/12/18 17:18:35 pkej Exp $
+// $Id: formedit.php,v 1.25 2001/12/19 13:44:58 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -153,7 +153,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) )
         }
     }
     
-    if ( empty( $formCompletedPage ) )
+    if ( $hasCompletion == "yes" && empty( $formCompletedPage ) )
     {
         $errorMessages[] = "form_completed_page_not_set";
     }

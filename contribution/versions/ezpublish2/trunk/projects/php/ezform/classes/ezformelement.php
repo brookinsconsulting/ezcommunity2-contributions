@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.17 2001/12/19 12:49:02 br Exp $
+// $Id: ezformelement.php,v 1.18 2001/12/19 13:44:58 jhe Exp $
 //
 // ezformelement class
 //
@@ -259,11 +259,13 @@ class eZFormElement
         $condArray = array();
         $db->array_query( $condArray, "SELECT * FROM eZForm_FormCondition WHERE ElementID='$this->ID'" );
         $returnArray = array();
+        $i = 0;
         foreach ( $condArray as $cond )
         {
-            $returnArray[]["Min"] = $cond[$db->fieldName( "Min" )];
-            $returnArray[]["Max"] = $cond[$db->fieldName( "Max" )];
-            $returnArray[]["Page"] = $cond[$db->fieldName( "PageID" )];
+            $returnArray[$i]["Min"] = $cond[$db->fieldName( "Min" )];
+            $returnArray[$i]["Max"] = $cond[$db->fieldName( "Max" )];
+            $returnArray[$i]["Page"] = $cond[$db->fieldName( "PageID" )];
+            $i++;
         }
         return $returnArray;
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.5 2001/12/18 18:29:20 jhe Exp $
+// $Id: formview.php,v 1.6 2001/12/19 13:44:58 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -72,9 +72,13 @@ if ( isSet( $Next ) )
     {
         $renderer->storePage( $currentPage );
         $nextPage = $renderer->findNextPage( $currentPage );
-        if ( $nextPage == -1 )
+        if ( $nextPage == -1 || $nextPage == "" )
         {
-//            if ( $form->
+            if ( $form->receiver() != "" )
+            {
+                $renderer->sendForm();
+            }
+            
             if ( $form->useDatabaseStorage() )
             {
                 $form->setActiveResult();
@@ -83,7 +87,10 @@ if ( isSet( $Next ) )
             {
                 $form->deleteResult();
             }
-            $renderer->storeForm();
+            if ( $form->completedPage() != "" )
+            {
+                eZHTTPTool::header( "Location: " . $form->completedPage() );
+            }
         }
         $pageList .= ":" . $nextPage;
     }
@@ -100,7 +107,7 @@ else if ( isSet( $Previous ) )
 }
 
 
-$ActionValue="process";
+$ActionValue = "process";
 
 if ( !( $form->id() > 0 ) )
 {
@@ -130,11 +137,29 @@ $renderer->setPage( $nextPage );
 $output =& $renderer->renderForm( $form );
 $t->set_var( "form", $output );
 
-if ( isset( $OK ) )
+if ( isSet( $OK ) )
 {
     $output =& $renderer->verifyForm();
     if ( $output == "" )
     {
+        if ( $form->receiver() != "" )
+        {
+            $renderer->sendForm();
+        }
+        
+        if ( $form->useDatabaseStorage() )
+        {
+            $form->setActiveResult();
+        }
+        else
+        {
+            $form->deleteResult();
+        }
+        if ( $form->completedPage() != "" )
+        {
+            eZHTTPTool::header( "Location: " . $form->completedPage() );
+        }
+
         $renderer->sendForm();
     }
     else
