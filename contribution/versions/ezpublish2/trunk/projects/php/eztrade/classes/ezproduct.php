@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.93 2001/09/15 12:37:17 pkej Exp $
+// $Id: ezproduct.php,v 1.94 2001/09/15 13:32:28 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -388,23 +388,25 @@ class eZProduct
     {
         $inUser =& eZUser::currentUser();
         
-        if ( get_class( $inUser ) == "ezuser" )
+        if ( get_class( $inUser ) != "ezuser" )
         {
-            $groups = $inUser->groups( true );
+            $inUser = new eZUser();
+        }
 
-            $options = $this->options();
+        $groups = $inUser->groups( true );
 
-            $lowPrice = "";
-            $maxPrice = "";
-            
-            foreach ( $options as $option )
-            {
-                $tmpLowPrice = eZPriceGroup::lowestPrice( $this->ID, $groups, $option->id() );
-                $tmpMaxPrice = eZPriceGroup::highestPrice( $this->ID, $groups, $option->id() );
+        $options = $this->options();
 
-                $lowPrice += $tmpLowPrice;
-                $maxPrice += $tmpMaxPrice;
-            }
+        $lowPrice = "";
+        $maxPrice = "";
+
+        foreach ( $options as $option )
+        {
+            $tmpLowPrice = eZPriceGroup::lowestPrice( $this->ID, $groups, $option->id() );
+            $tmpMaxPrice = eZPriceGroup::highestPrice( $this->ID, $groups, $option->id() );
+
+            $lowPrice += $tmpLowPrice;
+            $maxPrice += $tmpMaxPrice;
         }
         
         if ( empty( $lowPrice ) )
@@ -447,7 +449,7 @@ class eZProduct
         
         $price["max"] = $maxPrice;
         $price["min"] = $lowPrice;
-        
+        print_r( $price );
         return $price;
     }    
 
