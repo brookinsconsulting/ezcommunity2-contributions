@@ -39,7 +39,7 @@
 
 <br /><br />
 
-<input type="checkbox" name="notice"> {intl-email-notice}<br />
+<input type="checkbox" name="notice"> <span class="check">{intl-email-notice}</span><br />
 <br />
 
 <hr noshade size="4" />
