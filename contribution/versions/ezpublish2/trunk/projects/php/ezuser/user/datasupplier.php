@@ -61,7 +61,6 @@ switch ( $url_array[2] )
     
     case "logout" :
     {
-        print( $url_array[2] );
         $Action = $url_array[2];
         include( "ezuser/user/login.php" );
     }

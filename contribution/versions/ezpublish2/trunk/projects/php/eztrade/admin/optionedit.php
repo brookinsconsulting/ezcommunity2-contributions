@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.6 2000/10/28 14:31:41 ce-cvs Exp $
+// $Id: optionedit.php,v 1.7 2000/10/31 15:18:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -120,7 +120,7 @@ if ( $Action == "Delete" )
     exit();    
 }
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/optionedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/optionedit/",
                      "eztrade/admin/intl/", $Language, "optionedit.php" );
 
 $t->setAllStrings();

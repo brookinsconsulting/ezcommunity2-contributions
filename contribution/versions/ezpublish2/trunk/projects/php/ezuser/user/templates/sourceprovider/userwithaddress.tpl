@@ -1,6 +1,6 @@
 <form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
 
-<h1>Registrer ny bruker</h1>
+<h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
