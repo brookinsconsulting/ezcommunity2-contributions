@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.2 2000/12/11 11:43:53 bf Exp $
+// $Id: ezvirtualfile.php,v 1.3 2001/01/04 16:25:08 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -80,7 +80,9 @@ class eZVirtualfile
                                  Name='$this->Name',
                                  Description='$this->Description',
                                  FileName='$this->FileName',
-                                 OriginalFileName='$this->OriginalFileName'
+                                 OriginalFileName='$this->OriginalFileName',
+                                 Read='$this->Read',
+                                 Write='$this->Write'
                                  " );
         }
         else
@@ -89,7 +91,9 @@ class eZVirtualfile
                                  Name='$this->Name',
                                  Description='$this->Description',
                                  FileName='$this->FileName',
-                                 OriginalFileName='$this->OriginalFileName'
+                                 OriginalFileName='$this->OriginalFileName',
+                                 Read='$this->Read',
+                                 Write='$this->Write'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -121,6 +125,8 @@ class eZVirtualfile
                 $this->Description =& $virtualfile_array[0][ "Description" ];
                 $this->FileName =& $virtualfile_array[0][ "FileName" ];
                 $this->OriginalFileName =& $virtualfile_array[0][ "OriginalFileName" ];
+                $this->Read =& $virtualfile_array[0][ "Read" ];
+                $this->Write =& $virtualfile_array[0][ "Write" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -218,7 +224,46 @@ class eZVirtualfile
         
         return $this->OriginalFileName;
     }
-    
+
+    /*!
+      Returns the write permission of the virtual file.
+    */
+    function write()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->Write;
+    }
+
+    /*!
+      Returns the read permission of the virtual file.
+    */
+    function read()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->Read;
+    }
+
+    /*!
+      Returns a eZUser object.
+    */
+    function user();
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( $this->UserID != 0 )
+        {
+            $ret = new eZUser( $this->UserID );
+        }
+        
+        return $ret;
+    }
+
+
     /*!
       Returns the path and filename to the original virtualfile.
 
@@ -274,7 +319,105 @@ class eZVirtualfile
         
         $this->OriginalFileName = $value;
     }
-    
+
+    /*!
+      Sets the write permission of the virtual filename.
+
+      1 = User
+      2 = Group
+      3 = All
+      
+    */
+    function setWrite( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+
+       switch ( $value )
+       {
+           case "User":
+           {
+               $value = 1;
+           }
+           break;
+           
+           case "Group":
+           {
+               $value = 2;
+           }
+           break;
+           
+           case "All":
+           {
+               $value = 3;
+           }
+           break;
+           
+           default:
+               $value = 1;
+       }
+       
+       $this->Write = $value;
+    }
+
+    /*!
+      Sets the read permission of the virtual filename.
+
+      1 = User
+      2 = Group
+      3 = All
+      
+    */
+    function setRead( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+
+       switch ( $value )
+       {
+           case "User":
+           {
+               $value = 1;
+           }
+           break;
+           
+           case "Group":
+           {
+               $value = 2;
+           }
+           break;
+           
+           case "All":
+           {
+               $value = 3;
+           }
+           break;
+           
+           default:
+               $value = 1;
+       }
+       
+       $this->Read = $value;
+    }
+
+    /*!
+      Sets the user of the file.
+    */
+    function setUser( $user )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $userID = $user->id();
+
+            $this->UserID = $userID;
+        }
+    }
+
     /*!
       Makes a copy of the file and stores the file in the file manager.
       
@@ -348,6 +491,18 @@ class eZVirtualfile
     var $Description;
     var $FileName;
     var $OriginalFileName;
+    var $Read;
+    var $Write;
+    var $UserID;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
+
 }
 
 ?>
