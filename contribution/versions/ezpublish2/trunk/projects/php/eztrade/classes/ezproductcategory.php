@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.39 2001/07/12 12:19:28 ce Exp $
+// $Id: ezproductcategory.php,v 1.40 2001/07/19 10:07:11 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -197,7 +197,7 @@ class eZProductCategory
     function get( $id=-1 )
     {
         $this->dbInit();
-        
+
         if ( $id != "" )
         {
             $this->Database->array_query( $category_array, "SELECT * FROM eZTrade_Category WHERE ID='$id'" );

@@ -1,6 +1,5 @@
 <?php
-// 
-// $Id: ezmysqldb.php,v 1.12 2001/07/18 14:56:47 bf Exp $
+// $Id: ezmysqldb.php,v 1.13 2001/07/19 10:07:11 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -311,7 +310,7 @@ class eZMySQLDB
      */
     function insertID()
     {
-        print( "insertid is obsolete" );
+//        print( "insertid is obsolete" );
         return mysql_insert_id( $this->Database );
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.51 2001/06/15 14:08:14 pkej Exp $
+// $Id: productedit.php,v 1.52 2001/07/19 10:07:11 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -139,7 +139,14 @@ if ( $Action == "Insert" )
     {
         $product->setShowProduct( false );
     }
-    $product->setDiscontinued( $Discontinued == "on" );
+    if ( $Discontinued == "on" )
+    {        
+        $product->setDiscontinued( true );
+    }
+    else
+    {
+        $product->setDiscontinued( false );
+    }
 
     if ( $IsHotDeal == "on" )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.52 2001/07/16 13:17:28 ce Exp $
+// $Id: payment.php,v 1.53 2001/07/19 10:07:11 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -709,7 +709,8 @@ if ( $PaymentSuccess == "true" )
                 }
             }
         }
-        if ( $max_max_value == 0 and !$has_value and $DiscontinueQuantityless )
+        $productQuantity = $product->totalQuantity();
+        if ( ( $max_max_value == 0 and !$has_value and $DiscontinueQuantityless ) and !(is_bool( $productQuantity ) and !$productQuantity ) )
         {
             $product->setDiscontinued( true );
             $product->store();

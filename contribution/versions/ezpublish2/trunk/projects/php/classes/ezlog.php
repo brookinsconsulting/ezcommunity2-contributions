@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlog.php,v 1.5 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezlog.php,v 1.6 2001/07/19 10:07:11 ce Exp $
 //
 // Definition of eZLog class
 //
@@ -219,4 +219,3 @@ class eZLog
 }
 
 ?>
-
