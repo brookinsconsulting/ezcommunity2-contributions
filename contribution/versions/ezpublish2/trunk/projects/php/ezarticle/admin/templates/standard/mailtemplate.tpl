@@ -1,10 +1,12 @@
 {intl-greeting},
 
-{intl-info_message_1} {author} {intl-info_message_2} {site}. {intl-info_message_3}: {link}
+{intl-info_message_1} {author} {intl-info_message_2} {site}:
 
-** {title}
+** {title} **
 {body}
 
+{intl-info_message_3}: {link}
+
 -- 
-{intl-signature},
+{intl-signature}
 {site}
