@@ -70,3 +70,5 @@ insert into eZUser_Permission set ModuleID='12', Name='WriteToRoot';
 
 insert into eZUser_Module set Name='eZSiteManager';    
 insert into eZUser_Permission set ModuleID='16', Name='ModuleEdit';   
+
+insert into eZUser_GroupPermissionLink set IsEnabled='true', PermissionID='47', GroupID='1';  

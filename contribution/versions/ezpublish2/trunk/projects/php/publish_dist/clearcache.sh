@@ -19,6 +19,7 @@ ezuser
 ezfilemanager
 ezimagecatalogue
 ezsitemanager
+ezquiz
 classes
 "
 

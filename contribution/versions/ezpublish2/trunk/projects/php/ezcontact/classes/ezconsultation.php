@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.14 2001/05/04 16:37:24 descala Exp $
+// $Id: ezconsultation.php,v 1.15 2001/05/25 13:19:13 ce Exp $
 //
 // Definition of eZConsultation class
 //
@@ -673,4 +673,3 @@ class eZConsultation
 }
 
 ?>
- 

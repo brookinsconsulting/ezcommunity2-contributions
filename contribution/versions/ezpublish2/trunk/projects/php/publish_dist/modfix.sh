@@ -50,6 +50,7 @@ classes/cache
 ezsysinfo/admin/cache
 ezurltranslator/admin/cache
 ezsitemanager/admin/cache
+ezquiz/admin/cache
 "
 
 for dir in $dirs

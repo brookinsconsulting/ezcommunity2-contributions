@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsection.php,v 1.3 2001/05/10 16:46:36 bf Exp $
+// $Id: ezsection.php,v 1.4 2001/05/25 13:19:13 ce Exp $
 //
 // ezsection class
 //
@@ -65,8 +65,8 @@ class eZSection
             $this->State_ = "New";
         }
     }
-
-        /*!
+    
+     /*!
       Stores a eZSection object to the database.
     */
     function store()
@@ -174,7 +174,7 @@ class eZSection
         $ret = false;
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
-                                     FROM eZSiteManager_Section" );
+                                     FROM eZQuiz_Game" );
         $ret = $result["Count"];
         return $ret;
     }

@@ -98,6 +98,15 @@ $user = eZUser::currentUser();
 
 $requireUserLogin =& $ini->read_var( "eZUserMain", "RequireUserLogin" );
 
+// Cookie auto login.
+if ( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] != false )
+{
+    if ( ( !$user ) && ( $ini->read_var( "eZUserMain", "AutoCookieLogin" ) == "enabled" ) )
+    {
+        eZUser::autoCookieLogin( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] );
+    }
+}
+
 // Remove url parameters
 ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];

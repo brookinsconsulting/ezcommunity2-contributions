@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.30 2001/05/21 06:33:14 ce Exp $
+// $Id: login.php,v 1.31 2001/05/25 13:19:13 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -107,7 +107,7 @@ if ( $Action == "login" )
                 {
                     $user->setCookieValues();
                 }
-                
+
                 if ( isSet( $RedirectURL ) )
                 {
                     $stringTmp = split( "/", $RedirectURL );
