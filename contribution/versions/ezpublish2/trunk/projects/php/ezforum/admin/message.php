@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.5 2000/07/25 20:07:50 lw-cvs Exp $
+    $Id: message.php,v 1.6 2000/07/25 20:18:17 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -22,10 +22,7 @@ $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
 
-
-//$usr = new eZUser;
-$message = new eZforumMessage;
-$headers = $message->getHeaders( $forum_id );
+$headers = ezForumMessage::getAllHeaders( $forum_id );
 
 for ($i = 0; $i < count( $headers ); $i++)
 {
@@ -48,5 +45,6 @@ for ($i = 0; $i < count( $headers ); $i++)
 
     $t->parse( "fields", "elements", true );
 }
+
 $t->pparse( "output", "messages" );
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.18 2000/07/25 20:09:48 lw Exp $
+    $Id: ezforummessage.php,v 1.19 2000/07/25 20:18:17 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -56,6 +56,21 @@ class eZforumMessage
         $this->EmailNotice = $results["EmailNotice"];
     }
         
+    function getAllHeaders( $forum_id )
+    {
+        $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
+                 DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
+                 FROM MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
+            
+        $query_id = mysql_query( $query_string )
+             or die("eZforumMessage::getAllHeaders() failed, dying...");
+            
+        for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
+            $resultArray[$i] = mysql_fetch_array( $query_id );
+
+        return $resultArray;
+    }
+    
     function getHeaders($forum_id,$Parent = "NULL", $startMessage = "0",$maxMessages = "25")
     {
         global $eZUser;
