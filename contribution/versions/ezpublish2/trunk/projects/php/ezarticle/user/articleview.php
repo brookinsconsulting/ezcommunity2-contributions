@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.6 2000/10/21 20:10:56 bf-cvs Exp $
+// $Id: articleview.php,v 1.7 2000/10/25 20:13:54 bf-cvs Exp $
 //
 // 
 //
@@ -35,6 +35,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "article_view_page_tpl", "page_link_tpl", "page_link" );
+$t->set_block( "article_view_page_tpl", "current_page_link_tpl", "current_page_link" );
 $t->set_block( "article_view_page_tpl", "next_page_link_tpl", "next_page_link" );
 $t->set_block( "article_view_page_tpl", "prev_page_link_tpl", "prev_page_link" );
 
@@ -58,6 +59,8 @@ $t->set_var( "link_text", $article->linkText() );
 $t->set_var( "article_id", $article->id() );
 
 
+$t->set_var( "current_page_link", "" );
+
 if ( $pageCount > 1 )
 {
     for ( $i=0; $i<$pageCount; $i++ )
@@ -65,7 +68,14 @@ if ( $pageCount > 1 )
         $t->set_var( "article_id", $article->id() );    
         $t->set_var( "page_number", $i+1 );
 
-        $t->parse( "page_link", "page_link_tpl", true );
+        if ( ( $i + 1 )  == $PageNumber )
+        {
+            $t->parse( "page_link", "current_page_link_tpl", true );
+        }
+        else
+        {
+            $t->parse( "page_link", "page_link_tpl", true );            
+        }
     }
 }
 else
@@ -78,6 +88,7 @@ $locale = new eZLocale();
 $created = $article->created();
 
 $t->set_var( "article_created", $locale->format( $created ) );
+
 
 
 if ( $PageNumber > 1 )
