@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.31 2001/03/13 13:51:10 fh Exp $
+// $Id: bugedit.php,v 1.32 2001/03/14 10:31:31 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -315,6 +315,10 @@ if ( $Action == "Edit" )
     if( $bug_user )
     {
         $t->set_var( "reporter_name_value", $bug_user->namedEmail() );
+    }
+    elseif ( $bug->userEmail() != false )
+    {
+        $t->set_var( "reporter_name_value", $bug->userEmail() );
     }
     else
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.11 2001/03/08 18:43:24 jb Exp $
+// $Id: unhandledbugs.php,v 1.12 2001/03/14 10:31:31 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -79,7 +79,7 @@ foreach ( $unhandleBugs as $bug )
     {
         $t->set_var( "bug_submitter", $owner->name(), "&nbsp;" );
     }
-    elseif ( $bug->userEmail() == false )
+    elseif ( $bug->userEmail() != false )
     {
         $t->set_var( "bug_submitter", $bug->userEmail() );
     }
