@@ -5,8 +5,10 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 include_once( "classes/ezbenchmark.php" );
-$bench = new eZBenchmark();
-$bench->start();
+
+// Run benchmark test.
+// $bench = new eZBenchmark();
+// $bench->start();
   
 $GLOBALS["DEBUG"] = true;
 
@@ -245,9 +247,9 @@ else
 // close the database connection.
 eZDB::close();
 
-$bench->stop();
-
-$bench->printResults();
+// Stop benchmark test and print the result.
+// $bench->stop();
+// $bench->printResults();
 
 ob_end_flush();
 ?>
