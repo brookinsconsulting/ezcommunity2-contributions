@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.14.2.3 2002/05/08 13:05:20 jb Exp $
+// $Id: category.php,v 1.14.2.4 2002/07/05 13:16:16 gl Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,6 +26,7 @@
 // eZ article complete data
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
@@ -126,8 +127,9 @@ else if( $Command == "storedata" ) // save the category data!
         $category->setSectionID( $Data["SectionID"]->value() );
         $category->setImage( $Data["ImageID"]->value() );
         $category->store();
-        $ID = $category->id();
+        eZArticleTool::deleteCache( 0, $parentid, 0 );
 
+        $ID = $category->id();
         eZObjectPermission::removePermissions( $ID, "article_category", 'r' );
         $readGroups = $Data["ReadGroups"]->value();
         foreach( $readGroups as $readGroup )
