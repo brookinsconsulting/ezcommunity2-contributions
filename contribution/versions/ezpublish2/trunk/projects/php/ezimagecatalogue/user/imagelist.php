@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.27 2001/06/27 07:57:02 jhe Exp $
+// $Id: imagelist.php,v 1.28 2001/06/28 09:43:35 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -84,6 +84,9 @@ $t->set_block( "image_list_page_tpl", "normal_view_button", "normal_button" );
 $t->set_block( "image_list_page_tpl", "detail_view_button", "detail_button" );
 
 $t->set_block( "image_list_page_tpl", "write_menu_tpl", "write_menu" );
+
+$t->set_block( "write_menu_tpl", "next_tpl", "next" );
+$t->set_block( "write_menu_tpl", "previous_tpl", "prev" );
 
 $t->set_block( "write_menu_tpl", "default_new_tpl", "default_new" );
 $t->set_block( "write_menu_tpl", "default_delete_tpl", "default_delete" );
@@ -204,9 +207,10 @@ else
     $t->set_var( "category_list", "" );
 }
 
+$limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
 
 // Print out all the images
-$imageList =& $category->images();
+$imageList =& $category->images( "time", $Offset, $limit );
 
 $i = 0;
 $counter = 0;
@@ -357,6 +361,29 @@ foreach ( $imageList as $image )
     }
 
     $counter++;
+}
+
+if ( $category->imageCount() > ( $Offset + $limit ) )
+{
+    $t->set_var( "next-offset", $Offset + $limit );
+    $t->parse( "next", "next_tpl" );
+}
+else
+{
+    $t->set_var( "next", "" );
+}
+
+if ( $Offset > 0 )
+{
+    if ( ( $Offset - $limit ) < 0 )
+        $t->set_var( "prev-offset", 0 );
+    else
+        $t->set_var( "prev-offset", $Offset - $limit );
+    $t->parse( "prev", "previous_tpl" );
+}
+else
+{
+    $t->set_var( "prev", "" );
 }
 
 $t->set_var( "detail_button", "" );

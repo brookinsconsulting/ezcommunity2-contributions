@@ -107,10 +107,25 @@
 <!-- END detail_view_tpl -->
 </table>
 
-
 <!-- END image_list_tpl -->
 
 <!-- BEGIN write_menu_tpl -->
+
+<table width="100%">
+<tr>
+<!-- BEGIN previous_tpl -->
+<td align="left">
+<a href="/imagecatalogue/image/list/{main_category_id}/{prev-offset}/">{intl-previous}</a>
+</td>
+<!-- END previous_tpl -->
+<!-- BEGIN next_tpl -->
+<td align="right">
+<a href="/imagecatalogue/image/list/{main_category_id}/{next-offset}/">{intl-next}</a>
+</td>
+<!-- END next_tpl -->
+</tr>
+</table>
+
 <!-- BEGIN default_delete_tpl -->
 
 <hr noshade="noshade" size="4" />

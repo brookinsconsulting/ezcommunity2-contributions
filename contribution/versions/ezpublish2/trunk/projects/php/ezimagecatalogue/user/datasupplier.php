@@ -43,7 +43,9 @@ switch ( $url_array[2] )
                 $CategoryID = $url_array[4];
                 if ( !is_numeric($CategoryID ) )
                     $CategoryID = 0;
-                
+                $Offset = $url_array[5];
+                if ( $Offset == "" )
+                    $Offset = 0;
                 include( "ezimagecatalogue/user/imagelist.php" );
             }
             break;

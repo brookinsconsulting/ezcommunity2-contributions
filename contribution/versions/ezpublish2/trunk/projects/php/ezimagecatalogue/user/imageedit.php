@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: imageedit.php,v 1.28 2001/06/27 13:28:56 jhe Exp $
+// $Id: imageedit.php,v 1.29 2001/06/28 09:43:35 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -346,7 +346,7 @@ if ( $Action == "Update" && $error == false )
     exit();
 }
 
-// Delete a image
+// Delete an image
 if ( $Action == "DeleteImages" )
 {
     if ( count ( $ImageArrayID ) != 0 )
@@ -365,7 +365,7 @@ if ( $Action == "DeleteImages" )
     exit();
 }
 
-// Delete a categorie
+// Delete a category
 if( $Action == "DeleteCategories" )
 {
     if( count( $CategoryArrayID ) > 0 )
@@ -582,48 +582,6 @@ foreach ( $groups as $group )
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
 
-/* Make a category list
-foreach ( $categoryList as $categoryItem )
-{
-    if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' )
-        || eZImageCategory::isOwner( eZUser::currentUser(), $categoryItem[0]->id() ) )
-    {
-        $t->set_var( "option_name", $categoryItem[0]->name() );
-        $t->set_var( "option_value", $categoryItem[0]->id() );
-
-        if ( $categoryItem[1] > 0 )
-            $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
-        else
-            $t->set_var( "option_level", "" );
-
-        $t->set_var( "selected", "" );
-
-        // Get the rigth category when updating
-        if ( $CurrentCategoryID )
-        {
-            if ( $categoryItem[0]->id() == $CurrentCategoryID )
-            {
-                $t->set_var( "selected", "selected" );
-            }
-        }
-
-        if ( $Action == "Edit" )
-        {
-            $category =& $image->category();
-
-            if ( get_class ( $category ) == "ezimagecategory" )
-            {
-                if ( $category->id() == $categoryItem[0]->id() )
-                {
-                    $t->set_var( "selected", "selected" );
-                }
-            }
-        }
-    
-        $t->parse( "value", "value_tpl", true );
-    }
-}
-*/
 $t->pparse( "output", "image_edit_page" );
 
 ?>

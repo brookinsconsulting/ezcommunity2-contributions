@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.58 2001/06/27 13:28:56 jhe Exp $
+// $Id: ezimage.php,v 1.59 2001/06/28 09:43:35 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -114,7 +114,9 @@ class eZImage
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZImageCatalogue_Image" );
-            
+
+            $timeStamp =& eZDateTime::timeStamp( true );
+
             $this->ID = $db->nextID( "eZImageCatalogue_Image", "ID" );
             $res = $db->query( "INSERT INTO eZImageCatalogue_Image
                                            ( ID,
@@ -126,7 +128,8 @@ class eZImage
                                              WritePermission,
                                              ReadPermission,
                                              OriginalFileName,
-                                             Photographer )
+                                             Photographer,
+                                             Created )
                                     VALUES ( '$this->ID',
                                              '$name',
                                              '$caption',
@@ -136,7 +139,8 @@ class eZImage
                                              '$this->WritePermission',
                                              '$this->ReadPermission',
                                              '$originalfilename',
-                                             '$this->PhotographerID' )");
+                                             '$this->PhotographerID',
+                                             '$timestamp' )");
         }
         else
         {

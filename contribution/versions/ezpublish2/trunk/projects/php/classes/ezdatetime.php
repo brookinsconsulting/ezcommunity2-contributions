@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.26 2001/06/21 10:03:50 bf Exp $
+// $Id: ezdatetime.php,v 1.27 2001/06/28 09:43:35 jhe Exp $
 //
-// Definition of eZCompany class
+// Definition of eZDateTime class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Sep-2000 15:20:51 bf>

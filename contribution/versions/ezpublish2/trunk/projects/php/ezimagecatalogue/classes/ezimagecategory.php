@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.25 2001/06/28 09:33:39 bf Exp $
+// $Id: ezimagecategory.php,v 1.26 2001/06/28 09:43:35 jhe Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZFileManager
+//!! eZImageCatalogue
 //! eZImageCategory manages virtual folders.
 /*!
   
@@ -587,14 +587,8 @@ class eZImageCategory
     /*!
       Returns every images in a category as a array of eZImage objects.
     */
-    function images( $sortMode="time", $offset=0, $limit=0 )
+    function images( $sortMode = "time", $offset = 0, $limit = -1 )
     {
-       if ( $limit == 0 )
-       {
-           $ini =& INIFile::globalINI();
-           $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
-       }
-
        $db =& eZDB::globalDatabase();
 
        $return_array = array();
@@ -613,7 +607,7 @@ class eZImageCategory
        array( "Limit" => $limit,
               "Offset" => $offset ) );
  
-       for ( $i=0; $i<count($file_array); $i++ )
+       for ( $i = 0; $i < count( $file_array ); $i++ )
        {
            $return_array[$i] = new eZImage( $file_array[$i][$db->fieldName("ImageID")], false );
        }
