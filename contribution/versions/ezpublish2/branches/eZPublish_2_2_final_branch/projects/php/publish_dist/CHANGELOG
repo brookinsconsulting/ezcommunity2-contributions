@@ -17,6 +17,7 @@ Changes from 2.2.8 to 2.2.9
 * improved class eZHit in eZ link.
 * Fixed bug with eZAd view count in frame.php and frontpage.
 * Added optimalisation on classes in eZ imagecatalogue.
+* Fixed bug for non virtualhost in articletool.php
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
