@@ -138,7 +138,8 @@ switch ( $url_array[2] )
             // intentional fall through
             case "new":
             {
-                $NewCompanyCategory = $url_array[4];
+                if ( isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                    $NewCompanyCategory = $url_array[4];
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }

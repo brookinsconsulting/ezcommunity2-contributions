@@ -160,7 +160,7 @@ else
     $desc = $type->description();
 
 
-    $t->set_var( "current_id", $id );
+    $t->set_var( "current_id", is_numeric( $id ) ? $id : 0 );
     $t->set_var( "current_name", $name );
     $t->set_var( "current_description", $desc );
 

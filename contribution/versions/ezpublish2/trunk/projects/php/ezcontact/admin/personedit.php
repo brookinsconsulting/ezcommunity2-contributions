@@ -728,7 +728,7 @@ if ( !$confirm )
     }
 
 /*
-    The user wants to create a new person.
+    The user wants to create a new person/company.
     
     We present an empty form.
  */
