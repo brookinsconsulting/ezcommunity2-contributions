@@ -1,21 +1,11 @@
 <body bgcolor="#ffffff">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<h1>eZ trade v1.0</h1>
+<table width="100%" border="1" cellspacing="0" cellpadding="5">
   <tr> 
     <td width="1%" valign="top">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td bgcolor="#ffffff"><a href="/article/archive/1/">NEWS</a></td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffff"><a href="/trade/productlist/1/">PRODUCTS</a></td>
-        </tr>
-      </table>
+     <a href="/article/archive/1/">NEWS</a><br />
+     <a href="/trade/productlist/1/">PRODUCTS</a><br />
+     <a href="/trade/cart/">YOUR CART</a><br />
     </td>
     <td rowspan="2" bgcolor="#ffffff" width="97%" valign="top">
-	<img src="/images/1x1.gif" width="1" height="10" /><br />
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	</table>
 	
