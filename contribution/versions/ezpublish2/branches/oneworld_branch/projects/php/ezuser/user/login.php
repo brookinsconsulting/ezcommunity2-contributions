@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.35 2001/08/13 06:58:07 jhe Exp $
+// $Id: login.php,v 1.35.10.1 2002/05/22 13:30:18 pkej Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -97,6 +97,7 @@ if ( $Action == "login" )
                 $MaxLogins = $user->simultaneousLogins();
             }
             
+            
             if ( ( $MaxLogins  == "0" ) || ( $logins < $MaxLogins ) )
             {
                 eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
@@ -107,6 +108,17 @@ if ( $Action == "login" )
                     $user->setCookieValues();
                 }
 
+                $user->addLoginCount();
+                $user->store();
+                $redirectOn = $ini->read_var( "eZUserMain", "RedirectOnLoginCount" );
+                $redirectTo =  $ini->read_var( "eZUserMain", "OnLoginCountRedirectTo" );
+
+                if ( $redirectOn == $user->loginCount() )
+                {
+                    eZHTTPTool::header( "Location: " . $redirectTo ); #. "?RedirectURL=" . $RedirectURL );
+                    exit();
+                }
+                
                 $mainGroup = $user->groupDefinition( true );
                 if ( ( $mainGroup ) && $mainGroup->groupURL() )
                 {

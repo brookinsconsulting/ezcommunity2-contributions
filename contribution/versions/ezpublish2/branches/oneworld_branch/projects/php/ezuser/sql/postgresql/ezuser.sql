@@ -9,6 +9,7 @@ CREATE TABLE eZUser_User (
   Signature text NOT NULL,
   SimultaneousLogins int NOT NULL default '0',
   CookieLogin int default '0',
+  LoginCount int default '0',
   PRIMARY KEY (ID)
 );
 

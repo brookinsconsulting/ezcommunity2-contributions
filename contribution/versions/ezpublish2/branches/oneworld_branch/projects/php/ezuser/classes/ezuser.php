@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100.2.6 2002/04/24 07:23:43 bf Exp $
+// $Id: ezuser.php,v 1.100.2.6.2.1 2002/05/22 13:30:18 pkej Exp $
 //
 // Definition of eZUser class
 //
@@ -130,7 +130,8 @@ class eZUser
                                  LastName='$lastname',
                                  Signature='$signature',
                                  CookieLogin='$this->CookieLogin',
-                                 SimultaneousLogins='$this->SimultaneousLogins'" );
+                                 SimultaneousLogins='$this->SimultaneousLogins',
+                                 LoginCount='$this->LoginCount'" );
                 $this->ID = $nextID;
             }
             else
@@ -138,7 +139,7 @@ class eZUser
                 $password = md5( $this->Password );
 
                 $db->query( "INSERT INTO eZUser_User
-                ( ID, Login, Password, Email, InfoSubscription, FirstName, LastName, Signature, CookieLogin, SimultaneousLogins )
+                ( ID, Login, Password, Email, InfoSubscription, FirstName, LastName, Signature, CookieLogin, SimultaneousLogins, LoginCount )
                 VALUES
                 ( '$nextID',
                   '$login',
@@ -149,7 +150,8 @@ class eZUser
                   '$lastname',
                   '$signature',
                   '$this->CookieLogin',
-                  '$this->SimultaneousLogins')" );
+                  '$this->SimultaneousLogins',
+                  '$this->LoginCount')" );
                 
                 $this->ID = $nextID;
             }
@@ -165,7 +167,8 @@ class eZUser
                                  Signature='$signature',
                                  LastName='$lastname',
                                  CookieLogin='$this->CookieLogin',
-                                 SimultaneousLogins='$this->SimultaneousLogins'
+                                 SimultaneousLogins='$this->SimultaneousLogins',
+                                 LoginCount='$this->LoginCount'
                                  WHERE ID='$this->ID'" );
 
             // update password if set.
@@ -262,6 +265,12 @@ class eZUser
         $this->Signature =& $user_array[$db->fieldName("Signature")];
         $this->CookieLogin =& $user_array[$db->fieldName("CookieLogin")];
         $this->SimultaneousLogins =& $user_array[$db->fieldName("SimultaneousLogins")];
+        $this->LoginCount =& $user_array[$db->fieldName("LoginCount")];
+        
+        if ( $this->LoginCount == "" )
+        {
+            $this->LoginCount = 0;
+        }
     }
 
     /*!
@@ -561,6 +570,14 @@ class eZUser
     }
     
     /*!
+      Returns the number of logins to this account
+    */
+    function loginCount()
+    {
+        return $this->LoginCount;
+    }
+    
+    /*!
       Sets the signature.
     */
     function setSignature( $value )
@@ -635,6 +652,22 @@ class eZUser
         $this->SimultaneousLogins = $value;
         
         setType( $this->SimultaneousLogins, "integer" );
+    }
+
+    /*!
+      Sets the number of logins to this account.
+    */
+    function setLoginCount ( $value )
+    {
+        $this->LoginCount = $value;
+    }
+
+    /*!
+      Adds one to the login count of this account.
+    */
+    function addLoginCount ( )
+    {
+        $this->LoginCount = $this->LoginCount + 1;
     }
 
     /*!
@@ -1294,6 +1327,7 @@ class eZUser
     var $CookieLogin;
     var $SimultaneousLogins;
     var $StoredTimeout;
+    var $LoginCount;
 
     /// string with the member groups, used for storing permissions in cache files
     var $GroupString;
