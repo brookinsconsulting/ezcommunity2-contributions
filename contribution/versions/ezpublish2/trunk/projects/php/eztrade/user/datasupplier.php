@@ -83,6 +83,7 @@ switch ( $url_array[2] )
     case "productprint" :
         if ( $PageCaching == "enabled" )
         {
+            $PrintableVersion = "enabled";
             $ProductID = $url_array[3];
             $CategoryID = $url_array[4];
 
@@ -102,6 +103,7 @@ switch ( $url_array[2] )
         }
         else
         {
+            $PrintableVersion = "enabled";
             $ProductID = $url_array[3];
             $CategoryID = $url_array[4];
             include( "eztrade/user/productview.php" );
