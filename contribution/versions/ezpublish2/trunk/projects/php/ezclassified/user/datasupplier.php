@@ -25,6 +25,7 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "list":
     case "classifiedlist":
     {
         switch( $url_array[3] )
