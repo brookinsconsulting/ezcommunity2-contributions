@@ -102,6 +102,7 @@
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/article/articleedit/delete/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/ezarticle/images/slettmini.gif" width="16" height="16" align="top"></a>
+
 	</td>
 </tr>
 <!-- END article_item_tpl -->

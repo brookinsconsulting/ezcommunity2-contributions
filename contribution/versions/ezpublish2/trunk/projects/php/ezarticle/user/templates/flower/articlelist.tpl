@@ -1,5 +1,7 @@
 <h1>{current_category_name}</h1>
 
+<hr noshade size="6"/>
+
 <p>
 {current_category_description}
 </p>
@@ -7,8 +9,6 @@
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
-
-<hr noshade size="4"/>
 
 
 <!-- BEGIN category_list_tpl -->
@@ -50,6 +50,9 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
+	<hr noshade size="3"/>
+
+
 	<h2>
 	{article_name}
 	</h2>
@@ -73,8 +76,6 @@
 	<p>
 	{article_intro}
 	</p>
-	<br />
-	<br />
 	<br />
 	</td>
 </tr>

@@ -48,12 +48,6 @@
 		<input class="okbutton" type="submit" value="{intl-edit}" />
 		</form>
 	</td>
-	<td>&nbsp;</td>
-	<td>
-		<form action="/article/articleedit/delete/{article_id}/" method="post">
-		<input class="okbutton" type="submit" value="{intl-delete}" />
-		</form>
-	</td>
 </tr>
 </table>
 

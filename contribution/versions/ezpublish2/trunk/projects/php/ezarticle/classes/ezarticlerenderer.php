@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.3 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: ezarticlerenderer.php,v 1.4 2000/10/24 12:43:47 bf-cvs Exp $
 //
 // Definition of eZArticleRenderer class
 //
@@ -92,7 +92,7 @@ class eZArticleRenderer
 
         $generator = new $this->RendererClass( $this->Article );
 
-        print( "Using rederer: " . $this->RendererClass . "<br>");
+//          print( "Using rederer: " . $this->RendererClass . "<br>");
               
         return $generator->renderPage( $page );
     }

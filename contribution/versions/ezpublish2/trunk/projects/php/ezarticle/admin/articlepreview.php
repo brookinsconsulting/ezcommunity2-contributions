@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.7 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: articlepreview.php,v 1.8 2000/10/24 12:43:47 bf-cvs Exp $
 //
 // 
 //
@@ -47,7 +47,6 @@ $renderer = new eZArticleRenderer( $article );
 $t->set_var( "article_name", $article->name() );
 $t->set_var( "author_text", $article->authorText() );
 
-print( "Showing page: "  . $PageNumber . "<br>" );
 $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
 $t->set_var( "link_text", $article->linkText() );

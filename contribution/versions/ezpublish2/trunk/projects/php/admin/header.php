@@ -5,6 +5,20 @@
 <title>eZ publish administrasjon</title>
 <link rel="stylesheet" type="text/css" href="/<? echo $SiteStyle; ?>.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+
+<SCRIPT LANGUAGE="JavaScript1.2">
+<!--//
+function verify( msg, url )
+{
+    if ( confirm( msg ) )
+    {
+        this.location = url;
+    }
+}
+
+//-->
+</SCRIPT>  
+
 </head>
 
 <body bgcolor="<? echo $SiteBackground; ?>">
