@@ -652,3 +652,12 @@ Maintainer(s) : fh@ez.no
     * classes/ezmail.php:
     added mimetype to files, when sending attachements with eZ mail.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2003-08-21  Vidar Langseid  <vl@ez.no>
+
+    * classes/ezmail.php:
+    Setting envelope information when sending email from ezmail
+
