@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.77 2001/08/20 11:07:08 ce Exp $
+// $Id: datasupplier.php,v 1.78 2001/08/23 15:00:05 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -58,7 +58,13 @@ switch ( $url_array[2] )
         include( "ezarticle/user/frontpage.php" );        
     }
     break;
-    
+
+    case "newsgroup":
+    {
+        include( "ezarticle/user/newsgroup.php" );        
+    }
+    break;
+
     case "author":
     {
         $Action = $url_array[3];
