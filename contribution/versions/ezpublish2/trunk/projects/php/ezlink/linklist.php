@@ -1,10 +1,10 @@
 <?
 /*!
-    $Id: linklist.php,v 1.27 2000/08/14 09:52:34 bf-cvs Exp $
+    $Id: linklist.php,v 1.28 2000/08/23 08:43:02 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
-    Created on: 
+    Created on: <16-Aug-2000 14:41:32 ce>
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
@@ -14,7 +14,7 @@
   listlink.php viser alle kategorier
 */
 
-include_once( "template.inc" );
+include_once( "classes/eztemplate.php" );
 
 include_once( "class.INIFile.php" );
 $ini = new INIFile( "site.ini" );
@@ -27,13 +27,19 @@ include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
+$Language = "no_NO";
+
 // setter template filer
-$t = new Template( "." );
+// $t = new Template( "." );
+
+$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "linklist.php" );
+$t->setAllStrings();
+
+
 $t->set_file( array(
-    "linkgroup_list" => $DOC_ROOT . "templates/linkgrouplistuser.tpl",
-    "linkgroup_item" => $DOC_ROOT . "templates/linkgroupitemuser.tpl",
-    "linkgroup_item2" => $DOC_ROOT . "templates/linkgroupitemuser2.tpl",
-    "link_item" => $DOC_ROOT . "templates/linkitemuser.tpl"
+    "linkgroup_list" => "linkgrouplistuser.tpl",
+    "linkgroup_item" => "linkgroupitemuser.tpl",
+    "link_item" => "linkitemuser.tpl"
     ) );
 
 // Lister alle kategorier
@@ -47,7 +53,7 @@ $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 if ( count( $linkGroup_array ) == 0 )
 {
-    $t->set_var( "group_list", "<p>Ingen kategorier ble funnet.</p>" );
+    $t->set_var( "group_list", "<p>$nocatfound</p>" );
 
 }
 else
@@ -79,12 +85,16 @@ else
         
         if ( $i %2 == 0 )
         {
-            $t->parse( "group_list", "linkgroup_item", true );
+            $t->set_var( "start_tr", "<tr>" );
+            $t->set_var( "stop_tr", "" );
         }
         else
         {
-            $t->parse( "group_list", "linkgroup_item2", true );
+            $t->set_var( "start_tr", "" );
+            $t->set_var( "stop_tr", "</tr>" );            
         }
+
+        $t->parse( "group_list", "linkgroup_item", true );
 
     }
 }
@@ -165,6 +175,7 @@ else
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
 
+
         $t->set_var( "link_hits", $hits );
 
 
@@ -173,6 +184,7 @@ else
         $t->parse( "link_list", "link_item", true );
     }
 }
+
 
 $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" ) );
 

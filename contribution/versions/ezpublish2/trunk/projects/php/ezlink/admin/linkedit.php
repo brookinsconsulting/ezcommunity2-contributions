@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linkedit.php,v 1.13 2000/08/22 09:45:21 bf-cvs Exp $
+    $Id: linkedit.php,v 1.14 2000/08/23 08:43:02 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -19,12 +19,16 @@ $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "template.inc" );
+include_once( "eztemplate.php" );
 include_once( "ezphputils.php" );
 
 include( "../ezlink/classes/ezlinkgroup.php" );
 include( "../ezlink/classes/ezlink.php" );
 include( "../ezlink/classes/ezhit.php" );
+
+$Language= "no_NO";
+
+         
 
 // Oppdatere
 if ( $Action == "update" )
@@ -90,10 +94,12 @@ if ( $Action == "insert" )
 }
 
 // Sette template filer
-$t = new Template();
+$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "linkedit.php" );
+$t->setAllStrings();
+
 $t->set_file( array(
-    "link_edit" => "../ezlink/templates/linkedit.tpl",
-    "link_group_select" => "../ezlink/templates/linkgroupselect.tpl" ));
+    "link_edit" => "linkedit.tpl",
+    "link_group_select" => "linkgroupselect.tpl" ));
 
 
 $linkselect = new eZLinkGroup();

@@ -4,7 +4,7 @@
   listlink.php viser alle kategorier
 */
 
-include_once( "template.inc" );
+include_once( "eztemplate.php" );
 require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
@@ -15,7 +15,9 @@ require $DOCUMENTROOT . "classes/ezhit.php";
 require $DOCUMENTROOT . "classes/ezquery.php";
 
 // setter template filer
-$t = new Template( "." );
+$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
+$t->setAllStrings();
+
 $t->set_file( array(
     "search_item" => $DOCUMENTROOT . "templates/searchitemuser.tpl",
     "search_list" => $DOCUMENTROOT . "templates/searchlistuser.tpl"

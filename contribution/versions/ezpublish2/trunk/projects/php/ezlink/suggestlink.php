@@ -5,11 +5,15 @@
 */
 
 include_once( "class.INIFile.php" );
+
+
 $ini = new INIFile( "site.ini" );
+
+$Language = "no_NO";
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "template.inc" );
+include_once( "classes/eztemplate.php" );
 
 include_once( "ezphputils.php" );
 
@@ -58,10 +62,14 @@ if ( $Action == "suggest" )
     }
 }
 
-$t = new Template();
+// $t = new Template();
+
+$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "suggestlink.php" );
+$t->setAllStrings();
+
 $t->set_file( array(
-    "suggestlink" => $DOC_ROOT . "templates/suggestlink.tpl",
-    "suggest_group_select" => $DOC_ROOT . "templates/suggestgroupselect.tpl"
+    "suggestlink" => "suggestlink.tpl",
+    "suggest_group_select" => "suggestgroupselect.tpl"
     ));
 
 $groupselect = new eZLinkGroup();
