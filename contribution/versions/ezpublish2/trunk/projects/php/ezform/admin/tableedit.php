@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.5 2001/12/14 14:06:08 jhe Exp $
+// $Id: tableedit.php,v 1.6 2001/12/14 14:25:43 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -155,13 +155,15 @@ $elementTemplate->set_var( "checked", "" );
 $elementTemplate->set_var( "element_page", "tableedit" );
 
 $elementTemplate->set_var( "form_id", $FormID );
-$elementTemplate->set_var( "page_id", $TableID );
+$elementTemplate->set_var( "page_id", $PageID );
+$elementTemplate->set_var( "table_id", $TableID );
 
 $elementList = eZFormTable::tableElements( $TableID );
 $types = eZFormElementType::getAll();
 $i = 0;
 
 $t->set_var( "form_id", $FormID );
+$t->set_var( "page_id", $PageID );
 $t->set_var( "table_id", $TableID );
 $t->set_var( "row_list", "" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.9 2001/12/14 13:10:44 br Exp $
+// $Id: ezform.php,v 1.10 2001/12/14 14:25:43 jhe Exp $
 //
 // ezform class
 //
@@ -134,7 +134,7 @@ class eZForm
         $db->begin();
 
         $formElements =& $this->formElements();
-        if ( is_array ( $formElements ) )
+        if ( is_array( $formElements ) )
         {
             foreach ( $formElements as $element )
             {

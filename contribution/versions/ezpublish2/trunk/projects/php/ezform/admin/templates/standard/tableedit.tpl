@@ -1,4 +1,4 @@
-<form action="{www_dir}{index}/form/form/tableedit/{form_id}/{table_id}/" method="post">
+<form action="{www_dir}{index}/form/form/tableedit/{form_id}/{page_id}/{table_id}/" method="post">
 
 <h1>{intl-table_edit}</h1>
 
