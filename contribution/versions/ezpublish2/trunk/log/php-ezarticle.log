@@ -3210,3 +3210,28 @@ Maintainer(s) : bf@ez.no
     * admin/articlelist.php
       admin/categoryedit.php: coding standard fixes
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-25  jb  <jb@zev.ez.no>
+
+    * xmlrpc/article.php
+      xmlrpc/category.php
+      xmlrpc/datasupplier.php:
+    Added support for fetching the permissions on images, articles and their
+    categories using XMLRPC.
+
+2002-04-25  bf  <bf@zev.ez.no>
+
+    * user/templates/standard/articleprint.tpl: Fixed template block error
+
+    * user/topiclist.php
+      admin/categoryedit.php
+      admin/cron.php
+      classes/ezarticle.php:
+    Fixed permissions in topiclist, fixed cron based timepublishing of
+    articles.
+
+    * classes/eztopic.php: Added permission check for topic list.
+

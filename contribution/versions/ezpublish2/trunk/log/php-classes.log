@@ -771,3 +771,19 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: fixed bug when clearing cache using site.ini.php file
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-04-25  jhe  <jhe@zev.ez.no>
+
+    * eztemplate.php: many coding standard fixes
+
+2002-04-25  bf  <bf@zev.ez.no>
+
+    * ezmysqldb.php
+      eztemplate.php
+      ezcachefile.php: Fixed version check in eZ template.
+
+    * ezpublish.php: Changed version information.
+

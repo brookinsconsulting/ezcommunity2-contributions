@@ -1013,3 +1013,15 @@ Maintainer(s) : br@ez.no
       user/imagelist.php
       classes/ezimage.php: fixed permission bugs
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-04-25  jb  <jb@zev.ez.no>
+
+    * xmlrpc/category.php
+      xmlrpc/datasupplier.php
+      xmlrpc/image.php:
+    Added support for fetching the permissions on images, articles and their
+    categories using XMLRPC.
+
