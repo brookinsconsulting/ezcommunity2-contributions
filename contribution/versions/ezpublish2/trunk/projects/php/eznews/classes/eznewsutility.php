@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.13 2000/10/11 19:59:19 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.14 2000/10/11 21:14:48 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -142,6 +142,7 @@ class eZNewsUtility
         }
         else
         {
+            echo "<br><h1>an error has occured</h1><br>";
             $this->printObject();
         }
         
@@ -218,6 +219,12 @@ class eZNewsUtility
                 $this->hasChanged = false;
                 $this->ID = $outID[0];
                 #echo "this id = " .  $this->ID . "<br>";
+            }
+            else
+            {
+                $this->State_ = "unexisting";
+                $this->hasChanged = false;
+                $this->ID = 0;
             }
         }
         

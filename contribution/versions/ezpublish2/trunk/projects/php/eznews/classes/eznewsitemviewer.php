@@ -314,14 +314,20 @@ class eZNewsItemViewer
 
 
 
+    /*!
+        This function takes care of editing of objects.
+     */
     function doAdminEdit( &$itemNo )
     {
         #echo "eZNewsItemViewer::doAdminEdit()<br>\n";
-        $item = new eZNewsItemCreator( $this->Ini, $this->URLObject, $itemNo );
+        $item = new eZNewsItemCreator( $this->IniObject, $this->URLObject, $itemNo );
     }
 
 
 
+    /*!
+        This function takes care of deletion of objects.
+     */
     function doAdminDelete( &$inItemNo )
     {
         #echo "eZNewsItemViewer::doAdminDelete( \$inItemNo = $inItemNo )<br>\n";
@@ -367,18 +373,49 @@ class eZNewsItemViewer
         $value = true;
         
         $this->readTemplate();
-        $this->initalizeItem( $inItemNo );
+        if( $this->initalizeItem( $inItemNo ) )
+        {
+            $this->ItemTemplate->set_file( array( "eznewsitem" => "eznewsitem.tpl" ) );
+            $this->ItemTemplate->set_block( "eznewsitem", "item_template", "item" );
         
-        $this->ItemTemplate->set_file( array( "eznewsitem" => "eznewsitem.tpl" ) );
-        $this->ItemTemplate->set_block( "eznewsitem", "item_template", "item" );
+            $this->fillInHiearchy( "parent" );
+            $this->fillInHiearchy( "child" );
+            $this->fillInHiearchy( "image" );
+            $this->fillInHiearchy( "file" );
+            $this->fillInHiearchy( "error" );
         
-        $this->fillInHiearchy( "parent" );
-        $this->fillInHiearchy( "child" );
-        $this->fillInHiearchy( "image" );
-        $this->fillInHiearchy( "file" );
-        
-        $this->doThis();
+        }
+        else
+        {
+            $this->ItemTemplate->set_file( array( "eznewsitem" => "eznewsitem.tpl" ) );
+            $this->ItemTemplate->set_block( "eznewsitem", "item_template", "item" );
+            $this->ItemTemplate->set_block( "eznewsitem", "image_template", "image" );
+            $this->ItemTemplate->set_block( "eznewsitem", "images_template", "images" );
+            $this->ItemTemplate->set_block( "eznewsitem", "no_images_template", "no_images" );
+            $this->ItemTemplate->set_block( "eznewsitem", "parents_template", "parents" );
+            $this->ItemTemplate->set_block( "eznewsitem", "no_parents_template", "no_parents" );
+            $this->ItemTemplate->set_block( "eznewsitem", "children_template", "children" );
+            $this->ItemTemplate->set_block( "eznewsitem", "no_children_template", "no_children" );
+            $this->ItemTemplate->set_block( "eznewsitem", "file_template", "file" );
+            $this->ItemTemplate->set_block( "eznewsitem", "files_template", "files" );
+            $this->ItemTemplate->set_block( "eznewsitem", "no_files_template", "no_files" );
+            
+            $this->ItemTemplate->set_var( "item", "" );
+            $this->ItemTemplate->set_var( "image", "" );
+            $this->ItemTemplate->set_var( "images", "" );
+            $this->ItemTemplate->set_var( "no_images", "" );
+            $this->ItemTemplate->set_var( "parents", "" );
+            $this->ItemTemplate->set_var( "no_parents", "" );
+            $this->ItemTemplate->set_var( "children", "" );
+            $this->ItemTemplate->set_var( "no_children", "" );
+            $this->ItemTemplate->set_var( "file", "" );
+            $this->ItemTemplate->set_var( "files", "" );
+            $this->ItemTemplate->set_var( "no_files", "" );
+           
+            $this->fillInHiearchy( "error" );
+        }
 
+        $this->doThis();
         $this->ItemTemplate->setAllStrings();
         
         // Output the admin page
@@ -419,16 +456,26 @@ class eZNewsItemViewer
     {
         #echo "eZNewsItemViewer::initalizeItem( \$inItemNo = $inItemNo )<br>\n";
 
+        $value = false;
+    
         $this->Item = new eZNewsItem( $inItemNo );
-        $type = new eZNewsItemType( $this->Item->ItemTypeID() );
-        
-        $class = $type->eZClass();
+    #echo "\$this->Item->ID() " . $this->Item->ID() . "<br>";
+    $this->Item->Errors();
+        if( $this->Item->ID() != 0 )
+        {
+            $type = new eZNewsItemType( $this->Item->ItemTypeID() );
 
-        // Change to correct sub class, in order to make sure we delete correctly.
-        
-        include_once( "eznews/classes/" . strtolower( $class ) . ".php" );
-        $this->Item = new $class( $inItemNo );
+            $class = $type->eZClass();
+    #echo "\$class $class<br>";
+            // Change to correct sub class, in order to make sure we delete correctly.
 
+            include_once( "eznews/classes/" . strtolower( $class ) . ".php" );
+            $this->Item = new $class( $inItemNo );
+            
+            $value = true;
+        }
+        
+        return $value;
     }
 
 
@@ -464,21 +511,19 @@ class eZNewsItemViewer
         #echo "eZNewsItemViewer::fillInHiearchy( \$what = $what )<br>\n";
         switch( $what )
         {
-            case "parent":
-                $this->ItemTemplate->set_block( "eznewsitem", "parents_template", "parents" );
-                $this->ItemTemplate->set_block( "eznewsitem", "no_parents_template", "no_parents" );
-                $this->Item->getParents( $returnArray, $maxCount, $this->ItemSortBy, $this->ItemDirection, 0, $maxItems );
-                break;
             case "child":
                 $this->ItemTemplate->set_block( "eznewsitem", "children_template", "children" );
                 $this->ItemTemplate->set_block( "eznewsitem", "no_children_template", "no_children" );
                 $this->Item->getChildren( $returnArray, $maxCount, $this->ItemSortBy, $this->ItemDirection, 0, $maxItems );
                 break;
-            case "image":
-                $this->ItemTemplate->set_block( "eznewsitem", "image_template", "image" );
-                $this->ItemTemplate->set_block( "eznewsitem", "images_template", "images" );
-                $this->ItemTemplate->set_block( "eznewsitem", "no_images_template", "no_images" );
-                $this->Item->getImages( $returnArray, $maxCount, $this->ItemSortBy, $this->ItemDirection, 0, $maxItems );
+            case "error":
+                $this->ItemTemplate->set_block( "eznewsitem", "error_template", "error" );
+                $this->ItemTemplate->set_block( "eznewsitem", "errors_template", "errors" );
+                $this->ItemTemplate->set_block( "eznewsitem", "no_errors_template", "no_errors" );
+                $returnArray = $this->Item->Errors();
+                #echo $returnArray;
+                $maxCount = count( $returnArray );
+                #echo $maxCount;
                 break;
             case "file":
                 $this->ItemTemplate->set_block( "eznewsitem", "file_template", "file" );
@@ -486,6 +531,17 @@ class eZNewsItemViewer
                 $this->ItemTemplate->set_block( "eznewsitem", "no_files_template", "no_files" );
                 $maxCount = 0; empty( $returnArray );
                 #$this->Item->getfiles( $returnArray, $maxCount, $this->ItemSortBy, $this->ItemDirection, 0, $maxItems );
+                break;
+            case "image":
+                $this->ItemTemplate->set_block( "eznewsitem", "image_template", "image" );
+                $this->ItemTemplate->set_block( "eznewsitem", "images_template", "images" );
+                $this->ItemTemplate->set_block( "eznewsitem", "no_images_template", "no_images" );
+                $this->Item->getImages( $returnArray, $maxCount, $this->ItemSortBy, $this->ItemDirection, 0, $maxItems );
+                break;
+            case "parent":
+                $this->ItemTemplate->set_block( "eznewsitem", "parents_template", "parents" );
+                $this->ItemTemplate->set_block( "eznewsitem", "no_parents_template", "no_parents" );
+                $this->Item->getParents( $returnArray, $maxCount, $this->ItemSortBy, $this->ItemDirection, 0, $maxItems );
                 break;
             default:
                 break;
@@ -524,6 +580,12 @@ class eZNewsItemViewer
                     $this->ItemTemplate->set_var( "file_string", $this->ItemIni->read_var( "strings", $outString ) );
                     $this->ItemTemplate->set_var( "file_count", $maxCount );
                     $this->ItemTemplate->set_var( "file_direction", $direction );
+                    break;
+                case "error":
+                    $this->pluralize( $outString, "error_plural", "error_singular", $maxCount );
+                    
+                    $this->ItemTemplate->set_var( "error_string", $this->ItemIni->read_var( "strings", $outString ) );
+                    $this->ItemTemplate->set_var( "error_count", $maxCount );
                     break;
                 default:
                     break;
@@ -580,7 +642,7 @@ class eZNewsItemViewer
                 case "image":
                     foreach( $returnArray as $image )
                     {
-                        #$item->get( $outID, $item->ID() );
+                        $item->get( $outID, $item->ID() );
                         $this->ItemTemplate->set_var( "image_id", $image->ID() );
                         $this->ItemTemplate->set_var( "image_name", $image->Name() );
                         $this->ItemTemplate->set_var( "image_caption", $image->Caption() );
@@ -597,6 +659,24 @@ class eZNewsItemViewer
                         }
                         
                         $this->ItemTemplate->parse( "image", "image_template", true );
+                    }
+                    break;
+                case "error":
+                    foreach( $returnArray as $error )
+                    {
+                        $this->ItemTemplate->set_var( "error_text", $error );
+
+                        $i++;
+                        if( ( $i % 2 ) == 1 )
+                        {
+                            $this->ItemTemplate->set_var( "color", "bglight" );
+                        }
+                        else
+                        {
+                            $this->ItemTemplate->set_var( "color", "bgdark" );
+                        }
+                        
+                        $this->ItemTemplate->parse( "error", "error_template", true );
                     }
                     break;
                 default:
@@ -631,8 +711,12 @@ class eZNewsItemViewer
                     $this->ItemTemplate->parse( "images", "images_template" );
                     $this->ItemTemplate->set_var( "image", "" );
                     $this->ItemTemplate->set_var( "no_images", "" );
-
-
+                    break;
+                case "error":
+                    $this->ItemTemplate->set_var( "error_items", $this->ItemTemplate->get_var( "error" ) );
+                    $this->ItemTemplate->parse( "errors", "errors_template" );
+                    $this->ItemTemplate->set_var( "error", "" );
+                    $this->ItemTemplate->set_var( "no_errors", "" );
                     break;
                 default:
                     break;
@@ -661,6 +745,11 @@ class eZNewsItemViewer
                     $this->ItemTemplate->set_var( "images", "" );
                     $this->ItemTemplate->set_var( "image", "" );
                     $this->ItemTemplate->parse( "no_images", "no_images_template" );
+                    break;
+                case "error":
+                    $this->ItemTemplate->set_var( "errors", "" );
+                    $this->ItemTemplate->set_var( "error", "" );
+                    $this->ItemTemplate->parse( "no_errors", "no_errors_template" );
                     break;
                 default:
                     break;

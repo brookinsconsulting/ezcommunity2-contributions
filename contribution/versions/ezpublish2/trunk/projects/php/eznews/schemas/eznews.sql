@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.10 2000/10/11 19:59:19 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.11 2000/10/11 21:14:48 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -26,20 +26,22 @@ CREATE TABLE eZNews_ItemType
 
 INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('1', 'undefined', '', '');
 INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('2', 'news', '', '');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('3', '2', 'category',  'eZNewsCategory',  'eZNews_Category');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('4', '2', 'article',  'eZNewsArticle',  'eZNews_Article');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('5', '4', 'product',  'eZNewsArticleProduct',  '');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('6', '4', 'nitf',  'eZNewsArticleNITF',  'eZNews_ArticleNITF');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('12', '4', 'flower',  'eZNewsFlower',  '');
+INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('3', 'flower', '', '');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('4', '2', 'category',  'eZNewsCategory',  'eZNews_Category');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('5', '2', 'article',  'eZNewsArticle',  'eZNews_Article');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('6', '4', 'product',  'eZNewsArticleProduct',  '');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('7', '4', 'nitf',  'eZNewsArticleNITF',  'eZNews_ArticleNITF');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('8', '3', 'flowercategory',  'eZNewsCategory',  'eZNews_Category');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('9', '3', 'flowerarticle',  'eZNewsArticle',  'eZNews_Article');
 
 
 #Future extensions follow
 
-INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('7', 'faq', '', '');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('8', '7', 'question',  'eZfaqquestion',  'eZfaq_question');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('9', '7', 'answer',  'eZfaqanswer',  'eZfaq_answer');
-INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('10', 'diary', '', '');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('11', '10', 'entry',  'eZdiaryentry',  'eZdiary_entry');
+INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('11', 'faq', '', '');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('12', '11', 'question',  'eZfaqquestion',  'eZfaq_question');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('13', '11', 'answer',  'eZfaqanswer',  'eZfaq_answer');
+INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('14', 'diary', '', '');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('15', '14', 'entry',  'eZdiaryentry',  'eZdiary_entry');
 
 
 

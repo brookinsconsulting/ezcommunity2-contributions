@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.32 2000/10/11 19:59:19 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.33 2000/10/11 21:14:48 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -236,6 +236,7 @@ class eZNewsItem extends eZNewsUtility
         {
             case 0:
                 $this->Error[] = "intl-eznews-eznewschangetype-no-object-found";
+                $this->State_ = "unexisting";
                 break;
             case 1:
                 $outID[] = $itemArray[0][ "ID" ];
