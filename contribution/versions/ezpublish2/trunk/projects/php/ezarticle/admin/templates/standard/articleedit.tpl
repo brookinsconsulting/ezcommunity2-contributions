@@ -4,20 +4,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<br />
+<p class="boxtext">{intl-article_name}</p>
+<input type="text" name="Name" size="40" value="{article_name}" />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<p class="boxtext">{intl-article_name}</p>
-	<input type="text" name="Name" size="20" value="{article_name}" />
-	</td>
-	<td>
-	<p class="boxtext">{intl-article_author}</p>
-	<input type="text" name="AuthorText" size="20" value="{author_text}" />
-	</td>
-</tr>
-</table>
+<p class="boxtext">{intl-article_author}</p>
+<input type="text" name="AuthorText" size="40" value="{author_text}" />
 
 <p class="boxtext">{intl-category}</p>
 <select name="CategoryID">
@@ -29,11 +20,11 @@
 </select>
 
 <p class="boxtext">{intl-intro}</p>
-<textarea name="Contents[]" cols="60" rows="5">{article_contents_0}</textarea>
+<textarea name="Contents[]" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-contents}</p>
-<textarea name="Contents[]" cols="60" rows="10">{article_contents_1}</textarea>
+<textarea name="Contents[]" cols="40" rows="10" wrap="soft">{article_contents_1}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-link_text}</p>
