@@ -109,29 +109,42 @@
 	</td>
 </tr>
 <tr>
+        <!-- BEGIN companies_tpl -->
 	<td colspan="2">
-	<p class="boxtext">{intl-companyname}:</p>
-	<input type="text" size="20" name="CompanyName" value="{company_name_value}"/>	
+ 	<p class="boxtext">{intl-companyname}:</p>
+        <select multiple size="4" name="CompanyID[]">
+        <!-- BEGIN company_select_tpl -->
+        <option value="{company_id}" {is_selected}>{company_level}{company_name}</option>
+        <!-- END company_select_tpl -->
+        </select>
 	</td>
+        <!-- END companies_tpl -->
+
+	<!-- BEGIN company_name_single_tpl -->
+        <td colspan="2">
+        <p class="boxtext">{intl-companyname}:</p>
+	<input type="text" size="20" name="CompanyName" value="{company_name_value}"/>	
+        </td>
+	<!-- END company_name_single_tpl -->
 </tr>
-</table>
-
-<p class="boxtext">{intl-login}:</p>
-<!-- BEGIN login_item_tpl -->
-<input type="text" size="20" name="Login" value="{login_value}"/>
-<!-- END login_item_tpl -->
-<!-- BEGIN disabled_login_item_tpl -->
-{login_value}<br />
-<!-- END disabled_login_item_tpl -->
-
-<p class="boxtext">{intl-email}:</p>
-<input type="text" size="20" name="Email" value="{email_value}"/>
-
-<br /><br />
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+        <td>
+	<div style="padding-top: 10px; padding-bottom: 5px;"><span class="boxtext">{intl-login}:</span>
+	<!-- BEGIN login_item_tpl -->
+	<br /><br /><input type="text" size="20" name="Login" value="{login_value}"/>
+	<!-- END login_item_tpl -->
+	<!-- BEGIN disabled_login_item_tpl -->
+	{login_value}<br />
+	<!-- END disabled_login_item_tpl -->
+	</div>
+        </td>
+        <td>
+	<p class="boxtext">{intl-email}:</p>
+	<input type="text" size="20" name="Email" value="{email_value}"/>
+        </td>
+</tr>
+<tr>
+	<td style="padding-top: 10px;">
 	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
@@ -142,11 +155,25 @@
 </tr>
 </table>
 
-
 <!-- BEGIN address_tpl -->
 
 <h2>{intl-address_number} {address_number} </h2> 
 <input type="hidden" name="AddressArrayID[]" value="{address_id}">
+
+<!-- 
+<p class="boxtext">{intl-address_pos}&nbsp;{address_position}:</p>
+-->
+<p><select name="AddressTypeID[]">
+ <option value="-1">{intl-unknown_type}</option>
+ <!-- BEGIN address_item_select_tpl -->
+ <option value="{type_id}" {selected}>{type_name}</option>
+ <!-- END address_item_select_tpl -->
+ </select>
+<!--
+<input type="checkbox" name="AddressDelete[]" value="{address_index}" />
+<span class="boxtext">{intl-delete}</span><br />
+-->
+</p>
 
 <!-- BEGIN main_address_tpl -->
 <input {is_checked} type="radio" name="MainAddressID" value="{address_id}"><span class="check">{intl-main_address}</span>
@@ -196,10 +223,62 @@
 <!-- END country_tpl -->
 
 <!-- END address_tpl -->
+<br />
 
+<h2>{intl-telephone_headline}</h2>
+<p>{intl-telephone_information}</p>
+<p>{intl-telephone_ignore_information}</p>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN phone_table_item_tpl -->
+<tr>
+    <!-- BEGIN phone_item_tpl -->
+    <td>
+        <p class="boxtext">{intl-phone_pos}&nbsp;{phone_position}:</p>
+        <select name="PhoneTypeID[]">
+            <option value="-1">{intl-unknown_type}</option>
+            <!-- BEGIN phone_item_select_tpl -->
+            <option value="{type_id}" {selected}>{type_name}</option>
+            <!-- END phone_item_select_tpl -->
 
-<br /><br />
+            </select><br />
+        <input type="text" class="halfbox" size="20" name="Phone[]" value="{phone_number}" />
+        <input type="hidden" name="PhoneID[]" value="{phone_id}" /><br />
+        <input type="checkbox" name="PhoneDelete[]" value="{phone_index}" />
+        <span class="boxtext">{intl-delete}</span><br />
+    </td>
+    <!-- END phone_item_tpl -->
+</tr>
+<!-- END phone_table_item_tpl -->
+</table>
 
+<h2>{intl-online_headline}</h2>
+<p>{intl-online_information}</p>
+<p>{intl-online_ignore_information}</p>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN online_table_item_tpl -->
+<tr>
+    <!-- BEGIN online_item_tpl -->
+    <td>
+        <p class="boxtext">{intl-online_pos}&nbsp;{online_position}:</p>
+        <select name="OnlineTypeID[]">
+            <option value="-1">{intl-unknown_type}</option>
+            <!-- BEGIN online_item_select_tpl -->
+            <option value="{type_id}" {selected}>{type_name}</option>
+            <!-- END online_item_select_tpl -->
+
+            </select><br />
+        <input type="text" class="halfbox" size="20" name="Online[]" value="{online_value}" />
+        <input type="hidden" name="OnlineID[]" value="{online_id}"><br />
+        <input type="checkbox" name="OnlineDelete[]" value="{online_index}" />
+        <span class="boxtext">{intl-delete}</span><br />
+    </td>
+    <!-- END online_item_tpl -->
+</tr>
+<!-- END online_table_item_tpl -->
+</table>
+
+<h2>{intl-optionslist}</h2>
 <div class="boxtext"><input {deadline_reminder} type="checkbox" name="DeadlineReminder" />&nbsp;{intl-deadlinereminder}</div>
 <div class="boxtext"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
 <div class="boxtext"><input {info_disclaimer} type="checkbox" name="InfoDisclaimer" />&nbsp;{intl-infodisclaimer}</div>
@@ -210,6 +289,7 @@
 <!-- END address_actions_tpl -->
 
 <input type="hidden" name="UserID" value="{user_id}" />
+<input type="hidden" name="PersonID" value="{person_id}" />
 <!-- BEGIN ok_button_tpl -->
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
 <!-- END ok_button_tpl -->

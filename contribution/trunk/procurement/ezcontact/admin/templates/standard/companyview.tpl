@@ -4,20 +4,33 @@
         <td valign="bottom">
         <h1>{intl-view_headline}</h1>
         </td>
-              <td rowspan="2" align="right">  
+	<!-- BEGIN company_search_tpl -->
+         <td rowspan="2" align="right">  
               <form action="{www_dir}{index}/contact/search/company/" method="get">
               <input type="text" name="SearchText" size="12" />
               <input class="stdbutton" type="submit" value="{intl-search}" />
               </form>
         </td>
+	<!-- END company_search_tpl -->
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
+<!--
+<style>
+.dr
+{
+        text-align: center;
+        margin: 1em auto 0;
+        padding: 1px 0 0; /* 17-16 */
+        width: 88%;
+}
+.dr HR { width: 0; line-height: 16px; margin-right: 100%; }
+</style>
+<hr class="dr" noshade="noshade" size="4" />
+-->
 
 <!-- BEGIN logo_view_tpl -->
-<br />
+<br /> 
 <img src="{www_dir}{logo_image_src}" width="{logo_width}" height="{logo_height}" border="0" alt="{logo_alt}" /><br /><br />
 <!-- END logo_view_tpl -->
 
@@ -25,15 +38,27 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-name_headline}:</p>
-	<div class="p">{name}</div>
+	<span class="pSpan">{name}</span>
+
+        <!-- BEGIN company_description_item_tpl -->
+	<br />
+	<p class="boxtext">{intl-description}:</p>
+	<span class="pSpan">{description}</span>
 	</td>
+        <!-- END company_description_item_tpl -->
+
+	<!-- BEGIN company_number_item_tpl -->
 	<td valign="top" align="right">
 	<p class="boxtext">{intl-company_no}:</p>
-	<div class="p">{company_no}</div>
+	<span class="pSpan">{company_no}</span>
 	</td>
+        <!-- END company_number_item_tpl -->
 </tr>
 </table>
+
+<!-- BEGIN address_table_tpl -->
 <br />
+
 <!--
 <p class="boxtext">{intl-addresses_headline}</p>
 -->
@@ -42,10 +67,10 @@
 	<!-- BEGIN address_item_tpl -->
 	<td width="50%" valign="top">
 	<p class="boxtext">{address_type_name}:</p>
-	<div class="p">{street1}</div>
-	<div class="p">{street2}</div>
-	<div class="p">{zip} {place}</div>
-	<div class="p">{country}</div>
+	<span class="p">{street1}</span>
+	<span class="p">{street2}</span>
+	<span class="p">{zip} {place}</span>
+	<span class="p">{country}</span>
 	</td>
 	<!-- END address_item_tpl -->
 	<!-- BEGIN no_address_item_tpl -->
@@ -55,7 +80,9 @@
 	<!-- END no_address_item_tpl -->
 </tr>
 </table>
+<!-- END address_table_tpl -->
 
+<!-- BEGIN phone_table_tpl -->
 <!-- BEGIN phone_item_tpl -->
 <!-- <p class="boxtext">{intl-telephone_headline}</p> -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -73,10 +100,12 @@
 <!-- BEGIN no_phone_item_tpl -->
 <!--
 <p class="boxtext">{intl-telephone_headline}</p>
-<div class="p">{intl-error_no_phones}</div>
+<span class="p">{intl-error_no_phones}</span>
 -->
 <!-- END no_phone_item_tpl -->
+<!-- END phone_table_tpl -->
 
+<!-- BEGIN online_table_tpl -->
 <!-- BEGIN online_item_tpl -->
 <!-- <p class="boxtext">{intl-online_headline}</p> -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -84,7 +113,7 @@
     <!-- BEGIN online_line_tpl -->
     <td width="{online_width}%">
         <p class="boxtext">{online_type_name}:</p>
-        <a href="{www_dir}{index}{online_prefix}{online}">{online_visual_prefix}{online}</a>
+        <a href="{www_dir}{index}{online_prefix}{online}" target="_blank">{online_visual_prefix}{online}</a>
     </td>
     <!-- END online_line_tpl -->
 </tr>
@@ -94,19 +123,19 @@
 <!-- BEGIN no_online_item_tpl -->
 <!--
 <p class="boxtext">{intl-online_headline}</p>
-<div class="p">{intl-error_no_onlines}</div>
+<span class="p">{intl-error_no_onlines}</span>
 -->
 <!-- END no_online_item_tpl -->
+<!-- END online_table_tpl -->
 
 <!-- BEGIN no_image_tpl -->
 
 <!-- END no_image_tpl -->
 
-<div class="boxtext">{intl-description}:</div>
 <!-- BEGIN image_view_tpl -->
 <img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="left" vspace="2" hspace="6" />
 <!-- END image_view_tpl -->
-<div class="p">{description}</div>
+
 <br clear="all" /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -115,7 +144,7 @@
 	<td width="50%">
 	<p class="boxtext">{intl-contact_person}:</p>
 	<!-- BEGIN contact_person_tpl -->
-	{contact_lastname}, {contact_firstname}
+	<a href="{www_dir}{index}/contact/person/view/{contact_person_id}/">{contact_lastname}, {contact_firstname}</a>
 	<!-- END contact_person_tpl -->
 	<!-- BEGIN no_contact_person_tpl -->
 	{intl-no_contact_person}
@@ -124,6 +153,7 @@
 	<!-- END contact_item_tpl -->
 
 	<!-- BEGIN status_item_tpl -->
+<!--
 	<td width="50%" align="right">
 	<p class="boxtext">{intl-project_status}:</p>
 	<!-- BEGIN project_status_tpl -->
@@ -133,6 +163,7 @@
 	{intl-no_project_status}
 	<!-- END no_project_status_tpl -->
 	</td>
+-->
 	<!-- END status_item_tpl -->
 </tr>
 </table>
@@ -142,12 +173,12 @@
 
 <table class="list" width="100%" cellpadding="4" cellspacing="0" border="0">
 <tr>
-	<th>{intl-person_name}:</th>
+	<th align="left">{intl-person_name}:</th>
 	<th colspan="1">&nbsp;</th>
 </tr>
 <!-- BEGIN person_item_tpl -->
 <tr class="{bg_color}">
-	<td>
+	<td align="left">
 	<a href="{www_dir}{index}/contact/person/view/{person_id}/">{person_lastname}, {person_firstname}</a>
 	</td>
 
@@ -294,9 +325,9 @@
 <br />
 <form method="post" action="{www_dir}{index}/contact/company/edit/{company_id}/">
 
+<!-- BEGIN consultation_buttons_tpl -->
 <hr noshade="noshade" size="4" />
 
-<!-- BEGIN consultation_buttons_tpl -->
 <input class="stdbutton" type="submit" name="ListConsultation" value="{intl-consultation_list}">
 <input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
 <!-- END consultation_buttons_tpl -->
@@ -313,11 +344,10 @@
 <!-- BEGIN company_edit_button_tpl -->
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
+
+<input class="okbutton" type="submit" name="Delete" value="{intl-delete}" />
+<input class="okbutton" type="submit" name="Back" value="{intl-list}">
 <!-- END company_edit_button_tpl -->
-<!--
-<input type="submit" name="Delete" value="{intl-delete}" />
-<input type="submit" name="Back" value="{intl-list}">
--->
 </form>
 <!-- END company_information_tpl -->
 <!-- BEGIN no_company_tpl -->

@@ -38,6 +38,10 @@ $ShowCompanyStatus = $ini->read_var( "eZContactMain", "ShowCompanyStatus" ) == "
 $SiteURL = $ini->read_var( "Site", "SiteURL" );
 $AdminSiteURL = $ini->read_var( "Site", "AdminSiteURL" );
 
+$ShowCompanySearch = $ini->read_var( "eZContactMain", "ShowCompanySearch" );
+$ShowCompanyDescription = $ini->read_var( "eZContactMain", "ShowCompanyDescription" );
+$ShowCompanyNumber = $ini->read_var( "eZContactMain", "ShowCompanyNumber" );
+
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
@@ -119,11 +123,12 @@ $t->set_var( "address_item", "" );
 $t->set_block( "company_information_tpl", "no_address_item_tpl", "no_address_item" );
 $t->set_var( "no_address_item", "" );
 $t->set_block( "company_information_tpl", "image_view_tpl", "image_view" );
-$t->set_var( "image_view", "&nbsp;" );
+//$t->set_var( "image_view", "&nbsp;" );
+$t->set_var( "image_view", "");
 $t->set_block( "company_information_tpl", "logo_view_tpl", "logo_view" );
-$t->set_var( "logo_view", "&nbsp;" );
+$t->set_var( "logo_view", "" );
 $t->set_block( "company_information_tpl", "no_image_tpl", "no_image" );
-$t->set_var( "no_image", "&nbsp;" );
+$t->set_var( "no_image", "" );
 
 $t->set_block( "company_information_tpl", "online_item_tpl", "online_item" );
 $t->set_var( "online_item", "&nbsp;" );
@@ -144,14 +149,27 @@ $t->set_var( "no_phone_item", "&nbsp;" );
 $t->set_block( "company_information_tpl", "company_edit_button_tpl", "company_edit_button" );
 $t->set_var( "company_edit_button", "" );
 
+$t->set_block( "company_information_tpl", "company_search_tpl", "company_search" );
+$t->set_block( "company_information_tpl", "company_description_item_tpl", "company_description_item" );
+$t->set_block( "company_information_tpl", "company_number_item_tpl", "company_number_item" );
+
 $t->set_var( "company_information", "" );
+$t->set_var( "company_search", "" );
 $t->set_var( "no_company", "" );
+
+$t->set_block( "company_information_tpl", "file_button_tpl", "file_button" );
+$t->set_var( "file_button", "");
+$t->set_block( "company_information_tpl", "mail_button_tpl", "mail_button" );
+$t->set_var( "mail_button", "");
+
+$t->set_var( "company_description_item", "");
+
 
 $t->set_var( "company_id", $CompanyID );
 
 if ( !eZCompany::exists( $CompanyID ) )
 {
-    $t->parse( "no_company", "no_company_tpl" );
+   $t->parse( "no_company", "no_company_tpl" );
 }
 else
 {
@@ -159,9 +177,24 @@ else
     $company->get( $CompanyID );
 
     $t->set_var( "name", eZTextTool::htmlspecialchars( $company->name() ) );
-    $t->set_var( "description", eZTextTool::htmlspecialchars( $company->comment() ) );
-    $t->set_var( "company_no", eZTextTool::htmlspecialchars( $company->companyNo() ) );
 
+    $company_description = eZTextTool::htmlspecialchars( $company->comment() );
+
+    $t->set_var( "description", "");
+    $t->set_var( "company_description_item", "");
+
+    if ($ShowCompanyDescription == "1enabled" && $company_description != "") {
+      $t->set_var( "description", $company_description );    
+      $t->parse( "company_description_item", "company_description_item_tpl" );
+    }
+
+    $t->set_var( "company_no", "" );
+    $t->set_var( "company_number_item", "" );
+    
+    if ($ShowCompanyNumber == "enabled" ){ // && $company_description != "") {
+      $t->set_var( "company_no", eZTextTool::htmlspecialchars( $company->companyNo() ) );
+      $t->parse( "company_number_item", "company_number_item_tpl" );
+    }
 
 // View logo.
     $logoImage = $company->logoImage();
@@ -305,9 +338,37 @@ else
 
             $t->set_var( "online_prefix", $prefix );
             $t->set_var( "online_visual_prefix", $vis_prefix );
-            $t->set_var( "online", eZTextTool::htmlspecialchars( $OnlineList[$i]->URL() ) );
-            $t->set_var( "online_type_id", $onlineType->id() );
+             $t->set_var( "online_type_id", $onlineType->id() );
+
+            $t->set_var( "online_prefix", $prefix );
+            $t->set_var( "online_visual_prefix", $vis_prefix );
+ 
+            $online = $OnlineList[$i]->URL();
+            $online_name_item = eZTextTool::htmlspecialchars( $online );
+
+	    if ( preg_match("/@/i", $online,$matches) ){
+	      //if( stristr( $online, "@" ) ) {
+	      $email = $online_name_item;
+	      $search = array('@', '.');
+	      $replace = array(" at ", " dot ");
+	      $result = str_replace($search, $replace, $email); 
+              $online_name_item = $result;
+
+	      if ( preg_match("/./i", $online,$matches) ){
+		$email = $online_name_item;
+		$search = array('@', '.');
+		$replace = array(" at ", " dot ");
+		$result = str_replace($search, $replace, $email);
+		$online_name_item = $result;
+	      }
+
+            }
+
+
+            $t->set_var( "online", $online_name_item);
+
             $t->set_var( "online_type_name", eZTextTool::htmlspecialchars( $onlineType->name() ) );
+
             $t->set_var( "online_width", 100 / $count );
 
             $t->parse( "online_line", "online_line_tpl", true );
@@ -328,10 +389,14 @@ else
         $contact = $company->contact();
         if ( $contact )
         {
-            if ( $company->contactType() == "ezperson" )
-                $contactPerson = new eZPerson( $contact );
-            else
-                $contactPerson = new eZUser( $contact );
+	  if ( $company->contactType() == "ezperson" ) {
+	    $contactPerson = new eZPerson( $contact );
+	    $t->set_var( "contact_person_id", $contactPerson->id() );
+	  }
+	  else {
+	    $contactPerson = new eZUser( $contact );
+	    $t->set_var( "contact_person_id", $contactPerson->personID() );
+	  }
             $t->set_var( "contact_firstname", eZTextTool::htmlspecialchars( $contactPerson->firstName() ) );
             $t->set_var( "contact_lastname", eZTextTool::htmlspecialchars( $contactPerson->lastName() ) );
             $t->parse( "contact_person", "contact_person_tpl" );
@@ -367,6 +432,7 @@ else
     $user =& eZUser::currentUser();
     $t->set_var( "person_consultation_button", "" );
     $t->set_var( "buy_button", "" );
+
     if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
@@ -552,7 +618,10 @@ else
         $t->set_var( "mail_table_item", "" );
     }
 
-
+    $t->set_var("company_search", "");
+    if( $ShowCompanySearch == "enabled" ) {
+      $t->parse( "mail_table_item", "mail_table_item_tpl");
+    }
 
 // Template variabler.
     $Action_value = "update";

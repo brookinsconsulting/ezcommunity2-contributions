@@ -208,8 +208,9 @@
 
 <hr noshade="noshade" size="4" />
 
-
 <input type="hidden" name="UserID" value="{user_id}" />
+<input type="hidden" name="PersonID" value="{person_id}" />
+
 <!-- BEGIN ok_button_tpl -->
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
 <!-- END ok_button_tpl -->

@@ -38,6 +38,7 @@ $SelectRegion = $ini->read_var( "eZUserMain", "SelectRegion" );
 $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 $ForceSSL = $ini->read_var( "eZUserMain", "ForceSSL" );
 $AutoCookieLogin = eZHTTPTool::getVar( "AutoCookieLogin" );
+$UserPersonLink = $ini->read_var( "eZUserMain", "UserPersonLink" );
 
 $session =& eZSession::globalSession();
 
@@ -47,6 +48,13 @@ include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezcountry.php" );
 include_once( "ezaddress/classes/ezregion.php" );
 include_once( "ezmail/classes/ezmail.php" );
+
+include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/classes/ezperson.php" );
+
+//include_once( "ezaddress/classes/ezphone.php" );
+//include_once( "ezaddress/classes/ezonline.php" );
+
 
 $user =& eZUser::currentUser();
 
@@ -107,6 +115,21 @@ $t->set_block( "user_edit_tpl", "disabled_login_item_tpl", "disabled_login_item"
 $t->set_block( "user_edit_tpl", "info_item_tpl", "info_item" );
 $t->set_block( "info_item_tpl", "info_updated_tpl", "info_updated" );
 
+// company style
+$t->set_block( "user_edit_tpl", "companies_tpl", "companies" );
+$t->set_block( "user_edit_tpl", "company_name_single_tpl", "company_name_single" );
+
+// phone & address types
+$t->set_block( "user_edit_tpl", "phone_table_item_tpl", "phone_table_item" );
+$t->set_block( "phone_table_item_tpl", "phone_item_tpl", "phone_item" );
+$t->set_block( "phone_item_tpl", "phone_item_select_tpl", "phone_item_select" );
+
+$t->set_block( "user_edit_tpl", "online_table_item_tpl", "online_table_item" );
+$t->set_block( "online_table_item_tpl", "online_item_tpl", "online_item" );
+$t->set_block( "online_item_tpl", "online_item_select_tpl", "online_item_select" );
+
+$t->set_block( "address_tpl", "address_item_select_tpl", "address_item_select" );
+
 // Error templates
 $t->set_block( "errors_item_tpl", "error_login_tpl", "error_login" );
 $t->set_block( "errors_item_tpl", "error_login_exists_tpl", "error_login_exists" );
@@ -138,6 +161,8 @@ $t->set_block( "user_edit_tpl", "edit_user_info_tpl", "edit_user_info" );
 $t->set_block( "user_edit_tpl", "ok_button_tpl", "ok_button" );
 $t->set_block( "user_edit_tpl", "submit_button_tpl", "submit_button" );
 
+$t->set_block( "companies_tpl", "company_select_tpl", "company_select" );
+
 $t->set_var( "error_login", "" );
 $t->set_var( "error_login_exists", "" );
 $t->set_var( "error_first_name", "" );
@@ -159,8 +184,16 @@ $t->set_var( "error_address_street2", "" );
 
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
-$t->set_var( "company_name_value", $CompanyName );
 
+if ( ( $UserPersonLink == "enabled" ) )
+{
+  $t->set_var( "company_name_value", "");
+  $t->set_var( "company_name_single", "");
+}else{
+      $t->set_var( "companies", "" );
+      $t->set_var( "company_name_value", $CompanyName );
+      //      $t->parse( "company_name_single", "company_name_single_tpl");
+}
 
 $t->set_var( "login_value", $Login );
 $t->set_var( "email_value", $Email );
@@ -442,9 +475,73 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
     $user_insert->setEmail( $Email );
     $user_insert->setFirstName( $FirstName );
     $user_insert->setLastName( $LastName );
-    $user_insert->setCompanyName( $CompanyName );
 
+    // wont work under new users?
+    /*
+    $person = new eZPerson($PersonID);
+
+    $person->removeCompanies();
+    for ( $i = 0; $i < count( $CompanyID ); $i++ )
+    {
+         eZCompany::addPerson( $person->id(), $CompanyID[$i] );
+    }
+    */
+    //    $user_insert->setCompanyName( $CompanyName );
+    $user_insert->setCompanies( $CompanyID );
+    //    die($CompanyID[0]);
     $user_insert->setSignature( $Signature );
+
+
+    // $user_insert->setPhones($PhoneID,$PhoneTypeID,$PhoneDelete);
+    // $user_insert->setOnlines();
+
+
+    if ( !isSet( $PhoneDelete ) )
+    {
+        $PhoneDelete = array();
+    }
+    if ( !isSet( $OnlineDelete ) )
+    {
+        $OnlineDelete = array();
+    }
+
+    //die($Phone[0]);
+    
+
+    $user_insert->removePhones();
+
+    $count = max( count( $PhoneID ), count( $Phone ) );
+
+    for ( $i = 0; $i < $count; $i++ )
+    {
+
+
+	if ( !in_array( $i + 1, $PhoneDelete ) && $Phone[$i] != "" )
+	{
+	    $phone = new eZPhone( false, true );
+	    $phone->setNumber( $Phone[$i] );
+	    $phone->setPhoneTypeID( $PhoneTypeID[$i] );
+	    $phone->store();
+
+	    $user_insert->addPhone( $phone );
+	}
+    }
+
+    $user_insert->removeOnlines();
+    $count = max( count( $OnlineID ), count( $Online ) );
+    for ( $i = 0; $i < $count; $i++ )
+    {
+	if ( !in_array( $i + 1, $OnlineDelete ) && $Online[$i] != "" )
+	{
+	    $online = new eZOnline( false, true );
+	    $online->setURL( $Online[$i] );
+	    $online->setOnlineTypeID( $OnlineTypeID[$i] );
+	    $online->store();
+
+	    $user_insert->addOnline( $online );
+	}
+    }
+
 
     if ( $InfoSubscription == "on" )
         $user_insert->setInfoSubscription( true );
@@ -509,6 +606,10 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         $address->setZip( $Zip[$i] );
         $address->setPlace( $Place[$i] );
 
+
+	$address->setAddressType( $AddressTypeID[$i] );
+
+
         if ( $SelectCountry == "enabled" and isSet( $CountryID[$i] ) )
         {
             $address->setCountry( $CountryID[$i] );
@@ -551,6 +652,9 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
 
     $user_insert->loginUser( $user_insert );
 
+    //    $user_insert3 = $user_insert->loginUser( $user_insert );
+    //die($user_insert3);
+ 
     if ( $user_insert->cookieLogin() == true )
     {
         $user_insert->setCookieValues();
@@ -559,34 +663,32 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
     if ( !$new_user )
         $Updated = true;
 
-	if ( $new_user ) {
-	//	print("exit warning");
-         eZHTTPTool::header( "Location: /user/confirmation/create" );
-        exit();
-}
+    if ( $new_user ) {
+      // print("exit warning");
+      eZHTTPTool::header( "Location: /user/confirmation/create" );
+      exit();
+    }
 
-/*
 
-more ezregion originals to replace the bellow?
-
-if( $RedirectURL == "" )
+    /*
+     more ezregion originals to replace the bellow?
+     if( $RedirectURL == "" )
 		 $RedirectURL = $REQUEST_URI;
-*/
+    */
 
-			// if ( $url_array[3] == "insert" )
-// include or redirect to url ?
+    // if ( $url_array[3] == "insert" )
+    // include or redirect to url ?
 
-//            include( "ezuser/user/confirmation.php" );
-
-//        eZHTTPTool::header( "Location: /user/confirmation/create" );
-//        exit();
+    //            include( "ezuser/user/confirmation.php" );
+    //        eZHTTPTool::header( "Location: /user/confirmation/create" );
+    //        exit();
   
   
     if( $RedirectURL == "" )
     {
         $RedirectURL = $session->variable( "RedirectURL" );
     }
-    if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
+    if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) && !strstr( $RedirectURL, "1x1.gif" ) )
     {
         $session->setVariable( "RedirectURL", "$RedirectURL" );
         eZHTTPTool::header( "Location: $RedirectURL" );
@@ -635,9 +737,246 @@ if ( get_class( $user ) == "ezuser" )
         $FirstName = $user->FirstName();
     if ( !isSet( $LastName ) )
          $LastName = $user->LastName();
-    if ( !isSet( $CompanyName ) )
+
+    // if ( !isSet( $CompanyName ) && $UserPersonLink != "enabled" )
+    if ( !isSet( $CompanyName ) ) 
          $CompanyName = $user->CompanyName();
 
+    if ( ( $UserPersonLink == "enabled" ) )
+    {
+      if( get_class( $user ) == "ezuser" ) {
+
+    //######################################################
+    if ( !isSet( $personID ) )
+      $personID = $user->personID();
+
+    $top_name = $t->get_var( "intl-top_category" );
+    if ( !is_string( $top_name ) )
+      $top_name = "";
+    $companyTypeList = eZCompanyType::getTree( 0, 0, true, $top_name );
+    $categoryList = array();
+    $categoryList = eZPerson::companies( $personID, false );
+    $category_values = array_values( $categoryList );
+    $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
+    foreach ( $companyTypeList as $companyTypeItem )
+    {
+	$t->set_var( "company_name", "[" . eZTextTool::htmlspecialchars( $companyTypeItem[0]->name() ) . "]" );
+	$t->set_var( "company_id", "-1" );
+
+	$level = $companyTypeItem[1] > 0 ? str_repeat( "&nbsp;", $companyTypeItem[1] ) : "";
+	$t->set_var( "company_level", $level );
+	$t->set_var( "is_selected", "" );
+	$t->parse( "company_select", "company_select_tpl", true );
+
+	$level = str_repeat( "&nbsp;", $companyTypeItem[1] + 1 );
+	$t->set_var( "company_level", $level );
+
+	$companies = eZCompany::getByCategory( $companyTypeItem[0]->id() );
+	foreach ( $companies as $companyItem )
+	{
+	    $t->set_var( "company_name", eZTextTool::htmlspecialchars( $companyItem->name() ) );
+	    $t->set_var( "company_id", $companyItem->id() );
+	    $t->set_var( "is_selected", in_array( $companyItem->id(), $category_values ) ? "selected" : "" );
+	    $t->parse( "company_select", "company_select_tpl", true );
+	}
+    }
+
+    //######################################################
+
+      $t->set_var( "company_name_single", "" );
+      $t->parse( "companies", "companies_tpl");
+  }
+    }else{
+      $t->set_var( "companies", "" );
+      $t->set_var( "company_name_value", $CompanyName );
+      $t->parse( "company_name_single", "company_name_single_tpl");
+    }
+
+    //######################################################
+
+    $phones = $user->phones();
+    $i = 1;
+    foreach ( $phones as $phone )
+    {
+	$PhoneTypeID[$i - 1] = $phone->phoneTypeID();
+	$PhoneID[$i - 1] = $i;
+	$Phone[$i - 1] = $phone->number();
+	$i++;
+    }
+
+    $onlines = $user->onlines();
+    $i = 1;
+    foreach ( $onlines as $online )
+    {
+	$OnlineTypeID[$i - 1] = $online->onlineTypeID();
+	$OnlineID[$i - 1] = $i;
+	$Online[$i - 1] = $online->url();
+	$i++;
+    }
+
+    // ######################################################
+
+    $phone_types =& eZPhoneType::getAll();
+    $online_types =& eZOnlineType::getAll();
+    $address_types =& eZAddressType::getAll();
+
+    $PhoneMinimum = $ini->read_var( "eZContactMain", "PhoneMinimum" );
+    $OnlineMinimum = $ini->read_var( "eZContactMain", "OnlineMinimum" );
+
+    $PhoneWidth = $ini->read_var( "eZContactMain", "PhoneWidth" );
+    $OnlineWidth = $ini->read_var( "eZContactMain", "OnlineWidth" );
+
+    if ( !isSet( $PhoneDelete ) )
+    {
+	$PhoneDelete = array();
+    }
+    if ( !isSet( $OnlineDelete ) )
+    {
+	$OnlineDelete = array();
+    }
+
+
+    $t->set_var( "address_position", $i + 1 );
+    $t->set_var( "address_item_select", "" );
+
+    foreach ( $address_types as $address_type )
+    {
+	$t->set_var( "type_id", $address_type->id() );
+	$t->set_var( "type_name", eZTextTool::htmlspecialchars( $address_type->name() ) );
+	$t->set_var( "selected", "" );
+	if ( $address_type->id() == $AddressTypeID[$i] )
+	  $t->set_var( "selected", "selected" );
+	$t->parse( "address_item_select", "address_item_select_tpl", true );
+    }
+    $t->parse( "address_item", "address_item_tpl", true );
+
+
+    $personID = $user->personID();
+    $item = new eZPerson($personID);
+
+    $phones = $item->phones();
+    $i = 1;
+    foreach ( $phones as $phone )
+    {
+	$PhoneTypeID[$i - 1] = $phone->phoneTypeID();
+	$PhoneID[$i - 1] = $i;
+	$Phone[$i - 1] = $phone->number();
+	$i++;
+    }
+
+    $onlines = $item->onlines();
+    $i = 1;
+    foreach ( $onlines as $online )
+    {
+	$OnlineTypeID[$i - 1] = $online->onlineTypeID();
+	$OnlineID[$i - 1] = $i;
+	$Online[$i - 1] = $online->url();
+	$i++;
+    }
+
+    //######################################################
+    if( get_class( $user ) == "ezuser" ) {
+
+    if ( isSet( $NewPhone ) )
+    {
+	$PhoneTypeID[] = "";
+	$PhoneID[] = count( $PhoneID ) > 0 ? $PhoneID[count( $PhoneID ) - 1] + 1 : 1;
+	$Phone[] = "";
+    }
+
+    $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
+    $item = 0;
+    $last_id = 0;
+    $PhoneDeleteValues =& array_values( $PhoneDelete );
+
+    for ( $i = 0; $i < $count || $item < $PhoneMinimum; $i++ )
+    {
+	if ( ( $item % $PhoneWidth == 0 ) && $item > 0 )
+	{
+	    $t->parse( "phone_table_item", "phone_table_item_tpl", true );
+	    $t->set_var( "phone_item" );
+	}
+	if ( !isSet( $PhoneID[$i] ) or !is_numeric( $PhoneID[$i] ) )
+	  $PhoneID[$i] = ++$last_id;
+	if ( !in_array( $PhoneID[$i], $PhoneDeleteValues ) )
+	{
+	    $last_id = $PhoneID[$i];
+	    $t->set_var( "phone_number", eZTextTool::htmlspecialchars( $Phone[$i] ) );
+	    $t->set_var( "phone_id", $PhoneID[$i] );
+	    $t->set_var( "phone_index", $PhoneID[$i] );
+	    $t->set_var( "phone_position", $i + 1 );
+
+	    $t->set_var( "phone_item_select", "" );
+
+	    foreach ( $phone_types as $phone_type )
+	    {
+		$t->set_var( "type_id", $phone_type->id() );
+		$t->set_var( "type_name", eZTextTool::htmlspecialchars( $phone_type->name() ) );
+		$t->set_var( "selected", "" );
+		if ( $phone_type->id() == $PhoneTypeID[$i] )
+		  $t->set_var( "selected", "selected" );
+		$t->parse( "phone_item_select", "phone_item_select_tpl", true );
+	    }
+
+	    $t->parse( "phone_item", "phone_item_tpl", true );
+	    $item++;
+	}
+	else
+	  $PhoneDeleteValues = array_diff( $PhoneDeleteValues, array( $PhoneID[$i] ) );
+    }
+    $t->parse( "phone_table_item", "phone_table_item_tpl", true );
+ 
+    //######################################################
+
+    if ( isSet( $NewOnline ) )
+    {
+	$OnlineTypeID[] = "";
+	$OnlineID[] = count( $OnlineID ) > 0 ? $OnlineID[count( $OnlineID ) - 1] + 1 : 1;
+	$Online[] = "";
+    }
+    $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
+    $item = 0;
+    $last_id = 0;
+    $OnlineDeleteValues =& array_values( $OnlineDelete );
+    for ( $i = 0; $i < $count || $item < $OnlineMinimum; $i++ )
+    {
+	if ( ( $item % $OnlineWidth == 0 ) && $item > 0 )
+	{
+	    $t->parse( "online_table_item", "online_table_item_tpl", true );
+	    $t->set_var( "online_item" );
+	}
+	if ( !isSet( $OnlineID[$i] ) or !is_numeric( $OnlineID[$i] ) )
+	  $OnlineID[$i] = ++$last_id;
+	if ( !in_array( $OnlineID[$i], $OnlineDeleteValues ) )
+	{
+	    $last_id = $OnlineID[$i];
+	    $t->set_var( "online_value", eZTextTool::htmlspecialchars( $Online[$i] ) );
+	    $t->set_var( "online_id", $OnlineID[$i] );
+	    $t->set_var( "online_index", $OnlineID[$i] );
+	    $t->set_var( "online_position", $i + 1 );
+
+	    $t->set_var( "online_item_select", "" );
+
+	    foreach ( $online_types as $online_type )
+	    {
+		$t->set_var( "type_id", $online_type->id() );
+		$t->set_var( "type_name", eZTextTool::htmlspecialchars( $online_type->name() ) );
+		$t->set_var( "selected", "" );
+		if ( $online_type->id() == $OnlineTypeID[$i] )
+		  $t->set_var( "selected", "selected" );
+		$t->parse( "online_item_select", "online_item_select_tpl", true );
+	    }
+
+	    $t->parse( "online_item", "online_item_tpl", true );
+	    $item++;
+	}
+	else
+	  $OnlineDeleteValues = array_diff( $OnlineDeleteValues, array( $OnlineID[$i] ) );
+    }
+    $t->parse( "online_table_item", "online_table_item_tpl", true );
+}
+
+    //######################################################
 
     $cookieCheck = "";
     if ( $user->cookieLogin() == true )
@@ -690,6 +1029,11 @@ if ( get_class( $user ) == "ezuser" )
                 $Zip[$i] = $address->zip();
             if ( !isSet( $Place[$i] ) )
                 $Place[$i] = $address->place();
+	    if ( !isSet( $AddressTypeID[$i] ) )
+	      $AddressTypeID[$i] = $address->addressTypeID();
+
+
+
             if ( !isSet( $CountryID[$i] ) )
             {
                 $country = $address->country();
@@ -771,7 +1115,186 @@ $t->set_var( "email_value", $Email );
 
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
-$t->set_var( "company_name_value", $CompanyName );
+
+if ( ( $UserPersonLink == "enabled" ) )
+{
+   if( !get_class( $user ) == "ezuser" ) {
+
+//######################################################
+
+if ( !isSet( $personID ) )
+     $personID = ""; //$user->personID();
+
+     $top_name = $t->get_var( "intl-top_category" );
+     if ( !is_string( $top_name ) )
+     $top_name = "";
+     $companyTypeList = eZCompanyType::getTree( 0, 0, true, $top_name );
+     $categoryList = array();
+     $categoryList = eZPerson::companies( $personID, false );
+     $category_values = array_values( $categoryList );
+     $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
+
+     foreach ( $companyTypeList as $companyTypeItem )
+     {
+     $t->set_var( "company_name", "[" . eZTextTool::htmlspecialchars( $companyTypeItem[0]->name() ) . "]" );
+     $t->set_var( "company_id", "-1" );
+
+     $level = $companyTypeItem[1] > 0 ? str_repeat( "&nbsp;", $companyTypeItem[1] ) : "";
+     $t->set_var( "company_level", $level );
+     $t->set_var( "is_selected", "" );
+     $t->parse( "company_select", "company_select_tpl", true );
+
+     $level = str_repeat( "&nbsp;", $companyTypeItem[1] + 1 );
+     $t->set_var( "company_level", $level );
+
+     $companies = eZCompany::getByCategory( $companyTypeItem[0]->id() );
+      foreach ( $companies as $companyItem )
+      {
+       $t->set_var( "company_name", eZTextTool::htmlspecialchars( $companyItem->name() ) );
+       $t->set_var( "company_id", $companyItem->id() );
+       //$t->set_var( "is_selected", in_array( $companyItem->id(), $category_values ) ? "selected" : "" );
+       $t->parse( "company_select", "company_select_tpl", true );
+      }
+     }
+
+  //######################################################
+
+  $t->set_var( "company_name_single", "" );
+  $t->parse( "companies", "companies_tpl");
+}
+}else{
+  $t->set_var( "companies", "" );
+  $t->set_var( "company_name_value", $CompanyName );
+  $t->parse( "company_name_single", "company_name_single_tpl");
+}
+
+if( !get_class( $user ) == "ezuser" ) {
+
+$phone_types =& eZPhoneType::getAll();
+$online_types =& eZOnlineType::getAll();
+
+$address_types =& eZAddressType::getAll();
+
+$PhoneMinimum = $ini->read_var( "eZContactMain", "PhoneMinimum" );
+$OnlineMinimum = $ini->read_var( "eZContactMain", "OnlineMinimum" );
+
+$PhoneWidth = $ini->read_var( "eZContactMain", "PhoneWidth" );
+$OnlineWidth = $ini->read_var( "eZContactMain", "OnlineWidth" );
+
+
+if ( !isSet( $PhoneDelete ) )
+{
+  $PhoneDelete = array();
+}
+if ( !isSet( $OnlineDelete ) )
+{
+  $OnlineDelete = array();
+}
+
+//######################################################
+
+if ( isSet( $NewPhone ) )
+{
+  $PhoneTypeID[] = "";
+  $PhoneID[] = count( $PhoneID ) > 0 ? $PhoneID[count( $PhoneID ) - 1] + 1 : 1;
+  $Phone[] = "";
+}
+
+$count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
+$item = 0;
+$last_id = 0;
+$PhoneDeleteValues =& array_values( $PhoneDelete );
+
+for ( $i = 0; $i < $count || $item < $PhoneMinimum; $i++ )
+{
+  if ( ( $item % $PhoneWidth == 0 ) && $item > 0 )
+    {
+      $t->parse( "phone_table_item", "phone_table_item_tpl", true );
+      $t->set_var( "phone_item" );
+    }
+  if ( !isSet( $PhoneID[$i] ) or !is_numeric( $PhoneID[$i] ) )
+    $PhoneID[$i] = ++$last_id;
+  if ( !in_array( $PhoneID[$i], $PhoneDeleteValues ) )
+    {
+      $last_id = $PhoneID[$i];
+      $t->set_var( "phone_number", eZTextTool::htmlspecialchars( $Phone[$i] ) );
+      $t->set_var( "phone_id", $PhoneID[$i] );
+      $t->set_var( "phone_index", $PhoneID[$i] );
+      $t->set_var( "phone_position", $i + 1 );
+
+      $t->set_var( "phone_item_select", "" );
+
+      foreach ( $phone_types as $phone_type )
+	{
+	  $t->set_var( "type_id", $phone_type->id() );
+	  $t->set_var( "type_name", eZTextTool::htmlspecialchars( $phone_type->name() ) );
+	  $t->set_var( "selected", "" );
+	  if ( $phone_type->id() == $PhoneTypeID[$i] )
+	    $t->set_var( "selected", "selected" );
+	  $t->parse( "phone_item_select", "phone_item_select_tpl", true );
+	}
+
+      $t->parse( "phone_item", "phone_item_tpl", true );
+      $item++;
+    }
+  else
+    $PhoneDeleteValues = array_diff( $PhoneDeleteValues, array( $PhoneID[$i] ) );
+}
+$t->parse( "phone_table_item", "phone_table_item_tpl", true );
+
+
+//######################################################
+
+if ( isSet( $NewOnline ) )
+{
+  $OnlineTypeID[] = "";
+  $OnlineID[] = count( $OnlineID ) > 0 ? $OnlineID[count( $OnlineID ) - 1] + 1 : 1;
+  $Online[] = "";
+}
+$count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
+$item = 0;
+$last_id = 0;
+$OnlineDeleteValues =& array_values( $OnlineDelete );
+for ( $i = 0; $i < $count || $item < $OnlineMinimum; $i++ )
+{
+  if ( ( $item % $OnlineWidth == 0 ) && $item > 0 )
+    {
+      $t->parse( "online_table_item", "online_table_item_tpl", true );
+      $t->set_var( "online_item" );
+    }
+  if ( !isSet( $OnlineID[$i] ) or !is_numeric( $OnlineID[$i] ) )
+    $OnlineID[$i] = ++$last_id;
+  if ( !in_array( $OnlineID[$i], $OnlineDeleteValues ) )
+    {
+      $last_id = $OnlineID[$i];
+      $t->set_var( "online_value", eZTextTool::htmlspecialchars( $Online[$i] ) );
+      $t->set_var( "online_id", $OnlineID[$i] );
+      $t->set_var( "online_index", $OnlineID[$i] );
+      $t->set_var( "online_position", $i + 1 );
+
+      $t->set_var( "online_item_select", "" );
+
+      foreach ( $online_types as $online_type )
+	{
+	  $t->set_var( "type_id", $online_type->id() );
+	  $t->set_var( "type_name", eZTextTool::htmlspecialchars( $online_type->name() ) );
+	  $t->set_var( "selected", "" );
+	  if ( $online_type->id() == $OnlineTypeID[$i] )
+	    $t->set_var( "selected", "selected" );
+	  $t->parse( "online_item_select", "online_item_select_tpl", true );
+	}
+
+      $t->parse( "online_item", "online_item_tpl", true );
+      $item++;
+    }
+  else
+    $OnlineDeleteValues = array_diff( $OnlineDeleteValues, array( $OnlineID[$i] ) );
+}
+$t->parse( "online_table_item", "online_table_item_tpl", true );
+
+}
+//######################################################
+
 
 $t->set_var( "is_cookie_selected", "$cookieCheck" );
 
@@ -827,13 +1350,18 @@ if ( $SelectRegion == "enabled" and isset( $RegionID[$i] ) ) {
     {
 	if ( $RegionID[$i] ) {
                 //      $regionList =& eZRegion::get($i);
-                 $regionList =& eZRegion::getAllArrayByCountry($country_id);
+                // $regionList =& eZRegion::getAllArrayByCountry($country_id);
+                $regionList =& eZRegion::getCountryArray($country_id);
 	}else {	
-                        $regionList =& eZRegion::getAllArrayByCountry($country_id);
-//                      $regionList =& eZRegion::getAllArray();
+                // $regionList =& eZRegion::getAllArrayByCountry($country_id);
+		// $regionList =& eZRegion::getAllArray();
+                $regionList =& eZRegion::getCountryArray($country_id);
                 }
             }
-        $regionList =& eZRegion::getAllArrayByCountry($country_id);
+
+// error with bob's version?
+//        $regionList =& eZRegion::getAllByCountry($country_id);
+$regionList =& eZRegion::getCountryArray($country_id);
 
 
 }
@@ -847,7 +1375,10 @@ if ( !isSet($AddressID) ) {
 		foreach ( $countryList as $country )
                 {
 			if ( $country["ID"] == $CountryID[$i] ) {
-			        $regionList =& eZRegion::getAllArrayByCountry($country["ID"]);
+        // $regionList =& eZRegion::getAllArrayByCountry($country["ID"]);
+	   $regionList =& eZRegion::getCountryArray($country["ID"]);
+
+
 			}else {
 				$regionList =& eZRegion::getAllArray();
 			}
@@ -868,7 +1399,7 @@ if ( $SelectRegion == "enabled" ) {
 		//	$regionList =& eZRegion::get($i);
 		 $regionList =& eZRegion::getAllArrayByCountry($country_id);
 		}else {	
- 			$regionList =& eZRegion::getAllArrayByCountry($country_id);
+ 		 $regionList =& eZRegion::getAllArrayByCountry($country_id);
 //			$regionList =& eZRegion::getAllArray();
 	}
     }
@@ -969,6 +1500,23 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
             $t->set_var( "zip_value", $Zip[$i] );
             $t->set_var( "place_value", $Place[$i] );
             
+	    $t->set_var( "address_index", $AddressID[$i] );
+	    $t->set_var( "address_position", $i + 1 );
+
+	    $t->set_var( "address_item_select", "" );
+
+	    foreach ( $address_types as $address_type )
+	      {
+		$t->set_var( "type_id", $address_type->id() );
+		$t->set_var( "type_name", eZTextTool::htmlspecialchars( $address_type->name() ) );
+		$t->set_var( "selected", "" );
+		// debug : print( $address_type->id() ." --- ". $AddressTypeID[$i] ."<br />");
+ 
+		if ( $address_type->id() == $AddressTypeID[$i] )
+		  $t->set_var( "selected", "selected" );
+		$t->parse( "address_item_select", "address_item_select_tpl", true );
+	      }
+
             $t->set_var( "country", "" );
             if ( $SelectCountry == "enabled" )
             {
@@ -987,8 +1535,8 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
 
             if ( $SelectRegion == "enabled" )
             {
-//				$regionList =& eZRegion::getCountryArray($CountryID[$i]);
-                              $regionList =& eZRegion::getAllArrayByCountry($CountryID[$i]);
+				$regionList =& eZRegion::getCountryArray($CountryID[$i]);
+//                              $regionList =& eZRegion::getAllArrayByCountry($CountryID[$i]);
 
 
 // $regionList =& eZRegion::getAllArray();
@@ -1034,10 +1582,6 @@ $t->set_var( "region_line", "" );
 		
 								
             }
-/*
-kjdf
-*/
-
 
 // Old Code ... Pleast Test to Remove
 
@@ -1072,6 +1616,7 @@ kjdf
 $t->set_var( "global_section_id", $GlobalSectionID );
 
 $t->set_var( "user_id", $userID );
+$t->set_var( "person_id", $personID );
 
 $t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
 

@@ -1,3 +1,8 @@
+ 
+<!-- BEGIN person_search_item_tpl -->
+<!--
+ <h1>{intl-person_list_headline}</h1>
+
 <form action="{www_dir}{index}/contact/search/person/" method="get">
 <table width="100%" border="0">
 <tr>
@@ -11,7 +16,10 @@
 </tr>
 </table>
 </form>
+--> 
+<!-- END person_search_item_tpl -->
 
+<!--
 <hr noshade="noshade" size="4" />
 
 <form action="{www_dir}{index}/contact/person/list/" method="post">
@@ -26,6 +34,7 @@
 
 <hr noshade="noshade" size="4" />
 <br />
+-->
 
 <!--
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -71,9 +80,11 @@
 <!-- BEGIN person_table_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-person_name}:</th>
+	<th align="left">{intl-person_name}:</th>
+<!--
 	<th>{intl-state}:</th>
 	<th colspan="2">&nbsp;</th>
+-->
 </tr>
 
 <!-- BEGIN person_item_tpl -->
@@ -88,15 +99,20 @@
 	</td>
 
 	<!-- BEGIN person_state_tpl -->
-	<td>
+
+<!--
+	<td align="center">
         {person_state}
 	</td>
+-->
 	<!-- END person_state_tpl -->
 
 	<!-- BEGIN no_person_state_tpl -->
-	<td>
+<!--
+	<td align="center">
         {intl-no_state}
 	</td>
+-->
 	<!-- END no_person_state_tpl -->
 
         <!-- BEGIN image_item_tpl -->

@@ -3,18 +3,31 @@
         <td valign="bottom">
         <h1>{intl-view_headline}</h1>
         </td>
+	<!-- BEGIN person_search_item_tpl -->
         <td rowspan="2" align="right">
         <form action="{www_dir}{index}/contact/search/person/" method="get">
         <input type="text" name="SearchText" size="12" />       
         <input class="stdbutton" type="submit" value="{intl-search}" />
         </form> 
         </td>
+        <!-- END person_search_item_tpl -->
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
+<!--
+<style>
+.dr
+{
+        text-align: center;
+        margin: 1em auto 0;
+        padding: 1px 0 0; /* 17-16 */
+        width: 88%;
+}
+.dr HR { width: 0; line-height: 16px; margin-right: 100%; }
+</style>
+<hr class="dr" noshade="noshade" size="4" />
 <br />
+-->
 
 <!-- BEGIN image_item_tpl -->
 <img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
@@ -23,47 +36,48 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-name_headline}:</p>
-	<span class="p">{firstname} {lastname}</span>
+	<span class="boxtext">{intl-name_headline}:</span>&nbsp;<span class="p">{firstname} {lastname}</span>
 	</td>
 
+	<!-- BEGIN birth_date_item_tpl -->
 	<td>
-	<p class="boxtext">{intl-birthday_headline}: </p>
+	<span class="boxtext">{intl-birthday_headline}: </span>
 	<!-- BEGIN birth_item_tpl -->
-	<span class="p">{birthdate}</span>
+	&nbsp;<span class="p">{birthdate}</span>
 	<!-- END birth_item_tpl -->
 	<!-- BEGIN no_birth_item_tpl -->
 	<span class="p">{intl-no_birthday}</span>
 	<!-- END no_birth_item_tpl -->
 	</td>
+	<!-- END birth_date_item_tpl -->
 </tr>
 </table>
 
 <p class="boxtext">{intl-companies}</p>
 
 <!-- BEGIN company_item_tpl -->
-
-<a href="{www_dir}{index}/contact/company/view/{company_id}/">{company_name}</a><br />
-
+<a href="{www_dir}{index}/contact/company/view/{company_id}/">{company_name}</a>
+<br />
 <!-- END company_item_tpl -->
-<br />
 
+<!-- BEGIN description_item_tpl -->
 <p class="boxtext">{intl-description_headline}:</p>
-<div class="p">{description}</div>
+<span class="p">{description}</span>
 <br />
+<!-- END description_item_tpl -->
 
 <!-- BEGIN address_item_tpl -->
 <p class="boxtext">{intl-addresses_headline}</p>
-<br />
+
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <!-- BEGIN address_line_tpl -->
 	<td>
 	<p class="boxtext">{address_type_name}:</p>
-	<div class="p">{street1}</div>
-	<div class="p">{street2}</div>
-	<div class="p">{zip} {place}</div>
-	<div class="p">{country}</div>
+	<span class="p">{street1}</span><br />
+	<span class="p">{street2}</span><br />
+	<span class="p">{zip} {place}</span><br />
+	<span class="p">{country}</span><br />
 	</td>
 <!-- END address_line_tpl -->
 </tr>
@@ -74,16 +88,13 @@
 <p>{intl-error_no_addresses}</p>
 <!-- END no_address_item_tpl -->
 
-
 <p class="boxtext">{intl-telephone_headline}</p>
 <!-- BEGIN phone_item_tpl -->
-<br />
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="position: relative; top: +1px;">
 <tr>
 <!-- BEGIN phone_line_tpl -->
 	<td valign="top">
-	<p class="boxtext">{phone_type_name}:</p>
-	{phone}
+	<span style="top 5px;" class="boxtext">{phone_type_name}:</span> {phone}
 	</td>
 <!-- END phone_line_tpl -->
 </tr>
@@ -97,13 +108,11 @@
 
 <p class="boxtext">{intl-online_headline}</p>
 <!-- BEGIN online_item_tpl -->
-<br />
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
+<table width="100%" cellpadding="2" cellspacing="0" border="0" style="position: relative; top: +1px;">
 <tr>
 <!-- BEGIN online_line_tpl -->
 	<td>
-	<p class="boxtext">{online_type_name}:</p>
-	<a href="{www_dir}{index}{online_prefix}{online}">{online_visual_prefix}{online}</a>
+	<span class="boxtext">{online_type_name}:</span> <a href="{www_dir}{index}{online_prefix}{online}">{online_visual_prefix}{online}</a>
 	</td>
 <!-- END online_line_tpl -->
 </tr>
@@ -113,6 +122,8 @@
 <p>{intl-error_no_onlines}</p>
 <!-- END no_online_item_tpl -->
 
+
+<!-- BEGIN project_status_item_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="100%">
@@ -121,12 +132,14 @@
 	{project_status}
 	<!-- END project_status_tpl -->
 	<!-- BEGIN no_project_status_tpl -->
-	{intl-no_project_status}
+	<p>{intl-no_project_status}</p>
 	<!-- END no_project_status_tpl -->
 	<br /><br />
 	</td>
 </tr>
 </table>
+<!-- END project_status_item_tpl-->
+
 
 <!-- BEGIN consultation_table_item_tpl -->
 <h2>{intl-consultation_headline}</h2>
@@ -216,17 +229,15 @@
 </tr>
 <!-- END mail_item_tpl -->
 </table>
-
 <!-- END mail_table_item_tpl -->
 
-
 <form method="post" action="{www_dir}{index}/contact/person/edit/{person_id}/">
-
+<!-- BEGIN consultation_buttons_tpl -->
 <hr noshade="noshade" size="4" />
 
-<!-- BEGIN consultation_buttons_tpl -->
 <input class="stdbutton" type="submit" name="ListConsultation" value="{intl-consultation_list}">
 <input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
+
 <!-- BEGIN file_button_tpl -->
 <input class="stdbutton" type="submit" name="FileButton" value="{intl-files}">
 <!-- END file_button_tpl -->
@@ -236,8 +247,11 @@
 <!-- BEGIN mail_button_tpl -->
 <input class="stdbutton" type="submit" name="MailButton" value="{intl-mail}">
 <!-- END mail_button_tpl -->
-<!-- END consultation_buttons_tpl -->
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN edit_person_button_tpl -->
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
+<!-- END edit_person_button_tpl -->
+<!-- END consultation_buttons_tpl -->
+
 </form>

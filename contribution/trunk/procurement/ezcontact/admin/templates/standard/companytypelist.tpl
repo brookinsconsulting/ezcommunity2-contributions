@@ -1,38 +1,71 @@
 <!-- BEGIN list_tpl -->
-<form action="{www_dir}{index}/contact/search/company/" method="get">
+<!--
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td rowspan="2" valign="bottom">
 	    <h1>{intl-headline_list}</h1>
 	</td>
+	<!-- BEGIN company_search_item_tpl -->
+	<form action="{www_dir}{index}/contact/search/company/" method="get">
   	<td align="right">
   	    	<input type="text" name="SearchText" size="12" />
 		<input class="stdbutton" type="submit" value="{intl-search}" />
   	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
   	</td>
+	</form>
+	<!-- END company_search_item_tpl -->
 </tr>
 </table>
-</form>
-
+-->
 <!-- END list_tpl -->
+
 <!-- BEGIN view_tpl -->
 <h1>{intl-headline_view}</h1>
 <!-- END view_tpl -->
 
 <!-- BEGIN path_tpl -->
 
-<hr noshade="noshade" size="4" />
+<!-- 
+<style>
+.dr
+{
+        text-align: center;
+        margin: 1em auto 0;
+        padding: 1px 0 0; /* 17-16 */
+        width: 88%;
+}
+.dr2
+{
+        text-align: center;
+        padding: 10px 0 0; /* 17-16 */
+        width: 39%;
+	line-height: 16px; 
+	margin-right: 100%; 
+}
+.dr HR { width: 0; line-height: 16px; margin-right: 100%; }
+</style>
+<hr class="dr" noshade="noshade" size="4" />
 
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+-->
 
-<a class="path" href="{www_dir}{index}/contact/{command_type}/list/0">{intl-root_category}</a>
+<span class="subdiv">
+&nbsp; <a class="subdiv" href="{www_dir}{index}/contact/{command_type}/list/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
+<!--
 <img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="{www_dir}{index}/contact/{command_type}/list/{parent_id}">{parent_name}</a>
+-->
+<span class="subdiv">/</span>
+<a class="subdiv" href="{www_dir}{index}/contact/{command_type}/list/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
+</span>
 
-<hr noshade="noshade" size="4" />
+<!--
+<hr class="dr" noshade="noshade" size="4" />
+-->
+
+<!-- BEGIN company_tool_bar_incomplete -->
 <!--
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -67,11 +100,16 @@
 </tr>
 </table>
 -->
+
+<!-- END company_tool_bar_incomplete -->
+
 <!-- END path_tpl -->
 
 <!-- BEGIN current_type_tpl -->
+
 <!-- <h2>{current_name}</h2>
 <p>{current_description}</p> -->
+
 <!-- BEGIN image_item_tpl -->
 <!-- <p class="boxtext">{intl-th_type_current_image}:</p> -->
 <p><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /></p>
@@ -130,8 +168,10 @@
 <!-- END type_list_tpl -->
 
 <!-- BEGIN no_type_item_tpl -->
+<!--
 <h2>{intl-headline_no_types}</h2>
 {intl-error_no_types}
+-->
 <!-- END no_type_item_tpl -->
 
 
@@ -154,7 +194,7 @@
 <!-- BEGIN companies_table_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-name}:</th>
+	<th align="left">{intl-name}:</th>
 	<th>&nbsp;</th>
 	<!-- BEGIN company_stats_header_tpl -->
 	<th>{intl-views}:</th>
@@ -166,7 +206,7 @@
 	<td class="{td_class}">
 	<!-- BEGIN company_view_button_tpl -->
 	<a href="{www_dir}{index}/contact/company/view/{company_id}">{company_name}</a>
-	<!-- END company_view_button_tpl -->
+	<!-- END companBy_view_button_tpl -->
 	<!-- BEGIN no_company_view_button_tpl -->
 	{company_name}
 	<!-- END no_company_view_button_tpl -->

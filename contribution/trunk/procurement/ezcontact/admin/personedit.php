@@ -47,6 +47,12 @@ include_once( "ezuser/classes/ezpermission.php" );
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle )
 {
+  $meaningLess='1';
+}
+
+/*
+function deleteCache( $siteStyle )
+{
     unlinkWild( "./ezcalendar/user/cache/", "monthview.tpl-$siteStyle-*" );
 }
 
@@ -61,6 +67,7 @@ function unlinkWild( $dir, $rege )
         }
     }
 }
+*/
 
 $user =& eZUser::currentUser();
 
@@ -77,9 +84,14 @@ else
 
 if ( get_class( $user ) != "ezuser" )
 {
+  /* 
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
+  */
+
+  $user = new eZUser(2);
+
 }
 
 if ( isSet( $BuyButton ) )
@@ -535,7 +547,9 @@ if ( !$confirm )
     }
     else
     {
-        $Action = "formdata";
+      //kracker: why is $error (by default) returning true?
+       $Action = "formdata";
+      // $Action = "update";
     }
 
     if ( ( $Action == "insert" || $Action == "update" ) && !$error && isSet( $OK ) )
@@ -636,10 +650,17 @@ if ( !$confirm )
             {
                 $person->setNoBirthDay();
             }
-//              $person->setContact( $ContactID );
+
+            if ( $ContactPersonType == "ezperson" )
+                $person->setPersonContact( $ContactID );
+            else
+                $person->setContact( $ContactID );
+
+            // $person->setContact( $ContactID );
+
             $person->setComment( $Comment );
 
-     // Upload images
+            // Upload images
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "ImageFile" ) )
             {
@@ -785,8 +806,24 @@ if ( !$confirm )
                 $BirthMonth = 1;
                 $BirthDay = 1;
             }
+
+	    /*
+             $ContactID = $person->contact();
+             $ContactID = new eZUser($ContactID);
+             xxxxxx
+	    */
+
+	    /*
+            if ( $ContactPersonType == "ezperson" )
+                $company->setPersonContact( $ContactID );
+            else
+                $company->setContact( $ContactID );
+	     */
+
             $Comment = $person->comment();
-/*            $image =& $person->image();
+
+	    /*
+            $image =& $person->image();
             if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
             {
                 $imageWidth =& $ini->read_var( "eZContactMain", "PersonImageWidth" );
@@ -801,7 +838,8 @@ if ( !$confirm )
                 $t->set_var( "image_url", $imageURL );
                 $t->set_var( "image_caption", $imageCaption );
                 $t->parse( "image_item", "image_item_tpl" );
-            }*/
+            }
+	    */
         }
 
         $addresses = $item->addresses();
@@ -1264,6 +1302,77 @@ if ( !$confirm )
             $t->parse( "project_contact_item", "project_contact_item_tpl" );
         }
 
+        // ##########################################################################
+
+        if ( $PersonEdit )
+	  {
+            $t->set_var( "user_search", eZTextTool::htmlspecialchars( $UserSearch ) );
+
+            $users = array();
+            if ( $ContactGroupID == -1 )
+	      {
+                $users =& eZUser::getAll( "name", true, $UserSearch );
+	      }
+            else if ( $ContactGroupID == -3 )
+	      {
+                $users =& eZPerson::getAll( $UserSearch, 0, -1 );
+	      }
+            else if ( $ContactGroupID < 1 )
+	      {
+                if ( is_numeric( $ContactID ) and $ContactID > 0 )
+		  {
+                    if ( $ContactType == "ezperson" )
+		      $contact = new eZPerson( $ContactID );
+                    else
+		      $contact = new eZUser( $ContactID );
+                    $users[] = $contact;
+		  }
+	      }
+            else
+	      {
+                $group = new eZUserGroup();
+                $users =& $group->users( $ContactGroupID, "name", $UserSearch );
+	      }
+            foreach ( $users as $contact )
+	      {
+                if ( get_class( $contact ) == "ezuser" ||
+                     get_class( $contact ) == "ezperson" )
+		  {
+                    $t->set_var( "type_id", $contact->id() );
+                    $t->set_var( "type_firstname", eZTextTool::htmlspecialchars( $contact->firstName() ) );
+                    $t->set_var( "type_lastname", eZTextTool::htmlspecialchars( $contact->lastName() ) );
+                    $t->set_var( "selected", "" );
+                    if ( $ContactID == $contact->id() )
+		      $t->set_var( "selected", "selected" );
+		  }
+                $t->parse( "contact_item_select", "contact_item_select_tpl", true );
+	      }
+            if ( count( $users ) > 0 )
+	      $t->set_var( "contact_person_type", get_class( $users[0] ) == "ezuser" ? "ezuser" : "ezperson" );
+            else
+	      $t->set_var( "contact_person_type", "" );
+
+            $t->set_var( "none_selected", "" );
+            $t->set_var( "all_selected", "" );
+            $t->set_var( "persons_selected", "" );
+            if ( $ContactGroupID == -1 )
+	      {
+                $t->set_var( "all_selected", "selected" );
+	      }
+            else if ( $ContactGroupID == -3 )
+	      {
+                $t->set_var( "persons_selected", "selected" );
+	      }
+            else if ( $ContactGroupID < 1 )
+	      {
+                $t->set_var( "none_selected", "selected" );
+	      }
+
+            $t->parse( "project_contact_item", "project_contact_item_tpl" );
+	  }
+
+	// ##########################################################################
+
         $t->set_var( "project_item_select", "" );
         $project_types =& eZProjectType::findTypes();
         foreach ( $project_types as $project_type )
@@ -1345,6 +1454,8 @@ if ( !$confirm )
 
     if ( !$error )
         $t->set_var( "action_value", $Action );
+
+    //    $t->set_var( "action_value", $Action );
 
     $t->parse( "edit_item", "edit_tpl" );
 }

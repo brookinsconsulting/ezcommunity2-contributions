@@ -62,6 +62,11 @@ class eZPerson
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
+
+	$userID = "NULL";
+        if ( isSet( $this->UserID ) and $this->UserID != "" )
+            $userID = $this->UserID;
+
         $birth = "NULL";
         if ( isSet( $this->BirthDate ) and $this->BirthDate != "" )
             $birth = "$this->BirthDate";
@@ -78,6 +83,7 @@ class eZPerson
                                    LastName,
                                    Comment,
                                    BirthDate,
+                                   UserID,
                                    ContactTypeID)
                                   VALUES
                                   ('$this->ID',
@@ -85,6 +91,7 @@ class eZPerson
                                    '$lastname',
                                    '$comment',
                                    '$birth',
+                                   '$userID',
                                    '$this->ContactType')" );
             $db->unlock();
             $firstname = strtolower( $firstname );
@@ -105,6 +112,7 @@ class eZPerson
                                           LastName='$lastname',
 	                                      Comment='$comment',
 	                                      BirthDate=$birth,
+                                              UserID=$userID,
                                           ContactTypeID='$this->ContactType'
                                           WHERE ID='$this->ID'" );
             $firstname = strtolower( $firstname );
@@ -214,6 +222,7 @@ class eZPerson
                 $this->ContactType = $person_array[ 0 ][ $db->fieldName( "ContactTypeID" ) ];
                 $this->BirthDate = $person_array[ 0 ][ $db->fieldName( "BirthDate" ) ];
                 $this->Comment = $person_array[ 0 ][ $db->fieldName( "Comment" ) ];
+		$this->UserID = $person_array[ 0 ][ $db->fieldName( "UserID" ) ];
             }
             if ( $this->BirthDate == "NULL" )
                 unset( $this->BirthDate );
@@ -342,7 +351,7 @@ class eZPerson
                 {
                     $qry = "SELECT Person.ID
                             FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
-                            ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NULL
+                            ON Person.ID=Dict.PersonID WHERE Person.ID != 1 And Dict.CompanyID IS NULL
                             GROUP BY Person.ID";
                     break;
                 }
@@ -350,14 +359,14 @@ class eZPerson
                 {
                     $qry = "SELECT Person.ID
                             FROM eZContact_Person AS Person LEFT JOIN eZContact_CompanyPersonDict AS Dict
-                            ON Person.ID=Dict.PersonID WHERE Dict.CompanyID IS NOT NULL
+                            ON Person.ID=Dict.PersonID WHERE  Person.ID != 1 And Dict.CompanyID IS NOT NULL
                             GROUP BY Person.ID";
                     break;
                 }
                 case "all":
                 default:
                 {
-                    $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName";
+                    $qry = "SELECT ID FROM eZContact_Person Where ID <> 1 ORDER BY LastName, FirstName";
                     break;
                 }
             }
@@ -550,7 +559,7 @@ class eZPerson
        
         $db =& eZDB::globalDatabase();
         if ( get_class( $phone ) == "ezphone" )
-        {
+	  {
             $phoneID = $phone->id();
 
             $checkQuery = "SELECT PersonID FROM eZContact_PersonPhoneDict WHERE PhoneID='$phoneID'";
@@ -862,6 +871,14 @@ class eZPerson
     }
 
     /*!
+      Set the userID for this person to $value.
+    */
+    function setUserID($value)
+    {
+      $this->UserID = $value;
+    }
+
+    /*!
         Set the contact for this object to $value.
      */
     function setContact( $value )
@@ -931,6 +948,14 @@ class eZPerson
     function comment()
     {
         return $this->Comment;
+    }
+
+    /*!
+      Returns the UserID for this person.
+    */
+    function userID()
+    {
+      return $this->UserID;
     }
 
     /*!
@@ -1014,6 +1039,21 @@ class eZPerson
         eZDB::finish( $res, $db );
     }
 
+    /*
+      Adds Companies
+    */
+    function addCompanies($CompanyID)
+    {
+	$person = new eZPerson($this->ID);
+	$person->removeCompanies();
+	for ( $i = 0; $i < count( $CompanyID ); $i++ )
+	{
+	    eZCompany::addPerson( $person->id(), $CompanyID[$i] );
+	}
+
+	return true;
+    }
+
     /*!
       Returns an array of companies this person is related to.
     */
@@ -1046,12 +1086,233 @@ class eZPerson
         return $ret;
     }
 
+    //######################################################################################
+    /*!
+      Adds a image to the current
+    */
+    function addImage( &$image )
+      {
+        $ret = false;
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        if ( get_class( $image ) == "ezimage" )
+	  {
+            $imageID =& $image->id();
+
+            $res[] = $db->query( "INSERT INTO eZContact_CompanyImageDict
+                                  (CompanyID, ImageID)
+                                  VALUES
+                                  ('$this->ID', '$imageID')" );
+	  }
+	eZDB::finish( $res, $db );
+      }
+
+    /*!
+      Returns every image to a product as a array of eZImage objects.
+    */
+    function &images()
+      {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $image_array = array();
+
+        $db->array_query( $image_array, "SELECT ImageID FROM eZContact_CompanyImageDict WHERE CompanyID='$this->ID'" );
+
+        for ( $i = 0; $i < count( $image_array ); $i++ )
+	  {
+            $return_array[$i] =& new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
+	  }
+
+        return $return_array;
+      }
+
+    /*!
+      Delete all images for this company.
+    */
+    function removeImages()
+      {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
+	eZDB::finish( $res, $db );
+      }
+
+    //######################################################################################
+
+
+    /*!
+      Returns the logo image of the company as a eZImage object.
+    */
+    function logoImage( $id = false )
+      {
+        if ( !$id )
+	  $id = $this->ID;
+
+        $ret = false;
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+                                       WHERE CompanyID='$id'" );
+
+        if ( count( $res_array ) == 1 )
+	  {
+            if ( $res_array[0][$db->fieldName( "LogoImageID" )] != "NULL"
+		 and $res_array[0][$db->fieldName( "LogoImageID" )] != "0" )
+	      {
+                $ret = new eZImage( $res_array[0][$db->fieldName( "LogoImageID" )], false );
+	      }
+	  }
+        return $ret;
+      }
+
+    /*!
+      Sets the logo image for the company.
+
+      The argument must be a eZImage object.
+    */
+    function setLogoImage( &$image, $id = false )
+      {
+        if ( !$id )
+	  $id = $this->ID;
+
+        if ( get_class( $image ) == "ezimage" )
+	  {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+
+            $imageID =& $image->id();
+
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
+                                           WHERE CompanyID='$id'" );
+
+            if ( $res_array[0][ $db->fieldName( "Number" ) ] == "1" )
+	      {
+                $res[] = $db->query( "UPDATE eZContact_CompanyImageDefinition
+                                      SET
+                                      LogoImageID='$imageID'
+                                      WHERE
+                                      CompanyID='$id'" );
+	      }
+            else
+	      {
+                $res[] = $db->query( "INSERT INTO eZContact_CompanyImageDefinition
+                                      (CompanyID, LogoImageID)
+                                      VALUES
+                                      ('$id', '$imageID')" );
+	      }
+	    eZDB::finish( $res, $db );
+	  }
+      }
+
+
+    /*!
+      Deletes the image for the company.
+    */
+    function deleteImage( $id = false )
+      {
+        if ( !$id )
+	  $id = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "UPDATE eZContact_CompanyImageDefinition
+                              SET CompanyImageID='0' WHERE CompanyID='$id'" );
+	eZDB::finish( $res, $db );
+      }
+
+    /*!
+      Deletes the logo for the company.
+    */
+    function deleteLogo( $id = false )
+      {
+        if ( !$id )
+	  $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "UPDATE eZContact_CompanyImageDefinition
+                              SET LogoImageID='0' WHERE CompanyID='$id'" );
+	eZDB::finish( $res, $db );
+      }
+
+
+
+    /*!
+      Sets the company image for the company.
+
+      The argument must be a eZImage object.
+    */
+    function setCompanyImage( &$image, $id = false )
+      {
+        if ( !$id )
+	  $id = $this->ID;
+
+        if ( get_class( $image ) == "ezimage" )
+	  {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+
+            $imageID =& $image->id();
+
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
+                                           WHERE CompanyID='$id'" );
+
+            if ( $res_array[0][$db->fieldName( "Number" )] == "1" )
+	      {
+                $res[] = $db->query( "UPDATE eZContact_CompanyImageDefinition
+                                      SET
+                                      CompanyImageID='$imageID'
+                                      WHERE
+                                      CompanyID='$id'" );
+	      }
+            else
+	      {
+                $res[] = $db->query( "INSERT INTO eZContact_CompanyImageDefinition
+                                      (CompanyID, CompanyImageID)
+                                      VALUES
+                                      ('$id', '$imageID')" );
+	      }
+	    eZDB::finish( $res, $db );
+	  }
+      }
+
+
+
+    /*!
+      Returns the image of the company as a eZImage object.
+    */
+    function companyImage( $id = false )
+      {
+        if ( !$id )
+	  $id = $this->ID;
+        $ret = false;
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+                                       WHERE CompanyID='$id'" );
+
+        if ( count( $res_array ) == 1 )
+	  {
+            if ( $res_array[0][$db->fieldName( "CompanyImageID" )] != "NULL"
+		 and $res_array[0][$db->fieldName( "CompanyImageID" )] != "0" )
+	      {
+                $ret = new eZImage( $res_array[0][$db->fieldName( "CompanyImageID" )], false );
+	      }
+	  }
+
+        return $ret;
+      }
+
+
+    //######################################################################################
+
     var $ID;
     var $FirstName;
     var $LastName;
     var $BirthDate;  
     var $ContactType;
     var $Comment;
+    var $UserID;
 };
 
 ?>

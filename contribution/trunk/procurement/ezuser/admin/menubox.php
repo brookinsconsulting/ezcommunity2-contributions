@@ -27,7 +27,7 @@
 
 $menuItems = array(
 
-    array( "/user/ingroup/3", "{intl-nsb_rfp}" ),
+    array( "/user/ingroup/5", "{intl-nsb_rfp}" ),
 //    array( "/user/userlist/", "{intl-userlist}" ),
     array( "/user/useredit/new/", "{intl-newuser}" ),
 //    array( "/user/authorlist/", "{intl-authorlist}" ),

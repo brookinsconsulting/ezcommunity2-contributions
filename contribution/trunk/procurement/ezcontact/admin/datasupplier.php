@@ -222,6 +222,8 @@ switch ( $ListType )
 
     case "person":
     {
+        $PersonEdit = true;
+
         $PersonID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )

@@ -48,11 +48,17 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
+
 if ( get_class( $user ) != "ezuser" )
 {
+  /*
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
+  */
+  
+  $user = new eZUser(2);
+
 }
 
 if ( !eZPermission::checkPermission( $user, "eZContact", "PersonList" ) )
@@ -164,17 +170,24 @@ else
 
 $count = count( $persons );
 
+//kracker
+$t->set_var("image_item","" );
+
 $t->set_var( "person_table", "" );
 $t->set_var( "no_persons", "" );
 
 $t->set_var( "person_consultation_button", "" );
 $t->set_var( "person_buy_button", "" );
+$t->set_var( "person_folder_button", "" );
+
 $t->set_var( "person_edit_button", "" );
 $t->set_var( "person_delete_button", "" );
 $t->set_var( "person_view_button", "" );
 $t->set_var( "no_person_view_button", "" );
 
-$t->parse( "person_folder_button", "person_folder_button_tpl" );
+if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
+    $t->parse( "person_folder_button", "person_folder_button_tpl" );
+
 if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
     $t->parse( "person_buy_button", "person_buy_button_tpl" );
 if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )

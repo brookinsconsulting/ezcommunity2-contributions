@@ -2,11 +2,13 @@
 
 <!-- BEGIN edit_tpl -->
 
+<!--
 <h1>{intl-edit_headline}</h1>
 
 <hr noshade="noshade" size="4" />
 
 <br />
+-->
 
 <!-- BEGIN errors_tpl -->
 <h3 class="error">{intl-error_headline}</h3>
@@ -244,7 +246,8 @@
 	    </td>
     </tr>
     <!-- END project_contact_item_tpl -->
-
+    <!-- BEGIN project_status_item_tpl -->
+    <!--
     <tr>
 	    <td valign="top" colspan="2">
 	    	    <p>{intl-project_status_information}</p>
@@ -257,11 +260,15 @@
 		    </select>
 	    </td>
     </tr>
+    -->
+    <!-- END project_status_item_tpl -->
 </table>
 <!-- END project_item_tpl -->
 
 <input type="hidden" name="PersonID" value="{person_id}">
 
+
+<!--
 <br />
 
 <p>{intl-address_optional}</p>
@@ -273,8 +280,9 @@
 <!-- END image_item_tpl -->
 
 <input class="box" size="40" name="ImageFile" type="file" />
-<br /><br />
+-->
 
+<br /><br />
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="DeleteMarked" value="{intl-delete_marked}">

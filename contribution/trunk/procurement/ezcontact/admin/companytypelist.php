@@ -55,9 +55,14 @@ $company = new eZCompany();
 $user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
+  /* 
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
+  */
+
+  $user = new eZUser(2);
+  //  die("Detected : InValid");
 }
 
 if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyList" ) )
@@ -298,12 +303,16 @@ else
 
     $t->set_var( "company_consultation_button", "" );
     $t->set_var( "company_buy_button", "" );
+    $t->set_var( "company_folder_button", "" );
+
     $t->set_var( "company_edit_button", "" );
     $t->set_var( "company_delete_button", "" );
     $t->set_var( "company_view_button", "" );
     $t->set_var( "no_company_view_button", "" );
     
-    $t->parse( "company_folder_button", "company_folder_button_tpl" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
+        $t->parse( "company_folder_button", "company_folder_button_tpl" );
+
     if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
         $t->parse( "company_buy_button", "company_buy_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )

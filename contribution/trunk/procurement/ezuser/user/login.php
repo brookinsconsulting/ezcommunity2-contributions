@@ -178,13 +178,13 @@ if ( $Action == "logout" )
     eZUser::clearAutoCookieLogin();
     eZUser::logout();
 
-//    if ( isSet( $RedirectURL ) ) {
+  //    if ( isSet( $RedirectURL ) ) {
 	$RedirectURL = $session->variable( "RedirectURL" );
-        //  $session->setVariable( "RedirectURL", "/" );
+  //  $session->setVariable( "RedirectURL", "/" );
   //  }
-//	die($RedirectURL);
+  //	die($RedirectURL);
 	eZHTTPTool::header( "Location: $RedirectURL" );
-//    eZHTTPTool::header( "Location: /" );
+  //    eZHTTPTool::header( "Location: /" );
     exit();
 }
 
