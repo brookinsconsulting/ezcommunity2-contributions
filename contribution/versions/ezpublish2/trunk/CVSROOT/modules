@@ -60,7 +60,7 @@ shop_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogu
 developer_modeules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezbug 
 sourceprovider_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztrade
 
-seanex_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezclassified &eznewsfeed &ezad
+seanex_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezclassified &eznewsfeed &ezad &ezcv
 
 arkaden_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
 sealine_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
