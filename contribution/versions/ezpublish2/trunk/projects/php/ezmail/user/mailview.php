@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.24 2002/01/20 17:14:06 fh Exp $
+// $Id: mailview.php,v 1.25 2002/04/07 14:27:57 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 fh>
 //
@@ -189,7 +189,7 @@ foreach ( $files as $file )
     {
         $t->set_var( "file_name", "<a href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/mail/imapdownload/" . $file["part"] . "/" . $file["filename"] . "/ \">" . htmlspecialchars( $file["filename"] ) . "</a>" );
         $t->set_var( "file_id", $file["part"] );
-        $t->set_var( "file_size", "U/A" );
+        $t->set_var( "file_size", "UA" );
     }
 
     

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.27 2002/01/20 17:14:06 fh Exp $
+// $Id: datasupplier.php,v 1.28 2002/04/07 14:27:57 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -46,7 +46,7 @@ switch ( $url_array[2] )
     case "folder" :
     {
         $AccountType = $url_array[3];
-        $FolderID = $url_array[4];
+        $FolderID = urldecode($url_array[4]);
         $Offset = $url_array[5];
         if ( $Offset == "" )
             $Offset = 0;
@@ -61,6 +61,7 @@ switch ( $url_array[2] )
     {
         $AccountType = $url_array[3];
         $MailID = $url_array[4];
+        $MailID = urldecode( $MailID );
         include( "ezmail/user/mailview.php" );
     }
     break;
@@ -154,7 +155,7 @@ switch ( $url_array[2] )
 
     case "imapdownload" :
     {
-        $AttachmentID = $url_array[3];
+        $AttachmentID = urldecode($url_array[3]);
         $FileName = $url_array[4];
         include( "ezmail/user/fetchimapattachment.php" );
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.14 2002/04/04 19:36:06 fh Exp $
+// $Id: menubox.php,v 1.15 2002/04/07 14:27:57 fh Exp $
 //
 // Created on: <23-Mar-2001 10:57:04 fh>
 //
@@ -130,8 +130,7 @@ if( $user )
                     foreach( $boxes as $mailBox ) // show each mailbox for this account
                     {
                         $t->set_var( "folder_name", $mailBox->Name );
-                        $t->set_var( "folder_id",
-                                     eZIMAPMailFolder::encodeFolderID( $imapAccount->id(), $mailBox->Name ) );
+                        $t->set_var( "folder_id",  $mailBox->encodeFolderID() );
 
                         $t->set_var( "indent", "" );
                         $t->parse( "imap_folder", "imap_folder_tpl", true );

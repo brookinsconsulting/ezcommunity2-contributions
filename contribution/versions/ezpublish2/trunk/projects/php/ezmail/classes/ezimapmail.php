@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmail.php,v 1.5 2002/02/07 11:06:03 fh Exp $
+// $Id: ezimapmail.php,v 1.6 2002/04/07 14:27:57 fh Exp $
 //
 // Definition of eZIMAPMail class
 //
@@ -60,9 +60,9 @@ class eZIMAPMail
         if( $id != -1 )
         {
             $elements = $this->decodeMailID( $id );
-            $this->Account = $elements[0];
-            $this->ID = $elements[1];
-            $this->Folder = $elements[2];
+            $this->Account = $elements["AccountID"];
+            $this->ID = $elements["MailID"];
+            $this->Folder = $elements["FolderName"];
             $this->get();
         }
             // default values
@@ -82,6 +82,7 @@ class eZIMAPMail
             $folder = $this->Folder;
         }
 //        echo "Was here: $accountID, $folderName";
+        $folder = ereg_replace( "/", "#", $folder );
         return rawurlencode( $accountID . "-" . $id . "-" . $folder );
     }
     
@@ -94,7 +95,7 @@ class eZIMAPMail
         $elements = explode( "-", $codedString, 3 ); // max 1 split rest is foldername.
         $elements["AccountID"] = $elements[0];
         $elements["MailID"] = $elements[1];
-        $elements["FolderName"] = $elements[2];
+        $elements["FolderName"] = ereg_replace( "#", "/", $elements[2] );
         return $elements;
     }
 
@@ -684,7 +685,7 @@ class eZIMAPMail
             foreach( $this->Files as $file )
             {
 //                        return rawurlencode( $accountID . "-" . $id . "-" . $folder );
-                $file["part"] = rawurlencode( $this->Account . "-". $this->ID. "-" . $file["part"] . "-" .$file["encoding"] . "-". $this->Folder);
+                $file["part"] = rawurlencode( $this->Account . "-". $this->ID. "-" . $file["part"] . "-" .$file["encoding"] . "-". ereg_replace( "/", "#", $this->Folder) );
                 $returnArray[] = $file;
             }
         }
@@ -698,6 +699,9 @@ class eZIMAPMail
     function &fetchAttachment( $accountID, $mailID, $partID, $encoding, $folderID )
     {
         $account = new eZMailAccount( $accountID );
+        $folderID = ereg_replace( "#", "/", $folderID );
+//        echo "$accountID, $mailID, $partID, $folderID";
+//        exit();
         $mbox = imapConnect( $account, $folderID );
 //        $header = imap_header( $mbox, $this->ID );
         

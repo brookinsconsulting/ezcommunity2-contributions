@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.8 2002/04/04 19:36:06 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.9 2002/04/07 14:27:57 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -46,11 +46,14 @@ class eZIMAPMailFolder
     /*!
       constructor
     */
-    function eZIMAPMailFolder( $id )
+    function eZIMAPMailFolder( $id=-1 )
     {
-        $elements = $this->decodeFolderID( $id );
-        $this->Account = $elements[0]; //new eZMailAccount( $elements[0] );
-        $this->Name = $elements[1];
+        if( $id != -1 )
+        {
+            $elements = $this->decodeFolderID( $id );
+            $this->Account = $elements["AccountID"]; //new eZMailAccount( $elements[0] );
+            $this->Name = $elements["FolderName"];
+        }
     }
 
     /*!
@@ -58,7 +61,7 @@ class eZIMAPMailFolder
       Functions to encode more information into one url position. This allows us to use the same
       templates for remote and local mail.
     */
-    function encodeFolderID( $accountID = -1 , $folderName = -1 )
+    function encodeFolderID( $accountID = -1 , $folderName = -1, $encode = true )
     {
         if( $accountID == -1 || $folderName == -1 )
         {
@@ -66,7 +69,13 @@ class eZIMAPMailFolder
             $folderName = $this->Name;
         }
 //        echo "Was here: $accountID, $folderName";
-        return rawurlencode( $accountID . "-" . $folderName );
+        $folderName = ereg_replace( "/", "#", $folderName );
+        if( $encode )
+        {
+            return rawurlencode( $accountID . "-" . $folderName );
+        }
+
+        return $accountID . "-" . $folderName;
     }
     
     /*!
@@ -77,7 +86,7 @@ class eZIMAPMailFolder
     {
         $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
         $elements["AccountID"] = $elements[0];
-        $elements["FolderName"] = $elements[1];
+        $elements["FolderName"] = ereg_replace( "#", "/", $elements[1] );
         return $elements;
     }
 
@@ -388,7 +397,7 @@ class eZIMAPMailFolder
 
     
     /*!
-      Imap spesific. Returns all folders in this account.
+      Imap spesific. Returns all folders in this account as eZIMAPMailFolder objects.
       Returns false if the function did not succeed.
      */
     function &getImapTree( $account )
@@ -411,7 +420,7 @@ class eZIMAPMailFolder
             {
                 $key = explode( "}", $mailBox->name );
                 $resultArray[$i] = new eZImapMailFolder(
-                    eZImapMailFolder::encodeFolderID( $account->id(), $key[1] ) );
+                    eZImapMailFolder::encodeFolderID( $account->id(), $key[1], false ) );
 //                $resultArray[$i]->Name = $key[1];
 //                $resultArray[$i]->FullName = $mailBox->name;
 //            echo "<pre>"; print_r( $resultArray ); echo "</pre>";
