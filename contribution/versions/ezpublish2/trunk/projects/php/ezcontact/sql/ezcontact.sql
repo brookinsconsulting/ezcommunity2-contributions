@@ -38,18 +38,18 @@ CREATE TABLE eZContact_ImageType (
 
 
 #
-# Table structure for table 'eZContact_CompanyImageDict'
+# Table structure for table 'eZContact_CompanyImageDefinition'
 #
-DROP TABLE IF EXISTS eZContact_CompanyImageDict;
-CREATE TABLE eZContact_CompanyImageDict (
+DROP TABLE IF EXISTS eZContact_CompanyImageDefinition;
+CREATE TABLE eZContact_CompanyImageDefinition (
   CompanyID int(11) DEFAULT '0' NOT NULL,
-  ImageID int(11) DEFAULT '0' NOT NULL,
-  ImageTypeID int(11) DEFAULT '0' NOT NULL,
-  PRIMARY KEY (CompanyID, ImageID)
+  CompanyImageID int(11) DEFAULT '0' NOT NULL,
+  LogoImageID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID)
 );
 
 #
-# Dumping data for table 'eZContact_CompanyImageDict'
+# Dumping data for table 'eZContact_CompanyImageDefinition'
 #
 
 

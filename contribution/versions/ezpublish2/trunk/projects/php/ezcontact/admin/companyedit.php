@@ -293,19 +293,32 @@ if ( $Action == "edit" )
 
     $logoImage = $company->logoImage();
 
-    if ( get_class ($logoImage ) )
+    if ( get_class ( $logoImage ) )
     {
         $variation = $logoImage->requestImageVariation( 150, 150 );
         
         $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
-        $t->set_var( "logo_name", $imageList[$i]->name() );
+        $t->set_var( "logo_name", $logoImage->name() );
         
         $t->set_var( "logo_add", "" );
         $t->parse( "logo_edit", "logo_edit_tpl" );
         print( "5555" );
     }
+
+    $companyImage = $company->companyImage();
+    
+    if ( get_class ( $companyImage ) )
+    {
+        $variation = $companyImage->requestImageVariation( 150, 150 );
         
+        $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+        $t->set_var( "logo_name", $companyImage->name() );
+        
+        $t->set_var( "logo_add", "" );
+        $t->parse( "logo_edit", "logo_edit_tpl" );
+        print( "5555" );
     }
+
 
     $message = "Rediger firmainformasjon";
 
@@ -375,49 +388,47 @@ if ( $Action == "edit" )
         }
     }
 
-    // Image list
+//      // Image list
+//      print ( count ( $imageList ) );
+//      if ( count ( $imageList ) <= 2 )
+//      {
+//          for( $i=0; $i<count( $imageList ); $i++ )
+//          {
+//              if ( $imageList[$i]->name() == "Logo" )
+//              {
+//                  $variation = $imageList[$i]->requestImageVariation( 150, 150 );
 
-
-    print ( count ( $imageList ) );
-    if ( count ( $imageList ) <= 2 )
-    {
-        for( $i=0; $i<count( $imageList ); $i++ )
-        {
-            if ( $imageList[$i]->name() == "Logo" )
-            {
-                $variation = $imageList[$i]->requestImageVariation( 150, 150 );
-
-                $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
-                $t->set_var( "logo_name", $imageList[$i]->name() );
+//                  $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+//                  $t->set_var( "logo_name", $imageList[$i]->name() );
                 
-                $t->set_var( "logo_add", "" );
-                $t->parse( "logo_edit", "logo_edit_tpl" );
-                print( "5555" );
-            }
-            else
-            {
-                print( "6666" );
-                $t->set_var( "logo_edit", "" );
-                $t->parse( "logo_add", "logo_add_tpl" );
-            }
+//                  $t->set_var( "logo_add", "" );
+//                  $t->parse( "logo_edit", "logo_edit_tpl" );
+//                  print( "5555" );
+//              }
+//              else
+//              {
+//                  print( "6666" );
+//                  $t->set_var( "logo_edit", "" );
+//                  $t->parse( "logo_add", "logo_add_tpl" );
+//              }
 
-            if ( $imageList[$i]->name() == "Image" )
-            {
-                $variation = $imageList[$i]->requestImageVariation( 150, 150 );
+//              if ( $imageList[$i]->name() == "Image" )
+//              {
+//                  $variation = $imageList[$i]->requestImageVariation( 150, 150 );
 
-                $t->set_var( "image_src", "/" . $variation->imagePath() );
-                $t->set_var( "image_name", $imageList[$i]->name() );
+//                  $t->set_var( "image_src", "/" . $variation->imagePath() );
+//                  $t->set_var( "image_name", $imageList[$i]->name() );
 
-                $t->set_var( "image_add", "" );
-                $t->parse( "image_edit", "image_edit_tpl" );
-            }
-            else
-            {
-                $t->set_var( "image_edit", "" );
-                $t->parse( "image_add", "image_add_tpl" );
-            }
+//                  $t->set_var( "image_add", "" );
+//                  $t->parse( "image_edit", "image_edit_tpl" );
+//              }
+//              else
+//              {
+//                  $t->set_var( "image_edit", "" );
+//                  $t->parse( "image_add", "image_add_tpl" );
+//              }
                  
-        }
+//          }
     }
     
 
