@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: supportcategoryedit.php,v 1.1 2001/11/06 12:33:54 jhe Exp $
+// $Id: supportcategoryedit.php,v 1.2 2001/11/08 13:24:56 jhe Exp $
 //
 // Created on: <05-Nov-2001 18:30:10 jhe>
 //
@@ -40,14 +40,12 @@ $t->set_file( "support_edit_tpl", "supportcategoryedit.tpl" );
 $t->setAllStrings();
 
 $t->set_block( "support_edit_tpl", "category_element_tpl", "category_element" );
-$t->set_block( "support_edit_tpl", "password_error_tpl", "password_error" );
 $t->set_block( "support_edit_tpl", "empty_error_tpl", "empty_error" );
 $t->set_block( "support_edit_tpl", "email_error_tpl", "email_error" );
 
 $locale = new eZLocale( $Language );
 
 $t->set_var( "site_style", $SiteStyle );
-$t->set_var( "password_error", "" );
 $t->set_var( "empty_error", "" );
 $t->set_var( "email_error", "" );
 
@@ -123,22 +121,18 @@ switch ( $Action )
     break;
 }
 
-$error = array( "Password" => false, "Email" => false, "Empty" => false );
+$error = array( "Email" => false, "Empty" => false );
 
 if ( $Action == "update" || $Action == "insert" )
 {
-    if ( $Password1 != $Password2 )
-        $error["Password"] = true;
     if ( $Email != "" && !eZMail::validate( $Email ) )
         $error["Email"] = true;
-    if ( $Name == "" || $Password1 == "" || $MailServer == "" || $Email == "" )
+    if ( $Name == "" || $Password == "" || $MailServer == "" || $Email == "" )
         $error["Empty"] = true;
 }
 
 if ( in_array( true, $error ) )
 {
-    if ( $error["Password"] )
-        $t->parse( "password_error", "password_error_tpl" );
     if ( $error["Email"] )
         $t->parse( "email_error", "email_error_tpl" );
     if ( $error["Empty"] )
@@ -171,8 +165,8 @@ if ( ( $Action == "update" || $Action == "insert" ) && !in_array( true, $error )
     $supportCategory->setName( $Name );
     $supportCategory->setBugModuleID( $BugModuleID );
     $supportCategory->setEmail( $Email );
-    if ( $Password1 != "dummy" )
-        $supportCategory->setPassword( $Password1 );
+    if ( $Password != "dummy" )
+        $supportCategory->setPassword( $Password );
     $supportCategory->setMailServer( $MailServer );
     $supportCategory->setMailServerPort( $MailServerPort );
     $supportCategory->setSupportNo( $SupportNo );

@@ -10,15 +10,12 @@
 <!-- BEGIN email_error_tpl -->
 <h3 class="error">{intl-email_error}</h3><br>
 <!-- END email_error_tpl -->
-<!-- BEGIN password_error_tpl -->
-<h3 class="error">{intl-password_error}</h3><br>
-<!-- END password_error_tpl -->
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="50%">
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" class="box" size="20" name="Name" value="{name}"/>
+	<input type="text" class="box" size="20" name="Name" value="{name}" />
 	<br /><br />
 	</td>
 </tr>
@@ -37,46 +34,41 @@
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-email}:</p>
-	<input type="text" class="box" size="40" name="Email" value="{email}"/>
+	<input type="text" class="box" size="40" name="Email" value="{email}" />
 	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td>
 	<p class="boxtext">{intl-password}:</p>
-	<input type="password" class="halfbox" size="20" name="Password1" value="{password}"/>
-	<br /><br />
-	</td>
-	<td>
-	<p class="boxtext">{intl-verifypassword}:</p>
-	<input type="password" class="halfbox" size="20" name="Password2" value="{password}"/>
+	<input type="password" class="box" size="20" name="Password" value="{password}" />
 	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-mailserver}:</p>
-	<input type="text" class="box" size="20" name="MailServer" value="{mailserver}"/>
+	<input type="text" class="box" size="20" name="MailServer" value="{mailserver}" />
 	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-mailserverport}:</p>
-	<input type="text" class="box" size="20" name="MailServerPort" value="{mailserverport}"/>
+	<input type="text" class="box" size="20" name="MailServerPort" value="{mailserverport}" />
 	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
-	<input type="checkbox" name="SupportNo" {supportno_checked}>{intl-supportno}
+	<input type="checkbox" name="SupportNo" {supportno_checked} />{intl-supportno}
 	</td>
 </tr>
 </table>
 	
 <br />
 
-<hr noshade size="4"/>
+<hr noshade size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
