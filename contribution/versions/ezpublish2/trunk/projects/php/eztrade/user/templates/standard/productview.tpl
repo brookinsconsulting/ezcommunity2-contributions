@@ -78,23 +78,6 @@
 </tr>
 </table>
 
-<!-- BEGIN attribute_list_tpl -->
-<table cellspacing="0" cellpadding="2" border="0">
-<!-- BEGIN attribute_tpl -->
-<tr>
-	<th>
-	{attribute_name}: 
-	</th>
-	<td align="right">
-	{attribute_value}
-	</td>
-</tr>
-
-<!-- END attribute_tpl -->
-</table>
-<br />
-<!-- END attribute_list_tpl -->
-
 <form action="/{module}/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
@@ -111,10 +94,17 @@
 	<td width="20%">
 
 	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
+	<!-- BEGIN value_price_header_tpl -->
+
+	<!-- END value_price_header_tpl -->
 	<select name="OptionValueArray[]">
-	
+
 	<!-- BEGIN value_tpl -->
-	<option value="{value_id}">{value_name}</option>
+	<option value="{value_id}">{value_name}
+	<!-- BEGIN value_price_item_tpl -->
+	{value_price}
+	<!-- END value_price_item_tpl -->
+	 </option>
 	<!-- END value_tpl -->
 	</select>
 	</td>
@@ -131,8 +121,6 @@
 </tr>
 </table>
 <br />
-
-{extra_product_info}
 
 <table width="100%" border="0">
 <tr>
@@ -159,6 +147,33 @@
 	</td>
 </tr>
 </table>
+<br /><br />
+
+<!-- BEGIN attribute_list_tpl -->
+<table width="50%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<th>
+	{intl-attribute_name}
+	</th>
+	<th>
+	{intl-attribute_value}
+	</th>
+</tr>
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<td>
+	{attribute_name} : 
+	</td>
+	<td>
+	{attribute_value}
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<!-- END attribute_list_tpl -->
+
+{extra_product_info}
 <br />
 
 <hr noshade="noshade" size="4" />

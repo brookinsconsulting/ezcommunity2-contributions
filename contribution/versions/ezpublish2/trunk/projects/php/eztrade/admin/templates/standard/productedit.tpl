@@ -92,7 +92,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <!-- BEGIN price_group_list_tpl -->
 <p class="boxtext">{intl-price_groups}:</p>
-<table cellspacing="0" cellpadding="4" border="1">
+<table cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<!-- BEGIN price_group_header_item_tpl -->
 	<th>
