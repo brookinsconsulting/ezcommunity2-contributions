@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.57 2001/07/19 12:52:49 bf Exp $
+// $Id: articleview.php,v 1.58 2001/07/25 10:16:51 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -98,6 +98,9 @@ $t->set_block( "article_view_page_tpl", "article_intro_tpl", "article_intro" );
 
 $t->set_block( "article_view_page_tpl", "attached_file_list_tpl", "attached_file_list" );
 $t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
+
+$t->set_block( "article_view_page_tpl", "image_list_tpl", "image_list" );
+$t->set_block( "image_list_tpl", "image_tpl", "image" );
 
 $t->set_block( "article_view_page_tpl", "page_link_tpl", "page_link" );
 $t->set_block( "article_view_page_tpl", "current_page_link_tpl", "current_page_link" );
@@ -283,6 +286,51 @@ if( $typeCount > 0 )
 }
 
 
+// image list
+
+$images =& $article->images();
+if ( count( $images ) == 0 )
+{
+    $t->set_var( "image_list", "" );
+}
+else
+{
+    $i=0;
+    foreach ( $images as $image )
+    {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
+        if ( $image->caption() == "" )
+            $t->set_var( "image_caption", "&nbsp;" );
+        else
+            $t->set_var( "image_caption", $image->caption() );
+        
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "article_id", $ArticleID );
+
+        $variation =& $image->requestImageVariation( 150, 150 );
+
+        $t->set_var( "image_url", "/" .$variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height",$variation->height() );
+
+        $t->parse( "image", "image_tpl", true );
+
+        $i++;
+    }
+
+    $t->parse( "image_list", "image_list_tpl", true );
+}
+
+
+// files
 $files = $article->files();
 
 if ( count( $files ) > 0 )
