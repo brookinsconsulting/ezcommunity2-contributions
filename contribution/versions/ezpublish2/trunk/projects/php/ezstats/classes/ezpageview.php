@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.8 2001/04/17 15:35:10 bf Exp $
+// $Id: ezpageview.php,v 1.9 2001/04/26 09:03:53 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -111,10 +111,14 @@ class eZPageView
             
             if ( count( $remote_host_array ) == 0 )
             {
+                $remoteHostName =& gethostbyaddr( $remoteIP );
+
                 $db->query( "INSERT INTO eZStats_RemoteHost SET
-                                 IP='$remoteIP'
+                                 IP='$remoteIP',
+                                 HostName='$remoteHostName'
                                  " );
-                
+
+
                 $this->RemoteHostID = mysql_insert_id();
             }
             else
