@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.32 2001/03/02 10:13:45 fh Exp $
+// $Id: ezforumcategory.php,v 1.33 2001/03/10 12:10:35 bf Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -275,7 +275,7 @@ class eZForumCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
         
     /*!
@@ -297,7 +297,7 @@ class eZForumCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
         
 

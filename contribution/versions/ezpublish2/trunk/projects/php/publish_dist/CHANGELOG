@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from version 2.0 PRE 2 to 
 ------------------------------------------------
+* Fixed better handling of special characters ( " ' < / ) in eZ forum
 * Fixed bug eZContact which caused companies to disappear (or look empty)
   when they were created directly from a category.
 * Deletion of company categories is recursive. Any companies contained inside these

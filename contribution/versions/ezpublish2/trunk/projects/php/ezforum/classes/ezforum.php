@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.20 2001/03/01 10:58:02 pkej Exp $
+// $Id: ezforum.php,v 1.21 2001/03/10 12:10:35 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -365,7 +365,7 @@ class eZForum
             $this->get( $this->ID );
         
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
         
     /*!
@@ -389,7 +389,7 @@ class eZForum
             $this->get( $this->ID );
         
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
         
     /*!
