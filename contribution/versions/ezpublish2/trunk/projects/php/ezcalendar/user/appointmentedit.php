@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.23 2001/01/25 11:34:52 gl Exp $
+// $Id: appointmentedit.php,v 1.24 2001/01/25 14:04:58 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -25,12 +25,12 @@
 
 include_once( "classes/ezhttptool.php" );
 
-if ( isSet ( $DeleteAppointments ) )
+if ( isSet( $DeleteAppointments ) )
 {
     $Action = "DeleteAppointment";
 }
 
-if ( isSet ( $GoDay ) )
+if ( isSet( $GoDay ) )
 {
     include_once( "classes/ezdate.php" );
 
@@ -48,7 +48,7 @@ if ( isSet ( $GoDay ) )
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day" );
     exit();
 }
-else if ( isSet ( $GoMonth ) )
+else if ( isSet( $GoMonth ) )
 {
     $session =& eZSession::globalSession();
     $session->fetch();
@@ -59,7 +59,7 @@ else if ( isSet ( $GoMonth ) )
     eZHTTPTool::header( "Location: /calendar/monthview/$year/$month" );
     exit();
 }
-else if ( isSet ( $GoYear ) )
+else if ( isSet( $GoYear ) )
 {
     $session =& eZSession::globalSession();
     $session->fetch();
@@ -91,10 +91,14 @@ $Locale = new eZLocale( $Language );
 
 
 $user = eZUser::currentUser();
-$app = new eZAppointment( $AppointmentID );
+
+if ( $Action == "New"  )
+    $app = new eZAppointment();
+else
+    $app = new eZAppointment( $AppointmentID );
 
 // current user is not allowed to edit this appointment
-if ( $app->userID() != $user->id() )
+if ( $Action == "Edit" && $app->userID() != $user->id() )
 {
     $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                          "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -120,7 +124,7 @@ if ( $app->userID() != $user->id() )
 
 if ( $Action == "Insert" || $Action == "Update" )
 {
-    if ( isSet ( $Cancel ) )
+    if ( isSet( $Cancel ) )
     {
         $app = new eZAppointment( $AppointmentID );
         $dt = $app->dateTime();
@@ -256,10 +260,10 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $appointment->store();
 
-            $year = eZTime::addZero( $datetime->year() );
-            $month = eZTime::addZero( $datetime->month() );
-            $day = eZTime::addZero( $datetime->day() );
-            deleteCache( "default", $Language, $year, $month, $day );
+            $year = addZero( $datetime->year() );
+            $month = addZero( $datetime->month() );
+            $day = addZero( $datetime->day() );
+            deleteCache( "default", $Language, $year, $month, $day, $user->id() );
 
             eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
             exit();
@@ -280,10 +284,10 @@ if ( $Action == "DeleteAppointment" )
         }
     }
 
-    $year = eZTime::addZero( $datetime->year() );
-    $month = eZTime::addZero( $datetime->month() );
-    $day = eZTime::addZero( $datetime->day() );
-    deleteCache( "default", $Language, $year, $month, $day );
+    $year = addZero( $datetime->year() );
+    $month = addZero( $datetime->month() );
+    $day = addZero( $datetime->day() );
+    deleteCache( "default", $Language, $year, $month, $day, $user->id() );
 
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();
@@ -352,13 +356,13 @@ if ( $Action == "Edit" )
     $typeID = $type->id();
 
     $startTime =& $appointment->startTime();
-    $startHour = ( eZTime::addZero( $startTime->hour() ) );
-    $startMinute = ( eZTime::addZero( $startTime->minute() ) );
+    $startHour = ( addZero( $startTime->hour() ) );
+    $startMinute = ( addZero( $startTime->minute() ) );
     $t->set_var( "start_value", $startHour . $startMinute );
 
     $stopTime =& $appointment->stopTime();
-    $stopHour = ( eZTime::addZero( $stopTime->hour() ) );
-    $stopMinute = ( eZTime::addZero( $stopTime->minute() ) );
+    $stopHour = ( addZero( $stopTime->hour() ) );
+    $stopMinute = ( addZero( $stopTime->minute() ) );
     $t->set_var( "stop_value", $stopHour . $stopMinute );
 
     $t->set_var( "0_selected", "" );
@@ -527,9 +531,23 @@ $t->pparse( "output", "appointment_edit_tpl" );
 
 
 // deletes the dayview cache file for a given day
-function deleteCache( $siteStyle, $language, $year, $month, $day )
+function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
-    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day.cache" );
+    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
+    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
 }
+
+//Adds a "0" in front of the value if it's below 10.
+function addZero( $value )
+{
+    settype( $value, "integer" );
+    $ret = $value;
+    if ( $ret < 10 )
+    {
+        $ret = "0". $ret;
+    }
+    return $ret;
+}
+
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.25 2001/01/25 11:34:52 gl Exp $
+// $Id: dayview.php,v 1.26 2001/01/25 14:04:58 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -42,11 +42,58 @@ $IntervalStr = $ini->read_var( "eZCalendarMain", "DayInterval" );
 
 $Locale = new eZLocale( $Language );
 
+$user = eZUser::currentUser();
+$session =& eZSession::globalSession();
+$session->fetch();
+
+if ( $GetByUserID == false )
+{
+    $GetByUserID = $user->id();
+}
+
+if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+{
+    $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
+}
+
+$tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
+
+if ( $tmpUser->id() == $user->id() )
+{
+    $showPrivate = true;
+}
+else
+{
+    $showPrivate = false;
+}
+
+$date = new eZDate();
+
+if ( $Year != "" && $Month != "" && $Day != "" )
+{
+    $date->setYear( $Year );
+    $date->setMonth( $Month );
+    $date->setDay( $Day );
+}
+else
+{
+    $Year = $date->year();
+    $Month = $date->month();
+    $Day = $date->day();
+}
+
+$session->setVariable( "Year", $Year );
+$session->setVariable( "Month", $Month );
+$session->setVariable( "Day", $Day );
+
+$zMonth = addZero( $Month );
+$zDay = addZero( $Day );
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "dayview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$Month-$Day" );
+                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$zDay-$GetByUserID" );
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
+
 if ( $t->hasCache() )
 {
 //    print( "cached<br />" );
@@ -62,50 +109,6 @@ else
     $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
     $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
     $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
-
-    $user = eZUser::currentUser();
-    $session =& eZSession::globalSession();
-    $session->fetch();
-
-    if ( $GetByUserID == false )
-    {
-        $GetByUserID = $user->id();
-    }
-
-    if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
-    {
-        $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
-    }
-
-    $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
-
-    if ( $tmpUser->id() == $user->id() )
-    {
-        $showPrivate = true;
-    }
-    else
-    {
-        $showPrivate = false;
-    }
-
-    $date = new eZDate();
-
-    if ( $Year != "" && $Month != "" && $Day != "" )
-    {
-        $date->setYear( $Year );
-        $date->setMonth( $Month );
-        $date->setDay( $Day );
-    }
-    else
-    {
-        $Year = $date->year();
-        $Month = $date->month();
-        $Day = $date->day();
-    }
-
-    $session->setVariable( "Year", $Year );
-    $session->setVariable( "Month", $Month );
-    $session->setVariable( "Day", $Day );
 
     $t->set_var( "month_number", $Month );
     $t->set_var( "year_number", $Year );
@@ -276,7 +279,7 @@ else
     while ( $startTime->isGreater( $stopTime ) == true )
     {
         $t->set_var( "short_time", $Locale->format( $startTime, true ) );
-        $t->set_var( "start_time", eZTime::addZero( $startTime->hour() ) . eZTime::addZero( $startTime->minute() ) );
+        $t->set_var( "start_time", addZero( $startTime->hour() ) . addZero( $startTime->minute() ) );
 
         $drawnColumn = array();
         $t->set_var( "appointment", "" );
@@ -470,6 +473,19 @@ function intersects( &$app, &$startTime, &$stopTime )
         $ret = true;
     }
 
+    return $ret;
+}
+
+
+//Adds a "0" in front of the value if it's below 10.
+function addZero( $value )
+{
+    settype( $value, "integer" );
+    $ret = $value;
+    if ( $ret < 10 )
+    {
+        $ret = "0". $ret;
+    }
     return $ret;
 }
 
