@@ -1,12 +1,15 @@
 <h1>{intl-head_line}</h1>
 
+<hr noshade="noshade" size="4">
+
+<br />
+
 <!-- BEGIN result_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="3" border="0">
-<tr>
-	<td>
-	<h2>{poll_name}</h2>
-	</td>
-</tr>
+
+<h2>{poll_name}</h2>
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+
 <!-- BEGIN result_item_tpl -->
 <tr>
 	<td>
