@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.24.2.1 2001/11/19 09:46:46 jhe Exp $
+// $Id: search.php,v 1.24.2.2 2001/12/13 10:40:19 kaid Exp $
 //
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
@@ -89,9 +89,10 @@ if ( $QueryString != "" )
             }  
 
             $t->set_var( "link_id", $linkItem->id() );
-            $t->set_var( "link_title", $linkItem->title() );
+            $t->set_var( "link_title", $linkItem->name() );
             $t->set_var( "link_description", $linkItem->description() );
-            $t->set_var( "link_categoryid", $linkItem->linkcategoryid() );
+            $t->set_var( "link_categoryid", $linkItem->categoryDefinition( false ) );
+            //$t->set_var( "link_categoryid", $linkItem->linkcategoryid() );
             $t->set_var( "link_keywords", $linkItem->keywords() );
             $t->set_var( "link_created", $linkItem->created() );
             $t->set_var( "link_modified", $linkItem->modified() );
