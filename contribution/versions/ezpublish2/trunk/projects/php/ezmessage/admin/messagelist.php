@@ -1,0 +1,90 @@
+<?
+// 
+// $Id: messagelist.php,v 1.1 2001/06/06 09:52:43 bf Exp $
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <05-Jun-2001 16:42:09 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/INIFile.php" );
+
+include_once( "ezmessage/classes/ezmessage.php" );
+
+
+$t = new eZTemplate( "ezmessage/admin/" . $ini->read_var( "eZMessageMain", "AdminTemplateDir" ),
+                     "ezmessage/admin/intl", $Language, "messagelist.php" );
+
+$locale = new eZLocale( $Language ); 
+
+$t->set_file( "message_page_tpl", "messagelist.tpl" );
+
+$t->setAllStrings();
+
+$t->set_block( "message_page_tpl", "message_list_tpl", "message_list" );
+$t->set_block( "message_list_tpl", "message_item_tpl", "message_item" );
+$t->set_block( "message_item_tpl", "message_read_tpl", "message_read" );
+$t->set_block( "message_item_tpl", "message_unread_tpl", "message_unread" );
+
+$user = eZUser::currentUser();
+$t->set_var( "user_first_name", $user->firstName() );
+$t->set_var( "user_last_name", $user->lastName() );
+
+$message = new eZMessage( );
+
+$messageArray =& $message->messagesToUser( $user );
+
+foreach ( $messageArray as $message )
+{
+    $t->set_var( "message_id", $message->id() );
+
+    $created = $message->created();
+    $t->set_var( "message_date", $locale->format( $created ) );
+
+    $fromUser = $message->fromUser();
+    $t->set_var( "message_from_user", $fromUser->firstName() . " " . $fromUser->lastName() );
+
+    $t->set_var( "message_subject", $message->subject() );
+
+    if ( $message->isRead() == true )
+    {
+        $t->set_var( "message_unread", "" );
+        $t->parse( "message_read", "message_read_tpl" );
+    }
+    else
+    {
+        $t->set_var( "message_read", "" );
+        $t->parse( "message_unread", "message_unread_tpl" );
+    }
+
+    $t->parse( "message_item", "message_item_tpl", true );
+}
+if ( count( $messageArray ) > 0 )
+    $t->parse( "message_list", "message_list_tpl" );
+else
+    $t->set_var( "message_list", "" );
+
+
+$t->pparse( "output", "message_page_tpl" );
+
+?>
+

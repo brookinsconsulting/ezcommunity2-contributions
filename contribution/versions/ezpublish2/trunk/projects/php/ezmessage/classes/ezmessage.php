@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmessage.php,v 1.3 2001/06/06 08:30:46 bf Exp $
+// $Id: ezmessage.php,v 1.4 2001/06/06 09:52:43 bf Exp $
 //
 // Definition of eZMessage class
 //
@@ -65,7 +65,8 @@ class eZMessage
                          Created=now(),
                          Description='$description',
                          FromUserID='$this->FromUserID',
-                         ToUserID='$this->ToUserID'
+                         ToUserID='$this->ToUserID',
+                         IsRead='$this->IsRead'
                        " );
 			$this->ID = $db->insertID();
         }
@@ -76,7 +77,8 @@ class eZMessage
                          Created=Created, 
                          Description='$description',
                          FromUserID='$this->FromUserID',
-                         ToUserID='$this->ToUserID'
+                         ToUserID='$this->ToUserID',
+                         IsRead='$this->IsRead'
                          WHERE ID='$this->ID'" );
         }
 
@@ -119,6 +121,7 @@ class eZMessage
                 $this->Created =& $author_array[0][ "Created" ];
                 $this->FromUserID =& $author_array[0][ "FromUserID" ];
                 $this->ToUserID =& $author_array[0][ "ToUserID" ];
+                $this->IsRead =& $author_array[0][ "IsRead" ];
                 $ret = true;
             }
             elseif( count( $author_array ) == 1 )
@@ -215,9 +218,33 @@ class eZMessage
     /*!
       Returns the to user as an eZUser object.
     */
-    function toUser()
+    function &toUser()
     {
-        return new eZUser( $this->toUserID );
+        $ret = new eZUser( $this->ToUserID );
+        return $ret;
+    }
+
+    /*!
+      Returns true if the message is read.
+    */
+    function isRead()
+    {
+        if ( $this->IsRead == 1 )
+            return true;
+        else
+            return false;
+    }
+
+    /*!
+      Sets the message to be read/unread.
+      
+    */
+    function setIsRead( $isRead )
+    {
+        if ( $isRead == true )
+            $this->IsRead = 1;
+        else
+            $this->IsRead = 0;
     }
      
     
@@ -273,6 +300,7 @@ class eZMessage
     var $Created;
     var $Subject;
     var $Description;
+    var $IsRead;
 }
 
 ?>
