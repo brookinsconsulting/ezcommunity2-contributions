@@ -460,6 +460,27 @@ class eZPageView
         return $ret;
     }
 
+ /*!
+   Deletes all instances of this stat from the db.
+ */
+ function delete()
+ {
+ 	$db =& eZDB::globalDatabase();
+ 	$result = $db->query( "DELETE FROM eZStats_PageView, eZStats_RefererURL, eZStats_RemoteHost, eZStats_RequestPage WHERE ID='$this->ID'" );
+ 	if (!$result) return false;
+ 	else return true;
+ }
+ /*!
+  Marks a stat as expired. If you pass a 0 it will mark a stat as not expired.
+ */
+ function flagExpired($expired=1)
+ {
+  $db =& eZDB::globalDatabase();
+
+  $result = $db->query( "UPDATE eZStats_PageView SET Expired='$expired' WHERE ID='$this->ID'" );
+  if (!$result) return false;
+  else return true;
+ }
     /*!
       Returns the id of the virtual file.
     */

@@ -26,7 +26,11 @@
 include_once( "ezsession/classes/ezsession.php" );
 
 $session =& eZSession::globalSession( );
+
+//if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) && !strstr( $RedirectURL, "1x1.gif" ) )
+if ( !strstr( $REQUEST_URI, "1x1.gif" ) )
 $session->setVariable( "RedirectURL", "$REQUEST_URI" );
+}
 //die($REQUEST_URI);
 
 switch ( $url_array[2] )

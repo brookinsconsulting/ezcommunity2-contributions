@@ -29,7 +29,7 @@ $menuItems = array(
     array( "/stats/pageviewlist/last/500", "{intl-last_page_views}" ),
     array( "/stats/visitorlist/top/100", "{intl-top_visitors}" ),
     array( "/stats/requestpagelist/top/100/", "{intl-request_page_list}" ),
-    array( "/stats/rfpreport/", "{intl-rfp_report}" ),
+    array( "/stats/procurement/report/", "{intl-procurement_report}" ),
 
     array( "/stats/refererlist/top/100/", "{intl-referer_list}" ),
     array( "/stats/browserlist/top/50/", "{intl-browser_list}" ),

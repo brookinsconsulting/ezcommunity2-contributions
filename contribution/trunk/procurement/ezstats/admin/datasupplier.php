@@ -129,10 +129,11 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "rfpreport" :
+    case "procurement" :
     {
-        $Year = $url_array[3];
-        $Month = $url_array[4];
+        $Action = $url_array[3];
+        $Year = $url_array[4];
+        $Month = $url_array[5];
 
         include( "ezstats/admin/rfpreport.php" );
     }
