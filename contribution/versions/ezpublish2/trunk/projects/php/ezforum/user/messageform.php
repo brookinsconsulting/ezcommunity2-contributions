@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.1 2001/02/23 16:05:02 pkej Exp $
+// $Id: messageform.php,v 1.2 2001/02/26 09:41:34 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -187,6 +187,7 @@ if( $ShowMessageForm )
     $t->set_var( "end_action", $EndAction );      
     $t->set_var( "start_action", $StartAction );      
     $t->set_var( "action_value", $ActionValue );
+    $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
     $t->set_var( "allowed_tags", htmlspecialchars( $AllowedTags ) );      
 
     if( $ShowHiddenMessageForm == true )

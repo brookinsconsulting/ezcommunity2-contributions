@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.22 2001/02/24 13:52:20 pkej Exp $
+// $Id: messageedit.php,v 1.23 2001/02/26 09:41:34 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -84,7 +84,7 @@ switch( $Action )
     case "completed":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-                             "ezforum/user/intl", $Language, "messageedit.php" );
+                             "ezforum/user/intl", $Language, "message.php" );
         
         $t->set_file( "page", "messageposted.tpl"  );
         $t->setAllStrings();
@@ -520,6 +520,8 @@ switch( $Action )
             {
                 $msg->disableEmailNotice();
             }
+            
+            $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
             
             $msg->setTopic( stripslashes( strip_tags( $NewMessageTopic ) ) );
             $msg->setBody( stripslashes( strip_tags( $NewMessageBody, $AllowedTags ) ) );
