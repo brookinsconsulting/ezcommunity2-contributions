@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS eZForum_Category;
 CREATE TABLE eZForum_Category (
   Name varchar(20),
   Description varchar(40),
-  Private int(1) DEFAULT '0' NOT NULL,
+  IsPrivate int(1) DEFAULT '0' NOT NULL,
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   PRIMARY KEY (ID)
 );
@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS eZForum_Forum;
 CREATE TABLE eZForum_Forum (
   Name varchar(20) DEFAULT '' NOT NULL,
   Description varchar(40),
-  Private int(1) DEFAULT '0' NOT NULL,
+  IsPrivate int(1) DEFAULT '0' NOT NULL,
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ModeratorID int(11) DEFAULT '0' NOT NULL,
   IsModerated int(1) DEFAULT '0' NOT NULL,
