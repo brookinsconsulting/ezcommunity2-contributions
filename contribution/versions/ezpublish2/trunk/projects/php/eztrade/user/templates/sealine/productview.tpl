@@ -36,20 +36,28 @@
 <br />
 
 <!-- BEGIN attribute_list_tpl -->
-<div align="center">
-<table width="50%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td align="center">
+
+<table width="80%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN attribute_tpl -->
 {begin_tr}
+	<td width="1%">&nbsp;</td>
 	<th>
 	{attribute_name} : 
 	</th>
-	<td>
+	<td align="right">
 	{attribute_value}
 	</td>
+	<td width="1%">&nbsp;</td>
 {end_tr}
 <!-- END attribute_tpl -->
 </table>
-</div>
+
+	</td>
+</tr>
+</table>
 <!-- END attribute_list_tpl -->
 
 
