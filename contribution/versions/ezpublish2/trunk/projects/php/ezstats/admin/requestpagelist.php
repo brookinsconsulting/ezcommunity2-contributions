@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: requestpagelist.php,v 1.5 2001/03/01 14:06:25 jb Exp $
+// $Id: requestpagelist.php,v 1.6 2001/07/05 12:19:59 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:25:31 bf>
@@ -40,9 +40,7 @@ $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTem
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "request_page_tpl" => "requestpagelist.tpl"
-    ) );
+$t->set_file( "request_page_tpl", "requestpagelist.tpl" );
 
 $t->set_block( "request_page_tpl", "request_list_tpl", "request_list" );
 $t->set_block( "request_list_tpl", "request_tpl", "request" );

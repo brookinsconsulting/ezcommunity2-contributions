@@ -536,6 +536,15 @@ CREATE TABLE eZStats_Archive_RefererURL (
   PRIMARY KEY(ID)
 );
 
+DROP TABLE IF EXISTS eZStats_Archive_RemoteHost;
+CREATE TABLE eZStats_Archive_RemoteHost (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  IP char(15) default NULL,
+  HostName char(150) default NULL,
+  Count int DEFAULT '0' NOT NULL,
+  PRIMARY KEY(ID)
+);
+
 DROP TABLE IF EXISTS eZStats_Archive_Users;
 CREATE TABLE eZStats_Archive_Users (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,

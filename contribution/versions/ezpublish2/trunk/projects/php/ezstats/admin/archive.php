@@ -95,6 +95,32 @@ foreach ( $newelements as $element )
     }
 }
 
+// RemoteHost archive
+
+$db->array_query( $newelements, "SELECT RemoteHostID FROM eZStats_PageView WHERE Date < " . $timestamp );
+
+foreach ( $newelements as $element )
+{
+    $remote = array();
+    $db->array_query( $remote, "SELECT IP, HostName FROM eZStats_Archive_RemoteHost WHERE ID=" . $element[$db->fieldName("RemoteHostID")] );
+    $remotename = $remote[0][$db->fieldName("IP")];
+    $hostname = $remote[0][$db->fieldName("HostName")];
+    $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RemoteHost WHERE IP='$remotename' AND HostName='$hostname'" );
+    
+    if ( count( $oldelements ) == 0 )
+    {
+        $db->lock( "eZStats_Archive_RemoteHost" );
+        $nextid = $db->nextID( "eZStats_Archive_RemoteHost", "ID" );
+        $res[] = $db->query( "INSERT INTO eZStats_Archive_RemoteHost (ID, IP, HostName, Count) VALUES ('$nextid', '$remotename', '$hostname', '1')" );
+        $db->unlock();
+    }
+    else
+    {
+        $count = $oldelements[0][$db->fieldName("Count")] + 1;
+        $res[] = $db->query( "UPDATE eZStats_Archive_RemoteHost SET Count='$count' WHERE IP='$remotename' AND HostName='$hostname'" );
+    }
+}
+
 // Users archive
 
 $db->array_query( $newelements, "SELECT Date, UserID FROM eZStats_PageView WHERE Date < " . $timestamp . " ORDER BY Date" );

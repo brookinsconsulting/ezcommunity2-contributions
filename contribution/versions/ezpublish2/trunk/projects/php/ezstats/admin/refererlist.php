@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: refererlist.php,v 1.6 2001/03/01 14:06:25 jb Exp $
+// $Id: refererlist.php,v 1.7 2001/07/05 12:19:59 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:13:21 bf>
@@ -40,9 +40,7 @@ $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTem
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "referer_page_tpl" => "refererlist.tpl"
-    ) );
+$t->set_file( "referer_page_tpl", "refererlist.tpl" );
 
 $t->set_block( "referer_page_tpl", "referer_list_tpl", "referer_list" );
 $t->set_block( "referer_list_tpl", "referer_tpl", "referer" );
@@ -90,6 +88,5 @@ $t->set_var( "view_limit", $ViewLimit );
 eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "referer_list" );
 
 $t->pparse( "output", "referer_page_tpl" );
-
 
 ?>

@@ -82,3 +82,11 @@ CREATE TABLE eZStats_Archive_Users (
   Count int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE eZStats_Archive_RemoteHost (
+  ID int NOT NULL,
+  IP varchar(15) default NULL,
+  HostName varchar(150) default NULL,
+  Count int NOT NULL DEFAULT '0',
+  PRIMARY KEY (ID)
+);
