@@ -26,7 +26,7 @@ CREATE TABLE eZAddress_AddressType (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_AddressType VALUES (1,'Post adresse',1,0);
+INSERT INTO eZAddress_AddressType VALUES (1,'Home address',1,0);
 
 CREATE TABLE eZAddress_Country (
   ID int(11) NOT NULL,
@@ -312,6 +312,6 @@ CREATE TABLE eZAddress_PhoneType (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_PhoneType VALUES (1,'Telefon',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (1,'Phone',1,0);
 
 
