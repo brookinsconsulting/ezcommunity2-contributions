@@ -106,40 +106,6 @@ else
 
 <body bgcolor="#999999" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
 
-<?
-
-if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Opera' ) ) 
-{
-	$browser = "Opera";
-}
-else if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'MSIE' ) )
-{
-	$browser = "Internet Explorer";
-}
-else if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Konqueror' ) )
-{
-	$browser = "Konqueror";
-}
-else if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Netscape6' ) )
-{
-	$browser = "Netscape6";
-}
-else if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Mozilla' ) && ( !( strstr( $HTTP_USER_AGENT, "compatible" ) ) ) )
-{
-	$browser = "Old Netscape";
-}
-else if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Mozilla' ) )
-{
-	$browser = "Mozilla something";
-}
-else
-{
-	$browser = "Unknown";
-}
-
-echo $browser;
-
-?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
    <td>
