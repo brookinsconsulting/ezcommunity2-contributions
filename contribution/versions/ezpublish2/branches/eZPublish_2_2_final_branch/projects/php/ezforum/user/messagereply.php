@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.44 2001/10/08 14:01:27 jhe Exp $
+// $Id: messagereply.php,v 1.44.2.1 2001/11/15 08:43:06 jhe Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -57,6 +57,7 @@ if ( $StartAction == "reply" )
 
     $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
     $mailTemplate->setAllStrings();
+    $mailTemplate->set_block( "mailreply", "link_tpl", "link" );
 
     $emailNoticeArray = array();
 
@@ -84,12 +85,20 @@ if ( $StartAction == "reply" )
 
                 $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
 
-
+                if ( $forum->isModerated() )
+                {
+                    $mailTemplate->set_var( "link_1", "" );
+                    $mailTemplate->set_var( "link", "" );
+                }
+                else
+                {
+                    $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                    $mailTemplate->parse( "link", "link_tpl" );
+                }
                 $mailTemplate->set_var( "topic", $msg->topic() );
                 $mailTemplate->set_var( "body", $msg->body( false ) );
                 $mailTemplate->set_var( "forum_name", $forum->name() );
                 $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
-                $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
                 $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
                 $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
                 $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
