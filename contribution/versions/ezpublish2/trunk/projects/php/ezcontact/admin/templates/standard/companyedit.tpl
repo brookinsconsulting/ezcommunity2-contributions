@@ -166,11 +166,9 @@
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td>
 <!--       <p class="boxtext">{logo_name}:</p> -->
-       <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" />
-        </td>
     <td>
+    <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" /><br /><br />
    	<p class="boxtext">{intl-logo}:</p>
 	<input size="20" name="logo" type="file" />
 	<input type="hidden" name="LogoID" value="{logo_id}">
@@ -194,12 +192,10 @@
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td>
 <!--       <p class="boxtext">{image_name}:</p> -->
-       <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
-        </td>
     <td>
-    	<p class="boxtext">{intl-image}:</p>
+    <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
+  	<p class="boxtext">{intl-image}:</p>
 	<input size="20" name="image" type="file" />
 	<input type="hidden" name="ImageID" value="{image_id}">
 	<br /><br />
