@@ -26,11 +26,11 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-product_image}:</th>
-	<th>{intl-product_name}:</th>
+	<th colspan="2">{intl-product_name}:</th>
 	<!-- BEGIN product_available_header_tpl -->
 
 	<!-- END product_available_header_tpl -->
-	<th>{intl-product_qty}:</th>
+	<td align="right"><b>{intl-product_qty}:</b></td>
 
 	<td align="right"><b>{intl-product_price}:</b></td>
 	<td align="right"><b>&nbsp;</b></td>
@@ -43,7 +43,7 @@
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	<!-- END cart_image_tpl -->&nbsp;
 	</td>
-	<td class="{td_class}">
+	<td colspan="2" class="{td_class}">
 	<a href="/trade/productview/{product_id}/">{product_name}</a>
 	</td>
         <!-- BEGIN cart_item_option_tpl -->
@@ -53,7 +53,7 @@
 	<!-- BEGIN product_available_item_tpl -->
 
 	<!-- END product_available_item_tpl -->
-	<td class="{td_class}">
+	<td align="right" class="{td_class}">
 	<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
 	<input size="3" type="text" name="CartCountArray[]" value="{cart_item_count}" />
 	</td>
@@ -67,25 +67,28 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="1">&nbsp;</td>
-	<td align="right" colspan="2"><span class="boxtext">{intl-shipping}:</span></td>
+	<td colspan="3">&nbsp;</td>
+	<td align="right"><span class="boxtext">{intl-shipping}:</span></td>
 	<td align="right">
 	{shipping_sum}
 	</td>
+	<td>&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="1">&nbsp;</td>
-	<td align="right" colspan="2"><span class="boxtext">{intl-vat}:</span></td>
+	<td colspan="3">&nbsp;</td>
+	<td align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
+	<td>&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="1">&nbsp;</td>
-	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
+	<td colspan="3">&nbsp;</td>
+	<td align="right"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>
+	<td>&nbsp;</td>
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->

@@ -24,11 +24,11 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-picture}:</th>
-	<th>{intl-product_name}:</th>
+	<th colspan="2">{intl-product_name}:</th>
 	<!-- BEGIN product_available_header_tpl -->
 
 	<!-- END product_available_header_tpl -->
-	<th>{intl-qty}:</th>
+	<td align="right"><b>{intl-qty}:</b></td>
 	<td align="right">&nbsp;&nbsp;<b>{intl-price}:</b></td>
 </tr>
 
@@ -39,7 +39,7 @@
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	<!-- END cart_image_tpl -->&nbsp;
 	</td>
-	<td class="{td_class}">
+	<td colspan="2" class="{td_class}">
 	{product_name}
 	</td>
         <!-- BEGIN cart_item_option_tpl -->
@@ -55,7 +55,7 @@
 	<!-- BEGIN product_available_item_tpl -->
 
 	<!-- END product_available_item_tpl -->
-	<td class="{td_class}">
+	<td align="right" class="{td_class}">
 	{cart_item_count}
 	</td>
 	<td class="{td_class}" align="right">
@@ -65,7 +65,7 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="1" rowspan="3" valign="top">
+	<td colspan="3" rowspan="3" valign="top">
 	<div class="boxtext">{intl-shipping_method}:</div>
 	<select name="ShippingTypeID">
 	<!-- BEGIN shipping_type_tpl -->
@@ -74,7 +74,7 @@
 	</select>
 	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
-	<td align="right" colspan="2">
+	<td align="right">
 	<span class="boxtext">{intl-shipping_charges}:</span>
 	</td>
 
@@ -83,14 +83,12 @@
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
 	<td colspan="1" align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
 	<td colspan="1" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
 	{cart_sum}

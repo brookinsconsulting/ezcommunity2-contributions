@@ -1,8 +1,22 @@
-<h1>{intl-confirming-order}</h1>
+ <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td width="98%" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
+            <td rowspan="3" valign="top" width="1%" align="right"><img src="/sitedesign/percolo/images/helikopter.gif" alt="helikopter" width="140" height="100" /><br /></td>
+        </tr>
+        <tr>
+            <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>
+            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">{intl-confirming-order}</h1></td>
+        </tr>
+        <tr>
+            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
+        </tr>
+		<tr>
+		    <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td colspan="2">
 
-<hr noshade="noshade" size="4" />
-
-<h2>{intl-thanks_for_shopping}</h2>
+<h2>{intl-thanks_for_shopping}!</h2>
 
 <p>{intl-email_notice}</p>
 
@@ -11,7 +25,7 @@
 <tr>
 	<td>
 	<!-- BEGIN billing_address_tpl -->
-	<p class="boxtext">{intl-billing_address}:</p>
+	<h2>{intl-billing_address}:</h2>
 	{customer_first_name} {customer_last_name} <br />
 	{billing_street1}<br />
 	{billing_street2}<br />
@@ -22,7 +36,7 @@
 	</td>
 	<td>
 	<!-- BEGIN shipping_address_tpl -->
-	<p class="boxtext">{intl-shipping_address}:</p>
+	<h2>{intl-shipping_address}:</h2>
 	{shipping_first_name} {shipping_last_name} <br />
 	{shipping_street1}<br />
 	{shipping_street2}<br />
@@ -34,11 +48,11 @@
 </tr>
 <tr>
 	<td>
-	<p class="boxtext">{intl-payment_method}:</p>
+	<h2>{intl-payment_method}:</h2>
 	<div class="p">{payment_method}</div>
 	</td>
 	<td>
-	<p class="boxtext">{intl-shipping_type}:</p>
+	<h2>{intl-shipping_type}:</h2>
 	<div class="p">{shipping_type}</div>
 	</td>
 </tr>
@@ -52,9 +66,8 @@
 <tr>
 	<th>{intl-picture}:</th>
 	<th>{intl-product_name}:</th>
-	<th>{intl-options}:</th>
-	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}:</td>
+	<td align="right"><b>{intl-qty}:</td>
+	<td align="right"><b>{intl-price}:</b></td>
 </tr>
 <!-- BEGIN order_item_tpl -->
 
@@ -67,13 +80,12 @@
 	<td class="{td_class}">
 	{product_name}&nbsp;
 	</td>
-	<td class="{td_class}">
+
         <!-- BEGIN order_item_option_tpl -->
-	<span class="small">{option_name}: {option_value}</span><br />
+
         <!-- END order_item_option_tpl -->
-	&nbsp;
-	</td>
-	<td class="{td_class}">
+
+	<td align="right" class="{td_class}">
 	{order_item_count}
 	</td>
 	<td class="{td_class}" align="right">
@@ -83,19 +95,22 @@
 <!-- END order_item_tpl -->
 <tr>
 	<td>&nbsp;</td>
-	<td align="right" colspan="3" class="boxtext">{intl-shipping_and_handling}:</td>
+	<td align="right" colspan="2" class="boxtext">{intl-shipping_and_handling}:</td>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right" colspan="3" class="boxtext">{intl-vat}:</td>
+	<td align="right" colspan="2" class="boxtext">{intl-vat}:</td>
 	<td align="right">{order_vat_sum}</td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right" colspan="3" class="boxtext">{intl-total}:</td>
+	<td align="right" colspan="2" class="boxtext">{intl-total}:</td>
 	<td align="right">{order_sum}</td>
 </tr>
 </table>
 <!-- END order_item_list_tpl -->
 
+</td>
+</tr>
+</table>
