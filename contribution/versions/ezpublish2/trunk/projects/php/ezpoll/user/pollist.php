@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.3 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: pollist.php,v 1.4 2000/10/26 17:58:54 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -51,7 +51,7 @@ $poll = new eZPoll();
 $pollList = $poll->getAllActive( );
 
 
-$ini = new INIFile( "ezpoll/intl/" . $Language . "/pollist.php.ini", false );
+$ini = new INIFile( "ezpoll/user/intl/" . $Language . "/pollist.php.ini", false );
 $nonActive =  $ini->read_var( "strings", "non_active" );
 $active =  $ini->read_var( "strings", "active" );
 

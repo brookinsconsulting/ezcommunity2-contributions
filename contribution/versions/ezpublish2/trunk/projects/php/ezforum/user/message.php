@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.2 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: message.php,v 1.3 2000/10/26 17:58:54 ce-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -96,6 +96,9 @@ foreach ( $messages as $message )
         $t->set_var( "td_class", "bgdark" );
     
     $level = $message->depth();
+
+    if ( $message->id() == $MessageID )
+        $t->set_var( "td_class", "bglight" ); // TODO: Get another color!
     
     if ( $level > 0 )
         $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );

@@ -80,7 +80,7 @@
 <tr>
     	<td class="{td_class}">
 	   {spacer}
-	<a href="/forum/message/{message_id}/{forum_id}/">
+	<a href="/forum/message/{message_id}/">
 	{reply_topic}
 	</a>
 	</td>
@@ -94,13 +94,21 @@
     <!-- END message_item_tpl -->
 
 </table>
-
-<form action="/forum/messageedit/new/{forum_id}">
-
-<hr noshade="noshade" size="4" />
-    
-<input class="okbutton" type="submit" value="{intl-new-posting}" />
-
 </form>
 
+<hr noshade="noshade" size="4" />
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td>
+	<form action="/forum/messageedit/new/{forum_id}">
+  	<input class="okbutton" type="submit" value="{intl-new-posting}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form action="/forum/messagelist/{forum_id}/">
+  	<input class="okbutton" type="submit" value="{intl-list}" />
+	</td>
+</tr>
+</table>
 

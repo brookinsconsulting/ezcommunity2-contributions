@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.4 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: useredit.php,v 1.5 2000/10/26 17:58:54 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -151,7 +151,7 @@ $t->set_file( array(
     ) );
 
 
-$headline = new INIFIle( "ezuser/intl/" . $Language . "/useredit.php.ini", false );
+$headline = new INIFIle( "ezuser/user/intl/" . $Language . "/useredit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
 
 $actionValue = "insert";
@@ -169,7 +169,7 @@ if ( $Action == "Edit" )
     $VerifyPassword = "dummy";
     $t->set_var( "read_only", "readonly=readonly" );
     $actionValue = "update";
-    $headline = new INIFIle( "ezuser/intl/" . $Language . "/useredit.php.ini", false );
+    $headline = new INIFIle( "ezuser/user/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
 
