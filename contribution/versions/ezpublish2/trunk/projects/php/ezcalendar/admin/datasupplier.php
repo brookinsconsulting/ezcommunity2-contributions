@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.4 2001/07/20 11:57:16 jakobn Exp $
+// $Id: datasupplier.php,v 1.5 2001/09/04 12:05:47 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 switch ( $url_array[2] )
 {

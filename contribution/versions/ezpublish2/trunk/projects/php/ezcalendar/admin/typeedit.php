@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.7 2001/07/29 23:31:02 kaid Exp $
+// $Id: typeedit.php,v 1.8 2001/09/04 12:05:47 jhe Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 gl>
 //
@@ -23,8 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
-if ( isset( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     Header( "Location: /calendar/typelist/" );
     exit();
@@ -42,7 +41,6 @@ $LanguageIni = new INIFile( "ezcalendar/admin/intl/" . $Language . "/typeedit.ph
 
 include_once( "ezcalendar/classes/ezappointment.php" );
 include_once( "ezcalendar/classes/ezappointmenttype.php" );
-
 
 if ( $Action == "Insert" )
 {
@@ -67,7 +65,7 @@ if ( $Action == "Update" )
     $type->setName( $Name );
     $type->setDescription( $Description );
 
-    if ( $ParentID != 0 && $ParentID != $type->id() )
+    if ( $ParentID != $type->id() )
     {
         $type->setParent( new eZAppointmentType( $ParentID ) );
     }
@@ -145,7 +143,6 @@ foreach ( $typeList as $typeSubList )
     if ( $type->id() != $typeItem->id() )
         $t->parse( "parent_item", "parent_item_tpl", true );
 }
-
 
 if ( $Action == "Edit" )
 {
