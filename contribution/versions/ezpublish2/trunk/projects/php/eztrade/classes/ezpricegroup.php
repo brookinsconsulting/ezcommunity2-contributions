@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.11 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezpricegroup.php,v 1.12 2001/08/31 09:44:36 br Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -203,16 +203,17 @@ class eZPriceGroup
                 $first ? $group_text = "GroupID='$group'" : $group_text .= "OR GroupID='$group'";
                 $first = false;
             }
-            $group_text = "( $group_text )";
+            if ( $group_text )
+                $group_text = " AND ( $group_text )";
         }
         else
         {
-            $group_text = "GroupID='$group_id'";
+            $group_text = "AND GroupID='$group_id'";
         }
         $db->array_query( $array, "SELECT PriceID
                                    FROM eZTrade_GroupPriceLink, eZTrade_PriceGroup
-                                   WHERE PriceID=ID AND $group_text
-                                   ORDER BY Placement LIMIT 1" );
+                                   WHERE PriceID=ID $group_text
+                                   ORDER BY Placement", array( "Limit" => 1, "Offset" => 0 ) );
         if ( count( $array ) == 1 )
             return $array[0][$db->fieldName("PriceID")];
         return false;
