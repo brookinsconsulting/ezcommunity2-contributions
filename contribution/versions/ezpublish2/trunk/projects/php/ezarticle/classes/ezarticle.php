@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.116 2001/07/09 11:57:25 bf Exp $
+// $Id: ezarticle.php,v 1.117 2001/07/09 20:01:13 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -86,7 +86,8 @@ class eZArticle
         $this->IsPublished = "0";
         $this->StartDate = 0;
         $this->StopDate = 0;
-        
+
+        $this->PublishedOverride = 0;
         
         if ( $id != "" )
         {
@@ -128,6 +129,12 @@ class eZArticle
 
             $timeStamp =& eZDateTime::timeStamp( true );
 
+            if ( $this->PublishedOverride != 0 )
+                $published = $this->PublishedOverride;
+            else
+                $published = $timeStamp;
+                
+            
             // fix for informix blob field
             $contentsStr = "'$contents'";
 
@@ -174,7 +181,7 @@ class eZArticle
                                    '$startDate',
                                    '$stopDate',
                                    '$timeStamp',
-                                   '$timeStamp',
+                                   '$published',
                                    '$timeStamp' )
                                  " );
 
@@ -214,6 +221,11 @@ class eZArticle
             $db->array_query( $res, "SELECT ID FROM eZArticle_Article WHERE IsPublished='0' AND ID='$this->ID'" );
 
             $timeStamp =& eZDateTime::timeStamp( true );            
+
+            if ( $this->PublishedOverride != 0 )
+                $published = $this->PublishedOverride;
+            else
+                $published = $timeStamp;
             
             if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "1" ) )
             {                
@@ -230,13 +242,18 @@ class eZArticle
                                  TopicID='$this->TopicID',
                                  StartDate='$startDate',
                                  StopDate='$stopDate',
-                                 Published='$timeStamp',
+                                 Published='$published',
                                  Modified='$timeStamp'
                                  WHERE ID='$this->ID'
                                  " );
             }
             else
             {
+                if ( $this->PublishedOverride != 0 )
+                    $published = $this->PublishedOverride;
+                else
+                    $published = $timeStamp;
+                
                 $ret = $db->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
                                  $contentsStr
@@ -248,6 +265,7 @@ class eZArticle
                                  Discuss='$this->Discuss',
                                  ContentsWriterID='$this->ContentsWriterID',
                                  TopicID='$this->TopicID',
+                                 Published='$published',
                                  StartDate='$startDate',
                                  StopDate='$stopDate',
                                  Modified='$timeStamp'
@@ -478,6 +496,19 @@ class eZArticle
     }
 
     /*!
+      Returns the modification time of the article.
+
+      The time is returned as a eZDateTime object.
+    */
+    function &modified()
+    {
+        $dateTime = new eZDateTime();
+        $dateTime->setTimeStamp( $this->Modified );
+       
+        return $dateTime;
+    }
+    
+    /*!
       Returns the keywords of an article.
     */
     function keywords( )
@@ -687,8 +718,23 @@ class eZArticle
     */
     function setStartDate( &$date )
     {
-        if ( get_class ( $date ) == "ezdatetime" )
-            $this->StartDate = $date;
+        if ( get_class( $date ) == "ezdatetime" )
+        {
+            if ( $date->year() != "1970" and $date->month() != "1" and $date->day() != "1" )
+            {
+                $this->StartDate = $date;
+
+                $now = eZDateTime::timeStamp( true );
+                $startDate = $date->timeStamp();
+
+                if ( ( $startDate < $now ) and ( $date->year() != "1970" )  )
+                {
+                    $this->PublishedOverride = $startDate;
+                    $this->IsPublished = 1;
+                    $this->StartDate = 0;            
+                }
+            }
+        }
     }
 
     /*!
@@ -2176,6 +2222,8 @@ class eZArticle
     var $Modified;
     var $Created;
     var $Published;
+    // override publising date
+    var $PublishedOverride;
     var $Keywords;
     var $Discuss;
     var $TopicID;

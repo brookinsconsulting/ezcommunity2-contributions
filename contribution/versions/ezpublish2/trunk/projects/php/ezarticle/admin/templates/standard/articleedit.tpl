@@ -117,6 +117,24 @@
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
 
+
+
+<table border="0">
+<tr>
+	<td valign="top">
+	<!-- BEGIN published_tpl -->
+	<b>{intl-published}:</b> {published_date}
+	<!-- END published_tpl -->
+	<!-- BEGIN un_published_tpl -->
+	<b>{intl-un_published}</b>
+	<!-- END un_published_tpl -->
+<br />	
+
+	<b>{intl-created}:</b> {created_date}<br />
+	<b>{intl-modified}:</b> {modified_date}<br />
+	</td>
+	<td valign="top">
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td colspan="5">
@@ -168,7 +186,7 @@
 	</td>
 </tr>
 <tr>
-	<td>
+	<td >
 	<span class="small">{intl-day}:</span>
 	</td>
 	<td>
@@ -203,7 +221,13 @@
 	</td>
 </tr>
 </table>
-<br /><br />
+
+</td>
+</tr>
+</table>
+
+
+
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

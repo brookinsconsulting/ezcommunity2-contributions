@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.53 2001/07/09 09:29:27 th Exp $
+// $Id: articleview.php,v 1.54 2001/07/09 20:01:13 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -228,7 +228,12 @@ if ( $article->get( $ArticleID ) )
     $published = $article->published();
 
     $t->set_var( "article_created", $locale->format( $published ) );
- 
+
+}
+else
+{
+    eZHTTPTool::header( "Location: /error/404" );
+    exit();
 }
 
 // set the variables in the mail_to form
