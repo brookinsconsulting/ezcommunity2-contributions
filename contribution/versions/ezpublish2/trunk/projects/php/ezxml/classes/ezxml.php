@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.2 2001/11/16 15:05:41 bf Exp $
+// $Id: ezxml.php,v 1.3 2001/11/16 15:15:14 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -111,6 +111,12 @@ class eZXML
                     }
                     else
                         $justName = $tagName;
+
+                    // remove trailing / from the name if exists
+                    if ( $justName[strlen($justName) - 1]  == "/" )
+                    {
+                        $justName = substr( $justName, 0, strlen( $justName ) - 1 );
+                    }
 
                     // start tag
                     unset( $subNode );
