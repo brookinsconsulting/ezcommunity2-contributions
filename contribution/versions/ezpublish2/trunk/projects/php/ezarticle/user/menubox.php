@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.7 2001/02/23 14:13:08 gl Exp $
+// $Id: menubox.php,v 1.8 2001/02/23 15:08:30 fh Exp $
 //
 // 
 //
@@ -36,7 +36,21 @@ $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching");
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
-    $menuCachedFile = "ezarticle/cache/menubox.cache";
+    $user = eZUser::currentUser();
+    $groupstr = "";
+    if( get_class( $user ) == "ezuser" )
+    {
+        $groupIDArray = $user->groups( true );
+        sort( $groupIDArray );
+        $first = true;
+        foreach( $groupIDArray as $groupID )
+        {
+            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+            $first = false;
+        }
+    }
+    
+    $menuCachedFile = "ezarticle/cache/menubox" . $groupstr .".cache";
                     
     if ( file_exists( $menuCachedFile ) )
     {
@@ -84,20 +98,21 @@ function createArticleMenu()
 
     $articleCategory_array = $articleCategory->getByParent( $articleCategory );
 
-    if ( count( $articleCategory_array ) == 0 )
+    $i = 0;
+    foreach( $articleCategory_array as $categoryItem )
     {
+        if( eZArticleCategory::hasReadPermission( eZUser::currentUser(), $categoryItem->id() ) )
+            break;
+            
+        $t->set_var( "articlecategory_id", $categoryItem->id()  );
+        $t->set_var( "articlecategory_title", $categoryItem->name() );
+            
+        $t->parse( "article_category", "article_category_tpl", true );
+        $i++;
+    }
+    if( $i == 0 )
         $t->set_var( "category_list", "" );
-    }
-    else
-    {
-        foreach( $articleCategory_array as $categoryItem )
-        {
-            $t->set_var( "articlecategory_id", $categoryItem->id() );
-            $t->set_var( "articlecategory_title", $categoryItem->name() );
 
-            $t->parse( "article_category", "article_category_tpl", true );
-        }
-    }
     $t->set_var( "articlecategory_id", $LGID );
 
 
