@@ -85,7 +85,7 @@ else
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "address_type_id", "" );
-    $t->set_var( "head_line", "Legg til addresse type" );
+    $t->set_var( "head_line", "Legg til addressetype" );
 
 // Editere
     if ( $Action == "edit" )
@@ -97,7 +97,7 @@ else
         $t->set_var( "submit_text", "Lagre endringer" );
         $t->set_var( "action_value", "update" );
         $t->set_var( "address_type_id", $AID  );  
-        $t->set_var( "head_line", "Rediger addresse type");
+        $t->set_var( "head_line", "Rediger addressetype");
 
         $AddressTypeName = $type->name();
 

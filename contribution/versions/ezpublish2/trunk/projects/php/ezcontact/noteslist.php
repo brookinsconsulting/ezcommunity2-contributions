@@ -35,7 +35,7 @@ $note = new eZNote();
 
 $note_array = $note->getAllByUser( $usr->id() );
 
-$t->set_var( "notes", "<h2>Ingen notater funnet.</h2>", true );
+$t->set_var( "notes", "<h3>Ingen notater funnet!</h3>", true );
 for ( $i=0; $i<count( $note_array ); $i++ )    
 {
     if ( ( $i % 2 ) == 0 )
