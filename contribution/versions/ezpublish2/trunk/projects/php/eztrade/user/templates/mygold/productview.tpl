@@ -10,16 +10,14 @@
 	<hr noshade size="1"/>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr> 
-			<td colspan="2" width="99%"> 
+			<td colspan="2" width="99%" valign="top"> 
 				<h2>{title_text}</h2>
 			</td>
 			<td rowspan="3"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="8" height="8" /></td>
-			<td align="right" width="1%"> 
+			<td align="right" width="1%" valign="bottom"> 
 				<!-- BEGIN product_number_item_tpl -->
-				{intl-nr}: {product_number} 
+				{intl-nr}: {product_number}<br /><br /> 
 				<!-- END product_number_item_tpl -->
-				<br />
-				<br />
 			</td>
 		</tr>
 		<tr> 
@@ -62,7 +60,7 @@
 								<tr> 
 									<td class="attribute" valign="top"> {attribute_name}:&nbsp; 
 									</td>
-									<td class="attributevalue" align="right" valign="top"> 
+									<td class="attributevalue" align="right" valign="bottom"> 
 										{attribute_value} </td>
 								</tr>
 								<!-- END attribute_tpl -->
