@@ -12,6 +12,12 @@
 	<td>
 	<h1>{article_name}</h1>
 	</td>
+	<td>
+	<!-- BEGIN current_category_image_item_tpl -->
+	<img src="{www_dir}{current_category_image_url}" alt="{current_category_image_caption}" width="{current_category_image_width}" height="{current_category_image_height}" border="0" />
+	<!-- END current_category_image_item_tpl -->
+
+	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/article/search/" method="post">
 	<input class="searchbox" type="text" name="SearchText" size="10" />	

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.73 2001/08/29 12:39:20 bf Exp $
+// $Id: articleview.php,v 1.74 2001/08/30 11:20:49 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -118,6 +118,9 @@ $t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
 $t->set_block( "article_view_page_tpl", "image_list_tpl", "image_list" );
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
 
+// current category image
+$t->set_block( "article_view_page_tpl", "current_category_image_item_tpl", "current_category_image_item" );
+
 $t->set_block( "article_view_page_tpl", "page_link_tpl", "page_link" );
 $t->set_block( "article_view_page_tpl", "current_page_link_tpl", "current_page_link" );
 $t->set_block( "article_view_page_tpl", "next_page_link_tpl", "next_page_link" );
@@ -139,6 +142,9 @@ $t->set_var( "article_url_item", "" );
 if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     $t->parse( "article_url_item", "article_url_item_tpl" );
 
+
+// makes the section ID available in articleview template
+$t->set_var( "section_id", $GlobalSectionID );
 
 $article = new eZArticle(  );
 
@@ -167,6 +173,34 @@ if ( $article->get( $ArticleID ) )
         $category = new eZArticleCategory( $CategoryID );
     }
 
+    // current category image
+    $image =& $category->image();
+
+    $t->set_var( "current_category_image_item", "" );
+        
+    if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+    {
+        $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
+        $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
+
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth =& $variation->width();
+        $imageHeight =& $variation->height();
+        $imageCaption =& $image->caption();
+            
+        $t->set_var( "current_category_image_width", $imageWidth );
+        $t->set_var( "current_category_image_height", $imageHeight );
+        $t->set_var( "current_category_image_url", $imageURL );
+        $t->set_var( "current_category_image_caption", $imageCaption );
+        $t->parse( "current_category_image_item", "current_category_image_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "current_category_image_item", "" );
+    }
+    
     $pathArray =& $category->path();
     
     $t->set_var( "path_item", "" );
@@ -496,8 +530,7 @@ $SiteTitleAppend = $article->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0] ) );
 
 if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
-{
-    
+{    
     $fp = eZFile::fopen( $cachedFile, "w+");
 
     // add PHP code in the cache file to store variables
