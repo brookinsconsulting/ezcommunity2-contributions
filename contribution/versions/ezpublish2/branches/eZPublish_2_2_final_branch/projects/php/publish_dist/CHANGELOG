@@ -26,6 +26,7 @@ Changes from 2.2.3 to 2.2.4
 * Fixed demo data in eZ newsfeed
 * Fixed xml bug in techrenderer.
 * Fixed bug with unpublished articles in categories excluded from search
+* Fixed problems with new games in eZ quiz (added SQL fix)
 
 Changes from 2.2.2 to 2.2.3
 ---------------------------
