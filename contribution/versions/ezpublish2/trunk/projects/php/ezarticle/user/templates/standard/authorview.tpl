@@ -40,7 +40,7 @@
 	{author_name}
 	</td>
 	<td class="{td_class}">
-	{article_published}
+	<span class="small">{article_published}</span>
 	</td>
 </tr>
 <!-- END article_item_tpl -->

@@ -110,8 +110,12 @@
 
 </table>
 
+<hr noshade="noshade" size="4">
+
+<input name="DeleteSelected" class="stdbutton" type="submit" value="{intl-del_selected}" />
 
 <!-- end of inserted images -->
+
 <hr noshade="noshade" size="4">
 
 <table cellspacing="0" cellpadding="0" border="0">
@@ -121,10 +125,6 @@
   	<td><input name="InsertFile" class="stdbutton" type="submit" value="{intl-add_patch}" /></td>
 </tr>
 </table>
-
-<hr noshade="noshade" size="4">
-
-<input name="DeleteSelected" class="stdbutton" type="submit" value="{intl-del_selected}" />
 
 <hr noshade="noshade" size="4">
 
