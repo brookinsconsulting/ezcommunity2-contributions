@@ -27,6 +27,7 @@ Changes from 2.2.7 to 2.2.8
 * Fixed bug with time publishing of articles (in categories with editor)
 * Large speed improvements in the article module (large cut-down in sql queries)
 * Speed improvements in module handler
+* Fixed security bug with Java script in search
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
