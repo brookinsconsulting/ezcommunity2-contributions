@@ -1,6 +1,10 @@
-<form method="post" action="/filemanager/new/" enctype="multipart/form-data">
-
-<h1>{intl-files}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h1>{intl-files}</h1>
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN current_folder_tpl -->
 <!--
@@ -27,6 +31,8 @@
 <!-- END path_item_tpl -->
 
 <div class="spacer"><div class="p">{current_folder_description}</div></div>
+
+<form method="post" action="/filemanager/new/" enctype="multipart/form-data">
 
 <!-- BEGIN folder_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
