@@ -515,29 +515,6 @@ alter table eZTrade_AlternativeCurrency add Created timestamp;
 
 ### BETA 3 - PRE 1
 #sync permission stuff with filemanager  
-#ALTER TABLE eZArticle_Category ADD OwnerGroupID int(11) DEFAULT NULL;
-#ALTER TABLE eZArticle_Article ADD OwnerGroupID int(11) DEFAULT NULL;
-ALTER TABLE eZArticle_Category ADD WritePermission int(1) DEFAULT '0';
-ALTER TABLE eZArticle_Article ADD WritePermission int(1) DEFAULT '0';
-#UPDATE eZArticle_Article SET WritePermission='2';
-#UPDATE eZArticle_Category SET WritePermission='2';
- 
-CREATE TABLE eZArticle_CategoryWriteGroupLink (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  CategoryID int(11) DEFAULT '0' NOT NULL,
-  GroupID int(11) DEFAULT '0' NOT NULL,
-  Created timestamp(14),
-  PRIMARY KEY (ID)
-);
- 
-CREATE TABLE eZArticle_ArticleWriteGroupLink (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  ArticleID int(11) DEFAULT '0' NOT NULL,
-  GroupID int(11) DEFAULT '0' NOT NULL,
-  Created timestamp(14),
-  PRIMARY KEY (ID)
-);  
-
 alter table eZBug_Bug add IsPrivate enum('true','false') default 'false'; 
 
 # Permission for eZArticle
@@ -551,3 +528,9 @@ create table eZImageCatalogue_CategoryPermission( ID int primary key auto_increm
 # Permission for eZFileManager
 create table eZFileManager_FilePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
 create table eZFileManager_FolderPermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );      
+
+# drop old permission stuff in eZArticle
+DROP TABLE IF EXISTS eZArticle_ArticleReaderLink;
+ALTER TABLE eZArticle_Article DROP ReadPermission;
+ALTER TABLE eZArticle_Category DROP ReadPermission;
+ALTER TABLE eZArticle_Article DROP OwnerGroupID;
