@@ -1,13 +1,8 @@
-# MySQL dump 7.1
 #
-# Host: localhost    Database: ezlink
-#--------------------------------------------------------
-# Server version	3.22.32
-
+# Table structure for table 'eZLink_Hit'
 #
-# Table structure for table 'Hit'
-#
-CREATE TABLE Hit (
+DROP TABLE IF EXISTS eZLink_Hit;
+CREATE TABLE eZLink_Hit (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Link int(11),
   Time timestamp(14),
@@ -16,9 +11,10 @@ CREATE TABLE Hit (
 );
 
 #
-# Table structure for table 'Link'
+# Table structure for table 'eZLink_Link'
 #
-CREATE TABLE Link (
+DROP TABLE IF EXISTS eZLink_Link;
+CREATE TABLE eZLink_Link (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Title varchar(100),
   Description text,
@@ -32,12 +28,12 @@ CREATE TABLE Link (
 );
 
 #
-# Table structure for table 'LinkGroup'
+# Table structure for table 'eZLink_LinkGroup'
 #
-CREATE TABLE LinkGroup (
+DROP TABLE IF EXISTS eZLink_LinkGroup;
+CREATE TABLE eZLink_LinkGroup (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Parent int(11) DEFAULT '0',
   Title char(100),
   PRIMARY KEY (ID)
 );
-
