@@ -80,3 +80,14 @@ Maintainer(s) : fh@ez.no
 
     * user/mailedit.php: permission fix
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/Attic/ezmail.sql
+      sql/informix/ezmail.sql
+      sql/mysql/ezmail.sql
+      sql/postgresql/ezmail.sql: updated sql scheemes, ready for release
+

@@ -278,3 +278,18 @@ Maintainer(s) : jhe@ez.no
       sql/postgresql/ezcontact.sql
       user/menubox.php: fixed searching for online addresses and phones
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/Attic/ezcontact.sql: updated sql scheemes, ready for release
+
+    * admin/personedit.php
+      classes/ezcompany.php
+      user/companysearch.php: fixed logo and image for companies
+
+    * sql/mysql/ezcontact.sql
+      sql/postgresql/ezcontact.sql: updated sql scheemas, ready for release
+

@@ -1208,3 +1208,36 @@ Maintainer(s) : bf@ez.no
       user/frontpage.php
       user/searchsupplier.php: Count fix.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-11  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/standard/frontpage.tpl: added intl variable.
+
+    * user/intl/en_GB/frontpage.php.ini
+      user/intl/no_NO/frontpage.php.ini
+      user/menumaker.php
+      user/templates/standard/frontpage.tpl:
+    set intl variable to the text "Get more info in the shop" and fixed a
+    block in menumaker.
+
+2001-10-11  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/menubox.tpl: Link fix.
+
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/informix/ezarticle.sql
+      sql/mysql/ezarticle.sql
+      sql/postgresql/ezarticle.sql: updated sql scheemes, ready for release
+
+2001-10-11  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/categorylist.php: Implemented custom columns on category lists.
+
+2001-10-11  Thomas Hellstroem  <th@ez.no>
+
+    * user/datasupplier.php: Layout
+

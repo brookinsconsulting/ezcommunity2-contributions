@@ -48,3 +48,12 @@ Maintainer(s) : vl@ez.no
       user/intl/he_IL/newslist.php.ini
       user/intl/he_IL/search.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/eznewsfeed.sql
+      sql/postgresql/eznewfeed.sql: updated sql scheemes, ready for release
+

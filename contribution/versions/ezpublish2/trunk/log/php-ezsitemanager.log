@@ -191,3 +191,31 @@ Maintainer(s) : vl@ez.no
 
     * admin/sectionedit.php: Fixed a bug
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-11  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/en_GB/sectionedit.php.ini
+      admin/intl/no_NO/sectionedit.php.ini
+      admin/sectionedit.php
+      admin/templates/standard/sectionedit.tpl
+      classes/ezsection.php
+      classes/ezsectionfrontpage.php: Fixed some bugs.
+    * Added headline in sectionedit
+    * Fixed when a category had no items
+    * Added function &settingByRowID in classes/ezsectionfrontpage.php
+    * Store data when user enter OK.
+    * Fixed up / down ( was going the wrong way, removed DESC in sql )
+
+2001-10-11  Baard Farstad  <bf@ez.no>
+
+    * admin/sqlquery.php: Fixed query.
+
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezsitemanager.sql
+      sql/postgresql/ezsitemanager.sql:
+    updated sql scheemes, ready for release
+

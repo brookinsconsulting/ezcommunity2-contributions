@@ -95,3 +95,12 @@ Maintainer(s) : ce@ez.no
       admin/intl/he_IL/statustypelist.php.ini:
     Added he_IL (Hebrew) translation
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/eztodo.sql
+      sql/postgresql/eztodo.sql: updated sql scheemes, ready for release
+

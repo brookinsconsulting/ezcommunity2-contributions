@@ -410,3 +410,40 @@ Maintainer(s) : jhe@ez.no
 
     * user/searchsupplier.php: Count fix.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/message.php
+      admin/messageedit.php
+      admin/messagelist.php
+      classes/ezforum.php: fixed several bugs in edmin
+
+    * sql/Attic/ezforum.sql
+      sql/informix/ezforum.sql
+      user/forumlist.php
+      user/messagepermissions.php: updated sql scheemes, ready for release
+
+2001-10-11  Christoffer Elo  <ce@ez.no>
+
+    * user/messagelist.php: fixed a bug
+
+    * user/messagelist.php: fix
+
+    * user/intl/en_GB/messagelist.php.ini
+      user/messagelist.php
+      user/templates/standard/messagelist.tpl: Added no access
+
+    * user/messagelist.php: Fixed a bug
+
+    * user/intl/en_GB/noaccess.php.ini
+      user/messagelist.php
+      user/templates/standard/noaccess.tpl: Added no access page.
+
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezforum.sql
+      sql/postgresql/ezforum.sql: updated sql scheemas, ready for release
+

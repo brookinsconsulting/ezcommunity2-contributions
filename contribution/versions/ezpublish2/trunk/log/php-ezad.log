@@ -80,3 +80,13 @@ Maintainer(s) : br@ez.no
     added queuedadlist.php: Can read all ads to a category the first time
     and print one ad each time you include this file in a script.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/Attic/ezad.sql
+      sql/informix/ezad.sql
+      sql/mysql/ezad.sql: updated sql scheemes, ready for release
+

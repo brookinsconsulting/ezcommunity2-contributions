@@ -1129,3 +1129,29 @@ Maintainer(s) : ce@ez.no
     This is now fixed, so so the user get the lowest prices from the groups
     he is member of.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-11  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezorder.php
+      user/payment.php: Added copy of address on eztrade
+
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql: updated sql scheemes, ready for release
+
+2001-10-11  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php: fixed a bug
+
+2001-10-11  Sascha Frinken  <sascha@impetex.de>
+
+    * user/templates/mygold/vouchermain.tpl
+      user/datasupplier.php
+      user/vouchermain.php
+      user/intl/de_MG/extendedsearch.php.ini
+      user/intl/de_MG/vouchermain.php.ini: sf
+

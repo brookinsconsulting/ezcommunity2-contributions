@@ -42,3 +42,12 @@ Maintainer(s) : bf@ez.no
 
     * sql/mysql/ezsession.sql: Added indeces.
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/informix/ezsession.sql
+      sql/mysql/ezsession.sql: updated sql scheemes, ready for release
+

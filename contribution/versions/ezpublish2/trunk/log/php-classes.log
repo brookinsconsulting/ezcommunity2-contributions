@@ -219,3 +219,15 @@ Maintainer(s) : bf@ez.no
     * ezbenchmark.php
       ezmysqldb.php: Added bebug possibility.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-11  Christoffer Elo  <ce@ez.no>
+
+    * ezgpg.php: Added copy of address on eztrade
+
+2001-10-11  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: Version change.
+

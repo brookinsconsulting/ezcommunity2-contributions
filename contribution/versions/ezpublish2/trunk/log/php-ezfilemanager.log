@@ -324,3 +324,12 @@ Maintainer(s) : jhe@ez.no
       user/templates/standard/folderedit.tpl:
     Bugfixes... Module should be ready for release.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/postgresql/ezfilemanager.sql
+      sql/mysql/ezfilemanager.sql: updated sql scheemas, ready for release
+

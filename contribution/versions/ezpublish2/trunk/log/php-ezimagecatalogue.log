@@ -454,3 +454,29 @@ Maintainer(s) : br@ez.no
     * classes/ezimagecategory.php:
     Added the right permission systems to the slideshow.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/informix/ezimagecatalogue.sql
+      sql/mysql/ezimagecatalogue.sql
+      sql/postgresql/ezimagecatalogue.sql:
+    updated sql scheemes, ready for release
+
+2001-10-11  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/categorylist.php
+      xmlrpc/unassignedlist.php:
+    Implemented custom columns on category and unassigned lists.
+
+2001-10-11  Sascha Frinken  <sascha@impetex.de>
+
+    * user/intl/de_MG/categoryedit.php.ini
+      user/intl/de_MG/imageedit.php.ini
+      user/intl/de_MG/imagelist.php.ini
+      user/intl/de_MG/imageview.php.ini
+      user/intl/de_MG/menubox.php.ini
+      user/templates/mygold/imageview.tpl: sf
+

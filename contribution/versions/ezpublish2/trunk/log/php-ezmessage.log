@@ -22,3 +22,12 @@ Maintainer(s) : bf@ez.no
       admin/intl/no_NO/messagelist.php.ini
       admin/intl/no_NO/messageview.php.ini: Translated to norwegian.
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezmessage.sql
+      sql/postgresql/ezmessage.sql: updated sql scheemes, ready for release
+

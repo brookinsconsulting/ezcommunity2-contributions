@@ -11,3 +11,12 @@ Maintainer(s) : pkej@ez.no
 Module : ezquiz
 Repository path : /home/cvsroot/projects/php/ezquiz
 Maintainer(s) : pkej@ez.no
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezquiz.sql
+      sql/postgresql/ezquiz.sql: updated sql scheemes, ready for release
+

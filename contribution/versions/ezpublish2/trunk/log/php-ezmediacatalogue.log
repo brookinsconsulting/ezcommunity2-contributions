@@ -60,3 +60,13 @@ Maintainer(s) : ce@ez.no
     * sql/mysql/ezmediacatalogue.sql
       sql/postgresql/ezmediacatalogue.sql: Added missing SQL tables/fields.
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezmediacatalogue.sql
+      sql/postgresql/ezmediacatalogue.sql:
+    updated sql scheemes, ready for release
+

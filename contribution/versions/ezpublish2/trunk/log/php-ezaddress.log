@@ -43,3 +43,20 @@ Maintainer(s) : ce@ez.no
       admin/intl/he_IL/onlinetype.php.ini
       admin/intl/he_IL/phonetype.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-11  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezaddress.sql: SQL update.
+
+2001-10-11  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezaddress.php: Added copy of address on eztrade
+
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezaddress.sql
+      sql/postgresql/ezaddress.sql: updated sql scheemes, ready for release
+

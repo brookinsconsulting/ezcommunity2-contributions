@@ -140,3 +140,16 @@ Maintainer(s) : vl@ez.no
     Fixed 'true' and != error... Also don't send url's to users that contain
     admin URL
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-11  fh  <fh@zev.ez.no>
+
+    * user/templates/standard/buglist.tpl: Standard template bugfix
+
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/Attic/ezbug.sql
+      sql/postgresql/ezbug.sql: updated sql scheemes, ready for release
+

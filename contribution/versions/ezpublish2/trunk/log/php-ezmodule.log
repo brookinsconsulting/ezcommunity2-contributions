@@ -11,3 +11,11 @@ Maintainer(s) : bf@ez.no
 Module : ezmodule
 Repository path : /home/cvsroot/projects/php/ezmodule
 Maintainer(s) : bf@ez.no
+
+Module : ezmodule
+Repository path : /home/cvsroot/projects/php/ezmodule
+Maintainer(s) : bf@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/postgresql/ezmodule.sql: updated sql scheemes, ready for release
+

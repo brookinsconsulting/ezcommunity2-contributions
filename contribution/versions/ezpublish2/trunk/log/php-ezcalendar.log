@@ -188,3 +188,11 @@ Maintainer(s) : jhe@ez.no
       user/dayview.php
       user/monthview.php: fixed $user bugs
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/Attic/ezcalendar.sql: updated sql scheemes, ready for release
+

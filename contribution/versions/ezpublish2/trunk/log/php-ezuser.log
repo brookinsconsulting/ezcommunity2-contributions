@@ -339,3 +339,21 @@ Maintainer(s) : bf@ez.no
 
     * sql/Attic/ezuser.sql: Removed obsolete file.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-11  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezuser.php: Added copy of address on eztrade
+
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezuser.sql
+      sql/postgresql/ezuser.sql: updated sql scheemes, ready for release
+
+2001-10-11  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezuser.php:
+    If mainaddress id == 0, then return false insted of a empty object.
+

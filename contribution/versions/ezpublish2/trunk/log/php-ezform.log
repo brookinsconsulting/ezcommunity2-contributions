@@ -154,3 +154,13 @@ Maintainer(s) : pkej@ez.no
 
     * sql/mysql/ezform.sql: added sql insertsc
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/Attic/ezform.sql
+      sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql: updated sql scheemes, ready for release
+

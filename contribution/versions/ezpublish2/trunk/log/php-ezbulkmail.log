@@ -150,3 +150,12 @@ Maintainer(s) : fh@ez.no
       user/subscriptionlogin.php:
     Fixed intl bugs, Fixed site.ini bug that made user login UNUSABLE.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/informix/ezbulkmail.sql
+      sql/postgresql/ezbulkmail.sql: updated sql scheemes, ready for release
+

@@ -94,3 +94,12 @@ Maintainer(s) : br@ez.no
       admin/intl/he_IL/visitorlist.php.ini
       admin/intl/he_IL/yearreport.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-10-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezstats.sql
+      sql/postgresql/ezstats.sql: updated sql scheemes, ready for release
+
