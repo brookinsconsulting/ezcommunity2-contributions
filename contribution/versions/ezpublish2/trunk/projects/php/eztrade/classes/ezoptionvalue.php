@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.10 2000/10/31 22:15:40 bf-cvs Exp $
+// $Id: ezoptionvalue.php,v 1.11 2000/11/01 09:24:18 ce-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZOptionValue class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Sep-2000 15:52:19 bf>

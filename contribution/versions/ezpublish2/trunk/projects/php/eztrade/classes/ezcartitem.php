@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.5 2000/10/31 22:15:40 bf-cvs Exp $
+// $Id: ezcartitem.php,v 1.6 2000/11/01 09:24:18 ce-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZCartItem class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 15:19:05 bf>
