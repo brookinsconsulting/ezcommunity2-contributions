@@ -9,6 +9,7 @@ Changes from 2.2.2 to 2.2.3
 * Fixed wrong display of prices in product lists.
 * Fixed wrong lookup of price groups in prices.
 * Speedup through better handling of $siteDir.
+* Improved process of connecting to mySQL server.
 
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------

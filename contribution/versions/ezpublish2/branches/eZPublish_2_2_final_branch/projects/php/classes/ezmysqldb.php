@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.26 2001/10/10 07:08:02 bf Exp $
+// $Id: ezmysqldb.php,v 1.26.2.1 2001/12/03 16:20:46 kaid Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -51,23 +51,28 @@ class eZMySQLDB
         }
         
         $this->Database = mysql_pconnect( $server, $user, $password );
-        if ( $this->Database == false )
+        $numAttempts = 1;
+        while ( $this->Database == false && $numAttempts < 5 )
         {
-            if ( $GLOBALS["DEBUG"] == true )
-            {
-                print( "<b>MySQL Error</b>: " . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database )."<br>" );
-            }
+            sleep(5);
+            $this->Database = mysql_pconnect( $server, $user, $password );
+            $numAttempts++;
         }
 
+        if ( $this->Database == false )
+        {
+            // No reason to continue as nothing will work.
+            print( "<H1>Couldn't connect to database</H1>Please try again later or inform the system administrator." );
+            exit;
+        }
         
         $ret = mysql_select_db( $db, $this->Database );
              
         if ( !$ret )
         {
-            if ( $GLOBALS["DEBUG"] == true )
-            {
-                print( "<b>MySQL Error</b>: " . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database )."<br>" );
-            }
+            // No reason to continue as nothing will work.
+            print( "<H1>MySQL Error</H1><br />" . mysql_errno( $this->Database ) . ": " . mysql_error( $this->Database )."<br /><hr />Please inform the system administrator." );
+            exit;
         }
     }
     
