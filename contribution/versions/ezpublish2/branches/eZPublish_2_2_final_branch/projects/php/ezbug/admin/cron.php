@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.1 2001/08/09 14:17:41 jhe Exp $
+// $Id: cron.php,v 1.1.2.1 2001/12/10 06:50:01 jhe Exp $
 //
 // Created on: <08-Aug-2001 14:28:11 jhe>
 //
@@ -27,8 +27,9 @@ include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezbug/classes/ezbug.php" );
 include_once( "ezbug/classes/ezbuglog.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini = new INIFile( "site.ini", false );
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 $MailUser = $ini->read_var( "eZBugMain", "MailAccount" );
