@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.23 2001/02/16 16:18:19 gl Exp $
+// $Id: ezdatetime.php,v 1.24 2001/02/20 13:37:58 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -272,7 +272,7 @@ class eZDateTime
         }
         else
         {
-            print( "<b>Error:</b> eZDateTime::setMySQLDate() received wrong MySQL date format." );
+            print( "<b>Error:</b> eZDateTime::setMySQLDateTime() received wrong MySQL datetime format." );
         }
     }
 
