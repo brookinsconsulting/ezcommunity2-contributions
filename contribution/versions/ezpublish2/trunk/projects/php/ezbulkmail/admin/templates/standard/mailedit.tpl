@@ -18,7 +18,7 @@
 <tr>
   <td width="50%">
     <p class="boxtext">{intl-category_select}:</p>
-    <select multiple name="CategoryArrayID[]">
+    <select multiple size="4" name="CategoryArrayID[]">
     <!-- BEGIN multiple_value_tpl -->
     <option value="{category_id}" {multiple_selected}>{category_name}</option>
     <!-- END multiple_value_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadclick.php,v 1.5 2001/05/05 11:16:03 bf Exp $
+// $Id: ezadclick.php,v 1.6 2001/05/09 15:08:19 bf Exp $
 //
 // Definition of eZAdClick class
 //
@@ -251,6 +251,5 @@ class eZAdClick
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
 }
-
 
 ?>

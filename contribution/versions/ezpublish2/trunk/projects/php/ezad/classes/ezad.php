@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.20 2001/05/05 11:16:03 bf Exp $
+// $Id: ezad.php,v 1.21 2001/05/09 15:08:19 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -558,7 +558,7 @@ class eZAd
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
@@ -592,6 +592,5 @@ class eZAd
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
 }
-
 
 ?>

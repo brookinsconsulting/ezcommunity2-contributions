@@ -112,7 +112,7 @@ class INIFile
             }
             $buffer = "<?php\n" . $buffer . "\n?>";
 
-            $fp = fopen ( $cachedFile, "w+" );        
+            $fp = fopen( $cachedFile, "w+" );        
             fwrite ( $fp, $buffer );
             fclose( $fp );
         }
