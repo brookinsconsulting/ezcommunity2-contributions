@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.75 2001/11/20 15:02:47 br Exp $
+// $Id: ezlink.php,v 1.76 2002/02/12 13:08:28 br Exp $
 //
 // Definition of eZLink class
 //
@@ -315,7 +315,8 @@ class eZLink
         $link_array = array();
         $return_array = array();
         
-        $db->array_query( $link_array, "SELECT ID, Name FROM eZLink_Link WHERE LinkCategory='$id' AND Accepted='1' ORDER BY Name" );
+        $db->array_query( $link_array, "SELECT eZLink_Link.ID FROM eZLink_Link, eZLink_LinkCategoryLink
+                                        WHERE CategoryID='$id' AND eZLink_Link.ID=LinkID AND Accepted='1' ORDER BY Name" );
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
