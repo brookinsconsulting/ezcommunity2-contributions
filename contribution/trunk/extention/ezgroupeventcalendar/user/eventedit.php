@@ -56,6 +56,24 @@ if ( isSet( $GoDay ) )
     eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
     exit();
 }
+else if ( isSet( $GoWeek ) )
+{
+  include_once( "classes/ezdate.php" );
+
+  $session =& eZSession::globalSession();
+  $session->fetch();
+
+  $year = $session->variable( "Year" );
+  $month = $session->variable( "Month" );
+  $day = $session->variable( "Day" );
+
+  $date = new eZDate( $year, $month, $day );
+  if ( $date->daysInMonth() < $day )
+    $day = $date->daysInMonth();
+
+  eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
+  exit();
+}
 else if ( isSet( $GoMonth ) )
 {
     $session =& eZSession::globalSession();
@@ -114,6 +132,8 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "ezgroupeventcalendar/classes/ezgroupevent.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
+include_once( "ezgroupeventcalendar/classes/ezgroupeventcategory.php" );
+
 include_once( "ezgroupeventcalendar/classes/ezgroupeditor.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupnoshow.php" );
 
@@ -171,6 +191,8 @@ $t->set_block( "no_error_tpl", "stop_ampm_radio_tpl", "stop_ampm_radio" );
 $t->set_block( "no_error_tpl", "start_time_error_tpl", "start_time_error" );
 $t->set_block( "no_error_tpl", "stop_time_error_tpl", "stop_time_error" );
 $t->set_block( "no_error_tpl", "value_tpl", "value" );
+$t->set_block( "no_error_tpl", "category_value_tpl", "category_value" );
+
 $t->set_block( "no_error_tpl", "month_tpl", "month" );
 $t->set_block( "no_error_tpl", "day_tpl", "day" );
 $t->set_block( "no_error_tpl", "year_tpl", "year" );
@@ -429,15 +451,23 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
     if ( $user )
     {
         $type = new eZGroupEventType( $TypeID );
-
+     
         if ( $Action == "Update" )
             $event = new eZGroupEvent( $EventID );
         else
             $event = new eZGroupEvent();
 
+        $category = new eZGroupEventCategory( $CategoryID );
+
         $event->setDescription( $Description );
+        $event->setLocation( $Location );
+        $event->setUrl( $Url );
+
         $event->setType( $type );
+        $event->setCategory( $category );
+
         $event->setPriority( $Priority );
+        $event->setStatus( $Status );
 
         if ( $IsPrivate == "on" )
             $event->setIsPrivate( true );
@@ -452,6 +482,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         {
             $TitleError = true;
         }
+
 
 	// kracker : i wanted to reserve 0 for events in all group category
 	//	if ( $StoreByGroupID != 0 )
@@ -509,9 +540,9 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
             $startTime->setMinute( $startmin  );
             $stopTime->setHour( $stophour );
             $stopTime->setMinute( $stopmin  );
-		}
+	}
         else
-		{
+	{
 			if ( $Start_Hour != '' && $Start_Minute != '' )
 			{
 				$hour = $Start_Hour;
@@ -603,9 +634,8 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
         {
-            $event->store();
-			exec("secure_clearcache.sh");
-
+            $resultz = $event->store();
+            exec("secure_clearcache.sh");
             $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
             $day = addZero( $datetime->day() );
@@ -616,8 +646,12 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         }
         else
         {
+	    
             $t->set_var( "name_value", $event->name() );
             $t->set_var( "description_value", $event->description() );
+
+            $t->set_var( "location_value", $event->location() );
+            $t->set_var( "url_value", $event->url() );
 
 			$t->set_var( "group_name_new", "" );
 			if ( $user )
@@ -781,10 +815,15 @@ if ( $Action == "Update" && $groupError == false )
 {
     $t->set_var( "name_value", $Name );
     $t->set_var( "description_value", $Description );
+    
+    $t->set_var( "location_value", $Location );
+    $t->set_var( "url_value", $Url );
+
     $t->set_var( "start_value", $Start );
     $t->set_var( "stop_value", $Stop );
 
     $typeID = $TypeID;
+    $categoryID = $CategoryID;
 
     $t->set_var( "0_selected", "" );
     $t->set_var( "1_selected", "" );
@@ -806,6 +845,17 @@ if ( $Action == "Update" && $groupError == false )
       $t->set_var( "6_selected", "selected" );
 
 
+    $t->set_var( "0_status_selected", "" );
+    $t->set_var( "1_status_selected", "" );
+    $t->set_var( "2_status_selected", "" );
+
+    if ( $Status == 0 )
+      $t->set_var( "0_status_selected", "selected" );
+    else if ( $Status == 1 )
+      $t->set_var( "1_status_selected", "selected" );
+    else if ( $Status == 2 )
+      $t->set_var( "2_status_selected", "selected" );
+
     if ( $IsPrivate == "on" )
         $t->set_var( "is_private", "checked" );
     else
@@ -826,6 +876,10 @@ if ( $Action == "Edit" && $groupError == false )
 {
     $event = new eZGroupEvent( $EventID );
     $t->set_var( "name_value", $event->name() );
+    
+    $t->set_var( "url_value", $event->url() );
+    $t->set_var( "location_value", $event->location() );
+
     $t->set_var( "event_id", $event->id() );
     $t->set_var( "description_value", $event->description() );
 
@@ -881,6 +935,9 @@ if ( $Action == "Edit" && $groupError == false )
     $type =& $event->type();
     $typeID = $type->id();
 
+    $category =& $event->category();
+    $categoryID = $category->id();
+
     $date  = $event->dateTime();
 	$year  = $date->year();
     $month = $date->month();
@@ -897,8 +954,8 @@ if ( $Action == "Edit" && $groupError == false )
 	$stopMinute  = ( addZero( $stopTime->minute() ) );
 
 	// $stopMinute = $stopMinute +1 ;
-	print ( "Echo DT:" . $startHour ." / ". $startMinute );
-        print ( "<br />Echo DT:" . $stopHour ." / ". $stopMinute );
+	// print ( "Echo DT:" . $startHour ." / ". $startMinute );
+        // print ( "<br />Echo DT:" . $stopHour ." / ". $stopMinute );
 
 
 
@@ -1038,6 +1095,17 @@ if ( $Action == "Edit" && $groupError == false )
       $t->set_var( "5_selected", "selected" );
     else if ( $event->priority() == 6 )
       $t->set_var( "6_selected", "selected" );
+
+    $t->set_var( "0_status_selected", "" );
+    $t->set_var( "1_status_selected", "" );
+    $t->set_var( "2_status_selected", "" );
+
+    if ( $event->status() == 0 )
+      $t->set_var( "0_status_selected", "selected" );
+    else if ( $event->status() == 1 )
+      $t->set_var( "1_status_selected", "selected" );
+    else if ( $event->status() == 2 )
+      $t->set_var( "2_status_selected", "selected" );
 
 
     $dt =& $event->dateTime();
@@ -1181,6 +1249,19 @@ if ( $Action == "New" && $groupError == false )
       $t->set_var( "6_selected", "selected" );
 
 
+    $t->set_var( "0_status_selected", "" );
+    $t->set_var( "1_status_selected", "" );
+    $t->set_var( "2_status_selected", "" );
+
+    $status = $ini->read_var( "eZGroupEventCalendarMain", "Status" );
+
+    if ( $status == 0 )
+      $t->set_var( "0_status_selected", "selected" );
+    else if ( $status == 1 )
+      $t->set_var( "1_status_selected", "selected" );
+    else if ( $status == 2 )
+      $t->set_var( "2_status_selected", "selected" );
+    
     if ( $Year != 0 )
         $year = $Year;
     else
@@ -1315,6 +1396,41 @@ foreach ( $typeList as $type )
     
     $t->parse( "value", "value_tpl", true );
 }
+
+// print the event categorys
+$category = new eZGroupEventCategory();
+$categoryList =& $category->getTree();
+
+foreach ( $categoryList as $category )
+{
+  if ( $category[1] > 1 )
+    $t->set_var( "option_category_level", str_repeat( "&nbsp;&nbsp;", $category[1] - 1 ) );
+  else
+    $t->set_var( "option_category_level", "" );
+
+  if ( $categoryID )
+    {
+      if ( $categoryID == $category[0]->id() )
+        {
+	  $t->set_var( "category_is_selected", "selected" );
+        }
+      else
+        {
+	  $t->set_var( "category_is_selected", "" );
+        }
+    }
+  else
+    {
+      $t->set_var( "category_is_selected", "" );
+    }
+
+  $t->set_var( "category_name", $category[0]->name() );
+  $t->set_var( "option_category_value", $category[0]->id() );
+
+  $t->parse( "category_value", "category_value_tpl", true );
+}
+
+
 
 // set day combobox
 $daysInMonth = $tmpdate->daysInMonth();

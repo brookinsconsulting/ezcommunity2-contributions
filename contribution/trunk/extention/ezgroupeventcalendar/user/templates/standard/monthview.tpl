@@ -43,6 +43,7 @@
 	<td colspan="2" align="right" style="padding:5px;">
 	  <form action="/groupeventcalendar/eventedit/edit/">
   	     <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+		<input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
 		<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
 		<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
 		<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">

@@ -47,6 +47,16 @@
 <p class="boxtext">{intl-event_title}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 
+<p class="boxtext">{intl-event_location}:</p>
+<input type="text" size="40" name="Location" value="{location_value}"/>
+
+<p class="boxtext">{intl-event_url}:</p>
+<input type="text" size="40" name="Url" value="{url_value}"/>
+
+<p class="boxtext">{intl-event_description}:</p>
+<textarea name="Description" cols="55" rows="7" wrap="soft">{description_value}</textarea>
+
+
 <!-- BEGIN group_name_edit_tpl -->
 <p class="boxtext">{intl-event_group}:&nbsp;&nbsp;{group_name}</p><br />
 <input type="hidden" name="StoreByGroupID" value="{group_id}" />
@@ -61,18 +71,13 @@
 <!-- END group_item_tpl -->
 </select>
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_private} type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
 <!-- END group_name_new_tpl -->
-
-
-	
-	<td valign="top">
-	<td align="right">
-
-	<input {is_private} type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
 
 	</td>
 </tr>
 </table>
+
 <br />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -89,25 +94,55 @@
 
 </select>
 
+
+<p class="boxtext">{intl-category}:</p>
+
+<select name="CategoryID">
+<option></option>
+<!-- BEGIN category_value_tpl -->
+<option value="{option_category_value}" {category_is_selected}>{option_category_level}{category_name}</option>
+<!-- END category_value_tpl -->
+
+</select>
+
+
 	<td valign="top">
 	<td>
 
 <p class="boxtext">{intl-priority}:</p>
 
 <select name="Priority">
-
-<option value="4" {0_selected}>{intl-lowest_priority}</option>
-<option value="0" {1_selected}>{intl-low_priority}</option>
-<option value="1" {2_selected}>{intl-normal_priority}</option>
+<option value="0" {0_selected}>{intl-lowest_priority}</option>
+<option value="1" {1_selected}>{intl-low_priority}</option>
+<option value="2" {2_selected}>{intl-normal_priority}</option>
 <option value="3" {3_selected}>{intl-medium_priority}</option>
-<option value="2" {4_selected}>{intl-high_priority}</option>
+<option value="4" {4_selected}>{intl-high_priority}</option>
 <option value="5" {5_selected}>{intl-highest_priority}</option>
+</select>
+
+
+<p class="boxtext">{intl-status}:</p>
+
+<select name="Status">
+  <option value="0" {0_status_selected}>{intl-tentative_status}</option>
+  <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
+  <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
 </select>
 
 	</td>
 </tr>
 </table>
 <br />
+
+<br />
+
+<br />
+
+<br />
+
+<br />
+
+
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -210,12 +245,7 @@
 </tr>
 </table>
 
-<p class="boxtext">{intl-event_description}:</p>
-<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
-
-<br /><br />
-
-
+<br />
 <script language="JavaScript">
 <!--hide this script from non-javascript-enabled browsers
 
@@ -577,8 +607,8 @@ function formCheck(form)
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td>
-        <input class="okbutton" type="SUBMIT" name="Submit" value="{intl-ok}" />
-        <input class="okbutton" type="SUBMIT" name="Cancel" value="{intl-cancel}" />
+        <input class="okbutton" type="submit" name="Submit" value="{intl-ok}" />
+        <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
         <input type="hidden" name="Action" value="{action_value}" />
         <input type="hidden" name="eventID" value="{event_id}" />
     </td>

@@ -38,6 +38,8 @@ include_once( "ezgroupeventcalendar/classes/ezgroupevent.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeditor.php" );
 
+include_once( "ezgroupeventcalendar/classes/ezgroupeventcategory.php" );
+
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 
@@ -67,6 +69,10 @@ $t->set_block( "view_tpl", "normal_tpl", "normal" );
 $t->set_block( "view_tpl", "medium_tpl", "medium" );
 $t->set_block( "view_tpl", "high_tpl", "high" );
 $t->set_block( "view_tpl", "highest_tpl", "highest" );
+
+$t->set_block( "view_tpl", "tentative_tpl", "tentative" );
+$t->set_block( "view_tpl", "confirmed_tpl", "confirmed" );
+$t->set_block( "view_tpl", "cancelled_tpl", "cancelled" );
 
 $t->set_block( "view_tpl", "valid_editor_tpl", "valid_editor" );
 
@@ -173,10 +179,17 @@ else
 {
     $event = new eZGroupEvent( $EventID );
     $eventType = $event->type();
+    $eventCategory = $event->category();
+
     $datetime = $event->dateTime();
 
     $t->set_var( "event_id", $event->id() );
     $t->set_var( "event_title", $event->name() );
+
+    $t->set_var( "event_url", $event->url() );
+    $t->set_var( "event_location", $event->location() );
+    $t->set_var( "event_category", $eventCategory->name() );
+
     $t->set_var( "event_type", $eventType->name() );
     $t->set_var( "event_date", $locale->format( $datetime->date() ) );
     $t->set_var( "event_starttime", $locale->format( $event->startTime(), true ) );
@@ -291,6 +304,35 @@ else
         }
         break;
     }
+
+    switch( $event->status() )
+    {
+      case 0:
+      {
+	  $t->parse( "tentative", "tentative_tpl" );
+
+	  $t->set_var( "confirmed", "" );
+	  $t->set_var( "cancelled", "" );
+      }
+      break;
+      case 1:
+      {
+          $t->parse( "confirmed", "confirmed_tpl" );
+
+          $t->set_var( "tentative", "" );
+          $t->set_var( "cancelled", "" );
+      }
+      break;
+      case 2:
+      {
+	  $t->parse( "cancelled", "cancelled_tpl" );
+
+	  $t->set_var( "confirmed", "" );
+	  $t->set_var( "tentative", "" );
+      }
+      break;
+    }
+
 
     $t->set_var( "error", "" );
 	$t->parse( "group_event_print", "group_event_print_tpl" );

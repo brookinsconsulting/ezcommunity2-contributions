@@ -72,7 +72,8 @@
 <tr>
 	<form method="post" action="/groupeventcalendar/eventedit/edit/">
 	<td align="right" colspan="10" style="padding: 5px;">
-	 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+	 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">	 
+         <input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
 	 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
 	 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
 	 <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
@@ -86,7 +87,7 @@
 </tr>
 <!-- BEGIN day_view_long_date_header_tpl -->
 <tr>
-	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader">{long_date}</span></td> 
+	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader"><a style="font-size: large; text-decoration: none;" href="/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td> 
 <tr>
 	<!-- removing this shit so I can replace it with some more shit, love Dylan 
 	<td class="gcalDayViewTopBar">
@@ -118,7 +119,7 @@
 <!-- BEGIN time_table_tpl -->
 <tr>
 	<!-- BEGIN new_event_link_tpl -->
-	<td class="{td_class}" width="5%" style="height: 80px; border: 1px solid gray; border-right: 2px solid gray;">
+	<td class="{td_class}" width="5%" style="height: 60px; border: 1px solid gray; border-right: 2px solid gray;">
 	<a class="path" href="/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
 	</td>
 	<!-- END new_event_link_tpl -->

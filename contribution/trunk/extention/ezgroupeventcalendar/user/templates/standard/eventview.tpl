@@ -34,21 +34,68 @@
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+
 <tr>
-	<th colspan="2">
-	{intl-group}:
-	</th>
+        <th colspan="2">
+        {intl-description}:
+        </th>
 </tr>
 <tr>
-	<td colspan="2">
-	{event_owner}
+        <td colspan="3" class="bglight">
+
+        <table width="100%" cellspacing="0" cellpadding="4" border="0">
+        <tr>
+                <td>
+                {event_description}
+                </td>
+        </tr>
+        </table>
+
+        </td>
+</tr>
+
+<tr><td colspan="2"><br /></td></tr>
+
+<tr>
+        <th>
+        {intl-date}:
+        </th>
+        <th>
+        {intl-time}:
+        </th>
+</tr>
+<tr>
+        <td>
+        {event_date}
+        </td>
+        <td>
+        {event_starttime} - {event_stoptime}
+        </td>
+</tr>
+
+<tr><td colspan="2"><br /></td></tr>
+
+<tr>
+	<th>
+	{intl-group}:
+	</th>
+        <th>
+        {intl-type}:
+        </th>
+</tr>
+<tr>
+        <td>
+        {event_owner}
+        </td>
+	<td>
+	{event_type}
 	</td>
 </tr>
 
 <tr><td colspan="2"><br /></td></tr>
 <tr>
 	<th width="50%">
-	{intl-type}:
+	{intl-category}:
 	</th>
 	<th width="50%">
 	{intl-priority}:
@@ -56,7 +103,7 @@
 </tr>
 <tr>
 	<td>
-	{event_type}
+	{event_category}
 	</td>
 	<td>
         <!-- BEGIN lowest_tpl -->
@@ -77,51 +124,44 @@
         <!-- BEGIN highest_tpl -->
         {intl-highest}
         <!-- END highest_tpl -->
-
 	</td>
 </tr>
 
 <tr><td colspan="2"><br /></td></tr>
 
 <tr>
-	<th>
-	{intl-date}:
-	</th>
-	<th>
-	{intl-time}:
-	</th>
+        <th>
+        {intl-location}:
+        </th>
+        <th>
+        {intl-status}:
+        </th>
 </tr>
 <tr>
-	<td>
-	{event_date}
-	</td>
-	<td>
-	{event_starttime} - {event_stoptime}
-	</td>
+        <td>
+        {event_location}
+        </td>
+        <td>
+        <!-- BEGIN tentative_tpl -->
+        {intl-tentative}
+        <!-- END tentative_tpl -->
+        <!-- BEGIN confirmed_tpl -->
+        {intl-confirmed}
+        <!-- END confirmed_tpl -->
+        <!-- BEGIN cancelled_tpl -->
+        {intl-cancelled}
+        <!-- END cancelled_tpl -->
+        </td>
 </tr>
 
 <tr><td colspan="2"><br /></td></tr>
-
-<tr>
-	<th colspan="2">
-	{intl-description}:
-	</th>
+<tr><th colspan="2">{intl-url}:</th>
 </tr>
 <tr>
-	<td colspan="3" class="bglight">
-
-	<table width="100%" cellspacing="0" cellpadding="4" border="0">
-	<tr>
-		<td>
-		{event_description}
-		</td>
-	</tr>
-	</table>
-	
-	</td>
-</tr>
-
+<td colspan="2"><a href="{event_url}" target="_blank" style="text-decoration: none;">{event_url}</a></td></tr>
 </table>
+
+<br />
 
 <!-- BEGIN valid_editor_tpl -->
 <hr noshade size="4" />
@@ -144,7 +184,10 @@
 <!-- END view_tpl -->
 <form method="post" action="/groupeventcalendar/eventedit/edit/">
 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+<input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
 <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
 </form>
+
+<br />

@@ -78,17 +78,27 @@ class eZGroupEvent
 
         if ( !isset( $this->ID ) )
         {
-
             $this->Database->query( "INSERT INTO eZGroupEventCalendar_Event SET
                              Name='$Name',
                              Description='$Description',
                              Date='$this->Date',
                              Duration='$this->Duration',
+                             Url='$this->Url',
+                             Status='$this->Status',
+                             Location='$this->Location',
+                             EventAlarmNotice='$this->EventAlarmNotice',
+                             EventCategoryID='$this->EventCategoryID',
+                             IsRecurring='$this->IsRecurring',
+                             RecurringDay='$this->RecurringDay',
+                             RecurringMonth='$this->RecurringMonth',
+                             RecurringYear='$this->RecurringYear',
+                             RepeatTimes='$this->RepeatTimes',
+                             RepeatUntilDate='$this->RepeatUntilDate',                             
                              EMailNotice='$this->EMailNotice',
                              IsPrivate='$this->IsPrivate',
                              Priority='$this->Priority',
                              EventTypeID='$this->EventTypeID',
-							 GroupID='$this->GroupID'" );
+ 			     GroupID='$this->GroupID'" );
             
             $this->ID = $this->Database->insertID();
 			
@@ -96,17 +106,28 @@ class eZGroupEvent
         else
         {
 
-            $this->Database->query( "UPDATE eZGroupEventCalendar_Event SET
+	    $this->Database->query( "UPDATE eZGroupEventCalendar_Event SET
                              Name='$Name',
                              Description='$Description',
                              Date='$this->Date',
                              Duration='$this->Duration',
+                             Url='$this->Url',
+                             Status='$this->Status',
+                             Location='$this->Location',
+                             EventAlarmNotice='$this->EventAlarmNotice',
+                             EventCategoryID='$this->EventCategoryID',
+                             IsRecurring='$this->IsRecurring',
+                             RecurringDay='$this->RecurringDay',
+                             RecurringMonth='$this->RecurringMonth',
+                             RecurringYear='$this->RecurringYear',
+                             RepeatTimes='$this->RepeatTimes',
+                             RepeatUntilDate='$this->RepeatUntilDate',
                              EMailNotice='$this->EMailNotice',
                              IsPrivate='$this->IsPrivate',
                              Priority='$this->Priority',
                              EventTypeID='$this->EventTypeID',
-							 GroupID='$this->GroupID'
-							 WHERE ID='$this->ID'" );
+			     GroupID='$this->GroupID'
+			     WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -150,11 +171,28 @@ class eZGroupEvent
                 $this->Name =& $event_array[0][ "Name" ];
                 $this->Description =& $event_array[0][ "Description" ];
                 $this->EventTypeID =& $event_array[0][ "EventTypeID" ];
-				$this->GroupID =& $event_array[0][ "GroupID" ];
+	        $this->GroupID =& $event_array[0][ "GroupID" ];
                 $this->Date =& $event_array[0][ "Date" ];
                 $this->Duration =& $event_array[0][ "Duration" ];
                 $this->IsPrivate =& $event_array[0][ "IsPrivate" ];
                 $this->Priority =& $event_array[0][ "Priority" ];
+
+		$this->Url =& $event_array[0][ "Url" ];
+                $this->Location =& $event_array[0][ "Location" ];
+
+                $this->Status =& $event_array[0][ "Status" ];
+                $this->EventCategoryID =& $event_array[0][ "EventCategoryID" ];
+
+                $this->EMailNotice =& $event_array[0][ "EventAlarmNotice" ];
+                $this->EventAlarmNotice =& $event_array[0][ "EventAlarmNotice" ];
+
+                $this->EventCategoryID =& $event_array[0][ "EventCategoryID" ];
+                $this->IsRecurring =& $event_array[0][ "IsRecurring" ];
+                $this->RecurringDay =& $event_array[0][ "RecurringDay" ];
+                $this->RecurringMonth =& $event_array[0][ "RecurringMonth" ];
+                $this->RecurringYear =& $event_array[0][ "RecurringYear" ];
+                $this->RepeatTimes =& $event_array[0][ "RepeatTimes" ];
+                $this->RepeatUntilDate =& $event_array[0][ "RepeatUntilDate" ];
 
                 $this->State_ = "Coherent";
             }
@@ -636,6 +674,44 @@ class eZGroupEvent
         }
     }
 
+
+    /*!
+      Returns the type location.
+    */
+    function location( $htmlchars=true )
+      {
+        if ( $this->State_ == "Dirty" )
+	  $this->get( $this->ID );
+
+        if ( $htmlchars == true )
+	  {
+            return htmlspecialchars( $this->Location );
+	  }
+        else
+	  {
+            return $this->Location;
+	  }
+      }
+
+    /*!
+      Returns the type url.
+    */
+    function url( $htmlchars=true )
+      {
+        if ( $this->State_ == "Dirty" )
+          $this->get( $this->ID );
+
+        if ( $htmlchars == true )
+          {
+            return htmlspecialchars( $this->Url );
+          }
+        else
+          {
+            return $this->Url;
+          }
+      }
+
+
     /*!
       Returns the date and time of the event.
     */
@@ -712,6 +788,17 @@ class eZGroupEvent
     }
 
     /*!
+      Returns the status, can be 0,1,2.
+    */
+    function status()
+      {
+	if ( $this->State_ == "Dirty" )
+	  $this->get( $this->ID );
+
+	return $this->Status;
+      }
+
+    /*!
       Sets the event type.
     */
     function type( )
@@ -722,6 +809,18 @@ class eZGroupEvent
        $type = new eZGroupEventType( $this->EventTypeID );
        return $type;
     }
+
+    /*!
+      Sets the event category.
+    */
+    function category( )
+      {
+	if ( $this->State_ == "Dirty" )
+	  $this->get( $this->ID );
+
+	$category = new eZGroupEventCategory( $this->EventCategoryID );
+	return $category;
+      }
 
     /*!
       Returns true if the event is private.
@@ -750,27 +849,60 @@ class eZGroupEvent
         $this->Name = $value;
     }
 
-    
     /*!
       Sets the description of the event.
     */
     function setDescription( $value )
+      {
+	if ( $this->State_ == "Dirty" )
+	  $this->get( $this->ID );
+
+        $this->Description = $value;
+      }
+
+    /*!
+      Sets the location of the event.
+    */
+    function setLocation( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->Location = $value;
+    }
+
+    /*!
+      Sets the url of the event.
+    */
+    function setUrl( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        $this->Description = $value;
+        $this->Url = $value;
     }
+
 
     /*!
       Sets the priority of the event.
     */
     function setPriority( $value )
+      {
+	if ( $this->State_ == "Dirty" )
+	  $this->get( $this->ID );
+
+        $this->Priority = $value;
+      }
+
+    /*!
+      Sets the status of the event.
+    */
+    function setStatus( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        $this->Priority = $value;
+        $this->Status = $value;
     }
     
     /*!
@@ -792,13 +924,27 @@ class eZGroupEvent
       Sets the event type.
     */
     function setType( $type )
+      {
+	if ( $this->State_ == "Dirty" )
+	  $this->get( $this->ID );
+
+	if ( get_class( $type ) == "ezgroupeventtype" )
+	  {
+	    $this->EventTypeID = $type->id();
+	  }
+      }
+
+    /*!
+      Sets the event category.
+    */
+    function setCategory( $category )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       if ( get_class( $type ) == "ezgroupeventtype" )
+       if ( get_class( $category ) == "ezgroupeventcategory" )
        {
-           $this->EventTypeID = $type->id();
+           $this->EventCategoryID = $category->id();
        }
     }
 
@@ -958,18 +1104,36 @@ class eZGroupEvent
     var $Name;
     var $Description;
 
+    var $URL;
+    var $Location;
+    var $EventCategoryID;
+    
     var $GroupID;
     var $Date;
     var $Duration;
     var $EventTypeID;
     var $EMailNotice;
 
+    var $EventAlarmNotice;
+
     /// boolean stored as an int
     var $IsPrivate;
+
+    /// boolean stored as an int
+    var $IsRecurring;
+    var $RecurringDay;
+    var $RecurringMonth;
+    var $RecurringYear;
+    var $RepeatForever;
+    var $RepeatTimes;
+    var $RepeatUntilDate;
 
     /// The priority of the event, values can be 0, 1, 2 where 1 is normal.
     var $Priority;
     
+    /// The status of the event, values can be 0, 1, 2 where 1 is normal.
+    var $Status;
+
     ///  Variable for keeping the database connection.
     var $Database;
 
