@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.8 2001/11/19 14:01:43 jhe Exp $
+// $Id: index.php,v 1.119.2.9 2001/12/02 12:48:02 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -277,10 +277,9 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
         // set character set
         include_once( "classes/ezlocale.php" );
-        $languageOverride = $GLOBALS["eZLanguageOverride"];
-        if ( $languageOverride != "" )
+        if ( isset( $GLOBALS["eZLanguageOverride"] ) and $GLOBALS["eZLanguageOverride"] != "" )
         {
-            $Language = $languageOverride;
+            $Language = $GLOBALS["eZLanguageOverride"];
         }
         else
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageview.php,v 1.16.2.3 2001/11/05 13:02:10 bf Exp $
+// $Id: ezpageview.php,v 1.16.2.4 2001/12/02 12:48:02 kaid Exp $
 //
 // Definition of eZPageView class
 //
@@ -146,7 +146,7 @@ class eZPageView
             $refererDomain = "";
             $refererURI = "";
             
-            if ( preg_match( "#(htt.*?://)(.*?)(/.*)#", $GLOBALS["HTTP_REFERER"], $valueArray ) )
+            if ( isset( $GLOBALS["HTTP_REFERER"] ) and preg_match( "#(htt.*?://)(.*?)(/.*)#", $GLOBALS["HTTP_REFERER"], $valueArray ) )
             {
                 // we don't need to store the http:// or the https://
                 // $valueArray[1];
