@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.31 2001/03/26 19:18:32 jb Exp $
+// $Id: cart.php,v 1.32 2001/03/27 13:49:42 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -209,6 +209,7 @@ if ( $Action == "AddToBasket" )
                             $cartOption = new eZCartOptionValue();
                             $cartOption->setCartItem( $cartItem );
                             $cartOption->setOption( $option );
+                            $cartOption->setRemoteID( $optionValue->remoteID() );
                             $cartOption->setOptionValue( $optionValue );
 
                             $cartOption->store();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.6 2001/03/11 12:59:04 bf Exp $
+// $Id: ezcartoptionvalue.php,v 1.7 2001/03/27 13:49:42 ce Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -72,6 +72,7 @@ class eZCartOptionValue
             $this->Database->query( "INSERT INTO eZTrade_CartOptionValue SET
 		                         CartItemID='$this->CartItemID',
 		                         OptionID='$this->OptionID',
+		                         RemoteID='$this->RemoteID',
 		                         OptionValueID='$this->OptionValueID'
                                  " );
 
@@ -110,6 +111,7 @@ class eZCartOptionValue
                 $this->ID =& $cart_array[0][ "ID" ];
                 $this->CartItemID =& $cart_array[0][ "CartItemID" ];
                 $this->OptionID =& $cart_array[0][ "OptionID" ];
+                $this->RemoteID =& $cart_array[0][ "RemoteID" ];
                 $this->OptionValueID =& $cart_array[0][ "OptionValueID" ];
 
                 $ret = true;
@@ -128,6 +130,14 @@ class eZCartOptionValue
     function id( )
     {
         return $this->ID;        
+    }
+
+    /*!
+      Returns the object remoteID.
+    */
+    function remoteID( )
+    {
+        return $this->RemoteID;        
     }
 
     /*!
@@ -177,6 +187,14 @@ class eZCartOptionValue
     }
 
     /*!
+      Sets the option object id.
+    */
+    function setRemoteID( $value )
+    {
+        $this->RemoteID = $value;
+    }
+
+    /*!
       Sets the option value object id.
     */
     function setOptionValue( &$optionValue )
@@ -204,6 +222,7 @@ class eZCartOptionValue
     var $CartItemID;
     var $OptionID;
     var $OptionValueID;
+    var $RemoteID;
     
     ///  Variable for keeping the database connection.
     var $Database;

@@ -111,7 +111,8 @@ function &newOrders( $args )
                     foreach ( $optionValues as $optionValue )
                     {
                         $optionArray[] = new eZXMLRPCStruct( array( "OptionName" => new eZXMLRPCString( $optionValue->optionName() ),
-                                                              "OptionValue" => new eZXMLRPCString( $optionValue->valueName() ) )
+                                                                    "OptionValue" => new eZXMLRPCString( $optionValue->valueName() ),
+                                                                    "OptionValueRemoteID" => new eZXMLRPCString( $optionValue->remoteID() ))
                                                               );
                     }
                     
