@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.99 2001/09/21 15:25:44 bf Exp $
+// $Id: ezarticlecategory.php,v 1.100 2001/09/24 12:36:05 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -344,12 +344,13 @@ class eZArticleCategory
 
       The categories are returned as an array of eZArticleCategory objects.      
     */
-    function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1 )
+    function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1, $user = false )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
             $db =& eZDB::globalDatabase();
-            $user =& eZUser::currentUser();
+            if ( get_class( $user ) != "ezuser" )
+                $user =& eZUser::currentUser();
             
             $sortbySQL = "Name";
             switch ( $sortby )
@@ -470,13 +471,14 @@ class eZArticleCategory
             else
                 $permissionSQL = "";
 
-            $db->query_single( $category_array, "SELECT count( DISTINCT Category.ID ) AS Count
+            $query = "SELECT count( DISTINCT Category.ID ) AS Count
                                            FROM eZArticle_Category AS Category,
                                                 eZArticle_CategoryPermission as Permission
                                            WHERE $permissionSQL
                                                  ParentID='$parentID'
                                                  AND Permission.ObjectID=Category.ID
-                                                 $show_str",
+                                                 $show_str";
+            $db->query_single( $category_array, $query,
                                            "Count" );
 
             return $category_array;
