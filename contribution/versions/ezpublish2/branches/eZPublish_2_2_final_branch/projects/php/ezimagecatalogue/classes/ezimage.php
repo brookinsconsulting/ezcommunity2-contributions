@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.88.2.6 2002/08/15 10:27:45 gl Exp $
+// $Id: ezimage.php,v 1.88.2.7 2002/08/15 14:20:29 gl Exp $
 //
 // Definition of eZImage class
 //
@@ -80,6 +80,7 @@
  */
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
 include_once( "ezimagecatalogue/classes/ezimagevariationgroup.php" );

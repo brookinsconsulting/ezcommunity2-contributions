@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.9.2.1 2002/08/15 10:27:46 gl Exp $
+// $Id: ezauthor.php,v 1.9.2.2 2002/08/15 14:20:29 gl Exp $
 //
 // Definition of eZAuthor class
 //
@@ -32,6 +32,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/eztexttool.php" );
 
 
 class eZAuthor
