@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.6 2001/04/11 14:18:41 th Exp $
+// $Id: menubox.php,v 1.7 2001/04/20 15:42:32 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -32,6 +32,8 @@ $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
                      "ezimagecatalogue/user/intl", $Language, "menubox.php" );
