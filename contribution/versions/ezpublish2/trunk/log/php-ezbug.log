@@ -49,3 +49,12 @@ Maintainer(s) : vl@ez.no
       user/intl/fr_FR/search.php.ini
       user/intl/fr_FR/unhandledbugs.php.ini: updated fr_FR
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezbug.sql
+      sql/postgresql/ezbug.sql: Added missing SQL tables/fields.
+

@@ -30,3 +30,12 @@ Maintainer(s) : br@ez.no
       admin/intl/fr_FR/adstatistics.php.ini
       admin/intl/fr_FR/categoryedit.php.ini: updated fr_FR
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezad.sql
+      sql/postgresql/ezad.sql: Added missing SQL tables/fields.
+

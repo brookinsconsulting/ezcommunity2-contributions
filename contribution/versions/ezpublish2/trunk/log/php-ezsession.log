@@ -26,3 +26,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezsession.php: Fixed a bug in setArray()
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * classes/ezsession.php: Altererd cookie timeout to 40 days.
+

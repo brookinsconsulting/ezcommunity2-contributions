@@ -98,3 +98,12 @@ Maintainer(s) : fh@ez.no
       user/intl/fr_FR/subscriptionlogin.php.ini
       user/intl/fr_FR/usermessages.php.ini: updated fr_FR
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezbulkmail.sql
+      sql/postgresql/ezbulkmail.sql: Added missing SQL tables/fields.
+

@@ -116,3 +116,25 @@ Maintainer(s) : bf@ez.no
 
     * ezbenchmark.php: fizx
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-27  Jakob Nielsen  <jakob.nielsen@nhst.no>
+
+    * INIFile.php: Added the hack again $contents.="\n"
+    Hopefully this will work. I'll try to find the reason for why we have to add
+    this line.
+
+    * eztexttool.php: Minor text fix
+
+    * INIFile.php: - Fixed/Changed the function Parse
+    - Changed some stuff in save_data, so that it would actually work (hopefully :)
+    - Changed some code that wasn't according to the code standard.
+
+    It is important that the changes to the parse function are tested very hard since it would effect the whole system if i doesn't.
+
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: Changed version.
+

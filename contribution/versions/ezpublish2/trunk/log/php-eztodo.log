@@ -64,3 +64,12 @@ Maintainer(s) : ce@ez.no
       user/intl/fr_FR/todomenulist.php.ini
       user/intl/fr_FR/todoview.php.ini: updated fr_FR
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/eztodo.sql
+      sql/postgresql/eztodo.sql: Added missing SQL tables/fields.
+

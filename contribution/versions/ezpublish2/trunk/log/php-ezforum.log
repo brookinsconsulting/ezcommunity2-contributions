@@ -279,3 +279,21 @@ Maintainer(s) : jhe@ez.no
 
     * user/messagelist.php: fizx
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * user/search.php: FIxed count bug.
+
+    * sql/mysql/ezforum.sql: SQL fix.
+
+2001-09-27  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforum.php: fixed small bugs
+
+    * admin/forumedit.php
+      admin/messageedit.php
+      admin/search.php: small code fixes
+

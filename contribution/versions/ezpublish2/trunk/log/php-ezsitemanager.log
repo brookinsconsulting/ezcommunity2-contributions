@@ -88,3 +88,32 @@ Maintainer(s) : vl@ez.no
       admin/intl/en_GB/sqlquery.php.ini
       admin/templates/standard/sqlquery.tpl: SQL Admin added
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-09-27  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/sqlquery.tpl
+      admin/templates/standard/templatelist.tpl:
+    fix missing tags for nVH install.
+
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/en_GB/menuedit.php.ini
+      admin/intl/en_GB/menulist.php.ini
+      admin/menuedit.php
+      admin/menulist.php
+      admin/templates/standard/menuedit.tpl
+      admin/templates/standard/menulist.tpl
+      classes/ezmenu.php: Added menu handling
+
+    * admin/datasupplier.php
+      admin/intl/en_GB/menulist.php.ini
+      admin/menubox.php
+      admin/menuedit.php
+      admin/menulist.php
+      admin/templates/standard/menuedit.tpl
+      admin/templates/standard/menulist.tpl
+      classes/ezmenu.php: added menu
+

@@ -195,3 +195,12 @@ Maintainer(s) : jhe@ez.no
       classes/ezvirtualfile.php
       classes/ezvirtualfolder.php: small speed fixes
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-27  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/unassigned.php
+      user/fileupload.php: small bugfixes and code standardization
+

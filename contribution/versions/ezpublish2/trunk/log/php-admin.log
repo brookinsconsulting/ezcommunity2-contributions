@@ -20,3 +20,16 @@ Maintainer(s) : bf@ez.no
     * intl/fr_FR/error.ini
       intl/fr_FR/help_header.php.ini: updated fr_FR
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * intl/no_NO/header.php.ini: Translation.
+
+    * intl/no_NO/header.php.ini
+      templates/ezpublish/header.tpl
+      header.php
+      intl/en_GB/header.php.ini: Added display of eZ publish version.
+

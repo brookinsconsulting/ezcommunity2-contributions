@@ -978,3 +978,48 @@ Maintainer(s) : bf@ez.no
     list of categories in which this object has changed.
     All path creation code is gathered in a common createPath() function.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php: Fixed time publishing.
+
+    * admin/menubox.php: SQL fixes.
+
+    * classes/ezarticlecategory.php
+      user/datasupplier.php
+      user/search.php: Fixed showing the offset == 0 if no result was found.
+
+2001-09-27  Kai Duebbert  <kai@duebbert.de>
+
+    * user/templates/standard/articlelist.tpl
+      user/templates/standard/articleprint.tpl
+      user/templates/standard/articleview.tpl:
+    fix missing tags for nVH install.
+
+2001-09-27  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/search.tpl: Layout
+
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php
+      classes/ezqdomrenderer.php:
+    Fixed error checking and not showing excluded articles from articles()
+
+    * user/index.php
+      classes/ezarticle.php: Fixed name conflict.
+
+2001-09-27  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php: Added search count to search function.
+
+    * classes/ezarticle.php:
+    Bugfix: The splice function is not used when the limit is negative.
+
+2001-09-27  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/fileedit.php: small bug fix
+

@@ -51,3 +51,12 @@ Maintainer(s) : ce@ez.no
       admin/intl/no_NO/typeedit.php.ini
       admin/intl/no_NO/typelist.php.ini: Translated to norwegian.
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezmediacatalogue.sql
+      sql/postgresql/ezmediacatalogue.sql: Added missing SQL tables/fields.
+

@@ -203,3 +203,26 @@ Maintainer(s) : bf@ez.no
     * user/intl/de_MG/userbox.php.ini
       user/templates/mygold/loginmain.tpl: Added design
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezuser.sql
+      sql/postgresql/ezuser.sql: Added missing SQL tables/fields.
+
+2001-09-27  Kai Duebbert  <kai@duebbert.de>
+
+    * user/templates/mygold/loginmain.tpl: fix missing tags for nVH install.
+
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * classes/ezuser.php: Fixed global user bug.
+
+    * classes/ezobjectpermission.php: Fixed permission bug.
+
+2001-09-27  Sascha Frinken  <sascha@impetex.de>
+
+    * user/intl/de_MG/userbox.php.ini: Added mygold design
+

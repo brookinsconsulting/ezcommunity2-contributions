@@ -135,3 +135,18 @@ Maintainer(s) : jhe@ez.no
       admin/typelist.php
       classes/ezappointmenttype.php: small speed improvement
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-09-27  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/en_GB/appointmentedit.php.ini
+      user/intl/no_NO/appointmentedit.php.ini
+      user/monthview.php
+      user/templates/standard/appointmentedit.tpl
+      user/appointmentedit.php
+      user/dayview.php: fixed bug when inserting wrong dates
+
+    * user/monthview.php: fixed bug listing days outside of current month
+

@@ -295,3 +295,48 @@ Maintainer(s) : br@ez.no
     to
     $category->delete();
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-27  Bjoern Reiten  <br@ez.no>
+
+    * admin/imagelist.php
+      admin/imageview.php
+      user/imagelist.php
+      user/imageview.php: fixed sections imagelist.php and imagelist.php
+
+    * user/categoryedit.php
+      user/intl/en_GB/categoryedit.php.ini
+      user/templates/standard/categoryedit.tpl:
+    show a non editable Section name on user side.
+
+    * admin/categoryedit.php
+      admin/customimage.php
+      admin/datasupplier.php
+      admin/filedownload.php
+      admin/imageedit.php
+      admin/imagelist.php
+      admin/imageview.php
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/imageedit.php.ini
+      admin/intl/en_GB/imagelist.php.ini
+      admin/templates/standard/categoryedit.tpl
+      admin/templates/standard/imageedit.tpl
+      admin/templates/standard/imagelist.tpl
+      user/categoryedit.php
+      user/datasupplier.php
+      user/templates/standard/categoryedit.tpl:
+    added files for admin (copied from admin) and removed sectionid for user.
+    Section id for categories set by user is sectionid from parent category,
+    and if parent is root, we get the SectionID from site.ini.
+
+    We will not be redirected to files under user anymore in
+    /admin/datasupplier.php
+
+2001-09-27  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php:
+    Bugfix: If no previous parent is present (for instance for new categories)
+    the id 0 is used.
+

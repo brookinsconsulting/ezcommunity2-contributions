@@ -676,3 +676,92 @@ Maintainer(s) : ce@ez.no
       classes/ezproduct.php: Added better customerview
     Added more information on vouchers
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/en_GB/productsearch.php.ini
+      admin/templates/standard/productsearch.tpl: fix
+
+2001-09-27  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/eztrade.sql: SQL fixes.
+
+    * sql/mysql/eztrade.sql: Fixed , bug.
+
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcart.php
+      classes/ezproduct.php
+      classes/ezvoucher.php
+      sql/postgresql/eztrade.sql
+      user/payment.php: fix
+
+2001-09-27  Kai Duebbert  <kai@duebbert.de>
+
+    * user/templates/mygold/extendedsearch.tpl
+      user/templates/mygold/ordersendt.tpl
+      user/templates/mygold/sendwishlist.tpl
+      user/templates/mygold/viewwishlist.tpl
+      user/templates/mygold/wishlist.tpl
+      user/templates/mygold/productview.tpl
+      user/templates/mygold/productlist.tpl
+      user/templates/mygold/productsearch.tpl
+      user/templates/mygold/precheckout.tpl
+      user/templates/mygold/findwishlist.tpl
+      user/templates/mygold/hotdealspage.tpl
+      user/templates/mygold/hotdealsshortlist.tpl
+      user/templates/mygold/cart.tpl
+      user/templates/mygold/checkout.tpl
+      user/templates/mygold/customerlogin.tpl: fixed missing nVH tags
+
+    * admin/templates/standard/customerlist.tpl
+      admin/templates/standard/customerview.tpl
+      admin/templates/standard/optionedit.tpl
+      admin/templates/standard/voucheredit.tpl
+      user/templates/standard/cart.tpl
+      user/templates/standard/checkout.tpl
+      user/templates/standard/ordersendt.tpl
+      user/templates/standard/voucherview.tpl:
+    fix missing tags for nVH install.
+
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql: Updated the SQL
+
+    * user/productlist.php
+      user/productsearch.php
+      user/productview.php: Added the right code for pricing
+
+2001-09-27  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/intl/de_MG/categoryedit.php.ini
+      admin/intl/de_MG/menubox.php.ini
+      admin/intl/de_MG/productedit.php.ini
+      admin/intl/de_MG/shippingtypes.php.ini
+      admin/intl/de_MG/typeedit.php.ini
+      user/intl/de_MG/productview.php.ini
+      user/templates/mygold/productview.tpl
+      user/templates/mygold/sendwishlist.tpl
+      user/templates/mygold/voucher.tpl
+      user/templates/mygold/voucherinformation.tpl: Added mygold design
+
+2001-09-27  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezvoucherinformation.php
+      user/intl/en_GB/voucherinformation.php.ini
+      user/templates/standard/voucherinformation.tpl
+      user/voucherinformation.php: Added from email to voucher
+
+    * user/intl/en_GB/voucherinformation.php.ini
+      user/templates/standard/productview.tpl
+      user/templates/standard/voucheremail.tpl
+      user/templates/standard/voucherinformation.tpl
+      user/voucherinformation.php
+      classes/ezproduct.php
+      classes/ezvoucherinformation.php
+      user/productview.php: Fixed some voucher bugs.
+
