@@ -602,7 +602,6 @@ if (isset($allDayEvents))
                 // a public event or a private event that a non group member can read
                 elseif( $event->isPrivate() == false || ( $event->isPrivate() == true && eZPermission::checkPermission( $user, "eZGroupEventCalendar", "Read" ) ) )
                 {
-                	echo 'once';
 
                     $t->set_var( "td_class", "bgdark" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
@@ -616,8 +615,13 @@ if (isset($allDayEvents))
 
 	                $evStart = $event->startTime();
 	                $evStop = $event->stopTime();
-	                $evStopStr = $evStop->hour()  . addZero( $evStop->minute() );
+	                $evStartTime = $evStart->hour() . ':' . addZero($evStart->minute());
+	                $evStopTime = $evStop->hour() . ':' . addZero($evStop->minute());
+                    $t->set_var( "event_start", $evStartTime );
+                    $t->set_var( "event_stop", $evStopTime );
+                    $evStopStr = $evStop->hour()  . addZero( $evStop->minute() );
 	                $evStartStr = $evStart->hour()  . addZero( $evStart->minute() );
+
 					if ($evStopStr - $evStartStr == 15)
 			        {
 

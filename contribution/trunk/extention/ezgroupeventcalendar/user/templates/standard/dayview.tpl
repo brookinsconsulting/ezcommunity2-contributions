@@ -73,6 +73,8 @@
 <tr>
 	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
 	<td align="right" colspan="10" style="padding: 5px;">
+     <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
+	 <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="DeleteEvents" value="{intl-delete_events}">
      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
       onmouseout="this.className='gcalSwitchBox'"
       onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'visible';
@@ -117,10 +119,7 @@
       {intl-today}
       </span>
 
- 	 <!-- BEGIN valid_editor_tpl -->
-	<!-- <input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
-	 <input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}"> -->
-	<!-- END valid_editor_tpl -->
+
 	</td>
 </tr>
 </table>
@@ -178,27 +177,29 @@ onmouseout="return nd();">{all_day_name}</a></td>
 <!-- BEGIN time_table_tpl -->
 <tr><td style="height: 15px; width:0px; overflow: hidden;"></td>
 <!-- BEGIN fifteen_event_tpl -->
- <td class="{td_class}" valign="top" style="border: 1px solid black; overflow: hidden;
+ <td class="{td_class}" valign="top" style=" overflow: hidden;
     background-color: #6699CC; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalEventTransBg.png') repeat;">
  	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="overflow: hidden; height: 15px;">
-		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="">&nbsp;{event_name}&nbsp;</a><br />
+		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="height:15px;">&nbsp;
+		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="
+return overlib('<div class=\'olList\'>Name</div>{event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{event_description}');"
+onmouseout="return nd();">{event_name}&nbsp;&nbsp;</a>
 
 		</td>
 
 		<!-- BEGIN fifteen_delete_check_tpl -->
-		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
+		<td width="1%" valign="top" align="right" class="gcalEventTopBar" style="vertical-align: middle;">
 		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
           <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" /></a>
 		</td>
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
-		  <input type="checkbox" name="eventArrayID[]" value={event_id}>
+		  &nbsp;
 		</td>
 		<!-- END fifteen_delete_check_tpl -->
 
 		<!-- BEGIN fifteen_no_delete_check_tpl -->
-		<td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
+            <td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
 		<!-- END fifteen_no_delete_check_tpl -->
 	</tr>
@@ -211,7 +212,9 @@ onmouseout="return nd();">{all_day_name}</a></td>
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="overflow: hidden; height: 15px;">
-		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="">&nbsp;{event_name}&nbsp;</a><br />
+		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="
+return overlib('<div class=\'olList\'>Name</div>{event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{event_description}');"
+onmouseout="return nd();">&nbsp;{event_name}&nbsp;</a>
 
 		</td>
 
