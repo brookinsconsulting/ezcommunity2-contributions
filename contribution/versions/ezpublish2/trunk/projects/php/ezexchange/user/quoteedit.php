@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.1 2001/01/30 20:12:10 jb Exp $
+// $Id: quoteedit.php,v 1.2 2001/01/31 19:03:33 gl Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -66,6 +66,12 @@ if( is_numeric( $ProductID ) )
         $old_expire = $expire = $quote->expireDays();
         $quote_type = $quote->type();
     }
+}
+// Amos: fix
+else if ( $ProductID == "list" )
+{
+    header( "Location: /exchange/product/view/$ProductID" );
+    exit();
 }
 
 if ( isset( $QuoteType ) )
