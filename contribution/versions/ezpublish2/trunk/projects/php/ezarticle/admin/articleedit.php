@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.101 2001/07/10 16:45:47 bf Exp $
+// $Id: articleedit.php,v 1.102 2001/07/11 07:32:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -184,50 +184,24 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         }
 
         // Time publishing
-        
-        $startDate = new eZDateTime();
-        $startDate->setDay( $StartDay );
-        $startDate->setMonth( $StartMonth );
-        $startDate->setYear( $StartYear );
-        $startDate->setHour( $StartHour );
-        $startDate->setMinute( $StartMinute );
-        $startDate->setSecond( 0 );
-        $stopDate = new eZDateTime();
-        $stopDate->setDay( $StopDay );
-        $stopDate->setMonth( $StopMonth );
-        $stopDate->setYear( $StopYear );
-        $stopDate->setHour( $StopHour );
-        $stopDate->setMinute( $StopMinute );
-        $stopDate->setSecond( 0 );
 
+        print( $StartMonth . " " .  $StartDay );
         if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
         {
-            $article->setStartDate( &$startDate );
-
-            $timeStamp = $startDate->timeStamp();
-
-            $date = new eZDateTime();
-            $date->setTimeStamp( $timeStamp );
-
-            $time = new eZTime();
-            $time->setSecond( 1 );
-            print( $time->secondsElapsed() . "<br>" );
-
-            $time->setMinute( 1 );
-            print( $time->secondsElapsed() . "<br>" );
-
-            $time->setMinute( 1 );
-            print( $time->secondsElapsed() . "<br>" );
-
-            print(  $time->hour() . $time->minute() .$time->second() );
+            $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
             
-//            print( $Locale->format( $date ) );
+            $article->setStartDate( &$startDate );
+            print( "valid" );
         }
         
         if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
         {
+            $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
+            
             $article->setStopDate( &$stopDate );
         }
+
+        die();
 
         // check if the contents is parseable
         if ( xmltree( $contents ) )

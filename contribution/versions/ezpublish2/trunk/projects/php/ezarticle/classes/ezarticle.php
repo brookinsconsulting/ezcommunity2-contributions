@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.118 2001/07/10 13:24:11 jb Exp $
+// $Id: ezarticle.php,v 1.119 2001/07/11 07:32:31 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -252,7 +252,7 @@ class eZArticle
                 if ( $this->PublishedOverride != 0 )
                     $published = $this->PublishedOverride;
                 else
-                    $published = $timeStamp;
+                    $published = $this->Published;
                 
                 $ret = $db->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
