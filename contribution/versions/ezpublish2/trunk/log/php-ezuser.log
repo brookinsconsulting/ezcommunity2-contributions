@@ -76,3 +76,16 @@ Maintainer(s) : bf@ez.no
       admin/intl/id_ID/userlist.php.ini
       admin/intl/id_ID/welcome.php.ini: updated id_ID
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-10  Bjoern Reiten  <br@ez.no>
+
+    * user/userwithaddress.php: fixed bug
+    * added setGroupDefinition on $user_insert.
+
+2001-09-10  Christofer Elo  <ce@ez.no>
+
+    * user/templates/mygold/userwithaddress.tpl: fic
+

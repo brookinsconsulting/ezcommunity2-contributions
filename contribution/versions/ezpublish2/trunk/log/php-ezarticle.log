@@ -215,3 +215,17 @@ Maintainer(s) : bf@ez.no
 
     * admin/templates/standard/articlelist.tpl: Fix
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/articlelist.php
+      user/articleview.php
+      user/datasupplier.php: fixed small bugs
+
+2001-09-10  nca_intelhosting3  <bf@ez.no>
+
+    * user/articlelist.php: updated cvs to current intelhosting version
+

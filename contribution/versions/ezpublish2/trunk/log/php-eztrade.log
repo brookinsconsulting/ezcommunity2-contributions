@@ -58,3 +58,44 @@ Maintainer(s) : ce@ez.no
     * admin/templates/standard/optionedit.tpl:
     Fixed bug related to index variable.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-10  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql:
+    Added IncludesVAT to the eZTrade_Product table.
+
+    * admin/templates/standard/categorylist.tpl
+      admin/templates/standard/productedit.tpl
+      admin/categorylist.php
+      admin/productedit.php:
+    Added includes vat and excludes vat for each product. The reasoning is that
+    the information entered by the user should be saved as is in the database.
+
+    It is also the case that sometimes one would like to enter an exact price
+    including VAT, and sometimes an exact price excluding VAT. It depends on
+    wether the price to consumer should be at a specific price point.
+
+    * admin/intl/en_GB/categorylist.php.ini
+      admin/intl/en_GB/productedit.php.ini:
+    Added a few new strings. Rewrote some of the existing strings, made them
+    more understandable, and homogenous.
+
+    * classes/ezproduct.php: Added includes vat and support for it.
+
+2001-09-10  Christofer Elo  <ce@ez.no>
+
+    * admin/intl/en_GB/voucherlist.php.ini
+      admin/templates/standard/voucherlist.tpl
+      classes/ezproductpricerange.php
+      classes/ezvoucherpricerange.php
+      classes/ezvoucherused.php: added files
+
+2001-09-10  nca_intelhosting3  <bf@ez.no>
+
+    * user/templates/standard/productlist.tpl:
+    updated cvs to current intelhosting version
+

@@ -19,3 +19,11 @@ Maintainer(s) : bf@ez.no
 Module : classes
 Repository path : /home/cvsroot/projects/php/classes
 Maintainer(s) : bf@ez.no
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-10  Christofer Elo  <ce@ez.no>
+
+    * INIFile.php: fic
+

@@ -37,3 +37,23 @@ Maintainer(s) : fh@ez.no
     Added sending with ezuser subscripters.
     Added mailview in at the user bulklist
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-09-10  Christofer Elo  <ce@ez.no>
+
+    * user/subscriptionlist.php
+      classes/ezbulkmailusercategorysettings.php: fix
+
+    * classes/ezbulkmail.php
+      classes/ezbulkmailcategory.php
+      classes/ezbulkmailsubscriptionaddress.php
+      classes/ezbulkmailusersubscripter.php
+      user/cron.php: Added delayed mail with eZ user
+
+    * classes/ezbulkmailcategory.php
+      classes/ezbulkmailcategorysettings.php
+      classes/ezbulkmailusersubscripter.php
+      user/subscriptionlist.php: Fixed ezuser
+

@@ -64,3 +64,11 @@ Maintainer(s) : jhe@ez.no
       user/intl/id_ID/messagesimpleedit.php.ini
       user/intl/id_ID/messagesimplereply.php.ini: added id_ID
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/search.php: fixed strange code
+

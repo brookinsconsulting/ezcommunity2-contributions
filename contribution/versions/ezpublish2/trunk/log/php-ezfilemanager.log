@@ -36,3 +36,12 @@ Maintainer(s) : jhe@ez.no
 
     * admin/intl/no_NO/menubox.php.ini: Layout
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezvirtualfile.php
+      user/search.php: search is working correctly
+
