@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfilterrule.php,v 1.16 2001/08/17 13:35:59 jhe Exp $
+// $Id: ezmailfilterrule.php,v 1.17 2001/08/27 10:54:12 jhe Exp $
 //
 // eZMailFilterRule class
 //
@@ -491,7 +491,7 @@ class eZMailFilter
 {
     function eZMailFilter( $userID = false )
     {
-        if( $userID == false )
+        if ( $userID == false )
         {
             $user =& eZUser::currentUser();
             $userID = $user->id();
@@ -503,20 +503,20 @@ class eZMailFilter
 
     function runFilters( &$mail )
     {
-        $i=0;
+        $i = 0;
         $res = false;
         do
         {
-            echo "Running filter\n";
-            if ( count ( $this->Filters ) > 0 )
+//            echo "Running filter\n";
+            if ( count( $this->Filters ) > 0 )
                 $res = $this->Filters[$i]->applyFilter( $mail );
             $i++;
         }
-        while( $i < $this->$NumFilters && $res == false );
+        while ( $i < $this->$NumFilters && $res == false );
 
-        if( $res == false )
+        if ( $res == false )
         {
-            echo "Didn't match\n";
+//            echo "Didn't match\n";
             $this->Inbox->addMail( $mail );
         }
     }

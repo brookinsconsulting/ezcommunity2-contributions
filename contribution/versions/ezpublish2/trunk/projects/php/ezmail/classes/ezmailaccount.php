@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailaccount.php,v 1.30 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezmailaccount.php,v 1.31 2001/08/27 10:54:12 jhe Exp $
 //
 // eZMailAccount class
 //
@@ -161,16 +161,16 @@ class eZMailAccount
             else if ( count( $account_array ) == 1 )
             {
 
-                $this->ID =& $account_array[0][ $db->fieldName("ID") ];
-                $this->UserID =& $account_array[0][ $db->fieldName("UserID") ];
-                $this->Name =& $account_array[0][ $db->fieldName("Name") ];
-                $this->LoginName =& $account_array[0][ $db->fieldName("LoginName") ];
-                $this->Password =& $account_array[0][ $db->fieldName("Password") ];
-                $this->Server =& $account_array[0][ $db->fieldName("Server") ];
-                $this->DeleteFromServer =& $account_array[0][ $db->fieldName("DeleteFromServer") ];
-                $this->IsActive =& $account_array[0][ $db->fieldName("IsActive") ];
-                $this->ServerType =& $account_array[0][  $db->fieldName("ServerType") ];
-                $this->ServerPort =& $account_array[0][ $db->fieldName("ServerPort") ];
+                $this->ID =& $account_array[0][$db->fieldName( "ID" )];
+                $this->UserID =& $account_array[0][$db->fieldName( "UserID" )];
+                $this->Name =& $account_array[0][$db->fieldName( "Name" )];
+                $this->LoginName =& $account_array[0][$db->fieldName( "LoginName" )];
+                $this->Password =& $account_array[0][$db->fieldName( "Password" )];
+                $this->Server =& $account_array[0][$db->fieldName( "Server" )];
+                $this->DeleteFromServer =& $account_array[0][$db->fieldName( "DeleteFromServer" )];
+                $this->IsActive =& $account_array[0][$db->fieldName( "IsActive" )];
+                $this->ServerType =& $account_array[0][$db->fieldName( "ServerType" )];
+                $this->ServerPort =& $account_array[0][$db->fieldName( "ServerPort" )];
 
                 $ret = true;
             }
@@ -424,6 +424,7 @@ class eZMailAccount
                 getHeaders( $mail, $mbox, $i ); // fetch header information
                 $mail->store(); // to get ID
                 
+                set_time_limit( 20 );
                 $mailstructure = imap_fetchstructure( $mbox, $i );
                 disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
                 $mail->setSize( $mailstructure->bytes );
