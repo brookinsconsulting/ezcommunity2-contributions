@@ -71,6 +71,9 @@ if ( $user )
         if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
             include( "ezuser/admin/menubox.php" );
 
+        if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
+            include( "ezcontact/admin/menubox.php" );
+
     
     // parse the URI
         $page = "";
