@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.15 2001/02/26 17:29:02 jb Exp $
+// $Id: ezoption.php,v 1.16 2001/03/02 15:51:06 jb Exp $
 //
 // Definition of eZOption class
 //
@@ -171,10 +171,18 @@ class eZOption
     {
         $db =& eZDB::globalDatabase();
 
+        $db->array_query( $option_array, "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
+        foreach( $option_array as $option_value )
+        {
+            $option_id = $option_value["ID"];
+            $db->query( "DELETE FROM eZTrade_OptionValueContent WHERE ValueID='$option_id'" );
+        }
         $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
         $db->array_query( $option_array, "DELETE FROM eZTrade_ProductOptionLink WHERE OptionID='$this->ID'" );
         $db->array_query( $option_array, "DELETE FROM eZTrade_Option WHERE ID='$this->ID'" );
         $db->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
+                                          WHERE OptionID='$this->ID'" );
+        $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValueHeader
                                           WHERE OptionID='$this->ID'" );
     }
 
@@ -227,6 +235,48 @@ class eZOption
     function setDescription( $value )
     {
         $this->Description = $value;
+    }
+
+    function &descriptionHeaders( $id = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( !$id )
+            $id = $this->ID;
+        $db->array_query( $qry_array,
+                          "SELECT Name FROM eZTrade_OptionValueHeader
+                           WHERE OptionID='$id' ORDER BY Placement ASC" );
+        $ret = array();
+        foreach( $qry_array as $row )
+        {
+            $ret[] = $row["Name"];
+        }
+        return $ret;
+    }
+
+    function removeHeaders( $id = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( !$id )
+            $id = $this->ID;
+        $db->query( "DELETE FROM eZTrade_OptionValueHeader WHERE OptionID='$id'" );
+    }
+
+    function addHeader( $header, $id = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( !$id )
+            $id = $this->ID;
+        if ( !is_array( $header ) )
+            $header = array( $header );
+        $db->array_query( $qry_array, "SELECT Placement FROM eZTrade_OptionValueHeader
+                                       WHERE OptionID='$id' ORDER BY Placement DESC LIMIT 1", 0, 1 );
+        $placement = count( $qry_array ) == 0 ? 1 : $qry_array[0]["Placement"] + 1;
+        foreach( $header as $header_val )
+        {
+            $db->query( "INSERT INTO eZTrade_OptionValueHeader
+                         SET Name='$header_val', OptionID='$id', Placement='$placement'" );
+            $placement++;
+        }
     }
 
     /*!
