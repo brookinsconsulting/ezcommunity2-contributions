@@ -83,18 +83,21 @@
 						<td class="sum">&nbsp;</td>
 					</tr>
 				</table>
+				<input type="hidden" name="Action" value="Refresh" />
             <!-- END wishlist_item_list_tpl -->
         </td>
     </tr>
 </table>
+</form>
 <hr noshade size="1" />
 
 <!-- BEGIN wishlist_checkout_tpl -->
+<form action="/trade/sendwishlist/" method="post">
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <td>
 	        <input class="okbutton" type="submit" value="{intl-send_wishlist}" />
-				<input type="hidden" name="Action" value="Refresh" />
+
 	</td>
 
     </tr>
