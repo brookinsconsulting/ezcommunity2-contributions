@@ -1,6 +1,6 @@
 
 <!-- BEGIN article_image_template -->
-<img src="{this_image}" height="{this_image_height}" alt="this_image_caption" width="{this_image_width}">
+<img src="{this_image}" height="{this_image_height}" alt="this_image_caption" width="{this_image_width}" align="right" border="0">
 <!-- END article_image_template -->
 
 

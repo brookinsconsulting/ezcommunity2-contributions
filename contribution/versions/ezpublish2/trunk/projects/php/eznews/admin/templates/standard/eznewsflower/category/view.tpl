@@ -34,9 +34,6 @@
 
 
 
-
-
-
 <!-- BEGIN this_item_template -->
 <h1>{this_name}</h1>
 
@@ -48,12 +45,10 @@
 
 
 <!-- BEGIN go_to_parent_template -->
-<a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a><br />
+<!-- <a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a><br /> -->
 <!-- END go_to_parent_template -->
 
-<a href="/{this_path}/{this_id}?edit+this">{intl-edit_this_category}</a><br />
-<a href="/{this_path}/{this_id}?delete+this">{intl-delete_this_category}</a><br />
-<a href="/{this_path}/{this_id}?create+article">{intl-create_article}</a><br />
+<!-- <a href="/{this_path}/{this_id}?delete+this">{intl-delete_this_category}</a><br /> -->
 
 
 <!-- BEGIN no_articles_template -->
@@ -72,6 +67,12 @@
 
 {article_items}
 </table>
+<br />
+
+<hr noshade size="4" />
+
 <!-- END articles_template -->
 
+<a href="/{this_path}/{this_id}?edit+this">[{intl-edit_this_category}]</a><br />
+<a href="/{this_path}/{this_id}?create+article">[{intl-create_article}]</a><br />
 
