@@ -36,7 +36,7 @@
 <tr>
 	<td>
     <input type="hidden" name="CategoryID" value="{category_id}" />
-    <input class="okbutton" type="submit" value="OK" />
+    <input class="okbutton" type="submit" value="{intl-ok}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>
