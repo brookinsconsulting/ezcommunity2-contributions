@@ -57,7 +57,7 @@
 
 <br />
 
-<form method="post" action="/forum/reply/reply/{reply_id}/">
+<form method="post" action="/forum/userlogin/reply/{reply_id}/">
 
 <hr noshade="noshade" size="4" />
 

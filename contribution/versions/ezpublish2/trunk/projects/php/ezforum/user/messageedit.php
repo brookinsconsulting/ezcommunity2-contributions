@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
+// $Id: messageedit.php,v 1.2 2000/10/20 10:27:02 ce-cvs Exp $
 //
 // 
 //
@@ -88,10 +88,7 @@ $t->set_block( "messagepost", "message_item_tpl", "message_item" );
 $t->setAllStrings();
 
 $user = eZUser::currentUser();
-if ( !$user )
-{
-    // Do some nasty..
-}
+
 $forum = new eZForum( $ForumID );
 $t->set_var( "forum_name", $forum->name() );
 $t->set_var( "forum_id", $ForumID );

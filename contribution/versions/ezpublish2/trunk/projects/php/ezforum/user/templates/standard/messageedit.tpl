@@ -1,4 +1,5 @@
 <form action="/forum/messageedit/insert/{forum_id}/" method="post">
+<!-- <form action="/forum/userlogin/insert/{forum_id}/" method="post"> -->
 
 <h1>{intl-headline}</h1>
 

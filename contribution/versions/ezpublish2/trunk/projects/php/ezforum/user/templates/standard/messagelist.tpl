@@ -57,7 +57,7 @@
 {next}
 </a>
 
-<form action="/forum/messageedit/new/{forum_id}">
+<form action="/forum/userlogin/new/{forum_id}">
 
 <hr noshade size="4" />
 

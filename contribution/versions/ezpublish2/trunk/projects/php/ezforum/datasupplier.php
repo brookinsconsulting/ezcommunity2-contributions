@@ -7,6 +7,15 @@ unset( $GenerateStaticPage );
 switch ( $url_array[2] )
 {
 
+    case "userlogin" :
+    {
+        $Action = $url_array[3];
+        $ForumID = $url_array[4];
+        $MessageID = $url_array[4];
+        include( "ezforum/user/userlogin.php" );
+    }    
+    break;
+
     case "" :
         include( "ezforum/main.php" );
         break;
