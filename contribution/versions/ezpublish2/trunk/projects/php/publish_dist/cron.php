@@ -18,5 +18,6 @@ include_once( "ezmail/classes/ezmail.php" );
 
 // include( "eznewsfeed/admin/cron.php" );
 
+include( "ezstats/admin/archive.php" );
 
 ?>
