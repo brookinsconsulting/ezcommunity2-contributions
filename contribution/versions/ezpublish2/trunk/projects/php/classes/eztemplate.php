@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: eztemplate.php,v 1.2 2000/09/01 13:28:59 ce-cvs Exp $
+    $Id: eztemplate.php,v 1.3 2000/09/01 14:18:28 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,6 +21,7 @@ class eZTemplate extends Template {
         $this->language = $language;
         $this->phpFile = $phpFile;
         $this->Template( $templateDir );
+//        print( $intlDir . "/" . $language . "/" . $phpFile . ".ini" );
         $ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
 
         $this->TextStrings = $ini->read_group( "strings" );
