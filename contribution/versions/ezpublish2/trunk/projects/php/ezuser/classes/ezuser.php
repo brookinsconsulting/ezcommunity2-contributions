@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.28 2000/12/08 09:32:36 bf-cvs Exp $
+// $Id: ezuser.php,v 1.29 2000/12/08 09:41:52 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -508,7 +508,7 @@ class eZUser
             $idle = $session->idle();
             $idle = $idle / 60;
             
-            if ( $idle > $user->timeoutValue() )
+            if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
                 $user->logout();
             }
