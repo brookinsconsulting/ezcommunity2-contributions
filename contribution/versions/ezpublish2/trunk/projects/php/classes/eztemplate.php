@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.19 2001/01/24 10:17:05 jb Exp $
+// $Id: eztemplate.php,v 1.20 2001/01/24 10:17:53 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -143,7 +143,6 @@ class eZTemplate
         }
         if ( $print )
         {
-            print "<br><b>".$this->files[0]."</b><br>";
             print $str;
         }
         return $str;
