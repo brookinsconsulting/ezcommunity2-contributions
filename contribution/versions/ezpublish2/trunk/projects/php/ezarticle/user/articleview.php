@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.62 2001/08/09 10:56:08 bf Exp $
+// $Id: articleview.php,v 1.63 2001/08/09 11:04:42 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -376,7 +376,7 @@ else
 $t->set_var( "current_page_link", "" );
 
 // page links
-if ( $pageCount > 1 && $PageNumber != -1 && ( isset( $PrintableVersion ) && $PrintableVersion != "enabled" ) )
+if ( $pageCount > 1 && $PageNumber != -1 && ( $PrintableVersion != "enabled" ) )
 {
     for ( $i=0; $i<$pageCount; $i++ )
     {
@@ -433,7 +433,7 @@ else
 }
 
 // next page link
-if ( $PageNumber < $pageCount && $PageNumber != -1 && ( isset( $PrintableVersion ) && $PrintableVersion != "enabled" ) )
+if ( $PageNumber < $pageCount && $PageNumber != -1 && ( $PrintableVersion != "enabled" ) )
 {
     $t->set_var( "next_page_number", $PageNumber + 1 );    
     $t->parse( "next_page_link", "next_page_link_tpl" );
