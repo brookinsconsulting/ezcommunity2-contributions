@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.10 2000/10/23 09:18:24 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.11 2000/10/23 11:05:10 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -530,6 +530,30 @@ class eZArticle
            }           
        }
        return $ret;
+    }
+
+    /*!
+      Returns every article in every category sorted by time.
+    */
+    function articles()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $article_array = array();
+
+       $this->Database->array_query( $article_array, "SELECT ID FROM eZArticle_Article
+                                                      ORDER BY Created DESC" );
+ 
+       for ( $i=0; $i<count($article_array); $i++ )
+       {
+           $return_array[$i] = new eZArticle( $article_array[$i]["ID"], false );
+       }
+       
+       return $return_array;
     }
     
     /*!

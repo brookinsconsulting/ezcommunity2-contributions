@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.3 2000/10/20 11:35:34 bf-cvs Exp $
+// $Id: articlelist.php,v 1.4 2000/10/23 11:05:10 bf-cvs Exp $
 //
 // 
 //
@@ -101,7 +101,15 @@ else
 
 
 // articles
-$articleList = $category->articles();
+if ( $ShowLatest == true )
+{
+    $article = new eZArticle();
+    $articleList = $article->articles();
+} 
+else
+{
+    $articleList = $category->articles();    
+}
 
 $locale = new eZLocale( $Language );
 $i=0;

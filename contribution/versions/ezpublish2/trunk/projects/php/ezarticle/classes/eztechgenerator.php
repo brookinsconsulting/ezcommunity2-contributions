@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.8 2000/10/22 11:46:33 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.9 2000/10/23 11:05:10 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -62,15 +62,15 @@ class eZTechGenerator
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
-            // make unknown tags readable.. look-ahead assertion is used ( ?! )
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql))/", "&lt;", $tmpPage );
+            // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|der))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!)
             // the expression must be fixed with eg just use the 3 last letters of the tag
-            $tmpPage = preg_replace( "/(?<!(age|php|age|cpp|ell|sql))>/", "&gt;", $tmpPage );
+            $tmpPage = preg_replace( "/(?<!(age|php|age|cpp|ell|sql|der))>/", "&gt;", $tmpPage );
 
             // strip for tags, not much sense to have this here... will problably remove this later
-            $tmpPage = strip_tags( $tmpPage, "<page>,<php>,</php>,<image>,</image>,<cpp>,</cpp>,<shell>,</shell>,<sql>,</sql>" );
+            $tmpPage = strip_tags( $tmpPage, "<page>,<php>,</php>,<image>,</image>,<cpp>,</cpp>,<shell>,</shell>,<sql>,</sql>,<header>,</header>" );
 
             $body .= "<page>" . $tmpPage  . "</page>";        
         }
