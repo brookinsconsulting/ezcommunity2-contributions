@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.9 2001/02/26 17:28:08 ce Exp $
+// $Id: fileview.php,v 1.10 2001/02/26 19:05:54 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
@@ -57,6 +58,12 @@ if ( $FileID != 0 )
 {
     $file = new eZVirtualFile( $FileID );
 
+    if ( $file->id() == 0 )
+    {
+        eZHTTPTool::header( "Location: /error/404/" );
+        exit();
+    }
+    
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "file_description", $file->description() );
@@ -66,6 +73,11 @@ if ( $FileID != 0 )
     if ( $file->hasReadPermissions( $user ) )
     {
         $t->parse( "download", "download_tpl" );
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /error/403/" );
+        exit();
     }
 
     if ( $file->hasWritePermissions( $user ) && $user )
@@ -82,10 +94,8 @@ if ( $FileID != 0 )
 
     $fileOwner = $file->user();
 
-    $t->set_var( "file_owner", $fileOwner->firstName() . " " . $fileOwner->lastName() );
-
-
-
+    if ( $fileOwner )
+        $t->set_var( "file_owner", $fileOwner->firstName() . " " . $fileOwner->lastName() );
 
     $t->parse( "view", "view_tpl" );
 }

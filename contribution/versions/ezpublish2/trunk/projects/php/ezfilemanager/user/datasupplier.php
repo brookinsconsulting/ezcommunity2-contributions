@@ -3,6 +3,7 @@
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/eztime.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezhttptool.php" );
 
 switch ( $url_array[2] )
 {
@@ -106,7 +107,11 @@ switch ( $url_array[2] )
     }
     break;
     
-    
+    default:
+    {
+        eZHTTPTool::header( "Location: /error/404/" );
+        exit();
+    }
 }
 
 ?>

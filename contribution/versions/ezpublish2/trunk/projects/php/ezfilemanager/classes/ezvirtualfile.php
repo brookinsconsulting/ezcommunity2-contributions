@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.17 2001/02/26 16:43:47 ce Exp $
+// $Id: ezvirtualfile.php,v 1.18 2001/02/26 19:05:54 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -133,6 +133,7 @@ class eZVirtualfile
         if ( $id != "" )
         {
             $this->Database->array_query( $virtualfile_array, "SELECT * FROM eZFileManager_File WHERE ID='$id'" );
+
             if ( count( $virtualfile_array ) > 1 )
             {
                 die( "Error: VirtualFile's with the same ID was found in the database. This shouldent happen." );
@@ -153,6 +154,11 @@ class eZVirtualfile
             else if( count( $virtualfile_array ) < 1 )
             {
                 $this->State_ = "Dirty";
+            }
+            if( count( $virtualfile_array ) == 0 )
+            {
+                $this->ID = 0;
+                $this->State_ = "New";
             }
         }
         else
