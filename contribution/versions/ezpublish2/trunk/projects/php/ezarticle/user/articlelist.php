@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.35 2001/03/01 14:46:23 fh Exp $
+// $Id: articlelist.php,v 1.36 2001/03/10 00:36:37 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -119,7 +119,8 @@ $i=0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' == true ) )
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' == true ) ||
+         eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
     {    
         $t->set_var( "category_id", $categoryItem->id() );
         
@@ -182,7 +183,8 @@ foreach ( $articleList as $article )
 {
     // check if user has permission, if not break to next article.
     $aid = $article->id();
-    if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' ) )
+    if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' )  ||
+         eZArticle::isAuthor( eZUser::currentUser(), $categoryItem->id() ) )
     {
     
         $t->set_var( "article_id", $article->id() );
