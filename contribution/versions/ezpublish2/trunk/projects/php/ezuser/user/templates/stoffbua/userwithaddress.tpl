@@ -20,7 +20,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
@@ -31,23 +31,39 @@
 </tr>
 </table>
 
-<p class="boxtext">{intl-login}:</p>
-<input {readonly} type="text" size="20" name="Login" value="{login_value}"/>
+<br />
 
-<p class="boxtext">{intl-email}:</p>
-<input type="text" size="20" name="Email" value="{email_value}"/>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+	<p class="boxtext">{intl-login}:</p>
+	<input {readonly} type="text" size="20" name="Login" value="{login_value}"/>
+	</td>
+	<td>
+	<p class="boxtext">{intl-email}:</p>
+	<input type="text" size="20" name="Email" value="{email_value}"/>
+	</td>
+</tr>
+</table>
 
-<p class="boxtext">{intl-street1}:</p>
-<input type="text" size="20" name="Street1" value="{street1_value}"/>
+<p class="boxtext">Gate:</p>
+<input type="text" size="20" name="Street1" value="{street1_value}"/><br />
+<input type="text" size="20" name="Street2" value="{street2_value}"/><br />
+<br />
 
-<p class="boxtext">{intl-street2}:</p>
-<input type="text" size="20" name="Street2" value="{street2_value}"/>
-
-<p class="boxtext">{intl-zip}:</p>
-<input type="text" size="20" name="Zip" value="{zip_value}"/>
-
-<p class="boxtext">{intl-place}:</p>
-<input type="text" size="20" name="Place" value="{place_value}"/>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+	<p class="boxtext">Postnr:</p>
+	<input type="text" size="6" name="Zip" value="{zip_value}"/>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<p class="boxtext">{intl-place}:</p>
+	<input type="text" size="20" name="Place" value="{place_value}"/>
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN country_tpl -->
 <p class="boxtext">{intl-country}:</p>

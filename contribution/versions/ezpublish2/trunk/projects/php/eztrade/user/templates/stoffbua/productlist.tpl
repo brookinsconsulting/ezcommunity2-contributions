@@ -17,11 +17,11 @@
 
 <hr noshade="noshade" size="4"/>
 
-<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/trade/productlist/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="/trade/productlist/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 

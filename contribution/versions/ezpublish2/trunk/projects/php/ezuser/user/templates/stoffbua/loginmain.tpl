@@ -29,7 +29,7 @@
 	<tr>
 		<td>
 		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="/user/forgot/">{intl-forgot}</a>
-		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{user_edit_url}">{intl-register}
+		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{user_edit_url}">Ny kunde</a>
 		<input type="hidden" name="RedirectURL" value="{redirect_url}">
 
 		</form>
@@ -38,12 +38,7 @@
 	</tr>
 	<tr>
 		<td>
-		Tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst,
-		Tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst,
-		Tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst,
-		Tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst,
-		Tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst,
-		Tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst,
+		Her kommer en kort forklaring på hvordan og hvorfor man skal registrere seg som bruker for å handle fra nettbutikken.
 		</td>
 	</tr>
 	
