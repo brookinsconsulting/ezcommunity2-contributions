@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.6 2001/01/15 13:25:04 ce Exp $
+// $Id: todoedit.php,v 1.7 2001/01/15 14:38:14 ce Exp $
 //
 // Definition of todo list.
 //
@@ -14,8 +14,21 @@
 
 if ( isSet ( $Delete ) )
 {
-    Header( "Location: /todo/" );
+    $Action = "delete";
+}
+if ( isSet ( $List ) )
+{
+    Header( "Location: /todo" );
     exit();
+}
+if ( isSet ( $Edit ) )
+{
+    $Action = "edit";
+}
+if ( isSet ( $Done ) )
+{
+    $Action = "Edit";
+    $Status = "on";
 }
 
 include_once( "classes/INIFile.php" );

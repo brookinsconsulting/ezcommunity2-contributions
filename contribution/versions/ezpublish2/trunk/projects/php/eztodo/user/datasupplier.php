@@ -56,6 +56,14 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "todoview":
+    {
+        $TodoID = $url_array[3];
+        include( "eztodo/user/todoview.php" );
+    }
+    break;
+            
+    
     case "todoinfo" :
         include( "eztodo/user/todoinfo.php" );
         break;

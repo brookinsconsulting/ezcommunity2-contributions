@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.10 2001/01/15 13:25:04 ce Exp $
+// $Id: eztodo.php,v 1.11 2001/01/15 14:38:14 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -159,7 +159,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
         
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Name" );
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Priority DESC" );
         
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -182,7 +182,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Name");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Priority DESC");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
