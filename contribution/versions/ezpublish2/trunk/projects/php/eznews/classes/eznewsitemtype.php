@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.10 2000/10/16 13:42:19 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.11 2000/10/16 13:55:55 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
@@ -24,25 +24,6 @@
     
     Example of usage:
     \code
-<<<<<<< eznewsitemtype.php
-    
-    \endcode
-    
-    \sa eZNewsItem
-*/
-
-include_once( "classes/ezdb.php" );
-
-class eZNewsItemType
-{
-    /*!
-      Constructs a new eZNewsItemType object.
-
-      If $id is set the object's values are fetched from the
-      database.
-    */
-    function eZNewsItemType( $id=-1, $fetch=true )
-=======
     // Example of how to include this file.
     include_once( "eznews/classes/eznewsitemtype.php" );       
 
@@ -56,12 +37,7 @@ class eZNewsItemType
     $it = new eZNewsItemType( $itemName, true );
     
     if( $it->isCoherent() )
->>>>>>> 1.8
     {
-<<<<<<< eznewsitemtype.php
-        $this->IsConnected = false;
-        if ( $id != -1 )
-=======
         echo "The object " . $it->ID() . " represents the item type: " . $it->Name();
         echo " which is equal to $itemName";
     }
@@ -80,7 +56,6 @@ class eZNewsItemType
         $it->store( $outID );
         
         if( $outID != 0 )
->>>>>>> 1.8
         {
             echo "The new item type: " .  $itemName . " was stored with id $outID<br>";
         }
@@ -120,19 +95,6 @@ class eZNewsItemType extends eZNewsUtility
     */
     function eZNewsItemType( $inData = "", $fetch = true )
     {
-<<<<<<< eznewsitemtype.php
-        $this->dbInit();
-
-        $query="
-        INSERT INTO eZNews_ItemType SET
-            Name='$this->Name',
-            eZClass='$this->eZClass',
-            eZTable='$this->eZTable'
-        ";
-
-        $this->Database->query( $query );
-        $this->ID = mysql_insert_id();
-=======
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
     }
     
@@ -172,14 +134,7 @@ class eZNewsItemType extends eZNewsUtility
         
         $this->Database->query( $query );
         $insertID = mysql_insert_id();
->>>>>>> 1.8
 
-<<<<<<< eznewsitemtype.php
-        return $this->ID;
-    }
-
-
-=======
         if( $insertID )
         {
             $outID = $insertID;
@@ -224,7 +179,6 @@ class eZNewsItemType extends eZNewsUtility
         
         $this->Database->query( $query );
         $insertID = mysql_insert_id();
->>>>>>> 1.8
 
         if( $insertID )
         {
@@ -265,25 +219,7 @@ class eZNewsItemType extends eZNewsUtility
                 WHERE ID = %s
             ";
             
-<<<<<<< eznewsitemtype.php
-            $this->Database->array_query( $itemtype_array, $query );
-            
-            if ( count( $itemtype_array ) > 1 )
-            {
-                die( "Error: Item type's with the same ID was found in the database. This shouldn't happen." );
-            }
-            else if( count( $itemtype_array ) == 1 )
-            {
-                $this->ID = $itemtype_array[0][ "ID" ];
-                $this->Name = $itemtype_array[0][ "Name" ];
-                $this->eZClass = $itemtype_array[0][ "eZClass" ];
-                $this->eZTable = $itemtype_array[0][ "eZTable" ];
-            }
-                 
-            $this->State_ = "Coherent";
-=======
             $query = sprintf( $query, $inData );
->>>>>>> 1.8
         }
         else
         {
@@ -331,12 +267,6 @@ class eZNewsItemType extends eZNewsUtility
     }
 
 
-<<<<<<< eznewsitemtype.php
-
-    /*!
-      Returns all the item types found in the database.
-=======
->>>>>>> 1.8
 
         /*!
             Returns all the item types found in the database.
@@ -573,21 +503,11 @@ class eZNewsItemType extends eZNewsUtility
     {
         $value = false;
         
-<<<<<<< eznewsitemtype.php
-        $this->Name = $value;
-    }
-
-=======
         $it = new eZNewsItemType( $inParentID, true );
 
         if( $it->isCoherent() )
         {
             $this->dirtyUpdate();
->>>>>>> 1.8
-
-<<<<<<< eznewsitemtype.php
-
-=======
             $this->ParentID = $it->ID();
 
             $this->alterState();
@@ -600,7 +520,6 @@ class eZNewsItemType extends eZNewsUtility
     
 
 
->>>>>>> 1.8
     /*!
         Returns the object's ParentID.
         
@@ -651,13 +570,6 @@ class eZNewsItemType extends eZNewsUtility
      */
     function printObject()
     {
-<<<<<<< eznewsitemtype.php
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "eZNewsMain" );
-            $this->IsConnected = true;
-        }
-=======
         echo "eZNewsItemType::printObject()<br />\n";
         echo "eZClass = " . $this->eZClass . " \n";
         echo "eZTable = " . $this->eZTable . " \n";
@@ -665,7 +577,6 @@ class eZNewsItemType extends eZNewsUtility
         echo "<br />\n";
         
         eZNewsUtility::printObject();
->>>>>>> 1.8
     }
     
     
