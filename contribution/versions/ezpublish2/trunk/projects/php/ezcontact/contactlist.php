@@ -117,10 +117,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   // utøve rettigheter
   if ( $usrGroup->companyDelete() == 'Y' )
   {
-      	$t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\" onMouseOut=\"MM_swapImgRestore()\" onMouseOver=\"MM_swapImage('{company_id}','','" . $DOCUMENTROOT ."images/slettminimrk.gif',1)\"><img name=\"{company_i}\" border=\"0\" src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"></a>" );
-
-// 	onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('{company_name}','','{document_root}images/redigerminimrk.gif',1)"><img name="{company_name}" border="0" src="{document_root}images/redigermini.gif" width="16" height="16">
-//      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
+  	$t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\" align=\"top\"></a>" );
   }
   else
   {
