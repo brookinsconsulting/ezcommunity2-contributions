@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.5 2001/02/03 22:10:42 jb Exp $
+// $Id: quoteedit.php,v 1.6 2001/02/04 13:10:38 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -548,9 +548,9 @@ if ( !$match )
     $t->set_var( "product_id", $product_id );
     $t->set_var( "category_id", $CategoryID );
     $t->set_var( "quote_id", $QuoteID );
-    if ( ( isset( $quote_type ) and is_numeric( $quote_type ) ) || ( !isset( $quote_type ) ) )
-        $quote_type = $Action;
-    $t->set_var( "quote_type", $quote_type );
+//      if ( ( isset( $quote_type ) and is_numeric( $quote_type ) ) || ( !isset( $quote_type ) ) )
+//          $quote_type = $Action;
+    $t->set_var( "quote_type", $Action );
 
     $t->set_var( "cur_quantity", $quantity );
     $t->set_var( "cur_price", $price );
@@ -599,7 +599,7 @@ if ( !$match )
         $t->set_var( "last_expire_date", $locale->format( $quote->expireDate() ) );
         $t->set_var( "last_quantity", $quote->quantity() );
         $t->set_var( "last_price", $quote->price() );
-        if ( $quote_type == 0 )
+        if ( $quote_type == QUOTE_ALL_TYPE )
         {
             $t->parse( "quote_all_type", "quote_all_type_tpl" );
             $t->parse( "quote_2_all_type", "quote_2_all_type_tpl" );
@@ -615,7 +615,7 @@ if ( !$match )
     else
     {
         $t->set_var( "today", $locale->format( $today ) );
-        if ( $quote_type == 0 )
+        if ( $quote_type == QUOTE_ALL_TYPE )
             $t->set_var( "all_selected", "selected" );
         else
             $t->set_var( "any_selected", "selected" );
