@@ -14,6 +14,7 @@ Changes from 2.2 Alpha to 2.2 Beta 1
 * Added circular categories in eZ article
 * Added option for keeping case of manual keywords for eZ article
 * Added support for changing message limit in eZ forum
+* Added Signature in eZMail, fixed Preview button bug.
 
 Changes from 2.1 to 2.2 Alpha
 -----------------------------
