@@ -162,6 +162,9 @@ CREATE TABLE eZContact_ContactType (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name char(50),
   Description text,
+  ParentID int(11) DEFAULT '0' NOT NULL,
+  INDEX (ParentID),
+  INDEX (Name),
   PRIMARY KEY (ID)
 );
 
@@ -182,20 +185,6 @@ CREATE TABLE eZContact_CompanyType (
 
 #
 # Dumping data for table 'eZContact_CompanyType'
-#
-
-#
-# Table structure for table 'eZContact_CompanyTypeHiearchy'
-#
-DROP TABLE IF EXISTS eZContact_CompanyTypeHiearchy;
-CREATE TABLE eZContact_CompanyTypeHiearchy (
-  CompanyTypeID int(11) DEFAULT '0' NOT NULL,
-  ParentID int(11) DEFAULT '0' NOT NULL,
-  PRIMARY KEY (CompanyTypeID, ParentID)
-);
-
-#
-# Dumping data for table 'eZContact_CompanyTypeHiearchy'
 #
 
 #
