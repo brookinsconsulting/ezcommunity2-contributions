@@ -20,7 +20,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<div class="p">{current_category_description}</div>
+<div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >

@@ -47,7 +47,7 @@
 <input type="hidden" name="Action" value="ShowTodosByUser">
 <input class="stdbutton" type="submit" value="{intl-show}">
 
-<br />
+<br /><br />
 
 <select name="Show">
 <option {all_selected} value="All">{intl-show_all}</option>
@@ -125,5 +125,5 @@
 
 <hr noshade size="4">
 
-<input class="okbutton" type="submit" value="{intl-newtodo}">
+<input class="stdbutton" type="submit" value="{intl-newtodo}">
 </form>

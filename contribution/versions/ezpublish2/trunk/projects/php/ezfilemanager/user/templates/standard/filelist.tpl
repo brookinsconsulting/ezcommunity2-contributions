@@ -31,7 +31,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<div class="p">{current_folder_description}</div>
+<div class="spacer"><div class="p">{current_folder_description}</div></div>
 
 <!-- BEGIN folder_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >

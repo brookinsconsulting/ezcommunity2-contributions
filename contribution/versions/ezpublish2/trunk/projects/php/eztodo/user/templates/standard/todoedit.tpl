@@ -35,19 +35,19 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="br" colspan="2">
-	<p class="boxtext">{intl-name}</p>
+	<p class="boxtext">{intl-name}:</p>
 	<input type="text" size="30" name="Name" value="{name}">
 	<br><br>
 	</td>
 </tr>
 <tr>
 	<td width="50%">
-	<p class="boxtext">{intl-owner}</p>
+	<p class="boxtext">{intl-owner}:</p>
 	{first_name} {last_name}
 	<br><br>
 	</td>
 	<td>
-	<p class="boxtext">{intl-user}</p>
+	<p class="boxtext">{intl-user}:</p>
 	<select name="UserID">
 	<!-- BEGIN user_item_tpl -->
 	<option {user_is_selected} value="{user_id}">{user_firstname} {user_lastname}</option>
@@ -58,7 +58,7 @@
 </tr>
 <tr>
 	<td width="50%">
-	<p class="boxtext">{intl-cat}</p>
+	<p class="boxtext">{intl-cat}:</p>
 	<select name="CategoryID">
 	<!-- BEGIN category_select_tpl -->
 	<option {is_selected} value="{category_id}">{category_name}</option>
@@ -67,7 +67,7 @@
 	<br><br>
 	</td>
 	<td>
-	<p class="boxtext">{intl-pri}</p>
+	<p class="boxtext">{intl-pri}:</p>
 	<select name="PriorityID">
 	<!-- BEGIN priority_select_tpl -->
 	<option {is_selected} value="{priority_id}">{priority_name}</option>
@@ -78,7 +78,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	<p class="boxtext">{intl-desc}</p>
+	<p class="boxtext">{intl-desc}:</p>
 	<textarea wrap="soft" cols="30" rows="10" name="Description">{description}</textarea>
 	<br><br>
 	</td>
@@ -88,16 +88,13 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="33%">
-	<p class="boxtext">{intl-status}:</p>
-	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;</div>
+	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;{intl-status}</div>
 	</td>
 	<td width="33%">
-	<p class="boxtext">{intl-view_others}:</p>
-	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;</div>
+	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-view_others}</div>
 	</td>
 	<td width="34%">
-	<p class="boxtext">{intl-send_mail}:</p>
-	<div class="check"><input type="checkbox" name="SendMail">&nbsp;</div>
+	<div class="check"><input type="checkbox" name="SendMail">&nbsp;{intl-send_mail}</div>
 	</td>
 
 </tr>

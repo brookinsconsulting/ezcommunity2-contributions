@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.15 2001/03/05 08:01:19 ce Exp $
+// $Id: todoedit.php,v 1.16 2001/03/05 15:38:54 th Exp $
 //
 // Definition of todo list.
 //
@@ -11,7 +11,7 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
-
+include_once( "classes/ezhttptool.php" );
 if ( isSet ( $Delete ) )
 {
     $Action = "delete";
@@ -30,6 +30,12 @@ if ( isSet ( $Done ) )
     $Action = "updateStatus";
     $Status = "on";
 }
+if( isset( $Cancel ) )
+{
+    eZHTTPTool::header( "Location: /todo" );
+    exit();
+
+}
 
 include_once( "classes/INIFile.php" );
 
@@ -47,7 +53,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 include_once( "classes/ezmail.php" );
-include_once( "classes/ezhttptool.php" );
+
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
