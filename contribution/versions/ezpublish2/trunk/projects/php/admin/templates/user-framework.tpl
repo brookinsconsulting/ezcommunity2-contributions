@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<p onLoad="MM_preloadImages('../admin/images/firmaminimrk.gif','../admin/images/personminimrk.gif','../ezlink/images/redigerminimrk.gif','../ezlink/images/slettminimrk.gif')"></p>
+<div onLoad="MM_preloadImages('..admin/images/redigerminimrk.gif','../admin/images/slettminimrk.gif')"></div>
 
 <h1>Brukeroversikt</h1>
 
