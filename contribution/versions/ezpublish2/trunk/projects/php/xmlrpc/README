@@ -7,6 +7,8 @@ eZ xmlrpc is an implementation of the XML-RPC found at:
 
 More information about XMP-RPC is found at: http://www.xmlrpc.com/
 
+Class reference documentation can be found in the doc/ folder.
+
 eZ xmlrpc uses the qdom xml parser functionality found in PHP version 4.0.4 and
 later. For further information about the qdom parser and how to compile it 
 consult the INSTALL file.
