@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: index.php 9864 2003-07-11 07:27:00Z br $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
@@ -23,9 +23,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
-header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-header( "Cache-Control: no-cache, must-revalidate" ); 
+header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
+header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
+header( "Cache-Control: no-cache, must-revalidate" );
 header( "Pragma: no-cache" );
 header( "X-Powered-By: eZ publish 2" );
 
@@ -37,17 +37,17 @@ if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
 }
 elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
 {
-	// Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
+    // Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
     $siteDir = $DOCUMENT_ROOT . $regs[1];
     $index = "/" . $regs[2];
 }
 else
 {
-	// Fallback... doesn't work with virtual-hosts, but better than nothing
-	$siteDir = "./";
-	// kracker: changed from 2.2 to run on firebright vhost w/out index.php 
-	// $index = "/index.php";
-	$index = "/";
+    // Fallback... doesn't work with virtual-hosts, but better than nothing
+    $siteDir = "./";
+    // kracker: changed from 2.2 to run on firebright vhost w/out index.php
+    // $index = "/index.php";
+    $index = "/";
 }
 
 // What OS-type are we using?
@@ -70,15 +70,15 @@ if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
 
 // Fallback... Finding the paths above failed, so $PHP_SELF is not set right.
 if ( $siteDir == "./" )
-	$PHP_SELF = $REQUEST_URI;
+     $PHP_SELF = $REQUEST_URI;
 
 // Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
-if ( ! ereg( ".*index\.php.*", $PHP_SELF ) ) 
+if ( ! ereg( ".*index\.php.*", $PHP_SELF ) )
     $index = "";
-else 
+else
 {
-	// Get the right $REQUEST_URI, when using nVH setup.
-        // x
+    // Get the right $REQUEST_URI, when using nVH setup.
+    // x
 
     if ( ereg( "^$wwwDir$index(.+)", $PHP_SELF, $req ) )
         $REQUEST_URI = $req[1];
@@ -92,7 +92,7 @@ else
 ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];
 
-  
+
 $GLOBALS["DEBUG"] = false;
 $UsePHPSessions = false;
 
@@ -110,7 +110,7 @@ if ( $UsePHPSessions == true )
 // settings for sessions
 // max timeout is set to 48 hours
 ini_alter( "session.gc_maxlifetime", "172800" );
-ini_alter( "session.entropy_file","/dev/urandom" ); 
+ini_alter( "session.entropy_file","/dev/urandom" );
 ini_alter( "session.entropy_length", "512" );
 
 // kracker: changed from 2.2 to run on firebright vhost w/out index.php in auto generated urls
@@ -186,14 +186,14 @@ if ( isSet( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS[
 $url_array = explode( "/", $REQUEST_URI );
 
 if ( ( $requireUserLogin == "disabled" ) ||
-     ( ( $requireUserLogin == "enabled" ) && ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
+     ( ( $requireUserLogin == "enabled" ) && ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) )
 {
 
     // do url translation if needed
     $URLTranslationKeyword = $ini->read_var( "site", "URLTranslationKeyword" );
 
     $urlTranslatorArray = explode( ";", $URLTranslationKeyword );
-    
+
     if ( in_array( $url_array[1], $urlTranslatorArray ) )
     {
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
@@ -216,7 +216,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             $REQUEST_URI = $ini->read_var( "site", "DefaultPage" );
         }
-        
+
         if ( $user )
         {
             $mainGroup = $user->groupDefinition( true );
@@ -227,7 +227,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         }
         $url_array = explode( "/", $REQUEST_URI );
     }
-    
+
     // Load the main contents and store in a variable
     $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
 
@@ -269,15 +269,15 @@ if ( ( $requireUserLogin == "disabled" ) ||
                 eZFile::unlink( $SiteCacheFile );
                 //  print( "time out-clearing cache" );
             }
-        }        
+        }
     }
-    
+
     if ( $StoreSiteCache || $SiteCache == "disabled" )
     {
         $buffer =& ob_get_contents();
         ob_end_clean();
         ob_start();
-        
+
         // fetch the module printout
         if ( eZFile::file_exists( $content_page ) )
         {
@@ -323,11 +323,11 @@ if ( ( $requireUserLogin == "disabled" ) ||
         $iso =& $Locale->languageISO();
         if ( $iso != false )
             header( "Content-type: text/html;charset=$iso" );
-        
-    
+
+
         $MainContents =& ob_get_contents();
         ob_end_clean();
-    
+
         // fill the buffer with the old values
         ob_start();
         print( $buffer );
@@ -365,7 +365,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
             {
                 $siteDesign = $sectionSiteDesign;
                 $GlobalSiteDesign = $sectionSiteDesign;
-            }            
+            }
         }
 
         // include some html
@@ -417,7 +417,7 @@ else
 
     $MainContents =& ob_get_contents();
     ob_end_clean();
-    ob_start();    
+    ob_start();
 
     include( "design/$siteDesign/loginframe.php" );
 }
