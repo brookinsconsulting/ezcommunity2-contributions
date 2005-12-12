@@ -1,0 +1,79 @@
+        **** Explanation of eZAddress site.ini variables ****
+#####################################################################
+The name of the group in site.ini for eZAddress is eZAddressMain.
+It contains these variables:
+
+AdminTemplateDir:    Relative path to template files in admin
+TemplateDir:         Relative path to template files in user
+ImageDir:            Absolute path to images
+DocumentRoot:        The path to the root directory of eZContact
+Language:            The language used in eZContact
+MaxCountryList:      The maximum number of countries to show in a countrylist,
+                     if the number is exceeded next/prev button are shown
+
+Example group:
+[eZAddressMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+DocumentRoot=./ezaddress/
+Language=en_GB
+MaxCountryList=10
+
+#####################################################################
+        **** Explanation of ezregion site.ini variable additions ****
+#####################################################################
+It should contains these variables:
+
+MaxRegionList:      The maximum number of Regions to show in a regionlist,
+                     if the number is exceeded next/prev button are shown
+DefaultRegion:      The default region, often the region the site is hosted in.
+
+
+Example group:
+[eZAddressMain]
+#(eZAddress Defaults Ommited)
+MaxRegionList=11
+DefaultRegion=2
+
+#####################################################################
+        **** Explanation of eZUSer site.ini variables ****
+#####################################################################
+
+[eZUserMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_US
+DocumentRoot=./ezuser/
+AnonymousUserGroup=2
+SelectCountry=enabled
+SelectRegion=enabled
+UserWithAddress=enabled
+RequireUserLogin=disabled
+ForceSSL=disabled
+SimultaneousLogins=enabled
+DefaultSimultaneousLogins=0
+MaxUserList=10
+DefaultCountry=240
+DefaultRegion=2
+DefaultRedirect=/
+DefaultSection=7
+ReminderMailFromAddress=kracker@gci.net
+RequireAddress=disabled
+RequireFirstAddress=disabled
+OverrideUserWithAddress=disabled
+
+#####################################################################
+        **** Explanation of ezregion site.ini variable additions ****
+#####################################################################
+It should contains these variables:
+
+DefaultRegion:      The default region, often the region the site is hosted in.
+SelectRegion:	  Display User Drop Down Selection of Regions
+
+Example group:
+[eZAddressMain]
+#(eZUser Defaults Ommited)
+DefaultRegion=2
+SelectRegion=enabled

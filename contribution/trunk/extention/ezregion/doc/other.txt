@@ -1,0 +1,54 @@
+Other Data:
+
+xpublish:
+Originaly written in 10/2001 durring the creation of xpublish.
+xpublish a branch of ezpublish (1.x, 2.x) plus improvements and bug fixes. 
+
+xpublish original features included:
+- eztrade gpg credit card payment / order email encryption
+- ezregion support to eZ address, eZ user & eZ trade for US Addresses & Transactions
+- ezpublish intl/en_US/*.ini (International Text Langauge & Character Support for each module) to support for US Transactions
+
+Issues like leaving simple bugs in the gpg order encryption (for credit cards) for eZTrade,
+full and equal support for en_US to match en_GB the current default language in each module, 
+or support for US States via eZRegion.
+
+
+##########################
+installation:
+
+The packaged installed in eZ publish 2.2.2 should overright the 
+eZAddress & eZ User module directories.
+
+Replace them with the ones in the ezpublish/ directory.
+
+If you wish to use eZ region 1.1.4 with an eZ publish version 
+greater that 2.2.2, like say 2.2.7 just know that you may 
+wish to install the code differences by hand to prevent the 
+overighting of any ezpublish revisions. Bear with me as I 
+package the next eZ region release 1.1.5 (based on 2.2.7).
+
+The Code:
+
+The code is written in ez's style. 
+
+The code includes two features not implimented in user/ functions.
+
+User Added. I included the sql field to allow for
+future expansion in eZ region. I wanted to allow 
+users to simply type in the name of their country
+of origin apon request and have that field added 
+dynamicly to the database.
+
+Apon the User Added idea. I realized that the site
+administrator may not apreaciete this feature because
+it would give users the ablity to taint the existing 
+accurate region list with bad data. In comes . . .
+
+Removed. I included the sql field to allow admins (via the admin)
+To edit the region and possibly disable (delete's not allowed due 
+to eZ trade order data dependacy complication issues) the region 
+from being displayed as an option in user/ functions.
+
+#####################
+

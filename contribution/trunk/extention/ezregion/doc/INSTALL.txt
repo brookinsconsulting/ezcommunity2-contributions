@@ -1,0 +1,60 @@
+------------------------------------------------------------------------------------------------------
+Installation instructions for 
+eZ region 1.1.4
+(part of xpublish 2.3.2)
+(based on ezpublish: 2.2.2)
+
+Maintainer: Graham Brookins (kracker@gci.net) 
+Date: 11/12/2002
+------------------------------------------------------------------------------------------------------
+
+0. System requirements: 
+
+ezpublish 2.2.7-1 (recommended, but versions higher than 1.1.x have proved to work, too ) 
+
+------------------------------------------------------------------------------------------------------
+
+1. Installation of php source code.
+
+Package is winzipped -- don't mind ;-)
+
+I shall submit a bzipped and tar+zipped version later on.
+
+Just copy the directory-structure exactly as you find it in this package into your 
+ezpublish 2.2.7-1 - filetree. 
+
+-------------------------------------------------------------------------------------------------------
+
+1.1 Important usage notice
+
+Update site.ini
+
+Add eZ region site.ini variables (dependacies) to the ezpublish site.ini file.
+See ezpublish/site-ini.txt for descriptions & examples.
+
+2. Installation of database tables
+
+Create the tables needed for ezregion in your mysql-server just by piping in the
+file ezregion.sql you find in the ezaddress/sql/mysql - directory.
+
+To accomplish this, open a command shell with the mysql-server 
+in the environment-path and running and type
+
+ >>  mysql -u{username} -p{password} {your ezpublish database name} < ezaddress/sql/mysql/ezregion.sql
+
+where the bracketed items are placeholders for the things you have to supply in your local environment.
+
+If you feel unshure about what to do here, take a look into your mysql-documentation where
+things are explained in greater detail.
+
+-------------------------------------------------------------------------------------------------------
+
+3. Finally: How to make things work ...
+
+Edit a ezuser address. 
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+Have fun,
+Graham Brookins
