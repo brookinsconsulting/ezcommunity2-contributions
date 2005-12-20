@@ -31,7 +31,7 @@
 <!-- BEGIN file_tpl -->
 <tr>
 	<td class="{td_class}" width="1%">
-	<img src="{www_dir}/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
+	<img src="{www_dir}/design/admin/images/layout/file.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="40%">
 	<a href="{www_dir}{index}/filemanager/fileview/{file_id}/">{original_file_name}</a><br />
@@ -54,7 +54,7 @@
 	<input type="hidden" name="FileArrayID[]" value="{file_id}">
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/filemanager/edit/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-red','','{www_dir}/images/redigerminimrk.gif',1)"><img name="ezf{file_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
+	<a href="{www_dir}{index}/filemanager/edit/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-red','','{www_dir}/design/admin/images/layout/redigerminimrk.gif',1)"><img name="ezf{file_id}-red" border="0" src="{www_dir}/design/admin/images/layout/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
 </tr>
 <!-- END file_tpl -->
