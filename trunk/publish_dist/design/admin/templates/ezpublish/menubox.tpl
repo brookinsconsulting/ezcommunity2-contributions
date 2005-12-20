@@ -8,16 +8,12 @@
 </tr>
 <tr>
 	<td align="bottom" bgcolor="#b5b5b5">
-
 	<table width="100%" cellpadding="0" cellspacing="0" border="0">
 	<tr>
 		<td width="1%">
-		<a href="{www_dir}{index}{request_uri}">
 		<!-- Ikon: Start -->
-		<img src="{www_dir}/{module_dir}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" alt="{intl-module_name}" />
-		<!-- Ikon: Slutt -->
-		</a>
-		
+		<a href="{www_dir}{index}{request_uri}"><img src="{www_dir}/{module_dir}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" alt="{intl-module_name}" title="{intl-module_name}" /></a>
+		<!-- Ikon: Slutt -->		
 		</td>
 		<td width="1%">
 		<img src="{www_dir}/design/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" alt="" />
@@ -85,6 +81,3 @@
 </table>
 
 <!-- Menubox: End -->
-
-
-

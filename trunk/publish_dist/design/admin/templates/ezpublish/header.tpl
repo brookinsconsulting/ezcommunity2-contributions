@@ -122,8 +122,8 @@
 	<img src="{www_dir}/design/admin/images/1x1.gif" width="100" height="1" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>
-	<td width="1%" align="right">
-	<a  href="{www_dir}{index}/user/login/logout/"><img src="{www_dir}/design/admin/images/{site_style}/top-logout.gif" width="35" height="40" border="0" alt="" /></a>
+	<td width="1%" align="left">
+	<a  href="{www_dir}{index}/user/login/logout/"><img src="{www_dir}/design/admin/images/{site_style}/top-logout.gif" width="35" height="40" border="0" alt="logout" title="logout" /></a>
 	</td>
 </tr>
 </table>
