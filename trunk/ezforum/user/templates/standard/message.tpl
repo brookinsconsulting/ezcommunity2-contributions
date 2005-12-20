@@ -18,16 +18,16 @@
 <!-- BEGIN message_body_tpl -->
 
 <hr noshade="noshade" size="4" />
-	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<img src="{www_dir}/design/base/images/icons/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <!-- BEGIN header_list_tpl -->
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
-	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<img src="{www_dir}/design/base/images/icons/path-slash.gif" height="10" width="16" border="0" alt="" />
         <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<img src="{www_dir}/design/base/images/icons/path-slash.gif" height="10" width="16" border="0" alt="" />
 <!-- END header_list_tpl -->
 	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
 <!--
-	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />	
+	<img src="{www_dir}/design/base/images/icons/path-slash.gif" height="10" width="16" border="0" alt="" />	
     <a class="path" href="{www_dir}{index}/forum/message/{message_id}/">{message_topic}</a>
 -->
 
@@ -112,10 +112,10 @@
 		<td width="1%">
 		
 		<!-- BEGIN new_icon_tpl -->
-                <img src="{www_dir}/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
+                <img src="{www_dir}/design/base/images/icons/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
-                <img src="{www_dir}/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
+                <img src="{www_dir}/design/base/images/icons/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
 		<!-- END old_icon_tpl -->	
 		</td>
 		<td width="99%">
@@ -133,7 +133,7 @@
 	<td class="{td_class}" align="right">
 	&nbsp;
         <!-- BEGIN edit_message_item_tpl -->
-        <nobr><a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="{www_dir}{index}/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
+        <nobr><a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/design/base/images/icons/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="{www_dir}/design/base/images/icons/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="{www_dir}{index}/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/design/base/images/icons/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="{www_dir}/design/base/images/icons/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
         <!-- END edit_message_item_tpl -->
     </td>
 

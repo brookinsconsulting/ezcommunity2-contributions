@@ -6,7 +6,7 @@
 <tr>        
    	<td>
 	<p class="boxtext">{intl-author}:</p>
-    {message_author}
+         {message_author}
 	</td>
 	<td align="right">
 	<p class="boxtext">{intl-posted_at}:</p>
