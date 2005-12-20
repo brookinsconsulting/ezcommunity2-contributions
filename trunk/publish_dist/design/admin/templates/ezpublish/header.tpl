@@ -3,7 +3,6 @@
 
 <head>
   <title>{intl-header}: {site_url}</title>
-  <link rel="stylesheet" type="text/css" href="{www_dir}/design/admin/templates/{site_style}/style.css" />
   <meta http-equiv="Content-Type" content="text/html; charset={charset}"/>
 
   <script language="JavaScript1.2">
@@ -54,11 +53,10 @@
 	{
 	    CharsetSwitch.submit();
 	}
-
-	
   //-->
   </script> 
 
+  <link rel="stylesheet" type="text/css" href="{www_dir}/design/admin/templates/{site_style}/style.css" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 
@@ -81,19 +79,19 @@
 	<a href="{admin_site_protocol}://{admin_site_host}" target=""><img src="{www_dir}/design/base/images/logo/ezpublish-logo-200x40.png" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
 	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>
+	<!-- BEGIN charset_switch_tpl -->
 	<td width="91%" valign="top">
 	<form action="{charset_submit_url}" method="post" name="CharsetSwitch">
-	<!-- BEGIN charset_switch_tpl -->
 	<select name="page_charset" onchange="SwitchCharset()">
             <!-- BEGIN charset_switch_item_tpl --> 
 	    <option value="{charset_code}" {charset_selected}>{charset_description}</option>
 	    <!-- END charset_switch_item_tpl -->
         </select>
         <input type="submit" class="stdbutton" value="Set" />
-        <!-- END charset_switch_tpl -->
 	</form>
 	</td>
-	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>						
+        <!-- END charset_switch_tpl -->
+	<td width="1%">&nbsp;</td>
 	<td width="1%">
 	<span class="top">{intl-ezpublish_version}:</span><br />
 	<span class="topusername">{ezpublish_version}</span>.<span class="topusername">{ezpublish_installation_version}</span><br />
