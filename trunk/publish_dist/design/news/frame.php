@@ -89,7 +89,7 @@ else
 
 </head>
 
-<body bgcolor="#996666" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
+<body bgcolor="#996666" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/icons/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/icons/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/icons/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/icons/addminimrk.gif')">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>

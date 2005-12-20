@@ -90,7 +90,7 @@ else
 
 </head>
 
-<body bgcolor="#666699" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
+<body bgcolor="#666699" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('/design/base/images/icons/redigerminimrk.gif','/design/base/images/icons/slettminimrk.gif','/design/base/images/icons/downloadminimrk.gif','/design/base/images/icons/addminimrk.gif')">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
