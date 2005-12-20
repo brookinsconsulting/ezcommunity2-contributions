@@ -2,7 +2,6 @@
 
 <h1>{intl-headline}</h1>
 
-
 <!-- BEGIN error_list_tpl -->
 <hr noshade="noshade" size="4" />
 <br />
@@ -14,14 +13,13 @@
 <!-- END error_list_tpl -->
 
 <hr noshade="noshade" size="4" />
-<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
 	<input class="box" type="text" size="40" name="Name" value="{question_name}" />
-	</td>	
+	</td>
 </table>
 
 <br />
@@ -46,7 +44,6 @@
 	 </td>
 </tr>
 <!-- END alternative_item_tpl -->
-
 </table>
 <!-- END alternative_list_tpl -->
 
@@ -54,13 +51,10 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewAlternative" value="{intl-new_alternative}" />&nbsp;
-<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_alternatives}" />&nbsp;
+<input class="stdbutton" type="submit" name="NewAlternative" value="{intl-new_alternative}" />&nbsp;<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_alternatives}" />&nbsp;
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;
-<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
+<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 
 </form>
-	
