@@ -19,13 +19,15 @@
 <!-- BEGIN form_item_tpl -->
 <tr>
     <td class="{td_class}">
-        <a href="{www_dir}{index}/form/form/edit/{form_id}/">{form_name}</a>
+        <a href="{www_dir}{index}/form/form/preview/{form_id}/">{form_name}</a>
     </td>
     <td class="{td_class}">&nbsp;</td>
     <td class="{td_class}">
         {form_receiver}
     </td>
     <td width="1%" class="{td_class}" align="center">
+    <a href="{www_dir}{index}/form/form/edit/{form_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+
     <input type="checkbox" name="formDelete[]" value="{form_id}">
     </td>
 </tr>
