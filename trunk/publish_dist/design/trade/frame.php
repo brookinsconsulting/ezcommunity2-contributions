@@ -14,19 +14,19 @@ else
 <script language="JavaScript1.2">
 <!--//
 
-	function MM_swapImgRestore() 
+	function MM_swapImgRestore()
 	{
 		var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
 	}
 
-	function MM_preloadImages() 
+	function MM_preloadImages()
 	{
 		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
 		var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
 		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
 	}
 
-	function MM_findObj(n, d) 
+	function MM_findObj(n, d)
 	{
 		var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
 		d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
@@ -34,12 +34,12 @@ else
 		for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
 	}
 
-	function MM_swapImage() 
+	function MM_swapImage()
 	{
 		var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
 		if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
 	}
-	
+
 //-->
 </script>
 
@@ -144,12 +144,12 @@ else
 
 	<?
     $CategoryID = 0;
-    include( "eztrade/user/categorylist.php" ); 
+    include( "eztrade/user/categorylist.php" );
 	?>
-    
+
     <?
-	include( "eztrade/user/hotdealslist.php" ); 
-	?>     
+	include( "eztrade/user/hotdealslist.php" );
+	?>
 
    	<!-- Left menu end -->
 
@@ -163,9 +163,9 @@ else
 <!--
     <div align="center">
         <?
-        
+
 //        $CategoryID = $ini->read_var( "eZAdMain", "DefaultCategory" );
-//        $Limit = 1; 
+//        $Limit = 1;
 //        include( "ezad/user/adlist.php" );
 
         ?>
@@ -181,7 +181,7 @@ else
 
 
 	<!-- Main content view end -->
-	
+
 	<br />
     </td>
    	<td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
@@ -193,13 +193,13 @@ else
     <?
 	include( "ezuser/user/userbox.php" );
 	?>
-	
+
 	<?
 	include( "eztrade/user/menubox.php" );
 	?>
 
     <?
-	include( "eztrade/user/smallcart.php" );    
+	include( "eztrade/user/smallcart.php" );
 	?>
 
     <?
@@ -207,15 +207,15 @@ else
     ?>
 
    	<!-- Right menu end -->
-	
+
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 
    <div align="center"><a class="path" href="?PrintableVersion=enabled">Printable page</a></div><br />
 
 	<div align="center">
-	<a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/ezsystems/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+	<a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/logo/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
 	</div>
-	
+
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
 	</td>
@@ -238,7 +238,7 @@ if ( $StoreStats == "enabled" )
     // create a random string to prevent browser caching.
     $seed = md5( microtime() );
     // callback for storing the stats
-    $imgSrc = $GlobalSiteIni->WWWDir . "/stats/store/rx$seed-" . $REQUEST_URI . "1x1.gif";
+    $imgSrc = $GlobalSiteIni->WWWDir . "/stats/store/rx$seed-" . $_SERVER['REQUEST_URI'] . "1x1.gif";
     print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );
 }
 
@@ -246,4 +246,4 @@ if ( $StoreStats == "enabled" )
 
 </body>
 </html>
-    
+

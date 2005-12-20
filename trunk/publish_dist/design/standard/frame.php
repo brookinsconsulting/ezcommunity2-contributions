@@ -234,7 +234,7 @@ else
    <div align="center"><a class="path" href="?PrintableVersion=enabled">Printable page</a></div><br />
 
    <div align="center">
-   <a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/ezsystems/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+   <a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/logo/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
    </div>
 
    <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
@@ -259,7 +259,7 @@ if ( $StoreStats == "enabled" )
     // create a random string to prevent browser caching.
     $seed = md5( microtime() );
     // callback for storing the stats
-    $imgSrc = $GlobalSiteIni->WWWDir . "/stats/store/rx$seed-" . $REQUEST_URI . "1x1.gif";
+    $imgSrc = $GlobalSiteIni->WWWDir . "/stats/store/rx$seed-" . $_SERVER['REQUEST_URI'] . "1x1.gif";
     print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );
 }
 
