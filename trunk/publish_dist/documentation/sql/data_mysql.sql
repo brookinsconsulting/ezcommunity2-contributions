@@ -1546,7 +1546,7 @@ INSERT INTO eZURLTranslator_URL VALUES (2,'/section-intranet','/article/frontpag
 INSERT INTO eZURLTranslator_URL VALUES (3,'/section-trade','/article/frontpage/3',1003242743);
 INSERT INTO eZURLTranslator_URL VALUES (4,'/section-news','/article/frontpage/4',1003242744);
 
-INSERT INTO eZUser_Author VALUES (1,'eZ publish admin','admin@mysite.com'); 
+INSERT INTO eZUser_Author VALUES (1,'eZ publish admin','admin@example.com');
 
 INSERT INTO eZMediaCatalogue_Media VALUES (1,'Flash sample','eZ publish logo','eZ publish logo in Flash','phpNJDkhe.swf','ez.swf',0,0,1,1,1004641168);
 INSERT INTO eZMediaCatalogue_Media VALUES (2,'Real sample','eZ publish logo','eZ publish logo in Real Player','phpNOohcL.rm','ez.rm',0,0,1,1,1004641257);
@@ -1579,7 +1579,7 @@ INSERT INTO eZMediaCatalogue_AttributeValue VALUES (18,4,9,'false');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (19,4,10,'true');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (20,4,16,'application/x-mplayer2');
 
-INSERT INTO eZMediaCatalogue_Category VALUES (1,'Movies','Just some samples',0,1,1,1);         
+INSERT INTO eZMediaCatalogue_Category VALUES (1,'Movies','Just some samples',0,1,1,1);
 
 INSERT INTO eZMediaCatalogue_MediaCategoryLink VALUES (1,1,1);
 INSERT INTO eZMediaCatalogue_MediaCategoryLink VALUES (2,1,2);
