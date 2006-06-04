@@ -39,6 +39,11 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 
 $CategoryID = $url_array[5];
 
+if ( !strstr( $HTTP_REFERER, $ini->read_var( "eZArticleMain", "FromURL" ) ) )
+{
+  die( "SendToFriend is not configured correctly. Please check your site.ini file" );
+} 
+
 // tempo fix for admin users - maybe in the future must be changed
 if ( ($CategoryID != 0) )
 {
