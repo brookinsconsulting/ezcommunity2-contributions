@@ -301,6 +301,9 @@ UseDefaultRedirectPage=disabled
 DefaultRedirectPage=/select/url
 UseDefaultInstructionPage=disabled
 DefaultInstructionPage=/select/url
+# HTTP Referer Check URL URI
+FromURL=/article/articleview/
+FromURL2=/form/form/process/
 CreateEmailDefaults=disabled
 
 
