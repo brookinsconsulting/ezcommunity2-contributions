@@ -35,6 +35,13 @@ include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
 
+if( strstr($HTTP_REFERER, $ini->read_var( "eZFormMain", "FromURL" )) || strstr($HTTP_REFERER, $ini->read_var( "eZFormMain", "FromURL2" )) )
+{
+  //pass-through
+} else {
+ die('eZFormMain is misconfigured: please check your site.ini');
+}
+
 if ( isset( $Cancel ) )
 {
     if ( !empty( $redirectTo ) )
