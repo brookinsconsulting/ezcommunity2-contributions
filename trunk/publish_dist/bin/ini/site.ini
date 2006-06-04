@@ -166,6 +166,9 @@ CustomTags=logo
 # How often a word should be present to be ignored 0-1 (1==100%)
 StopWordFrequency=0.7
 
+# HTTP Referer Check URL URI
+FromURL=/article/
+
 [eZArticleRSS]
 # Channel Title, Link, Description and Language
 Title=eZ publish 2
