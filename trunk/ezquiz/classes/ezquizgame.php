@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezquizgame.php 9344 2002-03-06 08:56:33Z jhe $
 //
 // ezquizgame class
@@ -37,7 +37,7 @@
 
 include_once( "classes/ezdate.php" );
 include_once( "ezquiz/classes/ezquizquestion.php" );
-	      
+
 class eZQuizGame
 {
 
@@ -74,7 +74,7 @@ class eZQuizGame
         $description =& $db->escapeString( $this->Description );
         $startDate =& $this->StartDate->timeStamp();
         $stopDate =& $this->StopDate->timeStamp();
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZQuiz_Game" );
@@ -116,7 +116,7 @@ class eZQuizGame
                 $question->delete();
             }
         }
-        
+
         $res[] = $db->query( "DELETE FROM eZQuiz_Game WHERE ID='$this->ID'" );
         eZDB::finish( $res, $db );
     }
@@ -172,7 +172,7 @@ class eZQuizGame
     function &getAll( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $quizArray = array();
 
@@ -273,7 +273,7 @@ class eZQuizGame
     */
     function setStartDate( &$date )
     {
-        if ( get_class( $date ) == "ezdate" )
+        if ( is_a( $date, "eZDate" ) )
             $this->StartDate = $date;
     }
 
@@ -282,7 +282,7 @@ class eZQuizGame
     */
     function setStopDate( &$date )
     {
-        if ( get_class( $date ) == "ezdate" )
+        if ( is_a( $date, "eZDate" ) )
             $this->StopDate = $date;
     }
 
@@ -301,7 +301,7 @@ class eZQuizGame
                                        WHERE StopDate < '$now' AND ID = '$this->ID'" );
 
         $ret = $quizArray[0][$db->fieldName( "ID" )];
-        
+
         if ( $ret == $this->ID )
         {
             $ret = true;
@@ -359,11 +359,11 @@ class eZQuizGame
         $db->query_single( $question, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID' AND Placement='$placement'" );
 
         $return = new eZQuizQuestion( $question[$db->fieldName( "ID" )], true );
-           
+
         return $return;
     }
-    
-    
+
+
 
     /*!
       Returns the number of questions to this quiz game
@@ -376,10 +376,10 @@ class eZQuizGame
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZQuiz_Question WHERE GameID='$this->ID'" );
         $ret = $result[$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
-    
+
     /*!
       Returns the number of players for this quiz game
     */
@@ -393,7 +393,7 @@ class eZQuizGame
         $ret = $result[$db->fieldName( "Count" )];
         return $ret;
     }
-    
+
     /*!
       Returns all the open games
     */
@@ -413,10 +413,10 @@ class eZQuizGame
         {
             $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
- 
+
     /*!
       Returns the number of open games
     */
@@ -430,10 +430,10 @@ class eZQuizGame
                                        WHERE StartDate <= '$now' AND StopDate >= '$now'" );
 
         $ret = $quizArray[0][$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
- 
+
     /*!
       Returns the games opening
     */
@@ -456,7 +456,7 @@ class eZQuizGame
 
         return $returnArray;
     }
- 
+
     /*!
       Returns the closed games
     */
@@ -476,10 +476,10 @@ class eZQuizGame
         {
             $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
- 
+
     /*!
       Returns the number of closed games
     */
@@ -492,10 +492,10 @@ class eZQuizGame
         $db->array_query( $quizArray, "SELECT count(ID) as Count FROM eZQuiz_Game
                                        WHERE StopDate < '$now'" );
         $ret = $quizArray[0][$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
- 
+
     /*!
       Returns all the games started within a period.
     */
@@ -518,7 +518,7 @@ class eZQuizGame
         {
             $returnArray[$i] = new eZQuizGame( $quizArray[$i] );
         }
-        
+
         return $returnArray;
     }
 
@@ -544,7 +544,7 @@ class eZQuizGame
         {
             $returnArray[$i] = new eZQuizGame( $quizArray[$i] );
         }
-        
+
         return $returnArray;
     }
 
@@ -570,12 +570,12 @@ class eZQuizGame
         {
             $returnArray[$i] = new eZQuizGame( $quizArray[$i] );
         }
-        
+
         return $returnArray;
     }
-   
-    
-    
+
+
+
 
     var $ID;
     var $Name;

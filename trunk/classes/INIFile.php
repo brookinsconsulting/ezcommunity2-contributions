@@ -1,5 +1,5 @@
-<?php 
-// 
+<?php
+//
 // $Id: INIFile.php 9625 2002-06-11 08:36:33Z jhe $
 //
 // Implements a simple INI-file parser
@@ -47,12 +47,12 @@
   foreach ( $arrayTest as $test )
   {
     print( "test: ->$test<-<br>" );
-  }  
+  }
   \endcode
 */
 
 class INIFile
-{ 
+{
 
     /*!
       Constructs a new INIFile object.
@@ -60,9 +60,9 @@ class INIFile
     function INIFile( $inifilename = "", $write = false )
     {
         include_once( "classes/ezfile.php" );
-        
+
         $cachedFile = "classes/cache/" . md5( eZFile::realpath( $inifilename ) ) . ".php";
-        
+
         // check for modifications
         $cacheTime = eZFile::filemtime( $cachedFile );
         $origTime = eZFile::filemtime( $inifilename );
@@ -86,12 +86,12 @@ class INIFile
             include( $cachedFile );
         }
         else
-	  { 
+	  {
             $this->load_data( $inifilename, $write );
             // save the data to a cached file
             $buffer = "";
             $i = 0;
-            reset( $this->GROUPS );        
+            reset( $this->GROUPS );
             while ( list( $groupKey, $groupVal ) = each ( $this->GROUPS ) )
             {
                 reset( $groupVal );
@@ -107,11 +107,11 @@ class INIFile
             }
             $buffer = "<?php\n" . $buffer . "\n?>";
 
-            $fp = eZFile::fopen( $cachedFile, "w+" );        
+            $fp = eZFile::fopen( $cachedFile, "w+" );
             fwrite ( $fp, $buffer );
             fclose( $fp );
         }
-        
+
     }
 
     function load_data( $inifilename = "", $write = true, $useoverride = true )
@@ -129,7 +129,7 @@ class INIFile
         if ( !empty( $inifilename ) )
         {
             if ( !eZFile::file_exists( $inifilename ) )
-            { 
+            {
                 if ( eZFile::file_exists( $inifilename . ".php") )
                 {
                     $this->parse( $inifilename . ".php" );
@@ -214,7 +214,7 @@ class INIFile
 
         // So instead we'll do a hack until the reason for the error is found
         $contents .= "\n";
-        
+
         $ini_data =& split( "\n",$contents );
 
         while( list( $key, $data ) = each( $ini_data ) )
@@ -240,22 +240,22 @@ class INIFile
 
         if( ereg( "^\[([[:alnum:]]+)\]", $data, $out ) )
         {
-            $this->CURRENT_GROUP = strtolower( $out[1] ); 
-        } 
-        else 
+            $this->CURRENT_GROUP = strtolower( $out[1] );
+        }
+        else
         {
             $split_data =& split( "=", $data );
-            
+
             if ( !isset( $split_data[1] ) )
                 $split_data[1] = "";
-            $this->GROUPS[ $this->CURRENT_GROUP ][ $split_data[0] ] = $split_data[1]; 
+            $this->GROUPS[ $this->CURRENT_GROUP ][ $split_data[0] ] = $split_data[1];
         }
     }
 
     /*!
       Saves the ini file.
     */
-    function save_data() 
+    function save_data()
     {
         $fp = eZFile::fopen( $this->INI_FILE_NAME, "w" );
 
@@ -264,7 +264,7 @@ class INIFile
             $this->Error( "Cannot create file " . $this->INI_FILE_NAME );
             return false;
         }
-         
+
         $groups = $this->read_groups();
         $group_cnt = count( $groups );
 
@@ -289,7 +289,7 @@ class INIFile
                 fwrite( $fp, $res );
             }
         }
-         
+
         fclose( $fp );
     }
 
@@ -300,7 +300,7 @@ class INIFile
     {
         return count($this->GROUPS);
     }
-     
+
     /*!
       Returns an array with the names of all the groups.
     */
@@ -338,7 +338,7 @@ class INIFile
             return false;
         }
     }
-     
+
     /*!
       Adds a new group to the ini file.
     */
@@ -381,32 +381,32 @@ class INIFile
     function read_var( $group_name, $var_name )
     {
         $group_name = strtolower( $group_name );
-	
+
 	// EP: multilingual interface in administrator ---------------------------------------------------
-	
+
 //	if ( $var_name == "Language" and $GLOBALS["SCRIPT_NAME"] == "/index_admin.php" )
 //	{
 //	    global $Language;
-//	    
+//
 //	    include_once( "ezsession/classes/ezsession.php" );
 //            $session =& eZSession::globalSession();
 //            $session->fetch();
-//	
+//
 //	    if ( isset ( $Language ))
-//	    {	    
+//	    {
 //		$session->setVariable( "AdminSiteLanguage", $Language );
 //	    }
 //
-//            $Language =& $session->variable( "AdminSiteLanguage" );	    
+//            $Language =& $session->variable( "AdminSiteLanguage" );
 //	}
-//									    
+//
 //        if ( $Language <> "" )
 //        {
 //	    return $Language;
 //        }
-	
+
 	// EP --------------------------------------------------------------------------------------------
-														    
+
         if ( !isset( $this->GROUPS[ $group_name ] ) or !isset( $this->GROUPS[ $group_name ][ $var_name ] ) )
         {
             $this->Error( $var_name . " does not exist in " . $group_name );
@@ -442,7 +442,7 @@ class INIFile
             return false;
         }
     }
-     
+
     /*!
       Sets a variable in a group.
     */
@@ -475,7 +475,7 @@ class INIFile
     {
         $ini =& $GLOBALS["INI_$type"];
 
-        if ( get_class( $ini ) != "inifile" )
+        if ( !is_a( $ini, "INIFile" ) )
         {
             $ini = new INIFile( $file );
         }
@@ -487,9 +487,9 @@ class INIFile
     var $ERROR = "";
     var $GROUPS = array();
     var $CURRENT_GROUP = "";
-    var $WRITE_ACCESS = "";    
+    var $WRITE_ACCESS = "";
     var $Index = "";
     var $WWWDir = "";
     var $SiteDir = "";
-} 
+}
 ?>

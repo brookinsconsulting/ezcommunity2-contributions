@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: datasupplier.php 9344 2002-03-06 08:56:33Z jhe $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -44,46 +44,46 @@ switch ( $url_array[2] )
             case "list":
             {
                 $Offset = $url_array[4];
-                
+
                 if  ( !is_numeric( $Offset ) )
                 {
                     $Offset = 0;
                 }
-                
+
                 include( "ezquiz/user/quizlist.php" );
             }
             break;
-                        
+
             case "score":
             case "scores":
             {
                 $Offset = $url_array[5];
-                
+
                 if ( !is_numeric( $Offset ) )
                 {
                     $Offset = 0;
                 }
-                 
+
                 $GameID = $url_array[4];
-                
+
                 if( !is_numeric( $GameID ) )
                 {
                     eZHTTPTool::header( "Location: /quiz/game/list" );
                 }
-                
+
                 include( "ezquiz/user/quizscores.php" );
             }
             break;
-            
-            
+
+
             case "view":
             case "play":
             {
                 $GameID = $url_array[4];
-                
+
                 $user =& eZUser::currentUser();
-                
-                if ( get_class( $user ) != "ezuser" )
+
+                if ( !is_a( $user, "eZUser" ) )
                 {
                    eZHTTPTool::header( "Location: /user/login?RedirectURL=" . urlencode( "/quiz/game/play/$GameID" ) );
                 }
@@ -92,7 +92,7 @@ switch ( $url_array[2] )
                     include_once( "classes/ezlocale.php" );
                     include_once( "classes/ezdate.php" );
                     include_once( "ezquiz/classes/ezquizgame.php" );
-                    
+
                     $game = new eZQuizGame( $GameID );
                     $gameStop = $game->stopDate();
                     $gameStart = $game->startDate();
@@ -109,7 +109,7 @@ switch ( $url_array[2] )
                             {
                                 $QuestionNum = 0;
                             }
-                            
+
                             include( "ezquiz/user/quizplay.php" );
                         }
                         else
@@ -129,39 +129,39 @@ switch ( $url_array[2] )
         }
         break;
     }
-    
+
     case "my":
     {
         $Action = $url_array[3];
-        
+
         $user =&  eZUser::currentUser();
-        
-        if( get_class( $user ) != "ezuser" )
+
+        if( !is_a( $user, "eZUser" ) )
         {
         }
 
-        
+
         switch ( $Action )
         {
             case "open":
             case "closed":
             {
                 $Offset = $url_array[4];
-                
+
                 if  ( !is_numeric( $Offset ) )
                 {
                     $Offset = 0;
                 }
-                
+
                 include( "ezquiz/user/quizlist.php" );
             }
             break;
-            
+
             case "score":
             case "scores":
             {
                 $Offset = $url_array[4];
-                
+
                 if ( !is_numeric( $Offset ) )
                 {
                     $Offset = 0;

@@ -4,7 +4,7 @@
 //
 // Definition of eZXMLRPCResponse class
 //
-// Bård Farstad <bf@ez.no>
+// Bï¿½rd Farstad <bf@ez.no>
 // Created on: <16-Dec-2000 15:57:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -89,7 +89,7 @@ class eZXMLRPCResponse
         */
 
         $domTree =& eZXML::domTree( $stream, array( "TrimWhiteSpace" => true ) );
-        
+
         foreach ( $domTree->children as $response )
         {
             if ( $response->name == "methodResponse" )
@@ -240,7 +240,7 @@ class eZXMLRPCResponse
     {
         $ret = false;
 
-        if ( $this->IsFault and ( get_class( $this->Error ) == "ezxmlrpcstruct" ) )
+        if ( $this->IsFault and ( is_a( $this->Error, "eZXMLRPCStruct" ) ) )
         {
 
 //            $error = $this->Result->value();
@@ -260,7 +260,7 @@ class eZXMLRPCResponse
     {
         $ret = false;
 
-        if ( $this->IsFault and ( get_class( $this->Error ) == "ezxmlrpcstruct" )  )
+        if ( $this->IsFault and ( is_a( $this->Error, "eZXMLRPCStruct" ) )  )
         {
 //            $error = $this->Result->value();
             $error = $this->Error->value();

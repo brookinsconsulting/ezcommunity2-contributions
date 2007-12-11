@@ -1,5 +1,5 @@
 <?
-// 
+//
 // $Id: ezvoucherinformation.php 7943 2001-10-17 13:14:39Z ce $
 //
 // eZVoucherInformation class
@@ -79,7 +79,7 @@ class eZVoucherInformation
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $description =& $db->escapeString( $this->Description );
         $toName =& $db->escapeString( $this->ToName );
         $fromName =& $db->escapeString( $this->FromName );
@@ -87,7 +87,7 @@ class eZVoucherInformation
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_VoucherInformation" );
-            $nextID = $db->nextID( "eZTrade_VoucherInformation", "ID" );            
+            $nextID = $db->nextID( "eZTrade_VoucherInformation", "ID" );
             $timeStamp =& eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherInformation
@@ -129,7 +129,7 @@ class eZVoucherInformation
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -148,9 +148,9 @@ class eZVoucherInformation
 
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res = $db->query( "DELETE FROM eZTrade_VoucherInformation WHERE ID='$this->ID'" );
-    
+
         if ( $ret == false )
             $db->rollback( );
         else
@@ -212,7 +212,7 @@ class eZVoucherInformation
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $quizArray = array();
 
@@ -299,23 +299,23 @@ class eZVoucherInformation
     function &correctPrice( $calcVAT, &$product )
     {
         $inUser =& eZUser::currentUser();
-        
+
         $price = $this->Price;
 
         $vatType =& $product->vatType();
-       
+
         if ( $calcVAT == true )
         {
             if ( $product->excludedVAT() )
             {
                 $vatType =& $product->vatType();
                 $vat = 0;
-       
+
                 if ( $vatType )
                 {
                     $vat =& $vatType->value();
                 }
-                
+
                 $price = ( $price * $vat / 100 ) + $price;
             }
         }
@@ -325,14 +325,14 @@ class eZVoucherInformation
             {
                 $vatType =& $product->vatType();
                 $vat = 0;
-                
+
                 if ( $vatType )
                 {
                     $vat =& $vatType->value();
                 }
-                
+
                 $price = $price - ( $price / ( 100 + $vat ) ) * $vat;
-                
+
             }
         }
 
@@ -346,7 +346,7 @@ class eZVoucherInformation
     {
         $this->Price = $value;
     }
-    
+
     /*!
       Sets the to name.
     */
@@ -368,7 +368,7 @@ class eZVoucherInformation
     */
     function setEmail( &$value )
     {
-        if ( get_class ( $value ) == "ezonline" )
+        if ( is_a( $value, "eZOnline" ) )
             $this->OnlineID = $value->id();
         else
             $this->OnlineID = $value;
@@ -379,7 +379,7 @@ class eZVoucherInformation
     */
     function setFromEmail( &$value )
     {
-        if ( get_class ( $value ) == "ezonline" )
+        if ( is_a( $value, "eZOnline" ) )
             $this->FromOnlineID = $value->id();
         else
             $this->FromOnlineID = $value;
@@ -390,7 +390,7 @@ class eZVoucherInformation
     */
     function setToAddress( &$value )
     {
-        if ( get_class ( $value ) == "ezaddress" )
+        if ( is_a( $value, "eZAddress" ) )
             $this->ToAddressID = $value->id();
         else
             $this->ToAddressID = $value;
@@ -401,7 +401,7 @@ class eZVoucherInformation
     */
     function setFromAddress( &$value )
     {
-        if ( get_class ( $value ) == "ezaddress" )
+        if ( is_a( $value, "eZAddress" ) )
             $this->FromAddressID = $value->id();
         else
             $this->FromAddressID = $value;
@@ -412,7 +412,7 @@ class eZVoucherInformation
     */
     function setProduct( &$value )
     {
-        if ( get_class ( $value ) == "ezproduct" )
+        if ( is_a ( $value, "eZProduct" ) )
             $this->ProductID = $value->id();
         else
             $this->ProductID = $value;
@@ -423,7 +423,7 @@ class eZVoucherInformation
     */
     function setVoucher( &$value )
     {
-        if ( get_class ( $value ) == "ezvoucher" )
+        if ( is_a( $value, "eZVoucher" ) )
             $this->VoucherID = $value->id();
         else
             $this->VoucherID = $value;
@@ -442,7 +442,7 @@ class eZVoucherInformation
     */
     function setPreOrder( &$value )
     {
-        if ( get_class ( $value ) == "ezpreorder" )
+        if ( is_a ( $value, "eZPreOrder" ) )
             $this->PreOrderID = $value->id();
         else
             $this->PreOrderID = $value;
@@ -555,7 +555,7 @@ class eZVoucherInformation
             $this->sendEMail();
         elseif ( $this->MailMethod == 2 )
             $this->sendSMail();
-        
+
         return $this->Price;
     }
 
@@ -570,18 +570,18 @@ class eZVoucherInformation
         $voucher =& $this->voucher();
 
         $fromUser =& $this->fromEmail();
-        
+
         $Language = $ini->read_var( "eZTradeMain", "Language" );
-        
+
         $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                              "eztrade/user/intl/", $Language, "voucheremail.php" );
 
         $t->setAllStrings();
-        
+
         $t->set_file( "voucheremail", "voucheremail.tpl" );
-        
+
         $mail = new eZMail();
-        
+
         $t->set_var( "description", $this->description() );
         $t->set_var( "from_name", $this->fromName() );
         $t->set_var( "to_name", $this->toName() );
@@ -589,7 +589,7 @@ class eZVoucherInformation
 
 
         $mailAddress = $this->online();
-        
+
         $mail->setTo( $mailAddress->url() );
         $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
         $mail->setFrom( $fromUser->url() );

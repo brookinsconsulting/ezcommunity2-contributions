@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezpermission.php 7133 2001-09-10 23:00:02Z fh $
 //
 // Definition of eZPermission class
@@ -35,13 +35,13 @@
   // the $group variable is a eZUserGroup object.
   if ( eZPermission::checkPermission( $group, "eZTrade", "AddProducts" ) )
   {
-      print( "Access granted" );    
+      print( "Access granted" );
   }
   else
   {
       print( "Access denied" );
-  }  
-  
+  }
+
   // fetch a module from the database.
   $module->get( 1 );
 
@@ -69,7 +69,7 @@
   // fetch a user group
   $group = new eZUserGroup();
   $group->get( 1 );
-  
+
   // set a group permission
   $permission->setEnabled( $group, false );
 
@@ -101,7 +101,7 @@ class eZPermission
       database.
     */
     function eZPermission( $id="" )
-    {        
+    {
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -118,11 +118,11 @@ class eZPermission
 
         $dbError = false;
         $db->begin( );
-    
-        
-        $ret = false;        
+
+
+        $ret = false;
         $name = addslashes( $this->Name );
-        
+
         if ( ( $this->ModuleID != "" ) && ( $this->ModuleID != 0 ) )
         {
             $db->array_query( $value_array, "SELECT * FROM eZUser_Permission
@@ -133,13 +133,13 @@ class eZPermission
 
                 $nextID = $db->nextID( "eZUser_Permission", "ID" );
 
-                $ret = true;        
+                $ret = true;
                 if ( !isset( $this->ID ) )
                 {
                     $db->query( "INSERT INTO eZUser_Permission ( ID, Name, ModuleID )
                     VALUES
                     ( '$nextID', '$name', '$this->ModuleID' " );
-                    
+
 					$this->ID = $nextID;
                 }
                 else
@@ -153,12 +153,12 @@ class eZPermission
         }
 
         $db->unlock();
-    
+
         if ( $dbError == true )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return $ret;
     }
 
@@ -173,13 +173,13 @@ class eZPermission
         if ( isset( $this->ID ) )
         {
             $db->query( "DELETE FROM eZUser_GroupPermissionLink WHERE PermissionID='$this->ID'" );
-           
+
             $db->query( "DELETE FROM eZUser_Permission WHERE ID='$this->ID'" );
         }
-        
+
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
 
@@ -190,7 +190,7 @@ class eZPermission
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $permission_array, "SELECT * FROM eZUser_Permission WHERE ID='$id'" );
@@ -205,7 +205,7 @@ class eZPermission
                 $this->ModuleID = $permission_array[0][$db->fieldName("ModuleID")];
                 $ret = true;
             }
-                 
+
             $this->State_ = "Coherent";
         }
         else
@@ -219,8 +219,8 @@ class eZPermission
       Fetches the id from the database where ModuleID == $id, and returns an array of eZPermission objects.
     */
     function getAllByModule( $module )
-    {        
-        if ( get_class ( $module ) == "ezmodule" )
+    {
+        if ( is_a( $module, "eZModule" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -228,7 +228,7 @@ class eZPermission
 
             $return_array = array();
             $permission_array = array();
-        
+
             $db->array_query( $permission_array, "SELECT ID,Name FROM eZUser_Permission
                                                               WHERE ModuleID='$moduleID'
                                                               ORDER BY Name" );
@@ -262,7 +262,7 @@ class eZPermission
 
         return $return_array;
     }
-    
+
 
 
     /*!
@@ -292,12 +292,12 @@ class eZPermission
     {
        $ret = false;
        $module = new eZModule( );
-       
+
        if ( $module->get( $this->ModuleID ) )
        {
            $ret = $module;
        }
-            
+
        return $module;
     }
 
@@ -318,7 +318,7 @@ class eZPermission
     function setModule( $module )
     {
        $ret = false;
-       if ( get_class( $module ) == "ezmodule" )
+        if ( is_a( $module, "eZModule" ) )
        {
            $this->ModuleID = $module->id();
            $ret = true;
@@ -337,12 +337,12 @@ class eZPermission
     {
        $ret = false;
 
-       if ( get_class( $group ) == "ezusergroup" )
+       if ( is_a( $group, "eZUserGroup" ) )
        {
            $db =& eZDB::globalDatabase();
            $dbError = false;
            $db->begin( );
-       
+
 
            $groupID = $group->id();
 
@@ -354,7 +354,7 @@ class eZPermission
            {
                $isEnabled = "0";
            }
-           
+
            $db->array_query( $value_array, "SELECT ID FROM eZUser_GroupPermissionLink
                                                     WHERE PermissionID='$this->ID' AND GroupID='$groupID'" );
            if ( count( $value_array ) == 1 )
@@ -369,9 +369,9 @@ class eZPermission
                $db->lock( "eZUser_GroupPermissionLink" );
 
                $nextID = $db->nextID( "eZUser_GroupPermissionLink", "ID" );
-               
+
                $res = $db->query( "INSERT INTO eZUser_GroupPermissionLink
-                                  ( ID, PermissionID, GroupID, IsEnabled ) 
+                                  ( ID, PermissionID, GroupID, IsEnabled )
                                   VALUES
  		                          ( '$nextID', '$this->ID', '$groupID', '$isEnabled' )" );
            }
@@ -380,16 +380,16 @@ class eZPermission
                $dbError = true;
            else
                $ret = true;
-           
+
            $db->unlock();
-       
+
            if ( $dbError == true )
                $db->rollback( );
            else
                $db->commit();
 
        }
-       
+
        return $ret;
     }
 
@@ -401,10 +401,10 @@ class eZPermission
     function isEnabled( $group )
     {
        $ret = false;
-       if ( get_class( $group ) == "ezusergroup" )
+       if ( is_a( $group, "eZUserGroup" ) )
        {
            $db =& eZDB::globalDatabase();
-        
+
            $groupID = $group->id();
 
 
@@ -416,7 +416,7 @@ class eZPermission
                {
                    $ret = true;
                }
-           }           
+           }
        }
        return $ret;
     }
@@ -431,9 +431,9 @@ class eZPermission
         $module = new eZModule();
         $module = $module->exists( $moduleName );
 
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             return false;
-        
+
         if ( $user->hasRootAccess() )
             return true;
 
@@ -453,9 +453,9 @@ class eZPermission
             if ( count( $value_array ) == 1 )
             {
                 $permission = new eZPermission();
-                $permission->get( $value_array[0][$db->fieldName( "ID" )] ); 
+                $permission->get( $value_array[0][$db->fieldName( "ID" )] );
 
-                if ( get_class( $user ) == "ezuser" )
+                if ( is_a( $user, "eZUser" ) )
                 {
                     $group = new eZUserGroup();
                     $groupArray = $group->getByUser( $user );
@@ -477,7 +477,7 @@ class eZPermission
     var $ID;
     var $Name;
     var $ModuleID;
-    
+
     /// Indicates the state of the object. In regard to database information.
     var $State_;
 }

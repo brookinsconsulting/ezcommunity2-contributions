@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezquizquestion.php 8687 2001-12-06 10:19:29Z jhe $
 //
 // eZQuizQuestion class
@@ -38,7 +38,7 @@
 include_once( "classes/ezdate.php" );
 include_once( "ezquiz/classes/ezquizalternative.php" );
 include_once( "ezquiz/classes/ezquizgame.php" );
-	      
+
 class eZQuizQuestion
 {
 
@@ -87,7 +87,7 @@ class eZQuizQuestion
         {
             $db->lock( "eZQuiz_Question" );
 			$this->ID = $db->nextID( "eZQuiz_Question", "ID" );
-            
+
             $res[] = $db->query( "INSERT INTO eZQuiz_Question
                                   (ID, Name, Score, GameID, Placement)
                                   VALUES
@@ -129,7 +129,7 @@ class eZQuizQuestion
 
         $res[] = $db->query( "DELETE FROM eZQuiz_Question WHERE ID='$this->ID'" );
         eZDB::finish( $res, $db );
-        
+
     }
 
     /*!
@@ -179,19 +179,19 @@ class eZQuizQuestion
     function getAll( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $questionArray = array();
-        
+
         $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Question
                                            ORDER BY StartDate DESC",
                                            array( "Offset" => $offset, "Limit" => $limit ) );
-        
+
         for ( $i = 0; $i < count( $questionArray ); $i++ )
         {
             $returnArray[$i] = new eZQuizQuestion( $questionArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
@@ -262,7 +262,7 @@ class eZQuizQuestion
     */
     function setGame( &$game )
     {
-        if ( get_class( $game ) == "ezquizgame" )
+        if ( is_a( $game, "eZQuizGame" ) )
             $this->Game = $game;
     }
 
@@ -273,20 +273,20 @@ class eZQuizQuestion
     {
         $ret = false;
         $db =& eZDB::globalDatabase();
-        if ( get_class( $alternative ) == "ezquizalternative" )
+        if ( is_a( $alternative, "eZQuizAlternative" ) )
         {
             $alternativeID = $alternative->id();
             $questionID = $this->ID;
-            
-            $db->query_single( $result, "SELECT ID 
+
+            $db->query_single( $result, "SELECT ID
                                      FROM eZQuiz_Alternative WHERE QuestionID='$questionID' AND ID='$alternativeID'" );
- 
+
             if ( is_numeric( $result[$db->fieldName( "ID" )] ) )
             {
                 $ret = true;
             }
         }
-        
+
         return $ret;
      }
 
@@ -306,7 +306,7 @@ class eZQuizQuestion
         }
         return $returnArray;
     }
-    
+
     /*!
         This function returns the count of all the alternatives for a question. Returns
         the number of alternatives of false if there are none.
@@ -326,7 +326,7 @@ class eZQuizQuestion
 
         return $ret;
     }
-    
+
     /*!
         This function returns the count of all the alternatives for a question which are correct. It returns
         false if there are no correct alternatives.
@@ -346,7 +346,7 @@ class eZQuizQuestion
 
         return $ret;
     }
-    
+
     var $ID;
     var $Name;
     var $Score;

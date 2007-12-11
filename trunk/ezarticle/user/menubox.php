@@ -1,8 +1,8 @@
 <?php
-// 
+//
 // $Id: menubox.php 9305 2002-02-27 15:06:55Z master $
 //
-// 
+//
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
@@ -37,14 +37,14 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 
 if ( !(function_exists('createArticleMenu') ) )
-{ 
+{
     function createArticleMenu( $menuCacheFile=false )
         {
             global $ini;
             global $Language;
             global $GenerateStaticPage;
             global $GlobalSiteDesign;
-            global $GlobalSectionID;	    
+            global $GlobalSectionID;
             global $CategoryID;
 			global $url_array;
 
@@ -75,7 +75,7 @@ if ( !(function_exists('createArticleMenu') ) )
 
             if ( !isset( $CategoryID  ) )
                 $CategoryID = 0;
-         
+
             $articleCategory = new eZArticleCategory( $CategoryID );
 
             $articleCategory_array = $articleCategory->getByParent( $articleCategory );
@@ -83,27 +83,30 @@ if ( !(function_exists('createArticleMenu') ) )
             $t->set_var( "top_title", $articleCategory->name() );
 
             $i = 0;
-            foreach( $articleCategory_array as $categoryItem )
+            if ( is_array($articleCategory_array))
             {
-                if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) )
+                foreach( $articleCategory_array as $categoryItem )
                 {
-                    $t->set_var( "articlecategory_id", $categoryItem->id()  );
-                    $t->set_var( "articlecategory_title", $categoryItem->name() );
+                    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) )
+                    {
+                        $t->set_var( "articlecategory_id", $categoryItem->id()  );
+                        $t->set_var( "articlecategory_title", $categoryItem->name() );
 
-					if (
-                        (( $url_array[2] == "archive" ) && ( $url_array[3] == $categoryItem->id() ))
-                        || (( $url_array[2] == "articleview" ) && ( $url_array[5] == $categoryItem->id() ))
-                        )
-					{
-					    $t->set_var( "mark", "menumark" );
-					}
-					else 
-					{ 
-					    $t->set_var( "mark", "" );
-					}
+                                            if (
+                            (( $url_array[2] == "archive" ) && ( $url_array[3] == $categoryItem->id() ))
+                            || (( $url_array[2] == "articleview" ) && ( $url_array[5] == $categoryItem->id() ))
+                            )
+                                            {
+                                                $t->set_var( "mark", "menumark" );
+                                            }
+                                            else
+                                            {
+                                                $t->set_var( "mark", "" );
+                                            }
 
-                    $t->parse( "article_category", "article_category_tpl", true );
-                    $i++;
+                        $t->parse( "article_category", "article_category_tpl", true );
+                        $i++;
+                    }
                 }
             }
 
@@ -120,7 +123,7 @@ if ( !(function_exists('createArticleMenu') ) )
                 $t->parse( "submit_article", "submit_article_tpl", true );
             }
 
-            if ( get_class( $menuCacheFile ) == "ezcachefile" )
+            if ( is_a( $menuCacheFile, "eZCacheFile" ) )
             {
                 $output = $t->parse( $target, "menu_box_tpl" );
                 $menuCacheFile->store( $output );
@@ -130,16 +133,16 @@ if ( !(function_exists('createArticleMenu') ) )
             {
                 $t->pparse( "output", "menu_box_tpl" );
             }
-    
-        }
-} 
 
-// do the caching 
+        }
+}
+
+// do the caching
 if ( $PageCaching == "enabled" )
 {
     $user =& eZUser::currentUser();
     $groupstr = "";
-    if( get_class( $user ) == "ezuser" )
+    if( is_a( $user, "eZUser" ) )
     {
         $groupIDArray = $user->groups( false );
         sort( $groupIDArray );
@@ -150,7 +153,7 @@ if ( $PageCaching == "enabled" )
             $first = false;
         }
     }
-    
+
     unset( $menuCacheFile );
     $menuCacheFile = new eZCacheFile( "ezarticle/cache",
                                       array( "menubox",

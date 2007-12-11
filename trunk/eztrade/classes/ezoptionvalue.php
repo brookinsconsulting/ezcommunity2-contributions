@@ -166,7 +166,7 @@ class eZOptionValue
     */
     function &getByOption( &$value, $as_object = true )
     {
-        if ( get_class( $value ) == "ezoption" )
+        if ( is_a( $value, "eZOption" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -435,7 +435,7 @@ class eZOptionValue
         $vat = $inProduct->vatPercentage();
         $productHasVAT = $inProduct->includesVAT();
 
-        if ( get_class( $inUser ) == "ezuser" )
+        if ( is_a( $inUser,  "eZUser" ) )
         {
             if ( $withPriceGroups == true )
                 $groups = eZPriceGroup::priceGroups( $inUser, false );
@@ -495,7 +495,7 @@ class eZOptionValue
         $vat = $inProduct->vatPercentage();
         $productHasVAT = $inProduct->includesVAT();
 
-        if ( get_class( $inUser ) == "ezuser" )
+        if ( is_a( $inUser,  "eZUser" ) )
         {
             $groups = eZPriceGroup::priceGroups( $inUser, false );
 

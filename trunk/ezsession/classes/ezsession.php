@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezsession.php 9818 2003-05-16 13:15:58Z br $
 //
 // Definition of eZSession class
@@ -85,10 +85,10 @@ class eZSession
     {
         $db =& eZDB::globalDatabase();
 
-        
+
         $dbError = false;
         $db->begin( );
-    
+
         // lock the table
         $db->lock( "eZSession_Session" );
 
@@ -111,11 +111,11 @@ class eZSession
         // expire after 40 days
         setcookie ( "eZSessionCookie", $this->Hash, time()+3456000, "/" )
             or print( "Error: could not set cookie." );
-        
+
 //         eZHTTPTool::setCookie ( "eZSessionCookie", $this->Hash );
 
         $remoteIP = $GLOBALS["REMOTE_ADDR"];
-        
+
         // escape hash
         $hash = $db->escapeString( $this->Hash );
 
@@ -142,7 +142,7 @@ class eZSession
         {
             $dateTime = new eZDateTime( );
             $timeStamp = $dateTime->timeStamp();
-            
+
             $db->query( "UPDATE eZSession_Session SET
                                  Created=Created,
                                  LastAccessed='$timeStamp',
@@ -153,14 +153,14 @@ class eZSession
         }
 
         $db->unlock();
-    
+
         if ( $dbError == true )
             $db->rollback( );
         else
             $db->commit();
 
         $this->setVariable( "SessionIP", $remoteIP );
-        
+
         return true;
     }
 
@@ -177,7 +177,7 @@ class eZSession
 
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $session_array, "SELECT * FROM eZSession_Session WHERE ID='$id'" );
@@ -210,14 +210,14 @@ class eZSession
     /*!
       Fetches a session from cookie and database.
 
-      Fetches a session and stores the result in the global session object. 
+      Fetches a session and stores the result in the global session object.
 
       Returnes false if unsuccessful.
     */
     function fetch( $refresh = true )
     {
         $ret = false;
-        
+
         if ( $this->IsFetched != true )
         {
             $db =& eZDB::globalDatabase();
@@ -231,14 +231,14 @@ class eZSession
             else
             {
                 if ( $GLOBALS["UsePHPSessions"] == true )
-                {                    
+                {
                     $hash = $GLOBALS["eZSession"];
                 }
             }
 
             // escape the hash value.
             $hash = $db->escapeString( $hash );
-            
+
 			if ( isset( $hash ) )
 			{
 				$db->array_query( $session_array, "SELECT *
@@ -280,9 +280,9 @@ class eZSession
     {
         if ( !isset( $this->HasRefreshed ) || !$this->HasRefreshed )
         {
-            $db =& eZDB::globalDatabase();       
+            $db =& eZDB::globalDatabase();
             $db->begin();
-            
+
             $timeStamp = eZDateTime::timeStamp( true );
             // update session
             $ret = $db->query( "UPDATE eZSession_Session SET
@@ -311,12 +311,12 @@ class eZSession
         {
             $db->query( "DELETE FROM eZSession_SessionVariable
                                     WHERE SessionID='$this->ID'" );
-            
+
             $db->query( "DELETE FROM eZSession_Session WHERE ID='$this->ID'" );
         }
-        
+
         return true;
-    }    
+    }
 
     /*!
       Returns the id to the session.
@@ -325,7 +325,7 @@ class eZSession
     {
        return $this->ID;
     }
-    
+
     /*!
       Returns the hash to the session.
     */
@@ -333,7 +333,7 @@ class eZSession
     {
        return $this->Hash;
     }
-    
+
     /*!
       Returns the last accessed time of the session.
     */
@@ -341,7 +341,7 @@ class eZSession
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->LastAccessed );
-       
+
        return $dateTime;
     }
 
@@ -352,10 +352,10 @@ class eZSession
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->Created );
-       
+
        return $dateTime;
     }
-    
+
     /*!
       Sets the hash to the session.
     */
@@ -396,8 +396,8 @@ class eZSession
 
     /*!
       Returns an array of session ID's session variable name==$name.
-      
-    */    
+
+    */
     function getByVariable( $name )
     {
         $ret = array();
@@ -415,7 +415,7 @@ class eZSession
 
         return $ret;
     }
-    
+
     /*!
       Returns the idle time of the session in seconds.
     */
@@ -429,9 +429,9 @@ class eZSession
         $value_array = array();
 
         $timeStamp = eZDateTime::timeStamp( true );
-        $db->array_query( $value_array, "SELECT ( $timeStamp - LastAccessed ) AS Idle 
+        $db->array_query( $value_array, "SELECT ( $timeStamp - LastAccessed ) AS Idle
                                                     FROM eZSession_Session WHERE ID='$this->ID'" );
-        $ret = false;            
+        $ret = false;
         if ( count( $value_array ) == 1 )
         {
             $ret = $value_array[0][$db->fieldName("Idle")];
@@ -447,7 +447,7 @@ class eZSession
 
       The default value is to remove sessions which are older than 48 hours.
 
-      This function should be run in a cron job.      
+      This function should be run in a cron job.
     */
     function cleanup( $maxIdle=48 )
     {
@@ -455,33 +455,33 @@ class eZSession
 
         $value_array = array();
         $timeStamp = eZDateTime::timeStamp( true );
-        
+
         $db->array_query( $value_array, "SELECT ID, ( $timeStamp - LastAccessed  ) AS Idle
                                          FROM eZSession_Session
                                          HAVING Idle>(60*60*$maxIdle) ORDER BY ID DESC" );
 
         $sid = $value_array[0]["ID"];
         $db->query( "DELETE FROM eZSession_SessionVariable WHERE SessionID<='$sid'" );
-        $db->query( "DELETE FROM eZSession_Session WHERE ID<='$sid'" );            
+        $db->query( "DELETE FROM eZSession_Session WHERE ID<='$sid'" );
     }
-    
+
     /*!
       Adds or updates a variable to the session.
     */
     function setVariable( $name, $value, $group = false )
     {
 //          print( "setvar: " . (is_bool( $group ) ? ($group ? "true" : "false") : $group ) . "<br>" );
-        
+
         $db =& eZDB::globalDatabase();
 
         $dbError = false;
         $db->begin( );
-        
+
         // lock the table
         $db->lock( "eZSession_SessionVariable" );
-        
+
         $value = $db->escapeString( $value );
-    
+
         if ( isset( $this->StoredVariables[$group][$name] ) )
         {
             $this->StoredVariables[$group][$name] = $value;
@@ -500,7 +500,7 @@ class eZSession
 
         $db->array_query( $value_array, $query );
 
-        
+
         if ( count( $value_array ) == 1 )
         {
             $valueID = $value_array[0][$db->fieldName("ID")];
@@ -529,7 +529,7 @@ class eZSession
         }
 
         $db->unlock();
-    
+
         if ( $dbError == true )
             $db->rollback( );
         else
@@ -571,7 +571,7 @@ class eZSession
                 $stringArray = explode( "->", $string );
                 $key = $stringArray[0];
                 $value = $stringArray[1];
-                
+
                 $returnArray[$key] = $value;
             }
 
@@ -579,7 +579,7 @@ class eZSession
         }
         return array();
     }
-    
+
 
     /*!
       \static
@@ -591,7 +591,7 @@ class eZSession
     function &globalSession( $id="", $fetch=true )
     {
         $session =& $GLOBALS["eZSessionObject"];
-        if ( get_class( $session ) != "ezsession" )
+        if ( !is_a( $session, "eZSession" ) )
         {
             $session = new eZSession();
             if ( !$session->fetch() )

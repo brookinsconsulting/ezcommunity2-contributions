@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbug.php 6739 2001-08-29 10:37:23Z jhe $
 //
 // Definition of eZBug class
@@ -37,13 +37,13 @@
 
   A bug which gets reported is assigned to unhandled bugs list. Handled bugs
   is stored in the archive. A handled bug is assigned a priority and a status.
-  
+
   The priorities are handled by the eZBugPriority class. Priorities can be e.g. urgent,
   medium and low.
 
   The statuses are handled by the eZBugStatus class. Statuses ca be e.g. started, done
-  and will not be fixed.  
-  
+  and will not be fixed.
+
   Example:
   \code
   // include the class
@@ -98,16 +98,16 @@ class eZBug
     function store()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
         $useremail = $db->escapeString( $this->UserEmail );
         $version = $db->escapeString( $this->Version );
 
         $db->begin();
-        
+
         $timeStamp = eZDateTime::timeStamp( true );
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZBug_Bug" );
@@ -165,7 +165,7 @@ class eZBug
             $db->rollback();
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -175,7 +175,7 @@ class eZBug
     function delete()
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( isSet( $this->ID ) )
         {
             $db->begin();
@@ -187,14 +187,14 @@ class eZBug
         eZDB::finish( $res, $db );
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $module_array, "SELECT * FROM eZBug_Bug WHERE ID='$id'" );
@@ -231,14 +231,14 @@ class eZBug
         $db =& eZDB::globalDatabase();
         $return_array = array();
         $module_array = array();
-        
+
         $db->array_query( $module_array, "SELECT ID FROM eZBug_Bug ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
             $return_array[$i] = new eZBug( $module_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -250,23 +250,23 @@ class eZBug
     function &getUnhandled()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $module_array = array();
-        
+
         $db->array_query( $module_array, "SELECT ID FROM eZBug_Bug
                                           WHERE IsHandled=0
                                           ORDER BY Created" );
-        
+
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
             $return_array[$i] = new eZBug( $module_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
+
         return $return_array;
     }
-    
-    
+
+
     /*!
       Returns the object id.
     */
@@ -295,9 +295,9 @@ class eZBug
            return htmlspecialchars( $this->UserEmail );
        else
            return $this->UserEmail;
-           
+
     }
-    
+
     /*!
       Returns the group description.
     */
@@ -308,7 +308,7 @@ class eZBug
        else
            return $this->Description;
     }
-    
+
     /*!
       Returns the creation time of the bug.
 
@@ -318,7 +318,7 @@ class eZBug
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->Created );
-       
+
        return $dateTime;
     }
 
@@ -362,7 +362,7 @@ class eZBug
         }
         return $ret;
     }
-    
+
     /*!
       Returns the user as an eZUser object.
 
@@ -372,13 +372,13 @@ class eZBug
     {
        $ret = false;
        $user = new eZUser();
-       
+
        if ( $user->get( $this->UserID ) )
            $ret = $user;
-       
+
        return $ret;
     }
-    
+
         /*!
       Returns the bug owner as an eZUser object.
 
@@ -388,10 +388,10 @@ class eZBug
     {
        $ret = false;
        $user = new eZUser();
-       
+
        if ( $user->get( $this->OwnerID ) )
            $ret = $user;
-       
+
        return $ret;
     }
 
@@ -411,7 +411,7 @@ class eZBug
     function setUserEmail( $mail )
     {
        $ret = false;
-       
+
        if ( eZMail::validate( $mail ) )
        {
            $this->UserEmail = $mail;
@@ -419,7 +419,7 @@ class eZBug
        }
        return $ret;
     }
-    
+
     /*!
       Sets the description of the module.
     */
@@ -429,7 +429,7 @@ class eZBug
     }
 
     /*!
-     Sets the bug to handled or not. 
+     Sets the bug to handled or not.
     */
     function setIsHandled( $value )
     {
@@ -439,12 +439,12 @@ class eZBug
        }
        else
        {
-           $this->IsHandled = 0;           
+           $this->IsHandled = 0;
        }
     }
 
     /*!
-     Sets the bug to closed or not. 
+     Sets the bug to closed or not.
     */
     function setIsCLosed( $value )
     {
@@ -454,16 +454,16 @@ class eZBug
        }
        else
        {
-           $this->IsClosed = 0;           
+           $this->IsClosed = 0;
        }
     }
-    
+
     /*!
       Sets the user whom reported the bug.
     */
     function setUser( $user )
     {
-       if ( get_class( $user ) == "ezuser" )
+       if ( is_a( $user, "eZUser" ) )
        {
            $this->UserID = $user->id();
        }
@@ -474,7 +474,7 @@ class eZBug
     */
     function setPriority( $pri )
     {
-       if ( get_class( $pri ) == "ezbugpriority" )
+       if ( is_a( $pri, "eZBugPriority" ) )
        {
            $this->PriorityID = $pri->id();
        }
@@ -485,7 +485,7 @@ class eZBug
     */
     function setStatus( $status )
     {
-       if ( get_class( $status ) == "ezbugstatus" )
+       if ( is_a( $status, "eZBugStatus" ) )
        {
            $this->StatusID = $status->id();
        }
@@ -497,7 +497,7 @@ class eZBug
      */
     function setOwner( $user )
     {
-       if ( get_class( $user ) == "ezuser" )
+       if ( is_a( $user, "eZUser" ) )
        {
            $this->OwnerID = $user->id();
        }
@@ -519,7 +519,7 @@ class eZBug
         }
         else
         {
-            $this->IsPrivate = 0;           
+            $this->IsPrivate = 0;
         }
     }
 
@@ -540,7 +540,7 @@ class eZBug
             return htmlspecialchars( $this->Version );
         return $this->Version;
     }
-    
+
    /*!
       Returns the priority assigned to the bug as an
       eZBugPriority object.
@@ -556,7 +556,7 @@ class eZBug
             $ret = new eZBugPriority( $this->PriorityID );
         }
 
-        return $ret;        
+        return $ret;
     }
 
     /*!
@@ -573,7 +573,7 @@ class eZBug
             $ret = new eZBugStatus( $this->StatusID );
         }
 
-        return $ret;        
+        return $ret;
     }
 
     /*!
@@ -584,7 +584,7 @@ class eZBug
     function module( $IDOnly = false )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $db->array_query( $module_array, "SELECT ModuleID
                                           FROM eZBug_BugModuleLink
                                           WHERE BugID='$this->ID'" );
@@ -606,7 +606,7 @@ class eZBug
     function category()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $db->array_query( $category_array, "SELECT CategoryID
                                             FROM eZBug_BugCategoryLink
                                             WHERE BugID='$this->ID'" );
@@ -626,7 +626,7 @@ class eZBug
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res = $db->query( "DELETE FROM eZBug_BugCategoryLink
                             WHERE BugID='$this->ID'" );
         if ( $res == false )
@@ -642,32 +642,32 @@ class eZBug
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res = $db->query( "DELETE
                             FROM eZBug_BugModuleLink
                             WHERE BugID='$this->ID'" );
-        
+
         if ( $res == false )
             $db->rollback();
         else
             $db->commit();
     }
-    
+
     /*!
       Searches the bug database and returns the result as an array
       of eZBug objects.
-      
+
       Default limit is set to 25.
     */
     function search( $query, $offset=0, $limit=25 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $link_array = array();
         $return_array = array();
 
         $query = new eZQuery( array( "Name", "Description" ), $query );
-        
+
         $query_str =  "SELECT ID FROM eZBug_Bug WHERE (" .
              $query->buildQuery()  .
              ") ORDER BY Name LIMIT $offset, $limit";
@@ -690,7 +690,7 @@ class eZBug
         $db =& eZDB::globalDatabase();
 
         $query = new eZQuery( array( "Name", "Description" ), $query );
-        
+
         $query_str =  "SELECT COUNT(ID) as Count FROM eZBug_Bug WHERE (" .
              $query->buildQuery()  .
              ") ";
@@ -705,7 +705,7 @@ class eZBug
      */
     function addImage( $image )
     {
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $imageID = $image->id();
             $db =& eZDB::globalDatabase();
@@ -729,7 +729,7 @@ class eZBug
      */
     function deleteImage( $image )
     {
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $db =& eZDB::globalDatabase();
             $imageID = $image->id();
@@ -749,25 +749,25 @@ class eZBug
     function images()
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $image_array = array();
-       
+
         $db->array_query( $image_array, "SELECT ImageID FROM eZBug_BugImageLink WHERE BugID='$this->ID' ORDER BY Created" );
-        
+
         for ( $i = 0; $i < count( $image_array ); $i++ )
         {
             $return_array[$i] = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
         }
         return $return_array;
-    } 
+    }
 
-    /*! 
-      Adds an file to the bug. 
-    */ 
-    function addFile( $file ) 
-    { 
-        if ( get_class( $file ) == "ezvirtualfile" )
+    /*!
+      Adds an file to the bug.
+    */
+    function addFile( $file )
+    {
+        if ( is_a( $file, "eZVirtualFile" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -793,7 +793,7 @@ class eZBug
     */
     function deleteFile( $file )
     {
-        if ( get_class( $file ) == "ezvirtualfile" )
+        if ( is_a( $file, "eZVirtualFile" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -801,14 +801,14 @@ class eZBug
             $file->delete();
             $db->begin();
             $res = $db->query( "DELETE FROM eZBug_BugFileLink WHERE BugID='$this->ID' AND FileID='$fileID'" );
-            
+
             if ( $res == false )
                 $db->rollback();
             else
                 $db->commit();
         }
     }
-    
+
     /*!
       Returns every file to a article as a array of eZFile objects.
     */
@@ -817,9 +817,9 @@ class eZBug
         $db =& eZDB::globalDatabase();
         $return_array = array();
         $file_array = array();
-       
+
         $db->array_query( $file_array, "SELECT FileID FROM eZBug_BugFileLink WHERE BugID='$this->ID' ORDER BY Created" );
-       
+
        for ( $i = 0; $i < count( $file_array ); $i++ )
        {
            $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName( "FileID" )], false );
@@ -837,7 +837,7 @@ class eZBug
         $db->array_query( $res, "SELECT ID FROM eZBug_Bug WHERE ID='$id'" );
         return ( count( $res ) == 1 );
     }
-    
+
     var $ID;
     var $Name;
     var $Description;
@@ -847,11 +847,11 @@ class eZBug
     var $UserID;
     var $UserEmail;
     var $PriorityID;
-    var $StatusID;    
+    var $StatusID;
     var $OwnerID;
     var $IsPrivate=0;
     var $Version;
-    
+
 }
 
 ?>

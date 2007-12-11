@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezform.php 8203 2001-11-01 18:02:12Z jhe $
 //
 // ezform class
@@ -75,7 +75,7 @@ class eZForm
         $sender =& $db->escapeString( $this->Sender );
         $sendAsUser =& $this->SendAsUser;
         $counter =& $this->Counter;
-        
+
         if ( empty( $this->ID ) )
         {
             $db->lock( "eZForm_Form" );
@@ -118,7 +118,7 @@ class eZForm
         }
 
         eZDB::finish( $res, $db );
-        
+
         return true;
     }
 
@@ -141,7 +141,7 @@ class eZForm
                 $element->delete();
             }
         }
-        
+
         $res[] = $db->query( "DELETE FROM eZForm_Form WHERE ID=$formID" );
         eZDB::finish( $res, $db );
     }
@@ -198,7 +198,7 @@ class eZForm
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $formArray = array();
 
@@ -310,12 +310,12 @@ class eZForm
     function &isSendAsUser()
     {
         $ret = true;
-        
+
         if( $this->SendAsUser == 0 )
         {
             $ret = false;
         }
-        
+
         return $ret;
     }
 
@@ -398,7 +398,7 @@ class eZForm
     {
         $returnArray = array();
         $formArray = array();
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT ElementID FROM eZForm_FormElementDict WHERE
                                        FormID='$this->ID' ORDER BY Placement" );
@@ -421,11 +421,11 @@ class eZForm
                                       FormID='$this->ID' AND Placement='$placement'" );
 
         $return = new eZFormElement( $element[$db->fieldName( "ElementID" )], true );
-           
+
         return $return;
     }
-    
-    
+
+
 
     /*!
       Returns the number of form elements to this form
@@ -452,16 +452,16 @@ class eZForm
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZForm_FormElementType" );
         $ret = $result[$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
-    
+
     /*!
         This function adds an eZFormElement to this form.
      */
     function addElement( &$object )
     {
-        if ( get_class( $object ) == "ezformelement" )
+        if ( is_a( $object, "eZFormElement" ) )
         {
             $elementID = $object->id();
             $elementName = $object->name();
@@ -471,7 +471,7 @@ class eZForm
             $db->begin();
             $db->query_single( $result, "SELECT MAX(Placement) as Placement
                                      FROM eZForm_FormElementDict WHERE FormID='$formID'" );
-            
+
             $placement = $result[$db->fieldName( "Placement" )];
             $placement++;
             $db->lock( "eZForm_FormElementDict" );
@@ -490,13 +490,13 @@ class eZForm
     */
     function moveUp( $object )
     {
-        if ( get_class( $object ) == "ezformelement" )
+        if ( is_a( $object, "eZFormElement" ) )
         {
             $db =& eZDB::globalDatabase();
 
             $formID = $this->id();
             $elementID = $object->id();
-            
+
             $db->query_single( $qry, "SELECT Placement FROM eZForm_FormElementDict
                                       WHERE ElementID = '$elementID' AND FormID = '$formID' ORDER BY Placement DESC",
                                       array( "Limit" => 1, "Offset" => 0) );
@@ -511,12 +511,12 @@ class eZForm
             {
                 $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" ) ) as Placement
                                           FROM eZForm_FormElementDict WHERE FormID='$formID'" );
-                
+
                 $newOrder =& $qry[$db->fieldName( "Placement" )];
-                
+
                 $db->query_single( $qry, "SELECT ElementID FROM eZForm_FormElementDict
                                           WHERE FormID='$formID' AND Placement='$newOrder'" );
-                
+
                 $oldElementID =& $qry[$db->fieldName( "ElementID" )];
             }
             else
@@ -532,7 +532,7 @@ class eZForm
 
             $res[] = $db->query( "UPDATE eZForm_FormElementDict SET Placement='$newOrder'
                                  WHERE ElementID='$elementID' AND FormID='$formID'" );
-                
+
             $res[] = $db->query( "UPDATE eZForm_FormElementDict SET Placement='$elementPlacement'
                                  WHERE ElementID='$oldElementID' AND FormID='$formID'" );
             eZDB::finish( $res, $db );
@@ -544,14 +544,14 @@ class eZForm
     */
     function moveDown( $object )
     {
-        if ( get_class( $object ) == "ezformelement" )
+        if ( is_a( $object, "eZFormElement" ) )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
-            
+
             $formID = $this->id();
             $elementID = $object->id();
-            
+
             $db->query_single( $qry, "SELECT Placement FROM eZForm_FormElementDict
                                       WHERE ElementID = '$elementID' AND FormID = '$formID' ORDER BY Placement DESC",
                                       array( "Limit" => 1, "Offset" => 0 ) );
@@ -560,19 +560,19 @@ class eZForm
 
             $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" )) as Placement
                                       FROM eZForm_FormElementDict WHERE FormID='$formID'" );
-            
+
             $max =& $qry[$db->fieldName( "Placement" )];
 
             if ( $max == $elementPlacement )
             {
                 $db->query_single( $qry, "SELECT min($db->fieldName( \"Placement\" ) ) as Placement
                                           FROM eZForm_FormElementDict WHERE FormID='$formID'" );
-                
+
                 $newOrder =& $qry[$db->fieldName( "Placement" )];
-                
+
                 $db->query_single( $qry, "SELECT ElementID FROM eZForm_FormElementDict
                                           WHERE FormID='$formID' AND Placement='$newOrder'" );
-                
+
                 $oldElementID =& $qry[$db->fieldName( "ElementID" )];
             }
             else
@@ -587,10 +587,10 @@ class eZForm
 
             $res[] = $db->query( "UPDATE eZForm_FormElementDict SET Placement='$newOrder'
                                   WHERE ElementID='$elementID' AND FormID='$formID'" );
-            
+
             $res[] = $db->query( "UPDATE eZForm_FormElementDict SET Placement='$elementPlacement'
                                   WHERE ElementID='$oldElementID' AND FormID='$formID'" );
-            
+
             eZDB::finish( $res, $db );
         }
     }

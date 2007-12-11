@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezappointment.php 7215 2001-09-14 12:21:35Z jhe $
 //
 // Definition of eZAppointment class
@@ -28,7 +28,7 @@
 //!! eZCalendar
 //! eZAppointment handles appointments.
 /*!
-  
+
 */
 
 /*!TODO
@@ -63,7 +63,7 @@ class eZAppointment
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZCalendar_Appointment" );
@@ -129,14 +129,14 @@ class eZAppointment
         eZDB::finish( $res, $db );
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $appointment_array, "SELECT * FROM eZCalendar_Appointment WHERE ID='$id'" );
@@ -168,17 +168,17 @@ class eZAppointment
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $appointment_array = array();
-        
+
         $db->array_query( $appointment_array, "SELECT ID FROM eZCalendar_Appointment" );
-        
+
         for ( $i = 0; $i < count( $appointment_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
-        } 
-        
+        }
+
         return $return_array;
     }
 
@@ -190,18 +190,18 @@ class eZAppointment
     function &getAllByOthers()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $appointment_array = array();
-        
+
         $db->array_query( $appointment_array,
         "SELECT ID FROM eZCalendar_Appointment WHERE ID='$id' AND IsPrivate='0'" );
-        
+
         for ( $i = 0; $i < count( $appointment_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
-        } 
-        
+        }
+
         return $return_array;
     }
 
@@ -215,7 +215,7 @@ class eZAppointment
     {
         $ret = array();
 
-        if ( ( get_class( $date ) == "ezdate" ) && ( get_class( $user ) == "ezuser" ) )
+        if ( is_a( $date, "eZDate" ) && is_a( $user, "eZUser" ) )
         {
             $db =& eZDB::globalDatabase();
             $userID = $user->ID();
@@ -229,7 +229,7 @@ class eZAppointment
                 $db->array_query( $appointment_array,
                 "SELECT ID FROM eZCalendar_Appointment
                  WHERE Date>='" . $date->timeStamp() . "'
-                 AND Date<'" . $enddate->timeStamp() . "' 
+                 AND Date<'" . $enddate->timeStamp() . "'
                  AND IsPrivate='0' AND UserID='$userID' ORDER BY Date ASC", true );
             }
             else
@@ -237,16 +237,16 @@ class eZAppointment
                 $db->array_query( $appointment_array,
                 "SELECT ID FROM eZCalendar_Appointment
                  WHERE Date>='" . $date->timeStamp() . "'
-                 AND Date<'" . $enddate->timeStamp() . "' 
+                 AND Date<'" . $enddate->timeStamp() . "'
                  AND UserID='$userID' ORDER BY Date ASC" );
             }
-                
-            for ( $i = 0; $i < count( $appointment_array ); $i++ )
-            { 
-                $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
-            } 
 
-            $ret =& $return_array;            
+            for ( $i = 0; $i < count( $appointment_array ); $i++ )
+            {
+                $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
+            }
+
+            $ret =& $return_array;
         }
         return $ret;
     }
@@ -260,10 +260,10 @@ class eZAppointment
     {
         $ret = array();
 
-        if ( get_class( $user ) == "ezuser" )
-        { 
+        if ( is_a( $user, "eZUser" ) )
+        {
             $db =& eZDB::globalDatabase();
-        
+
             $return_array = array();
             $appointment_array = array();
 
@@ -281,9 +281,9 @@ class eZAppointment
                 "SELECT ID FROM eZCalendar_Appointment
                  WHERE UserID='$userID' ORDER BY Date ASC" );
             }
-                
+
             for ( $i = 0; $i < count( $appointment_array ); $i++ )
-            { 
+            {
                 $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
             }
 
@@ -308,7 +308,7 @@ class eZAppointment
     function name( $htmlchars=true )
     {
         if ( $htmlchars == true )
-        {           
+        {
             return htmlspecialchars( $this->Name );
         }
         else
@@ -396,7 +396,7 @@ class eZAppointment
     {
         $this->AllDay = $value;
     }
-    
+
     /*!
       Returns the priority, can be 0,1,2.
     */
@@ -423,9 +423,9 @@ class eZAppointment
            $ret = false;
        else
            $ret = true;
-       
+
        return $ret;
-    }    
+    }
 
     /*!
       Sets the name of the appointment.
@@ -435,7 +435,7 @@ class eZAppointment
         $this->Name = $value;
     }
 
-    
+
     /*!
       Sets the description of the appointment.
     */
@@ -451,14 +451,14 @@ class eZAppointment
     {
         $this->Priority = $value;
     }
-    
+
     /*!
       Sets the appointment date and time. Takes an eZDateTime object
       as argument.
     */
     function setDateTime( $dateTime )
     {
-       if ( get_class( $dateTime ) == "ezdatetime" )
+       if ( is_a( $dateTime, "eZDateTime" ) )
        {
            $this->Date = $dateTime->timeStamp();
        }
@@ -469,7 +469,7 @@ class eZAppointment
     */
     function setType( $type )
     {
-       if ( get_class( $type ) == "ezappointmenttype" )
+       if ( is_a( $type, "eZAppointmentType" ) )
        {
            $this->AppointmentTypeID = $type->id();
        }
@@ -480,12 +480,12 @@ class eZAppointment
     */
     function setOwner( $user )
     {
-       if ( get_class( $user ) == "ezuser" )
+       if ( is_a( $user, "eZUser" ) )
        {
            $this->UserID = $user->id();
        }
     }
-    
+
     /*!
       Returns the user ID of the appointment owner.
     */
@@ -493,9 +493,9 @@ class eZAppointment
     {
         return $this->UserID;
     }
-    
+
     /*!
-     Sets the appointment to private or not. 
+     Sets the appointment to private or not.
     */
     function setIsPrivate( $value )
     {
@@ -507,8 +507,8 @@ class eZAppointment
        {
            $this->IsPrivate = 0;
        }
-    }    
-    
+    }
+
     /*!
       Sets the appointment duration.
     */
@@ -519,7 +519,7 @@ class eZAppointment
            $this->Duration = $time;
        }
     }
-    
+
     var $ID;
     var $Name;
     var $Description;

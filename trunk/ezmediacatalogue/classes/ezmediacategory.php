@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezmediacategory.php 8138 2001-11-01 08:31:40Z ce $
 //
 // Definition of eZMediaCategory class
@@ -35,7 +35,7 @@
   $category->setName( "My media files" );
   $category->setDescription( "Just some media files" );
   $category->setParent( $parentCategory );
-  $category->setUser( $user ); 
+  $category->setUser( $user );
   $category->store();
   \endcode
   \sa eZMedia eZMediaType eZMediaAttribute
@@ -76,16 +76,16 @@ class eZMediaCategory
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-        
+
         if ( $this->ID == false )
         {
             $db->lock( "eZMediaCatalogue_Category" );
 
             $this->ID = $db->nextID( "eZMediaCatalogue_Category", "ID" );
-            
+
             $db->query( "INSERT INTO eZMediaCatalogue_Category
                                      ( ID, Name, Description, UserID, ParentID ) VALUES
                                      ( '$this->ID', '$name', '$description', '$this->UserID', '$this->ParentID' )" );
@@ -100,13 +100,13 @@ class eZMediaCategory
                                      ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
 
-    
+
         if ( $dbError == true )
             $db->rollback( );
         else
             $db->commit();
 
-        
+
         return true;
     }
 
@@ -115,10 +115,10 @@ class eZMediaCategory
     */
     function delete( $catID=-1 )
     {
-       
+
         if ( $catID == -1 )
             $catID = $this->ID;
-        
+
         $category = new eZMediaCategory( $catID );
 
         $categoryList = $category->getByParent( $category );
@@ -136,9 +136,9 @@ class eZMediaCategory
         $categoryID = $category->id();
 
         $db =& eZDB::globalDatabase();
-        
+
         $db->begin( );
-        
+
         $res1 = $db->query( "DELETE FROM eZMediaCatalogue_Category WHERE ID='$categoryID'" );
         $res2 = $db->query( "DELETE FROM eZMediaCatalogue_CategoryPermission WHERE ObjectID='$this->ID'" );
 
@@ -146,16 +146,16 @@ class eZMediaCategory
             $db->rollback( );
         else
             $db->commit();
-        
+
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZMediaCatalogue_Category WHERE ID='$id'" );
@@ -182,17 +182,17 @@ class eZMediaCategory
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $category_array = array();
-        
+
         $db->array_query( $category_array, "SELECT ID, Name FROM eZMediaCatalogue_Category ORDER BY Name" );
-        
+
         for ( $i=0; $i<count($category_array); $i++ )
         {
             $return_array[$i] = new eZMediaCategory( $category_array[$i][$db->fieldName("ID")] );
         }
-        
+
         return $return_array;
     }
 
@@ -222,78 +222,78 @@ class eZMediaCategory
         }
         return $return_array;
     }
-    
-    /*! 
+
+    /*!
       Returns the number of categories in the the category given as parameter as parent.
-    */  
+    */
     function countByParent( &$parent  )
-    { 
-        if ( get_class( $parent ) == "ezmediacategory" ) 
-        { 
+    {
+        if ( is_a( $parent, "eZMediaCategory" ) )
+        {
             $db =& eZDB::globalDatabase();
-        
-            $parentID = $parent->id(); 
+
+            $parentID = $parent->id();
 
             $db->query_single( $count, "SELECT count( ID ) AS Count FROM eZMediaCatalogue_Category
                                         WHERE ParentID='$parentID'", "Count" );
 
             return $count;
-        } 
-        else 
-        { 
+        }
+        else
+        {
             return 0;
-        } 
-    } 
+        }
+    }
 
-    /*! 
-      Returns the categories with the category given as parameter as parent. 
-      
+    /*!
+      Returns the categories with the category given as parameter as parent.
+
       If $showAll is set to true every category is shown. By default the categories
       set as exclude from search is excluded from this query.
-      
-      The categories are returned as an array of eZMediaCategory objects.      
-    */  
+
+      The categories are returned as an array of eZMediaCategory objects.
+    */
     function &getByParent( &$parent, $offset = 0, $max = -1 )
-    { 
-        if ( get_class( $parent ) == "ezmediacategory" ) 
-        { 
+    {
+        if ( is_a( $parent, "eZMediaCategory" ) )
+        {
             $db =& eZDB::globalDatabase();
-        
-            $return_array = array(); 
+
+            $return_array = array();
             $category_array = array();
- 
-            $parentID = $parent->id(); 
+
+            $parentID = $parent->id();
 
             $db->array_query( $category_array, "SELECT ID, Name FROM eZMediaCatalogue_Category
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name", array( "Limit" => $max,
                                                                  "Offset" => $offset ) );
 
-            for ( $i=0; $i<count($category_array); $i++ ) 
-            { 
-                $return_array[$i] = new eZMediaCategory( $category_array[$i][$db->fieldName("ID")] ); 
-            } 
+            for ( $i=0; $i<count($category_array); $i++ )
+            {
+                $return_array[$i] = new eZMediaCategory( $category_array[$i][$db->fieldName("ID")] );
+            }
 
-            return $return_array; 
-        } 
-        else 
-        { 
-            return array(); 
-        } 
-    } 
+            return $return_array;
+        }
+        else
+        {
+            return array();
+        }
+    }
 
     /*!
         \static
         Returns the one, and only if one exists, category with the name
-        
+
         Returns an object of eZMediaCategory.
      */
     function &getByName( &$name )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $topic =& new eZMediaCategory();
-        
+
         $name = $db->escapeString( $name );
 
         if( $name != "" )
@@ -311,28 +311,28 @@ class eZMediaCategory
 
 
     /*!
-      Returns the current path as an array of arrays.  
-      
-      The array is built up like: array( array( id, name ), array( id, name ) );  
-      
-      See detailed description for an example of usage.  
-    */  
-    function path( $categoryID=0 ) 
-    { 
-        if ( $categoryID == 0 ) 
-        { 
-            $categoryID = $this->ID; 
-        } 
-            
-        $category = new eZMediaCategory( $categoryID ); 
+      Returns the current path as an array of arrays.
 
-        $path = array(); 
+      The array is built up like: array( array( id, name ), array( id, name ) );
+
+      See detailed description for an example of usage.
+    */
+    function path( $categoryID=0 )
+    {
+        if ( $categoryID == 0 )
+        {
+            $categoryID = $this->ID;
+        }
+
+        $category = new eZMediaCategory( $categoryID );
+
+        $path = array();
 
         $parent = $category->parent();
 
-        if ( $parent != 0 ) 
+        if ( $parent != 0 )
         {
-            $path = array_merge( $path, $this->path( $parent->id() ) ); 
+            $path = array_merge( $path, $this->path( $parent->id() ) );
         }
         else
         {
@@ -340,8 +340,8 @@ class eZMediaCategory
         }
 
         if ( $categoryID != 0 )
-            array_push( $path, array( $category->id(), $category->name() ) );                                
-        
+            array_push( $path, array( $category->id(), $category->name() ) );
+
         return $path;
     }
 
@@ -353,24 +353,24 @@ class eZMediaCategory
         $category = new eZMediaCategory( $parentID );
 
         $categoryList = $category->getByParent( $category );
-        
+
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
         {
             array_push( $tree, array( $return_array[] = new eZMediaCategory( $category->id() ), $level ) );
-            
+
             if ( $category != 0 )
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-            
+
         }
 
         return $tree;
     }
 
-    
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -379,7 +379,7 @@ class eZMediaCategory
         return $this->ID;
     }
 
-    
+
     /*!
       Returns the name of the category.
     */
@@ -400,9 +400,9 @@ class eZMediaCategory
            return htmlspecialchars( $this->Description );
        else
            return $this->Description;
-           
+
     }
-    
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
@@ -414,7 +414,7 @@ class eZMediaCategory
        }
        else
        {
-           return 0;           
+           return 0;
        }
     }
 
@@ -428,7 +428,7 @@ class eZMediaCategory
         {
             $ret = new eZUser( $this->UserID );
         }
-        
+
         return $ret;
     }
 
@@ -440,9 +440,9 @@ class eZMediaCategory
      */
     function isOwner( &$user, &$mediacategory )
     {
-        if( get_class( $user ) != "ezuser" )
+        if( !is_a( $user, "eZUser" ) )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZMediaCatalogue_Category WHERE ID='$mediacategory'");
         $userID = $res[$db->fieldName("UserID")];
@@ -474,7 +474,7 @@ class eZMediaCategory
     */
     function setParent( &$value )
     {
-       if ( get_class( $value ) == "ezmediacategory" )
+       if ( is_a( $value, "eZMediaCategory" ) )
        {
            $this->ParentID = $value->id();
        }
@@ -485,7 +485,7 @@ class eZMediaCategory
     */
     function setUser( &$user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $userID = $user->id();
 
@@ -499,8 +499,8 @@ class eZMediaCategory
       Can be used as a static function if $categoryid is supplied
     */
     function addMedia( &$value, $categoryid = false )
-    {        
-       if ( get_class( $value ) == "ezmedia" )
+    {
+       if ( is_a( $value, "eZMedia" ) )
            $mediaID = $value->id();
        else if ( is_numeric( $value ) )
            $mediaID = $value;
@@ -509,7 +509,7 @@ class eZMediaCategory
 
        if ( !$categoryid )
            $categoryid = $this->ID;
-           
+
        $db =& eZDB::globalDatabase();
 
        $mediaID = $value->id();
@@ -521,20 +521,20 @@ class eZMediaCategory
                  CategoryID='$categoryid' AND MediaID='$mediaid'";
 
        $db->query( $query );
-       
+
        $nextID = $db->nextID( "eZMediaCatalogue_MediaCategoryLink", "ID" );
-       
+
        $query = "INSERT INTO eZMediaCatalogue_MediaCategoryLink ( ID, CategoryID, MediaID )
                  VALUES ( '$nextID', '$categoryid', '$mediaID' )";
-       
+
        $res = $db->query( $query );
 
        $db->unlock();
-       
+
        if ( $res == false )
            $db->rollback( );
        else
-           $db->commit();        
+           $db->commit();
     }
 
     /*!
@@ -544,7 +544,7 @@ class eZMediaCategory
     */
     function removeMedia( &$value, $categoryid = false )
     {
-        if ( get_class( $value ) == "ezmedia" )
+        if ( is_a( $value, "eZMedia" ) )
             $mediaID = $value->id();
         else if ( is_numeric( $value ) )
             $mediaID = $value;
@@ -560,7 +560,7 @@ class eZMediaCategory
                         MediaID='$mediaID'";
 
         $db->begin( );
-        
+
         $res = $db->query( $query );
 
         if ( $res == false )
@@ -569,7 +569,7 @@ class eZMediaCategory
             $db->commit();
     }
 
-    
+
     /*!
       Returns every media in a category as a array of eZMedia objects.
     */
@@ -586,7 +586,7 @@ class eZMediaCategory
         $db->query_single( $count, "
                 SELECT count( DISTINCT eZMediaCatalogue_Media.ID ) AS Count
                 FROM eZMediaCatalogue_Media, eZMediaCatalogue_Category, eZMediaCatalogue_MediaCategoryLink
-                WHERE 
+                WHERE
                 eZMediaCatalogue_MediaCategoryLink.MediaID = eZMediaCatalogue_Media.ID
                 AND
                 eZMediaCatalogue_Category.ID = eZMediaCatalogue_MediaCategoryLink.CategoryID
@@ -609,7 +609,7 @@ class eZMediaCategory
        $db->array_query( $file_array, "
                 SELECT eZMediaCatalogue_Media.ID AS MediaID, eZMediaCatalogue_Media.OriginalFileName
                 FROM eZMediaCatalogue_Media, eZMediaCatalogue_Category, eZMediaCatalogue_MediaCategoryLink
-                WHERE 
+                WHERE
                 eZMediaCatalogue_MediaCategoryLink.MediaID = eZMediaCatalogue_Media.ID
                 AND
                 eZMediaCatalogue_Category.ID = eZMediaCatalogue_MediaCategoryLink.CategoryID
@@ -618,14 +618,14 @@ class eZMediaCategory
                 GROUP BY eZMediaCatalogue_Media.ID, eZMediaCatalogue_Media.OriginalFileName ORDER BY eZMediaCatalogue_Media.OriginalFileName",
        array( "Limit" => $limit,
               "Offset" => $offset ) );
- 
+
        for ( $i = 0; $i < count( $file_array ); $i++ )
        {
            $return_array[$i] = new eZMedia( $file_array[$i][$db->fieldName("MediaID")], false );
        }
-       
+
        return $return_array;
-    } 
+    }
 
     var $ID;
     var $Name;

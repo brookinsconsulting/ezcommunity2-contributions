@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezad.php 8615 2001-11-23 09:39:00Z br $
 //
 // Definition of eZAd class
@@ -29,7 +29,7 @@
 //! eZAd handles banner ads.
 /*!
 
-  \sa eZAdCategory  
+  \sa eZAdCategory
 */
 
 /*!TODO
@@ -66,20 +66,20 @@ class eZAd
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
         $url = $db->escapeString( $this->URL );
         $htmlbanner = $db->escapeString( $this->HTMLBanner );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZAd_Ad" );
 
             $nextID = $db->nextID( "eZAd_Ad", "ID" );
-            
+
             $res = $db->query( "INSERT INTO eZAd_Ad
-                         ( ID,  
+                         ( ID,
                            Name,
                            Description,
                            ImageID,
@@ -123,13 +123,13 @@ class eZAd
                                  " );
         }
 
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
-        
+
+
         return true;
     }
 
@@ -141,7 +141,7 @@ class eZAd
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $ad_array, "SELECT * FROM eZAd_Ad WHERE ID='$id'" );
@@ -177,13 +177,13 @@ class eZAd
 
         if ( isset( $this->ID ) )
         {
-            $db->query( "DELETE FROM eZAd_View WHERE AdID='$this->ID'" );            
-            $db->query( "DELETE FROM eZAd_Click WHERE AdID='$this->ID'" );            
+            $db->query( "DELETE FROM eZAd_View WHERE AdID='$this->ID'" );
+            $db->query( "DELETE FROM eZAd_Click WHERE AdID='$this->ID'" );
 
-            $db->query( "DELETE FROM eZAd_AdCategoryLink WHERE AdID='$this->ID'" );            
+            $db->query( "DELETE FROM eZAd_AdCategoryLink WHERE AdID='$this->ID'" );
             $db->query( "DELETE FROM eZAd_Ad WHERE ID='$this->ID'" );
         }
-        
+
         return true;
     }
 
@@ -241,7 +241,7 @@ class eZAd
     function isActive()
     {
        $ret = false;
-       
+
        if ( $this->IsActive == "1" )
        {
            $ret = true;
@@ -255,7 +255,7 @@ class eZAd
     function useHTML()
     {
        $ret = false;
-       
+
        if ( $this->UseHTML == 1 )
        {
            $ret = true;
@@ -269,8 +269,8 @@ class eZAd
     function &htmlBanner()
     {
         return $this->HTMLBanner;
-    }    
-    
+    }
+
     /*!
       Returns the view start date.
     */
@@ -278,9 +278,9 @@ class eZAd
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->ViewStartDate );
-       
+
        return $dateTime;
-    }    
+    }
 
     /*!
       Returns the view stop date.
@@ -289,10 +289,10 @@ class eZAd
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->ViewStopDate );
-       
+
        return $dateTime;
-    }    
-    
+    }
+
     /*!
       Sets the ad's name.
     */
@@ -334,9 +334,9 @@ class eZAd
        $this->ViewPrice = $value;
        setType( $this->ViewPrice, "double" );
     }
-    
+
     /*!
-     Sets the ad to active or not. 
+     Sets the ad to active or not.
     */
     function setIsActive( $value )
     {
@@ -346,7 +346,7 @@ class eZAd
        }
        else
        {
-           $this->IsActive = 0;           
+           $this->IsActive = 0;
        }
     }
 
@@ -372,7 +372,7 @@ class eZAd
            $this->UseHTML = 0;
        }
     }
-    
+
     /*!
       Returns the categrories an ad is assigned to.
 
@@ -388,13 +388,13 @@ class eZAd
                                                        WHERE AdID='$this->ID'" );
 
        foreach ( $category_array as $category )
-       {           
+       {
            $ret[] = new eZAdCategory( $category[$db->fieldName("CategoryID")] );
        }
 
        return $ret;
     }
-    
+
     /*!
       Removes every category assignments from the current ad.
     */
@@ -403,7 +403,7 @@ class eZAd
         $db =& eZDB::globalDatabase();
 
         $db->query( "DELETE FROM eZAd_AdCategoryLink
-                                WHERE AdID='$this->ID'" );        
+                                WHERE AdID='$this->ID'" );
     }
 
     /*!
@@ -411,7 +411,7 @@ class eZAd
     */
     function setImage( $value )
     {
-        if ( get_class( $value ) == "ezimage" )
+        if ( is_a( $value, "eZImage" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -425,8 +425,8 @@ class eZAd
       NOTE: the image also gets deleted from the image catalogue.
     */
     function deleteImage( $value )
-    {        
-        if ( get_class( $value ) == "ezimage" )
+    {
+        if ( is_a( $value, "eZImage" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -436,22 +436,22 @@ class eZAd
             $image->delete();
         }
     }
-    
+
     /*!
       Returns the banner ad image.
     */
     function image()
     {
         $db =& eZDB::globalDatabase();
-       
+
         $ret = false;
         $img = new eZImage( );
-        
+
         if ( $img->get( $this->ImageID ) )
-        {           
+        {
             $ret = $img;
         }
-        
+
         return $ret;
     }
 
@@ -463,13 +463,13 @@ class eZAd
         $db =& eZDB::globalDatabase();
 
         $db->begin();
-        
+
         $date = eZDate::timeStamp( true );
         $db->lock( "eZAd_View" );
-            
+
         $db->array_query( $view_result, "SELECT * FROM
                                          eZAd_View
-                                         WHERE AdID='$this->ID'" );        
+                                         WHERE AdID='$this->ID'" );
         if ( count( $view_result ) == 0 )
         {
 
@@ -483,16 +483,16 @@ class eZAd
             // set all offsets to 1.
             $db->query( "UPDATE eZAd_View
                          SET ViewOffsetCount='1'" );
-            
+
             if ( count( $view_offset ) > 0 )
                 $offs = $view_offset[0][$db->fieldName("ViewOffsetCount")];
             else
                 $offs = 1;
 
             $timeStamp =& eZDateTime::timeStamp( true );
-            
+
             $res = $db->query( "INSERT INTO eZAd_View
-                         ( ID,   
+                         ( ID,
                            AdID,
                            ViewCount,
                            ViewOffsetCount,
@@ -508,7 +508,7 @@ class eZAd
         }
         else
         {
-            $query = "UPDATE eZAd_View SET 
+            $query = "UPDATE eZAd_View SET
                                          ViewCount=(ViewCount + 1),
                                          ViewOffsetCount=(ViewOffsetCount + 1),
                                          ViewPrice=(ViewPrice + $this->ViewPrice)
@@ -518,7 +518,7 @@ class eZAd
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
         {
             $db->rollback( );
@@ -543,7 +543,7 @@ class eZAd
 
        return $view_result[0][$db->fieldName("ViewCount")];
     }
-  
+
     /*!
       Returns the total number of times the banner has been clicked.
     */
@@ -557,7 +557,7 @@ class eZAd
 
         return $click_result[0][$db->fieldName("Count")];
     }
-    
+
 
     /*!
       Returns the banner's total view revenue.
@@ -580,7 +580,7 @@ class eZAd
         $db =& eZDB::globalDatabase();
 
 //        print( "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
-        
+
         $db->array_query( $click_result, "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
 
        return $click_result[0][$db->fieldName("Revenue")];
@@ -590,7 +590,6 @@ class eZAd
     var $Name;
     var $Description;
     var $ImageID;
-    var $URL;
     var $ViewStartDate;
     var $ClickPrice;
     var $ViewPrice;
@@ -606,7 +605,7 @@ class eZAd
 
     /// The URL to go to when the banner is clicked
     var $URL;
-    
+
 }
 
 ?>

@@ -48,7 +48,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
@@ -222,7 +222,7 @@ else
 
         $t->parse( "person_item", "person_item_tpl", true );
     }
-    
+
     $t->parse( "person_table", "person_table_tpl" );
 }
 

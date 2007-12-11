@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbugcategory.php 8229 2001-11-01 20:33:09Z vl $
 //
 // Definition of eZBugCategory class
@@ -86,7 +86,7 @@ class eZBugCategory
                                        (ID, Name, Description) VALUES
                                        ('$this->ID', '$name', '$description')" );
             $db->unlock();
-			
+
         }
         else
         {
@@ -100,7 +100,7 @@ class eZBugCategory
             $db->rollback();
         else
             $db->commit();
-        
+
 
         return true;
     }
@@ -112,7 +112,7 @@ class eZBugCategory
     function delete()
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( isSet( $this->ID ) )
         {
             $db->begin();
@@ -126,17 +126,17 @@ class eZBugCategory
             else
                 $db->commit();
         }
-        
+
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZBug_Category WHERE ID='$id'" );
@@ -161,20 +161,20 @@ class eZBugCategory
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $category_array = array();
-        
+
         $db->array_query( $category_array, "SELECT ID FROM eZBug_Category ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $category_array ); $i++ )
-        { 
-            $return_array[$i] = new eZBugCategory( $category_array[$i][$db->fieldName( "ID" )], 0 ); 
+        {
+            $return_array[$i] = new eZBugCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
+
         return $return_array;
     }
-    
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -204,7 +204,7 @@ class eZBugCategory
        else
            return $this->Description;
     }
-    
+
     /*!
       Sets the name of the category.
     */
@@ -226,7 +226,7 @@ class eZBugCategory
     */
     function addBug( $value )
     {
-       if ( get_class( $value ) == "ezbug" )
+       if ( is_a( $value, "eZBug" ) )
        {
            $bugID = $value->id();
 
@@ -259,7 +259,7 @@ class eZBugCategory
                        $limit=50 )
     {
         $db =& eZDB::globalDatabase();
-        
+
 //         $OrderBy = "eZBug_Bug.Published DESC";
 //         switch( $sortMode )
 //         {
@@ -279,28 +279,28 @@ class eZBugCategory
        }
        else
        {
-           $excludedCode = "";           
+           $excludedCode = "";
        }
-       
+
        $db->array_query( $bug_array, "
                          SELECT eZBug_Bug.ID AS BugID,
                                 eZBug_Category.ID,
                          FROM eZBug_Bug, eZBug_Category, eZBug_BugCategoryLink
-                         WHERE 
+                         WHERE
                          eZBug_BugCategoryLink.BugID = eZBug_Bug.ID
                          AND
                          eZBug_Category.ID = eZBug_BugCategoryLink.CategoryID
                          AND
                          eZBug_Category.ID='$this->ID'
-                         $excludedCode 
+                         $excludedCode
                          GROUP BY eZBug_Bug.ID, eZBug_Category.ID ORDER BY $OrderBy",
                          array( "Limit" => $limit, "Offset" => $offset ) );
- 
+
        for ( $i = 0; $i < count( $bug_array ); $i++ )
        {
            $return_array[$i] = new eZBug( $bug_array[$i][$db->fieldName( "BugID" )], false );
        }
-       
+
        return $return_array;
     }
 

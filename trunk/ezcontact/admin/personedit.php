@@ -75,7 +75,7 @@ else
     $item_id = $PersonID;
 }
 
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
@@ -843,10 +843,10 @@ if ( !$confirm )
         }
 
         $ContactID = $item->contact();
-        if ( get_class( $item ) == "ezcompany" )
+        if ( is_a( $item, "eZCompany" ) )
             $ContactType = $item->contactType();
         else
-            $ContactType = "ezuser";
+            $ContactType = "eZUser";
         $ProjectID = $item->projectState();
     }
 
@@ -1214,7 +1214,7 @@ if ( !$confirm )
             {
                 if ( is_numeric( $ContactID ) and $ContactID > 0 )
                 {
-                    if ( $ContactType == "ezperson" )
+                    if ( $ContactType == "eZPerson" )
                         $contact = new eZPerson( $ContactID );
                     else
                         $contact = new eZUser( $ContactID );
@@ -1228,8 +1228,8 @@ if ( !$confirm )
             }
             foreach ( $users as $contact )
             {
-                if ( get_class( $contact ) == "ezuser" ||
-                     get_class( $contact ) == "ezperson" )
+                if ( is_a( $contact, "eZUser" ) ||
+                     is_a( $contact, "eZPerson" ) )
                 {
                     $t->set_var( "type_id", $contact->id() );
                     $t->set_var( "type_firstname", eZTextTool::htmlspecialchars( $contact->firstName() ) );
@@ -1241,7 +1241,7 @@ if ( !$confirm )
                 $t->parse( "contact_item_select", "contact_item_select_tpl", true );
             }
             if ( count( $users ) > 0 )
-                $t->set_var( "contact_person_type", get_class( $users[0] ) == "ezuser" ? "ezuser" : "ezperson" );
+                $t->set_var( "contact_person_type", is_a( $users[0], "eZUser" )? "eZUser" : "eZPerson" );
             else
                 $t->set_var( "contact_person_type", "" );
 
@@ -1288,10 +1288,10 @@ if ( !$confirm )
             }
 
             $t->set_var( "logo_item", "&nbsp;" );
-            if ( ( get_class( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
+            if ( ( is_a( $logoImage, "eZImage" ) ) && ( $logoImage->id() != 0 ) )
             {
                 $variation = $logoImage->requestImageVariation( 150, 150 );
-                if ( get_class( $variation ) == "ezimagevariation" )
+                if ( is_a( $variation, "eZImageVariation" ) )
                 {
                     $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
 
@@ -1318,10 +1318,10 @@ if ( !$confirm )
             }
 
             $t->set_var( "image_item", "&nbsp;" );
-            if ( ( get_class( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
+            if ( ( is_a( $companyImage, "eZImage" ) ) && ( $companyImage->id() != 0 ) )
             {
                 $variation = $companyImage->requestImageVariation( 150, 150 );
-                if ( get_class( $variation ) == "ezimagevariation" )
+                if ( is_a( $variation, "eZImageVariation" ) )
                 {
                     $t->set_var( "image_src", "/" . $variation->imagePath() );
                     $t->set_var( "image_width", $variation->width() );

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezmodulelink.php 7848 2001-10-15 11:32:18Z ce $
 //
 // Definition of eZModuleLink class
@@ -129,7 +129,7 @@ class eZModuleLink
         $placement = count( $qry_array ) == 1 ? $qry_array[0][$db->fieldName( "Placement" )] + 1 : 1;
 
         $db->lock( $link_table_name );
-        $nextID = $db->nextID( $link_table_name, "ID" );            
+        $nextID = $db->nextID( $link_table_name, "ID" );
 
         $res = $db->query( "INSERT INTO $link_table_name
                      ( ID, SectionID, Placement, $type_column )
@@ -147,7 +147,7 @@ class eZModuleLink
     */
     function removeSection( $section )
     {
-        if ( get_class( $section ) == "ezlinksection" )
+        if ( is_a( $section, "eZLinkSection" ) )
             $id = $section->id();
         else
             $id = $section;

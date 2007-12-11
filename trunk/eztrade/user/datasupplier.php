@@ -33,10 +33,10 @@ include_once( "classes/ezhttptool.php" );
 $user =& eZUser::currentUser();
 
 $RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
-$ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;
+$ShowPrice = $RequireUser ? is_a( $user, "eZUser" ) : true;
 
 $PriceGroup = 0;
-if ( get_class( $user ) == "ezuser" )
+if ( is_a( $user, "eZUser" ) )
 {
     $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( false ) );
 }
@@ -113,7 +113,7 @@ switch ( $url_array[2] )
         }
 
         break;
-        
+
     case "print" :
     case "productprint" :
         if ( $PageCaching == "enabled" )
@@ -181,7 +181,7 @@ switch ( $url_array[2] )
             $Action = "AddToBasket";
             $ProductID = $url_array[4];
         }
-        
+
         if ( $url_array[3] == "movetocart" )
         {
             $Action = "MoveToCart";
@@ -205,11 +205,11 @@ switch ( $url_array[2] )
             $Action = "MoveToCart";
             $WishListItemID = $url_array[4];
         }
-        
+
         include( "eztrade/user/viewwishlist.php" );
     }
     break;
-    
+
     case "sendwishlist" :
     {
         include( "eztrade/user/sendwishlist.php" );
@@ -221,18 +221,18 @@ switch ( $url_array[2] )
         include( "eztrade/user/voucherview.php" );
     }
     break;
-    
+
     case "vouchermain" :
     {
         include( "eztrade/user/vouchermain.php" );
     }
-    break;    
+    break;
 
     case "voucheremailsample" :
     {
         include( "eztrade/user/voucheremailsample.php" );
     }
-    break;        
+    break;
 
     case "orderview" :
     {
@@ -277,7 +277,7 @@ switch ( $url_array[2] )
 
     }
     break;
-	
+
     case "confirmation" :
     {
         include( "eztrade/user/confirmation.php" );
@@ -293,7 +293,7 @@ switch ( $url_array[2] )
         include( "eztrade/user/voucherinformation.php" );
     }
     break;
-        
+
     case "ordersendt" :
     {
         $OrderID = $url_array[3];
@@ -318,7 +318,7 @@ switch ( $url_array[2] )
             $Offset = $url_array[3];
         else
             $Offset = 0;
-        
+
         include( "eztrade/user/orderlist.php" );
     }
     break;
@@ -338,11 +338,11 @@ switch ( $url_array[2] )
             $Action = "SearchButton";
             $Next = true;
         }
-                
+
         include( "eztrade/user/extendedsearch.php" );
     }
     break;
-    
+
     // XML rpc interface
     case "xmlrpc" :
     {
@@ -357,7 +357,7 @@ switch ( $url_array[2] )
     }
     break;
 
-        
+
     default :
     {
         eZHTTPTool::header( "Location: /error/404" );

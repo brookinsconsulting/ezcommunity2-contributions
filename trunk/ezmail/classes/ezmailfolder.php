@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezmailfolder.php 7641 2001-10-03 08:44:34Z fh $
 //
 // eZMailFolder class
@@ -53,7 +53,7 @@ class eZMailFolder
     {
         // default value
         $this->IsPublished = "false";
-        
+
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -67,7 +67,7 @@ class eZMailFolder
     function delete( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id == -1 )
             $id = $this->ID;
 
@@ -90,7 +90,7 @@ class eZMailFolder
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZMail_Folder" );
-            $nextID = $db->nextID( "eZMail_Folder", "ID" );            
+            $nextID = $db->nextID( "eZMail_Folder", "ID" );
 
             $result = $db->query( "INSERT INTO eZMail_Folder (ID, UserID, ParentID, Name, FolderType )
                                  VALUES (
@@ -121,7 +121,7 @@ class eZMailFolder
             $db->commit();
 
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -130,7 +130,7 @@ class eZMailFolder
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $account_array, "SELECT * FROM eZMail_Folder WHERE ID='$id'" );
@@ -174,9 +174,9 @@ class eZMailFolder
     */
     function setUser( $value )
     {
-        if ( get_class( $value ) == "ezuser" )
+        if ( is_a( $value, "eZUser" ) )
             $value = $value->id();
-        
+
         $this->UserID = $value;
     }
 
@@ -225,7 +225,7 @@ class eZMailFolder
     {
         return $this->FolderType;
     }
-    
+
     /*!
       Sets the type of this folder. Valid types are:
       0 - Normal user created folder
@@ -245,20 +245,20 @@ class eZMailFolder
     */
     function addMail( $mail, $removeFromOld = true )
     {
-       if ( get_class( $mail ) == "ezmail" )
+       if ( is_a( $mail, "eZMail" ) )
            $mail = $mail->id();
 
        $db =& eZDB::globalDatabase();
        $db->begin();
        if ( $removeFromOld == true )
            $results[] = $db->query( "DELETE FROM eZMail_MailFolderLink WHERE MailID='$mail'" );
-       
+
        $query = "INSERT INTO eZMail_MailFolderLink ( FolderID, MailID ) VALUES
                        ( '$this->ID', '$mail' )";
- 
+
        $results[] = $db->query( $query );
        $res = in_array( false, $results ) ? false : true;
-       
+
         if ( $res == false )
         {
             $db->rollback( );
@@ -275,12 +275,12 @@ class eZMailFolder
      */
     function removeMail( $mail )
     {
-       if ( get_class( $mail ) == "ezmail" )
+       if ( is_a( $mail, "eZMail" ) )
        {
            $mailID = $mail->id();
             $query = "DELETE FROM eZMail_MailFolderLink
                        WHERE FolderID='$this->ID' AND MailID='$mailID'";
- 
+
            $db =& eZDB::globalDatabase();
            $db->query( $query );
        }
@@ -293,31 +293,31 @@ class eZMailFolder
     */
     function getByParent( $parent )
     {
-      if ( get_class( $parent ) == "ezmailfolder" )
+      if ( is_a( $parent, "eZMailFolder" ) )
         {
             $db =& eZDB::globalDatabase();
- 
+
             $return_array = array();
             $folder_array = array();
- 
+
             $parentID = $parent->id();
- 
+
             $db->array_query( $category_array, "SELECT ID, Name FROM eZMail_Folder
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
- 
+
             for ( $i=0; $i < count($category_array); $i++ )
             {
                 $return_array[$i] = new eZMailFolder( $folder_array[$i][$db->fieldName("ID")], 0 );
             }
- 
+
             return $return_array;
         }
         else
         {
             return 0;
         }
-    }                                
+    }
 
     /*!
       \static
@@ -326,7 +326,7 @@ class eZMailFolder
      */
     function getByUser( $user = false, $withSpecialFolders=false, $parentFolder = -1 )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             $user =& eZUser::currentUser();
 
         $noSpecial = "";
@@ -337,7 +337,7 @@ class eZMailFolder
         $parentFolderSQL = "";
         if ( $parentFolder != -1 )
             $parentFolderSQL = "AND ParentID='$parentFolder'";
-        
+
         $return_array = array();
         $res = array();
         $userid = $user->id();
@@ -366,7 +366,7 @@ class eZMailFolder
         {
 //            array_push( $tree, array( new eZMailFolder( $folder->id() ), $level ) );
             array_push( $tree, array( $folder->id(), $folder->name(),  $level ) );
-            
+
             if ( $folder != 0 )
             {
                 $tree = array_merge( $tree, eZMailFolder::getTree( $folder->id(), $level ) );
@@ -375,7 +375,7 @@ class eZMailFolder
         return $tree;
     }
 
-    
+
     /*!
       Returns all the mail in the folder. $sortmode can be one of the following:
       subject, sender, date, subjectdec, senderdesc, datedesc.
@@ -399,7 +399,7 @@ class eZMailFolder
             case "size_asc" : $orderBySQL = "Mail.Size ASC"; break;
             case "size_desc" : $orderBySQL = "Mail.Size DESC"; break;
         }
-        
+
         $db =& eZDB::globalDatabase();
         $query = "SELECT Mail.ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
                   WHERE Mail.ID=Link.MailID AND Link.FolderID='$folderID'
@@ -407,13 +407,13 @@ class eZMailFolder
 
         $mail_array = array();
         $return_array = array();
-        $db->array_query( $mail_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );  
+        $db->array_query( $mail_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
         for ( $i=0; $i < count($mail_array); $i++ )
         {
             $return_array[$i] = new eZMail( $mail_array[$i][$db->fieldName("ID")] );
         }
 
-        return $return_array;     
+        return $return_array;
     }
 
     /*!
@@ -427,7 +427,7 @@ class eZMailFolder
         $db->query_single( $result, $query );
         return $result[$db->fieldName("Count")];
     }
-    
+
     /*!
       Deletes all mail in the folder
      */
@@ -441,7 +441,7 @@ class eZMailFolder
         for ( $i=0; $i < count($mail_array); $i++ )
             eZMail::delete( $mail_array[$i][$db->fieldName("ID")] );
     }
-    
+
     /*!
       Returns the number for mail in the folder. If $unreadOnly is set to true the function returns the number of unread mails.
       If you specify the folderID this function can be used as an static function.
@@ -452,20 +452,20 @@ class eZMailFolder
 
         if ( $folderID == -1 )
             $folderID = $this->ID;
-        
+
         $unreadSQL = "";
         if ( $unreadOnly == true )
             $unreadSQL = "AND Mail.Status='0'";
-        
+
         $db->query_single( $res, "SELECT count( Mail.ID ) as Count from eZMail_Mail as Mail,
                                                 eZMail_MailFolderLink as Link
                                                 WHERE Mail.ID=Link.MailID AND Link.FolderID='$folderID' $unreadSQL" );
         return $res[$db->fieldName("Count")];
     }
-    
+
     /*
       \static
-      
+
       Returns the requested special folder of the current user or the user specified. Valid folders are:
       INBOX
       SENT
@@ -473,9 +473,9 @@ class eZMailFolder
       TRASH
       If the folder does not exist it will be created. If the creation should fail the function returns false.
      */
-    function getSpecialFolder( $specialType, $user=false ) 
+    function getSpecialFolder( $specialType, $user=false )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             $user =& eZUser::currentUser();
 
         $userid = $user->id();
@@ -487,11 +487,11 @@ class eZMailFolder
         $db->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
 
 //        echo $res[$db->fieldName( "ID" )];
-        if ( $res[$db->fieldName( "ID" )] != "" ) 
+        if ( $res[$db->fieldName( "ID" )] != "" )
             return new eZMailFolder(  $res[$db->fieldName( "ID" )] );
 
         $ini =& INIFile::globalINI();
-        $Language = $ini->read_var( "eZMailMain", "Language" ); 
+        $Language = $ini->read_var( "eZMailMain", "Language" );
         $folderNameIni = new INIFile( "ezmail/user/intl/" . $Language . "/folderlist.php.ini" );
         switch( $specialType )
         {
@@ -514,7 +514,7 @@ class eZMailFolder
 
         $db->begin();
         $db->lock( "eZMail_Folder" );
-        $nextID = $db->nextID( "eZMail_Folder", "ID" );            
+        $nextID = $db->nextID( "eZMail_Folder", "ID" );
 
         $result = $db->query( "INSERT INTO eZMail_Folder (ID, FolderType, UserID, ParentID, Name )
                    VALUES (
@@ -524,7 +524,7 @@ class eZMailFolder
                           '0',
                           '$folderName' )
                      " );
-        
+
         $db->unlock();
         if ( $result == false )
         {
@@ -546,12 +546,12 @@ class eZMailFolder
         $return_value = false;
         $db =& eZDB::globalDatabase();
 
-        if ( get_class( $folderID ) == "ezmailfolder" )
+        if ( is_a( $folderID, "eZMailFolder" ) )
             $folderID = $folderID->id();
 
         if ( $check_for_self == true && $folderID == $this->ID )
             return true;
-        
+
         while ( $folderID != 0 )
         {
             $db->query_single( $result, "SELECT ParentID FROM eZMail_Folder WHERE ID='$folderID'" );
@@ -563,24 +563,24 @@ class eZMailFolder
     }
 
     /*!
-      \static  
-      
+      \static
+
       Returns true if the given mail belongs to the given user.
      */
     function isOwner( $user, $folderID )
     {
-        if ( get_class( $user ) == "ezuser" ) 
-            $user = $user->id(); 
-        
-        $db =& eZDB::globalDatabase(); 
+        if ( is_a( $user, "eZUser" ) )
+            $user = $user->id();
+
+        $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZMail_Folder WHERE ID='$folderID'" );
         if ( $res[$db->fieldName( "UserID" )] == $user )
             return true;
-        
+
         return false;
     }
 
-    
+
     var $ID;
     var $UserID;
     var $ParentID;

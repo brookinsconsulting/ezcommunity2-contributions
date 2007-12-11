@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: articleheaderlist.php 9788 2003-03-24 08:52:52Z br $
 //
 // Created on: <26-Oct-2000 21:15:58 bf>
@@ -86,7 +86,7 @@ foreach ( $pathArray as $path )
     $t->set_var( "category_id", $path[0] );
 
     $t->set_var( "category_name", $path[1] );
-    
+
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -96,31 +96,36 @@ $categoryList = $category->getByParent( $category );
 // categories
 $i=0;
 $t->set_var( "category_list", "" );
-foreach ( $categoryList as $categoryItem )
+$t->set_var( "category_item", "" );
+
+if (is_array($categoryList))
 {
-    $t->set_var( "category_id", $categoryItem->id() );
-
-    $t->set_var( "category_name", $categoryItem->name() );
-
-    $parent = $categoryItem->parent();
-    
-
-    if ( ( $i % 2 ) == 0 )
+    foreach ( $categoryList as $categoryItem )
     {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-    
-    $t->set_var( "category_description", $categoryItem->description() );
+        $t->set_var( "category_id", $categoryItem->id() );
 
-    $t->parse( "category_item", "category_item_tpl", true );
-    $i++;
+        $t->set_var( "category_name", $categoryItem->name() );
+
+        $parent = $categoryItem->parent();
+
+
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
+        $t->set_var( "category_description", $categoryItem->description() );
+
+        $t->parse( "category_item", "category_item_tpl", true );
+        $i++;
+    }
 }
 
-if ( count( $categoryList ) > 0 )    
+if ( count( $categoryList ) > 0 )
     $t->parse( "category_list", "category_list_tpl" );
 else
     $t->set_var( "category_list", "" );
@@ -133,7 +138,7 @@ if ( $CategoryID == 0 )
 {
     $article = new eZArticle();
     $articleList = $article->articles( $SortMode, false );
-} 
+}
 else
 {
     $articleList = $category->articles( $SortMode, false, true );
@@ -148,7 +153,7 @@ foreach ( $articleList as $article )
     {
         $catDef =& $article->categoryDefinition();
         $t->set_var( "category_id", $catDef->id() );
-        
+
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
         $def = $article->categoryDefinition();
@@ -159,7 +164,7 @@ foreach ( $articleList as $article )
 
         $published = $article->published();
 
-        $t->set_var( "article_published", $locale->format( $published ) );    
+        $t->set_var( "article_published", $locale->format( $published ) );
 
         if ( ( $i % 2 ) == 0 )
         {
@@ -184,7 +189,7 @@ foreach ( $articleList as $article )
     }
 }
 
-if (  $i > 0 )    
+if (  $i > 0 )
     $t->parse( "article_list", "article_list_tpl" );
 else
     $t->set_var( "article_list", "" );

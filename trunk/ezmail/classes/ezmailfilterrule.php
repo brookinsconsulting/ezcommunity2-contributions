@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezmailfilterrule.php 6657 2001-08-27 10:54:12Z jhe $
 //
 // eZMailFilterRule class
@@ -81,7 +81,7 @@ class eZMailFilterRule
         $db =& eZDB::globalDatabase();
         if( $id == -1 )
             $id = $this->ID;
-        
+
         $db->query( "DELETE FROM eZMail_FilterRule WHERE ID='$id'" );
         return true;
     }
@@ -93,7 +93,7 @@ class eZMailFilterRule
     {
         $db =& eZDB::globalDatabase();
         $match = $db->escapeString( $this->Match );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZMail_FilterRule" );
@@ -131,7 +131,7 @@ class eZMailFilterRule
             $db->commit();
 
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -156,13 +156,13 @@ class eZMailFilterRule
                 $this->Match =& $mail_array[0][ $db->fieldName("MatchValue") ];
                 $this->FolderID =& $mail_array[0][ $db->fieldName("FolderID") ];
                 $this->IsActive =& $mail_array[0][ $db->fieldName("IsActive") ];
-                
+
                 $ret = true;
             }
         }
         return $ret;
     }
-    
+
     /*!
       Returns the object ID.
     */
@@ -178,13 +178,13 @@ class eZMailFilterRule
     {
         return $this->UserID;;
     }
-    
+
     /*!
       Sets the owner of this mail
     */
     function setOwner( $newOwner )
     {
-        if( get_class( $newOwner ) == "ezuser" )
+        if ( is_a( $newOwner, "eZUser" ) )
             $this->UserID = $newOwner->id();
         else
             $this->UserID = $newOwner;
@@ -239,7 +239,7 @@ class eZMailFilterRule
     }
 
     /*!
-    Returns 1 if the filter is active. 
+    Returns 1 if the filter is active.
     */
     function isActive()
     {
@@ -248,7 +248,7 @@ class eZMailFilterRule
     }
 
   /*!
-    Sets the account active. 
+    Sets the account active.
    */
     function setIsActive( $value )
     {
@@ -262,7 +262,7 @@ class eZMailFilterRule
     {
         return $this->FolderID;
     }
-    
+
     /*!
       Sets the folderID of the folder that this filter filters mail into.
      */
@@ -273,27 +273,27 @@ class eZMailFilterRule
 
     /*!
       \static
-      
+
       Returns all mail filters for a selected user as an array of eZMailFilterRules objects.
      */
     function getByUser( $user )
     {
         if( get_class( $user ) == "ezuser" )
             $user = $user->id();
-        
+
         $database =& eZDB::globalDatabase();
 
         $return_array = array();
         $account_array = array();
- 
+
         $database->array_query( $account_array, "SELECT ID FROM eZMail_FilterRule WHERE UserID='$user'" );
- 
+
         for ( $i=0; $i < count($account_array); $i++ )
         {
             $return_array[$i] = new eZMailFilterRule( $account_array[$i][$database->fieldName("ID")] );
         }
- 
-        return $return_array; 
+
+        return $return_array;
     }
 
     /*!
@@ -310,7 +310,7 @@ class eZMailFilterRule
         // Get the array of elements to search in
         $searchArray =& $this->buildSearchArray( $mail );
         // Loop through the elements and run the required tests. Exit at once when we find a match.
-        // This is not good coding practice, but it's the best way to do it here 
+        // This is not good coding practice, but it's the best way to do it here
         switch( $this->CheckType )
         {
             case FILTER_EQUALS :
@@ -379,7 +379,7 @@ class eZMailFilterRule
 
     /*!
       \private
-      
+
       Builds an array of data that is to be checked by the apply filter function.
       This function only uses referenced copying of data, to speed things up. (No actuall copy)
     */
@@ -452,7 +452,7 @@ class eZMailFilterRule
     {
         $folder = new eZMailFolder( $this->FolderID );
 
-        if( get_class( $folder ) == "ezmailfolder" )
+        if( is_a( $folder, "eZMailFolder" ) )
         {
             $folder->addMail( $mail );
         }
@@ -462,7 +462,7 @@ class eZMailFilterRule
             $inbox->addMail( $mail );
         }
     }
-    
+
     var $ID;
     var $UserID;
 
@@ -470,7 +470,7 @@ class eZMailFilterRule
     var $HeaderType;
     var $CheckType;
     var $Match;
-    
+
     var $FolderID;
     var $IsActive;
 }

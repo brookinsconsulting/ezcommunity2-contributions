@@ -238,7 +238,7 @@ class eZMedia
     function existsInCategory( &$category )
     {
        $ret = false;
-       if ( get_class( $category ) == "ezmediacategory" )
+       if ( is_a( $category, "eZMediaCategory" ) )
        {
            $db =& eZDB::globalDatabase();
            $catID = $category->id();
@@ -260,7 +260,7 @@ class eZMedia
     */
     function setCategoryDefinition( &$value )
     {
-        if ( get_class( $value ) == "ezmediacategory" )
+        if ( is_a( $value, "eZMediaCategory" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -512,7 +512,7 @@ class eZMedia
     */
     function checkMedia( &$file )
     {
-       if ( get_class( $file ) == "ezmediafile" )
+       if ( is_a( $file, "eZMediaFile" ) )
        {
            $name = $file->tmpName();
            return true;
@@ -527,7 +527,7 @@ class eZMedia
     */
     function setMedia( &$file )
     {
-       if ( get_class( $file ) == "ezmediafile" )
+       if ( is_a( $file, "eZMediaFile" ) )
        {
            $this->OriginalFileName = $file->name();
            $tmpname = $file->tmpName();
@@ -562,7 +562,7 @@ class eZMedia
     */
     function setUser( &$user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $userID = $user->id();
 
@@ -602,7 +602,7 @@ class eZMedia
      */
     function isOwner( &$user, &$media )
     {
-        if( get_class( $user ) != "ezuser" )
+        if( !is_a( $user, "eZUser" ) )
             return false;
 
         $db =& eZDB::globalDatabase();
@@ -619,7 +619,7 @@ class eZMedia
     */
     function setPhotographer( &$author )
     {
-        if ( get_class( $author ) == "ezauthor" )
+        if ( is_a( $author, "eZAuthor" ) )
             $this->PhotographerID = $author->id();
         else if ( is_numeric( $author ) )
             $this->PhotographerID = $author;
@@ -638,7 +638,7 @@ class eZMedia
     */
     function setType( &$type )
     {
-        if ( get_class( $type ) == "ezmediatype" )
+        if ( is_a( $type, "eZMediaType" ) )
         {
             $db =& eZDB::globalDatabase();
 

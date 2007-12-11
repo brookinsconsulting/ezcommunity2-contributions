@@ -38,7 +38,7 @@ function hasPermission( $bugID )
     $user =& eZUser::currentUser();
     $bug = new eZBug( $bugID );
     $module = $bug->module();
-    if ( get_class( $module ) == "ezbugmodule" && eZObjectPermission::hasPermission( $module->id(), "bug_module", "w" ) )
+    if ( is_a( $module, "eZBugModule" ) && eZObjectPermission::hasPermission( $module->id(), "bug_module", "w" ) )
     {
         return true;
     }
@@ -138,16 +138,16 @@ switch ( $url_array[2] )
         }
     }
     break;
-    
-    case "archive" :        
+
+    case "archive" :
     {
         $ModuleID = $url_array[3];
-        
+
         include( "ezbug/user/buglist.php" );
     }
     break;
 
-    case "search" :        
+    case "search" :
     {
         if ( $url_array[3] == "parent" )
         {
@@ -159,16 +159,16 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "view" :        
-    case "bugview" :        
+    case "view" :
+    case "bugview" :
     {
         $BugID = $url_array[3];
-        
+
         include( "ezbug/user/bugview.php" );
     }
     break;
-    
-    
+
+
     case "report" :
     {
         switch ( $url_array[3] )
@@ -211,7 +211,7 @@ switch ( $url_array[2] )
                 include( "ezbug/user/bugreport.php" );
             }
             break;
-            
+
             case "fileedit" :
             {
                 if ( $url_array[4] == "new")
@@ -268,7 +268,7 @@ switch ( $url_array[2] )
                 }
             }
             break;
-            
+
             default :
             {
                 print( "Error: Bug file not found" );
@@ -295,7 +295,7 @@ switch ( $url_array[2] )
         print( "Error: Bug file not found" );
     }
     break;
-    
+
 }
 
 ?>

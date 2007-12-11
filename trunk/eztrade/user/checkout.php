@@ -84,7 +84,7 @@ $session =& eZSession::globalSession();
 
 $user = eZUser::currentUser();
 
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
     eZHTTPTool::header( "Location: /user/login/" );
 
 // if no session exist create one.
@@ -227,7 +227,7 @@ if ( isSet( $SendOrder ) )
     $order = new eZOrder();
     $user =& eZUser::currentUser();
 
-    if ( get_class( $user ) != "ezuser" )
+    if ( !is_a( $user, "eZUser" ) )
     {
         eZLog::writeWarning( "user/payment.php: Got paymentSuccess without user logged in" );
         eZHTTPTool::header( "Location: /trade/cart/" );
@@ -276,9 +276,9 @@ if ( isSet( $SendOrder ) )
 
 
     $order_id = $order->id();
-    
+
     $session->setVariable( "OrderID", $order_id );
-    $session->setVariable( "OrderConfirmation", $order_id );    
+    $session->setVariable( "OrderConfirmation", $order_id );
 
     foreach ( $items as $item )
     {
@@ -334,7 +334,7 @@ if ( isSet( $SendOrder ) )
         }
     }
 
-    
+
     eZHTTPTool::header( "Location: /trade/payment/" );
     exit();
 }
@@ -778,7 +778,7 @@ foreach ( $addressArray as $address )
     $t->set_var( "is_selected", "" );
     $mainAddress = $address->mainAddress( $user );
 
-    if ( get_class( $mainAddress ) == "ezaddress" )
+    if ( is_a( $mainAddress, "eZAddress" ) )
     {
         if ( $mainAddress->id() == $address->id() )
         {

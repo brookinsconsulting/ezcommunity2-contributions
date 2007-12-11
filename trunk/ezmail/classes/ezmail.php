@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezmail.php 9884 2003-08-21 10:12:50Z vl $
 //
 // Definition of eZMail class
@@ -34,7 +34,7 @@
     Tobias Ratschiller <tobias@dnet.it>
   extended and modified to fit eZ publish needs by
      Frederik Holljen <fh@ez.no>
-  
+
   Example code:
   \code
 
@@ -63,7 +63,7 @@ class eZMail
     function eZMail( $id = "" )
     {
         $this->FilesAttached = false;
-        
+
         // array used when sending mail.. do not alter!!!
         $this->parts = array();
         if ( $id != "" )
@@ -89,7 +89,7 @@ class eZMail
         $db->begin();
         if ( $id == -1 )
             $id = $this->ID;
-        
+
         // DELETE ALL ATTACHMENTS
         $res[] = $db->query( "DELETE FROM eZMail_Mail WHERE ID='$id'" );
         $res[] = $db->query( "DELETE FROM eZMail_MailFolderLink WHERE MailID='$id'" );
@@ -117,7 +117,7 @@ class eZMail
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZMail_Mail" );
-            $nextID = $db->nextID( "eZMail_Mail", "ID" );            
+            $nextID = $db->nextID( "eZMail_Mail", "ID" );
             $result = $db->query( "INSERT INTO eZMail_Mail ( ID, UserID, ToField, FromField, Cc, Bcc,
                                  MessageID, Reference, ReplyTo, Subject, BodyText, Status, Size, UDate )
                                  VALUES (
@@ -165,7 +165,7 @@ class eZMail
             $db->commit();
 
         return true;
-    }    
+    }
 
     function removeContacts( $mailID )
     {
@@ -174,7 +174,7 @@ class eZMail
         $res[] = $db->query( "DELETE FROM eZMail_MailContactLink WHERE MailID='$mailID'" );
         eZDB::finish( $res, $db );
     }
-    
+
     function addContact( $mailID, $contactID, $companyEdit = true )
     {
         if ( $companyEdit )
@@ -192,7 +192,7 @@ class eZMail
         $db->unlock();
         eZDB::finish( $res, $db );
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -200,7 +200,7 @@ class eZMail
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $mail_array, "SELECT * FROM eZMail_Mail WHERE ID='$id'" );
@@ -225,14 +225,14 @@ class eZMail
                 $this->Status = $mail_array[0][ $db->fieldName("Status") ];
                 $this->Size = $mail_array[0][ $db->fieldName("Size") ];
                 $this->UDate = $mail_array[0][ $db->fieldName("UDate") ];
-                
+
                 $ret = true;
                 $this->FilesAttached = true;
             }
         }
         return $ret;
     }
-    
+
     /*!
       Returns the object ID.
     */
@@ -274,8 +274,8 @@ class eZMail
         $this->ReplyTo = $newReplyTo;
     }
 
-    
-    /*! 
+
+    /*!
       Returns the receiver address. Wrapper function
     */
     function receiver()
@@ -291,7 +291,7 @@ class eZMail
         $this->To = $newReceiver;
     }
 
-    
+
     /*!
       Returns the from address.
     */
@@ -302,7 +302,7 @@ class eZMail
 
 
     /*!
-      Sets the from address.      
+      Sets the from address.
     */
     function setFrom( $newFrom )
     {
@@ -383,7 +383,7 @@ class eZMail
     }
 
     /*!
-      Sets the from name.      
+      Sets the from name.
     */
     function setFromName( $newFrom )
     {
@@ -399,13 +399,13 @@ class eZMail
     }
 
     /*!
-      Sets the sender address.      
+      Sets the sender address.
     */
     function setSender( $newSender )
     {
         $this->From = $newSender;
     }
-    
+
     /*!
       Returns the subject.
     */
@@ -438,7 +438,7 @@ class eZMail
         $this->BodyText = $newBody;
     }
 
-    
+
     /*!
       Sets the body.
     */
@@ -461,7 +461,7 @@ class eZMail
     function setOwner( $newOwner )
     {
 
-        if ( get_class( $newOwner ) == "ezuser" )
+        if ( is_a( $newOwner, "eZUser" ) )
             $this->UserID = $newOwner->id();
         else
             $this->UserID = $newOwner;
@@ -512,7 +512,7 @@ class eZMail
                        "unit" => $unit );
         return $size;
     }
-    
+
     /*!
       Returns the size of this mail in bytes.
      */
@@ -567,7 +567,7 @@ class eZMail
         if ( $directWrite == true )
             $db->query( "UPDATE eZMail_Mail SET Status='$status' where ID='$this->ID'" );
     }
-    
+
     /*!
       \static
       Splits a list of email addresses into an array where each entry is an email address.
@@ -599,7 +599,7 @@ class eZMail
     function validate( $address )
     {
         $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
-        
+
         return $pos;
     }
 
@@ -618,10 +618,10 @@ class eZMail
         else
             return 0;
     }
-    
+
     /*!
       \static
-      
+
       Returns true if the mail with the given identification is allready downloaded for the given user.
      Note: this is the header ID we are talking about.
     */
@@ -633,8 +633,8 @@ class eZMail
         $ret = true;
         if ( $res[$db->fieldName( "Count" )] == 0 )
             $ret = false;
-        
-        return $ret;    
+
+        return $ret;
     }
 
     /*!
@@ -653,7 +653,7 @@ class eZMail
         else
             $db->commit();
     }
-    
+
     /*
       Returns the first folder that this mail is a member of.
      */
@@ -680,7 +680,7 @@ class eZMail
      */
     function getByUser( $user = false, $onlyUnread = false )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             $user =& eZUser::currentUser();
 
         $unreadOnlySQL = "";
@@ -688,7 +688,7 @@ class eZMail
         {
             $unreadOnlySQL = "AND Status='0'";
         }
-        
+
         $return_array = array();
         $res = array();
         $userid = $user->id();
@@ -710,13 +710,13 @@ class eZMail
     */
     function getByContact( $ContactID, $CompanyEdit, $Offset, $Limit, $user = false )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             $user =& eZUser::currentUser();
         if ( $CompanyEdit )
             $field = "CompanyID";
         else
             $field = "PersonID";
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $res, "SELECT MailID FROM eZMail_MailContactLink
                                  WHERE $field='$ContactID'" );
@@ -726,7 +726,7 @@ class eZMail
         {
             $mail = new eZMail( $res[$i][$db->fieldName( "MailID" )] );
             if ( $mail->owner() == $user->id() )
-                $return_array[] = $mail;            
+                $return_array[] = $mail;
         }
         return $return_array;
     }
@@ -750,7 +750,7 @@ class eZMail
         }
         return $return_array;
     }
-    
+
     /*
       Adds an attachment to this mail
       Recalculates the size of the mail.
@@ -759,26 +759,26 @@ class eZMail
     {
        $this->FilesAttached = true;
        $db =& eZDB::globalDatabase();
-       
-       if ( get_class( $file ) == "ezvirtualfile" )
+
+       if ( is_a( $file, "eZVirtualFile" ) )
        {
            $db->begin();
            $fileID = $file->id();
-           
+
            $db->query( "INSERT INTO eZMail_MailAttachmentLink (MailID, FileID)
                         VALUES ('$this->ID', '$fileID')" );
 
            $this->calculateSize();
        }
     }
- 
+
     /*!
       Deletes an attachment from the mail.
       Recalculates the size of the mail.
     */
     function deleteFile( $file )
     {
-        if ( get_class( $file ) == "ezvirtualfile" )
+        if ( is_a( $file, "eZVirtualFile" ) )
         {
             $fileID = $file->id();
             $file->delete();
@@ -787,7 +787,7 @@ class eZMail
             $this->calculateSize();
         }
     }
- 
+
     /*!
       Returns all attachments associatied with this mail.
     */
@@ -801,12 +801,12 @@ class eZMail
        $file_array = array();
        $db =& eZDB::globalDatabase();
        $db->array_query( $file_array, "SELECT FileID FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID'" );
- 
+
        for ( $i = 0; $i < count( $file_array ); $i++ )
-       { 
+       {
            $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName( "FileID" )], false );
        }
- 
+
        return $return_array;
     }
 
@@ -815,7 +815,7 @@ class eZMail
      */
     function addImage( $image )
     {
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $imageID = $image->id();
             $db =& eZDB::globalDatabase();
@@ -824,13 +824,13 @@ class eZMail
             eZDB::finish( $res, $db );
         }
     }
- 
+
     /*!
       Deletes an eZImage attachment from the mail.
      */
     function deleteImage( $image )
     {
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $imageID = $image->id();
             $image->delete();
@@ -840,7 +840,7 @@ class eZMail
             eZDB::finish( $res, $db );
         }
     }
- 
+
     /*!
       Returns all the images associated with this mail.
      */
@@ -851,7 +851,7 @@ class eZMail
 
        $db =& eZDB::globalDatabase();
        $db->array_query( $image_array, "SELECT ImageID FROM eZMail_MailImageLink WHERE MailID='$this->ID'" );
- 
+
        for ( $i = 0; $i < count( $image_array ); $i++ )
        {
            $return_array[$i] = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
@@ -860,20 +860,20 @@ class eZMail
     }
 
     /*!
-      \static  
-      
+      \static
+
       Returns true if the given account belongs to the given user.
      */
     function isOwner( $user, $mailID )
     {
-        if ( get_class( $user ) == "ezuser" ) 
-            $user = $user->id(); 
-        
-        $db =& eZDB::globalDatabase(); 
+        if ( is_a( $user, "eZUser" ) )
+            $user = $user->id();
+
+        $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZMail_Mail WHERE ID='$mailID'" );
         if ( $res[$db->fieldName( "UserID" )] == $user )
             return true;
-        
+
         return false;
     }
 
@@ -934,7 +934,7 @@ class eZMail
 
             $copy->BodyText = implode( "", $resultArray );
         }
-        
+
         $copy->store();
         return $copy;
     }
@@ -960,11 +960,11 @@ class eZMail
 
         $this->Size = $size;
     }
-    
+
     /*!
       Sends the mail with the values specified.
      */
-    function send() 
+    function send()
     {
         if ( $this->FilesAttached == true )
         {
@@ -993,7 +993,7 @@ class eZMail
                         case "pdf":
                             $mimeType = "application/pdf";
                         break;
-                        
+
                         case "jpg":
                         case "jpeg":
                             $mimeType = "image/jpeg";
@@ -1032,7 +1032,7 @@ class eZMail
                 }
             }
         }
-        
+
         $mime = "";
         if ( !empty( $this->From ) )
         {
@@ -1067,10 +1067,10 @@ class eZMail
 
         $this->parts = array();
     }
-    
+
      /*!
        \private
-       
+
        void add_attachment(string message, [string name], [string ctype])
        Add an attachment to the mail object
      */
@@ -1083,10 +1083,10 @@ class eZMail
             "name" => $name
             );
     }
-    
+
     /*!
       \private
-      
+
       void build_message( array part )
       Build message parts of an multipart mail
     */
@@ -1095,7 +1095,7 @@ class eZMail
         $message = $part["message"];
         $message = chunk_split( base64_encode( $message ) );
         $encoding = "base64";
-	
+
 	//EP - different charsets for the MIME mail ---------------
 //        global $GlobalSectionID;
 //
@@ -1110,26 +1110,26 @@ class eZMail
 
 //        return "Content-Type: " . $part["ctype"] . ";\n\tcharset=\"$iso\"" .
 //            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
-//            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";	
-	
+//            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
+
 	//EP	---------------------------------------------------
-	
-        return "Content-Type: " . $part["ctype"] . 
+
+        return "Content-Type: " . $part["ctype"] .
             ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
             "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
     }
-    
+
     /*!
       \private
-      
+
       void build_multipart()
       Build a multipart mail
     */
-    function build_multipart() 
+    function build_multipart()
     {
         $boundary = "b" . md5( uniqid( time() ) );
         $multipart = "Content-Type: multipart/mixed;\n   boundary=$boundary\n\nThis is a MIME encoded message.\n\n--$boundary";
-        
+
         for ( $i = count( $this->parts ) - 1; $i >= 0; $i-- )
         {
             $multipart .= "\n" . $this->build_message( $this->parts[$i] ) . "--$boundary";
@@ -1148,7 +1148,7 @@ class eZMail
         $return_array = array();
         if ( $user == -1 )
             $user =& eZUser::currentUser();
-        
+
         $db->array_query( $id_array, "SELECT ID FROM eZMail_Mail WHERE
                                           (ToField LIKE '%$text%' OR
                                            FromField LIKE '%$text%' OR
@@ -1172,26 +1172,26 @@ class eZMail
     /// email adress
     var $From;
     /// users name
-    var $FromName; 
+    var $FromName;
     var $Cc;
     var $Bcc;
     /// used with the reference.
     var $MessageID;
     /// used to thread mail, originally from News
-    var $References; 
+    var $References;
     var $ReplyTo;
-    
+
     var $Subject;
     var $BodyText;
 
     var $Size;
     var $UDate;
-    
+
     var $Status;
 
     // variable to check if files are attached ( no need to use database if not)
     var $FilesAttached;
-    
+
     /* database specific variables */
     var $ID;
     var $UserID;

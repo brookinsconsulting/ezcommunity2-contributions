@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: eznewsimporter.php 8080 2001-10-29 16:49:39Z bf $
 //
 // Definition of eZNewsImporter class
@@ -54,8 +54,8 @@ class eZNewsImporter
         $this->Login = $login;
         $this->Password = $password;
         $this->AutoPublish = $autoPublish;
-        
-        if ( get_class( $category ) == "eznewscategory" )
+
+        if ( is_a( $category, "eZNewsCategory" ) )
         {
             $this->CategoryID = $category->id();
         }
@@ -71,7 +71,7 @@ class eZNewsImporter
         $list = array( "rdf", "rss", "backslash" );
         return $list;
     }
-    
+
     /*!
       Imports news from the given site.
     */
@@ -84,7 +84,7 @@ class eZNewsImporter
             case "nyheter.no" :
             {
                 include_once( "eznewsfeed/classes/eznyheternoimporter.php" );
-                
+
                 $importer = new eZNyheterNOImporter( $this->Site, $this->Login, $this->Password );
 
                 $importer->news();
@@ -95,7 +95,7 @@ class eZNewsImporter
             case "rdf" :
             {
                 include_once( "eznewsfeed/classes/ezrdfimporter.php" );
-                
+
                 $importer = new eZRDFImporter( $this->Site, $this->Login, $this->Password );
                 $newsList =& $importer->news();
             }
@@ -104,7 +104,7 @@ class eZNewsImporter
             case "rss" :
             {
                 include_once( "eznewsfeed/classes/ezrssimporter.php" );
-                
+
                 $importer = new eZRSSImporter( $this->Site, $this->Login, $this->Password );
                 $newsList =& $importer->news();
             }
@@ -113,7 +113,7 @@ class eZNewsImporter
             case "backslash" :
             {
                 include_once( "eznewsfeed/classes/ezbackslashimporter.php" );
-                
+
                 $importer = new eZBackslashImporter( $this->Site, $this->Login, $this->Password );
                 $newsList =& $importer->news();
             }
@@ -135,7 +135,7 @@ class eZNewsImporter
                           $newsItem->setIsPublished( 0 );
                       }
                       $newsItem->store();
-                        
+
                       $category->addNews( $newsItem );
                       print( "storing: -" .$newsItem->name() . "<br>");
                   }

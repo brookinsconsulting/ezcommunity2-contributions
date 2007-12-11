@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezcartoptionvalue.php 6856 2001-09-03 12:27:23Z ce $
 //
 // Definition of eZCartOptionValue class
@@ -27,7 +27,7 @@
 //!! eZTrade
 //! eZCartOptionValue handles option values.
 /*!
-  
+
 
 */
 
@@ -66,11 +66,11 @@ class eZCartOptionValue
     {
        $db =& eZDB::globalDatabase();
        $db->begin();
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_CartOptionValue" );
-            $nextID = $db->nextID( "eZTrade_CartOptionValue", "ID" );            
+            $nextID = $db->nextID( "eZTrade_CartOptionValue", "ID" );
 
             $res = $db->query( "INSERT INTO eZTrade_CartOptionValue
                              ( ID, CartItemID, OptionID, RemoteID, OptionValueID, Count )
@@ -90,14 +90,14 @@ class eZCartOptionValue
                                  WHERE ID='$this->ID'
                                  " );
         }
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -106,7 +106,7 @@ class eZCartOptionValue
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $cart_array, "SELECT * FROM eZTrade_CartOptionValue WHERE ID='$id'" );
@@ -137,13 +137,13 @@ class eZCartOptionValue
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-            
+
         $res[] = $db->query( "DELETE FROM eZTrade_CartOptionValue WHERE ID='$this->ID'" );
-        
+
         if ( in_array( false, $res ) )
             $db->rollback( );
         else
-            $db->commit();            
+            $db->commit();
 
         return true;
     }
@@ -154,7 +154,7 @@ class eZCartOptionValue
     */
     function id( )
     {
-        return $this->ID;        
+        return $this->ID;
     }
 
     /*!
@@ -162,7 +162,7 @@ class eZCartOptionValue
     */
     function remoteID( )
     {
-        return $this->RemoteID;        
+        return $this->RemoteID;
     }
 
     /*!
@@ -202,7 +202,7 @@ class eZCartOptionValue
     */
     function setCartItem( &$cartItem )
     {
-       if ( get_class( $cartItem ) == "ezcartitem" )
+       if ( is_a( $cartItem, "eZCartItem" ) )
        {
            $this->CartItemID = $cartItem->id();
        }
@@ -213,7 +213,7 @@ class eZCartOptionValue
     */
     function setOption( &$option )
     {
-       if ( get_class( $option ) == "ezoption" )
+       if ( is_a( $option, "eZOption" ) )
        {
            $this->OptionID = $option->id();
        }
@@ -240,7 +240,7 @@ class eZCartOptionValue
     */
     function setOptionValue( &$optionValue )
     {
-       if ( get_class( $optionValue ) == "ezoptionvalue" )
+       if ( is_a( $optionValue, "eZOptionValue" ) )
        {
            $this->OptionValueID = $optionValue->id();
        }

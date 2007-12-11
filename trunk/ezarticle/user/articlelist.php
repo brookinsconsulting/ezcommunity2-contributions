@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: articlelist.php 9880 2003-07-24 11:07:55Z br $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -141,7 +141,7 @@ else
 // read user override variables for image size
 $ThumbnailImageWidth = $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" );
 $ThumbnailImageHeight = $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" );
-    
+
 $thumbnailImageWidthOverride =& $t->get_user_variable( "article_list_page_tpl",  "ThumbnailImageWidth" );
 if ( $thumbnailImageWidthOverride )
 {
@@ -220,7 +220,7 @@ foreach ( $pathArray as $path )
     }
 
     $SiteTitleAppend .= $path[1] . " - ";
-    
+
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -232,8 +232,8 @@ $user =& eZUser::currentUser();
 $image =& $category->image();
 
 $t->set_var( "current_image_item", "" );
-        
-if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+
+if ( ( is_a( $image, "eZImage" ) ) && ( $image->id() != 0 ) )
 {
     $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
     $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
@@ -247,14 +247,14 @@ if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
     $imageDescription =& $image->description();
 
     $photographer =& $image->photographer();
-            
+
     $t->set_var( "current_image_width", $imageWidth );
     $t->set_var( "current_image_height", $imageHeight );
     $t->set_var( "current_image_url", $imageURL );
     $t->set_var( "current_image_caption", $imageCaption );
     $t->set_var( "current_image_description", $imageDescription );
     $t->set_var( "current_image_photographer", $photographer->name() );
-    
+
     $t->parse( "current_image_item", "current_image_item_tpl" );
 }
 else
@@ -274,8 +274,8 @@ foreach ( $categoryList as $categoryItem )
     $image =& $categoryItem->image();
 
     $t->set_var( "image_item", "" );
-        
-    if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+
+    if ( ( is_a( $image, "eZImage" ) ) && ( $image->id() != 0 ) )
     {
         $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
         $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
@@ -286,7 +286,7 @@ foreach ( $categoryList as $categoryItem )
         $imageWidth =& $variation->width();
         $imageHeight =& $variation->height();
         $imageCaption =& $image->caption();
-            
+
         $t->set_var( "image_width", $imageWidth );
         $t->set_var( "image_height", $imageHeight );
         $t->set_var( "image_url", $imageURL );
@@ -300,7 +300,7 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "image_item", "" );
     }
 
-        
+
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_alt", "1" );
@@ -314,14 +314,14 @@ foreach ( $categoryList as $categoryItem )
 
     //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
     if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
-    {    
+    {
 	include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
         $article = new eZArticle ();
 	$article->setContents ($categoryItem->description(false));
 
         $renderer = new eZArticleRenderer( $article );
-    
+
         $t->set_var( "category_description", $renderer->renderIntro() );
     }
     else
@@ -385,22 +385,22 @@ foreach ( $articleList as $article )
     {
         $t->set_var( "category_id", $categoryDef->id() );
     }
-        
+
 
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
-    
+
     $t->set_var( "article_id", $article->id() );
     $t->set_var( "article_name", $article->name() );
 
     $SiteDescriptionOverride .= $article->name() . " ";
-        
+
     $t->set_var( "author_text", $article->authorText() );
 
     // check for topic
     $topic =& $article->topic();
 
-    if ( ( get_class( $topic ) == "eztopic" ) && ( $topic->name() != "" ) )
+    if ( ( is_a( $topic, "eZTopic" ) ) && ( $topic->name() != "" ) )
     {
         $t->set_var( "topic_id", $topic->id() );
         $t->set_var( "topic_name", $topic->name() );
@@ -408,9 +408,9 @@ foreach ( $articleList as $article )
     }
     else
     {
-        $t->set_var( "article_topic", "" );        
+        $t->set_var( "article_topic", "" );
     }
-    
+
     // preview image
     $thumbnailImage =& $article->thumbnailImage();
     if ( $thumbnailImage )
@@ -421,7 +421,7 @@ foreach ( $articleList as $article )
             $convertToGray = false;
 
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight, $convertToGray );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -431,15 +431,15 @@ foreach ( $articleList as $article )
     }
     else
     {
-        $t->set_var( "article_image", "" );    
+        $t->set_var( "article_image", "" );
     }
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "tr_start", "<tr>" );
         $t->set_var( "tr_stop", "" );
-        
+
         $t->set_var( "td_alt", "1" );
         $t->set_var( "td_class", "bglight" );
     }
@@ -454,7 +454,7 @@ foreach ( $articleList as $article )
     }
 
     $published =& $article->published();
-	
+
     $authorText = $article->authorText();
 
     $publishedDateValue =& $published->date();
@@ -462,22 +462,22 @@ foreach ( $articleList as $article )
 
     $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
     $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
-    
+
 	if ( $authorText == "" || $authorText[0] == "-" )
 	{
 		$t->set_var( "article_published", $locale->format( $published ) );
-        $t->set_var( "article_date", "" );    
+        $t->set_var( "article_date", "" );
 	}
 	else
     {
 		$t->set_var( "article_published", $locale->format( $published ) );
         $t->parse( "article_date", "article_date_tpl" );
 	}
-	
+
     $renderer = new eZArticleRenderer( $article );
 
     $t->set_var( "article_intro", $renderer->renderIntro(  ) );
-        
+
     if ( $article->linkText() != "" )
     {
         $t->set_var( "article_link_text", $article->linkText() );
@@ -510,7 +510,7 @@ foreach ( $articleList as $article )
 
 eZList::drawNavigator( $t, $articleCount, $UserListLimit, $Offset, "article_list_page_tpl" );
 
-if ( count( $articleList ) > 0 )    
+if ( count( $articleList ) > 0 )
     $t->parse( "article_list", "article_list_tpl" );
 else
     $t->set_var( "article_list", "" );
@@ -524,12 +524,12 @@ if ( isSet( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedF
     $output = "<?php\n";
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
-    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
     $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= $t->parse( $target, "article_list_page_tpl" );
-    
+
     // print the output the first time while printing the cache file.
     print( $output );
     fwrite ( $fp, $output );

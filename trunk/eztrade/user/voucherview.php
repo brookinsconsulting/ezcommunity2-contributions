@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: voucherview.php 9513 2002-05-08 09:29:01Z vl $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -42,7 +42,7 @@ if ( ( $Action == "Update" ) || ( isset ( $Update ) ) )
     $voucher = new eZVoucher( $VoucherID );
 
     setType( $Price, "integer" );
-    
+
     $voucher->setPrice( $Price );
 
     if ( $Available == "on" )
@@ -64,7 +64,7 @@ if ( $Action == "Delete" )
     $voucher = new eZVoucher( $VoucherID );
 
     $voucher->delete();
-    
+
     eZHTTPTool::header( "Location: /trade/voucherlist/" );
     exit();
 }
@@ -92,7 +92,7 @@ $t->set_var( "error", "" );
 if ( isSet ( $Key ) )
 {
     $voucher = eZVoucher::getFromKeyNumber( $Key, false );
-    if ( get_class ( $voucher ) == "ezvoucher" )
+    if ( is_a ( $voucher, "eZVoucher" ) )
     {
         $currency->setValue( $voucher->price() );
         $t->set_var( "voucher_price", $locale->format( $currency ) );
@@ -100,7 +100,7 @@ if ( isSet ( $Key ) )
         $t->set_var( "voucher_id", $voucher->id() );
 
         $voucherInfo =& $voucher->information();
-        
+
         if ( $voucherInfo->mailMethod() == 1 )
         {
             $mail =& $voucherInfo->online();
@@ -109,7 +109,7 @@ if ( isSet ( $Key ) )
         }
         else if ( $voucherInfo->mailMethod() == 2 )
         {
-            
+
         }
 
         $usedList = $voucher->usedList();
@@ -120,13 +120,13 @@ if ( isSet ( $Key ) )
                 $t->set_var( "td_class", "bglight" );
             else
                 $t->set_var( "td_class", "bgdark" );
-            
+
             $currency->setValue( $used->price() );
             $t->set_var( "used_price", $locale->format( $currency ) );
             $t->set_var( "used_used", $locale->format( $used->used() ) );
-            
+
             $order = $used->order();
-            
+
             $t->set_var( "voucher_order_id", $order->id() );
             $t->parse( "used_item", "used_item_tpl", true );
             $i++;

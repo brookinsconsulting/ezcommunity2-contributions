@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: menubox.php 7760 2001-10-10 13:19:26Z jhe $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -28,8 +28,8 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) == "ezuser" and
-     ( eZPermission::checkPermission( $user, "eZContact", "CompanyList" ) or 
+if ( is_a( $user, "eZUser" ) and
+     ( eZPermission::checkPermission( $user, "eZContact", "CompanyList" ) or
        eZPermission::checkPermission( $user, "eZContact", "PersonList" ) or
        eZPermission::checkPermission( $user, "eZContact", "Consultation" ) ) )
 {

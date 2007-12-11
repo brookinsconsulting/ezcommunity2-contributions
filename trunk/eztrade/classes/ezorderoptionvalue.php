@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezorderoptionvalue.php 6773 2001-08-30 11:38:31Z ce $
 //
 // Definition of eZOrderOptionValue class
@@ -28,11 +28,11 @@
 //! eZOrderOptionValue handles selected options for the order items.
 /*!
 
-  \sa eZOrder eZOrderItem 
+  \sa eZOrder eZOrderItem
 */
 
 /*!TODO
-    
+
 */
 
 include_once( "classes/ezdb.php" );
@@ -61,11 +61,11 @@ class eZOrderOptionValue
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $this->OptionName = $db->escapeString( $this->OptionName );
         $this->ValueName = $db->escapeString( $this->ValueName );
         $this->RemoteID = $db->escapeString( $this->RemoteID );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_OrderOptionValue" );
@@ -98,7 +98,7 @@ class eZOrderOptionValue
         }
         eZDB::finish( $ret, $db );
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -107,7 +107,7 @@ class eZOrderOptionValue
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $option_value_array, "SELECT * FROM eZTrade_OrderOptionValue WHERE ID='$id'" );
@@ -160,13 +160,13 @@ class eZOrderOptionValue
     {
        return $this->RemoteID;
     }
-    
+
     /*!
       Sets the order item.
     */
     function setOrderItem( $orderItem )
     {
-       if ( get_class( $orderItem ) == "ezorderitem" )
+       if ( is_a( $orderItem, "eZOrderItem" ) )
        {
            $this->OrderItemID = $orderItem->id();
        }
@@ -179,7 +179,7 @@ class eZOrderOptionValue
     {
        $this->OptionName = $value;
     }
-     
+
     /*!
       Sets the value name.
     */
@@ -195,13 +195,13 @@ class eZOrderOptionValue
     {
        $this->RemoteID = $value;
     }
-    
+
 
     var $ID;
     var $OrderItemID;
     var $OptionName;
     var $ValueName;
-    var $RemoteID;    
+    var $RemoteID;
 
 }
 

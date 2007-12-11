@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezproductform.php 7602 2001-10-01 10:27:12Z pkej $
 //
 // ezproductform class
@@ -68,22 +68,22 @@ class eZProductForm
     function store()
     {
         $db =& eZDB::globalDatabase();
-        
-        if( get_class( $this->Form ) == "ezform" )
+
+        if( is_a( $this->Form, "eZForm" ) )
         {
             $FormID = $this->Form->id();
         }
 
-        if( get_class( $this->Product ) == "ezproduct" )
+        if( is_a( $this->Product, "eZProduct" ) )
         {
             $ProductID = $this->Product->id();
         }
-        
+
         $setValues = "
             FormID='$FormID',
             ProductID='$ProductID'
         ";
-        
+
         if ( empty( $this->ID ) )
         {
             $db->query( "INSERT INTO eZTrade_ProductFormDict SET $setValues" );
@@ -106,7 +106,7 @@ class eZProductForm
             $formID = $this->ID;
 
         $db =& eZDB::globalDatabase();
-        
+
         $db->query( "DELETE FROM eZTrade_ProductFormDict WHERE ID=$formID" );
     }
 
@@ -143,7 +143,7 @@ class eZProductForm
     function fill( &$formArray )
     {
         $this->ID =& $formArray[ "ID" ];
-        
+
         $this->Product =& new eZProduct( $formArray[ "ProductID" ] );
         $this->Form =& new eZForm( $formArray[ "FormID" ] );
     }
@@ -157,7 +157,7 @@ class eZProductForm
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $formArray = array();
 
@@ -227,7 +227,7 @@ class eZProductForm
     */
     function setProduct( &$object )
     {
-        if( get_class( $object ) == "ezproduct" )
+        if( is_a( $object, "eZProduct" ) )
         {
             $this->Product = $object;
         }
@@ -238,7 +238,7 @@ class eZProductForm
     */
     function setForm( &$object )
     {
-        if( get_class( $object ) == "ezform" )
+        if( is_a( $object, "eZForm" ) )
         {
             $this->Form = $object;
         }
@@ -247,7 +247,7 @@ class eZProductForm
     /*!
         \static
         Returns the form if the product has a form.
-        
+
         The product is sent in as an eZProduct object.
         The form is returned as an eZForm object.
     */
@@ -255,12 +255,12 @@ class eZProductForm
     {
         $returnArray = array();
         $formArray = array();
-        
-        if( get_class( $object ) == "ezproduct" )
+
+        if( is_a( $object, "eZProduct" ) )
         {
             $ProductID = $object->id();
         }
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT FormID FROM eZTrade_ProductFormDict WHERE ProductID='$ProductID'" );
 
@@ -272,7 +272,7 @@ class eZProductForm
     /*!
         \static
         Returns the product if the form has an product.
-        
+
         The form is sent in as an eZForm object.
         The product is returned as an eZProduct object.
     */
@@ -280,12 +280,12 @@ class eZProductForm
     {
         $returnArray = array();
         $formArray = array();
-        
-        if( get_class( $object ) == "ezform" )
+
+        if( is_a( $object, "eZForm" ) )
         {
             $FormID = $object->id();
         }
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ProductID FROM eZTrade_ProductFormDict WHERE FormID='$FormID'" );
 

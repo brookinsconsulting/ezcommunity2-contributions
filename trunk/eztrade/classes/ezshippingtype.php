@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezshippingtype.php 8565 2001-11-21 17:34:16Z br $
 //
 // Definition of eZShippingType class
@@ -31,7 +31,7 @@
 /*!
   Shipping types is different kinds of shipping methods,
   e.g. Fed. Ex. and DHL could be different shipping types.
-  
+
   \sa eZProduct
 */
 
@@ -61,7 +61,7 @@ class eZShippingType
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $this->Name = $db->escapeString( $this->Name );
 
         if ( !isset( $this->ID ) )
@@ -70,7 +70,7 @@ class eZShippingType
             $db->lock( "eZTrade_ShippingType" );
             $nextID = $db->nextID( "eZTrade_ShippingType", "ID" );
             $res[] = $db->query( "INSERT INTO eZTrade_ShippingType
-                       ( ID, 
+                       ( ID,
 		                 Name,
 		                 VATTypeID,
 		                 IsDefault,
@@ -104,11 +104,11 @@ class eZShippingType
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != -1  )
         {
             $db->array_query( $shipping_array, "SELECT * FROM eZTrade_ShippingType WHERE ID='$id'" );
-            
+
             if ( count( $shipping_array ) > 1 )
             {
                 die( "Error: Shipping Types's with the same ID was found in the database. This shouldn't happen." );
@@ -129,17 +129,17 @@ class eZShippingType
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $shipping_array = array();
-        
+
         $db->array_query( $shipping_array, "SELECT ID FROM eZTrade_ShippingType ORDER BY Created" );
-        
+
         for ( $i=0; $i<count($shipping_array); $i++ )
         {
             $return_array[$i] = new eZShippingType( $shipping_array[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $return_array;
     }
 
@@ -162,10 +162,10 @@ class eZShippingType
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res[] = $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='0', Created=Created" );
         $res[] = $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='1', Created=Created WHERE ID='$this->ID'" );
-        
+
         eZDB::finish( $res, $db );
     }
 
@@ -186,9 +186,9 @@ class eZShippingType
     function &defaultType()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $shipping_array = array();
-        
+
         $db->array_query( $shipping_array, "SELECT ID FROM eZTrade_ShippingType WHERE IsDefault='1'" );
 
         $ret = false;
@@ -196,10 +196,10 @@ class eZShippingType
         {
             $ret = new eZShippingType( $shipping_array[0][$db->fieldName( "ID" )] );
         }
-        
+
         return $ret;
     }
-    
+
 
     /*!
       Returns the object ID to the option. This is the unique ID stored in the database.
@@ -231,7 +231,7 @@ class eZShippingType
     */
     function setVATType( $type )
     {
-        if ( get_class( $type ) == "ezvattype" )
+        if ( is_a( $type, "eZVATType" ) )
         {
            $this->VATTypeID = $type->id();
         }
@@ -247,7 +247,7 @@ class eZShippingType
     {
         $user =& eZUser::currentUser();
         $ret = new eZVATType();
-        
+
         $ini =& INIFile::globalINI();
         if ( $ini->read_var( "eZTradeMain", "PricesIncVATBeforeLogin" ) == "enabled" )
             $useVAT = true;
@@ -259,14 +259,14 @@ class eZShippingType
         else
             $CountryDisc = false;
 
-        
-       if ( get_class ( $user ) == "ezuser" && $CountryDisc == true )
+
+       if ( is_a ( $user, "eZUser" ) && $CountryDisc == true )
        {
            $mainAddress = $user->mainAddress();
-           if ( get_class ( $mainAddress ) == "ezaddress" )
+           if ( is_a ( $mainAddress, "eZAddress" ) )
            {
                $country = $mainAddress->country();
-               if ( ( get_class ( $country ) == "ezcountry" ) and ( $country->hasVAT() == true ) )
+               if ( ( is_a ( $country, "eZCountry" ) ) and ( $country->hasVAT() == true ) )
                {
                    $useVAT = true;
                }
@@ -285,7 +285,7 @@ class eZShippingType
 
        return $ret;
     }
-    
+
     var $ID;
     var $Name;
     var $VATTypeID;

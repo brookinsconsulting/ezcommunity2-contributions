@@ -69,7 +69,7 @@ switch ( $url_array[2] )
         // if not.. check permission, then run page if ok
         $user =& eZUser::currentUser();
         $groupstr = "";
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupIDArray =& $user->groups( false );
             sort( $groupIDArray );
@@ -161,7 +161,7 @@ switch ( $url_array[2] )
         // if not.. check permission, then run page if ok
         $user =& eZUser::currentUser();
         $groupstr = "";
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupstr = $user->groupString();
         }
@@ -236,7 +236,7 @@ switch ( $url_array[2] )
                     $ContentsWriterID = htmlspecialchars( $url_array[8] );
                 if ( $url_array[9] != "+" )
                     $PhotographerID = htmlspecialchars( $url_array[9] );
-                
+
                 $Offset = $url_array[10];
             }
             include( "ezarticle/user/search.php" );
@@ -250,7 +250,7 @@ switch ( $url_array[2] )
 
         $user =& eZUser::currentUser();
         $groupstr = "";
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupIDArray = $user->groups( false );
             sort( $groupIDArray );
@@ -264,7 +264,7 @@ switch ( $url_array[2] )
         include_once( "classes/ezcachefile.php" );
         $file = new eZCacheFile( "ezarticle/cache/", array( "articleindex", $groupstr, $CurrentIndex ),
                                  "cache", "," );
-            
+
         $cachedFile = $file->filename( true );
         if ( $file->exists() )
         {
@@ -305,7 +305,7 @@ switch ( $url_array[2] )
         include( "ezarticle/user/articleheaderlist.php" );
     }
     break;
-    
+
     case "view":
     case "articleview":
     {
@@ -321,7 +321,7 @@ switch ( $url_array[2] )
         // if not.. check permission, then run page if ok
         $user =& eZUser::currentUser();
         $groupstr = "";
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupIDArray =& $user->groups( false );
             sort( $groupIDArray );
@@ -431,7 +431,7 @@ switch ( $url_array[2] )
         // if not.. check permission, then run page if ok
         $user =& eZUser::currentUser();
         $groupstr = "";
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupIDArray = $user->groups( false );
             sort( $groupIDArray );
@@ -456,7 +456,7 @@ switch ( $url_array[2] )
         $article = new eZArticle( $ArticleID );
         $definition = $article->categoryDefinition( true );
         $definition = $definition->id();
-        
+
         if ( $PageCaching == "enabled" )
         {
              $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
@@ -468,7 +468,7 @@ switch ( $url_array[2] )
                       || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
-                
+
                 include( "ezarticle/user/articleview.php" );
             }
         }
@@ -496,7 +496,7 @@ switch ( $url_array[2] )
         // if not.. check permission, then run page if ok
         $user =& eZUser::currentUser();
         $groupstr = "";
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupIDArray = $user->groups( false );
             sort( $groupIDArray );
@@ -509,10 +509,10 @@ switch ( $url_array[2] )
         }
         else
             $user = 0;
-        
+
         if ( !isset( $CategoryID ) )
             $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
-        
+
         $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
@@ -533,7 +533,7 @@ switch ( $url_array[2] )
                       || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
-                
+
                 include( "ezarticle/user/articleview.php" );
             }
         }
@@ -668,7 +668,7 @@ switch ( $url_array[2] )
                                 include( "ezarticle/user/fileedit.php" );
                         }
                         break;
-                        
+
                         case "delete" :
                         {
                             $Action = "Delete";
@@ -679,7 +679,7 @@ switch ( $url_array[2] )
                                 include( "ezarticle/user/fileedit.php" );
                         }
                         break;
-                        
+
                         default :
                         {
                             if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
@@ -698,7 +698,7 @@ switch ( $url_array[2] )
         }
     }
     break;
-    
+
     // XML rpc interface
     case "xmlrpc" :
     {

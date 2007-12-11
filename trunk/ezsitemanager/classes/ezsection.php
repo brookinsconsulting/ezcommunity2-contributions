@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezsection.php 8954 2002-01-16 10:37:22Z kaid $
 //
 // ezsection class
@@ -39,7 +39,7 @@ include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 
 include_once( "ezsitemanager/classes/ezsectionfrontpage.php" );
-	      
+
 class eZSection
 {
 
@@ -57,7 +57,7 @@ class eZSection
             $this->get( $this->ID );
         }
     }
-    
+
     /*!
       Stores a eZSection object to the database.
     */
@@ -66,20 +66,20 @@ class eZSection
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $name = $db->escapeString( $this->Name );
-             
+
         $description = $db->escapeString( $this->Description );
         $sitedesign = $db->escapeString( $this->SiteDesign );
         $templateStyle = $db->escapeString( $this->TemplateStyle );
         $secLanguage = $db->escapeString( $this->SecLanguage );
-             
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZSiteManager_Section" );
 
             $nextID = $db->nextID( "eZSiteManager_Section", "ID" );
-            
+
             $timeStamp = eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZSiteManager_Section
@@ -107,12 +107,12 @@ class eZSection
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -136,7 +136,7 @@ class eZSection
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $section_array, "SELECT * FROM eZSiteManager_Section WHERE ID='$id'" );
@@ -174,20 +174,20 @@ class eZSection
     function getAll( $offset=0, $limit=40)
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $section_array = array();
-        
+
         $db->array_query( $section_array, "SELECT ID, Created
                                            FROM eZSiteManager_Section
                                            ORDER BY Created ASC",
         array( "Limit" => $limit, "Offset" => $offset ) );
-        
+
         for ( $i=0; $i < count($section_array); $i++ )
         {
             $return_array[$i] = new eZSection( $section_array[$i][$db->fieldName("ID")]  );
         }
-        
+
         return $return_array;
     }
 
@@ -221,7 +221,7 @@ class eZSection
     {
         return htmlspecialchars( $this->Name );
     }
-    
+
     /*!
       \static
       Returns the SiteDesign of the section.
@@ -256,7 +256,7 @@ class eZSection
         else
             return htmlspecialchars( $this->TemplateStyle );
     }
-    
+
     /*!
      \static
       Returns the language for this section.
@@ -272,7 +272,7 @@ class eZSection
         else
             return htmlspecialchars( $this->SecLanguage );
     }
-    
+
     /*!
       Returns the section description.
     */
@@ -280,7 +280,7 @@ class eZSection
     {
         return htmlspecialchars( $this->Description );
     }
-    
+
     /*!
       Sets the name of the section.
     */
@@ -288,7 +288,7 @@ class eZSection
     {
         $this->Name = $value;
     }
-    
+
     /*!
       Sets the SiteDesign of the section.
     */
@@ -304,7 +304,7 @@ class eZSection
     {
         $this->TemplateStyle = $value;
     }
-    
+
     /*!
       Sets the Language of the section.
     */
@@ -312,7 +312,7 @@ class eZSection
     {
         $this->SecLanguage = $value;
     }
-    
+
     /*!
       Sets the description of the section.
     */
@@ -328,8 +328,8 @@ class eZSection
     function &globalSectionObject( $sectionID )
     {
         $objName = "eZSectionObject_$sectionID";
-        
-        if ( !isset( $GLOBALS[$objName] ) or !get_class( $GLOBALS[$objName] ) == "ezsection" )
+
+        if ( !isset( $GLOBALS[$objName] ) or !is_a( $GLOBALS[$objName], "eZSection" ) )
         {
             $GLOBALS[$objName] = new eZSection( $sectionID );
         }
@@ -363,7 +363,7 @@ class eZSection
     function &settingNames()
     {
         $db =& eZDB::globalDatabase();
-                
+
         $db->array_query( $section_array, "SELECT ID, Name
                                            FROM eZSiteManager_SectionFrontPageSetting" );
 
@@ -375,7 +375,7 @@ class eZSection
         $db =& eZDB::globalDatabase();
 
         $returnArray = array();
-        
+
         $db->array_query( $rows, "SELECT eZSiteManager_SectionFrontPageRow.ID as ID FROM eZSiteManager_SectionFrontPageRowLink, eZSiteManager_SectionFrontPageRow
                                            WHERE eZSiteManager_SectionFrontPageRowLink.SectionID='$this->ID' AND eZSiteManager_SectionFrontPageRowLink.FrontPageID = eZSiteManager_SectionFrontPageRow.ID ORDER BY eZSiteManager_SectionFrontPageRow.Placement" );
 
@@ -389,15 +389,15 @@ class eZSection
 
     function addFrontPageRow( $rowID )
     {
-        if ( get_class ( $rowID ) == "ezsectionfrontpage" )
+        if ( is_a( $rowID, "eZSectionFrontPage" ) )
             $rowID = $rowID->id();
         $db =& eZDB::globalDatabase();
         $db->begin( );
 
         $db->lock( "eZSiteManager_SectionFrontPageRowLink" );
-        
+
         $nextID = $db->nextID( "eZSiteManager_SectionFrontPageRowLink", "ID" );
-        
+
         $timeStamp = eZDateTime::timeStamp( true );
 
         $res[] = $db->query( "INSERT INTO eZSiteManager_SectionFrontPageRowLink
@@ -407,7 +407,7 @@ class eZSection
                                        '$this->ID',
                                        '$rowID'
                                         )" );
-        
+
         $db->unlock();
         if ( in_array( false, $res ) )
             $db->rollback( );

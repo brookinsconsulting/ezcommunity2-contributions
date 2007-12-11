@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezvirtualfolder.php 9140 2002-02-04 17:42:03Z jhe $
 //
 // Definition of eZVirtualFolder class
@@ -28,7 +28,7 @@
 //!! eZFileManager
 //! eZVirtualFolder manages virtual folders.
 /*!
-  
+
 */
 
 /*!TODO
@@ -98,7 +98,7 @@ class eZVirtualFolder
         else
             $db->commit();
     }
-    
+
     function getByName( $dir, $parent = 0, $create = false, $readgroup = -1, $writegroup = -1 )
     {
         unset( $folder_array );
@@ -145,7 +145,7 @@ class eZVirtualFolder
             return $parent;
         }
     }
-    
+
     /*!
       Deletes a eZVirtualFolder object from the database.
 
@@ -155,7 +155,7 @@ class eZVirtualFolder
         $db =& eZDB::globalDatabase();
         if ( $catID == -1 )
             $catID = $this->ID;
-        
+
         $category = new eZVirtualFolder( $catID );
 
         $categoryList = $category->getByParent( $category );
@@ -176,14 +176,14 @@ class eZVirtualFolder
         $res[] = $db->query( "DELETE FROM eZFileManager_FolderPermission WHERE ObjectID='$catID'" );
         eZDB::finish( $res, $db );
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZFileManager_Folder WHERE ID='$id'" );
@@ -211,17 +211,17 @@ class eZVirtualFolder
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $category_array = array();
-        
+
         $db->array_query( $category_array, "SELECT ID, Name FROM eZFileManager_Folder ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $category_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZVirtualFolder( $category_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -231,14 +231,14 @@ class eZVirtualFolder
       If $showAll is set to true every category is shown. By default the categories
       set as exclude from search is excluded from this query.
 
-      The categories are returned as an array of eZVirtualFolder objects.      
+      The categories are returned as an array of eZVirtualFolder objects.
     */
     function &getByParent( $parent )
     {
-        if ( get_class( $parent ) == "ezvirtualfolder" )
+        if ( is_a( $parent, "eZVirtualFolder" ) )
         {
             $db =& eZDB::globalDatabase();
-        
+
             $return_array = array();
             $category_array = array();
 
@@ -249,7 +249,7 @@ class eZVirtualFolder
                                           ORDER BY Name" );
 
             for ( $i = 0; $i < count( $category_array ); $i++ )
-            { 
+            {
                 $return_array[$i] = new eZVirtualFolder( $category_array[$i][$db->fieldName( "ID" )], 0 );
             }
             return $return_array;
@@ -273,7 +273,7 @@ class eZVirtualFolder
         {
             $categoryID = $this->ID;
         }
-            
+
         $category = new eZVirtualFolder( $categoryID );
 
         $path = array();
@@ -291,19 +291,19 @@ class eZVirtualFolder
 
         if ( $categoryID != 0 )
             array_push( $path, array( $category->id(), $category->name() ) );
-        
+
         return $path;
     }
 
     function &getIDByParent( $name, $parent = 0 )
     {
-        if ( get_class( $parent ) == "ezvirtualfolder" )
+        if ( is_a( $parent, "eZVirtualFolder" ) )
             $parentID = $parent->ID();
         else if ( is_numeric( $parent ) )
             $parentID = $parent;
         else
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $res[] = $db->array_query( $return_array, "SELECT ID FROM eZFileManager_Folder WHERE Name='$name' AND ParentID='$parentID'" );
         if ( count( $return_array ) == 1 )
@@ -315,15 +315,15 @@ class eZVirtualFolder
             return false;
         }
     }
-    
+
     function &getTree( $parentID = 0, $level = 0 )
     {
         $user =& eZUser::currentUser();
-        
+
         $category = new eZVirtualFolder( $parentID );
 
         $categoryList = $category->getByParent( $category );
-        
+
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
@@ -334,13 +334,13 @@ class eZVirtualFolder
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-                
+
         }
-        
+
         return $tree;
     }
-    
-    
+
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -349,7 +349,7 @@ class eZVirtualFolder
         return $this->ID;
     }
 
-    
+
     /*!
       Returns the name of the category.
     */
@@ -371,7 +371,7 @@ class eZVirtualFolder
        else
            return $this->Description;
     }
-    
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
@@ -383,7 +383,7 @@ class eZVirtualFolder
        }
        else
        {
-           return 0;           
+           return 0;
        }
     }
 
@@ -392,7 +392,7 @@ class eZVirtualFolder
     */
     function &user( $asObject = true )
     {
-        
+
         if ( $this->UserID != 0  && $asObject )
         {
             $ret = new eZUser( $this->UserID );
@@ -401,7 +401,7 @@ class eZVirtualFolder
         {
             $ret = $this->UserID;
         }
-        
+
         return $ret;
     }
 
@@ -413,9 +413,9 @@ class eZVirtualFolder
      */
     function isOwner( $user, $folderID )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZFileManager_Folder WHERE ID='$folderID'");
         $userID = $res[$db->fieldName( "UserID" )];
@@ -456,7 +456,7 @@ class eZVirtualFolder
     */
     function setParent( $value )
     {
-       if ( get_class( $value ) == "ezvirtualfolder" )
+       if ( is_a( $value, "eZVirtualFolder" ) )
        {
            $this->ParentID = $value->id();
        }
@@ -478,7 +478,7 @@ class eZVirtualFolder
        }
        else
        {
-           $this->ExcludeFromSearch = "false";           
+           $this->ExcludeFromSearch = "false";
        }
     }
 
@@ -488,7 +488,7 @@ class eZVirtualFolder
     */
     function setUser( &$user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $userID = $user->id();
 
@@ -510,7 +510,7 @@ class eZVirtualFolder
     */
     function addFile( &$value )
     {
-       if ( get_class( $value ) == "ezvirtualfile" )
+       if ( is_a( $value, "eZVirtualFile" ) )
        {
            $db =& eZDB::globalDatabase();
            $db->begin();
@@ -518,23 +518,23 @@ class eZVirtualFolder
            $nextID = $db->nextID( "eZFileManager_FileFolderLink", "ID" );
 
            $fileID = $value->id();
-            
+
            $query = "INSERT INTO eZFileManager_FileFolderLink
                       ( ID, FolderID, FileID )
                       VALUES ( '$nextID',
                                '$this->ID',
                                '$fileID'
                              )";
-                      
+
            $result = $db->query( $query );
 
            $db->unlock();
-           
+
            if ( $result == false )
                $db->rollback( );
            else
                $db->commit();
-       }       
+       }
     }
 
     /*!
@@ -546,14 +546,14 @@ class eZVirtualFolder
                        $limit=50 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $article_array = array();
 
         $db->array_query( $file_array, "
                 SELECT eZFileManager_File.ID AS FileID, eZFileManager_File.OriginalFileName
                 FROM eZFileManager_File, eZFileManager_Folder, eZFileManager_FileFolderLink
-                WHERE 
+                WHERE
                 eZFileManager_FileFolderLink.FileID = eZFileManager_File.ID
                 AND
                 eZFileManager_Folder.ID = eZFileManager_FileFolderLink.FolderID
@@ -562,12 +562,12 @@ class eZVirtualFolder
                 GROUP BY eZFileManager_File.ID, eZFileManager_File.OriginalFileName ORDER BY eZFileManager_File.OriginalFileName",
         array( "Limit" => $limit,
                "Offset" => $offset ) );
- 
+
         for ( $i = 0; $i < count( $file_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName( "FileID" )], false );
         }
-        
+
         return $return_array;
     }
 
@@ -575,7 +575,7 @@ class eZVirtualFolder
     {
         $db =& eZDB::globalDatabase();
         $file_array = array();
-        
+
         $db->array_query( $file_array, "SELECT count( eZFileManager_File.ID )
                                         FROM eZFileManager_File, eZFileManager_FileFolderLink,
                                         eZFileManager_Folder
@@ -587,7 +587,7 @@ class eZVirtualFolder
                                         eZFileManager_Folder.ID='$this->ID'" );
         return $file_array[0][0];
     }
-    
+
     /*!
       Returns true if file exists in this folder
     */
@@ -618,7 +618,7 @@ class eZVirtualFolder
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SectionID from eZFileManager_Folder WHERE ID='$folderID'");
-        
+
         $sectionID = $res[$db->fieldName("SectionID")];
 
         if ( $sectionID > 0 )
@@ -626,7 +626,7 @@ class eZVirtualFolder
         else
             return false;
     }
-    
+
     var $ID;
     var $Name;
     var $ParentID;

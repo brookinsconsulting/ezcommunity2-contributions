@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: gameedit.php 9344 2002-03-06 08:56:33Z jhe $
 //
 // Created on: <22-May-2001 13:44:13 ce>
@@ -110,7 +110,7 @@ if ( $Action == "Insert" )
     if ( $GameID > 0 && !isSet( $NewQuestion ) )
     {
         $game = new  eZQuizGame( $GameID );
-        
+
         if ( $game->numberOfQuestions() == 0 )
         {
             $t->parse( "error_question", "error_question_tpl" );
@@ -123,7 +123,7 @@ if ( $Action == "Insert" )
         $t->parse( "error_question", "error_question_tpl" );
         $error = true;
     }
-    
+
     if ( empty( $Name ) )
     {
         $t->parse( "error_name", "error_name_tpl" );
@@ -155,7 +155,7 @@ if ( $Action == "Insert" )
     {
         $stillOpen =& eZQuizGame::endedInPeriod( $startDate, $stopDate );
         $numberOfStillOpen = count( $stillOpen );
- 
+
         $willOpen =& eZQuizGame::startedInPeriod( $startDate, $stopDate );
         $numberOfwillOpen = count( $willOpen );
 
@@ -277,7 +277,7 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
         eZHTTPTool::header( "Location: /quiz/game/questionedit/$questionID" );
         exit();
     }
-    
+
     if ( isSet( $OK ) )
     {
         eZHTTPTool::header( "Location: /quiz/game/list/" );
@@ -301,7 +301,7 @@ if ( $Action == "Delete" )
 
 if ( is_numeric( $GameID ) && !isset( $OK ) && !isset( $NewQuestion ) )
 {
-    if ( get_class( $game ) != "ezquizgame" )
+    if ( !is_a( $game, "eZQuizGame" ) )
         $game = new eZQuizGame( $GameID );
     $t->set_var( "game_id", $game->id() );
     $t->set_var( "game_name", $game->name() );

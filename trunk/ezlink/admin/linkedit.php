@@ -155,19 +155,19 @@ if ( $GetSite )
             $tdescription = $metaList["description"];
         else
             $tdescription = "";
-        
+
         if ( $metaList["keywords"] )
             $tkeywords = $metaList["keywords"];
         else
             $tkeywords = "";
-        
+
         if ( $metaList["title"] )
             $tname = $metaList["title"];
         else if ( $metaList["abstract"] )
             $tname = $metaList["abstract"];
         else
             $tname = "";
-        
+
         $turl = $Url;
     }
     else
@@ -181,7 +181,7 @@ if ( $GetSite )
     $action_value = $Action;
     if ( $Action != "edit" )
         $Action = "";
-    
+
 }
 
 // Update a link.
@@ -195,42 +195,42 @@ if ( $Action == "update" )
              $Url != "" )
         {
             $link = new eZLink( $LinkID );
-            
+
             $link->setName( $Name );
             $link->setDescription( $Description );
             $link->setKeyWords( $Keywords );
             $link->setUrl( $Url );
-            
+
             // Calculate new and unused categories
-            
+
             $old_maincategory = $link->categoryDefinition();
             $old_categories =& array_unique( array_merge( $old_maincategory->id(),
                                                           $link->categories( false ) ) );
             $new_categories = array_unique( array_merge( $LinkCategoryID, $CategoryArray ) );
             $remove_categories = array_diff( $old_categories, $new_categories );
             $add_categories = array_diff( $new_categories, $old_categories );
-            
+
             foreach ( $remove_categories as $categoryItem )
             {
                 eZLinkCategory::removeLink( $link, $categoryItem );
             }
-            
+
             // add to categories
             $category = new eZLinkCategory( $LinkCategoryID );
             $link->setCategoryDefinition( $category );
-            
+
             foreach ( $add_categories as $categoryItem )
             {
                 eZLinkCategory::addLink( $link, $categoryItem );
             }
-            
+
             if ( $Accepted == "1" )
                 $link->setAccepted( true );
             else
                 $link->setAccepted( false );
-            
+
             $link->setUrl( $Url );
-            
+
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "ImageFile" ) )
             {
@@ -250,23 +250,23 @@ if ( $Action == "update" )
             else
             {
                 $link->removeType();
-                
+
                 $link->setType( new eZLinkType( $TypeID ) );
-                
+
                 $i = 0;
                 if ( count( $AttributeValue ) > 0 )
                 {
                     foreach ( $AttributeValue as $attribute )
                     {
                         $att = new eZLinkAttribute( $AttributeID[$i] );
-                        
+
                         $att->setValue( $link, $attribute );
-                        
+
                         $i++;
                     }
                 }
             }
-            
+
             $link->update();
 
             if ( $DeleteImage )
@@ -283,14 +283,14 @@ if ( $Action == "update" )
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
-            
+
             if ( isSet( $Attributes ) )
             {
                 $linkID = $link->id();
                 eZHTTPTool::header( "Location: /link/linkedit/attributeedit/$linkID/" );
                 exit();
             }
-            
+
             eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
             exit();
         }
@@ -298,7 +298,7 @@ if ( $Action == "update" )
         {
             $error_msg = $error->read_var( "strings", "error_missingdata" );
             $action_value = "edit";
-            
+
             $tname = $Name;
             $turl = $Url;
             $tkeywords = $Keywords;
@@ -342,7 +342,7 @@ if ( $Action == "DeleteLinks" )
             $deletelink = new eZLink();
             $deletelink->get( $LinkID );
             $deletelink->delete();
-            
+
         }
         if ( $deletelink )
         {
@@ -395,7 +395,7 @@ if ( $Action == "insert" )
                 $image->setImage( $file );
 
                 $image->store();
-                
+
                 $link->setImage( $image );
             }
             $link->store();
@@ -406,16 +406,16 @@ if ( $Action == "insert" )
             else
             {
                 $link->setType( new eZLinkType( $TypeID ) );
-                
+
                 $i = 0;
                 if ( count( $AttributeValue ) > 0 )
                 {
                     foreach ( $AttributeValue as $attribute )
                     {
                         $att = new eZLinkAttribute( $AttributeID[$i] );
-                        
+
                         $att->setValue( $link, $attribute );
-                        
+
                         $i++;
                     }
                 }
@@ -437,7 +437,7 @@ if ( $Action == "insert" )
                 }
             }
             $linkID = $link->id();
-            
+
             if ( isSet( $Browse ) )
             {
                 $linkID = $link->id();
@@ -448,14 +448,14 @@ if ( $Action == "insert" )
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
-            
+
             if ( isSet( $Attributes ) )
             {
                 $linkID = $link->id();
                 eZHTTPTool::header( "Location: /link/linkedit/attributeedit/$linkID/" );
                 exit();
             }
-            
+
             eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
             exit();
         }
@@ -463,7 +463,7 @@ if ( $Action == "insert" )
         {
             $error_msg = $error->read_var( "strings", "error_missingdata" );
             $action_value = "new";
-            
+
             $tname = $Name;
             $turl = $Url;
             $tkeywords = $Keywords;
@@ -548,7 +548,7 @@ if ( $Action == "edit" )
         $url = $editLink->url();
 
         $action_value = "edit";
-              
+
         if ( !isSet( $Update ) )
         {
             $tname = $editLink->name();
@@ -565,14 +565,14 @@ if ( $Action == "edit" )
         {
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
-            
+
             $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-            
+
             $imageURL = "/" . $variation->imagePath();
             $imageWidth = $variation->width();
             $imageHeight = $variation->height();
             $imageCaption = $image->caption();
-            
+
             $t->set_var( "image_width", $imageWidth );
             $t->set_var( "image_height", $imageHeight );
             $t->set_var( "image_url", $imageURL );
@@ -587,7 +587,7 @@ if ( $Action == "edit" )
             $t->parse( "no_image_item", "no_image_item_tpl" );
             $t->set_var( "image_item", "" );
         }
-        
+
 
         if ( $editLink->accepted() == true )
         {
@@ -599,7 +599,7 @@ if ( $Action == "edit" )
             $yes_selected = "";
             $no_selected = "selected";
         }
-        
+
         if ( isSet( $Browse ) )
         {
             $linkID = $editLink->id();
@@ -619,9 +619,9 @@ if ( $Action == "AttributeList" )
     $tkeywords = $Keywords;
     $tdescription = $Description;
     $turl = $Url;
-    
+
     $action_value = "update";
-    
+
     $t->parse( "no_image_item", "no_image_item_tpl" );
     $t->set_var( "image_item", "" );
 
@@ -635,7 +635,7 @@ if ( $Action == "AttributeList" )
         $yes_selected = "";
         $no_selected = "selected";
     }
-    
+
     $action_value = $url_array[3];
 }
 
@@ -661,7 +661,7 @@ foreach( $linkCategoryList as $linkCategoryItem )
     {
         $t->set_var( "is_selected", "" );
     }
-   
+
     if ( $linkCategoryItem[1] > 0 )
         $t->set_var( "option_level", str_repeat( "&nbsp;", $linkCategoryItem[1] ) );
     else
@@ -678,7 +678,7 @@ foreach( $linkCategoryList as $linkCategoryItem )
     {
         $t->set_var( "multiple_selected", "" );
     }
-    
+
     $t->parse( "link_category", "link_category_tpl", true );
     $t->parse( "multiple_category", "multiple_category_tpl", true );
 }
@@ -694,7 +694,7 @@ $t->set_var( "type", "" );
 
 foreach ( $types as $typeItem )
 {
-    if ( get_class( $linkType ) == "ezlinktype"  )
+    if ( is_a( $linkType, "eZLinkType"  ) )
     {
         if ( $linkType->id() == $typeItem->id() )
         {
@@ -709,26 +709,26 @@ foreach ( $types as $typeItem )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "type_id", $typeItem->id( ) );
     $t->set_var( "type_name", $typeItem->name( ) );
-    
+
     $t->parse( "type", "type_tpl", true );
 }
 
 
 $i = 0;
-if ( get_class( $linkType) == "ezlinktype" )    
+if ( is_a( $linkType, "eZLinkType") )
 {
     $attributes = $linkType->attributes();
     foreach ( $attributes as $attribute )
     {
-	
+
         if ( ( $i %2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
-        
+
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
 
@@ -736,7 +736,7 @@ if ( get_class( $linkType) == "ezlinktype" )
             $t->set_var( "attribute_value", $AttributeValue[$i] );
         else
             $t->set_var( "attribute_value", $attribute->value( $editLink ) );
-        
+
         $t->parse( "attribute", "attribute_tpl", true );
         $i++;
     }

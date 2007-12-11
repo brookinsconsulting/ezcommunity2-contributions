@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: voucher.php 9407 2002-04-10 11:49:02Z br $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
@@ -57,7 +57,7 @@ $t->set_var( "error", "" );
 if ( $Action == "Verify" )
 {
     $voucher = eZVoucher::getFromKeyNumber( $KeyNumber );
-    if ( get_class ( $voucher ) == "ezvoucher" )
+    if ( is_a ( $voucher, "eZVoucher" ) )
     {
         $array[] = $voucher->id();
 
@@ -74,7 +74,7 @@ if ( $Action == "Verify" )
         exit();
 
     }
-    
+
     $t->parse( "error", "error_tpl" );
     $PaymentSuccess = false;
 }

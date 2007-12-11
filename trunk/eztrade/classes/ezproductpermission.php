@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezproductpermission.php 7382 2001-09-21 14:28:49Z jhe $
 //
 // Definition of eZProductPermission class
@@ -24,7 +24,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!!
 //! The class eZProductPermission handles permissions of products
 /*!
 
@@ -37,8 +37,8 @@ class eZProductPermission
     function hasPermission( $productID, $user = false )
     {
         $db =& eZDB::globalDatabase();
-        
-        if ( get_class( $user ) != "ezuser" )
+
+        if ( is_a( $user, "eZUser" ) )
         {
             $user =& eZUser::currentUser();
         }
@@ -72,7 +72,7 @@ class eZProductPermission
         }
         return $ret;
     }
-    
+
     function setPermission( $productID, $groupID )
     {
         $db =& eZDB::globalDatabase();
@@ -88,7 +88,7 @@ class eZProductPermission
     function removePermissions( $productID )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $db->begin();
         $res[] = $db->query( "DELETE FROM eZTrade_ProductPermissionLink
                               WHERE ProductID='$productID'" );

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezvirtualfile.php 9565 2002-05-23 11:42:58Z jhe $
 //
 // Definition of eZVirtualFile class
@@ -28,7 +28,7 @@
 //!! eZFileManager
 //! The eZVirtualFile represents a file in the virtual file manager.
 /*!
-  
+
 */
 
 /*!TODO
@@ -67,7 +67,7 @@ class eZVirtualfile
         {
             $db->lock( "eZFileManager_File" );
             $nextID = $db->nextID( "eZFileManager_File", "ID" );
-            
+
             $result = $db->query( "INSERT INTO eZFileManager_File
                                   ( ID, Name, Description, FileName, OriginalFileName, UserID )
                                   VALUES ( '$nextID',
@@ -105,7 +105,7 @@ class eZVirtualfile
     {
         // Delete from the database
         $db =& eZDB::globalDatabase();
-        
+
         if ( isSet( $this->ID ) )
         {
             $db->begin();
@@ -125,14 +125,14 @@ class eZVirtualfile
             else
                 $db->commit();
         }
-        
+
         // Delete from the filesystem
         if ( ( eZFile::file_exists( $this->filePath( true ) ) ) && $commit )
         {
             eZFile::unlink( $this->filePath( true ) );
         }
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -172,17 +172,17 @@ class eZVirtualfile
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $category_array = array();
-        
+
         $db->array_query( $category_array, "SELECT ID, FROM eZFileManager_File ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $category_array ); $i++ )
         {
             $return_array[$i] = new eZVirtualFile( $category_array[$i][$db->fieldName("ID")], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -301,7 +301,7 @@ class eZVirtualfile
         return $returnArray;
     }
 
-    
+
     /*!
       Returns the id of the virtual file.
     */
@@ -309,7 +309,7 @@ class eZVirtualfile
     {
         return $this->ID;
     }
-    
+
     /*!
       Returns the name of the virtual file.
     */
@@ -330,7 +330,7 @@ class eZVirtualfile
             return htmlspecialchars( $this->Description );
         else
             return $this->Description;
-    }    
+    }
 
     /*!
       Returns the filename of the virtual file.
@@ -358,7 +358,7 @@ class eZVirtualfile
         {
             $ret = $as_object ? new eZUser( $this->UserID ) : $this->UserID;
         }
-        
+
         return $ret;
     }
 
@@ -370,9 +370,9 @@ class eZVirtualfile
      */
     function isOwner( $user, $file )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
         $userID = $res[$db->fieldName( "UserID" )];
@@ -382,7 +382,7 @@ class eZVirtualfile
         return false;
     }
 
-    
+
     /*!
       Returns the path and filename to the original virtualfile.
 
@@ -399,7 +399,7 @@ class eZVirtualfile
         {
             $path = "/ezfilemanager/files/" . $this->FileName;
         }
-       
+
         return $path;
     }
 
@@ -459,7 +459,7 @@ class eZVirtualfile
     */
     function setUser( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $this->UserID = $user->id();
         }
@@ -471,11 +471,11 @@ class eZVirtualfile
 
     /*!
       Makes a copy of the file and stores the file in the file manager.
-      
+
     */
     function setFile( &$file )
     {
-        if ( get_class( $file ) == "ezfile" )
+        if ( is_a( $file, "eZFile" ) )
         {
             if ( eZFile::file_exists( $this->filePath( true ) ) )
             {
@@ -499,13 +499,13 @@ class eZVirtualfile
             $this->FileName = basename( $file->tmpName() ) . $postfix;
 
             $name = $file->name();
-           
+
             $this->OriginalFileName =& $name;
             return true;
         }
         return false;
     }
-    
+
     /*!
       Retuns the folder for this eZVirtualFile object.
     */
@@ -516,13 +516,13 @@ class eZVirtualfile
 
         $query = ( "SELECT FolderID FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
         $db->array_query( $result, $query );
-        
+
         foreach ( $result as $folder )
         {
             return $as_object ? new eZVirtualFolder( $folder[$db->fieldName( "FolderID" )] ) : $folder[$db->fieldName( "FolderID" )];
         }
     }
-    
+
 
     /*!
       Removes the file from every folders.
@@ -540,7 +540,7 @@ class eZVirtualfile
     */
     function addPageView( $pageView )
     {
-        if ( get_class( $pageView ) == "ezpageview" )
+        if ( is_a( $pageView, "eZPageView" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -576,7 +576,7 @@ class eZVirtualfile
         }
         return $ret;
     }
-    
+
     var $ID;
     var $Name;
     var $Caption;

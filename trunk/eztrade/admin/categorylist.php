@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: categorylist.php 8565 2001-11-21 17:34:16Z br $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -32,7 +32,7 @@ include_once( "classes/ezlist.php" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray )
 {
-    if ( get_class( $ProductID ) == "ezproduct" )
+    if ( is_a( $ProductID, "eZProduct" ) )
     {
         $CategoryID =& $ProductID->categoryDefinition( false );
         $CategoryArray =& $ProductID->categories( false );
@@ -127,7 +127,7 @@ foreach ( $pathArray as $path )
     $t->set_var( "category_id", $path[0] );
 
     $t->set_var( "category_name", $path[1] );
-    
+
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -143,7 +143,7 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -200,15 +200,15 @@ foreach ( $productList as $product )
 
         $t->set_var( "product_price", $locale->format( $price ) );
     }
-    
-    
+
+
     $priceArray = "";
     $options =& $product->options();
     $high = 0;
     $low = 0;
     foreach ( $options as $option )
     {
-        if ( get_class( $option ) == "ezoption" )
+        if ( is_a( $option, "eZOption" ) )
         {
             $optionValues =& $option->values();
             if ( count( $optionValues ) > 1 )
@@ -234,16 +234,16 @@ foreach ( $productList as $product )
         else
             $t->set_var( "product_price", $locale->format( $low ) );
     }
-    
+
     $range = $product->priceRange();
     if ( $range )
     {
         $min = new eZCurrency( $range->min() );
         $max = new eZCurrency( $range->max() );
-        
+
         $t->set_var( "product_price", $locale->format( $min ) . " - " . $locale->format( $max ) );
     }
-    
+
     if( $product->includesVAT() == true )
     {
         $t->set_var( "ex_vat_item", "" );
@@ -256,7 +256,7 @@ foreach ( $productList as $product )
     }
 
 
-    
+
     $t->set_var( "product_active_item", "" );
     $t->set_var( "product_inactive_item", "" );
     if ( $product->showProduct() )
@@ -304,7 +304,7 @@ $t->set_var( "offset", $Offset );
 
 eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_tpl" );
 
-if ( count( $productList ) > 0 )    
+if ( count( $productList ) > 0 )
     $t->parse( "product_list", "product_list_tpl" );
 else
     $t->set_var( "product_list", "" );

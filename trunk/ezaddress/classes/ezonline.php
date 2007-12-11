@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezonline.php 6471 2001-08-16 13:57:05Z jhe $
 //
 // Definition of eZOnline class
@@ -37,7 +37,7 @@
   $online->store(); // Store or updates to the database.
   \code
   \sa eZOnlineType eZCompany eZPerson eZAddress eZPhone eZAddress
-  
+
 */
 
 include_once( "classes/ezdb.php" );
@@ -59,12 +59,12 @@ class eZOnline
 
     /*!
       Stores a eZOnline
-    */  
+    */
     function store()
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $ret = false;
         $url = $db->escapeString( $this->URL );
         if ( !isset( $this->ID ) )
@@ -86,8 +86,8 @@ class eZOnline
                                   OnlineTypeID='$this->OnlineTypeID'
                                   WHERE ID='$this->ID'" );
 
-            $ret = true;            
-        }        
+            $ret = true;
+        }
 
         eZDB::finish( $res, $db );
         return $ret;
@@ -104,12 +104,12 @@ class eZOnline
         $db->begin();
         $res[] = $db->query( "DELETE FROM eZAddress_Online WHERE ID='$id'" );
         eZDB::finish( $res, $db );
-    }    
+    }
 
 
     /*!
       Fetches an online with object id==$id;
-    */  
+    */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
@@ -118,7 +118,7 @@ class eZOnline
             $db->array_query( $online_array, "SELECT * FROM eZAddress_Online WHERE ID='$id'" );
             if ( count( $online_array ) > 1 )
             {
-                die( "Feil: Flere onlineer med samme ID funnet i database, dette skal ikke være mulig. " );
+                die( "Feil: Flere onlineer med samme ID funnet i database, dette skal ikke vï¿½re mulig. " );
             }
             else if ( count( $online_array ) == 1 )
             {
@@ -139,14 +139,14 @@ class eZOnline
 
         $online_array = array();
         $return_array = array();
-    
+
         $db->array_query( $online_array, "SELECT ID FROM eZAddress_Online" );
 
         foreach ( $online_array as $addresItem )
         {
             $return_array[] = new eZOnline( $onlineItem[ $db->fieldName( "ID" ) ] );
         }
-    
+
         return $online_array;
     }
 
@@ -191,7 +191,7 @@ class eZOnline
     {
         $this->URL= $value;
     }
-    
+
     /*!
       Sets the OnlineTypeID of the object.
     */
@@ -201,8 +201,8 @@ class eZOnline
         {
             $this->OnlineTypeID= $value;
         }
-        
-        if( get_class( $value ) == "ezonlinetype" )
+
+        if( is_a( $value, "eZOnlineType" ) )
         {
             $this->OnlineTypeID = $value->id();
         }
@@ -217,8 +217,8 @@ class eZOnline
         {
             $this->OnlineTypeID= $value;
         }
-        
-        if( get_class( $value ) == "ezonlinetype" )
+
+        if( is_a( $value, "eZOnlineType" ) )
         {
             $this->OnlineTypeID = $value->id();
         }
@@ -232,20 +232,19 @@ class eZOnline
 //          $db =& eZDB::globalDatabase();
 //          $db->array_query( $itemArray, $query="SHOW COLUMNS FROM eZAddress_Online LIKE 'URLType'" );
 //          $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
-        
+
 //          $count=count( $items );
-        
+
 //          for( $i=1; $i < $count - 1; $i++ )
 //          {
 //              $returnArray[]=$items[$i];
 //          }
-        
+
 //          return $returnArray;
 //      }
 
     var $ID;
     var $URL;
-    var $OnlineTypeID;
 
     /// Relation to an eZOnlineType
     var $OnlineTypeID;

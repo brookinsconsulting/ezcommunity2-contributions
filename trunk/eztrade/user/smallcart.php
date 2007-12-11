@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: smallcart.php 7248 2001-09-15 12:37:19Z pkej $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -67,7 +67,7 @@ if ( !$cart )
 {
     $cart = new eZCart();
     $cart->setSession( &$session );
-    
+
     $cart->store();
 }
 
@@ -111,35 +111,35 @@ foreach ( $items as $item )
     if ( $product )
     {
         $price = $product->price() * $item->count();
-    
+
         $currency->setValue( $price );
-        
+
         $priceobj = new eZCurrency();
 
-        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
+        if ( ( !$RequireUserLogin or is_a( $user, "eZUser" ) ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
-            $t->set_var( "product_price", $item->localePrice( true, true, $PricesIncludeVAT ) );        
+            $t->set_var( "product_price", $item->localePrice( true, true, $PricesIncludeVAT ) );
         }
         else
         {
-           $t->set_var( "product_price", $item->localePrice( true, true, $PricesIncludeVAT ) );        
+           $t->set_var( "product_price", $item->localePrice( true, true, $PricesIncludeVAT ) );
         }
-        
+
         // product price
         $currency->setValue( $price );
-        
+
         $sum += $price;
-        
-        
+
+
         $t->set_var( "product_id", $product->id() );
         $t->set_var( "product_name", $product->name() );
-        
+
         $t->set_var( "cart_item_count", $item->count() );
-        
+
         $optionValues =& $item->optionValues();
         $Quantity = $product->totalQuantity();
-        
+
         $min_quantity = false;
         if ( !$product->hasPrice() )
         {
@@ -160,13 +160,13 @@ foreach ( $items as $item )
         if ( !(is_bool( $min_quantity ) and !$min_quantity) and
              $RequireQuantity and $min_quantity == 0 )
             $can_checkout = false;
-        
+
         if ( $product->discontinued() )
             $can_checkout = false;
-        
+
         $t->parse( "cart_item", "cart_item_tpl", true );
     }
-    
+
     $i++;
 }
 
@@ -200,11 +200,11 @@ else
 if ( count( $items ) > 0 )
 {
     $t->parse( "cart_item_list", "cart_item_list_tpl" );
-    $t->set_var( "empty_cart", "" );    
+    $t->set_var( "empty_cart", "" );
 }
 else
 {
-    $t->parse( "empty_cart", "empty_cart_tpl" );    
+    $t->parse( "empty_cart", "empty_cart_tpl" );
     $t->set_var( "cart_item_list", "" );
 }
 

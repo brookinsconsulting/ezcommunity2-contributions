@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezhttptool.php 8403 2001-11-14 10:27:34Z bf $
 //
 // Definition of eZTextTool class
@@ -42,7 +42,7 @@ class eZHTTPTool
     function eZHTTPTool()
     {
         global $REQUEST_URI;
- 
+
         $this->url_array =& explode( "/", $REQUEST_URI );
         $this->url_array_length = count( $this->url_array );
     }
@@ -58,7 +58,7 @@ class eZHTTPTool
         $ret = false;
 
         $postVars = $GLOBALS["HTTP_POST_VARS"];
-        
+
         if ( $onlyCheckPost == false )
         {
             $getVars = $GLOBALS["HTTP_GET_VARS"];
@@ -73,11 +73,11 @@ class eZHTTPTool
             $ret = $getVars[$name];
         }
 
-        
+
         return $ret;
     }
-    
-    
+
+
     /*!
       \static
       This function is a wrapper to the PHP function
@@ -87,19 +87,19 @@ class eZHTTPTool
     */
     function header( $string )
     {
-        global $GlobalSiteIni;        
+        global $GlobalSiteIni;
 
         $sid =& $GLOBALS["PHPSESSID"];
 
         $cookie_vars = $GLOBALS["HTTP_COOKIE_VARS"];
-        
+
         // fix location if session is not by cookie
         if ( !isset( $cookie_vars["PHPSESSID"] ) && isset( $sid ) )
         {
             $string = eZHTTPTool::removeVariable( $string, "PHPSESSID" );
             $string = eZHTTPTool::addVariable( $string, "PHPSESSID", $sid );
         }
-        
+
         // Redirect differently, when we are not using virtual hosts/mod_rewrite
         if ( ereg( "^Location:[ ]*(/.*)", $string, $regs ) )
         {
@@ -152,13 +152,13 @@ class eZHTTPTool
 
         return $url;
     }
-    
+
     /*!
       This function will assign dates and times to the variables
       named $prefix . unit $postfix in the global scope, where
       unit is [Year|Month|Day|Hour|Minute|Second]. It will try
       to fill in as many as possible.
-      
+
      */
     function assignDate( $start, $prefix = "", $postfix = "" )
     {
@@ -233,13 +233,13 @@ class eZHTTPTool
 
       This function will parse the following url values, regardless
       of where they are in the url:
-      
+
       [start|begin|from|stop|end|until]/$year[/$month[/$day[/$hour[/$minute[/$second]]]]]
-      
+
       Any url part on the form:
-      
+
       string/value
-      
+
       will be parsed into a global variable called $prefix[string]$postfix
      */
     function assignValues( $position, $prefix = "", $postfix = "" )
@@ -298,18 +298,18 @@ class eZHTTPTool
 
     /*!
       \static
-      
+
       Will set a cookie variable.
      */
     function setCookie( $variable, $value, $timeout=365 )
-    {        
-        $exp= time() + ( $timeout * 86400 ); 
+    {
+        $exp= time() + ( $timeout * 86400 );
         $exp=strftime("%a, %d-%b-%Y %H:%M:%S", $exp);
         $exp="$exp GMT";
         $host = $GLOBALS["HTTP_HOST"];
-        header("Set-Cookie: $variable=$value;expires=$exp;path=/;domain=.$host"); 
+        header("Set-Cookie: $variable=$value;expires=$exp;path=/;domain=.$host");
     }
-    
+
     /*!
       \static
       Initalizes the global object, and static variables.
@@ -317,14 +317,14 @@ class eZHTTPTool
     function globaleZHTTPTool()
     {
         global $eZHTTPToolObject;
-        
-        if ( get_class( $eZHTTPToolObject ) != "ezhttptool" )
+
+        if ( !is_a( $eZHTTPToolObject, "eZHTTPTool" ) )
         {
             $eZHTTPToolObject = new eZHTTPTool();
         }
         return $eZHTTPToolObject;
     }
-    
+
     /*!
       The global url exploded into an array.
     */

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezformelement.php 8485 2001-11-16 12:53:06Z jhe $
 //
 // ezformelement class
@@ -68,16 +68,16 @@ class eZFormElement
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $name =& $db->escapeString( $this->Name );
         $size =& $db->escapeString( $this->Size );
         $required =& $this->Required;
-        
-        if ( get_class( $this->ElementType ) == "ezformelementtype" )
+
+        if ( is_a( $this->ElementType, "eZFormElementType" ) )
         {
             $elementTypeID =& $this->ElementType->id();
         }
-        
+
         if ( empty( $this->ID ) )
         {
             $db->lock( "eZForm_FormElement" );
@@ -92,7 +92,7 @@ class eZFormElement
 
         }
         elseif ( is_numeric( $this->ID ) )
-        {    
+        {
             $res[] = $db->query( "UPDATE eZForm_FormElement SET
                                     Name='$name',
                                     Required='$required',
@@ -101,7 +101,7 @@ class eZFormElement
                                     ElementTypeID='$elementTypeID'
                                   WHERE ID='$this->ID'" );
         }
-        
+
         eZDB::finish( $res, $db );
         return true;
     }
@@ -122,7 +122,7 @@ class eZFormElement
                 $value->delete();
             }
         }
-        
+
         $db =& eZDB::globalDatabase();
         $db->begin();
 
@@ -182,7 +182,7 @@ class eZFormElement
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $formArray = array();
 
@@ -261,7 +261,7 @@ class eZFormElement
         {
             $ret = true;
         }
-        
+
         return $ret;
     }
 
@@ -278,7 +278,7 @@ class eZFormElement
         {
             $ret = true;
         }
-        
+
         return $ret;
     }
 
@@ -343,7 +343,7 @@ class eZFormElement
     */
     function setElementType( &$object )
     {
-        if ( get_class( $object ) == "ezformelementtype" )
+        if ( is_a( $object, "eZFormElementType" ) )
         {
             $this->ElementType = $object;
         }
@@ -357,7 +357,7 @@ class eZFormElement
     {
         $returnArray = array();
         $formArray = array();
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT FormID FROM eZForm_FormElementDict WHERE ElementID='$this->ID'" );
 
@@ -367,8 +367,8 @@ class eZFormElement
         }
         return $returnArray;
     }
-    
-    
+
+
     /*!
       Returns the number of forms this element belongs to
     */
@@ -380,7 +380,7 @@ class eZFormElement
         $db->query_single( $result, "SELECT COUNT(ElementID) as Count
                                      FROM eZForm_FormElementDict WHERE ElementID='$this->ID'" );
         $ret = $result[$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
 
@@ -395,7 +395,7 @@ class eZFormElement
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZForm_FormElementType" );
         $ret = $result[$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
 
@@ -409,14 +409,14 @@ class eZFormElement
 
         if ( is_object( $value ) )
              $value = $value->id();
-        
+
         $db->lock( "eZForm_FormElementFixedValueLink" );
         $nextID = $db->nextID( "eZForm_FormElementFixedValueLink", "ID" );
         $res[] = $db->query( "INSERT INTO eZForm_FormElementFixedValueLink
                          ( ID, ElementID, FixedValueID )
                          VALUES
                          ( '$nextID', '$this->ID', '$value' )" );
-        
+
         eZDB::finish( $res, $db );
         return true;
     }
@@ -428,7 +428,7 @@ class eZFormElement
     {
         $returnArray = array();
         $formArray = array();
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
 
@@ -450,4 +450,4 @@ class eZFormElement
 
 
 ?>
-                  
+

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: customerlogin.php 9518 2002-05-08 11:51:36Z vl $
 //
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -64,7 +64,7 @@ if ( $user  )
         foreach ( $addresses as $address )
         {
             $country =& $address->country();
-            if ( ( get_class( $country ) == "ezcountry" ) && ( $country->id() == 0 ) )
+            if ( ( is_a( $country, "eZCountry" ) ) && ( $country->id() == 0 ) )
                 $countryError = true;
         }
 
@@ -86,19 +86,19 @@ else
 
     $t->setAllStrings();
 
-    $t->set_file( array(        
+    $t->set_file( array(
         "customer_login_tpl" => "customerlogin.tpl"
         ) );
 
     if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
-    {      
+    {
 	$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
     }
     else
     {
         $t->set_var( "redirect_url", "/trade/customerlogin" );
     }
-    
+
     $t->pparse( "output", "customer_login_tpl" );
 }
 

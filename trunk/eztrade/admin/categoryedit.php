@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: categoryedit.php 9895 2004-04-06 11:08:44Z br $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -60,7 +60,7 @@ if ( $Action == "Insert" )
 {
     $parentCategory = new eZProductCategory();
     $parentCategory->get( $ParentID );
-    
+
     $category = new eZProductCategory();
     $category->setName( $Name );
     $category->setParent( $parentCategory );
@@ -74,7 +74,7 @@ if ( $Action == "Insert" )
         $image = new eZImage( );
         $image->setName( "Image" );
         $image->setImage( $file );
-        
+
         $image->store();
         $category->setImage( $image );
     }
@@ -82,7 +82,7 @@ if ( $Action == "Insert" )
     $category->store();
 
     $categoryID = $category->id();
-    
+
     /* write access select */
     if( isset( $WriteGroupArray ) )
     {
@@ -92,7 +92,7 @@ if ( $Action == "Insert" )
         }
         else
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' );
             foreach( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'w' );
@@ -113,7 +113,7 @@ if ( $Action == "Insert" )
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' );
             foreach ( $ReadGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'r' );
@@ -162,14 +162,14 @@ if ( $Action == "Update" )
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
     $category->setSortMode( $SortMode );
-    
+
     $file = new eZImageFile();
     if ( $file->getUploadedFile( "ImageFile" ) )
     {
         $image = new eZImage( );
         $image->setName( "Image" );
         $image->setImage( $file );
-        
+
         $image->store();
         $category->setImage( $image );
     }
@@ -180,7 +180,7 @@ if ( $Action == "Update" )
     $category->store();
 
     $categoryID = $category->id();
-    
+
     /* write access select */
     if( isset( $WriteGroupArray ) )
     {
@@ -190,7 +190,7 @@ if ( $Action == "Update" )
         }
         else
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' );
             foreach( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'w' );
@@ -211,7 +211,7 @@ if ( $Action == "Update" )
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' ); 
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' );
             foreach ( $ReadGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'r' );
@@ -259,7 +259,7 @@ if ( $Action == "Delete" )
     include_once( "classes/ezcachefile.php" );
 
     $parent = $category->parent();
-    if ( get_class( $parent ) == "ezproductcategory" )
+    if ( is_a( $parent, "eZProductCategory" ) )
         $parent = $parent->id();
     $files = eZCacheFile::files( "eztrade/cache/",
                                  array( "productlist",
@@ -272,7 +272,7 @@ if ( $Action == "Delete" )
     }
 
     $category->delete();
-    
+
     eZHTTPTool::header( "Location: /trade/categorylist/" );
     exit();
 }
@@ -291,7 +291,7 @@ if ( $Action == "DeleteCategories" )
             $category->get( $ID );
 
             $parent = $category->parent();
-            if ( get_class( $parent ) == "ezproductcategory" )
+            if ( is_a( $parent, "eZProductCategory" ) )
                 $parent = $parent->id();
             $files = eZCacheFile::files( "eztrade/cache/",
                                          array( "productlist",
@@ -354,8 +354,8 @@ $t->set_var( "3_selected", "" );
 $t->set_var( "4_selected", "" );
 $t->set_var( "image_item", "" );
 
-$writeGroupsID = array(); 
-$readGroupsID = array(); 
+$writeGroupsID = array();
+$readGroupsID = array();
 
 // edit
 if ( $Action == "Edit" )
@@ -399,18 +399,18 @@ if ( $Action == "Edit" )
     $sectionID = $category->sectionID();
 
     $image =& $category->image( true );
-    if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+    if ( is_a( $image, "eZImage" ) && $image->id() != 0 )
     {
         $imageWidth =& $ini->read_var( "eZTradeMain", "CategoryImageWidth" );
         $imageHeight =& $ini->read_var( "eZTradeMain", "CategoryImageHeight" );
-        
+
         $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-        
+
         $imageURL = "/" . $variation->imagePath();
         $imageWidth = $variation->width();
         $imageHeight = $variation->height();
         $imageCaption = $image->caption();
-        
+
         $t->set_var( "image_width", $imageWidth );
         $t->set_var( "image_height", $imageHeight );
         $t->set_var( "image_url", $imageURL );
@@ -445,14 +445,14 @@ foreach ( $categoryArray as $catItem )
                 	$t->set_var( "selected", "selected" );
             	}
             	else
-            	{            
+            	{
                		$t->set_var( "selected", "" );
             	}
 			}
-            
+
         }
         else
-        {            
+        {
             $t->set_var( "selected", "" );
         }
 
@@ -473,12 +473,12 @@ if ( count( $sectionList ) > 0 )
     {
         $t->set_var( "section_id", $section->id() );
         $t->set_var( "section_name", $section->name() );
-        
+
         if ( $sectionID == $section->id() )
             $t->set_var( "section_is_selected", "selected" );
         else
             $t->set_var( "section_is_selected", "" );
-        
+
         $t->parse( "section_item", "section_item_tpl", true );
     }
 }

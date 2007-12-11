@@ -34,7 +34,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
@@ -117,7 +117,7 @@ if ( isSet( $ConsultationList ) )
     {
         die( "Neither CompanyID or PersonID is set" );
     }
-    
+
     if ( empty( $OrderBy ) )
     {
         $OrderBy = "Date";
@@ -139,7 +139,7 @@ if ( isSet( $ConsultationList ) )
             else
                 $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false );
         }
-        
+
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
         $company = new eZCompany( $CompanyID );
@@ -161,7 +161,7 @@ if ( isSet( $ConsultationList ) )
             else
                 $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true );
         }
-        
+
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
         $person = new eZPerson( $PersonID );

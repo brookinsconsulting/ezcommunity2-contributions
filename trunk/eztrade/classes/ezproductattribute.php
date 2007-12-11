@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezproductattribute.php 6318 2001-07-31 11:33:12Z jhe $
 //
 // Definition of eZProductAttribute class
@@ -31,13 +31,13 @@
 /*!
 
   \code
-  
+
   $attribute = new eZProductAttribute();
   $attribute->setType( $type );
   $attribute->setName( "Doors" );
   $attribute->store();
 
-  \endcode  
+  \endcode
   \sa eZProduct
 */
 
@@ -68,7 +68,7 @@ class eZProductAttribute
 
         $this->Name = $db->escapeString( $this->Name );
         $this->Unit = $db->escapeString( $this->Unit );
-        
+
         if ( !isset( $this->ID ) )
         {
 
@@ -113,7 +113,7 @@ class eZProductAttribute
         }
 
         eZDB::finish( $res, $db );
-        
+
         return true;
     }
 
@@ -123,11 +123,11 @@ class eZProductAttribute
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != -1  )
         {
             $db->array_query( $attribute_array, "SELECT * FROM eZTrade_Attribute WHERE ID='$id'" );
-            
+
             if ( count( $attribute_array ) > 1 )
             {
                 die( "Error: Product attribute's with the same ID was found in the database. This shouldent happen." );
@@ -140,7 +140,7 @@ class eZProductAttribute
                 $this->AttributeType =& $attribute_array[0][$db->fieldName( "AttributeType" )];
                 $this->Placement =& $attribute_array[0][$db->fieldName( "Placement" )];
                 $this->Unit =& $attribute_array[0][$db->fieldName( "Unit" )];
-                
+
             }
         }
     }
@@ -151,28 +151,28 @@ class eZProductAttribute
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $attribute_array = array();
-        
-        $db->array_query( $attribute_array, "SELECT ID FROM eZTrade_Attribute ORDER BY Created" );
-        
-        for ( $i=0; $i<count($attribute_array); $i++ )
-        { 
-            $return_array[$i] = new eZProductAttribute( $attribute_array[$i][$db->fieldName( "ID" )], 0 ); 
-        } 
-        
-        return $return_array; 
-    } 
 
-    /*! 
-      Deletes a option from the database. 
-    */ 
-    function delete() 
+        $db->array_query( $attribute_array, "SELECT ID FROM eZTrade_Attribute ORDER BY Created" );
+
+        for ( $i=0; $i<count($attribute_array); $i++ )
+        {
+            $return_array[$i] = new eZProductAttribute( $attribute_array[$i][$db->fieldName( "ID" )], 0 );
+        }
+
+        return $return_array;
+    }
+
+    /*!
+      Deletes a option from the database.
+    */
+    function delete()
     {
-        $db =& eZDB::globalDatabase(); 
+        $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue WHERE AttributeID='$this->ID'" );
         $res[] = $db->query( "DELETE FROM eZTrade_Attribute WHERE ID='$this->ID'" );
 
@@ -246,7 +246,7 @@ class eZProductAttribute
     */
     function setType( $type )
     {
-       if ( get_class( $type ) == "ezproducttype" )
+       if ( is_a( $type, "eZProductType" ) )
        {
            $this->TypeID = $type->id();
        }
@@ -264,14 +264,14 @@ class eZProductAttribute
        {
            $db =& eZDB::globalDatabase();
            $db->begin();
-           
+
            $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue WHERE AttributeID='$this->ID'" );
-           
+
            eZDB::finish( $res, $db );
        }
-       
+
        $this->AttributeType = $attributeType;
-       
+
     }
 
     /*!
@@ -281,19 +281,19 @@ class eZProductAttribute
     {
         $db =& eZDB::globalDatabase();
 
-        if ( get_class( $product ) == "ezproduct" )
+        if ( is_a( $product, "eZProduct" ) )
         {
             $value = $db->escapeString( $value );
             $productID = $product->id();
-            
+
             // check if the attribute is already set, if so update
             $db->array_query( $value_array,
             "SELECT ID FROM eZTrade_AttributeValue WHERE ProductID='$productID' AND AttributeID='$this->ID'" );
-            
+
             if ( count( $value_array ) > 0 )
             {
                 $valueID = $value_array[0][$db->fieldName( "ID" )];
-                
+
                 $res = $db->query( "UPDATE eZTrade_AttributeValue SET
                                  Value='$value'
                                  WHERE ID='$valueID'" );
@@ -317,7 +317,7 @@ class eZProductAttribute
         }
         eZDB::finish( $res, $db );
     }
-    
+
     /*!
       Returns the attribute value to the given product.
     */
@@ -325,22 +325,22 @@ class eZProductAttribute
     {
         $db =& eZDB::globalDatabase();
         $ret = "";
-        if ( get_class( $product ) == "ezproduct" )
+        if ( is_a( $product, "eZProduct" ) )
         {
             $productID = $product->id();
-            
+
             // check if the attribute is already set, if so update
             $db->array_query( $value_array,
             "SELECT Value FROM eZTrade_AttributeValue WHERE ProductID='$productID'
              AND AttributeID='$this->ID'" );
-             
+
             if ( count( $value_array ) > 0 )
             {
                 $ret = $value_array[0][$db->fieldName( "Value" )];
-            }    
+            }
         }
         return $ret;
-    } 
+    }
 
     /*!
       Moves this item up one step in the order list, this means that it will swap place with the item above.
@@ -366,7 +366,7 @@ class eZProductAttribute
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_Attribute
                                   WHERE Placement>'$this->Placement' ORDER BY Placement ASC", array( "Limit" => 1, "Offset" => 0 ) );
         $listorder = $qry[$db->fieldName( "Placement" )];
@@ -376,7 +376,7 @@ class eZProductAttribute
 
         eZDB::finish( $res, $db );
     }
-    
+
 
     var $ID;
     var $TypeID;

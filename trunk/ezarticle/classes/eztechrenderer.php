@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: eztechrenderer.php 9256 2002-02-21 10:43:48Z br $
 //
 // Definition of eZTechRenderer class
@@ -46,17 +46,17 @@
   ezrticle/modules dir.
 
   <bullet>
-  
+
   </bullet>
 
   <html>
   html code, this will print out the HTML code..
   </html>
-  
+
   <cpp>
   cpp code
   </cpp>
-  
+
   <php>
   php code
   </php>
@@ -68,11 +68,11 @@
   <ezhtml>
   html code
   </ezhtml>
-  
+
   <shell>
   shell code
   </shell>
-  
+
   <sql>
   sql code
   </sql>
@@ -84,7 +84,7 @@
   <lisp>
   lisp code
   </lisp>
-  
+
   <bold>
   bold text
 
@@ -109,9 +109,9 @@
   <verbatim>
   predefined text
   </verbatim>
-  
+
   \endcode
-  \sa eZTechGenerator  
+  \sa eZTechGenerator
 */
 
 /*!TODO
@@ -138,11 +138,11 @@ class eZTechRenderer
     function &renderIntro()
     {
 //          print( "<pre>" );
-        
+
         $xml = xmltree( $this->Article->contents() );
 
 //          print_r( $xml );
-        
+
 //          $xml =& qdom_tree( $this->Article->contents() );
 
 //          print_r( $xml );
@@ -170,23 +170,23 @@ class eZTechRenderer
                     foreach ( $child->children as $article )
                     {
                         if ( $article->name == "intro" )
-                        {                           
+                        {
                             if ( count( $article->children ) > 0 )
                             {
                                 foreach ( $article->children as $paragraph )
                                 {
                                     $intro = $this->renderPlain( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderCode( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderStandards( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderLink( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderModule( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderImage( $intro, $paragraph, $articleImages );
-                                    
+
                                     $this->PrevTag = $paragraph->name;
                                 }
                             }
@@ -194,11 +194,11 @@ class eZTechRenderer
                     }
                 }
             }
-                
+
 //            $newArticle = eZTextTool::nl2br( $intro );
                 $newArticle = $intro;
         }
-        
+
         return $newArticle;
     }
 
@@ -214,7 +214,7 @@ class eZTechRenderer
 //        $xml =& qdom_tree( $this->Article->contents() );
 
         $returnArray = array( );
-        
+
         if ( !$xml )
         {
             print( "<br /><b>Error: eZTechRenderer::docodeXML() could not decode XML</b><br />" );
@@ -227,7 +227,7 @@ class eZTechRenderer
             $this->PrevTag = "";
             $articleImages =& $this->Article->images();
             $articleID = $this->Article->id();
-            
+
             foreach ( $xml->children as $child )
             {
                 if ( $child->name == "article" )
@@ -240,21 +240,21 @@ class eZTechRenderer
                                 foreach ( $article->children as $paragraph )
                                 {
                                     $intro = $this->renderPlain( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderCode( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderStandards( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderLink( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderModule( $intro, $paragraph );
-                                    
+
                                     $intro = $this->renderImage( $intro, $paragraph, $articleImages );
-                                    
+
                                     $this->PrevTag = $paragraph->name;
                                 }
                         }
-                        
+
                         if ( $article->name == "body" )
                         {
                             $body = $article->children;
@@ -277,17 +277,17 @@ class eZTechRenderer
                         foreach ( $page->children as $paragraph )
                         {
                             $pageContent = $this->renderPlain( $pageContent, $paragraph );
-                            
+
                             $pageContent = $this->renderCode( $pageContent, $paragraph );
-                            
+
                             $pageContent = $this->renderStandards( $pageContent, $paragraph );
-                            
+
                             $pageContent = $this->renderLink( $pageContent, $paragraph );
-                            
+
                             $pageContent = $this->renderModule( $pageContent, $paragraph );
-                            
+
                             $pageContent = $this->renderImage( $pageContent, $paragraph, $articleImages );
-                            
+
                             $this->PrevTag = $paragraph->name;
                         }
                     $pageArray[] = $pageContent;
@@ -299,7 +299,7 @@ class eZTechRenderer
             if ( $pageNumber == -1 )
             {
 //                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n";
-                
+
                 if ( count( $pageArray ) > 0 )
                     foreach ( $pageArray as $page )
                     {
@@ -316,11 +316,11 @@ class eZTechRenderer
 //                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n". $pageArray[$pageNumber];
                 $bodyContents = $pageArray[$pageNumber];
             }
-            
+
             $returnArray[] =& $intro;
-            $returnArray[] =& $bodyContents;            
+            $returnArray[] =& $bodyContents;
         }
-        
+
         return $returnArray;
     }
 
@@ -340,7 +340,7 @@ class eZTechRenderer
         return $pageContent;
     }
 
-   
+
     function &renderLink( $pageContent, $paragraph )
     {
         global $GlobalSiteIni;
@@ -399,7 +399,7 @@ class eZTechRenderer
 
             $pageContent .= "<img align=\"baseline\" src=\"" . $GlobalSiteIni->WWWDir . "/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$href\">" . $text . "</a>";
         }
-        
+
         // ez anchor
         if ( $paragraph->name == "ezanchor" )
         {
@@ -414,7 +414,7 @@ class eZTechRenderer
                         break;
                     }
                 }
-                        
+
             $pageContent .= "<a name=\"$href\"></a>";
         }
 
@@ -444,11 +444,11 @@ class eZTechRenderer
                         break;
                     }
                 }
-                        
+
             $pageContent .= "<a href=\"mailto:$to?subject=$subject\">$text</a>";
         }
-        
-        
+
+
         return $pageContent;
     }
 
@@ -473,14 +473,14 @@ class eZTechRenderer
             }
 
             $localModuleFile = "modules/" . $name . ".php";
-            
+
             if ( eZFile::file_exists( $localModuleFile ) )
             {
                 $moduleFile = $localModuleFile;
             }
             else
             {
-                $moduleFile = "ezarticle/modules/" . $name . ".php";                
+                $moduleFile = "ezarticle/modules/" . $name . ".php";
             }
 
             if ( eZFile::file_exists( $moduleFile ) )
@@ -498,7 +498,7 @@ class eZTechRenderer
                 // fill the buffer with the old values
                 ob_start();
                 print( $buffer );
-                
+
                 $pageContent .= "$moduleContents";
             }
             else
@@ -508,7 +508,7 @@ class eZTechRenderer
         }
         return $pageContent;
     }
-    
+
 
     function &renderImage( $pageContent, $paragraph, $articleImages )
     {
@@ -540,21 +540,21 @@ class eZTechRenderer
                             $imageSize = $imageItem->children[0]->content;
                         }
                         break;
-                                
+
                     }
                 }
-                            
+
 //                          $imageID = $paragraph->children[0]->content;
             setType( $imageID, "integer" );
-                        
+
             foreach ( $articleImages as $imageArray )
             {
                 if ( $imageArray["Placement"] == $imageID )
                     $image = $imageArray["Image"];
             }
-                        
+
             // add image if a valid image was found, else report an error in the log.
-            if ( get_class( $image ) == "ezimage" )
+            if ( is_a( $image, "eZImage" ) )
             {
                 $ini =& INIFile::globalINI();
 
@@ -587,15 +587,15 @@ class eZTechRenderer
                         $variation =& $image;
                     }
                     break;
-                    
+
                     default :
                     {
                         $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
                         $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
                     }
                 }
-                            
-                if ( get_class( $variation ) == "ezimage" )
+
+                if ( is_a( $variation, "eZImage" ) )
                 {
                     $imageURL = $variation->filePath();
                 }
@@ -619,13 +619,13 @@ class eZTechRenderer
                     $viewMode = "view";
                 }
                 if ( $imageAlignment != "float"  )
-                {                            
+                {
                     $imageTags = "<br clear=\"all\"><table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
                                                          <a href=\"" . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . "/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
                                                         <img src=\"" . $GlobalSiteIni->WWWDir . "$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
-                                                        </a>   
+                                                        </a>
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -636,14 +636,14 @@ class eZTechRenderer
                                              </table>";
                 }
                 else
-                {                    
+                {
                     $imageTags = "<a href=\"" . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . "/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\"><img src=\"" . $GlobalSiteIni->WWWDir . "$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
                 }
                 $pageContent .=  $imageTags;
             }
             else
             {
-                eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );        
+                eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );
             }
         }
         return $pageContent;
@@ -651,55 +651,55 @@ class eZTechRenderer
 
     function &renderCode( $pageContent, $paragraph )
     {
-        // php code 
+        // php code
         if ( $paragraph->name == "php" )
         {
             $pageContent .= $this->phpHighlight( trim( $paragraph->children[0]->content ) );
         }
 
-        // java code 
+        // java code
         if ( $paragraph->name == "java" )
         {
             $pageContent .= $this->javaHighlight( trim( $paragraph->children[0]->content ) );
         }
 
-        // html code 
+        // html code
         if ( $paragraph->name == "ezhtml" )
         {
             $pageContent .= $this->htmlHighlight( trim( $paragraph->children[0]->content ) );
         }
 
-        // html code 
+        // html code
         if ( $paragraph->name == "html" )
         {
             $pageContent .= trim( $paragraph->children[0]->content );
         }
-        
-        // sql code 
+
+        // sql code
         if ( $paragraph->name == "sql" )
         {
             $pageContent .= $this->sqlHighlight( $paragraph->children[0]->content );
         }
 
-        // c++ code 
+        // c++ code
         if ( $paragraph->name == "cpp" )
         {
             $pageContent .= $this->cppHighlight( $paragraph->children[0]->content );
         }
 
-        // shell code 
+        // shell code
         if ( $paragraph->name == "shell" )
         {
             $pageContent .= $this->shellHighlight( $paragraph->children[0]->content );
         }
 
-        // perl code 
+        // perl code
         if ( $paragraph->name == "perl" )
         {
             $pageContent .= $this->perlHighlight( $paragraph->children[0]->content );
         }
 
-        // lisp code 
+        // lisp code
         if ( $paragraph->name == "lisp" )
         {
             $pageContent .= $this->lispHighlight( $paragraph->children[0]->content );
@@ -714,7 +714,7 @@ class eZTechRenderer
         {
             $pageContent .= "\n<h2>".  $paragraph->children[0]->content . "</h2>\n";
         }
-                    
+
         // bold text
         if ( $paragraph->name == "bold" )
         {
@@ -750,25 +750,25 @@ class eZTechRenderer
         if ( $paragraph->name == "bullet" )
         {
             $tmpContent =& trim( $paragraph->children[0]->content );
-            
+
             $tmpContent =& preg_replace( "#^(.*)$#m", "<li>\\1</li>", $tmpContent );
-            
+
             $pageContent .= "<ul>" . $tmpContent . "</ul>";
         }
-        
+
         return $pageContent;
     }
 
-    
+
     /*!
       \private
       Returns a php highlighted string.
     */
     function &phpHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );        
-        $string = ereg_replace ( "(>)", "&gt;", $string );        
-        
+        $string = ereg_replace ( "(<)", "&lt;", $string );
+        $string = ereg_replace ( "(>)", "&gt;", $string );
+
         // some special characters
         $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
 
@@ -777,7 +777,7 @@ class eZTechRenderer
 
         // comments
         $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
-        
+
         $string = preg_replace ( "#(/\*.+?\*/)#ms", "<font color=\"orange\">\\1</font>", $string );
 
 
@@ -797,12 +797,12 @@ class eZTechRenderer
         $string = preg_replace( "#(\\$[a-zA-Z0-9]+)#", "<font color=\"#00aaaa\">\\1</font>", $string );
 
 //          $string = preg_replace ( "#(\\$.+?)[\s|\;]#", "<font color=\"#00aaaa\">\\1</font>", $string );
-        
+
         // indenting
-        
+
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
-        
+
         return $string;
     }
 
@@ -817,10 +817,10 @@ class eZTechRenderer
         $string = ereg_replace ( "([(){},+-;]|=|\[|\])", "<font color=\"green\">\\1</font>", $string );
 
         $string = preg_replace ( "#('.*?')#", "<font color=\"red\">\\1</font>", $string );
-        
+
         $string = preg_replace( "/(\([0-9]+\))/", "<font color=\"green\">\\1</font>", $string );
         $string = preg_replace( "/('[0-9]+')/", "<font color=\"red\">\\1</font>", $string );
-        
+
         $reservedWords = array( "/(DROP )/i",
                                 "/(CREATE )/i",
                                 "/(TABLE )/i",
@@ -849,18 +849,18 @@ class eZTechRenderer
                                 "/( AND )/i"
                                 );
 
-        
-        
+
+
         $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
 
 
 
         // some special characters
         $string = ereg_replace ( "([;,])", "<font color=\"red\">\\1</font>", $string );
-        
+
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
-        
+
         return $string;
     }
 
@@ -869,10 +869,10 @@ class eZTechRenderer
       Returns a c++ highlighted string.
     */
     function &cppHighlight( $string )
-    {        
+    {
         $string = ereg_replace ( "(<)", "&lt;", $string );
         $string = ereg_replace ( "(>)", "&gt;", $string );
-        
+
         // some special characters
         $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
 
@@ -889,13 +889,13 @@ class eZTechRenderer
                                 "/(int )/",
                                 "/( for)/"
                                 );
-        
+
         $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
 
 
         $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
 
-        
+
         $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
 
         // newlines
@@ -903,7 +903,7 @@ class eZTechRenderer
 
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
-        
+
         return $string;
     }
 
@@ -916,34 +916,34 @@ class eZTechRenderer
         $reservedWords = array( "/(IF )/i",
                                 "/(FI )/i",
                                 "/(FI\n)/i",
-                                "/( THEN)/i"      
+                                "/( THEN)/i"
                                 );
-        
+
         $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
 
 
         // comment
         $string = ereg_replace ( "(\#[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
-        
+
         // some special characters
         $string = ereg_replace ( "([;,]|\]|\[)", "<font color=\"red\">\\1</font>", $string );
 
-        
+
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
-        
+
         return $string;
     }
 
     /*!
-      \private 
+      \private
       Returns a perl highlighted string.
     */
     function &perlHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );        
-        $string = ereg_replace ( "(>)", "&gt;", $string );        
-        
+        $string = ereg_replace ( "(<)", "&lt;", $string );
+        $string = ereg_replace ( "(>)", "&gt;", $string );
+
         // some special characters
         $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
 
@@ -969,16 +969,16 @@ class eZTechRenderer
 
         // indenting
         $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
-        
+
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
-        
+
         return $string;
     }
 
 
     /*!
-      \private 
+      \private
       Returns a lisp highlighted string.
     */
     function &lispHighlight( $string )
@@ -1104,10 +1104,10 @@ class eZTechRenderer
 //          $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
 
 //          $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
-        
+
 //          $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
 //               $string . "</pre></td></tr></table></p>";
-        
+
 //          return $string;
     }
 
@@ -1122,10 +1122,10 @@ class eZTechRenderer
       Returns a java highlighted string.
     */
     function &javaHighlight( $string )
-    {        
+    {
         $string = ereg_replace ( "(<)", "&lt;", $string );
         $string = ereg_replace ( "(>)", "&gt;", $string );
-        
+
         // some special characters
         $string = ereg_replace ( "([(){},+-;]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
 
@@ -1147,11 +1147,11 @@ class eZTechRenderer
                                 "/(int )/",
                                 "/( for)/"
                                 );
-        
+
         $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
 
         $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
-        
+
         $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
 
         // newlines
@@ -1159,7 +1159,7 @@ class eZTechRenderer
 
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
-        
+
         return $string;
     }
 
@@ -1172,10 +1172,10 @@ class eZTechRenderer
         $string =& htmlspecialchars( $string );
 
         $string = preg_replace( "#(&lt;.*?&gt;)#", "<font color=\"blue\">\\1</font>", $string );
-        
+
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
-        
+
         return $string;
     }
 
@@ -1186,10 +1186,10 @@ class eZTechRenderer
     {
         return $this->UsedImageList;
     }
-    
+
 
     var $UsedImageList;
-    
+
     var $Article;
     var $PrevTag;
 }

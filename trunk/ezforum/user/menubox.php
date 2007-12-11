@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: menubox.php 8162 2001-11-01 15:23:40Z bf $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -70,7 +70,7 @@ function createPage( $menuCacheFile = false )
     $t->setAllStrings();
 
     $t->set_file( "menu_box_tpl", "menubox.tpl" );
-    
+
 //      $t = new Template( "." );
 
 //      $t->set_file( Array( "categorylist_tpl" => "ezforum/user/templates/standard/categorymenu.tpl" ) );
@@ -85,7 +85,7 @@ function createPage( $menuCacheFile = false )
         $Language = $ini->read_var( "eZForumMain", "Language" );
         $nofound = new INIFile( "ezforum/user/intl/" . $Language . "/categorylist.php.ini", false );
         $noitem =  $nofound->read_var( "strings", "noitem" );
-        
+
         $t->set_var( "category", $noitem );
     }
     else
@@ -94,14 +94,14 @@ function createPage( $menuCacheFile = false )
         {
             $t->set_var( "id", $category->id() );
             $t->set_var( "name", $category->name() );
-        
+
             $t->parse( "category", "category_tpl", true);
         }
     }
 
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
-    if ( get_class( $menuCacheFile ) == "ezcachefile" )
+    if ( is_a( $menuCacheFile, "eZCacheFile" ) )
     {
         $output = $t->parse( $target, "menu_box_tpl" );
         // print the output the first time while printing the cache file.

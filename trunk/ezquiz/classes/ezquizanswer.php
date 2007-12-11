@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezquizanswer.php 8687 2001-12-06 10:19:29Z jhe $
 //
 // eZQuizAnswer class
@@ -37,7 +37,7 @@
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezquiz/classes/ezquizalternative.php" );
-	      
+
 class eZQuizAnswer
 {
 
@@ -87,7 +87,7 @@ class eZQuizAnswer
         }
         elseif ( is_numeric( $this->ID ) )
         {
-            $res = $db->query( "UPDATE eZQuiz_Answer SET
+            $resï¿½= $db->query( "UPDATE eZQuiz_Answer SET
                                      UserID='$userID',
                                      AlternativeID='$alternativeID'
                                      WHERE ID='$this->ID'" );
@@ -156,17 +156,17 @@ class eZQuizAnswer
     function getAll( $offset = 0, $limit = 20)
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $answerArray = array();
-        
+
         $db->array_query( $answerArray, "SELECT ID FROM eZQuiz_Answer " );
-        
+
         for ( $i = 0; $i < count( $answerArray ); $i++ )
         {
             $returnArray[$i] = new eZQuizAnswer( $answerArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
@@ -189,17 +189,17 @@ class eZQuizAnswer
     function hasAnswered()
     {
         $return = false;
-        
-        if ( get_class( $this->Alternative ) == "ezquizalternative" )
+
+        if ( is_a( $this->Alternative, "eZQuizAlternative" ) )
         {
             $QuestionID = $this->Alternative->QuestionID();
         }
-        
-        if ( get_class( $this->User ) == "ezuser" )
+
+        if ( is_a( $this->User, "eZUser" ) )
         {
             $UserID = $this->User->id();
         }
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $result, "SELECT * FROM eZQuiz_Answer, eZQuiz_Alternative
                             WHERE eZQuiz_Answer.AlternativeID = eZQuiz_Alternative.ID
@@ -209,7 +209,7 @@ class eZQuizAnswer
         {
             $return = true;
         }
-        
+
         return $return;
     }
 
@@ -243,7 +243,7 @@ class eZQuizAnswer
     */
     function setUser( &$user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $this->User = $user;
     }
 
@@ -252,10 +252,10 @@ class eZQuizAnswer
     */
     function setAlternative( &$alternative )
     {
-        if ( get_class( $alternative ) == "ezquizalternative" )
+        if ( is_a( $alternative, "eZQuizAlternative" ) )
             $this->Alternative = $alternative;
     }
-    
+
 
     var $ID;
     var $User;

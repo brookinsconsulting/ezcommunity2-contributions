@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezconsultation.php 9529 2002-05-14 11:17:05Z jhe $
 //
 // Definition of eZConsultation class
@@ -193,7 +193,7 @@ class eZConsultation
     */
     function addGroup( $group )
     {
-        if ( get_class( $group ) == "ezusergroup" )
+        if ( is_a( $group, "eZUserGroup" ) )
             $groupid = $group->id();
         else
             $groupid = $group;
@@ -370,7 +370,7 @@ class eZConsultation
     */
     function belongsTo( $consultationid, $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         $db =& eZDB::globalDatabase();
         // Check company
@@ -396,13 +396,13 @@ class eZConsultation
     */
     function findConsultedCompanies( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         if ( $user == -1 )
             $userString = "";
         else
             $userString = "WHERE UserID='$user'";
-            
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT CompanyID FROM eZContact_ConsultationCompanyUserDict
                                        $userString
@@ -421,13 +421,13 @@ class eZConsultation
     */
     function findConsultedPersons( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         if ( $user == -1 )
             $userString = "WHERE UserID='$user'";
         else
             $userString = "";
-        
+
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT PersonID FROM eZContact_ConsultationPersonUserDict
@@ -447,7 +447,7 @@ class eZConsultation
     */
     function findConsultationsByDate( $user, $startTime, $endTime )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
 
         if ( $user == -1 )
@@ -460,7 +460,7 @@ class eZConsultation
             $userString = "CPUD.UserID='$user' AND ";
             $userString2 = "CPCD.UserID='$user' AND ";
         }
-            
+
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
@@ -492,14 +492,14 @@ class eZConsultation
         }
         return $ret_array;
     }
-    
+
     /*!
       \static
       Finds all consultations on a specific contact person or company.
     */
     function findConsultationsByContact( $contact, $user, $OrderBy = "ID", $is_person = true, $index = 0, $max = -1, $relations = false )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         if ( $max > 0 )
         {
@@ -520,7 +520,7 @@ class eZConsultation
             $userString = "CPUD.UserID='$user' AND ";
             $userString2 = "CPCD.UserID='$user' AND ";
         }
-            
+
         switch ( strtolower( $OrderBy ) )
         {
             case "description":
@@ -627,7 +627,7 @@ class eZConsultation
     */
     function findLatestConsultations( $user, $max )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $user = $user->id();
             $userString = "CPUD.UserID='$user' AND ";
@@ -677,7 +677,7 @@ class eZConsultation
      */
     function companyConsultationCount( $company, $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         if ( $user == -1 )
             $userString = "";
@@ -693,7 +693,7 @@ class eZConsultation
      */
     function personConsultationCount( $person, $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         if ( $user == -1 )
             $userString = "";
@@ -713,7 +713,7 @@ class eZConsultation
         {
             $userString = "";
         }
-        else if ( get_class( $user ) == "ezuser" )
+        else if ( is_a( $user, "eZUser" ) )
         {
             $user = $user->id();
             $userString = " AND UserID='$user'";
@@ -739,7 +739,7 @@ class eZConsultation
         {
             $userString = "";
         }
-        else if ( get_class( $user ) == "ezuser" )
+        else if ( is_a( $user, "eZUser" ) )
         {
             $user = $user->id();
             $userString = " AND UserID='$user'";
@@ -761,7 +761,7 @@ class eZConsultation
      */
     function addConsultationToPerson( $person, $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         $db =& eZDB::globalDatabase();
         $db->begin();
@@ -778,7 +778,7 @@ class eZConsultation
      */
     function addConsultationToCompany( $company, $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         $db =& eZDB::globalDatabase();
         $db->begin();
@@ -793,7 +793,7 @@ class eZConsultation
      */
     function removeConsultationFromPerson( $person, $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         $db =& eZDB::globalDatabase();
         $res[] = $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict
@@ -805,7 +805,7 @@ class eZConsultation
      */
     function removeConsultationFromCompany( $company, $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
         $db =& eZDB::globalDatabase();
         $res[] = $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict
@@ -824,12 +824,12 @@ class eZConsultation
             $table = "eZContact_ConsultationPersonUserDict";
         else
             $table = "eZContact_ConsultationCompanyUserDict";
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $res, "SELECT UserID FROM $table WHERE ConsultationID='$id'" );
         return $res[0][$db->fieldName( "UserID" )];
     }
-    
+
     /*!
       \static
       Returns the name of the state id.

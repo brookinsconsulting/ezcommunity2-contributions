@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezorderitem.php 7299 2001-09-17 11:34:36Z pkej $
 //
 // Definition of eZOrderItem class
@@ -32,7 +32,7 @@
     product only. Remember to multiply correctly with the count.
 
   \sa eZOrder eZOrderOptionValue
-  
+
 */
 
 /*!TODO
@@ -70,7 +70,7 @@ class eZOrderItem
         $db->begin();
         if ( !isSet( $this->ID ) )
         {
-            
+
             $db->lock( "eZTrade_OrderItem" );
             $nextID = $db->nextID( "eZTrade_OrderItem", "ID");
             $ret[] = $db->query( "INSERT INTO eZTrade_OrderItem
@@ -108,7 +108,7 @@ class eZOrderItem
         }
         eZDB::finish( $ret, $db );
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -117,7 +117,7 @@ class eZOrderItem
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $cart_array, "SELECT * FROM eZTrade_OrderItem WHERE ID='$id'" );
@@ -147,7 +147,7 @@ class eZOrderItem
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderOptionValue WHERE OrderItemID='$this->ID'" );
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderItem WHERE ID='$this->ID'" );
 
@@ -178,14 +178,14 @@ class eZOrderItem
     {
         return $this->Price;
     }
-    
+
     /*!
       Returns the product.
     */
     function product()
     {
         $ret = new eZProduct( $this->ProductID );
-            
+
         return $ret;
     }
 
@@ -212,7 +212,7 @@ class eZOrderItem
     {
         return $this->ExpiryDate;
     }
-    
+
     /*!
       Returns all the option values.
      */
@@ -221,18 +221,18 @@ class eZOrderItem
         $db =& eZDB::globalDatabase();
 
         $return_array = array();
-        
+
         $db->array_query( $res_array, "SELECT ID FROM eZTrade_OrderOptionValue
                                        WHERE
                                        OrderItemID='$this->ID'
                                    " );
-        
+
         foreach ( $res_array as $item )
         {
             $return_array[] = new eZOrderOptionValue( $item[$db->fieldName("ID")] );
         }
-        
-        return $return_array;       
+
+        return $return_array;
     }
 
     /*!
@@ -240,10 +240,10 @@ class eZOrderItem
     */
     function setOrder( $order )
     {
-        if ( get_class( $order ) == "ezorder" )
+        if ( is_a( $order, "eZOrder" ) )
         {
             $this->OrderID = $order->id();
-        }       
+        }
     }
 
     /*!
@@ -251,7 +251,7 @@ class eZOrderItem
     */
     function setProduct( $product )
     {
-        if ( get_class( $product ) == "ezproduct" )
+        if ( is_a( $product, "eZProduct" ) )
         {
             $this->ProductID = $product->id();
         }
@@ -293,13 +293,13 @@ class eZOrderItem
     */
     function setExpiryDate( $date )
     {
-        if ( get_class( $date ) == "ezdate" || get_class( $date ) == "ezdatetime" )
+        if ( is_a( $date, "eZDate" ) || is_a( $date, "eZDateTime" ) )
             $timestamp = $date->timeStamp();
         else if ( is_numeric( $date ) )
             $timestamp = $date;
         else
             return false;
-        
+
         $this->ExpiryDate = $timestamp;
     }
 
@@ -325,12 +325,12 @@ class eZOrderItem
         {
             $price = $this->Price;
         }
-        
+
         if ( $calcCount == true )
         {
             $price = $price * $this->Count;
         }
-        
+
         return $price;
     }
 
@@ -343,15 +343,15 @@ class eZOrderItem
         $Language = $ini->read_var( "eZTradeMain", "Language" );
         $locale = new eZLocale( $Language );
         $currency = new eZCurrency();
-        
+
         $price = $this->correctPrice( $calcCount, $withOptions, $calcVAT );
-        
+
         $currency->setValue( $price );
         return $locale->format( $currency );
-    }    
-    
+    }
 
-    
+
+
     var $ID;
     var $OrderID;
     var $Count;

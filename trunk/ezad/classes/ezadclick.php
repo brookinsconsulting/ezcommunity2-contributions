@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezadclick.php 6555 2001-08-22 18:02:03Z br $
 //
 // Definition of eZAdClick class
@@ -101,7 +101,7 @@ class eZAdClick
     {
         $ret = false;
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $ad_array, "SELECT * FROM eZAd_Ad WHERE ID='$id'" );
@@ -135,7 +135,7 @@ class eZAdClick
         }
 
         eZDB::finish( $res, $db );
-        
+
         return true;
     }
 
@@ -162,10 +162,10 @@ class eZAdClick
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->ClickTime );
-       
+
        return $dateTime;
-    }    
-    
+    }
+
     /*!
       Sets the click IP.
     */
@@ -187,7 +187,7 @@ class eZAdClick
     */
     function setAd( $ad )
     {
-       if ( get_class( $ad ) == "ezad" )
+       if ( is_a( $ad, "eZAd" ) )
        {
            $this->AdID = $ad->id();
        }

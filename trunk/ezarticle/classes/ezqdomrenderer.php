@@ -229,8 +229,8 @@ class eZQDomrenderer
         // get custom <br> command, needed for other renderes than html
         $this->BrOverride = $this->Template->get_user_variable( "articletags_tpl",  "br" );
 		if ( $this->BrOverride="" )
-			$this->BrOverride = true; 
-			
+			$this->BrOverride = true;
+
         $this->Article =& $article;
     }
 
@@ -320,7 +320,7 @@ class eZQDomrenderer
             $this->PrevTag = "";
             $articleImages =& $this->Article->images();
 
-            if ( get_class( $this->Article ) == "ezarticle" )
+            if ( is_a( $this->Article, "eZArticle" ) )
                 $articleMedia =& $this->Article->media();
 
             $articleID = $this->Article->id();
@@ -442,19 +442,19 @@ class eZQDomrenderer
                             $url = $attr->children[0]->content;
                         }
                         break;
-                        
+
                         case "imageone" :
                         {
                             $imageOneID = $attr->children[0]->content;
                         }
                         break;
-                        
+
                         case "imagetwo" :
                         {
                             $imageTwoID = $attr->children[0]->content;
                         }
                         break;
-                        
+
                         case "description" :
                         {
                             $description = $attr->children[0]->content;
@@ -487,7 +487,7 @@ class eZQDomrenderer
             $this->Template->set_var( "image_one_url", $imageOneURL );
             $this->Template->set_var( "image_one_width", $imageOneWidth );
             $this->Template->set_var( "image_one_height", $imageOneHeight );
-            
+
             $this->Template->set_var( "image_two_url", $imageTwoURL );
             $this->Template->set_var( "image_two_width", $imageTwoWidth );
             $this->Template->set_var( "image_two_height", $imageTwoHeight );
@@ -495,14 +495,14 @@ class eZQDomrenderer
             $this->Template->set_var( "link_text", $description );
 
             $this->Template->set_var( "rollover_id", ++$this->RollOverCount );
-            
+
             $pageContent = $this->Template->parse( "rollover", "rollover_tpl" );
         }
 
         return $pageContent;
     }
 
-    
+
     /*!
       Renders header tags.
     */
@@ -651,7 +651,7 @@ class eZQDomrenderer
                         $mapString .= "<area shape=\"circle\" coords=\"" .
                          $elementParts[3] . "," .
                          $elementParts[4] . "," .
-                         $elementParts[5] . "," . 
+                         $elementParts[5] . "," .
                          $elementParts[6] . "\" href=\"" . $imageMapHref . "\" />\n";
                     }
                     else
@@ -659,7 +659,7 @@ class eZQDomrenderer
                         $mapString .= "<area shape=\"rect\" coords=\"" .
                              $elementParts[3] . "," .
                              $elementParts[4] . "," .
-                             $elementParts[5] . "," . 
+                             $elementParts[5] . "," .
                              $elementParts[6] . "\" href=\"" . $imageMapHref . "\" />\n";
                     }
                 }
@@ -667,7 +667,7 @@ class eZQDomrenderer
             }
 
             // add image if a valid image was found, else report an error in the log.
-            if ( get_class( $image ) == "ezimage" )
+            if ( is_a( $image, "eZImage" ) )
             {
                 $ini =& INIFile::globalINI();
 
@@ -716,7 +716,7 @@ class eZQDomrenderer
                     $variation =& $image;
                 }
 
-                if ( get_class( $variation ) == "ezimage" )
+                if ( is_a( $variation, "eZImage" ) )
                 {
                     $imageURL = $variation->filePath();
                 }
@@ -769,14 +769,14 @@ class eZQDomrenderer
 
                 $this->Template->set_var( "map_name", "usemap=\"#" . $mapName . "\"" );
                 $this->Template->set_var( "map_string", $mapString );
-                
+
                 $this->Template->set_var( "referer_url", $GLOBALS["REQUEST_URI"] );
 
                 if ( $hasMap == true )
                 {
                     $imageHref = "0";
                 }
-                
+
                 if ( $imageAlignment != "float"  )
                 {
                     if ( $imageHref == "0" )
@@ -876,7 +876,7 @@ class eZQDomrenderer
             $media = $articleMedia[$mediaID-1];
 
             // add media if a valid media was found, else report an error in the log.
-            if ( get_class( $media ) == "ezmedia" )
+            if ( is_a( $media, "eZMedia" ) )
             {
                 $ini =& INIFile::globalINI();
 
@@ -937,7 +937,7 @@ class eZQDomrenderer
             $file = $articleFiles[$fileID-1];
 
             // add media if a valid media was found, else report an error in the log.
-            if ( get_class( $file ) == "ezvirtualfile" )
+            if ( is_a( $file, "eZVirtualFile" ) )
             {
                 $fileID = $file->id();
 

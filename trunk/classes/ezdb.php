@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezdb.php 8707 2001-12-10 06:48:59Z jhe $
 //
 // Definition of eZDB class
@@ -40,7 +40,7 @@
 
   // start a new transaction
   $db->begin( );
-    
+
   // lock the table
   $db->lock( "TableA" );
 
@@ -53,7 +53,7 @@
   $dateTime = new eZDateTime( 1977, 9, 2, 14, 30, 42 );
   $timeStamp = $dateTime->timeStamp();
 
-         
+
   $res1 = $db->query( "INSERT INTO TableA ( ID, Count, Number, Name, DateTime )
                              VALUES ( '$id',
                                       '$count',
@@ -61,7 +61,7 @@
                                       '$string',
                                       '$timeStamp' )" );
   $db->unlock();
-    
+
   if ( $res == false )
      $db->rollback( );
   else
@@ -77,10 +77,10 @@
   {
     $timeStamp = $row[$db->fieldName("DateTime")];
     $dateTime = new eZDateTime( );
-    
+
     $dateTime->setTimeStamp( $timeStamp );
-    
-     print( $locale->format( $dateTime ).", " . 
+
+     print( $locale->format( $dateTime ).", " .
            "ID: " . $row[$db->fieldName("ID")] . " " .
            $row[$db->fieldName("Count")] . " " .
            nl2br( $row[$db->fieldName("Tekst")] ). " " .
@@ -92,17 +92,17 @@
 
 
   // close the database connection
-  $db->close();     
-  
+  $db->close();
+
   // if you need implementation spesific code
   // you can use the isA function.
   // Normally not neded
-  if ( $db->isA() == "informix" )    
+  if ( $db->isA() == "informix" )
   {
      // Special code for informix.
   }
 
-  \endcode   
+  \endcode
 */
 
 
@@ -134,7 +134,7 @@ class eZDB
     {
         $impl =& $GLOBALS["eZDB"];
 
-        $class =& get_class( $impl );
+        $class =& strtolower( get_class( $impl ) );
         if ( !preg_match( "/ez.*?db/", $class ) )
         {
             $ini =& INIFile::globalINI();
@@ -144,7 +144,7 @@ class eZDB
             $user =& $ini->read_var( "site", "User" );
             $password =& $ini->read_var( "site", "Password" );
             $databaseImplementation =& $ini->read_var( "site", "DatabaseImplementation" );
-            
+
             switch ( $databaseImplementation )
             {
                 case "mysql" :
@@ -158,7 +158,7 @@ class eZDB
                 case "postgresql" :
                 {
                     include_once( "classes/ezpostgresqldb.php" );
-                
+
                     $impl = new eZPostgreSQLDB( $server, $db, $user, $password );
                 }
                 break;
@@ -169,7 +169,7 @@ class eZDB
                     $impl = new eZInformixDB( $server, $db, $user, $password );
                 }
                 break;
-            
+
                 default :
                 {
                     print( "Database error: have no support for $implementation" );
@@ -177,7 +177,7 @@ class eZDB
                 break;
             }
         }
-        
+
 
         return $impl;
     }
@@ -191,7 +191,7 @@ class eZDB
         $db->unlock();
         if ( !is_array( $resultArray ) )
             $resultArray = array( $resultArray );
-        
+
         if ( in_array( false, $resultArray ) )
             $db->rollback();
         else

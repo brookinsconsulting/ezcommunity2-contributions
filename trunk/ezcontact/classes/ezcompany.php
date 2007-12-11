@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezcompany.php 9529 2002-05-14 11:17:05Z jhe $
 //
 // Definition of eZProduct class
@@ -77,7 +77,7 @@ class eZCompany
         $name = $db->escapeString( $this->Name );
         $comment = $db->escapeString( $this->Comment );
         $type = $this->ContactType == "ezperson" ? 2 : 1;
-        
+
         if ( !isSet( $this->ID ) or !is_numeric( $this->ID ) )
         {
             $db->lock( "eZContact_Company" );
@@ -150,9 +150,9 @@ class eZCompany
                 $addressDictID = $addressItem[ $db->fieldName( "DID" ) ];
                 eZAddress::delete( $addressDictID );
             }
-            
+
             $res[] = $db->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$id'" );
-           
+
             // Delete phone numbers.
 
             $db->array_query( $phone_array, "SELECT eZContact_CompanyPhoneDict.PhoneID AS DID
@@ -179,7 +179,7 @@ class eZCompany
                 $onlineDictID = $onlineItem[ $db->fieldName( "DID" ) ];
                 eZPhone::delete( $onlineDictID );
             }
-            
+
             $res[] = $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
@@ -195,11 +195,11 @@ class eZCompany
         }
         eZCompany::removePersons( $id );
         eZDB::finish( $res, $db );
-        
+
         return true;
     }
 
-  
+
     /*!
       Fetches the object information from the database.
     */
@@ -247,7 +247,7 @@ class eZCompany
 
     /*!
       Returns all companies found in the database.
-      
+
       The companies are returned as an array of eZCompany objects.
     */
     function &getAll( )
@@ -268,7 +268,7 @@ class eZCompany
 
     /*!
       Returns all the companies found in the database in a specific category.
-      
+
       The companies are returned as an array of eZCompany objects.
     */
     function &getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name" )
@@ -325,7 +325,7 @@ class eZCompany
 
     /*!
       Returns all the companies found in the database in a specific category.
-      
+
       The companies are returned as an array of eZCompany objects.
     */
     function countByCategory( $categoryID )
@@ -348,14 +348,14 @@ class eZCompany
         $db =& eZDB::globalDatabase();
 
         $query = $db->escapeString( $query );
-        
+
         $company_array = array();
         $return_array = array();
         if ( !empty( $query ) )
         {
             $db->array_query( $company_array, "
-                SELECT 
-                    Comp.ID 
+                SELECT
+                    Comp.ID
                 FROM
                     eZContact_CompanyTypeDict as Dict,
                     eZContact_Company as Comp
@@ -377,14 +377,14 @@ class eZCompany
 
 
     /*!
-      Henter ut alle firma i databasen som inneholder søkestrengen.
+      Henter ut alle firma i databasen som inneholder sï¿½kestrengen.
     */
     function &search( $query )
     {
         $db =& eZDB::globalDatabase();
 
         $query = $db->escapeString( strtolower( $query ) );
-        
+
         $company_array = array();
         $return_array = array();
 
@@ -409,7 +409,7 @@ class eZCompany
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res[] = $db->query( "DELETE FROM eZContact_CompanyTypeDict
                                 WHERE CompanyID='$this->ID'" );
         eZDB::finish( $res, $db );
@@ -445,7 +445,7 @@ class eZCompany
         }
         return $return_array;
     }
-   
+
 
     /*!
       Returns the address that belong to this eZCompany object.
@@ -454,7 +454,7 @@ class eZCompany
     {
         if ( !$companyID )
             $companyID = $this->ID;
-        
+
         $return_array = array();
         $db =& eZDB::globalDatabase();
 
@@ -479,17 +479,17 @@ class eZCompany
     {
         $ret = false;
         $db =& eZDB::globalDatabase();
-        if ( get_class( $address ) == "ezaddress" )
+        if ( is_a( $address, "eZAddress" ) )
         {
             $addressID = $address->id();
             $db->begin();
-            
+
             $res[] = $db->query( "INSERT INTO eZContact_CompanyAddressDict
                                   (CompanyID, AddressID)
                                   VALUES
                                   ('$this->ID', '$addressID')" );
             eZDB::finish( $res, $db );
-            
+
             $ret = true;
         }
         return $ret;
@@ -548,7 +548,7 @@ class eZCompany
         $ret = false;
         $db =& eZDB::globalDatabase();
         $db->begin();
-        if ( get_class( $phone ) == "ezphone" )
+        if ( is_a( $phone, "eZPhone" ) )
         {
             $phoneID =& $phone->id();
             $phoneno = strtolower( $phone->number() );
@@ -621,8 +621,8 @@ class eZCompany
         $ret = false;
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
-        if ( get_class( $online ) == "ezonline" )
+
+        if ( is_a( $online, "eZOnline" ) )
         {
             $onlineID =& $online->id();
             $url = strtolower( $online->url() );
@@ -655,21 +655,21 @@ class eZCompany
             $onlineID =& $onlineItem[$db->fieldName( "OnlineID" )];
             eZOnline::delete( $onlineID );
         }
-        
+
         $res[] = $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
         $res[] = $db->query( "DELETE FROM eZContact_CompanyIndex WHERE CompanyID='$this->ID' AND Type='2'" );
         eZDB::finish( $res, $db );
     }
-    
+
     /*!
-      Adds a image to the current 
+      Adds a image to the current
      */
     function addImage( &$image )
     {
         $ret = false;
         $db =& eZDB::globalDatabase();
         $db->begin();
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $imageID =& $image->id();
 
@@ -687,7 +687,7 @@ class eZCompany
     function &images()
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $image_array = array();
 
@@ -697,7 +697,7 @@ class eZCompany
         {
             $return_array[$i] =& new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
         }
-       
+
         return $return_array;
     }
 
@@ -747,7 +747,7 @@ class eZCompany
         if ( !$id )
             $id = $this->ID;
 
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
@@ -783,7 +783,7 @@ class eZCompany
     {
         if ( !$id )
             $id = $this->ID;
-        
+
         $db =& eZDB::globalDatabase();
         $db->begin();
         $res[] = $db->query( "UPDATE eZContact_CompanyImageDefinition
@@ -816,18 +816,18 @@ class eZCompany
         if ( !$id )
             $id = $this->ID;
 
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
-            
+
             $imageID =& $image->id();
 
             $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                            WHERE CompanyID='$id'" );
 
             if ( $res_array[0][$db->fieldName( "Number" )] == "1" )
-            {            
+            {
                 $res[] = $db->query( "UPDATE eZContact_CompanyImageDefinition
                                       SET
                                       CompanyImageID='$imageID'
@@ -893,7 +893,7 @@ class eZCompany
     */
     function setCreatorID( &$user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $userID =& $user->id();
             $this->CreatorID = $userID;
@@ -931,15 +931,15 @@ class eZCompany
     {
         return $this->CreatorID;
     }
-    
+
     /*!
       Returnerer kommentar.
     */
     function comment()
     {
         return $this->Comment;
-    }  
-    
+    }
+
     /*!
       Returns Company no.
     */
@@ -985,8 +985,8 @@ class eZCompany
     }
 
     /*
-      Henter ut alle firma i databasen hvor en eller flere tilhørende personer    
-      inneholder søkestrengen.
+      Henter ut alle firma i databasen hvor en eller flere tilhï¿½rende personer
+      inneholder sï¿½kestrengen.
     */
     function &searchByPerson( $query )
     {
@@ -994,7 +994,7 @@ class eZCompany
         $query = $db->escapeString( $query );
         $company_array = array();
         $return_array = array();
-    
+
         $db->array_query( $company_array,
                           "SELECT eZContact_Company.ID as ID
                            FROM eZContact_Company, eZContact_Person
@@ -1006,7 +1006,7 @@ class eZCompany
             $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
         }
         return $return_array;
-    }    
+    }
 
     /*!
       Returns the project state of this company.
@@ -1071,13 +1071,13 @@ class eZCompany
     function addPerson( $personid, $companyid = false )
     {
         $db =& eZDB::globalDatabase();
-        if ( get_class( $personid ) == "ezperson" )
+        if ( is_a( $personid, "eZPerson" ) )
             $personid = $personid->id();
         if ( !$companyid )
             $companyid = $this->ID;
-        
+
         $db->begin();
-        
+
         $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict
                               WHERE CompanyID='$companyid' AND PersonID='$personid'" );
         $res[] = $db->query( "INSERT INTO eZContact_CompanyPersonDict

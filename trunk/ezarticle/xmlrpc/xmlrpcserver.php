@@ -103,13 +103,13 @@ function &newArticle( $args )
     $article = new eZArticle( );
     $article->setAuthor( $user );
 
-    $article->setName( $title );    
+    $article->setName( $title );
     $article->setContents( $contents );
 
     // only one page
     $article->setPageCount( 1 );
-    
-    $article->setAuthorText( "XML-RPC imported article" );    
+
+    $article->setAuthorText( "XML-RPC imported article" );
     $article->setLinkText( $readMore );
 
     $article->store(); // to get the ID
@@ -134,7 +134,7 @@ function &newArticle( $args )
     {
         eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
     }
-    
+
     $GroupArray[0] = 0;
     /* read access thingy */
     if ( isset( $GroupArray ) )
@@ -156,24 +156,24 @@ function &newArticle( $args )
     {
         eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
     }
-    
-    
+
+
     $article->setIsPublished( true );
 
     // no keywords..
-    $article->setKeywords( "" );        
+    $article->setKeywords( "" );
     $article->store();
 
     // add to categories
     $category = new eZArticleCategory( 1 );
     $category->addArticle( $article );
-    
+
     $article->setCategoryDefinition( $category );
-    
+
     $articleID = $article->id();
 
     $tmp = new eZXMLRPCInt( $articleID );
-    
+
     return $tmp;
 }
 
@@ -181,8 +181,8 @@ function &login( $args )
 {
     $user = new eZUser();
     $user = $user->validateUser( $args[0]->value(), $args[1]->value() );
-    
-    if ( ( get_class( $user ) == "ezuser" ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+
+    if ( is_a( $user, "eZUser" ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
 
         $ret = new eZXMLRPCString( "Login success" );
@@ -200,9 +200,9 @@ function &articleCategoryTree( $args )
 {
     $user = new eZUser();
     $user = $user->validateUser( $args[0]->value(), $args[1]->value() );
-    
-    if ( ( get_class( $user ) == "ezuser" ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
-    {        
+
+    if ( is_a( $user, "eZUser" )  and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+    {
         $category = new eZArticleCategory();
         $categoryTree =& $category->getTree();
 
@@ -214,10 +214,10 @@ function &articleCategoryTree( $args )
                                                 "Name" => new eZXMLRPCString( $catItem[0]->name() ),
                                                 "Level" => new eZXMLRPCInt( $catItem[1] ) ) );
 
-        }        
-        
+        }
+
         $ret = new eZXMLRPCArray( $cat );
-        
+
     }
     else
     {

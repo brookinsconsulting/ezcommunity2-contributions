@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezezrenderer.php 7590 2001-09-29 12:35:15Z kaid $
 //
 // Definition of eZEzRenderer class
@@ -64,9 +64,9 @@
   <verbatim>
   predefined text
   </verbatim>
-  
+
   \endcode
-  \sa eZEzGenerator  
+  \sa eZEzGenerator
 */
 
 /*!TODO
@@ -109,20 +109,20 @@ class eZEzRenderer
         {
             $intro = "";
             $body = "";
-            
+
             $i=0;
             foreach ( $xml->root->children as $child )
             {
                 if ( $child->name == "intro" )
                 {
                     $intro = $child->children[0]->content;
-                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );                    
+                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
                 }
             }
 
             $newArticle = eZTextTool::nl2br( $intro );
         }
-        
+
         return $newArticle;
     }
 
@@ -142,7 +142,7 @@ class eZEzRenderer
             $intro = "";
             $body = "";
 
-            
+
             foreach ( $xml->root->children as $child )
             {
                 if ( $child->name == "intro" )
@@ -150,7 +150,7 @@ class eZEzRenderer
                     $intro = trim( $child->children[0]->content );
                     $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
                 }
-                
+
                 if ( $child->name == "body" )
                 {
                     $body = $child->children;
@@ -173,16 +173,16 @@ class eZEzRenderer
                     {
                         $pageContent .= eZTextTool::nl2br($paragraph->content );
                     }
-                    
+
                     // header
                     if ( $paragraph->name == "header" )
                     {
                         $tmpText = "
-                        <br clear=\"all\" />   
+                        <br clear=\"all\" />
                         <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">
                              <tr>
                              <td bgcolor=\"#c0c0c0\" width=\"100%\">
-                             
+
                              <div class=\"listheadline\"><img src=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/images/1x1.gif\" width=\"4\" height=\"1\" border=\"0\">"
                              .
                              $paragraph->children[0]->content
@@ -192,7 +192,7 @@ class eZEzRenderer
                              </td>
                          </tr>
                        </table>";
-                        
+
                         $pageContent .= $tmpText;
                     }
 
@@ -225,7 +225,7 @@ class eZEzRenderer
                     {
                         $pageContent .= "<pre>" . $paragraph->children[0]->content . "</pre>";
                     }
-                    
+
                     // link
                     if ( $paragraph->name == "link" )
                     {
@@ -249,7 +249,7 @@ class eZEzRenderer
                         }
 
                         if ( ( $href[0] == "/" ) || ( $href[0] == "#" ) )
-                        {                        
+                        {
                             $pageContent .= "<a href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index$href\">" . $text . "</a>";
                         }
                         else
@@ -284,10 +284,10 @@ class eZEzRenderer
                                 break;
                             }
                         }
-                        
+
                         $pageContent .= "<a href=\"mailto:$to?subject=$subject\">$text</a>";
                     }
-                    
+
 
                     // ezlink
                     if ( $paragraph->name == "ezlink" )
@@ -341,9 +341,9 @@ class eZEzRenderer
                                 break;
                             }
                         }
-                        
+
                         $pageContent .= "<a name=\"$href\"></a>";
-                    }                    
+                    }
 
                     // image
                     if ( $paragraph->name == "image" )
@@ -370,17 +370,17 @@ class eZEzRenderer
                                     $imageSize = $imageItem->children[0]->content;
                                 }
                                 break;
-                                
+
                             }
                         }
 
-                            
+
                         setType( $imageID, "integer" );
-                        
+
                         $image = $articleImages[$imageID-1];
-                        
+
                         // add image if a valid image was found, else report an error in the log.
-                        if ( get_class( $image ) == "ezimage" )
+                        if ( is_a( $image, "eZImage" ) )
                         {
                             $ini =& INIFile::globalINI();
 
@@ -405,12 +405,12 @@ class eZEzRenderer
                                 }
                                 break;
                             }
-                            
+
                             $imageURL = "/" . $variation->imagePath();
                             $imageWidth = $variation->width();
                             $imageHeight = $variation->height();
                             $imageCaption = $image->caption();
-                            
+
                             $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
                                             <tr>
                                             <td>
@@ -427,16 +427,16 @@ class eZEzRenderer
                         }
                         else
                         {
-                            eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );        
+                            eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );
                         }
                     }
                 }
 
-                
+
                 $pageArray[] = $pageContent;
-                
+
             }
-            
+
 
             if ( $pageNumber != 0 )
             {
@@ -445,7 +445,7 @@ class eZEzRenderer
             else
             {
                 if ( $intro != "" )
-                {                    
+                {
                     $newArticle = "<p>" . eZTextTool::nl2br( $intro ) . "</p>". $pageArray[$pageNumber];
                 }
                 else
@@ -453,9 +453,9 @@ class eZEzRenderer
                     $newArticle = $pageArray[$pageNumber];
                 }
             }
-                
+
         }
-        
+
         return $newArticle;
     }
 
@@ -475,7 +475,7 @@ class eZEzRenderer
         {
             $intro = "";
             $body = "";
-            
+
             $i=0;
             foreach ( $xml->root->children as $child )
             {
@@ -487,10 +487,10 @@ class eZEzRenderer
 
             $newArticle = eZTextTool::nl2br( $intro );
         }
-        
+
         return $newArticle;
     }
-    
+
     var $Article;
 }
 

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: messagelistflat.php 7759 2001-10-10 13:18:29Z jhe $
 //
 // Created on: <03-Jul-2001 13:24:26 bf>
@@ -65,12 +65,12 @@ $user =& eZUser::currentUser();
 
 $group =& $forum->group();
 $viewer = $user;
-if ( get_class( $group ) == "ezusergroup" )
+if ( is_a( $group, "eZUserGroup" ) )
 {
-    if ( get_class( $viewer ) == "ezuser" )
+    if ( is_a( $viewer, "eZUser" ) )
     {
         $groupList =& $viewer->groups();
-        
+
         foreach ( $groupList as $userGroup )
         {
             if ( $userGroup->id() == $group->id() )
@@ -89,7 +89,7 @@ else
 if ( count( $categories ) > 0 )
 {
     $category = new eZForumCategory( $categories[0]->id() );
-    
+
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
 }
@@ -112,7 +112,7 @@ if ( !$messageList )
 else
 {
     $db =& eZDB::globalDatabase();
-    
+
     $level = 0;
     $i = 0;
     $time = new eZDateTime();
@@ -126,7 +126,7 @@ else
             $t->set_var( "td_class", "articlelist1" );
         else
             $t->set_var( "td_class", "articlelist2" );
-        
+
         $t->set_var( "topic", $message[$db->fieldName( "Topic" )] );
         $t->set_var( "body", $message[$db->fieldName( "Body" )] );
 
@@ -151,10 +151,10 @@ else
         $userID = $message[$db->fieldName( "UserID" )];
 
         $author->get( $userID );
-        
+
         $t->set_var( "count_replies", "" );
         $level = $message[$db->fieldName( "Depth" )];
-        
+
         if ( $level > 0 )
             $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
         else
@@ -168,7 +168,7 @@ else
         {
             $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
         }
-        
+
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
     }

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbuglog.php 6409 2001-08-09 14:17:42Z jhe $
 //
 // Definition of eZBugLog class
@@ -62,7 +62,7 @@ class eZBugLog
         $description = $db->escapeString( $this->Description );
 
         $db->begin();
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZBug_Log" );
@@ -82,12 +82,12 @@ class eZBugLog
                                 UserID='$this->UserID'
                                 WHERE ID='$this->ID'" );
         }
-        
+
         if ( $res == false )
             $db->rollback();
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -98,7 +98,7 @@ class eZBugLog
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( isSet( $this->ID ) )
         {
             $res[] = $db->query( "DELETE FROM eZBug_Log WHERE ID='$this->ID'" );
@@ -106,13 +106,13 @@ class eZBugLog
         eZDB::finish( $res, $db );
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id = "" )
     {
-        $db =& eZDB::globalDatabase();        
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
             $db->array_query( $module_array, "SELECT * FROM eZBug_Log WHERE ID='$id'" );
@@ -139,17 +139,17 @@ class eZBugLog
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $module_array = array();
-        
+
         $db->array_query( $module_array, "SELECT ID FROM eZBug_Log ORDER BY Created" );
-        
+
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
             $return_array[$i] = new eZBug( $module_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -162,17 +162,17 @@ class eZBugLog
     function getByBug( $bug )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $module_array = array();
-        
-        if ( get_class( $bug ) == "ezbug" )
+
+        if ( is_a( $bug, "eZBug" ) )
         {
             $bugID = $bug->id();
             $db->array_query( $module_array, "SELECT ID FROM eZBug_Log
-                                              WHERE BugID='$bugID' 
+                                              WHERE BugID='$bugID'
                                               ORDER BY Created" );
-        
+
             for ( $i = 0; $i < count( $module_array ); $i++ )
             {
                 $return_array[$i] = new eZBugLog( $module_array[$i][$db->fieldName( "ID" )] );
@@ -180,7 +180,7 @@ class eZBugLog
         }
         return $return_array;
     }
-    
+
     /*!
       Returns the object id.
     */
@@ -199,7 +199,7 @@ class eZBugLog
        else
            return $this->Description;
     }
-    
+
     /*!
       Returns the creation time of the bug log message.
 
@@ -229,7 +229,7 @@ class eZBugLog
        $bug = new eZBug( $this->BugID );
        return $bug;
     }
-    
+
     /*!
       Sets the description of the module.
     */
@@ -243,7 +243,7 @@ class eZBugLog
     */
     function setUser( $user )
     {
-       if ( get_class( $user ) == "ezuser" )
+       if ( is_a( $user, "eZUser" ) )
        {
            $this->UserID = $user->id();
        }
@@ -254,7 +254,7 @@ class eZBugLog
     */
     function setBug( $bug )
     {
-       if ( get_class( $bug ) == "ezbug" )
+       if ( is_a( $bug, "eZBug" ) )
        {
            $this->BugID = $bug->id();
        }

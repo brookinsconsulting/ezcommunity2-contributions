@@ -59,7 +59,7 @@ class eZAddress
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $ret = false;
         if ( $this->CountryID <= 0 )
             $country_id = "NULL";
@@ -105,8 +105,8 @@ class eZAddress
                                   Name='$name',
                                   CountryID='$country_id',
 			          RegionID='$region_id'
-                                  WHERE ID='$this->ID'" );            
-            $ret = true;            
+                                  WHERE ID='$this->ID'" );
+            $ret = true;
         }
 
         eZDB::finish( $res, $db );
@@ -115,7 +115,7 @@ class eZAddress
 
     /*!
       Fetches an address with object id==$id;
-    */  
+    */
     function get( $id="" )
     {
         $ret = false;
@@ -155,9 +155,9 @@ class eZAddress
     {
         $db =& eZDB::globalDatabase();
         $address_array = 0;
-    
+
         $db->array_query( $address_array, "SELECT * FROM eZAddress_Address" );
-    
+
         return $address_array;
     }
 
@@ -172,8 +172,8 @@ class eZAddress
         $db->begin();
         $res[] = $db->query( "DELETE FROM eZAddress_Address WHERE ID='$id'" );
         eZDB::finish( $res, $db );
-    }    
-    
+    }
+
 
     /*!
       Copy this object.
@@ -194,7 +194,7 @@ class eZAddress
     {
         unset( $this->ID );
     }
-    
+
     /*!
       Setter  street1.
     */
@@ -236,8 +236,8 @@ class eZAddress
         {
             $this->AddressTypeID = $value;
         }
-        
-        if( get_class( $value ) == "ezaddresstype" )
+
+        if( is_a( $value, "eZAddressType" ) )
         {
             $this->AddressTypeID = $value->id();
         }
@@ -252,8 +252,8 @@ class eZAddress
         {
             $this->AddressTypeID = $value;
         }
-        
-        if( get_class( $value ) == "ezaddresstype" )
+
+        if( is_a( $value, "eZAddressType" ) )
         {
             $this->AddressTypeID = $value->id();
         }
@@ -264,11 +264,11 @@ class eZAddress
     */
     function setMainAddress( $mainAddress, $user )
     {
-        if ( get_class( $mainAddress ) == "ezaddress" )
+        if( is_a( $value, "eZAddressType" ) )
             $addressID = $mainAddress->id();
         else
             $addressID = $mainAddress;
-        if ( get_class ( $user ) == "ezuser" )
+        if ( is_a ( $user, "eZUser" ) )
             $userID = $user->id();
         else
             $userID = $user;
@@ -294,16 +294,16 @@ class eZAddress
                                   ('$addressID', '$userID')" );
             $db->unlock();
         }
-        
+
         eZDB::finish( $res, $db );
     }
-    
+
     /*!
       Returns the main address
     */
     function mainAddress( $user )
     {
-        if ( get_class ( $user ) == "ezuser" )
+        if ( is_a ( $user, "eZUser" ) )
             $userID = $user->id();
         else
             $userID = $user;
@@ -330,7 +330,7 @@ class eZAddress
     {
         return $this->ID;
     }
-    
+
     /*!
       Returnerer  street1.
     */
@@ -393,7 +393,7 @@ class eZAddress
     */
     function setCountry( $country )
     {
-       if ( get_class( $country ) == "ezcountry" )
+       if ( is_a( $country, "eZCountry" ) )
        {
            $this->CountryID = $country->id();
        }
@@ -408,7 +408,7 @@ class eZAddress
     */
     function setRegion( $region )
     {
-       if ( get_class( $region ) == "ezregion" )
+       if ( is_a( $region, "eZRegion" ) )
        {
            $this->RegionID = $region->id();
        }
@@ -456,7 +456,7 @@ return new eZCountry( $this->CountryID );
         else
             return false;
     }
-    
+
     var $ID;
     var $Street1;
     var $Street2;
@@ -465,7 +465,7 @@ return new eZCountry( $this->CountryID );
     var $RegionID;
     var $CountryID;
     var $Name;
-    
+
     /// Relation to an eZAddressTypeID
     var $AddressTypeID;
 }

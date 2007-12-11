@@ -114,7 +114,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
 
                 $t->set_var( "current_image_item", "" );
 
-                if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+                if ( ( is_a( $image, "eZImage" ) ) && ( $image->id() != 0 ) )
                 {
                     $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
                     $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
@@ -171,7 +171,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
             else
                 $t->set_var( "article_list", "" );
 
-            if ( get_class( $menuCacheFile ) == "ezcachefile" )
+            if ( is_a( $menuCacheFile, "eZCacheFile" ) )
             {
                 $output =& $t->parse( $target, "article_list_page_tpl" );
                 $menuCacheFile->store( $output );
@@ -190,7 +190,7 @@ if ( $PageCaching == "enabled" )
 {
     $user =& eZUser::currentUser();
     $groupstr = "";
-    if ( get_class( $user ) == "ezuser" )
+    if ( is_a( $user, "eZUser" ) )
     {
         $groupIDArray =& $user->groups( false );
         sort( $groupIDArray );

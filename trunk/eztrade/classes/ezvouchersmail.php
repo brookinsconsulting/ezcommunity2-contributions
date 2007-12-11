@@ -1,5 +1,5 @@
 <?
-// 
+//
 // $Id: ezvouchersmail.php 7071 2001-09-07 09:54:45Z ce $
 //
 // eZVoucherSMail class
@@ -40,7 +40,7 @@
   $voucherInfo->setVoucher( $voucher ); // Adds the eZVoucher objdect.
   $voucherInfo->store(); // Stores the object to the database
   \endcode
-  
+
   \sa eZVoucherUsed eZVoucher eZVoucherEMail
 */
 
@@ -48,7 +48,7 @@
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "eztrade/classes/ezvoucher.php" );
 include_once( "eztrade/classes/ezpreorder.php" );
-	      
+
 class eZVoucherSMail
 {
 
@@ -80,11 +80,11 @@ class eZVoucherSMail
         $db->begin();
 
         $description =& addslashes( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_VoucherSMail" );
-            $nextID = $db->nextID( "eZTrade_VoucherSMail", "ID" );            
+            $nextID = $db->nextID( "eZTrade_VoucherSMail", "ID" );
             $timeStamp =& eZDateTime::timeStamp( true );
             $password = md5( $this->Password );
 
@@ -111,7 +111,7 @@ class eZVoucherSMail
                                      WHERE ID='$this->ID" );
         }
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -130,9 +130,9 @@ class eZVoucherSMail
 
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res = $db->query( "DELETE FROM eZTrade_VoucherSMail WHERE ID='$this->ID'" );
-    
+
         if ( $ret == false )
             $db->rollback( );
         else
@@ -186,7 +186,7 @@ class eZVoucherSMail
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $quizArray = array();
 
@@ -257,7 +257,7 @@ class eZVoucherSMail
     */
     function setAddress( &$value )
     {
-        if ( get_class ( $value ) == "ezaddress" )
+        if ( is_a ( $value, "eZAddress" ) )
             $this->AddressID = $value->id();
         else
             $this->AddressID = $value;
@@ -268,7 +268,7 @@ class eZVoucherSMail
     */
     function setVoucher( &$value )
     {
-        if ( get_class ( $value ) == "ezvoucher" )
+        if ( is_a ( $value, "eZVoucher" ) )
             $this->VoucherID = $value->id();
         else
             $this->VoucherID = $value;
@@ -279,7 +279,7 @@ class eZVoucherSMail
     */
     function setPreOrder( &$value )
     {
-        if ( get_class ( $value ) == "ezpreorder" )
+        if ( is_a ( $value, "eZPreOrder" ) )
             $this->PreOrderID = $value->id();
         else
             $this->PreOrderID = $value;

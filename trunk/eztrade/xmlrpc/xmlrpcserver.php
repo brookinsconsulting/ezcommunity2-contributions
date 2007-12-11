@@ -79,8 +79,8 @@ function &newOrders( $args )
 {
     $user = new eZUser();
     $user = $user->validateUser( $args[0]->value(), $args[1]->value() );
-    
-    if ( ( get_class( $user ) == "ezuser" ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+
+    if ( ( is_a( $user, "eZUser" ) ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
         $ini =& INIFile::globalINI();
 
@@ -106,11 +106,11 @@ function &newOrders( $args )
 
             $datetime =& $orderItem->date();
 
-            $date = $datetime->date(); 
+            $date = $datetime->date();
             $time = $datetime->time();
 
             $user =& $orderItem->user();
-            
+
             if ( $user )
             {
                 $shippingAddress =& $orderItem->shippingAddress();
@@ -120,7 +120,7 @@ function &newOrders( $args )
                 $billingCountry =& $billingAddress->country();
 
                 $checkout = new eZCheckout();
-                $instance =& $checkout->instance();                
+                $instance =& $checkout->instance();
                 $paymentMethod = $instance->paymentName( $orderItem->paymentMethod() );
 
                 $itemArray = array();
@@ -142,8 +142,8 @@ function &newOrders( $args )
                                                                     "OptionValueRemoteID" => new eZXMLRPCString( $optionValue->remoteID() ) )
                                                              );
                     }
-                    
-                    
+
+
                     $itemArray[] = new eZXMLRPCStruct( array( "ProductID" => new eZXMLRPCInt( $product->id() ),
                                                               "RemoteID" => new eZXMLRPCString( $product->remoteID() ),
                                                               "ProductNumber" => new eZXMLRPCInt( $product->productNumber() ),
@@ -181,7 +181,7 @@ function &newOrders( $args )
                         ) );
             }
         }
-        
+
         $tmp = new eZXMLRPCArray( $orders );
     }
     else

@@ -1,5 +1,5 @@
 <?
-// 
+//
 // $Id: ezfreetradeimport.php 6849 2001-09-03 11:13:38Z ce $
 //
 // ezfreetradeimport class
@@ -34,7 +34,7 @@ class eZFreeTradeImport
     {
     }
 
-    function importCategories( ) 
+    function importCategories( )
     {
         set_time_limit( 0 );
         $categories = $this->getCategoriesFromImport();
@@ -70,7 +70,7 @@ class eZFreeTradeImport
                         {
                             $image->setName( "Image" );
                             $image->setImage( $file );
-                            
+
                             $image->store();
                             $category->setImage( $image );
                         }
@@ -114,7 +114,7 @@ class eZFreeTradeImport
             }
         }
     }
-    
+
     function importProducts( )
     {
         set_time_limit( 0 );
@@ -163,7 +163,7 @@ class eZFreeTradeImport
                         {
                             $image->setName( "Image" );
                             $image->setImage( $file );
-                            
+
                             $image->store();
                             $product->addImage( $image );
                             $product->setThumbnailImage( $image );
@@ -173,13 +173,13 @@ class eZFreeTradeImport
                     }
                 }
                 */
-              
-                
+
+
                 $parent = "item-" . $importProduct["Item"];
                 $db->array_query( $CategoryIDFromRemoteID, "SELECT ID FROM eZTrade_Category WHERE RemoteID='$parent'" );
 
                 $category = new eZProductCategory( $CategoryIDFromRemoteID[0][0] );
-                
+
                 if ( is_numeric( $category->id() ) )
                 {
                     $category->addProduct( $product );
@@ -201,7 +201,7 @@ class eZFreeTradeImport
 
     function importOptions( $product )
     {
-        if ( get_class( $product ) == "ezproduct" )
+        if ( is_a( $product, "eZProduct" ) )
         {
             $productID = $product->id();
 
@@ -224,13 +224,13 @@ class eZFreeTradeImport
                         $value->store();
                         $value->addDescription( mysql_escape_string( $importOption["Name"] ) );
                         $option->addValue( $value );
-                        
-                        
-                        
+
+
+
 //                $quantityArray = $this->getQuantity( $importOption["ID"] );
-                        
+
                         //              $value->setTotalQuantity( $quantityArray["Available"] );
-                       
+
 //                print( "ID: " . $value->id() . " - Price: ". $importOption["SalePrice" ] . "<br>");
                     }
                 }
@@ -290,7 +290,7 @@ class eZFreeTradeImport
         $this->dbImport->array_query( $array, "SELECT * FROM sku" );
 
         $this->dbImport->close();
-      
+
         return $array;
     }
 
@@ -300,7 +300,7 @@ class eZFreeTradeImport
         $this->dbImport->array_query( $array, "SELECT * FROM item" );
 
         $this->dbImport->close();
-      
+
         return $array;
     }
 
@@ -311,9 +311,9 @@ class eZFreeTradeImport
         if ( is_numeric( $id ) )
         {
             $this->dbImport->array_query( $array, "SELECT * FROM inventory WHERE SKU='$id'" );
-            
+
             $this->dbImport->close();
-            
+
             return $array[0];
         }
         else
@@ -330,7 +330,7 @@ class eZFreeTradeImport
         foreach( $attribute as $att )
         {
             $option = new eZOption();
-            
+
             $option->setName( $att["Name"] );
             $option->setDescription( $att["Description"] );
             $option->setRemoteID( $att["ID"] );
@@ -359,7 +359,7 @@ class eZFreeTradeImport
 
         }
     }
-    
+
     function makeValue( )
     {
 

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbulkmailusercategorysettings.php 7122 2001-09-10 11:38:19Z ce $
 //
 // Definition of eZBulkMailCategorySettings class
@@ -102,7 +102,7 @@ class eZBulkMailUserCategorySettings
 
         if( $id == -1 )
             $id = $this->ID;
-        
+
         $result = $db->query( "DELETE FROM eZBulkMail_UserCategorySettings WHERE ID='$id'" );
 
         if ( $result == false )
@@ -110,14 +110,14 @@ class eZBulkMailUserCategorySettings
         else
             $db->commit();
      }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZBulkMail_UserCategorySettings WHERE ID='$id'" );
@@ -175,7 +175,7 @@ class eZBulkMailUserCategorySettings
     */
     function setCategory( $value )
     {
-        if ( get_class ( $value ) == "ezbulkmailcategory" )
+        if ( is_a ( $value, "eZBulkMailCategory" ) )
             $this->CategoryID = $value->id();
         elseif ( is_numeric( $value ) )
             $this->CategoryID = $value;
@@ -186,7 +186,7 @@ class eZBulkMailUserCategorySettings
     */
     function setAddress( $value )
     {
-        if ( get_class ( $value ) == "ezbulkmailusersubscripter" )
+        if ( is_a( $value, "eZBulkMailUserSubscripter" ) )
             $this->UserID = $value->id();
         elseif ( is_numeric( $value ) )
             $this->UserID = $value;
@@ -196,7 +196,7 @@ class eZBulkMailUserCategorySettings
       1 = hour
       2 = day
       3 = week
-      4 = monthgorysettings Object ( [ID] => 1 [CategoryID] => 1 [UserID] => 1 [Delay] => 1 ) 
+      4 = monthgorysettings Object ( [ID] => 1 [CategoryID] => 1 [UserID] => 1 [Delay] => 1 )
 
 Subscripti
     */

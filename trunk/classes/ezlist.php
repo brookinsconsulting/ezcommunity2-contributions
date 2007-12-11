@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezlist.php 7213 2001-09-14 11:00:57Z br $
 //
 // Definition of eZList class
@@ -77,7 +77,7 @@ class eZList
 
         if ( isset( $params["ini"] ) )
             $ini =& $params["ini"];
-        if ( get_class( $ini ) != "inifile" )
+        if ( !is_a( $ini, "INIFile" ) )
             $ini =& INIFile::globalINI();
 
         $module = $params["module"];
@@ -100,7 +100,7 @@ class eZList
 
         include_once( "classes/eztemplate.php" );
 
-        if ( !isset( $params["template"] ) or get_class( $params["template"] ) != "eztemplate" )
+        if ( !isset( $params["template"] ) or !is_a( $params["template"], "eZTemplate" ) )
             $t = new eZTemplate( $template_dir,
                                  "$DOC_ROOT/$place/intl", $Language, $language_file );
         else
@@ -345,7 +345,7 @@ class eZList
             $t->parse( "line_item", "line_item_tpl", true );
 
             $i++;
-        } 
+        }
 
         if( $count < 1 )
         {

@@ -341,7 +341,7 @@ class eZVoucher
     */
     function setUser( &$user )
     {
-        if ( get_class ( $user ) == "ezuser" )
+        if ( is_a ( $user, "eZUser" ) )
             $this->UserID = $user->id();
         elseif ( is_numeric ( $user ) )
             $this->UserID = $user;
@@ -352,7 +352,7 @@ class eZVoucher
     */
     function setProduct( &$product )
     {
-        if ( get_class ( $product ) == "ezproduct" )
+        if ( is_a ( $product, "eZProduct" ) )
             $this->ProductID = $product->id();
         elseif ( is_numeric ( $user ) )
             $this->ProductID = $product;

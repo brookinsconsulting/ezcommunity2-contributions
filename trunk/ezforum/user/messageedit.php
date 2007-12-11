@@ -84,7 +84,7 @@ switch ( $Action )
         $t->set_file( "page", "messagedelete.tpl"  );
     }
     break;
-    
+
     case "preview":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -261,7 +261,7 @@ switch ( $Action )
 
             // send mail to forum moderator
             $moderator = $forum->moderator();
-            
+
             if ( is_object( $moderator ) )
             {
                 $moderators =& eZUserGroup::users( $moderator->id() );
@@ -302,7 +302,7 @@ switch ( $Action )
 
                         $mailTemplate->set_var( "topic", $msg->topic() );
                         $mailTemplate->set_var( "body", $msg->body() );
-                        
+
                         $mailTemplate->set_var( "forum_name", $forum->name() );
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
 
@@ -514,7 +514,7 @@ switch ( $Action )
         }
 
         $user =& eZUser::currentUser();
-        
+
         $NewMessageTopic = $msg->topic();
 
         $ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );
@@ -531,7 +531,7 @@ switch ( $Action )
         $ShowPath = true;
         $isPreview = false;
         include_once( "ezforum/user/messagepath.php" );
-        
+
         $ShowMessageForm = true;
         $ShowEmptyMessageForm = false;
         $ShowVisibleMessageForm = true;
@@ -558,7 +558,7 @@ switch ( $Action )
                     {
                         $msg = new eZForumMessage();
                         $tmpmsg = new eZForumMessage( $MessageID );
-                        $msg = $tmpmsg->clone();
+                        $msg = $tmpmsg->cloneObject();
                     }
                     break;
 

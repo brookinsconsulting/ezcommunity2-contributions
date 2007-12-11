@@ -66,9 +66,9 @@ if ( $siteDir == "./" )
 	$PHP_SELF = $REQUEST_URI;
 
 // Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
-if ( ! ereg( ".*index_xmlrpc\.php.*", $REQUEST_URI ) ) 
+if ( ! ereg( ".*index_xmlrpc\.php.*", $REQUEST_URI ) )
     $index = "";
-else 
+else
 {
 	// Get the right $REQUEST_URI, when using nVH setup.
     if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
@@ -241,7 +241,7 @@ function Call( $args )
         $password = $call["Password"]->value();
         $GLOBALS["password"] =& $password;
         $User = eZUser::validateUser( $login, $password );
-        if ( get_class( $User ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             return createErrorMessage( EZERROR_BAD_LOGIN );
         if ( !eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
             return createErrorMessage( EZERROR_BAD_LOGIN );
@@ -320,7 +320,7 @@ function Call( $args )
 //      $User = eZUser::validateUser( $login, $password );
     $User = eZUser::currentUser();
 
-//      if ( get_class( $User ) == "ezuser" )
+//      if ( is_a( $user, "eZUser" ) )
 //      {
 //          $logged_in = eZUser::loginUser( $User );
 //          $cur = eZUser::currentUser();
@@ -334,7 +334,7 @@ function Call( $args )
 
     $GLOBALS["User"] =& $User;
 
-    if ( ( get_class( $User ) == "ezuser" ) and eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
+    if ( ( is_a( $user, "eZUser" ) ) and eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
     {
 //          eZLog::writeNotice( "XML-RPC logged in." );
 
@@ -462,7 +462,7 @@ function Call( $args )
                 $ret =& createErrorMessage( EZERROR_NO_RETURN_DATA );
             }
 
-            if ( get_class( $Error ) == "ezxmlrpcresponse" )
+            if ( is_a( $Error, "eZXMLRPCResponse" ) )
             {
                 $ret = $Error;
             }

@@ -74,14 +74,14 @@ if ( $Action == "insert" )
     {
         $file->delete();
     }
-    
+
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkCategoryAdd" ) )
     {
         if ( $Name != "" &&
         $ParentCategory != "" )
         {
             $category = new eZLinkCategory();
-            
+
             $category->setName( $Name );
             $category->setDescription( $Description );
             $category->setSectionID( $SectionID );
@@ -96,20 +96,20 @@ if ( $Action == "insert" )
                 $image->setImage( $file );
 
                 $image->store();
-                
+
                 $category->setImage( $image );
             }
             else
             {
             }
-            
+
             $category->store();
 
             if ( isSet ( $Browse ) )
             {
                 $categoryID = $category->id();
 
-                $session =& eZSession::globalSession();                
+                $session =& eZSession::globalSession();
                 $session->setVariable( "SelectImages", "single" );
                 $session->setVariable( "ImageListReturnTo", "/link/categoryedit/edit/$categoryID/" );
                 $session->setVariable( "NameInBrowse", $category->name() );
@@ -205,7 +205,7 @@ if ( $Action == "update" )
     {
         $file->delete();
     }
-    
+
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkCategoryModify" ) )
     {
         if ( $Name != "" &&
@@ -224,9 +224,9 @@ if ( $Action == "update" )
                 $image = new eZImage( );
                 $image->setName( "Image" );
                 $image->setImage( $file );
-                
+
                 $image->store();
-                
+
                 $category->setImage( $image );
             }
 
@@ -294,7 +294,7 @@ if ( $Action == "new" )
     $t->set_var( "category_name", "" );
     $t->set_var( "category_description", "" );
     $t->set_var( "category_id", "" );
-    
+
     $t->set_var( "action_value", "insert" );
 }
 
@@ -315,25 +315,25 @@ if ( $Action == "edit" )
 
         $parentID = $linkCategory->parent();
         $sectionID = $linkCategory->sectionID();
-        
+
         $t->set_var( "category_name", $linkCategory->name() );
         $t->set_var( "category_description", $linkCategory->description() );
         $t->set_var( "category_id", $linkCategory->id() );
 
         $image =& $linkCategory->image();
-        
-        if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+
+        if ( is_a( $image, "eZImage" ) && $image->id() != 0 )
         {
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
-            
+
             $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-            
+
             $imageURL = "/" . $variation->imagePath();
             $imageWidth = $variation->width();
             $imageHeight = $variation->height();
             $imageCaption = $image->caption();
-            
+
             $t->set_var( "image_width", $imageWidth );
             $t->set_var( "image_height", $imageHeight );
             $t->set_var( "image_url", $imageURL );
@@ -377,7 +377,7 @@ foreach( $categoryLinkList as $categoryLinkItem )
     else
         $t->set_var( "option_level", "" );
 
-    
+
     $category_select_dict[ $categoryLinkItem[0]->id() ] = $i;
 
     $t->parse( "parent_category", "parent_category_tpl", true );
@@ -394,12 +394,12 @@ if ( count( $sectionList ) > 0 )
     {
         $t->set_var( "section_id", $section->id() );
         $t->set_var( "section_name", $section->name() );
-        
+
         if ( $sectionID == $section->id() )
             $t->set_var( "section_is_selected", "selected" );
         else
             $t->set_var( "section_is_selected", "" );
-        
+
         $t->parse( "section_item", "section_item_tpl", true );
     }
 }

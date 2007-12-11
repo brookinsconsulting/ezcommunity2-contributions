@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezimagecategory.php 9794 2003-03-25 14:49:48Z br $
 //
 // Definition of eZImageCategory class
@@ -28,7 +28,7 @@
 //!! eZImageCatalogue
 //! eZImageCategory manages virtual folders.
 /*!
-  
+
 */
 
 /*!TODO
@@ -64,16 +64,16 @@ class eZImageCategory
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZImageCatalogue_Category" );
 
             $this->ID = $db->nextID( "eZImageCatalogue_Category", "ID" );
-            
+
             $db->query( "INSERT INTO eZImageCatalogue_Category
                                      ( ID, Name, Description, UserID, ParentID, SectionID ) VALUES
                                      ( '$this->ID', '$name', '$description', '$this->UserID', '$this->ParentID', '$this->SectionID' )" );
@@ -89,13 +89,13 @@ class eZImageCategory
                                      SectionID='$this->SectionID' WHERE ID='$this->ID'" );
         }
 
-    
+
         if ( $dbError == true )
             $db->rollback( );
         else
             $db->commit();
 
-        
+
         return true;
     }
 
@@ -115,7 +115,7 @@ class eZImageCategory
         $query->setIsLiteral( $literal );
         $where =& $query->buildQuery();
 
-        if ( get_class( $user ) != "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user =& eZUser::currentUser();
 
         $show_str = "";
@@ -166,10 +166,10 @@ class eZImageCategory
     */
     function delete( $catID=-1 )
     {
-       
+
         if ( $catID == -1 )
             $catID = $this->ID;
-        
+
         $category = new eZImageCategory( $catID );
 
         $categoryList = $category->getByParent( $category );
@@ -187,9 +187,9 @@ class eZImageCategory
         $categoryID = $category->id();
 
         $db =& eZDB::globalDatabase();
-        
+
         $db->begin( );
-        
+
         $res1 = $db->query( "DELETE FROM eZImageCatalogue_Category WHERE ID='$categoryID'" );
         $res2 = $db->query( "DELETE FROM eZImageCatalogue_CategoryPermission WHERE ObjectID='$this->ID'" );
 
@@ -197,9 +197,9 @@ class eZImageCategory
             $db->rollback( );
         else
             $db->commit();
-        
+
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -236,17 +236,17 @@ class eZImageCategory
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $category_array = array();
-        
+
         $db->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $category_array ); $i++ )
         {
             $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $return_array;
     }
 
@@ -258,76 +258,76 @@ class eZImageCategory
     {
         return eZImageCategory::images( "time", 0, -1, $category );
     }
-    
-    /*! 
+
+    /*!
       Returns the number of categories in the the category given as parameter as parent.
-    */  
+    */
     function countByParent( $parent  )
-    { 
-        if ( get_class( $parent ) == "ezimagecategory" ) 
-        { 
+    {
+        if ( is_a( $parent, "eZImageCategory" ) )
+        {
             $db =& eZDB::globalDatabase();
-        
-            $parentID = $parent->id(); 
+
+            $parentID = $parent->id();
 
             $db->query_single( $count, "SELECT count( ID ) AS Count FROM eZImageCatalogue_Category
                                         WHERE ParentID='$parentID'", "Count" );
 
             return $count;
-        } 
-        else 
-        { 
+        }
+        else
+        {
             return 0;
-        } 
-    } 
+        }
+    }
 
-    /*! 
-      Returns the categories with the category given as parameter as parent. 
-      
+    /*!
+      Returns the categories with the category given as parameter as parent.
+
       If $showAll is set to true every category is shown. By default the categories
       set as exclude from search is excluded from this query.
-      
-      The categories are returned as an array of eZImageCategory objects.      
-    */  
+
+      The categories are returned as an array of eZImageCategory objects.
+    */
     function getByParent( $parent, $offset = 0, $max = -1 )
-    { 
-        if ( get_class( $parent ) == "ezimagecategory" ) 
-        { 
+    {
+        if ( is_a( $parent, "eZImageCategory" ) )
+        {
             $db =& eZDB::globalDatabase();
-        
-            $return_array = array(); 
+
+            $return_array = array();
             $category_array = array();
- 
-            $parentID = $parent->id(); 
+
+            $parentID = $parent->id();
 
             $db->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name", array( "Limit" => $max,
                                                                  "Offset" => $offset ) );
 
-            for ( $i = 0; $i < count( $category_array ); $i++ ) 
-            { 
-                $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName( "ID" )] ); 
-            } 
+            for ( $i = 0; $i < count( $category_array ); $i++ )
+            {
+                $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName( "ID" )] );
+            }
 
-            return $return_array; 
-        } 
-        else 
-        { 
-            return array(); 
-        } 
-    } 
+            return $return_array;
+        }
+        else
+        {
+            return array();
+        }
+    }
 
     /*!
         \static
         Returns the one, and only if one exists, category with the name
-        
+
         Returns an object of eZImageCategory.
      */
     function &getByName( $name )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $topic =& new eZImageCategory();
 
         if ( $name != "" )
@@ -345,28 +345,28 @@ class eZImageCategory
 
 
     /*!
-      Returns the current path as an array of arrays.  
-      
-      The array is built up like: array( array( id, name ), array( id, name ) );  
-      
-      See detailed description for an example of usage.  
-    */  
-    function path( $categoryID=0 ) 
-    { 
-        if ( $categoryID == 0 ) 
-        { 
-            $categoryID = $this->ID; 
-        } 
-            
-        $category = new eZImageCategory( $categoryID ); 
+      Returns the current path as an array of arrays.
 
-        $path = array(); 
+      The array is built up like: array( array( id, name ), array( id, name ) );
+
+      See detailed description for an example of usage.
+    */
+    function path( $categoryID=0 )
+    {
+        if ( $categoryID == 0 )
+        {
+            $categoryID = $this->ID;
+        }
+
+        $category = new eZImageCategory( $categoryID );
+
+        $path = array();
 
         $parent = $category->parent();
 
-        if ( $parent != 0 ) 
+        if ( $parent != 0 )
         {
-            $path = array_merge( $path, $this->path( $parent->id() ) ); 
+            $path = array_merge( $path, $this->path( $parent->id() ) );
         }
         else
         {
@@ -374,8 +374,8 @@ class eZImageCategory
         }
 
         if ( $categoryID != 0 )
-            array_push( $path, array( $category->id(), $category->name() ) );                                
-        
+            array_push( $path, array( $category->id(), $category->name() ) );
+
         return $path;
     }
 
@@ -387,7 +387,7 @@ class eZImageCategory
         $category = new eZImageCategory( $parentID );
 
         $categoryList = $category->getByParent( $category );
-        
+
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
@@ -471,9 +471,9 @@ class eZImageCategory
      */
     function isOwner( $user, $imagecategory )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZImageCatalogue_Category WHERE ID='$imagecategory'");
         $userID = $res[$db->fieldName("UserID")];
@@ -505,7 +505,7 @@ class eZImageCategory
     */
     function setParent( $value )
     {
-       if ( get_class( $value ) == "ezimagecategory" )
+       if ( is_a( $value, "eZImageCategory" ) )
        {
            $this->ParentID = $value->id();
        }
@@ -516,7 +516,7 @@ class eZImageCategory
     */
     function setUser( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $userID = $user->id();
 
@@ -530,8 +530,8 @@ class eZImageCategory
       Can be used as a static function if $categoryid is supplied
     */
     function addImage( $value, $categoryid = false )
-    {        
-       if ( get_class( $value ) == "ezimage" )
+    {
+       if ( is_a( $value, "eZImage" ) )
            $imageID = $value->id();
        else if ( is_numeric( $value ) )
            $imageID = $value;
@@ -540,7 +540,7 @@ class eZImageCategory
 
        if ( !$categoryid )
            $categoryid = $this->ID;
-           
+
        $db =& eZDB::globalDatabase();
 
        $imageID = $value->id();
@@ -555,20 +555,20 @@ class eZImageCategory
                 ImageID='$imageid'";
 
        $db->query( $query );
-       
+
        $nextID = $db->nextID( "eZImageCatalogue_ImageCategoryLink", "ID" );
-       
+
        $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink ( ID, CategoryID, ImageID )
                  VALUES ( '$nextID', '$categoryid', '$imageID' )";
 
        $res = $db->query( $query );
 
        $db->unlock();
-       
+
        if ( $res == false )
            $db->rollback( );
        else
-           $db->commit();        
+           $db->commit();
     }
 
     /*!
@@ -578,7 +578,7 @@ class eZImageCategory
     */
     function removeImage( $value, $categoryid = false )
     {
-        if ( get_class( $value ) == "ezimage" )
+        if ( is_a( $value, "eZImage" ) )
             $imageID = $value->id();
         else if ( is_numeric( $value ) )
             $imageID = $value;
@@ -594,7 +594,7 @@ class eZImageCategory
                         ImageID='$imageID'";
 
         $db->begin( );
-        
+
         $res = $db->query( $query );
 
         if ( $res == false )
@@ -603,7 +603,7 @@ class eZImageCategory
             $db->commit();
     }
 
-    
+
     /*!
       Returns every images in a category as a array of eZImage objects.
     */
@@ -622,7 +622,7 @@ class eZImageCategory
         if ( $user )
         {
             $groups =& $user->groups( false );
-            
+
             $i = 0;
             foreach ( $groups as $group )
             {
@@ -630,7 +630,7 @@ class eZImageCategory
                     $groupSQL .= "( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR\n";
                 else
                     $groupSQL .= " ( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
-                
+
                 $i++;
             }
 
@@ -639,7 +639,7 @@ class eZImageCategory
             if ( $user->hasRootAccess() )
                 $usePermission = false;
         }
-        
+
         $having_str = "";
 
         $sel_str = "count( DISTINCT Image.ID ) AS Count";
@@ -699,7 +699,7 @@ class eZImageCategory
             $cnt = $file_array;
         }
         return $cnt;
-    } 
+    }
 
     /*!
       Returns every images in a category as a array of eZImage objects.
@@ -708,7 +708,7 @@ class eZImageCategory
     {
        $db =& eZDB::globalDatabase();
 
-       if ( get_class ( $category ) == "ezimagecategory" )
+       if ( is_a ( $category, "eZImageCategory" ) )
        {
            $catID = $category->id();
        }
@@ -723,7 +723,7 @@ class eZImageCategory
        if ( $user )
        {
            $groups =& $user->groups( false );
-           
+
            if ( $user->hasRootAccess() )
            {
                $usePermission = false;
@@ -764,7 +764,7 @@ class eZImageCategory
            }
            else
                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
-                   "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) AND " . 
+                   "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) AND " .
                    "Image.ID = Permission.ObjectID AND ";
        }
        else
@@ -796,9 +796,9 @@ class eZImageCategory
        {
            $return_array[$i] = new eZImage( $file_array[$i][$db->fieldName( "ImageID" )], false );
        }
-       
+
        return $return_array;
-    } 
+    }
 
 
    /*!
@@ -821,9 +821,9 @@ class eZImageCategory
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SectionID from eZImageCatalogue_Category WHERE ID='$categoryID'" );
-        
+
         $sectionID = $res[$db->fieldName( "SectionID" )];
-        
+
         if ( $sectionID > 0 )
         {
             return $sectionID;
@@ -833,7 +833,7 @@ class eZImageCategory
             return false;
         }
     }
-    
+
     var $ID;
     var $Name;
     var $ParentID;

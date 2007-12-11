@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbulkmailsubscriptionuser.php 7100 2001-09-08 12:16:19Z ce $
 //
 // eZBulkMailSubscriptionUser class
@@ -34,7 +34,7 @@
   \endcode
 
 */
-	      
+
 class eZBulkMailSubscriptionUser
 {
     /*!
@@ -55,7 +55,7 @@ class eZBulkMailSubscriptionUser
     function store()
     {
         $password = md5( $this->Password );
-        
+
         $db =& eZDB::globalDatabase();
         $db->begin();
         if ( !isset( $this->ID ) )
@@ -98,12 +98,12 @@ class eZBulkMailSubscriptionUser
         $db =& eZDB::globalDatabase();
         if( $id == -1 )
             $id = $this->ID;
-        
+
         $db->begin();
         // delete from BulkMailCategoryLink
         $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE UserID='$id'" );
         // delete actual group entry
-        $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionUser WHERE ID='$id'" );            
+        $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionUser WHERE ID='$id'" );
         $commit = true;
         foreach(  $results as $result )
         {
@@ -116,7 +116,7 @@ class eZBulkMailSubscriptionUser
             $db->commit();
 
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -150,7 +150,7 @@ class eZBulkMailSubscriptionUser
         $email = addslashes( $email );
         $db->array_query( $address_array, "SELECT ID FROM eZBulkMail_SubscriptionUser WHERE EMail='$email'" );
 
-        
+
         $return_value = false;
         if( count( $address_array ) > 1 )
         {
@@ -198,7 +198,7 @@ class eZBulkMailSubscriptionUser
         }
         return $return_value;
     }
-    
+
     /*!
       Returns the email address of this user.
     */
@@ -206,7 +206,7 @@ class eZBulkMailSubscriptionUser
     {
         return $this->EMail;
     }
-    
+
     /*!
       Returns the email address of this user.
     */
@@ -245,7 +245,7 @@ class eZBulkMailSubscriptionUser
     {
         $this->Password = $value;
     }
-    
+
     /*!
       Returns all the categories that this user is subscribed to as an array of eZBulkMailCategory objects. If you just want the ID's supply false as the first argument.
      */
@@ -267,7 +267,7 @@ class eZBulkMailSubscriptionUser
      */
     function subscribe( $categoryID )
     {
-        if( get_class( $categoryID ) == "ezbulkmailcategory" )
+        if( is_a( $categoryID, "eZBulkMailCategory" ) )
             $categoryID = $categoryID->id();
 
         $db = eZDB::globalDatabase();
@@ -304,7 +304,7 @@ class eZBulkMailSubscriptionUser
     function unsubscribe( $category )
     {
         $db =& eZDB::globalDatabase();
-        if( get_class( $category ) == "ezbulkmailcategory" )
+        if( is_a( $category, "eZBulkMailCategory" ) )
         {
             $categoryID = $category->id();
             $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE UserID='$categoryID'" );
@@ -348,10 +348,10 @@ class eZBulkMailSubscriptionUser
                                                     AND Password='$md5'" );
         if ( count( $subscription_array ) == 1 )
             $ret = true;
-        
+
         return $ret;
     }
-    
+
     var $ID;
     var $EMail;
     var $Password;

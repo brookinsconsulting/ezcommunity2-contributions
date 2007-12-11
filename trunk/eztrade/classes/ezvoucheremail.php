@@ -1,5 +1,5 @@
 <?
-// 
+//
 // $Id: ezvoucheremail.php 7071 2001-09-07 09:54:45Z ce $
 //
 // eZVoucherEMail class
@@ -78,13 +78,13 @@ class eZVoucherEMail
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $description =& addslashes( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_VoucherEMail" );
-            $nextID = $db->nextID( "eZTrade_VoucherEMail", "ID" );            
+            $nextID = $db->nextID( "eZTrade_VoucherEMail", "ID" );
             $timeStamp =& eZDateTime::timeStamp( true );
             $password = md5( $this->Password );
 
@@ -111,7 +111,7 @@ class eZVoucherEMail
                                      WHERE ID='$this->ID" );
         }
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -130,9 +130,9 @@ class eZVoucherEMail
 
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res = $db->query( "DELETE FROM eZTrade_VoucherEMail WHERE ID='$this->ID'" );
-    
+
         if ( $ret == false )
             $db->rollback( );
         else
@@ -186,7 +186,7 @@ class eZVoucherEMail
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $quizArray = array();
 
@@ -257,7 +257,7 @@ class eZVoucherEMail
     */
     function setEmail( &$value )
     {
-        if ( get_class ( $value ) == "ezonline" )
+        if ( is_a ( $value, "eZOnline" ) )
             $this->OnlineID = $value->id();
         else
             $this->OnlineID = $value;
@@ -268,7 +268,7 @@ class eZVoucherEMail
     */
     function setVoucher( &$value )
     {
-        if ( get_class ( $value ) == "ezvoucher" )
+        if ( is_a ( $value, "eZVoucher" ) )
             $this->VoucherID = $value->id();
         else
             $this->VoucherID = $value;
@@ -279,7 +279,7 @@ class eZVoucherEMail
     */
     function setPreOrder( &$value )
     {
-        if ( get_class ( $value ) == "ezpreorder" )
+        if ( is_a ( $value, "eZPreOrder" ) )
             $this->PreOrderID = $value->id();
         else
             $this->PreOrderID = $value;

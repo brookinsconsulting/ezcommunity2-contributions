@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: forumlist.php 7782 2001-10-11 11:06:20Z jhe $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -80,12 +80,12 @@ foreach ( $forumList as $forum )
 {
     $t->set_var( "forum_id", $forum->id() );
 
-    $t->set_var( "name", $forum->name() );    
+    $t->set_var( "name", $forum->name() );
     $t->set_var( "description", $forum->description() );
 
     $t->set_var( "threads", $forum->messageCount( false, false ) );
-    $t->set_var( "messages", $forum->messageCount( false, true ) );    
-    
+    $t->set_var( "messages", $forum->messageCount( false, true ) );
+
 
     if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bglight"  );
@@ -94,10 +94,10 @@ foreach ( $forumList as $forum )
 
     $group =& $forum->group();
 
-    if ( get_class( $group ) == "ezusergroup" )
+    if ( is_a( $group, "eZUserGroup" ) )
     {
         $user =& eZUser::currentUser();
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupList =& $user->groups();
 
@@ -117,7 +117,7 @@ foreach ( $forumList as $forum )
         $t->parse( "forum_item", "forum_item_tpl", true );
         $j++;
     }
-    
+
     $i++;
 }
 

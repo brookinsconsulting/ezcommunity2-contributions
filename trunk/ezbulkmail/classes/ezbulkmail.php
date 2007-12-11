@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbulkmail.php 9251 2002-02-20 13:18:49Z jhe $
 //
 // eZBulkMail class
@@ -51,7 +51,7 @@ class eZBulkMail
         // default values...
         $this->isDraft = 1;
         $this->UserID = 0;
-        
+
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -75,7 +75,7 @@ class eZBulkMail
         {
             $db->lock( "eZBulkMail_Mail" );
             $nextID = $db->nextID( "eZBulkMail_Mail", "ID" );
-            
+
             $result = $db->query( "INSERT INTO eZBulkMail_Mail
                                 ( ID, UserID, FromField, FromName, ReplyTo, Subject, BodyText, SentDate, IsDraft )
                                 VALUES
@@ -122,7 +122,7 @@ class eZBulkMail
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( $id == -1 )
             $id = $this->ID;
 
@@ -140,14 +140,14 @@ class eZBulkMail
         else
             $db->commit();
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-                
+
         if ( $id != "" )
         {
             $db->array_query( $mail_array, "SELECT * FROM eZBulkMail_Mail WHERE ID='$id'" );
@@ -178,24 +178,24 @@ class eZBulkMail
     function getAll( $draftsOnly = false )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $mail_array = array();
 
         $draftsSQL = "";
         if ( $draftsOnly == true )
             $draftsSQL = "WHERE IsDraft='1'";
-        
+
         $db->array_query( $mail_array, "SELECT ID, SentDate FROM eZBulkMail_Mail $draftsSQL ORDER BY SentDate" );
-        
+
         for ( $i = 0; $i < count( $mail_array ); $i++ )
         {
             $return_array[$i] = new eZBulkMail( $mail_array[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $return_array;
     }
-    
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -213,7 +213,7 @@ class eZBulkMail
     }
 
     /*!
-      Sets the sender address.      
+      Sets the sender address.
     */
     function setSender( $newSender )
     {
@@ -237,7 +237,7 @@ class eZBulkMail
     }
 
     /*!
-      Sets the sender's name.      
+      Sets the sender's name.
     */
     function setFromName( $newSender )
     {
@@ -293,7 +293,7 @@ class eZBulkMail
     */
     function setOwner( $newOwner )
     {
-        if ( get_class( $newOwner ) == "ezuser" )
+        if ( is_a( $newOwner, "eZUser" ) )
             $this->UserID = $newOwner->id();
         else
             $this->UserID = $newOwner;
@@ -306,7 +306,7 @@ class eZBulkMail
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->SentDate );
-        
+
         return $dateTime;
     }
 
@@ -335,11 +335,11 @@ class eZBulkMail
     }
 
     /*!
-      Adds this bulkmail to a category. 
+      Adds this bulkmail to a category.
      */
     function addToCategory( $value )
     {
-       if ( get_class( $value ) == "ezbulkmailcategory" )
+       if ( is_a( $value, "eZBulkMailCategory" ) )
            $value = $value->id();
 
        $db =& eZDB::globalDatabase();
@@ -364,7 +364,7 @@ class eZBulkMail
                $result = $db->query( "INSERT INTO eZBulkMail_MailCategoryLink ( CategoryID, MailID ) VALUES ( '$value', '$this->ID' ) " );
 
                $db->unlock();
-               
+
                if ( $result == false )
                    $db->rollback( );
                else
@@ -372,8 +372,8 @@ class eZBulkMail
            }
        }
     }
-    
-    
+
+
     /*!
       Returns the categories a mail is member of.
       False if none..
@@ -383,14 +383,14 @@ class eZBulkMail
         $db =& eZDB::globalDatabase();
         $category_array = array();
         $result_array = array();
-        
+
         $db->array_query( $category_array, "SELECT CategoryID FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'" );
 
         foreach ( $category_array as $arrayItem )
         {
             $result_array[] = ( $as_object == true ) ? new eZBulkMailCategory( $arrayItem[$db->fieldName( "CategoryID" )] ) : $arrayItem[$db->fieldName( "CategoryID" )];
         }
-        
+
         return $result_array;
     }
 
@@ -402,14 +402,14 @@ class eZBulkMail
     function useTemplate( $templateID )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $db->begin();
         $result = $db->query( "DELETE FROM eZBulkMail_MailTemplateLink WHERE MailID='$this->ID'" );
         if ( $result == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         if ( $templateID != false )
         {
             $db->begin();
@@ -430,14 +430,14 @@ class eZBulkMail
     {
         $db =& eZDB::globalDatabase();
         $template_array = array();
-        
+
         $db->array_query( $template_array, "SELECT TemplateID FROM eZBulkMail_MailTemplateLink WHERE MailID='$this->ID'" );
 
         if ( count( $template_array ) > 0 && $as_object == true )
             return new eZBulkMailTemplate( $template_array[0][$db->fieldName( "TemplateID" )] );
         if ( count( $template_array ) > 0 && $as_object == false )
             return $template_array[0][$db->fieldName( "TemplateID" )];
-        
+
         return false;
     }
 
@@ -466,7 +466,7 @@ class eZBulkMail
             {
                 $subscribers = array_merge( $subscribers, $categoryItem->subscribers( true, $categoryItem->id() ) );
                 $subscribers = array_merge( $subscribers, $categoryItem->subscribedUsers( $categoryItem->id() ) );
-                
+
                 $groups = $categoryItem->groupSubscriptions();
                 foreach ( $groups as $group )
                     $subscribers = array_merge( $subscribers, $group->users() );
@@ -484,7 +484,7 @@ class eZBulkMail
                 $canSend = false;
 
                 $permission = false;
-                if ( $article && get_class( $subscriber ) == "ezuser" )
+                if ( $article && is_a( $subscriber, "eZUser" ) )
                 {
                     if ( eZObjectPermission::hasPermissionWithDefinition( $article->id(), "article_article", 'r', $subscriber,
                                                                           $article->categoryDefinition( false ) ) ||
@@ -497,13 +497,13 @@ class eZBulkMail
                 }
                 if ( $permission )
                 {
-                    if ( get_class( $subscriber ) == "ezuser" )
+                    if ( is_a( $subscriber, "eZUser" ) )
                     {
                         $canSend = true;
                         $subscriber = $subscriber->email();
                     }
 
-                    if ( get_class( $subscriber ) == "ezbulkmailsubscriptionaddress" )
+                    if ( is_a( $subscriber, "eZBulkMailSubscriptionAddress" ) )
                     {
                         $categoryID = $subscriber->categoryID();
                         $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
@@ -524,15 +524,15 @@ class eZBulkMail
                             $subscriber = $subscriber->email();
                         }
                     }
-                    
-                    if ( get_class( $subscriber ) == "ezbulkmailusersubscripter" )
+
+                    if ( is_a( $subscriber, "eZBulkMailUserSubscripter" ) )
                     {
                         $categoryID = $subscriber->categoryID();
                         $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
                         if ( $settings )
                         {
                             $delay = $settings->delay();
-                            
+
                             if ( $delay == 0 )
                             {
                                 $subscriber = $subscriber->email();
@@ -551,7 +551,7 @@ class eZBulkMail
                                 $subscriber = $userMail->email();
                         }
                     }
-                    
+
                     if ( !$this->isSent( $subscriber ) && $canSend )
                     {
                         $mail->setTo( $subscriber );
@@ -640,11 +640,11 @@ class eZBulkMail
         }
 
         for ( $i = 0; $i < count( $subscribe_array ); $i++ )
-        { 
+        {
             $this->sendSingle( $subscribe_array[$i]["AddressID"], $subscribe_array[$i]["MailID"], false );
         }
         for ( $i = 0; $i < count( $user_array ); $i++ )
-        { 
+        {
             $this->sendSingle( $user_array[$i]["UserID"], $user_array[$i]["MailID"], true );
         }
 
@@ -671,7 +671,7 @@ class eZBulkMail
         else
             return false;
     }
-    
+
     /*!
       Return true if the current timestamp is one day more than the offset
       \private
@@ -726,7 +726,7 @@ class eZBulkMail
     }
 
     /*!
-      
+
     */
     function sendSingle( $addressID, $mailID, $user=false )
     {
@@ -746,13 +746,13 @@ class eZBulkMail
             $subscriber = new eZBulkMailSubscriptionAddress( $addressID );
             $subscriber = $subscriber->eMail();
         }
-        
+
         $template = $bulkMail->template();
         if ( is_object( $template ) )
             $bulkMail->setBodyText( $template->header( false ) . $bulkMail->body() . $template->footer( false ) );
-        
+
         $bulkMail->useTemplate( false );
-        
+
         $mail = new eZMail();
         $mail->setBodyText( $bulkMail->body() );
         $mail->setSubject( $bulkMail->subject() );
@@ -763,7 +763,7 @@ class eZBulkMail
 
         $bulkMail->addLogEntry( $subscriber );
         $bulkMail->store();
-            
+
         // The mail was sent.. now lets set the timestamp
         $db =& eZDB::globalDatabase();
         $db->begin();
@@ -879,7 +879,7 @@ class eZBulkMail
 
         return false;
     }
-    
+
     var $ID;
     var $UserID;
     var $From;
@@ -892,7 +892,7 @@ class eZBulkMail
 
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
-    
+
 }
 
 ?>

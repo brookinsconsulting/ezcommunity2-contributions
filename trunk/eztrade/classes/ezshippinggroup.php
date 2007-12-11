@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezshippinggroup.php 7217 2001-09-14 12:29:11Z ce $
 //
 // Definition of eZShippingGroup class
@@ -31,7 +31,7 @@
 /*!
   Shipping groups is grouping of selected products which
   have the same shipping parameters, e.g. weight.
-  
+
   \sa eZProduct
 */
 
@@ -62,7 +62,7 @@ class eZShippingGroup
         $db->begin();
 
         $this->Name = $db->escapeString( $this->Name );
-        
+
         if ( !isset( $this->ID ) )
         {
             $timeStamp =& eZDateTime::timeStamp( true );
@@ -97,11 +97,11 @@ class eZShippingGroup
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != -1  )
         {
             $db->array_query( $shipping_array, "SELECT * FROM eZTrade_ShippingGroup WHERE ID='$id'" );
-            
+
             if ( count( $shipping_array ) > 1 )
             {
                 die( "Error: Shipping Groups's with the same ID was found in the database. This shouldn't happen." );
@@ -120,12 +120,12 @@ class eZShippingGroup
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $shipping_array = array();
-        
+
         $db->array_query( $shipping_array, "SELECT ID FROM eZTrade_ShippingGroup ORDER BY Created" );
-        
+
         for ( $i=0; $i<count($shipping_array); $i++ )
         {
             $return_array[$i] = new eZShippingGroup( $shipping_array[$i][$db->fieldName( "ID" )], 0 );
@@ -165,24 +165,24 @@ class eZShippingGroup
 
     /*!
       Sets the shipping start and add value for the given eZShippingType to the
-      current eZShippingGroup with the $value .      
+      current eZShippingGroup with the $value .
     */
     function setStartAddValue( $type, $startValue, $addValue )
     {
-        if ( get_class( $type ) == "ezshippingtype" )
+        if ( is_a( $type, "eZShippingType" ) )
         {
             $db =& eZDB::globalDatabase();
             $typeID = $type->id();
 
             $value_array = array();
-            
+
             $db->array_query( $value_array, "SELECT ID FROM eZTrade_ShippingValue
             WHERE ShippingTypeID='$typeID' AND ShippingGroupID='$this->ID'" );
 
             if ( count( $value_array ) == 1 )
             {
                 $vid = $value_array[0][$db->fieldName( "ID" )];
-                
+
                 $res[] = $db->query( "UPDATE eZTrade_ShippingValue  SET StartValue='$startValue',
                 AddValue='$addValue'
                 WHERE ID='$vid'
@@ -218,12 +218,12 @@ class eZShippingGroup
     function &startAddValue( $type )
     {
         $ret = array();
-        
-        if ( get_class( $type ) == "ezshippingtype" )
+
+        if ( is_a( $type, "eZShippingType" ) )
         {
             $db =& eZDB::globalDatabase();
             $typeID = $type->id();
-        
+
             $value_array = array();
 
             $db->array_query( $value_array, "SELECT * FROM eZTrade_ShippingValue

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezdatetime.php 7544 2001-09-28 06:29:32Z jhe $
 //
 // Definition of eZDateTime class
@@ -40,7 +40,7 @@
   // print the day and month names in localized format
   print( "Day:" . $locale->dayName( $datetime->dayName( $locale->mondayFirst() ) ) . "<br>" );
   print( "Month:" . $locale->monthName( $datetime->monthName() ) . "<br>" );
-  \endcode  
+  \endcode
   \sa eZDate eZTime eZLocale
 */
 
@@ -65,14 +65,14 @@ class eZDateTime
             $this->Time = new eZTime( $now[ "hours" ], $now[ "minutes" ], $now[ "seconds" ] );
         }
         else
-        {        
+        {
             $this->Date = new eZDate( $year, $month, $day );
             $this->Time = new eZTime( $hour, $minute, $second );
         }
     }
 
     /*!
-      The year is returned in Y2K compatible format.      
+      The year is returned in Y2K compatible format.
     */
     function year()
     {
@@ -80,7 +80,7 @@ class eZDateTime
     }
 
     /*!
-      The month value is returned.      
+      The month value is returned.
     */
     function month()
     {
@@ -132,7 +132,7 @@ class eZDateTime
         {
             $month = $this->month();
         }
-        
+
         if ( $this->day() < "10" )
         {
             $day = ( "0" . $this->day() );
@@ -244,7 +244,7 @@ class eZDateTime
     {
         return $this->Date;
     }
-    
+
     /*!
       Returns the time component of the date time object
       as an eZTime object.
@@ -253,7 +253,7 @@ class eZDateTime
     {
         return $this->Time;
     }
-    
+
     /*!
       Sets the data according to the MySQL date given as paramenter.
       If the paramenter is invalid nothing is set and an error is printed.
@@ -315,7 +315,7 @@ class eZDateTime
         {
             print( "<b>Error:</b> eZDateTime::setMySQLTimeStamp() received wrong MySQL timestamp format." );
         }
-        
+
     }
 
     /*!
@@ -335,7 +335,7 @@ class eZDateTime
         }
 
     }
-    
+
 
     /*!
       Returns the MySQL timestamp equivalent to the date and time stored
@@ -344,13 +344,13 @@ class eZDateTime
     function mysqlTimeStamp()
     {
         $year = $this->year();
-        
+
         $month = $this->addZero( $this->month() );
         $day = $this->addZero( $this->day() );
-        
+
         $hour = $this->addZero( $this->hour() );
         $minute = $this->addZero( $this->minute() );
-        $second = $this->addZero( $this->second() );                
+        $second = $this->addZero( $this->second() );
 
         return $year . $month . $day . $hour . $minute . $second;
     }
@@ -366,7 +366,7 @@ class eZDateTime
         {
             $ret = "0". $ret;
         }
-        
+
         return $ret;
     }
 
@@ -434,7 +434,7 @@ class eZDateTime
     {
         $ret = false;
 
-        if ( get_class( $datetime ) == "ezdatetime" )
+        if ( is_a( $datetime, "eZDateTime" ) )
         {
             if ( $this->Date->equals( $datetime->date() ) == true )
                 $ret = $this->Time->isGreater( $datetime->time(), $equal );

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezarticleform.php 6206 2001-07-19 12:19:22Z jakobn $
 //
 // ezarticleform class
@@ -68,22 +68,22 @@ class eZArticleForm
     function store()
     {
         $db =& eZDB::globalDatabase();
-        
-        if( get_class( $this->Form ) == "ezform" )
+
+        if( is_a( $this->Form, "eZForm" ) )
         {
             $FormID = $this->Form->id();
         }
 
-        if( get_class( $this->Article ) == "ezarticle" )
+        if( is_a( $this->Article, "eZArticle" ) )
         {
             $ArticleID = $this->Article->id();
         }
-        
+
         $setValues = "
             FormID='$FormID',
             ArticleID='$ArticleID'
         ";
-        
+
         if ( empty( $this->ID ) )
         {
             $db->query( "INSERT INTO eZArticle_ArticleFormDict SET $setValues" );
@@ -106,7 +106,7 @@ class eZArticleForm
             $formID = $this->ID;
 
         $db =& eZDB::globalDatabase();
-        
+
         $db->query( "DELETE FROM eZArticle_ArticleFormDict WHERE ID=$formID" );
     }
 
@@ -143,7 +143,7 @@ class eZArticleForm
     function fill( &$formArray )
     {
         $this->ID =& $formArray[ "ID" ];
-        
+
         $this->Article =& new eZArticle( $formArray[ "ArticleID" ] );
         $this->Form =& new eZForm( $formArray[ "FormID" ] );
     }
@@ -157,7 +157,7 @@ class eZArticleForm
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $formArray = array();
 
@@ -227,7 +227,7 @@ class eZArticleForm
     */
     function setArticle( &$object )
     {
-        if( get_class( $object ) == "ezarticle" )
+        if( is_a( $object, "eZArticle" ) )
         {
             $this->Article = $object;
         }
@@ -238,7 +238,7 @@ class eZArticleForm
     */
     function setForm( &$object )
     {
-        if( get_class( $object ) == "ezform" )
+        if( is_a( $object, "eZForm" ) )
         {
             $this->Form = $object;
         }
@@ -247,7 +247,7 @@ class eZArticleForm
     /*!
         \static
         Returns the form if the article has a form.
-        
+
         The article is sent in as an eZArticle object.
         The form is returned as an eZForm object.
     */
@@ -255,12 +255,12 @@ class eZArticleForm
     {
         $returnArray = array();
         $formArray = array();
-        
-        if( get_class( $object ) == "ezarticle" )
+
+        if( is_a( $object, "eZArticle" ) )
         {
             $ArticleID = $object->id();
         }
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT FormID FROM eZArticle_ArticleFormDict WHERE ArticleID='$ArticleID'" );
 
@@ -272,7 +272,7 @@ class eZArticleForm
     /*!
         \static
         Returns the article if the form has an article.
-        
+
         The form is sent in as an eZForm object.
         The article is returned as an eZArticle object.
     */
@@ -280,12 +280,12 @@ class eZArticleForm
     {
         $returnArray = array();
         $formArray = array();
-        
-        if( get_class( $object ) == "ezform" )
+
+        if( is_a( $object, "eZForm" ) )
         {
             $FormID = $object->id();
         }
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ArticleID FROM eZArticle_ArticleFormDict WHERE FormID='$FormID'" );
 

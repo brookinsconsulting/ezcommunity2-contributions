@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: message.php 9518 2002-05-08 11:51:36Z vl $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -65,12 +65,12 @@ $forum = new eZForum( $message->forumID() );
 
 $group =& $forum->group();
 $viewer = $user;
-if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
+if ( ( is_a( $group, "eZUserGroup" ) ) && ( $group->id() != 0 ) )
 {
-    if ( get_class( $viewer ) == "ezuser" )
+    if ( is_a( $viewer, "eZUser" ) )
     {
         $groupList =& $viewer->groups();
-        
+
         foreach ( $groupList as $userGroup )
         {
             if ( $userGroup->id() == $group->id() )
@@ -91,7 +91,7 @@ $categories = $forum->categories();
 if ( count( $categories ) > 0 )
 {
     $category = new eZForumCategory( $categories[0]->id() );
-    
+
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
 
@@ -141,7 +141,7 @@ $t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
 $t->set_var( "reply_id", $message->id() );
 $t->set_var( "forum_id", $forum->id() );
 
-if ( get_class( $viewer ) == "ezuser" )
+if ( is_a( $viewer, "eZUser" ) )
 {
     if ( $viewer->id() == $message->userId() && eZForumMessage::countReplies( $message->id() ) == 0 )
     {
@@ -174,7 +174,7 @@ foreach ( $messages as $threadmessage )
         $t->set_var( "td_class", "bgdark" );
         $t->set_var( "td_alt", "2" );
     }
-    
+
     $level = $threadmessage->depth();
 
     if ( $threadmessage->id() == $MessageID )
@@ -199,7 +199,7 @@ foreach ( $messages as $threadmessage )
         $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( true ) ) );
     else
         $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( false ) ) );
-  
+
     $messageAge = round( $threadmessage->age() / 86400 );
     if ( $messageAge <= $NewMessageLimit )
     {
@@ -211,7 +211,7 @@ foreach ( $messages as $threadmessage )
         $t->parse( "old_icon", "old_icon_tpl" );
         $t->set_var( "new_icon", "" );
     }
-    
+
     $time = $threadmessage->postingTime();
 
     $t->set_var( "postingtime", $locale->format( $time ) );
@@ -230,7 +230,7 @@ foreach ( $messages as $threadmessage )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
     }
-    
+
     $t->set_var( "user", $MessageAuthor );
 
     /*
@@ -260,7 +260,7 @@ else
     $t->set_var( "message_body", "" );
     $t->parse( "message_error", "message_error_tpl" );
 }
-    
+
 
 
 if ( $readPermission )

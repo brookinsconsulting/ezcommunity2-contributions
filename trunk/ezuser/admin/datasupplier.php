@@ -33,7 +33,7 @@ include_once( "classes/INIFile.php" );
 
 $user =& eZUser::currentUser();
 
-if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "eZUser", "ModuleEdit" ) == true)
+if ( is_a( $user, "eZUser" )  and eZPermission::checkPermission( $user, "eZUser", "ModuleEdit" ) == true)
 {
     // These should only be available if the user has permissions...
     switch ( $url_array[2] )
@@ -82,7 +82,7 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         }
         break;
         // end hack
-        
+
         case "userlist" :
         {
             $Index = $url_array[3];
@@ -193,12 +193,12 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
 	  $DemoSite = $ini->read_var( "site", "DemoSite" );
 
 	  if ( $DemoSite == "enabled" ) {
-	    print("<div align='center'>This is a demosite only. You are not allowed to change the admin password!</div>\n"); 
+	    print("<div align='center'>This is a demosite only. You are not allowed to change the admin password!</div>\n");
 	  }else{
 	    $Action = $url_array[3];
             // include( "ezuser/admin/passwordchange.php" );
 	  }
-	  
+
         }
         break;
 
@@ -220,7 +220,7 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
 else
 {
     // These should allways be available
-    switch( $url_array[2] ) 
+    switch( $url_array[2] )
     {
         case "login" :
         {

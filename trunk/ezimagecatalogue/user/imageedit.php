@@ -172,7 +172,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             exit();
         }
     }
-    
+
     if ( $fileCheck )
     {
         $file = new eZImageFile();
@@ -249,7 +249,7 @@ if ( $Action == "Insert" && $error == false )
     $image->store();
 
     $ImageID = $image->id();
-         
+
     if ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ) // user had write permission
     {
         changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
@@ -325,7 +325,7 @@ if ( $Action == "Update" && $error == false )
     }
 
     $category->addImage( $image );
-    
+
     if ( $fileOK )
     {
         $image->setImage( $file );
@@ -457,7 +457,7 @@ if ( $Action == "Edit" )
         $t->set_var( "variation_id", $variation->id() );
         $t->set_var( "variation_width", $variation->width() );
         $t->set_var( "variation_height", $variation->height() );
-        
+
         $t->parse( "variation", "image_variation_tpl", true );
         $info_items++;
     }
@@ -483,7 +483,7 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "product_id", $product->id() );
         $t->set_var( "product_name", $product->name() );
-        
+
         $t->parse( "product_item", "product_item_tpl", true );
             $info_items++;
     }
@@ -518,7 +518,7 @@ foreach ( $treeArray as $catItem )
         {
             $defCat = $image->categoryDefinition();
 
-            if ( get_class( $defCat ) == "ezimagecategory" )
+            if ( is_a( $defCat, "eZImageCategory" ) )
             {
                 if ( $image->existsInCategory( $catItem[0] ) &&
                      $defCat->id() != $catItem[0]->id() )
@@ -535,7 +535,7 @@ foreach ( $treeArray as $catItem )
                 $t->set_var( "multiple_selected", "" );
             }
 
-            if ( get_class( $defCat ) == "ezimagecategory" )
+            if ( is_a( $defCat, "eZImageCategory" ) )
             {
                 if ( $defCat->id() == $catItem[0]->id() )
                 {
@@ -609,7 +609,7 @@ foreach ( $groups as $group )
 
     if ( $Action == "New" )
         $t->set_var( "read_everybody", "selected" );
-    
+
     $t->parse( "read_group_item", "read_group_item_tpl", true );
 
     if ( $writeGroupArrayID )
@@ -651,7 +651,7 @@ function changePermissions( $objectID, $groups , $permission )
                 $group = -1;
             else
                 $group = new eZUserGroup( $groupItem );
-            
+
             eZObjectPermission::setPermission( $group, $objectID, "imagecatalogue_image", $permission );
         }
     }

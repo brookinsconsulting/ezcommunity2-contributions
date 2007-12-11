@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: eznewscategory.php 6224 2001-07-20 11:21:41Z jakobn $
 //
 // Definition of eZNewsCategory class
@@ -28,7 +28,7 @@
 //!! eZNewsFeed
 //! eZNewsCategory handles news categories.
 /*!
-  
+
 */
 
 /*!TODO
@@ -64,7 +64,7 @@ class eZNewsCategory
 
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZNewsFeed_Category" );
@@ -102,26 +102,26 @@ class eZNewsCategory
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( isset( $this->ID ) )
         {
             $res[] = $db->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE CategoryID='$this->ID'" );
-            
-            $res[] = $db->query( "DELETE FROM eZNewsFeed_Category WHERE ID='$this->ID'" );            
+
+            $res[] = $db->query( "DELETE FROM eZNewsFeed_Category WHERE ID='$this->ID'" );
         }
 
         eZDB::finish( $res, $db );
-        
+
         return in_array( false, $res );
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZNewsFeed_Category WHERE ID='$id'" );
@@ -147,33 +147,33 @@ class eZNewsCategory
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $category_array = array();
-        
+
         $db->array_query( $category_array, "SELECT ID FROM eZNewsFeed_Category ORDER BY Name" );
-        
+
         for ( $i=0; $i<count($category_array); $i++ )
         {
             $return_array[$i] = new eZNewsCategory( $category_array[$i][$db->fieldName("ID")], 0 );
         }
-        
+
         return $return_array;
     }
 
     /*!
       Returns the categories with the category given as parameter as parent.
 
-      If $showAll is set to true every category is shown. 
+      If $showAll is set to true every category is shown.
 
-      The categories are returned as an array of eZNewsCategory objects.      
+      The categories are returned as an array of eZNewsCategory objects.
     */
     function getByParent( $parent, $showAll=false, $sortby=name )
     {
-        if ( get_class( $parent ) == "eznewscategory" )
+        if ( is_a( $parent, "eZNewsCategory" ) )
         {
             $db =& eZDB::globalDatabase();
-        
+
             $return_array = array();
             $category_array = array();
 
@@ -188,7 +188,7 @@ class eZNewsCategory
             else
             {
                 $db->array_query( $category_array, "SELECT ID, Name FROM eZNewsFeed_Category
-                                          WHERE ParentID='$parentID' 
+                                          WHERE ParentID='$parentID'
                                           ORDER BY Name" );
             }
 
@@ -219,7 +219,7 @@ class eZNewsCategory
         {
             $categoryID = $this->ID;
         }
-            
+
         $category = new eZNewsCategory( $categoryID );
 
         $path = array();
@@ -239,11 +239,11 @@ class eZNewsCategory
         {
             array_push( $path, array( $category->id(), $category->name() ) );
         }
-        
+
         return $path;
     }
 
-   
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -252,7 +252,7 @@ class eZNewsCategory
         return $this->ID;
     }
 
-    
+
     /*!
       Returns the name of the category.
     */
@@ -268,7 +268,7 @@ class eZNewsCategory
     {
         return $this->Description;
     }
-    
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
@@ -280,7 +280,7 @@ class eZNewsCategory
        }
        else
        {
-           return 0;           
+           return 0;
        }
     }
 
@@ -306,7 +306,7 @@ class eZNewsCategory
     */
     function setParent( $value )
     {
-       if ( get_class( $value ) == "eznewscategory" )
+       if ( is_a( $value, "eZNewsCategory" ) )
        {
            $this->ParentID = $value->id();
        }
@@ -317,7 +317,7 @@ class eZNewsCategory
     */
     function addNews( $value )
     {
-       if ( get_class( $value ) == "eznews" )
+       if ( is_a( $value, "eZNews" ) )
        {
            $db =& eZDB::globalDatabase();
            $db->begin();
@@ -332,9 +332,9 @@ class eZNewsCategory
                           ( '$nextID',
                             '$this->ID',
                             '$newsID' )" );
-           
+
            eZDB::finish( $ret, $db );
-       }       
+       }
     }
 
     /*!
@@ -375,7 +375,7 @@ class eZNewsCategory
             $db->array_query( $news_array, "
                 SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name, eZNewsFeed_Category.ID, eZNewsFeed_Category.Name
                 FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
-                WHERE 
+                WHERE
                 eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                 AND
                 eZNewsFeed_Category.ID = eZNewsFeed_NewsCategoryLink.CategoryID
@@ -383,13 +383,13 @@ class eZNewsCategory
                 eZNewsFeed_Category.ID='$this->ID'
                 ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
        }
-        
+
         if ( $fetchNonPublished  == "no" )
         {
             $db->array_query( $news_array, "
                 SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name, eZNewsFeed_Category.ID, eZNewsFeed_Category.Name
                 FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
-                WHERE 
+                WHERE
                 eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                 AND
                 eZNewsFeed_News.IsPublished = '1'
@@ -399,13 +399,13 @@ class eZNewsCategory
                 eZNewsFeed_Category.ID='$this->ID'
                 ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
         }
-        
+
         if ( $fetchNonPublished  == "only" )
         {
            $db->array_query( $news_array, "
                 SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name, eZNewsFeed_Category.ID, eZNewsFeed_Category.Name
                 FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
-                WHERE 
+                WHERE
                 eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                 AND
                 eZNewsFeed_News.IsPublished = '0'
@@ -415,18 +415,18 @@ class eZNewsCategory
                 eZNewsFeed_Category.ID='$this->ID'
                 ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
         }
-        
+
         for ( $i=0; $i<count($news_array); $i++ )
         {
             $return_array[$i] = new eZNews( $news_array[$i][$db->fieldName("NewsID")], false );
         }
         return $return_array;
     }
-    
-    
+
+
     /*!
       Returns the number of news in a category.
-      
+
       If $fetchNonPublished is set to "yes" the news which is not published is
       also counted.
 
@@ -439,7 +439,7 @@ class eZNewsCategory
     function &newsListCount( $sortMode="time",
                        $fetchNonPublished="no" )
     {
-       
+
         $db =& eZDB::globalDatabase();
 
        $return_array = array();
@@ -451,7 +451,7 @@ class eZNewsCategory
            $db->array_query( $news_array, "
                 SELECT count( eZNewsFeed_News.ID ) AS Count
                 FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
-                WHERE 
+                WHERE
                 eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                 AND
                 eZNewsFeed_Category.ID = eZNewsFeed_NewsCategoryLink.CategoryID
@@ -464,7 +464,7 @@ class eZNewsCategory
            $db->array_query( $news_array, "
                 SELECT count( eZNewsFeed_News.ID ) AS Count
                 FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
-                WHERE 
+                WHERE
                 eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                 AND
                 eZNewsFeed_News.IsPublished = '1'
@@ -479,7 +479,7 @@ class eZNewsCategory
            $db->array_query( $news_array, "
                 SELECT count( eZNewsFeed_News.ID ) AS Count
                 FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
-                WHERE 
+                WHERE
                 eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                 AND
                 eZNewsFeed_News.IsPublished = '0'
@@ -489,12 +489,12 @@ class eZNewsCategory
                 eZNewsFeed_Category.ID='$this->ID'
                 " );
        }
-       
-       
+
+
        return $news_array[0][$db->fieldName("Count")];
     }
-    
-    
+
+
     var $ID;
     var $ParentID;
     var $Name;

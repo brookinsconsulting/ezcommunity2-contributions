@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: filedownload.php 9808 2003-04-11 13:48:48Z br $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -50,7 +50,7 @@ $filePath = $file->filePath( true );
 
 include_once( "ezstats/classes/ezpageview.php" );
 
-if ( get_class( $GlobalPageView ) != "ezpageview" )
+if ( !is_a( $GlobalPageView, "eZPageView" ) )
 {
     $GlobalPageView = new eZPageView();
     $GlobalPageView->store();
@@ -60,9 +60,9 @@ $originalFileName = str_replace( " ", "%20", $originalFileName );
 
 // store the statistics
 $file->addPageView( $GlobalPageView );
- 
+
 $filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
- 
+
 //  print( $filePath );
 
 //print( "Location: /filemanager/filedownload/$filePath/$originalFileName"  );

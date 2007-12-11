@@ -29,7 +29,7 @@
 //! The eZMySQLDB class provides database functions.
 /*!
   eZMySQLDB implementes MySQL specific database code.
-   
+
 */
 
 class eZMySQLDB
@@ -49,7 +49,7 @@ class eZMySQLDB
         {
             ini_set( "mysql.default_socket", $socketPath );
         }
-        
+
         $this->Database = mysql_pconnect( $server, $user, $password );
         $numAttempts = 1;
         while ( $this->Database == false && $numAttempts < 5 )
@@ -65,9 +65,9 @@ class eZMySQLDB
             print( "<H1>Couldn't connect to database</H1>Please try again later or inform the system administrator." );
             exit;
         }
-        
+
         $ret = mysql_select_db( $db, $this->Database );
-             
+
         if ( !$ret )
         {
             // No reason to continue as nothing will work.
@@ -75,7 +75,7 @@ class eZMySQLDB
             exit;
         }
     }
-    
+
     /*!
       Returns the driver type.
     */
@@ -93,11 +93,11 @@ class eZMySQLDB
         if ( $GLOBALS["DEBUG"] == true )
         {
             include_once( "classes/ezbenchmark.php" );
-            
+
             $bench = new eZBenchmark();
             $bench->start();
             $result =& mysql_query( $sql, $this->Database );
-            
+
             $bench->stop();
             if ( $bench->elapsed() > 0.01 )
             {
@@ -115,7 +115,7 @@ class eZMySQLDB
 
         $errorMsg = mysql_error( $this->Database );
         $errorNum = mysql_errno( $this->Database );
-                                
+
         if ( $print )
         {
             if ( $GLOBALS["DEBUG"] == true )
@@ -140,7 +140,7 @@ class eZMySQLDB
         }
         mysql_free_result( $result );
     }
-    
+
     /*!
       Executes a SELECT query that returns multiple rows and puts the results into the passed
       array as an indexed associative array.  The array is cleared first.  The results start with
@@ -175,7 +175,7 @@ class eZMySQLDB
     /*!
       Differs from the above function only by not creating av empty array,
       but simply appends to the array passed as an argument.
-     */    
+     */
     function array_query_append( &$array, $sql, $min = 0, $max = -1, $column = false )
     {
         $limit = -1;
@@ -184,7 +184,7 @@ class eZMySQLDB
         if ( is_array( $min ) )
         {
             $params = $min;
-            
+
             if ( isset( $params["Limit"] ) and is_numeric( $params["Limit"] ) )
             {
                 $limit = $params["Limit"];
@@ -211,9 +211,9 @@ class eZMySQLDB
 
         $offset = count( $array );
 //          if ( count( $result ) > 0 )
-        
+
         if ( mysql_num_rows( $result ) > 0 )
-        { 
+        {
             if ( !is_string( $column ) )
             {
                 for($i = 0; $i < mysql_num_rows($result); $i++)
@@ -250,7 +250,7 @@ class eZMySQLDB
     function dateToNative( &$date )
     {
         $ret = false;
-        if ( get_class( $date ) == "ezdate" )
+        if ( is_a( $date, "eZDate" ) )
         {
             $ret = $date->year() . "-" . eZDate::addZero( $date->month() ) . "-" . eZDate::addZero( $date->day() );
         }
@@ -313,7 +313,7 @@ class eZMySQLDB
         if ( $result )
         {
             if ( !mysql_num_rows( $result ) == 0 )
-            {                
+            {
                 $array = mysql_fetch_row( $result );
                 $id = $array[0];
                 $id++;
@@ -331,11 +331,11 @@ class eZMySQLDB
     {
         return mysql_escape_string( $str );
     }
-    
+
     /*!
       \static
       Will just return the field name.
-    */      
+    */
     function &fieldName( $str )
     {
         return $str;
@@ -379,7 +379,7 @@ class eZMySQLDB
     var $Database;
     var $Error;
     var $Counter;
-    
+
 }
 
 ?>

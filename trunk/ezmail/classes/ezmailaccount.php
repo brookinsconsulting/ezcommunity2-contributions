@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezmailaccount.php 6657 2001-08-27 10:54:12Z jhe $
 //
 // eZMailAccount class
@@ -39,13 +39,13 @@
 /* ATTENTION:
    Lots of this code is build upon imap specific features. If you want to understand how this stuff works
    you can find info here www.faqs.org about the protocols:
-    RFC821: Simple Mail Transfer Protocol (SMTP). 
-    RFC822: Standard for ARPA internet text messages. 
-    RFC2060: Internet Message Access Protocol (IMAP) Version 4rev1. 
-    RFC1939: Post Office Protocol Version 3 (POP3). 
-    RFC977: Network News Transfer Protocol (NNTP). 
-    RFC2076: Common Internet Message Headers. 
-    RFC2045 , RFC2046 , RFC2047 , RFC2048 & RFC2049: Multipurpose Internet Mail Extensions (MIME). 
+    RFC821: Simple Mail Transfer Protocol (SMTP).
+    RFC822: Standard for ARPA internet text messages.
+    RFC2060: Internet Message Access Protocol (IMAP) Version 4rev1.
+    RFC1939: Post Office Protocol Version 3 (POP3).
+    RFC977: Network News Transfer Protocol (NNTP).
+    RFC2076: Common Internet Message Headers.
+    RFC2045 , RFC2046 , RFC2047 , RFC2048 & RFC2049: Multipurpose Internet Mail Extensions (MIME).
 
     To understand the return types from the imap functions take a look at the mail.h file in the mime c-klient library
     found here: ftp://ftp.cac.washington.edu/imap
@@ -141,7 +141,7 @@ class eZMailAccount
             $db->commit();
 
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -149,7 +149,7 @@ class eZMailAccount
     function get( $id="" )
     {
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db =& eZDB::globalDatabase();
@@ -185,7 +185,7 @@ class eZMailAccount
     {
         return $this->ID;
     }
-    
+
   /*!
     Returns the ID of the account owner
     */
@@ -207,10 +207,10 @@ class eZMailAccount
      */
     function setUser( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $this->UserID = $user->id();
     }
-    
+
   /*!
     Returns the name of the account.
     */
@@ -259,10 +259,10 @@ class eZMailAccount
     function setPassword( $value )
     {
         $this->Password = $value;
-    }    
+    }
 
   /*!
-    Returns the server for the account. 
+    Returns the server for the account.
     */
     function server()
     {
@@ -292,7 +292,7 @@ class eZMailAccount
     {
         $this->ServerPort = $value;
     }
-    
+
   /*!
     Returns 1 if mail gets deleted from server after download. 0 If not.
     */
@@ -309,7 +309,7 @@ class eZMailAccount
     {
         $this->DeleteFromServer = $value;
     }
-    
+
     /*!
       Returns 1 if the account is active. Inactive accounts should not be checked.
     */
@@ -344,45 +344,45 @@ class eZMailAccount
 
     /*!
       \static
-      
+
       Returns true if the given account belongs to the given user.
      */
     function isOwner( $user, $accountID )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZMail_Account WHERE ID='$accountID'" );
         if ( $res[$db->fieldName("UserID")] == $user )
             return true;
-        
+
         return false;
     }
 
     /*!
       \static
-      
+
       Returns all mail accounts for a selected user as an array of eZMailAccount objects.
      */
     function getByUser( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user = $user->id();
-        
+
         $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $account_array = array();
- 
+
         $db->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$user'" );
- 
+
         for ( $i = 0; $i < count( $account_array ); $i++ )
         {
             $return_array[$i] = new eZMailAccount( $account_array[$i][$db->fieldName( "ID" )] );
         }
- 
-        return $return_array; 
+
+        return $return_array;
     }
 
     /*!
@@ -401,7 +401,7 @@ class eZMailAccount
             exit();
         }
 
-        //debug!!!!        
+        //debug!!!!
         //        $struct = imap_fetchstructure( $mbox, 1 );
         //        echo "<pre>"; print_r( $struct ); echo "</pre>";
         //        exit;
@@ -409,7 +409,7 @@ class eZMailAccount
         // get the inbox... we will be adding mail to this.
         $inbox = eZMailFolder::getSpecialFolder( INBOX );
         $filters = new eZMailFilter();
-        
+
         $num = imap_num_msg( $mbox );         // fetch numbers of all new mails
         for ( $i = 1; $i <= $num; $i++ )  // go through each mail in inbox
         {
@@ -420,10 +420,10 @@ class eZMailAccount
                 $mail->setOwner( $user );
                 $mail->setStatus( UNREAD );
                 $mail->setUDate( $headerinfo->udate );
-                
+
                 getHeaders( $mail, $mbox, $i ); // fetch header information
                 $mail->store(); // to get ID
-                
+
                 set_time_limit( 20 );
                 $mailstructure = imap_fetchstructure( $mbox, $i );
                 disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
@@ -431,19 +431,19 @@ class eZMailAccount
 
                 $mail->store();
                 $mail->markAsDownloaded();
-                $inbox->addMail( $mail ); // safety for now while we debug the filters 
+                $inbox->addMail( $mail ); // safety for now while we debug the filters
                 $filters->runFilters( $mail );
 
                 if ( $this->DeleteFromServer == true )
                     imap_delete( $mbox, $i );
             }
         }
-        
+
 //        $headers = imap_headers( $mbox );
 //        print("<pre>"); print_r( $headers ); print("</pre>" );
         imap_close( $mbox, CL_EXPUNGE );
     }
-    
+
 
     /*!
       \Static
@@ -468,19 +468,19 @@ class eZMailAccount
         $num = imap_num_msg( $mbox );
 
         // go through each mail in inbox
-        for ( $i = 1; $i <= $num; $i++ )  
+        for ( $i = 1; $i <= $num; $i++ )
         {
             // fetch mail headers
             $headerinfo = imap_header( $mbox, $i );
-            
+
             $mail = new eZMail();
             $mail->setOwner( $user );
             $mail->setStatus( UNREAD );
             $mail->setUDate( $headerinfo->udate );
-            
+
             getHeaders( $mail, $mbox, $i ); // fetch header information
             $mail->store(); // to get ID
-            
+
             $mailstructure = imap_fetchstructure( $mbox, $i );
             disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
             $mail->setSize( $mailstructure->bytes );
@@ -490,13 +490,13 @@ class eZMailAccount
             $ret_array[] = $mail;
             imap_delete( $mbox, $i );
         }
-        
+
 //        $headers = imap_headers( $mbox );
 //        print("<pre>"); print_r( $headers ); print("</pre>" );
         imap_close( $mbox, CL_EXPUNGE );
         return $ret_array;
     }
-    
+
 
     var $ID;
     var $UserID;

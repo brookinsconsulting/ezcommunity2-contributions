@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: linkselect.php 8145 2001-11-01 12:06:23Z ce $
 //
 // Created on: <30-Apr-2001 18:33:53 amos>
@@ -452,12 +452,12 @@ switch( $module )
                         $t->set_var( "category_name", $category["name"] );
                         $t->set_var( "category_orig_url", $category["url"] );
                         $t->set_var( "radio_select", "selected" );
-                        if ( get_class( $link ) == "ezlinkitem" and $link->url() == $category["url"] )
+                        if ( is_a( $link, "eZLinkItem" ) and $link->url() == $category["url"] )
                         {
                             $t->set_var( "td_class", "bgcurrent" );
                             $t->set_var( "radio_select", "checked" );
                         }
-                        if ( get_class( $link ) == "ezlinkitem" )
+                        if ( is_a( $link, "eZLinkItem" ) )
                         {
                             $t->parse( "category_radio_item", "category_radio_item_tpl" );
                         }
@@ -485,12 +485,12 @@ switch( $module )
                         $t->set_var( "object_name", $object["name"] );
                         $t->set_var( "object_orig_url", $object["url"] );
                         $t->set_var( "radio_select", "selected" );
-                        if ( get_class( $link ) == "ezlinkitem" and $link->url() == $object["url"] )
+                        if ( is_a( $link, "eZLinkItem" ) and $link->url() == $object["url"] )
                         {
                             $t->set_var( "td_class", "bgcurrent" );
                             $t->set_var( "radio_select", "checked" );
                         }
-                        if ( get_class( $link ) == "ezlinkitem" )
+                        if ( is_a( $link, "eZLinkItem" ) )
                             $t->parse( "object_radio_item", "object_radio_item_tpl" );
                         else
                             $t->parse( "object_checkbox_item", "object_checkbox_item_tpl" );

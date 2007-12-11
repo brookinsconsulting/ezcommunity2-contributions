@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: messagelist.php 9550 2002-05-21 09:19:02Z jhe $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -59,7 +59,7 @@ $t->set_block( "message_item_tpl", "old_icon_tpl", "old_icon" );
 
 $t->set_block( "read_access_tpl", "messages_element_tpl", "messages_element" );
 $t->set_block( "read_access_tpl", "show_threads_tpl", "show_threads" );
-$t->set_block( "read_access_tpl", "hide_threads_tpl", "hide_threads" ); 
+$t->set_block( "read_access_tpl", "hide_threads_tpl", "hide_threads" );
 
 $t->set_var( "header_list", "" );
 $t->setAllStrings();
@@ -106,22 +106,22 @@ if ( $user )
     $preferences = new eZPreferences();
     if ( isSet( $HideThreads ) )
         $preferences->setVariable( "eZForum_Threads", "Hide" );
-    
+
     if ( isSet( $ShowThreads ) )
         $preferences->setVariable( "eZForum_Threads", "Show" );
 
     $showThreads =& $preferences->variable( "eZForum_Threads" );
 }
 else
-{    
+{
     $session =& eZSession::globalSession();
-    
+
     if ( isSet( $HideThreads ) )
         $session->setVariable( "eZForum_Threads", "Hide" );
-    
+
     if ( isSet( $ShowThreads ) )
         $session->setVariable( "eZForum_Threads", "Show" );
-    
+
     $showThreads = $session->variable( "eZForum_Threads" );
 }
 
@@ -131,9 +131,9 @@ if ( $showThreads == "" )
 $group =& $forum->group();
 $viewer = $user;
 
-if ( get_class( $group ) == "ezusergroup" )
+if ( is_a( $group, "eZUserGroup" ) )
 {
-    if ( get_class( $viewer ) == "ezuser" )
+    if ( is_a( $viewer, "eZUser" ) )
     {
         $groupList =& $viewer->groups();
         foreach ( $groupList as $userGroup )
@@ -154,12 +154,12 @@ else
 if ( count( $categories ) > 0 )
 {
     $category = new eZForumCategory( $categories[0]->id() );
-    
+
     $t->set_var( "category_id", $category->id( ) );
     $t->set_var( "category_name", $category->name( ) );
 
     $t->parse( "header_list", "header_list_tpl" );
-    
+
     // sections
     include_once( "ezsitemanager/classes/ezsection.php" );
 
@@ -168,7 +168,7 @@ if ( count( $categories ) > 0 )
     // init the section
     $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
     $sectionObject->setOverrideVariables();
-    
+
 }
 
 $locale = new eZLocale( $Language );
@@ -216,7 +216,7 @@ if ( !$messageList )
 else
 {
     $db =& eZDB::globalDatabase();
-    
+
     $level = 0;
     $i = 0;
     $time = new eZDateTime();
@@ -231,7 +231,7 @@ else
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
-        
+
         $t->set_var( "topic", htmlspecialchars( $message[$db->fieldName( "Topic" )] ) );
 
         $time->setTimeStamp( $message[$db->fieldName( "PostingTime" )] );
@@ -254,7 +254,7 @@ else
         $userID = $message[$db->fieldName( "UserID" )];
 
         $author->get( $userID );
-        
+
         if ( $showThreads == "Show" )
         {
             $t->set_var( "count_replies", "" );
@@ -283,8 +283,8 @@ else
         {
             $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
         }
-        
-        /*        
+
+        /*
         if ( get_class( $viewer ) == "ezuser" )
         {
             if ( $viewer->id() == $userID && eZForumMessage::countReplies( $message["ID"] ) == 0 && !$forum->IsModerated() )

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: frontpage.php 9900 2004-07-08 13:48:56Z br $
 //
 // Created on: <30-May-2001 14:06:59 bf>
@@ -126,11 +126,11 @@ $rows =& $sectionObject->frontPageRows();
 $page_element = array();
 
 $tempArticle = new eZArticle();
-unset( $articleList );
+$articleList = array();
 
 if ( is_array ( $rows ) and count ( $rows ) > 0 )
 {
-    foreach ( $rows as $row )    
+    foreach ( $rows as $row )
     {
         $value = $row->settingByID( $row->settingID() );
         if ( $value == "2column" )
@@ -144,7 +144,7 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
             {
                 $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
             }
-            
+
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 2;
         }
         if ( $value == "1column" || $value == "1short" )
@@ -208,19 +208,19 @@ $pageContents = "";
 $counter = -1;
 // render the page elements
 if ( count( $page_elements ) > 0 )
-foreach ( $page_elements as $element )    
+foreach ( $page_elements as $element )
 {
-    $counter++;	
+    $counter++;
 
     switch ( $element )
     {
         case "1column":
-        {            
+        {
             $article =& $articleList[$articleOffset];
 
-            if ( get_class( $article ) == "ezarticle" )
+            if ( is_a( $article, "eZArticle" ) )
                 $pageContents .= renderFrontpageArticle( $t, $locale, $article );
-            
+
             $articleOffset++;
         }break;
 
@@ -230,49 +230,49 @@ foreach ( $page_elements as $element )
             $articleOffset++;
             $article2 =& $articleList[$articleOffset];
 
-            if ( get_class( $article1 ) == "ezarticle" && get_class( $article2 ) == "ezarticle" ) 
+            if ( is_a( $article1, "eZArticle" ) && is_a( $article2, "eZArticle" ) )
                 $pageContents .= renderFrontpageArticleDouble( $t, $locale, $article1, $article2 );
-            
+
             $articleOffset++;
         }break;
 
         case "1short":
-        {            
+        {
             $article =& $articleList[$articleOffset];
 
-            if ( get_class( $article ) == "ezarticle" )
+            if ( is_a( $article, "eZArticle" ) )
                 $pageContents .= renderShortSingleArticle( $t, $locale, $article );
-            
+
             $articleOffset++;
         }break;
 
         case "ad":
         {
             $ad =& $adList[$adOffset];
-            if ( get_class( $ad ) == "ezad" )
+            if ( is_a( $ad, "eZAd" ) )
                 $pageContents .= renderAd( $t, $locale, $ad );
-                    
+
             $adOffset++;
         }break;
 
         case "1columnProduct":
-        {            
+        {
             $product =& $productList[$productOffset];
-            if ( get_class( $product ) == "ezproduct" )
+            if ( is_a( $product, "eZProduct" ) )
                 $pageContents .= renderFrontpageProduct( $t, $locale, $product );
-            
+
             $productOffset++;
         }break;
 
         case "2columnProduct":
-        {            
+        {
             $product1 =& $productList[$productOffset];
             $productOffset++;
             $product2 =& $productList[$productOffset];
 
-            if ( get_class( $product1 ) == "ezproduct" && get_class( $product2 ) == "ezproduct" ) 
+            if ( is_a( $product1, "eZProduct" ) && is_a( $product2, "eZProduct" ) )
                 $pageContents .= renderFrontpageProductDouble( $t, $locale, $product1, $product2 );
-            
+
             $productOffset++;
         }break;
 
@@ -285,31 +285,31 @@ $t->set_var( "element_list", $pageContents );
 function &renderFrontpageArticle( &$t, &$locale, &$article )
 {
     global $ini, $counter, $rows, $GrayScaleImageList;
-	
+
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
-    
+
     $aid = $article->id();
 
     $CategoryID = $rows[$counter]->CategoryID;
-    
+
     if ( $CategoryID == 0 )
     {
         $category =& $article->categoryDefinition();
         $CategoryID = $category->id();
     }
-    
+
     $t->set_var( "category_id", $CategoryID );
-    
+
     $t->set_var( "article_id", $article->id() );
     $t->set_var( "article_name", $article->name() );
 
     $t->set_var( "author_text", $article->authorText() );
 
     $categoryDef =& $article->categoryDefinition();
-	
+
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
-    
+
     // preview image
     $thumbnailImage =& $article->thumbnailImage();
     if ( $thumbnailImage )
@@ -321,7 +321,7 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
 
         $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
         $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -331,9 +331,9 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
     }
     else
     {
-        $t->set_var( "one_column_article_image", "" );    
+        $t->set_var( "one_column_article_image", "" );
     }
-    
+
     $published = $article->published();
 
     $publishedDateValue =& $published->date();
@@ -341,15 +341,15 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
 
     $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
     $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
-    
+
 
     $t->set_var( "article_published", $locale->format( $published ) );
-    
+
 
     $renderer = new eZArticleRenderer( $article );
     $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
-        
+
     if ( $article->linkText() != "" )
     {
         $t->set_var( "article_link_text", $article->linkText() );
@@ -379,27 +379,27 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 {
     global $ini, $counter, $rows, $GrayScaleImageList;
     $aid = $article1->id();
-	
+
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
-	
+
     $CategoryID = $rows[$counter]->CategoryID;
-    
-    if ( $CategoryID == 0 )                  
-    {                            
+
+    if ( $CategoryID == 0 )
+    {
 	$category =& $article1->categoryDefinition();
 	$CategoryID = $category->id();
     }
 
     $t->set_var( "category_id", $CategoryID );
-    
+
     $t->set_var( "article_id", $article1->id() );
     $t->set_var( "article_name", $article1->name() );
     $t->set_var( "author_text", $article1->authorText() );
 
-    $categoryDef =& $article1->categoryDefinition();	
+    $categoryDef =& $article1->categoryDefinition();
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
-    
+
     // preview image
     $thumbnailImage =& $article1->thumbnailImage();
     if ( $thumbnailImage )
@@ -407,11 +407,11 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
         if ( $GrayScaleImageList == "enabled" )
             $convertToGray = true;
         else
-            $convertToGray = false;        
+            $convertToGray = false;
 
         $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
         $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -421,9 +421,9 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     }
     else
     {
-        $t->set_var( "left_article_image", "" );    
+        $t->set_var( "left_article_image", "" );
     }
-    
+
     $published = $article1->published();
 
     $publishedDateValue =& $published->date();
@@ -431,15 +431,15 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
     $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
     $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
-    
+
 
     $t->set_var( "article_published", $locale->format( $published ) );
 
-    
+
     $renderer = new eZArticleRenderer( $article1 );
     $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
-        
+
     if ( $article1->linkText() != "" )
     {
         $t->set_var( "article_link_text", $article1->linkText() );
@@ -463,7 +463,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
     $t->parse( "left_article", "left_article_tpl"  );
     $aid = $article2->id();
-    
+
 //    if ( $CategoryID == 0 )
 //    {
 //        $category =& $article2->categoryDefinition();
@@ -471,17 +471,17 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 //    }
 //    $category =& $article2->categoryDefinition();
 //    $CategoryID = $category->id();
-        
+
     $t->set_var( "category_id", $CategoryID );
 
     $t->set_var( "article_id", $article2->id() );
     $t->set_var( "article_name", $article2->name() );
     $t->set_var( "author_text", $article2->authorText() );
 
-    $categoryDef =& $article2->categoryDefinition();	
+    $categoryDef =& $article2->categoryDefinition();
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
-    
+
     // preview image
     $thumbnailImage =& $article2->thumbnailImage();
     if ( $thumbnailImage )
@@ -493,7 +493,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
         $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
         $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -503,9 +503,9 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     }
     else
     {
-        $t->set_var( "right_article_image", "" );    
+        $t->set_var( "right_article_image", "" );
     }
-    
+
     $published = $article2->published();
 
     $publishedDateValue =& $published->date();
@@ -513,15 +513,15 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
     $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
     $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
-   
+
 
     $t->set_var( "article_published", $locale->format( $published ) );
-    
+
 
     $renderer = new eZArticleRenderer( $article2 );
     $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
-        
+
     if ( $article2->linkText() != "" )
     {
         $t->set_var( "article_link_text", $article2->linkText() );
@@ -545,7 +545,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
     $t->parse( "right_article", "right_article_tpl"  );
 
-    return $t->parse( "output", "two_column_article_tpl" );    
+    return $t->parse( "output", "two_column_article_tpl" );
 }
 
 function &renderShortSingleArticle( &$t, &$locale, &$article )
@@ -553,29 +553,29 @@ function &renderShortSingleArticle( &$t, &$locale, &$article )
     global $ini, $counter, $rows, $GrayScaleImageList;
 
     $aid = $article->id();
-	
+
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 
     $CategoryID = $rows[$counter]->CategoryID;
-	
+
     if ( $CategoryID == 0 )
     {
 	$category =& $article->categoryDefinition();
 	$CategoryID = $category->id();
     }
-        
+
     $t->set_var( "category_id", $CategoryID );
-    
+
     $t->set_var( "article_id", $article->id() );
     $t->set_var( "article_name", $article->name() );
 
     $t->set_var( "author_text", $article->authorText() );
 
     $categoryDef =& $article->categoryDefinition();
-	
+
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
-    
+
     $published = $article->published();
 
     $publishedDateValue =& $published->date();
@@ -583,9 +583,9 @@ function &renderShortSingleArticle( &$t, &$locale, &$article )
 
     $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
     $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
-   
+
     $t->set_var( "article_published", $locale->format( $published ) );
-    
+
 
     if ( $article->linkText() != "" )
     {
@@ -607,7 +607,7 @@ function &renderAd( &$t, &$locale, &$ad )
     if ( $ad->useHTML() )
     {
         $t->set_var( "standard_ad", "" );
-                
+
         $t->set_var( "html_ad_contents", $ad->htmlBanner() );
         $t->parse( "html_ad", "html_ad_tpl" );
     }
@@ -653,7 +653,7 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
     if ( $thumbnailImage )
     {
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -663,7 +663,7 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
     }
     else
     {
-        $t->set_var( "product_image", "" );    
+        $t->set_var( "product_image", "" );
     }
 
     $t->set_var( "product_name", $product->name() );
@@ -696,7 +696,7 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
         if ( count( $options ) == 1 )
         {
             $option = $options[0];
-            if ( get_class( $option ) == "ezoption" )
+            if ( is_a( $option, "eZOption" ) )
             {
                 $optionValues =& $option->values();
                 if ( count( $optionValues ) > 1 )
@@ -709,9 +709,9 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
                     }
                     $high = max( $priceArray );
                     $low = min( $priceArray );
-                    
+
                     $t->set_var( "product_price", $low . " - " . $high );
-                    
+
                     $t->parse( "price", "price_tpl" );
                 }
             }
@@ -719,7 +719,7 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
         else
             $t->set_var( "price", "" );
     }
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -730,7 +730,7 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
         $t->set_var( "td_class", "bgdark" );
     }
 
-    return $t->parse( "output", "one_column_product_tpl" );    
+    return $t->parse( "output", "one_column_product_tpl" );
 }
 
 
@@ -743,14 +743,14 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 
     $ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );
     $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
-	
+
     // preview image
     $thumbnailImage = $product1->thumbnailImage();
 
     if ( $thumbnailImage )
     {
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -760,7 +760,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     }
     else
     {
-        $t->set_var( "left_product_image", "" );    
+        $t->set_var( "left_product_image", "" );
     }
 
     $t->set_var( "product_name", $product1->name() );
@@ -794,7 +794,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
         if ( count( $options ) == 1 )
         {
             $option = $options[0];
-            if ( get_class( $option ) == "ezoption" )
+            if ( is_a( $option, "eZOption" ) )
             {
                 $optionValues =& $option->values();
                 if ( count( $optionValues ) > 1 )
@@ -807,9 +807,9 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
                     }
                     $high = max( $priceArray );
                     $low = min( $priceArray );
-                    
+
                     $t->set_var( "product_price", $low . " - " . $high );
-                    
+
                     $t->parse( "left_price", "left_price_tpl" );
                 }
             }
@@ -817,7 +817,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
         else
             $t->set_var( "left_price", "" );
     }
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -834,9 +834,9 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 
     // preview image
     $thumbnailImage = $product2->thumbnailImage();
-    
+
     $t->set_var( "product_id", $product2->id() );
-    
+
     if ( $thumbnailImage )
     {
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
@@ -850,7 +850,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     }
     else
     {
-        $t->set_var( "right_product_image", "" );    
+        $t->set_var( "right_product_image", "" );
     }
 
     $t->set_var( "product_name", $product2->name() );
@@ -884,7 +884,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
         if ( count( $options ) == 1 )
         {
             $option = $options[0];
-            if ( get_class( $option ) == "ezoption" )
+            if ( is_a( $option, "eZOption" ) )
             {
                 $optionValues =& $option->values();
                 if ( count( $optionValues ) > 1 )
@@ -897,9 +897,9 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
                     }
                     $high = max( $priceArray );
                     $low = min( $priceArray );
-                    
+
                     $t->set_var( "product_price", $low . " - " . $high );
-                    
+
                     $t->parse( "right_price", "right_price_tpl" );
                 }
             }
@@ -907,7 +907,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
         else
             $t->set_var( "right_price", "" );
     }
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -919,8 +919,8 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     }
 
     $t->parse( "right_product", "right_product_tpl"  );
-    
-    return $t->parse( "output", "two_column_product_tpl" );    
+
+    return $t->parse( "output", "two_column_product_tpl" );
 }
 
 
@@ -933,12 +933,12 @@ $t->pparse( "output", "article_list_page_tpl" );
 if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
 {
     $fp = eZFile::fopen( $cachedFile, "w+");
-    
+
     // add PHP code in the cache file to store variables
     $output = "<?php\n";
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
-    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
     $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 

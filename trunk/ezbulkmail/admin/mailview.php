@@ -53,7 +53,7 @@ if ( isset( $Send ) )
             foreach ( $subscribers as $subscripter )
             {
                 $settings = $category->settings( $subscripter );
-                if ( ( get_class( $setting ) == "ezbulkmailcategorysettings" ) && ( $settings->delay() != 0 ) )
+                if ( ( is_a( $setting, "eZBulkMailCategorySettings" ) ) && ( $settings->delay() != 0 ) )
                 {
                     $mail->addToDelayList( $subscripter->id(), $category->id(), $settings->delay() );
                 }
@@ -71,7 +71,7 @@ if ( isset( $Send ) )
 }
 
 $ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl/", $Language, "mailview.php" );

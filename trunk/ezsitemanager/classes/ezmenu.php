@@ -1,5 +1,5 @@
 <?
-// 
+//
 // $Id: ezmenu.php 7507 2001-09-27 10:43:55Z ce $
 //
 // eZMenu class
@@ -69,14 +69,14 @@ class eZMenu
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $name =& $db->escapeString( $this->Name );
         $link =& $db->escapeString( $this->Link );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZSiteManager_Menu" );
-            $nextID = $db->nextID( "eZSiteManager_Menu", "ID" );            
+            $nextID = $db->nextID( "eZSiteManager_Menu", "ID" );
 
             $res = $db->query( "INSERT INTO eZSiteManager_Menu
                       ( ID, Name, Link, Type, ParentID )
@@ -101,7 +101,7 @@ class eZMenu
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -120,9 +120,9 @@ class eZMenu
 
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res = $db->query( "DELETE FROM eZSiteManager_Menu WHERE ID='$this->ID'" );
-    
+
         if ( $ret == false )
             $db->rollback( );
         else
@@ -177,7 +177,7 @@ class eZMenu
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $quizArray = array();
 
@@ -186,7 +186,7 @@ class eZMenu
                                            ORDER BY Type DESC",
         array( "Limit" => $limit,
                "Offset" => $offset  ) );
-        
+
         for ( $i=0; $i < count($quizArray); $i++ )
         {
             $returnArray[$i] = new eZMenu( $quizArray[$i][$db->fieldName( "ID" )] );
@@ -203,21 +203,21 @@ class eZMenu
     function &getByParent( $parent=0, $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $quizArray = array();
 
-        if ( get_class ( $parent ) == "ezmenu" )
+        if ( is_a( $parent, "eZMenu" ) )
             $parentID = $parent->id();
         else if ( is_numeric ( $parent ) )
             $parentID = $parent;
-        
+
         $db->array_query( $quizArray, "SELECT ID
                                            FROM eZSiteManager_Menu
                                            WHERE ParentID='$parentID' ORDER BY Type DESC",
         array( "Limit" => $limit,
                "Offset" => $offset  ) );
-        
+
         for ( $i=0; $i < count($quizArray); $i++ )
         {
             $returnArray[$i] = new eZMenu( $quizArray[$i][$db->fieldName( "ID" )] );
@@ -234,7 +234,7 @@ class eZMenu
         $db =& eZDB::globalDatabase();
         $ret = false;
 
-        if ( get_class ( $parent ) == "ezmenu" )
+        if ( is_a( $parent, "eZMenu" ) )
             $parentID = $parent->id();
         else if ( is_numeric ( $parent ) )
             $parentID = $parent;
@@ -258,7 +258,7 @@ class eZMenu
         {
             $menuID = $this->ID;
         }
-            
+
         $menu = new eZMenu( $menuID );
 
         $path = array();
@@ -275,8 +275,8 @@ class eZMenu
         }
 
         if ( $menuID != 0 )
-            array_push( $path, array( $menu->id(), $menu->name() ) );                                
-        
+            array_push( $path, array( $menu->id(), $menu->name() ) );
+
         return $path;
     }
 
@@ -320,13 +320,13 @@ class eZMenu
     {
         $this->Link = $value;
     }
-    
+
     /*!
       Sets the parent.
     */
     function setParent( &$value )
     {
-        if ( get_class ( $value ) == "ezmenu" )
+        if ( is_a( $value, "eZMenu" ) )
             $this->ParentID = $value->id();
         else if ( is_numeric ( $value ) )
             $this->ParentID = $value;
@@ -343,7 +343,7 @@ class eZMenu
         }
         else
         {
-            return 0;           
+            return 0;
         }
     }
 

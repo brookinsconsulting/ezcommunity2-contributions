@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: messageform.php 9553 2002-05-22 11:24:54Z jhe $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -47,10 +47,10 @@ if ( $ShowMessageForm )
         $t->set_var( "message_body_info_item", "" );
         $t->set_var( "message_reply_info_item", "" );
         $t->set_var( "message_notice_checkbox", "" );
-        
+
         $t->set_var( "headline", $t->Ini->read_var( "strings", $Action . "_headline" ) );
     }
-    
+
     if ( $ShowHiddenMessageForm )
     {
         $t->set_file( "hidden_form", "messagehiddenform.tpl" );
@@ -61,7 +61,7 @@ if ( $ShowMessageForm )
         $t->parse( "message_body_info_item", "message_body_info_tpl" );
     }
 
-    if ( $ShowVisibleMessageForm && get_class( eZUser::currentUser() ) == "ezuser" )
+    if ( $ShowVisibleMessageForm && is_a( eZUser::currentUser(), "eZUser" ) )
     {
         $t->parse( "message_notice_checkbox", "message_notice_checkbox_tpl" );
     }
@@ -70,7 +70,7 @@ if ( $ShowMessageForm )
     {
         $t->parse( "message_reply_info_item", "message_reply_info_tpl" );
     }
-    
+
     if ( $Error )
     {
         $MessageTopic = $NewMessageTopic;
@@ -78,7 +78,7 @@ if ( $ShowMessageForm )
 
         $t->set_block( "errors_tpl", "error_missing_body_item_tpl", "error_missing_body_item" );
         $t->set_block( "errors_tpl", "error_missing_topic_item_tpl", "error_missing_topic_item" );
-        
+
         if ( empty( $NewMessageTopic ) )
         {
             $t->parse( "error_missing_topic_item", "error_missing_topic_item_tpl" );
@@ -96,7 +96,7 @@ if ( $ShowMessageForm )
         {
             $t->set_var( "error_missing_body_item", "" );
         }
-        
+
         $t->parse( "errors_item", "errors_tpl" );
     }
 
@@ -107,7 +107,7 @@ if ( $ShowMessageForm )
             $msg = new eZForumMessage( $MessageID );
             $msg->setIsTemporary( true );
         }
-        
+
         if ( isSet( $NewMessageTopic ) )
         {
             $MessageTopic = $NewMessageTopic;
@@ -116,7 +116,7 @@ if ( $ShowMessageForm )
         {
             $MessageTopic = $msg->topic();
         }
-        
+
         if ( isSet( $NewMessageBody ) )
         {
             $MessageBody = $NewMessageBody;
@@ -128,7 +128,7 @@ if ( $ShowMessageForm )
 
         $MessageNotice = $msg->emailNotice();
         $ForumID = $msg->forumId();
-        
+
         if ( !$msg->isTemporary() && $Action != "reply" )
         {
             $MessagePostedAt = $Locale->format( $msg->postingTime() );
@@ -137,7 +137,7 @@ if ( $ShowMessageForm )
         {
             $MessagePostedAt = $NewMessagePostedAt;
         }
-        
+
         if ( isSet( $NewMessageNotice ) )
         {
             $MessageNotice = $NewMessageNotice;
@@ -196,7 +196,7 @@ if ( $ShowMessageForm )
             $NewMessageNotice = "checked";
         }
         break;
-        
+
         case "off":
         case "n":
         case "unchecked":
@@ -210,9 +210,9 @@ if ( $ShowMessageForm )
         break;
     }
     $quote = chr( 34 );
-    $MessageTopic = ereg_replace( $quote, "&#034;", $MessageTopic ); 
+    $MessageTopic = ereg_replace( $quote, "&#034;", $MessageTopic );
     $MessageBody = ereg_replace( $quote, "&#034;", $MessageBody );
-    
+
     include_once( "classes/eztexttool.php" );
 
     $t->set_var( "message_topic", $MessageTopic );
@@ -233,12 +233,12 @@ if ( $ShowMessageForm )
     $t->set_var( "forum_id", $ForumID );
 
     $t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
-    $t->set_var( "end_action", $EndAction );      
-    $t->set_var( "start_action", $StartAction );      
+    $t->set_var( "end_action", $EndAction );
+    $t->set_var( "start_action", $StartAction );
     $t->set_var( "action_value", $ActionValue );
-    
+
     $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
-    $t->set_var( "allowed_tags", htmlspecialchars( $AllowedTags ) );      
+    $t->set_var( "allowed_tags", htmlspecialchars( $AllowedTags ) );
 
     if ( $ShowVisibleMessageForm )
     {
@@ -251,7 +251,7 @@ if ( $ShowMessageForm )
             $t->parse( "author_field", "author_not_logged_in_tpl" );
         }
     }
-    
+
     if ( $ShowHiddenMessageForm )
     {
         if ( $doPrint )
@@ -263,7 +263,7 @@ if ( $ShowMessageForm )
             $t->parse( "message_hidden_form_file", "hidden_form" );
         }
     }
-    
+
     if ( $ShowVisibleMessageForm )
     {
         if ( $doPrint )

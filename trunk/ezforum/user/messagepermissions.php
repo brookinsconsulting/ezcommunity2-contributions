@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: messagepermissions.php 7782 2001-10-11 11:06:20Z jhe $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -36,7 +36,7 @@ $MessageEdit = false;
 $MessageDelete = false;
 
 // If a message is temporary, then no replies can be added.
-$MessageReply = false; 
+$MessageReply = false;
 
 // Is it possible to add a message to this forum?
 $ForumPost = false;
@@ -77,7 +77,7 @@ else
     $CheckForumPost = false;
     $CheckForumRead = false;
     // No point in checking for reading of message if you can''t access the forum
-    $CheckMessageID = false; 
+    $CheckMessageID = false;
 }
 
 // If a message id isn''t provided for checking, we can''t check
@@ -86,7 +86,7 @@ if ( $CheckMessageID > 0 )
 {
     $checkMessage = new eZForumMessage( $CheckMessageID );
     // Check if the current user is the message owner.
-    
+
     if ( $checkMessage->userID() == $UserID )
     {
         $MessageRead = true;
@@ -108,9 +108,9 @@ if ( $CheckForumRead )
 {
     $group =& $checkForum->group();
 
-    if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
+    if ( ( is_a( $group, "eZUserGroup" ) ) && ( $group->id() != 0 ) )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $groupList =& $user->groups();
 

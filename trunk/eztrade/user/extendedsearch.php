@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: extendedsearch.php 6484 2001-08-17 13:36:01Z jhe $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -218,7 +218,7 @@ if ( count ( $productList ) > 0 )
         if ( $thumbnailImage )
         {
             $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
-    
+
             $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
             $t->set_var( "thumbnail_image_width", $variation->width() );
             $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -228,12 +228,12 @@ if ( count ( $productList ) > 0 )
         }
         else
         {
-            $t->set_var( "image", "" );    
+            $t->set_var( "image", "" );
         }
 
         $t->set_var( "product_name", $product->name() );
 
-        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+        if ( ( !$RequireUserLogin or is_a( $user, "eZUser" ) ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
             $found_price = false;
@@ -257,7 +257,7 @@ if ( count ( $productList ) > 0 )
         {
             $t->set_var( "price", "" );
         }
-        
+
         $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_id", $product->id() );
 
@@ -274,7 +274,7 @@ else
 {
     $t->set_var( "product_search_list", "" );
     if ( $Action == "SearchButton" )
-        $t->parse( "empty_search", "empty_search_tpl" );     
+        $t->parse( "empty_search", "empty_search_tpl" );
 }
 
 eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "extended_search_tpl" );

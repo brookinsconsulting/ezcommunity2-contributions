@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: menubox.php 8886 2002-01-04 14:51:51Z kaid $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
@@ -32,7 +32,7 @@ $Language = $ini->read_var( "eZLinkMain", "Language" );
 $PageCaching = $ini->read_var( "eZLinkMain", "PageCaching");
 
 unset( $menuCachedFile );
-// do the caching 
+// do the caching
 if ( $PageCaching == "enabled" )
 {
     $menuCacheFile = new eZCacheFile( "ezlink/cache",
@@ -59,7 +59,7 @@ function createLinkMenu( $menuCacheFile=false )
     global $Language;
     global $menuCachedFile;
     global $GlobalSiteDesign;
-    
+
     include_once( "classes/eztemplate.php" );
 
     include_once( "ezlink/classes/ezlinkcategory.php" );
@@ -96,20 +96,20 @@ function createLinkMenu( $menuCacheFile=false )
         foreach( $linkCategory_array as $categoryItem )
         {
             $link_category_id = $categoryItem->id();
-            
+
             $t->set_var( "linkcategory_id", $link_category_id );
             $t->set_var( "linkcategory_name", $categoryItem->name() );
-            
+
             $t->parse( "link_category", "link_category_tpl", true );
         }
     }
     if ( !isset( $LGID ) )
         $LGID = "";
     $t->set_var( "linkcategory_id", $LGID );
-                       
+
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
-    if ( get_class( $menuCacheFile ) == "ezcachefile" )
+    if ( is_a( $menuCacheFile, "eZCacheFile" ) )
     {
         $output = $t->parse( $target, "menu_box_tpl" );
         $menuCacheFile->store( $output );

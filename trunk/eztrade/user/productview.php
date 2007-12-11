@@ -348,7 +348,7 @@ $currencies =& $currency->getAll();
 $t->set_var( "currency_count", count( $currencies ) );
 $t->set_var( "value_price_header_item", "" );
 $t->set_var( "value_currency_header_item", "" );
-if ( !$RequireUserLogin or get_class( $user ) == "ezuser"  )
+if ( !$RequireUserLogin or is_a( $user, "eZUser" ) )
 {
     $t->parse( "value_price_header_item", "value_price_header_item_tpl" );
     if ( count( $currencies ) > 0 )
@@ -684,7 +684,7 @@ else
     $priceRange =& $product->priceRange();
     $currency = new eZCurrency( );
 
-    if ( ( get_class ( $priceRange ) == "ezproductpricerange" ) && is_numeric ( $priceRange->id() ) )
+    if ( ( is_a ( $priceRange, "eZProductPriceRange" ) ) && is_numeric ( $priceRange->id() ) )
     {
         $min = $priceRange->min();
         $max = $priceRange->max();

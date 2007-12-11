@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezusergroup.php 8704 2001-12-07 17:07:01Z br $
 //
 // Definition of eZCompany class
@@ -28,7 +28,7 @@
 //!! eZUser
 //! eZUserGroup handles user groups.
 /*!
-  
+
   Example code:
   \code
   // create a new eZUsergroup object and set some values.
@@ -49,12 +49,12 @@
   // add a user to the user group.
   if ( $group->adduser( $user ) )
   {
-      print( "User added to group" );    
+      print( "User added to group" );
   }
   else
   {
       print( "Error: count not add user." );
-  }  
+  }
   \endcode
   \sa eZUser eZPermission eZModule eZForgot
 */
@@ -95,10 +95,10 @@ class eZUserGroup
 
         $dbError = false;
         $db->begin();
-        
+
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-             
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZUser_Group" );
@@ -121,16 +121,16 @@ class eZUserGroup
                                  SessionTimeout='$this->SessionTimeout',
                                  IsRoot='$this->IsRoot',
                                  GroupURL='$this->GroupURL'
-                                 WHERE ID='$this->ID'" );            
+                                 WHERE ID='$this->ID'" );
         }
 
         $db->unlock();
-        
+
         if ( $dbError == true )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -150,17 +150,17 @@ class eZUserGroup
             $db->query( "DELETE FROM eZUser_GroupPermissionLink WHERE GroupID='$id'" );
             $db->query( "DELETE FROM eZUser_Group WHERE ID='$id'" );
         }
-        
+
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $user_group_array, "SELECT * FROM eZUser_Group WHERE ID='$id'",
@@ -178,7 +178,7 @@ class eZUserGroup
     function fill( &$user_group_array )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $this->ID = $user_group_array[$db->fieldName( "ID" )];
         $this->Name = $user_group_array[$db->fieldName( "Name" )];
         $this->Description = $user_group_array[$db->fieldName( "Description" )];
@@ -234,11 +234,11 @@ class eZUserGroup
     function getByUser( $user )
     {
         $return_array = array();
-        
-        if ( get_class( $user ) == "ezuser" )
+
+        if ( is_a( $user, "eZUser" ) )
         {
             $db =& eZDB::globalDatabase();
-        
+
             $group_array = array();
 
             $userID = $user->id();
@@ -246,20 +246,20 @@ class eZUserGroup
             $db->array_query( $group_array, "SELECT GroupID FROM eZUser_UserGroupLink WHERE UserID='$userID'" );
 
             for ( $i = 0; $i < count( $group_array ); $i++ )
-            { 
-                $return_array[$i] = new eZUserGroup( $group_array[$i][$db->fieldName( "GroupID" )], 0 ); 
+            {
+                $return_array[$i] = new eZUserGroup( $group_array[$i][$db->fieldName( "GroupID" )], 0 );
             }
         }
         return $return_array;
     }
-    
+
     /*!
       Returns true if the user $user is a member of the group
       $user is of type eZUser
      */
     function isMember( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $userList = $this->users( );
             if ( count( $userList ) > 0 )
@@ -294,7 +294,7 @@ class eZUserGroup
                 $orderBy = "U.LastName, U.FirstName";
             }
             break;
-            
+
             case "lastname" :
             {
                 $orderBy = "U.LastName";
@@ -312,7 +312,7 @@ class eZUserGroup
                 $orderBy = "U.Email";
             }
             break;
-            
+
             default :
                 $orderBy = "U.Login";
             break;
@@ -348,8 +348,8 @@ class eZUserGroup
         {
             $query = new eZQuery( array( "U.FirstName", "U.LastName",
                                          "U.Login", "U.Email" ), $search );
-            
-            
+
+
             $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
@@ -366,12 +366,12 @@ class eZUserGroup
                                                    ORDER By $orderBy" );
 
         }
-        
+
         foreach ( $user_array as $user )
         {
             $ret[] = new eZUser( $user[$db->fieldName( "UserID" )] );
         }
-        
+
         return $ret;
     }
 
@@ -402,7 +402,7 @@ class eZUserGroup
     {
         $this->IsRoot = $value;
     }
-    
+
     /*!
       Returns the user group name.
     */
@@ -439,7 +439,7 @@ class eZUserGroup
     {
         return $this->SessionTimeout;
     }
-    
+
     /*!
       Sets the name of the user group.
     */
@@ -467,10 +467,10 @@ class eZUserGroup
     function setSessionTimeout( $value )
     {
        $this->SessionTimeout = $value;
-       
+
        setType( $this->SessionTimeout, "integer" );
     }
-    
+
     /*!
       Adds a user to the current user group.
 
@@ -480,7 +480,7 @@ class eZUserGroup
     {
        $ret = false;
 
-       if ( get_class( $user ) == "ezuser" )
+       if ( is_a( $user, "eZUser" ) )
        {
            $db =& eZDB::globalDatabase();
 
@@ -498,22 +498,22 @@ class eZUserGroup
                             VALUES
                             ( '$nextID', '$userID', '$this->ID' )" );
 
-               
+
                if ( $res == false )
                    $dbError = true;
                $ret = true;
            }
-           
-           $db->unlock();    
+
+           $db->unlock();
            if ( $dbError == true )
                $db->rollback( );
            else
                $db->commit();
-           
+
        }
        return $ret;
     }
-    
+
     var $ID;
     var $Name;
     var $Description;

@@ -186,7 +186,7 @@ if ( isSet( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS[
 $url_array = explode( "/", $REQUEST_URI );
 
 if ( ( $requireUserLogin == "disabled" ) ||
-     ( ( $requireUserLogin == "enabled" ) && ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) )
+     ( ( $requireUserLogin == "enabled" ) && ( is_a( $user, "eZUser" ) ) && ( $user->id() != 0 ) ) )
 {
 
     // do url translation if needed

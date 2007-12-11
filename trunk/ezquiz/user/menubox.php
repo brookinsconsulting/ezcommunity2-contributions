@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: menubox.php 8689 2001-12-06 10:22:35Z jhe $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
@@ -39,7 +39,7 @@ function createQuizMenu()
     global $quizMenuCachedFile;
     global $GenerateStaticPage;
 	global $GlobalSiteDesign;
-            
+
     include_once( "classes/eztemplate.php" );
     include_once( "ezquiz/classes/ezquizgame.php" );
     include_once( "ezquiz/classes/ezquizscore.php" );
@@ -64,21 +64,21 @@ function createQuizMenu()
     $t->set_var( "quiz_menu_item", "" );
     $t->set_var( "my_quiz_item", "" );
     $t->set_var( "no_game_item", "" );
-    
+
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $userMenuUp = false;
 
     $game = new eZQuizGame();
-    
+
     if ( eZUser::currentUser() != false )
     {
-        
+
         $t->parse( "my_quiz_item", "my_quiz_item_tpl" );
         $userMenuUp = true;
         $user =& eZUser::currentUser();
     }
-    
+
     if ( true )
     {
         $t->parse( "quiz_menu_item", "quiz_menu_item_tpl" );
@@ -102,17 +102,17 @@ function createQuizMenu()
                 $finished = true;
             }
         }
-        
+
         if ( $finished == false )
         {
             $t->set_var( "game_id", $game->id() );
             $t->set_var( "game_name", $game->name() );
             $t->parse( "current_game_item", "current_game_item_tpl" );
         }
-        
-        
+
+
     }
-    
+
     if ( $count == 0 || $finished )
     {
         $games = $game->opensNext( 0, 1 );
@@ -123,11 +123,11 @@ function createQuizMenu()
             $game = $games[0];
             $t->set_var( "game_id", $game->id() );
             $t->set_var( "game_name", $game->name() );
-            
+
             $start = $game->startDate();
-            
+
             $locale = new eZLocale( $Language );
-            
+
             if ( $start->day() != 0  )
             {
                 $t->set_var( "game_start_date", $locale->format( $start, true ) );
@@ -140,7 +140,7 @@ function createQuizMenu()
         }
     }
 
-    if ( isset( $menuCacheFile ) and get_class( $menuCacheFile ) == "ezcachefile" )
+    if ( isset( $menuCacheFile ) and is_a( $menuCacheFile, "eZCacheFile" ) )
     {
         $output = $t->parse( $target, "menu_box_tpl" );
         $menuCacheFile->store( $output );

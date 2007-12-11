@@ -1,10 +1,10 @@
 <?php
-// 
+//
 // $Id: ezxmlrpccall.php 8714 2001-12-10 12:29:48Z bf $
 //
 // Definition of eZXMLRPCCall class
 //
-// Bård Farstad <bf@ez.no>
+// Bï¿½rd Farstad <bf@ez.no>
 // Created on: <16-Dec-2000 11:15:16 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -29,7 +29,7 @@
 //!! eZXMLRPC
 //! eZXMLRPCCall hadles a XML-RPC server call.
 /*!
-  
+
 */
 
 include_once( "ezxmlrpc/classes/ezxmlrpcdatatypedecoder.php" );
@@ -74,15 +74,15 @@ class eZXMLRPCCall
     function addParameter( $value )
     {
         $ret = false;
-        switch ( get_class( $value ) )
+        switch ( strtolower( get_class( $value ) ) )
         {
             case "ezxmlrpcstring" :
             {
                 $this->ParameterList[] = $value;
-                $ret = true;                
+                $ret = true;
             }
             break;
-            
+
             case "ezxmlrpcint" :
             {
                 $this->ParameterList[] = $value;
@@ -96,7 +96,7 @@ class eZXMLRPCCall
                 $ret = true;
             }
             break;
-            
+
             case "ezxmlrpcarray" :
             {
                 $this->ParameterList[] = $value;
@@ -133,12 +133,12 @@ class eZXMLRPCCall
 
                     $string = new eZXMLRPCString( $value );
                     $this->ParameterList[] =& $string;
-                    
+
                     $ret = true;
                 }
             }
         }
-        
+
         return $ret;
     }
 
@@ -149,7 +149,7 @@ class eZXMLRPCCall
     {
         return $this->ParameterList;
     }
-    
+
     /*!
       Clears the parameter list.
     */
@@ -157,11 +157,11 @@ class eZXMLRPCCall
     {
         $this->ParameterList = array();
     }
-    
+
     /*!
       Returns the call payload. This is the requst encoded
       as an XML-RPC call.
-    */    
+    */
     function &payload( )
     {
         $parameters = "";
@@ -173,19 +173,19 @@ class eZXMLRPCCall
             {
                 $parameters .= "<param>\n" .
                      $parameter->serialize() .
-                     "</param>\n";                     
-            }                 
-                 
-            $parameters .= "</params>";                 
+                     "</param>\n";
+            }
+
+            $parameters .= "</params>";
         }
-        
+
         $payload = "<?xml version=\"1.0\"?>\n" .
              "<methodCall>\n" .
              "<methodName>" . $this->MethodName . "</methodName>\n" .
              $parameters .
              "</methodCall>\n";
 
-        return $payload;        
+        return $payload;
     }
 
     /*!
@@ -201,11 +201,11 @@ class eZXMLRPCCall
 //        eZLog::writeNotice( "empty?: " . $rawResponse . "<-" );
 //        $domTree =& qdom_tree( $rawResponse );
 //        $domTree =& xmltree( $rawResponse );
- 
+
         $domTree =& eZXML::domTree( $rawResponse, array( "TrimWhiteSpace" => true ) );
 
-//        print_r( $domTree ); 
-        
+//        print_r( $domTree );
+
         foreach ( $domTree->children as $call )
         {
             if ( $call->name == "methodCall" )
@@ -234,7 +234,7 @@ class eZXMLRPCCall
                                 foreach ( $param->children as $value )
                                 {
                                     if ( $value->name == "value" )
-                                    {                                        
+                                    {
                                         $this->ParameterList[] = $decoder->decodeDataTypes( $value );
                                     }
                                 }
@@ -245,14 +245,14 @@ class eZXMLRPCCall
             }
         }
     }
-    
-    
+
+
     /// The name of the method to call
     var $MethodName;
-    
+
     /// The parameters to send with the method.
     var $ParameterList;
-    
+
 }
 
 ?>

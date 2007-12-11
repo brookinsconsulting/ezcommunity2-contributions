@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezpricegroup.php 9210 2002-02-13 09:14:20Z br $
 //
 // Definition of eZPriceGroup class
@@ -60,7 +60,7 @@ class eZPriceGroup
 
         $this->Name = $db->escapeString( $this->Name );
         $this->Description = $db->escapeString( $this->Description );
-        
+
         if ( !isset( $this->Placement ) or !is_numeric( $this->Placement ) )
         {
             $db->query_single( $place, "SELECT max( Placement ) AS Placement
@@ -159,7 +159,7 @@ class eZPriceGroup
     */
     function &priceGroups( $inUser, $as_object = true )
     {
-        if ( get_class( $inUser ) == "ezuser" )
+        if ( is_a( $inUser, "eZUser" ) )
         {
             $user =& $inUser;
         }
@@ -167,7 +167,7 @@ class eZPriceGroup
         {
             $user = new eZUser( $inUser );
         }
-    
+
         $groups = $user->groups( false );
         $i = 0;
         foreach( $groups as $group )
@@ -204,7 +204,7 @@ class eZPriceGroup
     {
         if ( !$id )
             $id = $this->ID;
-        if ( get_class( $group_id ) == "ezusergroup" )
+        if ( is_a( $group_id, "eZUserGroup" ) )
             $group_id = $group_id->id();
 
         $db =& eZDB::globalDatabase();
@@ -270,7 +270,7 @@ class eZPriceGroup
     function lowestPrice( $productid, $priceid, $optionid )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $ini =& INIFile::globalINI();
         $ret = false;
         $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
@@ -285,7 +285,7 @@ class eZPriceGroup
                     $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
                     $first = false;
                 }
-                
+
                 if ( $group_text )
                     $group_text = " AND ( $group_text )";
                 else
@@ -299,7 +299,7 @@ class eZPriceGroup
             $db->array_query( $array, "SELECT Price, PriceID FROM eZTrade_ProductPriceLink
                                        WHERE ProductID='$productid' $group_text
                                          AND OptionID='$optionid' ORDER BY Price" );
-            
+
             if ( count( $array ) > 0 )
             {
                 for($i=0;$i < count( $array ); $i++ )
@@ -317,7 +317,7 @@ class eZPriceGroup
             {
                 $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
                                            WHERE OptionID='$optionid' ORDER BY Price" );
-                
+
                 if ( count( $array ) > 0 )
                     $ret = $array[0][$db->fieldName("Price")];
             }
@@ -339,7 +339,7 @@ class eZPriceGroup
     function highestPrice( $productid, $priceid, $optionid )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $ini =& INIFile::globalINI();
         $ret = false;
         $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
@@ -367,7 +367,7 @@ class eZPriceGroup
             $db->array_query( $array, "SELECT Price, PriceID FROM eZTrade_ProductPriceLink
                                        WHERE ProductID='$productid' $group_text
                                          AND OptionID='$optionid' ORDER BY Price DESC" );
-            
+
             if ( count( $array ) > 0 )
             {
                 for($i=0;$i < count( $array ); $i++ )
@@ -381,7 +381,7 @@ class eZPriceGroup
                     }
                 }
             }
-            
+
             if ( $ret == false )
             {
                 $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
@@ -411,7 +411,7 @@ class eZPriceGroup
     function correctPrice( $productid, $priceid, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $ini =& INIFile::globalINI();
         $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true" ? true : false;
 
@@ -469,7 +469,7 @@ class eZPriceGroup
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $ret[] = $db->query( "INSERT INTO eZTrade_ProductPriceLink
                      ( PriceID,
                        ProductID,

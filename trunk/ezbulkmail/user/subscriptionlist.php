@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: subscriptionlist.php 8249 2001-11-02 08:23:41Z ce $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
@@ -32,8 +32,8 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
-$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
-$TemplateDir = $ini->read_var( "eZBulkMailMain", "TemplateDir" ); 
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
+$TemplateDir = $ini->read_var( "eZBulkMailMain", "TemplateDir" );
 
 if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
 {
@@ -53,15 +53,15 @@ else
         eZHTTPTool::header( "Location: /bulkmail/login" );
         exit();
     }
-    
-} 
+
+}
 
 
 
 if( isset ( $Ok ) )
 {
     $subscriptionaddress->unsubscribe( true );
-    
+
     foreach( $CategoryArrayID as $categoryID )
     {
         $subscriptionaddress->subscribe( $categoryID );
@@ -97,7 +97,7 @@ $t->set_var( "current_email", "" );
 
 // List all the avaliable categories if there is a valid current address
 $haystack = $subscriptionaddress->subscriptions( false );
-        
+
 $categories = eZBulkMailCategory::getAll( false );
 foreach ( $categories as $categoryitem )
 {
@@ -117,7 +117,7 @@ foreach ( $categories as $categoryitem )
     $t->set_var( "delay_2", "" );
     $t->set_var( "delay_3", "" );
 
-    if ( ( get_class ( $setting ) == "ezbulkmailcategorysettings" ) || ( get_class ( $setting ) == "ezbulkmailusercategorysettings" ) )
+    if ( is_a( $setting, "eZBulkMailCategorySettings" ) || is_a( $setting, "eZBulkMailUserCategorySettings" ) )
     {
         $delay = $setting->delay();
         if ( $delay == 1 )
@@ -131,7 +131,7 @@ foreach ( $categories as $categoryitem )
     }
     else
         $t->set_var( "delay_0", "selected" );
- 
+
 
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
@@ -144,7 +144,7 @@ if ( $i > 0 )
 else
 {
     $t->parse( "no_categories", "no_categories_tpl" );
-} 
+}
 
 $t->pparse( "output", "subscription_list_tpl" );
 ?>

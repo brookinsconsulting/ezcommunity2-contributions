@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: header.php 9803 2003-04-10 13:20:10Z br $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -80,7 +80,9 @@ if ( $url_array[2] == "archive" || $url_array[2] == "articleedit" )
 
     $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 
-    $charsetLanguage = eZSection::language ( $GlobalSectionID );
+    if ($GlobalSectionID) {
+        $charsetLanguage = eZSection::language ( $GlobalSectionID );
+    }
 }
 else if ( $url_array[2] == "image" && ( $url_array[3] == "list" || $url_array[3] == "edit" ) )
 {
@@ -90,7 +92,7 @@ else if ( $url_array[2] == "image" && ( $url_array[3] == "list" || $url_array[3]
         include_once( "ezimagecatalogue/classes/ezimage.php" );
         $img = new eZImage( $CategoryID );
         $Category = $img->categoryDefinition();
-        if ( get_class( $Category ) == "ezimagecategory" )
+        if ( is_a( $Category, "eZImageCategory" ))
         {
             $CategoryID = $Category->id();
         }
@@ -101,7 +103,9 @@ else if ( $url_array[2] == "image" && ( $url_array[3] == "list" || $url_array[3]
 
     $GlobalSectionID = eZImageCategory::sectionIDStatic( $CategoryID );
 
-    $charsetLanguage = eZSection::language ( $GlobalSectionID );
+    if ($GlobalSectionID) {
+        $charsetLanguage = eZSection::language ( $GlobalSectionID );
+    }
 }
 //EP ------------------------------------------------------------------------
 
@@ -109,7 +113,7 @@ if ( $charsetLanguage == "" )
 {
     $charsetLanguage =& $ini->read_var( "eZUserMain", "Language" );
 }
-	
+
 $charsetLocale = new eZLocale( $charsetLanguage );
 $iso = $charsetLocale->languageISO();
 
@@ -129,7 +133,7 @@ $t->set_block( "module_list_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "module_list_tpl", "module_control_tpl", "module_control" );
 $t->set_block( "header_tpl", "menu_tpl", "menu_item" );
 $t->set_block( "header_tpl", "charset_switch_tpl", "charset_switch" );
-$t->set_block( "charset_switch_tpl", "charset_switch_item_tpl", "charset_switch_item" ); 
+$t->set_block( "charset_switch_tpl", "charset_switch_item_tpl", "charset_switch_item" );
 
 
 $user =& eZUser::currentUser();
@@ -149,7 +153,7 @@ $uri = $GLOBALS["REQUEST_URI"];
 
 $t->set_var( "charset_switch", "" );
 
-// The following is the charset switch - to view languages with different charsets 
+// The following is the charset switch - to view languages with different charsets
 
 $CharsetSwitch =& $ini->read_var( "site", "CharsetSwitch" );
 
@@ -254,6 +258,6 @@ if ( ( $moduletab == "enabled" ) && ( count ( $modules ) != 0 ) )
 
 
 $t->pparse( "output", "header_tpl" );
-    
+
 
 ?>

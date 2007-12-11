@@ -732,7 +732,7 @@ class eZOrder
     */
     function setUser( $user )
     {
-       if ( get_class( $user ) == "ezuser" )
+       if ( is_a( $user, "eZUser" ) )
        {
            $this->UserID = $user->id();
        }
@@ -752,7 +752,7 @@ class eZOrder
     */
     function setShippingAddress( $shippingAddress, $user )
     {
-       if ( get_class( $shippingAddress ) == "ezaddress" )
+       if ( is_a( $shippingAddress, "eZAddress" ) )
        {
            $shippingAddress =& $shippingAddress->copy();
            $this->ShippingAddressID = $shippingAddress->id();
@@ -782,7 +782,7 @@ class eZOrder
     */
     function setBillingAddress( $billingAddress, $user )
     {
-       if ( get_class( $billingAddress ) == "ezaddress" )
+       if ( is_a( $billingAddress, "eZAddress" ) )
        {
            $billingAddress =& $billingAddress->copy();
            $this->BillingAddressID = $billingAddress->id();
@@ -826,7 +826,7 @@ class eZOrder
     */
     function setStatus( $type )
     {
-       if ( get_class( $type ) == "ezorderstatustype" )
+       if ( is_a( $type, "eZOrderStatusType" ) )
        {
            $this->OrderStatus_ = $type->id();
        }
@@ -857,7 +857,7 @@ class eZOrder
     */
     function setPersonID( $userID )
     {
-        if ( get_class( $userID ) == "ezuser" )
+        if ( is_a( $userID, "eZUser" ) )
             $id = $userID->ID();
         else
             $id = $userID;
@@ -1096,7 +1096,7 @@ class eZOrder
     */
     function &expiringOrders( $startdate, $time = 86400 )
     {
-        if ( get_class( $startdate ) == "ezdate" || get_class( $startdate ) == "ezdatetime" )
+        if ( is_a( $startdate, "eZDate" ) || is_a( $startdate, "eZDateTime" ) )
         {
             $startdate = $startdate->timeStamp();
         }
@@ -1117,7 +1117,7 @@ class eZOrder
 
     function soldProducts( $product )
     {
-        if ( get_class( $product ) == "ezproduct" )
+        if ( is_a( $product, "eZProduct" ) )
             $product = $product->ID();
 
         $db =& eZDB::globalDatabase();
@@ -1191,7 +1191,7 @@ class eZOrder
         $tax = "";
         $total = "";
 
-        if ( get_class ( $voucherItem ) == "ezvoucherused" )
+        if ( is_a ( $voucherItem, "eZVoucherUsed" ) )
             $voucher =& $voucherItem->voucher();
         else
             $voucher =& $voucherItem;

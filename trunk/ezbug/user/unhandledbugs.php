@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: unhandledbugs.php 7696 2001-10-08 14:39:09Z fh $
 //
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -34,7 +34,7 @@ include_once( "classes/INIFile.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
-$Language= $ini->read_var("eZBugMain","Language"); 
+$Language= $ini->read_var("eZBugMain","Language");
 $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/user/intl", $Language, "unhandledbugs.php" );
 $errorIni = new INIFIle( "ezbug/user/intl/" . $Language . "/unhandledbugs.php.ini", false );
@@ -77,10 +77,10 @@ foreach ( $unhandleBugs as $bug )
             $t->set_var( "bug_module_name", $module->name(), "&nbsp;" );
         else
             $t->set_var( "bug_module_name", "" );
-    
+
         $owner = $bug->user();
 
-        if( get_class( $owner) == "ezuser" )
+        if( is_a( $owner, "eZUser") )
         {
             $t->set_var( "bug_submitter", $owner->name(), "&nbsp;" );
         }

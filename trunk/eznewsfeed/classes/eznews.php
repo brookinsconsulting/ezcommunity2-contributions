@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: eznews.php 6224 2001-07-20 11:21:41Z jakobn $
 //
 // Definition of eZNews class
@@ -35,16 +35,16 @@
   $news->setName( "eZ publish released" );
   $news->setIntro( "Is publish is a ....." );
   $news->setIsPublished( true );
-  
+
   $news->setKeywords( "PHP GPL Object Oriented" );
   $news->setOrigin( "ez.no" );
   $news->setURL( "http://ez.no" );
-  
+
   $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
   print( $dateTime->timeStamp() );
-  
+
   $news->setOriginalPublishingDate( $dateTime );
-  
+
   $news->store();
   \endcode
   \sa eZNewsCategory
@@ -84,15 +84,15 @@ class eZNews
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $timeStamp = eZDateTime::timeStamp( true );
-        
+
         $name = $db->escapeString( $this->Name );
         $intro = $db->escapeString( $this->Intro );
         $url = $db->escapeString( $this->URL );
         $keywords = $db->escapeString( $this->KeyWords );
         $origin = $db->escapeString( $this->Origin );
-        
+
         if ( !isset( $this->ID ) )
         {
             // check if the news is already stored.
@@ -101,14 +101,14 @@ class eZNews
                                  Intro='$intro' AND
                                  URL='$url'
                                  " );
-            
+
             if ( count( $ret ) == 0 )
             {
-                
+
                 $db->lock( "eZNewsFeed_News" );
                 $nextID = $db->nextID( "eZNewsFeed_News", "ID" );
 
-                $ret[] = $db->query( "INSERT INTO eZNewsFeed_News 
+                $ret[] = $db->query( "INSERT INTO eZNewsFeed_News
                                ( ID,
                                  Name,
                                  Intro,
@@ -130,7 +130,7 @@ class eZNews
                                  '$url' )" );
 
 				$this->ID = $nextID;
-                
+
             }
             else
             {
@@ -184,7 +184,7 @@ class eZNews
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $news_array, "SELECT * FROM eZNewsFeed_News WHERE ID='$id'" );
@@ -216,21 +216,21 @@ class eZNews
     function delete()
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( isset( $this->ID ) )
         {
             $db->begin();
-            
+
             $res[] = $db->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );
-            
+
             $res[] = $db->query( "DELETE FROM eZNewsFeed_News WHERE ID='$this->ID'" );
 
             if ( in_array( false, $res ) )
                 $db->rollback( );
             else
-                $db->commit();            
+                $db->commit();
         }
-        
+
         return in_array( false, $res );
     }
 
@@ -275,7 +275,7 @@ class eZNews
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->PublishingDate );
-       
+
        return $dateTime;
     }
 
@@ -288,10 +288,10 @@ class eZNews
     {
        $dateTime = new eZDateTime();
        $dateTime->setTimeStamp( $this->OriginalPublishingDate );
-       
+
        return $dateTime;
     }
-    
+
     /*!
       Returns the origin of the news.
     */
@@ -307,7 +307,7 @@ class eZNews
     {
        return $this->KeyWords;
     }
-    
+
     /*!
       Returns true if the news is published false if not.
     */
@@ -320,8 +320,8 @@ class eZNews
         }
         return $ret;
     }
-      
-    
+
+
     /*!
       Sets the news name.
     */
@@ -353,7 +353,7 @@ class eZNews
     {
         $this->Origin = $value;
     }
-    
+
 
     /*!
       Sets the keywords of the article.
@@ -362,7 +362,7 @@ class eZNews
     {
         $this->KeyWords = $value;
     }
-    
+
     /*!
       Sets the original publishing date.
 
@@ -370,15 +370,15 @@ class eZNews
     */
     function setOriginalPublishingDate( $time)
     {
-        if ( get_class( $time ) == "ezdatetime" )
+        if ( is_a( $time, "eZDateTime" )
         {
             $this->OriginalPublishingDate = $time->timeStamp();
-          
+
         }
     }
-    
+
     /*!
-     Sets the news to published or not. 
+     Sets the news to published or not.
     */
     function setIsPublished( $value )
     {
@@ -388,10 +388,10 @@ class eZNews
        }
        else
        {
-           $this->IsPublished = 0;           
+           $this->IsPublished = 0;
        }
     }
-    
+
 
     /*!
       Returns the categrories an news is assigned to.
@@ -412,7 +412,7 @@ class eZNews
 
         return $ret;
     }
-    
+
     /*!
       Removes every category assignments from the current news.
     */
@@ -423,10 +423,10 @@ class eZNews
         $db->begin();
         $ret[] = $db->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );
         eZDB::finish( $ret, $db );
-        
+
     }
 
-    
+
     /*!
       Returns true if the product is assigned to the category given
       as argument. False if not.
@@ -434,7 +434,7 @@ class eZNews
     function existsInCategory( $category )
     {
        $ret = false;
-       if ( get_class( $category ) == "eznewscategory" )
+       if ( is_a( $category, "eZNewsCategory" ) )
        {
            $db =& eZDB::globalDatabase();
            $catID = $category->id();
@@ -445,7 +445,7 @@ class eZNews
            if ( count( $ret_array ) == 1 )
            {
                $ret = true;
-           }           
+           }
        }
        return $ret;
     }
@@ -463,7 +463,7 @@ class eZNews
             $fetchText = "eZNewsFeed_News.IsPublished = '1' AND";
         }
         else
-        {           
+        {
             $fetchText = "";
         }
 
@@ -473,18 +473,18 @@ class eZNews
        $db->array_query( $news_array,
                     "SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name
                     FROM eZNewsFeed_News
-                    WHERE 
-                    ( 
+                    WHERE
+                    (
                     eZNewsFeed_News.Name LIKE '%$queryText%' OR
                     eZNewsFeed_News.Intro LIKE '%$queryText%'
                     )
                     ORDER BY PublishingDate", array( "Limit" => $limit, "Offset" => $offset ) );
- 
+
        for ( $i=0; $i<count($news_array); $i++ )
        {
            $return_array[$i] = new eZNews( $news_array[$i][$db->fieldName("NewsID")], false );
        }
-       
+
        return $return_array;
     }
 
@@ -500,7 +500,7 @@ class eZNews
            $fetchText = "eZNewsFeed_News.IsPublished = '1' AND";
        }
        else
-       {           
+       {
            $fetchText = "";
        }
 
@@ -510,17 +510,17 @@ class eZNews
        $db->array_query( $news_array,
                     "SELECT count( eZNewsFeed_News.ID ) AS Count
                     FROM eZNewsFeed_News
-                    WHERE 
-                    ( 
+                    WHERE
+                    (
                     eZNewsFeed_News.Name LIKE '%$queryText%' OR
                     eZNewsFeed_News.Intro LIKE '%$queryText%'
                     )
                     " );
- 
-       
+
+
        return $news_array[0][$db->fieldName("Count")];
     }
-    
+
     /*!
       Returns every news in every category sorted by time.
     */
@@ -541,7 +541,7 @@ class eZNews
            break;
        }
 
-       
+
        $return_array = array();
        $news_array = array();
 
@@ -557,7 +557,7 @@ class eZNews
            $db->array_query( $news_array, "
                     SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name
                     FROM eZNewsFeed_News
-                    WHERE 
+                    WHERE
                     eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                     AND
                     eZNewsFeed_News.IsPublished = '1'
@@ -569,11 +569,11 @@ class eZNews
        {
            $return_array[$i] = new eZNews( $news_array[$i][$db->fieldName("NewsID")], false );
        }
-       
+
        return $return_array;
-    
-    
-    
+
+
+
     }
 
     var $ID;

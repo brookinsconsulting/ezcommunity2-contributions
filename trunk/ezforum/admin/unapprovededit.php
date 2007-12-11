@@ -85,7 +85,7 @@ for ( $i = 0; $i < count( $ActionValueArray ); $i++ )
 
         $messageUser =& $message->user();
 
-        if ( get_class( $messageUser ) == "ezuser" )
+        if ( is_a( $messageUser, "eZUser" ) )
         {
             $mail->setTo( $messageUser->email() );
             $forum = new eZForum( $message->forumID() );

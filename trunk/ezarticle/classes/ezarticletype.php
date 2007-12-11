@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezarticletype.php 6206 2001-07-19 12:19:22Z jakobn $
 //
 // Definition of eZArticleType class
@@ -34,7 +34,7 @@
 
   \code
 
-  \endcode  
+  \endcode
   \sa eZArticle
 */
 
@@ -64,9 +64,9 @@ class eZArticleType
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $name = $db->escapeString( $this->Name );
-             
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZArticle_Type" );
@@ -77,7 +77,7 @@ class eZArticleType
                          ( ID, Name )
                          VALUES
                          ( '$nextID', '$name' )" );
-        
+
 			$this->ID = $nextID;
         }
         else
@@ -87,12 +87,12 @@ class eZArticleType
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
-            $db->commit();        
-        
+            $db->commit();
+
         return true;
     }
 
@@ -107,7 +107,7 @@ class eZArticleType
         if ( $id != -1  )
         {
             $db->array_query( $type_array, "SELECT * FROM eZArticle_Type WHERE ID='$id'" );
-            
+
             if ( count( $type_array ) > 1 )
             {
                 die( "Error: Article type's with the same ID was found in the database. This shouldent happen." );
@@ -116,17 +116,17 @@ class eZArticleType
             {
                 $this->ID =& $type_array[0][$db->fieldName("ID")];
                 $this->Name =& $type_array[0][$db->fieldName("Name")];
-                
+
                 $ret = true;
             }
         }
         return $ret;
     }
-    
+
     /*!
         \static
       Fetches the article type object based on name.
-      
+
       Returns an article type object.
     */
     function &getByName( $name )
@@ -140,13 +140,13 @@ class eZArticleType
         if ( $name != ""  )
         {
             $db->array_query( $type_array, "SELECT * FROM eZArticle_Type WHERE Name='$name'" );
-            
+
             if ( count( $type_array ) == 1 )
             {
                 $type =& new eZArticleType($type_array[0][$db->fieldName("ID")]);
             }
         }
-        
+
         return $type;
     }
 
@@ -156,17 +156,17 @@ class eZArticleType
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $type_array = array();
-        
+
         $db->array_query( $type_array, "SELECT ID, Name FROM eZArticle_Type ORDER BY Name" );
-        
+
         for ( $i=0; $i<count($type_array); $i++ )
         {
             $return_array[$i] = new eZArticleType( $type_array[$i][$db->fieldName("ID")], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -219,10 +219,10 @@ class eZArticleType
     function attributes( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $attribute_array = array();
-       
+
         $db->array_query( $attribute_array, "SELECT ID, Placement
                                                       FROM eZArticle_Attribute
                                                       WHERE TypeID='$this->ID' ORDER BY Placement" );
@@ -232,10 +232,10 @@ class eZArticleType
             $attrib_id = $attribute_array[$i][$db->fieldName("ID")];
             $return_array[$i] = $as_object ? new eZArticleAttribute( $attrib_id, false ) : $attrib_id;
         }
-       
-        return $return_array;       
+
+        return $return_array;
     }
-    
+
     /*!
       Returns every attribute belonging to an article as an array of eZArticleAttribute objects.
     */
@@ -243,12 +243,12 @@ class eZArticleType
     {
         $ret = false;
 
-        if ( get_class( $article ) == "ezarticle" )
+        if ( is_a( $article, "eZArticle" ) )
         {
             $db =& eZDB::globalDatabase();
-            
+
             $articleID = $article->id();
-            
+
             $return_array = array();
             $attribute_array = array();
 
@@ -267,7 +267,7 @@ class eZArticleType
             {
                 $return_array[$i] = new eZArticleAttribute( $attribute_array[$i][$db->fieldName("AttributeID")] );
             }
-            
+
             $ret = true;
         }
         return $ret;

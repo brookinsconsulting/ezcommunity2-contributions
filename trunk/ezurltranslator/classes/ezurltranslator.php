@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezurltranslator.php 9232 2002-02-15 18:51:33Z master $
 //
 // Definition of eZURLTranslator class
@@ -28,7 +28,7 @@
 //!! eZURLTranslator
 //! The eZURLTranslator class provides URL translation functions.
 /*!
-   
+
 */
 
 include_once( "classes/ezdb.php" );
@@ -56,19 +56,19 @@ class eZURLTranslator
 
 	// Hack to delete a trailing slash
 	$url = preg_replace("'/$'", "", $url);
-       
-        $db =& eZDB::globalDatabase(); 
+
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $url_array,
             "SELECT Dest FROM eZURLTranslator_URL
              WHERE Source='$url'" );
-	
+
 	$url = preg_replace("'/$'", "", $url);
 
         if ( count( $url_array ) > 0 )
-        {                
+        {
             $ret = $url_array[0][$db->fieldName("Dest")];
-        } 
+        }
         return $ret;
     }
 
@@ -87,15 +87,15 @@ class eZURLTranslator
 
             $nextID = $db->nextID( "eZURLTranslator_URL", "ID" );
             $timeStamp =& eZDateTime::timeStamp( true );
-            
-            $res = $db->query( "INSERT INTO eZURLTranslator_URL 
-                         ( ID, Source, Dest, Created ) VALUES 
+
+            $res = $db->query( "INSERT INTO eZURLTranslator_URL
+                         ( ID, Source, Dest, Created ) VALUES
                          ( '$nextID',
                            '$this->Source',
 		                   '$this->Dest',
 		                   '$timeStamp' )
                           " );
-        
+
 			$this->ID = $nextID;
         }
         else
@@ -107,12 +107,12 @@ class eZURLTranslator
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -122,11 +122,11 @@ class eZURLTranslator
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != -1  )
         {
             $db->array_query( $url_array, "SELECT * FROM eZURLTranslator_URL WHERE ID='$id'" );
-            
+
             if ( count( $url_array ) > 1 )
             {
                 die( "Error: Url translations's with the same ID was found in the database. This shouldn't happen." );
@@ -147,11 +147,11 @@ class eZURLTranslator
     function getbydest( $dest = '' )
     {
 	$db =& eZDB::globalDatabase();
-	          
+
 	if ( $dest != '' )
 	{
 	    $db->array_query( $url_array, "SELECT * FROM eZURLTranslator_URL WHERE Dest='$dest'" );
-					      
+
 	    $this->ID =& $url_array[0][$db->fieldName( "ID" )];
 	    $this->Source =& $url_array[0][$db->fieldName( "Source" )];
 	    $this->Dest =& $url_array[0][$db->fieldName( "Dest" )];
@@ -164,17 +164,17 @@ class eZURLTranslator
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $url_array = array();
-        
+
         $db->array_query( $url_array, "SELECT ID, Created FROM eZURLTranslator_URL ORDER BY Created" );
-        
+
         for ( $i=0; $i<count($url_array); $i++ )
         {
             $return_array[$i] = new eZURLTranslator( $url_array[$i][$db->fieldName("ID")], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -186,13 +186,13 @@ class eZURLTranslator
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-        
+
         $res = $db->query( "DELETE FROM eZURLTranslator_URL WHERE ID='$this->ID'" );
 
         if ( $res == false )
             $db->rollback( );
         else
-            $db->commit();        
+            $db->commit();
     }
 
     /*!
@@ -235,11 +235,11 @@ class eZURLTranslator
     {
         $this->Dest = $value;
     }
-    
+
     var $ID;
     var $Source;
     var $Dest;
-    
+
 }
 
 ?>

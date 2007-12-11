@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: productsearch.php 9805 2003-04-10 14:48:45Z br $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -76,7 +76,7 @@ $t->set_var( "module_print", $ModulePrint );
 $t->set_block( "product_tpl", "image_tpl", "image" );
 $t->set_block( "product_tpl", "price_tpl", "price" );
 
-$t->set_var( "next", "" ); 
+$t->set_var( "next", "" );
 $t->set_var( "previous", "" );
 $t->set_var( "error_max_search_for_products", "" );
 
@@ -98,7 +98,7 @@ if ( $Query )
 {
     $productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
     $total_count = $product->activeProductSearchCount( $Query );
-} 
+}
 
 $t->set_var( "url_text", urlencode( $Query ) );
 
@@ -122,7 +122,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
         if ( $thumbnailImage )
         {
             $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
-    
+
             $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
             $t->set_var( "thumbnail_image_width", $variation->width() );
             $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -132,7 +132,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
         }
         else
         {
-            $t->set_var( "image", "" );    
+            $t->set_var( "image", "" );
         }
 
         $t->set_var( "product_name", $product->name() );
@@ -141,7 +141,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
         {
             $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
             $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
-            
+
             if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
             {
                 $t->set_var( "product_price", "" );
@@ -160,7 +160,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
             if ( count( $options ) == 1 )
             {
                 $option = $options[0];
-                if ( get_class( $option ) == "ezoption" )
+                if ( is_a( $option, "eZOption" ) )
                 {
                     $optionValues =& $option->values();
                     if ( count( $optionValues ) > 1 )
@@ -173,9 +173,9 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
                         }
                         $high = max( $priceArray );
                         $low = min( $priceArray );
-                        
+
                         $t->set_var( "product_price", $low . " - " . $high );
-                        
+
                         $t->parse( "price", "price_tpl" );
                     }
                 }
@@ -183,7 +183,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
             else
                 $t->set_var( "price", "" );
         }
-        
+
         $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_id", $product->id() );
 

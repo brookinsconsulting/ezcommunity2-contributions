@@ -62,10 +62,10 @@ if ( isSet( $new_consultation ) )
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: contact/consultation/person/new" );
     exit();
-}    
+}
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: contact/nopermission/login" );
@@ -268,7 +268,7 @@ if ( $Action == "insert" || $Action == "update" )
 //          $t->parse( "error_group_notification_item", "error_group_notification_item_tpl" );
 //          $error = true;
 //      }
-        
+
     if ( $error == true )
     {
         $t->parse( "errors_item", "errors_tpl" );
@@ -314,7 +314,7 @@ if ( ( $Action == "insert" || $Action == "update" ) && $error == false )
     $consultation->setState( $StatusID );
     $consultation->setEmail( $EmailNotice );
     $consultation->store();
-    
+
     if ( isSet( $CompanyContact ) )
     {
         $contact_type = "company";
@@ -453,25 +453,25 @@ if ( $Action == "new" )
             $t->set_var( "day_selected", "selected" );
         else
             $t->set_var( "day_selected", "" );
-        
+
         $t->parse( "day_item", "day_item_tpl", true );
     }
-    
+
     if ( $currentDate->month() == 1 )
         $t->set_var( "select_january", "selected" );
     else
         $t->set_var( "select_january", "" );
-    
+
     if ( $currentDate->month() == 2 )
         $t->set_var( "select_february", "selected" );
     else
         $t->set_var( "select_february", "" );
-        
+
     if ( $currentDate->month() == 3 )
         $t->set_var( "select_march", "selected" );
     else
         $t->set_var( "select_march", "" );
-    
+
     if ( $currentDate->month() == 4 )
         $t->set_var( "select_april", "selected" );
     else
@@ -516,7 +516,7 @@ if ( $Action == "new" )
         $t->set_var( "select_december", "selected" );
     else
         $t->set_var( "select_december", "" );
-    
+
     $t->set_var( "consultationyear", $currentDate->year() );
 
     $Action_value = "insert";
@@ -529,7 +529,7 @@ $groups = array();
 
 /*
     The user wants to edit an existing person.
-    
+
     We present a form with the info.
  */
 if ( $Action == "edit" )
@@ -568,25 +568,25 @@ if ( $Action == "edit" )
             $t->set_var( "day_selected", "selected" );
         else
             $t->set_var( "day_selected", "" );
-        
+
         $t->parse( "day_item", "day_item_tpl", true );
     }
-    
+
     if ( $currentDate->month() == 1 )
         $t->set_var( "select_january", "selected" );
     else
         $t->set_var( "select_january", "" );
-    
+
     if ( $currentDate->month() == 2 )
         $t->set_var( "select_february", "selected" );
     else
         $t->set_var( "select_february", "" );
-        
+
     if ( $currentDate->month() == 3 )
         $t->set_var( "select_march", "selected" );
     else
         $t->set_var( "select_march", "" );
-    
+
     if ( $currentDate->month() == 4 )
         $t->set_var( "select_april", "selected" );
     else
@@ -631,7 +631,7 @@ if ( $Action == "edit" )
         $t->set_var( "select_december", "selected" );
     else
         $t->set_var( "select_december", "" );
-    
+
     $t->set_var( "consultationyear", $currentDate->year() );
 
     $groups = $consultation->groupIDList();
@@ -659,25 +659,25 @@ if ( $Action == "formdata" )
             $t->set_var( "day_selected", "selected" );
         else
             $t->set_var( "day_selected", "" );
-        
+
         $t->parse( "day_item", "day_item_tpl", true );
     }
-    
+
     if ( $ConsultationMonth == 1 )
         $t->set_var( "select_january", "selected" );
     else
         $t->set_var( "select_january", "" );
-    
+
     if ( $ConsultationMonth == 2 )
         $t->set_var( "select_february", "selected" );
     else
         $t->set_var( "select_february", "" );
-        
+
     if ( $ConsultationMonth == 3 )
         $t->set_var( "select_march", "selected" );
     else
         $t->set_var( "select_march", "" );
-    
+
     if ( $ConsultationMonth == 4 )
         $t->set_var( "select_april", "selected" );
     else
@@ -722,7 +722,7 @@ if ( $Action == "formdata" )
         $t->set_var( "select_december", "selected" );
     else
         $t->set_var( "select_december", "" );
-    
+
     $t->set_var( "consultationyear", $ConsultationYear );
 
     $status_id = $StatusID;
@@ -809,7 +809,7 @@ if ( count( $types ) > 0 )
         else
             $t->set_var( "selected", "" );
         $t->set_var( "status_name", $type->name() );
-        
+
         $t->parse( "status_select", "status_select_tpl", true );
     }
     $t->parse( "status_item", "status_item_tpl" );

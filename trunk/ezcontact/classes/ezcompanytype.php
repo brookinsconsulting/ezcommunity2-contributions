@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezcompanytype.php 6970 2001-09-05 11:57:07Z jhe $
 //
 // Definition of eZCompanyType class
@@ -35,7 +35,7 @@
   $companyType->store(); // Store or updates to the database.
   \code
   \sa eZOnlineType eZCompany eZPerson eZOnline eZPhone eZOnline
-  
+
   This class handles the company types in the database. A company type can be used to
   describe different hiearchical information about a company. For example geographical
   area, business area, etc.
@@ -57,7 +57,7 @@ class eZCompanyType
             $this->get( $this->ID );
         }
     }
-    
+
     /*!
       Stores the object in the database.
     */
@@ -65,7 +65,7 @@ class eZCompanyType
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $ret = false;
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
@@ -120,14 +120,14 @@ class eZCompanyType
 
     /*
         Fetches a company type with the  ID == $id
-    */  
+    */
     function get( $id )
     {
         $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
             $db->array_query( $company_type_array, "SELECT * FROM eZContact_CompanyType WHERE ID='$id'" );
-            
+
             if ( count( $company_type_array ) > 1 )
             {
                 die( "Error: More than one company type with the same ID found. Major problem, clean up the table eZContact_CompanyType. " );
@@ -142,14 +142,14 @@ class eZCompanyType
            }
         }
     }
-    
+
     /*!
         Fetches all the company types in the db and return them as an array of objects.
      */
     function getAll( $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
         $db =& eZDB::globalDatabase();
-        
+
         switch ( strtolower( $OrderBy ) )
         {
             case "description":
@@ -171,11 +171,11 @@ class eZCompanyType
                 $OrderBy = "ORDER BY ID";
                 break;
         }
-        
+
         if ( is_numeric( $LimitStart ) )
         {
             $LimitArray = array( "Offset" => $LimitStart );
-            
+
             if ( is_numeric( $LimitBy ) )
             {
                 $LimitArray =& array_merge( $LimitArray, array( "Limit" => $LimitBy ) );
@@ -185,11 +185,11 @@ class eZCompanyType
         {
             $LimitArray = array();
         }
-        
+
         $company_type_array = array();
         $return_array = array();
 
-        
+
         $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType $OrderBy", $LimitClause );
 
         foreach ( $company_type_array as $companyTypeItem )
@@ -198,7 +198,7 @@ class eZCompanyType
         }
         return $return_array;
     }
- 
+
     /*!
         Fetches all the company types in the db and return them as an array of objects.
      */
@@ -206,7 +206,7 @@ class eZCompanyType
     {
         $db =& eZDB::globalDatabase();
 
-        if ( get_class( $parent ) == "ezcompanytype" )
+        if ( is_a( $parent, "eZCompanyType" ) )
         {
             $id = $parent->id();
         }
@@ -214,7 +214,7 @@ class eZCompanyType
         {
             $id = $parent;
         }
-        
+
         switch ( strtolower( $OrderBy ) )
         {
             case "description":
@@ -236,11 +236,11 @@ class eZCompanyType
                 $OrderBy = "ORDER BY ID";
                 break;
         }
-        
+
         if ( is_numeric( $LimitStart ) )
         {
             $LimitArray = array( "Offset" => $LimitStart );
-            
+
             if ( is_numeric( $LimitBy ) )
             {
                 $LimitArray =& array_merge( $LimitArray, array( "Limit" => $LimitBy ) );
@@ -252,10 +252,10 @@ class eZCompanyType
         {
             $LimitClause = "";
         }
-        
+
         $company_type_array = array();
         $return_array = array();
-        
+
         $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' $OrderBy", $LimitArray );
 
         foreach ( $company_type_array as $companyTypeItem )
@@ -271,26 +271,26 @@ class eZCompanyType
     function hasChildren( &$childrenCount, $id = "this" )
     {
         $ret = false;
-        
+
         if ( $id == "this" )
         {
             $id = $this->ID;
         }
-        
+
         if ( is_numeric( $id ) )
         {
             $db =& eZDB::globalDatabase();
-            
+
             $company_type_array = array();
             $db->array_query( $company_type_array, "SELECT ParentID FROM eZContact_CompanyType WHERE ParentID='$id'" );
             $childrenCount = count( $company_type_array );
-            
+
             if ( $childrenCount != 0 )
             {
                 $ret = true;
             }
         }
-        
+
         return $ret;
     }
 
@@ -303,13 +303,13 @@ class eZCompanyType
         {
             $categoryID = $this->ID;
         }
-        
+
         $category = new eZCompanyType( $categoryID );
-        
+
         $path = array();
-        
+
         $parent = $category->parentID();
-        
+
         if ( $parent != 0 )
         {
             $path = array_merge( $path, eZCompanyType::path( $parent ) );
@@ -317,7 +317,7 @@ class eZCompanyType
 
         if ( $categoryID != 0 )
             array_push( $path, array( $category->id(), $category->name() ) );
-        
+
         return $path;
     }
 
@@ -361,7 +361,7 @@ class eZCompanyType
     function addCompany( $company )
     {
         $ret = false;
-        
+
         if ( get_class( $company ) )
         {
             $db =& eZDB::globalDatabase();
@@ -382,7 +382,7 @@ class eZCompanyType
      */
     function setImageID( $value )
     {
-        if ( get_class( $value ) == "ezimage" )
+        if ( is_a( $value, "eZImage" ) )
         {
             $this->ImageID = $value->id();
         }
@@ -391,8 +391,8 @@ class eZCompanyType
             $this->ImageID = $value;
         }
     }
-    
-    
+
+
     /*!
       Set the name.
     */
@@ -416,7 +416,7 @@ class eZCompanyType
         $this->ParentID = $value;
     }
 
-  
+
     /*!
       Returns the ID of the company type.
     */
@@ -424,7 +424,7 @@ class eZCompanyType
     {
         return $this->ID;
     }
-  
+
     /*!
       Returns the name.
     */
@@ -432,7 +432,7 @@ class eZCompanyType
     {
         return $this->Name;
     }
-  
+
     /*!
       Returns the description.
     */
@@ -440,7 +440,7 @@ class eZCompanyType
     {
         return $this->Description;
     }
-    
+
     /*!
       Returns the parent.
     */
@@ -448,8 +448,8 @@ class eZCompanyType
     {
         return $this->ParentID;
     }
-    
-    
+
+
     /*!
       Returns the image id.
     */

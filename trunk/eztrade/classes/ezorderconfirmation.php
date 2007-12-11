@@ -4,7 +4,7 @@
 //
 // Definition of eZConfirmation class
 //
-// <Bjørn Reiten> <br@ez.no>
+// <Bjï¿½rn Reiten> <br@ez.no>
 // Created on: <21-Mar-2002 17:47:55 br>
 //
 // This source file is part of eZ publish, publishing software.
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!!
 //! The class eZConfirmation does
 /*!
 
@@ -126,7 +126,7 @@ class eZOrderConfirmation
         $orderID = $this->OrderID;
 
         $order = new eZOrder( $orderID );
-	
+
 
         //
         // Send mail confirmation
@@ -678,7 +678,7 @@ class eZOrderConfirmation
         {
             $session = new eZSession( $sessionID );
             $preOrderID = $session->variable( "PreOrderID" );
- 
+
             if ( !$session )
             {
                 $ret = false;
@@ -809,7 +809,7 @@ class eZOrderConfirmation
                 include( "checkout/user/postpayment.php" );
             }
 
-        
+
             $preOrder = new eZPreOrder( $preOrderID );
             $preOrder->setOrderID( $OrderID );
             $preOrder->store();
@@ -871,7 +871,7 @@ class eZOrderConfirmation
 
     function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     {
-        if ( get_class( $ProductID ) == "ezproduct" )
+        if ( is_a( $ProductID, "eZProduct" ) )
         {
             $CategoryID =& $ProductID->categoryDefinition( false );
             $CategoryArray =& $ProductID->categories( false );

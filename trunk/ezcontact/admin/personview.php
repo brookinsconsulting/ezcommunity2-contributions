@@ -57,7 +57,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
@@ -197,7 +197,7 @@ if ( $Action == "view" )
     // Address list
     $addressList = $person->addresses( $person->id() );
     $count = count( $addressList );
-    
+
     if ( $count != 0 )
     {
         foreach ( $addressList as $addressItem )
@@ -208,7 +208,7 @@ if ( $Action == "view" )
             $t->set_var( "zip", eZTextTool::htmlspecialchars( $addressItem->zip() ) );
             $t->set_var( "place", eZTextTool::htmlspecialchars( $addressItem->place() ) );
             $country = $addressItem->country();
-            if ( get_class( $country ) == "ezcountry" )
+            if ( is_a( $country, "eZCountry" ) )
                 $t->set_var( "country", eZTextTool::htmlspecialchars( $country->name() ) );
             else
                 $t->set_var( "country", "" );
@@ -217,7 +217,7 @@ if ( $Action == "view" )
 
             $t->set_var( "address_type_id", $addressType->id() );
             $t->set_var( "address_type_name", eZTextTool::htmlspecialchars( $addressType->name() ) );
-            
+
             $t->set_var( "script_name", "personedit.php" );
             $t->parse( "address_line", "address_line_tpl", true );
 
@@ -230,7 +230,7 @@ if ( $Action == "view" )
         $t->set_var( "address_item", "" );
         $t->parse( "no_address_item", "no_address_item_tpl" );
     }
-    
+
     // Online list
     $OnlineList = $person->onlines( $person->id() );
     $count = count( $OnlineList );
@@ -336,7 +336,7 @@ if ( $Action == "view" )
         $imageURL = "/" . $variation->imagePath();
         $imageWidth = $variation->width();
         $imageHeight = $variation->height();
-        $imageCaption = $image->caption();          
+        $imageCaption = $image->caption();
         $t->set_var( "image_width", $imageWidth );
         $t->set_var( "image_height", $imageHeight );
         $t->set_var( "image_url", $imageURL );
@@ -416,7 +416,7 @@ if ( $Action == "view" )
 }
 
 // Order list
-if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) )
+if ( is_a( $user, "eZUser" ) and eZPermission::checkPermission( $user, "eZContact", "buy" ) )
 {
     $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
     if ( $CompanyEdit )
@@ -432,33 +432,33 @@ if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "e
     foreach ( $orders as $order )
     {
         $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-        
+
         $t->set_var( "order_id", $order->id() );
         $t->set_var( "order_date", $locale->format( $order->date() ) );
-        
+
         $status = $order->initialStatus( );
         $dateTime = $status->altered();
-        
+
         $status = $order->lastStatus();
-        
+
         $statusType = $status->type();
         $statusName = preg_replace( "#intl-#", "", $statusType->name() );
         $statusName =  $languageINI->read_var( "strings", $statusName );
-        
+
         $t->set_var( "order_status", $statusName );
-        
+
         if ( $order->isVATInc() == true )
             $currency->setValue( $order->totalPriceIncVAT() + $order->shippingCharge());
         else
             $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
         $t->set_var( "order_price", $locale->format( $currency ) );
-        
+
         $t->parse( "order_item", "order_item_tpl", true );
         $i++;
     }
 }
 
-if ( get_class( $user ) == "ezuser" &&
+if ( is_a( $user, "eZUser" ) &&
      eZPermission::checkPermission( $user, "eZContact", "buy" ) &&
      count( $orders ) > 0 )
 {
@@ -481,18 +481,18 @@ $date = new eZDateTime();
 foreach ( $emails as $email )
 {
     $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-    
+
     $t->set_var( "mail_id", $email->id() );
     $date->setTimeStamp( $email->uDate() );
     $t->set_var( "mail_date", $locale->format( $date ) );
-    
+
     $t->set_var( "mail_subject", $email->subject() );
     $t->set_var( "mail_email", $email->sender() );
-    
+
     $t->parse( "mail_item", "mail_item_tpl", true );
     $i++;
 }
-if ( get_class( $user ) == "ezuser" and count( $emails ) > 0 )
+if ( is_a( $user, "eZUser" ) and count( $emails ) > 0 )
 {
     $t->parse( "mail_table_item", "mail_table_item_tpl", true );
 }

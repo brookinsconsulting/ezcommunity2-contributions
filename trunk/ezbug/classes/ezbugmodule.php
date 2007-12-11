@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbugmodule.php 7766 2001-10-10 20:18:53Z fh $
 //
 // Definition of eZBugModule class
@@ -77,7 +77,7 @@ class eZBugModule
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
         $db->begin();
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZBug_Module", "ID" );
@@ -106,7 +106,7 @@ class eZBugModule
             $db->rollback();
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -141,20 +141,20 @@ class eZBugModule
 
             $res[] = $db->query( "DELETE FROM eZBug_ModulePermission WHERE ObjectID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
-            $res[] = $db->query( "DELETE FROM eZBug_Module WHERE ID='$this->ID'" );            
+            $res[] = $db->query( "DELETE FROM eZBug_Module WHERE ID='$this->ID'" );
         }
 
         eZDB::finish( $res, $db );
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $module_array, "SELECT * FROM eZBug_Module WHERE ID='$id'" );
@@ -181,43 +181,43 @@ class eZBugModule
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $module_array = array();
-        
+
         $db->array_query( $module_array, "SELECT ID FROM eZBug_Module ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
             $return_array[$i] = new eZBugModule( $module_array[$i][$db->fieldName( "ID" )], 0 );
-        } 
-        
+        }
+
         return $return_array;
     }
 
     /*!
       Returns the categories with the module given as parameter as parent.
 
-      The categories are returned as an array of eZBugModule objects.      
+      The categories are returned as an array of eZBugModule objects.
     */
     function getByParent( $parent, $sortby=name, $recursive=false )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $module_array = array();
-        
+
         $parentID = $parent->id();
-        
+
         $db->array_query( $module_array, "SELECT ID, Name FROM eZBug_Module
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
-        
+
         if ( is_array( $recursive ) )
         {
             $recursive[] = $parentID;
         }
-        
+
         for ( $i = 0; $i < count( $module_array); $i++ )
         {
             if ( is_array( $recursive ) )
@@ -230,7 +230,7 @@ class eZBugModule
                 $return_array[$i] = new eZBugModule( $module_array[$i][$db->fieldName( "ID" )], 0 );
             }
         }
-        
+
         if ( !is_array( $recursive ) )
         {
             return $return_array;
@@ -240,14 +240,14 @@ class eZBugModule
             return $recursive;
         }
     }
-    
+
     function path( $moduleID=0 )
     {
         if ( $moduleID == 0 )
         {
             $moduleID = $this->ID;
         }
-            
+
         $module = new eZBugModule( $moduleID );
 
         $path = array();
@@ -264,11 +264,11 @@ class eZBugModule
         }
 
         if ( $moduleID != 0 )
-            array_push( $path, array( $module->id(), $module->name() ) );                                
-        
+            array_push( $path, array( $module->id(), $module->name() ) );
+
         return $path;
     }
-    
+
     /*!
       Returns the object ID to the module. This is the unique ID stored in the database.
     */
@@ -277,7 +277,7 @@ class eZBugModule
         return $this->ID;
     }
 
-    
+
     /*!
       Returns the name of the module.
     */
@@ -301,7 +301,7 @@ class eZBugModule
         else
             return $this->Description;
     }
-    
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
@@ -313,7 +313,7 @@ class eZBugModule
         }
         else
         {
-            return 0;           
+            return 0;
         }
     }
 
@@ -349,7 +349,7 @@ class eZBugModule
     */
     function setParent( $value )
     {
-       if ( get_class( $value ) == "ezbugmodule" )
+       if ( is_a( $value, "eZBugModule" ) )
        {
            $this->ParentID = $value->id();
        }
@@ -362,7 +362,7 @@ class eZBugModule
      */
     function setOwnerGroup( $newOwner, $recursive = false )
     {
-        if( get_class( $newOwner ) == "ezusergroup" )
+        if( is_a( $newOwner, "eZUserGroup" ) )
         {
             $this->OwnerGroupID = $newOwner->id();
             if( $recursive == true )
@@ -376,34 +376,34 @@ class eZBugModule
             }
         }
     }
-    
+
     /*!
       Adds a bug to the module.
     */
     function addBug( $value )
     {
-        if ( get_class( $value ) == "ezbug" )
+        if ( is_a( $value, "eZBug" ) )
         {
             $db =& eZDB::globalDatabase();
-            
+
             $bugID = $value->id();
-            
+
             $db->begin();
             $db->lock( "eZBug_BugModuleLink" );
             $nextID = $db->nextID( "eZBug_BugModuleLink", "ID" );
-            
+
             $res = $query = "INSERT INTO eZBug_BugModuleLink
                              (ID, ModuleID, BugID) VALUES
                              ('$nextID', '$this->ID', '$bugID')";
-            
+
             $db->query( $query );
             $db->unlock();
-            
+
             if ( $res == false )
                 $db->rollback();
             else
                 $db->commit();
-        }       
+        }
     }
 
     /*!
@@ -419,7 +419,7 @@ class eZBugModule
                        $limit=50)
     {
         $db =& eZDB::globalDatabase();
-        
+
         $OrderBy = "eZBug_Bug.Created DESC";
         switch( $sortMode )
         {
@@ -429,10 +429,10 @@ class eZBugModule
             }
             break;
         }
-        
+
         $return_array = array();
         $bug_array = array();
-        
+
         $unhandledSQL = "";
         if ( $fetchUnhandled == false )
         {
@@ -443,11 +443,11 @@ class eZBugModule
         {
             $privateSQL="AND IsPrivate='0'";
         }
-        
+
         $db->array_query( $bug_array, "
                 SELECT eZBug_Bug.ID AS BugID, eZBug_Bug.Name, eZBug_Module.ID, eZBug_Module.Name
                 FROM eZBug_Bug, eZBug_Module, eZBug_BugModuleLink
-                WHERE 
+                WHERE
                 eZBug_BugModuleLink.BugID = eZBug_Bug.ID
                 AND
                 eZBug_Module.ID = eZBug_BugModuleLink.ModuleID
@@ -456,29 +456,29 @@ class eZBugModule
                 AND
                 eZBug_Module.ID='$this->ID'
                 GROUP BY eZBug_Bug.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
-        
+
         for ( $i=0; $i < count( $bug_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZBug( $bug_array[$i][ $db->fieldName( "BugID" ) ], false );
         }
-        
+
         return $return_array;
     }
 
-    /*! 
+    /*!
       Returns the bug count in the module.
- 
-      If $countUnhandled == true all bugs are counted if not, only 
-      handled bugs are counted. 
- 
-      If $excludeClosed == true the closed bugs does not get counted. 
- 
-      If $recursive == true it will also count the bug in the submodules. 
-    */ 
+
+      If $countUnhandled == true all bugs are counted if not, only
+      handled bugs are counted.
+
+      If $excludeClosed == true the closed bugs does not get counted.
+
+      If $recursive == true it will also count the bug in the submodules.
+    */
     function countBugs( $countUnhandled=true, $excludeClosed=false, $recursive=false, $withPrivate=false )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $unhandledSQL = "";
         if ( $countUnhandled == false )
         {
@@ -490,7 +490,7 @@ class eZBugModule
         {
             $openSQL = "AND eZBug_Bug.IsClosed!='1'";
         }
-        
+
         $privateSQL = "";
         if( $withPrivate == false )
         {
@@ -500,7 +500,7 @@ class eZBugModule
         $query = "
                 SELECT count( * ) AS Count
                 FROM eZBug_Bug, eZBug_Module, eZBug_BugModuleLink
-                WHERE 
+                WHERE
                 eZBug_BugModuleLink.BugID = eZBug_Bug.ID
                 AND
                 eZBug_Module.ID = eZBug_BugModuleLink.ModuleID
@@ -510,7 +510,7 @@ class eZBugModule
                 AND
                 eZBug_Module.ID='$this->ID'
                 ";
-        
+
         $db->array_query( $bug_array, $query );
         $ret =& $bug_array[0][ $db->fieldName( "Count" ) ];
 
@@ -541,12 +541,12 @@ class eZBugModule
         $return_value = false;
         $db =& eZDB::globalDatabase();
 
-        if ( get_class( $moduleID ) == "ezbugmodule" )
+        if ( is_a( $moduleID, "eZBugModule" ) )
             $moduleID = $moduleID->id();
 
         if ( $check_for_self == true && $moduleID == $this->ID )
             return true;
-        
+
         while ( $moduleID != 0 )
         {
             $db->query_single( $result, "SELECT ParentID FROM eZBug_Module WHERE ID='$moduleID'" );
@@ -556,7 +556,7 @@ class eZBugModule
         }
         return $return_value;
     }
-    
+
     var $ID;
     var $Name;
     var $ParentID;

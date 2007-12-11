@@ -40,7 +40,7 @@
   $article = new eZArticle( );
   $article->setName( "C++" );
   $article->setContents( "An article about the fine art of C++ .... .... ... ... .... ... " );
-  $article->setAuthorText( "Bård Farstad" );
+  $article->setAuthorText( "Bï¿½rd Farstad" );
   $article->setLinkText( "Read the article" );
 
   $article->store();
@@ -706,7 +706,7 @@ class eZArticle
     */
     function setAuthor( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $this->AuthorID = $user->id();
         }
@@ -990,7 +990,7 @@ class eZArticle
     */
     function setStartDate( &$date )
     {
-        if ( get_class( $date ) == "ezdatetime" )
+        if ( is_a( $date, "eZDateTime" ) )
         {
             if ( !( $date->year() == "1970" && $date->month() == "1" && $date->day() == "1" ) )
             {
@@ -1017,7 +1017,7 @@ class eZArticle
     */
     function setStopDate( &$date )
     {
-        if ( get_class ( $date ) == "ezdatetime" )
+        if ( is_a ( $date, "eZDateTime" ) )
             $this->StopDate = $date;
         else
             $this->StopDate = 0;
@@ -1237,11 +1237,11 @@ class eZArticle
     */
     function setIsPublished( $value, $user = false, $as_script = false )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             $user =& eZUser::currentUser();
 
         $category = $this->categoryDefinition();
-        if ( get_class( $category ) == "ezarticlecategory" )
+        if ( is_a( $category, "eZArticleCategory" ) )
             $editorID = $category->editorGroup( false );
 
         if ( is_numeric ( $editorID ) && ( $editorID > 0 ) && $as_script == false )
@@ -1323,7 +1323,7 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
 
-        if( get_class( $value ) == "ezimage" )
+        if( is_a( $value, "eZImage" ) )
             $value = $value->id();
 
         $db->query_single( $res, "SELECT count( * ) as Count FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' AND ImageID='$value'" );
@@ -1374,7 +1374,7 @@ class eZArticle
     */
     function deleteImage( $value )
     {
-        if ( get_class( $value ) == "ezimage" )
+        if ( is_a( $value, "eZImage" ) )
         {
             $imageID = $value->id();
         }
@@ -1437,13 +1437,13 @@ class eZArticle
 
 	$db->query_single( $qry, "SELECT * FROM eZArticle_ArticleImageLink
 				  WHERE ArticleID='$this->ID' AND ImageID='$id'" );
-      
+
        if ( is_numeric( $qry[$db->fieldName("ID")] ) )
        {
            $linkID = $qry[$db->fieldName("ID")];
-           
+
            $placement = $qry[$db->fieldName("Placement")];
-           
+
            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleImageLink
                                     WHERE Placement<'$placement' AND ArticleID='$this->ID'
                                     ORDER BY Placement DESC" );
@@ -1457,11 +1457,11 @@ class eZArticle
            }
 
            if ( is_numeric( $listid ) )
-           {           
+           {
                $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
                $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$placement' WHERE ID='$listid'" );
-           } 
-       } 
+           }
+       }
     }
 
     /*!
@@ -1477,9 +1477,9 @@ class eZArticle
        if ( is_numeric( $qry[$db->fieldName("ID")] ) )
        {
            $linkID = $qry[$db->fieldName("ID")];
-           
+
            $placement = $qry[$db->fieldName("Placement")];
-           
+
            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleImageLink
                                     WHERE Placement>'$placement' AND ArticleID='$this->ID' ORDER BY Placement ASC" );
 
@@ -1489,7 +1489,7 @@ class eZArticle
            if ( $newPlacement == $placement )
            {
                $newPlacement += 1;
-           }           
+           }
 
            if ( is_numeric( $listid ) )
            {
@@ -1506,7 +1506,7 @@ class eZArticle
     */
     function setThumbnailImage( $image )
     {
-        if ( get_class( $image ) == "ezimage" )
+        if ( is_a( $image, "eZImage" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -1591,7 +1591,7 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
 
-        if( get_class( $value ) == "ezmedia" )
+        if( is_a( $value, "eZMedia" ) )
             $value = $value->id();
 
         $db->query_single( $res, "SELECT count( * ) as Count FROM eZArticle_ArticleMediaLink WHERE ArticleID='$this->ID' AND MediaID='$value'" );
@@ -1625,7 +1625,7 @@ class eZArticle
     */
     function deleteMedia( $value )
     {
-        if ( get_class( $value ) == "ezmedia" )
+        if ( is_a( $value, "eZMedia" ) )
         {
             $mediaID = $value->id();
         }
@@ -1666,7 +1666,7 @@ class eZArticle
     */
     function addFile( $value )
     {
-        if ( get_class( $value ) == "ezvirtualfile" )
+        if ( is_a( $value, "eZVirtualFile" ) )
         {
             $fileID = $value->id();
         }
@@ -1702,7 +1702,7 @@ class eZArticle
     */
     function deleteFile( $value )
     {
-        if ( get_class( $value ) == "ezvirtualfile" )
+        if ( is_a( $value, "eZVirtualFile" ) )
         {
             $fileID = $value->id();
 
@@ -1740,7 +1740,7 @@ class eZArticle
     */
     function deleteAttribute( $value )
     {
-        if ( get_class( $value ) == "ezarticleattribute" )
+        if ( is_a( $value, "eZArticleAttribute" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -1780,7 +1780,7 @@ class eZArticle
     {
         $ret = false;
 
-        if ( get_class( $type ) == "ezarticletype" )
+        if ( is_a( $type, "eZArticleType" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -1830,7 +1830,7 @@ class eZArticle
     function hasType( $type )
     {
         $ret = false;
-        if ( get_class( $value ) == "ezarticletype" )
+        if ( is_a( $value, "eZArticleType" ) )
         {
             $typeID = $value->id();
 
@@ -1856,7 +1856,7 @@ class eZArticle
     function existsInCategory( $category )
     {
         $ret = false;
-        if ( get_class( $category ) == "ezarticlecategory" )
+        if ( is_a( $category, "eZArticleCategory" ) )
         {
             $db =& eZDB::globalDatabase();
             $catID = $category->id();
@@ -1968,14 +1968,14 @@ class eZArticle
         if ( isSet( $params["FromDate"] ) )
         {
             $fromdate = $params["FromDate"];
-            if( get_class( $fromdate ) == "ezdatetime" )
+            if( is_a( $fromdate, "eZDateTime" ) )
                 $fromdate = $fromdate->timeStamp();
             $dateSQL .= "AND eZArticle_Article.Published >= '$fromdate'";
         }
         if ( isSet( $params["ToDate"] ) )
         {
             $todate = $params["ToDate"];
-            if( get_class( $todate ) == "ezdatetime" )
+            if( is_a( $todate, "eZDateTime" ) )
                 $todate = $todate->timeStamp();
             $dateSQL .= "AND eZArticle_Article.Published <= '$todate'";
         }
@@ -2447,7 +2447,7 @@ class eZArticle
     */
     function setCategoryDefinition( $value )
     {
-        if ( get_class( $value ) == "ezarticlecategory" )
+        if ( is_a( $value, "eZArticleCategory" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -2641,7 +2641,7 @@ class eZArticle
      */
     function isAuthor( $user, $articleID )
     {
-        if( get_class( $user ) != "ezuser" )
+        if( !is_a( $user, "eZUser" ) )
             return false;
 
         $db =& eZDB::globalDatabase();
@@ -2889,7 +2889,7 @@ eZUser_Author as Author
     {
         $db =& eZDB::globalDatabase();
 
-        if( get_class( $form ) == "ezform" )
+        if( is_a( $form, "eZForm" ) )
         {
             $ArticleID = $this->ID;
             $FormID = $form->id();

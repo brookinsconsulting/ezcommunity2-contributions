@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbulkmailcategory.php 8513 2001-11-19 11:29:38Z jhe $
 //
 // Definition of eZBulkMailCategory class
@@ -120,7 +120,7 @@ class eZBulkMailCategory
         $results[] = $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE CategoryID='$id'" );
         // unsubscribe password users.
         $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE CategoryID='$id'" );
-        
+
         // delete from BulkMailCategoryLink
         $results[] = $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
         // delete actual group entry
@@ -137,14 +137,14 @@ class eZBulkMailCategory
         else
             $db->commit();
      }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZBulkMail_Category WHERE ID='$id'" );
@@ -176,10 +176,10 @@ class eZBulkMailCategory
         $return_value = false;
         if ( count( $category_array ) == 1 )
             $return_value = new eZBulkMailCategory( $category_array[0][$db->fieldName( "ID" )] );
-        
+
         return $return_value;
     }
-    
+
     /*!
       Returns all the categories found in the database.
 
@@ -194,16 +194,16 @@ class eZBulkMailCategory
         $privateSQL = "";
         if ( $withPrivate == false )
             $privateSQL = "WHERE IsPublic='1'";
-        
+
         $db->array_query( $category_array, "SELECT ID, Name FROM eZBulkMail_Category $privateSQL ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $category_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZBulkMailCategory( $category_array[$i][$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
-    
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -233,7 +233,7 @@ class eZBulkMailCategory
        else
            return $this->Description;
     }
-    
+
     /*!
       Sets the name of the category.
     */
@@ -257,7 +257,7 @@ class eZBulkMailCategory
     {
         $this->IsPublic = $value;
     }
-    
+
     /*!
       Returns true if this this is a public list
      */
@@ -265,7 +265,7 @@ class eZBulkMailCategory
     {
         return $this->IsPublic;
     }
-    
+
     /*!
       Subscribes a user group to a category
      */
@@ -274,7 +274,7 @@ class eZBulkMailCategory
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        if ( get_class( $groupID ) == "ezusergroup" )
+        if ( is_a( $groupID, "eZUserGroup" ) )
             $groupID = $groupID->id();
 
         $result = $db->query( "INSERT INTO eZBulkMail_GroupCategoryLink
@@ -296,7 +296,7 @@ class eZBulkMailCategory
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        if ( get_class( $group ) == "ezusergroup" )
+        if ( is_a( $group, "eZUserGroup" ) )
         {
             $groupID = $group->id();
             $result = $db->query( "DELETE FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID' AND GroupID='$groupID'" );
@@ -310,7 +310,7 @@ class eZBulkMailCategory
         else
             $db->commit();
     }
-    
+
     /*!
       Returns all the groups that are subscribed to this category.
       \sa subscriptions
@@ -341,7 +341,7 @@ class eZBulkMailCategory
 
         if( $id == -1 )
             $id = $this->ID;
-        
+
         $return_array = array();
         $mail_array = array();
 
@@ -367,7 +367,7 @@ class eZBulkMailCategory
         {
             $return_array[$i] = new eZBulkMail( $mail_array[$i][$db->fieldName( "MailID" )] );
         }
-       
+
         return $return_array;
     }
 
@@ -382,10 +382,10 @@ class eZBulkMailCategory
                 SELECT COUNT( eZBulkMail_Mail.ID ) AS Count
                 FROM eZBulkMail_Mail, eZBulkMail_MailCategoryLink
                 WHERE eZBulkMail_MailCategoryLink.CategoryID='$this->ID' AND eZBulkMail_Mail.ID=eZBulkMail_MailCategoryLink.MailID" );
-       
+
        return $result[$db->fieldName( "Count" )];
     }
-    
+
     /*!
       Returns an array with all addresses that are subscribed to this category.
       Used if eZUser login is disabled.
@@ -447,7 +447,7 @@ class eZBulkMailCategory
         $db->query_single( $result, "SELECT COUNT( EMail ) as Count FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
-        
+
         $count =  $result[$db->fieldName( "Count" )];
         $result_array = array();
         $db->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
@@ -457,7 +457,7 @@ class eZBulkMailCategory
         }
         return $count;
     }
-    
+
     /*!
       \static
       Sets the category with the ID given to be the current single list. If the argument given is false there will be no single list selected.
@@ -475,7 +475,7 @@ class eZBulkMailCategory
 
         if ( $value != false )
         {
-            if ( get_class( $value ) == "ezbulkmailcategory" )
+            if ( is_a( $value, "eZBulkMailCategory" ) )
                 $value = $value->id();
 
             $db->begin();
@@ -512,13 +512,13 @@ class eZBulkMailCategory
     {
         if ( is_numeric ( $category ) )
             $categoryID = $category;
-        else if ( get_class ( $category ) == "ezbulkmailcategory" )
+        else if ( is_a ( $category, "eZBulkMailCategory" ) )
             $categoryID = $category->id();
         else
             $categoryID = $this->ID;
-            
+
         $ret = false;
-        if ( get_class ( $address ) == "ezbulkmailsubscriptionaddress" )
+        if ( is_a ( $address, "eZBulkMailSubscriptionAddress" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -530,7 +530,7 @@ class eZBulkMailCategory
                 $ret = new eZBulkMailCategorySettings( $ret );
             }
         }
-        if ( get_class ( $address ) == "ezbulkmailusersubscripter" )
+        if ( is_a( $address, "eZBulkMailUserSubscripter" ) )
         {
             $db =& eZDB::globalDatabase();
 
@@ -551,24 +551,24 @@ class eZBulkMailCategory
 
     /*!
       \static
-      
+
      */
     function addDelayMail( $address, $category, $delay, $mail )
     {
         if ( is_numeric ( $category ) )
             $categoryID = $category;
-        else if ( get_class ( $category ) == "ezbulkmailcategory" )
+        else if ( is_a( $category, "eZBulkMailCategory" ) )
             $categoryID = $category->id();
         else
             $categoryID = $this->ID;
 
-        if ( get_class ( $mail ) == "ezbulkmail" )
+        if ( is_a( $mail, "eZBulkMail" ) )
             $mailID = $mail->id();
         else
             return false;
-            
+
         $ret = false;
-        if ( get_class ( $address ) == "ezbulkmailsubscriptionaddress" )
+        if ( is_a( $address, "eZBulkMailSubscriptionAddress" ) )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
@@ -592,7 +592,7 @@ class eZBulkMailCategory
             else
                 $db->commit();
         }
-        else if ( get_class ( $address ) == "ezbulkmailusersubscripter" )
+        else if ( is_a ( $address, "eZBulkMailUserSubscripter" ) )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
@@ -627,11 +627,11 @@ class eZBulkMailCategory
     function addUserSubscription( $user )
     {
         $result = false;
-        if ( get_class ( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
-            
+
             $userID = $user->id();
             $result = $db->query( "INSERT INTO eZBulkMail_UserCategoryLink
                                    (CategoryID, UserID)
@@ -650,7 +650,7 @@ class eZBulkMailCategory
     var $Name;
     var $Description;
     var $IsPublic;
-    
+
 }
 
 ?>

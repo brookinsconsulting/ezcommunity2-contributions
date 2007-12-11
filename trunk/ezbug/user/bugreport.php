@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: bugreport.php 9512 2002-05-08 09:16:58Z vl $
 //
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -97,7 +97,7 @@ if ( $Action == "New" )
     $bug->setVersion( $Version );
     $bug->setIsHandled( false );
     $bug->store();
-    
+
     $actionValue = "update";
     $BugID = $bug->id();
 }
@@ -124,11 +124,11 @@ if ( $Action == "Update" )
 
     if ( $IsPrivate == "true" )
         $bug->setIsPrivate( true );
-    
+
     $bug->setVersion( $Version );
     $bug->setIsHandled( false );
     $bug->store();
-    
+
     $actionValue = "update";
     $BugID = $bug->id();
     $Action = "Edit";
@@ -146,22 +146,22 @@ if ( isSet( $Ok ) ) // here check for errors. and display them if nescacary
             $successfull = 1;
             send_email( $bug, $ini, $Language );
             eZHTTPTool::header( "Location: /bug/reportsuccess/" );
-            exit();                
+            exit();
         }
         else
         {
             if ( $Email != "" )
             {
                 $successfull = 2;
-                send_email( $bug, $ini, $Language );            
+                send_email( $bug, $ini, $Language );
                 eZHTTPTool::header( "Location: /bug/reportsuccess/" );
-                exit();                
+                exit();
             }
             else
             {
-                $EmailError = true;                
-            }            
-        }       
+                $EmailError = true;
+            }
+        }
     }
     else
     {
@@ -169,7 +169,7 @@ if ( isSet( $Ok ) ) // here check for errors. and display them if nescacary
     }
 }
 
-if ( isSet( $InsertFile ) ) 
+if ( isSet( $InsertFile ) )
 {
     $session->setVariable( "CurrentBugEdit", $BugID );
     eZHTTPTool::header( "Location: /bug/report/fileedit/new/" . $BugID . "/" );
@@ -234,11 +234,11 @@ if( $Action == "Edit" ) // load values from database
     if ( !$user )
         $t->set_var( "usr_email", $bug->userEmail() );
 
-    
+
     $t->set_var( "description_value", $bug->description() );
     $t->set_var( "title_value", $bug->name() );
     $t->set_var( "version_value", $bug->version() );
-    
+
     if ( $bug->isPrivate() )
         $t->set_var( "private_checked", "checked" );
 
@@ -260,9 +260,9 @@ if( $Action == "Edit" ) // load values from database
         $t->set_var( "file_id", $file->id() );
 
         $t->set_var( "file_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" .  $file->name() . "</a>" );
-    
+
         $t->parse( "file", "file_tpl", true );
-    
+
         $i++;
     }
     $anyDeleteItems = false;
@@ -271,7 +271,7 @@ if( $Action == "Edit" ) // load values from database
         $t->parse( "inserted_files", "inserted_files_tpl", false );
         $anyDeleteItems = true;
     }
-    
+
     // get the images
     $images = $bug->images();
     $i = 0;
@@ -297,7 +297,7 @@ if( $Action == "Edit" ) // load values from database
         $t->set_var( "image_height",$variation->height() );
 
         $t->parse( "image", "image_tpl", true );
-    
+
         $i++;
     }
     $actionValue = "update";
@@ -358,7 +358,7 @@ foreach ( $categories as $category )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
-    
+
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
@@ -373,7 +373,7 @@ foreach ( $modules as $module )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
-    
+
     $t->parse( "module_item", "module_item_tpl", true );
 }
 
@@ -390,10 +390,10 @@ function send_email( $bug, $ini, $Language )
     $module = $bug->module();
     // find the owners of the group, if their is now owner group, no need to send mail.
     $ownerGroup = $module->ownerGroup();
-    if ( get_class( $ownerGroup ) != "ezusergroup" )
+    if ( !is_a( $ownerGroup, "eZUserGroup" ) )
     {
         eZHTTPTool::header( "Location: /bug/reportsuccess/" );
-        exit();                
+        exit();
     }
     $users = $ownerGroup->users();
     $userEmail = "";
@@ -419,7 +419,7 @@ function send_email( $bug, $ini, $Language )
     $mailTemplate->setAllStrings();
 
     $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
-            
+
     $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
     $mailTemplate->set_var( "bug_id", $bug->id() );
     $mailTemplate->set_var( "bug_title", $bug->name( false ) );
@@ -429,7 +429,7 @@ function send_email( $bug, $ini, $Language )
     else
         $mailTemplate->set_var( "bug_reporter", $Email );
     $mailTemplate->set_var( "bug_description", $bug->description( false ) );
-        
+
     $mail->setSubject( "[Bug][" . $bug->id() ."] " . $bug->name( false ) );
     $bodyText = ( $mailTemplate->parse( "dummy", "mailnewbug" ) );
     $mail->setBody( $bodyText );

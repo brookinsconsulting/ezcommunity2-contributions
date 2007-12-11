@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezlink.php 9782 2003-02-26 09:03:33Z br $
 //
 // Definition of eZLink class
@@ -52,7 +52,7 @@
   $link->getNotAccepted();
 
   \endcode
-  
+
   \sa eZLinkCategory eZHit eZQuery
 */
 
@@ -89,13 +89,13 @@ class eZLink
         $url = $db->escapeString( $this->Url );
         $keywords = $db->escapeString( $this->KeyWords );
         $timeStamp =& eZDateTime::timeStamp( true );
-       
+
         if ( !isSet( $this->ID) )
         {
             $db->lock( "eZLink_Link" );
             $nextID = $db->nextID( "eZLink_Link", "ID" );
-            
-            $res = $db->query( "INSERT INTO eZLink_Link 
+
+            $res = $db->query( "INSERT INTO eZLink_Link
                 ( ID,
                   Name,
                   Description,
@@ -132,7 +132,7 @@ class eZLink
                 Accepted='$this->Accepted'
                 WHERE ID='$this->ID'" );
         }
-            
+
         if ( $res == false )
         {
             $db->rollback();
@@ -148,39 +148,39 @@ class eZLink
     */
     function setType( $type )
     {
-        if ( get_class( $type ) == "ezlinktype" )
+        if ( is_a( $type, "eZLinkType" ) )
         {
             $db =& eZDB::globalDatabase();
-            
+
             $db->begin();
-            
+
             $typeID = $type->id();
-            
+
             $res[] = $db->query( "DELETE FROM eZLink_AttributeValue
                                      WHERE LinkID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZLink_TypeLink
                                      WHERE LinkID='$this->ID'" );
-            
+
             $db->lock( "eZLink_TypeLink" );
-            
+
             $nextID = $db->nextID( "eZLink_TypeLink", "ID" );
-            
+
             $query = "INSERT INTO eZLink_TypeLink
                       (ID, TypeID, LinkID)
                       VALUES
                       ('$nextID',
                        '$typeID',
                        '$this->ID')";
-            
+
             $res[] = $db->query( $query );
-            
+
             $db->unlock();
-            
+
             if ( in_array( false, $res ) )
                 $db->rollback();
             else
                 $db->commit();
-            
+
         }
     }
 
@@ -195,7 +195,7 @@ class eZLink
                                  eZLink_TypeLink WHERE LinkID='$this->ID'" );
 
         $type = false;
-       
+
         if ( count( $res ) == 1 )
         {
             $type = new eZLinkType( $res[0][$db->fieldName("TypeID")] );
@@ -203,7 +203,7 @@ class eZLink
 
         return $type;
     }
-    
+
     /*!
       Removes the links type definition.
     */
@@ -215,7 +215,7 @@ class eZLink
         $db->query( "DELETE FROM eZLink_AttributeValue WHERE LinkID='$this->ID'" );
 
         $db->query( "DELETE FROM eZLink_TypeLink WHERE LinkID='$this->ID'" );
-            
+
     }
 
     /*!
@@ -233,7 +233,7 @@ class eZLink
         $keywords = $db->escapeString( $this->KeyWords );
 
         $timeStamp =& eZDateTime::timeStamp( true );
-        
+
         $res = $db->query( "UPDATE eZLink_Link SET
                 Name='$name',
                 Description='$description',
@@ -244,12 +244,12 @@ class eZLink
                 Accepted='$this->Accepted'
                 WHERE ID='$this->ID'" );
 
-      
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
     }
 
     /*!
@@ -260,7 +260,7 @@ class eZLink
         $db =& eZDB::globalDatabase();
 
         $db->begin();
-        
+
         $res[] = $db->query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );
         $res[] = $db->query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
         $res[] = $db->query( "DELETE FROM eZLink_TypeLink WHERE LinkID='$this->ID'" );
@@ -280,7 +280,7 @@ class eZLink
     function get( $id )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $link_array = array();
@@ -302,7 +302,7 @@ class eZLink
                 $this->ImageID =& $link_array[0][$db->fieldName("ImageID")];
             }
         }
-      
+
     }
 
     /*!
@@ -311,10 +311,10 @@ class eZLink
     function &getByCategory( $id )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $link_array = array();
         $return_array = array();
-        
+
         $db->array_query( $link_array, "SELECT eZLink_Link.ID FROM eZLink_Link, eZLink_LinkCategoryLink
                                         WHERE CategoryID='$id' AND eZLink_Link.ID=LinkID AND Accepted='1' ORDER BY Name" );
 
@@ -334,10 +334,10 @@ class eZLink
     function &getNotAccepted( $offset = 0, $limit = 30 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $link_array = array();
         $return_array = array();
-        
+
         $db->array_query( $link_array, "SELECT ID, Name FROM eZLink_Link
                                         WHERE Accepted='0' ORDER BY Name",
                           array( "Limit" => $limit, "Offset" => $offset ) );
@@ -357,11 +357,11 @@ class eZLink
     {
         $db =& eZDB::globalDatabase();
 
-        $query = "SELECT count( ID ) AS Count 
+        $query = "SELECT count( ID ) AS Count
                   FROM eZLink_Link WHERE Accepted='0'";
 
         $db->array_query( $linkArray, $query );
-        
+
         return $linkArray[0][$db->fieldName( "Count" )];
     }
 
@@ -372,10 +372,10 @@ class eZLink
     function &getLastTenDate( $limit, $offset )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $link_array = array();
         $return_array = array();
-        
+
         $db->array_query( $link_array,
             "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Created DESC",
             array( "Limit" => $limit, "Offset" => $offset ) );
@@ -394,7 +394,7 @@ class eZLink
     {
         $db =& eZDB::globalDatabase();
         $link_array = 0;
-        
+
         $db->array_query( $link_array,
             "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Name DESC",
              array( "Limit" => $limit, "Offset" => $offset ) );
@@ -421,7 +421,7 @@ class eZLink
 
         $db->array_query( $link_array, $query_str,
                           array( "Limit" => $limit, "Offset" => $offset ) );
-        
+
         $ret = array();
 
         foreach( $link_array as $linkItem )
@@ -441,7 +441,7 @@ class eZLink
         $link_array = 0;
 
         $query = new eZQuery( array( "KeyWords", "Name", "Description" ), $query );
-        
+
         $query_str = "SELECT count(ID) AS Count, Name FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
              ") AND Accepted='1' GROUP BY Name ORDER BY Name";
@@ -454,7 +454,7 @@ class eZLink
 
         return $ret;
     }
-    
+
 
     /*!
       Fetches all the links.
@@ -487,13 +487,13 @@ class eZLink
     */
     function setCategoryDefinition( $value )
     {
-        if ( get_class( $value ) == "ezlinkcategory" )
+        if ( is_a( $value, "eZLinkCategory" ) )
             $categoryID = $value->id();
         else if ( is_numeric( $value ) )
             $categoryID = $value;
         else
             return false;
-            
+
         $db =& eZDB::globalDatabase();
         $db->begin();
 
@@ -508,7 +508,7 @@ class eZLink
         eZDB::finish( $res, $db );
     }
 
-    
+
     /*!
       Returns the link's definition category
     */
@@ -519,7 +519,7 @@ class eZLink
         $db->array_query( $res, "SELECT CategoryID FROM
                             eZLink_LinkCategoryDefinition
                             WHERE LinkID='$this->ID'" );
-        
+
         $category = false;
         if ( count( $res ) == 1 )
         {
@@ -535,7 +535,7 @@ class eZLink
 
         return $category;
     }
-    
+
     /*!
       Returns the categories an article is assigned to.
       The categories are returned as an array of eZLinkCategory objects
@@ -564,7 +564,7 @@ class eZLink
         }
         return $ret;
     }
-    
+
     /*!
       Sets the link name.
     */
@@ -584,7 +584,7 @@ class eZLink
 
     /*!
       Sets the link keywords.
-    */    
+    */
     function setKeyWords( &$value )
     {
         $this->KeyWords = ( $value );
@@ -595,7 +595,7 @@ class eZLink
     */
     function setAccepted( $value )
     {
-        if ( $value == true )            
+        if ( $value == true )
             $this->Accepted = "1";
         else
             $this->Accepted = "0";
@@ -682,7 +682,7 @@ class eZLink
      */
     function setImage( &$value )
     {
-        if ( get_class( $value ) == "ezimage" )
+        if ( is_a( $value, "eZImage" ) )
         {
             $this->ImageID = $value->id();
         }
@@ -717,11 +717,11 @@ class eZLink
 
         $db->array_query( $result, "SELECT ImageID FROM eZLink_Link WHERE ID='$this->ID'" );
 
-        $db->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" ); 
-    } 
- 
-    var $ID; 
-    var $Name; 
+        $db->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" );
+    }
+
+    var $ID;
+    var $Name;
     var $Description;
     var $KeyWords;
     var $Created;

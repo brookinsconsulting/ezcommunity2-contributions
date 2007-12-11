@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: image.php 9691 2002-08-06 15:15:45Z gl $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
@@ -100,9 +100,9 @@ else if( $Command == "data" ) // Dump image info!
                 $imagePath =& $image->filePath( true );
                 $size = eZFile::filesize( $imagePath );
                 $user = $image->user();
-                $user_id = get_class( $user ) == "ezuser" ? $user->id() : 0;
+                $user_id = is_a( $user, "eZUser" ) ? $user->id() : 0;
                 $cat_def = $image->categoryDefinition();
-                $cat_def_id = get_class( $cat_def ) == "ezimagecategory" ? $cat_def->id() : 0;
+                $cat_def_id = is_a( $cat_def, "eZImageCategory" ) ? $cat_def->id() : 0;
                 $cats = $image->categories();
                 $cats = array_diff( $cats, array( $cat_def_id ) );
 
@@ -284,7 +284,7 @@ else if ( $Command == "search" )
     foreach( $result as $item )
     {
         $cat =& $item->categoryDefinition();
-        if ( get_class( $cat ) != "ezimagecategory" )
+        if ( is_a( $cat, "eZImageCategory" ) )
         {
             $cats =& $item->categories();
             if ( is_array( $cats ) and count( $cats ) > 0 )

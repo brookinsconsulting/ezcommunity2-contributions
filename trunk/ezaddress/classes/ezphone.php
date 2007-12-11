@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezphone.php 6204 2001-07-19 12:06:56Z jakobn $
 //
 // Definition of eZAddressType class
@@ -49,13 +49,13 @@ class eZPhone
     }
 
     /*
-      Lagrer et telefonnummer link i databasen.      
+      Lagrer et telefonnummer link i databasen.
     */
     function store()
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $ret = false;
         if ( !isset( $this->ID ) )
         {
@@ -74,8 +74,8 @@ class eZPhone
         {
             $res[] = $db->query( "UPDATE eZAddress_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' WHERE ID='$this->ID' " );
 
-            $ret = true;            
-        }        
+            $ret = true;
+        }
         eZDB::finish( $res, $db );
         return $ret;
     }
@@ -91,10 +91,10 @@ class eZPhone
         $res[] = $db->query( "DELETE FROM eZAddress_Phone WHERE ID='$id' " );
         eZDB::finish( $res, $db );
     }
-    
+
     /*
       Henter ut telefonnummer med ID == $id
-    */  
+    */
     function get( $id )
     {
         $db =& eZDB::globalDatabase();
@@ -103,7 +103,7 @@ class eZPhone
             $db->array_query( $phone_array, "SELECT * FROM eZAddress_Phone WHERE ID='$id'" );
             if ( count( $phone_array ) > 1 )
             {
-                die( "Feil: Flere telefonnummer med samme ID funnet i database, dette skal ikke være mulig. " );
+                die( "Feil: Flere telefonnummer med samme ID funnet i database, dette skal ikke vï¿½re mulig. " );
             }
             else if ( count( $phone_array ) == 1 )
             {
@@ -125,8 +125,8 @@ class eZPhone
         {
             $this->PhoneTypeID = $value;
         }
-        
-        if( get_class( $value ) == "ezphonetype" )
+
+        if( is_a( $value, "eZPhoneType" ) )
         {
             $this->PhoneTypeID = $value->id();
         }
@@ -138,8 +138,8 @@ class eZPhone
         {
             $this->PhoneTypeID = $value;
         }
-        
-        if( get_class( $value ) == "ezphonetype" )
+
+        if( is_a( $value, "eZPhoneType" ) )
         {
             $this->PhoneTypeID = $value->id();
         }
@@ -149,7 +149,7 @@ class eZPhone
     {
         $this->ID = $value;
     }
-    
+
     function number( )
     {
         return $this->Number;
@@ -159,13 +159,13 @@ class eZPhone
     {
         return $this->PhoneTypeID;
     }
-    
+
     function phoneType( )
     {
         $phoneType = new eZPhoneType( $this->PhoneTypeID );
         return $phoneType;
     }
-    
+
     function id( )
     {
         return $this->ID;

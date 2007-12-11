@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: adlist.php 6203 2001-07-19 11:56:33Z jakobn $
 //
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -78,7 +78,7 @@ foreach ( $pathArray as $path )
     $t->set_var( "category_id", $path[0] );
 
     $t->set_var( "category_name", $path[1] );
-    
+
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -97,7 +97,7 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -107,14 +107,14 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-    
+
     $t->set_var( "category_description", $categoryItem->description() );
 
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
 }
 
-if ( count( $categoryList ) > 0 )    
+if ( count( $categoryList ) > 0 )
     $t->parse( "category_list", "category_list_tpl" );
 else
     $t->set_var( "category_list", "" );
@@ -138,7 +138,7 @@ foreach ( $adList as $ad )
     if ( $ad->isActive() == true )
     {
         $t->parse( "ad_is_active", "ad_is_active_tpl" );
-        $t->set_var( "ad_not_active", "" );        
+        $t->set_var( "ad_not_active", "" );
     }
     else
     {
@@ -158,10 +158,10 @@ foreach ( $adList as $ad )
     }
     else
     {
-        if ( get_class ( $image ) == "ezimage" )
+        if ( is_a ( $image, "eZImage" ) )
         {
             $imageURL = $image->filePath();
-            
+
             $t->set_var( "image_width", $image->width() );
             $t->set_var( "image_height", $image->height() );
             $t->set_var( "image_url", $imageURL );
@@ -177,7 +177,7 @@ foreach ( $adList as $ad )
             $t->parse( "no_image", "no_image_tpl" );
         }
     }
-    
+
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -192,7 +192,7 @@ foreach ( $adList as $ad )
     $i++;
 }
 
-if ( count( $adList ) > 0 )    
+if ( count( $adList ) > 0 )
     $t->parse( "ad_list", "ad_list_tpl" );
 else
     $t->set_var( "ad_list", "" );

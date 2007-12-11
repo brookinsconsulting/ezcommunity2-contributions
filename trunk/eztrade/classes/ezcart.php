@@ -176,7 +176,7 @@ class eZCart
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        if ( get_class( $session ) == "ezsession" )
+        if ( is_a( $session, "eZSession" ) )
         {
             $sid = $session->id();
 
@@ -235,7 +235,7 @@ class eZCart
     */
     function setSession( &$session )
     {
-        if ( get_class( $session ) == "ezsession" )
+        if ( is_a( $session, "eZSession" ) )
         {
             $this->SessionID = $session->id();
         }
@@ -246,7 +246,7 @@ class eZCart
     */
     function setPersonID( $userID )
     {
-        if ( get_class( $userID ) == "ezuser" )
+        if ( is_a( $userID, "eZUser" ) )
             $id = $userID->ID();
         else
             $id = $userID;
@@ -337,7 +337,7 @@ class eZCart
                 $tax["$vatPercentage"]["percentage"] = $vatPercentage;
             }
         }
-        else if ( get_class ( $voucher ) == "ezvoucher" )
+        else if ( is_a ( $voucher, "eZVoucher" ) )
         {
             $product =& $voucher->product();
             $vatPercentage = $product->vatPercentage();
@@ -470,7 +470,7 @@ class eZCart
     function &extractShippingVAT( $shippingType )
     {
         $shippingVAT = 0;
-        if( get_class( $shippingType ) == "ezshippingtype" )
+        if( is_a( $shippingType, "eZShippingType" ) )
         {
             $vatType =& $shippingType->vatType();
 
@@ -493,7 +493,7 @@ class eZCart
     function &extractShippingVATPercentage( $shippingType )
     {
         $shippingVAT = 0;
-        if( get_class( $shippingType ) == "ezshippingtype" )
+        if( is_a( $shippingType, "eZShippingType" ) )
         {
             $vatType =& $shippingType->vatType();
 
@@ -518,7 +518,7 @@ class eZCart
     function &addShippingVAT( $shippingType )
     {
         $shippingVAT = 0;
-        if( get_class( $shippingType ) == "ezshippingtype" )
+        if( is_a( $shippingType, "eZShippingType" ) )
         {
             $vatType =& $shippingType->vatType();
 

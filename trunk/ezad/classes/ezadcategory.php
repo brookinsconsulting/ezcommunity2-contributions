@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezadcategory.php 7906 2001-10-16 14:25:05Z br $
 //
 // Definition of eZAdCategory class
@@ -69,12 +69,12 @@ class eZAdCategory
 
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZAd_Category" );
             $nextID = $db->nextID( "eZAd_Category", "ID" );
-            
+
             $res = $db->query( "INSERT INTO eZAd_Category
                          ( ID, Name, Description, ParentID )
                          VALUES
@@ -82,7 +82,7 @@ class eZAdCategory
                            '$name',
                            '$description',
                            '$this->ParentID' )" );
-            
+
 			$this->ID = $nextID;
         }
         else
@@ -94,12 +94,12 @@ class eZAdCategory
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -123,16 +123,16 @@ class eZAdCategory
                     $link->delete();
                 }
             }
-            
+
             $db->query( "DELETE FROM eZAd_AdCategoryLink
                                      WHERE CategoryID='$this->ID'" );
-            
-            $db->query( "DELETE FROM eZAd_Category WHERE ID='$this->ID'" );            
+
+            $db->query( "DELETE FROM eZAd_Category WHERE ID='$this->ID'" );
         }
-        
+
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -140,7 +140,7 @@ class eZAdCategory
     {
         $ret = false;
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZAd_Category WHERE ID='$id'" );
@@ -169,17 +169,17 @@ class eZAdCategory
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $category_array = array();
-        
+
         $db->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category ORDER BY Name" );
-        
+
         for ( $i=0; $i < count($category_array); $i++ )
         {
             $return_array[$i] = new eZAdCategory( $category_array[$i][$db->fieldName("ID")], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -190,10 +190,10 @@ class eZAdCategory
     */
     function getByParent( $parent  )
     {
-        if ( get_class( $parent ) == "ezadcategory" )
+        if ( is_a( $parent, "eZAdCategory" ) )
         {
             $db =& eZDB::globalDatabase();
-        
+
             $return_array = array();
             $category_array = array();
 
@@ -229,7 +229,7 @@ class eZAdCategory
         {
             $categoryID = $this->ID;
         }
-            
+
         $category = new eZAdCategory( $categoryID );
 
         $path = array();
@@ -246,8 +246,8 @@ class eZAdCategory
         }
 
         if ( $categoryID != 0 )
-            array_push( $path, array( $category->id(), $category->name() ) );                                
-        
+            array_push( $path, array( $category->id(), $category->name() ) );
+
         return $path;
     }
 
@@ -256,7 +256,7 @@ class eZAdCategory
         $category = new eZAdCategory( $parentID );
 
         $categoryList = $category->getByParent( $category );
-        
+
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
@@ -271,7 +271,7 @@ class eZAdCategory
         return $tree;
     }
 
-    
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -280,7 +280,7 @@ class eZAdCategory
         return $this->ID;
     }
 
-    
+
     /*!
       Returns the name of the category.
     */
@@ -300,7 +300,7 @@ class eZAdCategory
            return htmlspecialchars( $this->Description );
         return $this->Description;
     }
-    
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
@@ -312,7 +312,7 @@ class eZAdCategory
        }
        else
        {
-           return 0;           
+           return 0;
        }
     }
 
@@ -331,7 +331,7 @@ class eZAdCategory
 
        return $ret;
     }
-    
+
 
 
     /*!
@@ -355,7 +355,7 @@ class eZAdCategory
     */
     function setParent( $value )
     {
-       if ( get_class( $value ) == "ezadcategory" )
+       if ( is_a( $value, "eZAdCategory" ) )
        {
            $this->ParentID = $value->id();
        }
@@ -373,7 +373,7 @@ class eZAdCategory
        }
        else
        {
-           $this->ExcludeFromSearch = "0";           
+           $this->ExcludeFromSearch = "0";
        }
     }
 
@@ -382,7 +382,7 @@ class eZAdCategory
     */
     function addAd( $value )
     {
-       if ( get_class( $value ) == "ezad" )
+       if ( is_a( $value, "eZAd" ) )
        {
            $db =& eZDB::globalDatabase();
 
@@ -390,9 +390,9 @@ class eZAdCategory
 
             $db->lock( "eZAd_AdCategoryLink" );
             $nextID = $db->nextID( "eZAd_AdCategoryLink", "ID" );
-            
+
             $adID = $value->id();
-            
+
             $query = "INSERT INTO
                            eZAd_AdCategoryLink
                       ( ID, CategoryID, AdID )
@@ -400,16 +400,16 @@ class eZAdCategory
                       ( '$nextID',
                         '$this->ID',
                         '$adID' )";
-            
+
             $res = $db->query( $query );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
                 $db->commit();
-       }       
+       }
     }
 
     /*!
@@ -426,7 +426,7 @@ class eZAdCategory
 
         $return_array = array();
         $ad_array = array();
-       
+
         $fetchActiveSQL = "";
         if ( $fetchUnActive == false )
         {
@@ -440,7 +440,7 @@ class eZAdCategory
          FROM eZAd_Ad AS Ad, eZAd_AdCategoryLink AS ACL
          WHERE Ad.ID=ACL.AdID AND ACL.CategoryID='$this->ID'
          ORDER BY $orderBySQL", array( "Limit" => $limit, "Offset" => $offset ) );
-        
+
         foreach( $ad_array as $ad )
         {
             $return_array[] = new eZAd( $ad[$db->fieldName("ID")] );
@@ -448,7 +448,7 @@ class eZAdCategory
 
         return $return_array;
     }
-    
+
     /*!
       Returns every ad in a category as a array of eZAd objects.
 
@@ -472,7 +472,7 @@ class eZAdCategory
 
        if ( $sortMode == "name" )
            $orderBySQL = "eZAd_Ad.Name ASC";
-       else       
+       else
            $orderBySQL = "eZAd_View.ViewOffsetCount ASC";
 
        $db->array_query( $ad_array,

@@ -74,13 +74,13 @@ class eZArticleCategory
 
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZArticle_Category" );
 
-            $nextID = $db->nextID( "eZArticle_Category", "ID" );            
-            
+            $nextID = $db->nextID( "eZArticle_Category", "ID" );
+
             $res = $db->query( "INSERT INTO eZArticle_Category
             ( ID, Name, Description, ExcludeFromSearch,
               SortMode, Placement, OwnerID, SectionID,
@@ -91,14 +91,14 @@ class eZArticleCategory
               '$description',
               '$this->ExcludeFromSearch',
               '$this->SortMode',
-              '$nextID',  
+              '$nextID',
               '$this->OwnerID',
               '$this->SectionID',
               '$this->ImageID',
               '$this->ParentID',
               '$this->EditorGroupID',
               '$this->ListLimit')" );
-            
+
             $db->unlock();
 			$this->ID = $nextID;
         }
@@ -109,7 +109,7 @@ class eZArticleCategory
                                  Description='$description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
-                                 Placement='$this->Placement',  
+                                 Placement='$this->Placement',
                                  OwnerID='$this->OwnerID',
                                  SectionID='$this->SectionID',
                                  ImageID='$this->ImageID',
@@ -123,7 +123,7 @@ class eZArticleCategory
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -164,7 +164,7 @@ class eZArticleCategory
         $db->query( "DELETE FROM eZArticle_CategoryPermission WHERE ObjectID='$categoryID'" );
         $db->query( "DELETE FROM eZArticle_Category WHERE ID='$categoryID'" );
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
@@ -172,7 +172,7 @@ class eZArticleCategory
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZArticle_Category WHERE ID='$id'" );
@@ -294,7 +294,7 @@ class eZArticleCategory
             case "placement" : $sortbySQL = "Placement"; break;
         }
 
-        if ( get_class( $user ) != "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $user =& eZUser::currentUser();
 
         $show_str = "";
@@ -354,10 +354,10 @@ class eZArticleCategory
     function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1, $user = false,
                           $check_write = false )
     {
-        if ( get_class( $parent ) == "ezarticlecategory" )
+        if ( is_a( $parent, "eZArticleCategory" ) )
         {
             $db =& eZDB::globalDatabase();
-            if ( get_class( $user ) != "ezuser" )
+            if ( !is_a( $user, "eZUser" ) )
                 $user =& eZUser::currentUser();
 
             $sortbySQL = "Name";
@@ -453,10 +453,10 @@ class eZArticleCategory
     */
     function countByParent( $parent, $showAll=false, $user = false, $check_write = false )
     {
-        if ( get_class( $parent ) == "ezarticlecategory" )
+        if ( is_a( $parent, "eZArticleCategory" ) )
         {
             $db =& eZDB::globalDatabase();
-            if ( get_class( $user ) != "ezuser" )
+            if ( !is_a( $user, "eZUser" ) )
                 $user =& eZUser::currentUser();
 
             $return_array = array();
@@ -473,7 +473,7 @@ class eZArticleCategory
             if ( $user )
             {
                 $groups =& $user->groups( false );
-                
+
                 $i = 0;
                 foreach ( $groups as $group )
                 {
@@ -545,7 +545,7 @@ class eZArticleCategory
         {
             $categoryID = $this->ID;
         }
-            
+
         $category = new eZArticleCategory( $categoryID );
 
         $path = array();
@@ -573,7 +573,7 @@ class eZArticleCategory
      */
     function getTree( $parentID=0, $level=0 )
     {
-        if ( get_class( $parentID ) == "ezarticlecategory" )
+        if ( is_a( $parentID, "eZArticleCategory" ) )
             $category = $parentID;
         else
             $category = new eZArticleCategory( $parentID );
@@ -619,20 +619,20 @@ class eZArticleCategory
             // write access
             eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'w' );
 
-            // read access 
+            // read access
             eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'r' );
 
-            
+
             if ( $category != 0 )
             {
                 $tree = array_merge( $tree, $this->copyTree( $category->id(), $newCategory ) );
             }
-            
+
         }
 
         return $tree;
     }
-    
+
     /*!
       \static
       Returns the Section ID. Returns false if the Category was not found.
@@ -641,14 +641,14 @@ class eZArticleCategory
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SectionID from eZArticle_Category WHERE ID='$categoryID'");
-        
-		if ( isset( $res[$db->fieldName("SectionID")] ) )
-	        $sectionID = $res[$db->fieldName("SectionID")];
-		else
-			$sectionID = "";
+
+        if ( isset( $res[$db->fieldName("SectionID")] ) )
+            $sectionID = $res[$db->fieldName("SectionID")];
+        else
+            $sectionID = 0;
 
         if ( $sectionID > 0 )
-            return $sectionID;
+            return (int)$sectionID;
         else
             return false;
     }
@@ -724,7 +724,7 @@ class eZArticleCategory
         else
             return;
     }
-    
+
     /*!
       Returns the placement.
     */
@@ -798,9 +798,9 @@ class eZArticleCategory
      */
     function isOwner( $user, $categoryID )
     {
-        if ( get_class( $user ) != "ezuser" )
+        if ( !is_a( $user, "eZUser" ) )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT OwnerID from eZArticle_Category WHERE ID='$categoryID'");
         $ownerID = $res[$db->fieldName("OwnerID")];
@@ -810,14 +810,14 @@ class eZArticleCategory
         return false;
     }
 
-    
+
     /*!
       Returns the sort mode.
 
       1 - publishing date
       2 - alphabetic
       3 - alphabetic desc
-      4 - absolute placement     
+      4 - absolute placement
       5 - modification date
     */
     function sortMode( $return_id = false )
@@ -829,42 +829,42 @@ class eZArticleCategory
                 $SortMode = "time";
             }
             break;
-            
+
             case 2 :
             {
                 $SortMode = "alpha";
             }
             break;
-            
+
             case 3 :
             {
                 $SortMode = "alphadesc";
             }
             break;
-            
+
             case 4 :
             {
                 $SortMode = "absolute_placement";
             }
             break;
-            
+
             case 5 :
             {
                 $SortMode = "modification";
             }
             break;
-            
+
             default :
             {
                 $SortMode = "time";
-            }           
+            }
         }
-        
-        if ( $return_id == true )       
+
+        if ( $return_id == true )
             return $this->SortMode;
         else
             return $SortMode;
-        
+
     }
 
     /*!
@@ -878,10 +878,10 @@ class eZArticleCategory
         {
             $ret = true;
         }
-        
+
         return $ret;
     }
-    
+
 
 
     /*!
@@ -899,7 +899,7 @@ class eZArticleCategory
     {
         $this->ListLimit = $value;
     }
-    
+
     /*!
       Sets the placement of the category.
     */
@@ -921,9 +921,9 @@ class eZArticleCategory
     */
     function setImage( $value )
     {
-        if ( get_class( $value ) == "ezimage" )
+        if ( is_a( $value, "eZImage" ) )
             $value = $value->id();
-        
+
         $this->ImageID = $value;
     }
 
@@ -940,7 +940,7 @@ class eZArticleCategory
     */
     function setParent( $value )
     {
-        if ( get_class( $value ) == "ezarticlecategory" )
+        if ( is_a( $value, "eZArticleCategory" ) )
         {
             $this->ParentID = $value->id();
         }
@@ -948,16 +948,16 @@ class eZArticleCategory
         {
             $this->ParentID = $value;
             setType( $this->ParentID, "integer" );
-            
+
         }
     }
-    
+
     /*!
       Sets the editor group.
     */
     function setEditorGroup( $value )
     {
-        if ( get_class( $value ) == "ezusergroup" )
+        if ( is_a( $value, "eZUserGroup" ) )
         {
             $this->EditorGroupID = $value->id();
         }
@@ -965,16 +965,16 @@ class eZArticleCategory
         {
             $this->EditorGroupID = $value;
             setType( $this->EditorGroupID, "integer" );
-            
+
         }
     }
-    
+
     /*!
       Sets the owner of this category.
     */
     function setOwner( $value )
     {
-        if ( get_class( $value ) == "ezuser" )
+        if ( is_a( $value, "eZUser" ) )
         {
             $this->OwnerID = $value->id();
         }
@@ -983,21 +983,21 @@ class eZArticleCategory
             $this->OwnerID = $value;
         }
     }
-    
-    
+
+
     /*!
       Sets the sort mode.
 
       1 - publishing date
       2 - alphabetic
       3 - alphabetic desc
-      3 - absolute placement      
+      3 - absolute placement
     */
     function setSortMode( $value )
     {
         $this->SortMode = $value;
     }
-    
+
     /*!
      Sets the exclude from search bit.
      The argumen can be true or false.
@@ -1013,7 +1013,7 @@ class eZArticleCategory
             $this->ExcludeFromSearch = "0";
         }
     }
-   
+
     /*!
       \static
       Removes an article from the category.
@@ -1021,13 +1021,13 @@ class eZArticleCategory
     */
     function removeArticle( $value, $categoryid = false )
     {
-        if ( get_class( $value ) == "ezarticle" )
+        if ( is_a( $value, "eZArticle" ) )
             $articleID = $value->id();
         else if ( is_numeric( $value ) )
             $articleID = $value;
         else
             return false;
-        
+
         if ( !$categoryid )
             $categoryid = $this->ID;
 
@@ -1048,7 +1048,7 @@ class eZArticleCategory
     {
         $db =& eZDB::globalDatabase();
 
-        if ( get_class( $value ) == "ezarticle" )
+        if ( is_a( $value, "eZArticle" ) )
             $articleID = $value->id();
         else if ( is_numeric( $value ) )
             $articleID = $value;
@@ -1127,7 +1127,7 @@ class eZArticleCategory
       If $fetchAll is set to true, both published and unpublished articles will be returned.
       If it is set to false, then $fetchPublished will determine: If $fetchPublished iss
       set to true then only published articles will be returned. If it is false, then only
-      non-published articles will be returned. 
+      non-published articles will be returned.
 
       If $check_write is true then the result will only contain articles which has read AND write permissions.
     */
@@ -1144,7 +1144,7 @@ class eZArticleCategory
             $catID = $categoryID;
         else
             $catID = $this->ID;
-        
+
         $db =& eZDB::globalDatabase();
 
         if ( $offset == false )
@@ -1186,7 +1186,7 @@ class eZArticleCategory
                $OrderBy = "Article.Modified DESC";
            }
            break;
-           
+
            default :
            {
                $GroupBy = ", Article.Published";
@@ -1241,18 +1241,18 @@ class eZArticleCategory
        }
        else
            $permissionSQL = "";
-       
+
        // fetch all articles
-       if ( $fetchAll  == true )             
+       if ( $fetchAll  == true )
        {
            if ( $permissionSQL == "" )
                $publishedSQL = "";
            else
                $publishedSQL = " AND";
        }
-       
+
        // fetch only published articles
-       else if ( $fetchPublished  == true )  
+       else if ( $fetchPublished  == true )
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '1' AND ";
@@ -1261,7 +1261,7 @@ class eZArticleCategory
        }
 
        // fetch only non-published articles
-       else                                  
+       else
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '0' AND ";
@@ -1286,7 +1286,7 @@ class eZArticleCategory
                  $having_str
                  ORDER BY $OrderBy";
 
-       
+
        if ( $limit == -1 )
        {
            $db->array_query( $article_array, $query );
@@ -1309,7 +1309,7 @@ class eZArticleCategory
       If $fetchAll is set to true, both published and unpublished articles will be counted.
       If it is set to false, then $fetchPublished will determine: If $fetchPublished is
       set to true then only published articles will be counted. If it is false, then only
-      non-published articles will be counted.       
+      non-published articles will be counted.
 
       If $check_write is true then the result will only contain articles which has read AND write permissions.
     */
@@ -1329,7 +1329,7 @@ class eZArticleCategory
         if ( $user )
         {
             $groups =& $user->groups( false );
-           
+
             foreach ( $groups as $group )
             {
                 $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
@@ -1574,7 +1574,7 @@ class eZArticleCategory
      */
     function setBulkMailCategory( $value )
     {
-        if ( get_class( $value ) == "ezbulkmailcategory" )
+        if ( is_a( $value, "eZBulkMailCategory" ) )
             $value = $value->id();
 
         $db =& eZDB::globalDatabase();

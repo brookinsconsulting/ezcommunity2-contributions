@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: productsearch.php 7709 2001-10-09 08:06:02Z ce $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -77,9 +77,9 @@ foreach ( $productList as $product )
 
     $t->set_var( "product_name", $product->name() );
     $category = $product->categoryDefinition();
-    $t->set_var( "product_category", get_class( $category ) == "ezproductcategory" ?
+    $t->set_var( "product_category", is_a( $category, "eZProductCategory" ) ?
                  $category->name() : "", "&nbsp;" );
-    $t->set_var( "product_category_id", get_class( $category ) == "ezproductcategory" ?
+    $t->set_var( "product_category_id", is_a( $category, "eZProductCategory" ) ?
                  $category->id() : "", "&nbsp;" );
 
     $price = new eZCurrency( $product->price() );
@@ -100,7 +100,7 @@ foreach ( $productList as $product )
         $t->set_var( "action_url", "voucher" );
     else
         $t->set_var( "action_url", "productedit" );
-    
+
     $t->set_var( "product_id", $product->id() );
 
     $t->parse( "product_item", "product_item_tpl", true );
@@ -115,7 +115,7 @@ $t->set_var( "product_total", $TotalTypes );
 
 eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_tpl" );
 
-if ( count( $productList ) > 0 )    
+if ( count( $productList ) > 0 )
     $t->parse( "product_list", "product_list_tpl" );
 else
     $t->set_var( "product_list", "" );

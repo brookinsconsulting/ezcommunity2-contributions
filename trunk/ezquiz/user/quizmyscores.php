@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: quizmyscores.php 9344 2002-03-06 08:56:33Z jhe $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -70,21 +70,21 @@ $printScores = false;
 
 $user =& eZUser::currentUser();
 
-if ( get_class( $user ) == "ezuser" )
+if ( is_a( $user, "eZUser" ) )
 {
     $UserID = $user->id();
-    
+
     $t->set_var( "user_id", $UserID );
     $t->set_var( "user_login", $user->login() );
     $t->set_var( "user_first", $user->firstName() );
     $t->set_var( "user_last", $user->lastName() );
-    
+
     $t->parse( "logged_in_user_item", "logged_in_user_item_tpl" );
-    
+
     $score = new eZQuizScore();
     $scores = $score->getAllByUser( $user, $Offset, $Limit );
 
-    $count = count( $scores ); 
+    $count = count( $scores );
     $scoreCount = $score->countAllByUser( $user );
 
     $last = 0;
@@ -172,7 +172,7 @@ if ( $error )
             $t->parse( "error_item", "error_item_tpl" );
         }
         break;
-        
+
         default:
         {
             $t->set_var( "error_message", $intl->read_var( "strings", "error_undefined" ) );

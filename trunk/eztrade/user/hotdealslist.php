@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: hotdealslist.php 7382 2001-09-21 14:28:49Z jhe $
 //
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -46,10 +46,10 @@ include_once( "eztrade/classes/ezpricegroup.php" );
 $user =& eZUser::currentUser();
 
 $RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
-$ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;
+$ShowPrice = $RequireUser ? is_a( $user, "eZUser" ) : true;
 
 $PriceGroup = 0;
-if ( get_class( $user ) == "ezuser" )
+if ( is_a( $user, "eZUser" ) )
 {
     $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( false ) );
 }
@@ -113,7 +113,7 @@ foreach ( $productList as $product )
         if ( ( $i % $hotDealColumns ) == 0 )
         {
             $t->set_var( "begin_tr", "<tr>" );
-            $t->set_var( "end_tr", "" );        
+            $t->set_var( "end_tr", "" );
         }
         else
         {
@@ -121,7 +121,7 @@ foreach ( $productList as $product )
             $t->set_var( "end_tr", "</tr>" );
         }
     }
-    
+
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_intro_text", $product->brief() );
@@ -132,7 +132,7 @@ foreach ( $productList as $product )
     {
         $thumbnail =& $image->requestImageVariation( $hotDealImageWidth, $hotDealImageHeight );
 //        $thumbnail =& $image->requestImageVariation( 109, 109 );
-        
+
         if ( $thumbnail )
         {
             if ( !isset( $HotDealsPage ) )
@@ -149,7 +149,7 @@ foreach ( $productList as $product )
                 $t->set_var( "thumbnail_image_height", $thumbnail->height() );
                 $t->set_var( "thumbnail_image_caption", $image->caption() );
             }
-            $t->parse( "product_image", "product_image_tpl" );            
+            $t->parse( "product_image", "product_image_tpl" );
         }
         else
         {
@@ -162,13 +162,13 @@ foreach ( $productList as $product )
     {
         $t->set_var( "product_image", "" );
     }
-    
-    if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+
+    if ( ( !$RequireUserLogin or is_a( $user, "eZUser" )  ) and
              $ShowPrice and $product->showPrice() == true )
     {
         $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
         $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
-        
+
         if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) )
          and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
         {
@@ -181,14 +181,14 @@ foreach ( $productList as $product )
     {
         $t->set_var( "price", "" );
     }
-    
+
     $defCat = $product->categoryDefinition();
     if ( $defCat )
     {
         $t->set_var( "category_id", $defCat->id() );
     }
 
-    
+
     $t->parse( "product", "product_tpl", true );
     $i++;
 }

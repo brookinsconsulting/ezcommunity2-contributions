@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezpoll.php 8744 2001-12-12 15:26:03Z br $
 //
 // Definition of eZPoll class
@@ -33,7 +33,7 @@
 
   Example code:
   \code
-  
+
   // Create a new poll object.
   $poll = new eZPoll();
 
@@ -51,7 +51,7 @@
   {
       print( "Poll: " . $pollItem->name() . "<br>" );
   }
-  
+
   \endcode
   \sa eZPollChoice eZVote
 */
@@ -86,11 +86,11 @@ class eZPoll
 
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZPoll_Poll" );
-    
+
             $nextID = $db->nextID( "eZPoll_Poll", "ID" );
 
             $res = $db->query( "INSERT INTO eZPoll_Poll
@@ -119,12 +119,12 @@ class eZPoll
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -144,7 +144,7 @@ class eZPoll
         }
         return true;
     }
-    
+
     /*!
       Fetches the poll object from the database.
     */
@@ -161,14 +161,14 @@ class eZPoll
             {
                 die( "Error: Poll's with the same ID was found in the database." );
             }
-            
+
             else if ( count( $poll_array ) == 1 )
             {
                 $ret = true;
                 $this->ID = $poll_array[0][$db->fieldName("ID")];
                 $this->Name = $poll_array[0][$db->fieldName("Name")];
                 $this->Description = $poll_array[0][$db->fieldName("Description")];
-                $this->Anonymous = $poll_array[0][$db->fieldName("Anonymous")];                
+                $this->Anonymous = $poll_array[0][$db->fieldName("Anonymous")];
                 $this->IsEnabled = $poll_array[0][$db->fieldName("IsEnabled")];
                 $this->IsClosed = $poll_array[0][$db->fieldName("IsClosed")];
                 $this->ShowResult =  $poll_array[0][$db->fieldName("ShowResult")];
@@ -198,7 +198,7 @@ class eZPoll
     }
 
     /*!
-      Fetches the poll id from the database where active=true. And returns a array of eZPoll objects. 
+      Fetches the poll id from the database where active=true. And returns a array of eZPoll objects.
     */
     function getAllActive()
     {
@@ -217,7 +217,7 @@ class eZPoll
         return $return_array;
     }
 
-    
+
     /*!
       Returns the id of the poll.
     */
@@ -254,7 +254,7 @@ class eZPoll
     */
     function isEnabled()
     {
-        if ( $this->IsEnabled == 1 )            
+        if ( $this->IsEnabled == 1 )
             return true;
         else
             return false;
@@ -293,7 +293,7 @@ class eZPoll
             return false;
     }
 
-    
+
     /*!
       Returns the main poll as a eZPoll object.
 
@@ -302,7 +302,7 @@ class eZPoll
     function mainPoll(  )
     {
         $db =& eZDB::globalDatabase();
-        
+
         // sets the current poll as main poll
         $db->array_query( $poll_array, "SELECT PollID FROM eZPoll_MainPoll" );
 
@@ -313,7 +313,7 @@ class eZPoll
         }
         return $ret;
     }
-    
+
     /*!
       Sets the name of the poll.
     */
@@ -340,7 +340,7 @@ class eZPoll
         else
             $this->IsEnabled = 0;
     }
-    
+
     /*!
       Sets the isclosed of the poll.
     */
@@ -373,16 +373,16 @@ class eZPoll
         else
             $this->Anonymous = 0;
     }
-    
+
     /*!
       Fetches the total number of votes for the poll.
     */
     function totalVotes( )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $db->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$this->ID'" );
-        
+
         return (int)$votecount[0][$db->fieldName("NUMBER")];
     }
 
@@ -391,18 +391,18 @@ class eZPoll
     */
     function setMainPoll( $poll )
     {
-        if ( get_class( $poll ) == "ezpoll" )
+        if ( is_a( $poll, "eZPoll" ) )
         {
             $db =& eZDB::globalDatabase();
-            
+
             // delete old main poll
             $db->query( "DELETE FROM eZPoll_MainPoll" );
-            
+
             // sets the current poll as main poll
             $db->query( "INSERT INTO eZPoll_MainPoll ( ID, PollID ) VALUES ( '1', '$this->ID' )" );
         }
     }
-    
+
 
     /*!
       Returns the forum for the poll.
@@ -414,7 +414,7 @@ class eZPoll
         $db->array_query( $res, "SELECT ForumID FROM
                                             eZPoll_PollForumLink
                                             WHERE PollID='$this->ID'" );
-       
+
         $forum = false;
         if ( count( $res ) == 1 )
         {
@@ -429,30 +429,30 @@ class eZPoll
             $forumID = $forum->id();
 
             $db->begin( );
-    
+
             $db->lock( "eZPoll_PollForumLink" );
 
             $nextID = $db->nextID( "eZPoll_PollForumLink", "ID" );
-            
+
             $res = $db->query( "INSERT INTO eZPoll_PollForumLink
                                 ( ID, PollID, ForumID )
                                 VALUES
                                 ( '$nextID', '$this->ID', '$forumID' )" );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
                 $db->commit();
-            
+
 
             $forum = new eZForum( $forumID );
         }
 
         return $forum;
     }
-    
+
     var $ID;
     var $Name;
     var $Description;

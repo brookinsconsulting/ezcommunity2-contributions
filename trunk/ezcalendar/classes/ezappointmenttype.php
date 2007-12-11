@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezappointmenttype.php 7443 2001-09-25 08:17:19Z jhe $
 //
 // Definition of eZAppointmentType class
@@ -28,7 +28,7 @@
 //!! eZCalendar
 //! eZAppointmentType handles appointment types.
 /*!
-  
+
 */
 
 /*!TODO
@@ -63,7 +63,7 @@ class eZAppointmentType
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZCalendar_AppointmentType" );
@@ -95,19 +95,19 @@ class eZAppointmentType
         $db->begin();
         if ( isSet( $this->ID ) )
         {
-            $res[] = $db->query( "DELETE FROM eZCalendar_AppointmentType WHERE ID='$this->ID'" );            
+            $res[] = $db->query( "DELETE FROM eZCalendar_AppointmentType WHERE ID='$this->ID'" );
         }
         eZDB::finish( $res, $db );
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $AppointmentType_array, "SELECT * FROM eZCalendar_AppointmentType WHERE ID='$id'" );
@@ -134,17 +134,17 @@ class eZAppointmentType
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $AppointmentType_array = array();
-        
+
         $db->array_query( $AppointmentType_array, "SELECT ID FROM eZCalendar_AppointmentType ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $AppointmentType_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZAppointmentType( $AppointmentType_array[$i][ $db->fieldName( "ID" ) ], 0 );
-        } 
-        
+        }
+
         return $return_array;
     }
 
@@ -154,14 +154,14 @@ class eZAppointmentType
       If $showAll is set to true every AppointmentType is shown. By default the categories
       set as exclude from search is excluded from this query.
 
-      The categories are returned as an array of eZAppointmentType objects.      
+      The categories are returned as an array of eZAppointmentType objects.
     */
     function &getByParent( $parent, $showAll=false, $sortby=name )
     {
-        if ( get_class( $parent ) == "ezappointmenttype" )
+        if ( is_a( $parent, "eZAppointmentType" ) )
         {
             $db =& eZDB::globalDatabase();
-        
+
             $return_array = array();
             $appointmenttype_array = array();
 
@@ -181,7 +181,7 @@ class eZAppointmentType
             }
 
             for ( $i = 0; $i < count( $appointmenttype_array ); $i++ )
-            { 
+            {
                 $return_array[$i] = new eZAppointmentType( $appointmenttype_array[$i][ $db->fieldName( "ID" ) ], 0 );
             }
             return $return_array;
@@ -194,18 +194,18 @@ class eZAppointmentType
 
     /*!
       Returns the current path as an array of arrays.
-      
+
       The array is built up like: array( array( id, name ), array( id, name ) );
-      
+
       See detailed description for an example of usage.
-    */ 
+    */
     function path( $AppointmentTypeID=0 )
     {
         if ( $AppointmentTypeID == 0 )
         {
             $AppointmentTypeID = $this->ID;
         }
-            
+
         $AppointmentType = new eZAppointmentType( $AppointmentTypeID );
 
         $path = array();
@@ -222,8 +222,8 @@ class eZAppointmentType
         }
 
         if ( $AppointmentTypeID != 0 )
-            array_push( $path, array( $AppointmentType->id(), $AppointmentType->name() ) );                                
-        
+            array_push( $path, array( $AppointmentType->id(), $AppointmentType->name() ) );
+
         return $path;
     }
 
@@ -235,7 +235,7 @@ class eZAppointmentType
         $AppointmentType = new eZAppointmentType( $parentID );
 
         $AppointmentTypeList =& $AppointmentType->getByParent( $AppointmentType, true );
-        
+
         $tree = array();
         $level++;
         foreach ( $AppointmentTypeList as $AppointmentType )
@@ -250,7 +250,7 @@ class eZAppointmentType
 
         return $tree;
     }
-    
+
     /*!
       Returns the object ID to the AppointmentType. This is the unique ID stored in the database.
     */
@@ -258,14 +258,14 @@ class eZAppointmentType
     {
         return $this->ID;
     }
-    
+
     /*!
       Returns the name of the AppointmentType.
     */
     function name( $htmlchars=true )
     {
         if ( $htmlchars == true )
-        {           
+        {
             return htmlspecialchars( $this->Name );
         }
         else
@@ -280,7 +280,7 @@ class eZAppointmentType
     function description( $htmlchars=true )
     {
         if ( $htmlchars == true )
-        {           
+        {
             return htmlspecialchars( $this->Description );
         }
         else
@@ -288,7 +288,7 @@ class eZAppointmentType
             return $this->Description;
         }
     }
-    
+
     /*!
       Returns the parentID, which is 0 if there is no parent.
     */
@@ -308,7 +308,7 @@ class eZAppointmentType
        }
        else
        {
-           return 0;           
+           return 0;
        }
     }
 
@@ -333,7 +333,7 @@ class eZAppointmentType
     */
     function setParent( $value )
     {
-        if ( get_class( $value ) == "ezappointmenttype" )
+        if ( is_a( $value, "eZAppointmentType" ) )
         {
             $this->ParentID = $value->id();
         }

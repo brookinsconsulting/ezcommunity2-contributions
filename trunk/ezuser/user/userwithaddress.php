@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: userwithaddress.php 9662 2002-07-08 15:16:41Z bf $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
@@ -145,7 +145,7 @@ $t->set_var( "submit_button", "" );
 $t->set_var( "new_user", "" );
 $t->set_var( "edit_user", "" );
 $t->set_var( "edit_user_info", "" );
-if ( get_class( $user ) == "ezuser" )
+if ( is_a( $user, "eZUser" ) )
 {
     $t->parse( "submit_button", "submit_button_tpl" );
     $t->parse( "edit_user", "edit_user_tpl" );
@@ -206,12 +206,12 @@ if ( isSet( $OK ) or isSet( $OK_x ) )
 {
     if ( $loginCheck )
     {
-        if ( get_class( $user ) != "ezuser" and $Login == "" )
+        if ( !is_a( $user, "eZUser" ) and $Login == "" )
         {
             $t->parse( "error_login", "error_login_tpl" );
             $error = true;
         }
-        else if ( get_class( $user ) != "ezuser" )
+        else if ( !is_a( $user, "eZUser" ) )
         {
             if ( eZUser::exists( $Login ) == true )
             {
@@ -247,7 +247,7 @@ if ( isSet( $OK ) or isSet( $OK_x ) )
                 $t->parse( "error_email_not_valid", "error_email_not_valid_tpl" );
                 $error = true;
             }
-        }        
+        }
     }
 
     if ( $passwordCheck )
@@ -256,7 +256,7 @@ if ( isSet( $OK ) or isSet( $OK_x ) )
         {
             $t->parse( "error_password_match", "error_password_match_tpl" );
             $error = true;
-            
+
         }
         if ( strlen( $VerifyPassword ) < 2 )
         {
@@ -343,7 +343,7 @@ if ( isSet( $NewAddress ) )
 if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
 {
     $new_user = false;
-    if ( get_class( $user ) != "ezuser" )
+    if ( !is_a( $user, "eZUser" ) )
         $new_user = true;
 
     if ( $new_user )
@@ -368,7 +368,7 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         $user_insert->setInfoSubscription( true );
     else
         $user_insert->setInfoSubscription( false );
-    
+
     if ( $AutoCookieLogin == "on" )
         $user_insert->setCookieLogin( true );
     else
@@ -385,7 +385,7 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         $group->addUser( $user_insert );
         $user_insert->setGroupDefinition( $group );
     }
-    
+
     if ( !$MainAddressID )
     {
         $mainAddress = eZAddress::mainAddress( $user );
@@ -393,7 +393,7 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         if ( $mainAddress )
             $MainAddressID = $mainAddress->id();
     }
-            
+
     if ( !$MainAddressID && count( $AddressID ) > 0 )
         $MainAddressID = $AddressID[0];
 
@@ -410,7 +410,7 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         {
             $address = new eZAddress();
         }
-        
+
         $address->setStreet1( $Street1[$i] );
         $address->setStreet2( $Street2[$i] );
         $address->setZip( $Zip[$i] );
@@ -430,7 +430,7 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         // set correct ID
         if ( !is_numeric( $realAddressID ) )
             $RealAddressID[$i] = $address->id();
-        
+
         if ( $MainAddressID == $RealAddressID[$i] )
             $main_id = $MainAddressID;
 
@@ -465,7 +465,7 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         eZHTTPTool::header( "Location: $RedirectURL" );
         exit();
     }
-    if ( get_class( $user ) != "ezuser" )
+    if ( !is_a( $user, "eZUser" ) )
     {
         eZHTTPTool::header( "Location: /" );
         exit();
@@ -491,12 +491,12 @@ if ( count( $info_array ) > 0 )
 $t->set_var( "readonly", "" );
 $cookieCheck = "";
 
-if ( get_class( $user_insert ) == "ezuser" )
+if ( is_a( $user_insert, "eZUser" ) )
     $user = $user_insert;
 
 // Fill in variables which are not set for current user,
 // this is done the first the page loads
-if ( get_class( $user ) == "ezuser" )
+if ( is_a( $user, "eZUser" ) )
 {
     if ( !isSet( $UserID ) )
         $UserID = $user->id();
@@ -517,7 +517,7 @@ if ( get_class( $user ) == "ezuser" )
     else
     {
     }
-    
+
     if ( !isSet( $AddressID ) )
     {
         if ( !isSet( $AddressID ) )
@@ -540,7 +540,7 @@ if ( get_class( $user ) == "ezuser" )
         $i = 0;
         foreach ( $addressArray as $address )
         {
-            if ( ( get_class( $mainAddress ) == "ezaddress" ) and ( $address->id() == $mainAddress->id()  ) and !isSet( $MainAddressID ) )
+            if ( ( is_a( $mainAddress, "eZAddress" ) ) and ( $address->id() == $mainAddress->id()  ) and !isSet( $MainAddressID ) )
             {
 //                $MainAddressID = $i + 1;
                 $MainAddressID = $address->id();
@@ -548,7 +548,7 @@ if ( get_class( $user ) == "ezuser" )
             if ( !isSet( $AddressID[$i] ) )
                 $AddressID[$i] = $i + 1;
             if ( !isSet( $RealAddressID[$i] ) )
-                $RealAddressID[$i] = $address->id();                
+                $RealAddressID[$i] = $address->id();
             if ( !isSet( $Street1[$i] ) )
                 $Street1[$i] = $address->street1();
             if ( !isSet( $Street2[$i] ) )
@@ -603,7 +603,7 @@ if ( !isSet( $DeleteAddressArrayID ) )
 $t->set_var( "login_value", $Login );
 $t->set_var( "disabled_login_item", "" );
 $t->set_var( "login_item", "" );
-if ( get_class( $user ) == "ezuser" )
+if ( is_a( $user, "eZUser" ) )
 {
     $t->parse( "disabled_login_item", "disabled_login_item_tpl" );
 }
@@ -612,9 +612,9 @@ else
     $t->parse( "login_item", "login_item_tpl" );
 }
 
-if ( get_class( $user ) == "ezuser" and $Password == "" )
+if ( is_a( $user, "eZUser" ) and $Password == "" )
     $Password = "dummy";
-if ( get_class( $user ) == "ezuser" and $VerifyPassword == "" )
+if ( is_a( $user, "eZUser" ) and $VerifyPassword == "" )
     $VerifyPassword = "dummy";
 $t->set_var( "password_value", $Password );
 $t->set_var( "verify_password_value", $VerifyPassword );
@@ -624,14 +624,14 @@ $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
 $t->set_var( "is_cookie_selected", "$cookieCheck" );
 
-if( ( get_class( $user ) == "ezuser" ) and $user->infoSubscription() == true )
+if( ( is_a( $user, "eZUser" ) ) and $user->infoSubscription() == true )
     $InfoSubscription = "checked";
 else
     $InfoSubscription = "";
 
 $t->set_var( "info_subscription", $InfoSubscription );
 
-if ( get_class( $user ) == "ezuser" )
+if ( is_a( $user, "eZUser" ) )
     $t->set_var( "readonly", "disabled" );
 
 $t->set_var( "address", "" );
@@ -681,7 +681,7 @@ if ( count( $DeleteAddressArrayID ) )
             $user->removeAddress( $delete_address );
     }
 }
-        
+
 // Render addresses
 if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
 {
@@ -711,14 +711,14 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
             $t->set_var( "address_id", $AddressID[$i] );
 
             $t->set_var( "real_address_id", $RealAddressID[$i] );
-            
+
             $t->set_var( "street1_value", $Street1[$i] );
             $t->set_var( "street2_value", $Street2[$i] );
-            
-            
+
+
             $t->set_var( "zip_value", $Zip[$i] );
             $t->set_var( "place_value", $Place[$i] );
-            
+
             $t->set_var( "country", "" );
             if ( $SelectCountry == "enabled" )
             {
@@ -726,7 +726,7 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
                 foreach ( $countryList as $country )
                 {
                     $t->set_var( "is_selected", $country["ID"] == $CountryID[$i] ? "selected" : "" );
-                    
+
                     $t->set_var( "country_id", $country["ID"] );
                     $t->set_var( "country_name", $country["Name"] );
                     $t->parse( "country_option", "country_option_tpl", true );
@@ -734,7 +734,7 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
                 $t->parse( "country", "country_tpl" );
             }
             $t->set_var( "address_number", $i + 1 );
-            
+
             $t->parse( "address", "address_tpl", true );
         }
     }

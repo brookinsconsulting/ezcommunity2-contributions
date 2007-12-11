@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: eztime.php 9777 2003-02-20 08:28:46Z br $
 //
 // Definition of eZCompany class
@@ -30,7 +30,7 @@
 /*!
   eZTime handles 24 hour time format.
 
-  \sa eZLocale eZTimeDate eZDate  
+  \sa eZLocale eZTimeDate eZDate
 */
 
 class eZTime
@@ -48,7 +48,7 @@ class eZTime
         }
         else
         {
-            $this->setSecondsElapsedHMS( $hour, $minute, $second ); 
+            $this->setSecondsElapsedHMS( $hour, $minute, $second );
         }
     }
 
@@ -123,7 +123,7 @@ class eZTime
         $value = min( $value, 59 );
         $this->SecondsElapsed = ( ( $this->hour() * 3600 ) + ( $value * 60 ) + $this->second() );
     }
-    
+
     /*!
       Sets the second value.
     */
@@ -159,7 +159,7 @@ class eZTime
     function add( $time )
     {
         $ret = false;
-        if ( get_class( $time ) == "eztime" )
+        if ( is_a( $time, "eZTime" ) )
         {
             $tmpTime = new eZTime( $this->hour(), $this->minute(), $this->second() );
 
@@ -175,7 +175,7 @@ class eZTime
 
             $ret = $tmpTime;
         }
-        
+
         return $ret;
     }
 
@@ -190,7 +190,7 @@ class eZTime
         {
             $ret = "0". $ret;
         }
-        
+
         return $ret;
     }
 
@@ -205,7 +205,7 @@ class eZTime
     function subtract( $time )
     {
         $ret = false;
-        if ( get_class( $time ) == "eztime" )
+        if ( is_a( $time, "eZTime" ) )
         {
             $tmpTime = new eZTime( $this->hour(), $this->minute(), $this->second() );
 
@@ -214,7 +214,7 @@ class eZTime
 
             $ret = $tmpTime;
         }
-        
+
         return $ret;
     }
 
@@ -225,13 +225,13 @@ class eZTime
       If $equal is set to true then true is returned if the time
       is greater than or equal.
 
-      Returns false is the object is not a eZTime object.      
+      Returns false is the object is not a eZTime object.
     */
     function isGreater( &$time, $equal=false )
     {
         $ret = false;
 
-        if ( get_class( $time ) == "eztime" )
+        if ( is_a( $time, "eZTime" ) )
         {
             if ( $equal == false )
             {
@@ -255,13 +255,13 @@ class eZTime
       Returns true if the eZTime object given as argument is
       equals to the internal values.
 
-      Returns false is the object is not a eZTime object.      
+      Returns false is the object is not a eZTime object.
     */
     function equals( &$time )
     {
         $ret = false;
 
-        if ( get_class( $time ) == "eztime" )
+        if ( is_a( $time, "eZTime" ) )
         {
             if ( $time->secondsElapsed() == $this->SecondsElapsed )
             {
@@ -307,7 +307,7 @@ class eZTime
     function setTimeStamp( $value )
     {
         $formattedTime =& date('His', $value );
-        
+
         if ( ereg( "([0-9]{2})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
         {
             $this->setHour( min( $valueArray[1], 23 ) );
@@ -318,7 +318,7 @@ class eZTime
         {
             print( "<b>Error:</b> eZTime::setTimeStamp() received wrong time format." );
         }
-        
+
     }
 
     /*!

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezpreferences.php 6912 2001-09-04 10:48:49Z fh $
 //
 // Definition of eZPreferences class
@@ -29,7 +29,7 @@
 //! eZPreferences handles preferences variables.
 /*!
   If you call preferences when there is no user logged in, it allways returns 0;
-  
+
   \code
   // include the code
   include_once( "ezsession/classes/ezpreferences.php" );
@@ -97,9 +97,9 @@ class eZPreferences
         $user =& eZUser::currentUser();
         if( !$user )
             return 0;
-        
-        if ( get_class( $user ) == "ezuser" )
-        {           
+
+        if ( is_a( $user, "eZUser" ) )
+        {
             $db =& eZDB::globalDatabase();
             $userID = $user->id();
 
@@ -130,8 +130,8 @@ class eZPreferences
         $user =& eZUser::currentUser();
         if( !$user )
             return 0;
-        
-        if ( get_class( $user ) == "ezuser" )
+
+        if ( is_a( $user, "eZUser" ) )
         {
             if ( is_array( $value ) )
             {
@@ -140,10 +140,10 @@ class eZPreferences
             $db =& eZDB::globalDatabase();
 
             $dbError = false;
-            $db->begin( );    
-            
+            $db->begin( );
+
             $userID = $user->id();
-            
+
             $name = addslashes( $name );
             $value = addslashes( $value );
             if ( !is_bool( $group ) )
@@ -167,29 +167,29 @@ class eZPreferences
                     $group = "";
                 else
                     $group = "'$group'";
-                
+
                 $db->lock( "eZSession_Preferences" );
 
                 $nextID = $db->nextID( "eZSession_Preferences", "ID" );
 
-                
+
                 $res = $db->query( "INSERT INTO eZSession_Preferences
                              ( ID, UserID, Name, Value, GroupName )
                              VALUES
                              ( '$nextID', '$userID', '$name', '$value', '$group' )" );
 
                 $db->unlock();
-            
-                if ( $res != false )                
+
+                if ( $res != false )
                     $ret = true;
                 else
                     $dbError = true;
             }
-            
+
             if ( $dbError == true )
                 $db->rollback( );
             else
-                $db->commit();            
+                $db->commit();
         }
 
         return $ret;

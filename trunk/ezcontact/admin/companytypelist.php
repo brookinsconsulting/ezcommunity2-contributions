@@ -53,7 +53,7 @@ $type->get( $TypeID );
 $company = new eZCompany();
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
@@ -120,7 +120,7 @@ else
 
     $t->set_var( "image_item", "" );
     $t->set_var( "command_type", "company" );
-    
+
     if ( empty( $OrderBy ) )
     {
         $OrderBy = "Name";
@@ -176,13 +176,13 @@ else
     $t->set_var( "page_args", $args );
 
     $pathArray = $type->path( $TypeID );
-    
+
     $t->set_var( "path_item", "" );
     foreach ( $pathArray as $path )
     {
         $t->set_var( "parent_id", $path[0] );
         $t->set_var( "parent_name", $path[1] );
-        
+
         $t->parse( "path_item", "path_item_tpl", true );
     }
     $t->parse( "path", "path_tpl" );
@@ -255,7 +255,7 @@ else
             else
             {
                 $t->set_var( "theme-type_class", "bgdark" );
-            }  
+            }
 
             $id = $type_array[$i]->id();
             $name = $type_array[$i]->name();
@@ -302,7 +302,7 @@ else
     $t->set_var( "company_delete_button", "" );
     $t->set_var( "company_view_button", "" );
     $t->set_var( "no_company_view_button", "" );
-    
+
     $t->parse( "company_folder_button", "company_folder_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
         $t->parse( "company_buy_button", "company_buy_button_tpl" );
@@ -341,7 +341,7 @@ else
                 $t->set_var( "td_class", "bglight" );
             else
                 $t->set_var( "td_class", "bgdark" );
-        
+
             $t->set_var( "company_id", $companyList[$i]->id() );
             $t->set_var( "company_name", $companyList[$i]->name() );
             if ( $can_view_stats )
@@ -354,10 +354,10 @@ else
             unSet( $logoObj );
             $logoObj = $companyList[$i]->logoImage();
 
-            if ( get_class( $logoObj ) == "ezimage" )
+            if ( is_a( $logoObj, "eZImage" ) )
             {
                 $variationObj = $logoObj->requestImageVariation( 150, 150 );
-            
+
                 $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
                 $image = new eZImage( $variationObj->imageID() );
                 $t->set_var( "image_alt", $image->caption() );
@@ -373,7 +373,7 @@ else
             $t->set_var( "no_companies", "" );
             $t->parse( "company_item", "company_item_tpl", true );
         }
-        
+
         $t->set_var( "no_companies", "" );
         $t->parse( "companies_table", "companies_table_tpl" );
     }
@@ -383,7 +383,7 @@ else
 
     if ( $typesDone == true )
     {
-        $t->set_var( "no_type_item", "" );    
+        $t->set_var( "no_type_item", "" );
         $t->parse( "type_list", "type_list_tpl" );
     }
     else
@@ -394,7 +394,7 @@ else
 
     if ( $categoriesDone == true )
     {
-        $t->set_var( "no_category_item", "" );    
+        $t->set_var( "no_category_item", "" );
         $t->parse( "category_list", "category_list_tpl" );
     }
     else

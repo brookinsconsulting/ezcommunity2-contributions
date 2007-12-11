@@ -76,7 +76,7 @@ if ( $Action == "update" )
         if ( isSet( $Recursive ) )
         {
             $recursiveList = $module->getByParent( $module, "name", array() );
-        
+
             foreach ( $recursiveList as $itemID )
             {
                 eZObjectPermission::removePermissions( $itemID, "bug_module", "w" );
@@ -97,7 +97,7 @@ if ( $Action == "update" )
 
         $module->store();
     }
-    
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /bug/module/list/" );
     exit();
@@ -162,7 +162,7 @@ foreach ( $moduleList as $moduleItem )
         $t->set_var( "module_parent_id", $moduleItem->id() );
 
 
-        if ( get_class( $parent ) == "ezbugmodule" )
+        if ( is_a( $parent, "eZBugModule" ) )
         {
             if ( $parent->id() == $moduleItem->id() )
             {
@@ -176,7 +176,7 @@ foreach ( $moduleList as $moduleItem )
         else
         {
             $t->set_var( "is_selected", "" );
-        } 
+        }
 
         $t->parse( "module_item", "module_item_tpl", true );
     }
@@ -192,11 +192,11 @@ foreach ( $groupList as $groupItem )
     $t->set_var( "group_name", $groupItem->name() );
 
     $t->set_var( "is_write_selected1", "" );
-    
+
     if ( $writeGroupArrayID )
     {
         foreach ( $writeGroupArrayID as $writeGroup )
-        {    
+        {
             if ( $writeGroup == $groupItem->id() )
             {
                 $t->set_var( "is_write_selected1", "selected" );
@@ -211,7 +211,7 @@ foreach ( $groupList as $groupItem )
             }
         }
     }
-        
+
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
 

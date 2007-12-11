@@ -114,35 +114,35 @@ else
         else
         {
             $t->set_var( "bg_color", "bgdark" );
-        }  
-        
+        }
+
         $link_category_id = $linkCategoryItem->id();
         $t->set_var( "linkcategory_id", $link_category_id );
         $t->set_var( "linkcategory_name", $linkCategoryItem->name() );
         $t->set_var( "category_description", $linkCategoryItem->description() );
         $t->set_var( "linkcategory_parent", $linkCategoryItem->parent() );
-        
+
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
-        
+
         $t->set_var( "document_root", $DOC_ROOT );
 
         $image =& $linkCategoryItem->image();
 
         $t->set_var( "image_item", "" );
-        
-        if ( get_class( $image ) == "ezimage" )
+
+        if ( is_a( $image, "eZImage" ) )
         {
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
-            
+
             $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-            
+
             $imageURL = "/" . $variation->imagePath();
             $imageWidth =& $variation->width();
             $imageHeight =& $variation->height();
             $imageCaption =& $image->caption();
-            
+
             $t->set_var( "image_width", $imageWidth );
             $t->set_var( "image_height", $imageHeight );
             $t->set_var( "image_url", $imageURL );
@@ -155,9 +155,9 @@ else
             $t->parse( "no_image", "no_image_tpl" );
             $t->set_var( "image_item", "" );
         }
-        
+
         $categories = $languageIni->read_var( "strings", "categories" );
-        
+
         $t->parse( "category_item", "category_item_tpl", true );
         $i++;
     }
@@ -175,7 +175,7 @@ else
 {
     $linkList =& $linkCategory->links( $Offset, $AdminLimit );
     $linkCount =& $linkCategory->linkCount();
-} 
+}
 
 if ( !$linkList )
 {
@@ -191,7 +191,7 @@ else
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
-        
+
         $t->set_var( "link_id", $linkItem->id() );
         $t->set_var( "link_name", $linkItem->name() );
         $t->set_var( "link_description", $linkItem->description() );
@@ -204,19 +204,19 @@ else
         $image =& $linkItem->image();
 
         $t->set_var( "image_item", "" );
-        
+
         if ( $image )
         {
             $imageWidth =& $ini->read_var( "eZLinkMain", "LinkImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "LinkImageHeight" );
-            
+
             $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-            
+
             $imageURL = "/" . $variation->imagePath();
             $imageWidth =& $variation->width();
             $imageHeight =& $variation->height();
             $imageCaption =& $image->caption();
-            
+
             $t->set_var( "image_width", $imageWidth );
             $t->set_var( "image_height", $imageHeight );
             $t->set_var( "image_url", $imageURL );
@@ -229,14 +229,14 @@ else
             $t->parse( "no_image", "no_image_tpl" );
         }
 
-        
+
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $linkItem->id() );
-        
+
         $t->set_var( "link_hits", $hits );
 
         $links = $languageIni->read_var( "strings", "links" );
-        
+
         $t->parse( "link_item", "link_item_tpl", true );
         $i++;
     }

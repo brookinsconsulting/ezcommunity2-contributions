@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezmessage.php 6652 2001-08-27 10:22:53Z br $
 //
 // Definition of eZMessage class
@@ -28,7 +28,7 @@
 //!! eZMessage
 //! eZMessage handles messages to eZ publish users.
 /*!
-  
+
 */
 
 include_once( "classes/ezdb.php" );
@@ -86,7 +86,7 @@ class eZMessage
         {
             $res[] = $db->query( "UPDATE eZMessage_Message SET
 		                 Subject='$subject',
-                         Created=Created, 
+                         Created=Created,
                          Description='$description',
                          FromUserID='$this->FromUserID',
                          ToUserID='$this->ToUserID',
@@ -114,7 +114,7 @@ class eZMessage
         eZDB::finish( $res, $db );
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
 
@@ -191,7 +191,7 @@ class eZMessage
         }
         return $return_array;
     }
-    
+
     /*!
       Returns the object id.
     */
@@ -199,7 +199,7 @@ class eZMessage
     {
         return $this->ID;
     }
-    
+
     /*!
       Returns the subject.
     */
@@ -215,7 +215,7 @@ class eZMessage
     */
     function setFromUser( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $this->FromUserID = $user->id();
         }
@@ -228,7 +228,7 @@ class eZMessage
     {
         return new eZUser( $this->FromUserID );
     }
-     
+
 
     /*!
       Returns the to user as an eZUser object.
@@ -252,7 +252,7 @@ class eZMessage
 
     /*!
       Sets the message to be read/unread.
-      
+
     */
     function setIsRead( $isRead )
     {
@@ -261,14 +261,14 @@ class eZMessage
         else
             $this->IsRead = 0;
     }
-     
-    
+
+
     /*!
       Sets the use which the message is to.
     */
     function setToUser( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $this->ToUserID = $user->id();
         }
@@ -279,12 +279,12 @@ class eZMessage
     */
     function &created()
     {
-        $dateTime = new eZDateTime();    
+        $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Created );
 
         return $dateTime;
     }
-    
+
     /*!
       Returns the description.
     */
@@ -300,7 +300,7 @@ class eZMessage
     {
        $this->Subject = $value;
     }
-    
+
     /*!
       Sets the description.
     */
@@ -308,7 +308,7 @@ class eZMessage
     {
        $this->Description = $value;
     }
-    
+
     var $ID;
     var $FromUserID;
     var $ToUserID;

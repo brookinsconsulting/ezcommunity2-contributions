@@ -69,7 +69,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
 
-if ( $CompanyViewLogin and get_class( $user ) != "ezuser" )
+if ( $CompanyViewLogin and !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
@@ -134,7 +134,7 @@ $t->set_var( "email_line", "" );
 $t->set_block( "online_line_tpl", "url_line_tpl", "url_line" );
 $t->set_var( "url_line", "" );
 $t->set_block( "company_information_tpl", "no_online_item_tpl", "no_online_item" );
-$t->set_var( "no_online_item", "&nbsp;" );                                        
+$t->set_var( "no_online_item", "&nbsp;" );
 $t->set_block( "company_information_tpl", "phone_item_tpl", "phone_item" );
 $t->set_var( "phone_item", "&nbsp;" );
 $t->set_block( "phone_item_tpl", "phone_line_tpl", "phone_line" );
@@ -167,10 +167,10 @@ else
     $logoImage = $company->logoImage();
 
     $no_image = true;
-    if ( ( get_class( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
+    if ( ( is_a( $logoImage, "eZImage" ) ) && ( $logoImage->id() != 0 ) )
     {
         $variation = $logoImage->requestImageVariation( 150, 150 );
-        if ( get_class( $variation ) == "ezimagevariation" )
+        if ( is_a( $variation, "eZImageVariation" ) )
         {
             $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
             $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
@@ -183,16 +183,16 @@ else
             $no_image = false;
         }
     }
-    
+
 
 // View company image.
     $companyImage = $company->companyImage();
 
     $no_image = true;
-    if ( ( get_class( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
+    if ( ( is_a( $companyImage, "eZImage" ) ) && ( $companyImage->id() != 0 ) )
     {
         $variation = $companyImage->requestImageVariation( 150, 150 );
-        if ( get_class( $variation ) == "ezimagevariation" )
+        if ( is_a( $variation, "eZImageVariation" ) )
         {
             $t->set_var( "image_src", "/" . $variation->imagePath() );
             $t->set_var( "image_name", eZTextTool::htmlspecialchars( $companyImage->name() ) );
@@ -224,7 +224,7 @@ else
             $addressType = $addressItem->addressType();
             $t->set_var( "address_type_name", eZTextTool::htmlspecialchars( $addressType->name() ) );
             $country = $addressItem->country();
-            if ( get_class( $country ) == "ezcountry" )
+            if ( is_a( $country, "eZCountry" ) )
                 $t->set_var( "country", eZTextTool::htmlspecialchars( $country->name() ) );
             else
                 $t->set_var( "country", "" );
@@ -232,7 +232,7 @@ else
             $t->set_var( "script_name", "companyedit.php" );
 
             $t->parse( "address_item", "address_item_tpl", true );
-            
+
         }
     }
     else
@@ -367,16 +367,16 @@ else
     $user =& eZUser::currentUser();
     $t->set_var( "person_consultation_button", "" );
     $t->set_var( "buy_button", "" );
-    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( is_a( $user, "eZUser" ) && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
     }
-    
-    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
+
+    if ( is_a( $user, "eZUser" ) && eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
     {
         $t->parse( "buy_button", "buy_button_tpl" );
     }
-    
+
     if ( !isSet( $PersonLimit ) or !is_numeric( $PersonLimit ) )
         $PersonLimit = 5;
     if ( !isSet( $PersonOffset ) or !is_numeric( $PersonOffset ) )
@@ -406,13 +406,13 @@ else
 
 // Consultation list
     $user =& eZUser::currentUser();
-    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( is_a( $user, "eZUser" ) && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         if ( !isSet( $OrderBy ) )
             $OrderBy = "Date";
-        
+
         $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
-        
+
         if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
         {
             if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
@@ -427,7 +427,7 @@ else
             else
                 $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false, 0, $max );
         }
-                
+
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
 
@@ -448,7 +448,7 @@ else
         }
     }
 
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) and count( $consultations ) > 0 )
+    if ( is_a( $user, "eZUser" ) and eZPermission::checkPermission( $user, "eZContact", "consultation" ) and count( $consultations ) > 0 )
     {
         $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
     }
@@ -457,7 +457,7 @@ else
         $t->set_var( "consultation_table_item", "" );
     }
 
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( is_a( $user, "eZUser" ) and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
     }
@@ -472,7 +472,7 @@ else
     }
 
 // Order list
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) )
+    if ( is_a( $user, "eZUser" ) and eZPermission::checkPermission( $user, "eZContact", "buy" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
         $orders = eZOrder::getByContact( $CompanyID, false, 0, $max );
@@ -491,15 +491,15 @@ else
 
             $status = $order->initialStatus( );
             $dateTime = $status->altered();
-    
+
             $status = $order->lastStatus( );
-    
+
             $statusType = $status->type();
             $statusName = preg_replace( "#intl-#", "", $statusType->name() );
             $statusName =  $languageINI->read_var( "strings", $statusName );
-    
+
             $t->set_var( "order_status", $statusName );
-            
+
             if ( $order->isVATInc() == true )
                 $currency->setValue( $order->totalPriceIncVAT() + $order->shippingCharge());
             else
@@ -511,7 +511,7 @@ else
         }
     }
 
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) and count( $orders ) > 0 )
+    if ( is_a( $user, "eZUser" ) and eZPermission::checkPermission( $user, "eZContact", "buy" ) and count( $orders ) > 0 )
     {
         $t->parse( "order_table_item", "order_table_item_tpl", true );
     }
@@ -531,19 +531,19 @@ else
     foreach ( $emails as $email )
     {
         $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-        
+
         $t->set_var( "mail_id", $email->id() );
         $date->setTimeStamp( $email->uDate() );
         $t->set_var( "mail_date", $locale->format( $date ) );
-        
+
         $t->set_var( "mail_subject", $email->subject() );
         $t->set_var( "mail_email", $email->sender() );
-        
+
         $t->parse( "mail_item", "mail_item_tpl", true );
         $i++;
     }
 
-    if ( get_class( $user ) == "ezuser" and count( $emails ) > 0 )
+    if ( is_a( $user, "eZUser" ) and count( $emails ) > 0 )
     {
         $t->parse( "mail_table_item", "mail_table_item_tpl", true );
     }

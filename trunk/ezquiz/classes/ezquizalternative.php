@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezquizalternative.php 8687 2001-12-06 10:19:29Z jhe $
 //
 // eZQuizAlternative class
@@ -36,7 +36,7 @@
 */
 
 include_once( "classes/ezdate.php" );
-	      
+
 class eZQuizAlternative
 {
 
@@ -70,7 +70,7 @@ class eZQuizAlternative
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $name =& $db->escapeString( $this->Name );
         $questionID = $this->Question->id();
 
@@ -107,7 +107,7 @@ class eZQuizAlternative
 
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
 //        $answers =& $this->answers();
 
         if ( is_array ( $answers ) )
@@ -132,12 +132,12 @@ class eZQuizAlternative
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        
+
         if( $id == -1 )
         {
             $id = $this->ID;
         }
-        
+
         if ( $id != "" )
         {
             $db->array_query( $alternativeArray, "SELECT * FROM eZQuiz_Alternative WHERE ID='$id'",
@@ -176,17 +176,17 @@ class eZQuizAlternative
     function getAll( $offset = 0, $limit = 20)
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $alternativeArray = array();
-        
+
         $db->array_query( $alternativeArray, "SELECT ID FROM eZQuiz_Alternative" );
-        
+
         for ( $i = 0; $i < count( $alternativeArray ); $i++ )
         {
             $returnArray[$i] = new eZQuizAlternative( $alternativeArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
@@ -264,11 +264,11 @@ class eZQuizAlternative
     {
         $ret = 0;
 
-        if ( get_class( $this->Question ) == "ezquizquestion" )
+        if ( is_a( $this->Question, "eZQuizQuestion" ) )
         {
             $ret = $this->Question->id();
         }
-        
+
         return $ret;
    }
 
@@ -277,7 +277,7 @@ class eZQuizAlternative
     */
     function setQuestion( &$question )
     {
-        if ( get_class( $question ) == "ezquizquestion" )
+        if ( is_a( $question, "eZQuizQuestion" ) )
             $this->Question = $question;
     }
 

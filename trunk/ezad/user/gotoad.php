@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: gotoad.php 9307 2002-02-27 16:53:26Z master $
 //
 // Created on: <25-Nov-2000 16:26:08 bf>
@@ -30,7 +30,7 @@ include_once( "ezad/classes/ezadclick.php" );
 include_once( "ezstats/classes/ezpageview.php" );
 
 
-if ( get_class( $GlobalPageView ) != "ezpageview" )
+if ( !is_a( $GlobalPageView, "eZPageView" ) )
 {
     $GlobalPageView = new eZPageView();
     $GlobalPageView->store();

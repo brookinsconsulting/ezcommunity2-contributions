@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezlinkattribute.php 6220 2001-07-20 11:15:21Z jakobn $
 //
 // Definition of eZLinkAttribute class
@@ -81,7 +81,7 @@ class eZLinkAttribute
                                              '$place',
                                              '$this->Unit',
                                              '$timeStamp')" );
-        
+
         }
         else
         {
@@ -94,7 +94,7 @@ class eZLinkAttribute
         }
 
         $db->unlock();
-        
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -109,11 +109,11 @@ class eZLinkAttribute
     function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != -1  )
         {
             $db->array_query( $attribute_array, "SELECT * FROM eZLink_Attribute WHERE ID='$id'" );
-            
+
             if ( count( $attribute_array ) > 1 )
             {
                 die( "Error: Link attribute's with the same ID was found in the database. This shouldent happen." );
@@ -135,17 +135,17 @@ class eZLinkAttribute
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $attribute_array = array();
-        
+
         $db->array_query( $attribute_array, "SELECT ID FROM eZLink_Attribute ORDER BY Created" );
-        
+
         for ( $i = 0; $i < count( $attribute_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZLinkAttribute( $attribute_array[$i][ $db->fieldName( "ID" ) ], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -220,7 +220,7 @@ class eZLinkAttribute
     */
     function setType( $type )
     {
-        if ( get_class( $type ) == "ezlinktype" )
+        if ( is_a( $type, "eZLinkType" ) )
         {
             $this->TypeID = $type->id();
         }
@@ -232,21 +232,21 @@ class eZLinkAttribute
     function setValue( $link, $value )
     {
         $db =& eZDB::globalDatabase();
-        
-        if ( get_class( $link ) == "ezlink" )
+
+        if ( is_a( $link, "eZLink" ) )
         {
             $linkID = $link->id();
-            
+
             // check if the attribute is already set, if so update
             $db->array_query( $value_array,
             "SELECT ID FROM eZLink_AttributeValue WHERE LinkID='$linkID' AND AttributeID='$this->ID'" );
-            
+
             $db->begin();
-            
+
             if ( count( $value_array ) > 0 )
             {
                 $valueID = $value_array[0]["ID"];
-                
+
                 $res = $db->query( "UPDATE eZLink_AttributeValue SET
                                                 Value='$value'
                                                 WHERE ID='$valueID'" );
@@ -255,7 +255,7 @@ class eZLinkAttribute
             {
                 $db->lock( "eZLink_AttributeValue" );
                 $nextID = $db->nextID( "eZLink_AttributeValue", "ID" );
-                
+
                 $res = $db->query( "INSERT INTO eZLink_AttributeValue
                                                 (ID, LinkID, AttributeID, Value)
                                                 VALUES
@@ -277,7 +277,7 @@ class eZLinkAttribute
     {
         $db =& eZDB::globalDatabase();
         $ret = "";
-        if ( get_class( $link ) == "ezlink" )
+        if ( is_a( $link, "eZLink" ) )
         {
             $linkID = $link->id();
 
@@ -289,7 +289,7 @@ class eZLinkAttribute
             if ( count( $value_array ) > 0 )
             {
                 $ret = $value_array[0][ $db->fieldName( "Value" ) ];
-            }    
+            }
         }
         return $ret;
     }
@@ -310,7 +310,7 @@ class eZLinkAttribute
         $res[] = $db->query( "UPDATE eZLink_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
         $res[] = $db->query( "UPDATE eZLink_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
         $db->unlock();
-        
+
         if ( in_array( false, $res ) )
             $db->rollback();
         else

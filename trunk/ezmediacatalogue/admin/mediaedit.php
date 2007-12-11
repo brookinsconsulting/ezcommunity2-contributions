@@ -482,7 +482,7 @@ foreach ( $treeArray as $catItem )
         {
             $defCat = $media->categoryDefinition();
 
-            if ( get_class( $defCat ) == "ezmediacategory" )
+            if ( is_a( $defCat, "eZMediaCategory" ) )
             {
                 if ( $media->existsInCategory( $catItem[0] ) &&
                 ( $defCat->id() != $catItem[0]->id() ) )
@@ -499,7 +499,7 @@ foreach ( $treeArray as $catItem )
                 $t->set_var( "multiple_selected", "" );
             }
 
-            if ( get_class( $defCat ) == "ezmediacategory" )
+            if ( is_a( $defCat, "eZMediaCategory" ) )
             {
                 if ( $defCat->id() == $catItem[0]->id() )
                 {
@@ -549,7 +549,7 @@ if ( isset( $TypeID ) )
 
 foreach ( $types as $typeItem )
 {
-    if ( get_class( $mediaType ) == "ezmediatype"  )
+    if ( is_a( $mediaType, "eZMediaType" ) )
     {
         if ( $mediaType->id() == $typeItem->id() )
         {
@@ -571,7 +571,7 @@ foreach ( $types as $typeItem )
     $t->parse( "type", "type_tpl", true );
 }
 
-if ( get_class( $mediaType) == "ezmediatype" )
+if ( is_a( $mediaType, "eZMediaType") )
 {
     $attributes = $mediaType->attributes();
 

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezimagevariation.php 9854 2003-06-12 14:33:53Z br $
 //
 // Definition of eZImageVariation class
@@ -61,7 +61,7 @@ class eZImageVariation
         $db->lock( "eZImageCatalogue_ImageVariation" );
 
         $this->ID = $db->nextID( "eZImageCatalogue_ImageVariation", "ID" );
-        
+
         $res = $db->query( "INSERT INTO eZImageCatalogue_ImageVariation
                                  ( ID, ImageID, VariationGroupID, Width, Height, ImagePath, Modification ) VALUES
                                  ( '$this->ID',
@@ -73,11 +73,11 @@ class eZImageVariation
                                    '$this->Modification')" );
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
-            $db->commit();        
+            $db->commit();
     }
 
     /*!
@@ -86,7 +86,7 @@ class eZImageVariation
     function get( $id="" )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $image_variation_array, "SELECT * FROM eZImageCatalogue_ImageVariation WHERE ID='$id'" );
@@ -134,7 +134,7 @@ class eZImageVariation
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $groupID != "" )
         {
             $db->array_query( $image_variation_array, "SELECT * FROM eZImageCatalogue_ImageVariation
@@ -150,10 +150,10 @@ class eZImageVariation
                 $this->Width =& $image_variation_array[0][$db->fieldName("Width")];
                 $this->Height =& $image_variation_array[0][$db->fieldName("Height")];
                 $this->Modification =& $image_variation_array[0][$db->fieldName("Modification")];
-                
+
                 $ret = true;
             }
-                
+
             if ( !eZFile::file_exists( $this->ImagePath ) or !is_file( $this->ImagePath ) )
             {
                 $ret = false;
@@ -162,7 +162,7 @@ class eZImageVariation
 
         return $ret;
     }
-    
+
     /*!
       Returns the variation if the variation exists, if it does not exist it is created.
 
@@ -172,14 +172,14 @@ class eZImageVariation
     {
         $ret = false;
 
-        if ( ( get_class( $image ) == "ezimage" ) && ( get_class( $variationGroup ) == "ezimagevariationgroup" ) )
+        if ( is_a( $image, "eZImage" ) && is_a( $variationGroup, "eZImageVariationGroup" ) )
         {
             $variation = new eZImageVariation();
 
             $modification = "";
             if ( $convertToGray == true )
                 $modification .= "gray";
-            
+
             if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id(), $modification ) == true )
             {
                 $ret =& $variation;
@@ -197,7 +197,7 @@ class eZImageVariation
                 $suffix = $info["suffix"];
                 $postfix = $info["dot-suffix"];
                 $imageFile->setType( $info["image-type"] );
-                
+
                 $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . $modification . $postfix;
 
 
@@ -226,7 +226,7 @@ class eZImageVariation
                     $variation->setWidth( $size[0] );
                     $variation->setHeight( $size[1] );
                     $variation->setImagePath( $dest );
-                    $variation->setImageID(  $image->id() );                
+                    $variation->setImageID(  $image->id() );
                     $variation->setVariationGroupID(  $variationGroup->id() );
                     $variation->setModification( $modification );
 
@@ -239,7 +239,7 @@ class eZImageVariation
                     return $allow_error ? false : eZImageVariation::createErrorImage();
             }
         }
-        
+
         return $ret;
     }
 
@@ -256,7 +256,7 @@ class eZImageVariation
     */
     function &variationGroupID()
     {
-       return $this->VariationGroupID; 
+       return $this->VariationGroupID;
     }
 
     /*!
@@ -264,7 +264,7 @@ class eZImageVariation
     */
     function &imagePath()
     {
-       return $this->ImagePath; 
+       return $this->ImagePath;
     }
 
     /*!
@@ -272,7 +272,7 @@ class eZImageVariation
     */
     function &width()
     {
-       return $this->Width; 
+       return $this->Width;
     }
 
     /*!
@@ -280,7 +280,7 @@ class eZImageVariation
     */
     function &height()
     {
-       return $this->Height; 
+       return $this->Height;
     }
 
     /*!
@@ -290,7 +290,7 @@ class eZImageVariation
     {
         return $this->ID;
     }
-    
+
     /*!
       Sets the ImageID
     */
@@ -306,7 +306,7 @@ class eZImageVariation
     {
        $this->VariationGroupID = $value;
     }
-    
+
     /*!
       Sets the image path
     */
@@ -338,8 +338,8 @@ class eZImageVariation
     {
        $this->Modification = $value;
     }
-    
-    
+
+
     /*!
       Function which displays an error message, used if the variation could not be created.
     */

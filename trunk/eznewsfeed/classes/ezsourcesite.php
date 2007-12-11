@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezsourcesite.php 6484 2001-08-17 13:36:01Z jhe $
 //
 // Definition of eZSourceSite class
@@ -51,7 +51,7 @@ class eZSourceSite
     {
         // default value
         $this->IsPublished = "0";
-        
+
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -60,24 +60,24 @@ class eZSourceSite
     }
 
     /*!
-      Stores an object to the database. 
+      Stores an object to the database.
     */
     function store()
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $name = $db->escapeString( $this->Name );
         $login = $db->escapeString( $this->Login );
         $password = $db->escapeString( $this->Password );
         $url = $db->escapeString( $this->URL );
-                
+
         $ret = false;
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZNewsFeed_SourceSite" );
             $nextID = $db->nextID( "eZNewsFeed_SourceSite", "ID" );
-            $ret[] = $db->query( "INSERT INTO eZNewsFeed_SourceSite 
+            $ret[] = $db->query( "INSERT INTO eZNewsFeed_SourceSite
 		                       ( ID,
                                  Name,
                                  URL,
@@ -125,7 +125,7 @@ class eZSourceSite
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $news_array, "SELECT * FROM eZNewsFeed_SourceSite WHERE ID='$id'" );
@@ -159,13 +159,13 @@ class eZSourceSite
         $db =& eZDB::globalDatabase();
         if( $id == -1 )
             $id = $this->ID;
-        
+
         $db->begin();
 
         $ret[] = $db->query( "DELETE FROM eZNewsFeed_SourceSite WHERE ID='$id'" );
 
         eZDB::finish( $ret, $db );
-        
+
         return in_array( false, $ret );
     }
 
@@ -175,19 +175,19 @@ class eZSourceSite
     function getAll()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $return_array = array();
         $source_site_array = array();
-        
+
         $db->array_query( $source_site_array, "SELECT ID FROM eZNewsFeed_SourceSite ORDER BY Name" );
-        
+
         for ( $i=0; $i<count($source_site_array); $i++ )
         {
             $return_array[$i] = new eZSourceSite( $source_site_array[$i][$db->fieldName("ID")], 0 );
         }
-        
+
         return $return_array;
-        
+
     }
 
     /*!
@@ -259,7 +259,7 @@ class eZSourceSite
 
        return $ret;
     }
-    
+
     /*!
       Sets the source site name.
     */
@@ -297,7 +297,7 @@ class eZSourceSite
     */
     function setCategory( $category )
     {
-       if ( get_class( $category ) == "eznewscategory" )
+       if ( is_a( $category, "eZNewsCategory" ) )
        {
            $this->CategoryID = $category->id();
        }
@@ -351,20 +351,20 @@ class eZSourceSite
            $ret = true;
        else
            $ret = false;
-       
+
        return $ret;
     }
-    
-    
+
+
     var $ID;
     var $Name;
     var $URL;
     var $Login;
-    var $Password;    
+    var $Password;
     var $CategoryID;
     var $Decoder;
     var $IsActive;
-    
+
     /// bool represented as an int. For automatically publishing of articles.
     var $AutoPublish;
 }

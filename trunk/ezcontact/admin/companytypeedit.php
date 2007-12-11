@@ -40,7 +40,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
+if ( !is_a( $user, "eZUser" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
@@ -112,7 +112,7 @@ if ( $Action == "insert" || $Action == "update" )
             $SelectParentID = 0;
         }
     }
-    $type->setParentID( $SelectParentID ); 
+    $type->setParentID( $SelectParentID );
 
     $file = new eZImageFile();
     if ( $file->getUploadedFile( "ImageFile" ) )
@@ -125,7 +125,7 @@ if ( $Action == "insert" || $Action == "update" )
 
         $type->setImageID( $image->id() );
     }
-        
+
     $type->store();
     $TypeID = $type->id();
 
@@ -146,9 +146,9 @@ if ( $Action == "delete" )
 {
     $type = new eZCompanyType();
     $type->get( $TypeID );
-    $ParentID = $type->parentID(); 
+    $ParentID = $type->parentID();
     $type->delete( );
-    
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/company/list/$ParentID" );
     exit();
@@ -202,7 +202,7 @@ else
 
     $t->parse( "path", "path_tpl" );
 }
-    
+
 if ( $Action == "edit" || $Action == "new" )
 {
     if ( $Action == "edit" )
@@ -223,14 +223,14 @@ if ( $Action == "edit" || $Action == "new" )
     $parentid = $type->parentID();
     if ( isSet( $NewParentID ) )
         $parentid = $NewParentID;
-        
+
     $t->set_var( "current_id", $id );
     $t->set_var( "current_name", $name );
     $t->set_var( "current_description", $desc );
     $t->set_var( "parent_id", $parentid );
 
     $ImageID = $type->imageID();
-        
+
     if ( is_numeric( $ImageID ) && $ImageID != 0 )
     {
         $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
@@ -239,12 +239,12 @@ if ( $Action == "edit" || $Action == "new" )
         $image = new eZImage( $ImageID );
 
         $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-            
+
         $imageURL = "/" . $variation->imagePath();
         $imageWidth = $variation->width();
         $imageHeight = $variation->height();
         $imageCaption = $image->caption();
-            
+
         $t->set_var( "image_width", $imageWidth );
         $t->set_var( "image_height", $imageHeight );
         $t->set_var( "image_url", $imageURL );
@@ -260,12 +260,12 @@ if ( $Action == "edit" || $Action == "new" )
     $category = new eZCompanyType();
 
     $tree = $category->getTree();
-    
+
     foreach ( $tree as $item )
     {
         $t->set_var( "select_parent_id", $item[0]->id() );
         $t->set_var( "select_parent_name", $item[0]->name() );
-        
+
         if ( $item[1] > 0 )
             $t->set_var( "parent_level", str_repeat( "&nbsp;", $item[1] ) );
         else
@@ -279,16 +279,16 @@ if ( $Action == "edit" || $Action == "new" )
         else
         {
             $t->set_var( "selected", "" );
-        }            
-        
+        }
+
         $t->parse( "parent_item", "parent_item_tpl", true );
     }
-   
+
     if ( count( $tree ) == 0 )
     {
         $t->set_var( "parent_item", "" );
     }
-        
+
     if ( $selected == false )
     {
         $t->set_var( "root_selected", "selected" );

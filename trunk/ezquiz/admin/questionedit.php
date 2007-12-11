@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: questionedit.php 8687 2001-12-06 10:19:29Z jhe $
 //
 // Created on: <22-May-2001 16:17:22 ce>
@@ -43,12 +43,12 @@ if ( isSet( $NewAlternative ) )
 if ( isSet( $OK ) )
 {
     $question = new eZQuizQuestion( $QuestionID );
-    
+
     if ( $question->countAlternatives() == false )
     {
         $errorMessages[] = "error_add_alternative";
     }
-    
+
     if ( count( $errorMessages ) > 0 )
     {
         unset( $OK );
@@ -102,7 +102,7 @@ if ( $Action == "Update" )
         $question = new eZQuizQuestion( $QuestionID );
     else
         $question = new eZQuizQuestion();
-        
+
     if ( empty( $Name ) )
     {
         $errorMessages[] = "error_missing_question_name";
@@ -174,7 +174,7 @@ if ( $Action == "Delete" )
 
 if ( is_numeric( $QuestionID ) )
 {
-    if ( get_class( $question ) != "ezquizquestion" )
+    if ( !is_a( $question, "eZQuizQuestion" ) )
         $question = new eZQuizQuestion( $QuestionID );
     $t->set_var( "question_id", $question->id() );
     $t->set_var( "question_name", $question->name() );
@@ -211,7 +211,7 @@ if ( count( $errorMessages ) > 0 )
         $t->set_var( "error_message", $errorMessage );
         $t->parse( "error_item", "error_item_tpl", true );
     }
-    
+
     $t->set_var( "question_name", $Name );
     $t->set_var( "question_id", $QuestionID );
 

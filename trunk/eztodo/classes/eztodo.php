@@ -26,7 +26,7 @@
 //
 
 //!! eZTodo
-//! The eZTodo handles the todo informasjon. 
+//! The eZTodo handles the todo informasjon.
 /*!
   Handles the todo informasjon stored in the database.
 */
@@ -59,11 +59,11 @@ class eZTodo
         $db->begin();
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-        if ( get_class( $this->Due ) == "ezdatetime" )
+        if ( is_a( $this->Due, "eZDateTime" ) )
             $due = $this->Due->timeStamp();
         else
             $due = "";
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZTodo_Todo" );
@@ -86,7 +86,7 @@ class eZTodo
                                    '$name',
                                    '$description',
                                    '$this->Category',
-                                   '$this->Priority', 
+                                   '$this->Priority',
                                    '$due',
                                    '$this->UserID',
                                    '$this->OwnerID',
@@ -113,7 +113,7 @@ class eZTodo
         eZDB::finish( $res, $db );
         return true;
     }
-    
+
     /*!
       Deletes the todo object in the database.
     */
@@ -134,7 +134,7 @@ class eZTodo
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $todo_array, "SELECT * FROM eZTodo_Todo WHERE ID='$id'" );
@@ -173,24 +173,24 @@ class eZTodo
 
         $return_array = array();
         $todo_array = array();
-        
+
         $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Priority" );
-        
+
         for ( $i = 0; $i < count( $todo_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
-        } 
-        
+        }
+
         return $return_array;
     }
 
-    /*! 
-      Gets all the todo infomasjon from a owner, where ID == $id. 
-      Return the array in $todo_array ordered by name. 
-       
-    */ 
+    /*!
+      Gets all the todo infomasjon from a owner, where ID == $id.
+      Return the array in $todo_array ordered by name.
+
+    */
     function getByUserID( $id, $statusID = 0, $categoryID = 0 )
-    { 
+    {
         $db =& eZDB::globalDatabase();
         $todo_array = 0;
 
@@ -210,19 +210,19 @@ class eZTodo
         $sql = "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' $showStatus $showCategory";
 
         $db->array_query( $todo_array, $sql );
-       
+
         for ( $i = 0; $i < count( $todo_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
-        } 
-        return $return_array;        
+        }
+        return $return_array;
     }
-    
-    /*! 
+
+    /*!
       Gets all the todo infomasjon from a owner, where ID == $id.
       Return the array in $todo_array ordered by name.
-      
-    */ 
+
+    */
     function getByOthers( $id )
     {
         $db =& eZDB::globalDatabase();
@@ -232,37 +232,37 @@ class eZTodo
         $todo_array = array();
 
         $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE ( UserID='$id' or OwnerID='$id' ) AND IsPublic='1' ORDER BY Priority");
-       
+
         for ( $i = 0; $i < count( $todo_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
-        } 
-        return $return_array;         
-    } 
+        }
+        return $return_array;
+    }
 
     /*!
       Tilte of the todo.
       Returns the name of the todo as a string.
-    */ 
+    */
     function name()
     {
        return htmlspecialchars( $this->Name );
     }
 
-    /*! 
+    /*!
       Gets all the todo infomasjon from a owner, where ID == $id.
       Return the array in $todo_array ordered by name.
-      
+
     */
-    function getByLimit( $id, $limit = 5, $status = 0, $except = 0 )    
+    function getByLimit( $id, $limit = 5, $status = 0, $except = 0 )
     {
         $db =& eZDB::globalDatabase();
         $todo_array = 0;
 
         $return_array = array();
         $todo_array = array();
-	
-        if ( $except == "0" ) 
+
+        if ( $except == "0" )
         {
     	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority", array( "Limit" => $limit, "Offset" => 0 ) );
         }
@@ -272,11 +272,11 @@ class eZTodo
         }
 
         for ( $i = 0; $i < count( $todo_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
         }
 
-        return $return_array;         
+        return $return_array;
     }
 
     /*!
@@ -285,7 +285,7 @@ class eZTodo
     */
     function &getByDate( $user, $date )
     {
-        if ( get_class( $date ) == "ezdate" )
+        if ( is_a( $date, "eZDate" ) )
         {
             $currentUser =& eZUser::currentUser();
             if ( is_numeric( $user ) )
@@ -302,13 +302,13 @@ class eZTodo
             $db =& eZDB::globalDatabase();
     	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE Due>='" . $date->timeStamp() . "' AND Due<'" . $enddate->timeStamp() . "' AND UserID='" . $userid . "' $public_string ORDER BY Priority" );
             for ( $i = 0; $i < count( $todo_array ); $i++ )
-            { 
+            {
                 $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
-            } 
-            return $return_array;         
+            }
+            return $return_array;
         }
     }
-    
+
     /*!
       Sets the name of the todo.
       The new name of the todo is passed as a paramenter ( $value ).
@@ -400,7 +400,7 @@ class eZTodo
             return false;
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Due );
-        
+
         return $dateTime;
     }
 
@@ -420,8 +420,8 @@ class eZTodo
     function date()
     {
         $dateTime = new eZDateTime( );
-        $dateTime->setTimeStamp( $this->Date );        
-        
+        $dateTime->setTimeStamp( $this->Date );
+
         return $dateTime;
     }
 
@@ -467,7 +467,7 @@ class eZTodo
     {
         $this->OwnerID = $value;
     }
-    
+
     /*!
       Status of the todo.
       Returns the status of the todo as a string.
@@ -537,11 +537,11 @@ class eZTodo
     */
     function addLog( &$value )
     {
-        if ( get_class( $value ) == "eztodolog" )
+        if ( is_a( $value, "eZTodoLog" ) )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
-            
+
             $logID = $value->id();
             $db->lock( "eZTodo_TodoLogLink" );
             $nextID = $db->nextID( "eZTodo_TodoLogLink", "ID" );

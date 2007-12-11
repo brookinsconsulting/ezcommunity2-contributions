@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: bugedit.php 9166 2002-02-07 08:20:21Z jhe $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -94,7 +94,7 @@ if ( $Action == "Insert" )
     {
         $category = new eZBugCategory( $CategoryID );
         $module = new eZBugModule( $ModuleID );
-        
+
         $bug = new eZBug();
         $bug->setName( $Name );
         $bug->setDescription( $Description );
@@ -109,7 +109,7 @@ if ( $Action == "Insert" )
             $bug->setIsPrivate( true );
         else
             $bug->setIsPrivate( false );
-        
+
         $bug->store();
         eZHTTPTool::header( "Location: /bug/archive/" );
         exit();
@@ -123,10 +123,10 @@ if ( $Action == "Update" )
     if ( $user )
     {
         if ( isSet( $Update ) )
-        {        
+        {
             $category = new eZBugCategory( $CategoryID );
             $module = new eZBugModule( $ModuleID );
-            
+
             $priority = new eZBugPriority( $PriorityID );
             $status = new eZBugStatus( $StatusID );
 
@@ -134,22 +134,22 @@ if ( $Action == "Update" )
                 $owner = new eZUser( $OwnerID );
             else
                 $owner = NULL;
-            
+
             $bug = new eZBug( $BugID );
 
-            
+
             $bug->setIsHandled( true );
 
             if ( $bug->isHandled() )
                 $isHandled = true;
             else
                 $isHandled = false;
-            
+
             $bug->setPriority( $priority );
             $bug->setStatus( $status );
             // check if owner is actually among the valid owners
             $bug->setOwner( $owner );
-            
+
             if ( $IsClosed == 'on' )
             {
                 $bug->setIsClosed( true );
@@ -170,11 +170,11 @@ if ( $Action == "Update" )
 
 //            $bug->setName( $bug->name() );
 //            $bug->setDescription( $bug->description() );
-            
+
             $bug->removeFromModules();
             $bug->removeFromCategories();
             $bug->store();
-                        
+
             $category->addBug( $bug );
             $module->addBug( $bug );
 
@@ -188,14 +188,14 @@ if ( $Action == "Update" )
             }
 
             // check if the owner has changed
-            if ( get_class( $owner ) == "ezuser" && $OwnerID != $CurrentOwnerID )
+            if ( is_a( $owner, "eZUser" ) && $OwnerID != $CurrentOwnerID )
             {
                 sendAssignedMail( $bug, $owner->email(), $ini, $Language );
             }
-            
+
             if ( $MailReporter == "on" && $LogMessage != "" )
-            {            
-                // send email notice to the reporter            
+            {
+                // send email notice to the reporter
                 if ( $bug->user() )
                 {
                     $reporter = $bug->user();
@@ -210,10 +210,10 @@ if ( $Action == "Update" )
                 $mail->setFrom( $user->email() );
 
                 $locale = new eZLocale( $Language );
-    
+
                 $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                                                 "ezbug/admin/intl", $Language, "mailreply.php" );
-            
+
                 $headerInfo = getallheaders();
 
                 $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
@@ -227,7 +227,7 @@ if ( $Action == "Update" )
                 $mailTemplate->set_var( "bug_id", $bug->id() );
                 $mailTemplate->set_var( "bug_report", $bug->description( false ) );
                 $mailTemplate->set_var( "bug_title", $bug->name( false ) );
-                
+
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
 
                 $languageIni = new INIFile( "ezbug/admin/" . "intl/" . $Language . "/mailreply.php.ini", false );
@@ -262,15 +262,15 @@ if ( $Action == "Update" )
             {
                 eZHTTPTool::header( "Location: /bug/archive/" );
                 exit();
-            }   
+            }
         }
     }
 }
 
-$t->set_var( "bug_date", "" );    
+$t->set_var( "bug_date", "" );
 $t->set_var( "action_value", "Insert" );
 
-if ( isSet( $InsertFile ) ) 
+if ( isSet( $InsertFile ) )
 {
     $Action = "";
     eZHTTPTool::header( "Location: /bug/report/fileedit/new/$BugID" );
@@ -312,7 +312,7 @@ if ( $Action == "Edit" )
     $locale = new eZLocale( $Language );
 
     $bug = new eZBug( $BugID );
-    
+
     $t->set_var( "bug_id", $bug->id() );
     $t->set_var( "name_value", $bug->name() );
     $bug_user = $bug->user();
@@ -330,9 +330,9 @@ if ( $Action == "Edit" )
     }
     $t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
     $t->set_var( "action_value", "Update" );
-    
+
     $date =& $bug->created();
-    $t->set_var( "bug_date", $locale->format( $date ) );    
+    $t->set_var( "bug_date", $locale->format( $date ) );
 
     if ( $bug->version() != "" )
     {
@@ -359,7 +359,7 @@ if ( $Action == "Edit" )
 
     if ( $pri )
         $priorityID = $pri->id();
-    
+
     if ( $bug->isClosed() == true )
     {
         $t->set_var( "is_closed", "checked" );
@@ -381,7 +381,7 @@ if ( $Action == "Edit" )
 
 // get the files
     $files = $bug->files();
-    
+
     if ( count( $files ) > 0 )
     {
         $t->parse( "file_headers", "file_headers_tpl" );
@@ -399,11 +399,11 @@ if ( $Action == "Edit" )
 
             $t->set_var( "file_number", $i + 1 );
             $t->set_var( "file_id", $file->id() );
-        
+
             $t->set_var( "file_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
-    
+
             $t->parse( "file", "file_tpl", true );
-    
+
             $i++;
         }
     }
@@ -434,11 +434,11 @@ if ( $Action == "Edit" )
             $caption = $image->caption();
             if ( $caption == "" )
                 $caption = "-";
-            
+
             $t->set_var( "image_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/imagecatalogue/imageview/" . $image->id()
                          . "?RefererURL=/bug/edit/edit/$BugID" ."\">" . $caption . "</a>" );
             $t->parse( "image", "image_tpl", true );
-    
+
             $i++;
 
         }
@@ -448,7 +448,7 @@ if ( $Action == "Edit" )
         $t->set_var( "image_headers", "" );
         $t->set_var( "image", "" );
     }
-    
+
     if ( count( $logList ) == 0 )
     {
         $t->set_var( "log_item", "" );
@@ -483,7 +483,7 @@ foreach ( $categories as $category )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
 
@@ -521,7 +521,7 @@ foreach ( $priorities as $priority )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "priority_id", $priority->id() );
     $t->set_var( "priority_name", $priority->name() );
 
@@ -540,7 +540,7 @@ foreach ( $statuses as $status )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "status_id", $status->id() );
     $t->set_var( "status_name", $status->name() );
 
@@ -559,14 +559,14 @@ if ( count( $ownerGroup ) > 0 )
     {
         $users = array_merge( $users, eZUserGroup::users( $ownerGroup ) );
     }
-    
+
     if ( count( $users ) > 0 )
     {
         foreach ( $users as $userItem )
         {
             $t->set_var( "owner_id", $userItem->id() );
             $t->set_var( "owner_login", $userItem->login() );
-            if ( get_class( $owner ) == "ezuser" && $userItem->id() == $owner->id() )
+            if ( is_a( $owner, "eZUser" ) && $userItem->id() == $owner->id() )
             {
                 $t->set_var( "selected", "selected" );
                 $currentOwner = $owner->id();
@@ -606,7 +606,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
     $mail = new eZMail();
     $from = $ini->read_var( "eZBugMain", "MailReplyToAddress" );
     $mail->setFrom( $from );
-    
+
     $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                                     "ezbug/admin/intl", $Language, "mailgotbug.php" );
     $headerInfo = getallheaders();
@@ -623,7 +623,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
     $mailTemplate->set_var( "bug_module", $module->name( false ) );
     $mailTemplate->set_var( "bug_reporter", $reporter );
     $mailTemplate->set_var( "bug_description", $bug->description( false ) );
-    
+
     $languageIni = new INIFile( "ezbug/admin/" . "intl/" . $Language . "/mailgotbug.php.ini", false );
     $msg =  $languageIni->read_var( "strings", "assigned_to_you" );
 

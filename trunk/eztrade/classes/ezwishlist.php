@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezwishlist.php 8861 2002-01-03 15:39:06Z bf $
 //
 // Definition of eZWishList class
@@ -37,10 +37,10 @@
 
   // Store the wishlist to the database
   $wishlist->store();
-  
+
   // Fetch all wishlist items
   $items = $wishlist->items();
-  
+
   // print contents of the wishlist if it exists
   if  ($items )
   {
@@ -85,11 +85,11 @@ class eZWishList
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-       
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_WishList" );
-            $nextID = $db->nextID( "eZTrade_WishList", "ID" );            
+            $nextID = $db->nextID( "eZTrade_WishList", "ID" );
 
             $res = $db->query( "INSERT INTO eZTrade_WishList
                                   ( ID, UserID, IsPublic )
@@ -108,14 +108,14 @@ class eZWishList
                                  WHERE ID='$this->ID'
                                  " );
         }
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -124,7 +124,7 @@ class eZWishList
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishList WHERE ID='$id'" );
@@ -145,15 +145,15 @@ class eZWishList
 
 
     /*!
-      Returns a eZWishlist object. 
+      Returns a eZWishlist object.
     */
     function getByUser( $user  )
     {
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        if ( get_class( $user ) == "ezuser" )
-        {        
+        if ( is_a( $user, "eZUser" ) )
+        {
             $sid = $user->id();
             $db->array_query( $wishlist_array, "SELECT * FROM
                                                     eZTrade_WishList
@@ -176,7 +176,7 @@ class eZWishList
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $items = $this->items();
 
         if  ( $items )
@@ -187,7 +187,7 @@ class eZWishList
                 $item->delete();
             }
         }
-            
+
         $res = $db->query( "DELETE FROM eZTrade_WishList WHERE ID='$this->ID'" );
 
         if ( $res == false )
@@ -195,7 +195,7 @@ class eZWishList
         else
             $db->commit();
 
-            
+
         return true;
     }
 
@@ -224,10 +224,10 @@ class eZWishList
     */
     function setUser( $user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $this->UserID = $user->id();
-        }        
+        }
     }
 
     /*!
@@ -255,7 +255,7 @@ class eZWishList
 
        return $ret;
     }
-    
+
     /*!
       Returns all the wishlist items in the wishlist.
 
@@ -264,7 +264,7 @@ class eZWishList
     function &items( )
     {
        $ret = array();
-       
+
        $db =& eZDB::globalDatabase();
 
        $db->array_query( $wishlist_array, "SELECT * FROM
@@ -276,11 +276,11 @@ class eZWishList
            $return_array = array();
            foreach ( $wishlist_array as $item )
            {
-               $ret[] = new eZWishlistItem( $item[$db->fieldName( "ID" )] );               
+               $ret[] = new eZWishlistItem( $item[$db->fieldName( "ID" )] );
            }
        }
 
-       return $ret;       
+       return $ret;
     }
 
     /*!
@@ -308,9 +308,9 @@ class eZWishList
        if ( in_array( false, $res ) )
            $db->rollback( );
        else
-           $db->commit();            
+           $db->commit();
 
-       $this->delete();       
+       $this->delete();
     }
 
     /*!
@@ -318,11 +318,11 @@ class eZWishList
       eZWishList objects which matched the search.
     */
     function search( $queryText )
-    {        
+    {
        $ret = array();
-       
+
        $db =& eZDB::globalDatabase();
-       
+
        $db->array_query( $wishlist_array,
        "SELECT eZTrade_WishList.ID AS ID FROM eZTrade_WishList, eZUser_User
         WHERE eZTrade_WishList.UserID=eZUser_User.ID
@@ -337,10 +337,10 @@ class eZWishList
                $ret[] = new eZWishlist( $item[$db->fieldName( "ID" )] );
        }
 
-       return $ret;       
+       return $ret;
 
     }
-    
+
     var $ID;
     var $UserID;
     var $IsPublic;

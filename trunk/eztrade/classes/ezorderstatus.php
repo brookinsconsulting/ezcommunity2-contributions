@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezorderstatus.php 6394 2001-08-08 12:34:57Z jhe $
 //
 // Definition of eZOrderStatus class
@@ -32,7 +32,7 @@
 */
 
 /*!TODO
-  Add documentation.    
+  Add documentation.
 */
 
 include_once( "classes/ezdb.php" );
@@ -99,7 +99,7 @@ class eZOrderStatus
                                   WHERE ID='$this->ID'
                                  " );
         }
-        eZDB::finish( $ret, $db ); 
+        eZDB::finish( $ret, $db );
         return true;
     }
 
@@ -110,7 +110,7 @@ class eZOrderStatus
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $order_array, "SELECT * FROM eZTrade_OrderStatus WHERE ID='$id'" );
@@ -132,7 +132,7 @@ class eZOrderStatus
         }
         return $ret;
     }
-    
+
     /*!
       Returns the object id.
     */
@@ -179,14 +179,14 @@ class eZOrderStatus
         $ret = new eZUser( $this->AdminID );
         return $ret;
     }
-    
+
 
     /*!
       Sets status type.
     */
     function setType( $type )
     {
-       if ( get_class( $type ) == "ezorderstatustype" )
+       if ( is_a( $type, "eZOrderStatusType" ) )
        {
            $this->StatusID = $type->id();
        }
@@ -197,7 +197,7 @@ class eZOrderStatus
     */
     function setAdmin( $user )
     {
-       if ( get_class( $user ) == "ezuser" )
+       if ( is_a( $user, "eZUser" ) )
        {
            $this->AdminID = $user->id();
        }
@@ -217,7 +217,7 @@ class eZOrderStatus
     function setComment( $value )
     {
        $this->Comment = $value;
-    }    
+    }
 
     var $ID;
     var $StatusID;
@@ -225,7 +225,7 @@ class eZOrderStatus
     var $AdminID;
     var $OrderID;
     var $Comment;
-    
+
 }
 
 ?>

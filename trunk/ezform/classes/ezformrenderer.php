@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezformrenderer.php 9785 2003-02-28 08:31:05Z br $
 //
 // eZFormRenderer class
@@ -54,7 +54,7 @@ class eZFormRenderer
     function eZFormRenderer( $form = "" )
     {
         $ini =& INIFile::globalINI();
-        if ( get_class( $form ) == "ezform" )
+        if ( is_a( $form, "eZForm" ) )
         {
             $this->Form = $form;
         }
@@ -66,7 +66,7 @@ class eZFormRenderer
         $this->Template->setAllStrings();
 
         $this->Template->set_file( "form_renderer_page_tpl", "formrenderer.tpl" );
-        
+
         $this->Template->set_block( "form_renderer_page_tpl", "text_field_item_tpl", "text_field_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_area_item_tpl", "text_area_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "multiple_select_item_tpl", "multiple_select_item" );
@@ -90,7 +90,7 @@ class eZFormRenderer
         $this->Template->set_block( "form_list_tpl", "form_instructions_tpl", "form_instructions" );
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
         $this->Template->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
-        
+
         $this->Template->set_var( "error_list", "" );
         $this->Template->set_var( "error_item", "" );
         $this->Template->set_var( "form_start_tag", "" );
@@ -103,7 +103,7 @@ class eZFormRenderer
         $this->Template->set_var( "text_area_item", "" );
         $this->Template->set_var( "form_instructions", "" );
         $this->Template->set_var( "form_sender_value", "" );
-        
+
 
         global $GlobalSectionID, $SectionIDOverride;
 
@@ -117,14 +117,14 @@ class eZFormRenderer
         }
 
     }
-    
+
     /*!
         Renders the element which are given as an argument based on its type.
      */
     function &renderElement( $element )
     {
         $output = "";
-        if ( get_class( $element ) == "ezformelement" )
+        if ( is_a( $element, "eZFormElement" ) )
         {
             $subItems =& $element->fixedValues();
             $this->Template->set_var( "sub_item", "" );
@@ -142,7 +142,7 @@ class eZFormRenderer
             global $$elementName;
             if ( isSet( $$elementName ) )
                 $elementValue = $$elementName;
-            
+
             $this->Template->set_var( "field_name", $elementName );
             $this->Template->set_var( "field_value", $elementValue );
 
@@ -171,7 +171,7 @@ class eZFormRenderer
                 $this->Template->set_var( "sub_value", $subItem->value() );
                 $this->Template->parse( $name . "_sub_item", $name . "_sub_item_tpl", true );
             }
-            
+
             $elementValue = str_replace( "eZFormElement_", "", $$elementName );
 
             if ( trim( $type ) != "" )
@@ -188,20 +188,20 @@ class eZFormRenderer
     {
         $output = "";
         $render = false;
-        
-        if ( get_class( $form ) == "ezform" )
+
+        if ( is_a( $form, "eZForm" ) )
         {
             $this->Form =& $form;
             $render = true;
         }
         else
         {
-            if ( get_class( $this->Form ) == "ezform" )
+            if ( is_a( $this->Form, "eZForm" ) )
             {
                 $render = true;
             }
         }
-        
+
         if ( $render == true )
         {
             $elements =& $this->Form->formElements();
@@ -224,7 +224,7 @@ class eZFormRenderer
             foreach ( $elements as $element )
             {
                 $eType = $element->elementType();
-                
+
                 if ( $element->isBreaking() or ( $eType->name() != "text_field_item" ) )
                 {
                     $lastBreaked = true;
@@ -239,9 +239,9 @@ class eZFormRenderer
                 {
                     $breakCount++;
                     $maxBreakCount = max( $maxBreakCount, $breakCount );
-                }                
+                }
             }
-            
+
             foreach ( $elements as $element )
             {
                 $elementCounter++;
@@ -259,7 +259,7 @@ class eZFormRenderer
                 else
                     $this->Template->set_var( "colspan", " colspan=\"1\"" );
 
-                
+
                 if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
                 {
                     $this->Template->parse( "break", "break_tpl" );
@@ -271,7 +271,7 @@ class eZFormRenderer
                 $this->Template->parse( "form_item", "form_item_tpl", true );
             }
 
-            
+
             if ( $form->isSendAsUser() )
             {
                 global $formSender;
@@ -292,7 +292,7 @@ class eZFormRenderer
                 }
                 $this->Template->parse( "form_sender", "form_sender_tpl" );
             }
-            
+
             if ( $elementCounter != 0 )
             {
                 if ( $addFormTags == true )
@@ -308,10 +308,10 @@ class eZFormRenderer
                 $output = $this->Template->parse( $target, "form_list_tpl" );
             }
         }
-        
+
         return $output;
     }
-    
+
     /*!
         This function verifies the data from a posted form
      */
@@ -321,14 +321,14 @@ class eZFormRenderer
         global $formName;
         global $formSender;
         global $redirectTo;
-        
+
         $output = "";
         $errorMessages = array();
         $errorMessagesAdditionalInfo = array();
         $ini =& INIFile::globalINI();
-              
+
         $this->Form = new eZForm( $FormID );
-        
+
         $elements = $this->Form->formElements();
 
         if ( $this->Form->isSendAsUser() )
@@ -347,13 +347,13 @@ class eZFormRenderer
                 $errorMessagesAdditionalInfo[] = "";
             }
         }
-        
+
         foreach ( $elements as $element )
         {
             $elementName = "eZFormElement_" . $element->id();
 
             global $$elementName;
-            
+
             $value = $$elementName;
 
             if ( $element->isRequired() == true )
@@ -383,7 +383,7 @@ class eZFormRenderer
 
         return $output;
     }
-    
+
     /*!
         This function will send the form to the recipients.
      */
@@ -395,25 +395,25 @@ class eZFormRenderer
         global $redirectTo;
 
         $formSent = false;
-        
+
         $form = new eZForm( $FormID );
-        
+
         $ini =& INIFile::globalINI();
         $Language = $ini->read_var( "eZFormMain", "Language" );
-        
+
         $emailDefaults = false;
-        
+
         if ( $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) == "enabled" )
         {
             $emailDefaults = true;
         }
-        
+
         $elements = $form->formElements();
-        
+
         $mail = new eZMail();
-        
+
         $content = "";
-        
+
         foreach ( $elements as $element )
         {
             $elementName = "eZFormElement_" . $element->id();
@@ -454,23 +454,23 @@ class eZFormRenderer
         {
             $mail->setSubject( $form->name() );
         }
-        
+
         $t = new eZTemplate( "ezform/user/" . $ini->read_var( "eZFormMain", "TemplateDir" ),
                      "ezform/user/intl/", $Language, "form.php" );
 
         $t->set_file( array(
             "form_mail_tpl" => "emailtemplate.tpl"
             ) );
-        
-        
+
+
         $t->set_var( "content", $content );
 
         $t->setAllStrings();
-        
+
         $formatedContent = $t->parse( $target, "form_mail_tpl" );
-        
+
         $mail->setBody( $formatedContent );
-        
+
         if ( $form->isSendAsUser() )
         {
             $mail->setFrom( $formSender );
@@ -481,9 +481,9 @@ class eZFormRenderer
             $mail->setFrom( $form->sender() );
             $mail->setCC( $form->CC() . ", " . $form->sender() );
         }
-        
+
         $mail->setTo( $form->receiver() );
-        
+
         $mail->send();
         $formSent = true;
 
@@ -501,7 +501,7 @@ class eZFormRenderer
             exit();
         }
     }
-    
+
     var $Template;
     var $Form;
 }

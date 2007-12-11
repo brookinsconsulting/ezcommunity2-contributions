@@ -170,7 +170,7 @@ $t->set_var( "error_user", "&nbsp;" );
 if ( ( $userCheck ) && ( $Action == "update" ) || ( $Action == "updateStatus" ) )
 {
     $todo = new eZTodo( $TodoID );
-    
+
     if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) ||
          ( eZPermission::checkPermission( $user, "eZTodo", "EditOthers" ) == true ) )
     {
@@ -246,7 +246,7 @@ if ( $Action == "insert" && $error == false )
     {
         $todo->setIsPublic( false );
     }
-    
+
     $todo->store();
     deleteCache( "default", $Language, $Due->year(), addZero( $Due->month() ) , addZero( $Due->day() ), $UserID );
     if ( $SendMail == "on" )
@@ -256,7 +256,7 @@ if ( $Action == "insert" && $error == false )
 
         $mailTemplate->setAllStrings();
         $mailTemplate->set_file( "send_mail_tpl", "sendmail.tpl" );
-        
+
         $mailTemplate->set_block( "send_mail_tpl", "todo_is_public_tpl", "todo_is_public" );
         $mailTemplate->set_block( "send_mail_tpl", "todo_is_not_public_tpl", "todo_is_not_public" );
 
@@ -283,7 +283,7 @@ if ( $Action == "insert" && $error == false )
         $mailTemplate->set_var( "todo_status", $status->name() );
         $mailTemplate->set_var( "todo_owner", $owner->firstName() . " " . $owner->lastName() );
         $mailTemplate->set_var( "todo_description", $Description );
-        
+
         $mail = new eZMail();
         $mail->setSubject( "Todo: " . $Name );
         $mail->setFrom( $owner->email() );
@@ -292,7 +292,7 @@ if ( $Action == "insert" && $error == false )
 
         $mail->send();
     }
-    
+
     eZHTTPTool::header( "Location: /todo/todolist" );
     exit();
 }
@@ -313,7 +313,7 @@ if ( $Action == "update" && $error == false )
     deleteCache( "default", $Language, $DeadlineYear, addZero( $DeadlineMonth ), addZero( $DeadlineDay ), $userID );
 
     $oldstatus = $todo->statusID();
-        
+
     $todo->setName( $Name );
     $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
@@ -321,7 +321,7 @@ if ( $Action == "update" && $error == false )
     $todo->setDue( $Due );
     $todo->setUserID( $userID );
     $todo->setStatusID( $StatusID );
-    
+
     if ( $IsPublic == "on" )
     {
         $todo->setIsPublic( true );
@@ -332,13 +332,13 @@ if ( $Action == "update" && $error == false )
     }
     $todo->store();
 
-    if ( ( $MailLog ) && ( get_class( $log ) == "eztodolog" ) )
+    if ( ( $MailLog ) && ( is_a( $log, "eZTodoLog" ) ) )
     {
         $mailTemplate = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                                         "eztodo/user/intl", $Language, "maillog.php" );
 
         $mailTemplate->setAllStrings();
-        
+
         $mailTemplate->set_file( "send_mail_tpl", "maillog.tpl" );
 
         $mailTemplate->set_block( "send_mail_tpl", "todo_is_public_tpl", "todo_is_public" );
@@ -371,7 +371,7 @@ if ( $Action == "update" && $error == false )
 
         $mailTemplate->set_var( "time", $locale->format( $log->created() ) );
         $mailTemplate->set_var( "log", $log->log() );
-        
+
         $mail = new eZMail();
         $mail->setSubject( "Todo log: " . $Name );
         $mail->setFrom( $owner->email() );
@@ -488,7 +488,7 @@ if ( $Action == "new" || $error )
 if ( $Action == "edit" )
 {
     // Return the current time
-    
+
     $todo = new eZTodo( $TodoID );
 
     if ( $todo->status() == true )
@@ -582,7 +582,7 @@ if ( $Action == "edit" )
     $var_name =& $month_array[$DeadlineMonth];
     if ( $var_name == "" )
         $var_name =& $month_array[1];
-    
+
     $t->set_var( $var_name, "selected" );
 
     $t->set_var( "deadlineyear", $DeadlineYear );
@@ -600,7 +600,7 @@ $category = new eZCategory();
 $category_array = $category->getAll();
 
 for ( $i = 0; $i < count( $category_array ); $i++ )
-{ 
+{
     $t->set_var( "category_id", $category_array[$i]->id() );
     $t->set_var( "category_name", $category_array[$i]->name() );
 
@@ -620,10 +620,10 @@ $priority = new eZPriority();
 $priority_array = $priority->getAll();
 
 for ( $i = 0; $i < count( $priority_array ); $i++ )
-{ 
+{
     $t->set_var( "priority_id", $priority_array[$i]->id() );
     $t->set_var( "priority_name", $priority_array[$i]->name() );
-    
+
     if ( $priorityID == $priority_array[$i]->id() )
     {
         $t->set_var( "is_selected", "selected" );
@@ -647,7 +647,7 @@ for ( $i = 0; $i < count( $status_array ); $i++ )
 {
     $t->set_var( "status_id", $status_array[$i]->id() );
     $t->set_var( "status_name", $status_array[$i]->name() );
-    
+
     if ( $StatusID == $status_array[$i]->id() )
     {
         $t->set_var( "is_selected", "selected" );

@@ -4,7 +4,7 @@
 //
 // Definition of eZXMLRPCServer class
 //
-// Bård Farstad <bf@ez.no>
+// Bï¿½rd Farstad <bf@ez.no>
 // Created on: <16-Dec-2000 10:37:45 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -134,7 +134,7 @@ class eZXMLRPCServer
             }
         }
 
-        if ( get_class( $result ) == "ezxmlrpcresponse" )
+        if ( is_a( $result, "eZXMLRPCResponse" ) )
         {
             $response =& $result;
         }

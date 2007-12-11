@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: unhandledbugs.php 6208 2001-07-19 12:29:04Z jakobn $
 //
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -72,10 +72,10 @@ foreach ( $unhandleBugs as $bug )
         $t->set_var( "bug_module_name", $module->name(), "&nbsp;" );
     else
         $t->set_var( "bug_module_name", "" );
-    
+
     $owner = $bug->user();
 
-    if( get_class( $owner) == "ezuser" )
+    if( is_a( $owner,"eZUser") )
     {
         $t->set_var( "bug_submitter", $owner->name() , "&nbsp;" );
     }

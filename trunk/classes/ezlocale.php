@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezlocale.php 9160 2002-02-06 13:43:20Z jhe $
 //
 // Definition of eZLocale class
@@ -34,41 +34,41 @@
 <p>
   The following characters are recognized in the date/time format.
 <pre>
-a - "am" or "pm" 
-A - "AM" or "PM" 
-d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
-D - day of the week, textual, 3 letters; i.e. "Fri" 
-E - day of the week, textual, long; i.e. "Friday" 
-F - month, textual, long; i.e. "January" 
-g - hour, 12-hour format without leading zeros; i.e. "1" to "12" 
-G - hour, 24-hour format without leading zeros; i.e. "0" to "23" 
-h - hour, 12-hour format; i.e. "01" to "12" 
-H - hour, 24-hour format; i.e. "00" to "23" 
-i - minutes; i.e. "00" to "59" 
-j - day of the month without leading zeros; i.e. "1" to "31" 
-M - month, textual, 3 letters; i.e. "Jan" 
-m - month; i.e. "01" to "12" 
-n - month without leading zeros; i.e. "1" to "12" 
-s - seconds; i.e. "00" to "59" 
-t - number of days in the given month; i.e. "28" to "31" 
-Y - year, 4 digits; i.e. "1999" 
-y - year, 2 digits; i.e. "99" 
+a - "am" or "pm"
+A - "AM" or "PM"
+d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
+D - day of the week, textual, 3 letters; i.e. "Fri"
+E - day of the week, textual, long; i.e. "Friday"
+F - month, textual, long; i.e. "January"
+g - hour, 12-hour format without leading zeros; i.e. "1" to "12"
+G - hour, 24-hour format without leading zeros; i.e. "0" to "23"
+h - hour, 12-hour format; i.e. "01" to "12"
+H - hour, 24-hour format; i.e. "00" to "23"
+i - minutes; i.e. "00" to "59"
+j - day of the month without leading zeros; i.e. "1" to "31"
+M - month, textual, 3 letters; i.e. "Jan"
+m - month; i.e. "01" to "12"
+n - month without leading zeros; i.e. "1" to "12"
+s - seconds; i.e. "00" to "59"
+t - number of days in the given month; i.e. "28" to "31"
+Y - year, 4 digits; i.e. "1999"
+y - year, 2 digits; i.e. "99"
 </pre>
 
   The following are not yet implemented.
 <pre>
-I (capital i) - "1" if Daylight Savings Time, "0" otherwise. 
-L - boolean for whether it is a leap year; i.e. "0" or "1" 
-T - Timezone setting of this machine; i.e. "MDT" 
-U - seconds since the epoch 
-V - The ISO 8601:1988 week number of the current year as a decimal number, 
-    range 01 to 53, where week 1 is the first week that has at least 4 days 
-    in the current year, and with Monday as the first day of the week. 
-w - day of the week, numeric, i.e. "0" (Sunday) to "6" (Saturday) 
-W - week number of the current year as a decimal number, starting with the 
-    first Monday as the first day of the first week. 
-z - day of the year; i.e. "0" to "365" 
-Z - timezone offset in seconds (i.e. "-43200" to "43200") 
+I (capital i) - "1" if Daylight Savings Time, "0" otherwise.
+L - boolean for whether it is a leap year; i.e. "0" or "1"
+T - Timezone setting of this machine; i.e. "MDT"
+U - seconds since the epoch
+V - The ISO 8601:1988 week number of the current year as a decimal number,
+    range 01 to 53, where week 1 is the first week that has at least 4 days
+    in the current year, and with Monday as the first day of the week.
+w - day of the week, numeric, i.e. "0" (Sunday) to "6" (Saturday)
+W - week number of the current year as a decimal number, starting with the
+    first Monday as the first day of the first week.
+z - day of the year; i.e. "0" to "365"
+Z - timezone offset in seconds (i.e. "-43200" to "43200")
 </pre>
 
 Example:
@@ -133,7 +133,7 @@ class eZLocale
         {
              $this->LocaleIni = new INIFile( "classes/locale/en_GB.ini", false );
         }
- 
+
         $this->LanguageISO =& $this->LocaleIni->read_var( "RegionalSettings", "LanguageISO" );
         $this->CurrencySymbol =& $this->LocaleIni->read_var( "RegionalSettings", "CurrencySymbol" );
         $this->DecimalSymbol =& $this->LocaleIni->read_var( "RegionalSettings", "DecimalSymbol" );
@@ -142,13 +142,13 @@ class eZLocale
 
         $this->PositivePrefixCurrencySymbol =& $this->LocaleIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
         $this->NegativePrefixCurrencySymbol =& $this->LocaleIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
-        
+
         $this->TimeFormat =& $this->LocaleIni->read_var( "RegionalSettings", "TimeFormat" );
         $this->ShortTimeFormat =& $this->LocaleIni->read_var( "RegionalSettings", "ShortTimeFormat" );
         $this->DateFormat =& $this->LocaleIni->read_var( "RegionalSettings", "DateFormat" );
         $this->ShortDateFormat =& $this->LocaleIni->read_var( "RegionalSettings", "ShortDateFormat" );
         $this->MondayFirst =& $this->LocaleIni->read_var( "RegionalSettings", "MondayFirst" );
- 
+
     }
 
     /*!
@@ -164,14 +164,13 @@ class eZLocale
         $returnString = "<b>Locale error</b>: object or type not supported.";
 
         // TODO: implement more options for the date and time format.
-        switch ( get_class( $obj ) )
+        $objClass = strtolower( get_class( $obj ) );
+        switch ( $objClass )
         {
             case "ezdate" :
             case "eztime" :
             case "ezdatetime" :
             {
-                $objClass = get_class( $obj );
-
                 if ( $isShort )
                 {
                     $date = $this->ShortDateFormat;
@@ -213,13 +212,13 @@ class eZLocale
                     // n - month without leading zeros; i.e. "1" to "12"
                     $date =& str_replace( "%n", "" . $obj->month(), $date );
 
-                    // t - number of days in the given month; i.e. "28" to "31" 
+                    // t - number of days in the given month; i.e. "28" to "31"
                     $date =& str_replace( "%t", "" . $obj->daysInMonth(), $date );
 
                     // Y - year, 4 digits; i.e. "1999"
                     $date =& str_replace( "%Y", "" . $obj->year(), $date );
 
-                    // y - year, 2 digits; i.e. "99" 
+                    // y - year, 2 digits; i.e. "99"
                     $date =& str_replace( "%y", "" . substr( $obj->year(), 2 ), $date );
 
                     $returnString =& $date;
@@ -290,13 +289,13 @@ class eZLocale
                     else
                     {
                         $value = $value . "&nbsp;" . $this->CurrencySymbol;
-                    }                    
+                    }
                 }
 
                 $returnString =& $value;
 
-                
-                
+
+
                 break;
             }
         }
@@ -556,7 +555,7 @@ class eZLocale
             $this->NegativePrefixCurrencySymbol = "no";
         }
     }
-      
+
     /*!
       Returns AM or PM based on the supplied hour value.
       $hour must be between 0 and 23.

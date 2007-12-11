@@ -1,10 +1,10 @@
 <?php
-// 
+//
 // $Id: ezxmlrpcclient.php 6972 2001-09-05 12:21:54Z ce $
 //
 // Definition of eZXMLRPCClient class
 //
-// Bård Farstad <bf@ez.no>
+// Bï¿½rd Farstad <bf@ez.no>
 // Created on: <16-Dec-2000 10:37:45 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -48,7 +48,7 @@
     $result = $response->result();
     print( "The server returned: " . $result->value() . "<br>" );
   \endcode
-  \sa eZXMLRPCServer  
+  \sa eZXMLRPCServer
 */
 
 include_once( "ezxmlrpc/classes/ezxmlrpcresponse.php" );
@@ -75,11 +75,11 @@ class eZXMLRPCClient
     */
     function setDebug( $debug )
     {
-        if ( $debug == true )            
+        if ( $debug == true )
             $this->Debug = true;
         else
             $this->Debug = false;
-            
+
     }
 
     /*!
@@ -106,7 +106,7 @@ class eZXMLRPCClient
     {
         return $this->TimeOut;
     }
-    
+
     /*!
       Returns the error string.
     */
@@ -126,7 +126,7 @@ class eZXMLRPCClient
         $rawResponse = 0;
         if (!$useSSL || !in_array("curl",get_loaded_extensions()))
         {
-            if ( get_class( $call ) == "ezxmlrpccall" )
+            if ( is_a( $call, "eZXMLRPCCall" ) )
             {
                 if ( $Timeout != 0 )
                 {
@@ -169,7 +169,7 @@ class eZXMLRPCClient
                         return 0;
                     }
                 }
-            
+
                 $rawResponse = "";
                 unSet( $rawResponse );
 
@@ -186,7 +186,7 @@ class eZXMLRPCClient
                     print( nl2br ( htmlspecialchars( $rawResponse )  ) );
                     print( "</pre>" );
                 }
-            
+
                 // close the socket
                 fclose( $fp );
 
@@ -197,7 +197,7 @@ class eZXMLRPCClient
         {
             // Call was made with useSSL == true
             // to use this functionality, you must have cURL (curl.haxx.se) installed and compiled into PHP with --with-ssl enabled.
-            if ( get_class( $call ) == "ezxmlrpccall" )
+            if ( is_a( $call, "eZXMLRPCCall" ) )
             {
                 $URL = "https://".$this->Server.":".$this->Port.$this->Path;
                 $ch = curl_init ($URL);
@@ -209,13 +209,13 @@ class eZXMLRPCClient
                 // send the XML-RPC call
                 if ( $ch != 0 )
                 {
-                    curl_setopt ($ch, CURLOPT_RETURNTRANSFER,1); 
+                    curl_setopt ($ch, CURLOPT_RETURNTRANSFER,1);
                     $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
                          "User-Agent: eZ xmlrpc client\r\n" .
                          "Host: " . $this->Server . "\r\n" .
                          "Content-Type: text/xml\r\n" .
                          "Content-Length: " . strlen( $payload )."\r\n";
-                    if ($this->Username != "") 
+                    if ($this->Username != "")
                     {
                         $HTTPCall .= "Authorization: Basic " .	base64_encode($this->Username . ":" . $this->Password) . "\r\n";
                     }
@@ -232,10 +232,10 @@ class eZXMLRPCClient
                 curl_close($ch);
             }
         }
-        
+
         $response = new eZXMLRPCResponse();
         $response->decodeStream( $rawResponse );
-        
+
         return $response;
     }
 
@@ -244,7 +244,7 @@ class eZXMLRPCClient
      */
     function setLogin( $value )
     {
-        
+
         $this->Login = $value;
     }
 
@@ -276,7 +276,7 @@ class eZXMLRPCClient
     var $Server;
 
     /// The path to the XML-RPC server
-    var $Path;    
+    var $Path;
 
     /// The port of the server to communicate with.
     var $Port;
@@ -286,7 +286,7 @@ class eZXMLRPCClient
 
     /// The username to use for authentification
     var $Login;
-    
+
     /// The password to use for authentification
     var $Password;
 

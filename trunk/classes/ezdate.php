@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezdate.php 7544 2001-09-28 06:29:32Z jhe $
 //
 // Definition of eZCompany class
@@ -37,7 +37,7 @@
 
   // print out the current date
   print( $date->year() . " " . $date->month() . " " . $date->day() );
-  \endcode  
+  \endcode
   \sa eZDateTime eZTime eZLocale
 */
 
@@ -49,7 +49,7 @@ class eZDate
     */
     function eZDate( $year = 0, $month = 0, $day = 0, $year_add = 0, $month_add = 0, $day_add = 0 )
     {
-        if ( get_class( $year ) == "ezdate" )
+        if ( is_a( $year, "eZDate" ) )
         {
             $this->setYear( $year->year() );
             $this->setMonth( $year->month() );
@@ -72,7 +72,7 @@ class eZDate
     }
 
     /*!
-      The year is returned in Y2K compatible format.      
+      The year is returned in Y2K compatible format.
     */
     function year()
     {
@@ -80,7 +80,7 @@ class eZDate
     }
 
     /*!
-      The month value is returned.      
+      The month value is returned.
     */
     function month()
     {
@@ -123,7 +123,7 @@ class eZDate
     }
 
     /*!
-      Sets the date according to the MySQL date given as parameter.      
+      Sets the date according to the MySQL date given as parameter.
       If the parameter is invalid nothing is set and an error is printed.
     */
     function setMySQLDate( $value )
@@ -139,7 +139,7 @@ class eZDate
             print( "<b>Error:</b> eZDate::setMySQLDate() received wrong MySQL date format." );
         }
     }
-    
+
     /*!
         Returns the date formatted for mySQL...
      */
@@ -148,7 +148,7 @@ class eZDate
         $return = $this->Year;
         $return = $return . "-" . $this->Month;
         $return = $return . "-" . $this->Day;
-        
+
         return $return;
     }
 
@@ -158,7 +158,7 @@ class eZDate
     function setTimeStamp( $value )
     {
         $formattedTime =& date('Ymd', $value );
-        
+
         if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
         {
             $this->setYear( $valueArray[1] );
@@ -169,7 +169,7 @@ class eZDate
         {
             print( "<b>Error:</b> eZDateTime::setMySQLTimeStamp() received wrong MySQL timestamp format." );
         }
-        
+
     }
 
     /*!
@@ -186,8 +186,8 @@ class eZDate
             return mktime( 0, 0, 0,
                            $this->month(), $this->day(), $this->year() );
     }
-    
-    
+
+
     /*!
       Returns the number of days in the current month.
     */
@@ -230,7 +230,7 @@ class eZDate
         {
             $ret = "0". $ret;
         }
-        
+
         return $ret;
     }
 
@@ -462,7 +462,7 @@ class eZDate
     {
         $ret = false;
 
-        if ( get_class( $date ) == "ezdate" )
+        if ( is_a( $date, "eZDate" ) )
         {
             if ( $date->year() < $this->Year )
                 $ret = false;

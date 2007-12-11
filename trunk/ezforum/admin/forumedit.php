@@ -387,7 +387,7 @@ foreach ( $groupList as $group )
     $t->set_var( "group_id", $group->id() );
 
     $t->set_var( "is_selected", "" );
-    if ( get_class( $group ) == "ezusergroup" && get_class( $groupUser ) == "ezusergroup" )
+    if ( is_a( $group, "eZUserGroup" ) && is_a( $groupUser, "eZUserGroup" ) )
     {
         if ( $groupUser->id() == $group->id() )
             $t->set_var( "is_selected", "selected" );

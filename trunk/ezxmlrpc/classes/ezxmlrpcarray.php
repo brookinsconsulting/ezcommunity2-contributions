@@ -1,10 +1,10 @@
 <?php
-// 
+//
 // $Id: ezxmlrpcarray.php 6261 2001-07-25 10:20:25Z jb $
 //
 // Definition of eZXMLRPCArray class
 //
-// Bård Farstad <bf@ez.no>
+// Bï¿½rd Farstad <bf@ez.no>
 // Created on: <18-Dec-2000 14:13:24 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -29,7 +29,7 @@
 //!! eZXMLRPC
 //! eZXMLRPCArray hadles encoding and decoding of an XML-RPC array datatype.
 /*!
-    
+
 */
 
 class eZXMLRPCArray
@@ -83,7 +83,7 @@ class eZXMLRPCArray
     */
     function &serialize( )
     {
-        $ret = $this->serializeArray( $this->Array, $this->Type, $this->Recursive );        
+        $ret = $this->serializeArray( $this->Array, $this->Type, $this->Recursive );
         return $ret;
     }
 
@@ -120,7 +120,7 @@ class eZXMLRPCArray
     */
     function decode( $value )
     {
-        
+
     }
 
     /*!
@@ -142,7 +142,7 @@ class eZXMLRPCArray
                     $ret .= "<value><int>$value</int></value>";
                 }
                 break;
-                
+
                 case "array":
                 {
                     if ( $rec )
@@ -151,12 +151,12 @@ class eZXMLRPCArray
                         $ret .= eZXMLRPCArray::serializeArray( $value );
                 }
                 break;
-                
+
                 case "object":
                 {
-                    if ( substr( get_class( $value ), 0, 8 ) == "ezxmlrpc" )
+                    if ( substr( strtolower( get_class( $value ), 0, 8 ) ) == "ezxmlrpc" )
                     {
-                        if ( get_class($value) == "ezxmlrpcstruct" and
+                        if ( is_a( $value, "eZXMLRPCStruct") and
                              $rec )
                         {
                             $value->setIsRecursive( $rec );
@@ -166,7 +166,7 @@ class eZXMLRPCArray
                     }
                 }
                 break;
-                    
+
                 default:
                 {
                     $ret .= "<value><string>$value</string></value>";

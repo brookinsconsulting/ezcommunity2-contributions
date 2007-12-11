@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezwishlistoptionvalue.php 6318 2001-07-31 11:33:12Z jhe $
 //
 // Definition of eZWishListOptionValue class
@@ -27,7 +27,7 @@
 //!! eZTrade
 //! eZWishlistOptionValue handles option values.
 /*!
-  
+
 
 */
 
@@ -65,11 +65,11 @@ class eZWishListOptionValue
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZTrade_WishListOptionValue" );
-            $nextID = $db->nextID( "eZTrade_WishListOptionValue", "ID" );            
+            $nextID = $db->nextID( "eZTrade_WishListOptionValue", "ID" );
 
             $res[] = $db->query( "INSERT INTO eZTrade_WishListOptionValue
                                   ( ID, WishListItemID, OptionID, OptionValueID )
@@ -93,7 +93,7 @@ class eZWishListOptionValue
         }
         eZDB::finish( $res, $db );
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -102,7 +102,7 @@ class eZWishListOptionValue
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishListOptionValue WHERE ID='$id'" );
@@ -128,7 +128,7 @@ class eZWishListOptionValue
     */
     function id( )
     {
-        return $this->ID;        
+        return $this->ID;
     }
 
     /*!
@@ -154,13 +154,13 @@ class eZWishListOptionValue
     {
        return new eZOptionValue( $this->OptionValueID );
     }
-    
+
     /*!
       Sets the wishlist item object id.
     */
     function setWishListItem( &$wishlistItem )
     {
-       if ( get_class( $wishlistItem ) == "ezwishlistitem" )
+       if ( is_a( $wishlistItem, "eZWishListItem" ) )
        {
            $this->WishListItemID = $wishlistItem->id();
        }
@@ -171,7 +171,7 @@ class eZWishListOptionValue
     */
     function setOption( &$option )
     {
-       if ( get_class( $option ) == "ezoption" )
+       if ( is_a( $option, "eZOption" ) )
        {
            $this->OptionID = $option->id();
        }
@@ -182,7 +182,7 @@ class eZWishListOptionValue
     */
     function setOptionValue( &$optionValue )
     {
-       if ( get_class( $optionValue ) == "ezoptionvalue" )
+       if ( is_a( $optionValue, "eZOptionValue" ) )
        {
            $this->OptionValueID = $optionValue->id();
        }

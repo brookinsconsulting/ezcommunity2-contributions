@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezforumcategory.php 7428 2001-09-24 14:03:59Z jhe $
 //
 // Definition of eZForumCategory class
@@ -28,12 +28,12 @@
 //!! eZForum
 //! The eZForumCategory class handles forum categories.
 /*!
-  
+
   \sa eZForum
 */
 
 /*!TODO
-  
+
 */
 
 include_once( "classes/ezdb.php" );
@@ -60,7 +60,7 @@ class eZForumCategory
         $db =& eZDB::globalDatabase();
 
         $db->begin();
-        
+
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
 
@@ -92,12 +92,12 @@ class eZForumCategory
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
     }
 
@@ -114,13 +114,13 @@ class eZForumCategory
         {
             $forum->delete();
         }
-        
+
         $db->query( "DELETE FROM eZForum_ForumCategoryLink WHERE CategoryID='$this->ID'" );
         $db->query( "DELETE FROM eZForum_Category WHERE ID='$this->ID'" );
-        
+
         return true;
     }
-    
+
 
     /*!
       Fetches the object information from the database.
@@ -129,7 +129,7 @@ class eZForumCategory
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZForum_Category WHERE ID='$id'" );
@@ -163,13 +163,13 @@ class eZForumCategory
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $category_array, "SELECT ID FROM eZForum_Category" );
-                                                    
+
         $ret = array();
         foreach ( $category_array as $category )
         {
             $ret[] = new eZForumCategory( $category[$db->fieldName( "ID" )] );
         }
-        
+
         return $ret;
     }
 
@@ -190,7 +190,7 @@ class eZForumCategory
        {
            $ret[] = new eZForum( $forum[$db->fieldName( "ForumID" )] );
        }
-       
+
        return $ret;
     }
 
@@ -199,33 +199,33 @@ class eZForumCategory
     */
     function addForum( $forum )
     {
-       if ( get_class( $forum ) == "ezforum" )
+       if ( is_a( $forum, "eZForum" ) )
        {
            $db =& eZDB::globalDatabase();
-           
+
            $forumID = $forum->id();
            $db->begin( );
 
            $db->lock( "eZForum_ForumCategoryLink" );
            $nextID = $db->nextID( "eZForum_ForumCategoryLink", "ID" );
-           
+
            $res = $db->query( "INSERT INTO
                                eZForum_ForumCategoryLink
                                ( ID, CategoryID, ForumID )
                                VALUES
                                ( '$nextID', '$this->ID', '$forumID' )" );
            $db->unlock();
-           
+
            if ( $res == false )
                $db->rollback( );
            else
                $db->commit();
-           
+
            $ret = array();
        }
     }
-    
-        
+
+
     /*!
       Returns all forum categories.
     */
@@ -250,7 +250,7 @@ class eZForumCategory
     {
         return $this->ID;
     }
-        
+
     /*!
       Sets the forum category name.
     */
@@ -283,7 +283,7 @@ class eZForumCategory
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SectionID from eZForum_Category WHERE ID='$categoryID'");
-        
+
         $sectionID = $res[$db->fieldName("SectionID")];
 
         if ( $sectionID > 0 )
@@ -291,7 +291,7 @@ class eZForumCategory
         else
             return false;
     }
-    
+
     /*!
       Returns the forum name.
     */
@@ -299,7 +299,7 @@ class eZForumCategory
     {
         return htmlspecialchars( $this->Name );
     }
-        
+
     /*!
       Sets the forum category description.
     */
@@ -307,7 +307,7 @@ class eZForumCategory
     {
         $this->Description = $newDescription;
     }
-        
+
     /*!
       Returns the forum category description.
     */

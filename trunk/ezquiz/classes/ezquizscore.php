@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezquizscore.php 8687 2001-12-06 10:19:29Z jhe $
 //
 // eZQuizScore class
@@ -37,7 +37,7 @@
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezquiz/classes/ezquizgame.php" );
-	      
+
 class eZQuizScore
 {
 
@@ -78,7 +78,7 @@ class eZQuizScore
         {
             $db->lock( "eZQuiz_Score" );
 			$this->ID = $db->nextID( "eZQuiz_Score", "ID" );
-            
+
             $res[] = $db->query( "INSERT INTO eZQuiz_Score
                                      (ID, GameID, UserID, TotalScore, LastQuestion, FinishedGame)
                                      VALUES
@@ -144,21 +144,21 @@ class eZQuizScore
 
     /*!
         Fetches the object information from the database.
-        
+
         This function uses the user id and the game id to fetch the info.
-        
+
       True is retuned if successful, false (0) if not.
     */
     function getUserGame( $user, $game )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $userID = $user->id();
-        
-        if ( get_class( $game ) == "ezquizgame" )
+
+        if ( is_a( $game, "eZQuizGame" ) )
             $gameID = $game->id();
 
         $db =& eZDB::globalDatabase();
-        
+
         $ret = false;
         if ( $gameID != "" && $userID != "" )
         {
@@ -175,7 +175,7 @@ class eZQuizScore
                 $this->ID = 0;
             }
        }
-       
+
        return $ret;
     }
 
@@ -201,18 +201,18 @@ class eZQuizScore
     function getAll( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $scoreArray = array();
-        
+
         $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score
                           DESC LIMIT $offset, $limit" );
-        
+
         for ( $i = 0; $i < count( $scoreArray ); $i++ )
         {
             $returnArray[$i] = new eZQuizScore( $scoreArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
@@ -258,7 +258,7 @@ class eZQuizScore
     */
     function setUser( &$user )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $this->User = $user;
     }
 
@@ -267,10 +267,10 @@ class eZQuizScore
     */
     function setGame( &$game )
     {
-        if ( get_class( $game ) == "ezquizgame" )
+        if ( is_a( $game, "eZQuizGame" ) )
             $this->Game = $game;
     }
-    
+
     /*!
       Sets the score
     */
@@ -294,7 +294,7 @@ class eZQuizScore
     {
         $this->LastQuestion = $question;
     }
-    
+
     /*!
       Sets the next question to be answere
     */
@@ -302,7 +302,7 @@ class eZQuizScore
     {
         $this->LastQuestion = $question - 1;
     }
-    
+
 
     /*!
       Gets the last question
@@ -311,7 +311,7 @@ class eZQuizScore
     {
         return $this->LastQuestion;
     }
-    
+
     /*!
       Gets the next question number
     */
@@ -321,7 +321,7 @@ class eZQuizScore
         $ret++;
         return $ret;
     }
-    
+
     /*!
       Sets the game finished
     */
@@ -347,31 +347,31 @@ class eZQuizScore
         {
             $ret = true;
         }
-        
+
         return $ret;
     }
-    
+
     /*!
         This function returns all the scores for a game.
      */
     function scores( &$game )
     {
         $db =& eZDB::globalDatabase();
-        
-        if ( get_class( $game ) == "ezquizgame" )
+
+        if ( is_a( $game, "eZQuizGame" ) )
             $gameID = $game->id();
-        
-        
+
+
         $returnArray = array();
         $scoreArray = array();
-        
+
         $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score WHERE GameID='$gameID' AND FinishedGame=1 ORDER BY TotalScore DESC" );
-        
+
         for ( $i = 0; $i < count( $scoreArray ); $i++ )
         {
             $returnArray[$i] = new eZQuizScore( $scoreArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
@@ -381,18 +381,18 @@ class eZQuizScore
     function highScore( &$game )
     {
         $db =& eZDB::globalDatabase();
-        
-        if ( get_class( $game ) == "ezquizgame" )
+
+        if ( is_a( $game, "eZQuizGame" ) )
             $gameID = $game->id();
-        
+
         $scoreArray = array();
-        
+
         $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score WHERE GameID='$gameID' AND FinishedGame=1 ORDER BY TotalScore DESC" );
-        
+
         $returnObject = new eZQuizScore( $scoreArray[0][$db->fieldName( "ID" )] );
         return $returnObject;
     }
-   
+
     /*!
       Returns all the scores found in the database for one game.
 
@@ -401,13 +401,13 @@ class eZQuizScore
     function getAllByGame( &$game, $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $scoreArray = array();
 
-        if ( get_class( $game ) == "ezquizgame" )
+        if ( is_a( $game, "eZQuizGame" ) )
             $gameID = $game->id();
-        
+
         $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score
                           WHERE GameID='$gameID' AND FinishedGame=1 ORDER BY TotalScore DESC",
                           array( "Offset" => $offset, "Limit" => $limit ) );
@@ -416,28 +416,28 @@ class eZQuizScore
         {
             $returnArray[$i] = new eZQuizScore( $scoreArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
- 
+
     /*!
       Returns the number of players of one game.
     */
     function countAllByGame( &$game )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $scoreArray = array();
 
-        if ( get_class( $game ) == "ezquizgame" )
+        if ( is_a( $game, "eZQuizGame" ) )
             $gameID = $game->id();
-        
+
         $db->array_query( $scoreArray, "SELECT count(ID) as Count FROM eZQuiz_Score
                           WHERE GameID='$gameID' AND FinishedGame=1" );
-        
+
         $ret = $scoreArray[0][$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
 
@@ -449,22 +449,22 @@ class eZQuizScore
     function getAllByUser( &$user, $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $scoreArray = array();
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $userID = $user->id();
-        
+
         $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score
                           WHERE UserID='$userID' AND FinishedGame=1 ORDER BY TotalScore DESC",
                           array( "Limit" => $limit, "Offset" => $offset ) );
-        
+
         for ( $i = 0; $i < count( $scoreArray ); $i++ )
         {
             $returnArray[$i] = new eZQuizScore( $scoreArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
@@ -474,15 +474,15 @@ class eZQuizScore
     function countAllByUser( &$user )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $scoreArray = array();
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $userID = $user->id();
-        
+
         $db->array_query( $scoreArray, "SELECT count(ID) AS Count FROM eZQuiz_Score
                           WHERE UserID='$userID' AND FinishedGame=1" );
-        
+
         $ret = $scoreArray[0][$db->fieldName( "Count" )];
 
         return $ret;
@@ -499,9 +499,9 @@ class eZQuizScore
         $returnArray = array();
         $scoreArray = array();
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $userID = $user->id();
-        
+
         if ( $latestOnly == true )
         {
             $db->array_query( $scoreArray, "SELECT Score.ID FROM eZQuiz_Score AS Score, eZQuiz_Game AS Game
@@ -518,7 +518,7 @@ class eZQuizScore
         {
             $returnArray[$i] = new eZQuizScore( $scoreArray[$i][$db->fieldName( "ID" )] );
         }
-        
+
         return $returnArray;
     }
 
@@ -531,9 +531,9 @@ class eZQuizScore
         $now = eZDateTime::timeStamp( true );
         $scoreArray = array();
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
             $userID = $user->id();
-        
+
         if ( $latestOnly == true )
         {
             $db->array_query( $scoreArray, "SELECT count(Score.ID) AS Count FROM eZQuiz_Score AS Score, eZQuiz_Game AS Game
@@ -545,7 +545,7 @@ class eZQuizScore
                         WHERE UserID='$userID' AND FinishedGame=0" );
         }
         $ret = $scoreArray[0][$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
 

@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezperson.php 8022 2001-10-23 13:31:24Z jhe $
 //
 // Definition of eZPerson class
@@ -42,7 +42,7 @@ class eZPerson
 {
     /*!
       Constructs a new eZPerson object.
-      
+
       If $id is set, the object's values are fetched from the
       database.
     */
@@ -54,9 +54,9 @@ class eZPerson
             $this->get( $this->ID );
         }
     }
-  
+
     /*!
-      Stores a person to the database. 
+      Stores a person to the database.
     */
     function store()
     {
@@ -127,7 +127,7 @@ class eZPerson
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( !$id )
             $id = $this->ID;
 
@@ -149,7 +149,7 @@ class eZPerson
                 $res[] = $db->query( "DELETE FROM eZAddress_Address WHERE ID='$addressDictID'" );
             }
             $res[] = $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$id'" );
-           
+
             // Delete phone numbers.
 
             $db->array_query( $phone_array, "SELECT eZContact_PersonPhoneDict.PhoneID AS 'DID'
@@ -204,7 +204,7 @@ class eZPerson
             $db->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
             if ( count( $person_array ) > 1 )
             {
-                die( "Feil: Flere personer med samme ID funnet i database, dette skal ikke være mulig. " );
+                die( "Feil: Flere personer med samme ID funnet i database, dette skal ikke vï¿½re mulig. " );
             }
             else if ( count( $person_array ) == 1 )
             {
@@ -226,7 +226,7 @@ class eZPerson
     function getByUserID( $id )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $query = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID='$id'";
 
         $return_item = 0;
@@ -236,10 +236,10 @@ class eZPerson
         {
             $return_item = new eZPerson( $personItem[ $db->fieldName( "PersonID" ) ], false );
         }
-        
+
         return $return_item;
     }
-    
+
     function getAllCount( $search_types = "", $cond = "all" )
     {
         $db =& eZDB::globalDatabase();
@@ -313,7 +313,7 @@ class eZPerson
                     ON A.ID=Dict.PersonID
                     WHERE $cond_text (" .
                     $query->buildQuery() .
-                    ") 
+                    ")
                     GROUP BY A.ID
                     ORDER BY A.LastName, A.FirstName";
             $db->array_query( $persons, $qry );
@@ -398,12 +398,12 @@ class eZPerson
                     ON A.ID=Dict.PersonID
                     WHERE $cond_text (" .
                     $query->buildQuery() .
-                    ") 
+                    ")
                     GROUP BY A.ID
                     ORDER BY A.LastName, A.FirstName";
             $db->array_query( $person_array, $qry, $limit_array );
         }
-        
+
         $return_array = array();
         foreach ( $person_array as $personItem )
         {
@@ -420,7 +420,7 @@ class eZPerson
         $db =& eZDB::globalDatabase();
         $person_array = 0;
         $return_array = array();
-        
+
         $query = $db->escapeString( strtolower( $query ) );
 
         $queryString = "SELECT PersonID FROM eZContact_PersonIndex
@@ -428,14 +428,14 @@ class eZPerson
                         GROUP BY PersonID;";
 
         $db->array_query( $person_array, $queryString );
-    
+
         foreach ( $person_array as $personItem )
         {
             $return_array[] = new eZPerson( $personItem[$db->fieldName( "PersonID" )] );
         }
         return $return_array;
     }
-    
+
     /*!
       Returns the address that belong to this eZPerson object.
     */
@@ -470,9 +470,9 @@ class eZPerson
     function addAddress( $address )
     {
         $ret = false;
-       
+
         $db =& eZDB::globalDatabase();
-        if ( get_class( $address ) == "ezaddress" )
+        if ( is_a( $address, "eZAddress" ) )
         {
             $addressID = $address->id();
 
@@ -547,9 +547,9 @@ class eZPerson
     function addPhone( $phone )
     {
         $ret = false;
-       
+
         $db =& eZDB::globalDatabase();
-        if ( get_class( $phone ) == "ezphone" )
+        if ( is_a( $phone, "eZPhone" ) )
         {
             $phoneID = $phone->id();
 
@@ -753,15 +753,15 @@ class eZPerson
     function addOnline( $online )
     {
         $ret = false;
-       
+
         $db =& eZDB::globalDatabase();
 
-        if ( get_class( $online ) == "ezonline" )
+        if ( is_a( $online, "eZOnline" ) )
         {
             $onlineID = $online->id();
 
             $checkQuery = "SELECT PersonID FROM eZContact_PersonOnlineDict WHERE OnlineID='$onlineID'";
-            
+
             $db->array_query( $online_array, $checkQuery );
             $count = count( $online_array );
 
@@ -811,18 +811,18 @@ class eZPerson
     function addUser( $user )
     {
         $ret = false;
-        
+
         $db =& eZDB::globalDatabase();
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $userID = $user->id();
-            
+
             $checkQuery = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID=$userID";
             $db->array_query( $user_array, $checkQuery );
-            
+
             $count = count( $user_array );
-            
+
             if ( $count == 0 )
             {
                 $db->begin();
@@ -884,7 +884,7 @@ class eZPerson
     {
         unset( $this->BirthDate );
     }
-  
+
     /*!
       Returns the ID of the person.
     */
@@ -892,7 +892,7 @@ class eZPerson
     {
         return $this->ID;
     }
-  
+
     /*!
       Returns the first name and the last name of the person.
     */
@@ -913,7 +913,7 @@ class eZPerson
       Returns the last name of the person.
     */
     function lastName()
-    {    
+    {
         return $this->LastName;
     }
 
@@ -970,7 +970,7 @@ class eZPerson
             $id = $this->ID;
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $res[] = $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE PersonID='$id'" );
 
         if ( is_numeric( $value )  )
@@ -1049,7 +1049,7 @@ class eZPerson
     var $ID;
     var $FirstName;
     var $LastName;
-    var $BirthDate;  
+    var $BirthDate;
     var $ContactType;
     var $Comment;
 };

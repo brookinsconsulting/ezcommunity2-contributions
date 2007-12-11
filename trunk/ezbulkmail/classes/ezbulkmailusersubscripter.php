@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbulkmailusersubscripter.php 8074 2001-10-29 15:54:16Z fh $
 //
 // eZBulkMailUserSubscription class
@@ -53,7 +53,7 @@ class eZBulkMailUserSubscripter
 
     function setUser( $user )
     {
-        if ( get_class ( $user ) == "ezuser" )
+        if ( is_a( $user, "eZUser" ) )
         {
             $this->User = $user;
         }
@@ -94,7 +94,7 @@ class eZBulkMailUserSubscripter
      */
     function subscribe( $categoryID )
     {
-        if( get_class( $categoryID ) == "ezbulkmailcategory" )
+        if( is_a( $categoryID, "eZBulkMailCategory" ) )
             $categoryID = $categoryID->id();
 
         $userID = $this->User->id();
@@ -134,7 +134,7 @@ class eZBulkMailUserSubscripter
     {
         $db =& eZDB::globalDatabase();
         $userID = $this->User->id();
-        if( get_class( $category ) == "ezbulkmailcategory" )
+        if( is_a( $category, "eZBulkMailCategory" ) )
         {
             $categoryID = $category->id();
             $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE UserID='$userID' AND CategoryID='$categoryID'" );
@@ -151,13 +151,13 @@ class eZBulkMailUserSubscripter
     function eMail()
     {
         $ret_val = "unknown";
-        if( get_class( $this->User ) == "ezuser" )
+        if( is_a( $this->User, "eZUser" ) )
         {
             $ret_val = $this->User->eMail();
         }
         return $ret_val;
     }
-    
+
     /*!
       Unsubscribes this user from the given category. If the supplied argument is true, the user is unsubscibed from all categories.
      */
@@ -167,7 +167,7 @@ class eZBulkMailUserSubscripter
         $db->begin();
         $db->lock( "eZBulkMail_UserCategorySettings" );
         $userID = $this->User->id();
-        
+
         $res[] = $db->query( "DELETE FROM eZBulkMail_UserCategorySettings WHERE CategoryID='$category'" );
         $nextID = $db->nextID( "eZBulkMail_UserCategorySettings", "ID" );
         $res[] = $db->query( "INSERT INTO  eZBulkMail_UserCategorySettings ( ID, CategoryID, UserID, Delay ) VALUES ( '$nextID','$category','$userID','$delay' )" );

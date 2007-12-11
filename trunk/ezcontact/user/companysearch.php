@@ -94,7 +94,7 @@ $companyArray = array();
 if ( $Action == "search" )
 {
     $companyArray = $company->search( $SearchText );
-    
+
     $count = count( $companyArray );
     if ( $count > 0 )
     {
@@ -114,7 +114,7 @@ if ( $results == true )
         $t->parse( "company_stats_header", "company_stats_header_tpl" );
     $t->set_var( "company_stats_item", "" );
 
-    
+
     $t->set_var( "company_consultation_button", "" );
     $t->set_var( "company_edit_button", "" );
     $t->set_var( "company_delete_button", "" );
@@ -163,11 +163,11 @@ if ( $results == true )
 
         unSet( $logoObj );
         $logoObj = $companyArray[$i]->logoImage();
-        
-        if ( get_class( $logoObj ) == "ezimage" )
+
+        if ( is_a( $logoObj, "eZImage" ) )
         {
             $variationObj = $logoObj->requestImageVariation( 150, 150 );
-            
+
             $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
             $image = new eZImage( $variationObj->imageID() );
             $t->set_var( "image_alt", $image->caption() );
@@ -179,9 +179,9 @@ if ( $results == true )
             $t->set_var( "image_view", "" );
             $t->parse( "no_image", "no_image_tpl" );
         }
-        
+
         $t->set_var( "no_companies", "" );
-        
+
         if ( ( $i % 2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
@@ -193,12 +193,12 @@ if ( $results == true )
         $t->set_var( "item_view_path", "/contact/company/view" );
         $t->set_var( "item_delete_path", "/contact/company/delete" );
         $t->set_var( "item_edit_path", "/contact/company/edit" );
-        
+
         $t->set_var( "result_category", "" );
         $t->parse( "company_item", "company_item_tpl", true );
-        
+
     }
-    
+
     if ( $count > 0 )
     {
         $t->parse( "companies_table", "companies_table_tpl" );
