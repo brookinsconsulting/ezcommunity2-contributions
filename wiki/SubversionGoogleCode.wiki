@@ -1,0 +1,29 @@
+#labels Phase-Deploy,Featured
+Instructions on accessing the source code using subversion repositories on code.google.com.
+
+Subversion Services
+
+    * [http://code.google.com/p/ezcommunity2/source/list http://code.google.com/p/ezcommunity2/source/list]
+    * [http://code.google.com/p/ezcommunity2/source/browse http://code.google.com/p/ezcommunity2/source/browse]
+    * [http://code.google.com/p/ezcommunity2/source/checkout http://code.google.com/p/ezcommunity2/source/checkout]
+
+Repositories
+
+    * [https://ezcommunity2.googlecode.com/svn https://ezcommunity2.googlecode.com/svn]
+    * [https://ezcommunity2.googlecode.com/svn/trunk https://ezcommunity2.googlecode.com/svn/trunk]
+
+Checking out the source code
+
+Here is an example command to checkout the source code
+
+svn co http://svn.ezcommunity.net/src/ezcommunity/trunk /web/pro/ezpublish
+
+Command-Line Access
+
+Use this command to anonymously check out the latest project source code:
+
+# Non-members may check out a read-only working copy anonymously over HTTP.
+svn checkout http://ezcommunity2.googlecode.com/svn/trunk /web/pro/ezpublish
+
+# or
+svn checkout http://ezcommunity2.googlecode.com/svn/trunk ezcommunity2-read-only
