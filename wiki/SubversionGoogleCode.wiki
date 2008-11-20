@@ -14,11 +14,7 @@ Repositories
 
 Checking out the source code
 
-Here is an example command to checkout the source code
-{{{
-svn co http://svn.ezcommunity.net/src/ezcommunity/trunk /web/pro/ezpublish
-}}}
-Command-Line Access
+Here is an example command to checkout the source code using command line access.
 
 Use this command to anonymously check out the latest project source code:
 
