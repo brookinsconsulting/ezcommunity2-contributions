@@ -1,65 +1,64 @@
-KeyFeatures   
+== eZ Community 2 Key Features ==
 
-eZ Community 2 Key Features
-
-eZ Community 2
+==== eZ Community 2 ====
 
 An open source content management system (CMS). eZ Community can be used as a platform for building powerful internet solutions, ranging from e-commerce, portals, websites and intranets. You will get several advantages and benefits when using eZ Community. eZ Community was made to give non-technical users a possibility to produce professional websites. Users have chosen eZ Community because it has made their day easier.
 
-Key Features
+=== Key Features ===
 
-Easy to use
 
-eZ Community is built with the users in mind. Way to many developers of content management systems forget the users when designing and programming their systems. eZ Community is developed together with the users and we continually improve the interface from feedback from the users. All the functions and modules are a result of testing and feedback from the users. eZ Community is: easy access - easy update - easy publish.
+==== Easy to use ====
 
-Access anywhere
+eZ Community is built with the users in mind. Way to many developers of content management systems forget the users when designing and programming their systems. eZ Community is developed together with the users and we continually improve the interface from feedback from the users. All the functions and modules are a result of testing and feedback from the users. eZ Community is: easy access - easy update - easy publish. 
 
-As long as you have a computer with access to the Internet and access to your site through a username and a password you can work with eZ Community from your office or your sofa. That way you can edit your site as quickly as you wish. Work whenever and whereever you prefer.
-Non technical usage
+==== Access anywhere ====
 
-The people doing the day to day work with eZ Community powered websites are ordinary people without any special knowledge regarding operating systems, web servers, design and setup. You need no knowledge besides writing.
+As long as you have a computer with access to the Internet and access to your site through a username and a password you can work with eZ Community from your office or your sofa. That way you can edit your site as quickly as you wish. Work whenever and whereever you prefer. 
 
-Time
+==== Non technical usage ====
 
-Time is very expensive. You will get time benefits in more than one way when you choose eZ Community. It is quick to install (needs some technical skills and hardware which eZ systems can help with) and ready to go in minutes. If you want eZ systems or their official partners to migrate your current site or develop a completely new site we can do that in 4-8 weeks depending on the size of the site. The third time benefit, and perhaps the most important, is the time it takes to edit and make changes on your site through the admin interface. Here we are talking seconds.
+The people doing the day to day work with eZ Community powered websites are ordinary people without any special knowledge regarding operating systems, web servers, design and setup. You need no knowledge besides writing. 
 
-Modules
+==== Time ====
 
-In the time of writing eZ Community has 26 different modules. The two most used modules are the Article and the Trade modules. With these you can write and edit your articles and add or edit your products that you have in your shop. Other useful modules can be: Link generator, Address, URL translator, Poll, Bulkmail and Forums.
+Time is very expensive. You will get time benefits in more than one way when you choose eZ Community. It is quick to install (needs some technical skills and hardware which eZ systems can help with) and ready to go in minutes. If you want eZ systems or their official partners to migrate your current site or develop a completely new site we can do that in 4-8 weeks depending on the size of the site. The third time benefit, and perhaps the most important, is the time it takes to edit and make changes on your site through the admin interface. Here we are talking seconds. 
 
-Easy and logical admin interface
+==== Modules ====
 
-By using the different modules in the admin interface you will soon understand and appriciate how the interface is designed. You have easy access to the modules and editing and adding is very easy and logical. No technical experience is needed and you will find the services where you expect to find them.
+In the time of writing eZ Community has 26 different modules. The two most used modules are the Article and the Trade modules. With these you can write and edit your articles and add or edit your products that you have in your shop. Other useful modules can be: Link generator, Address, URL translator, Poll, Bulkmail and Forums. 
 
-Price and licence
+==== Easy and logical admin interface ====
 
-eZ Community is dual licenced, between GPL (meaning open source and free) and the eZ Community professional licence (meaning you can utilize the powerful source code of eZ Community in making your own commercial software). Therefore you can download the code for free if you follow the rules of the GPL licence or you can buy a CD with the software, support and documentation from our shop.
+By using the different modules in the admin interface you will soon understand and appriciate how the interface is designed. You have easy access to the modules and editing and adding is very easy and logical. No technical experience is needed and you will find the services where you expect to find them. 
 
-Ongoing Support
+==== Price and licence ====
 
-To guarantee our customers a long-term satisfaction eZ systems provides different support types. We understand that some users need more help and support than others. Therefore we have support covering from the basic and standard questions to more advanced implementation questions that take more time. In our shop you can buy the support type you need.
+eZ Community is dual licenced, between GPL (meaning open source and free) and the eZ Community professional licence (meaning you can utilize the powerful source code of eZ Community in making your own commercial software). Therefore you can download the code for free if you follow the rules of the GPL licence or you can buy a CD with the software, support and documentation from our shop. 
 
-Multiple user access
+==== Ongoing Support ====
 
-eZ Community is used by both large and small organizations ranging from one to many thousand users. An example can be a newspaper with its different journalists, or a large corporation with all its employees using an intranet. eZ Community is perfect for these and more uses. You can assign different groups writing and reading access. Hence a journalist can write his article and send it to his editor for approval. For instance the editor is the only person in the newspaper that can publish the article.
+To guarantee our customers a long-term satisfaction eZ systems provides different support types. We understand that some users need more help and support than others. Therefore we have support covering from the basic and standard questions to more advanced implementation questions that take more time. In our shop you can buy the support type you need. 
 
-Reduced costs and Increased efficiency
+==== Multiple user access ====
 
-Content Management, the ability to create and manage a professional Web site, has become a critical success factor for many companies. A companys key success drivers; driving revenue, enhancing image and attracting prospective customers and employees takes money and time. And time costs money. Therefore you can, by using eZ Community, save time on ineffective work methods and use it for more important issues.
+eZ Community is used by both large and small organizations ranging from one to many thousand users. An example can be a newspaper with its different journalists, or a large corporation with all its employees using an intranet. eZ Community is perfect for these and more uses. You can assign different groups writing and reading access. Hence a journalist can write his article and send it to his editor for approval. For instance the editor is the only person in the newspaper that can publish the article. 
 
-Scalability
+==== Reduced costs and Increased efficiency ====
 
-eZ Community can be adjusted to the needs and demands of the different customers and users. Some users need much more finess and modules on their site while the majority only need some of the modules. It is up to you when it comes to deciding what modules you need to satisfy your readers and users. eZ Community is very scalable and can be used at websites with a few dynamic pages to internet newspapers with several hundred thousand articles, to webshops with several hundred thousand products.
+Content Management, the ability to create and manage a professional Web site, has become a critical success factor for many companies. A companys key success drivers; driving revenue, enhancing image and attracting prospective customers and employees takes money and time. And time costs money. Therefore you can, by using eZ Community, save time on ineffective work methods and use it for more important issues. 
 
-Performance
+==== Scalability ====
 
-The developers of eZ Community are experienced in tuning and deploying enterprice internet solutions running eZ Community to get the a very high performance. eZ Community is designed with performance in mind, both for load and speed.
+eZ Community can be adjusted to the needs and demands of the different customers and users. Some users need much more finess and modules on their site while the majority only need some of the modules. It is up to you when it comes to deciding what modules you need to satisfy your readers and users. eZ Community is very scalable and can be used at websites with a few dynamic pages to internet newspapers with several hundred thousand articles, to webshops with several hundred thousand products. 
 
-Flexibility and easy development
+==== Performance ====
 
-eZ Community is built for today and for the future. It can adjust easily to your changes and you can add new modules as soon as they are developed by eZ systems or by yourself. eZ Community seperates Layout, Code, Content and Language. You can redesign or implement a new design or templates without worrying about the content changing.
+The developers of eZ Community are experienced in tuning and deploying enterprice internet solutions running eZ Community to get the a very high performance. eZ Community is designed with performance in mind, both for load and speed. 
 
-No client installation is needed
+==== Flexibility and easy development ====
 
-If you wish you can let the developers of eZ Community or the official eZ partners do the installation for you. We can help with everything from functional consulting and design to technical and implemental support. In this case all you need is your personal computer with a connection to the Internet to work easily with eZ Community. 
+eZ Community is built for today and for the future. It can adjust easily to your changes and you can add new modules as soon as they are developed by eZ systems or by yourself. eZ Community seperates Layout, Code, Content and Language. You can redesign or implement a new design or templates without worrying about the content changing. 
 
+==== No client installation is needed ====
+
+If you wish you can let the developers of eZ Community or the official eZ partners do the installation for you. We can help with everything from functional consulting and design to technical and implemental support. In this case all you need is your personal computer with a connection to the Internet to work easily with eZ Community.

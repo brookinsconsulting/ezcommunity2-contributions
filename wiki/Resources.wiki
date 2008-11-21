@@ -1,9 +1,5 @@
-Resources   
+#summary Additional source code packages and resources
 
-Additional source code packages and resources
+= Resources =
 
-Resources
-
-berlios.de, eZ Community Project Forge 
-
-http://developer.berlios.de/projects/ezcommunity
+* [http://developer.berlios.de/projects/ezcommunity berlios.de, eZ Community Project Forge]

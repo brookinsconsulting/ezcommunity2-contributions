@@ -1,15 +1,15 @@
-CodingStandard   
-
-Coding standard
+== Coding standard ==
 
 We've released the coding standard for eZ Community. For those of you who want to contribute with the development of eZ Community this is the way you must format your code.
 
-The document describes how the PHP code should be formatted, naming conventions and things like that. You can download it here:
+The document describes how the PHP code should be formatted, naming conventions and things like that. You can download it here: 
 
-eZ Community 2 Coding Standard : php_codingstandard.pdf Size: 163.94 KB
+* eZ Community 2 Coding Standard : [http://ezcommunity.net/filemanager/download/44/php_codingstandard.pdf php_codingstandard.pdf] Size: 163.94 KB 
 
-eZ publish 3 Coding Standard : ez_coding_standards_v3.pdf
+* eZ publish 3 Coding Standard : [http://ezcommunity.net/filemanager/download/47/ez_coding_standards_v3.pdf ez_coding_standards_v3.pdf]
 
-eZ Community Coding Standards
+* eZ Community [http://ezcommunity.net/filemanager/list/25/ Coding Standards]
 
-References: eZ publish 2 coding standard eZ publish 3 coding standard 
+References: 
+* [http://web.archive.org/web/20020826204438/developer.ez.no/article/articleview/103/1/1/ eZ publish 2 coding standard]
+* [http://ez.no/ez_publish/documentation/development/standards/php eZ publish 3 coding standard]

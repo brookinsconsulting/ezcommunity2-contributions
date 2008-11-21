@@ -1,19 +1,20 @@
-Subversion   
+#summary Instructions on accessing the source code using subversion repositories.
+#labels Phase-Deploy,Featured
 
-Instructions on accessing the source code using subversion repositories.
+= Subversion Services =
 
-Subversion Services
+  * [http://svn.ezcommunity.net/ svn.ezcommunity.net]
+  * [http://svn.web.ezcommunity.net/ svn.web.ezcommunity.net]
 
-    * svn.ezcommunity.net
-    * svn.web.ezcommunity.net 
+= Repositories =
 
-Repositories
+  * [http://svn.ezcommunity.net/src/ezcommunity http://svn.ezcommunity.net/src/ezcommunity]
+  * [http://svn.ezcommunity.net/src/ezcommunity-contributions http://svn.ezcommunity.net/src/ezcommunity-contributions]
 
-    * http://svn.ezcommunity.net/src/ezcommunity
-    * http://svn.ezcommunity.net/src/ezcommunity-contributions 
-
-Checking out the source code
+= Checking out the source code =
 
 Here is an example command to checkout the source code
 
+{{{
 svn co http://svn.ezcommunity.net/src/ezcommunity/trunk /web/pro/ezpublish
+}}}
