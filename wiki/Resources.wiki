@@ -1,0 +1,9 @@
+Resources   
+
+Additional source code packages and resources
+
+Resources
+
+berlios.de, eZ Community Project Forge 
+
+http://developer.berlios.de/projects/ezcommunity

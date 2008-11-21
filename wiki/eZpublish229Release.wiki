@@ -1,0 +1,46 @@
+eZpublish229Release   
+
+eZ publish 2.2.9 release
+
+Author: eZCommunity.net :: Administrator
+
+This is believed and expected to be the last release of the eZ publish 2.2 Series.
+
+eZ Systems has hinted since the gradually smaller change sets between the last 4 releases that new functionality was not going to happen, choosing to release only bug fixes which improved stability and reliability.
+
+For those hoping for the eventual release of the heavily hinted eZ publish 2.2.10 (perhaps on the 1 year anniversary of the release of 2.2.9). I say don't hold your breath, If you have a bug, the fix you create will be faster than theirs. Go self sufficiency!
+eZ publish 2.2.9 release
+
+(Monday 04 August 2003 10:53:03 am), contributed by Sergiy Pushchin
+
+eZ systems are happy to announce that the latest update of the eZ publish 2.2 series has been released today. eZ publish 2.2.9 is a release with updates on security and bug fixes to name some.As a service for all the people around the world that use the eZ publish 2.2 series eZ systems will continue to update this system, even if eZ publish 3 is released. eZ publish 2.2 has made eZ publish one of the most popular open content management systems on the web today.
+eZ publish 2.2.9 downloads
+Distributions
+
+    * eZ publish 2.2.9 (tar.gz) 
+
+Windows Installers
+
+    * Installer for Windows 95/98/ME for eZ publish 2.2.9
+    * Installer for Windows 2000/NT/XP for eZ publish 2.2.9 
+
+RedHat? Installers
+
+    * Installer for RedHat 7.x for eZ publish 2.2.9 
+
+    * Installer for RedHat 8 for eZ publish 2.2.9
+    * Installer for RedHat 9 for eZ publish 2.2.9 
+
+FreeBSD Installers
+
+    * Installer for FreeBSD for eZ publish 2.2.9 
+
+eZ publish changelog
+
+eZ publish changelog:
+Changes from 2.2.8 to 2.2.9 Fixed security bug with variable check in eZ article. Fixed security bug with session variable. Fixed bug with permission when non logged in users had write access to the image catalogue. Fixed bug with section override templates in article view and article list. Fixed typo in section edit. Fixed cache bugs in headline view. Fixed bug with addresses. Improved MySQL 4 support in eZ trade. Added missing SQL queries for permission system. Removed link to Entry/exit pages report in eZ stats. Fixed security bug with variable check in messagebody in eZ forum. Fixed security bug with variable check in search in eZ filemanager. improved class eZHit in eZ link. Fixed bug with eZAd view count in frame.php and frontpage. Added optimalisation on classes in eZ imagecatalogue. Fixed bug for non virtualhost in articletool.php Done optimalisation to eZ stats. Fixed bug with read permissions on products in eZ trade. Fixed bug with customtag in table. Fixed bug with invalid content type header sendt with RSS article list. Fixed bug with Article title not beeing escaped when added as link item to a product (productedit). Fixed bug with pending mail en eZ article. Added more Content-Types for files, when sending mail with eZ mail.
+User comments
+
+'''Online Editor'''''by Bj you will have diffs..Log in or create a developeraccount to comment on articles. 
+
+    References: eZ Systems 

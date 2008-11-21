@@ -1,0 +1,19 @@
+Subversion   
+
+Instructions on accessing the source code using subversion repositories.
+
+Subversion Services
+
+    * svn.ezcommunity.net
+    * svn.web.ezcommunity.net 
+
+Repositories
+
+    * http://svn.ezcommunity.net/src/ezcommunity
+    * http://svn.ezcommunity.net/src/ezcommunity-contributions 
+
+Checking out the source code
+
+Here is an example command to checkout the source code
+
+svn co http://svn.ezcommunity.net/src/ezcommunity/trunk /web/pro/ezpublish

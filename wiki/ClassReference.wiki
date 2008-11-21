@@ -1,0 +1,17 @@
+ClassReference   
+
+Class Reference
+
+We have just updated and published the eZ Community 2 Class Reference.
+
+The class reference is a cross indexed documentation package generated from the eZ Community source tree.
+
+You can now find the eZ Community 2 class reference documentation here at http://ezcommunity.net/docs.
+
+Click here to get the class reference list. If you want to see the classes sorted by module you will find that here.
+
+If you're looking for documentation on a particluar class, e.g. the eZLog class, you will find that by typing /docs/view/ezlog.
+
+The information are aimed at programmers and integrators. This is very handy if you're in active development in the eZ publish project.
+
+Any suggestions for improvements are welcome. 
