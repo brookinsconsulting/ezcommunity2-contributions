@@ -1,5 +1,5 @@
 #summary Instructions on accessing the source code using subversion repositories.
-#labels Phase-Deploy,Featured
+#labels Phase-Deploy
 
 = Subversion Services =
 
