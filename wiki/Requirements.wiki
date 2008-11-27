@@ -1,8 +1,17 @@
+#labels Featured
 == eZ Community 2 Requirements ==
 
 Author: eZCommunity.net :: Administrator
 
-eZ Community 2, web application hosting requirements. eZ Community 2 runs very well on a shared host (typical hosting packages sold today). [[BR]][[BR]] eZ Community 2 uses the following technologies [http://www.php.net/ PHP scripting language], SQL database (MySQL, PostgreSQL, Informix), [http://www.w3.org/TR/xhtml1/ XHTML version 1.0], [http://www.xml-rpc.com/ XML-RPC] remote procedure calls. [[BR]][[BR]] eZ Community 2 can run on any Unix like system which supports the above technologies (GNU/Linux, BSD), also supported are Win32 systems: (Windows XP, NT, 98 and 2000).
+eZ Community 2, web application hosting requirements. eZ Community 2 runs very well on a shared host (typical hosting packages sold today).  
+
+ 
+
+ eZ Community 2 uses the following technologies [http://www.php.net/ PHP scripting language], SQL database (MySQL, PostgreSQL, Informix), [http://www.w3.org/TR/xhtml1/ XHTML version 1.0], [http://www.xml-rpc.com/ XML-RPC] remote procedure calls.  
+
+ 
+
+ eZ Community 2 can run on any Unix like system which supports the above technologies (GNU/Linux, BSD), also supported are Win32 systems: (Windows XP, NT, 98 and 2000).
 
 == eZ Community requirements ==
 
@@ -10,7 +19,17 @@ eZ Community 2, web application hosting requirements. eZ Community 2 runs very w
 
 ==== Technologies used ====
 
-[http://www.php.net/ PHP scripting language][[BR]]SQL database, currently supported are: MySQL version 3.23 or later, and PostgreSQL version 7.1.3 or later. [[BR]][http://www.w3.org/TR/xhtml1/ XHTML version 1.0][[BR]][http://www.w3.org/TR/2000/REC-xml-20001006 XML 1.0][[BR]][http://www.xml-rpc.com/ XML-RPC] remote procedure calls[[BR]]
+[http://www.php.net/ PHP scripting language] 
+
+SQL database, currently supported are: MySQL version 3.23 or later, and PostgreSQL version 7.1.3 or later.  
+
+[http://www.w3.org/TR/xhtml1/ XHTML version 1.0] 
+
+[http://www.w3.org/TR/2000/REC-xml-20001006 XML 1.0] 
+
+[http://www.xml-rpc.com/ XML-RPC] remote procedure calls 
+
+
 
 ==== Supported operating systems ====
 
@@ -22,10 +41,23 @@ Macintosh: Mac OS X
 
 ==== Required software ====
 
-A database, currently supported are: [http://www.mysql.com/ MySQL] version 3.23 or later, and [http://www.postgresql.org/ PostgreSQL] version 7.1.3 or later. [[BR]][http://www.imagemagick.org/ ImageMagick] latest version. [[BR]][http://httpd.apache.org/ Apache] latest 1.3 release, or another web server with PHP support. [[BR]][http://modules.apache.org/ Apache modules] , at least mod_php. [[BR]][http://www.php.net/ PHP] version 4.0.4pl1 or later. Version 4.0.6 is recommended.[[BR]]
+A database, currently supported are: [http://www.mysql.com/ MySQL] version 3.23 or later, and [http://www.postgresql.org/ PostgreSQL] version 7.1.3 or later.  
+
+[http://www.imagemagick.org/ ImageMagick] latest version. 
+
+[http://httpd.apache.org/ Apache] latest 1.3 release, or another web server with PHP support.  
+
+[http://modules.apache.org/ Apache modules] , at least mod_php.  
+
+[http://www.php.net/ PHP] version 4.0.4pl1 or later. Version 4.0.6 is recommended. 
+
+
 
 ==== Required hardware ====
 
-There are no built-in requirements. The hardware needed to run an eZ Community site depends on several factors, such as the average number of users, the size of the templates (including graphics) and which eZ Community modules are in use. [[BR]]The installation requires about 50 MB on your harddisc. We do recommend some minimum values; at least 500 MHz CPU and 250 MB of RAM.[[BR]]
+There are no built-in requirements. The hardware needed to run an eZ Community site depends on several factors, such as the average number of users, the size of the templates (including graphics) and which eZ Community modules are in use.  
 
-[[BR]] Reference: [http://ez.no/ez_publish/cms/ez_publish_2_2/requirements eZ systems]
+The installation requires about 50 MB on your harddisc. We do recommend some minimum values; at least 500 MHz CPU and 250 MB of RAM. 
+
+
+Reference: [http://ez.no/ez_publish/cms/ez_publish_2_2/requirements eZ systems]
