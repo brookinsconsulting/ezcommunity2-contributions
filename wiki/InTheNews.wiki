@@ -7,4 +7,24 @@
 
   * [http://www.sitepoint.com/article/version-2-version-3/ http://www.sitepoint.com/article/version-2-version-3/]
 
+  * [http://www.cmsinfo.org/ez-publish/ez-publish-2-2-3.html http://www.cmsinfo.org/ez-publish/ez-publish-2-2-3.html]
+
+
+=References=
+
   * [http://newsvac.org/feed/9395?theme=print http://newsvac.org/feed/9395?theme=print]
+
+  * [http://doc22.ez.no/article/archive/2/index.html http://doc22.ez.no/article/archive/2/index.html]
+
+  * [http://twowheelsburning.com/article/articleview/117/1/7/ http://twowheelsburning.com/article/articleview/117/1/7/]
+
+==Comments==
+
+  * [http://www.programmingtalk.com/archive/index.php/t-%20%3C/t-1231.html http://www.programmingtalk.com/archive/index.php/t-%20%3C/t-1231.html]
+
+  * [http://www.onlamp.com/pub/a/php/2004/07/08/front_controller.html?page=2#id_53467 http://www.onlamp.com/pub/a/php/2004/07/08/front_controller.html?page=2#id_53467]
+
+==Related Software==
+  * [http://www.softsift.com/200702/ez-calendar-21.html http://www.softsift.com/200702/ez-calendar-21.html]
+
+  * http://freshmeat.net/projects/ezcalendar/
