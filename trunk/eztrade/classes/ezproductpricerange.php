@@ -1,4 +1,4 @@
-<?
+<?php
 // 
 // $Id: ezproductpricerange.php 7848 2001-10-15 11:32:18Z ce $
 //

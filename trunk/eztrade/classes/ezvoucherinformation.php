@@ -1,4 +1,4 @@
-<?
+<?php
 //
 // $Id: ezvoucherinformation.php 7943 2001-10-17 13:14:39Z ce $
 //
