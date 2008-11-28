@@ -370,7 +370,7 @@ class eZNews
     */
     function setOriginalPublishingDate( $time)
     {
-        if ( is_a( $time, "eZDateTime" )
+        if ( is_a( $time, "eZDateTime" ) )
         {
             $this->OriginalPublishingDate = $time->timeStamp();
 
