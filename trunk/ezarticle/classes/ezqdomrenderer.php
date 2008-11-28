@@ -228,8 +228,9 @@ class eZQDomrenderer
 
         // get custom <br> command, needed for other renderes than html
         $this->BrOverride = $this->Template->get_user_variable( "articletags_tpl",  "br" );
-		if ( $this->BrOverride="" )
-			$this->BrOverride = true;
+        if ( $this->BrOverride=="" ) {
+            $this->BrOverride = true;
+        }
 
         $this->Article =& $article;
     }
