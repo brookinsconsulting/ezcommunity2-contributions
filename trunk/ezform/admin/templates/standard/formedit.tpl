@@ -118,7 +118,7 @@
     
 <!-- BEGIN item_move_down_tpl -->
 	<td width="1%" class="{td_class}">
-        <a href="{www_dir}{index}/form/form/down/{form_id}/?ElementID={element_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="{intl-move_up}" /></a>
+        <a href="{www_dir}{index}/form/form/down/{form_id}/?ElementID={element_id}"><img src="{www_dir}/design/admin/images/move-down.gif" height="12" width="12" border="0" alt="{intl-move_up}" /></a>
     </td>
 <!-- END item_move_down_tpl -->
 
@@ -135,7 +135,7 @@
 
 <!-- BEGIN item_move_up_tpl -->
 	<td width="1%" class="{td_class}">
-        <a href="{www_dir}{index}/form/form/up/{form_id}/?ElementID={element_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="{intl-move_down}" /></a>
+        <a href="{www_dir}{index}/form/form/up/{form_id}/?ElementID={element_id}"><img src="{www_dir}/design/admin/images/move-up.gif" height="12" width="12" border="0" alt="{intl-move_down}" /></a>
     </td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
