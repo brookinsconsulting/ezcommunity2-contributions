@@ -137,17 +137,17 @@ else
 
 	<!-- Left menu start -->
 
-	<?
+	<?php
     $CategoryID=0;
 	include( "ezarticle/user/menubox.php" );
 	?>
 
-	<?
+	<?php
     $CategoryID = 0;
     include( "eztrade/user/categorylist.php" );
 	?>
 
-    <?
+    <?php
 	include( "eztrade/user/hotdealslist.php" );
 	?>
 
@@ -175,7 +175,7 @@ else
 
 	<!-- Main content view start -->
 
-     <?
+     <?php
      print( $MainContents );
      ?>
 
@@ -190,19 +190,19 @@ else
 
 
    	<!-- Right menu start -->
-    <?
+    <?php 
 	include( "ezuser/user/userbox.php" );
 	?>
 
-	<?
+	<?php 
 	include( "eztrade/user/menubox.php" );
 	?>
 
-    <?
+    <?php 
 	include( "eztrade/user/smallcart.php" );
 	?>
 
-    <?
+    <?php 
     include( "ezsearch/user/menubox.php" );
     ?>
 
@@ -226,7 +226,7 @@ else
   </tr>
 </table>
 
-<?
+<?php
 // Store the statistics with a callback image.
 // It will be no overhead with this method for storing stats
 //

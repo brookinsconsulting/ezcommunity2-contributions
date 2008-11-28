@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="en">
 
 <head>
-<title><?
+<title><?php
 if ( isset( $Title ) )
     print( $Title );
 else
 	print( "eZ publish" );
     ?></title>
 
-<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/design/intranet/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php print $GlobalSiteIni->WWWDir; ?>/design/intranet/style.css" />
 
 <script language="JavaScript1.2">
 <!--//
@@ -89,7 +89,7 @@ else
 
 </head>
 
-<body bgcolor="#669966" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
+<body bgcolor="#669966" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<?php print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<?php print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<?php print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<?php print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -98,30 +98,30 @@ else
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td class="tdmini" width="99%">
-          <a href="<? print $GlobalSiteIni->WWWDir; ?>/"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /></a><br />
+          <a href="<?php print $GlobalSiteIni->WWWDir; ?>/"><img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/<?php print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /></a><br />
 	</td>
 	<td class="tdmini" width="1%" align="right">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/<?php print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-standard/">Standard</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="<?php print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-standard/">Standard</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-mrk.gif" height="20" width="20" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/<?php print ($GlobalSiteDesign); ?>/images/tab-unmrk-mrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="<?php print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/<?php print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-trade/">Trade</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="<?php print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-trade/">Trade</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/<?php print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-news/">News</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="<?php print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-news/">News</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/<?php print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
 </tr>
 </table>
@@ -136,44 +136,44 @@ else
 
    	<!-- Left menu start -->
 
-	<?
+	<?php
     $CategoryID=0;
 	include( "ezarticle/user/menubox.php" );
 	?>
 
-    <?
+    <?php
     include( "ezbug/user/menubox.php" );
     ?>
 
-	<?
+	<?php
 	include( "ezcontact/user/menubox.php" );
 	?>
 
-   <?
+   <?php
    include( "ezforum/user/menubox.php" );
    include( "ezforum/user/latestmessages.php" );
    ?>
 
-    <?
+    <?php
    include( "ezfilemanager/user/menubox.php" );
    ?>
 
-    <?
+    <?php
    include( "ezimagecatalogue/user/menubox.php" );
    ?>
 
    	<!-- Left menu end -->
 
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 	</td>
 
-	<td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+	<td width="1%" bgcolor="#ffffff"><img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
     <td width="96%" bgcolor="#ffffff">
 
     <!-- Banner start -->
 <!--
     <div align="center">
-        <?
+        <?php
 
 //        $CategoryID = $ini->read_var( "eZAdMain", "DefaultCategory" );
 //        $Limit = 1;
@@ -185,57 +185,57 @@ else
     <!-- Banner end -->
 
 	<!-- Main content view start -->
-     <?
+     <?php
      print( $MainContents );
      ?>
 	<!-- Main content view end -->
 
 	<br />
     </td>
-   	<td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+   	<td width="1%" bgcolor="#ffffff"><img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
 
 	<td width="1%" bgcolor="#f4fbf4">
 
    	<!-- Right menu start -->
 
-    <?
+    <?php
     include( "ezuser/user/userbox.php" );
     ?>
 
-    <?
+    <?php
     include( "ezmail/user/menubox.php" );
     ?>
 
-    <?
+    <?php
     include( "eztodo/user/menubox.php" );
     ?>
 
-    <?
+    <?php
     include( "eztodo/user/todomenulist.php" );
     ?>
 
-    <?
+    <?php
     include( "ezcalendar/user/menubox.php" );
     ?>
 
-	<?
+	<?php
 	include( "ezcontact/user/consultationlist.php" );
 	?>
-    <?
+    <?php
     include( "ezsearch/user/menubox.php" );
     ?>
 
    	<!-- Right menu end -->
 
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="20" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 
    <div align="center"><a class="path" href="?PrintableVersion=enabled">Printable page</a></div><br />
 
 	<div align="center">
-	<a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/logo/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+	<a target="_blank" href="http://ez.no/developer"><img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/base/images/logo/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
 	</div>
 
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
+	<img src="<?php print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
 	</td>
   </tr>
@@ -244,7 +244,7 @@ else
 	</td>
   </tr>
 </table>
-<?
+<?php
 // Store the statistics with a callback image.
 // It will be no overhead with this method for storing stats
 //
