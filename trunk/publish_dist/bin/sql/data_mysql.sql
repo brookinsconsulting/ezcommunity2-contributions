@@ -1531,7 +1531,7 @@ INSERT INTO eZTrade_Type VALUES (1,'Size','');
 
 INSERT INTO eZTrade_VATType VALUES (1,'Standard',16,1003305495);
 
-INSERT INTO eZUser_User VALUES (2,'customer','709de31a71b8c5fd','nospam@example.com','Customer','Test',0,'',0,0);
+INSERT INTO eZUser_User VALUES (2,null,'customer','709de31a71b8c5fd','nospam@example.com','Customer','Test',0,'',0,0);
 
 INSERT INTO eZUser_UserGroupDefinition VALUES (1,2,2);
 
