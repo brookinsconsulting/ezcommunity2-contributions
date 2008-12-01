@@ -226,13 +226,13 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             //EP -------------------------------------------------------------
 
             // Time publishing
-            if ( checkdate( $StartMonth, $StartDay, $StartYear ) )
+            if ( checkdate( (int)$StartMonth, (int)$StartDay, (int)$StartYear ) )
             {
                 $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
                 $article->setStartDate( &$startDate );
             }
 
-            if ( checkdate( $StopMonth, $StopDay, $StopYear ) )
+            if ( checkdate( (int)$StopMonth, (int)$StopDay, (int)$StopYear ) )
             {
                 $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
                 $article->setStopDate( &$stopDate );
