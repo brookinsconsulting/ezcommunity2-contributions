@@ -124,6 +124,7 @@ class eZFormRenderer
     function &renderElement( $element )
     {
         $output = "";
+        $target = '';
         if ( is_a( $element, "eZFormElement" ) )
         {
             $subItems =& $element->fixedValues();
@@ -139,6 +140,7 @@ class eZFormRenderer
 
             $elementName = "eZFormElement_" . $element->id();
 
+            $elementValue = '';
             global $$elementName;
             if ( isSet( $$elementName ) )
                 $elementValue = $$elementName;
@@ -188,6 +190,7 @@ class eZFormRenderer
     {
         $output = "";
         $render = false;
+        $target = '';
 
         if ( is_a( $form, "eZForm" ) )
         {

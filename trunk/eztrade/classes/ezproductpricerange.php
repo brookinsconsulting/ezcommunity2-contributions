@@ -144,7 +144,7 @@ class eZProductPriceRange
                               0, 1 );
             if( count( $productArray ) == 1 )
             {
-                $this->fill( &$productArray[0] );
+                $this->fill( $productArray[0] );
                 $ret = true;
             }
             elseif( count( $productArray ) == 1 )
@@ -158,13 +158,13 @@ class eZProductPriceRange
     /*!
       Fills in information to the object taken from the array.
     */
-    function fill( &$productArray )
+    function fill( $productArray )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID =& $productArray[$db->fieldName( "ID" )];
-        $this->Min =& $productArray[$db->fieldName( "Min" )];
-        $this->Max =& $productArray[$db->fieldName( "Max" )];
-        $this->ProductID =& $productArray[$db->fieldName( "ProductID" )];
+        $this->ID = $productArray[$db->fieldName( "ID" )];
+        $this->Min = $productArray[$db->fieldName( "Min" )];
+        $this->Max = $productArray[$db->fieldName( "Max" )];
+        $this->ProductID = $productArray[$db->fieldName( "ProductID" )];
     }
 
     /*!

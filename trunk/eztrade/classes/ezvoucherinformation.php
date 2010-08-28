@@ -173,7 +173,7 @@ class eZVoucherInformation
                               0, 1 );
             if( count( $quizArray ) == 1 )
             {
-                $this->fill( &$quizArray[0] );
+                $this->fill( $quizArray[0] );
                 $ret = true;
             }
             elseif( count( $quizArray ) == 1 )
@@ -187,21 +187,21 @@ class eZVoucherInformation
     /*!
       Fills in information to the object taken from the array.
     */
-    function fill( &$value )
+    function fill( $value )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID =& $value[$db->fieldName( "ID" )];
-        $this->Description =& $value[$db->fieldName( "Description" )];
-        $this->OnlineID =& $value[$db->fieldName( "OnlineID" )];
-        $this->AddressID =& $value[$db->fieldName( "AddressID" )];
-        $this->VoucherID =& $value[$db->fieldName( "VoucherID" )];
-        $this->PreOrderID =& $value[$db->fieldName( "PreOrderID" )];
-        $this->MailMethod =& $value[$db->fieldName( "MailMethod" )];
-        $this->FromOnlineID =& $value[$db->fieldName( "FromOnlineID" )];
-        $this->FromName =& $value[$db->fieldName( "FromName" )];
-        $this->ToName =& $value[$db->fieldName( "ToName" )];
-        $this->Price =& $value[$db->fieldName( "Price" )];
-        $this->ProductID =& $value[$db->fieldName( "ProductID" )];
+        $this->ID = $value[$db->fieldName( "ID" )];
+        $this->Description = $value[$db->fieldName( "Description" )];
+        $this->OnlineID = $value[$db->fieldName( "OnlineID" )];
+        $this->AddressID = $value[$db->fieldName( "AddressID" )];
+        $this->VoucherID = $value[$db->fieldName( "VoucherID" )];
+        $this->PreOrderID = $value[$db->fieldName( "PreOrderID" )];
+        $this->MailMethod = $value[$db->fieldName( "MailMethod" )];
+        $this->FromOnlineID = $value[$db->fieldName( "FromOnlineID" )];
+        $this->FromName = $value[$db->fieldName( "FromName" )];
+        $this->ToName = $value[$db->fieldName( "ToName" )];
+        $this->Price = $value[$db->fieldName( "Price" )];
+        $this->ProductID = $value[$db->fieldName( "ProductID" )];
     }
 
     /*!

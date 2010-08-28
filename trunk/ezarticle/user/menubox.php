@@ -71,10 +71,11 @@ if ( !(function_exists('createArticleMenu') ) )
 
             $t->set_var( "section_id", $GlobalSectionID );
 
-            // Lister alle kategorier
-
+            // List all categories
             if ( !isset( $CategoryID  ) )
                 $CategoryID = 0;
+                
+            $target = '';
 
             $articleCategory = new eZArticleCategory( $CategoryID );
 

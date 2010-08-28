@@ -162,7 +162,7 @@ class eZForm
                               0, 1 );
             if ( count( $formArray ) == 1 )
             {
-                $this->fill( &$formArray[0] );
+                $this->fill( $formArray[0] );
                 $ret = true;
             }
             elseif ( count( $formArray ) != 1 )
@@ -179,15 +179,15 @@ class eZForm
     function fill( &$formArray )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID =& $formArray[$db->fieldName( "ID" )];
-        $this->Name =& $formArray[$db->fieldName( "Name" )];
-        $this->CC =& $formArray[$db->fieldName( "CC" )];
-        $this->Receiver =& $formArray[$db->fieldName( "Receiver" )];
-        $this->CompletedPage =& $formArray[$db->fieldName( "CompletedPage" )];
-        $this->InstructionPage =& $formArray[$db->fieldName( "InstructionPage" )];
-        $this->Counter =& $formArray[$db->fieldName( "Counter" )];
-        $this->SendAsUser =& $formArray[$db->fieldName( "SendAsUser" )];
-        $this->Sender =& $formArray[$db->fieldName( "Sender" )];
+        $this->ID = $formArray[$db->fieldName( "ID" )];
+        $this->Name = $formArray[$db->fieldName( "Name" )];
+        $this->CC = $formArray[$db->fieldName( "CC" )];
+        $this->Receiver = $formArray[$db->fieldName( "Receiver" )];
+        $this->CompletedPage = $formArray[$db->fieldName( "CompletedPage" )];
+        $this->InstructionPage = $formArray[$db->fieldName( "InstructionPage" )];
+        $this->Counter = $formArray[$db->fieldName( "Counter" )];
+        $this->SendAsUser = $formArray[$db->fieldName( "SendAsUser" )];
+        $this->Sender = $formArray[$db->fieldName( "Sender" )];
     }
 
     /*!
@@ -251,7 +251,7 @@ class eZForm
     /*!
       Returns the name of the object.
     */
-    function &name()
+    function name()
     {
         return htmlspecialchars( $this->Name );
     }
@@ -259,15 +259,15 @@ class eZForm
     /*!
       Returns the receiver of the object.
     */
-    function &receiver()
+    function receiver()
     {
         return htmlspecialchars( $this->Receiver );
     }
 
     /*!
       Returns the cc of the object.
-    */
-    function &cc()
+  ion 
+    function cc()
     {
         return htmlspecialchars( $this->CC );
     }
@@ -275,7 +275,7 @@ class eZForm
     /*!
       Returns the completed page of the object.
     */
-    function &completedPage()
+    function completedPage()
     {
         return $this->CompletedPage;
     }
@@ -283,7 +283,7 @@ class eZForm
     /*!
       Returns the instruction page of the object.
     */
-    function &instructionPage()
+    function instructionPage()
     {
         return $this->InstructionPage;
     }
@@ -291,7 +291,7 @@ class eZForm
     /*!
       Returns the counter of the object.
     */
-    function &counter()
+    function counter()
     {
         return $this->Counter;
     }
@@ -299,7 +299,7 @@ class eZForm
     /*!
       Returns the sender of the object.
     */
-    function &sender()
+    function sender()
     {
         return $this->Sender;
     }
@@ -307,7 +307,7 @@ class eZForm
      /*!
       Returns true if one should use the user name of the user for the sending.
     */
-    function &isSendAsUser()
+    function isSendAsUser()
     {
         $ret = true;
 
@@ -394,7 +394,7 @@ class eZForm
       Returns every form element of this form.
       The form elements are returned as an array of eZFormElement objects.
     */
-    function &formElements()
+    function formElements()
     {
         $returnArray = array();
         $formArray = array();
@@ -414,7 +414,7 @@ class eZForm
       Returns a specific form element based on the placement (number)
       The element is returned as eZFormElement objects.
     */
-    function &formElement( $placement )
+    function formElement( $placement )
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $element, "SELECT ElementID FROM eZForm_FormElementDict WHERE
@@ -430,7 +430,7 @@ class eZForm
     /*!
       Returns the number of form elements to this form
     */
-    function &numberOfElements()
+    function numberOfElements()
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -444,7 +444,7 @@ class eZForm
     /*!
       Returns the number of types which exists
     */
-    function &numberOfTypes()
+    function numberOfTypes()
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -606,5 +606,3 @@ class eZForm
     var $SendAsUser;
     var $Sender;
 }
-
-?>

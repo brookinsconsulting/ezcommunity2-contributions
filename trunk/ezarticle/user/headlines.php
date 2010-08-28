@@ -43,6 +43,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
             global $CategoryID;
             global $Limit;
 
+            $ImageDir = '';
 
             include_once( "ezarticle/classes/ezarticlecategory.php" );
             include_once( "ezarticle/classes/ezarticle.php" );

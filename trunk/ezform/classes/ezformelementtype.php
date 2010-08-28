@@ -67,8 +67,8 @@ class eZFormElementType
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        $name =& $db->escapeString( $this->Name );
-        $description =& $db->escapeString( $this->Description );
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
         
         if ( empty( $this->ID ) )
         {
@@ -131,7 +131,7 @@ class eZFormElementType
                               
             if( count( $formArray ) == 1 )
             {
-                $this->fill( &$formArray[0] );
+                $this->fill( $formArray[0] );
                 $ret = true;
             }
             elseif( count( $formArray ) != 1 )
@@ -148,9 +148,9 @@ class eZFormElementType
     function fill( &$formArray )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID =& $formArray[$db->fieldName( "ID" )];
-        $this->Name =& $formArray[$db->fieldName( "Name" )];
-        $this->Description =& $formArray[$db->fieldName( "Description" )];
+        $this->ID = $formArray[$db->fieldName( "ID" )];
+        $this->Name = $formArray[$db->fieldName( "Name" )];
+        $this->Description = $formArray[$db->fieldName( "Description" )];
     }
 
     /*!
@@ -158,7 +158,7 @@ class eZFormElementType
 
       The objects are returned as an array of eZFormElementType objects.
     */
-    function &getAll( $offset=0, $limit=20 )
+    function getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
         
@@ -214,7 +214,7 @@ class eZFormElementType
     /*!
       Returns the name of the object.
     */
-    function &name()
+    function name()
     {
         return htmlspecialchars( $this->Name );
     }
@@ -222,7 +222,7 @@ class eZFormElementType
     /*!
       Returns the description of the object.
     */
-    function &description()
+    function description()
     {
         return htmlspecialchars( $this->Description );
     }
@@ -250,7 +250,7 @@ class eZFormElementType
       Returns every element which this form element type is associated with.
       The form elements are returned as an array of eZFormElement objects.
     */
-    function &formElements()
+    function formElements()
     {
         $returnArray = array();
         $formArray = array();
@@ -268,7 +268,7 @@ class eZFormElementType
     /*!
       Returns the number of types which exists
     */
-    function &numberOfTypes()
+    function numberOfTypes()
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -284,5 +284,3 @@ class eZFormElementType
     var $Name;
     var $Description;
 }
-
-?>

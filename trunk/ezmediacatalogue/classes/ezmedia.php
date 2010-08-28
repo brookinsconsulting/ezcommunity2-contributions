@@ -215,7 +215,7 @@ class eZMedia
     function &getByOriginalFileName( $id = "" )
     {
         $db =& eZDB::globalDatabase();
-        $ret =& new eZMedia();
+        $ret = new eZMedia();
         if ( $id != "" )
         {
             $db->array_query( $media_array, "SELECT * FROM eZMediaCatalogue_Media WHERE OriginalFileName='$id'" );
@@ -225,7 +225,7 @@ class eZMedia
                 {
                     print( "<br /><b>Error: Media's with the same  was found in the database. This shouldn't happen.</b><br />" );
                 }
-                $ret =& new eZMedia( $media_array[0][$db->fieldName("ID")] );
+                $ret = new eZMedia( $media_array[0][$db->fieldName("ID")] );
             }
         }
         return $ret;
@@ -431,24 +431,20 @@ class eZMedia
       If $relative is set to true the path is returned relative.
       Absolute is default.
     */
-    function &filePath( $relative=false )
+    function filePath( $relative=false )
     {
-       $relPath = "ezmediacatalogue/catalogue/" . $this->FileName;
+       $path = "ezmediacatalogue/catalogue/" . $this->FileName;
 
-       if ( $relative == true )
+       if ( !$relative )
        {
-           $path = "ezmediacatalogue/catalogue/" . $this->FileName;
-       }
-       else
-       {
-           $path = "/ezmediacatalogue/catalogue/" . $this->FileName;
+           $path = '/' . $path;
        }
 
-       if ( !eZFile::file_exists( $relPath ) or !is_file( $relPath ) )
+       if ( !eZFile::file_exists( $path ) or !is_file( $path ) )
        {
            $path = "ezmediacatalogue/admin/medias/failedmedia.gif";
            if ( !$relative )
-               $path = "/$path";
+               $path = '/' . $path;
        }
        return $path;
     }

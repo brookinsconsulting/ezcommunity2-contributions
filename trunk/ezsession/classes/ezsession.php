@@ -114,7 +114,7 @@ class eZSession
 
 //         eZHTTPTool::setCookie ( "eZSessionCookie", $this->Hash );
 
-        $remoteIP = $GLOBALS["REMOTE_ADDR"];
+        $remoteIP = $_SERVER["REMOTE_ADDR"];
 
         // escape hash
         $hash = $db->escapeString( $this->Hash );
@@ -222,7 +222,7 @@ class eZSession
         {
             $db =& eZDB::globalDatabase();
             $ret = false;
-
+			
             // prefer cookie
             if ( isset( $GLOBALS["eZSessionCookie"] ) )
             {
@@ -236,14 +236,12 @@ class eZSession
                 }
             }
 
-            // escape the hash value.
-            $hash = $db->escapeString( $hash );
-
 			if ( isset( $hash ) )
 			{
-				$db->array_query( $session_array, "SELECT *
-										  FROM eZSession_Session
-										  WHERE Hash='$hash'" );
+	            // escape the hash value.
+	            $hash = $db->escapeString( $hash );
+
+				$db->array_query( $session_array, "SELECT * FROM eZSession_Session WHERE Hash='$hash'" );
 
 				if ( count( $session_array ) == 1 )
 				{

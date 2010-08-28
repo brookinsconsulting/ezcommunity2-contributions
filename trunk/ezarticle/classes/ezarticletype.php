@@ -133,7 +133,7 @@ class eZArticleType
     {
         $db =& eZDB::globalDatabase();
 
-        $type =& new eZArticleType();
+        $type = new eZArticleType();
 
         $name = $db->escapeString( $name );
 
@@ -143,7 +143,7 @@ class eZArticleType
 
             if ( count( $type_array ) == 1 )
             {
-                $type =& new eZArticleType($type_array[0][$db->fieldName("ID")]);
+                $type = new eZArticleType($type_array[0][$db->fieldName("ID")]);
             }
         }
 

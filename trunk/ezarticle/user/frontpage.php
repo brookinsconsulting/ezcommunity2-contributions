@@ -38,6 +38,7 @@ include_once( "ezad/classes/ezadcategory.php" );
 include_once( "ezad/classes/ezad.php" );
 
 //$CategoryID = $url_array[3];
+global $CategoryID;
 
 $ini =& INIFile::globalINI();
 
@@ -124,6 +125,7 @@ $t->set_var( "section_id", $GlobalSectionID );
 $rows =& $sectionObject->frontPageRows();
 
 $page_element = array();
+$offsetArticleArray = array();
 
 $tempArticle = new eZArticle();
 $articleList = array();
@@ -133,16 +135,20 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
     foreach ( $rows as $row )
     {
         $value = $row->settingByID( $row->settingID() );
+        if (!isset($offsetArticleArray[$row->categoryID()])) 
+        {
+        	$offsetArticleArray[$row->categoryID()] = 0;
+        }
         if ( $value == "2column" )
         {
             $category = new eZArticleCategory( $row->categoryID() );
             if ( $category->id() == "0" )
             {
-                $articleList =& array_merge( $articleList, $tempArticle->articles( "time", false, $offsetArticleArray[$row->categoryID()], 2 ) );
+                $articleList = @array_merge( $articleList, $tempArticle->articles( "time", false, $offsetArticleArray[$row->categoryID()], 2 ) );
             }
             else
             {
-                $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
+                $articleList = @array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
             }
 
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 2;
@@ -152,11 +158,11 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
             $category = new eZArticleCategory( $row->categoryID() );
             if ( $category->id() == "0" )
             {
-                $articleList =& array_merge( $articleList, $tempArticle->articles( "time", false, $offsetArticleArray[$row->categoryID()], 1 ) );
+                $articleList = @array_merge( $articleList, $tempArticle->articles( "time", false, $offsetArticleArray[$row->categoryID()], 1 ) );
             }
             else
             {
-                $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
+                $articleList = @array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
             }
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 1;
         }
@@ -196,7 +202,7 @@ if ( $adCount > 0 )
     $adList =& $adCategory->ads( "count", false, 0, $adCount );
 }
 
-$t->set_var( "category_current_id", $CategoryID );
+$t->set_var( "category_current_id", $CategoryID);
 
 $locale = new eZLocale( $Language );
 $i=0;

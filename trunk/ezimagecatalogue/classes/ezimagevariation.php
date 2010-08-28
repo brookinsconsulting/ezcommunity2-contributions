@@ -168,7 +168,7 @@ class eZImageVariation
 
       False is returned if the variation could not be created.
     */
-    function &requestVariation( &$image, &$variationGroup, $convertToGray = false, $allow_error = false )
+    function requestVariation( &$image, &$variationGroup, $convertToGray = false, $allow_error = false )
     {
         $ret = false;
 
@@ -246,7 +246,7 @@ class eZImageVariation
     /*!
       Returns the ImageID
     */
-    function &imageID()
+    function imageID()
     {
        return $this->ImageID;
     }
@@ -254,7 +254,7 @@ class eZImageVariation
     /*!
       Returns the VariationGroupID
     */
-    function &variationGroupID()
+    function variationGroupID()
     {
        return $this->VariationGroupID;
     }
@@ -262,7 +262,7 @@ class eZImageVariation
     /*!
       Returns the variation path
     */
-    function &imagePath()
+    function imagePath()
     {
        return $this->ImagePath;
     }
@@ -270,7 +270,7 @@ class eZImageVariation
     /*!
       Returns the image width
     */
-    function &width()
+    function width()
     {
        return $this->Width;
     }
@@ -278,7 +278,7 @@ class eZImageVariation
     /*!
       Returns the image height
     */
-    function &height()
+    function height()
     {
        return $this->Height;
     }
@@ -286,7 +286,7 @@ class eZImageVariation
     /*!
       Returns the variations id
     */
-    function &id()
+    function id()
     {
         return $this->ID;
     }

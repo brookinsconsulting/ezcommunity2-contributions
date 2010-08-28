@@ -1159,7 +1159,7 @@ class eZMail
                                           ORDER BY Subject" );
         foreach ( $id_array as $id )
         {
-            $return_array[] =& new eZMail( $id[$db->fieldName( "ID" )] );
+            $return_array[] = new eZMail( $id[$db->fieldName( "ID" )] );
         }
         return $return_array;
     }

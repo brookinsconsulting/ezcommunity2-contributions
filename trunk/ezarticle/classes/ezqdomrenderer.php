@@ -562,7 +562,14 @@ class eZQDomrenderer
         {
             $articleImages = $this->Article->images();
             $articleID = $this->Article->id();
-
+			$imageHref = '';
+			$imageCaptionOverride = '';
+			$imageTarget = '';
+			$mapName = '';
+			if (!isset($GLOBALS["ViewMode"]))
+			{
+				$GLOBALS["ViewMode"] = '';
+			}
 
             $level = 1;
             if  ( count( $paragraph->attributes ) > 0 )
@@ -591,7 +598,6 @@ class eZQDomrenderer
                     case "href" :
                     {
                         $imageHref = $attr->children[0]->content;
-
                     }
                     break;
 
@@ -616,7 +622,6 @@ class eZQDomrenderer
                 if ( $imageArray["Placement"] == $imageID )
                     $image = $imageArray["Image"];
             }
-
 
             // check if it should link to original image
             if ( $imageHref == "originalimage" )
@@ -771,7 +776,7 @@ class eZQDomrenderer
                 $this->Template->set_var( "map_name", "usemap=\"#" . $mapName . "\"" );
                 $this->Template->set_var( "map_string", $mapString );
 
-                $this->Template->set_var( "referer_url", $GLOBALS["REQUEST_URI"] );
+                $this->Template->set_var( "referer_url", $_SERVER["REQUEST_URI"] );
 
                 if ( $hasMap == true )
                 {
@@ -1586,5 +1591,3 @@ class eZQDomrenderer
     // a counter for rollover.
     var $RollOverCount;
 }
-
-?>

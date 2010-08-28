@@ -372,7 +372,7 @@ class eZForum
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
+            $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
 
         return $ret;

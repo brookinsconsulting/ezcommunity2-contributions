@@ -134,8 +134,8 @@ class eZDB
     {
         $impl =& $GLOBALS["eZDB"];
 
-        $class =& strtolower( get_class( $impl ) );
-        if ( !preg_match( "/ez.*?db/", $class ) )
+        $class = strtolower( get_class( $impl ) );
+        if ( !preg_match( "/ez.+?db/", $class ) )
         {
             $ini =& INIFile::globalINI();
 

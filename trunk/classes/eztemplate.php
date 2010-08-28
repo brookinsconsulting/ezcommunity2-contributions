@@ -735,7 +735,7 @@ class eZTemplate
 
       Returns the value if found else false is returned.
     */
-    function &get_user_variable( $handle, $var )
+    function get_user_variable( $handle, $var )
     {
         $this->loadfile( $handle );
         preg_match( "#<!--\s+VAR\s+$var=(.*?)\s+-->#", $this->varvals[$handle], $matches );

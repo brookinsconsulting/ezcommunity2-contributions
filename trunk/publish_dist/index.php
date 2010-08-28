@@ -30,15 +30,15 @@ header( "Pragma: no-cache" );
 header( "X-Powered-By: eZ publish 2" );
 
 // Find out, where our files are.
-if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
+if ( preg_match( "/(.*\/)([^\/]+\.php)$/", $_SERVER['SCRIPT_FILENAME'], $regs ) )
 {
     $siteDir = $regs[1];
     $index = "/" . $regs[2];
 }
-elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
+elseif ( preg_match( "/(.*\/)([^\/]+\.php)/?/", $_SERVER['PHP_SELF'], $regs ) )
 {
     // Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
-    $siteDir = $DOCUMENT_ROOT . $regs[1];
+    $siteDir = $_SERVER['DOCUMENT_ROOT'] . $regs[1];
     $index = "/" . $regs[2];
 }
 else
@@ -64,33 +64,28 @@ else
     $includePath = $siteDir;
 ini_set( "include_path", $includePath );
 
+$wwwDir='';
 // Get the webdir.
-if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+if ( preg_match( "/(.*)\/([^\/]+\.php)$/", $_SERVER['SCRIPT_NAME'], $regs ) )
     $wwwDir = $regs[1];
 
 // Fallback... Finding the paths above failed, so $PHP_SELF is not set right.
 if ( $siteDir == "./" )
-     $PHP_SELF = $REQUEST_URI;
+     $_SERVER['PHP_SELF'] = $_SERVER['REQUEST_URI'];
 
 // Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
-if ( ! ereg( ".*index\.php.*", $PHP_SELF ) )
+if ( ! preg_match( "/.*index\.php.*/", $_SERVER['PHP_SELF'] ) )
     $index = "";
 else
 {
     // Get the right $REQUEST_URI, when using nVH setup.
-    // x
-
-    if ( ereg( "^$wwwDir$index(.+)", $PHP_SELF, $req ) )
-        $REQUEST_URI = $req[1];
-    else
-      // $REQUEST_URI = "/";
-      // kracker: changed from 2.2 to run on firebright vhost w/out index.php
-      $REQUEST_URI = $REQUEST_URI;
+    if ( preg_match( "/^$wwwDir$index(.+)/", $_SERVER['PHP_SELF'], $req ) )
+        $_SERVER['REQUEST_URI'] = $req[1];
 }
 
 // Remove url parameters
-ereg( "([^?]+)", $REQUEST_URI, $regs );
-$REQUEST_URI = $regs[1];
+preg_match( "/([^?]+)/", $_SERVER['REQUEST_URI'], $regs );
+$_SERVER['REQUEST_URI'] = $regs[1];
 
 
 $GLOBALS["DEBUG"] = false;
@@ -183,7 +178,7 @@ if ( isSet( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS[
     }
 }
 
-$url_array = explode( "/", $REQUEST_URI );
+$url_array = explode( "/", $_SERVER['REQUEST_URI'] );
 
 if ( ( $requireUserLogin == "disabled" ) ||
      ( ( $requireUserLogin == "enabled" ) && ( is_a( $user, "eZUser" ) ) && ( $user->id() != 0 ) ) )
@@ -197,24 +192,24 @@ if ( ( $requireUserLogin == "disabled" ) ||
     if ( in_array( $url_array[1], $urlTranslatorArray ) )
     {
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
-        $translatedURL = eZURLTranslator::translate( $REQUEST_URI );
+        $translatedURL = eZURLTranslator::translate( $_SERVER['REQUEST_URI'] );
         if ( $translatedURL )
         {
-            $REQUEST_URI = $translatedURL;
-            $url_array = explode( "/", $REQUEST_URI );
+            $_SERVER['REQUEST_URI'] = $translatedURL;
+            $url_array = explode( "/", $_SERVER['REQUEST_URI'] );
         }
     }
 
     // if uri == / show default page or article list
-    if ( $REQUEST_URI == "/" )
+    if ( $_SERVER['REQUEST_URI'] == "/" )
     {
         if ( $ini->read_var( "site", "DefaultPage" ) == "disabled" )
         {
-            $REQUEST_URI = "/article/archive/0/";
+            $_SERVER['REQUEST_URI'] = "/article/archive/0/";
         }
         else
         {
-            $REQUEST_URI = $ini->read_var( "site", "DefaultPage" );
+            $_SERVER['REQUEST_URI'] = $ini->read_var( "site", "DefaultPage" );
         }
 
         if ( $user )
@@ -222,20 +217,21 @@ if ( ( $requireUserLogin == "disabled" ) ||
             $mainGroup = $user->groupDefinition( true );
             if ( ( $mainGroup ) && $mainGroup->groupURL() )
             {
-                $REQUEST_URI = $mainGroup->groupURL();
+                $_SERVER['REQUEST_URI'] = $mainGroup->groupURL();
             }
         }
-        $url_array = explode( "/", $REQUEST_URI );
+        $url_array = explode( "/", $_SERVER['REQUEST_URI'] );
     }
 
     // Load the main contents and store in a variable
     $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
 
     // site cache check
-    $SiteCacheFile = "classes/cache/" . md5( $REQUEST_URI ) . ".php";
+    $SiteCacheFile = "classes/cache/" . md5( $_SERVER['REQUEST_URI'] ) . ".php";
     $SiteCache = $ini->read_var( "site", "SiteCache" );
 
-    if ( $REQUEST_METHOD == "POST" ||
+    //This is horrible!!
+    if ( $_SERVER['REQUEST_METHOD'] == "POST" ||
          $url_array[1] == "forum" ||
          $url_array[1] == "user" ||
          $url_array[1] == "error" ||
@@ -298,8 +294,8 @@ if ( ( $requireUserLogin == "disabled" ) ||
             }
             else if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
             {
-                $REQUEST_URI = $ini->read_var( "site", "DefaultPage" );
-                $url_array = explode( "/", $REQUEST_URI );
+                $_SERVER['REQUEST_URI'] = $ini->read_var( "site", "DefaultPage" );
+                $url_array = explode( "/", $_SERVER['REQUEST_URI'] );
                 $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
                 include( $content_page );
             }
@@ -342,9 +338,9 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
             include_once( "ezsitemanager/classes/ezsection.php" );
 
-            if ( is_numeric( $SectionIDOverride ) )
+            if ( isset($_REQUEST['SectionIDOverride']) && is_numeric( $_REQUEST['SectionIDOverride'] ) )
             {
-                $GlobalSectionID = $SectionIDOverride;
+                $GlobalSectionID = $_REQUEST['SectionIDOverride'];
             }
 
             // init the section
@@ -428,4 +424,3 @@ $db =& eZDB::globalDatabase();
 $db->close();
 
 ob_end_flush();
-?>

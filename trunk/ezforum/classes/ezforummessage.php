@@ -326,7 +326,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
+            $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
 
         return $ret;
@@ -635,7 +635,7 @@ class eZForumMessage
     */
     function &user()
     {
-       $owner =& new eZUser( $this->UserID );
+       $owner = new eZUser( $this->UserID );
 
        return $owner;
     }
@@ -820,7 +820,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
+            $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
 
         return $ret;
@@ -852,7 +852,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
+            $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
 
         return $ret;

@@ -327,7 +327,7 @@ class eZMySQLDB
     /*!
       Will escape a string so it's ready to be inserted in the database.
     */
-    function &escapeString( $str )
+    function escapeString( $str )
     {
         return mysql_escape_string( $str );
     }
@@ -336,7 +336,7 @@ class eZMySQLDB
       \static
       Will just return the field name.
     */
-    function &fieldName( $str )
+    function fieldName( $str )
     {
         return $str;
     }

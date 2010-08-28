@@ -260,7 +260,7 @@ class eZDateTime
     */
     function setMySQLDateTime( $value )
     {
-        if ( ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})", $value, $valueArray ) )
+        if ( preg_match( "/([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})/", $value, $valueArray ) )
         {
             $this->setYear( $valueArray[1] );
             $this->setMonth( $valueArray[2] );
@@ -280,7 +280,7 @@ class eZDateTime
     */
     function setMySQLTimeStamp( $value )
     {
-        if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})", $value, $valueArray ) )
+        if ( preg_match( "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/", $value, $valueArray ) )
         {
             $this->setYear( $valueArray[1] );
             $this->setMonth( $valueArray[2] );
@@ -300,9 +300,9 @@ class eZDateTime
     */
     function setTimeStamp( $value )
     {
-        $formattedTime =& date('YmdHis', $value );
+        $formattedTime = date('YmdHis', $value );
 
-        if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
+        if ( preg_match( "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/", $formattedTime, $valueArray ) )
         {
             $this->setYear( $valueArray[1] );
             $this->setMonth( $valueArray[2] );
@@ -449,4 +449,3 @@ class eZDateTime
     var $Time;
 
 }
-?>

@@ -169,7 +169,7 @@ class eZArticleAttribute
     {
         $db =& eZDB::globalDatabase();
 
-        $topic =& new eZArticleAttribute();
+        $topic = new eZArticleAttribute();
 
         $name = $db->escapeString( $name );
 
@@ -179,7 +179,7 @@ class eZArticleAttribute
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZArticleAttribute( $author_array[0][$db->fieldName("ID")] );
+                $topic = new eZArticleAttribute( $author_array[0][$db->fieldName("ID")] );
             }
         }
 

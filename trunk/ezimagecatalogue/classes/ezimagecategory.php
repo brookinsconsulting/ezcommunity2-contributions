@@ -156,7 +156,7 @@ class eZImageCategory
 
         foreach ( $author_array as $author )
         {
-            $topic[] =& new eZImageCategory( $author[$db->fieldName( "ID" )] );
+            $topic[] = new eZImageCategory( $author[$db->fieldName( "ID" )] );
         }
         return $topic;
     }
@@ -328,7 +328,7 @@ class eZImageCategory
     {
         $db =& eZDB::globalDatabase();
 
-        $topic =& new eZImageCategory();
+        $topic = new eZImageCategory();
 
         if ( $name != "" )
         {
@@ -336,7 +336,7 @@ class eZImageCategory
 
             if ( count( $author_array ) == 1 )
             {
-                $topic =& new eZImageCategory( $author_array[0][$db->fieldName( "ID" )] );
+                $topic = new eZImageCategory( $author_array[0][$db->fieldName( "ID" )] );
             }
         }
 

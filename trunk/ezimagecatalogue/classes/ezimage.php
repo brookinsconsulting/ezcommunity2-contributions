@@ -213,7 +213,7 @@ class eZImage
       \static
       Searches the database for images.
     */
-    function &search( &$queryText, $offset = 0, $limit = 30, $userID = -1 )
+    function search( &$queryText, $offset = 0, $limit = 30, $userID = -1 )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -261,7 +261,7 @@ class eZImage
       \static
       Searches the database for images.
     */
-    function &searchCount( $name, $literal = false )
+    function searchCount( $name, $literal = false )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -373,7 +373,7 @@ class eZImage
     function getByOriginalFileName( $id = "" )
     {
         $db =& eZDB::globalDatabase();
-        $ret =& new eZImage();
+        $ret = new eZImage();
         if ( $id != "" )
         {
             $db->array_query( $image_array, "SELECT * FROM eZImageCatalogue_Image WHERE OriginalFileName='$id'" );
@@ -383,7 +383,7 @@ class eZImage
                 {
                     print( "<br /><b>Error: Image's with the same  was found in the database. This shouldn't happen.</b><br />" );
                 }
-                $ret =& new eZImage( $image_array[0][$db->fieldName( "ID" )] );
+                $ret = new eZImage( $image_array[0][$db->fieldName( "ID" )] );
             }
         }
         return $ret;
@@ -476,7 +476,7 @@ class eZImage
 
       The images are returned as an array of eZImage objects.
      */
-    function &getUnassigned( $offset = -1, $limit = -1 )
+    function getUnassigned( $offset = -1, $limit = -1 )
     {
         $db =& eZDB::globalDatabase();
         if ( $offset > 0 || $limit > 0 )
@@ -500,7 +500,7 @@ class eZImage
     /*!
       Get the total count of all the unassigned images.
      */
-    function &countUnassigned()
+    function countUnassigned()
     {
         $db =& eZDB::globalDatabase();
 
@@ -672,7 +672,7 @@ class eZImage
     /*!
       Returns the name of the image.
     */
-    function &name( $html = true )
+    function name( $html = true )
     {
        if ( $html )
            return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Name ) );
@@ -683,7 +683,7 @@ class eZImage
     /*!
       Returns the caption of the image.
     */
-    function &caption( $html = true )
+    function caption( $html = true )
     {
        if ( $html )
            return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Caption ) );
@@ -694,7 +694,7 @@ class eZImage
     /*!
       Returns the description of the image.
     */
-    function &description( $html = true )
+    function description( $html = true )
     {
        if ( $html )
            return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Description ) );
@@ -705,7 +705,7 @@ class eZImage
     /*!
       Returns the filename of the image.
     */
-    function &fileName()
+    function fileName()
     {
         return $this->FileName;
     }
@@ -713,12 +713,12 @@ class eZImage
     /*!
       Returns the original file name of the image.
     */
-    function &originalFileName()
+    function originalFileName()
     {
         return $this->OriginalFileName;
     }
 
-    function &fileExists( $relative=false )
+    function fileExists( $relative=false )
     {
        if ( $relative == true )
        {
@@ -739,7 +739,7 @@ class eZImage
       If $relative is set to true the path is returned relative.
       Absolute is default.
     */
-    function &filePath( $relative = false )
+    function filePath( $relative = false )
     {
        $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
 
@@ -764,7 +764,7 @@ class eZImage
     /*!
       Same as filePath()
      */
-    function &imagePath( $relative=false )
+    function imagePath( $relative=false )
     {
         return $this->filePath( $relative );
     }
@@ -779,7 +779,7 @@ class eZImage
 
       False is returned if the original image does not exist.
     */
-    function &requestImageVariation( $width, $height, $convertToGray = false, $allow_error = false )
+    function requestImageVariation( $width, $height, $convertToGray = false, $allow_error = false )
     {
        $group = new eZImageVariationGroup();
        $variation = new eZImageVariation();
@@ -1061,7 +1061,7 @@ class eZImage
     /*!
       Returns the width of the image.
     */
-    function &width()
+    function width()
     {
         if ( eZFile::file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
         {
@@ -1075,7 +1075,7 @@ class eZImage
     /*!
       Returns the height of the image.
     */
-    function &height()
+    function height()
     {
         if ( eZFile::file_exists( $this->filePath( true ) ) and is_file( $this->filePath( true ) ) )
         {
@@ -1089,7 +1089,7 @@ class eZImage
     /*!
       Returns every variation to a image as a array of eZVariation objects.
     */
-    function &variations()
+    function variations()
     {
         $db =& eZDB::globalDatabase();
 
@@ -1101,7 +1101,7 @@ class eZImage
 
         foreach ( $variationArray as $variation )
         {
-            $returnArray[] =& new eZImageVariation( $variation[$db->fieldName("ID")] );
+            $returnArray[] = new eZImageVariation( $variation[$db->fieldName("ID")] );
         }
 
         return $returnArray;
@@ -1235,7 +1235,7 @@ class eZImage
     /*!
       Returns a random image from a category.
     */
-    function &randomImage( $categoryID=0 )
+    function randomImage( $categoryID=0 )
     {
         $db =& eZDB::globalDatabase();
 

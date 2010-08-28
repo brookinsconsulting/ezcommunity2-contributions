@@ -61,24 +61,21 @@ class eZTextTool
       The default is to use xhtml breaks, html breaks is used if the
       $xhtml variable is set to false.
     */
-    function &nl2br( $string, $xhtml=true )
+    function nl2br( $string, $xhtml=true )
     {
         if ( !is_bool( $xhtml ) )
         {
             return str_replace( "\n", "$xhtml \n", $string );
         }
         
-        if ( $xhtml == true )            
-            return ereg_replace( "\n", "<br />\n", $string );
-        else
-            return ereg_replace( "\n", "<br>\n", $string );
+        return nl2br($string, $xhtml);
     }    
 
     /*!
       \static
       This function will add a > at the beginning of each line.
     */
-    function &addPre( $string, $char=">" )
+    function addPre( $string, $char=">" )
     {
         $string =& wordwrap( $string, 60, "\n" );
         return preg_replace( "#^#m", "$char ", $string );
@@ -95,7 +92,7 @@ class eZTextTool
       span with class="$bigClass" given as argument.
       
     */
-    function &capitalize( $string, $bigClass="h1bigger" )
+    function capitalize( $string, $bigClass="h1bigger" )
     {
         $string = strtoupper( $string );
         
@@ -106,11 +103,11 @@ class eZTextTool
         
         $string = trim( $string2 );
         
-        $string = str_replace ("æ", "Æ", $string );        
-        $string = str_replace ("ø", "Ø", $string );
-        $string = str_replace ("å", "Å", $string );
+        $string = str_replace ("ï¿½", "ï¿½", $string );        
+        $string = str_replace ("ï¿½", "ï¿½", $string );
+        $string = str_replace ("ï¿½", "ï¿½", $string );
 
-        $string = preg_replace( "#(  |^)([a-zA-ZæøåÆØÅ] )#", "\\1<span class=\"$bigClass\">\\2</span>", $string );
+        $string = preg_replace( "#(  |^)([a-zA-Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½] )#", "\\1<span class=\"$bigClass\">\\2</span>", $string );
         
 //        $string = preg_replace( "#(  |^)([^ ])#", "\\1<span class=\"$bigClass\">\\2</span>", $string );
         
@@ -125,26 +122,16 @@ class eZTextTool
       the text "false" if false.
      */
 
-    function &boolText( $value )
+    function boolText( $value )
     {
-        if( $value == true )
-        {
-            $string = "true";
-        }
-        
-        if( $value == false )
-        {
-            $string = "false";
-        }
-        
-        return $string;
+    	return $value?'true':'false';
     }
 
     /*!
       Performs a normal htmlspecialchars with a striplashes afterwards,
       this is needed to avoid " and \ being slashed on web pages.
     */
-    function &htmlspecialchars( $string )
+    function htmlspecialchars( $string )
     {
         return stripslashes( htmlspecialchars( $string ) );
     }
@@ -153,9 +140,9 @@ class eZTextTool
       Fixup error made by htmlspecialchars, will convert for instance
       &amp;#8364; back to &#8364; (euro symbol)
     */
-    function &fixhtmlentities( $string )
+    function fixhtmlentities( $string )
     {
-        $string = ereg_replace( "&amp;#([0-9]+);", "&#\\1;", $string );
+        $string = preg_replace( "/&amp;#([0-9]+);/", "&#\\1;", $string );
         return $string;
     }
 
@@ -166,7 +153,7 @@ class eZTextTool
       
       You can also add a padding length, if you wish.
      */
-    function &lineSplit( $in, $len = 0, $size = 72 )
+    function lineSplit( $in, $len = 0, $size = 72 )
     {
         $tmp = "";
         $pad = str_pad( $tmp, $len, " ", STR_PAD_LEFT );
@@ -217,7 +204,7 @@ class eZTextTool
       $src = $tree["top"]["children"]["one"]["src"];
       which is quite easier than traversing an xml tree manually.
     */
-    function &parseXML( &$xml, $inline_children = false )
+    function parseXML( &$xml, $inline_children = false )
     {
         $msg = array();
         eZTextTool::parseXMLPart( $xml, $msg, $inline_children );
@@ -261,6 +248,3 @@ class eZTextTool
         }
     }
 }
-
-?>
-

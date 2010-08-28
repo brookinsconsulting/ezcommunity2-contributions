@@ -292,9 +292,9 @@ class eZLinkCategory
       \static
       Fetch out parent.
     */
-    function &getByParent( $value, $idOnly = false, $recursive = false )
+    function getByParent( $value, $idOnly = false, $recursive = false )
     {
-        if ( get_class ( $value ) )
+        if ( is_a( $value, 'eZLinkCategory' ) )
             $id = $value->id();
         else
             $id = $value;
@@ -517,7 +517,7 @@ class eZLinkCategory
    /*!
       Return the name of the link.
     */
-    function &name()
+    function name()
     {
         return htmlspecialchars( $this->Name );
     }
@@ -525,7 +525,7 @@ class eZLinkCategory
     /*!
       Return the name of the link.
     */
-    function &description()
+    function description()
     {
         return htmlspecialchars( $this->Description );
     }

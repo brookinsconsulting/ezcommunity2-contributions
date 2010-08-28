@@ -362,7 +362,7 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
 
-        $topic =& new eZArticle();
+        $topic = new eZArticle();
 
         $name = $db->escapeString( $name );
 
@@ -372,7 +372,7 @@ class eZArticle
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZArticle( $author_array[0] );
+                $topic = new eZArticle( $author_array[0] );
             }
         }
 
@@ -388,7 +388,7 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
 
-        $topic =& new eZArticle();
+        $topic = new eZArticle();
 
         $name = $db->escapeString( $name );
 
@@ -398,7 +398,7 @@ class eZArticle
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZArticle( $author_array[0] );
+                $topic = new eZArticle( $author_array[0] );
             }
         }
 
@@ -463,7 +463,7 @@ class eZArticle
     /*!
       Returns the article name / title.
     */
-    function &name( $asHTML = true )
+    function name( $asHTML = true )
     {
         if( $asHTML == true )
             return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Name ) );
@@ -473,7 +473,7 @@ class eZArticle
     /*!
       Returns the article import id.
     */
-    function &importID( )
+    function importID( )
     {
         return $this->ImportID;
     }
@@ -483,7 +483,7 @@ class eZArticle
 
       The contents is internally stored as XML.
     */
-    function &contents()
+    function contents()
     {
         $db =& eZDB::globalDatabase();
 
@@ -493,7 +493,7 @@ class eZArticle
     /*!
       Returns the author text contents.
     */
-    function &authorText( $asHTML = true )
+    function authorText( $asHTML = true )
     {
         $author = new eZAuthor( $this->ContentsWriterID );
 
@@ -505,7 +505,7 @@ class eZArticle
     /*!
       Returns the author email contents.
     */
-    function &authorEmail( $asHTML = true )
+    function authorEmail( $asHTML = true )
     {
         $author = new eZAuthor( $this->ContentsWriterID );
 
@@ -518,7 +518,7 @@ class eZArticle
     /*!
       Returns the link text.
     */
-    function &linkText( $asHTML = true )
+    function linkText( $asHTML = true )
     {
         if(  $asHTML )
             return eZTextTool::fixhtmlentities( htmlspecialchars( $this->LinkText ) );
@@ -528,7 +528,7 @@ class eZArticle
     /*!
       Returns the author as a eZUser object.
     */
-    function &author( $as_object = true )
+    function author( $as_object = true )
     {
         if( $as_object )
             $author = new eZUser( $this->AuthorID );
@@ -540,7 +540,7 @@ class eZArticle
     /*!
       Returns the number of pages in the article.
     */
-    function &pageCount()
+    function pageCount()
     {
         return substr_count( $this->Contents, "<page>" );
     }
@@ -550,7 +550,7 @@ class eZArticle
 
       The time is returned as a eZDateTime object.
     */
-    function &created()
+    function created()
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Created );
@@ -563,7 +563,7 @@ class eZArticle
 
       The time is returned as a eZDateTime object.
     */
-    function &modified()
+    function modified()
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Modified );
@@ -598,7 +598,7 @@ class eZArticle
 
       The time is returned as a eZDateTime object.
     */
-    function &published()
+    function published()
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Published );
@@ -626,7 +626,7 @@ class eZArticle
     /*!
       Returns the start date of the article.
     */
-    function &startDate( $as_object=true )
+    function startDate( $as_object=true )
     {
         if ( $as_object )
         {
@@ -641,7 +641,7 @@ class eZArticle
     /*!
       Returns the stop date of the article.
     */
-    function &stopDate( $as_object=true )
+    function stopDate( $as_object=true )
     {
         if ( $as_object )
         {

@@ -1,0 +1,1 @@
+publish_dist/index_xmlrpc.php

@@ -245,7 +245,7 @@ class eZArticleCategory
 
             if ( count( $author_array ) == 1 )
             {
-                $category =& new eZArticleCategory( $author_array[0] );
+                $category = new eZArticleCategory( $author_array[0] );
             }
         }
 
@@ -337,7 +337,7 @@ class eZArticleCategory
 
         foreach ( $author_array as $author )
         {
-            $topic[] =& new eZArticleCategory( $author[$db->fieldName("ID")] );
+            $topic[] = new eZArticleCategory( $author[$db->fieldName("ID")] );
         }
         return $topic;
     }
@@ -356,6 +356,9 @@ class eZArticleCategory
     {
         if ( is_a( $parent, "eZArticleCategory" ) )
         {
+        	$perm_str = '';
+        	$PermGroupBy = '';
+        	
             $db =& eZDB::globalDatabase();
             if ( !is_a( $user, "eZUser" ) )
                 $user =& eZUser::currentUser();
@@ -1223,13 +1226,13 @@ class eZArticleCategory
 
        $perm_str = "";
        $PermGroupBy = "";
-       $having_str;
+       $having_str = '';
        if ( $usePermission )
        {
            if ( $check_write )
            {
                $perm_str = ", MAX(Permission.WritePermission) AS MaxWritePerm, MAX(Permission.ReadPermission) AS MaxReadPerm,
- MAX(CategoryPermission.WritePermission) AS CatMaxWritePerm, MAX(CategoryPermission.ReadPermission) AS CatMaxReadPerm";
+ 							MAX(CategoryPermission.WritePermission) AS CatMaxWritePerm, MAX(CategoryPermission.ReadPermission) AS CatMaxReadPerm";
                $PermGroupBy = "Permission.ObjectID, ";
 
                $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) ) ";
@@ -1268,7 +1271,7 @@ class eZArticleCategory
            else
                $publishedSQL = " AND Article.IsPublished = '0' AND ";
        }
-  $query = "SELECT Article.* $perm_str
+	  $query = "SELECT Article.* $perm_str
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article as Article,
                        eZArticle_ArticleCategoryLink as Link,
@@ -1326,6 +1329,7 @@ class eZArticleCategory
         $groupSQL = "";
         $categoryGroupSQL = "AND";
         $usePermission = true;
+        $having_str = '';
         if ( $user )
         {
             $groups =& $user->groups( false );

@@ -46,14 +46,6 @@ include_once( "classes/INIFile.php" );
 
 class eZFile
 {
-    /*!
-      Constructs a new eZFile object
-    */
-    function eZFile( )
-    {
-
-
-    }
 
     /*!
       Fetches the uploaded file information.
@@ -133,9 +125,9 @@ class eZFile
     */
     function copy( $dest )
     {
-        if ( $dest != "" )
+		global $GlobalSiteIni;
+    	if ( $dest != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
             $dest = $GlobalSiteIni->SiteDir . $dest;
         }
 
@@ -236,10 +228,13 @@ class eZFile
     */
     function file_exists( $filename )
     {
-        if ( $filename != "" )
+		global $GlobalSiteIni;
+    	if ( $filename != "")
         {
-			global $GlobalSiteIni;
-            $filename = $GlobalSiteIni->SiteDir . $filename;
+        	if ($GlobalSiteIni)
+        	{
+    			$filename = $GlobalSiteIni->SiteDir . $filename;
+        	}
             return file_exists( $filename );
         } else
         {
@@ -254,9 +249,9 @@ class eZFile
     */
     function filemtime( $filename )
     {
-        if ( $filename != "" )
+		global $GlobalSiteIni;
+    	if ( $filename != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
             $filename = $GlobalSiteIni->SiteDir . $filename;
         }
         if ( file_exists( $filename ) )
@@ -274,10 +269,10 @@ class eZFile
     */
     function fopen( $filename, $options )
     {
-        if ( $filename != "" )
+		global $GlobalSiteIni;
+    	if ( $filename != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
-            $filename = $GlobalSiteIni->SiteDir . $filename;
+    		$filename = $GlobalSiteIni->SiteDir . $filename;
         }
         return fopen( $filename, $options );
     }
@@ -287,10 +282,10 @@ class eZFile
     */
     function filesize( $filename )
     {
-        if ( $filename != "" )
+		global $GlobalSiteIni;
+    	if ( $filename != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
-            $filename = $GlobalSiteIni->SiteDir . $filename;
+    		$filename = $GlobalSiteIni->SiteDir . $filename;
         }
         return filesize( $filename );
     }
@@ -300,10 +295,10 @@ class eZFile
     */
     function unlink( $filename )
     {
-        if ( $filename != "" )
+		global $GlobalSiteIni;
+    	if ( $filename != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
-            $filename = $GlobalSiteIni->SiteDir . $filename;
+    		$filename = $GlobalSiteIni->SiteDir . $filename;
         }
         return unlink( $filename );
     }
@@ -313,10 +308,10 @@ class eZFile
     */
     function chmod( $filename, $mode )
     {
-        if ( $filename != "" )
+		global $GlobalSiteIni;
+    	if ( $filename != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
-            $filename = $GlobalSiteIni->SiteDir . $filename;
+    		$filename = $GlobalSiteIni->SiteDir . $filename;
         }
         return chmod( $filename, $mode);
     }
@@ -326,11 +321,11 @@ class eZFile
     */
     function dir( $dir, $add_sitedir = true )
     {
-        if ( $add_sitedir )
+		global $GlobalSiteIni;
+    	if ( $add_sitedir )
         {
-            if ( $dir != "" )
+            if ( $dir != "" && $GlobalSiteIni)
             {
-				global $GlobalSiteIni;
                 $dir = $GlobalSiteIni->SiteDir . $dir;
             }
         }
@@ -342,9 +337,9 @@ class eZFile
     */
     function is_dir( $dir )
     {
-        if ( $dir != "" )
+		global $GlobalSiteIni;
+    	if ( $dir != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
             $dir = $GlobalSiteIni->SiteDir . $dir;
         }
         return is_dir( $dir );
@@ -355,10 +350,10 @@ class eZFile
     */
     function realpath( $filename )
     {
-        if ( $filename != "" )
+		global $GlobalSiteIni;
+    	if ( $filename != "" && $GlobalSiteIni)
         {
-			global $GlobalSiteIni;
-            $filename = $GlobalSiteIni->SiteDir . $filename;
+    		$filename = $GlobalSiteIni->SiteDir . $filename;
         }
         return realpath( $filename );
     }
@@ -368,9 +363,7 @@ class eZFile
     */
     function file( $filename )
     {
-        if ( ( file_exists( "sitedir.ini" ) ) and
-             ( $filename != "" )
-             )
+        if (file_exists( "sitedir.ini" ) &&  $filename != "" )
         {
             include( "sitedir.ini" );
             $filename = $siteDir . $filename;
@@ -383,7 +376,3 @@ class eZFile
     var $FileType;
     var $FileSize;
 }
-
-
-
-?>

@@ -66,8 +66,8 @@ class INIFile
         // check for modifications
         $cacheTime = eZFile::filemtime( $cachedFile );
         $origTime = eZFile::filemtime( $inifilename );
-        $overrideTime = eZFile::filemtime( "override/" . $inifilename );
-        $appendTime = eZFile::filemtime( "override/" . $inifilename . ".append" );
+        $overrideTime = eZFile::filemtime( "bin/ini/override/" . basename($inifilename) );
+        $appendTime = eZFile::filemtime( "bin/ini/override/" . basename($inifilename) . ".append" );
 
         $loadCache = false;
         if ( eZFile::file_exists( $cachedFile ) )
@@ -75,9 +75,9 @@ class INIFile
             $loadCache = true;
             if ( $cacheTime < $origTime )
                 $loadCache = false;
-            if ( eZFile::file_exists( "override/" . $inifilename ) and $cacheTime < $overrideTime )
+            if ( eZFile::file_exists( "bin/ini/override/" . basename($inifilename) ) and $cacheTime < $overrideTime )
                 $loadCache = false;
-            if ( eZFile::file_exists( "override/" . $inifilename . ".append" ) and $cacheTime < $appendTime )
+            if ( eZFile::file_exists( "bin/ini/override/" . basename($inifilename) . ".append" ) and $cacheTime < $appendTime )
                 $loadCache = false;
         }
 
@@ -86,7 +86,7 @@ class INIFile
             include( $cachedFile );
         }
         else
-	  {
+	    {
             $this->load_data( $inifilename, $write );
             // save the data to a cached file
             $buffer = "";
@@ -116,15 +116,6 @@ class INIFile
 
     function load_data( $inifilename = "", $write = true, $useoverride = true )
     {
-        if ( $inifilename == "bin/ini/site.ini" ) {
-  	  if ( !eZFile::file_exists( $inifilename ) ){
-	    $inifilename = "bin/ini/override/site.ini";
-	  }
-          if ( !eZFile::file_exists( "bin/ini/override/site.ini" ) ){
-            $inifilename = "bin/ini/site.ini";
-          }
-        }
-
         $this->WRITE_ACCESS = $write;
         if ( !empty( $inifilename ) )
         {
@@ -140,38 +131,51 @@ class INIFile
                 }
             }
             else
-	      {
-		if ( $inifilename == "bin/ini/site.ini" ) {
-		   $filesiteini = "site.ini";
+	    	{
+				if ( $inifilename == "bin/ini/site.ini" ) 
+				{
+		 	  		$filesiteini = "site.ini";
 
-		   if ( eZFile::file_exists( "bin/ini/override/$filesiteini" ) ) {
-		       if ( eZFile::file_exists( "bin/ini/override/$filesiteini" . ".php") ) {
-			   $this->parse( "bin/ini/override/$filesiteini" . ".php" );
-		       }
-		       else {
-			 $this->parse( "bin/ini/override/$filesiteini" );
-			 $this->error( "The file \"" . "bin/ini/override/$filesiteini" . "\" or \"" . "bin/ini/override/$filesiteini" . ".php\" does not exist!" );
-		       }
-		   }else {
-		     if ( eZFile::file_exists( "bin/ini/$filesiteini" ) ) {
-		       if ( eZFile::file_exists( "bin/ini/$filesiteini" . ".php") )
-		       {
-			 $this->parse( "bin/ini/$filesiteini" . ".php" );
-		       } else {
-			 $this->parse( "bin/ini/$filesiteini" );
-			 $this->error( "The file \"" . "bin/ini/$filesiteini" . "\" or \"" . "bin/ini/$filesiteini" . ".php\" does not exist!" );
-		       }
-		     }
-		   }
-		} else {
-		  $this->parse( $inifilename );
-		}
-            }
-        }
-        if ( $useoverride )
-            $this->load_override_data( "override/" . $inifilename );
+		   			if ( eZFile::file_exists( "bin/ini/override/$filesiteini" ) ) 
+		   			{
+		       			if ( eZFile::file_exists( "bin/ini/override/$filesiteini" . ".php") ) 
+		       			{
+			   				$this->parse( "bin/ini/override/$filesiteini" . ".php" );
+		       			}
+			       		else 
+			       		{
+				 			$this->parse( "bin/ini/override/$filesiteini" );
+				 			$this->error( "The file \"" . "bin/ini/override/$filesiteini" . "\" or \"" . "bin/ini/override/$filesiteini" . ".php\" does not exist!" );
+			       		}
+			   		} 
+			   		else 
+			   		{
+			     		if ( eZFile::file_exists( "bin/ini/$filesiteini" ) ) 
+			     		{
+			       			if ( eZFile::file_exists( "bin/ini/$filesiteini" . ".php") )
+			       			{
+				 				$this->parse( "bin/ini/$filesiteini" . ".php" );
+			       			}
+			       			else
+			       			{
+				 				$this->parse( "bin/ini/$filesiteini" );
+				 				$this->error( "The file \"" . "bin/ini/$filesiteini" . "\" or \"" . "bin/ini/$filesiteini" . ".php\" does not exist!" );
+			       			}
+			     		}
+			   		}
+				} 
+				else 
+				{
+			  		$this->parse( $inifilename );
+				}
+        	}
+    	}
+    	if ( $useoverride ) 
+    	{
+    		$this->load_override_data( "bin/ini/override/" . basename($inifilename) );
+    	}
     }
-
+    
     function load_override_data( $inifilename = "" )
     {
         $appendfilename = $inifilename . ".append";
@@ -206,7 +210,7 @@ class INIFile
         if ( !isset( $this->GROUPS ) or !$append )
              $this->GROUPS = array();
 
-        $contents =& fread( $fp, eZFile::filesize( $inifilename ) );
+        $contents = fread( $fp, eZFile::filesize( $inifilename ) );
 
         // Remove trailing empty lines in the file
         // This should be the code used, but for some reason it will not work
@@ -215,12 +219,12 @@ class INIFile
         // So instead we'll do a hack until the reason for the error is found
         $contents .= "\n";
 
-        $ini_data =& split( "\n",$contents );
+        $ini_data = preg_split( "/\n/",$contents );
 
         while( list( $key, $data ) = each( $ini_data ) )
         {
             // Remove MS-DOS Carriage return from end of line
-            $data = ereg_replace( "\r*$", "", $data );
+            $data = preg_replace( "/\r*$/", "", $data );
             $this->parse_data( $data );
         }
 
@@ -238,13 +242,13 @@ class INIFile
             $data = $m[1];
         }
 
-        if( ereg( "^\[([[:alnum:]]+)\]", $data, $out ) )
+        if( preg_match( "/^\[([[:alnum:]]+)\]/", $data, $out ) )
         {
             $this->CURRENT_GROUP = strtolower( $out[1] );
         }
         else
         {
-            $split_data =& split( "=", $data );
+            $split_data = preg_split( "/=/", $data );
 
             if ( !isset( $split_data[1] ) )
                 $split_data[1] = "";
@@ -419,7 +423,7 @@ class INIFile
       Reads a variable from a group and returns the result as an
       array of strings.
 
-      The variable is splitted on ; characters.
+      The variable is split on ; characters.
     */
     function read_array( $group_name, $var_name )
     {
@@ -428,7 +432,7 @@ class INIFile
             $var_value =& $this->read_var( $group_name, $var_name );
             if ( $var_value != "" )
             {
-                $var_array =& explode( ";", $var_value );
+                $var_array = explode( ";", $var_value );
             }
             else
             {
@@ -492,4 +496,3 @@ class INIFile
     var $WWWDir = "";
     var $SiteDir = "";
 }
-?>

@@ -150,7 +150,7 @@ class eZVoucherUsed
                               0, 1 );
             if( count( $voucherArray ) == 1 )
             {
-                $this->fill( &$voucherArray[0] );
+                $this->fill( $voucherArray[0] );
                 $ret = true;
             }
             elseif( count( $voucherArray ) == 1 )
@@ -164,15 +164,15 @@ class eZVoucherUsed
     /*!
       Fills in information to the object taken from the array.
     */
-    function fill( &$voucherArray )
+    function fill( $voucherArray )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID =& $voucherArray[$db->fieldName( "ID" )];
-        $this->Used =& $voucherArray[$db->fieldName( "Used" )];
-        $this->Price =& $voucherArray[$db->fieldName( "Price" )];
-        $this->VoucherID =& $voucherArray[$db->fieldName( "VoucherID" )];
-        $this->OrderID =& $voucherArray[$db->fieldName( "OrderID" )];
-        $this->UserID =& $voucherArray[$db->fieldName( "UserID" )];
+        $this->ID = $voucherArray[$db->fieldName( "ID" )];
+        $this->Used = $voucherArray[$db->fieldName( "Used" )];
+        $this->Price = $voucherArray[$db->fieldName( "Price" )];
+        $this->VoucherID = $voucherArray[$db->fieldName( "VoucherID" )];
+        $this->OrderID = $voucherArray[$db->fieldName( "OrderID" )];
+        $this->UserID = $voucherArray[$db->fieldName( "UserID" )];
     }
 
     /*!

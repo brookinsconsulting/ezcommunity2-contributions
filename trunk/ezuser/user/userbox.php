@@ -101,7 +101,7 @@ if ( !$user )
     }
 
     if ( !isset( $RedirectURL ) or !$RedirectURL )
-        $RedirectURL = $REQUEST_URI;
+        $RedirectURL = $_SERVER['REQUEST_URI'];
     if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) ||
          preg_match( "#^/user/forgot.*#", $RedirectURL) )
     {

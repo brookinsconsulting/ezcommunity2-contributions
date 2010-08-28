@@ -44,7 +44,7 @@ class eZArticleRenderer
 //        print( nl2br( htmlspecialchars( $contents ) ) );
 
         // find the generator used
-        if ( ereg("<generator>(.*)</generator>", substr( $contents, 0, 200 ), $regs ) )
+        if ( preg_match("/<generator>(.*)<\/generator>/", substr( $contents, 0, 200 ), $regs ) )
         {
             $generator =& $regs[1];
             
