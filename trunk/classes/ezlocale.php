@@ -269,7 +269,7 @@ class eZLocale
 
                 $value =& number_format( $value, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSymbol );
 
-                if ( $obj->isNegative )
+                if ( $obj->isNegative() )
                 {
                     if ( $this->NegativePrefixCurrencySymbol == "yes" )
                     {

@@ -55,7 +55,7 @@ $forum = new eZForum( $ForumID );
 
 $locale = new eZLocale( $Language );
 
-if ( !$Offset )
+if ( !isset($Offset) )
     $Offset = 0;
 
 $messageList =& $forum->messageTree( $Offset, $SimpleUserList );
@@ -107,9 +107,9 @@ eZList::drawNavigator( $t, $messageCount, $SimpleUserList, $Offset, "messagelist
 
 $t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
 
-$t->set_var( "newmessage", $newmessage );
+#$t->set_var( "newmessage", $newmessage );
 
-$url = explode( "parent", $REQUEST_URI );
+$url = explode( "parent", $_SERVER['REQUEST_URI'] );
 $t->set_var( "url", $url[0] );
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );

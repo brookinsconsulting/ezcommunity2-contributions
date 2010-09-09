@@ -241,6 +241,7 @@ class eZPriceGroup
         if ( is_array( $group_id ) )
         {
             $first = true;
+            $group_text = '';
             foreach( $group_id as $group )
             {
                 $first ? $group_text = "GroupID='$group'" : $group_text .= "OR GroupID='$group'";
@@ -286,7 +287,7 @@ class eZPriceGroup
                     $first = false;
                 }
 
-                if ( $group_text )
+                if ( isset($group_text) )
                     $group_text = " AND ( $group_text )";
                 else
                     $group_text = "";
@@ -354,7 +355,7 @@ class eZPriceGroup
                     $first ? $group_text = "PriceID='$group'" : $group_text .= "OR PriceID='$group'";
                     $first = false;
                 }
-                if ( $group_text )
+                if ( isset($group_text) )
                     $group_text = " AND ( $group_text )";
                 else
                     $group_text = "";

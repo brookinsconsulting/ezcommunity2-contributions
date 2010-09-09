@@ -53,7 +53,7 @@ $t->set_block( "login_tpl", "max_message_tpl", "max_message" );
 if ( $Action == "login" )
 {
     $user = new eZUser();
-    $user = $user->validateUser( $Username, $Password );
+    $user = $user->validateUser( $_POST['Username'], $_POST['Password'] );
 
     if ( ( $user )  && eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
@@ -111,7 +111,7 @@ if ( $Action == "login" )
 }
 
 if ( !isset( $RefererURL ) )
-    $RefererURL = $REQUEST_URI;
+    $RefererURL = $_SERVER['REQUEST_URI'];
     if ( preg_match( "#^/user/login.*#", $RefererURL  ) )
     {
         $RefererURL = "/";
@@ -148,4 +148,3 @@ else
 $t->set_var( "action_value", "login" );
 $t->pparse( "output", "login_tpl" );
 
-?>

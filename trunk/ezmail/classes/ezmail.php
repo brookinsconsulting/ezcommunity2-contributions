@@ -598,7 +598,7 @@ class eZMail
     */
     function validate( $address )
     {
-        $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
+        $pos = ( preg_match('/^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $address) );
 
         return $pos;
     }
@@ -611,8 +611,8 @@ class eZMail
     */
     function stripEmail( $address )
     {
-        $res = ereg( '[/0-9A-Za-z\.\?\-\_]+' . '@' .
-                     '[/0-9A-Za-z\.\?\-\_]+', $address, $email );
+        $res = preg_match( '/[\/0-9A-Za-z\.\?\-\_]+' . '@' .
+                     '[\/0-9A-Za-z\.\?\-\_]+/', $address, $email );
         if ( $res )
             return $email[0];
         else

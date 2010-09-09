@@ -196,7 +196,7 @@ class eZForum
     /*!
       Returns the messages in a forum.
     */
-    function &messages()
+    function messages()
     {
         $db =& eZDB::globalDatabase();
 
@@ -218,7 +218,7 @@ class eZForum
     /*!
       Returns the messages in every forum matching the query string.
     */
-    function &search( $queryText, $offset, $limit, &$SearchTotalCount, $params = array() )
+    function search( $queryText, $offset, $limit, &$SearchTotalCount, $params = array() )
     {
         $db =& eZDB::globalDatabase();
 
@@ -325,7 +325,7 @@ class eZForum
     /*!
       Returns the total count of a query.
     */
-    function &getQueryCount( $queryString )
+    function getQueryCount( $queryString )
     {
         $db =& eZDB::globalDatabase();
         $queryString = $db->escapeString( $queryString );
@@ -351,7 +351,7 @@ class eZForum
 
       Default limit is set to 30.
     */
-    function &messageTree( $offset = 0, $limit = 30, $showUnApproved = false )
+    function messageTree( $offset = 0, $limit = 30, $showUnApproved = false )
     {
         $db =& eZDB::globalDatabase();
 
@@ -383,7 +383,7 @@ class eZForum
 
       Default limit is set to 30.
     */
-    function &messageTreeArray( $offset = 0, $limit = 30, $showUnApproved = false, $showReplies = true )
+    function messageTreeArray( $offset = 0, $limit = 30, $showUnApproved = false, $showReplies = true )
     {
         $db =& eZDB::globalDatabase();
 
@@ -426,7 +426,7 @@ class eZForum
 
       Default limit is set to 100
     */
-    function &messageThreadTree( $threadID, $showUnApprived = false, $offset = 0, $limit = 100 )
+    function messageThreadTree( $threadID, $showUnApprived = false, $offset = 0, $limit = 100 )
     {
        $db =& eZDB::globalDatabase();
 
@@ -490,7 +490,7 @@ class eZForum
     /*!
       Returns the name of the forum.
     */
-    function &name( $html = true )
+    function name( $html = true )
     {
         return htmlspecialchars( $this->Name );
     }
@@ -506,7 +506,7 @@ class eZForum
     /*!
 
     */
-    function &description()
+    function description()
     {
         return htmlspecialchars( $this->Description );
     }
@@ -546,7 +546,7 @@ class eZForum
     /*!
       Returns the forum moderator as a eZUser object.
     */
-    function &moderator()
+    function moderator()
     {
         $group = false;
 
@@ -562,7 +562,7 @@ class eZForum
     /*!
       Returns the forum moderator as a eZUser object.
     */
-    function &group()
+    function group()
     {
         $group = false;
 
@@ -712,4 +712,3 @@ class eZForum
     var $GroupID;
 }
 
-?>

@@ -95,7 +95,6 @@ class eZFile
     function getFile( $fileName )
     {
         $this->FileName = $fileName;
-        $this->FileType = $name_var['type'];
         $this->FileSize = eZFile::filesize( $fileName );
         $this->TmpFileName = $fileName;
 
@@ -221,8 +220,6 @@ class eZFile
         $this->FileType = $type;
     }
 
-
-
     /*!
       Same as file_exists(), but prepends $siteDir if $filename not empty.
     */
@@ -240,10 +237,27 @@ class eZFile
         {
             return false;
         }
-
-
     }
 
+    /*!
+      Same as is_file(), but prepends $siteDir if $filename not empty.
+    */
+    function is_file( $filename )
+    {
+		global $GlobalSiteIni;
+    	if ( $filename != "")
+        {
+        	if ($GlobalSiteIni)
+        	{
+    			$filename = $GlobalSiteIni->SiteDir . $filename;
+        	}
+            return is_file( $filename );
+        } else
+        {
+            return false;
+        }
+    }
+    
     /*!
       Same as filemtime(), but prepends $siteDir if $filename not empty.
     */

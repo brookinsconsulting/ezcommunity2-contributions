@@ -49,7 +49,7 @@ class eZCurrency
     function eZCurrency( $value=0 )
     {
         $this->Value = $value;
-        settype( $this->Value, double );
+        settype( $this->Value, 'double' );
     }
 
     /*!
@@ -66,7 +66,7 @@ class eZCurrency
     function setValue( $value  )
     {
         $this->Value = $value;
-        settype( $this->Value, double );
+        settype( $this->Value, 'double' );
     }
 
     /*!
@@ -74,7 +74,7 @@ class eZCurrency
     */
     function isNegative( )
     {
-        if ( $Value < 0 )
+        if ( $this->Value < 0 )
         {
             return true;
         }
@@ -86,4 +86,3 @@ class eZCurrency
     
     var $Value;
 }
-?>

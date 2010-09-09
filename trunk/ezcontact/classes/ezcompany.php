@@ -250,7 +250,7 @@ class eZCompany
 
       The companies are returned as an array of eZCompany objects.
     */
-    function &getAll( )
+    function getAll( )
     {
         $db =& eZDB::globalDatabase();
 
@@ -261,7 +261,7 @@ class eZCompany
 
         foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
+            $return_array[] = new eZCompany( $companyItem[$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
@@ -271,7 +271,7 @@ class eZCompany
 
       The companies are returned as an array of eZCompany objects.
     */
-    function &getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name" )
+    function getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name" )
     {
         $db =& eZDB::globalDatabase();
 
@@ -317,7 +317,7 @@ class eZCompany
 
         foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "CompanyID" )] );
+            $return_array[] = new eZCompany( $companyItem[$db->fieldName( "CompanyID" )] );
         }
 
         return $return_array;
@@ -343,7 +343,7 @@ class eZCompany
     /*!
       Search the company database in a single category, using query as the search string in company name.
     */
-    function &searchByCategory( $categoryID, $query )
+    function searchByCategory( $categoryID, $query )
     {
         $db =& eZDB::globalDatabase();
 
@@ -369,7 +369,7 @@ class eZCompany
 
             foreach ( $company_array as $companyItem )
             {
-                $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
+                $return_array[] = new eZCompany( $companyItem[$db->fieldName( "ID" )] );
             }
         }
         return $return_array;
@@ -379,7 +379,7 @@ class eZCompany
     /*!
       Henter ut alle firma i databasen som inneholder s�kestrengen.
     */
-    function &search( $query )
+    function search( $query )
     {
         $db =& eZDB::globalDatabase();
 
@@ -396,7 +396,7 @@ class eZCompany
 
         foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "CompanyID" )] );
+            $return_array[] = new eZCompany( $companyItem[$db->fieldName( "CompanyID" )] );
         }
         return $return_array;
     }
@@ -418,7 +418,7 @@ class eZCompany
     /*!
       Returns the categories that belong to this eZCompany object.
     */
-    function &categories( $companyID = false, $as_object = true, $limit = -1 )
+    function categories( $companyID = false, $as_object = true, $limit = -1 )
     {
         if ( !$companyID )
             $companyID = $this->ID;
@@ -439,7 +439,7 @@ class eZCompany
         foreach ( $categories_array as $categoriesItem )
         {
             if ( $as_object )
-                $return_array[] =& new eZCompanyType( $categoriesItem[$db->fieldName( "CompanyTypeID" )] );
+                $return_array[] = new eZCompanyType( $categoriesItem[$db->fieldName( "CompanyTypeID" )] );
             else
                 $return_array[] =& $categoriesItem[$db->fieldName( "CompanyTypeID" )];
         }
@@ -450,7 +450,7 @@ class eZCompany
     /*!
       Returns the address that belong to this eZCompany object.
     */
-    function &addresses( $companyID = false )
+    function addresses( $companyID = false )
     {
         if ( !$companyID )
             $companyID = $this->ID;
@@ -466,7 +466,7 @@ class eZCompany
 
         foreach ( $address_array as $addressItem )
         {
-            $return_array[] =& new eZAddress( $addressItem[$db->fieldName( "AddressID" )] );
+            $return_array[] = new eZAddress( $addressItem[$db->fieldName( "AddressID" )] );
         }
 
         return $return_array;
@@ -518,7 +518,7 @@ class eZCompany
     /*!
       Returns the phones that belong to this eZCompany object.
     */
-    function &phones( $companyID = false )
+    function phones( $companyID = false )
     {
         if ( !$companyID )
             $companyID = $this->ID;
@@ -534,7 +534,7 @@ class eZCompany
 
         foreach ( $phone_array as $phoneItem )
         {
-            $return_array[] =& new eZPhone( $phoneItem[$db->fieldName( "PhoneID" )] );
+            $return_array[] = new eZPhone( $phoneItem[$db->fieldName( "PhoneID" )] );
         }
 
         return $return_array;
@@ -591,7 +591,7 @@ class eZCompany
     /*!
       Returns the onlines that belong to this eZCompany object.
     */
-    function &onlines( $onlineID = false )
+    function onlines( $onlineID = false )
     {
         if ( !$onlineID )
             $onlineID = $this->ID;
@@ -607,7 +607,7 @@ class eZCompany
 
         foreach ( $online_array as $onlineItem )
         {
-            $return_array[] =& new eZOnline( $onlineItem[$db->fieldName( "OnlineID" )] );
+            $return_array[] = new eZOnline( $onlineItem[$db->fieldName( "OnlineID" )] );
         }
 
         return $return_array;
@@ -684,7 +684,7 @@ class eZCompany
     /*!
       Returns every image to a product as a array of eZImage objects.
     */
-    function &images()
+    function images()
     {
         $db =& eZDB::globalDatabase();
 
@@ -695,7 +695,7 @@ class eZCompany
 
         for ( $i = 0; $i < count( $image_array ); $i++ )
         {
-            $return_array[$i] =& new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
+            $return_array[$i] = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
         }
 
         return $return_array;
@@ -1003,7 +1003,7 @@ class eZCompany
 
         foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
+            $return_array[] = new eZCompany( $companyItem[$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
@@ -1011,7 +1011,7 @@ class eZCompany
     /*!
       Returns the project state of this company.
     */
-    function &projectState()
+    function projectState()
     {
         $ret = "";
 
@@ -1186,7 +1186,7 @@ class eZCompany
       count: The total count for the month
       month: The month number (starting at 1)
     */
-    function &yearViewCounts( $year = false )
+    function yearViewCounts( $year = false )
     {
         $ret = array();
         if ( is_bool( $year ) )
@@ -1260,4 +1260,3 @@ class eZCompany
     var $CompanyNo;
 }
 
-?>

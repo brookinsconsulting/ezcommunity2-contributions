@@ -181,7 +181,7 @@ if ( $listImageHeightOverride )
 
 $SiteURL = $ini->read_var( "site", "SiteURL" );
 
-$t->set_var( "article_url", $SiteURL . $REQUEST_URI );
+$t->set_var( "article_url", $SiteURL . $_SERVER['REQUEST_URI'] );
 $t->set_var( "article_url_item", "" );
 if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     $t->parse( "article_url_item", "article_url_item_tpl" );
@@ -356,7 +356,7 @@ if ( $article->get( $ArticleID ) )
 
     $usedImages = $renderer->usedImageList();
     $images =& $article->images();
-
+    $imageNumber = 0;
     {
         $i=0;
         foreach ( $images as $imageArray )
@@ -422,7 +422,7 @@ else
 
 
 
-if ( $StaticRendering == true  || $ShowHeader == "hide" )
+if ( $StaticRendering == true  || (isset($ShowHeader) && $ShowHeader == "hide" ))
 {
     $t->set_var( "article_header", "" );
 }

@@ -256,7 +256,7 @@ class eZProductCategory
 
       The categories are returned as an array of eZProductCategory objects.
     */
-    function &getByParent( $parent, $sortby=name )
+    function &getByParent( $parent, $sortby='name' )
     {
         if ( is_a( $parent, "eZProductCategory" ) )
         {
@@ -352,7 +352,7 @@ class eZProductCategory
     /*!
       Returns the name of the category.
     */
-    function &name()
+    function name()
     {
         return htmlspecialchars( $this->Name );
     }
@@ -393,7 +393,7 @@ class eZProductCategory
     /*!
       Returns the group description.
     */
-    function &description()
+    function description()
     {
         return htmlspecialchars( $this->Description );
     }
@@ -401,15 +401,15 @@ class eZProductCategory
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
-    function &parent()
+    function parent()
     {
-       if ( $this->Parent != 0 )
+       if ( is_a($this->Parent, 'eZProductCategory'))
        {
            return new eZProductCategory( $this->Parent );
        }
        else
        {
-           return 0;
+           return null;
        }
     }
 
@@ -421,7 +421,7 @@ class eZProductCategory
       3 - alphabetic desc
       4 - absolute placement
     */
-    function &sortMode()
+    function sortMode()
     {
        switch( $this->SortMode )
        {
@@ -594,7 +594,7 @@ class eZProductCategory
     /*!
       Returns the total number of products in a category.
     */
-    function &productCount( $sortMode="time",
+    function productCount( $sortMode="time",
                             $fetchNonActive=false,
                             $fetchDiscontinued=false,
                             $categoryID=false)
@@ -664,7 +664,7 @@ class eZProductCategory
     /*!
       Returns every product to a category as a array of eZProduct objects.
     */
-    function &products( $sortMode="time",
+    function products( $sortMode="time",
                         $fetchNonActive=false,
                         $offset=0,
                         $limit=50,
@@ -768,7 +768,7 @@ class eZProductCategory
         {
             $groups = array();
         }
-        $permission = array();
+        $permission = array( 'SQL' => '', 'TableSQL' => '');
         if ( $hasRootAccess == false )
         {
 
@@ -809,7 +809,7 @@ class eZProductCategory
     /*!
       Returns every active product to a category as a array of eZProduct objects.
     */
-    function &activeProducts( $sortMode="time",
+    function activeProducts( $sortMode="time",
                               $offset=0,
                               $limit=50,
                               $categoryID=false )
@@ -853,7 +853,7 @@ class eZProductCategory
     /*!
       Returns every option to a category as a array of eZOption objects.
     */
-    function &options()
+    function options()
     {
         $db =& eZDB::globalDatabase();
 
@@ -1012,7 +1012,7 @@ class eZProductCategory
     /*!
       Returns the Image ID.
     */
-    function &image( $AsObject = true )
+    function image( $AsObject = true )
     {
         if ( $AsObject )
             $image = new eZImage( $this->ImageID );

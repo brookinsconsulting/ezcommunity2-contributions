@@ -46,7 +46,7 @@ $t->setAllStrings();
 
 $user =& eZUser::currentUser();
 $db =& eZDB::globalDatabase();
-$messages =& eZForumMessage::lastMessages( $Limit );
+$messages = eZForumMessage::lastMessages( isset($Limit)?$Limit:10 );
 
 global $GlobalSiteDesign;
 

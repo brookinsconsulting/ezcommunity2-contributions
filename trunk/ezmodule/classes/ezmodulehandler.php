@@ -117,7 +117,7 @@ class eZModuleHandler
       \static
       Returns all available modules that you are allowed to see as an array.
     */
-    function &all()
+    function all()
     {
         $return_array = array();
         $ini =& INIFile::globalINI();
@@ -135,7 +135,7 @@ class eZModuleHandler
       \static
       Returns all active modules as an array.
     */
-    function &active()
+    function active()
     {
         $ini =& INIFile::globalINI();
         $preferences = new eZPreferences();
@@ -210,7 +210,7 @@ class eZModuleHandler
       Appends the module to the end of the modules list if not already present.
       The new list is returned.
     */
-    function &append( $modules, $module )
+    function append( $modules, $module )
     {
         return array_unique( array_merge( $modules, $module ) );
     }
@@ -220,7 +220,7 @@ class eZModuleHandler
       Removes the module from the modules list.
       The new list is returned.
     */
-    function &remove( $modules, $module )
+    function remove( $modules, $module )
     {
         return array_diff( $modules, array( $module ) );
     }
@@ -303,5 +303,3 @@ class eZModuleHandler
         }
     }
 }
-
-?>

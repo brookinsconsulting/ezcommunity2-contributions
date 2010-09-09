@@ -126,6 +126,7 @@ $rows =& $sectionObject->frontPageRows();
 
 $page_element = array();
 $offsetArticleArray = array();
+$offsetProductArray = array();
 
 $tempArticle = new eZArticle();
 $articleList = array();
@@ -175,7 +176,18 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
         if ( $value == "1columnProduct" )
         {
             $category = new eZProductCategory( $row->categoryID() );
-            $productList =& array_merge( $productList, eZProductCategory::products( $category->sortMode(), false, $offsetProductArray[$row->categoryID()], 1, false, $row->categoryID() ) );
+            if (!isset($offsetProductArray[$row->categoryID()])) 
+            {
+            	$offsetProductArray[$row->categoryID()] = 0;
+            }
+            if (isset($productList))
+            {
+            	$productList = array_merge( $productList, eZProductCategory::products( $category->sortMode(), false, $offsetProductArray[$row->categoryID()], 1, false, $row->categoryID() ) );
+            }
+            else
+            {
+            	$productList = eZProductCategory::products( $category->sortMode(), false, $offsetProductArray[$row->categoryID()], 1, false, $row->categoryID() );
+            }
             $offsetProductArray[$row->categoryID()] = $offsetProductArray[$row->categoryID()] + 1;
         }
         if ( $value == "2columnProduct" )
@@ -645,6 +657,7 @@ function &renderAd( &$t, &$locale, &$ad )
 function &renderFrontpageProduct( &$t, &$locale, &$product )
 {
     global $ini;
+    $i=0;
     $pid = $product->id();
 
     $ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );

@@ -66,7 +66,7 @@ $cart = $cart->getBySession( $session );
 if ( !$cart )
 {
     $cart = new eZCart();
-    $cart->setSession( &$session );
+    $cart->setSession( $session );
 
     $cart->store();
 }

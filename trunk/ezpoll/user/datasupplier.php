@@ -45,8 +45,11 @@ switch ( $url_array[2] )
 
     case "result" :
     {
-        $Show = $url_array[4];
         $PollID = $url_array[3];
+        if ( isSet( $url_array[4] ) ) 
+        {
+             $Show = $url_array[4];
+        }
         include( "ezpoll/user/result.php" );
 
         $poll = new eZPoll( $PollID );
@@ -54,7 +57,7 @@ switch ( $url_array[2] )
         {
             $forum = $poll->forum();
             $ForumID = $forum->id();
-            $RedirectURL = $REQUEST_URI;
+            $RedirectURL = $_SERVER['REQUEST_URI'];
             include( "ezforum/user/messagesimplelist.php" );
         }
     }
@@ -86,4 +89,3 @@ switch ( $url_array[2] )
     }
 
 }
-?>

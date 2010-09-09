@@ -48,7 +48,7 @@ $t->set_block( "result", "result_list_tpl", "result_list" );
 $t->set_block( "result_list_tpl", "result_item_tpl", "result_item" );
 
 $poll = new eZPoll();
-if ( $Show == "all"  )
+if ( isset($Show) && $Show == "all"  )
 {
     $pollArray = $poll->getAll();    
 }

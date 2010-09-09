@@ -92,9 +92,9 @@ class eZSession
         // lock the table
         $db->lock( "eZSession_Session" );
 
-        if ( isset( $GLOBALS["eZSessionCookie"] ) && strlen( $GLOBALS["eZSessionCookie"] )  == 32 )
+        if ( isset( $_COOKIE["eZSessionCookie"] ) && strlen( $GLOBALS["eZSessionCookie"] )  == 32 )
         {
-            $this->Hash = $GLOBALS["eZSessionCookie"];
+            $this->Hash = $_COOKIE["eZSessionCookie"];
         }
         else
         {
@@ -224,9 +224,9 @@ class eZSession
             $ret = false;
 			
             // prefer cookie
-            if ( isset( $GLOBALS["eZSessionCookie"] ) )
+            if ( isset( $_COOKIE["eZSessionCookie"] ) )
             {
-                $hash = $GLOBALS["eZSessionCookie"];
+                $hash = $_COOKIE["eZSessionCookie"];
             }
             else
             {

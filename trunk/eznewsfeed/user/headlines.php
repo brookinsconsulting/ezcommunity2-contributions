@@ -26,7 +26,7 @@
 // this page requires the variable $CategoryID to be set
 
 // this allows several newslistings on the same page:
-if( !function_exists( printNewsHeaderList ) )
+if( !function_exists( 'printNewsHeaderList' ) )
 {
     function printNewsHeaderList( $CategoryID, $GenerateStaticPage, $cachedFile )
         {
@@ -105,11 +105,10 @@ if( !function_exists( printNewsHeaderList ) )
 }
 
 $PageCaching = $ini->read_var( "eZNewsfeedMain", "PageCaching" );
+$cachedFile = "eznewsfeed/cache/headlines," . $CategoryID . ".cache";
 
 if ( $PageCaching == "enabled" )
 {
-    $cachedFile = "eznewsfeed/cache/headlines," . $CategoryID . ".cache";
-    
     if ( eZFile::file_exists( $cachedFile ) )
     {
         include( $cachedFile );
@@ -124,5 +123,3 @@ else
     printNewsHeaderList( $CategoryID, "false", $cachedFile );
 }
 
-
-?>

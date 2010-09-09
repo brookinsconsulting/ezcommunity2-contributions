@@ -80,7 +80,7 @@ $t->set_var( "buttons", "" );
 if ( $Action == "login" )
 {
     $user = new eZUser();
-    $user = $user->validateUser( $Username, $Password );    
+    $user = $user->validateUser( $_REQUEST['Username'], $_REQUEST['Password'] );    
 
     if ( $user )
     {
@@ -114,9 +114,9 @@ if ( $Action == "login" )
                     eZHTTPTool::header( "Location: " . $mainGroup->groupURL() );
                     exit();
                 }
-                else if ( isSet( $RedirectURL ) )
+                else if ( isSet( $_REQUEST['RedirectURL'] ) )
                 {
-                    $stringTmp = split( "/", $RedirectURL );
+                    $stringTmp = split( "/", $_REQUEST['RedirectURL'] );
                     
                     if ( $stringTmp[2] == "norights" )
                     {
@@ -125,12 +125,12 @@ if ( $Action == "login" )
                     }
                     else
                     {
-                        if ( $RedirectURL == "" )
+                        if ( $_REQUEST['RedirectURL'] == "" )
                         {
-                            $RedirectURL = "/";
+                            $_REQUEST['RedirectURL'] = "/";
                         }
 
-                        eZHTTPTool::header( "Location: $RedirectURL" );
+                        eZHTTPTool::header( "Location: ".$_REQUEST['RedirectURL'] );
                         exit();
                     }
                 }

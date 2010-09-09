@@ -50,31 +50,32 @@ $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
 $t->set_block( "todo_list_page", "no_item_tpl", "no_item" );
 
 $todo = new eZTodo();
+$todo_array = array();
 
 if ( $user )
 {
-    $todo_array =& $todo->getByLimit( $user->id(), 5, $NotDoneID, 0 );
+    $todo_array = $todo->getByLimit( $user->id(), 5, $NotDoneID, 0 );
 }
 
 $i=0;
-if ( count( $todo_array ) > 0 )
-foreach ( $todo_array as $todoItem )
-{
-    if ( ( $i %2 ) == 0 )
-        $t->set_var( "td_class", "bgdark" );
-    else
-        $t->set_var( "td_class", "bglight" );
-    
-    $t->set_var( "todo_id", $todoItem->id() );
-    $t->set_var( "todo_name", $todoItem->name() );
-
-    $t->set_var( "no_item", "" );
-
-    $t->parse( "todo_item", "todo_item_tpl", true );
-    $i++;
-}
-
-if ( count( $todo_array ) == 0 ) 
+if ( count( $todo_array ) > 0 ) {
+	foreach ( $todo_array as $todoItem )
+	{
+	    if ( ( $i %2 ) == 0 )
+	        $t->set_var( "td_class", "bgdark" );
+	    else
+	        $t->set_var( "td_class", "bglight" );
+	    
+	    $t->set_var( "todo_id", $todoItem->id() );
+	    $t->set_var( "todo_name", $todoItem->name() );
+	
+	    $t->set_var( "no_item", "" );
+	
+	    $t->parse( "todo_item", "todo_item_tpl", true );
+	    $i++;
+	}
+} 
+else
 {
     $t->set_var( "todo_item", "" );
     $t->parse( "no_item", "no_item_tpl" );

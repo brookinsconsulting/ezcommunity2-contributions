@@ -73,15 +73,11 @@ class eZBenchmark
     */
     function elapsed()
     {
-        $time_1 = explode( " ", $this->StartTime );
-        $time_2 = explode( " ", $this->StopTime );
+    	list($usec, $sec) = explode(" ", $this->StartTime);
+        $Start = (float)$usec + (float)$sec;
+    	list($usec, $sec) = explode(" ", $this->StopTime);
+        $Stop = (float)$usec + (float)$sec;
 
-        ereg( "0\.([0-9]+)", "" . $time_1[0], $t1 );
-        ereg( "0\.([0-9]+)", "" . $time_2[0], $t2 );
-
-        $Start = $time_1[1] . "." . $t1[1];
-        $Stop = $time_2[1] . "." . $t2[1];    
-        
         $elapsed = $Stop - $Start;
         $elapsed = number_format( ( $elapsed ), 2 );
         return $elapsed;
@@ -109,4 +105,3 @@ class eZBenchmark
     var $StopTime;
 }
 
-?>

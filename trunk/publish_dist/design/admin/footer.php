@@ -46,5 +46,4 @@ $t->set_var( "module_dir", $moduleName );
 
 $t->pparse( "output", "footer_tpl" );
 
-?>
 

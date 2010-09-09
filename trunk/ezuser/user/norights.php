@@ -38,7 +38,7 @@ $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir
 "ezuser/user/" . "/intl", $Language, "norights.php" );
 $t->setAllStrings();
 
-switch ( $Error )
+switch ( $_REQUEST['Error'] )
 {
     case "WrongPassword":
     {
@@ -59,9 +59,12 @@ switch ( $Error )
     break;
 }
 
-$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
+$t->set_var( "redirect_url", '');
+if (isset($RedirectURL))
+{
+	$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
+}
 $t->set_var( "error_msg", $errorMsg );
 $t->set_file( array( "norights" => "norights.tpl" ) );
 
 $t->pparse( "output", "norights" );
-?>

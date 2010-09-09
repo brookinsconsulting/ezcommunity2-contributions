@@ -29,21 +29,22 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 // Find out, where our files are.
-if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
+// Find out, where our files are.
+if ( preg_match( "/(.*\/)([^\/]+\.php)$/", $_SERVER['SCRIPT_FILENAME'], $regs ) )
 {
     $siteDir = $regs[1];
     $index = "/" . $regs[2];
 }
-elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
+elseif ( preg_match( "/(.*\/)([^\/]+\.php)/?/", $_SERVER['PHP_SELF'], $regs ) )
 {
-	// Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
-    $siteDir = $DOCUMENT_ROOT . $regs[1];
+    // Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
+    $siteDir = $_SERVER['DOCUMENT_ROOT'] . $regs[1];
     $index = "/" . $regs[2];
 }
 else
 {
-	// Fallback... doesn't work with virtual-hosts, but better than nothing
-	$siteDir = "./";
+    // Fallback... doesn't work with virtual-hosts, but better than nothing
+    $siteDir = "./";
 	$index = "/index_admin.php";
 }
 
@@ -61,40 +62,44 @@ else
     $includePath = $siteDir;
 ini_set( "include_path", $includePath );
 
+$wwwDir='';
 // Get the webdir.
-if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+if ( preg_match( "/(.*)\/([^\/]+\.php)$/", $_SERVER['SCRIPT_NAME'], $regs ) )
     $wwwDir = $regs[1];
 
 // Fallback... Finding the paths above failed, so $PHP_SELF is not set right.
 if ( $siteDir == "./" )
-	$PHP_SELF = $REQUEST_URI;
+     $_SERVER['PHP_SELF'] = $_SERVER['REQUEST_URI'];
 
 // Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
-if ( ! ereg( ".*index_admin\.php.*", $REQUEST_URI ) ) 
+if ( ! preg_match( "/.*index\.php.*/", $_SERVER['PHP_SELF'] ) )
     $index = "";
-else 
+else
 {
-	// Get the right $REQUEST_URI, when using nVH setup.
-    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
-        $REQUEST_URI = $req[1];
-    else
-        $REQUEST_URI = "/";
+    // Get the right $REQUEST_URI, when using nVH setup.
+    if ( preg_match( "/^$wwwDir$index(.+)/", $_SERVER['PHP_SELF'], $req ) )
+        $_SERVER['REQUEST_URI'] = $req[1];
 }
 
 // Remove url parameters
-ereg( "([^?]+)", $REQUEST_URI, $regs );
-$REQUEST_URI = $regs[1];
+preg_match( "/([^?]+)/", $_SERVER['REQUEST_URI'], $regs );
+$_SERVER['REQUEST_URI'] = $regs[1];
+
+
+$GLOBALS["DEBUG"] = false;
+$UsePHPSessions = false;
     
 // Start the buffer cache
 ob_start();
+// Turn on output buffering with gz compression
+//ob_start("ob_gzhandler");
 
-$UsePHPSessions = false;
 
 if ( $UsePHPSessions == true )
 {
     // start session handling
     session_start();
-} 
+}
 
 // settings for sessions
 // max timeout is set to 48 hours
@@ -142,11 +147,8 @@ $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
 $GLOBALS["DEBUG"] = true;
 
-// Remove url parameters
-// ereg( "([^?]+)", $REQUEST_URI, $regs ) ;
-// $REQUEST_URI = $regs[1];
-
-$url_array =& explode( "/", $REQUEST_URI );
+$url_array = explode( "/", $_SERVER['REQUEST_URI'] );
+$HelpMode  = "disabled";
 
 $user =& eZUser::currentUser();
 if ( $user )
@@ -160,7 +162,7 @@ if ( $user )
     else
     {
         // html header
-        if ( $PrintableVersion == "enabled" )
+        if ( isset($_REQUEST['PrintableVersion']) && $_REQUEST['PrintableVersion'] == "enabled" )
         {        
             include( "design/admin/print_header.php" );
         }
@@ -183,14 +185,14 @@ if ( $user )
 
         $uri =& $GLOBALS["REQUEST_URI"];
 
-        if ( $PrintableVersion != "enabled" )
+        if ( isset($_REQUEST['PrintableVersion']) && $PrintableVersion != "enabled" )
         {
-            if ( !empty( $GLOBALS["ToggleMenu"] ) )
+            if ( !empty( $_REQUEST["ToggleMenu"] ) )
             {
                 foreach( $modules as $module )
                 {
                     $module_dir = strtolower( $module );
-                    if ( $GLOBALS["ToggleMenu"] == $module_dir )
+                    if ( $_REQUEST["ToggleMenu"] == $module_dir )
                     {
                         eZModuleHandler::toggle( $module_dir );
                         $uri = eZHTTPTool::removeVariable( $uri, "ToggleMenu" );
@@ -201,10 +203,10 @@ if ( $user )
             }
 
             $moved_module = false;
-            eZModuleHandler::moveUp( $modules, $GLOBALS["MoveUp"], $moved_module );
+            eZModuleHandler::moveUp( $modules, $_REQUEST["MoveUp"], $moved_module );
             if ( !$moved_module )
             {
-                eZModuleHandler::moveDown( $modules, $GLOBALS["MoveDown"], $moved_module );
+                eZModuleHandler::moveDown( $modules, $_REQUEST["MoveDown"], $moved_module );
             }
 
             $uri = eZHTTPTool::removeVariable( $uri, "MoveUp" );
@@ -246,7 +248,7 @@ if ( $user )
             $moduleName = "user";
 
 
-        if ( $PrintableVersion != "enabled" )
+        if ( isset($_REQUEST['PrintableVersion']) && $_REQUEST['PrintableVersion'] != "enabled" )
         {
             // break the column an draw a horizontal line
             include( "design/admin/separator.php" );
@@ -284,7 +286,7 @@ if ( $user )
     else
     {
         // html footer
-        if ( $PrintableVersion == "enabled" )
+        if ( isset($_REQUEST['PrintableVersion']) && $_REQUEST['PrintableVersion'] == "enabled" )
         {
             include( "design/admin/print_footer.php" );
         }
@@ -303,10 +305,10 @@ else
 
     $LoginSeparator = true;
 
-    if ( $REQUEST_URI == "/" )
+    if ( $_SERVER['REQUEST_URI'] == "/" )
     {
-        $REQUEST_URI = "/user/login";
-        $url_array =& explode( "/", $REQUEST_URI );
+        $_SERVER['REQUEST_URI'] = "/user/login";
+        $url_array =& explode( "/", $_SERVER['REQUEST_URI'] );
     }
 
     // parse the URI
@@ -331,5 +333,5 @@ $db->close();
 
 // flush the buffer cache
 ob_end_flush();
-?>
+
 

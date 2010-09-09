@@ -66,7 +66,7 @@ $charsetLanguage =& $session->variable( "charsetLanguage" );
 // This means that moving away from the section enabled pages will refetch the
 // old setting.
 //EP: autoswitch charsets in admin ------------------------------------------
-if ( $url_array[2] == "archive" || $url_array[2] == "articleedit" )
+if ( isset($url_array[2]) && ($url_array[2] == "archive" || $url_array[2] == "articleedit" ))
 {
     $CategoryID = $url_array[4];
     if ( $url_array[2] == "articleedit" )
@@ -84,7 +84,7 @@ if ( $url_array[2] == "archive" || $url_array[2] == "articleedit" )
         $charsetLanguage = eZSection::language ( $GlobalSectionID );
     }
 }
-else if ( $url_array[2] == "image" && ( $url_array[3] == "list" || $url_array[3] == "edit" ) )
+else if ( isset($url_array[2]) && ($url_array[2] == "image" && ( $url_array[3] == "list" || $url_array[3] == "edit" )) )
 {
     $CategoryID = $url_array[4];
     if ( $url_array[3] == "edit" )
@@ -149,7 +149,7 @@ else
     $t->set_var( "last_name", "" );
 }
 
-$uri = $GLOBALS["REQUEST_URI"];
+$uri = $_SERVER["REQUEST_URI"];
 
 $t->set_var( "charset_switch", "" );
 
@@ -190,7 +190,7 @@ $t->set_var( "site_url", $SiteURL );
 
 $t->set_var( "site_style", $SiteStyle );
 
-$t->set_var( "module_name", $moduleName );
+$t->set_var( "module_name", isset($moduleName)?$moduleName:'' );
 
 $t->set_var( "charset", $iso );
 
@@ -242,7 +242,7 @@ $t->set_var( "module_count", count ( $modules ) );
 $t->set_var( "ezpublish_version", eZPublish::version() );
 $t->set_var( "ezpublish_installation_version", eZPublish::installationVersion() );
 
-$t->set_var( "ip_address", $GLOBALS["REMOTE_ADDR"]);
+$t->set_var( "ip_address", $_SERVER["REMOTE_ADDR"]);
 $t->set_var( "admin_site_protocol", $AdminSiteProtocol);
 $t->set_var( "admin_site_host", $AdminSiteURL);
 $t->set_var( "user_site_host", $SiteURL);
@@ -260,4 +260,3 @@ if ( ( $moduletab == "enabled" ) && ( count ( $modules ) != 0 ) )
 $t->pparse( "output", "header_tpl" );
 
 
-?>

@@ -246,7 +246,7 @@ switch ( $url_array[2] )
 
     case "index":
     {
-        $CurrentIndex = urldecode( $url_array[3] );
+        $CurrentIndex = urldecode( isset($url_array[3])?$url_array[3]:'' );
 
         $user =& eZUser::currentUser();
         $groupstr = "";
@@ -312,7 +312,7 @@ switch ( $url_array[2] )
         $StaticRendering = false;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
-        $CategoryID = $url_array[5];
+        $CategoryID = isset($url_array[5])?$url_array[5]:-1;
         if ( $PageNumber != -1 )
             if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
                 $PageNumber= 1;
@@ -369,7 +369,7 @@ switch ( $url_array[2] )
         /* Should there be permissions here? */
         if ( $showComments == true )
         {
-            if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
+            if  ( ( !isset($PrintableVersion) || $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
             {
                 $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
                 $article = new eZArticle( $ArticleID );

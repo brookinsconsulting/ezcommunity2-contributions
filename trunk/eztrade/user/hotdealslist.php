@@ -163,8 +163,8 @@ foreach ( $productList as $product )
         $t->set_var( "product_image", "" );
     }
 
-    if ( ( !$RequireUserLogin or is_a( $user, "eZUser" )  ) and
-             $ShowPrice and $product->showPrice() == true )
+    if ( ( !$RequireUser || is_a( $user, "eZUser") ) &&
+         ( $ShowPrice && $product->showPrice() ) )
     {
         $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
         $priceRange = $product->correctPriceRange( $PricesIncludeVAT );

@@ -85,17 +85,17 @@ class eZMedia
 
         $db->begin( );
 
-        $name =& $db->escapeString( $this->Name );
-        $description =& $db->escapeString( $this->Description );
-        $caption =& $db->escapeString( $this->Caption );
-        $filename =& $db->escapeString( $this->FileName );
-        $originalfilename =& $db->fieldName( $this->OriginalFileName );
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $caption = $db->escapeString( $this->Caption );
+        $filename = $db->escapeString( $this->FileName );
+        $originalfilename = $db->fieldName( $this->OriginalFileName );
 
         if ( $this->ID == "" )
         {
             $db->lock( "eZMediaCatalogue_Media" );
 
-            $timeStamp =& eZDateTime::timeStamp( true );
+            $timeStamp = eZDateTime::timeStamp( true );
 
             $this->ID = $db->nextID( "eZMediaCatalogue_Media", "ID" );
             $res = $db->query( "INSERT INTO eZMediaCatalogue_Media
@@ -190,16 +190,16 @@ class eZMedia
                 {
                     print( "<br /><b>Error: Media's with the same ID was found in the database. This shouldent happen.</b><br />" );
                 }
-                $this->ID =& $media_array[0][$db->fieldName("ID")];
-                $this->Name =& $media_array[0][$db->fieldName("Name")];
-                $this->Caption =& $media_array[0][$db->fieldName("Caption")];
-                $this->Description =& $media_array[0][$db->fieldName("Description")];
-                $this->FileName =& $media_array[0][$db->fieldName("FileName")];
-                $this->OriginalFileName =& $media_array[0][$db->fieldName("OriginalFileName")];
-                $this->UserID =& $media_array[0][$db->fieldName("UserID")];
-                $this->WritePermission =& $media_array[0][$db->fieldName("WritePermission")];
-                $this->ReadPermission =& $media_array[0][$db->fieldName("ReadPermission")];
-                $this->PhotographerID =& $media_array[0][$db->fieldName("PhotographerID")];
+                $this->ID = $media_array[0][$db->fieldName("ID")];
+                $this->Name = $media_array[0][$db->fieldName("Name")];
+                $this->Caption = $media_array[0][$db->fieldName("Caption")];
+                $this->Description = $media_array[0][$db->fieldName("Description")];
+                $this->FileName = $media_array[0][$db->fieldName("FileName")];
+                $this->OriginalFileName = $media_array[0][$db->fieldName("OriginalFileName")];
+                $this->UserID = $media_array[0][$db->fieldName("UserID")];
+                $this->WritePermission = $media_array[0][$db->fieldName("WritePermission")];
+                $this->ReadPermission = $media_array[0][$db->fieldName("ReadPermission")];
+                $this->PhotographerID = $media_array[0][$db->fieldName("PhotographerID")];
 
                 $ret = true;
             }
@@ -212,7 +212,7 @@ class eZMedia
       \static
       Fetches an media from the database if one with the same "original filename" is found.
     */
-    function &getByOriginalFileName( $id = "" )
+    function getByOriginalFileName( $id = "" )
     {
         $db =& eZDB::globalDatabase();
         $ret = new eZMedia();
@@ -292,7 +292,7 @@ class eZMedia
     /*!
       Returns the media's definition category.
     */
-    function &categoryDefinition( )
+    function categoryDefinition( )
     {
         $db =& eZDB::globalDatabase();
 
@@ -318,7 +318,7 @@ class eZMedia
 
       The medias are returned as an array of eZMedia objects.
      */
-    function &getUnassigned()
+    function getUnassigned()
     {
         $db =& eZDB::globalDatabase();
 
@@ -339,7 +339,7 @@ class eZMedia
     /*!
       Get the total count of all the unassigned medias.
      */
-    function &countUnassigned()
+    function countUnassigned()
     {
         $db =& eZDB::globalDatabase();
 
@@ -363,7 +363,7 @@ class eZMedia
     /*!
       Returns the name of the media.
     */
-    function &name( $html = true )
+    function name( $html = true )
     {
        if ( $html )
            return htmlspecialchars( $this->Name );
@@ -374,7 +374,7 @@ class eZMedia
     /*!
       Returns the caption of the media.
     */
-    function &caption( $html = true )
+    function caption( $html = true )
     {
        if ( $html )
            return htmlspecialchars( $this->Caption );
@@ -385,7 +385,7 @@ class eZMedia
     /*!
       Returns the description of the media.
     */
-    function &description( $html = true )
+    function description( $html = true )
     {
         if ( $html )
             return htmlspecialchars( $this->Description );
@@ -396,7 +396,7 @@ class eZMedia
     /*!
       Returns the filename of the media.
     */
-    function &fileName()
+    function fileName()
     {
         return $this->FileName;
     }
@@ -404,12 +404,12 @@ class eZMedia
     /*!
       Returns the original file name of the media.
     */
-    function &originalFileName()
+    function originalFileName()
     {
         return $this->OriginalFileName;
     }
 
-    function &fileExists( $relative=false )
+    function fileExists( $relative=false )
     {
        if ( $relative == true )
        {
@@ -439,8 +439,8 @@ class eZMedia
        {
            $path = '/' . $path;
        }
-
-       if ( !eZFile::file_exists( $path ) or !is_file( $path ) )
+       
+       if ( !eZFile::file_exists( $path ) or !eZFile::is_file( $path ) )
        {
            $path = "ezmediacatalogue/admin/medias/failedmedia.gif";
            if ( !$relative )
@@ -452,7 +452,7 @@ class eZMedia
     /*!
       Same as filePath()
      */
-    function &mediaPath( $relative = false )
+    function mediaPath( $relative = false )
     {
         return $this->filePath( $relative );
     }
@@ -460,7 +460,7 @@ class eZMedia
     /*!
       Returns a eZUser object.
     */
-    function &user()
+    function user()
     {
         if ( $this->UserID != 0 )
         {
@@ -569,7 +569,7 @@ class eZMedia
     /*!
       Returns the media's categories.
     */
-    function &categories()
+    function categories()
     {
         $db =& eZDB::globalDatabase();
 
@@ -673,7 +673,7 @@ class eZMedia
     /*!
       Returns the link's type.
     */
-    function &type()
+    function type()
     {
         $db =& eZDB::globalDatabase();
 
@@ -704,13 +704,14 @@ class eZMedia
 
     }
 
-    function &attributeString( )
+    function attributeString( )
     {
-        $type =& $this->type();
+        $type = $this->type();
 
         if ( $type )
         {
             $attributes = $type->attributes();
+            $attString = '';
 
             foreach( $attributes as $attribute )
             {

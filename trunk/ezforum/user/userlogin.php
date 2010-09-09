@@ -40,8 +40,12 @@ if ( eZUser::currentUser() )
     if ( isset( $RedirectURL ) )
     {
         $AdditionalURLInfo="?RedirectURL=$RedirectURL";
+    } 
+    else 
+    {
+    	$RedirectURL='';
     }
-
+    
     if ( $Action == "newsimple" )
     {
         eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
@@ -74,8 +78,16 @@ if ( eZUser::currentUser() )
 }
 else
 {
-    $Anonymous == false;
+    $Anonymous = false;
     
+    if ( isset( $RedirectURL ) )
+    {
+        $AdditionalURLInfo="?RedirectURL=$RedirectURL";
+    } 
+    else 
+    {
+    	$RedirectURL='';
+    }
     
     switch ( $Action )
     {
@@ -155,4 +167,3 @@ else
     }
 }
 
-?>

@@ -424,7 +424,6 @@ class eZUser
         {
             $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
             $GLOBALS["eZCurrentUserObject"] =& $ret;
-
         }
         return $ret;
     }
@@ -673,7 +672,7 @@ class eZUser
 
       Returns false if unsuccess ful, true if successful.
     */
-    function loginUser( $user )
+    function loginUser( &$user )
     {
         $ret = false;
 
@@ -1062,23 +1061,25 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
 
-        if ( !$id )
-            $id = $this->ID;
+        $id = $this->ID;
 
         $db->array_query( $address_array, "SELECT AddressID FROM eZAddress_AddressDefinition
                                 WHERE UserID='$id' ORDER BY AddressID" );
 
-        if ( $as_object )
+        if (count($address_array)) 
         {
-            if ( $address_array[0][$db->fieldName( "AddressID" )] != 0 )
-                $ret = new eZAddress( $address_array[0][$db->fieldName( "AddressID" )] );
+	        if ( $as_object )
+	        {
+	            if ( $address_array[0][$db->fieldName( "AddressID" )] != 0 )
+	                $ret = new eZAddress( $address_array[0][$db->fieldName( "AddressID" )] );
+	        }
+	        else
+	        {
+	            $ret = $address_array[0][$db->fieldName( "AddressID" )];
+	        }
+        	return $ret;
         }
-        else
-        {
-            $ret = $address_array[0][$db->fieldName( "AddressID" )];
-        }
-
-        return $ret;
+        return null;
     }
 
     function trustees( $id = -1, $as_object = false )

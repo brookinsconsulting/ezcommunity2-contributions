@@ -332,7 +332,7 @@ class eZProduct
     /*!
       Returns the name of the product.
     */
-    function &name( )
+    function name( )
     {
        return htmlspecialchars( $this->Name );
     }
@@ -340,7 +340,7 @@ class eZProduct
     /*!
       Returns the remote ID of the product.
     */
-    function &remoteID( )
+    function remoteID( )
     {
        return $this->RemoteID;
     }
@@ -349,7 +349,7 @@ class eZProduct
     /*!
       Returns the price of the product.
     */
-    function &price()
+    function price()
     {
         return $this->Price;
     }
@@ -358,7 +358,7 @@ class eZProduct
       Returns the correct price of the product based on the logged in user, and the
       VAT status and use.
     */
-    function &correctPrice( $calcVAT, $withPriceGroups = true )
+    function correctPrice( $calcVAT, $withPriceGroups = true )
     {
         $db =& eZDB::globalDatabase();
         $inUser =& eZUser::currentUser();
@@ -427,7 +427,7 @@ class eZProduct
     /*!
       Returns the correct localized savings of the product.
     */
-    function &localeSavings( $calcVAT )
+    function localeSavings( $calcVAT )
     {
         $inUser =& eZUser::currentUser();
         $ini =& INIFile::globalINI();
@@ -447,7 +447,7 @@ class eZProduct
       Returns the savings of the product based on the logged in user, and the
       VAT status and use.
     */
-    function &correctSavings( $calcVAT )
+    function correctSavings( $calcVAT )
     {
         $db =& eZDB::globalDatabase();
         $inUser =& eZUser::currentUser();
@@ -494,18 +494,18 @@ class eZProduct
             $savings = 0;
         }
 
-        $vatType =& $this->vatType();
+        $vatType = $this->vatType();
 
         if ( $calcVAT == true )
         {
             if ( $this->excludedVAT() )
             {
-                $vatType =& $this->vatType();
+                $vatType = $this->vatType();
                 $vat = 0;
 
                 if ( $vatType )
                 {
-                    $vat =& $vatType->value();
+                    $vat = $vatType->value();
                 }
 
                 $savings = ( $savings * $vat / 100 ) + $savings;
@@ -515,12 +515,12 @@ class eZProduct
         {
             if ( $this->includesVAT() )
             {
-                $vatType =& $this->vatType();
+                $vatType = $this->vatType();
                 $vat = 0;
 
                 if ( $vatType )
                 {
-                    $vat =& $vatType->value();
+                    $vat = $vatType->value();
                 }
 
                 $savings = $savings - ( $savings / ( $vat + 100 ) ) * $vat;
@@ -536,7 +536,7 @@ class eZProduct
       Returns the correct price range of the product based on the logged in user, and the
       VAT status and use.
     */
-    function &correctPriceRange( $calcVAT, $withPriceGroups = true )
+    function correctPriceRange( $calcVAT, $withPriceGroups = true )
     {
         $inUser =& eZUser::currentUser();
 
@@ -678,7 +678,7 @@ class eZProduct
       If a value is given as argument this value is used for VAT calculation.
       This is used in carts where you have multiple products and prices on options.
     */
-    function &priceIncVAT( $price="" )
+    function priceIncVAT( $price="" )
     {
        if ( $price == "" )
        {
@@ -774,7 +774,7 @@ class eZProduct
       If a value is given as argument this value is used for VAT calculation.
       This is used in carts where you have multiple products and prices on options.
     */
-    function &addVAT( $price="" )
+    function addVAT( $price="" )
     {
        if ( $price == "" )
        {
@@ -1740,10 +1740,11 @@ class eZProduct
     */
     function &hotDealProducts( $limit = false )
     {
+       $limit_text = '';
        if ( is_numeric( $limit ) and $limit >= 0 )
        {
            $limit_text = "array( \"Limit\" => $limit, \"Offset\" => 0 )";
-       }
+       } 
 
        $permissionSQLArray = eZProductCategory::generatePermissionSQL( false );
        $permissionTableSQL = $permissionSQLArray["TableSQL"];

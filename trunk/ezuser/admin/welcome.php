@@ -64,6 +64,7 @@ if ( $user )
 
 if ( $ini->read_var( "site", "CheckDependence" ) == "enabled" )
 {
+	$error = false;
     $image_prog = "convert";    
     if ( $ini->has_var( "classes", "ImageConversionProgram" ) )
         $image_prog = $ini->read_var( "classes", "ImageConversionProgram" );
@@ -86,4 +87,3 @@ if ( $ini->read_var( "site", "CheckDependence" ) == "enabled" )
 
 $t->pparse( "output", "welcome_tpl" );
 
-?>

@@ -146,7 +146,7 @@ else
     $t->set_var( "no_address", $no_address );
     
     if ( ! isset( $RedirectURL ) )
-        $RedirectURL = $REQUEST_URI;
+        $RedirectURL = $_SERVER['REQUEST_URI'];
     if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) )
     {
         $t->set_var( "redirect_url", "/" );
@@ -171,5 +171,3 @@ else
     
     $t->pparse( "output", "userbox" );
 } 
-
-?>

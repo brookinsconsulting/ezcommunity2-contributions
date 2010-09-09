@@ -110,7 +110,7 @@ if ( $PureStatic != "true" )
         }
         else
         {
-            $t->set_var( "article_link_text", $DefaultLinkText );
+            $t->set_var( "article_link_text", isset($DefaultLinkText)?$DefaultLinkText:'More' );
         }
 
 		if ( ( $url_array[2] == "articlestatic" ) && ( $url_array[3] == $article->id() ) )

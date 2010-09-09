@@ -260,7 +260,7 @@ class eZCompanyType
 
         foreach ( $company_type_array as $companyTypeItem )
         {
-            $return_array[] =& new eZCompanyType( $companyTypeItem[ $db->fieldName( "ID" ) ] );
+            $return_array[] = new eZCompanyType( $companyTypeItem[ $db->fieldName( "ID" ) ] );
         }
         return $return_array;
     }

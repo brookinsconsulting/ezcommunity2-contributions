@@ -303,7 +303,12 @@ class eZCart
     {
         $tax = "";
         $total = "";
-
+        $totalIncTax = 0;
+        $totalExTax = 0;
+        $shippingVAT = 0;
+        $shippingCost = 0;
+        
+        
         $products = false;
 
         if ( !$voucher )
@@ -378,16 +383,25 @@ class eZCart
 
 
         }
-        if ( $shippingVATPercentage == "" )
+        if ( !isset($shippingVATPercentage) )
             $shippingVATPercentage = 0;
 
         $user =& eZUser::currentUser();
         $useVAT = true;
 
-        $tax["$shippingVATPercentage"]["basis"] += $shippingCost - $shippingVAT;
-        $tax["$shippingVATPercentage"]["tax"] += $shippingVAT;
-        $tax["$shippingVATPercentage"]["percentage"] = $shippingVATPercentage;
-
+        if (!isset($tax[$shippingVATPercentage])) 
+        {
+	        $tax[$shippingVATPercentage]= array(
+	        	"basis" => $shippingCost - $shippingVAT,
+	        	"tax"   => $shippingVAT,
+	        	"percentage" => $shippingVATPercentage);
+        }
+        else
+        {
+	        $tax[$shippingVATPercentage]["basis"] += $shippingCost - $shippingVAT;
+	        $tax[$shippingVATPercentage]["tax"] += $shippingVAT;
+	        $tax[$shippingVATPercentage]["percentage"] = $shippingVATPercentage;
+        }
 
         $total["shipinctax"] = $shippingCost;
         $total["shipextax"] = $shippingCost - $shippingVAT;

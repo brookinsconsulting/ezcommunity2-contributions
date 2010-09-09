@@ -555,7 +555,7 @@ class eZArticleCategory
 
         $parent = $category->parent();
 
-        if ( $parent != 0 )
+        if ( is_a($parent, 'eZArticleCategory') )
         {
             $path = array_merge( $path, $this->path( $parent->id() ) );
         }

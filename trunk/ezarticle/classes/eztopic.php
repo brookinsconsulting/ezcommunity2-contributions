@@ -123,25 +123,25 @@ class eZTopic
     */
     function get( $id=-1 )
     {
-	$db =& eZDB::globalDatabase();
-
-	$ret = false;
-	if ( $id != "" )
-	{
-	    $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE ID='$id'" );
-	    if( count( $author_array ) == 1 )
-	    {
-		$this->ID =& $author_array[0][$db->fieldName("ID")];
-		$this->Name =& $author_array[0][$db->fieldName("Name")];
-		$this->Description =& $author_array[0][$db->fieldName("Description")];
-		$ret = true;
-	    }
-	    elseif( count( $author_array ) == 1 )
-	    {
-		$this->ID = 0;
-	    }
-	}
-	return $ret;
+		$db =& eZDB::globalDatabase();
+	
+		$ret = false;
+		if ( $id != "" )
+		{
+		    $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE ID='$id'" );
+		    if( count( $author_array ) == 1 )
+		    {
+				$this->ID =& $author_array[0][$db->fieldName("ID")];
+				$this->Name =& $author_array[0][$db->fieldName("Name")];
+				$this->Description =& $author_array[0][$db->fieldName("Description")];
+				$ret = true;
+		    }
+		    elseif( count( $author_array ) == 1 )
+		    {
+				$this->ID = 0;
+		    }
+		}
+		return $ret;
     }
 
 
@@ -154,23 +154,23 @@ class eZTopic
     */
     function &getByName( $name )
     {
-	$db =& eZDB::globalDatabase();
-
-	$topic =& new eZTopic();
-
-	$name = $db->fieldName( $name );
-
-	if( $name != "" )
-	{
-	    $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE Name='$name'" );
-
-	    if( count( $author_array ) == 1 )
-	    {
-		$topic =& new eZTopic( $author_array[0][$db->fieldName("ID")] );
-	    }
-	}
-
-	return $topic;
+		$db =& eZDB::globalDatabase();
+	
+		$topic = new eZTopic();
+	
+		$name = $db->fieldName( $name );
+	
+		if( $name != "" )
+		{
+		    $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE Name='$name'" );
+	
+		    if( count( $author_array ) == 1 )
+		    {
+				$topic = new eZTopic( $author_array[0][$db->fieldName("ID")] );
+		    }
+		}
+	
+		return $topic;
     }
 
     /*!
@@ -178,20 +178,20 @@ class eZTopic
     */
     function &getAll(  )
     {
-	$db =& eZDB::globalDatabase();
-
-	$return_array = array();
-	$topic_array = array();
-
-
-	$db->array_query( $topic_array, "SELECT ID, Name FROM eZArticle_Topic
-					ORDER By Name" );
-
-	foreach ( $topic_array as $topic )
-	{
-	    $return_array[] = new eZTopic( $topic[$db->fieldName("ID")] );
-	}
-	return $return_array;
+		$db =& eZDB::globalDatabase();
+	
+		$return_array = array();
+		$topic_array = array();
+	
+	
+		$db->array_query( $topic_array, "SELECT ID, Name FROM eZArticle_Topic
+						ORDER By Name" );
+	
+		foreach ( $topic_array as $topic )
+		{
+		    $return_array[] = new eZTopic( $topic[$db->fieldName("ID")] );
+		}
+		return $return_array;
     }
     
     /*!
@@ -288,13 +288,13 @@ class eZTopic
                         AND CategoryPermission.ObjectID=Definition.CategoryID
                  GROUP BY Article.ID, Article.IsPublished ORDER BY Article.Name";
 
-	$db->array_query( $article_array, $query );
-
-	foreach ( $article_array as $article )
-	{
-	    $return_array[] = new eZArticle( $article[$db->fieldName("ID")] );
-	}
-	return $return_array;
+		$db->array_query( $article_array, $query );
+	
+		foreach ( $article_array as $article )
+		{
+		    $return_array[] = new eZArticle( $article[$db->fieldName("ID")] );
+		}
+		return $return_array;
     }
 
     /*!
@@ -302,7 +302,7 @@ class eZTopic
     */
     function id()
     {
-	return $this->ID;
+		return $this->ID;
     }
 
     /*!
@@ -310,9 +310,9 @@ class eZTopic
     */
     function name( $html = true )
     {
-	if( $html )
-	    return htmlspecialchars( $this->Name );
-	return $this->Name;
+		if( $html )
+		    return htmlspecialchars( $this->Name );
+		return $this->Name;
     }
 
 
@@ -344,5 +344,3 @@ class eZTopic
     var $Name;
     var $Description;
 }
-
-?>

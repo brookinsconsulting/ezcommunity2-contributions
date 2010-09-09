@@ -487,7 +487,7 @@ class eZMailFolder
         $db->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
 
 //        echo $res[$db->fieldName( "ID" )];
-        if ( $res[$db->fieldName( "ID" )] != "" )
+        if ( $res && $res[$db->fieldName( "ID" )] != "" )
             return new eZMailFolder(  $res[$db->fieldName( "ID" )] );
 
         $ini =& INIFile::globalINI();
