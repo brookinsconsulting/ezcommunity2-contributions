@@ -163,5 +163,3 @@ $t->set_var( "article_id", $article->id() );
 $t->set_var( "site_style", $SiteStyle );
 
 $t->pparse( "output", "arttribute_list_page_tpl" );
-
-?>

@@ -89,6 +89,7 @@ $_SERVER['REQUEST_URI'] = $regs[1];
 
 
 $GLOBALS["DEBUG"] = false;
+$GLOBALS["DDD"] = '';
 $UsePHPSessions = false;
 
 ob_start();

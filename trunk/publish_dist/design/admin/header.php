@@ -68,7 +68,7 @@ $charsetLanguage =& $session->variable( "charsetLanguage" );
 //EP: autoswitch charsets in admin ------------------------------------------
 if ( isset($url_array[2]) && ($url_array[2] == "archive" || $url_array[2] == "articleedit" ))
 {
-    $CategoryID = $url_array[4];
+    $CategoryID = isset($url_array[4])?$url_array[4]:'';
     if ( $url_array[2] == "articleedit" )
     {
         include_once( "ezarticle/classes/ezarticle.php" );

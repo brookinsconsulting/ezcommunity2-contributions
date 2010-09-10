@@ -41,9 +41,7 @@ class eZHTTPTool
       */
     function eZHTTPTool()
     {
-        global $REQUEST_URI;
-
-        $this->url_array =& explode( "/", $REQUEST_URI );
+        $this->url_array =& explode( "/", $_SERVER['REQUEST_URI'] );
         $this->url_array_length = count( $this->url_array );
     }
 
@@ -57,11 +55,11 @@ class eZHTTPTool
     {
         $ret = false;
 
-        $postVars = $GLOBALS["HTTP_POST_VARS"];
+        $postVars = $_POST;
 
         if ( $onlyCheckPost == false )
         {
-            $getVars = $GLOBALS["HTTP_GET_VARS"];
+            $getVars = $_GET;
         }
 
         if ( isset( $postVars[$name] ) )
@@ -89,9 +87,9 @@ class eZHTTPTool
     {
         global $GlobalSiteIni;
 
-        $sid =& $GLOBALS["PHPSESSID"];
+        $sid =& $_REQUEST["PHPSESSID"];
 
-        $cookie_vars = $GLOBALS["HTTP_COOKIE_VARS"];
+        $cookie_vars = $_SERVER["HTTP_COOKIE_VARS"];
 
         // fix location if session is not by cookie
         if ( !isset( $cookie_vars["PHPSESSID"] ) && isset( $sid ) )
@@ -306,7 +304,7 @@ class eZHTTPTool
         $exp= time() + ( $timeout * 86400 );
         $exp=strftime("%a, %d-%b-%Y %H:%M:%S", $exp);
         $exp="$exp GMT";
-        $host = $GLOBALS["HTTP_HOST"];
+        $host = $_SERVER["HTTP_HOST"];
         header("Set-Cookie: $variable=$value;expires=$exp;path=/;domain=.$host");
     }
 
@@ -335,6 +333,4 @@ class eZHTTPTool
     */
     var $url_array_length = 0;
 }
-
-?>
 

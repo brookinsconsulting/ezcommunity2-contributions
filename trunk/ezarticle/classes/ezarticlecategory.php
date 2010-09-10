@@ -589,7 +589,7 @@ class eZArticleCategory
         {
             array_push( $tree, array( $return_array[] = $category, $level ) );
 
-            if ( $category != 0 )
+            if ( isset($category) )
             {
                 $tree = array_merge( $tree, $this->getTree( $category, $level ) );
             }

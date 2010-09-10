@@ -64,7 +64,7 @@ switch ( $url_array[2] )
                 $CategoryID = 0;
         }
         
-        if ( $url_array[4] == "parent" )
+        if ( isset($url_array[4]) && $url_array[4] == "parent" )
             $Offset = $url_array[5];
 
         if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )  ||

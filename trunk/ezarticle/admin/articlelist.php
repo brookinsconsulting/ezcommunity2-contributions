@@ -226,7 +226,7 @@ $t->set_var( "site_style", $SiteStyle );
 $category = new eZArticleCategory( $CategoryID );
 
 /** move article categories up/down **/
-if ( is_numeric( $MoveCategoryUp ) || is_numeric( $MoveCategoryDown ) )
+if ( isset( $MoveCategoryUp ) || isset( $MoveCategoryDown ) )
 {
     if ( is_numeric( $MoveCategoryUp ) )
     {
