@@ -78,7 +78,7 @@ class eZMenuBox
         if ( $ignore_status )
             $menuStatus = "open";
 
-        $uri = $GLOBALS["REQUEST_URI"];
+        $uri = $_SERVER["REQUEST_URI"];
         $up_uri = $uri;
         $down_uri = $uri;
         $up_uri =& eZHTTPTool::addVariable( $up_uri, "MoveUp", $module_dir );
@@ -190,6 +190,7 @@ class eZMenuBox
             $t->setAllStrings();
         }
 
+        $str = '';
         if ( $has_cache )
         {
             $t->set_var( "request_uri", $uri );
@@ -198,7 +199,7 @@ class eZMenuBox
             if ( $print )
                 $t->pparse( "output", "menu_box_tpl" );
             else
-                $str =& $t->parse( "output", "menu_box_tpl" );
+                $str = $t->parse( "output", "menu_box_tpl" );
 
             return $str;
         }
@@ -219,4 +220,3 @@ class eZMenuBox
     }
 };
 
-?>

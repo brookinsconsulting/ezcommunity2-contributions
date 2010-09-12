@@ -310,7 +310,7 @@ class eZTemplate
             $cache_m = eZFile::filemtime( $CacheFile );
             if ( $template_m <= $cache_m && $lang_m <= $cache_m )
             {
-                if ( $this->ExternModtime or $this->ExternModTime <= $cache_m )
+                if ( isset($this->ExternModtime) or $this->ExternModTime <= $cache_m )
                     return true;
             }
         }

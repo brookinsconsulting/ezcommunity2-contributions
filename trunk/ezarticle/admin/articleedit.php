@@ -49,7 +49,7 @@ include_once( "ezxml/classes/ezxml.php" );
 
 $ini =& INIFile::globalINI();
 
-$CategoryID = $HTTP_POST_VARS["CategoryID"];
+$CategoryID = isset($_POST["CategoryID"]) && $_POST["CategoryID"];
 
 // article published from preview
 if ( isset( $PublishArticle ) )
@@ -103,9 +103,9 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             $article->setAuthor( $user );
         }
 
-        $article->setName( $Name );
+        $article->setName( $_POST['Name'] );
 
-        if ( trim( $NewAuthorName ) != "" )
+        if ( trim( $_POST['NewAuthorName'] ) != "" )
         {
             $author = new eZAuthor();
             $author->setName( $NewAuthorName );
@@ -229,13 +229,13 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             if ( checkdate( (int)$StartMonth, (int)$StartDay, (int)$StartYear ) )
             {
                 $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
-                $article->setStartDate( &$startDate );
+                $article->setStartDate( $startDate );
             }
 
             if ( checkdate( (int)$StopMonth, (int)$StopDay, (int)$StopYear ) )
             {
                 $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
-                $article->setStopDate( &$stopDate );
+                $article->setStopDate( $stopDate );
             }
 
             eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
@@ -431,7 +431,7 @@ $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 $t->set_block( "article_edit_page_tpl", "urltranslator_tpl", "urltranslator" );
 
 $Locale = new eZLocale( $Language );
-if ( $ErrorParsing == true )
+if ( isset($_REQUEST['ErrorParsing']) )
 {
     $t->set_var( "article_invalid_contents", $invalidContents );
     $t->parse( "error_message", "error_message_tpl" );
@@ -443,6 +443,10 @@ else
 
 $t->set_var( "article_is_published", "" );
 
+foreach($_REQUEST as $key => $value)
+{
+	$$key = $value;
+}
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
 
@@ -577,7 +581,7 @@ if ( $Action == "Edit" )
         }
     }
 
-    if ( !isset( $Name ) )
+    if ( !isset( $_REQUEST['Name'] ) )
         $t->set_var( "article_name", $article->name() );
 
     $generator = new eZArticleGenerator();

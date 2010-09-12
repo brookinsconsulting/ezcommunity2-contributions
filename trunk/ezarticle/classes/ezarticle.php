@@ -1941,7 +1941,7 @@ class eZArticle
                 $usePermission = false;
         }
 
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) AND";
+        $loggedInSQL = "( ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) AND";
 
         if ( $usePermission )
             $permissionSQL = $loggedInSQL;
@@ -1959,11 +1959,14 @@ class eZArticle
         $query->setStopWordPercent( $StopWordFrequency );
         $searchSQL = $query->buildQuery();
 
+        $authorSQL = "";
         $dateSQL = "";
         $catSQL = "";
         $typeTables = "";
         $typeSQL = "";
         $sectionsSQL = "";
+        $photoSQL = "";
+        $photoTables = "";
 
         if ( isSet( $params["FromDate"] ) )
         {
@@ -2034,7 +2037,7 @@ class eZArticle
         }
 
 
-        if ( $params["SearchExcludedArticles"] == "true" )
+        if ( isset($params["SearchExcludedArticles"]) &&  $params["SearchExcludedArticles"] == "true" )
             $excludeFromSearchSQL = " ";
         else
             $excludeFromSearchSQL = " AND Category.ExcludeFromSearch = '0' ";

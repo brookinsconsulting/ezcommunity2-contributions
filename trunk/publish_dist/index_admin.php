@@ -163,7 +163,7 @@ if ( $user )
     else
     {
         // html header
-        if ( isset($_REQUEST['PrintableVersion']) && $_REQUEST['PrintableVersion'] == "enabled" )
+        if ( !empty($_REQUEST['PrintableVersion']))
         {        
             include( "design/admin/print_header.php" );
         }
@@ -176,7 +176,7 @@ if ( $user )
     
     require( "ezuser/admin/admincheck.php" );
     
-    if ( !( $HelpMode == "enabled" ) )
+    if ( $HelpMode != "enabled" ) 
     {
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
@@ -184,9 +184,9 @@ if ( $user )
         $site_modules = $ini->read_array( "site", "EnabledModules" );
         $modules =& eZModuleHandler::active();
 
-        $uri =& $GLOBALS["REQUEST_URI"];
+        $uri = $_SERVER["REQUEST_URI"];
 
-        if ( isset($_REQUEST['PrintableVersion']) && $PrintableVersion != "enabled" )
+        if ( empty($_REQUEST['PrintableVersion']))
         {
             if ( !empty( $_REQUEST["ToggleMenu"] ) )
             {
@@ -203,13 +203,14 @@ if ( $user )
                 }
             }
 
-            $moved_module = false;
-            eZModuleHandler::moveUp( $modules, $_REQUEST["MoveUp"], $moved_module );
-            if ( !$moved_module )
-            {
-                eZModuleHandler::moveDown( $modules, $_REQUEST["MoveDown"], $moved_module );
+	        $moved_module = false;
+            if (isset($_REQUEST["MoveUp"])) {
+	            eZModuleHandler::moveUp( $modules, $_REQUEST["MoveUp"], $moved_module );
+	            if ( !$moved_module && isset($_REQUEST["MoveDown"]))
+	            {
+	                eZModuleHandler::moveDown( $modules, $_REQUEST["MoveDown"], $moved_module );
+	            }
             }
-
             $uri = eZHTTPTool::removeVariable( $uri, "MoveUp" );
             $uri = eZHTTPTool::removeVariable( $uri, "MoveDown" );
 
@@ -249,7 +250,7 @@ if ( $user )
             $moduleName = "user";
 
 
-        if ( isset($_REQUEST['PrintableVersion']) && $_REQUEST['PrintableVersion'] != "enabled" )
+        if ( empty($_REQUEST['PrintableVersion']))
         {
             // break the column an draw a horizontal line
             include( "design/admin/separator.php" );
@@ -287,7 +288,7 @@ if ( $user )
     else
     {
         // html footer
-        if ( isset($_REQUEST['PrintableVersion']) && $_REQUEST['PrintableVersion'] == "enabled" )
+        if ( !empty($_REQUEST['PrintableVersion']))
         {
             include( "design/admin/print_footer.php" );
         }

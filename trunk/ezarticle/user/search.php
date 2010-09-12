@@ -64,35 +64,45 @@ $t->set_var( "url_category_array", "+" );
 $t->set_var( "url_contentswriter_id", "+" );
 $t->set_var( "url_photographer_id", "+" );
 
-if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
+if ( isset($_REQUEST['StartMonth']) && isset($_REQUEST['StartDay']) && isset($_REQUEST['StartYear']) && 
+	checkdate ( $_REQUEST['StartMonth'], $_REQUEST['StartDay'], $_REQUEST['StartYear'] ) )
 {
-    $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
+    $startDate = new eZDateTime( $_REQUEST['StartYear'], $_REQUEST['StartMonth'], $_REQUEST['StartDay'], 
+    	$_REQUEST['StartHour'], $_REQUEST['StartMinute'], 0 );
     $StartStamp = $startDate->timeStamp();
 }
-if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
+if ( isset($_REQUEST['StopMonth']) && isset($_REQUEST['StopDay']) && isset($_REQUEST['StopYear']) &&
+	 checkdate ( $StopMonth, $StopDay, $StopYear ) )
 {
-    $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
+    $stopDate = new eZDateTime( $_REQUEST['StopYear'], $_REQUEST['StopMonth'], $_REQUEST['StopDay'], 
+    			$_REQUEST['StopHour'], $_REQUEST['StopMinute'], 0 );
     $StopStamp = $stopDate->timeStamp();
 }
 
 $t->set_var( "search_text", "" );
 
-$category = new eZArticleCategory( $CategoryID );
+if (!empty($_REQUEST['CategoryID'])) 
+{
+	$category = new eZArticleCategory( $_REQUEST['CategoryID'] );
+} 
+else 
+{
+	$category = new eZArticleCategory();
+}
 
 $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
-$tmpSearchText = str_replace( "<", "&lt;", $SearchText );
+$tmpSearchText = str_replace( "<", "&lt;", $_REQUEST['SearchText'] );
 $tmpSearchText = str_replace( ">", "&gt;", $tmpSearchText );
 $t->set_var( "search_text", $tmpSearchText );
 
-if( !isset ( $Offset ) )
-    $Offset = 0;
+$Offset = isset ( $_REQUEST['Offset'] )?isset ( $_REQUEST['Offset'] ):0;
 
 // articles
-
-if ( $SearchText )
+$paramsArray = array();
+if ( isset($_REQUEST['SearchText']) )
 {
     if ( isset( $StartStamp ) )
     {
@@ -118,34 +128,33 @@ if ( $SearchText )
 	}
     }										       
 
-    if( $ContentsWriterID != 0 )
+    if( isset($_REQUEST['ContentsWriterID']) )
     {
-        $paramsArray["AuthorID"] = $ContentsWriterID;
-        $t->set_var( "url_contentswriter_id", htmlspecialchars( $ContentsWriterID ) );
+        $paramsArray["AuthorID"] = $_REQUEST['ContentsWriterID'];
+        $t->set_var( "url_contentswriter_id", htmlspecialchars( $_REQUEST['ContentsWriterID'] ) );
     }
 
-    if( $PhotographerID != 0 )
+    if( isset($_REQUEST['PhotographerID'] ))
     {
-        $paramsArray["PhotographerID"] = $PhotographerID;
-        $t->set_var( "url_photographer_id", htmlspecialchars( $PhotographerID ) );
+        $paramsArray["PhotographerID"] = $_REQUEST['PhotographerID'];
+        $t->set_var( "url_photographer_id", htmlspecialchars( $_REQUEST['PhotographerID'] ) );
     }
 
-    if( is_array( $CategoryArray ) && count( $CategoryArray ) > 0 && !in_array( 0, $CategoryArray ) )
+    if( isset($_REQUEST['CategoryArray']) && is_array( $_REQUEST['CategoryArray'] ) && 
+    	count( $_REQUEST['CategoryArray'] ) > 0 && !in_array( 0, $_REQUEST['CategoryArray'] ) )
     {
-        $paramsArray["Categories"] = $CategoryArray;
+        $paramsArray["Categories"] = $_REQUEST['CategoryArray'];
 
         // fix output string for URL
-        $t->set_var( "url_category_array", htmlspecialchars( implode( "-", $CategoryArray ) ) );
+        $t->set_var( "url_category_array", htmlspecialchars( implode( "-", $_REQUEST['CategoryArray'] ) ) );
     }
 
     $t->set_var( "search_text", $tmpSearchText );
     $article = new eZArticle();
     $totalCount = 0;
-    $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit, $paramsArray, $totalCount );
+    $articleList = $article->search( $_REQUEST['SearchText'], "time", false, $Offset, $Limit, $paramsArray, $totalCount );
 
-//    $totalCount = $article->searchCount( $SearchText, false, $paramsArray );
-
-    $t->set_var( "url_text", htmlspecialchars( $SearchText ) );
+    $t->set_var( "url_text", htmlspecialchars( $_REQUEST['SearchText'] ) );
 }
 
 // if ( ( $MaxSearchForArticles != 0 ) && ( $MaxSearchForArticles < $totalCount ) )
@@ -161,7 +170,7 @@ if ( count ( $articleList ) > 0 )
 
         $t->set_var( "article_id", $article->id() );
 	
-        $t->set_var( "category_id", $article->GetCategory( $SectionIDOverride ) );
+        $t->set_var( "category_id", $article->GetCategory( $_REQUEST['SectionIDOverride'] ) );
 
         if ( ( $i % 2 ) == 0 )
         {

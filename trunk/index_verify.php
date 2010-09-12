@@ -1,1 +1,0 @@
-publish_dist/index_verify.php

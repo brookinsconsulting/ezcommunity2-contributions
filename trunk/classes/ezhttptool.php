@@ -89,7 +89,7 @@ class eZHTTPTool
 
         $sid =& $_REQUEST["PHPSESSID"];
 
-        $cookie_vars = $_SERVER["HTTP_COOKIE_VARS"];
+        $cookie_vars = $_COOKIE;
 
         // fix location if session is not by cookie
         if ( !isset( $cookie_vars["PHPSESSID"] ) && isset( $sid ) )

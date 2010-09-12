@@ -28,7 +28,7 @@
 //!! eZLink
 //! The eZQuery class builds SQL queries.
 /*!
-  En klasse som håndterer SQL queries. Lager query setninger fra
+  En klasse som hï¿½ndterer SQL queries. Lager query setninger fra
   tekststrenger.
   
   Example code
@@ -101,7 +101,7 @@ class eZQuery
         else
         {
             $QueryText = trim( $QueryText );
-            $QueryText = ereg_replace( '\\\\"', '"', $QueryText );
+            $QueryText = preg_replace( '/\\\\"/', '"', $QueryText );
             preg_match_all( "/((\"[^\"]+\")|([^ ]+))/", $QueryText, $m );
             $queryArray = array();
             foreach( $m[0] as $match )

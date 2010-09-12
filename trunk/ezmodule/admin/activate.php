@@ -66,7 +66,7 @@ else
 }
 eZModuleHandler::setActive( $modules );
 
-$uri =& $GLOBALS["RefURL"];
+$uri =& $_REQUEST["RefURL"];
 
 // set the first menu item active
 unset( $menuItems );
@@ -77,4 +77,4 @@ unset( $menuItems );
 eZHTTPTool::header( "Location: $uri" );
 exit();
 
-?>
+
