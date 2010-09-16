@@ -52,6 +52,9 @@ $t->set_block( "login_tpl", "max_message_tpl", "max_message" );
 
 if ( $Action == "login" )
 {
+	$Username = $_POST['Username'];
+	$Password = $_POST['Password'];
+	
     $user = new eZUser();
     $user = $user->validateUser( $_POST['Username'], $_POST['Password'] );
 

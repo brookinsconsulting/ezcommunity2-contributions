@@ -83,7 +83,7 @@ class eZImageFile extends eZFile
     */
     function isImage()
     {
-        if ( ereg( "image", $this->FileType ) )
+        if ( preg_match( "/image/", $this->FileType ) )
         {
             $ret = true;
         }
@@ -108,7 +108,7 @@ class eZImageFile extends eZFile
     {
         $ret = array();
         $suffix = "";
-        if ( ereg( "\\.([a-zA-Z]+)$", $file, $regs ) )
+        if ( preg_match( '/\.([a-zA-Z]+)$/', $file, $regs ) )
         {
             // We got a suffix, make it lowercase and store it
             $suffix = strtolower( $regs[1] );

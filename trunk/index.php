@@ -79,7 +79,7 @@ if ( ! preg_match( "/.*index\.php.*/", $_SERVER['PHP_SELF'] ) )
 else
 {
     // Get the right $REQUEST_URI, when using nVH setup.
-    if ( preg_match( "/^$wwwDir$index(.+)/", $_SERVER['PHP_SELF'], $req ) )
+    if ( preg_match( '/^ ' . $wwwDir . str_replace('/', '\/', $index ) . '(.+)/', $_SERVER['PHP_SELF'], $req ) )
         $_SERVER['REQUEST_URI'] = $req[1];
 }
 
