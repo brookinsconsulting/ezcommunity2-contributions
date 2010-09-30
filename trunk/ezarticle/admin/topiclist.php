@@ -34,16 +34,17 @@ if ( isset( $NewTopic ) )
 {
     $i=0;
     if ( count( $IDArray ) > 0 )
-    foreach ( $IDArray as $id )
     {
-        $topic = new eZTopic( $id );
-        $topic->setDescription( $Description[$i] );
-        $topic->setName( $Name[$i] );
-        $topic->store();
+        foreach ( $IDArray as $id )
+        {
+            $topic = new eZTopic( $id );
+            $topic->setDescription( $Description[$i] );
+            $topic->setName( $Name[$i] );
+            $topic->store();
 
-        $i++;
+            $i++;
+        }
     }
-
     $topic = new eZTopic( );
     $topic->store();    
 }
@@ -61,14 +62,16 @@ if ( isset( $Store ) )
 {
     $i=0;
     if ( count( $IDArray ) > 0 )
-    foreach ( $IDArray as $id )
     {
-        $topic = new eZTopic( $id );
-        $topic->setDescription( $Description[$i] );
-        $topic->setName( $Name[$i] );
-        $topic->store();
+        foreach ( $IDArray as $id )
+        {
+            $topic = new eZTopic( $id );
+            $topic->setDescription( $Description[$i] );
+            $topic->setName( $Name[$i] );
+            $topic->store();
 
-        $i++;
+            $i++;
+        }
     }
 }
 

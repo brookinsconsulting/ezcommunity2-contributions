@@ -51,6 +51,7 @@ switch ( $url_array[2] )
 
     case "topiclist":
     {
+        list($NewTopic,$DeleteTopic,$Store,$IDArray,$Description,$Name) = eZHTTPTool::getVar(array('NewTopic','DeleteTopic','Store','IDArray','Description','Name'));
         include( "ezarticle/admin/topiclist.php" );
     }
     break;

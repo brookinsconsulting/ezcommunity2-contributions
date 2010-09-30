@@ -51,28 +51,23 @@ class eZHTTPTool
 
       Returns false if the variable is not set.
      */
-    function &getVar( $name, $onlyCheckPost=false )
+    static function getVar( $name, $onlyCheckPost=false )
     {
-        $ret = false;
-
-        $postVars = $_POST;
-
-        if ( $onlyCheckPost == false )
-        {
-            $getVars = $_GET;
+        if (is_array($name)) {
+            $ret = array();
+            foreach( $name as $v) {
+                $ret[] = eZHTTPTool::getVar($v);
+            }
+            return $ret;
         }
-
-        if ( isset( $postVars[$name] ) )
+        if (isset($_POST[$name]))
         {
-            $ret = $postVars[$name];
+            return $_POST[$name];
         }
-        else if ( isset( $getVars[$name] ) )
+        if (!$onlyCheckPost && isset($_GET[$name])) 
         {
-            $ret = $getVars[$name];
+            return $_GET[$name];
         }
-
-
-        return $ret;
     }
 
 
