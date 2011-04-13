@@ -119,7 +119,7 @@ class eZArticleGenerator
     function &decodeXML( &$contents )
     {
         // find the generator used
-        if ( ereg("<generator>(.*)</generator>", substr( $contents, 0, 200 ), $regs ) )
+        if ( preg_match("/<generator>(.*)<\/generator>/", substr( $contents, 0, 200 ), $regs ) )
         {
             $generator =& $xml->root->children[0]->children[0]->content;
 

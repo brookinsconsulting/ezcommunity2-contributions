@@ -766,17 +766,17 @@ class eZTechRenderer
     */
     function &phpHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );
-        $string = ereg_replace ( "(>)", "&gt;", $string );
+        $string = preg_replace ( "/(<)/", "&lt;", $string );
+        $string = preg_replace ( "/(>)/", "&gt;", $string );
 
         // some special characters
-        $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+        $string = preg_replace ( "/([(){}+-]|=|\[|\])/", "<font color=\"red\">\\1</font>", $string );
 
         // reserved words
-//          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+//          $string = preg_replace ( "/(foreach|function|for|while|switch|as)/", "<font color=\"blue\">\\1</font>", $string );
 
         // comments
-        $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "/(\/\/[^\n]+)/", "<font color=\"orange\">\\1</font>", $string );
 
         $string = preg_replace ( "#(/\*.+?\*/)#ms", "<font color=\"orange\">\\1</font>", $string );
 
@@ -814,7 +814,7 @@ class eZTechRenderer
     {
 
         // some special characters
-        $string = ereg_replace ( "([(){},+-;]|=|\[|\])", "<font color=\"green\">\\1</font>", $string );
+        $string = preg_replace ( "/([(){},+-;]|=|\[|\])/", "<font color=\"green\">\\1</font>", $string );
 
         $string = preg_replace ( "#('.*?')#", "<font color=\"red\">\\1</font>", $string );
 
@@ -856,7 +856,7 @@ class eZTechRenderer
 
 
         // some special characters
-        $string = ereg_replace ( "([;,])", "<font color=\"red\">\\1</font>", $string );
+        $string = preg_replace ( "/([;,])/", "<font color=\"red\">\\1</font>", $string );
 
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
@@ -870,15 +870,15 @@ class eZTechRenderer
     */
     function &cppHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );
-        $string = ereg_replace ( "(>)", "&gt;", $string );
+        $string = preg_replace ( "/(<)/", "&lt;", $string );
+        $string = preg_replace ( "/(>)/", "&gt;", $string );
 
         // some special characters
-        $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+        $string = preg_replace ( "/([(){}+-]|=|\[|\])/", "<font color=\"red\">\\1</font>", $string );
 
         // comments
-        $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
-        $string = ereg_replace ( "(/\*[^\*]+\*/)", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "/(//[^\n]+)/", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "/(/\*[^\*]+\*/)/", "<font color=\"orange\">\\1</font>", $string );
 
         // reserved words
         $reservedWords = array( "/(function)/",
@@ -899,7 +899,7 @@ class eZTechRenderer
         $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
 
         // newlines
-//        $string = ereg_replace ( "\n", "<br />\n newline", $string );
+//        $string = preg_replace ( "/\n/", "<br />\n newline", $string );
 
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
@@ -923,10 +923,10 @@ class eZTechRenderer
 
 
         // comment
-        $string = ereg_replace ( "(\#[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "/(\#[^\n]+)/", "<font color=\"orange\">\\1</font>", $string );
 
         // some special characters
-        $string = ereg_replace ( "([;,]|\]|\[)", "<font color=\"red\">\\1</font>", $string );
+        $string = preg_replace ( "/([;,]|\]|\[)/", "<font color=\"red\">\\1</font>", $string );
 
 
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
@@ -941,17 +941,17 @@ class eZTechRenderer
     */
     function &perlHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );
-        $string = ereg_replace ( "(>)", "&gt;", $string );
+        $string = preg_replace ( "/(<)/", "&lt;", $string );
+        $string = preg_replace ( "/(>)/", "&gt;", $string );
 
         // some special characters
-        $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+        $string = preg_replace ( "/([(){}+-]|=|\[|\])/", "<font color=\"red\">\\1</font>", $string );
 
         // reserved words
-//          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+//          $string = preg_replace ( "/(foreach|function|for|while|switch|as)/", "<font color=\"blue\">\\1</font>", $string );
 
         // comments
-        $string = ereg_replace ( "(#[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "/(#[^\n]+)/", "<font color=\"orange\">\\1</font>", $string );
 
         $reservedWords = array( "/(function)/",
                                 "/( as )/",
@@ -1024,11 +1024,11 @@ class eZTechRenderer
                 {
                     $tmpstring .= "<font color=\"red\">(</font>";
                     $command = substr( $string, $index + 1, $end - $index - 1 );
-                    if ( eregi( "(let|if|while)", $command ) )
+                    if ( preg_match( "/(let|if|while)/i", $command ) )
                     {
                         $tmpstring .= "<font color=\"blue\">" . $command . "</font>";
                     }
-                    else if ( eregi( "(defun|defvar)", $command ) )
+                    else if ( preg_match( "/(defun|defvar)/i", $command ) )
                     {
                         $name_end = strpos( $string, " ", $end + 1 );
                         if ( $name_end === false )
@@ -1081,8 +1081,8 @@ class eZTechRenderer
 
         return $string;
 
-//          $string = ereg_replace ( "(<)", "&lt;", $string );
-//          $string = ereg_replace ( "(>)", "&gt;", $string );
+//          $string = preg_replace ( "/(<)/", "&lt;", $string );
+//          $string = preg_replace ( "/(>)/", "&gt;", $string );
 
 //          // comments
 //          $string = preg_replace ( "#(;.*$)#m", "<font color=\"orange\">\\1</font>", $string );
@@ -1090,15 +1090,15 @@ class eZTechRenderer
 //          // indenting
 //          $string = preg_replace( "/( )/m", "&nbsp;", $string );
 
-//          $string = ereg_replace( "(\"[^\"]*\")", "<font color=\"green\">\\1</font>", $string );
+//          $string = preg_replace( "/(\"[^\"]*\")/", "<font color=\"green\">\\1</font>", $string );
 
 //          // some special characters
-//          $string = ereg_replace ( "([(){}+-]|\[|\])", "<font color=\"red\">\\1</font>", $string );
+//          $string = preg_replace ( "/([(){}+-]|\[|\])/", "<font color=\"red\">\\1</font>", $string );
 
-//          $string = ereg_replace( "(defun|let|if|while)", "<font color=\"blue\">\\1</font>", $string );
+//          $string = preg_replace( "/(defun|let|if|while)/", "<font color=\"blue\">\\1</font>", $string );
 
 //          // reserved words
-//  //          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+//  //          $string = preg_replace ( "/(foreach|function|for|while|switch|as)/", "<font color=\"blue\">\\1</font>", $string );
 
 
 //          $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
@@ -1123,15 +1123,15 @@ class eZTechRenderer
     */
     function &javaHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );
-        $string = ereg_replace ( "(>)", "&gt;", $string );
+        $string = preg_replace ( "/(<)/", "&lt;", $string );
+        $string = preg_replace ( "/(>)/", "&gt;", $string );
 
         // some special characters
-        $string = ereg_replace ( "([(){},+-;]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+        $string = preg_replace ( "/([(){},+-;]|=|\[|\])/", "<font color=\"red\">\\1</font>", $string );
 
         // comments
-        $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
-        $string = ereg_replace ( "(/\*[^\*]+\*/)", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "/(\/\/[^\n]+)/", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "/(\/\*[^\*]+\*\/)/", "<font color=\"orange\">\\1</font>", $string );
 
         // reserved words
         $reservedWords = array( "/(function)/",
@@ -1155,7 +1155,7 @@ class eZTechRenderer
         $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
 
         // newlines
-//        $string = ereg_replace ( "\n", "<br />\n newline", $string );
+//        $string = preg_replace ( "/\n/", "<br />\n newline", $string );
 
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";

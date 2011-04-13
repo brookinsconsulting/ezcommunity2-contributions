@@ -51,7 +51,7 @@ $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $article = new eZArticle( $ArticleID );
 
 $session =& eZSession::globalSession();
-$session->setVariable( "ImageListReturnTo", $REQUEST_URI );
+$session->setVariable( "ImageListReturnTo", $_SERVER['REQUEST_URI'] );
 $session->setVariable( "SelectImages", "multi" );
 $session->setVariable( "NameInBrowse", $article->name() );
 
@@ -116,7 +116,7 @@ else
             $t->set_var( "td_class", "bgdark" );
 
         $t->set_var( "thumbnail_image_checked", "" );
-        if ( $thumbnail != 0 )
+        if ( $thumbnail )
         {
             if ( $thumbnail->id() == $image->id() )
             {
@@ -151,5 +151,3 @@ else
 $t->set_var( "article_id", $article->id() );
 
 $t->pparse( "output", "image_list_page_tpl" );
-
-?>

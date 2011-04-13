@@ -51,14 +51,14 @@ switch ( $url_array[2] )
 
     case "topiclist":
     {
-        list($NewTopic,$DeleteTopic,$Store,$IDArray,$Description,$Name) = eZHTTPTool::getVar(array('NewTopic','DeleteTopic','Store','IDArray','Description','Name'));
+        eZHTTPTool::extractVar(array('NewTopic','DeleteTopic','Store','IDArray','Description','Name'));
         include( "ezarticle/admin/topiclist.php" );
     }
     break;
     
     case "archive":
     {
-        if ( !is_numeric( eZHTTPTool::getVar( "CategoryID", true ) ) )
+        if ( !is_numeric( $CategoryID=eZHTTPTool::getVar( "CategoryID", true ) ) )
         {
             $CategoryID = $url_array[3];
             if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
@@ -140,7 +140,6 @@ switch ( $url_array[2] )
     {
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
-        
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
             $PageNumber= 1;
 
@@ -169,7 +168,14 @@ switch ( $url_array[2] )
             eZHTTPTool::header( "Location: /error/403?Info=$info" );
             exit();
         }
-            
+
+        eZHTTPTool::extractVar(array('Name','Keywords','Contents','AuthorText','AuthorEmail', 'LinkText', 
+        	'StartDay', 'StartMonth', 'StartYear', 'StartHour', 'StartMinute',
+        	'StopDay', 'StopMonth', 'StopYear', 'StopHour', 'StopMinute',
+        //Actions
+        	'Action', 'PublishArticle', 'AddItem', 'ItemToAdd', 'Preview', 'Log',  
+        ));
+        
         switch ( $url_array[3] )
         {
            
@@ -235,6 +241,8 @@ switch ( $url_array[2] )
 
             case "imagelist" :
             {
+            	eZHTTPTool::extractVar(array('MoveImageUp','MoveImageDown','AddImages', 
+            		'ImageArrayID' ));
                 $ArticleID = $url_array[4];
                 if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
                      eZArticle::isAuthor( $user, $ArticleID ) )
@@ -244,7 +252,9 @@ switch ( $url_array[2] )
 
             case "medialist" :
             {
-                $ArticleID = $url_array[4];
+            	eZHTTPTool::extractVar(array('MoveImageUp','MoveImageDown','AddMedia', 
+            		'MediaArrayID' ));
+            	$ArticleID = $url_array[4];
                 if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
                      eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/medialist.php" );
@@ -253,7 +263,9 @@ switch ( $url_array[2] )
 
             case "filelist" :
             {
-                $ArticleID = $url_array[4];
+            	eZHTTPTool::extractVar(array('MoveImageUp','MoveImageDown','AddFile', 
+            		'FileArrayID' ));
+            	$ArticleID = $url_array[4];
                 if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
                      eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/filelist.php" );
@@ -312,7 +324,7 @@ switch ( $url_array[2] )
             
             case "formlist" :
             {
-                $ArticleID = $url_array[4];
+            	$ArticleID = $url_array[4];
                 if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/formlist.php" );
@@ -545,4 +557,3 @@ switch ( $url_array[2] )
 
 // display a page with error msg
 
-?>

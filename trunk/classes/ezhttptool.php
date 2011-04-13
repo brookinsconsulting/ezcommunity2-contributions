@@ -56,7 +56,7 @@ class eZHTTPTool
         if (is_array($name)) {
             $ret = array();
             foreach( $name as $v) {
-                $ret[] = eZHTTPTool::getVar($v);
+                $ret[] = eZHTTPTool::getVar($v,$onlyCheckPost);
             }
             return $ret;
         }
@@ -70,7 +70,21 @@ class eZHTTPTool
         }
     }
 
+    /*!
+      \static
+      extracts a variable from Post or Get operations.
 
+      Returns false if the variable is not set.
+     */
+    static function extractVar( $vars, $onlyCheckPost=false )
+    {
+        if (is_array($vars)) {
+            foreach( $vars as $v) {
+            	$GLOBALS[$v] = eZHTTPTool::getVar($v,$onlyCheckPost); 
+            }
+        }
+    }
+    
     /*!
       \static
       This function is a wrapper to the PHP function
@@ -94,7 +108,7 @@ class eZHTTPTool
         }
 
         // Redirect differently, when we are not using virtual hosts/mod_rewrite
-        if ( ereg( "^Location:[ ]*(/.*)", $string, $regs ) )
+        if ( preg_match( "/^Location:[ ]*(\/.*)/", $string, $regs ) )
         {
             $string = "Location: " . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $regs[1];
         }

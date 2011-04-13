@@ -143,58 +143,50 @@ if( $typeCount > 0 )
 
 $usedImages = $renderer->usedImageList();
 $images =& $article->images();
-    
-{
-    $i=0;
-    foreach ( $images as $imageArray )
-    {
-        $image = $imageArray["Image"];
-        $placement = $imageArray["Placement"];
+$imageNumber = 0;
+$i=0;
+foreach ( $images as $imageArray ) {
+    $image = $imageArray["Image"];
+    $placement = $imageArray["Placement"];
 
-        $showImage = true;
+	$showImage = true;
 
-        if ( is_array( $usedImages ) == true )
-        {
-            if ( in_array( $placement, $usedImages ) )
-            {
-                $showImage = false;
-            }
-        }
-            
-        if (  $showImage  )
-        {
-            if ( ( $i % 2 ) == 0 )
-            {
-                $t->set_var( "td_class", "bglight" );
-            }
-            else
-            {
-                $t->set_var( "td_class", "bgdark" );
-            }
-
-            if ( $image->caption() == "" )
-                $t->set_var( "image_caption", "&nbsp;" );
-            else
-                $t->set_var( "image_caption", $image->caption() );
-
-            
-            $t->set_var( "image_id", $image->id() );
-            $t->set_var( "article_id", $ArticleID );
-
-            $variation =& $image->requestImageVariation( 150, 150 );
-
-            $t->set_var( "image_url", "/" . $variation->imagePath() );
-            $t->set_var( "image_width", $variation->width() );
-            $t->set_var( "image_height",$variation->height() );
-
-            $t->parse( "image", "image_tpl", true );
-            $i++;
-        }
-        $imageNumber++;
+	if ( is_array( $usedImages ) ) {
+		if ( in_array( $placement, $usedImages ) ) {
+        	$showImage = false;
+    	}
     }
+            
+	if (  $showImage  ) {
+		if ( ( $i % 2 ) == 0 ) {
+        	$t->set_var( "td_class", "bglight" );
+		} else {
+        	$t->set_var( "td_class", "bgdark" );
+        }
 
-    $t->parse( "image_list", "image_list_tpl", true );
+		if ( $image->caption() == "" )
+        	$t->set_var( "image_caption", "&nbsp;" );
+		else
+        	$t->set_var( "image_caption", $image->caption() );
+
+            
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "article_id", $ArticleID );
+
+        $variation =& $image->requestImageVariation( 150, 150 );
+
+        $t->set_var( "image_url", "/" . $variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height",$variation->height() );
+
+        $t->parse( "image", "image_tpl", true );
+    	$i++;
+    }
+	$imageNumber++;
 }
+
+$t->parse( "image_list", "image_list_tpl", true );
+
 if ( $i == 0 )
     $t->set_var( "image_list", "" );    
 

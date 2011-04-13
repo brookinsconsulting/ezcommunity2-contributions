@@ -36,13 +36,13 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZFormMain", "Language" );
 
 $article = new eZArticle( $ArticleID );
-$selectedForm =& eZArticleForm::articleHasForm( $article );
+$selectedForm = eZArticleForm::articleHasForm( $article );
 
 if( isset( $OK ) )
 {
     if( $selectedFormID > 0 )
     {
-        $form =& new eZForm( $selectedFormID );
+        $form = new eZForm( $selectedFormID );
         $article->deleteForms();
         $article->addForm( $form );
         $article->store();
@@ -116,4 +116,3 @@ $t->set_var( "action_value", $ActionValue );
 $t->set_var( "site_style", $SiteStyle );
 $t->pparse( "output", "form_list_page_tpl" );
 
-?>

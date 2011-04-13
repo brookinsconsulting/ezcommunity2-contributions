@@ -110,7 +110,7 @@ class eZQDomGenerator
     
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
-        $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
+        $tmpPage = preg_replace ( "/&/", "&amp;", $tmpPage );
 
         $tmpPage = $this->generateUnknowns( $tmpPage );
 
@@ -554,6 +554,8 @@ class eZQDomGenerator
     */     
     function &decodeHeader(  $paragraph )
     {
+    	$pageContent = '';
+    	
         switch ( $paragraph->name )
         {
             case "header" :
@@ -599,85 +601,66 @@ class eZQDomGenerator
     */
     function &decodeImage( $paragraph )
     {
+    	$imageCaptionOverride = $imageID = $imageAlignment = $imageSize = $imageHref = 
+    	$imageTarget = '';
         // image 
-        if ( $paragraph->name == "image" )
-        {
-            foreach ( $paragraph->attributes as $imageItem )
-                {
-                    switch ( $imageItem->name )
-                    {
-
-                        case "id" :
-                        {
-                            $imageID = $imageItem->children[0]->content;
-                        }
-                        break;
-
-                        case "align" :
-                        {
-                            $imageAlignment = $imageItem->children[0]->content;
-                        }
-                        break;
-
-                        case "size" :
-                        {
-                            $imageSize = $imageItem->children[0]->content;
-                        }
-                        break;
-
-                        case "href" :
-                        {
-                            $imageHref = $imageItem->children[0]->content;
-                        }
-                        break;
-
-                        case "caption" :
-                        {
-                            $imageCaptionOverride = trim( $imageItem->children[0]->content );
-                        }
-                        break;
-
-                        case "target" :
-                        {
-                            $imageTarget = trim( $imageItem->children[0]->content );
-                        }
-                        break;
-                        
-                    }
-                }
-            
-            if (
-                $imageSize != "small"  &&
-                $imageSize != "medium" &&
-                $imageSize != "large"  &&
-                $imageSize != "original"
-                )
-            {
-                $imageSize = "medium";
-            }
-
-            if ( $imageCaptionOverride != "" || $imageTarget != "" )
-            {
-                $captionText = "";
-                $targetText = "";
-                
-                if ( $imageCaptionOverride != "" )
-                    $captionText = "caption=\"$imageCaptionOverride\"";
-
-                if ( $imageTarget != "" )
-                    $targetText = "target=\"$imageTarget\"";
-
-                if ( $imageHref != "" )
-                    $hrefText = "href=\"$imageHref\"";
-                
-                $pageContent = "<image id=\"$imageID\" align=\"$imageAlignment\" size=\"$imageSize\" $hrefText $captionText $targetText />";
-            }
-            else
-            {
-                $pageContent = "<image $imageID $imageAlignment $imageSize $imageHref>";
-            }                            
-
-        }
+        if ( $paragraph->name == "image" ) {
+            foreach ( $paragraph->attributes as $imageItem ) {
+				switch ( $imageItem->name ) {
+					case "id" : {
+						$imageID = $imageItem->children[0]->content;
+					}
+	                break;
+	
+	                case "align" : {
+						$imageAlignment = $imageItem->children[0]->content;
+					}
+	                break;
+	
+	                case "size" : {
+						$imageSize = $imageItem->children[0]->content;
+					}
+	                break;
+	
+	                case "href" : {
+						$imageHref = $imageItem->children[0]->content;
+					}
+	                break;
+	
+	                case "caption" : {
+						$imageCaptionOverride = trim( $imageItem->children[0]->content );
+					}
+	                break;
+	
+	                case "target" : {
+						$imageTarget = trim( $imageItem->children[0]->content );
+					}
+	                break;
+				}
+			}
+	            
+	        if ( !in_array($imageSize, array("small", "medium", "large", "original") ) ) {
+				$imageSize = "medium";
+			}
+	
+	        if ( $imageCaptionOverride != "" || $imageTarget != "" ) {
+				$captionText = "";
+	            $targetText = "";
+	                
+	            if ( $imageCaptionOverride != "" )
+	            	$captionText = "caption=\"$imageCaptionOverride\"";
+	
+				if ( $imageTarget != "" )
+	            	$targetText = "target=\"$imageTarget\"";
+	
+				if ( $imageHref != "" )
+	            	$hrefText = "href=\"$imageHref\"";
+	                
+	            $pageContent = "<image id=\"$imageID\" align=\"$imageAlignment\" size=\"$imageSize\" $hrefText $captionText $targetText />";
+			} else {
+				$pageContent = "<image $imageID $imageAlignment $imageSize $imageHref>";
+			}
+        }                            
         return $pageContent;
     }
 
@@ -756,6 +739,7 @@ class eZQDomGenerator
     */
     function &decodeLink( $paragraph )
     {
+    	$target = $pageContent = '';
         // link
         if ( $paragraph->name == "link" )
         {

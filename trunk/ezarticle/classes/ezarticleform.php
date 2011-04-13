@@ -126,7 +126,7 @@ class eZArticleForm
                               0, 1 );
             if( count( $formArray ) == 1 )
             {
-                $this->fill( &$formArray[0] );
+                $this->fill( $formArray[0] );
                 $ret = true;
             }
             elseif( count( $formArray ) != 1 )
@@ -144,8 +144,8 @@ class eZArticleForm
     {
         $this->ID =& $formArray[ "ID" ];
 
-        $this->Article =& new eZArticle( $formArray[ "ArticleID" ] );
-        $this->Form =& new eZForm( $formArray[ "FormID" ] );
+        $this->Article = new eZArticle( $formArray[ "ArticleID" ] );
+        $this->Form = new eZForm( $formArray[ "FormID" ] );
     }
 
     /*!
@@ -261,10 +261,14 @@ class eZArticleForm
             $ArticleID = $object->id();
         }
 
-        $db =& eZDB::globalDatabase();
+        $db = eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT FormID FROM eZArticle_ArticleFormDict WHERE ArticleID='$ArticleID'" );
 
-        $ret =& new eZForm( $qry["FormID"] );
+        if (is_array($qry)) {
+        	$ret = new eZForm( $qry["FormID"] );
+        } else {
+        	$ret = new eZForm( );
+        }
 
         return $ret;
     }
@@ -299,4 +303,3 @@ class eZArticleForm
     var $Article;
 }
 
-?>

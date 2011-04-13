@@ -298,7 +298,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
 
             // generate keywords
             $contents = strip_tags( $contents );
-            $contents = ereg_replace( "#\n#", "", $contents );
+            $contents = preg_replace( "#\n#", "", $contents );
             $contents_array =& split( " ", $contents );
             $contents_array = array_unique( $contents_array );
 
@@ -643,9 +643,9 @@ if ( $Action == "Edit" )
     $writeGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'r', false );
 
-    if ( $writeGroupsID[0] != -1 )
+    if ( count($writeGroupsID) && $writeGroupsID[0] != -1 )
         $t->set_var( "all_write_selected", "" );
-    if ( $readGroupsID[0] != -1 )
+    if ( count($readGroupsID) && $readGroupsID[0] != -1 )
         $t->set_var( "all_selected", "" );
 
     // dates

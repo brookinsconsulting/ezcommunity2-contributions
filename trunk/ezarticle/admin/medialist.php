@@ -52,7 +52,7 @@ $t->set_block( "media_list_tpl", "media_tpl", "media" );
 $article = new eZArticle( $ArticleID );
 
 $session =& eZSession::globalSession();
-$session->setVariable( "MediaListReturnTo", $REQUEST_URI );
+$session->setVariable( "MediaListReturnTo", $_SERVER['REQUEST_URI'] );
 $session->setVariable( "SelectMedia", "multi" );
 $session->setVariable( "NameInBrowse", $article->name() );
 

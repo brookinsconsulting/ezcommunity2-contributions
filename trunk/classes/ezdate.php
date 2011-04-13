@@ -128,7 +128,7 @@ class eZDate
     */
     function setMySQLDate( $value )
     {
-        if ( ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2})", $value, $valueArray ) )
+        if ( preg_match( "/([0-9]{4})-([0-9]{2})-([0-9]{2})/", $value, $valueArray ) )
         {
             $this->setYear( $valueArray[1] );
             $this->setMonth( $valueArray[2] );
@@ -159,7 +159,7 @@ class eZDate
     {
         $formattedTime =& date('Ymd', $value );
 
-        if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
+        if ( preg_match( "/([0-9]{4})([0-9]{2})([0-9]{2})/", $formattedTime, $valueArray ) )
         {
             $this->setYear( $valueArray[1] );
             $this->setMonth( $valueArray[2] );

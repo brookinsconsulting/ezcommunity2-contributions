@@ -108,7 +108,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
     {
         // generate keywords
         $contents = strip_tags( $contents );
-        $contents = ereg_replace( "#\n#", "", $contents );
+        $contents = preg_replace( "#\n#", "", $contents );
         $contents_array =& split( " ", $contents );
         $contents_array = array_unique( $contents_array );
 

@@ -50,7 +50,7 @@ $t->set_block( "file_list_tpl", "file_tpl", "file" );
 $article = new eZArticle( $ArticleID );
 
 $session =& eZSession::globalSession();
-$session->setVariable( "FileListReturnTo", $REQUEST_URI );
+$session->setVariable( "FileListReturnTo", $_SERVER['REQUEST_URI'] );
 $session->setVariable( "NameInBrowse", $article->name() );
 
 if ( isSet ( $AddFiles ) )

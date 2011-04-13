@@ -61,7 +61,7 @@ foreach ( $mail_array as $mail )
         $body = "";
         foreach ( split( "\n", $mail->body() ) as $line )
         {
-            if ( !ereg( "^[ ]*>", $line ) )
+            if ( !preg_match( "/^[ ]*>/", $line ) )
             {
                 $body .= $line . "\n";
             }

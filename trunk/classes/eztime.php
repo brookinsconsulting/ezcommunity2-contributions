@@ -278,7 +278,7 @@ class eZTime
     */
     function setMySQLTime( $value )
     {
-        if ( ereg( "([0-9]{2}):([0-9]{2}):([0-9]{2})", $value, $valueArray ) )
+        if ( preg_match( "/([0-9]{2}):([0-9]{2}):([0-9]{2})/", $value, $valueArray ) )
         {
             $this->setSecondsElapsedHMS( $valueArray[1], $valueArray[2], $valueArray[3] );
         }
@@ -308,7 +308,7 @@ class eZTime
     {
         $formattedTime =& date('His', $value );
 
-        if ( ereg( "([0-9]{2})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
+        if ( preg_match( "/([0-9]{2})([0-9]{2})([0-9]{2})/", $formattedTime, $valueArray ) )
         {
             $this->setHour( min( $valueArray[1], 23 ) );
             $this->setMinute( min( $valueArray[2], 59 ) );
