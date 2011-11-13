@@ -20,7 +20,7 @@ So for individuals, organizations, non-profits and companies looking for a web b
 
 For a more detailed explanation of the new features included in this release, please review it's release notes:
 
-http://developer.berlios.de/project/shownotes.php?group_id=2154&release_id=4625
+http://code.google.com/p/ezcommunity2/wiki/BerliOSProjectReleaseNewsArticleeZGroupEventCalenarV210Introduction?ts=1321196739&updated=BerliOSProjectReleaseNewsArticleeZGroupEventCalenarV210Introduction
 
 eZ calendar is available from any of these fine locations: 
 http://ezcommunity2.googlecode.com/files/ezgroupeventcalendar-v2-1-0.tar.gz
