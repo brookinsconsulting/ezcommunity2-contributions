@@ -1,0 +1,41 @@
+#summary BerliOS Project Release News Article Archive 'eZ GroupEventCalenar v2.1.0 Released'.
+#labels Phase-Support,Phase-Implementation,Phase-Requirements
+  * Original: http://developer.berlios.de/forum/forum.php?forum_id=9195
+
+= Introduction =
+
+  * Title: eZ GroupEventCalenar v2.1.0 Released
+  * Posted By: Brookins Consulting
+  * Date On: 2005/01/31 @ 23:29
+
+= Release =
+
+Salutations!
+
+Brookins Consulting and the eZ community team are proud to announce the first public release of the ez calendar in 3 years, eZ GroupEventCalendar / eZ Calendar v2.1.0
+
+eZ calendar is free software so your free to use it for any purpose, since it expands upon on the existing features, eZ calendar is very powerful web calendar solution. With so few web calendar software solutions, eZ calendar stands out above the rest of the crowd of costly, cumbersome commercial software solutions.
+
+So for individuals, organizations, non-profits and companies looking for a web based calendar, take a look at eZ calendar 2.1. 
+
+For a more detailed explanation of the new features included in this release, please review it's release notes:
+
+http://developer.berlios.de/project/shownotes.php?group_id=2154&release_id=4625
+
+eZ calendar is available from any of these fine locations: 
+http://ezcommunity2.googlecode.com/files/ezgroupeventcalendar-v2-1-0.tar.gz
+
+http://code.google.com/p/ezcommunity2
+
+http://sourceforge.net/projects/ezcalendar
+
+http://ezcommunity.net
+
+http://brookinsconsulting.com
+
+Cheers,
+Graham Brookins
+eZ Community Developer
+http://ezcommunity.net/
+
+Invader Zim : The Voting of the Doomed
